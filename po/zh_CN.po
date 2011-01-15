@@ -7,10 +7,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&component=general\n"
-"POT-Creation-Date: 2010-07-15 19:34+0000\n"
-"PO-Revision-Date: 2010-07-30 19:46+0800\n"
-"Last-Translator: Jessica Ban <bancage@gmail.com>" 
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=chronojump&component=general\n"
+"POT-Creation-Date: 2010-12-11 00:19+0000\n"
+"PO-Revision-Date: 2011-01-15 15:31+0800\n"
+"Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese(Simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,12 +20,14 @@ msgstr ""
 #. the strings created by Catalog cannot be const
 #: ../src/constants.cs:28
 msgid ""
-"Translator, there's a glossary that will help you in Chronojump translation:\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
-msgstr"" 
+"Translator, there's a glossary that will help you in Chronojump "
+"translation:\n"
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
+"chronojump_glossary_for_translators.html"
+msgstr ""
 "翻译者，关于 Chronojump 的翻译以下的图文集将会对您有所帮助：\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
-
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
+"chronojump_glossary_for_translators.html"
 
 #: ../src/constants.cs:31
 msgid "Project leader and main developer."
@@ -67,7 +70,9 @@ msgid "Sorry, server is currently offline. Try later."
 msgstr "抱歉，服务器目前脱机。请稍后重试。"
 
 #: ../src/constants.cs:126
-msgid "Or maybe you are not connected to the Internet or your firewall is restricting connections"
+msgid ""
+"Or maybe you are not connected to the Internet or your firewall is "
+"restricting connections"
 msgstr "或者也许您没有连接到互联网或者您的防火墙拒绝连接"
 
 #: ../src/constants.cs:154 ../glade/chronojump.glade.h:325
@@ -195,11 +200,11 @@ msgstr "也有以下可能："
 
 #: ../src/constants.cs:325
 msgid "Typical serial serial ports on GNU/Linux:"
-msgstr ""
+msgstr "典型 GNU/Linux 串口："
 
 #: ../src/constants.cs:327
 msgid "Typical USB-serial ports on GNU/Linux:"
-msgstr ""
+msgstr "典型 GNU/Linux USB 串口："
 
 #: ../src/constants.cs:329
 msgid "If you use Chronopic3, you will have an USB-serial port."
@@ -207,15 +212,15 @@ msgstr "如果您使用的是 Chronopic3,您将会有一个 USB 系列的端口�
 
 #: ../src/constants.cs:332
 msgid "Serial ports found:"
-msgstr ""
+msgstr "找到的串口："
 
 #: ../src/constants.cs:333
 msgid "USB-serial ports found:"
-msgstr ""
+msgstr "找到的 USB 串口："
 
 #: ../src/constants.cs:334
 msgid "Not found any USB-serial ports."
-msgstr ""
+msgstr "未找到任何 USB 串口。"
 
 #: ../src/constants.cs:334
 msgid "Is Chronopic connected?"
@@ -227,7 +232,7 @@ msgstr "--未定义"
 
 #: ../src/constants.cs:364
 msgid "--Any"
-msgstr ""
+msgstr "--任意"
 
 #: ../src/constants.cs:367
 #, fuzzy
@@ -269,7 +274,8 @@ msgid "South America"
 msgstr "南美洲"
 
 #: ../src/constants.cs:390
-msgid "Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'."
+msgid ""
+"Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'."
 msgstr "测试在连接到菜单'Tools / Chronopic'之前都是模拟的。"
 
 #: ../src/constants.cs:401
@@ -523,7 +529,8 @@ msgstr "<b>性别</b>"
 msgid ""
 "<b>Simulated\n"
 "Test</b>"
-msgstr "<b>模拟\n"
+msgstr ""
+"<b>模拟\n"
 "测试</b>"
 
 #: ../glade/chronojump.glade.h:48
@@ -668,11 +675,15 @@ msgid "Able to coordinate walking with counting without making a mistake."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:77
-msgid "Able to go around the cone without touching it, without going outside the  marked area, and keeping up the pace."
+msgid ""
+"Able to go around the cone without touching it, without going outside the  "
+"marked area, and keeping up the pace."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:78
-msgid "Able to go around the cone without touching it, without going outside the marked area, but slowing down the pace."
+msgid ""
+"Able to go around the cone without touching it, without going outside the "
+"marked area, but slowing down the pace."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:79
@@ -716,15 +727,21 @@ msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:89
-msgid "Able to walk stepping one foot in each circle, touching more than one, or needing more than one extra step to regain balance."
+msgid ""
+"Able to walk stepping one foot in each circle, touching more than one, or "
+"needing more than one extra step to regain balance."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:90
-msgid "Able to walk, stepping one foot into each circle without touching them and without losing balance."
+msgid ""
+"Able to walk, stepping one foot into each circle without touching them and "
+"without losing balance."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:91
-msgid "Able to walk, stepping one foot into each circle, touching one or needing to take an extra step outside the rings to regain balance."
+msgid ""
+"Able to walk, stepping one foot into each circle, touching one or needing to "
+"take an extra step outside the rings to regain balance."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:92
@@ -812,7 +829,7 @@ msgstr "请求确认删除测试"
 
 #: ../glade/chronojump.glade.h:112
 msgid "Ask user if really wants to delete a test"
-msgstr ""
+msgstr "询问用户是否真的想删除一个测试"
 
 #: ../glade/chronojump.glade.h:113
 msgid "Average:"
@@ -995,7 +1012,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:158
 msgid "Country"
-msgstr ""
+msgstr "国家"
 
 #: ../glade/chronojump.glade.h:159
 msgid "Create a new jump type in the database"
@@ -1015,11 +1032,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:163
 msgid "Current"
-msgstr ""
+msgstr "当前"
 
 #: ../glade/chronojump.glade.h:164
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
 #: ../glade/chronojump.glade.h:165
 msgid "Custom pulse"
@@ -1031,16 +1048,16 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:167
 msgid "Data"
-msgstr ""
+msgstr "数据"
 
 #: ../glade/chronojump.glade.h:168
 msgid "Database"
-msgstr ""
+msgstr "数据库"
 
 #: ../glade/chronojump.glade.h:169 ../src/exportSession.cs:222
 #: ../src/gui/session.cs:689 ../src/gui/session.cs:858 ../src/report.cs:242
 msgid "Date"
-msgstr ""
+msgstr "日期"
 
 #: ../glade/chronojump.glade.h:170
 #, fuzzy
@@ -1049,15 +1066,15 @@ msgstr "出生日期"
 
 #: ../glade/chronojump.glade.h:171
 msgid "Decimal number"
-msgstr ""
+msgstr "十进制数"
 
 #: ../glade/chronojump.glade.h:172
 msgid "Default values"
-msgstr ""
+msgstr "默认值"
 
 #: ../glade/chronojump.glade.h:173
 msgid "Delete first"
-msgstr ""
+msgstr "删除首个"
 
 #: ../glade/chronojump.glade.h:174
 msgid "Delete first TC and TF of each chronopic"
@@ -1101,7 +1118,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:184
 msgid "Delete type"
-msgstr ""
+msgstr "删除类型"
 
 #. Catalog.GetString("Time") + ":" +
 #. position of name in the data to be printed
@@ -1124,6 +1141,8 @@ msgid ""
 "Description /\n"
 "comments"
 msgstr ""
+"描述 /\n"
+"注释"
 
 #: ../glade/chronojump.glade.h:188
 #, fuzzy
@@ -1132,11 +1151,11 @@ msgstr "描述"
 
 #: ../glade/chronojump.glade.h:189
 msgid "Developers"
-msgstr ""
+msgstr "开发者"
 
 #: ../glade/chronojump.glade.h:190
 msgid "Device"
-msgstr ""
+msgstr "设备"
 
 #: ../glade/chronojump.glade.h:191
 msgid "Different"
@@ -1178,15 +1197,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:200
 msgid "E-mail"
-msgstr ""
+msgstr "电子邮件"
 
 #: ../glade/chronojump.glade.h:201
 msgid "E-mail will never be shown in public."
-msgstr ""
+msgstr "永远不会公开电子邮件。"
 
 #: ../glade/chronojump.glade.h:202 ../src/gui/chronojump.cs:802
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: ../glade/chronojump.glade.h:203
 msgid "Edit selected (e)"
@@ -1275,7 +1294,7 @@ msgstr ""
 #: ../glade/chronojump.glade.h:224 ../src/gui/jump.cs:1041
 #: ../src/gui/jump.cs:1233
 msgid "Extra weight"
-msgstr ""
+msgstr "超重"
 
 #: ../glade/chronojump.glade.h:225
 msgid "Falling height"
@@ -1288,7 +1307,7 @@ msgstr "女性"
 
 #: ../glade/chronojump.glade.h:227
 msgid "Finish"
-msgstr ""
+msgstr "完成"
 
 #: ../glade/chronojump.glade.h:228
 msgid "Finish jump (save jump until this moment)"
@@ -1329,7 +1348,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:237
 msgid "Goto server website"
-msgstr ""
+msgstr "转到服务器网站"
 
 #: ../glade/chronojump.glade.h:238
 msgid "Graph"
@@ -1355,15 +1374,15 @@ msgstr ""
 #: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeViewJump.cs:40
 #: ../src/treeViewMultiChronopic.cs:228
 msgid "Height"
-msgstr ""
+msgstr "身高"
 
 #: ../glade/chronojump.glade.h:241
 msgid "Height (cm)"
-msgstr ""
+msgstr "身高(厘米)"
 
 #: ../glade/chronojump.glade.h:242
 msgid "Help with Chronopic port"
-msgstr ""
+msgstr "Chronopic 端口帮助"
 
 #: ../glade/chronojump.glade.h:243
 msgid "Hexagon"
@@ -1374,7 +1393,9 @@ msgid "Identifier"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:245
-msgid "If a reactive jump is limited by time, and time has running out, allow finish jump"
+msgid ""
+"If a reactive jump is limited by time, and time has running out, allow "
+"finish jump"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:246
@@ -1387,11 +1408,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:248
 msgid "In server"
-msgstr ""
+msgstr "在服务器上"
 
 #: ../glade/chronojump.glade.h:249
 msgid "Inches"
-msgstr ""
+msgstr "英寸"
 
 #: ../glade/chronojump.glade.h:250
 msgid "Include individual"
@@ -1403,7 +1424,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:252
 msgid "Infrared"
-msgstr ""
+msgstr "红外"
 
 #: ../glade/chronojump.glade.h:253
 msgid "Intervallic"
@@ -1466,15 +1487,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:265 ../src/gui/person.cs:1695
 msgid "Kg"
-msgstr ""
+msgstr "公斤"
 
 #: ../glade/chronojump.glade.h:266
 msgid "Left"
-msgstr ""
+msgstr "左"
 
 #: ../glade/chronojump.glade.h:267
 msgid "Legend"
-msgstr ""
+msgstr "图例"
 
 #: ../glade/chronojump.glade.h:268 ../src/exportSession.cs:239
 #: ../src/gui/person.cs:1753 ../src/gui/session.cs:693
@@ -1484,16 +1505,16 @@ msgstr ""
 #: ../glade/chronojump.glade.h:269 ../src/gui/stats.cs:1205
 #: ../src/report.cs:289
 msgid "Limit"
-msgstr ""
+msgstr "限制"
 
 #: ../glade/chronojump.glade.h:270 ../src/gui/jump.cs:1230
 #: ../src/gui/run.cs:1169
 msgid "Limited by"
-msgstr ""
+msgstr "限制于"
 
 #: ../glade/chronojump.glade.h:271
 msgid "Limited by "
-msgstr ""
+msgstr "限制于 "
 
 #: ../glade/chronojump.glade.h:272
 msgid "Line"
@@ -1501,7 +1522,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:273
 msgid "Load"
-msgstr ""
+msgstr "加载"
 
 #: ../glade/chronojump.glade.h:274
 msgid "Load person"
@@ -1543,7 +1564,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:284
 msgid "Make report"
-msgstr ""
+msgstr "生成报告"
 
 #: ../glade/chronojump.glade.h:285
 msgid "Margaria"
@@ -1561,7 +1582,7 @@ msgstr "男"
 
 #: ../glade/chronojump.glade.h:288
 msgid "Maximum"
-msgstr ""
+msgstr "最大"
 
 #: ../glade/chronojump.glade.h:289
 msgid "Maximum Jump (like Abalakov but with free technique)"
@@ -1569,11 +1590,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:290
 msgid "Message"
-msgstr ""
+msgstr "消息"
 
 #: ../glade/chronojump.glade.h:291
 msgid "Minimum"
-msgstr ""
+msgstr "最小"
 
 #: ../glade/chronojump.glade.h:292
 #, fuzzy
@@ -1582,7 +1603,7 @@ msgstr "距离"
 
 #: ../glade/chronojump.glade.h:293
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 #: ../glade/chronojump.glade.h:294
 msgid "More intervallic runs"
@@ -1623,11 +1644,11 @@ msgstr ""
 #: ../src/gui/session.cs:687 ../src/gui/session.cs:856
 #: ../src/gui/server.cs:164 ../src/report.cs:241
 msgid "Name"
-msgstr ""
+msgstr "姓名"
 
 #: ../glade/chronojump.glade.h:303
 msgid "Names will be hidden"
-msgstr ""
+msgstr "姓名将隐藏"
 
 #: ../glade/chronojump.glade.h:304
 msgid "Needs help or cannot perform the counting task."
@@ -1689,15 +1710,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:323
 msgid "Open database folder"
-msgstr ""
+msgstr "打开数据库文件夹"
 
 #: ../glade/chronojump.glade.h:324
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: ../glade/chronojump.glade.h:326
 msgid "Other. Specify:"
-msgstr ""
+msgstr "其他。请指定："
 
 #: ../glade/chronojump.glade.h:327
 msgid "Paint a circle at end"
@@ -1709,7 +1730,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:329
 msgid "Perform a query to the server."
-msgstr ""
+msgstr "执行一次服务器查询。"
 
 #. column where the uniqueID of event will be (and will be hidded)
 #: ../glade/chronojump.glade.h:330 ../src/treeViewMultiChronopic.cs:30
@@ -1734,7 +1755,7 @@ msgstr ""
 #: ../src/gui/person.cs:2002 ../src/gui/session.cs:688
 #: ../src/gui/session.cs:857 ../src/report.cs:242
 msgid "Place"
-msgstr ""
+msgstr "地方"
 
 #: ../glade/chronojump.glade.h:335
 msgid ""
@@ -1759,20 +1780,21 @@ msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:341
-msgid "Poor coordination between walking and counting with more than one mistake."
+msgid ""
+"Poor coordination between walking and counting with more than one mistake."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:342
 msgid "Port Help"
-msgstr ""
+msgstr "端口帮助"
 
 #: ../glade/chronojump.glade.h:343
 msgid "Preferences"
-msgstr ""
+msgstr "首选项"
 
 #: ../glade/chronojump.glade.h:344
 msgid "Properties"
-msgstr ""
+msgstr "属性"
 
 #: ../glade/chronojump.glade.h:345
 msgid "Pulse"
@@ -1818,17 +1840,17 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:355 ../src/gui/session.cs:698
 msgid "Reaction time"
-msgstr ""
+msgstr "反应时间"
 
 #: ../glade/chronojump.glade.h:356 ../src/exportSession.cs:199
 #: ../src/report.cs:193
 msgid "Reaction times"
-msgstr ""
+msgstr "反应时间"
 
 #: ../glade/chronojump.glade.h:357 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
 msgid "Reactive"
-msgstr ""
+msgstr "反应"
 
 #: ../glade/chronojump.glade.h:358 ../src/jumpType.cs:163
 msgid "Reactive Jump limited by Jumps"
@@ -1849,7 +1871,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:362
 msgid "Remove"
-msgstr ""
+msgstr "移除"
 
 #: ../glade/chronojump.glade.h:363
 msgid "Repair selected (r)"
@@ -1869,15 +1891,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:367
 msgid "Report"
-msgstr ""
+msgstr "报告"
 
 #: ../glade/chronojump.glade.h:368
 msgid "Results:"
-msgstr ""
+msgstr "结果："
 
 #: ../glade/chronojump.glade.h:369
 msgid "Right"
-msgstr ""
+msgstr "右"
 
 #: ../glade/chronojump.glade.h:370
 msgid "Rocket"
@@ -1939,7 +1961,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:385
 msgid "Search filter"
-msgstr ""
+msgstr "搜索筛选条件"
 
 #: ../glade/chronojump.glade.h:386
 msgid "See graph"
@@ -1951,7 +1973,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:388
 msgid "Select data for HTML report"
-msgstr ""
+msgstr "选择要输出 HTML 报告的数据"
 
 #: ../glade/chronojump.glade.h:389
 msgid ""
@@ -1965,7 +1987,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:392
 msgid "Select the device you currently use"
-msgstr ""
+msgstr "选择您当前使用的设备"
 
 #: ../glade/chronojump.glade.h:393
 msgid "Select your Chronometer"
@@ -1975,7 +1997,7 @@ msgstr ""
 #: ../src/gui/person.cs:423 ../src/gui/person.cs:477 ../src/gui/stats.cs:170
 #: ../src/gui/stats.cs:495 ../src/gui/stats.cs:853
 msgid "Selected"
-msgstr ""
+msgstr "已选"
 
 #: ../glade/chronojump.glade.h:395
 msgid "Server stats"
@@ -2030,7 +2052,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:407
 msgid "Show height"
-msgstr ""
+msgstr "显示身高"
 
 #: ../glade/chronojump.glade.h:408
 msgid "Show indexes between TF and TC"
@@ -2046,23 +2068,23 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:411 ../src/gui/report.cs:140
 msgid "Show sex"
-msgstr ""
+msgstr "显示性别"
 
 #: ../glade/chronojump.glade.h:412
 msgid "Show speed"
-msgstr ""
+msgstr "显示速度"
 
 #: ../glade/chronojump.glade.h:413
 msgid "Show tests"
-msgstr ""
+msgstr "显示测试"
 
 #: ../glade/chronojump.glade.h:414
 msgid "Show time"
-msgstr ""
+msgstr "显示时间"
 
 #: ../glade/chronojump.glade.h:415
 msgid "Show/Hide margins"
-msgstr ""
+msgstr "显示/隐藏边框"
 
 #: ../glade/chronojump.glade.h:416 ../src/runType.cs:260
 msgid "Shuttle Run Agility test"
@@ -2089,7 +2111,7 @@ msgstr ""
 #: ../glade/chronojump.glade.h:421 ../src/exportSession.cs:488
 #: ../src/treeViewRun.cs:50 ../src/treeViewRun.cs:126
 msgid "Speed"
-msgstr ""
+msgstr "速度"
 
 #: ../glade/chronojump.glade.h:422
 msgid "Speed units:"
@@ -2123,7 +2145,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:429
 msgid "Sync"
-msgstr ""
+msgstr "同步"
 
 #: ../glade/chronojump.glade.h:430
 msgid "Synchronize chronopics"
@@ -2186,7 +2208,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:437
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #: ../glade/chronojump.glade.h:438
 msgid "Test image and description"
@@ -2197,7 +2219,8 @@ msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:440
-msgid "This dialog explains wich ports are suitable to be connected with Chronopic"
+msgid ""
+"This dialog explains wich ports are suitable to be connected with Chronopic"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:441 ../src/execute/reactionTime.cs:241
@@ -2213,19 +2236,19 @@ msgstr ""
 #: ../src/treeViewReactionTime.cs:51 ../src/treeViewRun.cs:57
 #: ../src/treeViewRun.cs:132
 msgid "Time"
-msgstr ""
+msgstr "时间"
 
 #: ../glade/chronojump.glade.h:442
 msgid "To buy or build Chronopic see website:"
-msgstr ""
+msgstr "要购买或搭建 Chronopic，参阅网站："
 
 #: ../glade/chronojump.glade.h:443
 msgid "To buy or build these devices see website:"
-msgstr ""
+msgstr "要购买或搭建这些设备，参阅网站："
 
 #: ../glade/chronojump.glade.h:444
 msgid "Top"
-msgstr ""
+msgstr "顶部"
 
 #: ../glade/chronojump.glade.h:445
 #, fuzzy
@@ -2234,7 +2257,7 @@ msgstr "距离"
 
 #: ../glade/chronojump.glade.h:446
 msgid "Totaltime"
-msgstr ""
+msgstr "总时间"
 
 #: ../glade/chronojump.glade.h:447
 msgid ""
@@ -2244,7 +2267,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:449
 msgid "Translators"
-msgstr ""
+msgstr "翻译者"
 
 #: ../glade/chronojump.glade.h:450
 msgid "Transpose"
@@ -2255,15 +2278,15 @@ msgstr ""
 #: ../src/exportSession.cs:653 ../src/exportSession.cs:713
 #: ../src/gui/convertWeight.cs:112 ../src/gui/report.cs:135
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 #: ../glade/chronojump.glade.h:452
 msgid "Type of test"
-msgstr ""
+msgstr "测试类型"
 
 #: ../glade/chronojump.glade.h:454
 msgid "Undefined."
-msgstr ""
+msgstr "未定义。"
 
 #. check if it's unlimited
 #. unlimited mark
@@ -2271,15 +2294,15 @@ msgstr ""
 #: ../src/gui/jump.cs:1305 ../src/gui/jump.cs:1352 ../src/gui/run.cs:1194
 #: ../src/gui/run.cs:1256 ../src/gui/run.cs:1306
 msgid "Unlimited"
-msgstr ""
+msgstr "不限"
 
 #: ../glade/chronojump.glade.h:456
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #: ../glade/chronojump.glade.h:457
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: ../glade/chronojump.glade.h:458
 msgid "Update stats"
@@ -2304,7 +2327,8 @@ msgid "Use metric units"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:464
-msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
+msgid ""
+"Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:465
@@ -2325,16 +2349,18 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:470
 #, no-c-format
-msgid "Weight of jumps is stored as a '%' of jumper's weight. As the weight of jumper changed, you need to solve new jump's weight."
+msgid ""
+"Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
+"jumper changed, you need to solve new jump's weight."
 msgstr ""
 
 #: ../glade/chronojump.glade.h:471
 msgid "Weight units:"
-msgstr ""
+msgstr "体重单位："
 
 #: ../glade/chronojump.glade.h:472 ../src/treeViewMultiChronopic.cs:227
 msgid "Width"
-msgstr ""
+msgstr "宽度"
 
 #: ../glade/chronojump.glade.h:473
 msgid "Width of the line"
@@ -2350,15 +2376,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:476
 msgid "_About"
-msgstr ""
+msgstr "关于(_A)"
 
 #: ../glade/chronojump.glade.h:477
 msgid "_Custom"
-msgstr ""
+msgstr "自定义(_C)"
 
 #: ../glade/chronojump.glade.h:478
 msgid "_Delete"
-msgstr ""
+msgstr "删除(_D)"
 
 #: ../glade/chronojump.glade.h:479
 msgid "_Delete current person from this session"
@@ -2366,7 +2392,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:480
 msgid "_Edit"
-msgstr ""
+msgstr "编辑(_E)"
 
 #: ../glade/chronojump.glade.h:481
 msgid "_Edit current person"
@@ -2374,11 +2400,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:482
 msgid "_Formulas"
-msgstr ""
+msgstr "公式(_F)"
 
 #: ../glade/chronojump.glade.h:483
 msgid "_Help"
-msgstr ""
+msgstr "帮助(_H)"
 
 #: ../glade/chronojump.glade.h:484
 msgid "_Jump"
@@ -2386,11 +2412,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:485
 msgid "_Load"
-msgstr ""
+msgstr "加载(_L)"
 
 #: ../glade/chronojump.glade.h:486
 msgid "_Other tests"
-msgstr ""
+msgstr "其他测试(_O)"
 
 #: ../glade/chronojump.glade.h:487
 msgid "_Person"
@@ -2398,11 +2424,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:488
 msgid "_Run"
-msgstr ""
+msgstr "运行(_R)"
 
 #: ../glade/chronojump.glade.h:489
 msgid "_Server"
-msgstr ""
+msgstr "服务器(_S)"
 
 #: ../glade/chronojump.glade.h:490
 msgid "_Session"
@@ -2414,7 +2440,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:492
 msgid "_Tools"
-msgstr ""
+msgstr "工具(_T)"
 
 #: ../glade/chronojump.glade.h:493
 msgid "action"
@@ -2422,11 +2448,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:494
 msgid "all"
-msgstr ""
+msgstr "所有"
 
 #: ../glade/chronojump.glade.h:495
 msgid "always"
-msgstr ""
+msgstr "总是"
 
 #: ../glade/chronojump.glade.h:496
 msgid "and show best TF / TC"
@@ -2446,15 +2472,15 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:500
 msgid "auto"
-msgstr ""
+msgstr "自动"
 
 #: ../glade/chronojump.glade.h:501
 msgid "change"
-msgstr ""
+msgstr "更改"
 
 #: ../glade/chronojump.glade.h:502
 msgid "cm"
-msgstr ""
+msgstr "厘米"
 
 #: ../glade/chronojump.glade.h:503
 #, fuzzy
@@ -2487,7 +2513,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:510
 msgid "man"
-msgstr ""
+msgstr "男"
 
 #: ../glade/chronojump.glade.h:511
 msgid "mark best 'n' consecutives"
@@ -2499,19 +2525,19 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:513
 msgid "meters"
-msgstr ""
+msgstr "米"
 
 #: ../glade/chronojump.glade.h:514
 msgid "more info"
-msgstr ""
+msgstr "更多信息"
 
 #: ../glade/chronojump.glade.h:515
 msgid "no"
-msgstr ""
+msgstr "否"
 
 #: ../glade/chronojump.glade.h:516
 msgid "none"
-msgstr ""
+msgstr "无"
 
 #: ../glade/chronojump.glade.h:517
 msgid "ppm"
@@ -2536,19 +2562,19 @@ msgstr ""
 #: ../src/gui/pulse.cs:492 ../src/gui/run.cs:580 ../src/gui/run.cs:649
 #: ../src/gui/run.cs:748 ../src/gui/run.cs:874
 msgid "seconds"
-msgstr ""
+msgstr "秒"
 
 #: ../glade/chronojump.glade.h:522
 msgid "select"
-msgstr ""
+msgstr "选择"
 
 #: ../glade/chronojump.glade.h:523
 msgid "select ->"
-msgstr ""
+msgstr "选择 ->"
 
 #: ../glade/chronojump.glade.h:524
 msgid "selected"
-msgstr ""
+msgstr "已选择"
 
 #: ../glade/chronojump.glade.h:525
 msgid "show all tests of this person"
@@ -2560,11 +2586,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:527
 msgid "show..."
-msgstr ""
+msgstr "显示..."
 
 #: ../glade/chronojump.glade.h:528
 msgid "simple"
-msgstr ""
+msgstr "简单"
 
 #: ../glade/chronojump.glade.h:529
 msgid "start managing pulses freely"
@@ -2572,7 +2598,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:530
 msgid "statistic's description"
-msgstr ""
+msgstr "统计描述"
 
 #: ../glade/chronojump.glade.h:531
 msgid "test \"bad\" bell"
@@ -2588,11 +2614,11 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:534 ../src/execute/run.cs:299
 msgid "time"
-msgstr ""
+msgstr "时间"
 
 #: ../glade/chronojump.glade.h:535
 msgid "time (s)"
-msgstr ""
+msgstr "时间(秒)"
 
 #: ../glade/chronojump.glade.h:536
 msgid "total pulses"
@@ -2604,7 +2630,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:538
 msgid "unlimited"
-msgstr ""
+msgstr "不限"
 
 #: ../glade/chronojump.glade.h:539
 msgid "unlimited pulses"
@@ -2612,27 +2638,27 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:540
 msgid "unselected"
-msgstr ""
+msgstr "未选择的"
 
 #: ../glade/chronojump.glade.h:541
 msgid "value"
-msgstr ""
+msgstr "值"
 
 #: ../glade/chronojump.glade.h:542
 msgid "var X"
-msgstr ""
+msgstr "变量 X"
 
 #: ../glade/chronojump.glade.h:543
 msgid "var Y"
-msgstr ""
+msgstr "变量 Y"
 
 #: ../glade/chronojump.glade.h:544
 msgid "woman"
-msgstr ""
+msgstr "女"
 
 #: ../glade/chronojump.glade.h:545
 msgid "yes"
-msgstr ""
+msgstr "是"
 
 #: ../src/chronojump.cs:166
 msgid "no tables, creating ..."
@@ -2648,7 +2674,9 @@ msgstr ""
 
 #: ../src/chronojump.cs:217
 #, csharp-format
-msgid "If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"
+msgid ""
+"If you have no data on your database (you just installed Chronojump), you "
+"can fix this problem deleting this file: {0}"
 msgstr ""
 
 #: ../src/chronojump.cs:219
@@ -2660,7 +2688,9 @@ msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 
 #: ../src/chronojump.cs:232
-msgid "If your Drop Jumps were executed using the arms, please rename them manually as 'DJa'."
+msgid ""
+"If your Drop Jumps were executed using the arms, please rename them manually "
+"as 'DJa'."
 msgstr ""
 
 #. Console.Clear();
@@ -2671,7 +2701,7 @@ msgstr ""
 
 #: ../src/chronojump.cs:241
 msgid "Please update Chronojump"
-msgstr ""
+msgstr "请更新 Chronojump"
 
 #: ../src/chronojump.cs:249
 msgid "tables already created"
@@ -2684,26 +2714,31 @@ msgid ""
 "New Chronojump version available on website.\n"
 "Your Chronojump version is: {1}"
 msgstr ""
+"\n"
+"网站上有新版本的 Chronojump。\n"
+"您的 Chronojump 版本为：{1}"
 
 #: ../src/chronojump.cs:306
 msgid "Please, update to new version."
-msgstr ""
+msgstr "请更新到新版本。"
 
 #: ../src/chronojump.cs:314
 msgid "Chronojump crashed before."
-msgstr ""
+msgstr "Chronojump 崩溃了。"
 
 #: ../src/chronojump.cs:315 ../src/gui/chronojump.cs:855
 msgid "Please, update to new version: "
-msgstr ""
+msgstr "请更新到新版本："
 
 #: ../src/chronojump.cs:385 ../src/chronojump.cs:720 ../src/chronojump.cs:728
 msgid "Chronojump will exit now."
-msgstr ""
+msgstr "Chronojump 现在将退出。"
 
 #: ../src/chronojump.cs:563
 #, csharp-format
-msgid "Chronojump {0} crashed before. If this problem persist, please, report it at forums:"
+msgid ""
+"Chronojump {0} crashed before. If this problem persist, please, report it at "
+"forums:"
 msgstr ""
 
 #: ../src/chronojump.cs:564
@@ -2712,56 +2747,56 @@ msgstr ""
 
 #: ../src/chronojump.cs:569
 msgid "Your help is needed."
-msgstr ""
+msgstr "需要您的帮助。"
 
 #: ../src/chronojump.cs:687
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
-msgstr ""
+msgstr "无法将数据库目录从 {0} 移到 {1}"
 
 #: ../src/chronojump.cs:689
 msgid "Trying to move/copy each file now"
-msgstr ""
+msgstr "正在尝试移动/复制每个文件"
 
 #: ../src/chronojump.cs:718
 #, csharp-format
 msgid "Cannot create directory {0}"
-msgstr ""
+msgstr "无法创建 {0} 目录"
 
 #: ../src/chronojump.cs:719 ../src/chronojump.cs:727
 msgid "Please, do it manually."
-msgstr ""
+msgstr "请手动进行此操作。"
 
 #: ../src/chronojump.cs:726
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
-msgstr ""
+msgstr "无法将 {0} 由 {1} 复制到 {2}"
 
 #: ../src/chronojump.cs:734
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
-msgstr ""
+msgstr "无法将 {0} 由 {1} 移动到 {2}"
 
 #: ../src/chronojump.cs:735
 msgid "Please, do it manually"
-msgstr ""
+msgstr "请手动进行此操作"
 
 #: ../src/chronojump.cs:741
 #, csharp-format
 msgid "Database is now here: {0}"
-msgstr ""
+msgstr "数据库现在位于：{0}"
 
 #: ../src/chronojump_mini.cs:108
 msgid "More information on Chronojump manual"
-msgstr ""
+msgstr "更多关于 Chronojump 手册的信息"
 
 #: ../src/chronojump_mini.cs:118
 msgid "Print the port name where chronopic is connected:"
-msgstr ""
+msgstr "打印 chronopic 连接的端口名称："
 
 #: ../src/chronojump_mini.cs:130
 msgid "Opening port..."
-msgstr ""
+msgstr "正在打开端口..."
 
 #: ../src/chronojump_mini.cs:131
 msgid "Please touch the platform or click Chronopic TEST button"
@@ -2769,13 +2804,13 @@ msgstr ""
 
 #: ../src/chronojump_mini.cs:141
 msgid "Error opening serial port"
-msgstr ""
+msgstr "打开串口出错"
 
 #. -- Si hay error terminar
 #: ../src/chronojump_mini.cs:159
 #, csharp-format
 msgid "Error: {0}"
-msgstr ""
+msgstr "错误：{0}"
 
 #: ../src/chronojump_mini.cs:162
 #, csharp-format
@@ -2792,48 +2827,49 @@ msgstr ""
 
 #: ../src/chronojump_mini.cs:183
 msgid "Press CTRL-c for ending session"
-msgstr ""
+msgstr "按 CTRL-c 结束会话"
 
 #: ../src/chronojump_mini.cs:244
 msgid "Invalid args. Use:"
-msgstr ""
+msgstr "参数无效。使用："
 
 #: ../src/chronojump_mini.cs:248 ../src/chronojump_mini.cs:255
 msgid "Examples:"
-msgstr ""
+msgstr "示例："
 
 #: ../src/chronojump_mini.cs:297
 msgid "Do you want to output data to a file?"
-msgstr ""
+msgstr "您想将数据输出为文件吗？"
 
 #: ../src/chronojump_mini.cs:301
 msgid ""
-"If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recomend to use .csv extension.\n"
+"If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS "
+"Office, we recomend to use .csv extension.\n"
 "eg: 'test.csv'"
 msgstr ""
 
 #: ../src/chronojump_mini.cs:302
 #, csharp-format
 msgid "File will be available at directory: {0}"
-msgstr ""
+msgstr "文件将位于以下目录：{0}"
 
 #: ../src/chronojump_mini.cs:303
 msgid "Please, write filename:"
-msgstr ""
+msgstr "请给出文件名："
 
 #: ../src/chronojump_mini.cs:313
 #, csharp-format
 msgid "File {0} exists with attributes {1}, created at {2}"
-msgstr ""
+msgstr "属性为 {1} 的 {0} 文件已存在，创建于 {2}"
 
 #: ../src/chronojump_mini.cs:315
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
-msgstr ""
+msgstr "您确实要覆盖此文件吗：{0}"
 
 #: ../src/execute/event.cs:480
 msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
-msgstr ""
+msgstr "Chronopic 似乎断开了。请在 Chronopic 窗口中重新连接。"
 
 #: ../src/execute/jump.cs:123 ../src/execute/jump.cs:541
 msgid "You are IN, JUMP when prepared!!"
@@ -2852,7 +2888,9 @@ msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgstr ""
 
 #: ../src/execute/jump.cs:547
-msgid "You are OUT, please enter the platform, prepare for jump and press the 'accept' button"
+msgid ""
+"You are OUT, please enter the platform, prepare for jump and press the "
+"'accept' button"
 msgstr ""
 
 #. define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
@@ -2895,10 +2933,12 @@ msgstr ""
 
 #: ../src/execute/multiChronopic.cs:402
 msgid "Synchronization done."
-msgstr ""
+msgstr "同步完成。"
 
 #: ../src/execute/pulse.cs:122
-msgid "You are IN, please leave the platform, prepare for start, and press the 'accept' button!!"
+msgid ""
+"You are IN, please leave the platform, prepare for start, and press the "
+"'accept' button!!"
 msgstr ""
 
 #: ../src/execute/pulse.cs:134
@@ -2927,7 +2967,7 @@ msgstr ""
 
 #: ../src/execute/run.cs:300
 msgid "speed"
-msgstr ""
+msgstr "速度"
 
 #: ../src/execute/run.cs:739
 msgid "Run will not be recorded, 1st track is out of time"
@@ -2942,41 +2982,41 @@ msgstr ""
 
 #: ../src/execute/run.cs:807
 msgid "AVG Speed"
-msgstr ""
+msgstr "平均速度"
 
 #: ../src/exportSession.cs:70
 msgid "Save report as..."
-msgstr ""
+msgstr "报告另存为..."
 
 #: ../src/exportSession.cs:72
 msgid "Export session in format "
-msgstr ""
+msgstr "用此格式导出会话 "
 
 #: ../src/exportSession.cs:80 ../src/gui/preferences.cs:282
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: ../src/exportSession.cs:81
 msgid "Export"
-msgstr ""
+msgstr "导出"
 
 #: ../src/exportSession.cs:99 ../src/gui/preferences.cs:295
 msgid "Are you sure you want to overwrite file: "
-msgstr ""
+msgstr "您确实要覆盖此文件吗："
 
 #: ../src/exportSession.cs:107 ../src/exportSession.cs:139
 #, csharp-format
 msgid "Saved to {0}"
-msgstr ""
+msgstr "已保存到 {0}"
 
 #: ../src/exportSession.cs:112
 #, csharp-format
 msgid "Cannot export to file {0} "
-msgstr ""
+msgstr "无法导出到文件 {0}"
 
 #: ../src/exportSession.cs:120
 msgid "Cancelled"
-msgstr ""
+msgstr "已取消"
 
 #: ../src/exportSession.cs:189 ../src/report.cs:163
 msgid "Simple jumps"
@@ -3005,7 +3045,7 @@ msgstr ""
 #: ../src/exportSession.cs:234 ../src/gui/convertWeight.cs:106
 #: ../src/gui/person.cs:112
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../src/exportSession.cs:235 ../src/gui/person.cs:115
 #, fuzzy
@@ -3019,7 +3059,7 @@ msgstr "出生日期"
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:83 ../src/stats/sjCmjAbkPlus.cs:57
 #: ../src/treeViewJump.cs:38
 msgid "Weight"
-msgstr ""
+msgstr "体重"
 
 #: ../src/exportSession.cs:277 ../src/exportSession.cs:367
 #: ../src/exportSession.cs:482 ../src/exportSession.cs:531
@@ -3057,7 +3097,7 @@ msgstr ""
 
 #: ../src/exportSession.cs:287 ../src/treeViewJump.cs:42
 msgid "Initial Speed"
-msgstr ""
+msgstr "初始速度"
 
 #. Catalog.GetString("Angles") + ":" +
 #: ../src/exportSession.cs:290 ../src/exportSession.cs:386
@@ -3098,22 +3138,22 @@ msgstr "AVG"
 
 #: ../src/exportSession.cs:377
 msgid "AVG Height"
-msgstr ""
+msgstr "平均身高"
 
 #: ../src/exportSession.cs:378
 msgid "AVG Initial Speed"
-msgstr ""
+msgstr "平均初始速度"
 
 #: ../src/exportSession.cs:383 ../src/exportSession.cs:540
 msgid "Limited"
-msgstr ""
+msgstr "受限"
 
 #. print Total, AVG, SD
 #: ../src/exportSession.cs:439 ../src/exportSession.cs:569
 #: ../src/exportSession.cs:675 ../src/treeViewJump.cs:392
 #: ../src/treeViewPulse.cs:130 ../src/treeViewRun.cs:253
 msgid "Total"
-msgstr ""
+msgstr "总计"
 
 #: ../src/exportSession.cs:445 ../src/exportSession.cs:576
 #: ../src/exportSession.cs:679 ../src/exportSession.cs:793
@@ -3144,11 +3184,11 @@ msgstr ""
 
 #: ../src/exportSession.cs:536
 msgid "Time total"
-msgstr ""
+msgstr "总时间"
 
 #: ../src/exportSession.cs:537
 msgid "Average speed"
-msgstr ""
+msgstr "平均速度"
 
 #: ../src/exportSession.cs:538
 msgid "Distance interval"
@@ -3182,7 +3222,7 @@ msgstr ""
 #: ../src/exportSession.cs:758 ../src/treeViewMultiChronopic.cs:57
 #: ../src/treeViewMultiChronopic.cs:65 ../src/treeViewMultiChronopic.cs:73
 msgid "Change"
-msgstr ""
+msgstr "更改"
 
 #: ../src/exportSession.cs:759
 msgid "IN-IN"
@@ -3200,12 +3240,12 @@ msgstr ""
 
 #: ../src/exportSession.cs:884
 msgid "Exported to file: "
-msgstr ""
+msgstr "导出到文件："
 
 #. if(recuperatedString == "")
 #: ../src/gui/chronojump.cs:469
 msgid "Ready."
-msgstr ""
+msgstr "就绪。"
 
 #: ../src/gui/chronojump.cs:548
 #, csharp-format
@@ -3214,7 +3254,7 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:649
 msgid "Preferences loaded"
-msgstr ""
+msgstr "已加载首选项"
 
 #: ../src/gui/chronojump.cs:806
 msgid "Show all tests of"
@@ -3223,7 +3263,7 @@ msgstr ""
 #: ../src/gui/chronojump.cs:813
 #, csharp-format
 msgid "Delete {0} from this session"
-msgstr ""
+msgstr "从此会话中删除 {0}"
 
 #: ../src/gui/chronojump.cs:838
 msgid "Please, first fill evaluator data."
@@ -3245,7 +3285,7 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:924
 msgid "Currently cannot upload."
-msgstr ""
+msgstr "目前无法上传。"
 
 #: ../src/gui/chronojump.cs:990
 msgid "<b>Weight</b> of the following persons is not ok:"
@@ -3261,19 +3301,19 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:1032
 msgid "Please, fix this before uploading:"
-msgstr ""
+msgstr "上传前请修复此问题："
 
 #: ../src/gui/chronojump.cs:1034
 msgid "Or when upload session again, mark these persons as not to be uploaded."
-msgstr ""
+msgstr "或者在重新上传会话时将这些人标志为不上传。"
 
 #: ../src/gui/chronojump.cs:1051
 msgid "Session will be uploaded to server."
-msgstr ""
+msgstr "会话将上传到服务器。"
 
 #: ../src/gui/chronojump.cs:1052
 msgid "Names, date of birth and descriptions of persons will be hidden."
-msgstr ""
+msgstr "姓名、生日和个人描述将隐藏。"
 
 #: ../src/gui/chronojump.cs:1053
 msgid "You can upload again this session if you add more data or persons."
@@ -3281,43 +3321,43 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:1056
 msgid "Session has been uploaded to server before."
-msgstr ""
+msgstr "会话以前已经上传到了服务器。"
 
 #: ../src/gui/chronojump.cs:1057
 msgid "Uploading new data."
-msgstr ""
+msgstr "上传新数据。"
 
 #: ../src/gui/chronojump.cs:1059
 msgid "All the uploaded data will be licensed as:"
-msgstr ""
+msgstr "所有上传的数据将遵循以下许可证："
 
 #: ../src/gui/chronojump.cs:1060
 msgid "Creative Commons Attribution 3.0"
-msgstr ""
+msgstr "Creative Commons Attribution 3.0"
 
 #. label_link
 #: ../src/gui/chronojump.cs:1065
 msgid "Are you sure you want to upload this session to server?"
-msgstr ""
+msgstr "您确实想将此会话上传到服务器吗？"
 
 #: ../src/gui/chronojump.cs:1169 ../src/gui/chronojump.cs:1239
 #: ../src/gui/chronojump.cs:1307 ../src/gui/chronojump.cs:1376
 #: ../src/gui/chronojump.cs:1444 ../src/gui/chronojump.cs:1512
 #: ../src/gui/chronojump.cs:1595
 msgid "Edit selected"
-msgstr ""
+msgstr "编辑选择"
 
 #: ../src/gui/chronojump.cs:1176 ../src/gui/chronojump.cs:1250
 #: ../src/gui/chronojump.cs:1314 ../src/gui/chronojump.cs:1387
 #: ../src/gui/chronojump.cs:1451 ../src/gui/chronojump.cs:1523
 #: ../src/gui/chronojump.cs:1609
 msgid "Delete selected"
-msgstr ""
+msgstr "删除选择"
 
 #: ../src/gui/chronojump.cs:1243 ../src/gui/chronojump.cs:1380
 #: ../src/gui/chronojump.cs:1516
 msgid "Repair selected"
-msgstr ""
+msgstr "修复选择"
 
 #: ../src/gui/chronojump.cs:1775 ../src/gui/chronojump.cs:1802
 #, csharp-format
@@ -3325,6 +3365,8 @@ msgid ""
 "Could not delete file:\n"
 "{0}"
 msgstr ""
+"无法删除文件：\n"
+"{0}"
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
@@ -3334,33 +3376,34 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:1938
 msgid "Are you sure you want to delete the current session"
-msgstr ""
+msgstr "您确实想删除当前会话"
 
 #: ../src/gui/chronojump.cs:1938
 msgid "and all the session tests?"
-msgstr ""
+msgstr "及所有会话测试？"
 
 #: ../src/gui/chronojump.cs:1944
 msgid "Deleted session and all its tests"
-msgstr ""
+msgstr "已删除会话和所有测试"
 
 #: ../src/gui/chronojump.cs:2033 ../src/gui/stats.cs:1227
 msgid "Successfully added"
-msgstr ""
+msgstr "已成功添加"
 
 #: ../src/gui/chronojump.cs:2040
 msgid "Select number of persons to add"
-msgstr ""
+msgstr "选择要添加的人数"
 
 #. more inserted
 #: ../src/gui/chronojump.cs:2065 ../src/gui/person.cs:604
 #, csharp-format
 msgid "Successfully added {0} persons"
-msgstr ""
+msgstr "成功添加了 {0} 人"
 
 #: ../src/gui/chronojump.cs:2118
 msgid ""
-"Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n"
+"Are you sure you want to delete the current person and all his/her tests "
+"(jumps, runs, pulses, ...) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact)"
 msgstr ""
 
@@ -3381,7 +3424,8 @@ msgstr ""
 #: ../src/gui/chronojump.cs:2401
 #, csharp-format
 msgid ""
-"Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\n"
+"Please, touch the contact platform on Chronopic/s [{0}] for full "
+"cancelling.\n"
 "Then press button\n"
 msgstr ""
 
@@ -3393,12 +3437,13 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:2517
 #, csharp-format
-msgid "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
+msgid ""
+"Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
 msgstr ""
 
 #: ../src/gui/chronojump.cs:2518
 msgid "Then press this button:\n"
-msgstr ""
+msgstr "然后点击此按钮：\n"
 
 #: ../src/gui/chronojump.cs:2850
 msgid "Execute Jump"
@@ -3437,11 +3482,11 @@ msgstr ""
 #. windowTitle
 #: ../src/gui/chronojump.cs:3883
 msgid "Changes"
-msgstr ""
+msgstr "更改"
 
 #: ../src/gui/chronojump.cs:4075
 msgid "Cannot update. Probably this test was deleted."
-msgstr ""
+msgstr "无法更新。可能该测试已经删除。"
 
 #: ../src/gui/chronojump.cs:4362
 msgid "Do you want to delete selected jump?"
@@ -3477,7 +3522,7 @@ msgstr ""
 
 #: ../src/gui/chronojump.cs:4487
 msgid "Deleted reaction time"
-msgstr ""
+msgstr "删除反应时间"
 
 #: ../src/gui/chronojump.cs:4521
 msgid "Deleted pulse"
@@ -3514,6 +3559,8 @@ msgstr ""
 #: ../src/gui/chronojump.cs:4768
 msgid "translator-credits"
 msgstr ""
+"Jessica Ban <bancage@gmail.com>\n"
+"Yinghua Wang <wantinghard@gmail.com>"
 
 #: ../src/gui/chronojump.cs:5092
 msgid "Done for testing purposes. Chronojump will exit badly"
@@ -3521,28 +3568,30 @@ msgstr ""
 
 #: ../src/gui/chronopic.cs:257
 msgid "One or more Chronopics have been disconnected."
-msgstr ""
+msgstr "一个或多个 Chronopic 已经断开。"
 
 #: ../src/gui/chronopic.cs:258
 msgid "Please connect again, and configure on Chronopic window."
-msgstr ""
+msgstr "请重新连接，并在 Chronopic 窗口中配置。"
 
 #: ../src/gui/chronopic.cs:417
 msgid "starting connection with chronopic"
-msgstr ""
+msgstr "开始通过 chronopic 连接。"
 
 #: ../src/gui/chronopic.cs:419
-msgid "If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash."
+msgid ""
+"If you have previously used the modem via a serial port (in a GNU/Linux "
+"session, and you selected serial port), Chronojump will crash."
 msgstr ""
 
 #: ../src/gui/chronopic.cs:460
 #, csharp-format
 msgid "<b>Connected</b> to Chronopic on port: {0}"
-msgstr ""
+msgstr "<b>已连接</b> 到 Chronopic，端口：{0}"
 
 #: ../src/gui/chronopic.cs:464
 msgid "Problems communicating to chronopic."
-msgstr ""
+msgstr "与 chronopic 通信出现故障。"
 
 #: ../src/gui/chronopic.cs:466
 msgid "Changed platform to 'Simulated'"
@@ -3552,7 +3601,8 @@ msgstr ""
 msgid ""
 "\n"
 "\n"
-"On Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test."
+"On Windows we recommend to remove and connect USB or serial cable from the "
+"computer after every unsuccessful port test."
 msgstr ""
 
 #: ../src/gui/chronopic.cs:469
@@ -3565,43 +3615,48 @@ msgstr ""
 msgid ""
 "\n"
 "\n"
-"... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen."
+"... Later, when you close Chronojump it will probably get frozen. If this "
+"happens, let's press CTRL+C on the black screen."
 msgstr ""
 
 #. disconnected
 #: ../src/gui/chronopic.cs:688
 msgid "Cancelled by user"
-msgstr ""
+msgstr "用户取消了操作"
 
 #: ../src/gui/convertWeight.cs:109
 msgid "or"
-msgstr ""
+msgstr "或"
 
 #: ../src/gui/convertWeight.cs:129
 msgid "Old weight"
-msgstr ""
+msgstr "旧体重"
 
 #: ../src/gui/convertWeight.cs:141
 msgid ""
 "New weight\n"
 "option 1"
 msgstr ""
+"新体重\n"
+"选项 1"
 
 #: ../src/gui/convertWeight.cs:153
 msgid ""
 "New weight\n"
 "option 2"
 msgstr ""
+"新体重\n"
+"选项 2"
 
 #: ../src/gui/event.cs:261
 #, csharp-format
 msgid "Edit {0}"
-msgstr ""
+msgstr "编辑 {0}"
 
 #: ../src/gui/event.cs:265
 #, csharp-format
 msgid "Use this window to edit a {0}."
-msgstr ""
+msgstr "使用此窗口来编辑 {0}。"
 
 #: ../src/gui/event.cs:267 ../src/gui/runType.cs:114
 #, csharp-format
@@ -3616,20 +3671,20 @@ msgstr ""
 
 #: ../src/gui/event.cs:609
 msgid "please first edit or delete them."
-msgstr ""
+msgstr "请先编辑或删除它们。"
 
 #: ../src/gui/event.cs:611
 msgid "Are you sure you want to delete this test type?"
-msgstr ""
+msgstr "您确实想删除此测试类型吗？"
 
 #: ../src/gui/evaluator.cs:345
 msgid "Select of Birth"
-msgstr ""
+msgstr "选择生日"
 
 #. write "last" to show last jump
 #: ../src/gui/eventExecute.cs:1066 ../src/gui/eventExecute.cs:1118
 msgid "Last"
-msgstr ""
+msgstr "上次"
 
 #: ../src/gui/eventExecute.cs:1712
 msgid "Platforms"
@@ -3645,18 +3700,19 @@ msgstr ""
 #.
 #: ../src/gui/helpPorts.cs:64
 msgid "Auto-Detection currently disabled"
-msgstr ""
+msgstr "自动检测已禁用"
 
 #: ../src/gui/helpPorts.cs:78
 msgid "More information on <b>Chronojump Manual</b> at section:"
-msgstr ""
+msgstr "更多有关<b>Chronojump 手册</b>的信息见这一节："
 
 #: ../src/gui/helpPorts.cs:80
 msgid "Newer versions will be on this site:"
-msgstr ""
+msgstr "新版本会发布到这个网站上："
 
 #: ../src/gui/helpPorts.cs:90
-msgid "Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
+msgid ""
+"Click with the right button on <i>MyPC</i> icon at desktop or Start Menu."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:91
@@ -3664,7 +3720,10 @@ msgid "Note <i>MyPC</i> can be called <i>System</i> in Windows Vista."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:92
-msgid "Note also, you maybe have a <i>MyPC</i> icon that has no <i>properties</i> because can be a link to the real <i>MyPC</i> icon, if you cannot see <i>Properties</i>, please use another MyPC icon."
+msgid ""
+"Note also, you maybe have a <i>MyPC</i> icon that has no <i>properties</i> "
+"because can be a link to the real <i>MyPC</i> icon, if you cannot see "
+"<i>Properties</i>, please use another MyPC icon."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:93
@@ -3673,26 +3732,30 @@ msgstr ""
 
 #: ../src/gui/helpPorts.cs:94
 msgid "Go to <i>hardware</i>."
-msgstr ""
+msgstr "转到 <i>硬件</i>。"
 
 #: ../src/gui/helpPorts.cs:95
 msgid "Select <i>administrate dispositives</i>. It's first button."
-msgstr ""
+msgstr "选择 <i>设备管理器</i>。也就是第一个按钮。 "
 
 #: ../src/gui/helpPorts.cs:96
 msgid "Click on the '+' at left of COM and LPT ports."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:97
-msgid "The port name will be what it's written like COM? on the USB-serial line."
+msgid ""
+"The port name will be what it's written like COM? on the USB-serial line."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:97
-msgid "Eg: if it's written COM7, then you should write COM7 at Chronopic window."
+msgid ""
+"Eg: if it's written COM7, then you should write COM7 at Chronopic window."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:98
-msgid "If it doesn't work, try to force to COM1 or COM2, as it's explained on parent window."
+msgid ""
+"If it doesn't work, try to force to COM1 or COM2, as it's explained on "
+"parent window."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:106
@@ -3700,7 +3763,9 @@ msgid "Find the port as explained at <i>Check Chronopic port</i>."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:107
-msgid "At the line where port is shown right click and select <i>properties</i> (last option)."
+msgid ""
+"At the line where port is shown right click and select <i>properties</i> "
+"(last option)."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:108
@@ -3720,7 +3785,9 @@ msgid "If COM1 and COM2 are <i>used</i>, then select unused ports below 10."
 msgstr ""
 
 #: ../src/gui/helpPorts.cs:111
-msgid "If doesn't work, try to select the COM1 or COM2 (normally they are not really <i>used</i>)."
+msgid ""
+"If doesn't work, try to select the COM1 or COM2 (normally they are not "
+"really <i>used</i>)."
 msgstr ""
 
 #: ../src/gui/jump.cs:55
@@ -3773,12 +3840,12 @@ msgstr ""
 #: ../src/gui/jump.cs:494 ../src/gui/pulse.cs:350 ../src/gui/run.cs:619
 #: ../src/stats/rjEvolution.cs:70
 msgid "Count"
-msgstr ""
+msgstr "计数"
 
 #: ../src/gui/jump.cs:1012 ../src/gui/jump.cs:1198 ../src/gui/run.cs:977
 #: ../src/gui/run.cs:1140
 msgid "Delete test type defined by user"
-msgstr ""
+msgstr "删除用户定义的测试类型"
 
 #: ../src/gui/jump.cs:1231 ../src/gui/run.cs:1170
 msgid "Limited value"
@@ -3786,7 +3853,7 @@ msgstr ""
 
 #: ../src/gui/jump.cs:1264 ../src/gui/run.cs:1199
 msgid "Seconds"
-msgstr ""
+msgstr "秒"
 
 #. string myString =  Catalog.GetString ("Jump type: '") +
 #. Util.RemoveTildeAndColonAndDot(entry_name.Text) +
@@ -3811,7 +3878,7 @@ msgstr "女"
 
 #: ../src/gui/person.cs:271 ../src/gui/person.cs:602
 msgid "Loaded"
-msgstr ""
+msgstr "已加载"
 
 #. put none in combo
 #: ../src/gui/person.cs:311 ../src/gui/person.cs:440 ../src/gui/stats.cs:168
@@ -3825,7 +3892,8 @@ msgstr ""
 
 #: ../src/gui/person.cs:685
 msgid ""
-"All persons checked at first column will be uploaded into database with his/her tests on this session.\n"
+"All persons checked at first column will be uploaded into database with his/"
+"her tests on this session.\n"
 "If you want that a person is not uploaded, just uncheck it."
 msgstr ""
 
@@ -3835,15 +3903,15 @@ msgstr ""
 
 #: ../src/gui/person.cs:1222 ../src/gui/session.cs:511
 msgid "Select session date"
-msgstr ""
+msgstr "选择会话日期"
 
 #: ../src/gui/person.cs:1235
 msgid "Select your height"
-msgstr ""
+msgstr "选择您的体重"
 
 #: ../src/gui/person.cs:1249
 msgid "Select your weight in pounds"
-msgstr ""
+msgstr "选择您的体重，以磅计"
 
 #: ../src/gui/person.cs:1392 ../src/gui/session.cs:524
 msgid "Add new sport to database"
@@ -3886,7 +3954,7 @@ msgstr ""
 
 #: ../src/gui/person.cs:2003
 msgid "Date\n"
-msgstr ""
+msgstr "日期\n"
 
 #: ../src/gui/person.cs:2004
 msgid ""
@@ -3914,25 +3982,25 @@ msgstr ""
 
 #: ../src/gui/preferences.cs:253 ../src/gui/preferences.cs:273
 msgid "Error. Cannot find database."
-msgstr ""
+msgstr "错误。找不到数据库。"
 
 #: ../src/gui/preferences.cs:279
 msgid "Copy database to:"
-msgstr ""
+msgstr "将数据库复制到："
 
 #: ../src/gui/preferences.cs:283
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: ../src/gui/preferences.cs:299 ../src/gui/preferences.cs:324
 #, csharp-format
 msgid "Copied to {0}"
-msgstr ""
+msgstr "已复制到 {0}"
 
 #: ../src/gui/preferences.cs:304 ../src/gui/preferences.cs:327
 #, csharp-format
 msgid "Cannot copy to file {0} "
-msgstr ""
+msgstr "无法复制到文件 {0} "
 
 #: ../src/gui/pulse.cs:49
 msgid "pulse"
@@ -3957,25 +4025,25 @@ msgstr ""
 #. static string equalThan = Constants.EqualThanCode + " " + Catalog.GetString("Equal than");
 #: ../src/gui/queryServer.cs:122
 msgid "Lower than"
-msgstr ""
+msgstr "低于"
 
 #. static string higherThan = Constants.HigherThanCode + " " + Catalog.GetString("Higher than");
 #. static string lowerOrEqualThan = Constants.LowerOrEqualThanCode + " " + Catalog.GetString("Lower or equal than");
 #: ../src/gui/queryServer.cs:125
 msgid "Higher or equal than"
-msgstr ""
+msgstr "高于或等于"
 
 #: ../src/gui/repetitiveConditions.cs:177
 msgid "You need to activate sounds in main window (bottom)"
-msgstr ""
+msgstr "您需要在主窗口(底部)开启声音"
 
 #: ../src/gui/reactionTime.cs:47
 msgid "reaction time"
-msgstr ""
+msgstr "反应时间"
 
 #: ../src/gui/report.cs:138
 msgid "Session/s"
-msgstr ""
+msgstr "会话"
 
 #: ../src/gui/report.cs:139
 msgid "Show jumps"
@@ -3983,7 +4051,7 @@ msgstr ""
 
 #: ../src/gui/report.cs:141
 msgid "Checked rows"
-msgstr ""
+msgstr "选中的行"
 
 #: ../src/gui/report.cs:142
 msgid "Graph Options"
@@ -3991,11 +4059,11 @@ msgstr ""
 
 #: ../src/gui/report.cs:143
 msgid "Comment"
-msgstr ""
+msgstr "注释"
 
 #: ../src/gui/report.cs:353
 msgid "Comment this statistic"
-msgstr ""
+msgstr "注释此统计"
 
 #: ../src/gui/run.cs:52
 msgid "run"
@@ -4007,7 +4075,7 @@ msgstr ""
 
 #: ../src/gui/run.cs:473
 msgid "Total Time"
-msgstr ""
+msgstr "总时间"
 
 #: ../src/gui/run.cs:557
 msgid "Repair intervallic run"
@@ -4052,7 +4120,7 @@ msgstr "厘米"
 #: ../src/gui/run.cs:1015 ../src/gui/run.cs:1043 ../src/gui/run.cs:1072
 #: ../src/gui/run.cs:1183 ../src/gui/run.cs:1247 ../src/gui/run.cs:1297
 msgid "Not defined"
-msgstr ""
+msgstr "未定义"
 
 #: ../src/gui/runType.cs:158
 #, csharp-format
@@ -4069,7 +4137,7 @@ msgstr ""
 
 #: ../src/gui/session.cs:448
 msgid "Please, define it"
-msgstr ""
+msgstr "请定义它"
 
 #: ../src/gui/session.cs:452
 msgid "People in session practice different sports."
@@ -4126,7 +4194,7 @@ msgstr ""
 
 #: ../src/gui/server.cs:201
 msgid "Uploaded test type"
-msgstr ""
+msgstr "已上传测试类型"
 
 #: ../src/gui/server.cs:206
 msgid "Uploaded sport"
@@ -4147,7 +4215,7 @@ msgstr ""
 
 #: ../src/gui/stats.cs:169 ../src/stats/main.cs:239
 msgid "Invert"
-msgstr ""
+msgstr "反转"
 
 #. if selected 'male' or 'female', showSex and redo the treeview if needed
 #: ../src/gui/stats.cs:171 ../src/gui/stats.cs:498 ../src/stats/main.cs:250
@@ -4193,12 +4261,14 @@ msgid "DJ Jump without using arms"
 msgstr ""
 
 #: ../src/jumpType.cs:191
-msgid "Run between two photocells recording contact and flight times in contact platform/s."
+msgid ""
+"Run between two photocells recording contact and flight times in contact "
+"platform/s."
 msgstr ""
 
 #: ../src/jumpType.cs:192
 msgid "Until finish button is clicked."
-msgstr ""
+msgstr "直到点击完成按钮。"
 
 #: ../src/jumpType.cs:201
 msgid "Reactive Jump on a hexagon until three full revolutions are done"
@@ -4223,7 +4293,9 @@ msgid "Pulse free"
 msgstr ""
 
 #: ../src/pulseType.cs:47
-msgid "User executes a pulse without a predefined tempo. <i>Difference</i> will show the difference between a pulse and it's preceeding pulse."
+msgid ""
+"User executes a pulse without a predefined tempo. <i>Difference</i> will "
+"show the difference between a pulse and it's preceeding pulse."
 msgstr ""
 
 #: ../src/pulseType.cs:53
@@ -4231,7 +4303,10 @@ msgid "Pulse custom"
 msgstr ""
 
 #: ../src/pulseType.cs:55
-msgid "User executes a pulse trying to follow a predefined tempo and optionally with a fixed number of pulsations. <i>Difference</i> will show the difference between a a pulse and the predefined pulse."
+msgid ""
+"User executes a pulse trying to follow a predefined tempo and optionally "
+"with a fixed number of pulsations. <i>Difference</i> will show the "
+"difference between a a pulse and the predefined pulse."
 msgstr ""
 
 #: ../src/report.cs:172
@@ -4285,7 +4360,7 @@ msgstr ""
 
 #: ../src/runType.cs:147 ../src/runType.cs:157
 msgid "Without shoes."
-msgstr ""
+msgstr "不穿鞋子。"
 
 #: ../src/runType.cs:148 ../src/runType.cs:166
 msgid "Every ground contact is penalized with 2 seconds."
@@ -4301,19 +4376,19 @@ msgstr ""
 
 #: ../src/runType.cs:152
 msgid "Length: 2.5 m."
-msgstr ""
+msgstr "长度：2.5 米。"
 
 #: ../src/runType.cs:153
 msgid "Wide: 4 cm."
-msgstr ""
+msgstr "宽度：4 厘米。"
 
 #: ../src/runType.cs:155
 msgid "Protocol"
-msgstr ""
+msgstr "协议"
 
 #: ../src/runType.cs:156
 msgid "CONDITIONS: "
-msgstr ""
+msgstr "条件： "
 
 #: ../src/runType.cs:158
 msgid "Hands on their waist."
@@ -4328,19 +4403,25 @@ msgid "INSTRUCTIONS AND DEMONSTRATION: "
 msgstr ""
 
 #: ../src/runType.cs:161
-msgid "You have to walk on this bar as fast as possible 'like this', if you touch the ground just continue."
+msgid ""
+"You have to walk on this bar as fast as possible 'like this', if you touch "
+"the ground just continue."
 msgstr ""
 
 #: ../src/runType.cs:162
-msgid "'Like this' means normal, with a foot in front of the other, not side by side."
+msgid ""
+"'Like this' means normal, with a foot in front of the other, not side by "
+"side."
 msgstr ""
 
 #: ../src/runType.cs:164
 msgid "SCORE: "
-msgstr ""
+msgstr "分数："
 
 #: ../src/runType.cs:165
-msgid "Time will start since first platform is touched, and will stop when second platform is reached."
+msgid ""
+"Time will start since first platform is touched, and will stop when second "
+"platform is reached."
 msgstr ""
 
 #: ../src/runType.cs:167
@@ -4352,7 +4433,9 @@ msgid "Reference:"
 msgstr ""
 
 #: ../src/runType.cs:185
-msgid "This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle."
+msgid ""
+"This test is part of a battery for the USA Women's Soccer Team. The NFL use "
+"a very similar test for the NFL Combine Testing, the 20 yard shuttle."
 msgstr ""
 
 #: ../src/runType.cs:187 ../src/runType.cs:264
@@ -4360,7 +4443,9 @@ msgid "Purpose"
 msgstr ""
 
 #: ../src/runType.cs:188
-msgid "The 20 yard agility run is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again."
+msgid ""
+"The 20 yard agility run is a simple measure of an athlete’s ability to "
+"accelerate, decelerate, change direction, and to accelerate again."
 msgstr ""
 
 #: ../src/runType.cs:190 ../src/runType.cs:209 ../src/runType.cs:229
@@ -4369,19 +4454,30 @@ msgid "Procedure"
 msgstr ""
 
 #: ../src/runType.cs:191
-msgid "Set up three marker cones in a straight line, exactly five yards apart - cones B, A(center) and C. At each cone place a line across using marking tape. The timer is positioned at the level of the center A cone, facing the athlete. The athlete straddles the center cone A with feet an equal distance apart and parallel to the line of cones. When ready, the athlete runs to cone B (touching the line with either foot), turns and accelerates to cone C (touching the line), and finishes by accelerating through the line at cone A. The stopwatch is started on the first movement of the athlete and stops the watch when the athlete’s torso crosses the center line."
+msgid ""
+"Set up three marker cones in a straight line, exactly five yards apart - "
+"cones B, A(center) and C. At each cone place a line across using marking "
+"tape. The timer is positioned at the level of the center A cone, facing the "
+"athlete. The athlete straddles the center cone A with feet an equal distance "
+"apart and parallel to the line of cones. When ready, the athlete runs to "
+"cone B (touching the line with either foot), turns and accelerates to cone C "
+"(touching the line), and finishes by accelerating through the line at cone "
+"A. The stopwatch is started on the first movement of the athlete and stops "
+"the watch when the athlete’s torso crosses the center line."
 msgstr ""
 
 #: ../src/runType.cs:193 ../src/runType.cs:271
 msgid "Scoring"
-msgstr ""
+msgstr "评分"
 
 #: ../src/runType.cs:194
 msgid "Record the best time of two trials."
 msgstr ""
 
 #: ../src/runType.cs:196
-msgid "Encourage athletes to accelerate through the finish line to maximize their result."
+msgid ""
+"Encourage athletes to accelerate through the finish line to maximize their "
+"result."
 msgstr ""
 
 #: ../src/runType.cs:198 ../src/runType.cs:215 ../src/runType.cs:250
@@ -4390,24 +4486,45 @@ msgid "Cited with permission."
 msgstr ""
 
 #: ../src/runType.cs:210
-msgid "Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time."
+msgid ""
+"Markers are set up 5 and 15 meters from a line marked on the ground. The "
+"athlete runs from the 15 meter marker towards the line (run in distance to "
+"build up speed) and through the 5 m markers, turns on the line and runs back "
+"through the 5 m markers. The time is recorded from when the athletes first "
+"runs through the 5 meter marker, and stopped when they return through these "
+"markers (that is, the time taken to cover the 5 m up and back distance - 10 "
+"m total). The best of two trails is recorded. The turning ability on each "
+"leg should be tested. The subject should be encouraged to not overstep the "
+"line by too much, as this will increase their time."
 msgstr ""
 
 #: ../src/runType.cs:213
-msgid "This is a test of 180 degree turning ability. This ability may not be applicable to some sports."
+msgid ""
+"This is a test of 180 degree turning ability. This ability may not be "
+"applicable to some sports."
 msgstr ""
 
 #: ../src/runType.cs:227
-msgid "The length of the course is 10 meters and the width (distance between the start and finish points) is 5 meters. Four cones are used to mark the start, finish and the two turning points. Another four cones are placed down the center an equal distance apart. Each cone in the center is spaced 3.3 meters apart."
+msgid ""
+"The length of the course is 10 meters and the width (distance between the "
+"start and finish points) is 5 meters. Four cones are used to mark the start, "
+"finish and the two turning points. Another four cones are placed down the "
+"center an equal distance apart. Each cone in the center is spaced 3.3 meters "
+"apart."
 msgstr ""
 
 #: ../src/runType.cs:230
-msgid "Subjects should lie on their front (head to the start line) and hands by their shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up as quickly as possible and runs around the course in the direction indicated, without knocking the cones over, to the finish line, at which the timing is stopped."
+msgid ""
+"Subjects should lie on their front (head to the start line) and hands by "
+"their shoulders. On the 'Go' command the stopwatch is started, and the "
+"athlete gets up as quickly as possible and runs around the course in the "
+"direction indicated, without knocking the cones over, to the finish line, at "
+"which the timing is stopped."
 msgstr ""
 
 #: ../src/runType.cs:232
 msgid "Results"
-msgstr ""
+msgstr "结果"
 
 #: ../src/runType.cs:233
 msgid "The table below gives some rating scores (in seconds) for the test"
@@ -4415,7 +4532,7 @@ msgstr ""
 
 #: ../src/runType.cs:234
 msgid "Rating"
-msgstr ""
+msgstr "评分"
 
 #: ../src/runType.cs:234
 #, fuzzy
@@ -4429,38 +4546,43 @@ msgstr "女性"
 
 #: ../src/runType.cs:235
 msgid "Excellent"
-msgstr ""
+msgstr "优"
 
 #: ../src/runType.cs:236
 msgid "Good"
-msgstr ""
+msgstr "良"
 
 #: ../src/runType.cs:237
 msgid "Average"
-msgstr ""
+msgstr "中"
 
 #: ../src/runType.cs:238
 msgid "Fair"
-msgstr ""
+msgstr "及格"
 
 #: ../src/runType.cs:239
 msgid "Poor"
-msgstr ""
+msgstr "差"
 
 #: ../src/runType.cs:241 ../src/runType.cs:278
 msgid "Advantages"
-msgstr ""
+msgstr "优势"
 
 #: ../src/runType.cs:242
-msgid "This is a simple test to administer, requiring little equipment. Can test players ability to turn in different directions, and different angles."
+msgid ""
+"This is a simple test to administer, requiring little equipment. Can test "
+"players ability to turn in different directions, and different angles."
 msgstr ""
 
 #: ../src/runType.cs:244
 msgid "Disadvantages"
-msgstr ""
+msgstr "劣势"
 
 #: ../src/runType.cs:245
-msgid "Choice of footwear and surface of area can effect times greatly. Results can be subject to timing inconsistencies, which may be overcome by using timing gates. Cannot distinguish between left and right turning ability."
+msgid ""
+"Choice of footwear and surface of area can effect times greatly. Results can "
+"be subject to timing inconsistencies, which may be overcome by using timing "
+"gates. Cannot distinguish between left and right turning ability."
 msgstr ""
 
 #: ../src/runType.cs:247 ../src/runType.cs:274
@@ -4468,11 +4590,16 @@ msgid "Variations"
 msgstr ""
 
 #: ../src/runType.cs:248
-msgid "The starting and finishing sides can be swapped, so that turning direction is changed."
+msgid ""
+"The starting and finishing sides can be swapped, so that turning direction "
+"is changed."
 msgstr ""
 
 #: ../src/runType.cs:262
-msgid "This test describes the procedures as used in the President's Challenge Fitness Awards. The variations listed give other ways to also perform this test."
+msgid ""
+"This test describes the procedures as used in the President's Challenge "
+"Fitness Awards. The variations listed give other ways to also perform this "
+"test."
 msgstr ""
 
 #: ../src/runType.cs:265
@@ -4480,11 +4607,20 @@ msgid "This is a test of speed and agility, important in many sports."
 msgstr ""
 
 #: ../src/runType.cs:268
-msgid "This test requires the person to run back and forth between two parallel lines as fast as possible. Set up two lines of cones 30 feet apart or use line markings, and place two blocks of wood or a similar object behind one of the lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' the participant runs to the other line, picks up a block and returns to place it behind the starting line, then returns to pick up the second block, then runs with it back across the line."
+msgid ""
+"This test requires the person to run back and forth between two parallel "
+"lines as fast as possible. Set up two lines of cones 30 feet apart or use "
+"line markings, and place two blocks of wood or a similar object behind one "
+"of the lines. Starting at the line opposite the blocks, on the signal "
+"'Ready? Go!' the participant runs to the other line, picks up a block and "
+"returns to place it behind the starting line, then returns to pick up the "
+"second block, then runs with it back across the line."
 msgstr ""
 
 #: ../src/runType.cs:272
-msgid "Two or more trails may be performed, and the quickest time is recorded. Results are recorded to the nearest tenth of a second."
+msgid ""
+"Two or more trails may be performed, and the quickest time is recorded. "
+"Results are recorded to the nearest tenth of a second."
 msgstr ""
 
 #: ../src/runType.cs:274 ../src/runType.cs:299
@@ -4492,27 +4628,45 @@ msgid "Modifications"
 msgstr ""
 
 #: ../src/runType.cs:275
-msgid "The test procedure can be varied by changing the number of shuttles performed, the distance between turns (some use 10 meters rather than 30 feet) and by removing the need for the person pick up and return objects from the turning points."
+msgid ""
+"The test procedure can be varied by changing the number of shuttles "
+"performed, the distance between turns (some use 10 meters rather than 30 "
+"feet) and by removing the need for the person pick up and return objects "
+"from the turning points."
 msgstr ""
 
 #: ../src/runType.cs:279
-msgid "This test can be conducted on large groups relatively quickly with minimal equipment required."
+msgid ""
+"This test can be conducted on large groups relatively quickly with minimal "
+"equipment required."
 msgstr ""
 
 #: ../src/runType.cs:282
-msgid "The blocks should be placed at the line, not thrown across them. Also make sure the participants run through the finish line to maximize their score."
+msgid ""
+"The blocks should be placed at the line, not thrown across them. Also make "
+"sure the participants run through the finish line to maximize their score."
 msgstr ""
 
 #: ../src/runType.cs:297
-msgid "Similar to the Shuttle Run test, this test requires the athlete to run a course in the shortest possible time. A standard zig zag course is with four cones placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in the centre. If the cones are labelled 1 to 4 around the rectangle going along the longer side first, and the centre cone is C, the test begins at 1, then to C, 2, 3, C, 4, then back to 1."
+msgid ""
+"Similar to the Shuttle Run test, this test requires the athlete to run a "
+"course in the shortest possible time. A standard zig zag course is with four "
+"cones placed on the corners of a rectangle 10 by 16 feet, with one more cone "
+"placed in the centre. If the cones are labelled 1 to 4 around the rectangle "
+"going along the longer side first, and the centre cone is C, the test begins "
+"at 1, then to C, 2, 3, C, 4, then back to 1."
 msgstr ""
 
 #: ../src/runType.cs:300
-msgid "This test procedure can be modified by changing the distance between cones, and the number of circuits performed."
+msgid ""
+"This test procedure can be modified by changing the distance between cones, "
+"and the number of circuits performed."
 msgstr ""
 
 #: ../src/runType.cs:303
-msgid "The total distance run should not be too great so that fatigue does not become a factor."
+msgid ""
+"The total distance run should not be too great so that fatigue does not "
+"become a factor."
 msgstr ""
 
 #: ../src/runType.cs:315
@@ -4549,11 +4703,33 @@ msgstr ""
 
 #. this intervallic run has different distance for each track
 #: ../src/runType.cs:378
-msgid "The instructions given to perform the test were as follows: \"Sit down with your back resting on the back of the chair and with your two arms resting on your legs. When you hear the word 'go', stand up without using your arms, kick the ball in front of you as hard as you possibly can, using the instep of the foot you feel the safest. Then walk at your normal pace while counting backwards from 15 to 0 out loud. Turn around back the cone, without touching it, and go back to your seat, stepping into the circles, trying not to touch any of them. Finally, sit down again, trying not to use your arms\"."
+msgid ""
+"The instructions given to perform the test were as follows: \"Sit down with "
+"your back resting on the back of the chair and with your two arms resting on "
+"your legs. When you hear the word 'go', stand up without using your arms, "
+"kick the ball in front of you as hard as you possibly can, using the instep "
+"of the foot you feel the safest. Then walk at your normal pace while "
+"counting backwards from 15 to 0 out loud. Turn around back the cone, without "
+"touching it, and go back to your seat, stepping into the circles, trying not "
+"to touch any of them. Finally, sit down again, trying not to use your arms\"."
 msgstr ""
 
 #: ../src/runType.cs:380
-msgid "The stopwatches were activated on the word 'go' and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again."
+msgid ""
+"The stopwatches were activated on the word 'go' and the button that saved "
+"the time intervals was pressed also after the following stages: when the "
+"subject stood up and kicked the ball; when the ball passed the 8 m line; and "
+"when the subject returned to the seated position in the same chair (42 cm "
+"height from the seat to the ground). The total time needed to perform the "
+"test provided a quantitative evaluation of performance. A qualitative "
+"evaluation was performed by the completion of an AQ. This AQ assesses 6 "
+"items with a Likert scale from 0 to 3, where 0 is the equivalent to needing "
+"help in order to perform the task, and 3 is equivalent to performing the "
+"task unaided with no mistakes. The maximum points that can be attained are "
+"18. The items assessed were: (1) standing up from the chair, (2) kicking the "
+"ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around "
+"the cone, (5) walking whilst stepping into the circles, and (6) sitting back "
+"down again."
 msgstr ""
 
 #: ../src/runType.cs:381
@@ -4561,12 +4737,14 @@ msgid "Assessment questionnaire"
 msgstr ""
 
 #: ../src/runType.cs:382
-msgid "Once the test finishes proceed to edit and you will be able to complete the assesment questionnaire."
+msgid ""
+"Once the test finishes proceed to edit and you will be able to complete the "
+"assesment questionnaire."
 msgstr ""
 
 #: ../src/runType.cs:386
 msgid "Abstract:"
-msgstr ""
+msgstr "摘要："
 
 #: ../src/server.cs:128
 msgid "Error uploading session to server"
@@ -4579,58 +4757,59 @@ msgstr ""
 
 #: ../src/server.cs:654
 #, csharp-format
-msgid "Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
+msgid ""
+"Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."
 msgstr ""
 
 #: ../src/serverPing.cs:55
 msgid "Uploaded"
-msgstr ""
+msgstr "已上传"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
 #: ../src/sqlite/country.cs:177
 msgid "Algeria"
-msgstr ""
+msgstr "阿尔及利亚"
 
 #: ../src/sqlite/country.cs:178
 msgid "Angola"
-msgstr ""
+msgstr "安哥拉"
 
 #: ../src/sqlite/country.cs:179
 msgid "Benin"
-msgstr ""
+msgstr "贝宁"
 
 #: ../src/sqlite/country.cs:180
 msgid "Botswana"
-msgstr ""
+msgstr "博茨瓦纳"
 
 #: ../src/sqlite/country.cs:181
 msgid "Burkina Faso"
-msgstr ""
+msgstr "布基纳法索"
 
 #: ../src/sqlite/country.cs:182
 msgid "Burundi"
-msgstr ""
+msgstr "布隆迪"
 
 #: ../src/sqlite/country.cs:183
 msgid "Cameroon"
-msgstr ""
+msgstr "喀麦隆"
 
 #: ../src/sqlite/country.cs:184
 msgid "Cape Verde"
-msgstr ""
+msgstr "佛得角"
 
 #: ../src/sqlite/country.cs:185
 msgid "Central African Republic"
-msgstr ""
+msgstr "中非共和国"
 
 #: ../src/sqlite/country.cs:186
 msgid "Chad"
-msgstr ""
+msgstr "乍得"
 
 #: ../src/sqlite/country.cs:187
 msgid "Comoros"
-msgstr ""
+msgstr "科摩罗"
 
 #: ../src/sqlite/country.cs:188
 msgid "Congo, Democratic Republic of the"
@@ -4638,71 +4817,71 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:189
 msgid "Congo, Republic of the"
-msgstr ""
+msgstr "刚果民主共和国"
 
 #: ../src/sqlite/country.cs:190
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "科特迪瓦"
 
 #: ../src/sqlite/country.cs:191
 msgid "Djibouti"
-msgstr ""
+msgstr "吉布提"
 
 #: ../src/sqlite/country.cs:192
 msgid "Egypt"
-msgstr ""
+msgstr "埃及"
 
 #: ../src/sqlite/country.cs:193
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "赤道几内亚"
 
 #: ../src/sqlite/country.cs:194
 msgid "Eritrea"
-msgstr ""
+msgstr "厄立特里亚省"
 
 #: ../src/sqlite/country.cs:195
 msgid "Ethiopia"
-msgstr ""
+msgstr "埃塞俄比亚"
 
 #: ../src/sqlite/country.cs:196
 msgid "Gabon"
-msgstr ""
+msgstr "加蓬"
 
 #: ../src/sqlite/country.cs:197
 msgid "Gambia"
-msgstr ""
+msgstr "冈比亚"
 
 #: ../src/sqlite/country.cs:198
 msgid "Ghana"
-msgstr ""
+msgstr "加纳"
 
 #: ../src/sqlite/country.cs:199
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "几内亚比绍"
 
 #: ../src/sqlite/country.cs:200
 msgid "Guinea"
-msgstr ""
+msgstr "几内亚"
 
 #: ../src/sqlite/country.cs:201
 msgid "Kenya"
-msgstr ""
+msgstr "肯尼亚"
 
 #: ../src/sqlite/country.cs:202
 msgid "Lesotho"
-msgstr ""
+msgstr "莱索托"
 
 #: ../src/sqlite/country.cs:203
 msgid "Liberia"
-msgstr ""
+msgstr "利比里亚"
 
 #: ../src/sqlite/country.cs:204
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "利比亚"
 
 #: ../src/sqlite/country.cs:205
 msgid "Madagascar"
-msgstr ""
+msgstr "马达加斯加"
 
 #: ../src/sqlite/country.cs:206
 #, fuzzy
@@ -4716,35 +4895,35 @@ msgstr "男性"
 
 #: ../src/sqlite/country.cs:208
 msgid "Mauritania"
-msgstr ""
+msgstr "毛里塔尼亚"
 
 #: ../src/sqlite/country.cs:209
 msgid "Mauritius"
-msgstr ""
+msgstr "毛里求斯"
 
 #: ../src/sqlite/country.cs:210
 msgid "Mayotte"
-msgstr ""
+msgstr "马约特"
 
 #: ../src/sqlite/country.cs:211
 msgid "Morocco"
-msgstr ""
+msgstr "摩洛哥"
 
 #: ../src/sqlite/country.cs:212
 msgid "Mozambique"
-msgstr ""
+msgstr "莫桑比克"
 
 #: ../src/sqlite/country.cs:213
 msgid "Namibia"
-msgstr ""
+msgstr "纳米比亚"
 
 #: ../src/sqlite/country.cs:214
 msgid "Nigeria"
-msgstr ""
+msgstr "尼日利亚"
 
 #: ../src/sqlite/country.cs:215
 msgid "Niger"
-msgstr ""
+msgstr "尼日尔"
 
 #: ../src/sqlite/country.cs:216
 msgid "Reunion"
@@ -4752,79 +4931,80 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:217
 msgid "Rwanda"
-msgstr ""
+msgstr "卢旺达"
 
 #: ../src/sqlite/country.cs:218
 msgid "Saint Helena"
-msgstr ""
+msgstr "圣赫勒拿"
 
 #: ../src/sqlite/country.cs:219
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "圣多美和普林西比"
 
 #: ../src/sqlite/country.cs:220
 msgid "Senegal"
-msgstr ""
+msgstr "塞内加尔"
 
 #: ../src/sqlite/country.cs:221
 msgid "Seychelles"
-msgstr ""
+msgstr "塞舌尔"
 
 #: ../src/sqlite/country.cs:222
 msgid "Sierra Leone"
-msgstr ""
+msgstr "塞拉利昂"
 
 #: ../src/sqlite/country.cs:223
 msgid "Somalia"
-msgstr ""
+msgstr "索马里"
 
 #: ../src/sqlite/country.cs:224
 msgid "South Africa"
-msgstr ""
+msgstr "南非"
 
 #: ../src/sqlite/country.cs:225
 msgid "Sudan"
-msgstr ""
+msgstr "苏丹"
 
 #: ../src/sqlite/country.cs:226
 msgid "Suriname"
-msgstr ""
+msgstr "苏里南"
 
 #: ../src/sqlite/country.cs:227
 msgid "Swaziland"
-msgstr ""
+msgstr "斯威士兰"
 
 #: ../src/sqlite/country.cs:228
 msgid "Tanzania"
-msgstr ""
+msgstr "坦桑尼亚"
 
 #: ../src/sqlite/country.cs:229
 msgid "Togo"
-msgstr ""
+msgstr "多哥"
 
 #: ../src/sqlite/country.cs:230
 msgid "Tunisia"
-msgstr ""
+msgstr "突尼斯"
 
 #: ../src/sqlite/country.cs:231
 msgid "Uganda"
-msgstr ""
+msgstr "乌干达"
 
 #: ../src/sqlite/country.cs:232
 msgid "Western Sahara"
-msgstr ""
+msgstr "西撒哈拉"
 
 #: ../src/sqlite/country.cs:233
 msgid "Zambia"
-msgstr ""
+msgstr "赞比亚"
 
 #: ../src/sqlite/country.cs:234
 msgid "Zimbabwe"
-msgstr ""
+msgstr "津巴布韦"
 
 #: ../src/sqlite/country.cs:235
+#, fuzzy
 msgid "Antarctica (the territory South of 60 deg S)"
-msgstr ""
+msgstr "南极洲(南纬 60 度附近地区)"
 
 #: ../src/sqlite/country.cs:236
 msgid "Bouvet Island (Bouvetoya)"
@@ -4832,7 +5012,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:237
 msgid "French Southern Territories"
-msgstr ""
+msgstr "法属南方领地"
 
 #: ../src/sqlite/country.cs:238
 msgid "Heard Island and McDonald Islands"
@@ -4840,31 +5020,31 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:239
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "南乔治亚岛和南桑威奇群岛"
 
 #: ../src/sqlite/country.cs:240
 msgid "Afghanistan"
-msgstr ""
+msgstr "阿富汗"
 
 #: ../src/sqlite/country.cs:241
 msgid "Armenia"
-msgstr ""
+msgstr "亚美尼亚"
 
 #: ../src/sqlite/country.cs:242
 msgid "Azerbaijan"
-msgstr ""
+msgstr "阿塞拜疆"
 
 #: ../src/sqlite/country.cs:243
 msgid "Bahrain"
-msgstr ""
+msgstr "巴林"
 
 #: ../src/sqlite/country.cs:244
 msgid "Bangladesh"
-msgstr ""
+msgstr "孟加拉国"
 
 #: ../src/sqlite/country.cs:245
 msgid "Bhutan"
-msgstr ""
+msgstr "不丹"
 
 #: ../src/sqlite/country.cs:246
 msgid "British Indian Ocean Territory (Chagos Archipelago)"
@@ -4880,7 +5060,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:249
 msgid "China"
-msgstr ""
+msgstr "中国"
 
 #: ../src/sqlite/country.cs:250
 msgid "Christmas Island"
@@ -4900,7 +5080,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:254
 msgid "Hong Kong"
-msgstr ""
+msgstr "香港"
 
 #: ../src/sqlite/country.cs:255
 #, fuzzy
@@ -4917,15 +5097,15 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:258
 msgid "Iraq"
-msgstr ""
+msgstr "伊拉克"
 
 #: ../src/sqlite/country.cs:259
 msgid "Israel"
-msgstr ""
+msgstr "以色列"
 
 #: ../src/sqlite/country.cs:260
 msgid "Japan"
-msgstr ""
+msgstr "日本"
 
 #: ../src/sqlite/country.cs:261
 msgid "Jordan"
@@ -5001,7 +5181,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:278
 msgid "Philippines"
-msgstr ""
+msgstr "菲律宾"
 
 #: ../src/sqlite/country.cs:279
 msgid "Qatar"
@@ -5013,7 +5193,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:281
 msgid "Singapore"
-msgstr ""
+msgstr "新加坡"
 
 #: ../src/sqlite/country.cs:282
 msgid "Sri Lanka"
@@ -5025,7 +5205,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:284
 msgid "Taiwan"
-msgstr ""
+msgstr "台湾"
 
 #: ../src/sqlite/country.cs:285
 msgid "Tajikistan"
@@ -5033,7 +5213,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:286
 msgid "Thailand"
-msgstr ""
+msgstr "泰国"
 
 #: ../src/sqlite/country.cs:287
 msgid "Timor-Leste"
@@ -5121,11 +5301,11 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:308
 msgid "France"
-msgstr ""
+msgstr "法国"
 
 #: ../src/sqlite/country.cs:309
 msgid "Germany"
-msgstr ""
+msgstr "德国"
 
 #: ../src/sqlite/country.cs:310
 msgid "Gibraltar"
@@ -5149,7 +5329,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:315
 msgid "Iceland"
-msgstr ""
+msgstr "冰岛"
 
 #: ../src/sqlite/country.cs:316
 msgid "Ireland"
@@ -5161,7 +5341,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:318
 msgid "Italy"
-msgstr ""
+msgstr "意大利"
 
 #: ../src/sqlite/country.cs:319
 msgid "Jersey"
@@ -5214,7 +5394,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:331
 msgid "Poland"
-msgstr ""
+msgstr "波兰"
 
 #: ../src/sqlite/country.cs:332
 msgid "Portugal"
@@ -5247,7 +5427,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:339
 msgid "Spain"
-msgstr ""
+msgstr "西班牙"
 
 #: ../src/sqlite/country.cs:340
 msgid "Svalbard & Jan Mayen Islands"
@@ -5299,23 +5479,23 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:352
 msgid "British Virgin Islands"
-msgstr ""
+msgstr "英属维尔京群岛"
 
 #: ../src/sqlite/country.cs:353
 msgid "Canada"
-msgstr ""
+msgstr "加拿大"
 
 #: ../src/sqlite/country.cs:354
 msgid "Cayman Islands"
-msgstr ""
+msgstr "开曼群岛"
 
 #: ../src/sqlite/country.cs:355
 msgid "Costa Rica"
-msgstr ""
+msgstr "哥斯达黎加"
 
 #: ../src/sqlite/country.cs:356
 msgid "Cuba"
-msgstr ""
+msgstr "古巴"
 
 #: ../src/sqlite/country.cs:357
 msgid "Dominica, Commonwealth of"
@@ -5323,263 +5503,263 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:358
 msgid "Dominican Republic"
-msgstr ""
+msgstr "多米尼加共和国"
 
 #: ../src/sqlite/country.cs:359
 msgid "El Salvador"
-msgstr ""
+msgstr "萨尔瓦多"
 
 #: ../src/sqlite/country.cs:360
 msgid "Greenland"
-msgstr ""
+msgstr "格陵兰"
 
 #: ../src/sqlite/country.cs:361
 msgid "Grenada"
-msgstr ""
+msgstr "格林纳达"
 
 #: ../src/sqlite/country.cs:362
 msgid "Guadeloupe"
-msgstr ""
+msgstr "瓜德罗普"
 
 #: ../src/sqlite/country.cs:363
 msgid "Guatemala"
-msgstr ""
+msgstr "危地马拉"
 
 #: ../src/sqlite/country.cs:364
 msgid "Haiti"
-msgstr ""
+msgstr "海地"
 
 #: ../src/sqlite/country.cs:365
 msgid "Honduras"
-msgstr ""
+msgstr "洪都拉斯"
 
 #: ../src/sqlite/country.cs:366
 msgid "Jamaica"
-msgstr ""
+msgstr "牙买加"
 
 #: ../src/sqlite/country.cs:367
 msgid "Martinique"
-msgstr ""
+msgstr "马提尼克"
 
 #: ../src/sqlite/country.cs:368
 msgid "Mexico"
-msgstr ""
+msgstr "墨西哥"
 
 #: ../src/sqlite/country.cs:369
 msgid "Montserrat"
-msgstr ""
+msgstr "蒙特塞拉特"
 
 #: ../src/sqlite/country.cs:370
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "荷属安地列斯"
 
 #: ../src/sqlite/country.cs:371
 msgid "Nicaragua"
-msgstr ""
+msgstr "尼加拉瓜"
 
 #: ../src/sqlite/country.cs:372
 msgid "Panama"
-msgstr ""
+msgstr "巴拿马"
 
 #: ../src/sqlite/country.cs:373
 msgid "Puerto Rico"
-msgstr ""
+msgstr "波多黎各"
 
 #: ../src/sqlite/country.cs:374
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "圣巴托洛缪"
 
 #: ../src/sqlite/country.cs:375
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "圣基茨和尼维斯"
 
 #: ../src/sqlite/country.cs:376
 msgid "Saint Lucia"
-msgstr ""
+msgstr "圣卢西亚"
 
 #: ../src/sqlite/country.cs:377
 msgid "Saint Martin"
-msgstr ""
+msgstr "法属圣马丁"
 
 #: ../src/sqlite/country.cs:378
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "圣皮埃尔和密克隆"
 
 #: ../src/sqlite/country.cs:379
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "圣文森特和格林纳丁斯"
 
 #: ../src/sqlite/country.cs:380
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "特立尼达和多巴哥"
 
 #: ../src/sqlite/country.cs:381
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "特克斯和凯克斯群岛"
 
 #: ../src/sqlite/country.cs:382
 msgid "United States of America"
-msgstr ""
+msgstr "美国"
 
 #: ../src/sqlite/country.cs:383
 msgid "United States Virgin Islands"
-msgstr ""
+msgstr "美属维尔京群岛"
 
 #: ../src/sqlite/country.cs:384
 msgid "American Samoa"
-msgstr ""
+msgstr "美属萨摩亚"
 
 #: ../src/sqlite/country.cs:385
 msgid "Australia"
-msgstr ""
+msgstr "澳大利亚"
 
 #: ../src/sqlite/country.cs:386
 msgid "Cook Islands"
-msgstr ""
+msgstr "库克群岛"
 
 #: ../src/sqlite/country.cs:387
 msgid "Fiji"
-msgstr ""
+msgstr "斐济"
 
 #: ../src/sqlite/country.cs:388
 msgid "French Polynesia"
-msgstr ""
+msgstr "法属波利尼西亚"
 
 #: ../src/sqlite/country.cs:389
 msgid "Guam"
-msgstr ""
+msgstr "关岛"
 
 #: ../src/sqlite/country.cs:390
 msgid "Kiribati"
-msgstr ""
+msgstr "基里巴斯"
 
 #: ../src/sqlite/country.cs:391
 msgid "Marshall Islands"
-msgstr ""
+msgstr "马绍尔群岛"
 
 #: ../src/sqlite/country.cs:392
 msgid "Micronesia"
-msgstr ""
+msgstr "密克罗尼西亚"
 
 #: ../src/sqlite/country.cs:393
 msgid "Nauru"
-msgstr ""
+msgstr "瑙鲁"
 
 #: ../src/sqlite/country.cs:394
 msgid "New Caledonia"
-msgstr ""
+msgstr "新喀里多尼亚"
 
 #: ../src/sqlite/country.cs:395
 msgid "New Zealand"
-msgstr ""
+msgstr "新西兰"
 
 #: ../src/sqlite/country.cs:396
 msgid "Niue"
-msgstr ""
+msgstr "纽埃"
 
 #: ../src/sqlite/country.cs:397
 msgid "Norfolk Island"
-msgstr ""
+msgstr "诺福克岛"
 
 #: ../src/sqlite/country.cs:398
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "北马里亚纳群岛"
 
 #: ../src/sqlite/country.cs:399
 msgid "Palau"
-msgstr ""
+msgstr "帕劳"
 
 #: ../src/sqlite/country.cs:400
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "巴布亚新几内亚"
 
 #: ../src/sqlite/country.cs:401
 msgid "Pitcairn Islands"
-msgstr ""
+msgstr "皮特凯恩群岛"
 
 #: ../src/sqlite/country.cs:402
 msgid "Samoa"
-msgstr ""
+msgstr "萨摩亚"
 
 #: ../src/sqlite/country.cs:403
 msgid "Solomon Islands"
-msgstr ""
+msgstr "所罗门群岛"
 
 #: ../src/sqlite/country.cs:404
 msgid "Tokelau"
-msgstr ""
+msgstr "托克劳"
 
 #: ../src/sqlite/country.cs:405
 msgid "Tonga"
-msgstr ""
+msgstr "汤加"
 
 #: ../src/sqlite/country.cs:406
 msgid "Tuvalu"
-msgstr ""
+msgstr "图瓦卢"
 
 #: ../src/sqlite/country.cs:407
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "美国本土外小岛屿"
 
 #: ../src/sqlite/country.cs:408
 msgid "Vanuatu"
-msgstr ""
+msgstr "瓦努阿图"
 
 #: ../src/sqlite/country.cs:409
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "瓦利斯和富图纳"
 
 #: ../src/sqlite/country.cs:410
 msgid "Argentina"
-msgstr ""
+msgstr "阿根廷"
 
 #: ../src/sqlite/country.cs:411
 msgid "Bolivia"
-msgstr ""
+msgstr "玻利维亚"
 
 #: ../src/sqlite/country.cs:412
 msgid "Brazil"
-msgstr ""
+msgstr "巴西"
 
 #: ../src/sqlite/country.cs:413
 msgid "Chile"
-msgstr ""
+msgstr "智利"
 
 #: ../src/sqlite/country.cs:414
 msgid "Colombia"
-msgstr ""
+msgstr "哥伦比亚"
 
 #: ../src/sqlite/country.cs:415
 msgid "Ecuador"
-msgstr ""
+msgstr "厄瓜多尔"
 
 #: ../src/sqlite/country.cs:416
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "福克兰群岛(马尔维纳斯群岛)"
 
 #: ../src/sqlite/country.cs:417
 msgid "French Guiana"
-msgstr ""
+msgstr "法属圭亚那"
 
 #: ../src/sqlite/country.cs:418
 msgid "Guyana"
-msgstr ""
+msgstr "圭亚那"
 
 #: ../src/sqlite/country.cs:419
 msgid "Paraguay"
-msgstr ""
+msgstr "巴拉圭"
 
 #: ../src/sqlite/country.cs:420
 msgid "Peru"
-msgstr ""
+msgstr "秘鲁"
 
 #: ../src/sqlite/country.cs:421
 msgid "Uruguay"
-msgstr ""
+msgstr "乌拉圭"
 
 #: ../src/sqlite/country.cs:422
 msgid "Venezuela"
-msgstr ""
+msgstr "委内瑞拉"
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:147
@@ -5729,7 +5909,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:144
 msgid "user"
-msgstr ""
+msgstr "用户"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.SportUndefinedID
@@ -5757,7 +5937,7 @@ msgstr "全部折叠"
 
 #: ../src/sqlite/sport.cs:179
 msgid "Basketball"
-msgstr ""
+msgstr "篮球"
 
 #: ../src/sqlite/sport.cs:180
 msgid "Biathlon"
@@ -5765,7 +5945,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:182
 msgid "Boxing"
-msgstr ""
+msgstr "拳击"
 
 #: ../src/sqlite/sport.cs:183
 msgid "Canoe-Cayak"
@@ -5789,7 +5969,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:188
 msgid "Football"
-msgstr ""
+msgstr "足球"
 
 #: ../src/sqlite/sport.cs:189
 msgid "Gymnastics"
@@ -5797,7 +5977,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:190
 msgid "Handball"
-msgstr ""
+msgstr "手球"
 
 #: ../src/sqlite/sport.cs:191
 msgid "Hockey"
@@ -5845,7 +6025,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:202
 msgid "Table Tennis"
-msgstr ""
+msgstr "乒乓球"
 
 #: ../src/sqlite/sport.cs:203
 msgid "Taekwondo"
@@ -5853,7 +6033,7 @@ msgstr ""
 
 #: ../src/sqlite/sport.cs:204
 msgid "Tennis"
-msgstr ""
+msgstr "网球"
 
 #: ../src/sqlite/sport.cs:205
 msgid "Triathlon"
@@ -5881,7 +6061,7 @@ msgstr ""
 
 #: ../src/stats/potency.cs:62 ../src/stats/graphs/potency.cs:73
 msgid "Extra Weight"
-msgstr ""
+msgstr "超重"
 
 #: ../src/stats/potency.cs:141 ../src/stats/djIndex.cs:124
 #: ../src/stats/djQ.cs:124 ../src/stats/fv.cs:117 ../src/stats/global.cs:148
@@ -5917,7 +6097,7 @@ msgstr ""
 #: ../src/stats/sjCmjAbkPlus.cs:132
 #, csharp-format
 msgid "First {0} values"
-msgstr ""
+msgstr "前 {0} 个值"
 
 #. best of each jumper
 #. this options are not possible in this index
@@ -5966,7 +6146,7 @@ msgstr ""
 
 #: ../src/stats/global.cs:52 ../src/stats/graphs/global.cs:66
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 #: ../src/stats/global.cs:158
 #, csharp-format
@@ -6018,7 +6198,7 @@ msgstr ""
 #. for toString() in every stat
 #: ../src/stats/main.cs:83
 msgid "All values"
-msgstr ""
+msgstr "所有值"
 
 #: ../src/stats/main.cs:84
 msgid "Avg values of each jumper"
@@ -6064,7 +6244,7 @@ msgstr ""
 
 #: ../src/treeViewJump.cs:41
 msgid "see Preferences"
-msgstr ""
+msgstr "见首选项"
 
 #: ../src/treeViewJump.cs:355
 msgid "First photocell"

@@ -40,7 +40,7 @@ namespace LongoMatch.Video.Common
 	public delegate void StateChangeHandler(object o, StateChangeArgs args);
 	public delegate void TickHandler(object o, TickArgs args);
 	public delegate void DeviceChangeHandler(object o, DeviceChangeArgs args);
-	
+	public delegate void NewSnapshotHandler(Pixbuf snapshot);
 	
 	
 	public class ErrorArgs : GLib.SignalArgs {

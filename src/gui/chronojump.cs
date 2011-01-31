@@ -2169,6 +2169,21 @@ public class ChronoJumpWindow
 		d.ShowAll();
 		capturer.Run();
 	}
+	
+	private void on_menuitem_camera_photo(object o, EventArgs args) {
+		string file = "/tmp/test_photo_chronojump_is_cooler.jpg";
+		GstCameraCapturer gst = new GstCameraCapturer(file);
+		gst.OutputWidth = 360;
+		gst.OutputHeight = 288;
+
+		gst.Run();
+
+		Pixbuf pixbuf;
+		pixbuf = gst.CurrentFrame;
+
+		pixbuf.Save(file, "jpeg");
+	}
+
 
 
 	/* ---------------------------------------------------------

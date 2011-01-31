@@ -74,6 +74,7 @@ namespace LongoMatch.Video.Common
 	public enum CapturerType{
 		Fake,
 		Live,
+		Snapshot,
 	}	
 
 	public enum VideoFormat {

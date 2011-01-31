@@ -5,6 +5,7 @@
       <itemgroup label="CapturerBin Signals">
         <signal name="CaptureFinished" />
         <signal name="Error" />
+        <signal name="NewSnapshot" />
       </itemgroup>
     </signals>
   </object>

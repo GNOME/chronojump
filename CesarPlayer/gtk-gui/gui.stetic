@@ -326,7 +326,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Bin" id="LongoMatch.Gui.CapturerBin" design-size="356 295">
+  <widget class="Gtk.Bin" id="LongoMatch.Gui.CapturerBin" design-size="373 295">
     <property name="MemberName" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
@@ -412,6 +412,23 @@
                   <packing>
                     <property name="Position">2</property>
                     <property name="AutoSize">False</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Button" id="snapshotbutton">
+                    <property name="MemberName" />
+                    <property name="CanFocus">True</property>
+                    <property name="Type">TextAndIcon</property>
+                    <property name="Icon">stock:stock_about Button</property>
+                    <property name="Label" translatable="yes">Take _snaphot</property>
+                    <property name="UseUnderline">True</property>
+                    <signal name="Clicked" handler="OnSnapshotbuttonClicked" />
+                  </widget>
+                  <packing>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
                   </packing>

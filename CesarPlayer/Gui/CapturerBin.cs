@@ -38,6 +38,7 @@ namespace LongoMatch.Gui
 	{
 		public event EventHandler CaptureFinished;
 		public event ErrorHandler Error;
+		public event NewSnapshotHandler NewSnapshot;
 		
 		private Pixbuf logopix;
 		private CapturePropertiesStruct captureProps;
@@ -66,6 +67,7 @@ namespace LongoMatch.Gui
 		
 		public CapturerType Type {
 			set {
+				bool snapshot = value == CapturerType.Snapshot;
 				/* Close any previous instance of the capturer */
 				Close();
 
@@ -79,11 +81,18 @@ namespace LongoMatch.Gui
 					(capturer as Widget).Visible = true;
 					capturerhbox.Visible = true;
 					logodrawingarea.Visible = false;
+				} else if (value == CapturerType.Snapshot) {
 				}
 				else{
 					logodrawingarea.Visible = true;
 					capturerhbox.Visible = false;
 				}
+				
+				recbutton.Visible = !snapshot;
+				pausebutton.Visible = !snapshot;
+				stopbutton.Visible = !snapshot;
+				snapshotbutton.Visible = snapshot;
+				
 				SetProperties();
 				capturerType = value;
 			}
@@ -358,5 +367,15 @@ namespace LongoMatch.Gui
 			frame.Dispose();
 			return;
 		}
+		
+		protected virtual void OnSnapshotbuttonClicked (object sender, System.EventArgs e)
+		{
+			Pixbuf frame = capturer.CurrentFrame;
+			if (frame != null && NewSnapshot != null) {
+				NewSnapshot(frame);
+			}
+		}
+		
+		
 	}
 }

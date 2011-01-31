@@ -650,6 +650,7 @@ gst_camera_capturer_expose_event (GtkWidget * widget, GdkEventExpose * event)
   g_mutex_unlock (gcc->priv->lock);
 
   if (xoverlay != NULL && GST_IS_X_OVERLAY (xoverlay)) {
+    gdk_window_show (gcc->priv->video_window);
 #ifdef WIN32
     gst_x_overlay_set_xwindow_id (gcc->priv->xoverlay,
         GDK_WINDOW_HWND (gcc->priv->video_window));

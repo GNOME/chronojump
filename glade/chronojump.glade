@@ -17643,6 +17643,20 @@ by you</property>
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkImageMenuItem" id="menuitem_camera_photo">
+                        <property name="label" translatable="yes">camera photo</property>
+                        <property name="visible">True</property>
+                        <property name="use_stock">False</property>
+                        <signal name="activate" handler="on_menuitem_camera_photo"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="image46">
+                            <property name="visible">True</property>
+                            <property name="stock">gtk-missing-image</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkImageMenuItem" id="menuitem_report_window">
                         <property name="label" translatable="yes">Report</property>
                         <property name="visible">True</property>

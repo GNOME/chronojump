@@ -98,6 +98,7 @@ namespace LongoMatch.Video
 					return new FakeCapturer();
 					
 				case CapturerType.Live:
+				case CapturerType.Snapshot:
 					return new GstCameraCapturer("test.avi");
 									
 				default:

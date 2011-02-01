@@ -140,7 +140,7 @@ namespace LongoMatch.Gui
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w32 = new global::Gtk.Image ();
 			w32.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "stock_about", global::Gtk.IconSize.Button);
-			w31.Add (w32);
+			//w31.Add (w32);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w34 = new global::Gtk.Label ();
 			w34.LabelProp = global::Mono.Unix.Catalog.GetString ("Take _snaphot");

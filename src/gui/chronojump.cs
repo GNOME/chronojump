@@ -2181,6 +2181,7 @@ public class ChronoJumpWindow
 		capturer.Type = CapturerType.Snapshot;
 		capturer.Visible=true;
 		capturer.NewSnapshot += on_snapshot_done;
+		capturer.NewSnapshotMini += on_snapshot_mini_done;
 		
 		Gtk.Window d = new Gtk.Window("Capturer");
 		d.Add(capturer);
@@ -2191,6 +2192,9 @@ public class ChronoJumpWindow
 
 	private void on_snapshot_done(Pixbuf pixbuf) {
 		pixbuf.Save("/tmp/test-foto.jpg","jpeg");
+	}
+	private void on_snapshot_mini_done(Pixbuf pixbuf) {
+		pixbuf.Save("/tmp/test-foto-mini.jpg","jpeg");
 	}
 
 

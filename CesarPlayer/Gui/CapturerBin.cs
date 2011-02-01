@@ -67,7 +67,6 @@ namespace LongoMatch.Gui
 		
 		public CapturerType Type {
 			set {
-				bool snapshot = value == CapturerType.Snapshot;
 				/* Close any previous instance of the capturer */
 				Close();
 
@@ -81,17 +80,11 @@ namespace LongoMatch.Gui
 					(capturer as Widget).Visible = true;
 					capturerhbox.Visible = true;
 					logodrawingarea.Visible = false;
-				} else if (value == CapturerType.Snapshot) {
-				}
-				else{
+                                } else{
 					logodrawingarea.Visible = true;
 					capturerhbox.Visible = false;
 				}
 				
-				recbutton.Visible = !snapshot;
-				pausebutton.Visible = !snapshot;
-				stopbutton.Visible = !snapshot;
-				snapshotbutton.Visible = snapshot;
 				
 				SetProperties();
 				capturerType = value;
@@ -135,9 +128,11 @@ namespace LongoMatch.Gui
 			
 			capturing = true;
 			captureStarted = true;
+				
 			recbutton.Visible = false;
 			pausebutton.Visible = true;
 			stopbutton.Visible = true;
+			
 			capturer.Start();
 		}
 		
@@ -159,8 +154,10 @@ namespace LongoMatch.Gui
 		}
 		
 		public void Run(){
-			if (capturer != null)
+			if (capturer != null) {
 				capturer.Run();
+				SetButtonsVisibility();
+			}
 		}
 
 		public void Close(){
@@ -239,6 +236,16 @@ namespace LongoMatch.Gui
 			capturer.AudioBitrate = captureProps.AudioBitrate;
 		}
 
+		private void SetButtonsVisibility() {
+			bool snapshot = capturerType == CapturerType.Snapshot;
+			recbutton.Visible = !snapshot;
+			pausebutton.Visible = !snapshot;
+			stopbutton.Visible = !snapshot;
+			snapshotbutton.Visible = snapshot;
+			timelabel.Visible = !snapshot;
+		}
+
+
 		protected virtual void OnRecbuttonClicked (object sender, System.EventArgs e)
 		{
 			if (capturer == null)
@@ -310,7 +317,7 @@ namespace LongoMatch.Gui
 				                                     MessageType.Question, ButtonsType.Ok,
 				                                     Catalog.GetString("Device disconnected. " +
 				                                     	"The capture will be paused"));
-				md.Icon=Stetic.IconLoader.LoadIcon(md, "longomatch", Gtk.IconSize.Dialog, 48);
+				md.Icon=Stetic.IconLoader.LoadIcon(md, "longomatch", Gtk.IconSize.Dialog);
 				md.Run();
 				md.Destroy();			
 			} else {
@@ -319,7 +326,7 @@ namespace LongoMatch.Gui
 				                                     MessageType.Question, ButtonsType.YesNo,
 				                                     Catalog.GetString("Device reconnected." +
 				                                     	"Do you want to restart the capture?"));
-				md.Icon=Stetic.IconLoader.LoadIcon(md, "longomatch", Gtk.IconSize.Dialog, 48);
+				md.Icon=Stetic.IconLoader.LoadIcon(md, "longomatch", Gtk.IconSize.Dialog);
 				if (md.Run() == (int)ResponseType.Yes){
 					Console.WriteLine ("Accepted to toggle pause");
 					TogglePause();

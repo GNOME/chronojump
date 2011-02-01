@@ -65,6 +65,11 @@ namespace LongoMatch.Video.Capturer
 			get;
 		}
 		
+//		Pixbuf CurrentMiniatureFrame {
+//			get;
+//		}
+		
+		
 		string DeviceID {
 			set;
 			get;

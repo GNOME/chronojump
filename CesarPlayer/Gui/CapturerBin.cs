@@ -39,13 +39,14 @@ namespace LongoMatch.Gui
 		public event EventHandler CaptureFinished;
 		public event ErrorHandler Error;
 		public event NewSnapshotHandler NewSnapshot;
+		public event NewSnapshotHandler NewSnapshotMini;
 		
 		private Pixbuf logopix;
 		private CapturePropertiesStruct captureProps;
 		private CapturerType capturerType;
 		private bool captureStarted;
 		private bool capturing;
-		private const int THUMBNAIL_MAX_WIDTH = 100;		
+		private const int THUMBNAIL_MAX_WIDTH = 200;		
 		
 		ICapturer capturer;
 		
@@ -135,6 +136,13 @@ namespace LongoMatch.Gui
 			
 			capturer.Start();
 		}
+/*
+		public void SnapshotDone(){
+			if (capturer == null)
+				return;
+
+		}
+*/
 		
 		public void TogglePause(){
 			if (capturer == null)
@@ -380,6 +388,11 @@ namespace LongoMatch.Gui
 			Pixbuf frame = capturer.CurrentFrame;
 			if (frame != null && NewSnapshot != null) {
 				NewSnapshot(frame);
+			}
+			//Pixbuf frameMini = capturer.CurrentMiniatureFrame;
+			Pixbuf frameMini = CurrentMiniatureFrame;
+			if (frameMini != null && NewSnapshotMini != null) {
+				NewSnapshotMini(frameMini);
 			}
 		}
 		

@@ -2,23 +2,23 @@
 # Copyright (C) 2009 the author(s) of chronojump.
 # This file is distributed under the same license as the chronojump package.
 #
-# Marek Černocký <marek@manet.cz>, 2009, 2010.
 # Petr Kovar <pknbe@volny.cz>, 2010.
+# Marek Černocký <marek@manet.cz>, 2009, 2010, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-15 21:33+0200\n"
-"PO-Revision-Date: 2010-06-29 23:29+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=chronojump&component=general\n"
+"POT-Creation-Date: 2011-02-01 01:11+0000\n"
+"PO-Revision-Date: 2011-02-01 12:43+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Lokalize 1.0\n"
 
 #. the strings created by Catalog cannot be const
@@ -1218,7 +1218,7 @@ msgstr "E-mail"
 msgid "E-mail will never be shown in public."
 msgstr "E-mail nebude nikde zveřejněn."
 
-#: ../glade/chronojump.glade.h:202 ../src/gui/chronojump.cs:802
+#: ../glade/chronojump.glade.h:202 ../src/gui/chronojump.cs:805
 msgid "Edit"
 msgstr "Úprava"
 
@@ -1484,9 +1484,9 @@ msgstr "Skokanovy nejlepší"
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:262 ../src/exportSession.cs:381
-#: ../src/gui/chronojump.cs:3048 ../src/gui/jump.cs:1262
+#: ../src/gui/chronojump.cs:3098 ../src/gui/jump.cs:1262
 #: ../src/gui/jump.cs:1312 ../src/gui/jump.cs:1359
-#: ../src/sqlite/speciallity.cs:155 ../src/stats/graphs/rjAVGSD.cs:71
+#: ../src/sqlite/speciallity.cs:160 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
 #: ../src/stats/graphs/rjPotencyBosco.cs:80
 #: ../src/stats/graphs/rjPotencyBosco.cs:96 ../src/stats/rjAVGSD.cs:36
@@ -1828,7 +1828,7 @@ msgstr "Pulz"
 
 #. windowTitle
 #: ../glade/chronojump.glade.h:346 ../src/exportSession.cs:201
-#: ../src/gui/chronojump.cs:3746 ../src/gui/person.cs:2009
+#: ../src/gui/chronojump.cs:3796 ../src/gui/person.cs:2009
 #: ../src/gui/session.cs:699 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Pulzy"
@@ -2515,87 +2515,96 @@ msgid "auto"
 msgstr "automaticky"
 
 #: ../glade/chronojump.glade.h:501
+#| msgid "Cameroon"
+msgid "camera photo"
+msgstr "Pořídit fotku"
+
+#: ../glade/chronojump.glade.h:502
+msgid "camera record"
+msgstr "Pořídit záznam"
+
+#: ../glade/chronojump.glade.h:503
 msgid "change"
 msgstr "změnit"
 
-#: ../glade/chronojump.glade.h:502
+#: ../glade/chronojump.glade.h:504
 msgid "cm"
 msgstr "cm"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:505
 msgid "condition"
 msgstr "podmínka"
 
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:506
 msgid "define desired pulse step"
 msgstr "definovat požadovaný krok pulzu"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:507
 msgid "delete current session"
 msgstr "Smazat současnou sérii cvičení"
 
-#: ../glade/chronojump.glade.h:506
+#: ../glade/chronojump.glade.h:508
 msgid "fixed: "
 msgstr "napevno: "
 
-#: ../glade/chronojump.glade.h:507
+#: ../glade/chronojump.glade.h:509
 msgid "intervallic"
 msgstr "intervalový"
 
-#: ../glade/chronojump.glade.h:508
+#: ../glade/chronojump.glade.h:510
 msgid "jump extra data"
 msgstr "doplňující údaje skoku"
 
-#: ../glade/chronojump.glade.h:509 ../src/gui/jump.cs:848
+#: ../glade/chronojump.glade.h:511 ../src/gui/jump.cs:848
 msgid "jumps"
 msgstr "skoky"
 
-#: ../glade/chronojump.glade.h:510
+#: ../glade/chronojump.glade.h:512
 msgid "man"
 msgstr "muž"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:513
 msgid "mark best 'n' consecutives"
 msgstr "označit nejlepších „n“ po sobě jdoucích"
 
-#: ../glade/chronojump.glade.h:512
+#: ../glade/chronojump.glade.h:514
 msgid "mark consecutives"
 msgstr "označit po sobě jdoucí"
 
-#: ../glade/chronojump.glade.h:513
+#: ../glade/chronojump.glade.h:515
 msgid "meters"
 msgstr "metrů"
 
-#: ../glade/chronojump.glade.h:514
+#: ../glade/chronojump.glade.h:516
 msgid "more info"
 msgstr "další info"
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:517
 msgid "no"
 msgstr "ne"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:518
 msgid "none"
 msgstr "nic"
 
-#: ../glade/chronojump.glade.h:517
+#: ../glade/chronojump.glade.h:519
 msgid "ppm"
 msgstr "pulzů/min"
 
-#: ../glade/chronojump.glade.h:518
+#: ../glade/chronojump.glade.h:520
 msgid "pulse extra data"
 msgstr "doplňující údaje pulzu"
 
-#: ../glade/chronojump.glade.h:519
+#: ../glade/chronojump.glade.h:521
 msgid "repetitive"
 msgstr "opakovaný"
 
-#: ../glade/chronojump.glade.h:520
+#: ../glade/chronojump.glade.h:522
 msgid "run extra data"
 msgstr "doplňující údaje běhu"
 
 #. update the totaltime label
-#: ../glade/chronojump.glade.h:521 ../src/gui/jump.cs:449
+#: ../glade/chronojump.glade.h:523 ../src/gui/jump.cs:449
 #: ../src/gui/jump.cs:532 ../src/gui/jump.cs:556 ../src/gui/jump.cs:690
 #: ../src/gui/jump.cs:849 ../src/gui/pulse.cs:304 ../src/gui/pulse.cs:386
 #: ../src/gui/pulse.cs:492 ../src/gui/run.cs:580 ../src/gui/run.cs:649
@@ -2603,109 +2612,109 @@ msgstr "doplňující údaje běhu"
 msgid "seconds"
 msgstr "sekund"
 
-#: ../glade/chronojump.glade.h:522
+#: ../glade/chronojump.glade.h:524
 msgid "select"
 msgstr "vybrat"
 
-#: ../glade/chronojump.glade.h:523
+#: ../glade/chronojump.glade.h:525
 msgid "select ->"
 msgstr "vybrat ->"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:526
 msgid "selected"
 msgstr "vybrané"
 
-#: ../glade/chronojump.glade.h:525
+#: ../glade/chronojump.glade.h:527
 msgid "show all tests of this person"
 msgstr "Zobrazit všechny testy této osoby"
 
-#: ../glade/chronojump.glade.h:526
+#: ../glade/chronojump.glade.h:528
 msgid "show only persons in current session"
 msgstr "zobrazit pouze osoby v současné sérii cvičení"
 
-#: ../glade/chronojump.glade.h:527
+#: ../glade/chronojump.glade.h:529
 msgid "show..."
 msgstr "zobrazit…"
 
-#: ../glade/chronojump.glade.h:528
+#: ../glade/chronojump.glade.h:530
 msgid "simple"
 msgstr "jednoduchý"
 
-#: ../glade/chronojump.glade.h:529
+#: ../glade/chronojump.glade.h:531
 msgid "start managing pulses freely"
 msgstr "spustit volné řízení pulzů"
 
-#: ../glade/chronojump.glade.h:530
+#: ../glade/chronojump.glade.h:532
 msgid "statistic's description"
 msgstr "popis statistiky"
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:533
 msgid "test \"bad\" bell"
 msgstr "testovat gong „špatně“"
 
-#: ../glade/chronojump.glade.h:532
+#: ../glade/chronojump.glade.h:534
 msgid "test \"good\" bell"
 msgstr "testovat gong „dobře“"
 
-#: ../glade/chronojump.glade.h:533
+#: ../glade/chronojump.glade.h:535
 msgid "test!"
 msgstr "test!"
 
-#: ../glade/chronojump.glade.h:534 ../src/execute/run.cs:299
+#: ../glade/chronojump.glade.h:536 ../src/execute/run.cs:299
 msgid "time"
 msgstr "čas"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:537
 msgid "time (s)"
 msgstr "čas (s)"
 
-#: ../glade/chronojump.glade.h:536
+#: ../glade/chronojump.glade.h:538
 msgid "total pulses"
 msgstr "celkem pulzů"
 
-#: ../glade/chronojump.glade.h:537
+#: ../glade/chronojump.glade.h:539
 msgid "tracks (m)"
 msgstr "dráhy (m)"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:540
 msgid "unlimited"
 msgstr "neomezeno"
 
-#: ../glade/chronojump.glade.h:539
+#: ../glade/chronojump.glade.h:541
 msgid "unlimited pulses"
 msgstr "neomezené pulzy"
 
-#: ../glade/chronojump.glade.h:540
+#: ../glade/chronojump.glade.h:542
 msgid "unselected"
 msgstr "nevybrané"
 
-#: ../glade/chronojump.glade.h:541
+#: ../glade/chronojump.glade.h:543
 msgid "value"
 msgstr "hodnota"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:544
 msgid "var X"
 msgstr "Proměnná X"
 
-#: ../glade/chronojump.glade.h:543
+#: ../glade/chronojump.glade.h:545
 msgid "var Y"
 msgstr "Proměnná Y"
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:546
 msgid "woman"
 msgstr "žena"
 
-#: ../glade/chronojump.glade.h:545
+#: ../glade/chronojump.glade.h:547
 msgid "yes"
 msgstr "ano"
 
-#: ../src/chronojump.cs:166
+#: ../src/chronojump.cs:169
 msgid "no tables, creating ..."
 msgstr "žádné tabulky, vytváří se…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:216
+#: ../src/chronojump.cs:219
 msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
@@ -2715,7 +2724,7 @@ msgstr ""
 "Pokud problém přetrvává, zeptejte se na řešení v poštovní konferenci "
 "chronojump."
 
-#: ../src/chronojump.cs:217
+#: ../src/chronojump.cs:220
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -2724,16 +2733,16 @@ msgstr ""
 "Pokud máte prázdnou databázi (čerstvě nainstalovaný ChronoJump), můžete "
 "zkusit problém vyřešit smazáním tohoto souboru: {0}"
 
-#: ../src/chronojump.cs:219
+#: ../src/chronojump.cs:222
 msgid "And starting Chronojump again."
 msgstr "A opětovným spuštěním aplikace ChronoJump."
 
-#: ../src/chronojump.cs:231
+#: ../src/chronojump.cs:234
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Všechny skoky SS byly přejmenovány na „SSbr“ (Seskokové skoky bez rukou)."
 
-#: ../src/chronojump.cs:232
+#: ../src/chronojump.cs:235
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -2742,22 +2751,22 @@ msgstr ""
 "ručně na „SSpr“."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:240
+#: ../src/chronojump.cs:243
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Tato verze ({0}) aplikace ChronoJump je pro vaši databázi bohužel příliš "
 "stará."
 
-#: ../src/chronojump.cs:241
+#: ../src/chronojump.cs:244
 msgid "Please update Chronojump"
 msgstr "Aktualizujte prosím ChronoJump"
 
-#: ../src/chronojump.cs:249
+#: ../src/chronojump.cs:252
 msgid "tables already created"
 msgstr "tabulky jsou již vytvořené"
 
-#: ../src/chronojump.cs:304
+#: ../src/chronojump.cs:307
 #, csharp-format
 msgid ""
 "\n"
@@ -2768,23 +2777,23 @@ msgstr ""
 "Na webových stránkách je dostupná nová verze ChronoJump.\n"
 "Vaše verze ChronoJump je: {1}"
 
-#: ../src/chronojump.cs:306
+#: ../src/chronojump.cs:309
 msgid "Please, update to new version."
 msgstr "Aktualizujte prosím na novou verzi."
 
-#: ../src/chronojump.cs:314
+#: ../src/chronojump.cs:317
 msgid "Chronojump crashed before."
 msgstr "Předchozí zhroucení ChronoJump"
 
-#: ../src/chronojump.cs:315 ../src/gui/chronojump.cs:855
+#: ../src/chronojump.cs:318 ../src/gui/chronojump.cs:858
 msgid "Please, update to new version: "
 msgstr "Aktualizujte prosím na novou verzi:"
 
-#: ../src/chronojump.cs:385 ../src/chronojump.cs:720 ../src/chronojump.cs:728
+#: ../src/chronojump.cs:388 ../src/chronojump.cs:723 ../src/chronojump.cs:731
 msgid "Chronojump will exit now."
 msgstr "ChronoJump se nyní ukončí."
 
-#: ../src/chronojump.cs:563
+#: ../src/chronojump.cs:566
 #, csharp-format
 msgid ""
 "Chronojump {0} crashed before. If this problem persist, please, report it at "
@@ -2793,49 +2802,49 @@ msgstr ""
 "ChronoJump se při předchozím spuštění {0} zhroutil. Pokud tento problém "
 "přetrvává, nahlaste jej prosím do diskuzního fóra:"
 
-#: ../src/chronojump.cs:564
+#: ../src/chronojump.cs:567
 msgid "Remember to describe on Chronojump software forum how crash happened."
 msgstr ""
 "Nezapomeňte v diskuzním fóru o softwaru ChronoJump popsat, jak ke zhroucení "
 "došlo."
 
-#: ../src/chronojump.cs:569
+#: ../src/chronojump.cs:572
 msgid "Your help is needed."
 msgstr "Vaše pomoc bude vítaná."
 
-#: ../src/chronojump.cs:687
+#: ../src/chronojump.cs:690
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Nelze přesunout složku s databází z {0} do {1}"
 
-#: ../src/chronojump.cs:689
+#: ../src/chronojump.cs:692
 msgid "Trying to move/copy each file now"
 msgstr "Nyní se zkouší přesun/kopírování jednotlivých souborů"
 
-#: ../src/chronojump.cs:718
+#: ../src/chronojump.cs:721
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Nelze vytvořit složku {0}"
 
-#: ../src/chronojump.cs:719 ../src/chronojump.cs:727
+#: ../src/chronojump.cs:722 ../src/chronojump.cs:730
 msgid "Please, do it manually."
 msgstr "Udělejte to prosím ručně."
 
-#: ../src/chronojump.cs:726
+#: ../src/chronojump.cs:729
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Nelze zkopírovat {0} souborů z {1} do {2}"
 
-#: ../src/chronojump.cs:734
+#: ../src/chronojump.cs:737
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Nelze přesunout {0} souborů z {1} do {2}"
 
-#: ../src/chronojump.cs:735
+#: ../src/chronojump.cs:738
 msgid "Please, do it manually"
 msgstr "Udělejte to prosím ručně"
 
-#: ../src/chronojump.cs:741
+#: ../src/chronojump.cs:744
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Databáze je nyní zde: {0}"
@@ -3036,7 +3045,7 @@ msgstr "Běh nebude zaznamenán, první dráha je mimo časový limit"
 
 #. windowTitle
 #: ../src/execute/run.cs:803 ../src/exportSession.cs:539
-#: ../src/gui/chronojump.cs:3475 ../src/gui/run.cs:1197 ../src/gui/run.cs:1260
+#: ../src/gui/chronojump.cs:3525 ../src/gui/run.cs:1197 ../src/gui/run.cs:1260
 #: ../src/gui/run.cs:1310
 msgid "Tracks"
 msgstr "Dráhy"
@@ -3305,126 +3314,126 @@ msgid "Exported to file: "
 msgstr "Exportováno do souboru: "
 
 #. if(recuperatedString == "")
-#: ../src/gui/chronojump.cs:469
+#: ../src/gui/chronojump.cs:472
 msgid "Ready."
 msgstr "Připraveno."
 
-#: ../src/gui/chronojump.cs:548
+#: ../src/gui/chronojump.cs:551
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Soubor verze databáze ChronoJump: {0}"
 
-#: ../src/gui/chronojump.cs:649
+#: ../src/gui/chronojump.cs:652
 msgid "Preferences loaded"
 msgstr "Předvolby načteny"
 
-#: ../src/gui/chronojump.cs:806
+#: ../src/gui/chronojump.cs:809
 msgid "Show all tests of"
 msgstr "Zobrazit všechny testy osoby"
 
-#: ../src/gui/chronojump.cs:813
+#: ../src/gui/chronojump.cs:816
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Smazat osobu {0} z této série cvičení"
 
-#: ../src/gui/chronojump.cs:838
+#: ../src/gui/chronojump.cs:841
 msgid "Please, first fill evaluator data."
 msgstr "Nejdříve prosím vyplňte údaje hodnotitele."
 
-#: ../src/gui/chronojump.cs:840
+#: ../src/gui/chronojump.cs:843
 msgid "Please, first check evaluator data is ok."
 msgstr "Nejdříve prosím zkontrolujte zda jsou údaje hodnotitele správné."
 
-#: ../src/gui/chronojump.cs:854
+#: ../src/gui/chronojump.cs:857
 msgid "Your version of Chronojump is too old for this."
 msgstr "Vaše verze aplikace ChronoJump je pro tyto účely příliš stará."
 
 #. false: don't do insertion
 #. false: don't do insertion
-#: ../src/gui/chronojump.cs:920
+#: ../src/gui/chronojump.cs:923
 msgid "Do you want to upload evaluator data now?"
 msgstr "Chcete nyní odeslat údaje hodnotitele?"
 
-#: ../src/gui/chronojump.cs:924
+#: ../src/gui/chronojump.cs:927
 msgid "Currently cannot upload."
 msgstr "Nyní nelze odesílat."
 
-#: ../src/gui/chronojump.cs:990
+#: ../src/gui/chronojump.cs:993
 msgid "<b>Weight</b> of the following persons is not ok:"
 msgstr "<b>Váha</b> následujících osob není v pořádku:"
 
-#: ../src/gui/chronojump.cs:1004
+#: ../src/gui/chronojump.cs:1007
 msgid "<b>Country</b> of the following persons is undefined:"
 msgstr "<b>Země</b> není u následujících osob zadána:"
 
-#: ../src/gui/chronojump.cs:1018
+#: ../src/gui/chronojump.cs:1021
 msgid "<b>Sport</b> of the following persons is undefined:"
 msgstr "<b>Sport</b> není u následujících osob zadán:"
 
-#: ../src/gui/chronojump.cs:1032
+#: ../src/gui/chronojump.cs:1035
 msgid "Please, fix this before uploading:"
 msgstr "Před odesláním opravte prosím následující chyby:"
 
-#: ../src/gui/chronojump.cs:1034
+#: ../src/gui/chronojump.cs:1037
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr ""
 "Nebo, když budete sérii cvičení znovu odesílat, označte tyto osoby, aby se "
 "neodesílaly."
 
-#: ../src/gui/chronojump.cs:1051
+#: ../src/gui/chronojump.cs:1054
 msgid "Session will be uploaded to server."
 msgstr "Série cvičení bude odeslána na server."
 
-#: ../src/gui/chronojump.cs:1052
+#: ../src/gui/chronojump.cs:1055
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr "Jména, data narození a popisy osob budou skryté."
 
-#: ../src/gui/chronojump.cs:1053
+#: ../src/gui/chronojump.cs:1056
 msgid "You can upload again this session if you add more data or persons."
 msgstr ""
 "Můžete tuto sérii cvičení odeslat znovu, když přidáte další data nebo osoby."
 
-#: ../src/gui/chronojump.cs:1056
+#: ../src/gui/chronojump.cs:1059
 msgid "Session has been uploaded to server before."
 msgstr "Série cvičení byla na server odeslaná již dříve."
 
-#: ../src/gui/chronojump.cs:1057
+#: ../src/gui/chronojump.cs:1060
 msgid "Uploading new data."
 msgstr "Odesílají se nová data."
 
-#: ../src/gui/chronojump.cs:1059
+#: ../src/gui/chronojump.cs:1062
 msgid "All the uploaded data will be licensed as:"
 msgstr "Všechna odeslaná data budou licencována jako:"
 
-#: ../src/gui/chronojump.cs:1060
+#: ../src/gui/chronojump.cs:1063
 msgid "Creative Commons Attribution 3.0"
 msgstr "Creative Commons Attribution 3.0"
 
 #. label_link
-#: ../src/gui/chronojump.cs:1065
+#: ../src/gui/chronojump.cs:1068
 msgid "Are you sure you want to upload this session to server?"
 msgstr "Opravdu chcete tuto sérii cvičení odeslat na server?"
 
-#: ../src/gui/chronojump.cs:1169 ../src/gui/chronojump.cs:1239
-#: ../src/gui/chronojump.cs:1307 ../src/gui/chronojump.cs:1376
-#: ../src/gui/chronojump.cs:1444 ../src/gui/chronojump.cs:1512
-#: ../src/gui/chronojump.cs:1595
+#: ../src/gui/chronojump.cs:1172 ../src/gui/chronojump.cs:1242
+#: ../src/gui/chronojump.cs:1310 ../src/gui/chronojump.cs:1379
+#: ../src/gui/chronojump.cs:1447 ../src/gui/chronojump.cs:1515
+#: ../src/gui/chronojump.cs:1598
 msgid "Edit selected"
 msgstr "Upravit vybraný"
 
-#: ../src/gui/chronojump.cs:1176 ../src/gui/chronojump.cs:1250
-#: ../src/gui/chronojump.cs:1314 ../src/gui/chronojump.cs:1387
-#: ../src/gui/chronojump.cs:1451 ../src/gui/chronojump.cs:1523
-#: ../src/gui/chronojump.cs:1609
+#: ../src/gui/chronojump.cs:1179 ../src/gui/chronojump.cs:1253
+#: ../src/gui/chronojump.cs:1317 ../src/gui/chronojump.cs:1390
+#: ../src/gui/chronojump.cs:1454 ../src/gui/chronojump.cs:1526
+#: ../src/gui/chronojump.cs:1612
 msgid "Delete selected"
 msgstr "Smazat vybraný"
 
-#: ../src/gui/chronojump.cs:1243 ../src/gui/chronojump.cs:1380
-#: ../src/gui/chronojump.cs:1516
+#: ../src/gui/chronojump.cs:1246 ../src/gui/chronojump.cs:1383
+#: ../src/gui/chronojump.cs:1519
 msgid "Repair selected"
 msgstr "Opravit vybraný"
 
-#: ../src/gui/chronojump.cs:1775 ../src/gui/chronojump.cs:1802
+#: ../src/gui/chronojump.cs:1778 ../src/gui/chronojump.cs:1805
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -3435,37 +3444,37 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/chronojump.cs:1864
+#: ../src/gui/chronojump.cs:1867
 msgid "Session created, now add or load persons."
 msgstr "Série cvičení byla vytvořena, nyní přidejte nebo načtěte osoby."
 
-#: ../src/gui/chronojump.cs:1938
+#: ../src/gui/chronojump.cs:1941
 msgid "Are you sure you want to delete the current session"
 msgstr "Opravdu chcete smazat současnou sérii cvičení"
 
-#: ../src/gui/chronojump.cs:1938
+#: ../src/gui/chronojump.cs:1941
 msgid "and all the session tests?"
 msgstr "a všechny testy série cvičení?"
 
-#: ../src/gui/chronojump.cs:1944
+#: ../src/gui/chronojump.cs:1947
 msgid "Deleted session and all its tests"
 msgstr "Smazána série cvičení a všechny její testy"
 
-#: ../src/gui/chronojump.cs:2033 ../src/gui/stats.cs:1227
+#: ../src/gui/chronojump.cs:2036 ../src/gui/stats.cs:1227
 msgid "Successfully added"
 msgstr "Úspěšně přidáno"
 
-#: ../src/gui/chronojump.cs:2040
+#: ../src/gui/chronojump.cs:2043
 msgid "Select number of persons to add"
 msgstr "Vyberte počet osob, které se mají přidat"
 
 #. more inserted
-#: ../src/gui/chronojump.cs:2065 ../src/gui/person.cs:604
+#: ../src/gui/chronojump.cs:2068 ../src/gui/person.cs:604
 #, csharp-format
 msgid "Successfully added {0} persons"
 msgstr "Úspěšně přidáno {0} osob"
 
-#: ../src/gui/chronojump.cs:2118
+#: ../src/gui/chronojump.cs:2121
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, runs, pulses, ...) from this session?\n"
@@ -3476,15 +3485,15 @@ msgstr ""
 "(Její osobní údaje a její testy v ostatních sériích cvičení zůstanou "
 "zachovány)"
 
-#: ../src/gui/chronojump.cs:2119
+#: ../src/gui/chronojump.cs:2122
 msgid "Current Person: "
 msgstr "Současná osoba:"
 
-#: ../src/gui/chronojump.cs:2126
+#: ../src/gui/chronojump.cs:2129
 msgid "Deleted person and all his/her tests on this session"
 msgstr "Vymazána osoba a všechny její testy v této sérii cvičení"
 
-#: ../src/gui/chronojump.cs:2358
+#: ../src/gui/chronojump.cs:2408
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -3492,7 +3501,7 @@ msgstr ""
 "Pro úplné zrušení se prosím dotkněte kontaktu plošiny.\n"
 "Potom zmáčkněte tlačítko\n"
 
-#: ../src/gui/chronojump.cs:2401
+#: ../src/gui/chronojump.cs:2451
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -3503,7 +3512,7 @@ msgstr ""
 "Chronopic [{0}].\n"
 "Potom zmáčkněte tlačítko\n"
 
-#: ../src/gui/chronojump.cs:2463
+#: ../src/gui/chronojump.cs:2513
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -3511,7 +3520,7 @@ msgstr ""
 "Pro úplné dokončení se prosím dotkněte kontaktu plošiny.\n"
 "Potom zmáčkněte toto tlačítko:\n"
 
-#: ../src/gui/chronojump.cs:2517
+#: ../src/gui/chronojump.cs:2567
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
@@ -3519,126 +3528,126 @@ msgstr ""
 "Pro úplné dokončení se prosím dotkněte kontaktu plošiny na zařízení(ch) "
 "Chronopic [{0}]."
 
-#: ../src/gui/chronojump.cs:2518
+#: ../src/gui/chronojump.cs:2568
 msgid "Then press this button:\n"
 msgstr "Potom zmáčkněte toto tlačítko:\n"
 
-#: ../src/gui/chronojump.cs:2850
+#: ../src/gui/chronojump.cs:2900
 msgid "Execute Jump"
 msgstr "Vykonat skok"
 
 #. windowTitle
-#: ../src/gui/chronojump.cs:2851 ../src/gui/chronojump.cs:3278
-#: ../src/gui/chronojump.cs:3594
+#: ../src/gui/chronojump.cs:2901 ../src/gui/chronojump.cs:3328
+#: ../src/gui/chronojump.cs:3644
 msgid "Phases"
 msgstr "Fáze"
 
-#: ../src/gui/chronojump.cs:3047
+#: ../src/gui/chronojump.cs:3097
 msgid "Execute Reactive Jump"
 msgstr "Vykonat reakční skok"
 
-#: ../src/gui/chronojump.cs:3277
+#: ../src/gui/chronojump.cs:3327
 msgid "Execute Run"
 msgstr "Vykonat běh"
 
-#: ../src/gui/chronojump.cs:3474
+#: ../src/gui/chronojump.cs:3524
 msgid "Execute Intervallic Run"
 msgstr "Vykonat intervalový běh"
 
-#: ../src/gui/chronojump.cs:3593
+#: ../src/gui/chronojump.cs:3643
 msgid "Execute Reaction Time"
 msgstr "Vykonat dobu reakce"
 
-#: ../src/gui/chronojump.cs:3745
+#: ../src/gui/chronojump.cs:3795
 msgid "Execute Pulse"
 msgstr "Vykonat pulz"
 
-#: ../src/gui/chronojump.cs:3882
+#: ../src/gui/chronojump.cs:3932
 msgid "Execute Multi Chronopic"
 msgstr "Spustit Multi Chronopic"
 
 #. windowTitle
-#: ../src/gui/chronojump.cs:3883
+#: ../src/gui/chronojump.cs:3933
 msgid "Changes"
 msgstr "Změny"
 
-#: ../src/gui/chronojump.cs:4075
+#: ../src/gui/chronojump.cs:4125
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Nelze aktualizovat. Tento test byl pravděpodobně smazán."
 
-#: ../src/gui/chronojump.cs:4362
+#: ../src/gui/chronojump.cs:4412
 msgid "Do you want to delete selected jump?"
 msgstr "Chcete smazat vybraný skok?"
 
-#: ../src/gui/chronojump.cs:4363
+#: ../src/gui/chronojump.cs:4413
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Upozornění: Smazáním reakčních meziskoků se smaže celý skok"
 
-#: ../src/gui/chronojump.cs:4376
+#: ../src/gui/chronojump.cs:4426
 msgid "Deleted jump"
 msgstr "Smazán skok"
 
-#: ../src/gui/chronojump.cs:4390
+#: ../src/gui/chronojump.cs:4440
 msgid "Deleted reactive jump"
 msgstr "Smazán reakční skok"
 
-#: ../src/gui/chronojump.cs:4425
+#: ../src/gui/chronojump.cs:4475
 msgid "Do you want to delete selected run?"
 msgstr "Chcete smazat vybraný běh?"
 
-#: ../src/gui/chronojump.cs:4426
+#: ../src/gui/chronojump.cs:4476
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Upozornění: Smazáním intervalových meziběhů se smaže celý běh"
 
-#: ../src/gui/chronojump.cs:4439
+#: ../src/gui/chronojump.cs:4489
 msgid "Deleted selected run"
 msgstr "Smazán vybraný běh"
 
-#: ../src/gui/chronojump.cs:4454
+#: ../src/gui/chronojump.cs:4504
 msgid "Deleted intervallic run"
 msgstr "Smazán intervalový běh"
 
-#: ../src/gui/chronojump.cs:4487
+#: ../src/gui/chronojump.cs:4537
 msgid "Deleted reaction time"
 msgstr "Smazána doba reakce"
 
-#: ../src/gui/chronojump.cs:4521
+#: ../src/gui/chronojump.cs:4571
 msgid "Deleted pulse"
 msgstr "Smazán pulz"
 
-#: ../src/gui/chronojump.cs:4540
+#: ../src/gui/chronojump.cs:4590
 msgid "Do you want to delete selected test?"
 msgstr "Chcete smazat vybraný test?"
 
-#: ../src/gui/chronojump.cs:4553
+#: ../src/gui/chronojump.cs:4603
 msgid "Deleted multi chronopic"
 msgstr "Smazán Multi Chronopic"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4579
+#: ../src/gui/chronojump.cs:4629
 msgid "Added simple jump."
 msgstr "Přidán jednoduchý skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4582
+#: ../src/gui/chronojump.cs:4632
 msgid "Added reactive jump."
 msgstr "Přidán reakční skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4599
+#: ../src/gui/chronojump.cs:4649
 msgid "Added simple run."
 msgstr "Přidán jednoduchý běh"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4602
+#: ../src/gui/chronojump.cs:4652
 msgid "Added intervallic run."
 msgstr "Přidán intervalový běh"
 
-#: ../src/gui/chronojump.cs:4768
+#: ../src/gui/chronojump.cs:4818
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../src/gui/chronojump.cs:5092
+#: ../src/gui/chronojump.cs:5142
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Provedeno pro testovací účely. ChronoJump bude nestandardně ukončen."
 
@@ -4994,1271 +5003,1271 @@ msgstr "Odesláno"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.CountryUndefinedID
-#: ../src/sqlite/country.cs:177
+#: ../src/sqlite/country.cs:182
 msgid "Algeria"
 msgstr "Alžírsko"
 
-#: ../src/sqlite/country.cs:178
+#: ../src/sqlite/country.cs:183
 msgid "Angola"
 msgstr "Angola"
 
-#: ../src/sqlite/country.cs:179
+#: ../src/sqlite/country.cs:184
 msgid "Benin"
 msgstr "Benin"
 
-#: ../src/sqlite/country.cs:180
+#: ../src/sqlite/country.cs:185
 msgid "Botswana"
 msgstr "Botswana"
 
-#: ../src/sqlite/country.cs:181
+#: ../src/sqlite/country.cs:186
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: ../src/sqlite/country.cs:182
+#: ../src/sqlite/country.cs:187
 msgid "Burundi"
 msgstr "Burundi"
 
-#: ../src/sqlite/country.cs:183
+#: ../src/sqlite/country.cs:188
 msgid "Cameroon"
 msgstr "Kamerun"
 
-#: ../src/sqlite/country.cs:184
+#: ../src/sqlite/country.cs:189
 msgid "Cape Verde"
 msgstr "Kapverdy"
 
-#: ../src/sqlite/country.cs:185
+#: ../src/sqlite/country.cs:190
 msgid "Central African Republic"
 msgstr "Středoafrická republika"
 
-#: ../src/sqlite/country.cs:186
+#: ../src/sqlite/country.cs:191
 msgid "Chad"
 msgstr "Čad"
 
-#: ../src/sqlite/country.cs:187
+#: ../src/sqlite/country.cs:192
 msgid "Comoros"
 msgstr "Komory"
 
-#: ../src/sqlite/country.cs:188
+#: ../src/sqlite/country.cs:193
 msgid "Congo, Democratic Republic of the"
 msgstr "Zair"
 
-#: ../src/sqlite/country.cs:189
+#: ../src/sqlite/country.cs:194
 msgid "Congo, Republic of the"
 msgstr "Kongo"
 
-#: ../src/sqlite/country.cs:190
+#: ../src/sqlite/country.cs:195
 msgid "Cote d'Ivoire"
 msgstr "Pobřeží slonoviny"
 
-#: ../src/sqlite/country.cs:191
+#: ../src/sqlite/country.cs:196
 msgid "Djibouti"
 msgstr "Džibutsko"
 
-#: ../src/sqlite/country.cs:192
+#: ../src/sqlite/country.cs:197
 msgid "Egypt"
 msgstr "Egypt"
 
-#: ../src/sqlite/country.cs:193
+#: ../src/sqlite/country.cs:198
 msgid "Equatorial Guinea"
 msgstr "Rovníková Guinea"
 
-#: ../src/sqlite/country.cs:194
+#: ../src/sqlite/country.cs:199
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: ../src/sqlite/country.cs:195
+#: ../src/sqlite/country.cs:200
 msgid "Ethiopia"
 msgstr "Etiopie"
 
-#: ../src/sqlite/country.cs:196
+#: ../src/sqlite/country.cs:201
 msgid "Gabon"
 msgstr "Gabun"
 
-#: ../src/sqlite/country.cs:197
+#: ../src/sqlite/country.cs:202
 msgid "Gambia"
 msgstr "Gambie"
 
-#: ../src/sqlite/country.cs:198
+#: ../src/sqlite/country.cs:203
 msgid "Ghana"
 msgstr "Ghana"
 
-#: ../src/sqlite/country.cs:199
+#: ../src/sqlite/country.cs:204
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bissau"
 
-#: ../src/sqlite/country.cs:200
+#: ../src/sqlite/country.cs:205
 msgid "Guinea"
 msgstr "Guinea"
 
-#: ../src/sqlite/country.cs:201
+#: ../src/sqlite/country.cs:206
 msgid "Kenya"
 msgstr "Keňa"
 
-#: ../src/sqlite/country.cs:202
+#: ../src/sqlite/country.cs:207
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: ../src/sqlite/country.cs:203
+#: ../src/sqlite/country.cs:208
 msgid "Liberia"
 msgstr "Libérie"
 
-#: ../src/sqlite/country.cs:204
+#: ../src/sqlite/country.cs:209
 msgid "Libyan Arab Jamahiriya"
 msgstr "Libye"
 
-#: ../src/sqlite/country.cs:205
+#: ../src/sqlite/country.cs:210
 msgid "Madagascar"
 msgstr "Madagaskar"
 
-#: ../src/sqlite/country.cs:206
+#: ../src/sqlite/country.cs:211
 msgid "Malawi"
 msgstr "Malavi"
 
-#: ../src/sqlite/country.cs:207
+#: ../src/sqlite/country.cs:212
 msgid "Mali"
 msgstr "Mali"
 
-#: ../src/sqlite/country.cs:208
+#: ../src/sqlite/country.cs:213
 msgid "Mauritania"
 msgstr "Mauretánie"
 
-#: ../src/sqlite/country.cs:209
+#: ../src/sqlite/country.cs:214
 msgid "Mauritius"
 msgstr "Mauricius"
 
-#: ../src/sqlite/country.cs:210
+#: ../src/sqlite/country.cs:215
 msgid "Mayotte"
 msgstr "Mahoré"
 
-#: ../src/sqlite/country.cs:211
+#: ../src/sqlite/country.cs:216
 msgid "Morocco"
 msgstr "Maroko"
 
-#: ../src/sqlite/country.cs:212
+#: ../src/sqlite/country.cs:217
 msgid "Mozambique"
 msgstr "Mozambik"
 
-#: ../src/sqlite/country.cs:213
+#: ../src/sqlite/country.cs:218
 msgid "Namibia"
 msgstr "Namíbie"
 
-#: ../src/sqlite/country.cs:214
+#: ../src/sqlite/country.cs:219
 msgid "Nigeria"
 msgstr "Nigérie"
 
-#: ../src/sqlite/country.cs:215
+#: ../src/sqlite/country.cs:220
 msgid "Niger"
 msgstr "Niger"
 
-#: ../src/sqlite/country.cs:216
+#: ../src/sqlite/country.cs:221
 msgid "Reunion"
 msgstr "Reunion"
 
-#: ../src/sqlite/country.cs:217
+#: ../src/sqlite/country.cs:222
 msgid "Rwanda"
 msgstr "Rwanda"
 
-#: ../src/sqlite/country.cs:218
+#: ../src/sqlite/country.cs:223
 msgid "Saint Helena"
 msgstr "Svatá Helena"
 
-#: ../src/sqlite/country.cs:219
+#: ../src/sqlite/country.cs:224
 msgid "Sao Tome and Principe"
 msgstr "Svatý Tomáš a Princův ostrov"
 
-#: ../src/sqlite/country.cs:220
+#: ../src/sqlite/country.cs:225
 msgid "Senegal"
 msgstr "Senegal"
 
-#: ../src/sqlite/country.cs:221
+#: ../src/sqlite/country.cs:226
 msgid "Seychelles"
 msgstr "Seyschely"
 
-#: ../src/sqlite/country.cs:222
+#: ../src/sqlite/country.cs:227
 msgid "Sierra Leone"
 msgstr "Siera Leone"
 
-#: ../src/sqlite/country.cs:223
+#: ../src/sqlite/country.cs:228
 msgid "Somalia"
 msgstr "Somálsko"
 
-#: ../src/sqlite/country.cs:224
+#: ../src/sqlite/country.cs:229
 msgid "South Africa"
 msgstr "Jihoafrická republika"
 
-#: ../src/sqlite/country.cs:225
+#: ../src/sqlite/country.cs:230
 msgid "Sudan"
 msgstr "Súdán"
 
-#: ../src/sqlite/country.cs:226
+#: ../src/sqlite/country.cs:231
 msgid "Suriname"
 msgstr "Surinam"
 
-#: ../src/sqlite/country.cs:227
+#: ../src/sqlite/country.cs:232
 msgid "Swaziland"
 msgstr "Svazijsko"
 
-#: ../src/sqlite/country.cs:228
+#: ../src/sqlite/country.cs:233
 msgid "Tanzania"
 msgstr "Tanzánie"
 
-#: ../src/sqlite/country.cs:229
+#: ../src/sqlite/country.cs:234
 msgid "Togo"
 msgstr "Togo"
 
-#: ../src/sqlite/country.cs:230
+#: ../src/sqlite/country.cs:235
 msgid "Tunisia"
 msgstr "Tunisko"
 
-#: ../src/sqlite/country.cs:231
+#: ../src/sqlite/country.cs:236
 msgid "Uganda"
 msgstr "Uganda"
 
-#: ../src/sqlite/country.cs:232
+#: ../src/sqlite/country.cs:237
 msgid "Western Sahara"
 msgstr "Západní Sahara"
 
-#: ../src/sqlite/country.cs:233
+#: ../src/sqlite/country.cs:238
 msgid "Zambia"
 msgstr "Zambie"
 
-#: ../src/sqlite/country.cs:234
+#: ../src/sqlite/country.cs:239
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../src/sqlite/country.cs:235
+#: ../src/sqlite/country.cs:240
 msgid "Antarctica (the territory South of 60 deg S)"
 msgstr "Antarktida (oblast jižně od 60. jižní rovnoběžky)"
 
-#: ../src/sqlite/country.cs:236
+#: ../src/sqlite/country.cs:241
 msgid "Bouvet Island (Bouvetoya)"
 msgstr "Bouvetův ostrov"
 
-#: ../src/sqlite/country.cs:237
+#: ../src/sqlite/country.cs:242
 msgid "French Southern Territories"
 msgstr "Francouzská jižní a antarktická území"
 
-#: ../src/sqlite/country.cs:238
+#: ../src/sqlite/country.cs:243
 msgid "Heard Island and McDonald Islands"
 msgstr "Heardův ostrov a McDonaldův ostrov"
 
-#: ../src/sqlite/country.cs:239
+#: ../src/sqlite/country.cs:244
 msgid "South Georgia and the South Sandwich Islands"
 msgstr "Jižní Georgie a Jižní Sandwichovy ostrovy"
 
-#: ../src/sqlite/country.cs:240
+#: ../src/sqlite/country.cs:245
 msgid "Afghanistan"
 msgstr "Afghánistán"
 
-#: ../src/sqlite/country.cs:241
+#: ../src/sqlite/country.cs:246
 msgid "Armenia"
 msgstr "Arménie"
 
-#: ../src/sqlite/country.cs:242
+#: ../src/sqlite/country.cs:247
 msgid "Azerbaijan"
 msgstr "Ázerbájdžán"
 
-#: ../src/sqlite/country.cs:243
+#: ../src/sqlite/country.cs:248
 msgid "Bahrain"
 msgstr "Bahrajn"
 
-#: ../src/sqlite/country.cs:244
+#: ../src/sqlite/country.cs:249
 msgid "Bangladesh"
 msgstr "Bangladéš"
 
-#: ../src/sqlite/country.cs:245
+#: ../src/sqlite/country.cs:250
 msgid "Bhutan"
 msgstr "Bhútán"
 
-#: ../src/sqlite/country.cs:246
+#: ../src/sqlite/country.cs:251
 msgid "British Indian Ocean Territory (Chagos Archipelago)"
 msgstr "Britské Indické oceánské teritorium"
 
-#: ../src/sqlite/country.cs:247
+#: ../src/sqlite/country.cs:252
 msgid "Brunei Darussalam"
 msgstr "Sultanát Brunej"
 
-#: ../src/sqlite/country.cs:248
+#: ../src/sqlite/country.cs:253
 msgid "Cambodia"
 msgstr "Kambodža"
 
-#: ../src/sqlite/country.cs:249
+#: ../src/sqlite/country.cs:254
 msgid "China"
 msgstr "Čína"
 
-#: ../src/sqlite/country.cs:250
+#: ../src/sqlite/country.cs:255
 msgid "Christmas Island"
 msgstr "Vánoční ostrovy"
 
-#: ../src/sqlite/country.cs:251
+#: ../src/sqlite/country.cs:256
 msgid "Cocos (Keeling) Islands"
 msgstr "Kokosové ostrovy"
 
-#: ../src/sqlite/country.cs:252
+#: ../src/sqlite/country.cs:257
 msgid "Cyprus"
 msgstr "Kypr"
 
-#: ../src/sqlite/country.cs:253
+#: ../src/sqlite/country.cs:258
 msgid "Georgia"
 msgstr "Gruzie"
 
-#: ../src/sqlite/country.cs:254
+#: ../src/sqlite/country.cs:259
 msgid "Hong Kong"
 msgstr "Hongkong"
 
-#: ../src/sqlite/country.cs:255
+#: ../src/sqlite/country.cs:260
 msgid "India"
 msgstr "Indie"
 
-#: ../src/sqlite/country.cs:256
+#: ../src/sqlite/country.cs:261
 msgid "Indonesia"
 msgstr "Indonésie"
 
-#: ../src/sqlite/country.cs:257
+#: ../src/sqlite/country.cs:262
 msgid "Iran"
 msgstr "Írán"
 
-#: ../src/sqlite/country.cs:258
+#: ../src/sqlite/country.cs:263
 msgid "Iraq"
 msgstr "Írák"
 
-#: ../src/sqlite/country.cs:259
+#: ../src/sqlite/country.cs:264
 msgid "Israel"
 msgstr "Izrael"
 
-#: ../src/sqlite/country.cs:260
+#: ../src/sqlite/country.cs:265
 msgid "Japan"
 msgstr "Japonsko"
 
-#: ../src/sqlite/country.cs:261
+#: ../src/sqlite/country.cs:266
 msgid "Jordan"
 msgstr "Jordánsko"
 
-#: ../src/sqlite/country.cs:262
+#: ../src/sqlite/country.cs:267
 msgid "Kazakhstan"
 msgstr "Kazachstán"
 
-#: ../src/sqlite/country.cs:263
+#: ../src/sqlite/country.cs:268
 msgid "Korea, Democratic People's Republic of"
 msgstr "Severní Korea"
 
-#: ../src/sqlite/country.cs:264
+#: ../src/sqlite/country.cs:269
 msgid "Korea, Republic of"
 msgstr "Jižní Korea"
 
-#: ../src/sqlite/country.cs:265
+#: ../src/sqlite/country.cs:270
 msgid "Kuwait"
 msgstr "Kuvajt"
 
-#: ../src/sqlite/country.cs:266
+#: ../src/sqlite/country.cs:271
 msgid "Kyrgyz Republic"
 msgstr "Kyrgystán"
 
-#: ../src/sqlite/country.cs:267
+#: ../src/sqlite/country.cs:272
 msgid "Lao People's Democratic Republic"
 msgstr "Laos"
 
-#: ../src/sqlite/country.cs:268
+#: ../src/sqlite/country.cs:273
 msgid "Lebanon"
 msgstr "Libanon"
 
-#: ../src/sqlite/country.cs:269
+#: ../src/sqlite/country.cs:274
 msgid "Macao"
 msgstr "Makao"
 
-#: ../src/sqlite/country.cs:270
+#: ../src/sqlite/country.cs:275
 msgid "Malaysia"
 msgstr "Malajsie"
 
-#: ../src/sqlite/country.cs:271
+#: ../src/sqlite/country.cs:276
 msgid "Maldives"
 msgstr "Maledivi"
 
-#: ../src/sqlite/country.cs:272
+#: ../src/sqlite/country.cs:277
 msgid "Mongolia"
 msgstr "Mongolsko"
 
-#: ../src/sqlite/country.cs:273
+#: ../src/sqlite/country.cs:278
 msgid "Myanmar"
 msgstr "Barma"
 
-#: ../src/sqlite/country.cs:274
+#: ../src/sqlite/country.cs:279
 msgid "Nepal"
 msgstr "Nepál"
 
-#: ../src/sqlite/country.cs:275
+#: ../src/sqlite/country.cs:280
 msgid "Oman"
 msgstr "Ómán"
 
-#: ../src/sqlite/country.cs:276
+#: ../src/sqlite/country.cs:281
 msgid "Pakistan"
 msgstr "Pákistán"
 
-#: ../src/sqlite/country.cs:277
+#: ../src/sqlite/country.cs:282
 msgid "Palestinian Territory"
 msgstr "Palestina"
 
-#: ../src/sqlite/country.cs:278
+#: ../src/sqlite/country.cs:283
 msgid "Philippines"
 msgstr "Filipíny"
 
-#: ../src/sqlite/country.cs:279
+#: ../src/sqlite/country.cs:284
 msgid "Qatar"
 msgstr "Katar"
 
-#: ../src/sqlite/country.cs:280
+#: ../src/sqlite/country.cs:285
 msgid "Saudi Arabia"
 msgstr "Saudská Arábie"
 
-#: ../src/sqlite/country.cs:281
+#: ../src/sqlite/country.cs:286
 msgid "Singapore"
 msgstr "Singapur"
 
-#: ../src/sqlite/country.cs:282
+#: ../src/sqlite/country.cs:287
 msgid "Sri Lanka"
 msgstr "Srí Lanka"
 
-#: ../src/sqlite/country.cs:283
+#: ../src/sqlite/country.cs:288
 msgid "Syrian Arab Republic"
 msgstr "Sýrie"
 
-#: ../src/sqlite/country.cs:284
+#: ../src/sqlite/country.cs:289
 msgid "Taiwan"
 msgstr "Tchaj-wan"
 
-#: ../src/sqlite/country.cs:285
+#: ../src/sqlite/country.cs:290
 msgid "Tajikistan"
 msgstr "Tádžistán"
 
-#: ../src/sqlite/country.cs:286
+#: ../src/sqlite/country.cs:291
 msgid "Thailand"
 msgstr "Thajsko"
 
-#: ../src/sqlite/country.cs:287
+#: ../src/sqlite/country.cs:292
 msgid "Timor-Leste"
 msgstr "Východní Timor"
 
-#: ../src/sqlite/country.cs:288
+#: ../src/sqlite/country.cs:293
 msgid "Turkey"
 msgstr "Turecko"
 
-#: ../src/sqlite/country.cs:289
+#: ../src/sqlite/country.cs:294
 msgid "Turkmenistan"
 msgstr "Turkmenistán"
 
-#: ../src/sqlite/country.cs:290
+#: ../src/sqlite/country.cs:295
 msgid "United Arab Emirates"
 msgstr "Spojené Arabské Emiráty"
 
-#: ../src/sqlite/country.cs:291
+#: ../src/sqlite/country.cs:296
 msgid "Uzbekistan"
 msgstr "Uzbekistán"
 
-#: ../src/sqlite/country.cs:292
+#: ../src/sqlite/country.cs:297
 msgid "Vietnam"
 msgstr "Vietnam"
 
-#: ../src/sqlite/country.cs:293
+#: ../src/sqlite/country.cs:298
 msgid "Yemen"
 msgstr "Jemen"
 
-#: ../src/sqlite/country.cs:294
+#: ../src/sqlite/country.cs:299
 msgid "Åland Islands"
 msgstr "Alandy"
 
-#: ../src/sqlite/country.cs:295
+#: ../src/sqlite/country.cs:300
 msgid "Albania"
 msgstr "Albánie"
 
-#: ../src/sqlite/country.cs:296
+#: ../src/sqlite/country.cs:301
 msgid "Andorra"
 msgstr "Andorra"
 
-#: ../src/sqlite/country.cs:297
+#: ../src/sqlite/country.cs:302
 msgid "Austria"
 msgstr "Rakousko"
 
-#: ../src/sqlite/country.cs:298
+#: ../src/sqlite/country.cs:303
 msgid "Belarus"
 msgstr "Bělorusko"
 
-#: ../src/sqlite/country.cs:299
+#: ../src/sqlite/country.cs:304
 msgid "Belgium"
 msgstr "Belgie"
 
-#: ../src/sqlite/country.cs:300
+#: ../src/sqlite/country.cs:305
 msgid "Bosnia and Herzegovina"
 msgstr "Bosna a Hercegovina"
 
-#: ../src/sqlite/country.cs:301
+#: ../src/sqlite/country.cs:306
 msgid "Bulgaria"
 msgstr "Bulharsko"
 
-#: ../src/sqlite/country.cs:302
+#: ../src/sqlite/country.cs:307
 msgid "Croatia"
 msgstr "Řecko"
 
-#: ../src/sqlite/country.cs:303
+#: ../src/sqlite/country.cs:308
 msgid "Czech Republic"
 msgstr "Česká republika"
 
-#: ../src/sqlite/country.cs:304
+#: ../src/sqlite/country.cs:309
 msgid "Denmark"
 msgstr "Dánsko"
 
-#: ../src/sqlite/country.cs:305
+#: ../src/sqlite/country.cs:310
 msgid "Estonia"
 msgstr "Estonsko"
 
-#: ../src/sqlite/country.cs:306
+#: ../src/sqlite/country.cs:311
 msgid "Faroe Islands"
 msgstr "Faerské ostrovy"
 
-#: ../src/sqlite/country.cs:307
+#: ../src/sqlite/country.cs:312
 msgid "Finland"
 msgstr "Finsko"
 
-#: ../src/sqlite/country.cs:308
+#: ../src/sqlite/country.cs:313
 msgid "France"
 msgstr "Francie"
 
-#: ../src/sqlite/country.cs:309
+#: ../src/sqlite/country.cs:314
 msgid "Germany"
 msgstr "Německo"
 
-#: ../src/sqlite/country.cs:310
+#: ../src/sqlite/country.cs:315
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../src/sqlite/country.cs:311
+#: ../src/sqlite/country.cs:316
 msgid "Greece"
 msgstr "Řecko"
 
-#: ../src/sqlite/country.cs:312
+#: ../src/sqlite/country.cs:317
 msgid "Guernsey"
 msgstr "Guernsey"
 
-#: ../src/sqlite/country.cs:313
+#: ../src/sqlite/country.cs:318
 msgid "Holy See (Vatican City State)"
 msgstr "Vatikán"
 
-#: ../src/sqlite/country.cs:314
+#: ../src/sqlite/country.cs:319
 msgid "Hungary"
 msgstr "Maďarsko"
 
-#: ../src/sqlite/country.cs:315
+#: ../src/sqlite/country.cs:320
 msgid "Iceland"
 msgstr "Island"
 
-#: ../src/sqlite/country.cs:316
+#: ../src/sqlite/country.cs:321
 msgid "Ireland"
 msgstr "Irsko"
 
-#: ../src/sqlite/country.cs:317
+#: ../src/sqlite/country.cs:322
 msgid "Isle of Man"
 msgstr "Ostrov Man"
 
-#: ../src/sqlite/country.cs:318
+#: ../src/sqlite/country.cs:323
 msgid "Italy"
 msgstr "Itálie"
 
-#: ../src/sqlite/country.cs:319
+#: ../src/sqlite/country.cs:324
 msgid "Jersey"
 msgstr "Jersey"
 
-#: ../src/sqlite/country.cs:320
+#: ../src/sqlite/country.cs:325
 msgid "Latvia"
 msgstr "Lotyšsko"
 
-#: ../src/sqlite/country.cs:321
+#: ../src/sqlite/country.cs:326
 msgid "Liechtenstein"
 msgstr "Lichtnštejnsko"
 
-#: ../src/sqlite/country.cs:322
+#: ../src/sqlite/country.cs:327
 msgid "Lithuania"
 msgstr "Litva"
 
-#: ../src/sqlite/country.cs:323
+#: ../src/sqlite/country.cs:328
 msgid "Luxembourg"
 msgstr "Lucembursko"
 
-#: ../src/sqlite/country.cs:324
+#: ../src/sqlite/country.cs:329
 msgid "Macedonia"
 msgstr "Makedonie"
 
-#: ../src/sqlite/country.cs:325
+#: ../src/sqlite/country.cs:330
 msgid "Malta"
 msgstr "Malta"
 
-#: ../src/sqlite/country.cs:326
+#: ../src/sqlite/country.cs:331
 msgid "Moldova"
 msgstr "Moldávie"
 
-#: ../src/sqlite/country.cs:327
+#: ../src/sqlite/country.cs:332
 msgid "Monaco"
 msgstr "Monako"
 
-#: ../src/sqlite/country.cs:328
+#: ../src/sqlite/country.cs:333
 msgid "Montenegro"
 msgstr "Černá hora"
 
-#: ../src/sqlite/country.cs:329
+#: ../src/sqlite/country.cs:334
 msgid "Netherlands"
 msgstr "Nizozemí"
 
-#: ../src/sqlite/country.cs:330
+#: ../src/sqlite/country.cs:335
 msgid "Norway"
 msgstr "Norsko"
 
-#: ../src/sqlite/country.cs:331
+#: ../src/sqlite/country.cs:336
 msgid "Poland"
 msgstr "Polsko"
 
-#: ../src/sqlite/country.cs:332
+#: ../src/sqlite/country.cs:337
 msgid "Portugal"
 msgstr "Portugalsko"
 
-#: ../src/sqlite/country.cs:333
+#: ../src/sqlite/country.cs:338
 msgid "Romania"
 msgstr "Rumunsko"
 
-#: ../src/sqlite/country.cs:334
+#: ../src/sqlite/country.cs:339
 msgid "Russian Federation"
 msgstr "Rusko"
 
-#: ../src/sqlite/country.cs:335
+#: ../src/sqlite/country.cs:340
 msgid "San Marino"
 msgstr "San Marino"
 
-#: ../src/sqlite/country.cs:336
+#: ../src/sqlite/country.cs:341
 msgid "Serbia"
 msgstr "Srbsko"
 
-#: ../src/sqlite/country.cs:337
+#: ../src/sqlite/country.cs:342
 msgid "Slovakia (Slovak Republic)"
 msgstr "Slovensko"
 
-#: ../src/sqlite/country.cs:338
+#: ../src/sqlite/country.cs:343
 msgid "Slovenia"
 msgstr "Slovinsko"
 
-#: ../src/sqlite/country.cs:339
+#: ../src/sqlite/country.cs:344
 msgid "Spain"
 msgstr "Slovinsko"
 
-#: ../src/sqlite/country.cs:340
+#: ../src/sqlite/country.cs:345
 msgid "Svalbard & Jan Mayen Islands"
 msgstr "Špicberky a ostrov Jan Mayen"
 
-#: ../src/sqlite/country.cs:341
+#: ../src/sqlite/country.cs:346
 msgid "Sweden"
 msgstr "Švédsko"
 
-#: ../src/sqlite/country.cs:342
+#: ../src/sqlite/country.cs:347
 msgid "Switzerland"
 msgstr "Švýcarsko"
 
-#: ../src/sqlite/country.cs:343
+#: ../src/sqlite/country.cs:348
 msgid "Ukraine"
 msgstr "Ukrajina"
 
-#: ../src/sqlite/country.cs:344
+#: ../src/sqlite/country.cs:349
 msgid "United Kingdom of Great Britain & Northern Ireland"
 msgstr "Spojené království Velké Británie a Severního Irska"
 
-#: ../src/sqlite/country.cs:345
+#: ../src/sqlite/country.cs:350
 msgid "Anguilla"
 msgstr "Anguilla"
 
-#: ../src/sqlite/country.cs:346
+#: ../src/sqlite/country.cs:351
 msgid "Antigua and Barbuda"
 msgstr "Antigua a Barbuda"
 
-#: ../src/sqlite/country.cs:347
+#: ../src/sqlite/country.cs:352
 msgid "Aruba"
 msgstr "Aruba"
 
-#: ../src/sqlite/country.cs:348
+#: ../src/sqlite/country.cs:353
 msgid "Bahamas"
 msgstr "Bahamy"
 
-#: ../src/sqlite/country.cs:349
+#: ../src/sqlite/country.cs:354
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ../src/sqlite/country.cs:350
+#: ../src/sqlite/country.cs:355
 msgid "Belize"
 msgstr "Belize"
 
-#: ../src/sqlite/country.cs:351
+#: ../src/sqlite/country.cs:356
 msgid "Bermuda"
 msgstr "Bermudy"
 
-#: ../src/sqlite/country.cs:352
+#: ../src/sqlite/country.cs:357
 msgid "British Virgin Islands"
 msgstr "Britské Panenské ostrovy"
 
-#: ../src/sqlite/country.cs:353
+#: ../src/sqlite/country.cs:358
 msgid "Canada"
 msgstr "Kanada"
 
-#: ../src/sqlite/country.cs:354
+#: ../src/sqlite/country.cs:359
 msgid "Cayman Islands"
 msgstr "Kajmanské ostrovy"
 
-#: ../src/sqlite/country.cs:355
+#: ../src/sqlite/country.cs:360
 msgid "Costa Rica"
 msgstr "Kostarika"
 
-#: ../src/sqlite/country.cs:356
+#: ../src/sqlite/country.cs:361
 msgid "Cuba"
 msgstr "Kuba"
 
-#: ../src/sqlite/country.cs:357
+#: ../src/sqlite/country.cs:362
 msgid "Dominica, Commonwealth of"
 msgstr "Dominika"
 
-#: ../src/sqlite/country.cs:358
+#: ../src/sqlite/country.cs:363
 msgid "Dominican Republic"
 msgstr "Dominikánská republika"
 
-#: ../src/sqlite/country.cs:359
+#: ../src/sqlite/country.cs:364
 msgid "El Salvador"
 msgstr "Salvador"
 
-#: ../src/sqlite/country.cs:360
+#: ../src/sqlite/country.cs:365
 msgid "Greenland"
 msgstr "Grónsko"
 
-#: ../src/sqlite/country.cs:361
+#: ../src/sqlite/country.cs:366
 msgid "Grenada"
 msgstr "Grenada"
 
-#: ../src/sqlite/country.cs:362
+#: ../src/sqlite/country.cs:367
 msgid "Guadeloupe"
 msgstr "Guadeloupe"
 
-#: ../src/sqlite/country.cs:363
+#: ../src/sqlite/country.cs:368
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: ../src/sqlite/country.cs:364
+#: ../src/sqlite/country.cs:369
 msgid "Haiti"
 msgstr "Haiti"
 
-#: ../src/sqlite/country.cs:365
+#: ../src/sqlite/country.cs:370
 msgid "Honduras"
 msgstr "Honduras"
 
-#: ../src/sqlite/country.cs:366
+#: ../src/sqlite/country.cs:371
 msgid "Jamaica"
 msgstr "Jamaika"
 
-#: ../src/sqlite/country.cs:367
+#: ../src/sqlite/country.cs:372
 msgid "Martinique"
 msgstr "Martinique"
 
-#: ../src/sqlite/country.cs:368
+#: ../src/sqlite/country.cs:373
 msgid "Mexico"
 msgstr "Mexiko"
 
-#: ../src/sqlite/country.cs:369
+#: ../src/sqlite/country.cs:374
 msgid "Montserrat"
 msgstr "Monserat"
 
-#: ../src/sqlite/country.cs:370
+#: ../src/sqlite/country.cs:375
 msgid "Netherlands Antilles"
 msgstr "Nizozemské Antily"
 
-#: ../src/sqlite/country.cs:371
+#: ../src/sqlite/country.cs:376
 msgid "Nicaragua"
 msgstr "Nikaragua"
 
-#: ../src/sqlite/country.cs:372
+#: ../src/sqlite/country.cs:377
 msgid "Panama"
 msgstr "Panama"
 
-#: ../src/sqlite/country.cs:373
+#: ../src/sqlite/country.cs:378
 msgid "Puerto Rico"
 msgstr "Portoriko"
 
-#: ../src/sqlite/country.cs:374
+#: ../src/sqlite/country.cs:379
 msgid "Saint Barthelemy"
 msgstr "Svatý Bartoloměj"
 
-#: ../src/sqlite/country.cs:375
+#: ../src/sqlite/country.cs:380
 msgid "Saint Kitts and Nevis"
 msgstr "Svatý Kryštof a Nevis"
 
-#: ../src/sqlite/country.cs:376
+#: ../src/sqlite/country.cs:381
 msgid "Saint Lucia"
 msgstr "Svatá Lucie"
 
-#: ../src/sqlite/country.cs:377
+#: ../src/sqlite/country.cs:382
 msgid "Saint Martin"
 msgstr "Svatý Martin"
 
-#: ../src/sqlite/country.cs:378
+#: ../src/sqlite/country.cs:383
 msgid "Saint Pierre and Miquelon"
 msgstr "Miquelon"
 
-#: ../src/sqlite/country.cs:379
+#: ../src/sqlite/country.cs:384
 msgid "Saint Vincent and the Grenadines"
 msgstr "Svatý Vincenc a Grenadiny"
 
-#: ../src/sqlite/country.cs:380
+#: ../src/sqlite/country.cs:385
 msgid "Trinidad and Tobago"
 msgstr "Trinidad a Tobago"
 
-#: ../src/sqlite/country.cs:381
+#: ../src/sqlite/country.cs:386
 msgid "Turks and Caicos Islands"
 msgstr "Turks a Caicos"
 
-#: ../src/sqlite/country.cs:382
+#: ../src/sqlite/country.cs:387
 msgid "United States of America"
 msgstr "Spojené státy americké"
 
-#: ../src/sqlite/country.cs:383
+#: ../src/sqlite/country.cs:388
 msgid "United States Virgin Islands"
 msgstr "Americké Panenské ostrovy"
 
-#: ../src/sqlite/country.cs:384
+#: ../src/sqlite/country.cs:389
 msgid "American Samoa"
 msgstr "Americká Samoa"
 
-#: ../src/sqlite/country.cs:385
+#: ../src/sqlite/country.cs:390
 msgid "Australia"
 msgstr "Australie"
 
-#: ../src/sqlite/country.cs:386
+#: ../src/sqlite/country.cs:391
 msgid "Cook Islands"
 msgstr "Cookovy ostrovy"
 
-#: ../src/sqlite/country.cs:387
+#: ../src/sqlite/country.cs:392
 msgid "Fiji"
 msgstr "Fidži"
 
-#: ../src/sqlite/country.cs:388
+#: ../src/sqlite/country.cs:393
 msgid "French Polynesia"
 msgstr "Francouzská Polynézie"
 
-#: ../src/sqlite/country.cs:389
+#: ../src/sqlite/country.cs:394
 msgid "Guam"
 msgstr "Guam"
 
-#: ../src/sqlite/country.cs:390
+#: ../src/sqlite/country.cs:395
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: ../src/sqlite/country.cs:391
+#: ../src/sqlite/country.cs:396
 msgid "Marshall Islands"
 msgstr "Marschalovy ostrovy"
 
-#: ../src/sqlite/country.cs:392
+#: ../src/sqlite/country.cs:397
 msgid "Micronesia"
 msgstr "Mikronésie"
 
-#: ../src/sqlite/country.cs:393
+#: ../src/sqlite/country.cs:398
 msgid "Nauru"
 msgstr "Nauru"
 
-#: ../src/sqlite/country.cs:394
+#: ../src/sqlite/country.cs:399
 msgid "New Caledonia"
 msgstr "Nová Kaledonie"
 
-#: ../src/sqlite/country.cs:395
+#: ../src/sqlite/country.cs:400
 msgid "New Zealand"
 msgstr "Nový Zéland"
 
-#: ../src/sqlite/country.cs:396
+#: ../src/sqlite/country.cs:401
 msgid "Niue"
 msgstr "Niue"
 
-#: ../src/sqlite/country.cs:397
+#: ../src/sqlite/country.cs:402
 msgid "Norfolk Island"
 msgstr "Norfolk"
 
-#: ../src/sqlite/country.cs:398
+#: ../src/sqlite/country.cs:403
 msgid "Northern Mariana Islands"
 msgstr "Severní Mariany"
 
-#: ../src/sqlite/country.cs:399
+#: ../src/sqlite/country.cs:404
 msgid "Palau"
 msgstr "Palau"
 
-#: ../src/sqlite/country.cs:400
+#: ../src/sqlite/country.cs:405
 msgid "Papua New Guinea"
 msgstr "Papua Nová Guinea"
 
-#: ../src/sqlite/country.cs:401
+#: ../src/sqlite/country.cs:406
 msgid "Pitcairn Islands"
 msgstr "Pitcairnovy ostrovy"
 
-#: ../src/sqlite/country.cs:402
+#: ../src/sqlite/country.cs:407
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../src/sqlite/country.cs:403
+#: ../src/sqlite/country.cs:408
 msgid "Solomon Islands"
 msgstr "Solomonovy ostrovy"
 
-#: ../src/sqlite/country.cs:404
+#: ../src/sqlite/country.cs:409
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: ../src/sqlite/country.cs:405
+#: ../src/sqlite/country.cs:410
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../src/sqlite/country.cs:406
+#: ../src/sqlite/country.cs:411
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: ../src/sqlite/country.cs:407
+#: ../src/sqlite/country.cs:412
 msgid "United States Minor Outlying Islands"
 msgstr "Menší odlehlé ostrovy USA"
 
-#: ../src/sqlite/country.cs:408
+#: ../src/sqlite/country.cs:413
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: ../src/sqlite/country.cs:409
+#: ../src/sqlite/country.cs:414
 msgid "Wallis and Futuna"
 msgstr "Wallis a Futuna"
 
-#: ../src/sqlite/country.cs:410
+#: ../src/sqlite/country.cs:415
 msgid "Argentina"
 msgstr "Argentina"
 
-#: ../src/sqlite/country.cs:411
+#: ../src/sqlite/country.cs:416
 msgid "Bolivia"
 msgstr "Bolívie"
 
-#: ../src/sqlite/country.cs:412
+#: ../src/sqlite/country.cs:417
 msgid "Brazil"
 msgstr "Brazílie"
 
-#: ../src/sqlite/country.cs:413
+#: ../src/sqlite/country.cs:418
 msgid "Chile"
 msgstr "Čile"
 
-#: ../src/sqlite/country.cs:414
+#: ../src/sqlite/country.cs:419
 msgid "Colombia"
 msgstr "Kolumbie"
 
-#: ../src/sqlite/country.cs:415
+#: ../src/sqlite/country.cs:420
 msgid "Ecuador"
 msgstr "Ekvádor"
 
-#: ../src/sqlite/country.cs:416
+#: ../src/sqlite/country.cs:421
 msgid "Falkland Islands (Malvinas)"
 msgstr "Falklandské ostrovy"
 
-#: ../src/sqlite/country.cs:417
+#: ../src/sqlite/country.cs:422
 msgid "French Guiana"
 msgstr "Francouzská Guyana"
 
-#: ../src/sqlite/country.cs:418
+#: ../src/sqlite/country.cs:423
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ../src/sqlite/country.cs:419
+#: ../src/sqlite/country.cs:424
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../src/sqlite/country.cs:420
+#: ../src/sqlite/country.cs:425
 msgid "Peru"
 msgstr "Peru"
 
-#: ../src/sqlite/country.cs:421
+#: ../src/sqlite/country.cs:426
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ../src/sqlite/country.cs:422
+#: ../src/sqlite/country.cs:427
 msgid "Venezuela"
 msgstr "Venezuela"
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
-#: ../src/sqlite/speciallity.cs:147
+#: ../src/sqlite/speciallity.cs:152
 msgid "Diving"
 msgstr "Potápění"
 
-#: ../src/sqlite/speciallity.cs:148
+#: ../src/sqlite/speciallity.cs:153
 msgid "Swimming"
 msgstr "Plavání"
 
-#: ../src/sqlite/speciallity.cs:149
+#: ../src/sqlite/speciallity.cs:154
 msgid "Synchronized Swimming"
 msgstr "Synchronizované plavání"
 
-#: ../src/sqlite/speciallity.cs:150
+#: ../src/sqlite/speciallity.cs:155
 msgid "Waterpolo"
 msgstr "Vodní pólo"
 
-#: ../src/sqlite/speciallity.cs:152
+#: ../src/sqlite/speciallity.cs:157
 msgid "Runs, Sprints"
 msgstr "Běh - sprint"
 
-#: ../src/sqlite/speciallity.cs:153
+#: ../src/sqlite/speciallity.cs:158
 msgid "Runs, Middle-distance"
 msgstr "Běh na střední trati"
 
-#: ../src/sqlite/speciallity.cs:154
+#: ../src/sqlite/speciallity.cs:159
 msgid "Runs, Long-distance"
 msgstr "Běh na dlouhé trati"
 
-#: ../src/sqlite/speciallity.cs:156
+#: ../src/sqlite/speciallity.cs:161
 msgid "Throws"
 msgstr "Vrh"
 
-#: ../src/sqlite/speciallity.cs:157
+#: ../src/sqlite/speciallity.cs:162
 msgid "Combined"
 msgstr "Víceboj"
 
-#: ../src/sqlite/speciallity.cs:159 ../src/sqlite/sport.cs:181
+#: ../src/sqlite/speciallity.cs:164 ../src/sqlite/sport.cs:187
 msgid "Bobsleigh"
 msgstr "Bobování"
 
-#: ../src/sqlite/speciallity.cs:160
+#: ../src/sqlite/speciallity.cs:165
 msgid "Skeleton"
 msgstr "Skeleton"
 
-#: ../src/sqlite/speciallity.cs:162
+#: ../src/sqlite/speciallity.cs:167
 msgid "Flatwater"
 msgstr "Rychlostní"
 
-#: ../src/sqlite/speciallity.cs:163
+#: ../src/sqlite/speciallity.cs:168
 msgid "Slalom"
 msgstr "Slalom"
 
-#: ../src/sqlite/speciallity.cs:165
+#: ../src/sqlite/speciallity.cs:170
 msgid "Cycling BMX"
 msgstr "Cyklistika BMX"
 
-#: ../src/sqlite/speciallity.cs:166
+#: ../src/sqlite/speciallity.cs:171
 msgid "Cycling Road"
 msgstr "Cyklistika dráhová"
 
-#: ../src/sqlite/speciallity.cs:167
+#: ../src/sqlite/speciallity.cs:172
 msgid "Cycling Track"
 msgstr "Cyklistika silniční"
 
-#: ../src/sqlite/speciallity.cs:168
+#: ../src/sqlite/speciallity.cs:173
 msgid "Mountain Bike"
 msgstr "Cyklistika horská"
 
-#: ../src/sqlite/speciallity.cs:170
+#: ../src/sqlite/speciallity.cs:175
 msgid "Dressage"
 msgstr "Drezura"
 
-#: ../src/sqlite/speciallity.cs:171
+#: ../src/sqlite/speciallity.cs:176
 msgid "Eventing"
 msgstr "Soutěž všestranné způsobilosti"
 
-#: ../src/sqlite/speciallity.cs:172
+#: ../src/sqlite/speciallity.cs:177
 msgid "jumping"
 msgstr "Skákání"
 
-#: ../src/sqlite/speciallity.cs:174
+#: ../src/sqlite/speciallity.cs:179
 msgid "Artistic"
 msgstr "Sportovní"
 
-#: ../src/sqlite/speciallity.cs:175
+#: ../src/sqlite/speciallity.cs:180
 msgid "Rhythmic"
 msgstr "Moderní"
 
-#: ../src/sqlite/speciallity.cs:176
+#: ../src/sqlite/speciallity.cs:181
 msgid "Trampoline"
 msgstr "Skoky na trampolíně"
 
-#: ../src/sqlite/speciallity.cs:178
+#: ../src/sqlite/speciallity.cs:183
 msgid "Figure skating"
 msgstr "Krasobruslení"
 
-#: ../src/sqlite/speciallity.cs:179
+#: ../src/sqlite/speciallity.cs:184
 msgid "Short Track Speed Skating"
 msgstr "Rychlobruslení na krátké dráze"
 
-#: ../src/sqlite/speciallity.cs:180
+#: ../src/sqlite/speciallity.cs:185
 msgid "Speed skating"
 msgstr "Rychlobruslení"
 
-#: ../src/sqlite/speciallity.cs:182
+#: ../src/sqlite/speciallity.cs:187
 msgid "Alpine Skiing"
 msgstr "Alpské lyžování"
 
-#: ../src/sqlite/speciallity.cs:183
+#: ../src/sqlite/speciallity.cs:188
 msgid "Cross Country Skiing"
 msgstr "Běh na lyžích"
 
-#: ../src/sqlite/speciallity.cs:184
+#: ../src/sqlite/speciallity.cs:189
 msgid "Freestyle Skiing"
 msgstr "Akrobatické lyžování"
 
-#: ../src/sqlite/speciallity.cs:185
+#: ../src/sqlite/speciallity.cs:190
 msgid "Nordic Combined"
 msgstr "Severská kombinace"
 
-#: ../src/sqlite/speciallity.cs:186
+#: ../src/sqlite/speciallity.cs:191
 msgid "Ski Jumping"
 msgstr "Skoky na lyžích"
 
-#: ../src/sqlite/speciallity.cs:187
+#: ../src/sqlite/speciallity.cs:192
 msgid "Snowboard"
 msgstr "Snowboarding"
 
-#: ../src/sqlite/speciallity.cs:189
+#: ../src/sqlite/speciallity.cs:194
 msgid "Beach volleyball"
 msgstr "Plážový volejbal"
 
-#: ../src/sqlite/speciallity.cs:190 ../src/sqlite/sport.cs:206
+#: ../src/sqlite/speciallity.cs:195 ../src/sqlite/sport.cs:212
 msgid "Volleyball"
 msgstr "Volejbal"
 
-#: ../src/sqlite/speciallity.cs:192
+#: ../src/sqlite/speciallity.cs:197
 msgid "Freestyle"
 msgstr "Zápas ve volném stylu"
 
-#: ../src/sqlite/speciallity.cs:193
+#: ../src/sqlite/speciallity.cs:198
 msgid "Greco-Roman"
 msgstr "Řecko-římský zápas"
 
-#: ../src/sqlite/sport.cs:144
+#: ../src/sqlite/sport.cs:150
 msgid "user"
 msgstr "uživatel"
 
 #. true or false means if it has speciallities
 #. will be 1 (it's also written in Constants.SportUndefinedID
 #. will be 2 (it's also written in Constants.SportNoneID
-#: ../src/sqlite/sport.cs:174
+#: ../src/sqlite/sport.cs:180
 msgid "Aquatics"
 msgstr "Vodní sporty"
 
-#: ../src/sqlite/sport.cs:175
+#: ../src/sqlite/sport.cs:181
 msgid "Archery"
 msgstr "Lukostřelba"
 
-#: ../src/sqlite/sport.cs:176
+#: ../src/sqlite/sport.cs:182
 msgid "Athletics"
 msgstr "Atletika"
 
-#: ../src/sqlite/sport.cs:177
+#: ../src/sqlite/sport.cs:183
 msgid "Badminton"
 msgstr "Badminton"
 
-#: ../src/sqlite/sport.cs:178
+#: ../src/sqlite/sport.cs:184
 msgid "Baseball"
 msgstr "Baseball"
 
-#: ../src/sqlite/sport.cs:179
+#: ../src/sqlite/sport.cs:185
 msgid "Basketball"
 msgstr "Košíková"
 
-#: ../src/sqlite/sport.cs:180
+#: ../src/sqlite/sport.cs:186
 msgid "Biathlon"
 msgstr "Dvojboj"
 
-#: ../src/sqlite/sport.cs:182
+#: ../src/sqlite/sport.cs:188
 msgid "Boxing"
 msgstr "Box"
 
-#: ../src/sqlite/sport.cs:183
+#: ../src/sqlite/sport.cs:189
 msgid "Canoe-Cayak"
 msgstr "Kanoistika"
 
-#: ../src/sqlite/sport.cs:184
+#: ../src/sqlite/sport.cs:190
 msgid "Curling"
 msgstr "Curling"
 
-#: ../src/sqlite/sport.cs:185
+#: ../src/sqlite/sport.cs:191
 msgid "Cycling"
 msgstr "Cyklistika"
 
-#: ../src/sqlite/sport.cs:186
+#: ../src/sqlite/sport.cs:192
 msgid "Equestrian"
 msgstr "Jezdectví"
 
-#: ../src/sqlite/sport.cs:187
+#: ../src/sqlite/sport.cs:193
 msgid "Fencing"
 msgstr "Šerm"
 
-#: ../src/sqlite/sport.cs:188
+#: ../src/sqlite/sport.cs:194
 msgid "Football"
 msgstr "Fotbal"
 
-#: ../src/sqlite/sport.cs:189
+#: ../src/sqlite/sport.cs:195
 msgid "Gymnastics"
 msgstr "Gymnastika"
 
-#: ../src/sqlite/sport.cs:190
+#: ../src/sqlite/sport.cs:196
 msgid "Handball"
 msgstr "Házená"
 
-#: ../src/sqlite/sport.cs:191
+#: ../src/sqlite/sport.cs:197
 msgid "Hockey"
 msgstr "Pozemní hokej"
 
-#: ../src/sqlite/sport.cs:192
+#: ../src/sqlite/sport.cs:198
 msgid "Ice Hockey"
 msgstr "Lední hokej"
 
-#: ../src/sqlite/sport.cs:193
+#: ../src/sqlite/sport.cs:199
 msgid "Judo"
 msgstr "Judo"
 
-#: ../src/sqlite/sport.cs:194
+#: ../src/sqlite/sport.cs:200
 msgid "Luge"
 msgstr "Sáňkování"
 
-#: ../src/sqlite/sport.cs:195
+#: ../src/sqlite/sport.cs:201
 msgid "Modern Pentathlon"
 msgstr "Moderní pětiboj"
 
-#: ../src/sqlite/sport.cs:196
+#: ../src/sqlite/sport.cs:202
 msgid "Rowing"
 msgstr "Veslování"
 
-#: ../src/sqlite/sport.cs:197
+#: ../src/sqlite/sport.cs:203
 msgid "Sailing"
 msgstr "Závody plachetnic"
 
-#: ../src/sqlite/sport.cs:198
+#: ../src/sqlite/sport.cs:204
 msgid "Shooting"
 msgstr "Střelba"
 
-#: ../src/sqlite/sport.cs:199
+#: ../src/sqlite/sport.cs:205
 msgid "Skating"
 msgstr "Bruslení"
 
-#: ../src/sqlite/sport.cs:200
+#: ../src/sqlite/sport.cs:206
 msgid "Skiing"
 msgstr "Lyžování"
 
-#: ../src/sqlite/sport.cs:201
+#: ../src/sqlite/sport.cs:207
 msgid "Softball"
 msgstr "Softbal"
 
-#: ../src/sqlite/sport.cs:202
+#: ../src/sqlite/sport.cs:208
 msgid "Table Tennis"
 msgstr "Stolní tenis"
 
-#: ../src/sqlite/sport.cs:203
+#: ../src/sqlite/sport.cs:209
 msgid "Taekwondo"
 msgstr "Taekwondo"
 
-#: ../src/sqlite/sport.cs:204
+#: ../src/sqlite/sport.cs:210
 msgid "Tennis"
 msgstr "Tenis"
 
-#: ../src/sqlite/sport.cs:205
+#: ../src/sqlite/sport.cs:211
 msgid "Triathlon"
 msgstr "Trojboj"
 
-#: ../src/sqlite/sport.cs:207
+#: ../src/sqlite/sport.cs:213
 msgid "Weightlifting"
 msgstr "Vzpírání"
 
-#: ../src/sqlite/sport.cs:208
+#: ../src/sqlite/sport.cs:214
 msgid "Wrestling"
 msgstr "Zápas"
 

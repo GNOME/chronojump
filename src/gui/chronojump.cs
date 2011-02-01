@@ -2167,23 +2167,31 @@ public class ChronoJumpWindow
 		Gtk.Window d = new Gtk.Window("Capturer");
 		d.Add(capturer);
 		d.ShowAll();
+		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
 		capturer.Run();
 	}
 	
 	private void on_menuitem_camera_photo(object o, EventArgs args) {
-		string file = "/tmp/test_photo_chronojump_is_cooler.jpg";
-		GstCameraCapturer gst = new GstCameraCapturer(file);
-		gst.OutputWidth = 360;
-		gst.OutputHeight = 288;
+		CapturerBin capturer = new CapturerBin();
+		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		gst.Run();
+		s.CaptureSourceType = CaptureSourceType.Raw;
 
-		Pixbuf pixbuf;
-		pixbuf = gst.CurrentFrame;
-
-		pixbuf.Save(file, "jpeg");
+		capturer.CaptureProperties = s;
+		capturer.Type = CapturerType.Snapshot;
+		capturer.Visible=true;
+		capturer.NewSnapshot += on_snapshot_done;
+		
+		Gtk.Window d = new Gtk.Window("Capturer");
+		d.Add(capturer);
+		d.ShowAll();
+		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
+		capturer.Run();
 	}
 
+	private void on_snapshot_done(Pixbuf pixbuf) {
+		pixbuf.Save("/tmp/test-foto.jpg","jpeg");
+	}
 
 
 	/* ---------------------------------------------------------

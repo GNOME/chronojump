@@ -100,6 +100,7 @@ public partial class PersonSession {
 		return "[uniqueID: " + uniqueID + "]," + personID + ", " + ", " + sessionID + ", " + height + ", " + weight + ", " + sportID + ", " + speciallityID + ", " + practice + ", " + comments;
 	}
 
+	//some "set"s are needed. If not data of personSession does not arrive to the server
 
 	public int UniqueID {
 		get { return uniqueID; }
@@ -118,10 +119,12 @@ public partial class PersonSession {
 
 	public double Height {
 		get { return height; }
+		set { height = value; }
 	}
 	
 	public double Weight {
 		get { return weight; }
+		set { weight = value; }
 	}
 	
 	public int SportID {
@@ -131,14 +134,17 @@ public partial class PersonSession {
 	
 	public int SpeciallityID {
 		get { return speciallityID; }
+		set { speciallityID = value; }
 	}
 	
 	public int Practice {
 		get { return practice; }
+		set { practice = value; }
 	}
 
 	public string Comments {
 		get { return comments; }
+		set { comments = value; }
 	}
 
 

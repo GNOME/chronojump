@@ -569,9 +569,6 @@ public class Server
 		ps.PersonID = personServerID;
 		ps.SessionID = sessionServerID;
 
-Log.WriteLine("speciallity: ");
-Log.WriteLine(ps.SpeciallityID.ToString());
-
 		myServer.UploadPersonSessionIfNeeded(ps);
 	}
 

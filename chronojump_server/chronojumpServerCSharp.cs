@@ -132,7 +132,7 @@ public class ChronojumpServer {
 			//file exists and cannot be overwritten
 		}
 	
-		return id; //uniqueID of person at server
+		return id; //uniqueID of session at server
 	}
 	
 	[WebMethod(Description="Update session uploadingState")]
@@ -296,6 +296,7 @@ public class ChronojumpServer {
 	{
 		if(!SqlitePersonSession.PersonSelectExistsInSession(ps.PersonID, ps.SessionID)) {
 			Console.WriteLine("personSession needed");
+			Console.WriteLine(ps.ToString());
 			ps.InsertAtDB(false, Constants.PersonSessionTable);
 			Console.WriteLine("done");
 			return 1; //unused

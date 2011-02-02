@@ -124,6 +124,7 @@ public partial class Person {
 		return this.ToString().GetHashCode();
 	}
 	
+	//some "set"s are needed. If not data of personSession does not arrive to the server
 	
 	public string Name {
 		get { return name; }

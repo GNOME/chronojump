@@ -681,6 +681,76 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "Chronojump");
 	}
 
+	
+	/********** start of multimedia paths ************/
+
+	public static string GetMultimediaDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "multimedia");
+	}
+	
+	public static string GetPhotosDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
+				Path.DirectorySeparatorChar + "photos");
+	}
+	
+	public static string GetVideosDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
+				Path.DirectorySeparatorChar + "videos");
+	}
+	
+	public static string GetMultimediaSessionDir (Constants.MultimediaItems multimediaItem, int sessionID) {
+		string dir = "";
+		if(multimediaItem == Constants.MultimediaItems.VIDEO)
+			dir = GetVideosDir();
+		else //multimediaItem = Constants.MultimediaItems.PHOTO
+			dir = GetPhotosDir();
+
+		return dir + Path.DirectorySeparatorChar + sessionID.ToString();
+	}
+	
+	//to store user videos and photos
+	public static void CreateMultimediaDirsIfNeeded () {
+		string [] dirs = { GetMultimediaDir(), GetPhotosDir(), GetVideosDir() }; 
+		foreach (string d in dirs) {
+			if( ! Directory.Exists(d)) {
+				Directory.CreateDirectory (d);
+				Log.WriteLine (string.Format("created dir: {0}", d));
+			}
+		}
+	}
+	
+	public static void CreateMultimediaSessionDirIfNeeded (Constants.MultimediaItems multimediaItem, int sessionID) {
+		string sessionDir = GetMultimediaSessionDir(multimediaItem, sessionID);
+		if( ! Directory.Exists(sessionDir)) {
+			Directory.CreateDirectory (sessionDir);
+			Log.WriteLine (string.Format("created dir: {0}", sessionDir));
+		}
+	}
+
+	public static string GetMultimediaFileName (Constants.MultimediaItems multimediaItem, 
+			int sessionID, Constants.TestTypes testType, int uniqueID) {
+		
+		return GetMultimediaSessionDir(multimediaItem, sessionID) + Path.DirectorySeparatorChar + 
+			testType.ToString() + "-" + uniqueID.ToString() + GetMultimediaExtension(multimediaItem);
+	}
+	
+	public static string GetMultimediaExtension (Constants.MultimediaItems multimediaItem) {
+		if(multimediaItem == Constants.MultimediaItems.VIDEO)
+			return Constants.ExtensionVideo;
+		else //multimediaItem = Constants.MultimediaItems.PHOTO
+			return Constants.ExtensionPhoto;
+	}
+
+
+	/********** end of multimedia paths ************/
+	
+
 	public static string GetManualDir() {
 		//we are on:
 		//lib/chronojump/ (Unix) or bin/ (win32)
@@ -730,6 +800,7 @@ public class Util
 			Log.WriteLine("Error, chronojump.db file doesn't exist!");
 		}
 	}
+	
 
 	public static void RunRScript(string rScript){
 		ProcessStartInfo pinfo;

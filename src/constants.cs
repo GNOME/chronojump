@@ -53,7 +53,7 @@ public class Constants
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 
-	//tests types
+	//tests types (dont' use character '-' will be used multimedia file names)
 	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC }
 	public static string JumpSimpleName = "Jump simple";
 	public static string JumpReactiveName = "Jump reactive";
@@ -458,5 +458,22 @@ public class Constants
 	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";
-
+	
+	/*
+	MultimediaStorage
+	BYSESSION samples:
+	Chronojump/multimedia/videos/sessionID/JUMP-jumpID
+	Chronojump/multimedia/photos/sessionID/RUN_I-runIntervalID
+	//see Constants.TestTypes 
+	*/
+	public enum MultimediaStorage {
+		BYSESSION
+	}
+	
+	public enum MultimediaItems {
+		PHOTO, VIDEO
+	}
+	public const string ExtensionVideo = ".avi";
+	public const string ExtensionPhoto = ".jpg";
+	
 }

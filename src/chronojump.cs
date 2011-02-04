@@ -140,6 +140,9 @@ public class ChronoJump
 
 		Log.WriteLine(string.Format("Chronojump version: {0}", progVersion));
 
+		//to store user videos and photos
+		Util.CreateMultimediaDirsIfNeeded();
+		
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToNewLocationIfNeeded();
 

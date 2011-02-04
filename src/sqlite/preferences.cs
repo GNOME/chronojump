@@ -65,6 +65,8 @@ class SqlitePreferences : Sqlite
 		Random rnd = new Random();
 		string machineID = rnd.Next().ToString();
 		Insert ("machineID", machineID);
+		
+		Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
 	}
 
 	public static void Insert(string myName, string myValue)

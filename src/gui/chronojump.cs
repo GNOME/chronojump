@@ -2154,7 +2154,16 @@ public class ChronoJumpWindow
 		CapturerBin capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		s.OutputFile = "/tmp/test_longomatch_is_very_cool.avi";
+		//s.OutputFile = "/tmp/test_longomatch_is_very_cool.avi";
+		
+		Util.CreateMultimediaSessionDirIfNeeded(Constants.MultimediaItems.VIDEO, 111);
+		s.OutputFile = Util.GetMultimediaFileName(
+			Constants.MultimediaItems.VIDEO,
+			111, //sessionID
+			Constants.TestTypes.JUMP,
+			123 //jump uniqueID
+			);
+
 		s.VideoBitrate =  1000;
 		s.CaptureSourceType = CaptureSourceType.Raw;
 		s.Width = 360;

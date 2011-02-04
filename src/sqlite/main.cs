@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.78";
+	static string lastChronojumpDatabaseVersion = "0.79";
 
 	public Sqlite() {
 	}
@@ -1023,18 +1023,29 @@ class Sqlite
 			}
 			if(currentVersion == "0.77") {
 				dbcon.Open();
-				
+
 				SqliteJumpType.UpdateOther ("weight", Constants.TakeOffWeightName, "1"); 
 
 				Random rnd = new Random();
 				string machineID = rnd.Next().ToString();
 				SqlitePreferences.Insert ("machineID", machineID); 
-				
+
 				SqlitePreferences.Update ("databaseVersion", "0.78", true); 
 				Log.WriteLine("Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)"); 
-				
+
 				dbcon.Close();
 				currentVersion = "0.78";
+			}
+			if(currentVersion == "0.78") {
+				dbcon.Open();
+
+				SqlitePreferences.Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
+
+				SqlitePreferences.Update ("databaseVersion", "0.79", true); 
+				Log.WriteLine("Converted DB to 0.79 (Added multimediaStorage structure id)"); 
+
+				dbcon.Close();
+				currentVersion = "0.79";
 			}
 		}
 
@@ -1168,6 +1179,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.78 - 0.79 Converted DB to 0.79 (Added multimediaStorage structure id)
 		//0.77 - 0.78 Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)
 		//0.76 - 0.77 Converted DB to 0.77 (person77, personSession77)
 		//0.75 - 0.76 Converted DB to 0.76 (jump & jumpRj falls as double)

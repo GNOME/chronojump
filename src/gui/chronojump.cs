@@ -2177,9 +2177,6 @@ public class ChronoJumpWindow
 		capturer.Run();
 	}
 	
-	private void on_menuitem_camera_photo(object o, EventArgs args) {
-	}
-
 
 
 	/* ---------------------------------------------------------

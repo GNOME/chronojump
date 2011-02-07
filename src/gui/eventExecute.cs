@@ -24,11 +24,10 @@ using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
-
-//using System.Threading;
-
-
 using Gdk; //for the EventMask
+using LongoMatch.Gui;
+using LongoMatch.Video.Capturer;
+using LongoMatch.Video.Common;
 
 
 
@@ -141,6 +140,8 @@ public class EventExecuteWindow
 	[Widget] Box hbox_drawingarea;
 	[Widget] Gtk.Alignment alignment1;
 	static Gdk.Pixmap pixmap = null;
+	
+	//[Widget] Gtk.HBox hbox_capture;
 
 
 	int personID;	
@@ -293,6 +294,8 @@ public class EventExecuteWindow
 		putNonStandardIcons();
 		
 		eventHasEnded = false;
+	
+		cameraRecordInitiate();
 	}
 	
 	private void putNonStandardIcons() {
@@ -514,6 +517,44 @@ public class EventExecuteWindow
 		// -- refresh
 		drawingarea.QueueDraw();
 	}
+
+	CapturerBin capturer;
+	//Gtk.Window capturerWindow;
+	private void cameraRecordInitiate() 
+	{
+		capturer = new CapturerBin();
+		CapturePropertiesStruct s = new CapturePropertiesStruct();
+
+		/*
+		Util.CreateVideoSessionDirIfNeeded(sessionID);
+		s.OutputFile = Util.GetVideoFileName(
+			sessionID, //sessionID
+			Constants.TestTypes.JUMP,
+			123 //jump uniqueID
+			);
+		*/
+		s.OutputFile = "/tmp/test.avi";
+
+		s.VideoBitrate =  1000;
+		s.CaptureSourceType = CaptureSourceType.Raw;
+		s.Width = 360;
+		s.Height = 288;
+
+		capturer.CaptureProperties = s;
+		capturer.Type = CapturerType.Live;
+		capturer.Visible=true;
+		
+		//capturerWindow = new Gtk.Window("Capturer");
+		//capturerWindow.Add(capturer);
+		//capturerWindow.ShowAll();
+		//capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
+		//hbox_capture.PackStart(capturer, true, true, 0);
+		//hbox_capture.ShowAll();
+
+		capturer.Run();
+		capturer.ClickRec();
+	}
+	
 	
 
 	// simple and DJ jump	
@@ -1727,6 +1768,8 @@ public class EventExecuteWindow
 	public void EventEnded() {
 		hideButtons();
 		eventHasEnded = true;
+		
+		capturer.Stop();
 	}
 	
 	
@@ -1882,6 +1925,10 @@ public class EventExecuteWindow
 		
 	void on_button_close_clicked (object o, EventArgs args)
 	{
+		capturer.Close();
+		capturer.Dispose();
+		//capturerWindow.Hide();
+
 		EventExecuteWindowBox.event_execute.Hide();
 		EventExecuteWindowBox.event_execute.Destroy();
 		EventExecuteWindowBox = null;
@@ -1893,6 +1940,10 @@ public class EventExecuteWindow
 		//see eventHasEnded comments at beginning of this file
 		if(!eventHasEnded)
 			button_cancel.Click();
+		
+		capturer.Close();
+		capturer.Dispose();
+		//capturerWindow.Hide();
 		
 		EventExecuteWindowBox.event_execute.Hide();
 		EventExecuteWindowBox.event_execute.Destroy();

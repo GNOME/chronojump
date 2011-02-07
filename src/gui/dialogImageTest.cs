@@ -22,6 +22,7 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
+using System.IO; 
 
 public class DialogImageTest
 {
@@ -70,8 +71,12 @@ public class DialogImageTest
 
 		scrolledwindow28.Hide();
 
-                Pixbuf pixbuf = new Pixbuf (imagePath);
-                image_test.Pixbuf = pixbuf;
+		if(File.Exists(imagePath)) {
+	                Pixbuf pixbuf = new Pixbuf (imagePath);
+        	        image_test.Pixbuf = pixbuf;
+		} else 
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.MultimediaFileNoExists);
+
 	}
 				
 	public void on_close_button_clicked (object obj, EventArgs args) {

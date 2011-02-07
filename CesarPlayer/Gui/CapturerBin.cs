@@ -46,7 +46,7 @@ namespace LongoMatch.Gui
 		private CapturerType capturerType;
 		private bool captureStarted;
 		private bool capturing;
-		private const int THUMBNAIL_MAX_WIDTH = 200;		
+		private const int THUMBNAIL_MAX_WIDTH = 150;		
 		
 		ICapturer capturer;
 		

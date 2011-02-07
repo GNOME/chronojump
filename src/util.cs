@@ -690,11 +690,15 @@ public class Util
 				"Chronojump" + Path.DirectorySeparatorChar + "multimedia");
 	}
 	
-	public static string GetPhotosDir() {
+	public static string GetPhotosDir(bool small) {
+		string smallDir = "";
+		if(small)
+			smallDir = Path.DirectorySeparatorChar + Constants.SmallPhotoDir; 
+
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
-				Path.DirectorySeparatorChar + "photos");
+				Path.DirectorySeparatorChar + "photos") + smallDir;
 	}
 	
 	public static string GetVideosDir() {
@@ -703,20 +707,10 @@ public class Util
 				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
 				Path.DirectorySeparatorChar + "videos");
 	}
-	
-	public static string GetMultimediaSessionDir (Constants.MultimediaItems multimediaItem, int sessionID) {
-		string dir = "";
-		if(multimediaItem == Constants.MultimediaItems.VIDEO)
-			dir = GetVideosDir();
-		else //multimediaItem = Constants.MultimediaItems.PHOTO
-			dir = GetPhotosDir();
 
-		return dir + Path.DirectorySeparatorChar + sessionID.ToString();
-	}
-	
 	//to store user videos and photos
 	public static void CreateMultimediaDirsIfNeeded () {
-		string [] dirs = { GetMultimediaDir(), GetPhotosDir(), GetVideosDir() }; 
+		string [] dirs = { GetMultimediaDir(), GetPhotosDir(false), GetPhotosDir(true), GetVideosDir() }; 
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
 				Directory.CreateDirectory (d);
@@ -725,20 +719,30 @@ public class Util
 		}
 	}
 	
-	public static void CreateMultimediaSessionDirIfNeeded (Constants.MultimediaItems multimediaItem, int sessionID) {
-		string sessionDir = GetMultimediaSessionDir(multimediaItem, sessionID);
+	//videos ar organized by sessions. Photos no.	
+	public static string GetVideoSessionDir (int sessionID) {
+		return GetVideosDir() + Path.DirectorySeparatorChar + sessionID.ToString();
+	}
+	
+	public static void CreateVideoSessionDirIfNeeded (int sessionID) {
+		string sessionDir = GetVideoSessionDir(sessionID);
 		if( ! Directory.Exists(sessionDir)) {
 			Directory.CreateDirectory (sessionDir);
 			Log.WriteLine (string.Format("created dir: {0}", sessionDir));
 		}
 	}
 
-	public static string GetMultimediaFileName (Constants.MultimediaItems multimediaItem, 
-			int sessionID, Constants.TestTypes testType, int uniqueID) {
-		
-		return GetMultimediaSessionDir(multimediaItem, sessionID) + Path.DirectorySeparatorChar + 
-			testType.ToString() + "-" + uniqueID.ToString() + GetMultimediaExtension(multimediaItem);
+	public static string GetVideoFileName (int sessionID, Constants.TestTypes testType, int uniqueID) {
+		return GetVideoSessionDir(sessionID) + Path.DirectorySeparatorChar + 
+			testType.ToString() + "-" + uniqueID.ToString() +
+			GetMultimediaExtension(Constants.MultimediaItems.VIDEO);
 	}
+	
+	public static string GetPhotoFileName (bool small, int uniqueID) {
+		return GetPhotosDir(small) + Path.DirectorySeparatorChar + uniqueID.ToString() +
+			GetMultimediaExtension(Constants.MultimediaItems.PHOTO);
+	}
+	
 	
 	public static string GetMultimediaExtension (Constants.MultimediaItems multimediaItem) {
 		if(multimediaItem == Constants.MultimediaItems.VIDEO)

@@ -7,7 +7,6 @@
     <property name="border_width">10</property>
     <property name="title" translatable="yes">New jumper</property>
     <property name="resizable">False</property>
-    <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_person_win_delete_event"/>
     <child>
@@ -11317,6 +11316,8 @@ Test&lt;/b&gt;</property>
     </child>
   </widget>
   <widget class="GtkDialog" id="dialog_image_test">
+    <property name="width_request">640</property>
+    <property name="height_request">480</property>
     <property name="visible">True</property>
     <property name="border_width">8</property>
     <property name="title" translatable="yes">Test image and description</property>
@@ -11340,12 +11341,26 @@ Test&lt;/b&gt;</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox237">
+          <widget class="GtkHBox" id="hbox_main">
             <property name="visible">True</property>
             <property name="spacing">8</property>
             <child>
-              <widget class="GtkImage" id="image_test">
+              <widget class="GtkScrolledWindow" id="scrolledwindow1">
                 <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <widget class="GtkViewport" id="viewport1">
+                    <property name="visible">True</property>
+                    <property name="resize_mode">queue</property>
+                    <child>
+                      <widget class="GtkImage" id="image_test">
+                        <property name="visible">True</property>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
               </widget>
               <packing>
                 <property name="position">0</property>
@@ -11358,7 +11373,8 @@ Test&lt;/b&gt;</property>
                 <property name="has_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
-                <property name="hscrollbar_policy">never</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
                 <child>
                   <widget class="GtkViewport" id="viewport2">
                     <property name="visible">True</property>
@@ -17726,20 +17742,6 @@ by you</property>
                         <signal name="activate" handler="on_menuitem_camera_record_activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="image45">
-                            <property name="visible">True</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_camera_photo">
-                        <property name="label" translatable="yes">camera photo</property>
-                        <property name="visible">True</property>
-                        <property name="use_stock">False</property>
-                        <signal name="activate" handler="on_menuitem_camera_photo"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image46">
                             <property name="visible">True</property>
                             <property name="stock">gtk-missing-image</property>
                           </widget>

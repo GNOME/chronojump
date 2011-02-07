@@ -955,9 +955,11 @@ public class PersonAddModifyWindow
 		new DialogImageTest(currentPerson.Name, Util.GetPhotoFileName(false, currentPerson.UniqueID));
 	}
 
+	Gtk.Window capturerWindow;
+	CapturerBin capturer;
 	void on_button_take_photo_clicked (object o, EventArgs args) 
 	{
-		CapturerBin capturer = new CapturerBin();
+		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
 		s.CaptureSourceType = CaptureSourceType.Raw;
@@ -968,10 +970,11 @@ public class PersonAddModifyWindow
 		capturer.NewSnapshot += on_snapshot_done;
 		capturer.NewSnapshotMini += on_snapshot_mini_done;
 		
-		Gtk.Window d = new Gtk.Window("Capturer");
-		d.Add(capturer);
-		d.ShowAll();
-		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
+ 		capturerWindow = new Gtk.Window("Capturer");
+		capturerWindow.Add(capturer);
+		capturerWindow.Modal=true;
+		capturerWindow.ShowAll();
+		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
 		capturer.Run();
 	}
 	private void on_snapshot_done(Pixbuf pixbuf) {
@@ -980,6 +983,15 @@ public class PersonAddModifyWindow
 	}
 	private void on_snapshot_mini_done(Pixbuf pixbuf) {
 		pixbuf.Save(Util.GetPhotoFileName(true, currentPerson.UniqueID),"jpeg");
+		capturer.Close();
+		capturer.Dispose();
+		capturerWindow.Hide();
+		
+		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+		if(File.Exists(photoFile)) {
+			Pixbuf pixbuf2 = new Pixbuf (photoFile); //from a file
+			image_photo_mini.Pixbuf = pixbuf2;
+		}
 	}
 
 	void on_entries_required_changed (object o, EventArgs args)

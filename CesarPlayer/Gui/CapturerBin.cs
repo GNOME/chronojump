@@ -131,8 +131,8 @@ namespace LongoMatch.Gui
 			captureStarted = true;
 				
 			recbutton.Visible = false;
-			pausebutton.Visible = true;
-			stopbutton.Visible = true;
+			pausebutton.Visible = false;
+			stopbutton.Visible = false;
 			
 			capturer.Start();
 		}
@@ -247,18 +247,36 @@ namespace LongoMatch.Gui
 		private void SetButtonsVisibility() {
 			bool snapshot = capturerType == CapturerType.Snapshot;
 			recbutton.Visible = !snapshot;
-			pausebutton.Visible = !snapshot;
-			stopbutton.Visible = !snapshot;
+			pausebutton.Visible = false;
+			stopbutton.Visible = false;
 			snapshotbutton.Visible = snapshot;
 			timelabel.Visible = !snapshot;
 		}
 
 
+		//called from Chronojump
+		public void ClickRec () {
+			if (capturer == null)
+				return;
+			
+			recbutton.Visible = false;
+			stopbutton.Visible = true;
+
+			Start();
+		}
+		public void ClickStop () {
+			CaptureFinished(this, new EventArgs());
+		}
+
+		
 		protected virtual void OnRecbuttonClicked (object sender, System.EventArgs e)
 		{
 			if (capturer == null)
 				return;
 			
+			recbutton.Visible = false;
+			stopbutton.Visible = true;
+
 			if (captureStarted == true){
 				if (capturing)
 					return;
@@ -280,6 +298,8 @@ namespace LongoMatch.Gui
 			
 			if (capturer == null)
 				return;
+
+			/*
 			
 			MessageDialog md = new MessageDialog((Gtk.Window)this.Toplevel, DialogFlags.Modal, MessageType.Question, ButtonsType.YesNo,
 			                                     Catalog.GetString("You are going to stop and finish the current capture."+"\n"+
@@ -298,6 +318,13 @@ namespace LongoMatch.Gui
 				if (CaptureFinished != null)
 					CaptureFinished(this, new EventArgs());
 			}
+			*/
+			
+			recbutton.Visible = true;
+			pausebutton.Visible = false;
+			stopbutton.Visible = false;
+			if (CaptureFinished != null)
+				CaptureFinished(this, new EventArgs());
 		}				
 		
 		protected virtual void OnTick (int ellapsedTime){
@@ -359,7 +386,7 @@ namespace LongoMatch.Gui
 			allocWidth = logodrawingarea.Allocation.Width;
 			allocHeight = logodrawingarea.Allocation.Height;
 			
-			/* Checking if allocated space is smaller than our logo */
+			// Checking if allocated space is smaller than our logo 
 			if ((float) allocWidth / width > (float) allocHeight / height) {
 				ratio = (float) allocHeight / height;
 			} else {
@@ -371,7 +398,7 @@ namespace LongoMatch.Gui
 			logoX = (allocWidth / 2) - (width / 2);
 			logoY = (allocHeight / 2) - (height / 2);
 
-			/* Drawing our frame */
+			// Drawing our frame
 			frame = new Pixbuf(Colorspace.Rgb, false, 8, allocWidth, allocHeight);
 			logopix.Composite(frame, 0, 0, allocWidth, allocHeight, logoX, logoY, 
 			                  ratio, ratio, InterpType.Bilinear, 255);

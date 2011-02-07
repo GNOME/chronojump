@@ -46,6 +46,7 @@
                         <child>
                           <widget class="GtkHBox" id="hbox5">
                             <property name="visible">True</property>
+                            <property name="spacing">8</property>
                             <child>
                               <widget class="GtkTable" id="table2">
                                 <property name="visible">True</property>
@@ -240,12 +241,63 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkImage" id="image-photo-mini">
+                              <widget class="GtkVBox" id="vbox3">
                                 <property name="visible">True</property>
-                                <property name="stock">gtk-missing-image</property>
+                                <property name="spacing">4</property>
+                                <child>
+                                  <widget class="GtkImage" id="image_photo_mini">
+                                    <property name="visible">True</property>
+                                    <property name="stock">gtk-missing-image</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkHBox" id="hbox6">
+                                    <property name="visible">True</property>
+                                    <property name="spacing">4</property>
+                                    <child>
+                                      <widget class="GtkButton" id="button_zoom">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="has_tooltip">True</property>
+                                        <signal name="clicked" handler="on_button_zoom_clicked"/>
+                                        <accelerator key="z" signal="clicked"/>
+                                        <child>
+                                          <widget class="GtkImage" id="image_zoom">
+                                            <property name="visible">True</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkButton" id="button_take_photo">
+                                        <property name="label" translatable="yes">Take snapshot</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <signal name="clicked" handler="on_button_take_photo_clicked"/>
+                                        <accelerator key="z" signal="clicked"/>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
                               </widget>
                               <packing>
-                                <property name="pack_type">end</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>

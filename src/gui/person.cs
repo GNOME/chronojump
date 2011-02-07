@@ -27,7 +27,10 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
 using System.Threading;
-
+using System.IO; 
+using LongoMatch.Gui;
+using LongoMatch.Video.Capturer;
+using LongoMatch.Video.Common;
 
 //load person (jumper)
 public class PersonRecuperateWindow {
@@ -841,6 +844,10 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Image image_sport;
 	[Widget] Gtk.Image image_speciallity;
 	[Widget] Gtk.Image image_level;
+	
+	[Widget] Gtk.Button button_zoom;
+	[Widget] Gtk.Image image_photo_mini;
+	[Widget] Gtk.Image image_zoom;
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
@@ -917,8 +924,22 @@ public class PersonAddModifyWindow
 		createComboCountries();
 		
 		Pixbuf pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "calendar.png"); //from asssembly
 		image_calendar.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		image_zoom.Pixbuf = pixbuf;
+
+		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+		if(File.Exists(photoFile)) {
+			pixbuf = new Pixbuf (photoFile); //from a file
+			image_photo_mini.Pixbuf = pixbuf;
+		}
+		//show zoom button only if big image exists
+		if(File.Exists(Util.GetPhotoFileName(false, currentPerson.UniqueID)))
+			button_zoom.Sensitive = true;
+		else
+			button_zoom.Sensitive = false;
 			
 		fakeButtonAccept = new Gtk.Button();
 		fakeButtonCancel = new Gtk.Button();
@@ -930,6 +951,37 @@ public class PersonAddModifyWindow
 			person_win.Title = Catalog.GetString ("Edit jumper");
 	}
 	
+	void on_button_zoom_clicked (object o, EventArgs args) {
+		new DialogImageTest(currentPerson.Name, Util.GetPhotoFileName(false, currentPerson.UniqueID));
+	}
+
+	void on_button_take_photo_clicked (object o, EventArgs args) 
+	{
+		CapturerBin capturer = new CapturerBin();
+		CapturePropertiesStruct s = new CapturePropertiesStruct();
+
+		s.CaptureSourceType = CaptureSourceType.Raw;
+
+		capturer.CaptureProperties = s;
+		capturer.Type = CapturerType.Snapshot;
+		capturer.Visible=true;
+		capturer.NewSnapshot += on_snapshot_done;
+		capturer.NewSnapshotMini += on_snapshot_mini_done;
+		
+		Gtk.Window d = new Gtk.Window("Capturer");
+		d.Add(capturer);
+		d.ShowAll();
+		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
+		capturer.Run();
+	}
+	private void on_snapshot_done(Pixbuf pixbuf) {
+		pixbuf.Save(Util.GetPhotoFileName(false, currentPerson.UniqueID),"jpeg");
+		button_zoom.Sensitive = true;
+	}
+	private void on_snapshot_mini_done(Pixbuf pixbuf) {
+		pixbuf.Save(Util.GetPhotoFileName(true, currentPerson.UniqueID),"jpeg");
+	}
+
 	void on_entries_required_changed (object o, EventArgs args)
 	{
 		bool allOk = true;

@@ -2154,9 +2154,8 @@ public class ChronoJumpWindow
 		CapturerBin capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		Util.CreateMultimediaSessionDirIfNeeded(Constants.MultimediaItems.VIDEO, 111);
-		s.OutputFile = Util.GetMultimediaFileName(
-			Constants.MultimediaItems.VIDEO,
+		Util.CreateVideoSessionDirIfNeeded(111);
+		s.OutputFile = Util.GetVideoFileName(
 			111, //sessionID
 			Constants.TestTypes.JUMP,
 			123 //jump uniqueID
@@ -2179,30 +2178,8 @@ public class ChronoJumpWindow
 	}
 	
 	private void on_menuitem_camera_photo(object o, EventArgs args) {
-		CapturerBin capturer = new CapturerBin();
-		CapturePropertiesStruct s = new CapturePropertiesStruct();
-
-		s.CaptureSourceType = CaptureSourceType.Raw;
-
-		capturer.CaptureProperties = s;
-		capturer.Type = CapturerType.Snapshot;
-		capturer.Visible=true;
-		capturer.NewSnapshot += on_snapshot_done;
-		capturer.NewSnapshotMini += on_snapshot_mini_done;
-		
-		Gtk.Window d = new Gtk.Window("Capturer");
-		d.Add(capturer);
-		d.ShowAll();
-		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
-		capturer.Run();
 	}
 
-	private void on_snapshot_done(Pixbuf pixbuf) {
-		pixbuf.Save("/tmp/test-foto.jpg","jpeg");
-	}
-	private void on_snapshot_mini_done(Pixbuf pixbuf) {
-		pixbuf.Save("/tmp/test-foto-mini.jpg","jpeg");
-	}
 
 
 	/* ---------------------------------------------------------

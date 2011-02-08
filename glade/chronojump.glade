@@ -17794,20 +17794,6 @@ by you</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_camera_record">
-                        <property name="label" translatable="yes">camera record</property>
-                        <property name="visible">True</property>
-                        <property name="use_stock">False</property>
-                        <signal name="activate" handler="on_menuitem_camera_record_activate"/>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image45">
-                            <property name="visible">True</property>
-                            <property name="stock">gtk-missing-image</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                    <child>
                       <widget class="GtkImageMenuItem" id="menuitem_report_window">
                         <property name="label" translatable="yes">Report</property>
                         <property name="visible">True</property>

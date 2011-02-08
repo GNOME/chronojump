@@ -525,15 +525,7 @@ public class EventExecuteWindow
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		/*
-		Util.CreateVideoSessionDirIfNeeded(sessionID);
-		s.OutputFile = Util.GetVideoFileName(
-			sessionID, //sessionID
-			Constants.TestTypes.JUMP,
-			123 //jump uniqueID
-			);
-		*/
-		s.OutputFile = "/tmp/test.avi";
+		s.OutputFile = Util.GetVideoTempFileName();
 
 		s.VideoBitrate =  1000;
 		s.CaptureSourceType = CaptureSourceType.Raw;
@@ -1770,6 +1762,8 @@ public class EventExecuteWindow
 		eventHasEnded = true;
 		
 		capturer.Stop();
+		capturer.Close();
+		capturer.Dispose();
 	}
 	
 	
@@ -1925,8 +1919,6 @@ public class EventExecuteWindow
 		
 	void on_button_close_clicked (object o, EventArgs args)
 	{
-		capturer.Close();
-		capturer.Dispose();
 		//capturerWindow.Hide();
 
 		EventExecuteWindowBox.event_execute.Hide();

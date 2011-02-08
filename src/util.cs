@@ -744,6 +744,12 @@ public class Util
 			GetMultimediaExtension(Constants.MultimediaItems.PHOTO);
 	}
 	
+	public static string GetVideoTempFileName() {
+		return Path.Combine(
+				Path.GetTempPath(), Constants.VideoTemp + 
+				GetMultimediaExtension(Constants.MultimediaItems.VIDEO));
+	}
+	
 	public static string GetPhotoTempFileName(bool small) {
 		string fileName = Constants.PhotoTemp;
 		if(small)
@@ -760,6 +766,13 @@ public class Util
 			return Constants.ExtensionVideo;
 		else //multimediaItem = Constants.MultimediaItems.PHOTO
 			return Constants.ExtensionPhoto;
+	}
+			
+	public static void MoveTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
+		if(File.Exists(GetVideoTempFileName())) {
+			CreateVideoSessionDirIfNeeded(sessionID);
+			File.Move(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+		}
 	}
 
 

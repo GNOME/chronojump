@@ -2030,9 +2030,9 @@ public class ChronoJumpWindow
 			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
 			//because it was undefined. Copy them now
 			if(File.Exists(Util.GetPhotoTempFileName(false)) && File.Exists(Util.GetPhotoTempFileName(true))) {
-				File.Copy(Util.GetPhotoTempFileName(false), 
+				File.Move(Util.GetPhotoTempFileName(false), 
 						Util.GetPhotoFileName(false, currentPerson.UniqueID));
-				File.Copy(Util.GetPhotoTempFileName(true), 
+				File.Move(Util.GetPhotoTempFileName(true), 
 						Util.GetPhotoFileName(true, currentPerson.UniqueID));
 			}
 			
@@ -2930,6 +2930,9 @@ Console.WriteLine("X");
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
 
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID);
+
 			if(weightPercentPreferred)
 				myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			else {
@@ -3127,6 +3130,9 @@ Console.WriteLine("X");
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
+			
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
 
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
@@ -3354,6 +3360,10 @@ Console.WriteLine("X");
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
+			
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN, currentRun.UniqueID);
+			
 			currentRun.MetersSecondsPreferred = metersSecondsPreferred;
 
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
@@ -3551,6 +3561,10 @@ Console.WriteLine("X");
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
+
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+
 			currentRunInterval.MetersSecondsPreferred = metersSecondsPreferred;
 
 			//if user clicked in finish earlier
@@ -3673,6 +3687,9 @@ Console.WriteLine("X");
 		if ( ! currentEventExecute.Cancel ) {
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
+			
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RT, currentReactionTime.UniqueID);
 			
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
 			
@@ -3835,6 +3852,9 @@ Console.WriteLine("X");
 			*/
 			
 			currentPulse = (Pulse) currentEventExecute.EventDone;
+			
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, currentPulse.UniqueID);
 
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
 			
@@ -4023,6 +4043,10 @@ Console.WriteLine("U");
 Console.WriteLine("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 Console.WriteLine("W");
+			//move video file if exists
+			Util.MoveTempVideo(currentSession.UniqueID, 
+					Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
+
 			//this produces also a crash:
 			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
 

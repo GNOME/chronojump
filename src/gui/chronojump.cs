@@ -2026,6 +2026,15 @@ public class ChronoJumpWindow
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
+
+			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
+			//because it was undefined. Copy them now
+			if(File.Exists(Util.GetPhotoTempFileName(false)) && File.Exists(Util.GetPhotoTempFileName(true))) {
+				File.Copy(Util.GetPhotoTempFileName(false), 
+						Util.GetPhotoFileName(false, currentPerson.UniqueID));
+				File.Copy(Util.GetPhotoTempFileName(true), 
+						Util.GetPhotoFileName(true, currentPerson.UniqueID));
+			}
 			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
 			if(rowToSelect != -1) {

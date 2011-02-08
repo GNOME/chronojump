@@ -477,5 +477,7 @@ public class Constants
 	public const string ExtensionPhoto = ".jpg";
 	public const string SmallPhotoDir = "small";
 	public static string MultimediaFileNoExists = Catalog.GetString("Sorry, this multimedia file does not exists.");
+	public static string PhotoTemp = "chronojump-photo";
+	public static string PhotoSmallTemp = "chronojump-photo-small";
 	
 }

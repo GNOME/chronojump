@@ -2155,37 +2155,6 @@ public class ChronoJumpWindow
 		}
 	}
 
-	/* ---------------------------------------------------------
-	 * ----------------  CAMERA CALLBACKS ----------------------
-	 *  --------------------------------------------------------
-	 */
-	private void on_menuitem_camera_record_activate(object o, EventArgs args) {
-		CapturerBin capturer = new CapturerBin();
-		CapturePropertiesStruct s = new CapturePropertiesStruct();
-
-		Util.CreateVideoSessionDirIfNeeded(111);
-		s.OutputFile = Util.GetVideoFileName(
-			111, //sessionID
-			Constants.TestTypes.JUMP,
-			123 //jump uniqueID
-			);
-
-		s.VideoBitrate =  1000;
-		s.CaptureSourceType = CaptureSourceType.Raw;
-		s.Width = 360;
-		s.Height = 288;
-
-		capturer.CaptureProperties = s;
-		capturer.Type = CapturerType.Live;
-		capturer.Visible=true;
-		
-		Gtk.Window d = new Gtk.Window("Capturer");
-		d.Add(capturer);
-		d.ShowAll();
-		d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
-		capturer.Run();
-	}
-	
 
 
 	/* ---------------------------------------------------------

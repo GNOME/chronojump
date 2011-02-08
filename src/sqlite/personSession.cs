@@ -353,8 +353,15 @@ class SqlitePersonSession : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		//if person is not in other sessions, delete it from DB
-		if(! PersonExistsInPS(Convert.ToInt32(personID)))
+		if(! PersonExistsInPS(Convert.ToInt32(personID))) {
 			SqlitePerson.Delete(Convert.ToInt32(personID));
+
+			//delete photos if any
+			if(File.Exists(Util.GetPhotoFileName(false, Convert.ToInt32(personID))))
+				File.Delete(Util.GetPhotoFileName(false, Convert.ToInt32(personID)));
+			if(File.Exists(Util.GetPhotoFileName(true, Convert.ToInt32(personID))))
+				File.Delete(Util.GetPhotoFileName(true, Convert.ToInt32(personID)));
+		}
 				
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +

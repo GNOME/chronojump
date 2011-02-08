@@ -977,17 +977,33 @@ public class PersonAddModifyWindow
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
 		capturer.Run();
 	}
+
 	private void on_snapshot_done(Pixbuf pixbuf) {
-		pixbuf.Save(Util.GetPhotoFileName(false, currentPerson.UniqueID),"jpeg");
+		string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
+		if(adding)
+			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		
+		pixbuf.Save(fileName,"jpeg");
 		button_zoom.Sensitive = true;
 	}
+
 	private void on_snapshot_mini_done(Pixbuf pixbuf) {
-		pixbuf.Save(Util.GetPhotoFileName(true, currentPerson.UniqueID),"jpeg");
+		string fileName = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+		if(adding)
+			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		
+		pixbuf.Save(fileName,"jpeg");
 		capturer.Close();
 		capturer.Dispose();
 		capturerWindow.Hide();
 		
 		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+		if(adding)
+			photoFile = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+
 		if(File.Exists(photoFile)) {
 			Pixbuf pixbuf2 = new Pixbuf (photoFile); //from a file
 			image_photo_mini.Pixbuf = pixbuf2;

@@ -707,6 +707,7 @@ public class Util
 				"Chronojump" + Path.DirectorySeparatorChar + "multimedia" +
 				Path.DirectorySeparatorChar + "videos");
 	}
+	
 
 	//to store user videos and photos
 	public static void CreateMultimediaDirsIfNeeded () {
@@ -742,6 +743,16 @@ public class Util
 		return GetPhotosDir(small) + Path.DirectorySeparatorChar + uniqueID.ToString() +
 			GetMultimediaExtension(Constants.MultimediaItems.PHOTO);
 	}
+	
+	public static string GetPhotoTempFileName(bool small) {
+		string fileName = Constants.PhotoTemp;
+		if(small)
+			fileName = Constants.PhotoSmallTemp;
+
+		return Path.Combine(
+				Path.GetTempPath(), fileName + GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+	}
+	
 	
 	
 	public static string GetMultimediaExtension (Constants.MultimediaItems multimediaItem) {

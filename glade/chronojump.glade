@@ -283,7 +283,6 @@
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
                                         <signal name="clicked" handler="on_button_take_photo_clicked"/>
-                                        <accelerator key="z" signal="clicked"/>
                                       </widget>
                                       <packing>
                                         <property name="position">1</property>

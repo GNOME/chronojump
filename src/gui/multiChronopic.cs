@@ -75,6 +75,7 @@ public class EditMultiChronopicWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.MULTICHRONOPIC;
 		headerShowDecimal = false;
 		showType = false;
 		showTv = false;

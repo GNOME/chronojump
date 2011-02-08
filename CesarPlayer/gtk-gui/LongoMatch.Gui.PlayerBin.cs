@@ -84,12 +84,12 @@ namespace LongoMatch.Gui
 			global::Gtk.Label w6 = new global::Gtk.Label ();
 			w3.Add (w6);
 			w2.Add (w3);
-			this.closebutton.Add (w2);
-			this.buttonsbox.Add (this.closebutton);
-			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.buttonsbox[this.closebutton]));
-			w10.Position = 0;
-			w10.Expand = false;
-			w10.Fill = false;
+			//this.closebutton.Add (w2);
+			//this.buttonsbox.Add (this.closebutton);
+			//global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.buttonsbox[this.closebutton]));
+			//w10.Position = 0;
+			//w10.Expand = false;
+			//w10.Fill = false;
 			// Container child buttonsbox.Gtk.Box+BoxChild
 			this.drawbutton = new global::Gtk.Button ();
 			this.drawbutton.Name = "drawbutton";
@@ -107,12 +107,12 @@ namespace LongoMatch.Gui
 			global::Gtk.Label w15 = new global::Gtk.Label ();
 			w12.Add (w15);
 			w11.Add (w12);
-			this.drawbutton.Add (w11);
-			this.buttonsbox.Add (this.drawbutton);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.buttonsbox[this.drawbutton]));
-			w19.Position = 1;
-			w19.Expand = false;
-			w19.Fill = false;
+			//this.drawbutton.Add (w11);
+			//this.buttonsbox.Add (this.drawbutton);
+			//global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.buttonsbox[this.drawbutton]));
+			//w19.Position = 1;
+			//w19.Expand = false;
+			//w19.Fill = false;
 			// Container child buttonsbox.Gtk.Box+BoxChild
 			this.playbutton = new global::Gtk.Button ();
 			this.playbutton.Name = "playbutton";
@@ -263,12 +263,12 @@ namespace LongoMatch.Gui
 			global::Gtk.Label w64 = new global::Gtk.Label ();
 			w61.Add (w64);
 			w60.Add (w61);
-			this.volumebutton.Add (w60);
-			this.controlsbox.Add (this.volumebutton);
-			global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.controlsbox[this.volumebutton]));
-			w68.Position = 4;
-			w68.Expand = false;
-			w68.Fill = false;
+			//this.volumebutton.Add (w60);
+			//this.controlsbox.Add (this.volumebutton);
+			//global::Gtk.Box.BoxChild w68 = ((global::Gtk.Box.BoxChild)(this.controlsbox[this.volumebutton]));
+			//w68.Position = 4;
+			//w68.Expand = false;
+			//w68.Fill = false;
 			this.vbox2.Add (this.controlsbox);
 			global::Gtk.Box.BoxChild w69 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.controlsbox]));
 			w69.Position = 1;

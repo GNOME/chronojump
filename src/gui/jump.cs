@@ -81,6 +81,7 @@ public class EditJumpWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
 		showTv = true;
 		showTc= true;
@@ -306,6 +307,7 @@ public class EditJumpRjWindow : EditJumpWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.JUMP_RJ;
 		showType = true;
 		showTv = false;
 		showTc = false;

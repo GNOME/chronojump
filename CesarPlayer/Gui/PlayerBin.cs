@@ -81,6 +81,7 @@ namespace LongoMatch.Gui
 			timescale.CanFocus = false;
 			vscale1.CanFocus = false;	
 			drawbutton.CanFocus = false;
+			drawbutton.Visible = false;
 			seeksQueue = new double[2];
 			seeksQueue [0] = -1;
 			seeksQueue [1] = -1;
@@ -314,7 +315,8 @@ namespace LongoMatch.Gui
 			vscale1.Value=25;
 			//timescale.Sensitive = true;
 			slength = TimeString.MSecondsToSecondsString(length);
-			SegmentClosedEvent();
+			if (SegmentClosedEvent != null)
+				SegmentClosedEvent();
 			player.CancelProgramedStop();			
 		}
 		

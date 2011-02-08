@@ -69,6 +69,7 @@ public class EditReactionTimeWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.RT;
 		headerShowDecimal = false;
 		showType = false;
 		showTv = false;

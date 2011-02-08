@@ -23,9 +23,11 @@ using Gtk;
 using Glade;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
-
+using System.IO;
 using System.Threading;
 using Mono.Unix;
+using LongoMatch.Gui;
+using LongoMatch.Video.Player;
 
 
 //--------------------------------------------------------
@@ -68,6 +70,11 @@ public class EditEventWindow
 	
 	[Widget] protected Gtk.Label label_mistakes;
 	[Widget] protected Gtk.SpinButton spin_mistakes;
+
+	[Widget] protected Gtk.Label label_video_yes;
+	[Widget] protected Gtk.Label label_video_no;
+	[Widget] protected Gtk.Button button_video_watch;
+	protected string videoFileName = "";
 	
 	[Widget] protected Gtk.Entry entry_description;
 	//[Widget] protected Gtk.TextView textview_description;
@@ -86,6 +93,7 @@ public class EditEventWindow
 	protected string entryWeight = "0"; //used to record the % for old person if we change it
 	protected string entryAngle = "0";
 
+	protected Constants.TestTypes typeOfTest;
 	protected bool showType;
 	protected bool showTv;
 	protected bool showTc;
@@ -134,6 +142,7 @@ public class EditEventWindow
 }
 	
 	protected virtual void initializeValues () {
+		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
 		showTv = true;
 		showTc = true;
@@ -255,6 +264,34 @@ public class EditEventWindow
 			
 		hbox_combo_person.PackStart(combo_persons, true, true, 0);
 		hbox_combo_person.ShowAll();
+
+		//show video if available	
+		videoFileName = Util.GetVideoFileName(myEvent.SessionID, typeOfTest, myEvent.UniqueID);
+		if(File.Exists(videoFileName)) {
+			label_video_yes.Visible = true;
+			label_video_no.Visible = false;
+			button_video_watch.Sensitive = true;
+		} else {
+			label_video_yes.Visible = false;
+			label_video_no.Visible = true;
+			button_video_watch.Sensitive = false;
+		}
+	}
+
+	private void on_button_video_watch_clicked (object o, EventArgs args) {
+		if(File.Exists(videoFileName)) { 
+			Log.WriteLine("Exists and clicked " + videoFileName);
+			
+			PlayerBin player = new PlayerBin();
+			player.Open(videoFileName);
+
+			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
+			d.Add(player);
+			d.Modal = true;
+			d.ShowAll();
+			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
+			player.Play(); 
+		}
 	}
 	
 	protected void fillWindowTitleAndLabelHeader() {
@@ -465,7 +502,7 @@ public class EditEventWindow
 		EditEventWindowBox.edit_event.Hide();
 		EditEventWindowBox = null;
 	}
-	
+
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		int eventID = Convert.ToInt32 ( label_event_id_value.Text );

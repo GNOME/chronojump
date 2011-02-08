@@ -80,6 +80,7 @@ public class EditRunWindow : EditEventWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.RUN;
 		showType = true;
 		showTv = false;
 		showTc= false;
@@ -268,6 +269,7 @@ public class EditRunIntervalWindow : EditRunWindow
 	}
 	
 	protected override void initializeValues () {
+		typeOfTest = Constants.TestTypes.RUN_I;
 		showType = true;
 		showTv = false;
 		showTc= false;

@@ -97,6 +97,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_video_play_selected_jump;
 	[Widget] Gtk.Button button_delete_selected_jump;
 	[Widget] Gtk.Button button_edit_selected_jump_rj;
+	[Widget] Gtk.Button button_video_play_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_repair_selected_jump_rj;
 	[Widget] Gtk.MenuItem menuitem_jump_type_add;
@@ -131,8 +132,10 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_run_type_delete_simple;
 	[Widget] Gtk.MenuItem menuitem_run_type_delete_intervallic;
 	[Widget] Gtk.Button button_edit_selected_run;
+	[Widget] Gtk.Button button_video_play_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
 	[Widget] Gtk.Button button_edit_selected_run_interval;
+	[Widget] Gtk.Button button_video_play_selected_run_interval;
 	[Widget] Gtk.Button button_delete_selected_run_interval;
 	[Widget] Gtk.Button button_repair_selected_run_interval;
 
@@ -157,17 +160,20 @@ public class ChronoJumpWindow
 	//reaction time
 	[Widget] Gtk.MenuItem menuitem_reaction_time;
 	[Widget] Gtk.Button button_edit_selected_reaction_time;
+	[Widget] Gtk.Button button_video_play_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
 	//pulse
 	[Widget] Gtk.MenuItem menuitem_pulse_free;
 	[Widget] Gtk.MenuItem menuitem_pulse_custom;
 	[Widget] Gtk.Button button_edit_selected_pulse;
+	[Widget] Gtk.Button button_video_play_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
 	//multiChronopic	
 	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
+	[Widget] Gtk.Button button_video_play_selected_multi_chronopic;
 	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
 	[Widget] Gtk.Box hbox_multi_chronopic_buttons;
 	[Widget] Gtk.Button button_multi_chronopic_start;
@@ -1170,22 +1176,20 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		myItem.Activated += on_edit_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
-	
-		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + myJump.Type + " (" + myJump.PersonName + ")");
-		string videoFileName = Util.GetVideoFileName(currentSession.UniqueID, 
-				Constants.TestTypes.JUMP, myTreeViewJumps.EventSelectedID);
-		if(File.Exists(videoFileName)) {
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myJump.Type + " (" + myJump.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.JUMP, myTreeViewJumps.EventSelectedID))) {
 			myItem.Activated += on_video_play_selected_jump_clicked;
 			myItem.Sensitive = true;
 		} else 
 			myItem.Sensitive = false;
-		
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
+		myItem.Activated += on_edit_selected_jump_clicked;
 		myMenu.Attach( myItem, 0, 1, 1, 2 );
-
+	
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
@@ -1252,20 +1256,30 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myJump.Type + " (" + myJump.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.JUMP_RJ, myTreeViewJumpsRj.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_jump_rj_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_repair_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 3, 4 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 5, 6 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1320,16 +1334,26 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
-		myItem.Activated += on_edit_selected_run_clicked;
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myRun.Type + " (" + myRun.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.RUN, myTreeViewRuns.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_run_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
+		myItem.Activated += on_edit_selected_run_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1389,20 +1413,30 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myRun.Type + " (" + myRun.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.RUN_I, myTreeViewRunsInterval.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_run_interval_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_repair_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 3, 4 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 5, 6 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1457,16 +1491,26 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myRt.Type + " (" + myRt.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.RT, myTreeViewReactionTimes.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_reaction_time_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_edit_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1525,20 +1569,30 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				myPulse.Type + " (" + myPulse.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.PULSE, myTreeViewPulses.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_pulse_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_edit_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_repair_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 3, 4 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_delete_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 5, 6 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1608,24 +1662,32 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
+				mc.Type + " (" + mc.PersonName + ")");
+		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.MULTICHRONOPIC, myTreeViewMultiChronopic.EventSelectedID))) {
+			myItem.Activated += on_video_play_selected_multi_chronopic_clicked;
+			myItem.Sensitive = true;
+		} else 
+			myItem.Sensitive = false;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_edit_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 
 		/*
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_repair_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 		*/
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		//myMenu.Attach( mySep, 0, 1, 2, 3 );
-		myMenu.Attach( mySep, 0, 1, 1, 2 );
+		myMenu.Attach( mySep, 0, 1, 3, 4 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
-		//myMenu.Attach( myItem, 0, 1, 3, 4 );
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 5, 6 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -4383,25 +4445,77 @@ Console.WriteLine("X");
 	 * ----------------  EVENTS PLAY VIDEO ---------------------
 	 *  --------------------------------------------------------
 	 */
+
+	private void playVideo(string fileName) {
+		if(File.Exists(fileName)) {
+			Log.WriteLine("Exists and clicked " + fileName);
+
+			PlayerBin player = new PlayerBin();
+			player.Open(fileName);
+
+			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
+			d.Add(player);
+			d.Modal = true;
+			d.ShowAll();
+			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
+			player.Play(); 
+		}
+	}
 	
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
-		if (myTreeViewJumps.EventSelectedID > 0) {
-			string videoFileName = Util.GetVideoFileName(currentSession.UniqueID, 
-					Constants.TestTypes.JUMP, myTreeViewJumps.EventSelectedID);
-			if(File.Exists(videoFileName)) {
-				Log.WriteLine("Exists and clicked " + videoFileName);
+		if (myTreeViewJumps.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.JUMP,
+						myTreeViewJumps.EventSelectedID));
 
-				PlayerBin player = new PlayerBin();
-				player.Open(videoFileName);
+	}
 
-				Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
-				d.Add(player);
-				d.Modal = true;
-				d.ShowAll();
-				d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
-				player.Play(); 
-			}
-		}
+	private void on_video_play_selected_jump_rj_clicked (object o, EventArgs args) {
+		if (myTreeViewJumpsRj.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.JUMP_RJ,
+						myTreeViewJumpsRj.EventSelectedID));
+
+	}
+
+	private void on_video_play_selected_run_clicked (object o, EventArgs args) {
+		if (myTreeViewRuns.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.RUN,
+						myTreeViewRuns.EventSelectedID));
+
+	}
+
+	private void on_video_play_selected_run_interval_clicked (object o, EventArgs args) {
+		if (myTreeViewRunsInterval.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.RUN_I,
+						myTreeViewRunsInterval.EventSelectedID));
+
+	}
+
+	private void on_video_play_selected_reaction_time_clicked (object o, EventArgs args) {
+		if (myTreeViewReactionTimes.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.RT,
+						myTreeViewReactionTimes.EventSelectedID));
+
+	}
+
+	private void on_video_play_selected_pulse_clicked (object o, EventArgs args) {
+		if (myTreeViewPulses.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.PULSE,
+						myTreeViewPulses.EventSelectedID));
+
+	}
+
+	private void on_video_play_selected_multi_chronopic_clicked (object o, EventArgs args) {
+		if (myTreeViewMultiChronopic.EventSelectedID > 0) 
+			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.MULTICHRONOPIC,
+						myTreeViewMultiChronopic.EventSelectedID));
+
 	}
 
 
@@ -5108,13 +5222,13 @@ Console.WriteLine("X");
 			menuitem_delete_selected_jump.Sensitive = show;
 			button_edit_selected_jump.Sensitive = show;
 			button_delete_selected_jump.Sensitive = show;
+
 			button_video_play_selected_jump.Sensitive = false;
-			if (myTreeViewJumps.EventSelectedID > 0) {
-				string videoFileName = Util.GetVideoFileName(currentSession.UniqueID, 
-						Constants.TestTypes.JUMP, myTreeViewJumps.EventSelectedID);
-				if(File.Exists(videoFileName)) 
-					button_video_play_selected_jump.Sensitive = true;
-			}
+			if (myTreeViewJumps.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.JUMP,
+							myTreeViewJumps.EventSelectedID)))
+				button_video_play_selected_jump.Sensitive = true;
 
 			success = true;
 		} 
@@ -5125,6 +5239,14 @@ Console.WriteLine("X");
 			button_delete_selected_jump_rj.Sensitive = show;
 			button_repair_selected_jump_rj.Sensitive = show;
 			menuitem_repair_selected_jump_rj.Sensitive = show;
+
+			button_video_play_selected_jump_rj.Sensitive = false;
+			if (myTreeViewJumpsRj.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.JUMP_RJ,
+							myTreeViewJumpsRj.EventSelectedID)))
+				button_video_play_selected_jump_rj.Sensitive = true;
+
 			success = true;
 		} 
 		if (type == "ALL" || type == "Run") {
@@ -5132,6 +5254,14 @@ Console.WriteLine("X");
 			menuitem_delete_selected_run.Sensitive = show;
 			button_edit_selected_run.Sensitive = show;
 			button_delete_selected_run.Sensitive = show;
+
+			button_video_play_selected_run.Sensitive = false;
+			if (myTreeViewRuns.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.RUN,
+							myTreeViewRuns.EventSelectedID)))
+				button_video_play_selected_run.Sensitive = true;
+
 			success = true;
 		} 
 		if (type == "ALL" || type == "RunInterval") {
@@ -5141,11 +5271,27 @@ Console.WriteLine("X");
 			button_delete_selected_run_interval.Sensitive = show;
 			button_repair_selected_run_interval.Sensitive = show;
 			menuitem_repair_selected_run_interval.Sensitive = show;
+			
+			button_video_play_selected_run_interval.Sensitive = false;
+			if (myTreeViewRunsInterval.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.RUN_I,
+							myTreeViewRunsInterval.EventSelectedID)))
+				button_video_play_selected_run_interval.Sensitive = true;
+
 			success = true;
 		} 
 		if (type == "ALL" || type == "ReactionTime") {
 			button_edit_selected_reaction_time.Sensitive = show;
 			button_delete_selected_reaction_time.Sensitive = show;
+			
+			button_video_play_selected_reaction_time.Sensitive = false;
+			if (myTreeViewReactionTimes.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.RT,
+							myTreeViewReactionTimes.EventSelectedID)))
+				button_video_play_selected_reaction_time.Sensitive = true;
+
 			success = true;
 		} 
 		if (type == "ALL" || type == "Pulse") {
@@ -5154,11 +5300,27 @@ Console.WriteLine("X");
 			button_edit_selected_pulse.Sensitive = show;
 			button_delete_selected_pulse.Sensitive = show;
 			button_repair_selected_pulse.Sensitive = show;
+			
+			button_video_play_selected_pulse.Sensitive = false;
+			if (myTreeViewPulses.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.PULSE,
+							myTreeViewPulses.EventSelectedID)))
+				button_video_play_selected_pulse.Sensitive = true;
+
 			success = true;
 		} 
 		if (type == "ALL" || type == Constants.MultiChronopicName) {
 			button_edit_selected_multi_chronopic.Sensitive = show;
 			button_delete_selected_multi_chronopic.Sensitive = show;
+			
+			button_video_play_selected_multi_chronopic.Sensitive = false;
+			if (myTreeViewMultiChronopic.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
+							currentSession.UniqueID, 
+							Constants.TestTypes.MULTICHRONOPIC,
+							myTreeViewMultiChronopic.EventSelectedID)))
+				button_video_play_selected_multi_chronopic.Sensitive = true;
+
 			success = true;
 		} 
 		if (!success) {

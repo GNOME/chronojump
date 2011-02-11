@@ -18632,28 +18632,6 @@ by you</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="button_edit_selected_jump">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="tooltip" translatable="yes">Edit selected (e)</property>
-                                    <signal name="clicked" handler="on_edit_selected_jump_clicked"/>
-                                    <accelerator key="e" signal="clicked"/>
-                                    <child>
-                                      <widget class="GtkImage" id="image1972">
-                                        <property name="visible">True</property>
-                                        <property name="stock">gtk-edit</property>
-                                        <property name="icon-size">1</property>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="GtkButton" id="button_video_play_selected_jump">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -18666,6 +18644,28 @@ by you</property>
                                       <widget class="GtkImage" id="image45">
                                         <property name="visible">True</property>
                                         <property name="stock">gtk-media-play</property>
+                                        <property name="icon-size">1</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkButton" id="button_edit_selected_jump">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="tooltip" translatable="yes">Edit selected (e)</property>
+                                    <signal name="clicked" handler="on_edit_selected_jump_clicked"/>
+                                    <accelerator key="e" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkImage" id="image1972">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-edit</property>
                                         <property name="icon-size">1</property>
                                       </widget>
                                     </child>
@@ -19051,6 +19051,29 @@ by you</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <widget class="GtkButton" id="button_video_play_selected_jump_rj">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                <signal name="clicked" handler="on_video_play_selected_jump_rj_clicked"/>
+                                                <accelerator key="v" signal="clicked"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image46">
+                                                    <property name="visible">True</property>
+                                                    <property name="stock">gtk-media-play</property>
+                                                    <property name="icon-size">1</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <widget class="GtkButton" id="button_edit_selected_jump_rj">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -19069,7 +19092,7 @@ by you</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">1</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -19089,7 +19112,7 @@ by you</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">2</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -19109,7 +19132,7 @@ by you</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">3</property>
+                                                <property name="position">4</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -19566,6 +19589,29 @@ by you</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <widget class="GtkButton" id="button_video_play_selected_run">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                                <signal name="clicked" handler="on_video_play_selected_run_clicked"/>
+                                                <accelerator key="v" signal="clicked"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image47">
+                                                    <property name="visible">True</property>
+                                                    <property name="stock">gtk-media-play</property>
+                                                    <property name="icon-size">1</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <widget class="GtkButton" id="button_edit_selected_run">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
@@ -19584,7 +19630,7 @@ by you</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">1</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -19604,7 +19650,7 @@ by you</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">2</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -19921,6 +19967,29 @@ by you</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="GtkButton" id="button_video_play_selected_run_interval">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="has_tooltip">True</property>
+                                    <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                    <signal name="clicked" handler="on_video_play_selected_run_interval_clicked"/>
+                                    <accelerator key="v" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkImage" id="image48">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-media-play</property>
+                                        <property name="icon-size">1</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkButton" id="button_edit_selected_run_interval">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -19939,7 +20008,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">1</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -19959,7 +20028,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">2</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -19979,7 +20048,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">3</property>
+                                    <property name="position">4</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -20112,6 +20181,29 @@ by you</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="GtkButton" id="button_video_play_selected_reaction_time">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="has_tooltip">True</property>
+                                    <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                    <signal name="clicked" handler="on_video_play_selected_reaction_time_clicked"/>
+                                    <accelerator key="v" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkImage" id="image49">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-media-play</property>
+                                        <property name="icon-size">1</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkButton" id="button_edit_selected_reaction_time">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -20130,7 +20222,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">1</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -20150,7 +20242,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">2</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -20327,6 +20419,29 @@ by you</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="GtkButton" id="button_video_play_selected_pulse">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="has_tooltip">True</property>
+                                    <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                    <signal name="clicked" handler="on_video_play_selected_pulse_clicked"/>
+                                    <accelerator key="v" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkImage" id="image50">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-media-play</property>
+                                        <property name="icon-size">1</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkButton" id="button_edit_selected_pulse">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -20345,7 +20460,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">1</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -20365,7 +20480,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">2</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -20385,7 +20500,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">3</property>
+                                    <property name="position">4</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -20641,6 +20756,29 @@ by you</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="GtkButton" id="button_video_play_selected_multi_chronopic">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <property name="has_tooltip">True</property>
+                                    <property name="tooltip" translatable="yes">Play Video (v)</property>
+                                    <signal name="clicked" handler="on_video_play_selected_multi_chronopic_clicked"/>
+                                    <accelerator key="v" signal="clicked"/>
+                                    <child>
+                                      <widget class="GtkImage" id="image51">
+                                        <property name="visible">True</property>
+                                        <property name="stock">gtk-media-play</property>
+                                        <property name="icon-size">1</property>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkButton" id="button_edit_selected_multi_chronopic">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -20659,7 +20797,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">1</property>
+                                    <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -20679,7 +20817,7 @@ by you</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
-                                    <property name="position">2</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                               </widget>

@@ -1176,6 +1176,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myJump.Type + " (" + myJump.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1185,17 +1186,18 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 	
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1256,6 +1258,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myJump.Type + " (" + myJump.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1265,21 +1268,22 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 		
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_edit_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_repair_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 3, 4 );
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myJump.Type + " (" + myJump.PersonName + ")");
 		myItem.Activated += on_delete_selected_jump_rj_clicked;
-		myMenu.Attach( myItem, 0, 1, 5, 6 );
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1334,6 +1338,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myRun.Type + " (" + myRun.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1343,17 +1348,18 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1413,6 +1419,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myRun.Type + " (" + myRun.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1422,21 +1429,22 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_edit_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_repair_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 3, 4 );
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRun.Type + " (" + myRun.PersonName + ")");
 		myItem.Activated += on_delete_selected_run_interval_clicked;
-		myMenu.Attach( myItem, 0, 1, 5, 6 );
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1491,6 +1499,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myRt.Type + " (" + myRt.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1500,17 +1509,18 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
-		
+		*/
+
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_edit_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 2, 3 );
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myRt.Type + " (" + myRt.PersonName + ")");
 		myItem.Activated += on_delete_selected_reaction_time_clicked;
-		myMenu.Attach( myItem, 0, 1, 3, 4 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1569,6 +1579,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				myPulse.Type + " (" + myPulse.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1578,21 +1589,22 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_edit_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_repair_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 2, 3 );
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 3, 4 );
+		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + myPulse.Type + " (" + myPulse.PersonName + ")");
 		myItem.Activated += on_delete_selected_pulse_clicked;
-		myMenu.Attach( myItem, 0, 1, 5, 6 );
+		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -1662,6 +1674,7 @@ public class ChronoJumpWindow
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
+		/*
 		myItem = new MenuItem ( Catalog.GetString("Play Video") + " " + 
 				mc.Type + " (" + mc.PersonName + ")");
 		if(File.Exists(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -1671,10 +1684,11 @@ public class ChronoJumpWindow
 		} else 
 			myItem.Sensitive = false;
 		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		*/
 
 		myItem = new MenuItem ( Catalog.GetString("Edit selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_edit_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
 
 		/*
 		myItem = new MenuItem ( Catalog.GetString("Repair selected") + " " + mc.Type + " (" + mc.PersonName + ")");
@@ -1683,11 +1697,11 @@ public class ChronoJumpWindow
 		*/
 		
 		Gtk.SeparatorMenuItem mySep = new SeparatorMenuItem();
-		myMenu.Attach( mySep, 0, 1, 3, 4 );
+		myMenu.Attach( mySep, 0, 1, 1, 2 );
 
 		myItem = new MenuItem ( Catalog.GetString("Delete selected") + " " + mc.Type + " (" + mc.PersonName + ")");
 		myItem.Activated += on_delete_selected_multi_chronopic_clicked;
-		myMenu.Attach( myItem, 0, 1, 5, 6 );
+		myMenu.Attach( myItem, 0, 1, 2, 3 );
 
 		myMenu.Popup();
 		myMenu.ShowAll();
@@ -4456,9 +4470,9 @@ Console.WriteLine("X");
 			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
 			d.Add(player);
 			d.Modal = true;
-			d.ShowAll();
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 
+			d.ShowAll();
 		}
 	}
 	

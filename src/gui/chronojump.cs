@@ -4472,6 +4472,7 @@ Console.WriteLine("X");
 			d.Modal = true;
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 
+
 			d.ShowAll();
 		}
 	}
@@ -4481,7 +4482,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP,
 						myTreeViewJumps.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_jump_rj_clicked (object o, EventArgs args) {
@@ -4489,7 +4489,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP_RJ,
 						myTreeViewJumpsRj.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_run_clicked (object o, EventArgs args) {
@@ -4497,7 +4496,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN,
 						myTreeViewRuns.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_run_interval_clicked (object o, EventArgs args) {
@@ -4505,7 +4503,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN_I,
 						myTreeViewRunsInterval.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_reaction_time_clicked (object o, EventArgs args) {
@@ -4513,7 +4510,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RT,
 						myTreeViewReactionTimes.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_pulse_clicked (object o, EventArgs args) {
@@ -4521,7 +4517,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.PULSE,
 						myTreeViewPulses.EventSelectedID));
-
 	}
 
 	private void on_video_play_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -4529,7 +4524,6 @@ Console.WriteLine("X");
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.MULTICHRONOPIC,
 						myTreeViewMultiChronopic.EventSelectedID));
-
 	}
 
 

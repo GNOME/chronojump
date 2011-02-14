@@ -754,6 +754,9 @@ public class QueryServerWindow
 			return sqlString;
 		} catch {
 			//fix problem on changing continent that updates country and two signals come
+			//also on run (maybe because there's no data)
+			label_results_num.Text = "0";
+			label_results_avg.Text = "-";
 			return "";
 		}
 	}

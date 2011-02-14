@@ -1091,8 +1091,10 @@ public class PersonAddModifyWindow
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.comesFromRecuperateWin = comesFromRecuperateWin;
 
-		if(comesFromRecuperateWin)
-			PersonAddModifyWindowBox.button_cancel.Hide();
+		//No more hide cancel button.
+		//Better to show it and allow to not recuperate if user changes his mind
+		//if(comesFromRecuperateWin)
+			//PersonAddModifyWindowBox.button_cancel.Hide();
 		
 		PersonAddModifyWindowBox.person_win.Show ();
 		

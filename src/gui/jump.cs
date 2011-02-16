@@ -846,7 +846,7 @@ public class JumpExtraWindow
 		}
 		*/
 		
-		if(myJumpType.IsRepetitive) {
+		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
 			if(myJumpType.JumpsLimited) {
@@ -1315,11 +1315,12 @@ public class JumpsRjMoreWindow : EventMoreWindow
 				selectedLimited = true;
 			}
 			
-			if( (string) model.GetValue (iter, 2) == "?" || (string) model.GetValue (iter, 2) == "-") {
+			if( (string) model.GetValue (iter, 2) == "?")
 				selectedLimitedValue = 0;
-			} else {
+			else if( (string) model.GetValue (iter, 2) == "-") 
+				selectedLimitedValue = -1.0;
+			else 
 				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
-			}
 
 			if( (string) model.GetValue (iter, 3) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
@@ -1362,11 +1363,12 @@ public class JumpsRjMoreWindow : EventMoreWindow
 				selectedLimited = true;
 			}
 			
-			if( (string) model.GetValue (iter, 2) == "?" || (string) model.GetValue (iter, 2) == "-") {
+			if( (string) model.GetValue (iter, 2) == "?")
 				selectedLimitedValue = 0;
-			} else {
+			else if( (string) model.GetValue (iter, 2) == "-") 
+				selectedLimitedValue = -1.0;
+			else 
 				selectedLimitedValue = Convert.ToDouble( (string) model.GetValue (iter, 2) );
-			}
 
 			if( (string) model.GetValue (iter, 3) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;

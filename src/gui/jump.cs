@@ -35,7 +35,6 @@ using Mono.Unix;
 public class EditJumpWindow : EditEventWindow
 {
 	static EditJumpWindow EditJumpWindowBox;
-//	protected bool weightPercentPreferred;
 	protected double personWeight;
 	protected int sessionID; //for know weight specific to this session
 
@@ -95,9 +94,9 @@ public class EditJumpWindow : EditEventWindow
 		showMistakes = false;
 		
 		if(weightPercentPreferred)
-			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
+			label_weight_units.Text = "%";
 		else
-			label_weight_title.Text = label_weight_title.Text.ToString() + " Kg";
+			label_weight_units.Text = "Kg";
 
 		Log.WriteLine(string.Format("-------------{0}", personWeight));
 	}
@@ -320,9 +319,9 @@ public class EditJumpRjWindow : EditJumpWindow
 		showMistakes = false;
 		
 		if(weightPercentPreferred)
-			label_weight_title.Text = label_weight_title.Text.ToString() + " %";
+			label_weight_units.Text = "%";
 		else
-			label_weight_title.Text = label_weight_title.Text.ToString() + " Kg";
+			label_weight_units.Text = "Kg";
 	}
 
 	protected override string [] findTypes(Event myEvent) {

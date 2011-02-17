@@ -45,22 +45,30 @@ public class EditEventWindow
 	[Widget] protected Gtk.Label label_event_id_value;
 	[Widget] protected Gtk.Label label_tv_title;
 	[Widget] protected Gtk.Entry entry_tv_value;
+	[Widget] protected Gtk.Label label_tv_units;
 	[Widget] protected Gtk.Label label_tc_title;
 	[Widget] protected Gtk.Entry entry_tc_value;
+	[Widget] protected Gtk.Label label_tc_units;
 	[Widget] protected Gtk.Label label_fall_title;
 	[Widget] protected Gtk.Entry entry_fall_value;
+	[Widget] protected Gtk.Label label_fall_units;
 	[Widget] protected Gtk.Label label_distance_title;
 	[Widget] protected Gtk.Entry entry_distance_value;
+	[Widget] protected Gtk.Label label_distance_units;
 	[Widget] protected Gtk.Label label_time_title;
 	[Widget] protected Gtk.Entry entry_time_value;
+	[Widget] protected Gtk.Label label_time_units;
 	[Widget] protected Gtk.Label label_speed_title;
 	[Widget] protected Gtk.Label label_speed_value;
+	[Widget] protected Gtk.Label label_speed_units;
 	[Widget] protected Gtk.Label label_weight_title;
 	[Widget] protected Gtk.Entry entry_weight_value;
+	[Widget] protected Gtk.Label label_weight_units;
 	[Widget] protected Gtk.Label label_limited_title;
 	[Widget] protected Gtk.Label label_limited_value;
 	[Widget] protected Gtk.Label label_angle_title;
 	[Widget] protected Gtk.Entry entry_angle_value;
+	[Widget] protected Gtk.Label label_angle_units;
 	[Widget] protected Gtk.Label label_simulated;
 	
 	[Widget] protected Gtk.Box hbox_combo_eventType;
@@ -175,6 +183,7 @@ public class EditEventWindow
 		else { 
 			label_tv_title.Hide();
 			entry_tv_value.Hide();
+			label_tv_units.Hide();
 		}
 
 		if(showTc)
@@ -182,6 +191,7 @@ public class EditEventWindow
 		else { 
 			label_tc_title.Hide();
 			entry_tc_value.Hide();
+			label_tc_units.Hide();
 		}
 
 		if(showFall)
@@ -189,6 +199,7 @@ public class EditEventWindow
 		else { 
 			label_fall_title.Hide();
 			entry_fall_value.Hide();
+			label_fall_units.Hide();
 		}
 
 		if(showDistance)
@@ -196,6 +207,7 @@ public class EditEventWindow
 		else { 
 			label_distance_title.Hide();
 			entry_distance_value.Hide();
+			label_distance_units.Hide();
 		}
 
 		if(showTime)
@@ -203,6 +215,7 @@ public class EditEventWindow
 		else { 
 			label_time_title.Hide();
 			entry_time_value.Hide();
+			label_time_units.Hide();
 		}
 
 		if(showSpeed)
@@ -210,6 +223,7 @@ public class EditEventWindow
 		else { 
 			label_speed_title.Hide();
 			label_speed_value.Hide();
+			label_speed_units.Hide();
 		}
 
 		if(showWeight)
@@ -217,6 +231,7 @@ public class EditEventWindow
 		else { 
 			label_weight_title.Hide();
 			entry_weight_value.Hide();
+			label_weight_units.Hide();
 		}
 
 		if(showLimited)
@@ -231,6 +246,7 @@ public class EditEventWindow
 		else { 
 			label_angle_title.Hide();
 			entry_angle_value.Hide();
+			label_angle_units.Hide();
 		}
 		
 		if(! showMistakes) {

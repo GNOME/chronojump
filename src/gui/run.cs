@@ -58,6 +58,7 @@ public class EditRunWindow : EditEventWindow
 			EditRunWindowBox = new EditRunWindow (parent);
 		}
 
+		EditRunWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		EditRunWindowBox.pDN = pDN;
 		
 		EditRunWindowBox.initializeValues();
@@ -92,6 +93,11 @@ public class EditRunWindow : EditEventWindow
 		showWeight = false;
 		showLimited = false;
 		showMistakes = false;
+		
+		if(metersSecondsPreferred)
+			label_speed_units.Text = "m/s";
+		else
+			label_speed_units.Text = "Km/h";
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -125,6 +131,11 @@ public class EditRunWindow : EditEventWindow
 	protected override void fillSpeed(Event myEvent) {
 		Run myRun = (Run) myEvent;
 		label_speed_value.Text = Util.TrimDecimals(myRun.Speed.ToString(), pDN);
+		
+		if(metersSecondsPreferred)
+			label_speed_units.Text = "m/s";
+		else
+			label_speed_units.Text = "Km/h";
 	}
 
 	protected override void createSignal() {
@@ -248,6 +259,7 @@ public class EditRunIntervalWindow : EditRunWindow
 			EditRunIntervalWindowBox = new EditRunIntervalWindow (parent);
 		}
 
+		EditRunIntervalWindowBox.metersSecondsPreferred = metersSecondsPreferred;
 		EditRunIntervalWindowBox.pDN = pDN;
 		
 		EditRunIntervalWindowBox.initializeValues();
@@ -281,6 +293,11 @@ public class EditRunIntervalWindow : EditRunWindow
 		showWeight = false;
 		showLimited = true;
 		showMistakes = false;
+		
+		if(metersSecondsPreferred)
+			label_speed_units.Text = "m/s";
+		else
+			label_speed_units.Text = "Km/h";
 	}
 
 	//this disallows loops on radio actions	

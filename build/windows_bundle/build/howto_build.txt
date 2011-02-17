@@ -11,6 +11,14 @@ MONO HAS TO BE INSTALLED IN A PATH WIHTOUT SPACES
 on mingw/msys, go to chronojump folder and run:
 
 $cd /c/chronojump/
+
+on windows AssemblyInfo.cs is not generated automatically:
+
+$cd src
+$cp AssemblyInfo.cs.in AssemblyInfo.cs 
+
+On AssemblyInfo.cs and change: @PACKAGE_VERSION@ to eg: 0.9.3
+
 $make -f Makefile.win32
 
 It compiles Chronojump and Chronojump_mini, creates the bundle and install it in the bin folder.

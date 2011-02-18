@@ -1820,7 +1820,7 @@ public class PersonAddMultipleWindow {
 			table_main.Attach (sexBox, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
 
 
-			Gtk.SpinButton mySpin = new Gtk.SpinButton(0, 300, 1);
+			Gtk.SpinButton mySpin = new Gtk.SpinButton(0, 300, .1);
 			table_main.Attach (mySpin, (uint) 3, (uint) 4, (uint) count, (uint) count +1);
 			mySpin.Show();
 			spins.Add(mySpin);
@@ -1926,7 +1926,7 @@ public class PersonAddMultipleWindow {
 				insertPerson (
 						((Gtk.Entry)entries[i]).Text.ToString(), 
 						((Gtk.RadioButton)radiosM[i]).Active, 
-		 				(int) ((Gtk.SpinButton)spins[i]).Value);
+		 				(double) ((Gtk.SpinButton)spins[i]).Value);
 	}
 
 	void insertPerson (string name, bool male, double weight) 

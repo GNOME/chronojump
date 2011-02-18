@@ -64,6 +64,8 @@ public class QueryServerWindow
 	[Widget] Gtk.Label label_speciallity;
 	[Widget] Gtk.Label label_results_num;
 	[Widget] Gtk.Label label_results_avg;
+	[Widget] Gtk.Label label_results_num_units;
+	[Widget] Gtk.Label label_results_avg_units;
 	
 	[Widget] Gtk.Image image_test_type;
 	[Widget] Gtk.Image image_country;
@@ -743,12 +745,14 @@ public class QueryServerWindow
 
 				string [] resultFull = result.Split(new char[] {':'});
 				label_results_num.Text = resultFull[0];
-				if(resultFull[0] == "0")
+
+				printUnits(resultFull[0]);
+		
+				if(resultFull[0] == "0") 
 					label_results_avg.Text = "-";
-				else {
+				else 
 					label_results_avg.Text = Util.TrimDecimals(
 						Util.ConvertToPointIfNeeded(resultFull[1]), pDN);
-}
 			}
 
 			return sqlString;
@@ -757,8 +761,30 @@ public class QueryServerWindow
 			//also on run (maybe because there's no data)
 			label_results_num.Text = "0";
 			label_results_avg.Text = "-";
+			printUnits("0");
 			return "";
 		}
+	}
+				
+	private void printUnits(string result) {
+		string testType = UtilGtk.ComboGetActive(combo_test_types);
+		if(testType == Catalog.GetString(Constants.JumpSimpleName) ||
+				testType == Catalog.GetString(Constants.JumpReactiveName))
+			label_results_num_units.Text = Catalog.GetString("jumps");
+		else if (testType == Catalog.GetString(Constants.RunSimpleName))
+			label_results_num_units.Text = Catalog.GetString("runs");
+
+		string strVariable = UtilGtk.ComboGetActive(combo_variables);
+		if(result == "0")
+			label_results_avg_units.Text = "";
+		else if(strVariable == "TV" || strVariable == "TC" || strVariable == Catalog.GetString("Time")) 
+			label_results_avg_units.Text = Catalog.GetString("seconds");
+		else if(strVariable == Constants.RJPotencyBoscoFormula)
+			label_results_avg_units.Text = Catalog.GetString("watts");
+		else if(strVariable == Constants.QIndexFormula)
+			label_results_avg_units.Text = "";
+		else
+			label_results_avg_units.Text = "%";
 	}
 
 	private void fillDialog ()

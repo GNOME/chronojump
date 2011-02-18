@@ -236,6 +236,7 @@ public class Constants
 	public static string TypeJumpsSimple = Catalog.GetString("Jumps: Simple");
 	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Jumps: Simple with TC");
 	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
+	public static string TypeRunsSimple = Catalog.GetString("Runs: Simple");
 
 	//strings
 	public static string AllJumpsName = Catalog.GetString("See all jumps");

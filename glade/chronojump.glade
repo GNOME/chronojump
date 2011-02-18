@@ -3937,7 +3937,7 @@ options</property>
                 <property name="row_spacing">8</property>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_average">
-                    <property name="label" translatable="yes">Jumper's average</property>
+                    <property name="label" translatable="yes">Person's average</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -3988,7 +3988,7 @@ options</property>
                 </child>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_bests">
-                    <property name="label" translatable="yes">Jumper's bests</property>
+                    <property name="label" translatable="yes">Person's bests</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

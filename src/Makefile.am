@@ -114,6 +114,7 @@ FILES = \
  	stats/fv.cs\
  	stats/potency.cs\
  	stats/rjAVGSD.cs\
+ 	stats/runSimple.cs\
 	stats/graphs/graphData.cs\
  	stats/graphs/graphROptions.cs\
  	stats/graphs/graphSerie.cs\

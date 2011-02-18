@@ -368,6 +368,25 @@ public class StatType {
 				}
 			}
 		}
+		else if(statisticType == Constants.TypeRunsSimple)
+		{
+			if(statisticApplyTo.Length == 0) {
+				Log.WriteLine("Simple-ret");
+				return false;
+			}
+		
+			//only no indexes now	
+			//if(statisticSubType == Catalog.GetString("No indexes")) 
+			//{
+				//RunType myType = new RunType(statisticApplyTo);
+				if(graph) {
+					//myStat = new GraphRunSimple (myStatTypeStruct);
+					myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
+				} else {
+					myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
+				}
+			//}
+		}
 		
 		myStat.FakeButtonRowCheckedUnchecked.Clicked += 
 			new EventHandler(on_fake_button_row_checked_clicked);

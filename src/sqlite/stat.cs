@@ -1059,6 +1059,97 @@ class SqliteStat : Sqlite
 		return myArray;
 	}
 
+	public static ArrayList RunSimple (string sessionString, bool multisession, string operationString, string runType, bool showSex)
+	{
+		string tp = Constants.PersonTable;
+
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		} else if(operationString == "AVG") {
+			ini = "AVG(";
+			end = ")";
+		}
+		
+		string orderByString = "ORDER BY ";
+		string moreSelect = "";
+		moreSelect = ini + "run.time" + end;
+		
+		string fromString = " FROM run, " + tp + " ";
+		string runTypeString = " AND run.type == '" + runType + "' ";
+		if(runType == Constants.AllRunsName) {
+			moreSelect = moreSelect + ", run.type ";
+			fromString = " FROM run, " + tp + ", runType ";
+			runTypeString = " AND run.Type == runType.name "; 
+		}
+
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY run.personID, run.sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		if(multisession) {
+			orderByString = orderByString + tp + ".name, sessionID, ";
+		}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
+			fromString +
+			sessionString +
+			runTypeString +
+			" AND run.personID == " + tp + ".uniqueID " +
+			groupByString +
+			orderByString + ini + "run.time " + end + " DESC ";
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = "." + reader[1].ToString() ;
+			}
+			
+			if(multisession) {
+				string returnSessionString = ":" + reader[2].ToString();
+				string returnValueString = "";
+				/*
+				if(heightPreferred) {
+					returnValueString = ":" + Util.GetHeightInCentimeters(
+							Util.ChangeDecimalSeparator(reader[3].ToString()));
+				} else {
+					returnValueString = ":" + reader[3].ToString();
+				}
+				*/
+				myArray.Add (reader[0].ToString() + showSexString +
+						returnSessionString + 		//session
+						returnValueString		//time
+					    );
+			} else {
+				//in simple session return: name, sex, height, TF
+				myArray.Add (reader[0].ToString() + showSexString +
+						/*
+						":" + Util.GetHeightInCentimeters(
+							Util.ChangeDecimalSeparator(reader[3].ToString())) +
+							*/
+						":" + Util.ChangeDecimalSeparator(reader[3].ToString())
+					    );
+			}
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+	
 	/*
 	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, 
 			int personID, bool heightPreferred)

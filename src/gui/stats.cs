@@ -128,6 +128,7 @@ public class StatsWindow {
 		Constants.TypeJumpsSimple,
 		Constants.TypeJumpsSimpleWithTC,
 		Constants.TypeJumpsReactive,
+		Constants.TypeRunsSimple,
 	};
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -578,6 +579,17 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		}
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsSimple ) 
+		{
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
+			combo_stats_stat_subtype.Sensitive = false;
+			combo_stats_stat_subtype.Active = 0;
+			
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteRunType.SelectRunTypes(Constants.AllRunsName, true), ""); //only select name
+			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
+		} 
 
 		fillTreeView_stats(false);
 	}

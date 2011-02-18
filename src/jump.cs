@@ -251,6 +251,7 @@ public class JumpRj : Jump
 	
 	public double Time
 	{
+		get { return time; }
 		set { time = value; }
 	}
 	

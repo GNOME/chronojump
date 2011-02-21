@@ -234,13 +234,15 @@ public class StatType {
 			if(statisticSubType != Catalog.GetString("No indexes")) 
 			{
 				string indexType = "";
-				if(statisticSubType == Constants.IeIndexFormula) {
+				if(statisticSubType == Catalog.GetString(Constants.SubtractionBetweenTests))
+					indexType = "subtraction";
+				else if(statisticSubType == Constants.IeIndexFormula) 
 					indexType = "IE";
-				} else if(statisticSubType == Constants.IubIndexFormula) {
+				else if(statisticSubType == Constants.IubIndexFormula) {
 					indexType = "IUB";
-				} else if(statisticSubType == Constants.FvIndexFormula) {
+				else if(statisticSubType == Constants.FvIndexFormula) {
 					indexType = "F/V";
-				} else if(
+				else if(
 						statisticSubType == Constants.PotencyLewisFormula ||
 						statisticSubType == Constants.PotencyHarmanFormula ||
 						statisticSubType == Constants.PotencySayersSJFormula ||
@@ -257,25 +259,27 @@ public class StatType {
 					indexType = statisticSubType;
 				}
 			
-				if(indexType == "IE" || indexType == "IUB") {
-					if(graph) {
+				if(indexType == "subtraction") {
+					if(graph) 
+//						myStat = new GraphStatJumpSimpleSubtraction (myStatTypeStruct);
+					else 
+						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
+				} else if(indexType == "IE" || indexType == "IUB") {
+					if(graph) 
 						myStat = new GraphIeIub (myStatTypeStruct, indexType);
-					} else {
+					else 
 						myStat = new StatIeIub(myStatTypeStruct, treeview_stats, indexType); 
-					}
 				} else if(indexType == "F/V") {
-					if(graph) {
+					if(graph) 
 						myStat = new GraphFv (myStatTypeStruct, indexType);
-					} else {
+					else 
 						myStat = new StatFv(myStatTypeStruct, treeview_stats, indexType); 
-					}
 				} else {
 					//indexType = (Potency sayers or lewis);
-					if(graph) {
+					if(graph) 
 						myStat = new GraphPotency(myStatTypeStruct, indexType); 
-					} else {
+					else 
 						myStat = new StatPotency(myStatTypeStruct, treeview_stats, indexType); 
-					}
 				}
 			}
 			else {

@@ -130,6 +130,7 @@ FILES = \
  	stats/graphs/fv.cs\
  	stats/graphs/potency.cs\
 	stats/graphs/rjAVGSD.cs\
+ 	stats/graphs/runSimple.cs\
 	sqlite/main.cs\
  	sqlite/preferences.cs\
  	sqlite/session.cs\

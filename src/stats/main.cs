@@ -940,7 +940,7 @@ public class Stat
 					continue;
 				
 				if(val == "-") 
-					rD += sep + "0";
+					rD += sep + "NA";
 				else
 					rD += sep + Util.ConvertToPoint(val);
 				sep = ", ";
@@ -1175,9 +1175,7 @@ public class Stat
 				ylabStr = ", ylab='" + Util.RemoveTilde(CurrentGraphData.LabelLeft) + "'";
 		}
 
-		string naString = "";
-		if(isRjEvolution)
-			naString = ", na.rm = TRUE";
+		string naString = ", na.rm = TRUE";
 
 		string xlimString = "c(0,length(colnames(data))+1)";
 		if(isRjEvolution)
@@ -1308,10 +1306,10 @@ public class Stat
 		string rG = //rGraphString
 			
 			"hist(serie0, main='', lwd="+ gro.LineWidth +", xlab=colnames(data)[1], cex=1)\n" +
-			"abline(v=mean(serie0), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
-			"abline(v=median(serie0), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
-			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
-			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
+			"abline(v=mean(serie0, na.rm=T), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
+			"abline(v=median(serie0, na.rm=T), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
+			"mtext('avg', at=mean(serie0, na.rm=T), side=3, cex=.7, col='grey20')\n" +
+			"mtext('median', at=median(serie0, na.rm=T), side=1, cex=.7, col='grey40')\n" +
 			titStr;
 
 		return allData + rG;
@@ -1322,10 +1320,10 @@ public class Stat
 		string titStr = getTitle("Dotchart","");
 		string rG = //rGraphString
 			"dotchart(serie0, labels=rownames(data), xlab=colnames(data)[1], lwd="+ gro.LineWidth +", cex=1)\n" +
-			"abline(v=mean(serie0), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
-			"abline(v=median(serie0), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
-			"mtext('avg', at=mean(serie0), side=3, cex=.7, col='grey20')\n" +
-			"mtext('median', at=median(serie0), side=1, cex=.7, col='grey40')\n" +
+			"abline(v=mean(serie0, na.rm=T), lwd="+ gro.LineWidth +", lty=1, col='grey20')\n" +
+			"abline(v=median(serie0, na.rm=T), lwd="+ gro.LineWidth +", lty=2, col='grey40')\n" +
+			"mtext('avg', at=mean(serie0, na.rm=T), side=3, cex=.7, col='grey20')\n" +
+			"mtext('median', at=median(serie0, na.rm=T), side=1, cex=.7, col='grey40')\n" +
 			titStr;
 
 		return allData + rG;

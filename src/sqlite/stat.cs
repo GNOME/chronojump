@@ -1075,7 +1075,7 @@ class SqliteStat : Sqlite
 		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + "run.time" + end;
+		moreSelect = ini + "run.distance / run.time" + end + " AS speed, " + ini + "run.distance" + end + ", " + ini + "run.time" + end;
 		
 		string fromString = " FROM run, " + tp + " ";
 		string runTypeString = " AND run.type == '" + runType + "' ";
@@ -1104,7 +1104,7 @@ class SqliteStat : Sqlite
 			runTypeString +
 			" AND run.personID == " + tp + ".uniqueID " +
 			groupByString +
-			orderByString + ini + "run.time " + end + " DESC ";
+			orderByString + "speed DESC ";
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -1113,35 +1113,31 @@ class SqliteStat : Sqlite
 		reader = dbcmd.ExecuteReader();
 		
 		string showSexString = "";
+		string showRunTypeString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
 				showSexString = "." + reader[1].ToString() ;
 			}
+			if(runType == Constants.AllRunsName && operationString != "AVG") {
+				showRunTypeString = " (" + reader[6].ToString() + ")";
+			}
+			
 			
 			if(multisession) {
 				string returnSessionString = ":" + reader[2].ToString();
 				string returnValueString = "";
-				/*
-				if(heightPreferred) {
-					returnValueString = ":" + Util.GetHeightInCentimeters(
-							Util.ChangeDecimalSeparator(reader[3].ToString()));
-				} else {
-					returnValueString = ":" + reader[3].ToString();
-				}
-				*/
-				myArray.Add (reader[0].ToString() + showSexString +
+				returnValueString = ":" + reader[3].ToString();
+				myArray.Add (reader[0].ToString() + showSexString + showRunTypeString +
 						returnSessionString + 		//session
 						returnValueString		//time
 					    );
 			} else {
 				//in simple session return: name, sex, height, TF
-				myArray.Add (reader[0].ToString() + showSexString +
-						/*
-						":" + Util.GetHeightInCentimeters(
-							Util.ChangeDecimalSeparator(reader[3].ToString())) +
-							*/
-						":" + Util.ChangeDecimalSeparator(reader[3].ToString())
+				myArray.Add (reader[0].ToString() + showSexString + showRunTypeString + 
+						":" + Util.ChangeDecimalSeparator(reader[3].ToString()) +
+						":" + Util.ChangeDecimalSeparator(reader[4].ToString()) +
+						":" + Util.ChangeDecimalSeparator(reader[5].ToString())
 					    );
 			}
 		}

@@ -74,25 +74,9 @@ public class StatIeIub : Stat
 		}
 	}
 	
-	//session string must be different for indexes
-	protected string obtainSessionSqlStringIndexes(ArrayList sessions)
-	{
-		string newStr = "WHERE (";
-		for (int i=0; i < sessions.Count; i++) {
-			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
-			newStr = newStr + " (j1.sessionID == " + stringFullResults[0] + 
-				" AND j2.sessionID == " + stringFullResults[0] + ")";
-			if (i+1 < sessions.Count) {
-				newStr = newStr + " OR ";
-			}
-		}
-		newStr = newStr + ") ";
-		return newStr;		
-	}
-	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlStringIndexes(sessions);
+		string sessionString = obtainSessionSqlStringTwoTests(sessions);
 		bool multisession = false;
 		if(sessions.Count > 1) {
 			multisession = true;

@@ -424,6 +424,20 @@ public class Stat
 		return newStr;		
 	}
 	
+	protected string obtainSessionSqlStringTwoTests(ArrayList sessions, string tableName)
+	{
+		string newStr = "WHERE (";
+		for (int i=0; i < sessions.Count; i++) {
+			string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
+			newStr = newStr + " " + tableName + ".sessionID == " + stringFullResults[0];
+			if (i+1 < sessions.Count) {
+				newStr = newStr + " OR ";
+			}
+		}
+		newStr = newStr + ") ";
+		return newStr;		
+	}
+	
 	public virtual void PrepareData () {
 	}
 

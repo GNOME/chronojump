@@ -42,6 +42,7 @@ public class StatsWindow {
 	[Widget] Gtk.ComboBox combo_stats_stat_type;
 	[Widget] Gtk.ComboBox combo_stats_stat_subtype;
 	[Widget] Gtk.ComboBox combo_stats_stat_apply_to;
+	[Widget] Gtk.Label label_apply_to;
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
 	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.Button button_stats;
@@ -65,6 +66,13 @@ public class StatsWindow {
 	[Widget] Gtk.Box hbox_mark_consecutives;
 	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
 	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
+		
+	[Widget] Gtk.Label label_subtraction_between;
+	[Widget] Gtk.Box hbox_subtraction_between;
+	[Widget] Gtk.Box hbox_subtraction_between_1;
+	[Widget] Gtk.Box hbox_subtraction_between_2;
+	[Widget] Gtk.ComboBox combo_subtraction_between_1;
+	[Widget] Gtk.ComboBox combo_subtraction_between_2;
 	
 	[Widget] Gtk.Box hbox_combo_select_checkboxes;
 	[Widget] Gtk.ComboBox combo_select_checkboxes;
@@ -149,6 +157,7 @@ public class StatsWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
+		Catalog.GetString(Constants.SubtractionBetweenTests),
 		Constants.PotencyLewisFormula,
 		Constants.PotencyHarmanFormula,
 		Constants.PotencySayersSJFormula,
@@ -234,6 +243,7 @@ public class StatsWindow {
 		createComboStatsType();
 		createComboStatsSubType();
 		createComboStatsApplyTo();
+		createComboStatsSubtractionBetweenTests();
 	
 		createComboGraphType();
 		
@@ -345,6 +355,20 @@ public class StatsWindow {
 		hbox_combo_stats_stat_apply_to.PackStart(combo_stats_stat_apply_to, true, true, 0);
 		hbox_combo_stats_stat_apply_to.ShowAll();
 		combo_stats_stat_apply_to.Sensitive = true;
+	}
+	
+	private void createComboStatsSubtractionBetweenTests() {
+		combo_subtraction_between_1 = ComboBox.NewText ();
+		combo_subtraction_between_1.Changed += new EventHandler (on_combo_subtraction_between_1_changed);
+		hbox_subtraction_between_1.PackStart(combo_subtraction_between_1, true, true, 0);
+		hbox_subtraction_between_1.ShowAll();
+		combo_subtraction_between_1.Sensitive = true;
+		
+		combo_subtraction_between_2 = ComboBox.NewText ();
+		combo_subtraction_between_2.Changed += new EventHandler (on_combo_subtraction_between_2_changed);
+		hbox_subtraction_between_2.PackStart(combo_subtraction_between_2, true, true, 0);
+		hbox_subtraction_between_2.ShowAll();
+		combo_subtraction_between_2.Sensitive = true;
 	}
 
 	private void createComboSelectCheckboxes() {
@@ -595,6 +619,7 @@ public class StatsWindow {
 	}
 
 	private void updateComboStatsSubType() {
+		subtraction_between_tests_show(false);
 		if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
 			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
@@ -615,6 +640,14 @@ public class StatsWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJl(100%), SJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString(Constants.SubtractionBetweenTests)) {
+				UtilGtk.ComboUpdate(combo_subtraction_between_1, 
+					SqliteJumpType.SelectJumpTypes("", "", true), ""); //only select name
+				UtilGtk.ComboUpdate(combo_subtraction_between_2, 
+					SqliteJumpType.SelectJumpTypes("", "", true), ""); //only select name
+				subtraction_between_tests_show(true);
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = true;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormula) {
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
@@ -713,6 +746,11 @@ public class StatsWindow {
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
+			
+		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == 
+				Catalog.GetString(Constants.SubtractionBetweenTests))
+			statisticApplyTo = UtilGtk.ComboGetActive(combo_subtraction_between_1) + 
+				":" + UtilGtk.ComboGetActive(combo_subtraction_between_2);
 
 		if(statsColumnsToRemove && !graph) {
 			statsRemoveColumns();
@@ -942,7 +980,27 @@ public class StatsWindow {
 		//button_stats.Sensitive = true;
 		button_stats.Visible = true;
 	}
+				
+	private void subtraction_between_tests_show(bool show) {
+		if(show) {
+			label_subtraction_between.Show();
+			hbox_subtraction_between.Show();
+			hbox_subtraction_between_1.Show();
+			hbox_subtraction_between_2.Show();
 
+			//subtraction doesn't uses the combo: apply to
+			label_apply_to.Hide();
+			hbox_combo_stats_stat_apply_to.Hide();
+		} else {
+			label_subtraction_between.Hide();
+			hbox_subtraction_between.Hide();
+			hbox_subtraction_between_1.Hide();
+			hbox_subtraction_between_2.Hide();
+	
+			label_apply_to.Show();
+			hbox_combo_stats_stat_apply_to.Show();
+		}
+	}
 
 	private void on_checkbutton_show_enunciate_clicked(object o, EventArgs args) {
 		if (checkbutton_show_enunciate.Active) {
@@ -1102,6 +1160,21 @@ public class StatsWindow {
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
 			fillTreeView_stats(false);
 		}
+	}
+	
+	private void on_combo_subtraction_between_1_changed(object o, EventArgs args) {
+		Log.WriteLine(UtilGtk.ComboGetActive(combo_subtraction_between_1));
+		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
+		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
+		if (myText != "" && (myText2 != "") ) 
+			fillTreeView_stats(false);
+	}
+	private void on_combo_subtraction_between_2_changed(object o, EventArgs args) {
+		Log.WriteLine(UtilGtk.ComboGetActive(combo_subtraction_between_2));
+		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
+		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
+		if (myText != "" && (myText2 != "") ) 
+			fillTreeView_stats(false);
 	}
 	
 	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)

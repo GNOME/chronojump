@@ -52,6 +52,7 @@ public class Constants
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
+	public const string SubtractionBetweenTests = "Subtraction between tests";
 
 	//tests types (dont' use character '-' will be used multimedia file names)
 	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC }

@@ -375,17 +375,11 @@ public class StatType {
 				return false;
 			}
 		
-			//only no indexes now	
-			//if(statisticSubType == Catalog.GetString("No indexes")) 
-			//{
-				//RunType myType = new RunType(statisticApplyTo);
-				if(graph) {
-					//myStat = new GraphRunSimple (myStatTypeStruct);
-					myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
-				} else {
-					myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
-				}
-			//}
+			if(graph) {
+				myStat = new GraphRunSimple (myStatTypeStruct);
+			} else {
+				myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
+			}
 		}
 		
 		myStat.FakeButtonRowCheckedUnchecked.Clicked += 

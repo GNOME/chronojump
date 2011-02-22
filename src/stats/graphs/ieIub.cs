@@ -89,10 +89,10 @@ public class GraphIeIub : StatIeIub
 			serieJump1.IsLeftAxis = false;
 			serieJump2.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = 
+			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelRight =
 				jump1 + " " + Catalog.GetString("TF") + "(s), " + 
 				jump2 + " " + Catalog.GetString("TF") + "(s)";
-			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

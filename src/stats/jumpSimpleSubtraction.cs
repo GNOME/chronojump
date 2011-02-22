@@ -29,7 +29,7 @@ public class StatJumpSimpleSubtraction : Stat
 {
 	protected string test1;
 	protected string test2;
-	protected string [] columnsString = new String[4];
+	protected string [] columnsString = new String[5];
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
 	public StatJumpSimpleSubtraction () 
@@ -43,22 +43,24 @@ public class StatJumpSimpleSubtraction : Stat
 	{
 		completeConstruction (myStatTypeStruct, treeview);
 		
-		this.dataColumns = 3;	//for simplesession (result, test1, test2)
+		this.dataColumns = 4;	//for simplesession (result %, result, test1, test2)
 
-		string [] applyTos = myStatTypeStruct.StatisticApplyTo.Split(new char[] {':'});
+
+		string [] applyTos = myStatTypeStruct.StatisticApplyTo.Split(new char[] {','});
 		test1 = applyTos[0];
 		test2 = applyTos[1];
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
 		} else {
-			store = getStore(dataColumns +1); //jumper, result, test1, test2
+			store = getStore(dataColumns +1); //jumper, result %, result, test1, test2
 		}
 		
 		columnsString[0] = Catalog.GetString("Jumper");
-		columnsString[1] = Catalog.GetString("Result");
-		columnsString[2] = test1;
-		columnsString[3] = test2;
+		columnsString[1] = Catalog.GetString("Result %");
+		columnsString[2] = Catalog.GetString("Result");
+		columnsString[3] = test1;
+		columnsString[4] = test2;
 		
 		if(toReport) {
 			reportString = prepareHeadersReport(columnsString);

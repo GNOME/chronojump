@@ -359,13 +359,13 @@ public class StatsWindow {
 	
 	private void createComboStatsSubtractionBetweenTests() {
 		combo_subtraction_between_1 = ComboBox.NewText ();
-		combo_subtraction_between_1.Changed += new EventHandler (on_combo_subtraction_between_1_changed);
+		combo_subtraction_between_1.Changed += new EventHandler (on_combo_subtraction_between_1_or_2_changed);
 		hbox_subtraction_between_1.PackStart(combo_subtraction_between_1, true, true, 0);
 		hbox_subtraction_between_1.ShowAll();
 		combo_subtraction_between_1.Sensitive = true;
 		
 		combo_subtraction_between_2 = ComboBox.NewText ();
-		combo_subtraction_between_2.Changed += new EventHandler (on_combo_subtraction_between_2_changed);
+		combo_subtraction_between_2.Changed += new EventHandler (on_combo_subtraction_between_1_or_2_changed);
 		hbox_subtraction_between_2.PackStart(combo_subtraction_between_2, true, true, 0);
 		hbox_subtraction_between_2.ShowAll();
 		combo_subtraction_between_2.Sensitive = true;
@@ -745,12 +745,16 @@ public class StatsWindow {
 	
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
-		string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
-			
+		
+		string statisticApplyTo = "";
 		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == 
-				Catalog.GetString(Constants.SubtractionBetweenTests))
-			statisticApplyTo = UtilGtk.ComboGetActive(combo_subtraction_between_1) + 
-				":" + UtilGtk.ComboGetActive(combo_subtraction_between_2);
+				Catalog.GetString(Constants.SubtractionBetweenTests)) 
+			statisticApplyTo = UtilGtk.ComboGetActive(combo_subtraction_between_1) + "," +
+				UtilGtk.ComboGetActive(combo_subtraction_between_2);
+		else 
+			statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
+		
+
 
 		if(statsColumnsToRemove && !graph) {
 			statsRemoveColumns();
@@ -1162,19 +1166,12 @@ public class StatsWindow {
 		}
 	}
 	
-	private void on_combo_subtraction_between_1_changed(object o, EventArgs args) {
-		Log.WriteLine(UtilGtk.ComboGetActive(combo_subtraction_between_1));
+	private void on_combo_subtraction_between_1_or_2_changed(object o, EventArgs args) {
 		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
 		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
-		if (myText != "" && (myText2 != "") ) 
+		if (myText != "" && myText2 != "") {
 			fillTreeView_stats(false);
-	}
-	private void on_combo_subtraction_between_2_changed(object o, EventArgs args) {
-		Log.WriteLine(UtilGtk.ComboGetActive(combo_subtraction_between_2));
-		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
-		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
-		if (myText != "" && (myText2 != "") ) 
-			fillTreeView_stats(false);
+		}
 	}
 	
 	private void on_radiobuttons_stat_session_toggled (object o, EventArgs args)
@@ -1278,10 +1275,16 @@ public class StatsWindow {
 				statisticSubType += "." + ( spinbutton_mark_consecutives.Value ).ToString(); 
 			}
 			
-			string statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
-			if(statisticApplyTo.Length == 0) {
+			string statisticApplyTo = "";
+			if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == 
+					Catalog.GetString(Constants.SubtractionBetweenTests)) 
+				statisticApplyTo = UtilGtk.ComboGetActive(combo_subtraction_between_1) + "," +
+					UtilGtk.ComboGetActive(combo_subtraction_between_2);
+			else 
+				statisticApplyTo = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
+		
+			if(statisticApplyTo.Length == 0) 
 				statisticApplyTo = "-";
-			}
 	
 			string statsShowJumps = "";
 			if (radiobutton_stats_jumps_all.Active) {

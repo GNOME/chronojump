@@ -811,10 +811,12 @@ class SqliteStat : Sqlite
 		//*1.0 for having double division
 		if(ini == "MAX(") {
 			//search MAX of two jumps, not max index!!
-			moreSelect = " (MAX(j1.tv) - MAX(j2.tv)) AS myIndex, " +
+			moreSelect = " ( MAX(j1.tv) - MAX(j2.tv) )*100/(MAX(j1.tv)*1.0) AS resultPercent, " +
+				" (MAX(j1.tv) - MAX(j2.tv)) AS result, " +
 				"MAX(j1.tv), MAX(j2.tv) ";
 		} else if(ini == "AVG(") {
-			moreSelect = " (AVG(j1.tv) - AVG(j2.tv)) AS myIndex, " +
+			moreSelect = " ( AVG(j1.tv) - AVG(j2.tv) )*100/(AVG(j1.tv)*1.0) AS resultPercent, " +
+				" (AVG(j1.tv) - AVG(j2.tv)) AS result, " +
 				"AVG(j1.tv), AVG(j2.tv)";
 		}
 
@@ -838,7 +840,7 @@ class SqliteStat : Sqlite
 			" AND j1.personID == " + tp + ".uniqueID " +
 			" AND j2.personID == " + tp + ".uniqueID " +
 			groupByString +
-			orderByString + " myIndex DESC ";
+			orderByString + " resultPercent DESC ";
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -861,12 +863,13 @@ class SqliteStat : Sqlite
 				//in multisession we show only one column x session
 				//in simplesession we show all
 				
-				returnJump1String = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
-				returnJump2String = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
+				returnJump1String = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
+				returnJump2String = ":" + Util.ChangeDecimalSeparator(reader[6].ToString());
 			}
 			myArray.Add (reader[0].ToString() + showSexString +
 					returnSessionString + ":" + 		//session
-					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
+					Util.ChangeDecimalSeparator(reader[3].ToString()) + ":" + //resultPercent
+					Util.ChangeDecimalSeparator(reader[4].ToString()) +	//result
 					returnJump1String + 			//jump1
 					returnJump2String  			//jump2
 				    );

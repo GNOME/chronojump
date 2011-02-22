@@ -107,6 +107,7 @@ FILES = \
  	stats/sjCmjAbkPlus.cs\
  	stats/djIndex.cs\
  	stats/djQ.cs\
+ 	stats/jumpSimpleSubtraction.cs\
  	stats/rjIndex.cs\
  	stats/rjPotencyBosco.cs\
  	stats/rjEvolution.cs\

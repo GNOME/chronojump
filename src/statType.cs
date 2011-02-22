@@ -238,9 +238,9 @@ public class StatType {
 					indexType = "subtraction";
 				else if(statisticSubType == Constants.IeIndexFormula) 
 					indexType = "IE";
-				else if(statisticSubType == Constants.IubIndexFormula) {
+				else if(statisticSubType == Constants.IubIndexFormula) 
 					indexType = "IUB";
-				else if(statisticSubType == Constants.FvIndexFormula) {
+				else if(statisticSubType == Constants.FvIndexFormula) 
 					indexType = "F/V";
 				else if(
 						statisticSubType == Constants.PotencyLewisFormula ||
@@ -261,7 +261,8 @@ public class StatType {
 			
 				if(indexType == "subtraction") {
 					if(graph) 
-//						myStat = new GraphStatJumpSimpleSubtraction (myStatTypeStruct);
+						//myStat = new GraphStatJumpSimpleSubtraction (myStatTypeStruct);
+						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
 				} else if(indexType == "IE" || indexType == "IUB") {
@@ -289,17 +290,15 @@ public class StatType {
 				if(myType.HasWeight || 
 						statisticApplyTo == Constants.AllJumpsName) 
 				{
-					if(graph) {
+					if(graph) 
 						myStat = new GraphSjCmjAbkPlus (myStatTypeStruct);
-					} else {
+					else 
 						myStat = new StatSjCmjAbkPlus (myStatTypeStruct, treeview_stats);
-					}
 				} else {
-					if(graph) {
+					if(graph) 
 						myStat = new GraphSjCmjAbk (myStatTypeStruct);
-					} else {
+					else 
 						myStat = new StatSjCmjAbk (myStatTypeStruct, treeview_stats);
-					}
 				}
 			}
 		}
@@ -312,64 +311,58 @@ public class StatType {
 			
 			if(statisticSubType == Constants.DjIndexFormula)
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphDjIndex (myStatTypeStruct);
 							//heightPreferred is not used, check this
-				} else {
+				else 
 					myStat = new StatDjIndex(myStatTypeStruct, treeview_stats);
 							//heightPreferred is not used, check this
-				}
+				
 			} else if(statisticSubType == Constants.QIndexFormula)
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphDjQ (myStatTypeStruct);
 							//heightPreferred is not used, check this
-				} else {
+				else 
 					myStat = new StatDjQ(myStatTypeStruct, treeview_stats);
 							//heightPreferred is not used, check this
-				}
 			}
 		}
 		else if(statisticType == Constants.TypeJumpsReactive) {
 			if(statisticSubType == Catalog.GetString("Average Index"))
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphRjIndex (myStatTypeStruct);
-				} else {
+				else 
 					myStat = new StatRjIndex(myStatTypeStruct, treeview_stats);
-				}
 			}	
 			else if(statisticSubType == Constants.RJPotencyBoscoFormula)
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphRjPotencyBosco (myStatTypeStruct);
-				} else {
+				else 
 					myStat = new StatRjPotencyBosco(myStatTypeStruct, treeview_stats);
-				}
 			}
 			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
-				} else {
+				else 
 					myStat = new StatRjEvolution(myStatTypeStruct, rj_evolution_mark_consecutives, treeview_stats);
-				}
 			}
 			else if(statisticSubType == Constants.RJAVGSDRjIndexName)
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphRjAVGSD(myStatTypeStruct, Constants.RjIndexName);
-				} else {
+				else
 					myStat = new StatRjAVGSD(myStatTypeStruct, treeview_stats, Constants.RjIndexName);
-				}
 			}
 			else if(statisticSubType == Constants.RJAVGSDQIndexName)
 			{
-				if(graph) {
+				if(graph) 
 					myStat = new GraphRjAVGSD(myStatTypeStruct, Constants.QIndexName);
-				} else {
+				else
 					myStat = new StatRjAVGSD(myStatTypeStruct, treeview_stats, Constants.QIndexName);
-				}
 			}
 		}
 		else if(statisticType == Constants.TypeRunsSimple)
@@ -379,11 +372,10 @@ public class StatType {
 				return false;
 			}
 		
-			if(graph) {
+			if(graph) 
 				myStat = new GraphRunSimple (myStatTypeStruct);
-			} else {
+			else
 				myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
-			}
 		}
 		
 		myStat.FakeButtonRowCheckedUnchecked.Clicked += 

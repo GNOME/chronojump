@@ -1154,7 +1154,7 @@ public class Stat
 		string rG = //rGraphString
 		   	" colors=" + gro.Palette +"(length(rownames(data)))\n" +
 			"barplot(data, beside=T, col=colors, lwd="+ gro.LineWidth +", las=2, xlab=''" + ylabStr + ")\n" +
-			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7, col=colors, pch=3)\n";
+			" legend('" + gro.Legend +"', legend=rownames(data), cex=.7, col=colors, pch=15)\n";
 		
 		//have an unique title for both graphs
 		string titStr = getTitle("Barplot","");

@@ -25,29 +25,29 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class StatJumpsSimpleSubtraction : Stat
+public class StatJumpSimpleSubtraction : Stat
 {
 	protected string test1;
 	protected string test2;
 	protected string [] columnsString = new String[4];
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	public StatJumpsSimpleSubtraction () 
+	public StatJumpSimpleSubtraction () 
 	{
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
 	}
 
-	public StatJumpsSimpleSubtraction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
+	public StatJumpSimpleSubtraction (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview)
 	{
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 3;	//for simplesession (result, test1, test2)
 
 		string [] applyTos = myStatTypeStruct.StatisticApplyTo.Split(new char[] {':'});
-		test1 = applyTos[0]
-		test2 = applyTos[1]
+		test1 = applyTos[0];
+		test2 = applyTos[1];
 		
 		if(sessions.Count > 1) {
 			store = getStore(sessions.Count +3); //+3 (for jumper, the AVG horizontal and SD horizontal)
@@ -79,11 +79,11 @@ public class StatJumpsSimpleSubtraction : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.JumpsSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
+						SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.JumpsSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
+							SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "AVG(", ")", test1, test2, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -91,10 +91,10 @@ public class StatJumpsSimpleSubtraction : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			//some of this options are never called becase we don't allow radiobutton all and limit (only avg and best)
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.JumpsSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex),  
+				processDataMultiSession ( SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex),  
 						true, sessions.Count);
 			} else {
-				processDataSimpleSession ( SqliteStat.JumpsSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex), 
+				processDataSimpleSession ( SqliteStat.JumpSimpleSubtraction(sessionString, multisession, "MAX(", ")", test1, test2, showSex), 
 						true, dataColumns);
 			}
 		}
@@ -122,7 +122,6 @@ public class StatJumpsSimpleSubtraction : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		string indexString = "IE [(cmj-sj)/sj * 100]";
-		return string.Format(Catalog.GetString("{0} in test {1} - {2} on {3}"), selectedValuesString, test1, test2, mySessionString);
+		return string.Format(Catalog.GetString("{0} in test {1} - test {2} on {3}"), selectedValuesString, test1, test2, mySessionString);
 	}
 }

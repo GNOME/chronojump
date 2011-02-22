@@ -66,6 +66,7 @@ src/stats/graphs/runSimple.cs
 src/stats/graphs/sjCmjAbk.cs
 src/stats/graphs/sjCmjAbkPlus.cs
 src/stats/ieIub.cs
+src/stats/jumpSimpleSubtraction.cs
 src/stats/main.cs
 src/stats/rjAVGSD.cs
 src/stats/rjEvolution.cs

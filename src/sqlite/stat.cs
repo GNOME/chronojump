@@ -800,6 +800,82 @@ class SqliteStat : Sqlite
 		dbcon.Close();
 		return myArray;
 	}
+	
+	//is the same as IeIub except the moreSelect lines
+	public static ArrayList JumpSimpleSubtraction (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	{
+		string tp = Constants.PersonTable;
+		string orderByString = "ORDER BY ";
+		string moreSelect = ""; 
+		
+		//*1.0 for having double division
+		if(ini == "MAX(") {
+			//search MAX of two jumps, not max index!!
+			moreSelect = " (MAX(j1.tv) - MAX(j2.tv)) AS myIndex, " +
+				"MAX(j1.tv), MAX(j2.tv) ";
+		} else if(ini == "AVG(") {
+			moreSelect = " (AVG(j1.tv) - AVG(j2.tv)) AS myIndex, " +
+				"AVG(j1.tv), AVG(j2.tv)";
+		}
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY j1.personID, j1.sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		if(multisession) {
+			orderByString = orderByString + tp + ".name, j1.sessionID, ";
+		}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, j1.sessionID, " + moreSelect +
+			" FROM jump AS j1, jump AS j2, " + tp + " " +
+			sessionString +
+			" AND j1.type == '" + jump1 + "' " +
+			" AND j2.type == '" + jump2 + "' " +
+			" AND j1.personID == " + tp + ".uniqueID " +
+			" AND j2.personID == " + tp + ".uniqueID " +
+			groupByString +
+			orderByString + " myIndex DESC ";
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		string returnSessionString = "";
+		string returnJump1String = "";
+		string returnJump2String = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = "." + reader[1].ToString() ;
+			}
+			if(multisession) {
+				returnSessionString = ":" + reader[2].ToString();
+			} else {
+				//in multisession we show only one column x session
+				//in simplesession we show all
+				
+				returnJump1String = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
+				returnJump2String = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
+			}
+			myArray.Add (reader[0].ToString() + showSexString +
+					returnSessionString + ":" + 		//session
+					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
+					returnJump1String + 			//jump1
+					returnJump2String  			//jump2
+				    );
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+
 
 	public static ArrayList Fv (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
@@ -1145,6 +1221,7 @@ class SqliteStat : Sqlite
 		dbcon.Close();
 		return myArray;
 	}
+	
 	
 	/*
 	public static ArrayList GlobalNormal (string sessionString, string operation, bool sexSeparated, 

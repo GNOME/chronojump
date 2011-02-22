@@ -62,7 +62,7 @@ public class StatFv : StatIeIub
 	
 	public override void PrepareData() 
 	{
-		string sessionString = obtainSessionSqlStringIndexes(sessions);
+		string sessionString = obtainSessionSqlStringTwoTests(sessions);
 		bool multisession = false;
 		if(sessions.Count > 1) {
 			multisession = true;

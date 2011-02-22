@@ -39,7 +39,6 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 
 	public GraphJumpSimpleSubtraction  (StatTypeStruct myStatTypeStruct)
 	{
-Log.WriteLine("C");
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 4; //for Simplesession (resultPercent, result, test1, test2)
@@ -93,7 +92,6 @@ Log.WriteLine("C");
 			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
-Log.WriteLine("C");
 	}
 
 	protected override void printData (string [] statValues) 

@@ -451,6 +451,7 @@ public class StatsWindow {
 	
 	private void showTransposed(bool show) {
 		checkbutton_transposed.Visible = show;
+		checkbutton_transposed.Active = true;
 	}
 	
 	private void showLineWidth(bool show) {

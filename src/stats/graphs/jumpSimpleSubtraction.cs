@@ -32,22 +32,24 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 	protected string operation;
 
 	//for simplesession
-	GraphSerie serieIndex;
+	GraphSerie serieResultPercent;
+	//GraphSerie serieResult; //don't plot the result, plot the resultPercent
 	GraphSerie serieJump1;
 	GraphSerie serieJump2;
 
 	public GraphJumpSimpleSubtraction  (StatTypeStruct myStatTypeStruct)
 	{
+Log.WriteLine("C");
 		completeConstruction (myStatTypeStruct, treeview);
 		
-		this.dataColumns = 3; //for Simplesession (index, test1, test2)
+		this.dataColumns = 4; //for Simplesession (resultPercent, result, test1, test2)
 		
-		string [] applyTos = myStatTypeStruct.StatisticApplyTo.Split(new char[] {':'});
+		string [] applyTos = myStatTypeStruct.StatisticApplyTo.Split(new char[] {','});
 		test1 = applyTos[0];
 		test2 = applyTos[1];
 		
 		columnsString[0] = "Jumper";
-		columnsString[1] = Catalog.GetString("Result");
+		columnsString[1] = Catalog.GetString("ResultPercent");
 		columnsString[2] = test1;
 		columnsString[3] = test2;
 		
@@ -67,30 +69,31 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 		
 		if(sessions.Count == 1) {
 			//four series, the four columns
-			serieIndex = new GraphSerie();
+			serieResultPercent = new GraphSerie();
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Result");
+			serieResultPercent.Title = Catalog.GetString("ResultPercent");
 			serieJump1.Title = test1;
 			serieJump2.Title = test2;
 		
-			serieIndex.IsLeftAxis = true;
+			serieResultPercent.IsLeftAxis = true;
 			serieJump1.IsLeftAxis = false;
 			serieJump2.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = 
+			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + "(%)"; 
+			CurrentGraphData.LabelRight = 
 				test1 + " " + Catalog.GetString("TF") + "(s), " + 
 				test2 + " " + Catalog.GetString("TF") + "(s)";
-			CurrentGraphData.LabelRight = Catalog.GetString("TF") + "(s)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
+Log.WriteLine("C");
 	}
 
 	protected override void printData (string [] statValues) 
@@ -111,15 +114,16 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 						CurrentGraphData.XAxisNames.Add(myValue);
 				} else if(i == 1) {
 					if(foundAVG)
-						serieIndex.Avg = Convert.ToDouble(myValue);
+						serieResultPercent.Avg = Convert.ToDouble(myValue);
 					else
-						serieIndex.SerieData.Add(myValue);
-				} else if(i == 2) {
+						serieResultPercent.SerieData.Add(myValue);
+				//2 is result and is not plotted
+				} else if(i == 3) {
 					if(foundAVG)
 						serieJump1.Avg = Convert.ToDouble(myValue);
 					else
 						serieJump1.SerieData.Add(myValue);
-				} else if(i == 3) {
+				} else if(i == 4) {
 					if(foundAVG)
 						serieJump2.Avg = Convert.ToDouble(myValue);
 					else
@@ -132,7 +136,7 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 					if(GraphSeries.Count == 0) {
 							GraphSeries.Add(serieJump1);
 							GraphSeries.Add(serieJump2);
-							GraphSeries.Add(serieIndex);
+							GraphSeries.Add(serieResultPercent);
 					}
 					return;
 				}

@@ -313,7 +313,7 @@ public class Report : ExportSession
 	{
 		if(StatisticsData.Count > 0)
 			writer.WriteLine("<h2>Statistics</h2>");
-		
+	
 		//obtain every report stats one by one
 		for(int statCount=0; statCount < StatisticsData.Count ; statCount++) {
 			string [] strFull = StatisticsData[statCount].ToString().Split(new char[] {'\t'});

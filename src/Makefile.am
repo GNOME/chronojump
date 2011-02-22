@@ -132,6 +132,7 @@ FILES = \
  	stats/graphs/potency.cs\
 	stats/graphs/rjAVGSD.cs\
  	stats/graphs/runSimple.cs\
+ 	stats/graphs/jumpSimpleSubtraction.cs\
 	sqlite/main.cs\
  	sqlite/preferences.cs\
  	sqlite/session.cs\

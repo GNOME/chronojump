@@ -261,8 +261,7 @@ public class StatType {
 			
 				if(indexType == "subtraction") {
 					if(graph) 
-						//myStat = new GraphStatJumpSimpleSubtraction (myStatTypeStruct);
-						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
+						myStat = new GraphJumpSimpleSubtraction(myStatTypeStruct); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
 				} else if(indexType == "IE" || indexType == "IUB") {

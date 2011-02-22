@@ -65,6 +65,7 @@ src/stats/graphs/rjPotencyBosco.cs
 src/stats/graphs/runSimple.cs
 src/stats/graphs/sjCmjAbk.cs
 src/stats/graphs/sjCmjAbkPlus.cs
+src/stats/graphs/jumpSimpleSubtraction.cs
 src/stats/ieIub.cs
 src/stats/jumpSimpleSubtraction.cs
 src/stats/main.cs

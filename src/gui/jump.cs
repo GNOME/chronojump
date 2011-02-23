@@ -826,25 +826,6 @@ public class JumpExtraWindow
 			JumpExtraWindowBox = new JumpExtraWindow (parent);
 		}
 	
-	/*	
-		if(myJumpType.Name == Constants.RunAnalysisName) {
-			hideRepetitiveData();	
-			hideWeightData();	
-			distance = 100; //100cm
-			
-			JumpExtraWindowBox.spinbutton_fall.Value = distance;
-			JumpExtraWindowBox.label_fall.Text = Catalog.GetString("Distance between photocells");
-
-			JumpExtraWindowBox.spinbutton_fall.Sensitive = true;
-			JumpExtraWindowBox.label_fall.Sensitive = true;
-			JumpExtraWindowBox.label_cm.Sensitive = true;
-		
-			JumpExtraWindowBox.jump_extra.Show ();
-
-			return JumpExtraWindowBox;
-		}
-		*/
-		
 		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
@@ -866,13 +847,15 @@ public class JumpExtraWindow
 		if(! myJumpType.HasWeight) {
 			hideWeightData();	
 		}
-		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName)
-			       hideFallData();	
+		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
+				myJumpType.Name == Constants.TakeOffWeightName)
+			hideFallData();	
 		
 		//show technique (arms) only in DJ
+		//on DJa and DJna (coming from More jumps) don't need to show technique data 
 		if(myJumpType.StartIn || myJumpType.IsRepetitive || 
-				myJumpType.Name == Constants.TakeOffName || 
-				myJumpType.Name == Constants.TakeOffWeightName)
+				myJumpType.Name == "DJa" || myJumpType.Name == "DJna" || 
+				myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName)
 			hideTechniqueArmsData();
 		
 		JumpExtraWindowBox.check_dj_arms.Active = arms;

@@ -443,7 +443,6 @@ public class ChronoJumpWindow
 		//i think report it's deactivated until a new session is created or loaded, 
 		//but check what happens if report window is opened
 
-
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();
@@ -4460,6 +4459,18 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
+	
+	//not nice but works
+	private void playVideo(string fileName) {
+		if(File.Exists(fileName)) {
+			PlayerBin player = new PlayerBin();
+			player.Open(fileName);
+			player.Play(); 
+		}
+	}
+
+	//nice but crashes sometimes
+	/*
 	private void playVideo(string fileName) {
 		if(File.Exists(fileName)) {
 			Log.WriteLine("Exists and clicked " + fileName);
@@ -4476,7 +4487,8 @@ Console.WriteLine("X");
 			d.ShowAll();
 		}
 	}
-	
+	*/
+
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
 		if (myTreeViewJumps.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 

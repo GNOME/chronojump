@@ -387,7 +387,6 @@ public class ChronoJumpWindow
 	
 	static EventExecuteWindow eventExecuteWin;
 
-	private bool firstTest; //if the chronopic is not connected, this is used to show the user that's simulated
 	private bool firstRjValue;
 	private double rjTcCount;
 	private double rjTvCount;
@@ -493,7 +492,6 @@ public class ChronoJumpWindow
 		}
 		*/
 		
-		firstTest = true;
 	}
 /*
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -2888,7 +2886,6 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-		firstTest = false;
 		if(o == (object) button_free || o == (object) menuitem_jump_free) {
 			currentJumpType = new JumpType("Free");
 		}else if(o == (object) button_sj || o == (object) sj) {

@@ -387,6 +387,7 @@ public class ChronoJumpWindow
 	
 	static EventExecuteWindow eventExecuteWin;
 
+	private bool firstTest; //if the chronopic is not connected, this is used to show the user that's simulated
 	private bool firstRjValue;
 	private double rjTcCount;
 	private double rjTvCount;
@@ -491,6 +492,8 @@ public class ChronoJumpWindow
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}
 		*/
+		
+		firstTest = true;
 	}
 /*
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -2882,10 +2885,10 @@ Console.WriteLine("X");
 		}
 	}
 
-	
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		firstTest = false;
 		if(o == (object) button_free || o == (object) menuitem_jump_free) {
 			currentJumpType = new JumpType("Free");
 		}else if(o == (object) button_sj || o == (object) sj) {
@@ -4553,7 +4556,7 @@ Console.WriteLine("X");
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected jump?", "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete selected jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				on_delete_selected_jump_accepted(o, args);
@@ -4615,7 +4618,7 @@ Console.WriteLine("X");
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected run?", "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete selected run?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);

@@ -47,7 +47,10 @@ public class ConfirmWindowJumpRun
 		UtilGtk.IconWindow(confirm_window);
 		
 		label1.Text = text1;
-		label_question.Text = question;
+		if(question == "")
+			label_question.Hide();
+		else
+			label_question.Text = question;
 	}
 
 	static public ConfirmWindowJumpRun Show (string text1, string question)
@@ -116,13 +119,13 @@ public class ConfirmWindow
 			label_link.Text = link;
 			label_link.UseMarkup = true;
 		} else
-			label_link.Visible = false;
+			label_link.Hide();
 
 		if(question != "") {
 			label_question.Text = question;
 			label_question.UseMarkup = true;
 		} else
-			label_question.Visible = false;
+			label_question.Hide();
 
 	}
 

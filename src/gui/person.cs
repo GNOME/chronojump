@@ -952,7 +952,12 @@ public class PersonAddModifyWindow
 	}
 	
 	void on_button_zoom_clicked (object o, EventArgs args) {
-		new DialogImageTest(currentPerson.Name, Util.GetPhotoFileName(false, currentPerson.UniqueID));
+		string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
+		if(adding)
+			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		
+		new DialogImageTest(currentPerson.Name, fileName);
 	}
 
 	Gtk.Window capturerWindow;

@@ -3337,50 +3337,44 @@ to see all the tests that this person has done in the different sessions.
 \end_layout
 
 \begin_layout Subsubsection
-Edición
+Edit
 \end_layout
 
 \begin_layout Standard
-Haga clic en 
+Click 
 \emph on
-Editar sujeto
+Edit person
 \emph default
- o pulse la tecla 
+ or press 
 \emph on
 p
 \emph default
- (persona) para modificar los datos que fueron introducidos en el momento
- de creación del mismo.
- Puede aprovechar también para añadir comentarios.
+ (person) to modify the data that was entered at the same time as the creation.
+ You can also add comments.
 \end_layout
 
 \begin_layout Subsubsection
-Borrado
+Delete
 \end_layout
 
 \begin_layout Standard
-Haga clic en 
+Click 
 \emph on
-Borrar sujeto actual de la sesión actual
+Delete current person
 \emph default
- para eliminar el sujeto actual de la sesión en curso.
- Esta operación eliminará todos los tests que haya realizado dicha persona
- en la sesión actual.
- Es importante saber que el sujeto no será eliminado de la base de datos
- y que sus tests en otras sesiones permanecerán intactos.
+ to be removed of the session.
+ This operation will remove all tests from any person in the current session.
+ It’s important to know that the subject will not be removed from the database
+ and the tests in other sessions remain intact.
 \end_layout
 
 \begin_layout Standard
-Después de borrar este sujeto, otra persona será denominada 
+After deleting this subject, another subject will become the 
 \emph on
-sujeto actual
+current person
 \emph default
-, o, en el caso de que no haya más sujetos, no habrá 
-\emph on
-sujeto actual
-\emph default
- y por tanto no se podrán ejecutar tests en la sesión actual hasta que no
- se cree o cargue un sujeto.
+.
+ Otherwise any test can be provided.
 \end_layout
 
 \begin_layout Subsection
@@ -3388,34 +3382,36 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Hasta el momento Chronojump maneja cinco tipos de tests: saltos, carreras,
- tiempos de reacción, ritmos y MultiChronopic.
- Más adelante Chronojump podrá manejar otros tests.
- Estos tests son detectados por las señales enviadas por la plataforma de
- contactos cuando el sujeto pisa o despega de la misma.
+So far Chronojump manages five types of tests: jumping, running, reaction
+ times, rhythms and MultiChronopic.
+ Later Chronojump can handle other tests.
+ These tests are detected by the signals sent by the contact platform when
+ the subject steps on and off it.
 \end_layout
 
 \begin_layout Standard
-La base de datos almacena los tests y los vincula a otras tablas de datos.
+The database stores the tests and links to other data tables.
 \end_layout
 
 \begin_layout Subsection
-Diagrama de la base de datos
+Diagram Database
 \end_layout
 
 \begin_layout Standard
-En la figura 
+In Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:sqlite-diagram"
 
 \end_inset
 
- se puede ver el diagrama de la base de datos.
- Para la comprensión de dicho diagrama es necesario el conocimiento de bases
- de datos relacionales.
- Se incluye aquí el diagrama para los usuarios avanzados que tengan curiosidad.
- La última versión del diagrama se puede encontrar aquí: 
+ you can see a diagram of the database.
+ To understand this diagram is necessary to know about relational databases.
+ This includes the diagram for advanced users who are curious.
+ The latest version of the diagram can be found here:
+\end_layout
+
+\begin_layout Standard
 \begin_inset Flex URL
 status open
 
@@ -3458,7 +3454,7 @@ name "fig:sqlite-diagram"
 
 \end_inset
 
-Diagrama de la base de datos de Chronojump.
+Diagram Chronojump database.
 \end_layout
 
 \end_inset
@@ -3476,56 +3472,53 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Se describe a continuación el manejo de los cinco tipos de tests que permite
- Chronojump.
+At the following text, it describes the management of the five types of
+ tests allowed in Chronojump software.
 \end_layout
 
 \begin_layout Section
-Saltos
+Jumps
 \end_layout
 
 \begin_layout Standard
-Los saltos pueden ser básicamente de dos tipos: simples y repetitivos.
- Para Chronojump un 
+There is basically two types of jumps: simple and repetitive.
+ Chronojump detect a 
 \series bold
-salto simple
+single jump
 \series default
- es que el que sólo contempla una fase de vuelo.
- Así existen dos tipos de saltos simples:
+ as one phase of flight.
+ That’s why there are two types of simple jumps:
 \end_layout
 
 \begin_layout Enumerate
-Los que se inician dentro de la plataforma y terminan dentro de la plataforma
- (un único salto).
- Se obtiene la variable: Tiempo de vuelo (TV)
+Those who start and finish on the platform (single hop).We obtain the variable
+ flight time (TF) 
 \end_layout
 
 \begin_layout Enumerate
-Los que se inician fuera de la plataforma (dejándose caer desde una altura
- de caída determinada o con un antesalto) para caer en la plataforma y seguidame
-nte realizar el salto.
- Se obtienen las variables: Tiempo de contacto (TC) (momento entre la recepción
- de caída o antesalto y el despegue) y Tiempo de vuelo (TV).
- Normalmente se pretenderá conseguir saltos con mínimo tiempo de contacto
- y máximo tiempo de vuelo como indicador de potencia.
+Those who started outside the platform (drop from a height or do a jump
+ before) to fall on the platform and then jump.
+ Variables obtained: Contact time (TC) (time between reception and takeoff
+ on the platform) and flight time (TF).
+ Usually jumps will pursue minimum contact time and maximum flight time
+ as a power indicator.
 \end_layout
 
 \begin_layout Standard
-Un 
+A 
 \series bold
-salto repetitivo
+repetitive jump
 \series default
- (también llamado reactivo) será cualquier salto en que se obtenga más de
- un tiempo de vuelo, por ejemplo, realizar dos saltos seguidos iniciados
- desde dentro de la plataforma en una sucesión TV, TC, TV; o partiendo desde
- fuera de la plataforma iniciándose con una caída o antesalto para continuar
- con TC, TV, TC, TV.
+ (also called reactive) is when you obtain more than one flight time.
+ For example: make two consecutive jumps initiated on the platform in the
+ order TF, TC, TF or start outside the platform and continue with the order
+ TC, TF, TC, TF.
 \end_layout
 
 \begin_layout Standard
-Suponiendo que la posición de despegue del cuerpo sea la misma que en el
- aterrizaje, el tiempo de vuelo es indicador de la altura de elevación del
- centro de gravedad del deportista.
+Assuming that the body during the takeoff position is the same as in the
+ landing, the flight time indicatives the height of center of gravity of
+ the athlete in this jump.
 \end_layout
 
 \begin_layout Subsection

@@ -91,7 +91,7 @@ public class ExportSession
 				//add ".csv" if needed
 				fileName = addCsvIfNeeded(fileName);
 			}
-			try {
+//			try {
 				if (File.Exists(fileName)) {
 					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
 								fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
@@ -107,11 +107,11 @@ public class ExportSession
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName) + spreadsheetString;
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
-			} 
-			catch {
-				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
-				new DialogMessage(Constants.MessageTypes.WARNING, myString);
-			}
+//			} 
+//			catch {
+//				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
+//				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+//			}
 		}
 		else {
 			Log.WriteLine("cancelled");
@@ -487,7 +487,8 @@ public class ExportSession
 					Catalog.GetString("Time") + ":" + 
 					Catalog.GetString("Speed") + ":" + 
 					Catalog.GetString("Description") + ":" +
-					Catalog.GetString("Simulated") );
+					Catalog.GetString("Simulated") + ":" +
+					Catalog.GetString("Initial Speed") );
 
 			foreach (string runString in myRuns) {
 				string [] myStr = runString.Split(new char[] {':'});
@@ -501,7 +502,9 @@ public class ExportSession
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						speed + ":" + 				//speed in m/s (true)
-						Util.RemoveNewLine(myStr[7]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) //description, simulated
+						Util.RemoveNewLine(myStr[7]) + ":" + 	//description
+						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) + ":" + //simulated
+						Util.NoYes(Util.StringToBool(myStr[9]))	//initialSpeed
 					   );
 			}
 			writeData(myData);
@@ -539,7 +542,8 @@ public class ExportSession
 						Catalog.GetString("Tracks") + ":" + 
 						Catalog.GetString("Limited") + ":" +
 						Catalog.GetString("Description") + ":" +
-						Catalog.GetString("Simulated") );
+						Catalog.GetString("Simulated") + ":" +
+						Catalog.GetString("Initial Speed") );
 				isFirstHeader = false;
 			}
 
@@ -552,7 +556,9 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					Util.RemoveNewLine(myStr[10]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12]))	//description, simulated
+					Util.RemoveNewLine(myStr[10]) + ":" + 	//description
+					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12])) + ":" +	//simulated
+					Util.NoYes(Util.StringToBool(myStr[13]))	//initialSpeed
 				   );
 			
 			if(showSubruns) {

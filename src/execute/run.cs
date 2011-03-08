@@ -29,10 +29,7 @@ public class RunExecute : EventExecute
 {
 	protected double distance;
 	protected double time;
-
-	//for not checking always in database
 	protected bool startIn;
-	
 	
 	protected Chronopic cp;
 	//private Chronopic cp; //thi doesn't work
@@ -317,10 +314,12 @@ Log.WriteLine("MANAGE(3)!!!!");
 
 		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
 				type, distance, time, description, 
-				Util.BoolToNegativeInt(simulated)); 
+				Util.BoolToNegativeInt(simulated), 
+				!startIn	//initialSpeed true if not startIn
+				); 
 		
 		//define the created object
-		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, description, Util.BoolToNegativeInt(simulated)); 
+		eventDone = new Run(uniqueID, personID, sessionID, type, distance, time, description, Util.BoolToNegativeInt(simulated), !startIn); 
 		
 		
 		//event will be raised, and managed in chronojump.cs
@@ -781,7 +780,8 @@ public class RunIntervalExecute : RunExecute
 					distanceInterval, intervalTimesString, tracks, 
 					description,
 					limitString,
-					Util.BoolToNegativeInt(simulated) 
+					Util.BoolToNegativeInt(simulated),
+					!startIn	//initialSpeed true if not startIn
 					);
 		else {
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
@@ -789,11 +789,12 @@ public class RunIntervalExecute : RunExecute
 					distanceInterval, intervalTimesString, tracks, 
 					description,
 					limitString,
-					Util.BoolToNegativeInt(simulated) 
+					Util.BoolToNegativeInt(simulated),
+					!startIn
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limitString, Util.BoolToNegativeInt(simulated)); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
 
 
 			string tempValuesString = "";

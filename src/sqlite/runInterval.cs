@@ -49,11 +49,12 @@ class SqliteRunInterval : SqliteRun
 			"tracks FLOAT, " +	//float because if we limit by time (runType tracksLimited false), we do n.nn tracks
 			"description TEXT, " +
 			"limited TEXT, " +
-			"simulated INT )";
+			"simulated INT, " +
+			"initialSpeed INT)";
 		dbcmd.ExecuteNonQuery();
 	}
 
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated )
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distanceTotal, double timeTotal, double distanceInterval, string intervalTimesString, double tracks, string description, string limited, int simulated, bool initialSpeed )
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -62,7 +63,7 @@ class SqliteRunInterval : SqliteRun
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO "+ tableName + 
-				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated )" +
+				" (uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limited, simulated, initialSpeed)" +
 				"VALUES (" + uniqueID + ", " +
 				personID + ", " + sessionID + ", '" + type + "', " +
 				Util.ConvertToPoint(distanceTotal) + ", " + 
@@ -70,7 +71,9 @@ class SqliteRunInterval : SqliteRun
 				Util.ConvertToPoint(distanceInterval) + ", '" + 
 				Util.ConvertToPoint(intervalTimesString) + "', " +
 				Util.ConvertToPoint(tracks) + ", '" + 
-				description + "', '" + limited + "', " + simulated + ")" ;
+				description + "', '" + limited + "', " + simulated + ", " +
+				Util.BoolToInt(initialSpeed) + ")" ;
+				
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -135,7 +138,8 @@ class SqliteRunInterval : SqliteRun
 					Util.ChangeDecimalSeparator(reader[9].ToString()) + ":" + //tracks
 					reader[10].ToString() + ":" + 	//description
 					reader[11].ToString() + ":" +  	//limited
-					reader[12].ToString() 	 	//simulated
+					reader[12].ToString() + ":" +	//simulated
+					Util.IntToBool(Convert.ToInt32(reader[13])) //initialSpeed
 					);
 			count ++;
 		}
@@ -167,7 +171,7 @@ class SqliteRunInterval : SqliteRun
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 
-		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 12));
+		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 13));
 
 		reader.Close();
 		dbcon.Close();

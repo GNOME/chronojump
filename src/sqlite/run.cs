@@ -47,7 +47,8 @@ class SqliteRun : Sqlite
 			"distance FLOAT, " +
 			"time FLOAT, " +
 			"description TEXT, " +
-			"simulated INT )";
+			"simulated INT, " +
+			"initialSpeed INT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -56,7 +57,7 @@ class SqliteRun : Sqlite
 	 * Run class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -65,11 +66,11 @@ class SqliteRun : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
-				" (uniqueID, personID, sessionID, type, distance, time, description, simulated)" +
+				" (uniqueID, personID, sessionID, type, distance, time, description, simulated, initialSpeed)" +
 				" VALUES (" + uniqueID + ", " +
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
-				description + "', " + simulated + ")" ;
+				description + "', " + simulated + ", " + Util.BoolToInt(initialSpeed) + ")" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -133,7 +134,8 @@ class SqliteRun : Sqlite
 					Util.ChangeDecimalSeparator(reader[5].ToString()) + ":" + //run.distance
 					Util.ChangeDecimalSeparator(reader[6].ToString()) + ":" + //run.time
 					reader[7].ToString() + ":" + 	//description
-					reader[8].ToString() 		//simulated
+					reader[8].ToString() + ":" +	//simulated
+					Util.IntToBool(Convert.ToInt32(reader[9])) //initialSpeed
 					);
 			count ++;
 		}
@@ -164,7 +166,7 @@ class SqliteRun : Sqlite
 		reader = dbcmd.ExecuteReader();
 		reader.Read();
 	
-		Run myRun = new Run(DataReaderToStringArray(reader, 8));
+		Run myRun = new Run(DataReaderToStringArray(reader, 9));
 	
 		reader.Close();
 		dbcon.Close();

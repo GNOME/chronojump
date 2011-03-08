@@ -1199,6 +1199,13 @@ public class Util
 			return Constants.No;
 	}
 
+	public static string NoYes(bool b) {
+		if(! b)
+			return Constants.No;
+		else
+			return Constants.Yes;
+	}
+
 
 	/* 
 	 * when distances are variable on run interval 

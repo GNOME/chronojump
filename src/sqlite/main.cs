@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.79";
+	static string lastChronojumpDatabaseVersion = "0.80";
 
 	public Sqlite() {
 	}
@@ -462,8 +462,10 @@ class Sqlite
 		} else {
 			Log.WriteLine("Old database, need to convert");
 			Log.WriteLine("db version: " + currentVersion);
+
 			bool needToConvertPersonToSport = false;
 			bool jumpFallAsDouble = false;
+	 		bool runAndRunIntervalInitialSpeedAdded = false;
 
 			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
 			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
@@ -681,6 +683,11 @@ class Sqlite
 				arrayAngleAndSimulated.Add("-1"); //angle
 				arrayAngleAndSimulated.Add("-1"); //simulated
 				
+				//run and runInterval
+				ArrayList arraySimulatedAndInitialSpeed = new ArrayList(1);
+				arraySimulatedAndInitialSpeed.Add("-1"); //simulated
+				arraySimulatedAndInitialSpeed.Add("0"); //initial speed
+				
 				//others
 				ArrayList arraySimulated = new ArrayList(1);
 				arraySimulated.Add("-1"); //simulated
@@ -695,6 +702,8 @@ class Sqlite
 				convertTables(new SqliteRun(), Constants.RunTable, 7, arraySimulated, false);
 				conversionRate ++;
 				convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 11, arraySimulated, false);
+				runAndRunIntervalInitialSpeedAdded = true;
+				
 				conversionRate ++;
 				convertTables(new SqliteReactionTime(), Constants.ReactionTimeTable, 6, arraySimulated, false);
 				conversionRate ++;
@@ -731,7 +740,7 @@ class Sqlite
 				SqlitePreferences.Update ("databaseVersion", "0.57", true); 
 				dbcon.Close();
 				
-				Log.WriteLine("Added simulated column to each event table on client. Added to person: race, country, serverUniqueID. Convert to sport related done here if needed");
+				Log.WriteLine("Added simulated column to each event table on client. Added to person: race, country, serverUniqueID. Convert to sport related done here if needed. Added also run and runInterval initial speed");
 				currentVersion = "0.57";
 			}
 			if(currentVersion == "0.57") {
@@ -1047,6 +1056,27 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.79";
 			}
+			if(currentVersion == "0.79") {
+				dbcon.Open();
+
+	 			if(! runAndRunIntervalInitialSpeedAdded) {
+					ArrayList myArray = new ArrayList(1);
+					myArray.Add("0"); //initial speed
+				
+					conversionRateTotal = 3;
+					conversionRate = 1;
+					convertTables(new SqliteRun(), Constants.RunTable, 8, myArray, false);
+					conversionRate ++;
+					convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 12, myArray, false);
+					conversionRate ++;
+					Log.WriteLine("Converted DB to 0.80 (Added multimediaStorage structure)"); 
+				}
+
+				SqlitePreferences.Update ("databaseVersion", "0.80", true); 
+				
+				dbcon.Close();
+				currentVersion = "0.80";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1179,6 +1209,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.79 - 0.80 Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)
 		//0.78 - 0.79 Converted DB to 0.79 (Added multimediaStorage structure id)
 		//0.77 - 0.78 Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)
 		//0.76 - 0.77 Converted DB to 0.77 (person77, personSession77)
@@ -1201,7 +1232,7 @@ class Sqlite
 		//0.59 - 0.60 added volumeOn and evaluatorServerID to preferences. Session has now serverUniqueID. Simulated now are -1, because 0 is real and positive is serverUniqueID
 		//0.58 - 0.59 Added 'showAngle' to preferences, changed angle on jump to double
 		//0.57 - 0.58 Countries without kingdom or republic (except when needed)
-		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed");
+		//0.56 - 0.57 Added simulated column to each event table on client. person: race, country, serverID. Convert to sport related done here if needed. Added also run and runInterval initial speed);
 		//0.55 - 0.56 Added session default sport stuff into session table
 		//0.54 - 0.55 Added undefined to speciallity table
 		//0.53 - 0.54 created sport tables. Added sport data, speciallity and level of practice to person table
@@ -1613,6 +1644,14 @@ class Sqlite
 
 
 
+	/*
+	 * The problem of this method is that uses class constructors: person, jump, ...
+	 * and if the sqlite version is updated from a really old version
+	 * maybe the object has to be converted from really older class to old, and then to new class (two conversions)
+	 * and this can have problems in the class construction
+	 * The best seem to have a boolean that indicates if certain conversion has done before
+	 * (see bool runAndRunIntervalInitialSpeedAdded)
+	 */
 	protected internal static void convertTables(Sqlite sqliteObject, string tableName, int columnsBefore, ArrayList columnsToAdd, bool putDescriptionInMiddle) 
 	{
 		conversionSubRate = 1;

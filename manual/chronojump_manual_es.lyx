@@ -1,4 +1,4 @@
-#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
 \lyxformat 345
 \begin_document
 \begin_header
@@ -7695,7 +7695,7 @@ name "fig:Gráfico-stats3"
 
 \end_inset
 
-Gráfico dotchart de los mismos valores.
+Gráfico stripchart de los mismos valores.
 \end_layout
 
 \end_inset
@@ -8066,7 +8066,6 @@ Perfil
 mixto persona vinculada a los dos ámbitos.
 \end_layout
 
-\end_deeper
 \begin_layout Standard
 Aún no se ha iniciado el proceso de acreditación de los evaluadores, así
  que todos los evaluadores de momento estarán sin acreditar y sus datos
@@ -8086,8 +8085,9 @@ La acreditación será a cargo del Grupo de Investigación: Salut, Activitat
  Ramon Llull.
 \end_layout
 
+\end_deeper
 \begin_layout Section
-Funciones del programa
+Funcionalidad del servidor
 \end_layout
 
 \begin_layout Standard

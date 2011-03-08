@@ -3522,15 +3522,11 @@ Assuming that the body during the takeoff position is the same as in the
 \end_layout
 
 \begin_layout Subsection
-Ejecución de saltos simples
+Simple jumps execution
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
-\emph on
-salto
-\emph default
-, haga clic en los botones: 
+From the jumps tab, click the buttons:
 \end_layout
 
 \begin_layout Itemize
@@ -3538,7 +3534,7 @@ salto
 \emph on
 SJ
 \emph default
-, Squat Jump o salto squat
+, Squat Jump
 \end_layout
 
 \begin_layout Itemize
@@ -3546,7 +3542,7 @@ SJ
 \emph on
 SJ
 \emph default
-l, Squat Jump con carga extra (peso adicional)
+l, Squat Jump with extra charge (extra weight)
 \end_layout
 
 \begin_layout Itemize
@@ -3554,23 +3550,23 @@ l, Squat Jump con carga extra (peso adicional)
 \emph on
 CMJ
 \emph default
-, Countermovement Jump o salto en contramovimiento
+, countermovement jump
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-ABK,
+ABK
 \emph default
- Abalakov o salto con brazos
+, jump with arms Abalakov
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-DJ,
+DJ
 \emph default
- Drop Jump o salto con caída
+, drop jump 
 \end_layout
 
 \begin_layout Itemize
@@ -3578,211 +3574,155 @@ DJ,
 \emph on
 Rocket,
 \emph default
- Salto tipo Squat pero partiendo de flexión completa
+ Rocket Jump is simple jump similar to the squat jump but it starts with
+ a full flexion of the legs.
 \end_layout
 
 \begin_layout Standard
-para ejecutar un salto simple.
- En ocasiones se le pedirá que facilite información adicional como el peso
- extra del sujeto (
-\emph on
-SJl
-\emph default
-) o la altura de caída (
-\emph on
-DJ
-\emph default
-).
- Haga clic en 
+Sometimes you will be asked to provide additional information as the extra
+ weight of the subject (SJL) or the height of the drop (DJ).
+ 
+\end_layout
+
+\begin_layout Standard
+Click on 
 \emph on
 More
 \emph default
- para obtener una relación de todos los saltos simples disponibles y ejecútelos
- seleccionándolos y haciendo clic en 
-\emph on
-Aceptar
-\emph default
-.
- El menú 
-\emph on
-salto
-\emph default
- le proporciona también acceso a estas acciones.
-\end_layout
-
-\begin_layout Standard
-En el caso del salto 
+ to get all the available of the simple jump and click ok on them to be
+ executed.
+ The jump menu also provides this access.
+ The original protocol of Bosco for the 
 \emph on
 DJ
 \emph default
-, el protocolo original del Test de Bosco indicaba que los brazos no participaba
-n en el salto.
- En cambio, muchos entrenadores piden a sus atletas que los usen pues el
- salto es más parecido al presente en las técnicas deportivos.
- Así se ha determinado que el 
+ test indicates that the arms don’t participate in the jump.
+ Instead many coaches ask their athletes to use the arms because is more
+ similar to the techniques used in sports.
+ The original 
 \emph on
 DJ
 \emph default
- original se denomina 
+ is called 
 \emph on
 DJna
 \emph default
- (no arms: sin brazos), mientras que la adaptación con brazos se denomina
- 
-\emph on
-DJa
-\emph default
-.
- Cuando ejecute un salto 
+ (no arms), while the 
 \emph on
 DJ
 \emph default
-, el programa le pedirá si usará los brazos o no, y automáticamente denominará
- al salto como corresponda.
+ with arms is called 
+\emph on
+DJ
+\emph default
+a.
+ When you start a DJ test, the program will ask whether to use arms or not
+ and automatically appoint the jump properly.
 \end_layout
 
 \begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará un salto.
- En caso contrario el salto deberá ser ejecutado.
- Tenga en cuenta que para algunos de los saltos el deportista deberá situarse
- encima de la plataforma, mientras que para otros será imprescindible que
- se ubique fuera de ella.
- Será avisado si la situación del deportista no es la correcta.
- En la ventana emergente se mostrará la progresión del salto, que podrá
- ser detenido haciendo clic en el botón 
+If Chronopic has not been connected and activated from Chronopic window,
+ a jump will be simulated.
+ In the other hand, if Chronopic is connected, real jump will be done.
+ Note that for some jumps the athlete should be on the platform, while other
+ jumps it’s essential to be elsewhere.
+ You will be notified if the athlete's situation is not correct.
+ In the pop-up window it shows the progress of the jump, which may be stopped
+ by clicking on the 
 \emph on
-Terminar
+Finish
 \emph default
- o cancelado con 
+ or 
 \emph on
-Cancelar
+Cancel
 \emph default
-.
+ button.
 \end_layout
 
 \begin_layout Standard
-En caso de que desee ejecutar un mismo salto a diversos deportistas y que
- dicho salto no disponga de botón (sólo esté disponible en la ventana 
+If you want to execute the same type of jump to various persons and you
+ don’t want a button (only available on the tab 
 \emph on
-M
+More
 \emph default
-ás), podrá cambiar de sujeto y hacer uso del botón 
+), you can change the subject and use the 
 \emph on
-Último
+Last
 \emph default
- para que otra persona pueda realizar el mismo salto.
+ button to allow another person to perform the same jump.
 \end_layout
 
 \begin_layout Subsubsection
-Ejecución de saltos repetitivos
+Repetitive jumps execution
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
-\emph on
-salto Repetitivo
-\emph default
-, haga clic en los botones: 
+Click in the button on the Repetitive jumping tab:
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-RJ
+RJ (j)
 \emph default
-(j), Repetitive Jump (jumps) o salto repetitivo limitado por número de saltos
+, Repetitive Jump (jumps) or repetitive jumping limited number of hops
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-RJ(t),
+Rj (t)
 \emph default
- Repetitive Jump (time) o salto repetitivo limitado por tiempo
+, Repetitive Jump (time) or time-limited repetitive jumping
 \end_layout
 
 \begin_layout Itemize
-Ilimitado: salto repetitivo ilimitado
+
+\emph on
+Unlimited
+\emph default
+, unlimited repetitive jumping.
 \end_layout
 
 \begin_layout Standard
-para ejecutar un salto repetitivo.
- En ocasiones se le pedirá que facilite información adicional como la altura
- de caída (DJ), el peso adicional o el valor del factor limitante (saltos
- o segundos).
- Haga clic en 
+Sometimes is necessary to provide additional information as the height of
+ the initial drop, the extra weight or value of the limiting factor (hops
+ or seconds).
+ Click on 
 \emph on
-Más
+More
 \emph default
- para obtener una relación de todos los saltos reactivos disponibles y ejecútelo
-s seleccionándolos y haciendo clic en 
-\emph on
-Aceptar
-\emph default
-.
- El menú de saltos le proporciona también acceso a estas acciones.
+ to get a list of all the available of the reactive jumps and execute them
+ clicking OK.
+ The jump menu also provides access to these actions.
 \end_layout
 
 \begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará un salto.
- En caso contrario el salto deberá ser ejecutado.
- Tenga en cuenta que para algunos de los saltos el deportista deberá situarse
- encima de la plataforma, mientras que para otros será imprescindible que
- se ubique fuera de ella.
- Será avisado si la situación del deportista no es la correcta.
- En la ventana emergente se mostrará la progresión del salto, que podrá
- ser detenido haciendo clic en el botón 
-\emph on
-Terminar
-\emph default
- o cancelado con 
-\emph on
-Cancelar
-\emph default
-.
- Los saltos repetitivos de tipo ilimitado sólo serán almacenados cuando
- se haga clic en 
-\emph on
-Terminar
-\emph default
-.
+If Chronopic has not been connected and activated from Chronopic window,
+ a jump will be simulated.
+ In the other hand, if Chronopic is connected, real jump will be done.
+ Note that for some jumps the athlete should be on the platform, while other
+ jumps it’s essential to be elsewhere.
 \end_layout
 
 \begin_layout Standard
-En caso de que desee ejecutar un mismo salto a diversos deportistas y que
- dicho salto no disponga de botón (sólo esté disponible en la ventana 
-\emph on
-Más
-\emph default
-), podrá cambiar de sujeto y hacer uso del botón 
-\emph on
-Último
-\emph default
- para que otra persona pueda realizar el mismo salto.
+If you want to execute the same type of jump to various subjects and you
+ don’t want a button (only available on the tab more), you can change the
+ subject and use the Last button to allow another person to perform the
+ same jump.
 \end_layout
 
 \begin_layout Subsection
-Feedback auditivo y visual en los saltos repetitivos: campanas
+Auditive and visual feedback in repetitive jumps: bells 
 \end_layout
 
 \begin_layout Standard
-Con la finalidad de añadir un feedback visual y auditivo en la ejecución
- de los saltos, es posible configurar valores de tiempo de vuelo, tiempo
- de contacto, o la relación entra ambos, para los que se mostrará una campana
- roja (mala ejecución) o verde (buena ejecución), acompañadas de un sonido
- distintivo.
-\end_layout
-
-\begin_layout Standard
-Haciendo clic en el botón 
-\begin_inset Quotes eld
-\end_inset
-
-Campanas
-\begin_inset Quotes erd
-\end_inset
-
-, podrá configurar estas acciones tal y como se observa en la figura 
+In order to add a visual and auditory feedback during execution of the jumps,
+ you can set values of flight time, contact time, or the relationship of
+ both.
+ To be shown a red bell (poor performance) or green (good performance) together
+ with a distinctive sound.
+ Click on the "Bells" to configure these actions as shown in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Campanas---feedback"
@@ -3821,7 +3761,7 @@ name "fig:Campanas---feedback"
 
 \end_inset
 
-Campanas - feedback auditivo y visual.
+Bells - auditive and visual feedback.
 \end_layout
 
 \end_inset
@@ -3835,49 +3775,30 @@ Campanas - feedback auditivo y visual.
 \end_layout
 
 \begin_layout Subsection
-Visualización de saltos
+Jumps view
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
-\emph on
-salto
-\emph default
- podrá ver los saltos simples que se han realizado en una sesión, mientras
- que desde la pestaña de 
-\emph on
-salto Repetitivo
-\emph default
- podrá hacer lo propio con los saltos repetitivos.
- En ambos casos se incluye un filtro para ver todos los saltos posibles
- o sólo los de un tipo determinado.
- 
+Simple jumps are shown on the jumps tab and the Repetitive Jumps on the
+ repetitive tab.
+ In both cases, it’s included a filter for all the possible jumps or only
+ a particular type.
 \end_layout
 
 \begin_layout Standard
-Los saltos se encuentran asociados a los saltadores.
- El orden de aparición de los saltos en cada saltador es el cronológico
- de forma que el último salto realizado por un sujeto aparecerá al final
- del listado de sus saltos.
- Se incluye un botón de selección titulado 
-\emph on
-por tipo
-\emph default
-, que permite ordenar los saltos por el tipo de salto y no por orden cronológico.
- Esta opción sólo está disponible como es obvio cuando el valor 
-\emph on
-Todos los saltos
-\emph default
- es el seleccionado en el filtro de visualización.
+The jumps are associated with the jumpers.
+ The order of the jumps presentation of each jumper is chronological so,
+ the last jump appears at the end of the list.
+ It’s included a button that allows sorting the jumps by the type of jump
+ and not in chronological order.
+ This option is available only when the value is obvious.
 \end_layout
 
 \begin_layout Standard
-En cada salto se muestran una serie de valores, puede cambiar las opciones
- de visualización accediendo a las 
-\emph on
-Preferencias
-\emph default
- (más información en la sección 
+All jumps are selected in the view filter.
+ A series of values are presented at each hop.
+ It’s possible to change the view by accessing at the Preferences (more
+ information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"
@@ -3888,44 +3809,35 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Standard
-Puede usar los botones de 
+You can use the 
 \emph on
-lupa
+magnifying glass
 \emph default
- (o la tecla 
+ button (or press 
 \emph on
 z
 \emph default
-)
-\emph on
- 
-\emph default
-para facilitar la visualización de los saltos.
+) to facilitate the view of the jumps.
 \end_layout
 
 \begin_layout Subsection
-Edición de saltos
+Jumps edition
 \end_layout
 
 \begin_layout Standard
-Puede añadir comentarios a un salto o cambiar el saltador que lo realizó
- (si olvidó modificar el sujeto actual previamente) seleccionando el salto
- deseado y haciendo clic en el botón de 
-\emph on
-Editar salto seleccionado,
-\emph default
- su equivalente en el menú, o la tecla 
+You can add comments to a jump or change the jump that was made (if you
+ forgot to change the current subject previously) If you select the desired
+ jump and click on the Edit button on the selected jump, you can also find
+ it on the menu, or by pressing the button 
 \emph on
 e
 \emph default
 .
- 
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definición están compuestos por un conjunto
- de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
- sólo sea seleccionado.
+In the reactive jumps, since they are composed of a set of jumps, this change
+ will affect all the jumps even if only one is selected.
 \end_layout
 
 \begin_layout Subsection
@@ -6176,128 +6088,124 @@ Multi Chronopic
 \end_layout
 
 \begin_layout Standard
-Multi Chronopic permite realizar cualquier tipo de test en que se usen dos,
- tres o cuatro Chronopics para mediciones independientes.
- Recuerde que para el resto de tests se pueden conectar múltiples dispositivos
- a un sólo Chronopic, pero se entiende que en todo momento se estará en
- contacto en uno o ninguno de ellos.
- A diferencia de los tests anteriores, Multi Chronopic permite el uso de
- varios Chronopics, cada uno de ellos conectados a uno o más dispositivos
- de detección, de manera que se pueda estar en contacto en más de un Chronopic
- a la vez.
- Su uso depende del usuario del programa, pero a continuación se indican
- algunos ejemplos:
-\end_layout
-
-\begin_layout Enumerate
-Test de marcha estático sobre dos plataformas: se pretende evaluar el tempo
- de pisada del pie izquierdo y el derecho, pero como el practicante está
- a menudo pisando ambas plataformas, se requiere que cada una de ellas esté
- conectada a un Chronopic y sean independientes.
-\end_layout
-
-\begin_layout Enumerate
-Estudio de los tiempos de contacto en la batida de un salto de voleibol:
- Un pie pisa una plataforma, el otro pisa la otra, y ambos despegan.
- Para conocer los distintos tiempos es necesario 2 plataformas y 2 chronopics
- independientes.
-\end_layout
-
-\begin_layout Enumerate
-Plate Tapping con acción coordinativa extra: Contruimos un dispositivo de
- detección de tipo Plate Tapping en que el evaluado debe tocar un lado y
- otro cuanto más rápido posible con una sóla mano.
- A cada uno de los dos lados colocamos alguna pieza conductiva que conectada
- a un sólo Chronopic nos registre los distintos tiempos.
- Además, si pretendemos que, por ejemplo, cada 3 contactos el sujeto deba
- realizar alguna acción con el pie, podemos situar una plataforma de contacto
- en el suelo y conectarla a un segundo Chronopic.
-\end_layout
-
-\begin_layout Enumerate
-Cronometrado de dos, tres o cuatro sujetos en carreras de ida y vuelta en
- una pista: Se coloca una plataforma en el inicio de cada carril y una en
- el final.
- Un Chronopic estará conectado a las plataformas inicial y final de un sujeto,
- pues una persona no puede estar en ambas a la vez.
- De este modo, si hay 4 sujetos tendremos 4 carriles, 4 Chronopics y 8 plataform
-as.
- Podremos medir los tiempos y por tanto velocidades de los 4 de forma independie
-nte.
- 
-\end_layout
-
-\begin_layout Subsection
-Sincronización
+Multi Chronopic allows any type of test that uses two, three or four independent
+ measurements Chronopics.
+ Remember that for the other tests it’s possible to connect multiple devices
+ to a single Chronopic, but it’s understood that that always have to be
+ in touch in one or both of them.
 \end_layout
 
 \begin_layout Standard
-Algunos de estos tests requerirán de una sincronización pues se pretende
- que los distintos Chronopics inicien en el mismo momento.
- En otros, en cambio, la sincronización no será necesaria.
- En los tres primeros ejemplos citados anteriormente, la sincronización
- es obligatoria para que no haya error en la comparación del tiempo que
- transcurre entre una pisada y la otra (ejemplo 1 y 2), o entre un contacto
- con el tapping y la pisada en el suelo (ejemplo 3).
- Dicha sincronización es seleccionable a partir de una casilla de verificación
- y se llevará a cabo realizando contacto con varios dispositivos a la vez,
- o tocando el botón 
-\emph on
-Test
-\emph default
- de los Chronopics.
- En el Foro de Chronojump 
+Unlike previous tests, Multi Chronopic allows the use of several Chronopics,
+ each connected to one or more detection devices, so that contact can be
+ more than Chronopic at a time.
+ Their operating depends on the program user, but here are some examples:
+ 
+\end_layout
+
+\begin_layout Enumerate
+Static Test running on two platforms: the aim is to assess the tempo of
+ tread of the left and right foot.
+ It’s required that each Chronopic is connected and independent since the
+ sportsman is often stepping on both platforms
+\end_layout
+
+\begin_layout Enumerate
+The study of the contact times in a volleyball jump: One foot in each platform,
+ then both take off at the same time.
+ To know various times is needed 2 Chronopics platforms and 2 independents
+ ones.
+\end_layout
+
+\begin_layout Enumerate
+Plate Tapping with extra coordinative action: Construction of a device type
+ detection Plate Tapping, where the tester must touch either side as quickly
+ as possible with a single hand.
+ Connect a conductive part to any side and to one Chronopic to record the
+ different times.
+ Moreover, if the subject should do something with his foot every 3 contacts
+ we can locate a contact platform on the floor and connect it to a second
+ Chronopic.
+\end_layout
+
+\begin_layout Enumerate
+Two, three or four athletes do a round trip timed race on a track: there
+ is placed a platform at the beginning and final of each lane.
+ A Chronopic will be connected to the beginning and end platform because
+ a person can’t be at both at once.
+ Thus, if there are 4 subjects it will be 4 lanes, 4 Chronopic and 8 platforms.
+ We will be able to measure the times and speeds of each 4 independently.
+\end_layout
+
+\begin_layout Subsection
+Synchronization
+\end_layout
+
+\begin_layout Standard
+Some of these tests require a synchronization to intend that the various
+ Chronopics start at the same time.
+ However, in others the synchronization is not required.
+ In the first three examples cited above, synchronization is required so
+ there is no error in the comparison of time between a tread and the other
+ (example 1 and 2) or from contact with the tapping and the tread on the
+ ground (Example 3).
+ This sync can be selected from a check box and carried out by making contact
+ with several devices at once, or by touching the Test of Chronopics.
+ In the Chronojump Forum 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
-http://foro.chronojump.org
+http://forum.chronojump.org
 \end_layout
 
 \end_inset
 
- se describirá un método para la contrucción de un dispositivo de sincronización
- profesional.
+ is described a method for the construction of a professional sync device.
 \end_layout
 
 \begin_layout Standard
-La sincronización en el cuarto ejemplo requiere discusión.
- Si los sujetos salen en el momento que quieren y lo que se pretende únicamente
- es registrar el tiempo entre un contacto y el siguiente, no será necesaria
- la sincronización.
- Por otro lado, sí que será necesaria la sincronización en caso de que se
- realice una salida a partir de la señal de un evaluador externo, y se pretende
- conocer el tiempo entre dicha señal (a partir de algún contacto) y el primer
- contacto de cada atleta.
+The sync in the fourth example requires discussion.
+ If the subjects leave when they want and the aim is to record only the
+ time between contact and the next synchronization is not required.
+ On the other hand, sync is needed if we use the signal of an external evaluator
+, and when we expect to know the time between the signal (of any contact)
+ and the first contact each athlete.
 \end_layout
 
 \begin_layout Subsection
-Borrado del primer tiempo
+Erase first time
 \end_layout
 
 \begin_layout Standard
-En algunos tests, el tiempo des del inicio del mismo hasta el primer cambio
- de estado no es relevante.
- Tal vez el sujeto pueda iniciar el test cuando lo desee, y si se desea
- comparar la capacidad del sujeto de seguir una pulsación independiente
- con ambas manos (dos Chronopics), el tiempo desde que inició el test hasta
- que se produjo el primer contacto no es relevante y debe ser eliminado
- para que no contamine los promedios.
-\end_layout
-
-\begin_layout Subsection
-Configuración de los puertos
+In some tests, the time of the first contact until the first change of state
+ is not relevant.
 \end_layout
 
 \begin_layout Standard
-Como es obvio, es imprescindible configurar dos Chronopics en la ventana
- de Chronopic: Herramientas / Chronopic, para poder ejecutar los tests propuesto
-s.
+Perhaps, the subject can begin whenever he wants.
+ If you want to compare the subject's ability to follow an independent press
+ with both hands (two Chronopics).
+ The time registered since the start until the first contact is not relevant
+ and should be removed to avoid contaminating averages.
 \end_layout
 
 \begin_layout Subsection
-Visualización de resultados de Multi Chronopic
+Port configuration
+\end_layout
+
+\begin_layout Standard
+Obviously, it’s imperative to set up two Chronopic in the window Chronopic:
+ 
+\emph on
+Tools / Chronopic
+\emph default
+, to run the tests proposed.
+\end_layout
+
+\begin_layout Subsection
+Multi Chronopic results view
 \end_layout
 
 \begin_layout Standard
@@ -6329,7 +6237,7 @@ name "fig:Gráfico-de-multiChronopic_mc"
 
 \end_inset
 
-Captura de pantalla de Multi Chronopic.
+Multi Chronopic screenshot.
 \end_layout
 
 \end_inset
@@ -6343,153 +6251,112 @@ Captura de pantalla de Multi Chronopic.
 \end_layout
 
 \begin_layout Standard
-En la ventana de resultados, vemos distintas columnas, en el caso de que
- se hayan usado dos Chronopics:
+In the results window, we can observe different columns, if two Chronopic
+ have been used:
 \end_layout
 
 \begin_layout Itemize
-Tiempo: El tiempo desde el inicio del test
+Time: The time from the beginning of the test CP1 and CP2
 \end_layout
 
 \begin_layout Itemize
-Estado CP1 y CP2: Información sobre qué cambio ha sucedido en cada Chronopic
- (si lo ha habido) en el momento temporal indicado en la columna anterior.
+State: Information on which change has occur in each Chronopic (if any)
+ at the time point indicated in the previous column.
 \end_layout
 
 \begin_layout Itemize
-Cambio CP1 y CP2: Tiempo transcurrido desde el último cambio de estado en
- cada Chronopic.
+CP1 and CP2 Change: Time elapsed since the last change of state in each
+ Chronopic.
 \end_layout
 
 \begin_layout Itemize
-IN-IN CP1 y CP2: Tiempo transcurrido desde que cada Chronopic cambió a estado
+IN-IN CP1 and CP2: Time elapsed since each Chronopic changed the state IN
+ until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+OUT-OUT CP1 and CP2: Time elapsed since each Chronopic changed the state
+ OUT until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+Description: Comments on the particular test run.
  
-\emph on
-Dentro
-\emph default
- hasta que volvió al mismo estado.
-\end_layout
-
-\begin_layout Itemize
-OUT-OUT CP1 y CP2: Tiempo transcurrido desde que cada Chronopic cambió a
- estado 
-\emph on
-Fuera
-\emph default
- hasta que volvió al mismo estado.
-\end_layout
-
-\begin_layout Itemize
-Descripción: Comentarios opcionales sobre el test ejecutado en concreto.
 \end_layout
 
 \begin_layout Standard
-En el ejemplo de la figura 
+In the example in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Gráfico-de-multiChronopic_mc"
 
 \end_inset
 
-, se muestra un test Multi Chronopic de duración: 0,928 segundos en que
- hay 10 cambios de estado.
- Se denomina 
-\emph on
-Mult iChronopic 1, 2, 10n
-\emph default
- porque se ha realizado con 2 Chronopics (Chronopics 1 y 2), y tiene 10
- cambios.
- Si observamos el cambio número 5, se produce a los 0,539 segundos.
- Éste representa un cambio de estado del Chronopic 1 de 
-\emph on
-Fuera 
-\emph default
-(sin contacto) a 
-\emph on
-Dentro 
-\emph default
-(contacto).
- Tal y como indica en 
-\emph on
-Cambio CP1
-\emph default
-, han transcurrido 0,225 segundos desde que dicho Chronopic estuvo en su
- estado anterior (
-\emph on
-Fuera
-\emph default
-) y 0,353 segundos desde que este Chronopic estuvo 
-\emph on
-(Dentro
-\emph default
-) tal y como refleja IN-IN CP1.
+ it shows a Multi Chronopic test duration: 0.928 seconds in which there are
+ 10 state changes.
+ Multi Chronopic 1, 2, 10n is called so because is used 2 Chronopics (Chronopics
+ 1 and 2), and has 10 changes.
+ If we observe the change number 5 it occurs at 0.539 seconds.
+ This represents a change of status Out Chronopic 1 (no contact) within
+ a (contact).
+ As indicated in CP1 Change, 0.225 seconds have elapsed since the Chronopic
+ was in its previous state (Outside) and 0.353 seconds since this was Chronopic
+ (Inside) as reflected in IN-IN CP1.
 \end_layout
 
 \begin_layout Standard
-Observe también que las columnas IN-IN y OUT-OUT disponen de un promedio
- de valores y una desviación estándard (SD).
+Also note that the column IN-IN and OUT-OUT have average values and standard
+ deviation (SD).
 \end_layout
 
 \begin_layout Standard
-\begin_inset VSpace defskip
-\end_inset
-
-Del mismo modo que el resto de tests, los tests se encuentran asociados
- a los ejecutantes.
- El orden de aparición de cada test en cada ejecutante es el cronológico
- de forma que el último realizado por un sujeto aparecerá al final del listado
- de sus tests.
- Puede usar los botones de 
-\emph on
-lupa
-\emph default
- (o la tecla 
+Just as the other tests, the tests are associated with the performers.
+ The order of presentation of each test in each performer is chronological
+ so the latter carried out by a subject appears at the bottom of the list
+ of the tests.
+ You can use the magnifying glass button (or press 
 \emph on
 z
 \emph default
-)
-\emph on
- 
-\emph default
-para facilitar la visualización de los tests.
+) to facilitate the visualization of the tests.
 \end_layout
 
 \begin_layout Subsection
-Edición y borrado de test Multi Chronopic
+Multi Chronopic test edition and erase
 \end_layout
 
 \begin_layout Standard
-Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modificar
- el sujeto actual previamente) seleccionando el test deseado y haciendo
- clic en el botón de 
+You can add comments to a test or change the performer (if you forgot to
+ change the current subject previously) by selecting the desired test and
+ click on the 
 \emph on
-Editar Multi Chronopic
+Edit Multi Chronopic
 \emph default
-, su equivalente en el menú o la tecla 
+ button.
+ It can also be done in the menu or press 
 \emph on
 e
 \emph default
 .
- 
 \end_layout
 
 \begin_layout Standard
-Para borrar un test Multi Chronopic, selecciónelo y haga clic en el botón
- 
+To delete a Multi Chronopic test, select it and click the 
 \emph on
-Borrar Multi Chronopic seleccionado,
+Delete Multi Chronopic
 \emph default
- su equivalente en el menú o la tecla 
+ button selected.
+ Its equivalent in the menu or press 
 \emph on
-d 
+d
 \emph default
-(delete).
- El borrado del test pedirá confirmación en caso de que la opción de confirmació
-n de borrado de tests esté activada en el menú de 
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
 \emph on
-Preferencias
+Preferences
 \emph default
- (más información en la sección 
+ menu (more information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"
@@ -6500,70 +6367,68 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Subsection
-Análisis de carrera
+Run analysis
 \end_layout
 
 \begin_layout Standard
-Además de los ejemplos propuestos, se ha incluido un test para analizar
- las carreras elaborado por Josep Ma Padullés como parte de su Tésis Doctoral.
- Como dispositivos de detección se usan dos barreras de fotocéluas y una
- pista de plataformas de contactos.
- 
+In addition to the examples given we have to include a test to analyze the
+ run produces by Josep Maria Padullés as part of his doctoral thesis.
+ As sense devices it’s used two photocells barriers and a track with contacts
+ platforms.
 \end_layout
 
 \begin_layout Standard
-Las dos fotocélulas irán conectadas al 
+The two photocells are connected to the 
 \series bold
-primer
+first
 \series default
- Chronopic y permitirán conocer el tiempo entre las mismas.
- El evaluador indicará al programa la distancia entre ellas y de este modo
- se conocerá la velocidad media.
- La pista de plataformas irá conectada al 
+ Chronopic to know the time between them.
+ The program evaluator will indicate the distance between them and thus
+ it can be known the average speed.
+ The track of platforms will be connected to the 
 \series bold
-segundo
+second
 \series default
- Chronopic que captará los tiempos de contacto y de vuelo.
- En este caso no se requiere sincronización entre ambos Chronopics ni borrada
- del primer tiempo.
+ Chronopic, which will give us the contact time and flight time.
+ In this case the synchronization between Chronopics or deleted the first
+ time is not required.
 \end_layout
 
 \begin_layout Standard
-A partir de los datos obtenidos por ambos Chronopics, se obtienen la velocidad
- media de la carrera, así como los siguientes datos para cada uno de los
- pasos:
+From the data obtained by both Chronopics, you will get the average speed
+ of the race, and the following data for each of the steps: 
 \end_layout
 
 \begin_layout Itemize
-Tiempos de contacto
+Contact times
 \end_layout
 
 \begin_layout Itemize
-Tiempos de vuelo
+Flight Times
 \end_layout
 
 \begin_layout Itemize
-Tiempo total
+Total Time
 \end_layout
 
 \begin_layout Itemize
-Frecuencia
+Frequency
 \end_layout
 
 \begin_layout Itemize
-Amplitud
+Amplitude
 \end_layout
 
 \begin_layout Itemize
-Altura
+Height
 \end_layout
 
 \begin_layout Itemize
-Ángulo de despegue
+Takeoff angle 
 \end_layout
 
 \begin_layout Standard
-Puede ver un ejemplo en la figura 
+You can see an example in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Gráfico-de-multiChronopic_ra"
@@ -6571,9 +6436,9 @@ reference "fig:Gráfico-de-multiChronopic_ra"
 \end_inset
 
 .
- Note que el botón de ejecución de Análisis de Carrera se activa cuando
- -además de haber conectado dos Chronopics- se haya introducido la distancia
- entre las fotocélulas.
+ Note that the execution button Running Analysis will be activated when
+ the distance between the photocells and the two Chronopics are connected.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -6605,11 +6470,7 @@ name "fig:Gráfico-de-multiChronopic_ra"
 
 \end_inset
 
-Captura de pantalla de Multi Chronopic con resultados para 
-\emph on
-Análisis de carrera
-\emph default
-.
+Multi Chronopic screenshot with Run Analysis results.
 \end_layout
 
 \end_inset
@@ -6623,24 +6484,25 @@ Análisis de carrera
 \end_layout
 
 \begin_layout Chapter
-Estadísticas y gráficas
+Statistics and graphics
 \end_layout
 
 \begin_layout Standard
-Chronojump dispone de múltiples índices para estudiar los tests que son
- captados.
- Contrariamente a las hojas de cálculo de propósito general, la disposición
- de los estadísticos y su graficación ha sido diseñada específicamente para
- la medición de saltos y carreras.
- En la figura 
+Chronojump has multiple indices to study the tests proposed.
+ Unlike general spreadsheets purpose, the provision of statistical and graphics
+ has been designed specifically to measure jumps and running.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Ventana-de-estadísiticas"
 
 \end_inset
 
- se aprecia la ventana de estadísticas que aparece al hacer click en Herramienta
-s / Estadísticas.
+ shows the statistics window that appears when you click on 
+\emph on
+Tools / Statistics
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
@@ -6671,7 +6533,7 @@ name "fig:Ventana-de-estadísiticas"
 
 \end_inset
 
-Ventana de estadísticas de Chronojump.
+Chronojump statistics window.
 \end_layout
 
 \end_inset
@@ -6685,11 +6547,10 @@ Ventana de estadísticas de Chronojump.
 \end_layout
 
 \begin_layout Standard
-La versión actual Chronojump sólo contempla estadísticos referentes a saltos.
- En futuras versiones se incluirán también estadísticos de otros tests.
- Si desea realizar estadísticos y gráficos de otros tests, le recomendamos
- que exporte los datos a hoja de cálculo tal y como se explica en el apartado
- 
+The current version only provides statistical Chronojump concerning to jumps.
+ Future versions will also include other statistical tests.
+ If you have graphics and other statistical tests, we recommend that you
+ export the worksheet data as described in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Exportación-a-hoja"
@@ -6700,104 +6561,99 @@ reference "sub:Exportación-a-hoja"
 \end_layout
 
 \begin_layout Section
-Tipos, subtipos y aplicación de estadísticas
+Statistic type, subtype and applications
 \end_layout
 
 \begin_layout Standard
-Cada estadístico puede ser clasificado por su tipo, entre los que se presentan:
+Each statistic can be classified by type, among which are:
 \end_layout
 
 \begin_layout Description
-Saltos
+Simple
 \begin_inset space ~
 \end_inset
 
-simples que ofrece diversas formas de analizar saltos simples sin tiempo
- de contacto
+jumps which offers several ways to analyze simple jumps without contact
+ time.
 \end_layout
 
 \begin_layout Description
-Saltos
+Simple
 \begin_inset space ~
 \end_inset
 
-simples
+jumps
 \begin_inset space ~
 \end_inset
 
-con
+with
 \begin_inset space ~
 \end_inset
 
-tiempo
+contact
 \begin_inset space ~
 \end_inset
 
-de
-\begin_inset space ~
-\end_inset
-
-contacto que ofrece diversas formas de analizar saltos simples con tiempo
- de contacto
+time which offers various ways to analyze simple jumps with contact time.
 \end_layout
 
 \begin_layout Description
-Saltos
+Reactive
 \begin_inset space ~
 \end_inset
 
-reactivos que presenta diversas formas de analizar saltos repetitivos
+jumps which presents several ways to analyze repetitive jumps.
 \end_layout
 
 \begin_layout Subsection
-Saltos simples
+Simple jumps
 \end_layout
 
 \begin_layout Standard
-Los estadísticos de saltos simples muestran varias formas de analizar saltos
- simples sin tiempo de contacto, que pueden ser clasificados en varios subtipos:
+The simple statistical hop show various ways to analyze simple jumps without
+ contact time, which can be classified into several subtypes:
 \end_layout
 
 \begin_layout Itemize
-Sin índices
+No index
 \end_layout
 
 \begin_layout Itemize
-Fuerza-velocidad
+Force-velocity
 \end_layout
 
 \begin_layout Itemize
-Índice de elasticidad
+Elasticity rate (IE)
 \end_layout
 
 \begin_layout Itemize
-Índice de utilización de brazos
+Use of arms index (IUB)
 \end_layout
 
 \begin_layout Itemize
-Picos de potencia de Lewis, Harman, Sayers (2), Shetty, Cannavan, Lara(5)
+Power peak of Lewis, Harman, Sayers (2), Shetty, Canavan, Lara (5)
 \end_layout
 
 \begin_layout Subsubsection
-Sin índices
+No index
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestran todos los saltos o los de
- algún tipo en concreto según la selección del campo 
+Statistical simple jump that shows all the jumps or a particular type as
+ selected on the 
 \emph on
-aplicación
+application
 \emph default
-.
+ field.
 \end_layout
 
 \begin_layout Subsubsection
-Fuerza-velocidad
+Force-velocity
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra la relación de fuerza-velocidad
- según la fórmula 
+Statistical simple jump that shows the force-velocity relationship according
+ to the formula
 \end_layout
 
 \begin_layout Standard
@@ -6811,17 +6667,16 @@ Estadísitico de salto simple en que se muestra la relación de fuerza-velocidad
 \end_layout
 
 \begin_layout Standard
-los saltos SJ con el 100% de carga extra respecto al peso corporal, y SJ
- sin carga adicional.
+SJ jumps with 100% extra charge to the body weight, and SJ with no additional
+ charge.
 \end_layout
 
 \begin_layout Subsubsection
-Índice de elasticidad
+Elasticity index
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra el índice de elasticidad
- a partir de la fórmula 
+Statistical simple jump that shows the elasticity index formula
 \end_layout
 
 \begin_layout Standard
@@ -6834,16 +6689,16 @@ Estadísitico de salto simple en que se muestra el índice de elasticidad
 \end_layout
 
 \begin_layout Standard
-entre los saltos SJ y CMJ.
+between SJ and CMJ jumps.
 \end_layout
 
 \begin_layout Subsubsection
-Índice de utilización de brazos
+Use of arms index
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra el índice de utilización
- de brazos a partir de la fórmula
+Statistical simple jump that shows the rate of the use of arms from the
+ formula
 \end_layout
 
 \begin_layout Standard
@@ -6856,25 +6711,24 @@ Estadísitico de salto simple en que se muestra el índice de utilización
 \end_layout
 
 \begin_layout Standard
-entre los saltos CMJ y ABK.
+between CMJ and ABK jumps.
 \end_layout
 
 \begin_layout Subsubsection
-Picos de potencia
+Peak power
 \end_layout
 
 \begin_layout Standard
-En la figura 
+Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Estadísticas-de-saltos-simples"
 
 \end_inset
 
- se encuentra la relación de picos de potencia de los distintos autores
- y sus fórmulas.
- Se espera en un futur poder incluir documentación ampliada respecto a cada
- fórmula y bibliografía relacionada.
+ is the ratio of power peak of the individual authors and their formulas.
+ In the future, is expected to include expanded documentation for each formula
+ and literature.
 \end_layout
 
 \begin_layout Standard
@@ -6905,7 +6759,7 @@ name "fig:Estadísticas-de-saltos-simples"
 
 \end_inset
 
-Estadísticas de saltos simples.
+Statistics of simple jumps.
 \end_layout
 
 \end_inset
@@ -6919,31 +6773,28 @@ Estadísticas de saltos simples.
 \end_layout
 
 \begin_layout Subsection
-Saltos con tiempo de contacto
+Contact time jumps
 \end_layout
 
 \begin_layout Standard
-La información más relevante en este tipo de saltos es la relación existente
- entre el tiempo de vuelo y el tiempo de contacto.
- En muchos deportes es necesario generar una elevada fuerza (reflejada en
- el tiempo de vuelo) en poco tiempo (representada por el tiempo de contacto).
- Se presentan dos índices para estudiar dicha relación;
+The most important in this type of jump is the relationship between flight
+ time and contact time.
+ In many sports it’s necessary to generate a high power (reflected in the
+ flight time) in a short time (represented by the contact time).
+ We present two indexes to study the relation:
 \end_layout
 
 \begin_layout Itemize
-Índice Dj
+Dj Index
 \end_layout
 
 \begin_layout Itemize
-Índice Q
+Index Q
 \end_layout
 
 \begin_layout Standard
-El ambos casos el campo 
-\emph on
-aplicación
-\emph default
-, se refiere al tipo de salto al que es aplicado el estadístico.
+The application field in both cases refers to the type of jump that is applied
+ to the statistic.
 \end_layout
 
 \begin_layout Subsubsection
@@ -6953,18 +6804,18 @@ name "sub:Índice-Dj"
 
 \end_inset
 
-Índice Dj
+Dj index
 \end_layout
 
 \begin_layout Standard
-Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fórmula
+Study of the relationship between time of flight / time of contact in a
+ single jump from the formula
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $ÍndiceDj=\frac{TV-TC}{TC}*100$
+\begin_inset Formula $DJindex=\frac{TF-TC}{TC}*100$
 \end_inset
 
 
@@ -6977,61 +6828,59 @@ name "sub:Índice-Q"
 
 \end_inset
 
-Índice Q
+QIndex
 \end_layout
 
 \begin_layout Standard
-Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- simple a partir de la fórmula
+Study of the relationship between time of flight / time of contact in a
+ single jump from the formula
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $ÍndiceQ=\frac{TV}{TC}$
+\begin_inset Formula $QIndex=\frac{TF}{TC}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Subsection
-Saltos reactivos
+Repetitive jump
 \end_layout
 
 \begin_layout Standard
-En la repetición de un tipo de salto delimitado por número de saltos, tiempo,
- o ilimitado (termina cuando el entrenador o el deportista lo decide), es
- representativa la evolución del tiempo de vuelo respecto al tiempo de contacto
- en los distintos saltos.
- Con este objetivo se presentan los siguientes estadísticos:
+In the repetition of a jump test specified by a number of jumps, time, or
+ unlimited ends when the coach or athlete decides it.
+ It represents the evolution of flight time with respect to the contact
+ time in the different jumps.
+ With this objective are the following statistics: 
 \end_layout
 
 \begin_layout Itemize
-Índice medio
+Average index
 \end_layout
 
 \begin_layout Itemize
-Potencia (Bosco)
+Power (Bosco)
 \end_layout
 
 \begin_layout Itemize
-Evolución
+Evolution
 \end_layout
 
 \begin_layout Itemize
-Promedio y Desviación estándard usando RjIndex
+Mean and standard deviation using RjIndex
 \end_layout
 
 \begin_layout Itemize
-Promedio y Desviación estándard usando QIndex
+Mean and standard deviation using QIndex
 \end_layout
 
 \begin_layout Standard
-El todos los casos el campo 
-\emph on
-aplicación
-\emph default
-, se refiere al tipo de salto al que es aplicado el estadístico.
+In all cases the application field refers to the type of jump that is applied
+ to the statistic.
+ 
 \end_layout
 
 \begin_layout Subsubsection
@@ -7041,18 +6890,18 @@ name "sub:Índice-medio"
 
 \end_inset
 
-Índice medio
+Average index
 \end_layout
 
 \begin_layout Standard
-Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- reactivo según la fórmula
+Study of the relationship of flight time / contact time in the repetitive
+ jump according to the formula 
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $ÍndiceDePromedios=\frac{TVpromedio-TCpromedio}{TCpromedio}*100$
+\begin_inset Formula $AverageIndex=\frac{TFmean-TCmean}{TCmean}*100$
 \end_inset
 
 
@@ -7065,274 +6914,261 @@ name "sub:Potencia-(Bosco)"
 
 \end_inset
 
-Potencia (Bosco)
+Power (Bosco)
 \end_layout
 
 \begin_layout Standard
-Estudio de la relación tiempo de vuelo / tiempo de contacto en un salto
- reactivo según la fórmula
+Study of the relationship of flight time / contact time in the repetitive
+ jump according to the formula 
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $ÍndiceDePotencia=\frac{9.81^{2}*TVpromedio*saltos*tiempoTotal}{4*saltos*(tiempoTotal-TVpromedio*saltos)}$
+\begin_inset Formula $Power=\frac{9.81^{2}*TFmean*jumps*totalTime}{4*jumps*(totalTime-TFmean*jumps)}$
 \end_inset
 
  
 \end_layout
 
 \begin_layout Subsubsection
-Evolución
+Evolution
 \end_layout
 
 \begin_layout Standard
-Estudio de la relación tiempo de vuelo / tiempo de contacto a lo largo de
- un salto reactivo según la evolución de la fórmula 
-\begin_inset Formula $Evolucion=\frac{TV}{TC}*100$
+Study of the relationship of flight time / contact time over the repetitive
+ jump according to the evolution of the formula 
+\begin_inset Formula $Evolution=\frac{TF}{TC}*100$
 \end_inset
 
- para cada subsalto.
+ for each twitching.
 \end_layout
 
 \begin_layout Standard
-En ocasiones algunos deportistas realizan un salto con una muy buena relación
- TV/TC a costa de ir acompañado de un salto previo o posterior de pocas
- prestaciones.
- Por este motivo se ha dispuesto la la opción de 
-\emph on
-marcar los mejores 'n' consecutivos
-\emph default
- para obtener una selección de los mejores subsaltos seguidos respecto a
- este índice.
- A la derecha de esta opción encontrará la cantidad de subsaltos seguidos
- que quiere estudiar.
- Si selecciona el valor 1 entonces el mejor subsalto será resaltado.
+Sometimes some athletes do a jump with a very good TF / TC because of the
+ execution of a low one before or afterwards.
+ For this reason it has arranged the option to make the best 'n' row to
+ get a selection of the best range following this index.
+ To the right of this option you can find the amount of jumps you want to
+ study.
+ If you select a value of 1 then the best jump will be highlighted.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-Promedio y Desviación estándard usando RjIndex
+Mean and standard deviation using RjIndex 
 \end_layout
 
 \begin_layout Standard
-Estudio del índice
+Study Index
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $RjIndex=\frac{TV-TC}{TC}*100$
+\begin_inset Formula $RjIndex=\frac{TF-TC}{TC}*100$
 \end_inset
 
  
 \end_layout
 
 \begin_layout Standard
-para cada uno de los saltos de un test reactivo.
- Se muestra el promedio y la desviación estándard conseguidos.
+for each of the jumps of the repetitive jump test it’s shown the average
+ and standard deviation obtained.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-Promedio y Desviación estándard usando QIndex
+Mean and standard deviation using QIndex
 \end_layout
 
 \begin_layout Standard
-Estudio del índice
+Study Index
 \end_layout
 
 \begin_layout Standard
 \noindent
 \align center
-\begin_inset Formula $IndiceQ=\frac{TV}{TC}*100$
+\begin_inset Formula $Qindex=\frac{TF}{TC}*100$
 \end_inset
 
  
 \end_layout
 
 \begin_layout Standard
-para cada uno de los saltos de un test reactivo.
- Se muestra el promedio y la desviación estándard conseguidos.
+for each of the jumps of the repetitive jump test it’s shown the average
+ and standard deviation obtained.
 \end_layout
 
 \begin_layout Section
-Estadísticas multisesión
+Multisession statistics
 \end_layout
 
 \begin_layout Standard
-Todos los estadíticos presentados a excepción de la Evolución en saltos
- reactivos pueden ser usados para la comparación de diferentes saltos o
- sujetos en varias sesiones.
- De esta manera se presentará una columna por cada sesión seleccionada y
- se facilita la comparación entre los diferentes valores mostrados.
+All statistical presented except the Evolution in the repetitive jumps can
+ be used for the comparison of different jumps or subjects in several sessions.
+ This will submit a column for each selected session and facilitates comparison
+ between the different values shown.
 \end_layout
 
 \begin_layout Standard
-Además se incluye el promedio y la desviación estándard de cada fila mostrada.
+It also includes the average and standard deviation of each row displayed.
 \end_layout
 
 \begin_layout Standard
-Para acceder a estadísticos multisesión haga clic en sesión / seleccionadas
- y seleccione las sesiones que desee usando la ventana que aparece al hacer
- clic en 
+To access to the statistics multisession click on 
 \emph on
-Seleccionar
+session / selected
+\emph default
+ and select the sessions you want to use in the window that appears when
+ you click on 
+\emph on
+Select
 \emph default
 .
- Puede seleccionar tantas sesiones como desee y no está obligado a que aparezca
- la sesión actual entre las mismas.
+ You can select as many sessions as desired and is not required to display
+ the current session between them.
 \end_layout
 
 \begin_layout Section
-Selección de saltos a mostrar
+Selection of the jumps to be shown
 \end_layout
 
 \begin_layout Standard
-Existen cuatro modos de selección de saltos mostrados que condicionan la
- generación del estadístico deseado:
+There are four selection modes for the jumps shown as a condition in the
+ generation of statistical expectation:
 \end_layout
 
 \begin_layout Description
-Todos muestra todos los resultados del estadístico seleccionado.
+All shows the results of the selected statistics.
 \end_layout
 
 \begin_layout Description
-Límite
+Limit
 \begin_inset space ~
 \end_inset
 
+n shows the first n selected statistical results.
+\end_layout
 
+\begin_layout Description
+Average shows the average of each jumper in the selected statistic.
+\end_layout
+
+\begin_layout Description
+Max
+\begin_inset space ~
+\end_inset
+
+/s
+\begin_inset space ~
+\end_inset
+
+of
+\begin_inset space ~
+\end_inset
+
+the
+\begin_inset space ~
+\end_inset
+
+jumper show 
 \emph on
 n
 \emph default
- muestra los primeros 
-\emph on
-n
-\emph default
- resultados del estadístico seleccionado.
-\end_layout
-
-\begin_layout Description
-Media
-\begin_inset space ~
-\end_inset
-
-del
-\begin_inset space ~
-\end_inset
-
-saltador muestra el promedio de cada saltador en el estadístico seleccionado.
-\end_layout
-
-\begin_layout Description
-Máximo/s
-\begin_inset space ~
-\end_inset
-
-del
-\begin_inset space ~
-\end_inset
-
-saltador muestra los 
-\emph on
-n
-\emph default
- valores máximos de cada saltador en el estadístico seleccionado.
+ maximum values of each jumper in the selected statistic.
 \end_layout
 
 \begin_layout Standard
-La mayoría de los estadísticos ofrecen las cuatro opciones, en los que se
- omita alguno de estos modos es porque se cree que no tendría sentido generarlo.
+Most of the statistics offers the four options.
+ Those omitted is because is not a purpose generate them.
 \end_layout
 
 \begin_layout Section
-Otras configuraciones
+Other settings
 \end_layout
 
 \begin_layout Standard
-Se presentan a continuación otros botones de acción vinculados al estadístico
- mostrado.
-\end_layout
-
-\begin_layout Subsection
-Enunciado de los estadísticos
-\end_layout
-
-\begin_layout Standard
-Todo estadístico dispone de un enunciado que se crea automáticamente en
- función de las selecciones que ha realizado el usuario en la ventana de
- estadísticas.
- El enunciado puede ayudarle a entender el estadístico.
-\end_layout
-
-\begin_layout Subsection
-Distinción de género
-\end_layout
-
-\begin_layout Standard
-Se presenta la opción de distinguir entre géneros para la presentación de
- resultados.
- La selección de esta opción puede tener un doble comportamiento:
-\end_layout
-
-\begin_layout Itemize
-Cuando las filas de resultado de los estadísticos correspondan con índices
- o tipos de salto, la selección de género provocará que se cree automáticamente
- una fila para cada uno de los mismos.
-\end_layout
-
-\begin_layout Itemize
-Cuando las filas de resultado de los estadísticos correspondan con saltadores,
- la selección de géneros provocará que se añada una letra después de cada
- saltador indicando su género.
-\end_layout
-
-\begin_layout Standard
-Este botón podrá ayudarle a realizar comparaciones intra e intergéneros.
-\end_layout
-
-\begin_layout Subsection
-Actualización automática
-\end_layout
-
-\begin_layout Standard
-La ventana de estadísticas de Chronojump está diseñada para que cada cambio
- en la base de datos (nuevo salto, cambio de nombre de sujeto, borrado de
- salto, cambio de saltador que ha realizado un salto...) sea actualizado directamen
-te.
-\end_layout
-
-\begin_layout Section
-Marcado de filas
-\end_layout
-
-\begin_layout Standard
-En la primera columna de cada fila encontrará una pequeña caja de selección
- que le permitirá seleccionar si desea o no que esa fila sea tenida en cuenta
- para los gráficos y los informes que Chronojump genera.
- La primera fila contiene una caja de selección que le permite seleccionar
- y deseleccionar rápidamente todos los valores.
- Además, se muestra un cuadro de selección en la parte inferior izquierda
- que le permite agilizar la selección de filas en base a distintos criterios.
- Encontrará más información sobre gráficos y los informes en los apartados
+Other related action buttons presented below.
  
+\end_layout
+
+\begin_layout Subsection
+Statistics formulation
+\end_layout
+
+\begin_layout Standard
+All statistics have a statement that is automatically created based on the
+ selections made by the user in the statistics window.
+ The statement can help you understand the statistics.
+\end_layout
+
+\begin_layout Subsection
+Genus distinction
+\end_layout
+
+\begin_layout Standard
+It presents the option of distinguish between genders for the presentation
+ of the results.
+ Selecting this option you can have a dual behavior:
+\end_layout
+
+\begin_layout Itemize
+When the result rows correspond to the statistical index or jumping, gender
+ selection will lead automatically to the creation of a row for each of
+ them.
+\end_layout
+
+\begin_layout Itemize
+When the result rows of statistical correspond to the subjects, it will
+ appear a letter at the end of the subject to indicate the gender.
+\end_layout
+
+\begin_layout Standard
+This button can help intra and inter genus comparisons.
+\end_layout
+
+\begin_layout Subsection
+Automatic actualization
+\end_layout
+
+\begin_layout Standard
+The statistics window Chronojump is designed so each change in the database
+ (new jump, subject rename, delete, jump, change jumper who has made a jump
+ ...) is updated directly.
+\end_layout
+
+\begin_layout Section
+Marked rows
+\end_layout
+
+\begin_layout Standard
+In the first column of each row you will find a small box that allows you
+ to select whether or not a row is taken into account for the graphs and
+ reports generated with Chronojump.
+ The first row contains a checkbox that lets you quickly select and deselect
+ all values.
+ Furthermore, we show a selection box at the left bottom that allows you
+ to expedite the selection of rows based on different criteria.
+ For more information on charts and reports in paragraphs check 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Creación-de-graficos"
 
 \end_inset
 
- y 
+ and 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Generación-de-Informes"
 
 \end_inset
 
- respectivamente.
+ respectively.
 \end_layout
 
 \begin_layout Section
-Creación de gráficos
+Graphic creation 
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Creación-de-graficos"
@@ -7343,14 +7179,11 @@ name "sub:Creación-de-graficos"
 \end_layout
 
 \begin_layout Standard
-Chronojump puede crear gráficos de todo cuanto se muestra en la ventana
- de estadísticos.
- Para ello simplemente haga clic en el botón 
-\emph on
-Graficar
-\emph default
- que aparece en la ventana de estadísticos.
- En la figuras 
+Chronojump can create any graphics of any of the data shown in the statistics
+ window.
+ To do this simply click on the Graph button that appears in the statistics
+ window.
+ In the figures 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Gráfico-stats1"
@@ -7378,7 +7211,7 @@ reference "fig:Gráfico-stats4"
 
 \end_inset
 
- se muestran ejemplos de gráficos generados.
+ there are some examples of graphics generated.
 \end_layout
 
 \begin_layout Standard
@@ -7409,7 +7242,7 @@ name "fig:Gráfico-stats1"
 
 \end_inset
 
-Ejemplo de gráfico: Histograma de altura de salto.
+Graph example: Histogram of a height of jump.
 \end_layout
 
 \end_inset
@@ -7450,7 +7283,7 @@ name "fig:Gráfico-stats2"
 
 \end_inset
 
-Diagrama de caja de los mismos valores.
+Box diagram of the same values.
 \end_layout
 
 \end_inset
@@ -7491,7 +7324,7 @@ name "fig:Gráfico-stats3"
 
 \end_inset
 
-Gráfico dotchart de los mismos valores.
+Graph stripchart of the same values.
 \end_layout
 
 \end_inset
@@ -7532,7 +7365,7 @@ name "fig:Gráfico-stats4"
 
 \end_inset
 
-Gráfico dotchart de un subconjunto de los valores anteriores.
+Graph dotchart a subset of the above values.
 \end_layout
 
 \end_inset
@@ -7546,28 +7379,28 @@ Gráfico dotchart de un subconjunto de los valores anteriores.
 \end_layout
 
 \begin_layout Chapter
-Informes y exportaciones
+Report and export
 \end_layout
 
 \begin_layout Standard
-Se proponen dos formas de continuar trabajando con sus datos sin usar ya
- el programa Chronojump.
- En el primer caso: 
+We propose two ways to work with raw data using Chronojump.
+ First of all: 
 \emph on
-Generación de informes
+Reporting
 \emph default
-, con la utilidad de crear una página web con el contenido de la sesión
- así como las estadísticas y gráficas seleccionadas; En el segundo caso:
- 
+, with the utility to create a web page with the content of the session
+ as well as selected statistics and graphs.
+ After this: 
 \emph on
-Exportación a hoja de cálculo
+Export to spreadsheet
 \emph default
-, se exportan los datos de los tests para su analisis con programas de cálculo
- de propósito general (hojas de cálculo).
+ data.
+ Export to the tests program analysis with general purpose spreadsheet (spreadsh
+eet).
 \end_layout
 
 \begin_layout Section
-Generación de informes
+Report generation
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Generación-de-Informes"
@@ -7578,18 +7411,17 @@ name "sec:Generación-de-Informes"
 \end_layout
 
 \begin_layout Standard
-La generación de informes en el programa Chronojump se concreta como la
- mejor forma de recoger la información captada en una sesión, así como las
- estadísticas y gráficas elegidas para el estudio de la misma e incluso
- la comparación con otras.
+Reporting on the program Chronojump is the best way to collect information,
+ statistics and graphs, in one session.
+ This information can be in one study or with the comparison of various.
 \end_layout
 
 \begin_layout Standard
-Haciendo clic en 
+Clicking on 
 \emph on
-Herramientas / Informes
+Tools / Report
 \emph default
-, aparece la figura que se muestra en la figura 
+, the figure shown is Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Generación-de-Informes"
@@ -7597,44 +7429,39 @@ reference "sec:Generación-de-Informes"
 \end_inset
 
 .
- En la misma se ofrece al usuario la posibilidad de crear un informe en
- formato web (HTML) en el que se pueden incluir los datos de la sesión,
- los saltadores que han participado y los tests recogidos.
- Además, mediante el botón 
+ The users have the ability to create a report in web format (HTML) which
+ can include session data, the subjects who participated and the tests chosen.
+ Furthermore, using the 
 \emph on
-Añadir a Informe
+Add to report
 \emph default
- que aparece en la ventana de estadísticas, se permite preparar cada uno
- de los estadísticos visualizados para que estos aparezcan en el informe
- generado, y que lo hagan con la personalización que había sido elegida
- por el usuario en la ventana de estadísticos.
- El usuario puede además ordenar cada uno de los estadísticos para el informe
- final.
+ button is allowed to prepare each of the statistics displayed.
+ Do the apparition in the report generated and the customization that was
+ chosen by the user in the statistical window.
+ The user can also organize each of the statistics to do the final report.
 \end_layout
 
 \begin_layout Standard
-Haciendo clic en 
+Clicking on 
 \emph on
-Crear informe
+Make Report
 \emph default
-, se presentará una ventana que permitirá elegir el nombre de fichero con
- el que será guardado el documento HTML, además se generará una carpeta
- en la que se incluirán todas las imágenes y estilos necesarios para que
- se visualice la página correctamente.
+, you can choose the filename to save the HTML document.
+ Also, you can generate a folder that will include all necessary images
+ and styles to display the page properly.
 \end_layout
 
 \begin_layout Standard
-Para la impresión de dicho informe -así como de cualquier página web- se
- recomienda encarecidamente el navegador libre Mozilla Firefox, pues la
- impresión en Internet Explorer es poco respetuosa con el original.
- En la figura 
+To print the report, we strongly recommend using the free browser Mozilla
+ Firefox because Internet Explorers printer is very respectful to the original.
+ In Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Ejemplo-de-informe-2"
 
 \end_inset
 
- puede ver una fotocomposición de un informe generado.
+ you can see a photo of a report.
 \end_layout
 
 \begin_layout Standard
@@ -7665,7 +7492,7 @@ name "fig:Ejemplo-de-informe"
 
 \end_inset
 
-Ejemplo de ventana de preparación de informe.
+Example of report window preparation.
 \end_layout
 
 \end_inset
@@ -7706,7 +7533,7 @@ name "fig:Ejemplo-de-informe-2"
 
 \end_inset
 
-Ejemplo de informe en página web (Fotocomposición).
+Example of a website report.
 \end_layout
 
 \end_inset
@@ -7720,7 +7547,7 @@ Ejemplo de informe en página web (Fotocomposición).
 \end_layout
 
 \begin_layout Section
-Exportación a hoja de cálculo
+Export to a spreadsheet
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Exportación-a-hoja"
@@ -7731,32 +7558,32 @@ name "sub:Exportación-a-hoja"
 \end_layout
 
 \begin_layout Standard
-Haga clic en 
+Clicking on 
 \emph on
-Sesión / Exportar sesión a formato CSV
+Session / Export session to CSV
 \emph default
- para que se cree un archivo en formato CSV (Valores Separados por Comas)
- que podrá ser importado fácilmente en cualquier programa de hoja de cálculo.
- Dicho archivo contendrá el registro de todos los tests producidos, pero
- no incluirá los estadísticos ni los gráficos.
+ to create a CSV file format (Comma Separated the Values) which can be easily
+ imported into any spreadsheet program.
+ This file contains the records of all the tests produced, but it shall
+ not include statistical or graphics.
 \end_layout
 
 \begin_layout Standard
-Para la exportación a CSV hemos elegido el carácter 
-\emph on
-punto y coma
-\emph default
- ';' (en lugar del carácter coma
-\emph on
-) para
-\emph default
- separar las distintas columnas de datos.
- Recuerde indicarlo en el momento en que importe el archivo CSV en su hoja
- de cálculo.
+To export to CSV we chose the semicolon character (instead of comma character)
+ to separate the different columns of data.
+ Remember to indicate it when you import the CSV file in the spreadsheet.
 \end_layout
 
 \begin_layout Chapter
-Servidor para compartir datos
+Share Data Server 
+\end_layout
+
+\begin_layout Standard
+Chronojump has a server to share data between users on Internet.
+ The server will obtain valuable data from the cross of many variables.
+ For this, the users may share the data Chronojump.
+ We believe in the good quality and usability of the technical characteristics
+ of the server.
 \end_layout
 
 \begin_layout Standard
@@ -7784,20 +7611,18 @@ Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
 \end_layout
 
 \begin_layout Section
-Compartición y uso de los datos
+Share and use the data
 \end_layout
 
 \begin_layout Standard
-Los datos que se compartirán son los tests, sujetos y sesiones de cada evaluador
- que lo desee.
- El evaluador cuando lo desee podrá 
-\emph on
-subir una sesión al servidor
-\emph default
-, descartando los deportistas que desee y los tests de los mismos.
- Antes de que los datos puedan tranferirse al servidor se harán comprobaciones
- para determinar si se han completado los datos necesarios de cada uno de
- los deportistas, así como los datos del evaluador.
+The data that can be shared are the tests, subjects and sessions of each
+ evaluator at any time.
+ The evaluator may upload to the server any session, dismissing those athletes
+ and tests that he doesn’t want to share.
+ Before upload the data to the server, check if they have completed the
+ necessary data from each of the athletes as well as the data required from
+ the evaluator.
+ 
 \end_layout
 
 \begin_layout Section
@@ -7807,104 +7632,97 @@ name "sec:Calidad-de-los-datos"
 
 \end_inset
 
-Calidad de los datos.
- Evaluadores acreditados y datos confiables
+Data quality.
+ Accredited assessors and reliable data
 \end_layout
 
 \begin_layout Standard
-Con la finalidad de obtener muchos datos, pero que no por ello se sacrifique
- la calidad, se ha creído conveniente que existan dos tipos de datos en
- cuanto a su confiabilidad:
+In order to get a lot of data, without sacrificing the quality, there are
+ two types of data in terms of reliability:
 \end_layout
 
 \begin_layout Description
-Datos
+The
 \begin_inset space ~
 \end_inset
 
-generales Los puede subir cualquiera que disponga de la tecnología Chronojump.
- Se cree que se podrá disponer en breve de muchos datos que pertenezcan
- a esta categoría.
+general
+\begin_inset space ~
+\end_inset
+
+data that can be upload from anyone with the Chronojump technology.
+ This will soon be available for many data that belongs to this category.
 \end_layout
 
 \begin_layout Description
-Datos
+The
 \begin_inset space ~
 \end_inset
 
-confiables Además del requisito anterior, se requiere una acreditación del
- evaluador que los ha tomado, y una justificación de los datos de la sesión.
- Se contemplan tres perfiles de evaluadores:
+reliable
+\begin_inset space ~
+\end_inset
+
+data requires the accreditation of the evaluator and the justification of
+ the session data.
+ This deals with three different profiles of the evaluator: 
 \end_layout
 
 \begin_deeper
 \begin_layout Description
-Perfil
-\begin_inset space ~
-\end_inset
-
-evaluador-entrenador persona vinculada al ámbito del entrenamiento.
+Evaluator-trainer profile: person related to the field of training.
 \end_layout
 
 \begin_layout Description
-Perfil
-\begin_inset space ~
-\end_inset
-
-evaluador-investigador persona vinculada al ámbito académico.
+Evaluator-researcher profile: person related to the academic field.
 \end_layout
 
 \begin_layout Description
-Perfil
+Mixed
 \begin_inset space ~
 \end_inset
 
-mixto persona vinculada a los dos ámbitos.
+profile: person involved in the two areas mentioned above.
+\end_layout
+
+\begin_layout Standard
+The process of accreditation of the assessors has not yet begun, so all
+ assessors are currently uncredited and the data shared corresponds to general
+ data.
+ In the future, the new credited evaluators may wish to upload their data
+ to the reliable data, even if this data has been uploaded without the accredita
+tion.
+\end_layout
+
+\begin_layout Standard
+The accreditation is in charge of the Research Group: Salut, Activitat Física
+ i Esport at the Blanquerna Faculty (Universitat Ramon Llull).
+ 
 \end_layout
 
 \end_deeper
-\begin_layout Standard
-Aún no se ha iniciado el proceso de acreditación de los evaluadores, así
- que todos los evaluadores de momento estarán sin acreditar y sus datos
- compartidos corresponderán a 
-\emph on
-datos generales
-\emph default
-.
- En un futuro, los evaluadores que lo deseen podrán solicitar acreditarse
- para poder subir sus datos al grupo de confiables aunque dichos datos hayan
- sido subidos anteriormente al otro grupo.
-\end_layout
-
-\begin_layout Standard
-La acreditación será a cargo del Grupo de Investigación: Salut, Activitat
- Física i Esport de la Facultat Blanquerna perteneciente a la Universitat
- Ramon Llull.
-\end_layout
-
 \begin_layout Section
-Funciones del programa
+Server functions
 \end_layout
 
 \begin_layout Standard
-Las funciones del programa para conectarse con el servidor se encuentran
- en el menú principal, 
+Server functions can be located in the main menu, 
 \emph on
-Herramientas / Servidor
+Tools / Server
 \emph default
 .
- A continuación se detalla cada una de ellas.
+ Below its described each of them.
 \end_layout
 
 \begin_layout Subsection
-Comprobar conexión
+Check connection
 \end_layout
 
 \begin_layout Standard
-Permite saber si es posible establecer conexión con el servidor.
- Si no es posible puede que el servidor esté inoperativo temporalmente,
- que su computador no esté conectado a Internet, o que su conexión a Internet
- limite algunos tipos de conexión.
+Allows connecting to the server.
+ If not possible, it may be because the server is temporarily inoperative,
+ your computer is not connected to Internet, or your Internet connection
+ has limit on some types of connection.
 \end_layout
 
 \begin_layout Subsection
@@ -7914,42 +7732,40 @@ name "sub:Datos-del-evaluador"
 
 \end_inset
 
-Datos del evaluador
+Evaluators data
 \end_layout
 
 \begin_layout Standard
-Esta funcionalidad le permite rellenar una ficha de evaluador que irá vinculada
- a los tests, sujetos y sesiones que usted comparta.
- Sus datos personales estarán ocultos.
- Es necesario facilitar los datos de evaluador por los siguientes motivos:
+This feature allows the evaluator to fill in a sheet which will be linked
+ to the tests, subjects and sessions that will be shared.
+ The personal information will be hidden.
+ It’s necessary to provide evaluation data for the following reasons:
 \end_layout
 
 \begin_layout Itemize
-Es imprescindible para poder subir datos.
+It’s essential for uploading data.
 \end_layout
 
 \begin_layout Itemize
-Permite saber las nacionalidades, edades, equipamiento, ...
- de los evaluadores.
+Allows knowing the nationalities, ages, equipment, evaluators…
 \end_layout
 
 \begin_layout Itemize
-Permitiría actuar en caso de que existieran problemas con algunos datos,
- pues los administradores del servidor conocerán el correo electrónico del
- evaluador.
+If problems occur with some data, the administrators can contact via mail
+ to the server of the evaluator.
 \end_layout
 
 \begin_layout Standard
-Tal y como se comenta en la sección 
+As discussed in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Calidad-de-los-datos"
 
 \end_inset
 
-, de momento los evaluadores no podrán acreditarse, así que no se piden
- muchos datos a rellenar.
- Puede ver la ventana de datos de evaluador en la figuras 
+, currently the accreditation is not required, so the sheet that has to
+ be filled is very short.
+ See Figures 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_evaluador1"
@@ -7963,7 +7779,7 @@ reference "fig:server_evaluador2"
 
 \end_inset
 
- y 
+ and 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_evaluador3"
@@ -7971,6 +7787,7 @@ reference "fig:server_evaluador3"
 \end_inset
 
 .
+ to check the for data window for the evaluators.
 \end_layout
 
 \begin_layout Standard
@@ -8001,7 +7818,7 @@ name "fig:server_evaluador1"
 
 \end_inset
 
-Datos del evaluador, pestaña 1.
+Details of the evaluator, Tab 1.
 \end_layout
 
 \end_inset
@@ -8042,7 +7859,7 @@ name "fig:server_evaluador2"
 
 \end_inset
 
-Datos del evaluador, pestaña 2.
+Details of the evaluator, Tab 2.
 \end_layout
 
 \end_inset
@@ -8083,7 +7900,7 @@ name "fig:server_evaluador3"
 
 \end_inset
 
-Datos del evaluador, pestaña 3.
+Details of the evaluator, Tab 3.
 \end_layout
 
 \end_inset
@@ -8097,21 +7914,21 @@ Datos del evaluador, pestaña 3.
 \end_layout
 
 \begin_layout Subsection
-Subir (o actualizar) sesión en el servidor
+Upload or actualize session to server
 \end_layout
 
 \begin_layout Standard
-Esta es la función más importante para que se puedan compartir datos.
- Cuando el evaluador haga click en 
+This is the most important function to share data.
+ When the evaluator click on 
 \emph on
-Herramientas / Servidor / Subir (o actualizar) sesión en el servidor 
+Tools / Server / upload (or update) session to server
 \emph default
-deberá seguir los siguientes pasos:
+, he must follow this steps:
 \end_layout
 
 \begin_layout Enumerate
-En primer lugar se pedirá al evaluador que verifique sus datos tal y como
- se describía en el apartado 
+First, the evaluator will be asked to verify the data as described in paragraph
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Datos-del-evaluador"
@@ -8122,8 +7939,8 @@ reference "sub:Datos-del-evaluador"
 \end_layout
 
 \begin_layout Enumerate
-a continuación se pedirá al evaluador si quiere descartar alguno de los
- sujetos de la sesión (ver figura 
+then the evaluator will be asked if he wants to discard some of the subjects
+ of the session (see Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_include-discard"
@@ -8134,12 +7951,11 @@ reference "fig:server_include-discard"
 \end_layout
 
 \begin_layout Enumerate
-después se pedirá confirmación del evaluador, y
+then he will be asked for the confirmation,
 \end_layout
 
 \begin_layout Enumerate
-finalmente se mostrará una ventana de progreso de los datos que son incorporados
- al servidor.
+finally it shows a progress window of data to be incorporated into the server.
 \end_layout
 
 \begin_layout Standard
@@ -8170,7 +7986,8 @@ name "fig:server_include-discard"
 
 \end_inset
 
-Incluir/Descartar sujetos al subir sesión al servidor.
+Include / Discard subject to the server.
+ 
 \end_layout
 
 \end_inset
@@ -8184,102 +8001,80 @@ Incluir/Descartar sujetos al subir sesión al servidor.
 \end_layout
 
 \begin_layout Standard
-En cualquier momento el evaluador puede volver a subir la sesión al servidor
- (actualizar).
- Los datos que ya fueron subidos no serán incluídos otra vez, pero sí los
- que se hayan creado des de la última vez que se subió la misma.
+At any time the evaluator can re-upload the session to the server (update).
+ The data that has already been uploaded will not be included again, but
+ it wills so, the data created the last time.
+ 
 \end_layout
 
 \begin_layout Standard
-Los tests que hayan sido simulados (no obtenidos a partir de Chronopic)
- no subirán al servidor.
+The tests that have been simulated (not obtained from Chronopic) will be
+ uploaded to the server.
 \end_layout
 
 \begin_layout Subsection
-Realizar una consulta al servidor
+Query the server
 \end_layout
 
 \begin_layout Standard
-Se ha programado una ventana que permite obtener promedios de saltos simples,
- saltos reactivos y carreras simples.
- Para acceder a ella haga clic en 
+It has been created a window that allows average of the simple jumps, reactive
+ jumps and simple runs.
+ To access to it click on 
 \emph on
-Herramientas / Servidor / Realizar consulta
+Tools / Server / Query
 \emph default
 .
- La consulta se realiza activando selectores relativos al test y los selectores
- relativos a los sujetos.
+ The query is performed clicking on the test selectors and the subject selectors.
 \end_layout
 
 \begin_layout Standard
-A continuación se muestran los selectores de la consulta.
- Algunos de los ellos serán obligatorios, mientras que en la mayoría se
- podrá seleccionar 
+Below, we can observe the selectors of the query.
+ Some of them are mandatory, while the most can be selected on 
 \emph on
 Any
 \emph default
- o 
-\emph on
-Cualquiera
-\emph default
- para indicar que aquella variable no debe afectar al resultado.
+ to indicate that this variable should not affect the result.
+ 
 \end_layout
 
 \begin_layout Subsubsection
-Selectores relativos al tests
+Test selector
 \end_layout
 
 \begin_layout Standard
-A continuación se indican los tres selectores existentes y sus posibles
- valores:
+Here are the three selectors and possible values:
 \end_layout
 
 \begin_layout Description
-Tipo
+Test
 \begin_inset space ~
 \end_inset
 
-de
-\begin_inset space ~
-\end_inset
-
-test Salto simple, salto reactivo y carrera simple.
+type: simple jump test, reactive jump or simple run.
 \end_layout
 
 \begin_layout Description
-Test Tests presentes en la base de datos del usuario que correspondan al
- tipo de test indicado anteriormente.
+Test: correspond to the type of test described above.
 \end_layout
 
 \begin_layout Description
-Variable La variable de la que se obtendrá el promedio será distinta dependiendo
- del test seleccionado.
+Variable: the average obtained will be different depending on the test selected:
 \end_layout
 
-\begin_deeper
 \begin_layout Itemize
-Para un test de salto simple sin tiempo de contacto la única variable es
- el 
+For a simple jump test without contact time the only variable is the 
 \emph on
-tiempo de vuelo
+flight time
 \emph default
 .
 \end_layout
 
 \begin_layout Itemize
-Para un salto simple con tiempo de contacto, las variables serán: 
+For a single jump with contact time, the variables are: 
 \emph on
-tiempo de vuelo
+time of flight, contact time, Index DJ
 \emph default
-, 
-\emph on
-tiempo de contacto
-\emph default
-, 
-\emph on
-Índice DJ
-\emph default
- (ver 
+ (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Índice-Dj"
@@ -8288,9 +8083,9 @@ reference "sub:Índice-Dj"
 
 ), 
 \emph on
-Índice Q
+Index Q
 \emph default
- (ver 
+ (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Índice-Q"
@@ -8301,26 +8096,22 @@ reference "sub:Índice-Q"
 \end_layout
 
 \begin_layout Itemize
-Para un salto reactivo las variables posibles son: 
+For a reactive jump the possible variables are: 
 \emph on
-Índice medio
+Average Index
 \emph default
- (ver 
+ (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Índice-medio"
 
 \end_inset
 
-) y
+) and 
 \emph on
- Po
+Power (Bosco)
 \emph default
-tencia
-\emph on
- de Bosco
-\emph default
- (ver 
+ (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Potencia-(Bosco)"
@@ -8331,85 +8122,84 @@ reference "sub:Potencia-(Bosco)"
 \end_layout
 
 \begin_layout Itemize
-Para una carrera simple la única variable es el 
+For the running the only variable is the 
 \emph on
-tiempo
+time
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Selectors on the subject 
+\end_layout
+
+\begin_layout Standard
+The selectors are:
+\end_layout
+
+\begin_layout Description
+Sex
+\end_layout
+
+\begin_layout Description
+Age: Refers to the age of the subject at the time the test is made.
+ To calculate the age of the subject it’s used the date of the birth.
+\end_layout
+
+\begin_layout Description
+Country
+\end_layout
+
+\begin_layout Description
+Sport: Sometimes subdivided into specialty.
+\end_layout
+
+\begin_layout Description
+Level: Divided into: [0] sedentary or occasional practitioner, [1] regular
+ practice, [2] competition; [3] elite.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Evaluator selector
+\end_layout
+
+\begin_layout Standard
+Any data from a particular evaluator can be chosen.
+ This option may be interesting even for yourself because this way is possible
+ to quickly gather information from all the jumps that have been evaluated.
+\end_layout
+
+\begin_layout Subsubsection
+Query results
+\end_layout
+
+\begin_layout Standard
+When you click the search button, after a few seconds the server will indicate
+ how many results have been found and which is the average.
+\end_layout
+
+\begin_layout Standard
+It is recommended to conduct general searches because the server has been
+ created recently.
+ As an example of search, try with simple jumps (Free) with most of the
+ indicators on 
+\emph on
+Any
 \emph default
 .
 \end_layout
 
-\end_deeper
-\begin_layout Subsubsection
-Selectores relativos a los sujetos
-\end_layout
-
 \begin_layout Standard
-Los selectores disponibles son:
-\end_layout
-
-\begin_layout Description
-Sexo
-\end_layout
-
-\begin_layout Description
-Edad definible por intérvalos.
- Esta edad se refiere a la que tiene el sujeto en el momento en que realizó
- el test (fecha de la sesión a la que pertenezca dicho test).
- Para el cálculo de edad se utiliza la fecha de nacimiento del sujeto.
-\end_layout
-
-\begin_layout Description
-País
-\end_layout
-
-\begin_layout Description
-Deporte que en ocasiones se subdivide en 
-\emph on
-Especialidad.
-\end_layout
-
-\begin_layout Description
-Nivel que se subdivide en: [0] sedentario o practicante ocasional; [1] practica
- regular; [2] competición; [3] élite.
-\end_layout
-
-\begin_layout Subsubsection
-Selector relativo al evaluador
-\end_layout
-
-\begin_layout Standard
-Se podrá elegir si se desea los datos de algún evaluador en concreto.
- Esta opción puede ser interesante incluso para uno mismo de manera que
- pueda recoger información de forma rápida de todos los saltos que ha evaluado.
-\end_layout
-
-\begin_layout Subsubsection
-Resultados de la consulta
-\end_layout
-
-\begin_layout Standard
-Cuando se haga clic en el botón de busqueda, pasados unos segundos el servidor
- indicará cuantos resultados ha encontrado y cuál es el promedio.
-\end_layout
-
-\begin_layout Standard
-Se recomienda realizar búsquedas generales pues el servidor se ha creado
- recientemente.
- Como ejemplo de búsqueda puede probar saltos libres (Free) con la mayoría
- de indicadores en 
-\emph on
-Cualquiera.
-\end_layout
-
-\begin_layout Standard
-En la gráfica 
+In Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_query"
 
 \end_inset
 
- puede ver un ejemplo de consulta.
+ is an example of consultation.
 \end_layout
 
 \begin_layout Standard
@@ -8440,7 +8230,8 @@ name "fig:server_query"
 
 \end_inset
 
-Realizar una consulta al servidor.
+Query the server.
+ 
 \end_layout
 
 \end_inset
@@ -8454,55 +8245,50 @@ Realizar una consulta al servidor.
 \end_layout
 
 \begin_layout Subsection
-Estadísticas generales del servidor
+Server main statistics
 \end_layout
 
 \begin_layout Standard
-Se ha programado una ventana que permite obtener una 
-\emph on
-radiografía
-\emph default
- de los datos existentes en el servidor.
- En ella se muestran el número de evaluadores, así como de sujetos y tests
- de los distintos tipos.
- Además se indica qué datos han sido subidos por el usuario que maneja el
- programa.
+It has been programmed a window to get a snapshot of the existing data on
+ the server.
+ It shows the number of evaluators, as well as the subjects and the various
+ type tests.
+ Also indicated which data has been uploaded by the user who runs the program.
 \end_layout
 
 \begin_layout Standard
-Se accede a dicha ventana haciendo click en 
+You can access to this window by clicking on 
 \emph on
-Herramientas / Servidor / Estadísticas
+Tools / Server / Statistics
 \emph default
 .
 \end_layout
 
 \begin_layout Section
-Estadísticas en la web
+Web statistics
 \end_layout
 
 \begin_layout Standard
-En la página web 
+The web page 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
-http://www.chronojump.org/server_es.html
+http://www.chronojump.org/server.html
 \end_layout
 
 \end_inset
 
- se muestran resultados del cruce de variables con los datos del servidor.
- Dichas gráficas se actualizan cada vez que aparecen nuevos datos (normalmente
- de forma automática por la noche).
- Se pretende crear y actualizar constantemente un conjunto de gráficos que
- aporten información relevante a cualquier interesado aunque éste no disponga
- de la tecnología Chronojump.
+ shows the results from the crossing variables updated from the server.
+ These charts are updated every time new data is included (usually automatically
+ at night).
+ The aim is to create constantly a set of charts that provide relevant informati
+on to anyone interested, even without using Chronojump.
 \end_layout
 
 \begin_layout Standard
-En las figuras 
+In Figures 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_graph1"
@@ -8516,14 +8302,16 @@ reference "fig:server_graph2"
 
 \end_inset
 
-, y 
+, and 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:server_graph3"
 
 \end_inset
 
- puede ver ejemplos de los gráficos que se obtienen en la web del servidor.
+ it’s possible to check some examples of graphics that are obtained on the
+ web server.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -8554,8 +8342,8 @@ name "fig:server_graph1"
 
 \end_inset
 
-Estadísticas del servidor en la web.
- Gráfico descriptivo sobre la población.
+Statistics on the web server.
+ Population graphic description.
 \end_layout
 
 \end_inset
@@ -8596,8 +8384,9 @@ name "fig:server_graph2"
 
 \end_inset
 
-Estadísticas del servidor en la web.
- Diagrama de caja de tiempos de vuelo en función de tipo de salto y género.
+Statistics on the web server.
+ Boxplot flight time depending on the type of jump and gender.
+ 
 \end_layout
 
 \end_inset
@@ -8635,9 +8424,8 @@ name "fig:server_graph3"
 
 \end_inset
 
-Estadísticas del servidor en la web.
- Gráfico que relaciona tiempo de vuelo con nivel de práctica, tipo de salto
- y género.
+Statistics on the web server.
+ Graph relates flight time, practical level, type of jump and gender.
 \end_layout
 
 \end_inset
@@ -8651,25 +8439,22 @@ Estadísticas del servidor en la web.
 \end_layout
 
 \begin_layout Section
-Privacidad y confidencialidad de los datos
+Jumps privacy and confidentiality
 \end_layout
 
 \begin_layout Standard
-Los nombres y fechas de nacimiento de los deportistas así como de los evaluadore
-s nunca serán mostrados.
- Incluso al subir los datos, los nombres de los saltadores no son enviados
- (pues tampoco son necesarios), su fecha de nacimiento será necesaria para
- el cálculo de su edad el día de la sesión, pero jamás será mostrada.
- 
-\end_layout
-
-\begin_layout Standard
-Además, tampoco subirán al servidor los comentarios que el evaluador haya
- escrito sobre la sesión, sujetos o tests.
+The names and dates of birth of the athletes and the evaluators will never
+ be shown.
+ Even when uploading the data, the names of the subjects are not sent (because
+ is not required).
+ The date of birth will be included to calculate the age, but it will never
+ be displayed.
+ The comments the evaluator add to the session, subject or test are neither
+ provided.
 \end_layout
 
 \begin_layout Chapter
-Preferencias
+Preferences
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Preferencias"
@@ -8680,63 +8465,53 @@ name "sec:Preferencias"
 \end_layout
 
 \begin_layout Standard
-La ventana de preferencias 
+The preferences window 
 \emph on
-Herramientas / Preferencias
+Tools / Preferences
 \emph default
-, se divide en tres pestañas:
+, is divided into three tabs:
 \end_layout
 
 \begin_layout Description
-Base
-\begin_inset space ~
-\end_inset
-
-de
-\begin_inset space ~
-\end_inset
-
-datos (figura 
+Database (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Preferencias1"
 
 \end_inset
 
-) Muestra donde se encuentra, permite abrir la carpeta, y también permite
- realizar una copia de la misma en algún directorio de elección del usuario.
- Se muestran dos posibles ubicaciones de la base de datos pues algunos sistemas
- operativos ofrecen un lugar donde guardar los datos mientras el programa
- se ejecuta, y otro cuando éste se ha cerrado.
- 
+) shows where you are, to open the folder, and make one copy of it in a
+ directory of choice for the users.
+ It shows two possible locations for the database because some operating
+ systems offer a place to store data while the program runs, and another
+ when it’s closed.
 \end_layout
 
 \begin_layout Description
-Mostrar (figura 
+Show (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Preferencias2"
 
 \end_inset
 
-) Opciones sobre qué columnas de información se desea mostrar en las ventanas
- de datos y la ventana de estadísticas.
+) the options of which are the columns of information you want to display
+ in the windows of data and statistics.
 \end_layout
 
 \begin_layout Description
-Otros (figura 
+Other (Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Preferencias3"
 
 \end_inset
 
-) Las dos primeras opciones se refieren al número de decimales (recomendado
- 3), y al borrado de tests.
- La última acción es específica de los saltos reactivos limitados por tiempo.
- Si usted usa dichos tests, seleccione aquí cuál es el comportamiento que
- usted prefiere en el caso de que un sujeto se encuentre en el aire en el
- momento en que se termine el tiempo definido.
+) The first two options refers to the number of decimals (recommended 3),
+ and how to delete them of the test.
+ The last action is specific to the time limited reactive jumps.
+ If you use these tests, click here to check which behavior you prefer when
+ the subject is in the air at the end of the set time.
 \end_layout
 
 \begin_layout Standard
@@ -8766,7 +8541,7 @@ name "fig:Preferencias1"
 
 \end_inset
 
-Ventana de preferencias - pestaña 1.
+Window preferences - Tab 1.
 \end_layout
 
 \end_inset
@@ -8806,7 +8581,7 @@ name "fig:Preferencias2"
 
 \end_inset
 
-Ventana de preferencias - pestaña 2.
+Window preferences - Tab 2.
 \end_layout
 
 \end_inset
@@ -8846,7 +8621,7 @@ name "fig:Preferencias3"
 
 \end_inset
 
-Ventana de preferencias - pestaña 3.
+Window preferences - Tab 3.
 \end_layout
 
 \end_inset

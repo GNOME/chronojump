@@ -3779,19 +3779,25 @@ Jumps view
 \end_layout
 
 \begin_layout Standard
-Simple jumps are shown on the jumps tab and the Repetitive Jumps on the
- repetitive tab.
- In both cases, it’s included a filter for all the possible jumps or only
+Simple jumps are shown on the 
+\emph on
+Jumps
+\emph default
+ tab and the reactive Jumps on the 
+\emph on
+Jump Reactive
+\emph default
+ tab.
+ In both cases, it’s included a filter for all the possible tests or only
  a particular type.
 \end_layout
 
 \begin_layout Standard
-The jumps are associated with the jumpers.
- The order of the jumps presentation of each jumper is chronological so,
- the last jump appears at the end of the list.
- It’s included a button that allows sorting the jumps by the type of jump
+Tests are associated with the jumpers.
+ The order of the tests presentation of each jumper is chronological so,
+ the last test appears at the end of the list.
+ It’s included a button that allows sorting the tests by the type of jump
  and not in chronological order.
- This option is available only when the value is obvious.
 \end_layout
 
 \begin_layout Standard
@@ -3817,7 +3823,7 @@ magnifying glass
 \emph on
 z
 \emph default
-) to facilitate the view of the jumps.
+) to facilitate the view of the tests.
 \end_layout
 
 \begin_layout Subsection
@@ -3825,10 +3831,10 @@ Jumps edition
 \end_layout
 
 \begin_layout Standard
-You can add comments to a jump or change the jump that was made (if you
- forgot to change the current subject previously) If you select the desired
- jump and click on the Edit button on the selected jump, you can also find
- it on the menu, or by pressing the button 
+You can add comments to a jump or change the person (if you forgot to change
+ the current person previously) If you select the desired jump and click
+ on the Edit button on the selected jump, you can also find it on the menu,
+ or by pressing the button 
 \emph on
 e
 \emph default
@@ -3869,32 +3875,6 @@ n
 
 \begin_layout Subsection
 Jumps delete
-\end_layout
-
-\begin_layout Standard
-To delete a jump, Para borrar un salto selecciónelo y haga clic en el botón
- 
-\emph on
-Borrar salto seleccionado
-\emph default
-, su equivalente en el menú o pulse la tecla 
-\emph on
-d
-\emph default
- (delete).
- El borrado de saltos pedirá confirmación en caso de que la opción de confirmaci
-ón de borrado de tests esté activada en el menú de 
-\emph on
-Preferencias
-\emph default
- (más información en el apartado 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sec:Preferencias"
-
-\end_inset
-
-).
 \end_layout
 
 \begin_layout Standard
@@ -4127,7 +4107,7 @@ RopeUnlimited
 
 
 \emph default
- Person has to jump the rope until the trainer or the jumper says to finish.
+ Person has to jump the rope until trainer (or jumper) decides to finish.
  Start inside the platfom and can be done with an extra weight.
 \end_layout
 
@@ -4845,131 +4825,105 @@ Unlimited
 \end_layout
 
 \begin_layout Standard
-En ocasiones se le pedirá que facilite información adicional como la distancia
- entre tramos o el valor del factor limitante (saltos o segundos).
- Haga clic en 
+At som run types, user interaction will be needed, like track distance and
+ limit factor: tracks or seconds.
+ Click on 
 \emph on
-Más
+More
 \emph default
- para obtener una relación de todas las carreras con tramos disponibles
- y ejecútelas seleccionándolas y haciendo clic en 
-\emph on
-Aceptar
-\emph default
-.
- El menú de 
-\emph on
-Carrera
-\emph default
- le proporciona también acceso a estas acciones.
+ to get a list of all the available of the intervallic runs and execute
+ them clicking OK.
+ The run menu also provides access to these actions.
 \end_layout
 
 \begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará la carrera.
- En caso contrario la carrera deberá ser ejecutada.
- El programa permite iniciar la carrera desde dentro de la plataforma o
- desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
- el tiempo transcurrido entre que el deportista inicia la carrera y pisa
- la primera plataforma de contactos será despreciado.
- En la ventana emergente se mostrará la progresión de la carrera, que podrá
- ser detenida haciendo clic en el botón 
-\emph on
-Terminar
-\emph default
- o cancelada con 
-\emph on
-Cancelar
-\emph default
-.
- Las carreras con tramos de tipo ilimitado sólo serán almacenadas cuando
- se haga clic en 
-\emph on
-Terminar
-\emph default
-.
+If Chronopic has not been connected and activated from Chronopic window,
+ a run will be simulated.
+ In the other hand, if Chronopic is connected, real run will be done.
+ Software allows to start run in contact with the device or before the contact.
+ On the later situation, time between starting of the run and contact on
+ the first device is deleted.
 \end_layout
 
 \begin_layout Standard
-En caso de que desee ejecutar una misma carrera a diversos deportistas y
- que dicho carrera no disponga de botón (sólo esté disponible en la ventana
- 
+In the pop-up window it shows the progress of the run, which may be stopped
+ by clicking on the 
 \emph on
-Más
+Finish
 \emph default
-), podrá cambiar de sujeto y hacer uso del botón 
+ or 
 \emph on
-Último
+Cancel
 \emph default
- para que otra persona pueda realizar la misma carrera.
+ button.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of run to various persons and you don’t
+ want a button (only available on the tab 
+\emph on
+More
+\emph default
+), you can change the subject and use the 
+\emph on
+Last
+\emph default
+ button to allow another person to perform the same run.
 \end_layout
 
 \begin_layout Subsection
-Feedback auditivo y visual en las carreras con tramos: campanas
+Feedback auditive and visual at the intervallic runs: bells
 \end_layout
 
 \begin_layout Standard
-De la misma forma que en los saltos repetitivos, es posible configurar valores
- mínimos y máximos de tiempo de tramo, para los que se mostrará una campana
- roja (mala ejecución) o verde (buena ejecución), acompañadas de un sonido
- distintivo.
+Similarly to the repetitive jumps, you can configure minimum and maximum
+ values dor each track.
+ A red bell will be shown on a bad execution, and a green bell on the opposite,
+ also a distintive sound will be played.
 \end_layout
 
 \begin_layout Standard
-Haciendo clic en el botón 
+Configure this actions clicking on 
 \begin_inset Quotes eld
 \end_inset
 
-Campanas
+Bells
 \begin_inset Quotes erd
 \end_inset
 
-, podrá configurar estas acciones.
+.
 \end_layout
 
 \begin_layout Subsection
-Visualización de carreras
+Runs view
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+Simple runs are shown on the 
 \emph on
-Carrera
+Run
 \emph default
- podrá ver las carreras simples que se han realizado en una sesión, mientras
- que desde la pestaña de 
+ tab and the intervallic runs on the 
 \emph on
-Carrera con tramos
+Run intervallic
 \emph default
- podrá hacer lo propio con las carreras interválicas.
- En ambos casos se incluye un filtro para ver todas las carreras posibles
- o sólo las de un tipo determinado.
+ tab.
+ In both cases, it’s included a filter for all the possible runs or only
+ a particular type.
+\end_layout
+
+\begin_layout Standard
+Tests are associated with the runners.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list.
+ It’s included a button that allows sorting the tests by the type of run
+ and not in chronological order.
  
 \end_layout
 
 \begin_layout Standard
-Las carreras se encuentran asociadas a los corredores.
- El orden de aparición de las carrerass en cada saltador es el cronológico
- de forma que la última carrera realizada por un sujeto aparecerá al final
- del listado de sus carreras.
- Se incluye un botón de selección titulado 
-\emph on
-por tipo
-\emph default
-, que permite ordenar las carreras por su tipo y no por orden cronológico.
- Esta opción sólo está disponible como es obvio cuando el valor 
-\emph on
-Todas las carreras
-\emph default
- es el seleccionado en el filtro de visualización.
-\end_layout
-
-\begin_layout Standard
-En cada carrera se muestran una serie de valores, puede cambiar las opciones
- de visualización accediendo a las 
-\emph on
-Preferencias
-\emph default
- (más información en el apartado 
+It’s possible to change tests view by accessing at the Preferences (more
+ information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"
@@ -4980,40 +4934,39 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Standard
-Puede usar los botones de 
+You can use the 
 \emph on
-lupa
+magnifying glass
 \emph default
- (o la tecla 
+ button (or press 
 \emph on
 z
 \emph default
-) para facilitar la visualización de los carreras.
+) to facilitate the view of the tests.
 \end_layout
 
 \begin_layout Subsection
-Edición de carreras
+Runs edition
 \end_layout
 
 \begin_layout Standard
-Puede añadir comentarios a una carrera o cambiar el corredor que la realizó
- (si olvidó modificar el sujeto actual previamente) seleccionando la carrera
- deseada y haciendo clic en el botón de 
+You can add comments to a run or change the person (if you forgot to change
+ the current person previously) If you select the desired run and click
+ on the 
 \emph on
-Editar carrera seleccionada
+Edit
 \emph default
-, su equivalente en el menú o la tecla 
+ button on the selected run, you can also find it on the menu, or by pressing
+ the button 
 \emph on
 e
 \emph default
 .
- 
 \end_layout
 
 \begin_layout Standard
-En las carreras con tramos, ya que por definición están compuestas por un
- conjunto de tramos, esta modificación afectará a todos los tramos aunque
- uno sólo sea seleccionado.
+In the intervallic runs, since they are composed of a set of runs, this
+ change will affect all the runs even if only one is selected.
 \end_layout
 
 \begin_layout Subsection
@@ -5021,47 +4974,49 @@ Reparación de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Usando el botón de reparación de carreras con tramos o la tecla 
+Using 
+\emph on
+Repair selected
+\emph default
+ button or pressing 
 \emph on
 r
 \emph default
-, puede insertar un tramo, modificar un valor de tiempo de tramo, o borrar
- un tramo.
- Note que si un tipo de carrera con tramos ha sido definido para que en
- ningún caso pueda tener más de 
+, you can add a track, modify a time or delete a track.
+ If an intervallic run type has been defined to be limited to max 
 \emph on
 n
 \emph default
- tramos, o durar más de 
+ tracks, or max 
 \emph on
 n
 \emph default
- segundos, estas condiciones se tendrán en cuenta en la ventana de reparación,
- limitando sus funciones.
- En estos casos, encontrará una indicación en la caja de texto de la parte
- inferior de dicha ventana.
+ seconds, this conditions will limit the repair functionality.
+ When this happens, you will find an information text on the bottom of the
+ window.
 \end_layout
 
 \begin_layout Subsection
-Borrado de carreras
+Runs delete
 \end_layout
 
 \begin_layout Standard
-Para borrar una carrera selecciónela y haga clic en el botón 
+To delete a run, select it and click the 
 \emph on
-Borrar carrera seleccionada
+Delete selected run
 \emph default
-, su equivalente en el menú o la tecla 
+ button.
+ Its equivalent in the menu or press 
 \emph on
-d 
+d
 \emph default
-(delete).
- El borrado de carreras pedirá confirmación en caso de que la opción de
- confirmación de borrado de tests esté activada en el menú de 
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
 \emph on
-Preferencias
+Preferences
 \emph default
- (más información en el apartado 
+ menu (more information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"
@@ -5072,69 +5027,63 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definición están compuestos por un conjunto
- de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
- sólo sea seleccionado.
- 
+Deleting an intervallic run will delete all it's tracks.
 \end_layout
 
 \begin_layout Subsection
-Creación de nuevos tipos de carreras
+Creation of new run types
 \end_layout
 
 \begin_layout Standard
-Con el objetivo de que el programa se adapte a las necesidades de cada usuario,
- se facilita la opción de 
+In order to adapt the software to the needs of each user, it has been included
+ the function: 
 \emph on
-Creación de nuevo tipo de carrera
+Add run type
 \emph default
- (ubicada en el menú 
+ (on 
 \emph on
-Carrera
+Runs
 \emph default
-) para que el entrenador pueda definir de forma sencilla y potente los carreras
- que crea conveniente.
- 
+ menu).
+ This allows trainer to define easily and powerully the desired run types.
 \end_layout
 
 \begin_layout Standard
-El tipo de carrera creado estará disponible en la base de datos para que
- sea usado en cualquier sesión y será automáticamente accesible a través
- del botón 
+Created run type will be available on database to be used at any session,
+ and it will be listed clicking on the 
 \emph on
-Más
+More
 \emph default
- en las pestañas de 
+ button at the 
 \emph on
-Carrera
+Run
 \emph default
- o 
+ or
 \emph on
-Carrera con tramos
+ Run intervallic
 \emph default
- en función del tipo de carrera que se cree.
+ tabs (depending on which kind of run it's created).
+ This new run type will be also differentiated on statistics, graphs and
+ reports.
 \end_layout
 
 \begin_layout Standard
-En el proceso de creación se le pedirá que lo identifique con un nombre
- distintivo, que lo clasifique como simple o con tramos.
- En este último caso se le presentará la posibilidad de limitar el test
- por tramos, por tiempo o definirlo como ilimitado.
- 
+On creation, you should give it a distintive name and classify between simple
+ or intervallic.
+ If run type is intervallic, then you can limit is by tracks, time, or leave
+ it unlimited.
 \end_layout
 
 \begin_layout Standard
-Las opciones de límite por tiempo o por pistas podrán ser ajustadas con
- un valor fijo predefinido o dejarlas indefinidas.
- En caso de que se ajusten a un valor fijo, el nuevo tipo de carrera en
- todos los casos se encontrará limitado por dicho valor; en caso contrario,
- se preguntará al usuario a cada carrera qué valor debe tomar el factor
- limitante.
+The limit by tracks or time options can be defined as a fixed value or leaved
+ as undefined.
+ If it's defined fixed, all new runs of this type will be limited to that
+ value; in the other hand, if the type is not fixed, user will be asked
+ by limit value everytime a new run is done.
 \end_layout
 
 \begin_layout Standard
-Se ofrece la posibilidad de fijar la distancia de los tramos para el nuevo
- tipo de carrera.
+User can also fix the distances of the tracks.
  La ventana de creación de nuevo tipo de carrera concluye con la posibilidad
  de añadir una descripción textual.
  En las figura 
@@ -5152,6 +5101,19 @@ reference "fig:Creación-de-nuevo-tipo-carrera-variable"
 \end_inset
 
  puede observar la ventana de creación de nuevos tipos de carreras.
+\end_layout
+
+\begin_layout Standard
+Last settings include: fix the distance of the tracks, and add a description
+ to the run type.
+ In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-carrera"
+
+\end_inset
+
+ you can see the creation of new run type.
 \end_layout
 
 \begin_layout Standard
@@ -5181,7 +5143,7 @@ name "fig:Creación-de-nuevo-tipo-carrera"
 
 \end_inset
 
-Creación de nuevo tipo de carrera.
+Creation of a new run type.
 \end_layout
 
 \end_inset
@@ -5195,10 +5157,10 @@ Creación de nuevo tipo de carrera.
 \end_layout
 
 \begin_layout Standard
-Desde la versión de Chronojump 0.9, se permite crear carreras con tramos
- de distancia variable.
- Esto es óptimo para obtener las velocidades en los tramos de pruebas de
- agilidad.
+From Chronojump version 0.9, you can create intervallic runs with variable
+ track distance.
+ This is suitable to calculate speed in the different tracks of agility
+ tests.
  
 \begin_inset Float figure
 wide false
@@ -5226,7 +5188,7 @@ name "fig:Creación-de-nuevo-tipo-carrera-variable"
 
 \end_inset
 
-Creación de tipo de carrera con tramos variables.
+Creation of a new run type with variable tracks.
 \end_layout
 
 \end_inset
@@ -5240,21 +5202,20 @@ Creación de tipo de carrera con tramos variables.
 \end_layout
 
 \begin_layout Subsubsection
-Ejemplos de creación de tipos de carreras
+Examples on creation of new run types
 \end_layout
 
 \begin_layout Standard
-Se incluye a continuación una relación de ejemplos y consejos sobre la creación
- de tipos de carreras.
- Los nombres usados se han inventado para la elaboración de este manual.
- El cuadro 
+Here you can find some examples on creating new run types.
+ The names of the types have been invented in this manual.
+ The table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
 
- le servirá para entender la relación entre los distintas variables.
+ is also useful to understand the different variables.
 \end_layout
 
 \begin_layout Itemize
@@ -5269,7 +5230,7 @@ Sprint10
 
 
 \emph default
- Carrera de 10 metros.
+ 10 meters of sprint run.
 \end_layout
 
 \begin_layout Itemize
@@ -5278,14 +5239,14 @@ Sprint10
 \begin_inset Quotes eld
 \end_inset
 
-SprintCortoVariable
+SprintShortVariable
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Carrera de menos de 20 metros, cada deportista correrá una distancia diferente
- que será determinada previamente por el entrenador.
+ Run below 20 meters, each runner will have run at a different distance
+ defined by the trainer.
 \end_layout
 
 \begin_layout Itemize
@@ -5300,7 +5261,7 @@ SprintCortoVariable
 
 
 \emph default
- Carrera de 100 metros en 5 tramos de 20 metros.
+ 100 meters run in 5 tracks of 20 meters.
 \end_layout
 
 \begin_layout Itemize
@@ -5315,7 +5276,7 @@ SprintCortoVariable
 
 
 \emph default
- Carrera de 20*n metros en n tramos de 20 metros.
+ 100 .Run 20*n meters (n tracks de 20 meters).
 \end_layout
 
 \begin_layout Itemize
@@ -5324,17 +5285,15 @@ SprintCortoVariable
 \begin_inset Quotes eld
 \end_inset
 
-40*50%fatiga
+40*50%fatigue
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Carrera de distintos tramos en que cada sujeto corre hasta llegar al 50%
- de su fatiga.
- La cantidad de segundos para llegar a la fatiga es personal (diferente
- para cada sujeto) y es conocida por el entrenador previamente.
- La longitud de cada tramo es de 40 metros.
+ Intervallic run where each person runs until 50%fatigue is reached.
+ Time needed to fatigue is individual and known by trainer.
+ Each track has 40m.
 \end_layout
 
 \begin_layout Itemize
@@ -5349,9 +5308,7 @@ SprintCortoVariable
 
 
 \emph default
- Se pide al sujeto que corra hasta que el entrenador o el mismo saltador
- diga que es suficiente.
- La longitud de cada tramo es de 100 metros.
+ Person has to run tracks of 100m until trainer (or runner) decides to finish.
 \end_layout
 
 \begin_layout Itemize
@@ -5360,14 +5317,14 @@ SprintCortoVariable
 \begin_inset Quotes eld
 \end_inset
 
-2 min de 20-10-7
+2 min of 20-10-7
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Carrera de agilidad de 3 tramos que se repiten durante 2' -el primero tiene
- 20m, el 2o tiene 10m y el 3o 7m.
+ Agility run on 3 tracks that have to be repeated during 2 minutes.
+ First track has 20m, second 10m and third 7m.
 \end_layout
 
 \begin_layout Standard
@@ -5392,7 +5349,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-Nombre
+Name
 \end_layout
 
 \end_inset
@@ -5401,7 +5358,7 @@ Nombre
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tipo
+Type
 \end_layout
 
 \end_inset
@@ -5410,7 +5367,7 @@ Tipo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Limitado por
+Limited by
 \end_layout
 
 \end_inset
@@ -5419,7 +5376,7 @@ Limitado por
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo
+Fixed
 \end_layout
 
 \end_inset
@@ -5428,7 +5385,7 @@ Fijo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Longitud de tramo
+Track length
 \end_layout
 
 \end_inset
@@ -5475,7 +5432,7 @@ Simple
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo(10)
+Fixed(10)
 \end_layout
 
 \end_inset
@@ -5486,7 +5443,7 @@ Fijo(10)
 \begin_inset Text
 
 \begin_layout Plain Layout
-SprintCortoVariable
+SprintShortVariable
 \end_layout
 
 \end_inset
@@ -5542,7 +5499,7 @@ Variable
 \begin_inset Text
 
 \begin_layout Plain Layout
-Con tramos
+Intervallic
 \end_layout
 
 \end_inset
@@ -5551,7 +5508,7 @@ Con tramos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Pistas
+Tracks
 \end_layout
 
 \end_inset
@@ -5560,7 +5517,7 @@ Pistas
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí (5)
+Yes (5)
 \end_layout
 
 \end_inset
@@ -5569,7 +5526,7 @@ Sí (5)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo(20)
+Fixed(20)
 \end_layout
 
 \end_inset
@@ -5589,7 +5546,7 @@ Fijo(20)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Con tramos
+Intervallic
 \end_layout
 
 \end_inset
@@ -5598,7 +5555,7 @@ Con tramos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Pistas
+Tracks
 \end_layout
 
 \end_inset
@@ -5616,7 +5573,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo(20)
+Fixed(20)
 \end_layout
 
 \end_inset
@@ -5627,7 +5584,7 @@ Fijo(20)
 \begin_inset Text
 
 \begin_layout Plain Layout
-40*50%fatiga
+40*50%fatigue
 \end_layout
 
 \end_inset
@@ -5636,7 +5593,7 @@ Fijo(20)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Con tramos
+Intervallic
 \end_layout
 
 \end_inset
@@ -5645,7 +5602,7 @@ Con tramos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tiempo
+Time
 \end_layout
 
 \end_inset
@@ -5663,7 +5620,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo(40)
+Fixed(40)
 \end_layout
 
 \end_inset
@@ -5683,7 +5640,7 @@ Fijo(40)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Con tramos
+Intervallic
 \end_layout
 
 \end_inset
@@ -5692,7 +5649,7 @@ Con tramos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ilimitado
+Unlimited
 \end_layout
 
 \end_inset
@@ -5710,7 +5667,7 @@ Ilimitado
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo(100)
+Fixed(100)
 \end_layout
 
 \end_inset
@@ -5730,7 +5687,7 @@ Fijo(100)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Con tramos
+Intervallic
 \end_layout
 
 \end_inset
@@ -5739,7 +5696,7 @@ Con tramos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tiempo
+Time
 \end_layout
 
 \end_inset
@@ -5748,7 +5705,7 @@ Tiempo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí(120')
+Yes(120'')
 \end_layout
 
 \end_inset
@@ -5780,7 +5737,7 @@ name "tab:Ejemplos-de-tipos-carreras-creados"
 
 \end_inset
 
-Ejemplos de tipos de carreras creados por el usuario.
+Examples on run types created by user.
 \end_layout
 
 \end_inset
@@ -5794,141 +5751,118 @@ Ejemplos de tipos de carreras creados por el usuario.
 \end_layout
 
 \begin_layout Section
-Tiempo de reacción
+Reaction time
 \end_layout
 
 \begin_layout Standard
-El programa dispone de un botón que permite detectar el tiempo de reacción
- del sujeto evaluado.
- Para ello, se requiere la colaboración de un ayudante pues Chronojump y
- Chronopic aún no son capaces de emitir señales auditivas aleatorias y en
- un tiempo conocido y preciso.
- 
+In order to detect reaction time of the person, there's a need of an assistant,
+ because Chronojump and Chronopic are still unable to produce random signals
+ that can be measured accurately.
 \end_layout
 
 \begin_layout Subsection
-Protocolo
+Protocol
 \end_layout
 
 \begin_layout Standard
-El ayudante estará pulsando algún tipo de pulsador o plataforma, y cuando
- lo desee (y el ejecutante esté preparado), dejará de pulsar este, de manera
- que la luz del Chronopic se encenderá.
- En ese momento el ejecutante deberá pulsar algún pulsador o plataforma
- y el tiempo entre que la luz se encendió y el ejecutante pulsó, será registrado
- como tiempo de reacción.
- Es importante que el ejecutante no vea ni oiga al ayudante pues podría
- anticipar su acción.
+Assistant will produce contact in a contact device: push-button, platform,
+ photocell, ...
+ and at any moment (when athlete is prepared), assitant will release the
+ contact and instantly the Chronopic green led will light.
+ At this moment, the athelete will produce contact in another contact device
+ and green light will be off.
+ The reaction time registered will be the time between light starts glowing
+ and athelete produces contact.
+ It's important that athlete doesn't see or hear the assistant.
 \end_layout
 
 \begin_layout Subsection
-Ejecución de tiempo de reacción
+Executing reaction time
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+To execute a reaction time, have the assitant producing contact in device,
+ click on 
 \emph on
-tiempo de reacción
+Execute reaction time
 \emph default
- y con el ayudante pulsando el pulsador o plataforma, haga clic en el botón:
- 
-\emph on
-Ejecutar tiempo de reacción
-\emph default
- y siga el protocolo descrito anteriormente.
+ and follow the protocol described above.
 \end_layout
 
 \begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará un tiempo
- de reacción.
- En la ventana emergente se mostrará la progresión del salto, que podrá
- ser detenido haciendo clic en el botón 
-\emph on
-Terminar
-\emph default
- o cancelado con 
-\emph on
-Cancelar
-\emph default
-.
+If Chronopic has not been connected and activated from Chronopic window,
+ a reaction time will be simulated.
+ In the other hand, if Chronopic is connected, real reaction time will be
+ done.
 \end_layout
 
 \begin_layout Subsection
-Visualización de tiempo de reacción
+Reaction times view
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+Reaction times are shown on the 
 \emph on
-tiempo de reacción
+reaction time
 \emph default
- podrá ver los test de tiempo de reacción que se han realizado en una sesión.
- 
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
 \end_layout
 
 \begin_layout Standard
-Los tiempos de reacción se encuentran asociados a los ejecutantes.
- El orden de aparición de los tiempos de reacción en cada ejecutante es
- el cronológico de forma que el último realizado por un sujeto aparecerá
- al final del listado de sus tests.
-\end_layout
-
-\begin_layout Standard
-Puede usar los botones de 
+You can use the 
 \emph on
-lupa
+magnifying glass
 \emph default
- (o la tecla 
+ button (or press 
 \emph on
 z
 \emph default
-)
-\emph on
- 
-\emph default
-para facilitar la visualización de los tests.
+) to facilitate the view of the tests.
 \end_layout
 
 \begin_layout Subsection
-Edición de tiempos de reacción
+Reaction times edition
 \end_layout
 
 \begin_layout Standard
-Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modificar
- el sujeto actual previamente) seleccionando el test deseado y haciendo
- clic en el botón de 
+You can add comments to a reaction time or change the person (if you forgot
+ to change the current person previously) If you select the desired test
+ and click on the 
 \emph on
-Editar tiempo de reacción seleccionado
+Edit
 \emph default
-, su equivalente en el menú o la tecla 
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
 \emph on
 e
 \emph default
 .
- 
 \end_layout
 
 \begin_layout Subsection
-Borrado de tiempos de reacción
+Reaction times delete
 \end_layout
 
 \begin_layout Standard
-Para borrar un tiempo de reacción, selecciónelo y haga clic en el botón
- 
+To delete a reaction time, select it and click the 
 \emph on
-Borrar tiempo de reacción seleccionado
+Delete selected reaction time
 \emph default
-, su equivalente en el menú o la tecla 
+ button.
+ Its equivalent in the menu or press 
 \emph on
-d 
+d
 \emph default
-(delete).
- El borrado del test pedirá confirmación en caso de que la opción de confirmació
-n de borrado de tests esté activada en el menú de 
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
 \emph on
-Preferencias
+Preferences
 \emph default
- (más información en la sección 
+ menu (more information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"
@@ -5939,14 +5873,17 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Section
-Pulsos (Ritmos simples)
+Pulses (Simple rhythms)
 \end_layout
 
 \begin_layout Standard
-El programa dispone de un botón que permite realizar una evaluación de la
- capacidad de un sujeto en seguir un pulso (ritmo simple).
- Note que si usted desea detectar un ritmo complejo puede usar el test MultiChro
-nopic descrito 
+A simple rhythm or pulse can be measured on the 
+\emph on
+Pulse
+\emph default
+ tab.
+ On the other hand, if a comple rhythm has to be measured, use a MultiChronopic
+ as described at 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sub:MultiChronopic"
@@ -5959,42 +5896,37 @@ reference "sub:MultiChronopic"
 \end_layout
 
 \begin_layout Standard
-Existen dos tipos de pulsos que usted puede usar:
+There are two kind of tests:
 \end_layout
 
 \begin_layout Description
-Libre El sujeto evaluado tratará de ser constante en la pulsación que esté
- manteniendo (elegida libremente).
- El evaluador decidirá en qué momento finaliza el registro de datos.
+Free Person tries to be regular on the freely selected pulse.
+ Evaluator will decide te moment where the test end.
 \end_layout
 
 \begin_layout Description
-Personalizado El sujeto deberá adaptarse a un tempo predefinido y se podrá
- seleccionar si se desea que el pulso tenga alguna duración concreta o en
- caso contrario, el evaluador hará decidirá en qué momento finaliza el registro
- de datos.
+Custom Person has to follow a predefined tempo.
+ If desired, the total duration of the test can be defined.
 \begin_inset Newline newline
 \end_inset
 
-En cuanto a la definición del tempo, se facilitan dos métodos:
+Tempo can be defined in one of this ways:
 \end_layout
 
 \begin_deeper
 \begin_layout Description
-segundos permite indicar cuantos segundos deben transcurrir entre un pulso
- y el siguiente.
+seconds how many seconds pass between pulsations
 \end_layout
 
 \begin_layout Description
-ppm permite indicar cuantas pulsaciones se deberán realizar por minuto.
+ppm how many pulsations per minute
 \end_layout
 
 \begin_layout Standard
-Note que los dos métodos están relacionados de manera que si selecciona
- un valor en segundos, éste modificará el valor de ppm.
- Por ejemplo 0,5 segundos corresponderán a 120 ppm.
- El usuario decide qué método le resulta más conveniente.
- 
+Both methods are interrelated, if eg.
+ seconds value is changed, then ppm changes.
+ As an example, 0.5 seconds are 120 ppm.
+ Evaluator will decide what is more suitable.
 \end_layout
 
 \end_deeper
@@ -6032,23 +5964,7 @@ Cancelar
 \end_layout
 
 \begin_layout Subsection
-Visualización de pulsos
-\end_layout
-
-\begin_layout Standard
-Desde la pestaña de 
-\emph on
-pulso
-\emph default
- podrá ver los tests del mismo tipo que se han realizado en una sesión.
- 
-\end_layout
-
-\begin_layout Standard
-Los tests se encuentran asociados a los ejecutantes.
- El orden de aparición de los tests en cada ejecutante es el cronológico
- de forma que el último realizado por un sujeto aparecerá al final del listado
- de sus tests.
+Pulses view
 \end_layout
 
 \begin_layout Standard
@@ -6063,45 +5979,69 @@ z
 ) para facilitar la visualización de los tests.
 \end_layout
 
-\begin_layout Subsection
-Edición pulsos
+\begin_layout Standard
+Pulses are shown on the 
+\emph on
+pulses
+\emph default
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
 \end_layout
 
 \begin_layout Standard
-Puede añadir comentarios a un test o cambiar el ejecutante (si olvidó modificar
- el sujeto actual previamente) seleccionando el test deseado y haciendo
- clic en el botón de 
+You can use the 
 \emph on
-Editar pulso seleccionado
+magnifying glass
 \emph default
-, su equivalente en el menú o la tecla 
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Pulses edit
+\end_layout
+
+\begin_layout Standard
+You can add comments to a pulse or change the person (if you forgot to change
+ the current person previously) If you select the desired test and click
+ on the 
+\emph on
+Edit
+\emph default
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
 \emph on
 e
 \emph default
 .
- 
 \end_layout
 
 \begin_layout Subsection
-Borrado de pulsos
+Pulses delete
 \end_layout
 
 \begin_layout Standard
-Para borrar un pulso, selecciónelo y haga clic en el botón 
+To delete a pulse, select it and click the 
 \emph on
-Borrar pulso seleccionado
+Delete selected pulse
 \emph default
-, su equivalente en el menú o la tecla 
+ button.
+ Its equivalent in the menu or press 
 \emph on
-d 
+d
 \emph default
-(delete).
- El borrado del test pedirá confirmación en caso de que la opción de confirmació
-n de borrado de tests esté activada en el menú de 
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
 \emph on
-Preferencias
+Preferences
 \emph default
- (más información en la sección 
+ menu (more information in section 
 \begin_inset CommandInset ref
 LatexCommand vref
 reference "sec:Preferencias"

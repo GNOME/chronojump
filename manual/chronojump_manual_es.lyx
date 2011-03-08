@@ -5118,7 +5118,7 @@ Ilimitado
 
 \begin_layout Standard
 En ocasiones se le pedirá que facilite información adicional como la distancia
- entre tramos o el valor del factor limitante (saltos o segundos).
+ entre tramos o el valor del factor limitante (pistas o segundos).
  Haga clic en 
 \emph on
 Más
@@ -5602,8 +5602,7 @@ SprintCortoVariable
 
 
 \emph default
- Carrera de distintos tramos en que cada sujeto corre hasta llegar al 50%
- de su fatiga.
+ Carrera de tramos en que cada sujeto corre hasta llegar al 50% de su fatiga.
  La cantidad de segundos para llegar a la fatiga es personal (diferente
  para cada sujeto) y es conocida por el entrenador previamente.
  La longitud de cada tramo es de 40 metros.
@@ -6073,9 +6072,8 @@ Tiempo de reacción
 El programa dispone de un botón que permite detectar el tiempo de reacción
  del sujeto evaluado.
  Para ello, se requiere la colaboración de un ayudante pues Chronojump y
- Chronopic aún no son capaces de emitir señales auditivas aleatorias y en
- un tiempo conocido y preciso.
- 
+ Chronopic aún no son capaces de emitir señales auditivas aleatorias que
+ puedan ser medidas con precisión.
 \end_layout
 
 \begin_layout Subsection
@@ -6085,7 +6083,7 @@ Protocolo
 \begin_layout Standard
 El ayudante estará pulsando algún tipo de pulsador o plataforma, y cuando
  lo desee (y el ejecutante esté preparado), dejará de pulsar este, de manera
- que la luz del Chronopic se encenderá.
+ que la luz verde del Chronopic se encenderá.
  En ese momento el ejecutante deberá pulsar algún pulsador o plataforma
  y el tiempo entre que la luz se encendió y el ejecutante pulsó, será registrado
  como tiempo de reacción.
@@ -6265,7 +6263,7 @@ ppm permite indicar cuantas pulsaciones se deberán realizar por minuto.
 Note que los dos métodos están relacionados de manera que si selecciona
  un valor en segundos, éste modificará el valor de ppm.
  Por ejemplo 0,5 segundos corresponderán a 120 ppm.
- El usuario decide qué método le resulta más conveniente.
+ El evaluador decide qué método le resulta más conveniente.
  
 \end_layout
 

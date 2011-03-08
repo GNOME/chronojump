@@ -91,7 +91,7 @@ public class ExportSession
 				//add ".csv" if needed
 				fileName = addCsvIfNeeded(fileName);
 			}
-//			try {
+			try {
 				if (File.Exists(fileName)) {
 					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
 								fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
@@ -107,11 +107,11 @@ public class ExportSession
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), fileName) + spreadsheetString;
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
-//			} 
-//			catch {
-//				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
-//				new DialogMessage(Constants.MessageTypes.WARNING, myString);
-//			}
+			} 
+			catch {
+				string myString = string.Format(Catalog.GetString("Cannot export to file {0} "), fileName);
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			}
 		}
 		else {
 			Log.WriteLine("cancelled");

@@ -3730,11 +3730,10 @@ Ejecución de saltos simples
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+Para ejecutar un salto simple, haga clic en los botones presentes en la
+ pestaña de 
 \emph on
-salto
-\emph default
-, haga clic en los botones: 
+Saltos:
 \end_layout
 
 \begin_layout Itemize
@@ -3786,8 +3785,7 @@ Rocket,
 \end_layout
 
 \begin_layout Standard
-para ejecutar un salto simple.
- En ocasiones se le pedirá que facilite información adicional como el peso
+En ocasiones se le pedirá que facilite información adicional como el peso
  extra del sujeto (
 \emph on
 SJl
@@ -3882,11 +3880,10 @@ Ejecución de saltos repetitivos
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+Para ejecutar un salto repetitivo, haga clic en los botones presentes en
+ la pestaña de 
 \emph on
-salto Repetitivo
-\emph default
-, haga clic en los botones: 
+Saltos repetitivos:
 \end_layout
 
 \begin_layout Itemize
@@ -3910,8 +3907,7 @@ Ilimitado: salto repetitivo ilimitado
 \end_layout
 
 \begin_layout Standard
-para ejecutar un salto repetitivo.
- En ocasiones se le pedirá que facilite información adicional como la altura
+En ocasiones se le pedirá que facilite información adicional como la altura
  de caída (DJ), el peso adicional o el valor del factor limitante (saltos
  o segundos).
  Haga clic en 
@@ -4794,15 +4790,37 @@ Carreras
 \end_layout
 
 \begin_layout Standard
-Para el registro de una carrera se puede usar una única plataforma en un
- circuito circular o más de una plataforma, entendiendo siempre que el deportist
-a no estará nunca en dos plataformas a la vez.
- Chronojump no diferencia el número de plataformas, sólo tiene en cuenta
- si el deportista está encima de alguna o no.
- Debido a que el uso más corriente será con dos plataformas, se describirán
- las carreras como paso de una plataforma a otra, siendo válido también
- que el deportista podría volver a la misma.
- En la figura 
+Las carreras pueden ser detectadas por dos tipos de dispositivos de detección:
+\end_layout
+
+\begin_layout Itemize
+platforma/s
+\end_layout
+
+\begin_layout Itemize
+fotocélula/s
+\end_layout
+
+\begin_layout Standard
+En un test de carrera se detectan los tiempos entre dispositivos de medición.
+ En el caso de un circuito circular, existirá un sólo dispositivo (ya sea
+ plataforma o fotocélula), en el resto de casos, habrá más de un dispositivo
+ de detección (pudiendo ser de distintos tipos).
+\end_layout
+
+\begin_layout Standard
+De hora en adelante, se entendará como 
+\emph on
+dispositivo en contacto
+\emph default
+ cuando la persona se encuentra pisando una plataforma o interrumpiendo
+ una fotocélula.
+ Es importante asegurar que una persona no puede estar en contacto en más
+ de un dispositivo de detección a la vez.
+\end_layout
+
+\begin_layout Standard
+En la figura 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Esquema-dos-plat"
@@ -4854,8 +4872,9 @@ Esquema de la disposición de dos plataformas para el cronometrado de carreras.
 \end_layout
 
 \begin_layout Standard
-En todos los casos se pedirá al usuario que indique la distancia entre plataform
-as con el objetivo de calcular la velocidad media en el tramo.
+En todos los casos se pedirá al usuario que indique la distancia entre los
+ dispositivos de detección con el objetivo de calcular la velocidad media
+ en el tramo.
 \end_layout
 
 \begin_layout Standard
@@ -4864,8 +4883,8 @@ Los carreras pueden ser básicamente de dos tipos: simples y con tramos.
 \series bold
 carrera simple
 \series default
- es la que se registra en un único tramo, que va desde una plataforma de
- contactos a otra plataforma de contactos.
+ es la que se registra en un único tramo, que va desde un dispositivo hasta
+ otro.
  Así existen dos tipos de 
 \series bold
 carreras simples
@@ -4882,25 +4901,25 @@ desde
 \begin_inset space ~
 \end_inset
 
-parado Las que se inician pisando una plataforma y terminan pisando la misma
- plataforma u otra.
- 
+parado Las que se inician en contacto con un dispositivo y terminan con
+ el contacto en el mismo u otro.
 \end_layout
 
 \begin_layout Description
-Carrear
+Carrera
 \begin_inset space ~
 \end_inset
 
-lanzada Las que se inician fuera de la plataforma, seguidamente en algún
- momento se pisa la plataforma (iniciándose el cronómetro) para después
- de una fase de carrera que será registrada, volver a pisar la plataforma.
+lanzada Las que se inician fuera antes del contacto con el dispositivo,
+ seguidamente en algún momento se entra en contacto (iniciándose el cronómetro)
+ para después de una fase de carrera que será registrada, volver a estar
+ en contacto con el mismo u otro dispositivo.
  El objetivo de esta modalidad suele ser registrar al deportista que ya
  lleva una velocidad determinada.
 \end_layout
 
 \begin_layout Standard
-En ambos casos se registra el tiempo que transcurre entre una y otra plataforma,
+En ambos casos se registra el tiempo que transcurre entre un y otro dispositivo,
  que será expresado también como velocidad.
 \end_layout
 
@@ -4914,15 +4933,12 @@ carrera con tramos
 \begin_inset Quotes eld
 \end_inset
 
-Ir y volver en dos o más tramos delimitados por plataformas situadas a 
-\shape italic
-n
-\shape default
- metros
+Carrera de dos o más tramos delimitados por dispositivos de detección a
+ una cierta distancia
 \begin_inset Quotes erd
 \end_inset
 
- .
+.
 \end_layout
 
 \begin_layout Subsection
@@ -4946,7 +4962,7 @@ Carreras / Ejecutar carreras simples
 \emph on
 Personalizado
 \emph default
- para ejecutar una carrera indicando la distancia entre plataformas
+ para ejecutar una carrera indicando la distancia del tramo
 \end_layout
 
 \begin_layout Itemize
@@ -5012,9 +5028,7 @@ Test de agilidad 505.
 \end_layout
 
 \begin_layout Standard
-Para ejecutar una carrera simple.
- En ocasiones se le pedirá que facilite la distancia entre tramos.
- Haga clic en 
+Haga clic en 
 \emph on
 Más
 \emph default
@@ -5034,13 +5048,13 @@ Carrera
 \begin_layout Standard
 En caso que no este conectado el Chronopic, el programa simulará una carrera.
  En caso contrario la carrera deberá ser ejecutada.
- El programa permite iniciar la carrera desde dentro de la plataforma o
- desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
- el tiempo transcurrido entre que el deportista inicia la carrera y pisa
- la primera plataforma de contactos será despreciado.
- En la ventana emergente se mostrará la progresión de la carrera (entrada
- en la primera plataforma, abandono, llegada a la segunda pltaforma), que
- podrá ser detenida haciendo clic en el botón 
+ El programa permite iniciar la carrera en contacto con el primer dispositivo
+ o antes del contacto.
+ En el segundo caso, se despreciará el tiempo transcurrido entre que el
+ deportista inicia la carrera y realiza el primer contacto.
+ En la ventana emergente se mostrará la progresión de la carrera (primer
+ contacto, abandono, segundo contacto), que podrá ser detenida haciendo
+ clic en el botón 
 \emph on
 Terminar
 \emph default
@@ -5070,11 +5084,12 @@ Ejecución de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+PAra ejecutar una carrera con tramos haga click en los siguientes botones
+ presentes en la pestana de 
 \emph on
-Carrera con tramo
+Carreras con tramo
 \emph default
-, haga clic en los botones: 
+:
 \end_layout
 
 \begin_layout Standard
@@ -5102,8 +5117,7 @@ Ilimitado
 \end_layout
 
 \begin_layout Standard
-para ejecutar una carrera con tramos.
- En ocasiones se le pedirá que facilite información adicional como la distancia
+En ocasiones se le pedirá que facilite información adicional como la distancia
  entre tramos o el valor del factor limitante (saltos o segundos).
  Haga clic en 
 \emph on

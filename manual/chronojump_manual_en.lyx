@@ -3841,37 +3841,39 @@ In the reactive jumps, since they are composed of a set of jumps, this change
 \end_layout
 
 \begin_layout Subsection
-Reparación de saltos reactivos
+Repair repetitive jumps
 \end_layout
 
 \begin_layout Standard
-Usando el botón de reparación de saltos reactivos o pulse la tecla 
+Using 
+\emph on
+Repair selected
+\emph default
+ button or pressing 
 \emph on
 r
 \emph default
-, puede insertar un subsalto, modificar un valor de tiempo de contacto o
- de vuelo, o borrar un subsalto.
- Note que si un tipo de salto reactivo ha sido definido para que en ningún
- caso pueda tener más de 
+, you can add a jump, modify a contact time or flight time or delete a jump.
+ If a repetitive jump type has been defined to be limited to max 
 \emph on
 n
 \emph default
- subsaltos, o durar más de 
+ jumps, or max 
 \emph on
 n
 \emph default
- segundos, estas condiciones se tendrán en cuenta en la ventana de reparación,
- limitando sus funciones.
- En estos casos, encontrará una indicación en la caja de texto de la parte
- inferior de dicha ventana.
+ seconds, this conditions will limit the repair functionality.
+ When this happens, you will find an information text on the bottom of the
+ window.
 \end_layout
 
 \begin_layout Subsection
-Borrado de saltos
+Jumps delete
 \end_layout
 
 \begin_layout Standard
-Para borrar un salto selecciónelo y haga clic en el botón 
+To delete a jump, Para borrar un salto selecciónelo y haga clic en el botón
+ 
 \emph on
 Borrar salto seleccionado
 \emph default
@@ -3896,78 +3898,98 @@ reference "sec:Preferencias"
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definición están compuestos por un conjunto
- de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
- sólo sea seleccionado.
+To delete a jump, select it and click the 
+\emph on
+Delete selected jump
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Deleting a repetitive jump will delete all it's jumps.
 \end_layout
 
 \begin_layout Subsection
-Creación de nuevos tipos de saltos
+Creation of new jump types
 \end_layout
 
 \begin_layout Standard
-Con el objetivo de que el programa se adapte a las necesidades de cada usuario,
- se facilita la opción de 
+In order to adapt the software to the needs of each user, it has been included
+ the function: 
 \emph on
-Creación de nuevo tipo de salto
+Add jump type
 \emph default
- (ubicada en el menú 
+ (on 
 \emph on
-Saltos
+Jumps
 \emph default
-) para que el entrenador pueda definir de forma sencilla y potente los saltos
- que crea conveniente.
- 
+ menu).
+ This allows trainer to define easily and powerully the desired jump types.
 \end_layout
 
 \begin_layout Standard
-El tipo de salto creado estará disponible en la base de datos para que sea
- usado en cualquier sesión y será automáticamente accesible a través del
- botón 
+Created jump type will be available on database to be used at any session,
+ and it will be listed clicking on the 
 \emph on
-Más
+More
 \emph default
- en las pestañas de 
+ button at the 
 \emph on
-Salto
+Jump
 \emph default
- o 
+ or
 \emph on
-Salto Reactivo
+ Jump repetitive
 \emph default
- en función del tipo de salto que se cree.
- Por último, el nuevo tipo de salto será también distinguido en las estadísticas
-, gráficas e informes.
+ tabs (depending on which kind of jump it's created).
+ This new jump type will be also differentiated on statistics, graphs and
+ reports.
 \end_layout
 
 \begin_layout Standard
-En el proceso de creación se le pedirá que lo identifique con un nombre
- distintivo, que lo clasifique como simple o repetitivo.
- En este último caso se le presentará la posibilidad de limitarlo por saltos,
- por tiempo o definirlo como ilimitado.
- 
+On creation, you should give it a distintive name and classify between simple
+ or repetitive.
+ If jump is repetitive, then you can limit is by jumps, time, or leave it
+ unlimited.
 \end_layout
 
 \begin_layout Standard
-Las opciones de límite por tiempo o por saltos podrán ser ajustadas con
- un valor fijo predefinido o dejarlas indefinidas.
- En caso de que se ajusten a un valor fijo, el nuevo tipo de salto en todos
- los casos se encontrará limitado por dicho valor; en caso contrario, en
- cada salto se preguntará al usuario qué valor debe tomar el factor limitante.
+The limit by time or jumps options can be defined as a fixed value or leaved
+ as undefined.
+ If it's defined fixed, all new jumps of this type will be limited to that
+ value; in the other hand, if the type is not fixed, user will be asked
+ by limit value everytime a new jump is done.
 \end_layout
 
 \begin_layout Standard
-Por último se presentan las opciones de iniciar el salto encima de la plataforma
- o fuera de ella, contemplar un peso extra adicional.
- Se concluye con la posibilidad de añadir una descripción textual al mismo.
- En la figura 
+Last settings include: start inside or outside the platform, allow to jump
+ with an extra weight, and add a description to the jump type.
+ In the figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Creación-de-nuevo-tipo-salto"
 
 \end_inset
 
- puede observar la ventana de creación de nuevos tipos de saltos.
+ you can see the creation of new jump type.
 \end_layout
 
 \begin_layout Standard
@@ -3998,7 +4020,7 @@ name "fig:Creación-de-nuevo-tipo-salto"
 
 \end_inset
 
-Creación de nuevo tipo de salto.
+Creation of a new jump type.
 \end_layout
 
 \end_inset
@@ -4012,21 +4034,20 @@ Creación de nuevo tipo de salto.
 \end_layout
 
 \begin_layout Subsubsection
-Ejemplos de creación de tipos de saltos
+Examples on creation of new jump types
 \end_layout
 
 \begin_layout Standard
-Se incluye a continuación una relación de ejemplos y consejos sobre la creación
- de tipos de saltos.
- Los nombres usados se han inventado para la elaboración de este manual.
- El cuadro 
+Here you can find some examples on creating new jump types.
+ The names of the types have been invented in this manual.
+ The table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
 
- le servirá para entender la relación entre los distintas variables.
+ is also useful to understand the different variables.
 \end_layout
 
 \begin_layout Itemize
@@ -4041,8 +4062,7 @@ SJ-N
 
 
 \emph default
- Salto parecido al Squat Jump pero en el que los brazos se sitúan en la
- nuca en lugar de en las caderas.
+ Jump like Squat Jump but the hands are on the nape instead of hips.
 \end_layout
 
 \begin_layout Itemize
@@ -4051,15 +4071,14 @@ SJ-N
 \begin_inset Quotes eld
 \end_inset
 
-DJ-Comba2
+DJ-Rope2
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Salto similar al Drop Jump pero en el que después de realizar un antesalto,
- recepcionar y saltar, se debe dar dos vueltas con la comba antes de recepcionar
- nuevamente.
+ Jump like Drop Jump but after executing the Drop jump, person have to jump
+ again doing two turns with the skipping rope on the air.
 \end_layout
 
 \begin_layout Itemize
@@ -4074,7 +4093,7 @@ Triple
 
 
 \emph default
- Salto repetitivo iniciado fuera de la plataforma consistente en tres subsaltos.
+ Repetitive jump starting outside the platform and including three jumps.
 \end_layout
 
 \begin_layout Itemize
@@ -4083,17 +4102,17 @@ Triple
 \begin_inset Quotes eld
 \end_inset
 
-50%fatiga
+50%fatigue
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Salto repetitivo en que cada sujeto realiza saltos hasta llegar al 50%
- de su fatiga.
- La cantidad de segundos para llegar a la fatiga es personal (diferente
- para cada sujeto) y es conocida por el entrenador previamente.
- Se inicia dentro.
+ Repetitive jump that has to be done until arriving to 50% of the person's
+ fatigue.
+ The number of seconds needed to be fatigued is personal and is known previously
+ by the trainer.
+ Starts inside.
 \end_layout
 
 \begin_layout Itemize
@@ -4102,15 +4121,14 @@ Triple
 \begin_inset Quotes eld
 \end_inset
 
-CombaIlimitado
+RopeUnlimited
 \begin_inset Quotes erd
 \end_inset
 
 
 \emph default
- Se pide al sujeto que salte a la comba hasta que el entrenador o el mismo
- saltador diga que es suficiente.
- Se inicia dentro y se puede realizar con un peso adicional.
+ Person has to jump the rope until the trainer or the jumper says to finish.
+ Start inside the platfom and can be done with an extra weight.
 \end_layout
 
 \begin_layout Standard
@@ -4136,7 +4154,7 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-Nombre
+Name
 \end_layout
 
 \end_inset
@@ -4145,7 +4163,7 @@ Nombre
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tipo
+Tipe
 \end_layout
 
 \end_inset
@@ -4154,7 +4172,7 @@ Tipo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Limitado por
+Limited by
 \end_layout
 
 \end_inset
@@ -4163,7 +4181,7 @@ Limitado por
 \begin_inset Text
 
 \begin_layout Plain Layout
-Fijo
+Fixed
 \end_layout
 
 \end_inset
@@ -4172,7 +4190,7 @@ Fijo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Inicia dentro
+Start in
 \end_layout
 
 \end_inset
@@ -4181,7 +4199,7 @@ Inicia dentro
 \begin_inset Text
 
 \begin_layout Plain Layout
-Peso adicional
+Additional weight
 \end_layout
 
 \end_inset
@@ -4228,7 +4246,7 @@ Simple
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí
+Yes
 \end_layout
 
 \end_inset
@@ -4248,7 +4266,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-DJ-Comba2
+DJ-Rope2
 \end_layout
 
 \end_inset
@@ -4313,7 +4331,7 @@ Triple
 \begin_inset Text
 
 \begin_layout Plain Layout
-Repetitivo
+Repetitive
 \end_layout
 
 \end_inset
@@ -4322,7 +4340,7 @@ Repetitivo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Saltos
+Jumps
 \end_layout
 
 \end_inset
@@ -4331,7 +4349,7 @@ Saltos
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí (3)
+Yes(3)
 \end_layout
 
 \end_inset
@@ -4360,7 +4378,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-50%fatiga
+50%fatigue
 \end_layout
 
 \end_inset
@@ -4369,7 +4387,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-Repetitivo
+Repetitive
 \end_layout
 
 \end_inset
@@ -4378,7 +4396,7 @@ Repetitivo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Tiempo
+Time
 \end_layout
 
 \end_inset
@@ -4396,7 +4414,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí
+Yes
 \end_layout
 
 \end_inset
@@ -4416,7 +4434,7 @@ No
 \begin_inset Text
 
 \begin_layout Plain Layout
-Combailimitado
+RopeUnlimited
 \end_layout
 
 \end_inset
@@ -4425,7 +4443,7 @@ Combailimitado
 \begin_inset Text
 
 \begin_layout Plain Layout
-Repetitivo
+Repetitive
 \end_layout
 
 \end_inset
@@ -4434,7 +4452,7 @@ Repetitivo
 \begin_inset Text
 
 \begin_layout Plain Layout
-Ilimitado
+Unlimited
 \end_layout
 
 \end_inset
@@ -4452,7 +4470,7 @@ Ilimitado
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí
+Yes
 \end_layout
 
 \end_inset
@@ -4461,7 +4479,7 @@ Sí
 \begin_inset Text
 
 \begin_layout Plain Layout
-Sí
+Yes
 \end_layout
 
 \end_inset
@@ -4484,7 +4502,7 @@ name "tab:Ejemplos-de-tipos-saltos-creados"
 
 \end_inset
 
-Ejemplos de tipos de saltos creados por el usuario.
+Examples on jump types created by user.
 \end_layout
 
 \end_inset
@@ -4498,27 +4516,54 @@ Ejemplos de tipos de saltos creados por el usuario.
 \end_layout
 
 \begin_layout Section
-Carreras
+Runs
 \end_layout
 
 \begin_layout Standard
-Para el registro de una carrera se puede usar una única plataforma en un
- circuito circular o más de una plataforma, entendiendo siempre que el deportist
-a no estará nunca en dos plataformas a la vez.
- Chronojump no diferencia el número de plataformas, sólo tiene en cuenta
- si el deportista está encima de alguna o no.
- Debido a que el uso más corriente será con dos plataformas, se describirán
- las carreras como paso de una plataforma a otra, siendo válido también
- que el deportista podría volver a la misma.
- En la figura 
+Running can be detected by two kind of devices:
+\end_layout
+
+\begin_layout Itemize
+platform/s
+\end_layout
+
+\begin_layout Itemize
+photocell/s
+\end_layout
+
+\begin_layout Standard
+On a run test Chronojump detects time between detection devices.
+ If the run is 
+\begin_inset Quotes eld
+\end_inset
+
+circular
+\begin_inset Quotes erd
+\end_inset
+
+, it can be used a single device (platform or photocell), in the other circuits,
+ there's a need of more than one detection device (of any type).
+\end_layout
+
+\begin_layout Standard
+From now on, 
+\emph on
+device in contact
+\emph default
+ means that the person is on the platform or blocking a photocell signal.
+ Is important to note that the person should never be in contact in more
+ than one device at the same time.
+\end_layout
+
+\begin_layout Standard
+The figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Esquema-dos-plat"
 
 \end_inset
 
- se muestra un esquema de la disposición de dos plataformas para el cronometrado
- de carreras.
+ shows a drawing of the position of two platforms to measure run.
 \end_layout
 
 \begin_layout Standard
@@ -4548,7 +4593,7 @@ name "fig:Esquema-dos-plat"
 
 \end_inset
 
-Esquema de la disposición de dos plataformas para el cronometrado de carreras.
+Drawing of two platforms circuit to measure run.
 \end_layout
 
 \end_inset
@@ -4562,99 +4607,96 @@ Esquema de la disposición de dos plataformas para el cronometrado de carreras.
 \end_layout
 
 \begin_layout Standard
-En todos los casos se pedirá al usuario que indique la distancia entre plataform
-as con el objetivo de calcular la velocidad media en el tramo.
+In order to calculate average speed, user will be asked about the distance
+ between platforms.
 \end_layout
 
 \begin_layout Standard
-Los carreras pueden ser básicamente de dos tipos: simples y con tramos.
- Para Chronojump una 
+Runs can be of two types: simple and repetitive.
+ On Chronojump a 
 \series bold
-carrera simple
+simple run
 \series default
- es la que se registra en un único tramo, que va desde una plataforma de
- contactos a otra plataforma de contactos.
- Así existen dos tipos de 
+ means that there's only one track.
+ There are two kinds of 
 \series bold
-carreras simples
+simple runs
 \series default
 :
 \end_layout
 
 \begin_layout Description
-Carrera
+Running
 \begin_inset space ~
 \end_inset
 
-desde
+from
 \begin_inset space ~
 \end_inset
 
-parado Las que se inician pisando una plataforma y terminan pisando la misma
- plataforma u otra.
- 
+stop Start on contact in a device and end in contact in the same or other
+ device.
 \end_layout
 
 \begin_layout Description
-Carrear
+Running
 \begin_inset space ~
 \end_inset
 
-lanzada Las que se inician fuera de la plataforma, seguidamente en algún
- momento se pisa la plataforma (iniciándose el cronómetro) para después
- de una fase de carrera que será registrada, volver a pisar la plataforma.
- El objetivo de esta modalidad suele ser registrar al deportista que ya
- lleva una velocidad determinada.
+with
+\begin_inset space ~
+\end_inset
+
+initial
+\begin_inset space ~
+\end_inset
+
+speed Start before the contact, after a while, a contact is done and chronometer
+ starts, then person leaves the detection device until it produces contact
+ again.
+ This allows to measure a run where person has an initial speed.
 \end_layout
 
 \begin_layout Standard
-En ambos casos se registra el tiempo que transcurre entre una y otra plataforma,
- que será expresado también como velocidad.
+In both situations, the registered data is the time between one device and
+ the other, also speed will be calculated.
 \end_layout
 
 \begin_layout Standard
-Una 
+An 
 \series bold
-carrera con tramos
+intervallic run
 \series default
- será cualquier carrera en que exista más de un tramo, y será expresada
- normalmente como 
+ is a run where there's more than one track, it should be understanded as
+ 
 \begin_inset Quotes eld
 \end_inset
 
-Ir y volver en dos o más tramos delimitados por plataformas situadas a 
-\shape italic
-n
-\shape default
- metros
+run along two or more tracks limited by devices at a fixed distance
 \begin_inset Quotes erd
 \end_inset
 
- .
+.
 \end_layout
 
 \begin_layout Subsection
-Ejecución de carreras simples
+Simple runs execution
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+To execute a simple run, click the following buttons on
 \emph on
-Carrera
+ Runs
 \emph default
-s, o desde el menú 
-\emph on
-Carreras / Ejecutar carreras simples
-\emph default
- haga clic en 
+ tab:
 \end_layout
 
 \begin_layout Itemize
 
 \emph on
-Personalizado
+Custom
 \emph default
- para ejecutar una carrera indicando la distancia entre plataformas
+ to run after introduce the track's distance
 \end_layout
 
 \begin_layout Itemize
@@ -4662,20 +4704,20 @@ Personalizado
 \emph on
 20m-400m
 \emph default
-, para ejecutar una carrera con esta distancia entre tramos preseleccionada
+, to run on the preselected track's distance
 \end_layout
 
 \begin_layout Itemize
-Carreras de agilidad, hasta el momento introducidos los tests: 20 Yardas,
- 505, Illinois, Shuttle Run, Zig-Zag test.
- La figura 
+Agility runs, this tests are available: 20 Yards, 505, Illinois, Shuttle
+ Run, Zig-Zag test.
+ The figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Test-de-agilidad-505"
 
 \end_inset
 
- muestra la información disponible en el programa sobre el test 505.
+ shows the information available on software about the 505 test.
 \end_layout
 
 \begin_layout Standard
@@ -4706,7 +4748,7 @@ name "fig:Test-de-agilidad-505"
 
 \end_inset
 
-Test de agilidad 505.
+505 Agility test.
 \end_layout
 
 \end_inset
@@ -4720,98 +4762,90 @@ Test de agilidad 505.
 \end_layout
 
 \begin_layout Standard
-Para ejecutar una carrera simple.
- En ocasiones se le pedirá que facilite la distancia entre tramos.
- Haga clic en 
+Click on 
 \emph on
-Más
+More
 \emph default
- para obtener una relación de todas las carreras simples disponibles y ejecútela
-s seleccionándolas y haciendo clic en 
+ to see all simple runs available, and execute them clicking 
 \emph on
-Aceptar
-\emph default
-.
- El menú 
-\emph on
-Carrera
-\emph default
- le proporciona también acceso a estas acciones.
-\end_layout
-
-\begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará una carrera.
- En caso contrario la carrera deberá ser ejecutada.
- El programa permite iniciar la carrera desde dentro de la plataforma o
- desde fuera de ella (el deportista se sitúa antes) en el segundo caso,
- el tiempo transcurrido entre que el deportista inicia la carrera y pisa
- la primera plataforma de contactos será despreciado.
- En la ventana emergente se mostrará la progresión de la carrera (entrada
- en la primera plataforma, abandono, llegada a la segunda pltaforma), que
- podrá ser detenida haciendo clic en el botón 
-\emph on
-Terminar
-\emph default
- o cancelada con 
-\emph on
-Cancelar
+Ok
 \emph default
 .
 \end_layout
 
 \begin_layout Standard
-En caso de que desee ejecutar una misma carrera a diversos deportistas y
- que dicha carrrera no disponga de botón (sólo esté disponible en la ventana
- 
+If Chronopic has not been connected and activated from Chronopic window,
+ a run will be simulated.
+ In the other hand, if Chronopic is connected, real run will be done.
+ Software allows to start run in contact with the device or before the contact.
+ On the later situation, time between starting of the run and contact on
+ the first device is deleted.
+\end_layout
+
+\begin_layout Standard
+In the pop-up window it shows the progress of the run, which may be stopped
+ by clicking on the 
 \emph on
-Más
+Finish
 \emph default
-), podrá cambiar de sujeto y hacer uso del botón 
+ or 
 \emph on
-Último
+Cancel
 \emph default
- para que otra persona pueda realizar la misma carrera.
+ button.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of run to various persons and you don’t
+ want a button (only available on the tab 
+\emph on
+More
+\emph default
+), you can change the subject and use the 
+\emph on
+Last
+\emph default
+ button to allow another person to perform the same run.
 \end_layout
 
 \begin_layout Subsection
-Ejecución de carreras con tramos
+Executing intervallic runs
 \end_layout
 
 \begin_layout Standard
-Desde la pestaña de 
+To execute an intervallic run, click the following buttons on 
 \emph on
-Carrera con tramo
+Intervallic Runs
 \emph default
-, haga clic en los botones: 
-\end_layout
-
-\begin_layout Standard
-
-\emph on
-Por pistas
-\emph default
-: carrera con tramos limitada por el número de tramos
+ tab:
 \end_layout
 
 \begin_layout Standard
 
 \emph on
-Por tiempo
+By tracks
 \emph default
-: carrera con tramos limitada por tiempo
+: intervallic run limited by number of tracks
 \end_layout
 
 \begin_layout Standard
 
 \emph on
-Ilimitado
+By time
 \emph default
-: carrera con tramos ilimitada
+: intervallic run limited by number of tracks
 \end_layout
 
 \begin_layout Standard
-para ejecutar una carrera con tramos.
- En ocasiones se le pedirá que facilite información adicional como la distancia
+
+\emph on
+Unlimited
+\emph default
+: unlimited intervallic run
+\end_layout
+
+\begin_layout Standard
+En ocasiones se le pedirá que facilite información adicional como la distancia
  entre tramos o el valor del factor limitante (saltos o segundos).
  Haga clic en 
 \emph on

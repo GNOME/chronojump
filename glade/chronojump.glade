@@ -7159,7 +7159,7 @@ suitable for agility tests)</property>
             <child>
               <widget class="GtkLabel" id="label205">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">This dialog explains wich ports are suitable to be connected with Chronopic</property>
+                <property name="label" translatable="yes">This dialog explains which ports are suitable to be connected with Chronopic</property>
                 <property name="wrap">True</property>
               </widget>
               <packing>

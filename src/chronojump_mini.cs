@@ -298,7 +298,7 @@ class Test {
 		string option=Console.ReadLine();
 
 		if(option == "Y" || option == "y") {
-			Console.WriteLine(Catalog.GetString("If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recomend to use .csv extension.\neg: 'test.csv'"));
+			Console.WriteLine(Catalog.GetString("If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS Office, we recommend to use .csv extension.\neg: 'test.csv'"));
 			Console.WriteLine(string.Format(Catalog.GetString("File will be available at directory: {0}"), getOutputDir()));
 			Console.WriteLine(Catalog.GetString("Please, write filename:"));
 			fileName=Console.ReadLine();

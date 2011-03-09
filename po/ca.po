@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the chronojump package.
 #
 # Elisabet Bermejo <elibermejo@gmail.com>, 2007.
-# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008 (fixes typos)
+# Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)
 #
 msgid ""
 msgstr ""
@@ -28,7 +28,7 @@ msgstr ""
 
 #: ../src/constants.cs:31
 msgid "Project leader and main developer."
-msgstr "CEO i principal desenvolupador"
+msgstr "Lider del projecte i principal desenvolupador."
 
 #: ../src/constants.cs:32
 msgid "Skypic, Chronopic, connection between hardware and software."
@@ -185,11 +185,11 @@ msgstr "Pic de potència"
 #. global stat types
 #: ../src/constants.cs:234
 msgid "Session summary"
-msgstr "Sumari de la sessió"
+msgstr "Resum de la sessió"
 
 #: ../src/constants.cs:235
 msgid "Jumper summary"
-msgstr "Sumari del saltador"
+msgstr "Resum del saltador"
 
 #: ../src/constants.cs:236
 msgid "Jumps: Simple"
@@ -346,12 +346,12 @@ msgstr "Realitzant còpia de base de dades"
 #. 3
 #: ../src/constants.cs:415
 msgid "Updating database"
-msgstr "Actualittzant base de dades"
+msgstr "Actualitzant base de dades"
 
 #. 4
 #: ../src/constants.cs:416
 msgid "Check for new version"
-msgstr "Comprobant nova versió"
+msgstr "Comprova si hi ha una nova versió"
 
 #. 5
 #: ../src/constants.cs:417
@@ -718,7 +718,7 @@ msgstr "ABK"
 #: ../src/treeViewPulse.cs:147
 #: ../src/treeViewRun.cs:269
 msgid "AVG"
-msgstr "Promig"
+msgstr "Mitjana"
 
 #: ../glade/chronojump.glade.h:73
 #: ../src/jumpType.cs:94
@@ -2527,7 +2527,7 @@ msgstr "Amunt"
 
 #: ../glade/chronojump.glade.h:457
 msgid "Update"
-msgstr "Actualiza"
+msgstr "Actualitza"
 
 #: ../glade/chronojump.glade.h:458
 msgid "Update stats"
@@ -2555,7 +2555,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:464
 msgid "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
-msgstr "Útil per a exportar a un full de càlcul com MS Excel, OpenOffcie o Gnumeric"
+msgstr "Útil per a exportar a un full de càlcul com MS Excel, OpenOffice o Gnumeric"
 
 #: ../glade/chronojump.glade.h:465
 msgid "Using arms"
@@ -2723,7 +2723,7 @@ msgstr "esborreu la sessió actual"
 
 #: ../glade/chronojump.glade.h:506
 msgid "fixed: "
-msgstr "fixe"
+msgstr "fixat: "
 
 #: ../glade/chronojump.glade.h:507
 msgid "intervallic"
@@ -2954,7 +2954,7 @@ msgstr ""
 
 #: ../src/chronojump.cs:307
 msgid "Please, update to new version."
-msgstr "Si us plaum actualitzeu Chronojump."
+msgstr "Si us plau, actualitzeu a una nova versió."
 
 #: ../src/chronojump.cs:315
 msgid "Chronojump crashed before."
@@ -3143,16 +3143,16 @@ msgstr "Inicialment seleccionats {0} segons"
 
 #: ../src/execute/jump.cs:979
 msgid "AVG TF"
-msgstr "TV promig"
+msgstr "Mitjana TV"
 
 #: ../src/execute/jump.cs:980
 msgid "AVG TC"
-msgstr "TC promig"
+msgstr "Mitjana TC"
 
 #: ../src/execute/multiChronopic.cs:292
 #: ../src/gui/eventExecute.cs:1733
 msgid "Photocells"
-msgstr "Fotocèlules"
+msgstr "Foto cèl·lules"
 
 #: ../src/execute/multiChronopic.cs:296
 msgid "Platform"
@@ -3401,23 +3401,23 @@ msgstr "Alçada Màx"
 
 #: ../src/exportSession.cs:374
 msgid "Max Initial Speed"
-msgstr "Max Velocitat inicial"
+msgstr "Màx Velocitat inicial"
 
 #: ../src/exportSession.cs:375
 msgid "TC AVG"
-msgstr "TC (promig)"
+msgstr "TC (mitjana)"
 
 #: ../src/exportSession.cs:376
 msgid "TF AVG"
-msgstr "TV (promig)"
+msgstr "TV (mitjana)"
 
 #: ../src/exportSession.cs:377
 msgid "AVG Height"
-msgstr "Alçada (promig)"
+msgstr "Alçada (mitjana)"
 
 #: ../src/exportSession.cs:378
 msgid "AVG Initial Speed"
-msgstr "Velocidad inicial (promig)"
+msgstr "Velocitat inicial (mitjana)"
 
 #: ../src/exportSession.cs:383
 #: ../src/exportSession.cs:540
@@ -4369,7 +4369,7 @@ msgstr "Tipus de pols: {0}."
 #: ../src/statType.cs:358
 #: ../src/stats/graphs/rjIndex.cs:59
 msgid "Average Index"
-msgstr "Índex promig"
+msgstr "Índex mitjà"
 
 #. static string equalThan = Constants.EqualThanCode + " " + Catalog.GetString("Equal than");
 #: ../src/gui/queryServer.cs:122
@@ -5074,7 +5074,7 @@ msgstr "Cap Verd"
 
 #: ../src/sqlite/country.cs:185
 msgid "Central African Republic"
-msgstr "Centreafricana, República"
+msgstr "República Centrafricana"
 
 #: ../src/sqlite/country.cs:186
 msgid "Chad"
@@ -5082,23 +5082,23 @@ msgstr "Txad"
 
 #: ../src/sqlite/country.cs:187
 msgid "Comoros"
-msgstr "Comoros"
+msgstr "Comores"
 
 #: ../src/sqlite/country.cs:188
 msgid "Congo, Democratic Republic of the"
-msgstr "Congo, República Democràtica del"
+msgstr "República Democràtica del Congo"
 
 #: ../src/sqlite/country.cs:189
 msgid "Congo, Republic of the"
-msgstr "Congo, República del"
+msgstr "República del Congo"
 
 #: ../src/sqlite/country.cs:190
 msgid "Cote d'Ivoire"
-msgstr "Costa d'Ivori"
+msgstr "Costa de Vori"
 
 #: ../src/sqlite/country.cs:191
 msgid "Djibouti"
-msgstr "Djibouti"
+msgstr "Gibuti"
 
 #: ../src/sqlite/country.cs:192
 msgid "Egypt"
@@ -5130,7 +5130,7 @@ msgstr "Ghana"
 
 #: ../src/sqlite/country.cs:199
 msgid "Guinea-Bissau"
-msgstr "Guinea-Bissau"
+msgstr "Guinea Bissau"
 
 #: ../src/sqlite/country.cs:200
 msgid "Guinea"
@@ -5150,7 +5150,7 @@ msgstr "Libèria"
 
 #: ../src/sqlite/country.cs:204
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "Líbia"
 
 #: ../src/sqlite/country.cs:205
 msgid "Madagascar"
@@ -5174,7 +5174,7 @@ msgstr "Mauritània"
 
 #: ../src/sqlite/country.cs:210
 msgid "Mayotte"
-msgstr ""
+msgstr "Mayotte"
 
 #: ../src/sqlite/country.cs:211
 msgid "Morocco"
@@ -5202,7 +5202,7 @@ msgstr "Reunió"
 
 #: ../src/sqlite/country.cs:217
 msgid "Rwanda"
-msgstr "Rwanda"
+msgstr "Ruanda"
 
 #: ../src/sqlite/country.cs:218
 msgid "Saint Helena"
@@ -5218,7 +5218,7 @@ msgstr "Senegal"
 
 #: ../src/sqlite/country.cs:221
 msgid "Seychelles"
-msgstr ""
+msgstr "Seychelles"
 
 #: ../src/sqlite/country.cs:222
 msgid "Sierra Leone"
@@ -5230,7 +5230,7 @@ msgstr "Somàlia"
 
 #: ../src/sqlite/country.cs:224
 msgid "South Africa"
-msgstr "Sud-àfrica"
+msgstr "República de Sud-àfrica"
 
 #: ../src/sqlite/country.cs:225
 msgid "Sudan"
@@ -5270,19 +5270,19 @@ msgstr "Zàmbia"
 
 #: ../src/sqlite/country.cs:234
 msgid "Zimbabwe"
-msgstr "Zimbabwe"
+msgstr "Zimbàbue"
 
 #: ../src/sqlite/country.cs:235
 msgid "Antarctica (the territory South of 60 deg S)"
-msgstr ""
+msgstr "Antàrtida"
 
 #: ../src/sqlite/country.cs:236
 msgid "Bouvet Island (Bouvetoya)"
-msgstr ""
+msgstr "Bouvet"
 
 #: ../src/sqlite/country.cs:237
 msgid "French Southern Territories"
-msgstr "Terra Adèlia (Terres Australs i Antàrtiques Franceses)"
+msgstr "Territoris Francesos del Sud "
 
 #: ../src/sqlite/country.cs:238
 msgid "Heard Island and McDonald Islands"
@@ -5290,11 +5290,11 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:239
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "Illes Geòrgia del Sud i Sandwich del Sud"
 
 #: ../src/sqlite/country.cs:240
 msgid "Afghanistan"
-msgstr "Afghanistan"
+msgstr "Afganistan"
 
 #: ../src/sqlite/country.cs:241
 msgid "Armenia"
@@ -5302,11 +5302,11 @@ msgstr "Armènia"
 
 #: ../src/sqlite/country.cs:242
 msgid "Azerbaijan"
-msgstr "Azerbaidjan"
+msgstr "Azerbaitjan"
 
 #: ../src/sqlite/country.cs:243
 msgid "Bahrain"
-msgstr "Bahrain"
+msgstr "Bahrein"
 
 #: ../src/sqlite/country.cs:244
 msgid "Bangladesh"
@@ -5318,7 +5318,7 @@ msgstr "Bhutan"
 
 #: ../src/sqlite/country.cs:246
 msgid "British Indian Ocean Territory (Chagos Archipelago)"
-msgstr ""
+msgstr "Territori Britànic de l'Oceà Índic"
 
 #: ../src/sqlite/country.cs:247
 msgid "Brunei Darussalam"
@@ -5330,15 +5330,15 @@ msgstr "Cambodja"
 
 #: ../src/sqlite/country.cs:249
 msgid "China"
-msgstr "Xina, República Popular de"
+msgstr "Xina"
 
 #: ../src/sqlite/country.cs:250
 msgid "Christmas Island"
-msgstr "Illa Christmas"
+msgstr "Illa de Christmas"
 
 #: ../src/sqlite/country.cs:251
 msgid "Cocos (Keeling) Islands"
-msgstr "Illes Cocos"
+msgstr "Illa de Cocos"
 
 #: ../src/sqlite/country.cs:252
 msgid "Cyprus"
@@ -5346,7 +5346,7 @@ msgstr "Xipre"
 
 #: ../src/sqlite/country.cs:253
 msgid "Georgia"
-msgstr "Georgia"
+msgstr "Geòrgia"
 
 #: ../src/sqlite/country.cs:254
 msgid "Hong Kong"
@@ -5422,7 +5422,7 @@ msgstr "Maldives"
 
 #: ../src/sqlite/country.cs:272
 msgid "Mongolia"
-msgstr "Mong+olia"
+msgstr "Mongòlia"
 
 #: ../src/sqlite/country.cs:273
 msgid "Myanmar"
@@ -5438,7 +5438,7 @@ msgstr "Oman"
 
 #: ../src/sqlite/country.cs:276
 msgid "Pakistan"
-msgstr "Pakistan"
+msgstr "Paquistan"
 
 #: ../src/sqlite/country.cs:277
 msgid "Palestinian Territory"
@@ -5454,7 +5454,7 @@ msgstr "Qatar"
 
 #: ../src/sqlite/country.cs:280
 msgid "Saudi Arabia"
-msgstr "Aràbia Saudí"
+msgstr "Aràbia Saüdita"
 
 #: ../src/sqlite/country.cs:281
 msgid "Singapore"
@@ -5486,11 +5486,11 @@ msgstr "Timor Oriental"
 
 #: ../src/sqlite/country.cs:288
 msgid "Turkey"
-msgstr "Turquía"
+msgstr "Turquia"
 
 #: ../src/sqlite/country.cs:289
 msgid "Turkmenistan"
-msgstr "Turkmenistan"
+msgstr "Turcmenistan"
 
 #: ../src/sqlite/country.cs:290
 msgid "United Arab Emirates"
@@ -5498,7 +5498,7 @@ msgstr "Emirats Àrabs Units"
 
 #: ../src/sqlite/country.cs:291
 msgid "Uzbekistan"
-msgstr "Uzbekistan"
+msgstr "Usbequistan"
 
 #: ../src/sqlite/country.cs:292
 msgid "Vietnam"
@@ -5522,7 +5522,7 @@ msgstr "Andorra"
 
 #: ../src/sqlite/country.cs:297
 msgid "Austria"
-msgstr "àustria"
+msgstr "Àustria"
 
 #: ../src/sqlite/country.cs:298
 msgid "Belarus"
@@ -5546,7 +5546,7 @@ msgstr "Croàcia"
 
 #: ../src/sqlite/country.cs:303
 msgid "Czech Republic"
-msgstr "Txeca, República"
+msgstr "Txèquia"
 
 #: ../src/sqlite/country.cs:304
 msgid "Denmark"
@@ -5714,7 +5714,7 @@ msgstr "Gran Bretanya"
 
 #: ../src/sqlite/country.cs:345
 msgid "Anguilla"
-msgstr ""
+msgstr "Anguila"
 
 #: ../src/sqlite/country.cs:346
 msgid "Antigua and Barbuda"
@@ -5738,7 +5738,7 @@ msgstr "Belize"
 
 #: ../src/sqlite/country.cs:351
 msgid "Bermuda"
-msgstr ""
+msgstr "Bermuda"
 
 #: ../src/sqlite/country.cs:352
 msgid "British Virgin Islands"
@@ -5750,7 +5750,7 @@ msgstr "Canadà"
 
 #: ../src/sqlite/country.cs:354
 msgid "Cayman Islands"
-msgstr ""
+msgstr "Illes Caiman"
 
 #: ../src/sqlite/country.cs:355
 msgid "Costa Rica"
@@ -5774,7 +5774,7 @@ msgstr "El Salvador"
 
 #: ../src/sqlite/country.cs:360
 msgid "Greenland"
-msgstr ""
+msgstr "Grenlàndia"
 
 #: ../src/sqlite/country.cs:361
 msgid "Grenada"
@@ -5846,7 +5846,7 @@ msgstr ""
 
 #: ../src/sqlite/country.cs:378
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "Saint Pierre i Miquelon"
 
 #: ../src/sqlite/country.cs:379
 msgid "Saint Vincent and the Grenadines"
@@ -5858,7 +5858,7 @@ msgstr "Trinitat i Tobago"
 
 #: ../src/sqlite/country.cs:381
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "Illes de Turks i Caicos"
 
 #: ../src/sqlite/country.cs:382
 msgid "United States of America"
@@ -5882,7 +5882,7 @@ msgstr "Illes Cook"
 
 #: ../src/sqlite/country.cs:387
 msgid "Fiji"
-msgstr "iIlles Fiji"
+msgstr "Illes Fiji"
 
 #: ../src/sqlite/country.cs:388
 msgid "French Polynesia"
@@ -5918,7 +5918,7 @@ msgstr "Nova Zelanda"
 
 #: ../src/sqlite/country.cs:396
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: ../src/sqlite/country.cs:397
 msgid "Norfolk Island"
@@ -5926,15 +5926,15 @@ msgstr "Illa Norfolk"
 
 #: ../src/sqlite/country.cs:398
 msgid "Northern Mariana Islands"
-msgstr "Illes Mariannes Septentrionals"
+msgstr "Illes Mariannes del Nord"
 
 #: ../src/sqlite/country.cs:399
 msgid "Palau"
-msgstr ""
+msgstr "Palau"
 
 #: ../src/sqlite/country.cs:400
 msgid "Papua New Guinea"
-msgstr ">Papua Nova Guinea"
+msgstr "Nova Guinea Pàpua"
 
 #: ../src/sqlite/country.cs:401
 msgid "Pitcairn Islands"
@@ -5954,11 +5954,11 @@ msgstr "Tokelau"
 
 #: ../src/sqlite/country.cs:405
 msgid "Tonga"
-msgstr ""
+msgstr "Tonga"
 
 #: ../src/sqlite/country.cs:406
 msgid "Tuvalu"
-msgstr ""
+msgstr "Tuvalu"
 
 #: ../src/sqlite/country.cs:407
 msgid "United States Minor Outlying Islands"
@@ -5994,11 +5994,11 @@ msgstr "Colòmbia"
 
 #: ../src/sqlite/country.cs:415
 msgid "Ecuador"
-msgstr "Ecuador"
+msgstr "Equador"
 
 #: ../src/sqlite/country.cs:416
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "Illes Malvines (Falkland)"
 
 #: ../src/sqlite/country.cs:417
 msgid "French Guiana"
@@ -6014,7 +6014,7 @@ msgstr "Paraguai"
 
 #: ../src/sqlite/country.cs:420
 msgid "Peru"
-msgstr "Perú, el"
+msgstr "Perú"
 
 #: ../src/sqlite/country.cs:421
 msgid "Uruguay"
@@ -6022,7 +6022,7 @@ msgstr "Uruguai"
 
 #: ../src/sqlite/country.cs:422
 msgid "Venezuela"
-msgstr "Venezuela"
+msgstr "Veneçuela"
 
 #. "-1:" + Constants.SpeciallityUndefined + ":" + Catalog.GetString(Constants.SpeciallityUndefined),
 #: ../src/sqlite/speciallity.cs:147

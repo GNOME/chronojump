@@ -36,6 +36,54 @@ PO_FILES = \
 MO_FILES = $(foreach po,$(PO_FILES), $(LOCALE_DIR)/$(basename $(po))/LC_MESSAGES/chronojump.mo)
 GMO_FILES = $(patsubst %.po, $(BUILD_DIR)/%.gmo,$(PO_FILES))
 
+
+#CesarPlayer
+CESARPLAYER=${BUILD_DIR}/CesarPlayer.dll
+CSC_CESARPLAYER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -unsafe
+	CESARPLAYER_COMPILE_TARGET = library
+
+CESARPLAYER_FILES = \
+		    AssemblyInfo.cs \
+		    gtk-gui/generated.cs \
+		    Common/Constants.cs\
+		    Common/Enum.cs\
+		    Common/Handlers.cs\
+		    Player/GstPlayer.cs \
+		    Player/IPlayer.cs \
+		    Player/ObjectManager.cs \
+		    gtk-gui/LongoMatch.Gui.CapturerBin.cs \
+		    gtk-gui/LongoMatch.Gui.PlayerBin.cs \
+		    gtk-gui/LongoMatch.Gui.VolumeWindow.cs \
+		    Gui/CapturerBin.cs \
+		    Gui/PlayerBin.cs \
+		    Gui/VolumeWindow.cs \
+		    MultimediaFactory.cs \
+		    Utils/IFramesCapturer.cs \
+		    Utils/FramesCapturer.cs \
+		    Utils/IMetadataReader.cs \
+		    Utils/TimeString.cs \
+		    Capturer/CaptureProperties.cs \
+		    Capturer/GstCameraCapturer.cs \
+		    Capturer/FakeCapturer.cs \
+		    Capturer/ICapturer.cs \
+		    Capturer/LiveSourceTimer.cs \
+		    Capturer/ObjectManager.cs \
+		    Editor/GstVideoSplitter.cs \
+		    Editor/IVideoEditor.cs \
+		    Editor/IVideoSplitter.cs \
+		    Editor/VideoSegment.cs \
+		    Editor/EditorState.cs \
+		    Utils/Device.cs \
+		    Utils/MediaFile.cs \
+		    Utils/PreviewMediaFile.cs
+
+CESARPLAYER_REFERENCES = \
+			 -r:Mono.Posix \
+			 -r:System \
+			 -pkg:gtk-sharp-2.0 \
+			 -pkg:glib-sharp-2.0 \
+
+
 #Chronojump.exe
 
 CHRONOJUMP=$(BUILD_DIR)/Chronojump.exe
@@ -284,6 +332,7 @@ CHRONOJUMP_REFERENCES = \
 	-r:System.Web.Services\
 	-r:System.Xml\
 	-r:Mono.Data.Sqlite\
+	-r:../${BUILD_DIR}/CesarPlayer.dll \
 	-r:Mono.Posix
 	
 #Chronojump_Mini.exe
@@ -306,9 +355,9 @@ CHRONOJUMP_MINI_REFERENCES = \
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before ${GMO_FILES} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
+all: all-before ${GMO_FILES} ${LIBCESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
 
-install: ${MO_FILES} bundle
+install: $(LIBCESARPLAYER) ${MO_FILES} bundle
 
 clean: clean-custom
 	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o

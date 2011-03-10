@@ -483,4 +483,6 @@ public class Constants
 	public static string PhotoSmallTemp = "chronojump-last-photo-small";
 	public static string VideoTemp = "chronojump-last-video";
 	
+	public static string RunStartInitialSpeedYes = Catalog.GetString("Running start. Started with initial speed.");
+	public static string RunStartInitialSpeedNo = Catalog.GetString("Standing start. Started without initial speed.");
 }

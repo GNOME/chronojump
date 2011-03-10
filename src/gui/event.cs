@@ -42,6 +42,8 @@ public class EditEventWindow
 	[Widget] protected Gtk.Label label_header;
 	[Widget] protected Gtk.Label label_type_title;
 	[Widget] protected Gtk.Label label_type_value;
+	[Widget] protected Gtk.Label label_run_start_title;
+	[Widget] protected Gtk.Label label_run_start_value;
 	[Widget] protected Gtk.Label label_event_id_value;
 	[Widget] protected Gtk.Label label_tv_title;
 	[Widget] protected Gtk.Entry entry_tv_value;
@@ -103,6 +105,7 @@ public class EditEventWindow
 
 	protected Constants.TestTypes typeOfTest;
 	protected bool showType;
+	protected bool showRunStart;
 	protected bool showTv;
 	protected bool showTc;
 	protected bool showFall;
@@ -152,6 +155,7 @@ public class EditEventWindow
 	protected virtual void initializeValues () {
 		typeOfTest = Constants.TestTypes.JUMP;
 		showType = true;
+		showRunStart = false;
 		showTv = true;
 		showTc = true;
 		showFall = true;
@@ -265,6 +269,13 @@ public class EditEventWindow
 			label_type_title.Hide();
 			combo_eventType.Hide();
 		}
+		
+		if(showRunStart) 
+			fillRunStart(myEvent);
+		else {
+			label_run_start_title.Hide();
+			label_run_start_value.Hide();
+		}
 
 		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(myEvent.SessionID);
 		string [] personsStrings = new String[persons.Count];
@@ -359,6 +370,9 @@ public class EditEventWindow
 	}
 
 	protected virtual void fillFall(Event myEvent) {
+	}
+
+	protected virtual void fillRunStart(Event myEvent) {
 	}
 
 	protected virtual void fillDistance(Event myEvent) {

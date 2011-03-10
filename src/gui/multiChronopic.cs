@@ -78,6 +78,7 @@ public class EditMultiChronopicWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.MULTICHRONOPIC;
 		headerShowDecimal = false;
 		showType = false;
+		showRunStart = false;
 		showTv = false;
 		showTc= false;
 		showFall = false;

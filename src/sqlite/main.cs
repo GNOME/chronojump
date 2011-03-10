@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.80";
+	static string lastChronojumpDatabaseVersion = "0.81";
 
 	public Sqlite() {
 	}
@@ -1069,13 +1069,31 @@ class Sqlite
 					conversionRate ++;
 					convertTables(new SqliteRunInterval(), Constants.RunIntervalTable, 12, myArray, false);
 					conversionRate ++;
-					Log.WriteLine("Converted DB to 0.80 (Added multimediaStorage structure)"); 
+					Log.WriteLine("Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)"); 
 				}
 
 				SqlitePreferences.Update ("databaseVersion", "0.80", true); 
 				
 				dbcon.Close();
 				currentVersion = "0.80";
+			}
+			if(currentVersion == "0.80") {
+				dbcon.Open();
+
+				ArrayList myArray = new ArrayList(1);
+				myArray.Add("0"); //initial speed
+				
+				conversionRateTotal = 2;
+				conversionRate = 1;
+				Sqlite.dropTable(Constants.TempRunIntervalTable);
+				sqliteRunIntervalObject.createTable(Constants.TempRunIntervalTable);
+				conversionRate ++;
+				Log.WriteLine("Converted DB to 0.81 Added tempRunInterval initial speed"); 
+
+				SqlitePreferences.Update ("databaseVersion", "0.81", true); 
+				
+				dbcon.Close();
+				currentVersion = "0.81";
 			}
 		}
 
@@ -1209,6 +1227,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.80 - 0.81 Converted DB to 0.81 Added tempRunInterval initial speed
 		//0.79 - 0.80 Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)
 		//0.78 - 0.79 Converted DB to 0.79 (Added multimediaStorage structure id)
 		//0.77 - 0.78 Converted DB to 0.78 (Added machineID to preferences, takeOffWeight has no weight in db conversions since 0.66)

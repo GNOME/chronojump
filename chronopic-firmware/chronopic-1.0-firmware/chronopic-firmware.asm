@@ -36,7 +36,13 @@ TICK    EQU 0xD9
 ;-- Value of the debouncing time (in units of 10 milliseconds)
 ;-- This value can be changed, in order to select the most suitable
 ;-- Signals with a duration lower than this value are considered spurious
-DEBOUNCE_TIME   EQU 0x05
+
+;-- 10ms
+;-- DEBOUNCE_TIME   EQU 0x01
+;-- 50ms
+;-- DEBOUNCE_TIME   EQU 0x05
+;-- 100ms
+DEBOUNCE_TIME   EQU 0x0A
 
 ;-- Status of main automaton
 STAT_WAITING_EVENT EQU 0x00                

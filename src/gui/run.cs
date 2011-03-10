@@ -83,6 +83,7 @@ public class EditRunWindow : EditEventWindow
 	protected override void initializeValues () {
 		typeOfTest = Constants.TestTypes.RUN;
 		showType = true;
+		showRunStart = true;
 		showTv = false;
 		showTc= false;
 		showFall = false;
@@ -103,6 +104,14 @@ public class EditRunWindow : EditEventWindow
 	protected override string [] findTypes(Event myEvent) {
 		string [] myTypes = SqliteRunType.SelectRunTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;
+	}
+	
+	protected override void fillRunStart(Event myEvent) {
+		Run myRun = (Run) myEvent;
+		if(myRun.InitialSpeed)
+			label_run_start_value.Text = Constants.RunStartInitialSpeedYes;
+		else
+			label_run_start_value.Text = Constants.RunStartInitialSpeedNo;
 	}
 	
 	protected override void fillDistance(Event myEvent) {
@@ -283,6 +292,7 @@ public class EditRunIntervalWindow : EditRunWindow
 	protected override void initializeValues () {
 		typeOfTest = Constants.TestTypes.RUN_I;
 		showType = true;
+		showRunStart = true;
 		showTv = false;
 		showTc= false;
 		showFall = false;
@@ -479,6 +489,15 @@ public class EditRunIntervalWindow : EditRunWindow
 		myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", true); //don't show allRunsName row, only select name
 		return myTypes;
 	}
+	
+	protected override void fillRunStart(Event myEvent) {
+		RunInterval myRun = (RunInterval) myEvent;
+		if(myRun.InitialSpeed)
+			label_run_start_value.Text = Constants.RunStartInitialSpeedYes;
+		else
+			label_run_start_value.Text = Constants.RunStartInitialSpeedNo;
+	}
+	
 	
 	protected override void fillDistance(Event myEvent) {
 		RunInterval myRun = (RunInterval) myEvent;
@@ -1346,6 +1365,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	protected override string [] findTestTypesInSessions() {
 		return SqliteRunInterval.SelectRuns(-1, -1, selectedEventName); 
 	}
+	
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{

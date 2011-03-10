@@ -72,6 +72,7 @@ public class EditReactionTimeWindow : EditEventWindow
 		typeOfTest = Constants.TestTypes.RT;
 		headerShowDecimal = false;
 		showType = false;
+		showRunStart = false;
 		showTv = false;
 		showTc= false;
 		showFall = false;

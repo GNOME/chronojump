@@ -70,6 +70,7 @@ public class EditPulseWindow : EditEventWindow
 	protected override void initializeValues () {
 		typeOfTest = Constants.TestTypes.PULSE;
 		showType = true;
+		showRunStart = false;
 		showTv = false;
 		showTc= false;
 		showFall = false;

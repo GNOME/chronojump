@@ -74,7 +74,7 @@ public class TreeViewPulses : TreeViewEvent
 		string myTypeComplet = newPulse.Type;
 		
 		if(newPulse.Simulated == Constants.Simulated)
-			myTypeComplet += " (s) ";
+			myTypeComplet += Constants.SimulatedTreeview + " ";
 		
 		if(newPulse.FixedPulse != -1) 
 			myTypeComplet += "(" + Util.TrimDecimals(newPulse.FixedPulse.ToString(), 3) + ")";

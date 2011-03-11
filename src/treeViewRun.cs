@@ -82,7 +82,7 @@ public class TreeViewRuns : TreeViewEvent
 
 		string title = newRun.Type;
 		if(newRun.Simulated == Constants.Simulated)
-			title += " (s)";
+			title += Constants.SimulatedTreeview;
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -168,7 +168,7 @@ public class TreeViewRunsInterval : TreeViewRuns
 		
 		string title = newRunI.Type;
 		if(newRunI.Simulated == Constants.Simulated)
-			title += " (s) ";
+			title += Constants.SimulatedTreeview + " ";
 
 		string myTypeComplet = title + "(" + newRunI.DistanceInterval + "x" + Util.GetLimitedRounded(newRunI.Limited, pDN) + ")";
 		

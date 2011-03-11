@@ -193,7 +193,7 @@ public class TreeViewJumps : TreeViewEvent
 
 		string title = newJump.Type;
 		if(newJump.Simulated == Constants.Simulated)
-			title += " (s)";
+			title += Constants.SimulatedTreeview;
 
 		string [] myData = new String [getColsNum()];
 		int count = 0;
@@ -306,7 +306,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		string title = newJumpRj.Type;
 		if(newJumpRj.Simulated == Constants.Simulated)
-			title += " (s) ";
+			title += Constants.SimulatedTreeview + " ";
 
 		string myTypeComplet = "";
 		if(newJumpRj.Type == Constants.RunAnalysisName) 

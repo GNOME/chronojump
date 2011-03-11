@@ -390,6 +390,7 @@ public class Constants
 	
 	public static int Simulated = -1; 
 	public static string SimulatedMessage = Catalog.GetString("Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'.");
+	public static string SimulatedTreeview = " (" + Catalog.GetString("Simulated") + ")"; 
 
 	
 	//levels of sport practice

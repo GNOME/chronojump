@@ -1258,14 +1258,8 @@ public class Util
 	}
 	
 	public static string GetRunISpeedsString(double distanceInterval, string timesString, 
-			string distancesString, string separator, int maxRuns) {
-
-Log.WriteLine("VVV");
-Log.WriteLine(distanceInterval.ToString());
-Log.WriteLine(distancesString);
-Log.WriteLine(timesString);
-Log.WriteLine(separator);
-Log.WriteLine("WWW");
+			string distancesString, string separator, int maxRuns) 
+	{
 		string [] times = timesString.Split(new char[] {'='});
 		string [] distances = distancesString.Split(new char[] {'-'});
 		string speeds = "";
@@ -1277,20 +1271,14 @@ Log.WriteLine("WWW");
 
 			//if has variable distance each track
 			if(distanceInterval == -1.0) {
-Log.WriteLine("-1");
 				int distPos = i % distances.Length;
 				distance = Convert.ToDouble(distances[distPos]);
-			} else {
-Log.WriteLine("NO -1");
+			} else 
 				distance = distanceInterval;
-			}
 
-//Log.WriteLine("d: {0}, t:{1}, d/t:{2}", distance, time, distance /time*1.0);
 			speeds += sep + (distance / time * 1.0).ToString();
 			sep = separator;
-Log.WriteLine(speeds);
 		}
-Log.WriteLine("RRR");
 		//fill the row with 0's equalling largest row
 		for(int j=i; j < maxRuns; j++) {
 			speeds = speeds + ":-:-";

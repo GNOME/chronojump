@@ -67,11 +67,11 @@ public class StatRunIntervallic : Stat
 		if(toReport && maxRuns > 10) {
 			columnsString[2] = Catalog.GetString("Count");
 			for(int i=0; i < maxRuns && i < 10; i++) {
-				columnsString[i+3] = Catalog.GetString("Speed"); //cols: 3, 4, 5, ...
+				columnsString[i+3] = Catalog.GetString("Speed") + (i+1).ToString(); //cols: 3, 4, 5, ...
 			}
 		} else {
 			for(int i=0; i < maxRuns; i++) {
-				columnsString[i+2] = Catalog.GetString("Speed") + (i+1).ToString(); //cols: 3, 4, 5, ...
+				columnsString[i+2] = Catalog.GetString("Speed") + (i+1).ToString(); //cols: 2, 3, 4, ...
 			}
 		}
 		
@@ -155,10 +155,10 @@ public class StatRunIntervallic : Stat
 			}
 			if(allowedRow) {
 				reportString += "<TR>";
-				//in report, if there are more than 5 runs, break the row
-				if(maxRuns > 5) {
-					//show 5 runs in a row (every run has 1 col: time)
-					int countCols = -1; //jumper, count (from -1 to 0)
+				//in report, if there are more than 10 runs, break the row
+				if(maxRuns > 10) {
+					//show 10 runs in a row (every run has 1 col: speed)
+					int countCols = -2; //person, speed, count (from -2 to 0)
 					int countRows = 0;
 					for (int i=0; i < statValues.Length ; i++) 
 					{
@@ -170,16 +170,16 @@ public class StatRunIntervallic : Stat
 						
 						//when countCols is 0, and countRows is 0 we should print the first 'Count'
 						if(countCols == 0 && countRows == 0) {
-							reportString += "<TD>1-5</TD>";
+							reportString += "<TD>1-10</TD>";
 						}
 						
 						//change line
 						if(countCols >= 10) {
-							reportString += "</TR><TR><TD>&nbsp;</TD>";
+							reportString += "</TR><TR><TD>&nbsp;</TD><TD>&nbsp;</TD>";
 							countRows ++;
 							countCols = 0;
-							reportString += "<TD>" + (countRows*5 + 1) + "-" + 
-								(countRows*5 +5) + "</TD>";
+							reportString += "<TD>" + (countRows*10 + 1) + "-" + 
+								(countRows*10 +10) + "</TD>";
 						}
 						reportString += "<TD>" + statValues[i] + "</TD>";
 						countCols ++;

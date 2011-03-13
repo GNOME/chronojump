@@ -866,6 +866,7 @@ public class Stat
 	protected ArrayList GraphSeries = new ArrayList();
 
 	protected bool isRjEvolution = false; //needed because in RjEvolution graph, series are treaten in a different way
+	protected bool isRunIntervalEvolution = false; //small differences with isRjEvolution
 	int rjEvolutionMaxJumps; //we should care of maxjumps of the checked rjEvolution rows
 
 	
@@ -1173,7 +1174,7 @@ public class Stat
 
 	private string getRLinesString(GraphROptions gro, string fileName, Sides side) {
 		string allData = "";
-		if(isRjEvolution)
+		if(isRjEvolution || isRunIntervalEvolution)
 			allData = convertDataToROnRjEvolution(gro, side);
 		else
 			allData = convertDataToR(gro, side);
@@ -1194,7 +1195,7 @@ public class Stat
 		string naString = ", na.rm = TRUE";
 
 		string xlimString = "c(0,length(colnames(data))+1)";
-		if(isRjEvolution)
+		if(isRjEvolution || isRunIntervalEvolution)
 			xlimString = "c(1," + rjEvolutionMaxJumps + ")";
 	
 		//TC and TF same color on rjEvo	
@@ -1210,7 +1211,7 @@ public class Stat
 			colors="'black'";
 			gro.Palette="gray.colors";
 			changedPalette = true;
-		} else if(isRjEvolution)
+		} else if(isRjEvolution) //runIntervalEvolution doesn't have this because only has one serie
 			colorsConversionString = "for(i in 2:length(colors)) if(i%%2 == 0) colors[i]=colors[i-1]\n";
 
 		string rG = //rGraphString

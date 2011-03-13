@@ -1281,7 +1281,7 @@ public class Util
 		}
 		//fill the row with 0's equalling largest row
 		for(int j=i; j < maxRuns; j++) {
-			speeds = speeds + ":-:-";
+			speeds = speeds + ":-";
 		}
 		return speeds;
 	}

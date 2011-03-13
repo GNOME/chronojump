@@ -63,6 +63,7 @@ src/stats/graphs/rjEvolution.cs
 src/stats/graphs/rjIndex.cs
 src/stats/graphs/rjPotencyBosco.cs
 src/stats/graphs/runSimple.cs
+src/stats/graphs/runIntervallic.cs
 src/stats/graphs/sjCmjAbk.cs
 src/stats/graphs/sjCmjAbkPlus.cs
 src/stats/graphs/jumpSimpleSubtraction.cs

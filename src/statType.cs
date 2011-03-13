@@ -383,10 +383,9 @@ public class StatType {
 				return false;
 			}
 		
-			//if(graph) 
-				//myStat = new GraphRunIntervallic (myStatTypeStruct, evolution_mark_consecutives);
-			//else
-			if(!graph) 
+			if(graph) 
+				myStat = new GraphRunIntervallic (myStatTypeStruct, evolution_mark_consecutives);
+			else
 				myStat = new StatRunIntervallic (myStatTypeStruct, 
 						evolution_mark_consecutives, treeview_stats);
 		}

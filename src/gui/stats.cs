@@ -1080,6 +1080,9 @@ public class StatsWindow {
 			//don't allow Evolution be multisession
 			radiobutton_current_session.Active = true;
 			radiobutton_selected_sessions.Sensitive = false;
+			
+			radiobutton_stats_jumps_all.Sensitive = true;
+			radiobutton_stats_jumps_limit.Sensitive = true;
 			//has no sense to study the AVG of rj tv tc evolution string
 			//not fair to make avg of each subjump, 
 			//specially when some RJs have more jumps than others

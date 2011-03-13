@@ -64,7 +64,6 @@ public class StatRunIntervallic : Stat
 		columnsString[0] = Catalog.GetString("Person");
 		columnsString[1] = Catalog.GetString("Speed");
 
-//TODO: check this
 		if(toReport && maxRuns > 10) {
 			columnsString[2] = Catalog.GetString("Count");
 			for(int i=0; i < maxRuns && i < 10; i++) {
@@ -72,7 +71,6 @@ public class StatRunIntervallic : Stat
 			}
 		} else {
 			for(int i=0; i < maxRuns; i++) {
-//TODO: check this
 				columnsString[i+2] = Catalog.GetString("Speed") + (i+1).ToString(); //cols: 3, 4, 5, ...
 			}
 		}
@@ -93,7 +91,7 @@ public class StatRunIntervallic : Stat
 		double bestCount=-10000;	//best value found of 3 pairs
 
 		//start in pos 2 because first is name, second is speed
-		for ( int i=2; i < statValues.Length -numContinuous ; i=i+1 ) 
+		for ( int i=2; i <= statValues.Length -numContinuous ; i=i+1 ) 
 		{
 			double myCount = 0;
 			bool runFinished = false;
@@ -209,7 +207,6 @@ public class StatRunIntervallic : Stat
 			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
 				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
 				markedRows.Add(myPath.ToString());
-				//Log.WriteLine("FROM PRINTDATA (EVOLUTION) Added to markedRows row:{0}", myPath.ToString());
 			}
 			
 			for(int i=0; i < statValues.Length; i++) {
@@ -229,15 +226,14 @@ public class StatRunIntervallic : Stat
 		//we send maxRuns for make all the results of same length (fill it with '-'s)
 		//
 		// cannot be avg in this statistic
-		// TODO: change this, it can be AVG
 		
 		string operation = ""; //no need of "MAX", there's an order by (index) desc
-		//and clenaDontWanted will do his work
+		//and cleanDontWanted will do his work
 		processDataSimpleSession ( cleanDontWanted (
 					SqliteStat.RunInterval(sessionString, multisession, 
 						operation, jumpType, showSex, maxRuns), 
 					statsJumpsType, limit),
-				false, dataColumns); //don't print AVG and SD at end of row (has no sense) TODO: change this
+				false, dataColumns); //TODO: maybe in future do avg and sd of speeds 
 	}
 		
 	public override string ToString () 
@@ -251,7 +247,6 @@ public class StatRunIntervallic : Stat
 			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each person"), limit);
 		} 
 		/* this option is not possible in this statistic
-		 * TODO: change this
 		else if(statsJumpsType == 3) { //avg of each jumper
 			selectedValuesString = avgValuesString; 
 		}  

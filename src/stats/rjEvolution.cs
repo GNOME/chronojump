@@ -241,7 +241,7 @@ public class StatRjEvolution : Stat
 		// cannot be avg in this statistic
 		
 		string operation = ""; //no need of "MAX", there's an order by (index) desc
-		//and clenaDontWanted will do his work
+		//and cleanDontWanted will do his work
 		processDataSimpleSession ( cleanDontWanted (
 					SqliteStat.RjEvolution(sessionString, multisession, 
 						operation, jumpType, showSex, maxJumps), 

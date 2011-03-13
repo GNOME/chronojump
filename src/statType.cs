@@ -69,7 +69,7 @@ public class StatType {
 	string statisticSubType;
 	string statisticApplyTo;
 	Gtk.TreeView treeview_stats;
-	int rj_evolution_mark_consecutives;
+	int evolution_mark_consecutives;
 	
 	ArrayList markedRows;
 	ArrayList personsWithData;
@@ -106,7 +106,7 @@ public class StatType {
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
 			ArrayList markedRows,  
-			int rj_evolution_mark_consecutives, 
+			int evolution_mark_consecutives, 
 			GraphROptions gRO,
 			bool graph, bool toReport)
 	{
@@ -118,7 +118,7 @@ public class StatType {
 
 		this.markedRows = markedRows;
 		
-		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
+		this.evolution_mark_consecutives = evolution_mark_consecutives;
 		
 		this.graph = graph;
 		this.toReport = toReport;
@@ -161,7 +161,7 @@ public class StatType {
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
 			ArrayList markedRows, 
-			int rj_evolution_mark_consecutives, 
+			int evolution_mark_consecutives, 
 			GraphROptions gRO,
 			bool graph, bool toReport, TextWriter writer, string fileName,
 			int statCount 
@@ -173,7 +173,7 @@ public class StatType {
 
 		this.markedRows = markedRows;
 		
-		this.rj_evolution_mark_consecutives = rj_evolution_mark_consecutives;
+		this.evolution_mark_consecutives = evolution_mark_consecutives;
 		
 		this.graph = graph;
 		this.toReport = toReport;
@@ -345,9 +345,9 @@ public class StatType {
 			else if(statisticSubType == Catalog.GetString("Evolution"))
 			{
 				if(graph) 
-					myStat = new GraphRjEvolution (myStatTypeStruct, rj_evolution_mark_consecutives);
+					myStat = new GraphRjEvolution (myStatTypeStruct, evolution_mark_consecutives);
 				else 
-					myStat = new StatRjEvolution(myStatTypeStruct, rj_evolution_mark_consecutives, treeview_stats);
+					myStat = new StatRjEvolution(myStatTypeStruct, evolution_mark_consecutives, treeview_stats);
 			}
 			else if(statisticSubType == Constants.RJAVGSDRjIndexName)
 			{
@@ -375,6 +375,20 @@ public class StatType {
 				myStat = new GraphRunSimple (myStatTypeStruct);
 			else
 				myStat = new StatRunSimple (myStatTypeStruct, treeview_stats);
+		}
+		else if(statisticType == Constants.TypeRunsIntervallic)
+		{
+			if(statisticApplyTo.Length == 0) {
+				Log.WriteLine("Simple-ret");
+				return false;
+			}
+		
+			//if(graph) 
+				//myStat = new GraphRunIntervallic (myStatTypeStruct, evolution_mark_consecutives);
+			//else
+			if(!graph) 
+				myStat = new StatRunIntervallic (myStatTypeStruct, 
+						evolution_mark_consecutives, treeview_stats);
 		}
 		
 		myStat.FakeButtonRowCheckedUnchecked.Clicked += 

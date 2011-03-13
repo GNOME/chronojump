@@ -558,7 +558,7 @@ class SqliteStat : Sqlite
 	}
 
 
-	//for rjEvolution (for know the name of columns)
+	//for rjEvolution (to know the number of columns)
 	public static int ObtainMaxNumberOfJumps (string sessionString)
 	{
 		dbcon.Open();
@@ -576,6 +576,37 @@ class SqliteStat : Sqlite
 		if(reader.Read()) {
 			found = true;
 			myReturn = Convert.ToInt32(reader[0].ToString());
+		}
+		reader.Close();
+		dbcon.Close();
+
+		if (found) {
+			return myReturn;
+		} else {
+			return 0;
+		}
+	}
+	
+	//for start/RunIntervallic (to know the number of columns)
+	public static int ObtainMaxNumberOfRuns (string sessionString)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT MAX(tracks) from runInterval " + sessionString +
+			"group by tracks order by tracks DESC limit 1";
+			//this is done because if no jumps, and we don't write last line, it returns a blank line
+			//and this crashes when converted to string
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		int myReturn = 0;
+
+		bool found = false;
+		if(reader.Read()) {
+			found = true;
+			//should be "floored" down because tracks are float and if we normally round, can be to a high value
+			//flooring ensures that there will be the exepcted number of values between '=' on intervalTimesString
+			myReturn = Convert.ToInt32(Math.Floor(Convert.ToDouble(reader[0].ToString())));
 		}
 		reader.Close();
 		dbcon.Close();
@@ -709,6 +740,107 @@ class SqliteStat : Sqlite
 					Util.ChangeDecimalSeparator(reader[3].ToString()) +			//index
 					returnFallString + 			//fall
 					allTCsTFsCombined			//tc:tv:tc:tv...
+				    );
+		}
+		reader.Close();
+		dbcon.Close();
+		return myArray;
+	}
+
+	//maxRuns for make all the results of same length (fill it with '-'s)
+	//only simple session
+	public static ArrayList RunInterval (string sessionString, bool multisession, string operationString, string runType, bool showSex, int maxRuns)
+	{
+		string tp = Constants.PersonTable;
+
+		string ini = "";
+		string end = "";
+		if(operationString == "MAX") {
+			ini = "MAX(";
+			end = ")";
+		} else if(operationString == "AVG") {
+			ini = "AVG(";
+			end = ")";
+		}
+		
+		string orderByString = "ORDER BY ";
+		string moreSelect = "";
+		moreSelect = ini + "(distanceTotal / timeTotal *1.0)" + end + " AS speed, distanceInterval, intervalTimesString, distancesString"; //*1.0 for having double division
+
+		//manage allRuns
+		string fromString = " FROM " + Constants.RunIntervalTable + ", " + 
+			tp + ", " + Constants.RunIntervalTypeTable + " ";
+		string runTypeString = " AND " + Constants.RunIntervalTable + ".type == '" + runType + "' ";
+		if(runType == Constants.AllRunsName) {
+			moreSelect = moreSelect + ", " + Constants.RunIntervalTable + ".type ";
+			runTypeString = ""; 
+		}
+
+		//if we use AVG or MAX, then we have to group by the results
+		//if there's more than one session, it sends the avg or max
+		string groupByString = "";
+		if (ini.Length > 0) {
+			groupByString = " GROUP BY " + 
+				Constants.RunIntervalTable + ".personID, " + 
+				Constants.RunIntervalTable + ".sessionID ";
+		}
+		//if multisession, order by person.name, sessionID for being able to present results later
+		//if(multisession) {
+		//	orderByString = orderByString + tp + ".name, jumpRj.sessionID, ";
+		//}
+		
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
+			fromString +
+			sessionString +
+			runTypeString +
+			" AND " + Constants.RunIntervalTable + ".personID == " + tp + ".uniqueID " +
+			" AND " + Constants.RunIntervalTable + ".type == " + Constants.RunIntervalTypeTable + ".name " +
+			groupByString +
+			orderByString + " speed DESC ";
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		string showSexString = "";
+		string showRunTypeString = "";
+		string returnSessionString = "";
+		ArrayList myArray = new ArrayList(2);
+		while(reader.Read()) {
+			if(showSex) {
+				showSexString = "." + reader[1].ToString() ;
+			}
+			//manage allRuns (show runType beside name (and sex)) 
+			//but only if it's not an AVG of different jumps
+			if(runType == Constants.AllRunsName && operationString != "AVG") {
+				showRunTypeString = " (" + reader[7].ToString() + ")";
+			}
+	
+			/*		
+			if(multisession) {
+				returnSessionString = ":" + reader[2].ToString();
+			}
+			*/
+
+			//convert the strings of distance, time separated by '=' in
+			//one string of speed and separated by ':'
+			string intervalSpeeds = Util.GetRunISpeedsString(
+					Convert.ToDouble(reader[4].ToString()), //distanceInterval
+					Util.ChangeDecimalSeparator(reader[5].ToString()), //intervalTimesString
+					Util.ChangeDecimalSeparator(reader[6].ToString()),  //distancesString
+					":",						//new separator
+					maxRuns
+					);
+Log.WriteLine(intervalSpeeds);
+
+
+			myArray.Add (reader[0].ToString() + showSexString + showRunTypeString +
+					returnSessionString + ":" + 		//session
+					Util.ChangeDecimalSeparator(reader[3].ToString()) + ":" +			//speed
+					intervalSpeeds			
 				    );
 		}
 		reader.Close();

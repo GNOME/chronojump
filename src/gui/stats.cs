@@ -137,6 +137,7 @@ public class StatsWindow {
 		Constants.TypeJumpsSimpleWithTC,
 		Constants.TypeJumpsReactive,
 		Constants.TypeRunsSimple,
+		Constants.TypeRunsIntervallic,
 	};
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
@@ -615,6 +616,17 @@ public class StatsWindow {
 			combo_stats_stat_apply_to.Sensitive = true;
 			combo_stats_stat_apply_to.Active = 0;
 		} 
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) 
+		{
+			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
+			combo_stats_stat_subtype.Sensitive = false;
+			combo_stats_stat_subtype.Active = 0;
+			
+			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
+				SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //only select name
+			combo_stats_stat_apply_to.Sensitive = true;
+			combo_stats_stat_apply_to.Active = 0;
+		} 
 
 		fillTreeView_stats(false);
 	}
@@ -684,9 +696,10 @@ public class StatsWindow {
 		} 
 		
 		/*
-		   if is RjEvolution, show mark consecutives, graph only with lines and transposed
+		   if is RjEvolution, or runInervallic show mark consecutives, graph only with lines and transposed
 		   */
-		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") )  {
+		if ( UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") ||
+				UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) {
 			hbox_mark_consecutives.Show();
 			checkbutton_transposed.Active = true;
 			checkbutton_transposed.Sensitive = false;
@@ -789,10 +802,14 @@ public class StatsWindow {
 			sendSelectedSessions = selectedSessions;
 		}
 
-		int rj_evolution_mark_consecutives = -1;
-		if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") &&
+		//the mark best jumps or runs is only on rjEvolution and runInterval
+		//runInterval has only one stat subtype and is like rjEvolution
+		int evolution_mark_consecutives = -1;
+		if (
+				( UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") ||
+				UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) &&
 			checkbutton_mark_consecutives.Active ) {
-			rj_evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
+			evolution_mark_consecutives = Convert.ToInt32 ( spinbutton_mark_consecutives.Value ); 
 		}
 
 		ArrayList markedRows = new ArrayList();
@@ -820,7 +837,7 @@ public class StatsWindow {
 				heightPreferred,
 				weightStatsPercent, 
 				markedRows,
-				rj_evolution_mark_consecutives,
+				evolution_mark_consecutives,
 				graphROptions,
 				graph,
 				toReport  //always false in this class
@@ -1054,17 +1071,19 @@ public class StatsWindow {
 			return;
 			
 		//some stats should not be showed as limited jumps
-		if(statisticType == Constants.TypeJumpsReactive && 
+		if( (statisticType == Constants.TypeJumpsReactive && 
 				( statisticSubType == Catalog.GetString("Evolution") ||
 				  statisticSubType == Constants.RJAVGSDRjIndexName ||
-				  statisticSubType == Constants.RJAVGSDQIndexName)
-		  ) {
+				  statisticSubType == Constants.RJAVGSDQIndexName) ) 
+				|| statisticType == Constants.TypeRunsIntervallic )  
+		{
 			//don't allow Evolution be multisession
 			radiobutton_current_session.Active = true;
 			radiobutton_selected_sessions.Sensitive = false;
 			//has no sense to study the AVG of rj tv tc evolution string
-			//nota fair to make avg of each subjump, 
+			//not fair to make avg of each subjump, 
 			//specially when some RJs have more jumps than others
+			//TODO: check this for runInterval
 			if(radiobutton_stats_jumps_person_average.Active) {
 				radiobutton_stats_jumps_person_bests.Active = true;
 			}
@@ -1271,7 +1290,8 @@ public class StatsWindow {
 			//in the first the value of Entry.Text is "";
 			return;
 		} else {
-			if (statisticSubType == Catalog.GetString("Evolution") &&
+			if ( ( statisticSubType == Catalog.GetString("Evolution") ||
+					statisticType == Constants.TypeRunsIntervallic ) &&
 				checkbutton_mark_consecutives.Active ) {
 				statisticSubType += "." + ( spinbutton_mark_consecutives.Value ).ToString(); 
 			}

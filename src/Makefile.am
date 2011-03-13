@@ -116,6 +116,7 @@ FILES = \
  	stats/potency.cs\
  	stats/rjAVGSD.cs\
  	stats/runSimple.cs\
+ 	stats/runIntervallic.cs\
 	stats/graphs/graphData.cs\
  	stats/graphs/graphROptions.cs\
  	stats/graphs/graphSerie.cs\

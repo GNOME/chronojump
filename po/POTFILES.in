@@ -74,6 +74,7 @@ src/stats/rjEvolution.cs
 src/stats/rjIndex.cs
 src/stats/rjPotencyBosco.cs
 src/stats/runSimple.cs
+src/stats/runIntervallic.cs
 src/stats/sjCmjAbk.cs
 src/stats/sjCmjAbkPlus.cs
 src/treeViewEvent.cs

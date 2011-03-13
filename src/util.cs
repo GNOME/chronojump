@@ -1256,6 +1256,47 @@ public class Util
 		}
 		return searchedValue;
 	}
+	
+	public static string GetRunISpeedsString(double distanceInterval, string timesString, 
+			string distancesString, string separator, int maxRuns) {
+
+Log.WriteLine("VVV");
+Log.WriteLine(distanceInterval.ToString());
+Log.WriteLine(distancesString);
+Log.WriteLine(timesString);
+Log.WriteLine(separator);
+Log.WriteLine("WWW");
+		string [] times = timesString.Split(new char[] {'='});
+		string [] distances = distancesString.Split(new char[] {'-'});
+		string speeds = "";
+		string sep = "";
+		double distance;
+		int i;
+		for(i=0; i < times.Length; i++) {
+			double time = Convert.ToDouble(times[i]);
+
+			//if has variable distance each track
+			if(distanceInterval == -1.0) {
+Log.WriteLine("-1");
+				int distPos = i % distances.Length;
+				distance = Convert.ToDouble(distances[distPos]);
+			} else {
+Log.WriteLine("NO -1");
+				distance = distanceInterval;
+			}
+
+//Log.WriteLine("d: {0}, t:{1}, d/t:{2}", distance, time, distance /time*1.0);
+			speeds += sep + (distance / time * 1.0).ToString();
+			sep = separator;
+Log.WriteLine(speeds);
+		}
+Log.WriteLine("RRR");
+		//fill the row with 0's equalling largest row
+		for(int j=i; j < maxRuns; j++) {
+			speeds = speeds + ":-:-";
+		}
+		return speeds;
+	}
 
 	public static double ConvertFeetInchesToCm(int feet, double inches) {
 		return feet * 30.48 + inches * 2.54;

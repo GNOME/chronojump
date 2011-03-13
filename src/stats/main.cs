@@ -54,7 +54,7 @@ public class Stat
 	protected ArrayList sessions;
 	protected int dataColumns; //for SimpleSession
 	
-	protected string jumpType;
+	protected string jumpType; //mean also runType
 	protected bool showSex;
 	protected int statsJumpsType;
 	protected int limit;
@@ -83,7 +83,7 @@ public class Stat
 	protected string allValuesString = Catalog.GetString("All values");
 	protected string avgValuesString = Catalog.GetString("Avg values of each jumper");
 	
-	protected int numContinuous; //for stats rj evolution
+	protected int numContinuous; //for stats rj evolution and runIntervallic
 	
 	//for raise a signal and manage it on src/gui/stats.cs
 	//signal will be catched first in src/statType.cs and there a equal signal will be raised

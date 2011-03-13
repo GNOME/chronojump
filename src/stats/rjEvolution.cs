@@ -98,7 +98,7 @@ public class StatRjEvolution : Stat
 		//read all values in pairs tc,tv
 		//start in pos 3 because first is name, second is index, third fall
 		//end in Length-numContinuous*2 because we should not count only the last tc,tv pair or the last two, only the last three
-		for ( int i=3; i < statValues.Length -numContinuous*2 ; i=i+2 ) 
+		for ( int i=3; i <= statValues.Length -numContinuous*2 ; i=i+2 ) 
 		{
 			double myCount = 0;
 			bool jumpFinished = false;

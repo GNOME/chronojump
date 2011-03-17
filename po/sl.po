@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2011-03-17 17:42+0000\n"
-"PO-Revision-Date: 2011-03-17 19:39+0100\n"
+"PO-Revision-Date: 2011-03-17 19:48+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -1417,9 +1417,8 @@ msgid "Execute simple run"
 msgstr "Izvedi enostaven tek"
 
 #: ../glade/chronojump.glade.h:218
-#, fuzzy
 msgid "Execute test"
-msgstr "Rezultati preizkusa"
+msgstr "Izvedi preizkus"
 
 #: ../glade/chronojump.glade.h:219
 msgid "Expand image and show description"

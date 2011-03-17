@@ -27,6 +27,11 @@ using Gdk;
 //only Gtk related methods (not used bu the server) this is the differnece with Util
 public class UtilGtk
 {
+	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
+	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
+	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
+	public static Gdk.Color GREEN = new Gdk.Color(0xa8,0xaf,0xd0);
+	
 	public static void ResizeIfNeeded(Gtk.Window win) {
 		int winX, winY;
 		win.GetSize(out winX, out winY);
@@ -195,6 +200,12 @@ public class UtilGtk
 		box.PackStart(combo, true, true, 0);
 		box.ShowAll();
 		combo.Sensitive = true;
+	}
+	
+	public static void ColorsMenuRadio(Gtk.RadioButton r) {
+		r.ModifyBg(StateType.Normal, WHITE);
+		r.ModifyBg(StateType.Active, BLUE);
+		r.ModifyBg(StateType.Prelight, BLUE_CLEAR);
 	}
 
 }

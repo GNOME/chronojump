@@ -57,7 +57,8 @@ public class DialogServerStats
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_server_stats", null);
 		gladeXML.Autoconnect(this);
-		
+	
+
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_server_stats);
 
@@ -147,4 +148,5 @@ public class DialogServerStats
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		dialog_server_stats.Destroy ();
 	}
+	
 }

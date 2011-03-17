@@ -35,6 +35,31 @@ using LongoMatch.Video.Common;
 public class ChronoJumpWindow 
 {
 	[Widget] Gtk.Window app1;
+
+	[Widget] Gtk.Viewport viewport_mode;
+	[Widget] Gtk.RadioButton radio_mode_jumps;
+	[Widget] Gtk.RadioButton radio_mode_jumps_reactive;
+	[Widget] Gtk.RadioButton radio_mode_runs;
+	[Widget] Gtk.RadioButton radio_mode_runs_intervallic;
+	[Widget] Gtk.RadioButton radio_mode_reaction_times;
+	[Widget] Gtk.RadioButton radio_mode_pulses;
+	[Widget] Gtk.RadioButton radio_mode_multi_chronopic;
+	[Widget] Gtk.Image image_mode_jumps;
+	[Widget] Gtk.Image image_mode_jumps_reactive;
+	[Widget] Gtk.Image image_mode_runs;
+	[Widget] Gtk.Image image_mode_runs_intervallic;
+	[Widget] Gtk.Image image_mode_reaction_times;
+	[Widget] Gtk.Image image_mode_pulses;
+	[Widget] Gtk.Image image_mode_multi_chronopic;
+	[Widget] Gtk.Label label_mode_jumps;
+	[Widget] Gtk.Label label_mode_jumps_reactive;
+	[Widget] Gtk.Label label_mode_runs;
+	[Widget] Gtk.Label label_mode_runs_intervallic;
+	[Widget] Gtk.Label label_mode_reaction_times;
+	[Widget] Gtk.Label label_mode_pulses;
+	[Widget] Gtk.Label label_mode_multi_chronopic;
+
+
 	[Widget] Gtk.Statusbar appbar2;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -243,7 +268,8 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
 
-	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.Notebook notebook_execute;
+	[Widget] Gtk.Notebook notebook_results;
 	
 	[Widget] Gtk.EventBox eventbox_image_test;
 	[Widget] Gtk.Box vbox_image_test;
@@ -274,6 +300,7 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Image image_runs_interval_zoom;
 	[Widget] Gtk.Image image_reaction_times_zoom;
 	[Widget] Gtk.Image image_pulses_zoom;
+	[Widget] Gtk.Image image_multi_chronopic_zoom;
 
 	Random rand;
 	bool volumeOn;
@@ -427,12 +454,12 @@ public class ChronoJumpWindow
 
 		//put an icon to window
 		UtilGtk.IconWindow(app1);
-
+	
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
 		//white bg
-		eventbox_image_test.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
+		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 				
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
@@ -513,6 +540,41 @@ public class ChronoJumpWindow
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
+	
+		//change colors of tests mode
+		viewport_mode.ModifyBg(StateType.Normal, UtilGtk.WHITE);
+
+		label_mode_jumps.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_jumps_reactive.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_runs.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_runs_intervallic.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_reaction_times.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_pulses.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_mode_multi_chronopic.ModifyFg(StateType.Active, UtilGtk.WHITE);
+
+		UtilGtk.ColorsMenuRadio(radio_mode_jumps);
+		UtilGtk.ColorsMenuRadio(radio_mode_jumps_reactive);
+		UtilGtk.ColorsMenuRadio(radio_mode_runs);
+		UtilGtk.ColorsMenuRadio(radio_mode_runs_intervallic);
+		UtilGtk.ColorsMenuRadio(radio_mode_reaction_times);
+		UtilGtk.ColorsMenuRadio(radio_mode_pulses);
+		UtilGtk.ColorsMenuRadio(radio_mode_multi_chronopic);
+
+		/*
+		radio_mode_jumps.ModifyBg(StateType.Normal, blue);
+		radio_mode_jumps.ModifyBg(StateType.Active, green);
+		radio_mode_jumps_reactive.ModifyBg(StateType.Normal, blue);
+		radio_mode_jumps_reactive.ModifyBg(StateType.Active, green);
+		*/
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
+		image_mode_jumps.Pixbuf = pixbuf;
+		image_mode_jumps_reactive.Pixbuf = pixbuf;
+		image_mode_runs.Pixbuf = pixbuf;
+		image_mode_runs_intervallic.Pixbuf = pixbuf;
+		image_mode_reaction_times.Pixbuf = pixbuf;
+		image_mode_pulses.Pixbuf = pixbuf;
+		image_mode_multi_chronopic.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
@@ -542,6 +604,7 @@ public class ChronoJumpWindow
 		image_runs_interval_zoom.Pixbuf = pixbuf;
 		image_reaction_times_zoom.Pixbuf = pixbuf;
 		image_pulses_zoom.Pixbuf = pixbuf;
+		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 
 		//menuitems (done differently)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_24.png");
@@ -679,6 +742,53 @@ public class ChronoJumpWindow
 		}
 	}
 */
+
+	/* ---------------------------------------------------------
+	 * ----------------  test modes ----------------------------
+	 *  --------------------------------------------------------
+	 */
+	
+	public void on_radio_mode_jumps_toggled (object obj, EventArgs args) {
+		if(radio_mode_jumps.Active) {
+			notebooks_change(0);
+		}
+	}
+
+	public void on_radio_mode_jumps_reactive_toggled (object obj, EventArgs args) {
+		if(radio_mode_jumps_reactive.Active) {
+			notebooks_change(1);
+		}
+	}
+
+	public void on_radio_mode_runs_toggled (object obj, EventArgs args) {
+		if(radio_mode_runs.Active) {
+			notebooks_change(2);
+		}
+	}
+
+	public void on_radio_mode_runs_intervallic_toggled (object obj, EventArgs args) {
+		if(radio_mode_runs_intervallic.Active) {
+			notebooks_change(3);
+		}
+	}
+
+	public void on_radio_mode_reaction_times_toggled (object obj, EventArgs args) {
+		if(radio_mode_reaction_times.Active) {
+			notebooks_change(4);
+		}
+	}
+
+	public void on_radio_mode_pulses_toggled (object obj, EventArgs args) {
+		if(radio_mode_pulses.Active) {
+			notebooks_change(5);
+		}
+	}
+
+	public void on_radio_mode_multi_chronopic_toggled (object obj, EventArgs args) {
+		if(radio_mode_multi_chronopic.Active) {
+			notebooks_change(6);
+		}
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW (generic) --------------------
@@ -2933,8 +3043,8 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
-		//change to page 0 of notebook if were in other
-		notebook_change(0);
+		//change to page 0 of notebook_results if were in other
+		notebooks_change(0);
 		
 		//show the event doing window
 		double myLimit = 3; //3 phases for show the Dj
@@ -3139,8 +3249,8 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 	
-		//change to page 1 of notebook if were in other
-		notebook_change(1);
+		//change to page 1 of notebook_results if were in other
+		notebooks_change(1);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3363,8 +3473,8 @@ Console.WriteLine("X");
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing();
 	
-		//change to page 2 of notebook if were in other
-		notebook_change(2);
+		//change to page 2 of notebook_results if were in other
+		notebooks_change(2);
 			
 		//show the event doing window
 		
@@ -3573,8 +3683,8 @@ Console.WriteLine("X");
 		//hide running buttons
 		sensitiveGuiEventDoing();
 		
-		//change to page 3 of notebook if were in other
-		notebook_change(3);
+		//change to page 3 of notebook_results if were in other
+		notebooks_change(3);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3694,8 +3804,8 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
-		//change to page 4 of notebook if were in other
-		notebook_change(4);
+		//change to page 4 of notebook_results if were in other
+		notebooks_change(4);
 		
 		//show the event doing window
 		double myLimit = 2;
@@ -3851,8 +3961,8 @@ Console.WriteLine("X");
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
 		
-		//change to page 5 of notebook if were in other
-		notebook_change(5);
+		//change to page 5 of notebook_results if were in other
+		notebooks_change(5);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3991,8 +4101,8 @@ Console.WriteLine("X");
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
 		
-		//change to page 6 of notebook if were in other
-		notebook_change(6);
+		//change to page 6 of notebook_results if were in other
+		notebooks_change(6);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -4212,7 +4322,7 @@ Console.WriteLine("X");
 	int eventOldPerson;
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
-		notebook_change(0);
+		notebooks_change(0);
 		Log.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4228,7 +4338,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebook_change(1);
+		notebooks_change(1);
 		Log.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4290,7 +4400,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
-		notebook_change(2);
+		notebooks_change(2);
 		Log.WriteLine("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4307,7 +4417,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
-		notebook_change(3);
+		notebooks_change(3);
 		Log.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
@@ -4357,7 +4467,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebook_change(4);
+		notebooks_change(4);
 		Log.WriteLine("Edit selected reaction time");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
@@ -4391,7 +4501,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
-		notebook_change(5);
+		notebooks_change(5);
 		Log.WriteLine("Edit selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
@@ -4425,7 +4535,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebook_change(6);
+		notebooks_change(6);
 		Log.WriteLine("Edit selected multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4545,7 +4655,7 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
-		notebook_change(0);
+		notebooks_change(0);
 		Log.WriteLine("delete selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -4562,7 +4672,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebook_change(1);
+		notebooks_change(1);
 		Log.WriteLine("delete selected reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4607,7 +4717,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
-		notebook_change(2);
+		notebooks_change(2);
 		Log.WriteLine("delete selected run (normal)");
 		
 		//1.- check that there's a line selected
@@ -4625,7 +4735,7 @@ Console.WriteLine("X");
 		
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
-		notebook_change(3);
+		notebooks_change(3);
 		Log.WriteLine("delete selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
@@ -4672,7 +4782,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebook_change(4);
+		notebooks_change(4);
 		Log.WriteLine("delete selected reaction time");
 		
 		//1.- check that there's a line selected
@@ -4706,7 +4816,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
-		notebook_change(5);
+		notebooks_change(5);
 		Log.WriteLine("delete selected pulse");
 		
 		//1.- check that there's a line selected
@@ -4740,7 +4850,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebook_change(6);
+		notebooks_change(6);
 		Log.WriteLine("delete selected multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
@@ -4852,7 +4962,7 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebook_change(1);
+		notebooks_change(1);
 		Log.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4878,7 +4988,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
-		notebook_change(3);
+		notebooks_change(3);
 		Log.WriteLine("Repair selected subrun");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
@@ -4905,7 +5015,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
-		notebook_change(5);
+		notebooks_change(5);
 		Log.WriteLine("Repair selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a pulse and not a person 
@@ -4934,7 +5044,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebook_change(6);
+		notebooks_change(6);
 		Log.WriteLine("Repair selected multichronopic");
 	}
 	
@@ -4945,11 +5055,16 @@ Console.WriteLine("X");
 	 */
 	
 	//changed by chronojump when it's needed
-	private void notebook_change(int desiredPage) {
-		while(notebook.CurrentPage < desiredPage) 
-			notebook.NextPage();
-		while(notebook.CurrentPage > desiredPage) 
-			notebook.PrevPage();
+	private void notebooks_change(int desiredPage) {
+		while(notebook_execute.CurrentPage < desiredPage) 
+			notebook_execute.NextPage();
+		while(notebook_execute.CurrentPage > desiredPage) 
+			notebook_execute.PrevPage();
+
+		while(notebook_results.CurrentPage < desiredPage) 
+			notebook_results.NextPage();
+		while(notebook_results.CurrentPage > desiredPage) 
+			notebook_results.PrevPage();
 	}
 	
 	//changed by user clicking on notebook tabs
@@ -5111,8 +5226,9 @@ Console.WriteLine("X");
 		button_create_per.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
 		
-		//notebook
-		notebook.Sensitive = false;
+		//notebooks
+		notebook_execute.Sensitive = false;
+		notebook_results.Sensitive = false;
 		
 		button_last.Sensitive = false;
 		button_rj_last.Sensitive=false;
@@ -5135,7 +5251,8 @@ Console.WriteLine("X");
 
 	//only called by delete person functions (if we run out of persons)
 	private void sensitiveGuiNoPerson () {
-		notebook.Sensitive = false;
+		notebook_execute.Sensitive = false;
+		notebook_results.Sensitive = false;
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
@@ -5146,7 +5263,8 @@ Console.WriteLine("X");
 	}
 	
 	private void sensitiveGuiYesPerson () {
-		notebook.Sensitive = true;
+		notebook_execute.Sensitive = true;
+		notebook_results.Sensitive = true;
 		treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);

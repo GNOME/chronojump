@@ -20,6 +20,8 @@
 
 using System;
 using Mono.Unix;
+//do not use gtk or gdk because this class is used by the server
+//see UtilGtk for eg color definitions
 
 public class Constants
 {
@@ -283,6 +285,7 @@ public class Constants
 	public static string FileNameInfrared = "infrared.jpg";
 	
 	//30 colors defined
+	//see als UtilGtk that's not used by the server
 	public static string [] Colors = {
 		"Blue", "Coral", "Cyan", "Gray", "Green", "Pink", "Salmon", "Yellow",
 		"DarkBlue", "DarkCyan", "DarkGoldenrod", "DarkGray", 

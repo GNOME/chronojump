@@ -326,6 +326,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		
 		//put an icon to window
 		UtilGtk.IconWindow(person_recuperate);
+		person_recuperate.Title = Catalog.GetString("Load persons from other session");
 
 	
 		//this class doesn't allow to search by name

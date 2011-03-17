@@ -86,7 +86,6 @@ public class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menus
-	[Widget] Gtk.MenuItem menu_persons;
 	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_other;
@@ -99,15 +98,10 @@ public class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_xml;
 		
 	//menu person
-	[Widget] Gtk.MenuItem menuitem_person_add_single;
-	[Widget] Gtk.MenuItem menuitem_person_add_multiple;
-	[Widget] Gtk.MenuItem menuitem_recuperate_person;
-	[Widget] Gtk.MenuItem menuitem_recuperate_persons_from_session;
-	[Widget] Gtk.MenuItem menuitem_edit_current_person;
-	[Widget] Gtk.MenuItem menuitem_show_all_person_events;
-	[Widget] Gtk.MenuItem menuitem_delete_current_person_from_session;
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_show_all_person_events;
+	[Widget] Gtk.Button button_delete_current_person;
+	[Widget] Gtk.Label label_current_person;
 	
 	//tests
 	//jumps
@@ -223,8 +217,10 @@ public class ChronoJumpWindow
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
 	[Widget] Gtk.Frame frame_persons;
-	[Widget] Gtk.Button button_recup_per;
-	[Widget] Gtk.Button button_create_per;
+	[Widget] Gtk.Button button_recuperate_person;
+	[Widget] Gtk.Button button_recuperate_persons_from_session;
+	[Widget] Gtk.Button button_person_add_single;
+	[Widget] Gtk.Button button_person_add_multiple;
 
 	[Widget] Gtk.Button button_free;
 	[Widget] Gtk.Button button_sj;
@@ -890,6 +886,8 @@ public class ChronoJumpWindow
 			string selectedID = (string) model.GetValue (iter, 0); //ID, Name
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+			label_current_person.UseMarkup = true; 
 			return true;
 		} else {
 			return false;
@@ -912,6 +910,8 @@ public class ChronoJumpWindow
 		
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selectedID));
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
+			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+			label_current_person.UseMarkup = true; 
 		}
 	}
 
@@ -931,7 +931,7 @@ public class ChronoJumpWindow
 		myMenu.Attach( mySep, 0, 1, 2, 3 );
 
 		myItem = new MenuItem ( string.Format(Catalog.GetString("Delete {0} from this session"),myPerson.Name));
-		myItem.Activated += on_delete_current_person_from_session_activate;
+		myItem.Activated += on_delete_current_person_from_session_clicked;
 		myMenu.Attach( myItem, 0, 1, 3, 4 );
 
 		myMenu.Popup();
@@ -2050,10 +2050,8 @@ public class ChronoJumpWindow
 			//for sure, jumpsExists is false, because we create a new session
 
 			button_edit_current_person.Sensitive = false;
-			menuitem_edit_current_person.Sensitive = false;
-			menuitem_delete_current_person_from_session.Sensitive = false;
 			button_show_all_person_events.Sensitive = false;
-			menuitem_show_all_person_events.Sensitive = false;
+			button_delete_current_person.Sensitive = false;
 		
 			//update report
 			report.SessionID = currentSession.UniqueID;
@@ -2115,10 +2113,8 @@ public class ChronoJumpWindow
 		definedSession = true;
 		
 		button_edit_current_person.Sensitive = false;
-		menuitem_edit_current_person.Sensitive = false;
-		menuitem_delete_current_person_from_session.Sensitive = false;
 		button_show_all_person_events.Sensitive = false;
-		menuitem_show_all_person_events.Sensitive = false;
+		button_delete_current_person.Sensitive = false;
 
 		//if there are persons
 		if(foundPersons) {
@@ -2168,7 +2164,7 @@ public class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_recuperate_person_activate (object o, EventArgs args) {
+	private void on_recuperate_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, prefsDigitsNumber);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
@@ -2177,6 +2173,8 @@ public class ChronoJumpWindow
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		currentPerson = personRecuperateWin.CurrentPerson;
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+		label_current_person.UseMarkup = true; 
 		
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
@@ -2189,7 +2187,7 @@ public class ChronoJumpWindow
 		}
 	}
 		
-	private void on_recuperate_persons_from_session_activate (object o, EventArgs args) {
+	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
 		Log.WriteLine("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
@@ -2198,6 +2196,9 @@ public class ChronoJumpWindow
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+		label_current_person.UseMarkup = true; 
+
 		treeview_persons_storeReset();
 		fillTreeView_persons();
 		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -2224,6 +2225,8 @@ public class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+			label_current_person.UseMarkup = true; 
 			myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
 			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
@@ -2247,7 +2250,7 @@ public class ChronoJumpWindow
 	}
 
 	//show spinbutton window asking for how many people to create	
-	private void on_person_add_multiple_activate (object o, EventArgs args) {
+	private void on_person_add_multiple_clicked (object o, EventArgs args) {
 		genericWin = GenericWindow.Show(Catalog.GetString("Select number of persons to add"), Constants.GenericWindowShow.SPININT);
 		genericWin.SetSpinRange(1.0, 40.0);
 		genericWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_prepared);
@@ -2264,6 +2267,8 @@ public class ChronoJumpWindow
 		{
 			currentPerson = personAddMultipleWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+			label_current_person.UseMarkup = true; 
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -2292,6 +2297,8 @@ public class ChronoJumpWindow
 		{
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
+			label_current_person.UseMarkup = true; 
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			
@@ -2323,7 +2330,7 @@ public class ChronoJumpWindow
 	}
 	
 	
-	private void on_delete_current_person_from_session_activate (object o, EventArgs args) {
+	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
 		Log.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), "", 
@@ -5144,21 +5151,11 @@ Console.WriteLine("X");
 		//menuitem_export_xml.Sensitive = option; not implemented yet
 	}
 	
-	private void menuPersonSensitive(bool option)
-	{
-		menuitem_person_add_single.Sensitive = option;
-		menuitem_person_add_multiple.Sensitive = option;
-		menuitem_recuperate_person.Sensitive = option;
-		menuitem_recuperate_persons_from_session.Sensitive = option;
-	}
-	
 	private void menuPersonSelectedSensitive(bool option)
 	{
-		menuitem_edit_current_person.Sensitive = option;
-		menuitem_show_all_person_events.Sensitive = option;
-		menuitem_delete_current_person_from_session.Sensitive = option;
 		button_edit_current_person.Sensitive = option;
 		button_show_all_person_events.Sensitive = option;
+		button_delete_current_person.Sensitive = option;
 	}
 
 	private void menuJumpsSensitive(bool option)
@@ -5213,7 +5210,6 @@ Console.WriteLine("X");
 		
 		//menuitems
 		menuSessionSensitive(false);
-		menuPersonSensitive(false);
 		menuPersonSelectedSensitive(false);
 		menuJumpsSensitive(false);
 		menuRunsSensitive(false);
@@ -5222,9 +5218,12 @@ Console.WriteLine("X");
 		
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
-		button_recup_per.Sensitive = false;
-		button_create_per.Sensitive = false;
+		button_recuperate_person.Sensitive = false;
+		button_recuperate_persons_from_session.Sensitive = false;
+		button_person_add_single.Sensitive = false;
+		button_person_add_multiple.Sensitive = false;
 		button_edit_current_person.Sensitive = false;
+		button_delete_current_person.Sensitive = false;
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
@@ -5239,11 +5238,12 @@ Console.WriteLine("X");
 	private void sensitiveGuiYesSession () {
 		vbox_image_test.Sensitive = true;
 		frame_persons.Sensitive = true;
-		button_recup_per.Sensitive = true;
-		button_create_per.Sensitive = true;
+		button_recuperate_person.Sensitive = true;
+		button_recuperate_persons_from_session.Sensitive = true;
+		button_person_add_single.Sensitive = true;
+		button_person_add_multiple.Sensitive = true;
 		
 		menuSessionSensitive(true);
-		menuPersonSensitive(true);
 		menuToolsSensitive(true);
 		
 		changeTestImage("", "", "LOGO");

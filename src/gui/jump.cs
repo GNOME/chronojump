@@ -780,199 +780,259 @@ public class RepairJumpRjWindow
 //---------------- jump extra WIDGET --------------------
 //--------------------------------------------------------
 
-public class JumpExtraWindow 
+partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Window jump_extra;
-	[Widget] Gtk.Label label_limit;
-	[Widget] Gtk.SpinButton spinbutton_limit;
-	[Widget] Gtk.Label label_limit_units;
-	[Widget] Gtk.SpinButton spinbutton_weight;
-	[Widget] Gtk.SpinButton spinbutton_fall;
-	[Widget] Gtk.Button button_accept;
-	[Widget] Gtk.RadioButton radiobutton_kg;
-	[Widget] Gtk.RadioButton radiobutton_weight;
-	[Widget] Gtk.Label label_weight;
-	[Widget] Gtk.Label label_fall;
-	[Widget] Gtk.Label label_cm;
+	[Widget] Gtk.Label extra_window_label_limit;
+	[Widget] Gtk.SpinButton extra_window_spinbutton_limit;
+	[Widget] Gtk.Label extra_window_label_limit_units;
+	[Widget] Gtk.SpinButton extra_window_spinbutton_weight;
+	[Widget] Gtk.SpinButton extra_window_spinbutton_fall;
+	[Widget] Gtk.RadioButton extra_window_radiobutton_kg;
+	[Widget] Gtk.RadioButton extra_window_radiobutton_weight;
+	[Widget] Gtk.Label extra_window_label_weight;
+	[Widget] Gtk.Label extra_window_label_fall;
+	[Widget] Gtk.Label extra_window_label_cm;
 	
-	[Widget] Gtk.Label label_dj_arms;
-	[Widget] Gtk.CheckButton check_dj_arms;
+	[Widget] Gtk.Label extra_window_label_dj_arms;
+	[Widget] Gtk.CheckButton extra_window_check_dj_arms;
+	
+	[Widget] Gtk.RadioButton extra_window_radio_jump_free;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_sj;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_sjl;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_cmj;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_cmjl;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_abk;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_dj;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_rocket;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_takeoff;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_more;
+	
+	[Widget] Gtk.Label extra_window_label_selected_jump;
 	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
 	//static double distance;
 
-	static string option = "Kg";
-	static double limited = 10;
-	static bool jumpsLimited;
-	static double weight = 20;
-	static bool arms = false;
-	static double fall = 20;
+	string extra_window_option = "Kg";
+	double extra_window_limited = 10;
+	bool extra_window_jumpsLimited;
+	double extra_window_weight = 20;
+	bool extra_window_arms = false;
+	double extra_window_fall = 20;
 	
-	static JumpExtraWindow JumpExtraWindowBox;
-	Gtk.Window parent;
-
-	JumpExtraWindow (Gtk.Window parent) {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_extra", null);
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-		//put an icon to window
-		UtilGtk.IconWindow(jump_extra);
-	}
 	
-	static public JumpExtraWindow Show (Gtk.Window parent, JumpType myJumpType) 
+	private void on_extra_window_test_changed(object o, EventArgs args)
 	{
-		if (JumpExtraWindowBox == null) {
-			JumpExtraWindowBox = new JumpExtraWindow (parent);
+		bool initializeNow = true;
+		if(extra_window_radio_jump_free.Active) currentJumpType = new JumpType("Free");
+		else if(extra_window_radio_jump_sj.Active) currentJumpType = new JumpType("SJ");
+		else if(extra_window_radio_jump_sjl.Active) currentJumpType = new JumpType("SJl");
+		else if(extra_window_radio_jump_cmj.Active) currentJumpType = new JumpType("CMJ");
+		else if(extra_window_radio_jump_cmjl.Active) currentJumpType = new JumpType("CMJl");
+		else if(extra_window_radio_jump_abk.Active) currentJumpType = new JumpType("ABK");
+		else if(extra_window_radio_jump_dj.Active) currentJumpType = new JumpType("DJ");
+		else if(extra_window_radio_jump_rocket.Active) currentJumpType = new JumpType("Rocket");
+		else if(extra_window_radio_jump_takeoff.Active) currentJumpType = new JumpType(Constants.TakeOffName);
+		else if(extra_window_radio_jump_more.Active) {
+			jumpsMoreWin = JumpsMoreWindow.Show(app1, true);
+			jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
+			jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
 		}
+		else if(extra_window_radio_jump_more.Active == false) {
+			//if we arrive here
+			//a test changed
+			//but is none of above
+			//also more is not activated
+			//it means that we click again more
+			//because we want to see again the more jumps option
+			extra_window_radio_jump_more.Active = true;
+			//this will come here again and the more.Active will be run
+			initializeNow = false;
+			//in fact, we never arrive here, becase radio_jump_more callback is clicked instead of toggled
+		}
+
+		if(initializeNow)
+			extra_window_initialize(currentJumpType);
+	}
+
+
+	private void extra_window_initialize(JumpType myJumpType) 
+	{
+		extra_window_label_selected_jump.Text = "<b>" + Catalog.GetString(currentJumpType.Name) + "</b>";
+		extra_window_label_selected_jump.UseMarkup = true; 
+		currentEventType = currentJumpType;
+		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 	
 		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
 			if(myJumpType.JumpsLimited) {
-				jumpsLimited = true;
-				JumpExtraWindowBox.label_limit_units.Text = jumpsName;
+				extra_window_jumpsLimited = true;
+				extra_window_label_limit_units.Text = jumpsName;
 			} else {
-				jumpsLimited = false;
-				JumpExtraWindowBox.label_limit_units.Text = secondsName;
+				extra_window_jumpsLimited = false;
+				extra_window_label_limit_units.Text = secondsName;
 			}
 			if(myJumpType.FixedValue > 0) {
-				JumpExtraWindowBox.spinbutton_limit.Sensitive = false;
-				JumpExtraWindowBox.spinbutton_limit.Value = myJumpType.FixedValue;
+				extra_window_spinbutton_limit.Sensitive = false;
+				extra_window_spinbutton_limit.Value = myJumpType.FixedValue;
 			} else
-				JumpExtraWindowBox.spinbutton_limit.Value = limited;
-		} else {
-			hideRepetitiveData();	
-		}
-		if(! myJumpType.HasWeight) {
-			hideWeightData();	
-		}
+				extra_window_spinbutton_limit.Value = extra_window_limited;
+			extra_window_showRepetitiveData(true);	
+		} else 
+			extra_window_showRepetitiveData(false);	
+
+		if(myJumpType.HasWeight)
+			extra_window_showWeightData(true);	
+		else 
+			extra_window_showWeightData(false);	
+
 		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
 				myJumpType.Name == Constants.TakeOffWeightName)
-			hideFallData();	
+			extra_window_showFallData(false);	
+		else
+			extra_window_showFallData(true);	
 		
 		//show technique (arms) only in DJ
 		//on DJa and DJna (coming from More jumps) don't need to show technique data 
 		if(myJumpType.StartIn || myJumpType.IsRepetitive || 
 				myJumpType.Name == "DJa" || myJumpType.Name == "DJna" || 
 				myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName)
-			hideTechniqueArmsData();
+			extra_window_showTechniqueArmsData(false);
+		else
+			extra_window_showTechniqueArmsData(true);
 		
-		JumpExtraWindowBox.check_dj_arms.Active = arms;
-		JumpExtraWindowBox.spinbutton_weight.Value = weight;
-		JumpExtraWindowBox.spinbutton_fall.Value = fall;
-		if (option == "Kg") {
-			JumpExtraWindowBox.radiobutton_kg.Active = true;
+		extra_window_check_dj_arms.Active = extra_window_arms;
+		extra_window_spinbutton_weight.Value = extra_window_weight;
+		extra_window_spinbutton_fall.Value = extra_window_fall;
+		if (extra_window_option == "Kg") {
+			extra_window_radiobutton_kg.Active = true;
 		} else {
-			JumpExtraWindowBox.radiobutton_weight.Active = true;
+			extra_window_radiobutton_weight.Active = true;
 		}
+	}
+
+	private void on_extra_window_button_more_clicked (object o, EventArgs args) 
+	{
+	}
+	
+	private void on_more_jumps_draw_image_test (object o, EventArgs args) {
+		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+	}
+	
+	//used from the dialogue "jumps more"
+	private void on_more_jumps_accepted (object o, EventArgs args) 
+	{
+		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
 		
-		JumpExtraWindowBox.jump_extra.Show ();
-
-		return JumpExtraWindowBox;
-	}
+		currentJumpType = new JumpType(
+				//jumpsMoreWin.SelectedJumpType,
+				jumpsMoreWin.SelectedEventName, //type of jump
+								//SelectedEventType would be: jump, or run, ...
+				jumpsMoreWin.SelectedStartIn,
+				jumpsMoreWin.SelectedExtraWeight,
+				false,		//isRepetitive
+				false,		//jumpsLimited (false, because is not repetitive)
+				0,		//limitValue
+				false,		//unlimited
+				jumpsMoreWin.SelectedDescription,
+				SqliteEvent.GraphLinkSelectFileName("jump", jumpsMoreWin.SelectedEventName)
+				);
 	
-	static void hideRepetitiveData () {
-		JumpExtraWindowBox.label_limit.Hide();
-		JumpExtraWindowBox.spinbutton_limit.Hide();
-		JumpExtraWindowBox.label_limit_units.Hide();
-	}
-	
-	static void hideWeightData () {
-		JumpExtraWindowBox.label_weight.Hide();
-		JumpExtraWindowBox.spinbutton_weight.Hide();
-		JumpExtraWindowBox.radiobutton_kg.Hide();
-		JumpExtraWindowBox.radiobutton_weight.Hide();
-	}
-	
-	static void hideTechniqueArmsData () {
-		JumpExtraWindowBox.label_dj_arms.Hide();
-		JumpExtraWindowBox.check_dj_arms.Hide();
-	}
-	
-	static void hideFallData () {
-		JumpExtraWindowBox.label_fall.Hide();
-		JumpExtraWindowBox.spinbutton_fall.Hide();
-		JumpExtraWindowBox.label_cm.Hide();
-	}
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		JumpExtraWindowBox.jump_extra.Hide();
-		JumpExtraWindowBox = null;
-	}
-	
-	void on_jump_extra_delete_event (object o, DeleteEventArgs args)
-	{
-		JumpExtraWindowBox.jump_extra.Hide();
-		JumpExtraWindowBox = null;
-	}
-	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		limited = (double) spinbutton_limit.Value;
-		weight = (double) spinbutton_weight.Value;
-		fall = (double) spinbutton_fall.Value;
-		//distance = (double) spinbutton_fall.Value;
-		arms = check_dj_arms.Active;
+		extra_window_toogle_desired_button_on_toolbar(currentJumpType);
 		
-		JumpExtraWindowBox.jump_extra.Hide();
-		JumpExtraWindowBox = null;
-	}
+		//extra_window_initialize(currentJumpType);
 
-	void on_radiobutton_kg_toggled (object o, EventArgs args)
-	{
-		option = "Kg";
-		Log.WriteLine(string.Format("option: {0}", option));
+		//destroy the win for not having updating problems if a new jump type is created
+		//jumpsMoreWin = null; //don't work
+		jumpsMoreWin.Destroy(); //works ;)
 	}
 	
-	void on_radiobutton_weight_toggled (object o, EventArgs args)
-	{
-		option = "%";
-		Log.WriteLine(string.Format("option: {0}", option));
-	}
-
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
-	public string Option {
-		get { return option; }
-	}
-
-	public bool JumpsLimited {
-		get { return jumpsLimited; }
-	}
-	
-	public double Limited {
-		get { return limited; }
-	}
-	
-	public string LimitString
-	{
-		get { 
-			if(jumpsLimited) 
-				return limited.ToString() + "J";
-			else 
-				return Limited.ToString() + "T";
+	private void extra_window_toogle_desired_button_on_toolbar(JumpType type) {
+		if(type.Name == "Free") extra_window_radio_jump_free.Active = true;
+		else if(type.Name == "SJ") extra_window_radio_jump_sj.Active = true;
+		else if(type.Name == "SJl") extra_window_radio_jump_sjl.Active = true;
+		else if(type.Name == "CMJ") extra_window_radio_jump_cmj.Active = true;
+		else if(type.Name == "CMJl") extra_window_radio_jump_cmjl.Active = true;
+		else if(type.Name == "ABK") extra_window_radio_jump_abk.Active = true;
+		else if(type.Name == "DJ") extra_window_radio_jump_dj.Active = true;
+		else if(type.Name == "Rocket") extra_window_radio_jump_rocket.Active = true;
+		else if(type.Name == Constants.TakeOffName) extra_window_radio_jump_takeoff.Active = true;
+		else {
+			//don't do this:
+			//extra_window_radio_jump_more.Active = true;
+			//because it will be a loop
+			//only do:
+			extra_window_initialize(type);
 		}
 	}
 	
-	public double Weight {
-		get { return weight; }
+	private void extra_window_showRepetitiveData (bool show) {
+		extra_window_label_limit.Visible = show;
+		extra_window_spinbutton_limit.Visible = show;
+		extra_window_label_limit_units.Visible = show;
 	}
 	
-	public bool Arms {
-		get { return arms; }
+	private void extra_window_showWeightData (bool show) {
+		extra_window_label_weight.Visible = show;
+		extra_window_spinbutton_weight.Visible = show;
+		extra_window_radiobutton_kg.Visible = show;
+		extra_window_radiobutton_weight.Visible = show;
+	}
+	
+	private void extra_window_showTechniqueArmsData (bool show) {
+		extra_window_label_dj_arms.Visible = show;
+		extra_window_check_dj_arms.Visible = show;
+	}
+	
+	private void extra_window_showFallData (bool show) {
+		extra_window_label_fall.Visible = show;
+		extra_window_spinbutton_fall.Visible = show;
+		extra_window_label_cm.Visible = show;
 	}
 
-	public double Fall {
-		get { return fall; }
+
+	void on_button_execute_test_clicked (object o, EventArgs args) {
+		extra_window_limited = (double) extra_window_spinbutton_limit.Value;
+		extra_window_weight = (double) extra_window_spinbutton_weight.Value;
+		extra_window_fall = (double) extra_window_spinbutton_fall.Value;
+		extra_window_arms = extra_window_check_dj_arms.Active;
+
+		//need to check DJ because is what happens when press DJ button
+		//need to check other because maybe we changed some option since last jump 
+		//and currentJumpType.Name is the name of last jump type, eg: DJa
+		if(currentJumpType.Name == "DJ" || currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
+			if(extra_window_arms)
+				currentJumpType = new JumpType("DJa");
+			else
+				currentJumpType = new JumpType("DJna");
+		}
+
+		on_normal_jump_activate(o, args);
 	}
+
+
+	private void on_radiobutton_kg_toggled (object o, EventArgs args)
+	{
+		extra_window_option = "Kg";
+		Log.WriteLine(string.Format("option: {0}", extra_window_option));
+	}
+	
+	private void on_radiobutton_weight_toggled (object o, EventArgs args)
+	{
+		extra_window_option = "%";
+		Log.WriteLine(string.Format("option: {0}", extra_window_option));
+	}
+	
+	private string limitString()
+	{
+		if(extra_window_jumpsLimited) 
+			return extra_window_limited.ToString() + "J";
+		else 
+			return extra_window_limited.ToString() + "T";
+	}
+
 }
 
 

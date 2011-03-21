@@ -782,19 +782,29 @@ public class RepairJumpRjWindow
 
 partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Label extra_window_label_limit;
-	[Widget] Gtk.SpinButton extra_window_spinbutton_limit;
-	[Widget] Gtk.Label extra_window_label_limit_units;
-	[Widget] Gtk.SpinButton extra_window_spinbutton_weight;
-	[Widget] Gtk.SpinButton extra_window_spinbutton_fall;
-	[Widget] Gtk.RadioButton extra_window_radiobutton_kg;
-	[Widget] Gtk.RadioButton extra_window_radiobutton_weight;
-	[Widget] Gtk.Label extra_window_label_weight;
-	[Widget] Gtk.Label extra_window_label_fall;
-	[Widget] Gtk.Label extra_window_label_cm;
+	//options jumps
+	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
+	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
+	[Widget] Gtk.Label extra_window_jumps_label_weight;
+	[Widget] Gtk.Label extra_window_jumps_label_fall;
+	[Widget] Gtk.Label extra_window_jumps_label_cm;
+	[Widget] Gtk.Label extra_window_jumps_label_dj_arms;
+	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 	
-	[Widget] Gtk.Label extra_window_label_dj_arms;
-	[Widget] Gtk.CheckButton extra_window_check_dj_arms;
+	//options jumps_rj
+	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
+	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
+	[Widget] Gtk.Label extra_window_jumps_rj_label_limit_units;
+	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_weight;
+	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_fall;
+	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_kg;
+	[Widget] Gtk.RadioButton extra_window_jumps_rj_radiobutton_weight;
+	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
+	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
+	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
+	
 	
 	[Widget] Gtk.RadioButton extra_window_radio_jump_free;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_sj;
@@ -807,21 +817,28 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_jump_takeoff;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_more;
 	
-	[Widget] Gtk.Label extra_window_label_selected_jump;
+	[Widget] Gtk.Label extra_window_jumps_label_selected;
+	[Widget] Gtk.Label extra_window_jumps_rj_label_selected;
 	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
 	//static double distance;
 
-	string extra_window_option = "Kg";
-	double extra_window_limited = 10;
-	bool extra_window_jumpsLimited;
-	double extra_window_weight = 20;
-	bool extra_window_arms = false;
-	double extra_window_fall = 20;
+	//jumps
+	string extra_window_jumps_option = "Kg";
+	double extra_window_jumps_weight = 20;
+	double extra_window_jumps_fall = 20;
+	bool extra_window_jumps_arms = false;
+	
+	//jumps_rj
+	double extra_window_jumps_rj_limited = 10;
+	bool extra_window_jumps_rj_jumpsLimited;
+	string extra_window_jumps_rj_option = "Kg";
+	double extra_window_jumps_rj_weight = 20;
+	double extra_window_jumps_rj_fall = 20;
 	
 	
-	private void on_extra_window_test_changed(object o, EventArgs args)
+	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
 		bool initializeNow = true;
 		if(extra_window_radio_jump_free.Active) currentJumpType = new JumpType("Free");
@@ -852,46 +869,27 @@ partial class ChronoJumpWindow
 		}
 
 		if(initializeNow)
-			extra_window_initialize(currentJumpType);
+			extra_window_jumps_initialize(currentJumpType);
 	}
 
 
-	private void extra_window_initialize(JumpType myJumpType) 
+	private void extra_window_jumps_initialize(JumpType myJumpType) 
 	{
-		extra_window_label_selected_jump.Text = "<b>" + Catalog.GetString(currentJumpType.Name) + "</b>";
-		extra_window_label_selected_jump.UseMarkup = true; 
+		extra_window_jumps_label_selected.Text = "<b>" + Catalog.GetString(currentJumpType.Name) + "</b>";
+		extra_window_jumps_label_selected.UseMarkup = true; 
 		currentEventType = currentJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
 	
-		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
-			string jumpsName = Catalog.GetString("jumps");
-			string secondsName = Catalog.GetString("seconds");
-			if(myJumpType.JumpsLimited) {
-				extra_window_jumpsLimited = true;
-				extra_window_label_limit_units.Text = jumpsName;
-			} else {
-				extra_window_jumpsLimited = false;
-				extra_window_label_limit_units.Text = secondsName;
-			}
-			if(myJumpType.FixedValue > 0) {
-				extra_window_spinbutton_limit.Sensitive = false;
-				extra_window_spinbutton_limit.Value = myJumpType.FixedValue;
-			} else
-				extra_window_spinbutton_limit.Value = extra_window_limited;
-			extra_window_showRepetitiveData(true);	
-		} else 
-			extra_window_showRepetitiveData(false);	
-
 		if(myJumpType.HasWeight)
-			extra_window_showWeightData(true);	
+			extra_window_showWeightData(myJumpType, true);	
 		else 
-			extra_window_showWeightData(false);	
+			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
 				myJumpType.Name == Constants.TakeOffWeightName)
-			extra_window_showFallData(false);	
+			extra_window_showFallData(myJumpType, false);	
 		else
-			extra_window_showFallData(true);	
+			extra_window_showFallData(myJumpType, true);	
 		
 		//show technique (arms) only in DJ
 		//on DJa and DJna (coming from More jumps) don't need to show technique data 
@@ -902,15 +900,62 @@ partial class ChronoJumpWindow
 		else
 			extra_window_showTechniqueArmsData(true);
 		
-		extra_window_check_dj_arms.Active = extra_window_arms;
-		extra_window_spinbutton_weight.Value = extra_window_weight;
-		extra_window_spinbutton_fall.Value = extra_window_fall;
-		if (extra_window_option == "Kg") {
-			extra_window_radiobutton_kg.Active = true;
+		extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;
+		extra_window_jumps_spinbutton_weight.Value = extra_window_jumps_weight;
+		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
+		if (extra_window_jumps_option == "Kg") {
+			extra_window_jumps_radiobutton_kg.Active = true;
 		} else {
-			extra_window_radiobutton_weight.Active = true;
+			extra_window_jumps_radiobutton_weight.Active = true;
 		}
 	}
+	
+	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
+	{
+		extra_window_jumps_rj_label_selected.Text = "<b>" + Catalog.GetString(currentJumpType.Name) + "</b>";
+		extra_window_jumps_rj_label_selected.UseMarkup = true; 
+		currentEventType = currentJumpType;
+		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
+	
+		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
+			string jumpsName = Catalog.GetString("jumps");
+			string secondsName = Catalog.GetString("seconds");
+			if(myJumpType.JumpsLimited) {
+				extra_window_jumps_rj_jumpsLimited = true;
+				extra_window_jumps_rj_label_limit_units.Text = jumpsName;
+			} else {
+				extra_window_jumps_rj_jumpsLimited = false;
+				extra_window_jumps_rj_label_limit_units.Text = secondsName;
+			}
+			if(myJumpType.FixedValue > 0) {
+				extra_window_jumps_rj_spinbutton_limit.Sensitive = false;
+				extra_window_jumps_rj_spinbutton_limit.Value = myJumpType.FixedValue;
+			} else
+				extra_window_jumps_rj_spinbutton_limit.Value = extra_window_jumps_rj_limited;
+			//extra_window_showRepetitiveData(true);	
+		} //else 
+		//	extra_window_showRepetitiveData(false);	
+
+		if(myJumpType.HasWeight)
+			extra_window_showWeightData(myJumpType, true);	
+		else 
+			extra_window_showWeightData(myJumpType, false);	
+
+		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
+				myJumpType.Name == Constants.TakeOffWeightName)
+			extra_window_showFallData(myJumpType, false);	
+		else
+			extra_window_showFallData(myJumpType, true);	
+		
+		extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
+		extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
+		if (extra_window_jumps_rj_option == "Kg") {
+			extra_window_jumps_rj_radiobutton_kg.Active = true;
+		} else {
+			extra_window_jumps_rj_radiobutton_weight.Active = true;
+		}
+	}
+
 
 	private void on_extra_window_button_more_clicked (object o, EventArgs args) 
 	{
@@ -942,8 +987,6 @@ partial class ChronoJumpWindow
 	
 		extra_window_toogle_desired_button_on_toolbar(currentJumpType);
 		
-		//extra_window_initialize(currentJumpType);
-
 		//destroy the win for not having updating problems if a new jump type is created
 		//jumpsMoreWin = null; //don't work
 		jumpsMoreWin.Destroy(); //works ;)
@@ -964,73 +1007,96 @@ partial class ChronoJumpWindow
 			//extra_window_radio_jump_more.Active = true;
 			//because it will be a loop
 			//only do:
-			extra_window_initialize(type);
+			extra_window_jumps_initialize(type);
+		}
+	}
+
+	private void extra_window_showWeightData (JumpType myJumpType, bool show) {
+		if(myJumpType.IsRepetitive) {
+			extra_window_jumps_rj_label_weight.Visible = show;
+			extra_window_jumps_rj_spinbutton_weight.Visible = show;
+			extra_window_jumps_rj_radiobutton_kg.Visible = show;
+			extra_window_jumps_rj_radiobutton_weight.Visible = show;
+		} else {
+			extra_window_jumps_label_weight.Visible = show;
+			extra_window_jumps_spinbutton_weight.Visible = show;
+			extra_window_jumps_radiobutton_kg.Visible = show;
+			extra_window_jumps_radiobutton_weight.Visible = show;
 		}
 	}
 	
-	private void extra_window_showRepetitiveData (bool show) {
-		extra_window_label_limit.Visible = show;
-		extra_window_spinbutton_limit.Visible = show;
-		extra_window_label_limit_units.Visible = show;
-	}
-	
-	private void extra_window_showWeightData (bool show) {
-		extra_window_label_weight.Visible = show;
-		extra_window_spinbutton_weight.Visible = show;
-		extra_window_radiobutton_kg.Visible = show;
-		extra_window_radiobutton_weight.Visible = show;
-	}
-	
 	private void extra_window_showTechniqueArmsData (bool show) {
-		extra_window_label_dj_arms.Visible = show;
-		extra_window_check_dj_arms.Visible = show;
+		extra_window_jumps_label_dj_arms.Visible = show;
+		extra_window_jumps_check_dj_arms.Visible = show;
 	}
 	
-	private void extra_window_showFallData (bool show) {
-		extra_window_label_fall.Visible = show;
-		extra_window_spinbutton_fall.Visible = show;
-		extra_window_label_cm.Visible = show;
+	private void extra_window_showFallData (JumpType myJumpType, bool show) {
+		if(myJumpType.IsRepetitive) {
+			extra_window_jumps_rj_label_fall.Visible = show;
+			extra_window_jumps_rj_spinbutton_fall.Visible = show;
+			extra_window_jumps_rj_label_cm.Visible = show;
+		} else {
+			extra_window_jumps_label_fall.Visible = show;
+			extra_window_jumps_spinbutton_fall.Visible = show;
+			extra_window_jumps_label_cm.Visible = show;
+		}
 	}
 
 
 	void on_button_execute_test_clicked (object o, EventArgs args) {
-		extra_window_limited = (double) extra_window_spinbutton_limit.Value;
-		extra_window_weight = (double) extra_window_spinbutton_weight.Value;
-		extra_window_fall = (double) extra_window_spinbutton_fall.Value;
-		extra_window_arms = extra_window_check_dj_arms.Active;
+		if(radio_mode_jumps.Active) {
+			extra_window_jumps_weight = (double) extra_window_jumps_spinbutton_weight.Value;
+			extra_window_jumps_fall = (double) extra_window_jumps_spinbutton_fall.Value;
+			extra_window_jumps_arms = extra_window_jumps_check_dj_arms.Active;
 
-		//need to check DJ because is what happens when press DJ button
-		//need to check other because maybe we changed some option since last jump 
-		//and currentJumpType.Name is the name of last jump type, eg: DJa
-		if(currentJumpType.Name == "DJ" || currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
-			if(extra_window_arms)
-				currentJumpType = new JumpType("DJa");
-			else
-				currentJumpType = new JumpType("DJna");
+			//need to check DJ because is what happens when press DJ button
+			//need to check other because maybe we changed some option since last jump 
+			//and currentJumpType.Name is the name of last jump type, eg: DJa
+			if(currentJumpType.Name == "DJ" || 
+					currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
+				if(extra_window_jumps_arms)
+					currentJumpType = new JumpType("DJa");
+				else
+					currentJumpType = new JumpType("DJna");
+			}
+
+			on_normal_jump_activate(o, args);
+		} else if(radio_mode_jumps_reactive.Active) {
+			extra_window_jumps_rj_limited = (double) extra_window_jumps_rj_spinbutton_limit.Value;
+			extra_window_jumps_rj_weight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
+			extra_window_jumps_rj_fall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
+
+			//on_normal_jump_activate(o, args);
 		}
-
-		on_normal_jump_activate(o, args);
 	}
 
 
-	private void on_radiobutton_kg_toggled (object o, EventArgs args)
+	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)
 	{
-		extra_window_option = "Kg";
-		Log.WriteLine(string.Format("option: {0}", extra_window_option));
+		extra_window_jumps_option = "Kg";
 	}
 	
-	private void on_radiobutton_weight_toggled (object o, EventArgs args)
+	private void on_extra_window_jumps_radiobutton_weight_toggled (object o, EventArgs args)
 	{
-		extra_window_option = "%";
-		Log.WriteLine(string.Format("option: {0}", extra_window_option));
+		extra_window_jumps_option = "%";
+	}
+	
+	private void on_extra_window_jumps_rj_radiobutton_kg_toggled (object o, EventArgs args)
+	{
+		extra_window_jumps_rj_option = "Kg";
+	}
+	
+	private void on_extra_window_jumps_rj_radiobutton_weight_toggled (object o, EventArgs args)
+	{
+		extra_window_jumps_rj_option = "%";
 	}
 	
 	private string limitString()
 	{
-		if(extra_window_jumpsLimited) 
-			return extra_window_limited.ToString() + "J";
+		if(extra_window_jumps_rj_jumpsLimited) 
+			return extra_window_jumps_rj_limited.ToString() + "J";
 		else 
-			return extra_window_limited.ToString() + "T";
+			return extra_window_jumps_rj_limited.ToString() + "T";
 	}
 
 }

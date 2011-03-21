@@ -250,6 +250,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
+	[Widget] Gtk.Notebook notebook_options;
 	
 	[Widget] Gtk.EventBox eventbox_image_test;
 	[Widget] Gtk.Box vbox_image_test;
@@ -471,7 +472,8 @@ public partial class ChronoJumpWindow
 		createComboMultiChronopic();
 		createdStatsWin = false;
 	
-		on_extra_window_test_changed(new object(), new EventArgs());
+		on_extra_window_jumps_test_changed(new object(), new EventArgs());
+		//on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
@@ -2923,16 +2925,16 @@ Console.WriteLine("X");
 	{
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
-			if(extra_window_option == "%") 
-				jumpWeight = extra_window_weight;
+			if(extra_window_jumps_option == "%") 
+				jumpWeight = extra_window_jumps_weight;
 			else 
-				jumpWeight = Util.WeightFromKgToPercent(extra_window_weight, currentPersonSession.Weight);
+				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_weight, currentPersonSession.Weight);
 		}
 		double myFall = 0;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
 		else if( ! currentJumpType.StartIn) {
-			myFall = extra_window_fall;
+			myFall = extra_window_jumps_fall;
 		}
 		
 			
@@ -4969,6 +4971,11 @@ Console.WriteLine("X");
 			notebook_results.NextPage();
 		while(notebook_results.CurrentPage > desiredPage) 
 			notebook_results.PrevPage();
+		
+		while(notebook_options.CurrentPage < desiredPage) 
+			notebook_options.NextPage();
+		while(notebook_options.CurrentPage > desiredPage) 
+			notebook_options.PrevPage();
 	}
 	
 	//changed by user clicking on notebook tabs
@@ -5119,6 +5126,7 @@ Console.WriteLine("X");
 		//notebooks
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
+		notebook_options.Sensitive = false;
 		
 		//button_last.Sensitive = false;
 		button_rj_last.Sensitive=false;
@@ -5144,6 +5152,7 @@ Console.WriteLine("X");
 	private void sensitiveGuiNoPerson () {
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
+		notebook_options.Sensitive = false;
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
@@ -5156,6 +5165,7 @@ Console.WriteLine("X");
 	private void sensitiveGuiYesPerson () {
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
+		notebook_options.Sensitive = true;
 		treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);

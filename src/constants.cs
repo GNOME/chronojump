@@ -405,8 +405,11 @@ public class Constants
 	};
 	
 	public static int Simulated = -1; 
-	public static string SimulatedMessage = Catalog.GetString("Tests are SIMULATED until Chronopic is connected at menu 'Tools / Chronopic'.");
+	public static string SimulatedMessage = Catalog.GetString("Tests are SIMULATED until Chronopic is connected.");
 	public static string SimulatedTreeview = " (" + Catalog.GetString("Simulated") + ")"; 
+	
+	public static string ChronopicOne = Catalog.GetString("All tests available except MultiChronopic.");
+	public static string ChronopicMore = Catalog.GetString("All tests available.");
 
 	
 	//levels of sport practice

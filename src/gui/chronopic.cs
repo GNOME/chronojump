@@ -670,6 +670,7 @@ public class ChronopicWindow
 		foreach(ChronopicPortData a in cpd)
 			Log.WriteLine(a.Num + ", " + a.Port + ", " + a.Connected);
 
+		fakeWindowDone.Click();
 		needUpdateChronopicWin = true;
 	}
 

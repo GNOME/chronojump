@@ -165,6 +165,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_video_play_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
+
+	[Widget] Gtk.Table table_execute_test;
+	[Widget] Gtk.Button button_execute_test;
+	[Widget] Gtk.Label label_connected_chronopics;
+	[Widget] Gtk.TextView textview_message_connected_chronopics;
+
 	//multiChronopic	
 	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
 	[Widget] Gtk.MenuItem menuitem_run_analysis;
@@ -184,7 +190,7 @@ public partial class ChronoJumpWindow
 	[Glade.WidgetAttribute]
 		private ImageMenuItem
 			menuitem_view_stats = null, menuitem_server_stats = null,
-					    menuitem_report_window = null, menuitem_chronopic = null;
+					    menuitem_report_window = null;
 	[Widget] Gtk.MenuItem menuitem_server_evaluator_data;
 	[Widget] Gtk.MenuItem menuitem_server_upload_session;
 	[Widget] Gtk.MenuItem menuitem_preferences;
@@ -487,7 +493,6 @@ public partial class ChronoJumpWindow
 	private void chronopicAtStart(object o, EventArgs args) {
 		//make active menuitem chronopic, and this
 		//will raise other things
-		//menuitem_chronopic.Active = true;
 	}
 */
 
@@ -498,6 +503,7 @@ public partial class ChronoJumpWindow
 			cpd.Add(a);
 		}
 		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
+		chronopicLabels(0);
 	}
 
 
@@ -618,8 +624,6 @@ public partial class ChronoJumpWindow
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 
 		//menuitems (done differently)
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_24.png");
-		menuitem_chronopic.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		menuitem_view_stats.Image = new Gtk.Image(pixbuf);
 		menuitem_server_stats.Image = new Gtk.Image(pixbuf);
@@ -685,7 +689,6 @@ public partial class ChronoJumpWindow
 //			cpRunning = false;
 		} else {
 //			simulated = false;
-			//menuitem_chronopic.Active = true;
 			
 //			cpRunning = true;
 		}
@@ -2946,7 +2949,6 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-Log.WriteLine("1 " + currentJumpType.Name);
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
@@ -2962,7 +2964,6 @@ Log.WriteLine("1 " + currentJumpType.Name);
 		}
 		
 			
-Log.WriteLine("2 " + currentJumpType.Name);
 		//used by cancel and finish
 		//currentEventType = new JumpType();
 		currentEventType = currentJumpType;
@@ -2974,7 +2975,6 @@ Log.WriteLine("2 " + currentJumpType.Name);
 		//update, don't do this now, because it's buggy with currentJump on More
 		//notebooks_change(0);
 		
-Log.WriteLine("3 " + currentJumpType.Name);
 		//show the event doing window
 		double myLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn || 
@@ -2986,7 +2986,6 @@ Log.WriteLine("3 " + currentJumpType.Name);
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
-Log.WriteLine("4 " + currentJumpType.Name);
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -2996,22 +2995,18 @@ Log.WriteLine("4 " + currentJumpType.Name);
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 
-Log.WriteLine("5 " + currentJumpType.Name);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-Log.WriteLine("6 " + currentJumpType.Name);
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
 		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-Log.WriteLine("7 " + currentJumpType.Name);
 		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
 
-Log.WriteLine("8 " + currentJumpType.Name);
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
@@ -3020,7 +3015,6 @@ Log.WriteLine("8 " + currentJumpType.Name);
 		 else 
 			currentEventExecute.ManageFall();
 
-Log.WriteLine("9 " + currentJumpType.Name);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
 
@@ -3030,7 +3024,6 @@ Log.WriteLine("9 " + currentJumpType.Name);
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
-Log.WriteLine("10 " + currentJumpType.Name);
 			currentJump = (Jump) currentEventExecute.EventDone;
 
 			//move video file if exists
@@ -3910,15 +3903,15 @@ Log.WriteLine("10 " + currentJumpType.Name);
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_menuitem_chronopic_activate (object o, EventArgs args) {
+	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_done);
 	}
 	
 	private void on_chronopic_window_done (object o, EventArgs args) {
 		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_done);
-
-		if(chronopicWin.NumConnected()>=2) {
+		int cps = chronopicWin.NumConnected();
+		if(cps >= 2) {	
 			menuitem_multi_chronopic_start.Sensitive = true;
 			menuitem_run_analysis.Sensitive = true;
 			button_multi_chronopic_start.Sensitive = true;
@@ -3931,7 +3924,27 @@ Log.WriteLine("10 " + currentJumpType.Name);
 			entry_run_analysis_distance.Sensitive = false;
 			button_run_analysis.Sensitive = false;
 		}
+		
+		chronopicLabels(cps);
 	}
+	
+	private void chronopicLabels(int cps) {
+		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
+		label_connected_chronopics.UseMarkup = true; 
+		
+		string myMessage = "";
+		if(cps == 0) 
+			myMessage = Constants.SimulatedMessage;
+		else if(cps == 1) 
+			myMessage = Constants.ChronopicOne;
+		else 
+			myMessage = Constants.ChronopicMore;
+			
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = myMessage;
+		textview_message_connected_chronopics.Buffer = tb;
+	}
+
 
 	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0" &&
@@ -5076,6 +5089,9 @@ Console.WriteLine("X");
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		
+		table_execute_test.Sensitive = false;
+		button_execute_test.Sensitive = false;
+		
 		//button_last.Sensitive = false;
 		button_run_last.Sensitive=false;
 		button_run_interval_last.Sensitive=false;
@@ -5092,11 +5108,17 @@ Console.WriteLine("X");
 		menuSessionSensitive(true);
 		menuToolsSensitive(true);
 		
+		table_execute_test.Sensitive = true;
+		
 		//changeTestImage("", "", "LOGO");
 	}
 
 	//only called by delete person functions (if we run out of persons)
 	private void sensitiveGuiNoPerson () {
+		hbox_jumps.Sensitive = false;
+		hbox_jumps_rj.Sensitive = false;
+		button_execute_test.Sensitive = false;
+
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
@@ -5109,6 +5131,10 @@ Console.WriteLine("X");
 	}
 	
 	private void sensitiveGuiYesPerson () {
+		hbox_jumps.Sensitive = true;
+		hbox_jumps_rj.Sensitive = true;
+		button_execute_test.Sensitive = true;
+
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options.Sensitive = true;
@@ -5133,6 +5159,7 @@ Console.WriteLine("X");
 	}
 	
 	private void sensitiveGuiEventDoing () {
+		button_execute_test.Sensitive = false;
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
@@ -5148,6 +5175,7 @@ Console.WriteLine("X");
 	}
    
 	private void sensitiveGuiEventDone () {
+		button_execute_test.Sensitive = true;
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

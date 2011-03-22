@@ -470,5 +470,16 @@ class SqliteRunIntervalType : SqliteRunType
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "MTGUG", "mtgug.png", true);
 	}
+	
+	public static void Delete(string name)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
+			" WHERE name == '" + name + "'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
 
 }

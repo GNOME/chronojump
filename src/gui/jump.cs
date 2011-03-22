@@ -1325,6 +1325,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override void deleteTestLine() {
+		SqliteJumpType.Delete(Constants.JumpTypeTable, selectedEventName, false);
+	}
+
 	protected override string [] findTestTypesInSessions() {
 		return SqliteJump.SelectJumps(-1, -1, "", selectedEventName); 
 	}
@@ -1579,6 +1583,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 			//activate on_button_accept_clicked()
 			button_accept.Activate();
 		}
+	}
+	
+	protected override void deleteTestLine() {
+		SqliteJumpType.Delete(Constants.JumpRjTypeTable, selectedEventName, false);
 	}
 	
 	protected override string [] findTestTypesInSessions() {

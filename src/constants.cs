@@ -276,6 +276,14 @@ public class Constants
 	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
 	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
+
+	public static string FileNameJumps = "stock_up.png";
+	public static string FileNameJumpsRJ = "stock_up_down.png";
+	public static string FileNameRuns = "stock_right.png";
+	public static string FileNameRunsInterval = "stock_right_left.png";
+	public static string FileNameReactionTime = "reaction_time_menu.png";
+	public static string FileNamePulse = "pulse_menu.png";
+	public static string FileNameMultiChronopic = "multichronopic_menu.png";
 	
 	public static string FileNameChronopic1 = "chronopic1.jpg";
 	public static string FileNameChronopic2 = "chronopic2.jpg";

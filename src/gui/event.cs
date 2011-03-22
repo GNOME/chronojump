@@ -707,24 +707,20 @@ public class EventMoreWindow
 		get { return button_selected; }
 	}
 
-	public Button Button_accept 
-	{
-		set {
-			button_accept = value;	
-		}
-		get {
-			return button_accept;
-		}
+	public Button Button_accept {
+		set { button_accept = value; }
+		get { return button_accept; }
+	}
+	
+	public Button Button_cancel {
+		set { button_cancel = value; }
+		get { return button_cancel; }
 	}
 	
 	public string SelectedEventName
 	{
-		set {
-			selectedEventName = value;	
-		}
-		get {
-			return selectedEventName;
-		}
+		set { selectedEventName = value; }
+		get { return selectedEventName; }
 	}
 	
 	public string SelectedDescription {

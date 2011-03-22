@@ -827,6 +827,12 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_jump_takeoff;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_more;
 	
+	[Widget] Gtk.Label label_extra_window_radio_jump_rj_j;
+	[Widget] Gtk.Label label_extra_window_radio_jump_rj_t;
+	[Widget] Gtk.Label label_extra_window_radio_jump_rj_unlimited;
+	[Widget] Gtk.Label label_extra_window_radio_jump_rj_hexagon;
+	[Widget] Gtk.Label label_extra_window_radio_jump_rj_more;
+
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_j;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_t;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_unlimited;

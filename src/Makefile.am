@@ -309,6 +309,13 @@ RESOURCES = \
 	../images/stock_delete.png,stock_delete.png \
 	../images/chronojump_icon.png,chronojump_icon.png \
 	../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
+	../images/stock_right.png,stock_right.png \
+	../images/stock_right_left.png,stock_right_left.png \
+	../images/stock_up.png,stock_up.png \
+	../images/stock_up_down.png,stock_up_down.png \
+	../images/reaction_time_menu.png,reaction_time_menu.png \
+	../images/pulse_menu.png,pulse_menu.png \
+	../images/multichronopic_menu.png,multichronopic_menu.png \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \

@@ -86,7 +86,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menus
-	[Widget] Gtk.MenuItem menu_jumps;
 	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_other;
 	[Widget] Gtk.MenuItem menu_tools;
@@ -105,9 +104,6 @@ public partial class ChronoJumpWindow
 	
 	//tests
 	//jumps
-	[Widget] Gtk.MenuItem menuitem_edit_selected_jump_rj;
-	[Widget] Gtk.MenuItem menuitem_repair_selected_jump_rj;
-	[Widget] Gtk.MenuItem menuitem_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_edit_selected_jump;
 	[Widget] Gtk.Button button_video_play_selected_jump;
 	[Widget] Gtk.Button button_delete_selected_jump;
@@ -115,15 +111,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_video_play_selected_jump_rj;
 	[Widget] Gtk.Button button_delete_selected_jump_rj;
 	[Widget] Gtk.Button button_repair_selected_jump_rj;
-	[Widget] Gtk.MenuItem menuitem_jump_type_add;
-	[Widget] Gtk.MenuItem menuitem_jump_type_delete_reactive;
 	
-	[Widget] Gtk.MenuItem more_rj;
-	[Widget] Gtk.MenuItem rj_j;
-	[Widget] Gtk.MenuItem rj_t;
-	[Widget] Gtk.MenuItem rj_unlimited;
-	[Widget] Gtk.MenuItem rj_hexagon;
-
 	//runs
 	[Widget] Gtk.MenuItem menu_execute_simple_runs1;
 	[Widget] Gtk.MenuItem menuitem_edit_selected_run;
@@ -207,20 +195,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_person_add_single;
 	[Widget] Gtk.Button button_person_add_multiple;
 
-	[Widget] Gtk.Button button_free;
-	[Widget] Gtk.Button button_sj;
-	[Widget] Gtk.Button button_sj_l;
-	[Widget] Gtk.Button button_cmj;
-	[Widget] Gtk.Button button_cmj_l;
-	[Widget] Gtk.Button button_abk;
-	[Widget] Gtk.Button button_dj;
-	[Widget] Gtk.Button button_rocket;
-	[Widget] Gtk.Button button_take_off;
-	[Widget] Gtk.Button button_more;
-	[Widget] Gtk.Button button_rj_j;
-	[Widget] Gtk.Button button_rj_t;
-	[Widget] Gtk.Button button_rj_unlimited;
-	[Widget] Gtk.Button button_rj_hexagon;
 	[Widget] Gtk.Button button_run_custom;
 	[Widget] Gtk.Button button_run_20m;
 	[Widget] Gtk.Button button_run_100m;
@@ -244,7 +218,6 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Button button_pulse_more;
 
 	
-	[Widget] Gtk.Button button_rj_last;
 	[Widget] Gtk.Button button_run_last;
 	[Widget] Gtk.Button button_run_interval_last;
 
@@ -343,7 +316,9 @@ public partial class ChronoJumpWindow
 	private static EventType currentEventType;
 
 	private static JumpType currentJumpType;
+	private static JumpType currentJumpRjType;
 	private static RunType currentRunType;
+	private static RunType currentRunIntervalType;
 	private static PulseType currentPulseType;
 	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
@@ -473,7 +448,7 @@ public partial class ChronoJumpWindow
 		createdStatsWin = false;
 	
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
-		//on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
@@ -542,23 +517,46 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsMenuRadio(radio_mode_reaction_times);
 		UtilGtk.ColorsMenuRadio(radio_mode_pulses);
 		UtilGtk.ColorsMenuRadio(radio_mode_multi_chronopic);
-
-		/*
-		radio_mode_jumps.ModifyBg(StateType.Normal, blue);
-		radio_mode_jumps.ModifyBg(StateType.Active, green);
-		radio_mode_jumps_reactive.ModifyBg(StateType.Normal, blue);
-		radio_mode_jumps_reactive.ModifyBg(StateType.Active, green);
-		*/
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
-		image_mode_jumps.Pixbuf = pixbuf;
-		image_mode_jumps_reactive.Pixbuf = pixbuf;
-		image_mode_runs.Pixbuf = pixbuf;
-		image_mode_runs_intervallic.Pixbuf = pixbuf;
-		image_mode_reaction_times.Pixbuf = pixbuf;
-		image_mode_pulses.Pixbuf = pixbuf;
-		image_mode_multi_chronopic.Pixbuf = pixbuf;
 		
+
+		label_extra_window_radio_jump_free.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_sj.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_sjl.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_cmj.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_cmjl.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_abk.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_dj.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_rocket.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_takeoff.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_more.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_free);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_sj);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_sjl);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_cmj);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_abk);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_dj);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rocket);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_takeoff);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_more);
+
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
+		image_mode_jumps.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
+		image_mode_jumps_reactive.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRuns);
+		image_mode_runs.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
+		image_mode_runs_intervallic.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
+		image_mode_reaction_times.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
+		image_mode_pulses.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
+		image_mode_multi_chronopic.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
 		image_run_interval_bell.Pixbuf = pixbuf;
@@ -2915,14 +2913,10 @@ Console.WriteLine("X");
 	 */
 
 	
-	//here comes the SJl, DJ and every jump that has weight or fall or both. Also the reactive jumps (for defining is limited value or weight or fall)
-	private void on_jump_extra_activate (object o, EventArgs args) 
-	{
-	}
-
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+Log.WriteLine("1 " + currentJumpType.Name);
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
@@ -2938,6 +2932,7 @@ Console.WriteLine("X");
 		}
 		
 			
+Log.WriteLine("2 " + currentJumpType.Name);
 		//used by cancel and finish
 		//currentEventType = new JumpType();
 		currentEventType = currentJumpType;
@@ -2946,8 +2941,10 @@ Console.WriteLine("X");
 		sensitiveGuiEventDoing();
 
 		//change to page 0 of notebook_results if were in other
-		notebooks_change(0);
+		//update, don't do this now, because it's buggy with currentJump on More
+		//notebooks_change(0);
 		
+Log.WriteLine("3 " + currentJumpType.Name);
 		//show the event doing window
 		double myLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn || 
@@ -2959,6 +2956,7 @@ Console.WriteLine("X");
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
+Log.WriteLine("4 " + currentJumpType.Name);
 		eventExecuteWin = EventExecuteWindow.Show(
 			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -2968,18 +2966,22 @@ Console.WriteLine("X");
 			currentJumpType.Name, 
 			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 
+Log.WriteLine("5 " + currentJumpType.Name);
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
+Log.WriteLine("6 " + currentJumpType.Name);
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
 		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
+Log.WriteLine("7 " + currentJumpType.Name);
 		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
 
+Log.WriteLine("8 " + currentJumpType.Name);
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
@@ -2988,6 +2990,7 @@ Console.WriteLine("X");
 		 else 
 			currentEventExecute.ManageFall();
 
+Log.WriteLine("9 " + currentJumpType.Name);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
 
@@ -2997,6 +3000,7 @@ Console.WriteLine("X");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
+Log.WriteLine("10 " + currentJumpType.Name);
 			currentJump = (Jump) currentEventExecute.EventDone;
 
 			//move video file if exists
@@ -3037,125 +3041,43 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_button_more_rj_clicked (object o, EventArgs args) 
+	private void on_rj_activate (object o, EventArgs args) 
 	{
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true);
-		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
-		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
-	}
-
-	private void on_more_jumps_rj_draw_image_test (object o, EventArgs args) {
-		currentEventType = new JumpType(jumpsRjMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
-	}
-	
-	private void on_button_last_rj_clicked (object o, EventArgs args) 
-	{
-		//currentJumpType contains the last jump type
-		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || currentJumpType.FixedValue == 0) {
-			on_jump_extra_activate(o, args);
-		} else {
-			on_rj_accepted(o, args);
-		}
-	}
-	
-	
-	//used from the dialogue "jumps rj more"
-	private void on_more_jumps_rj_accepted (object o, EventArgs args) 
-	{
-		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
-
-		currentJumpType = new JumpType(
-				//jumpsRjMoreWin.SelectedJumpType,
-				jumpsRjMoreWin.SelectedEventName,
-				jumpsRjMoreWin.SelectedStartIn,
-				jumpsRjMoreWin.SelectedExtraWeight,
-				true,		//isRepetitive
-				jumpsRjMoreWin.SelectedLimited,
-				jumpsRjMoreWin.SelectedLimitedValue,
-				jumpsRjMoreWin.SelectedUnlimited,
-				jumpsRjMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
-				);
-
-		//destroy the win for not having updating problems if a new jump type is created
-		jumpsRjMoreWin.Destroy();
-		
-		if( ! currentJumpType.StartIn || currentJumpType.HasWeight || 
-				(currentJumpType.FixedValue == 0 && ! currentJumpType.Unlimited) ) {
-			on_jump_extra_activate(o, args);
-		} else {
-			on_rj_accepted(o, args);
-		}
-	}
-	
-	private void on_rj_activate (object o, EventArgs args) {
-		/*
-		if(o == (object) button_rj_j || o == (object) rj_j) 
-		{
-			currentJumpType = new JumpType("RJ(j)");
-			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
-			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
-		} else if(o == (object) button_rj_t || o == (object) rj_t) 
-		{
-			currentJumpType = new JumpType("RJ(t)");
-			jumpExtraWin = JumpExtraWindow.Show(app1, currentJumpType);
-			jumpExtraWin.Button_accept.Clicked += new EventHandler(on_rj_accepted);
-		} else if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) 
-		{
-			currentJumpType = new JumpType("RJ(unlimited)");
-
-			//in this jump type, don't ask for limit of jumps or seconds
-			on_rj_accepted(o, args);
-		} else if(o == (object) button_rj_hexagon || o == (object) rj_hexagon) 
-		{
-			currentJumpType = new JumpType("RJ(hexagon)");
-
-			//in this jump type, don't ask for limit of jumps or seconds
-			on_rj_accepted(o, args);
-		}
-		*/
-	}
-	private void on_rj_accepted (object o, EventArgs args) 
-	{
-		/*
-		changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
-
 		double myLimit = 0;
 		
 		//if it's a unlimited interval run, put -1 as limit value
-		if(currentJumpType.Unlimited) {
+		if(currentJumpRjType.Unlimited) {
 			myLimit = -1;
 		} else {
-			if(currentJumpType.FixedValue > 0) {
-				myLimit = currentJumpType.FixedValue;
+			if(currentJumpRjType.FixedValue > 0) {
+				myLimit = currentJumpRjType.FixedValue;
 			} else {
-				myLimit = jumpExtraWin.Limited;
+				myLimit = extra_window_jumps_rj_limited;
 			}
 		}
 
 		double jumpWeight = 0;
-		if(currentJumpType.HasWeight) {
-			//jumpWeight = jumpExtraWin.Weight + jumpExtraWin.Option;
-			if(jumpExtraWin.Option == "%") {
-				jumpWeight = jumpExtraWin.Weight;
+		if(currentJumpRjType.HasWeight) {
+			if(extra_window_jumps_rj_option == "%") {
+				jumpWeight = extra_window_jumps_rj_weight;
 			} else {
-				jumpWeight = Util.WeightFromKgToPercent(jumpExtraWin.Weight, currentPersonSession.Weight);
+				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_rj_weight, currentPersonSession.Weight);
 			}
 		}
 		double myFall = 0;
-		if( ! currentJumpType.StartIn || currentJumpType.Name	== Constants.RunAnalysisName)
-			myFall = jumpExtraWin.Fall;
+		if( ! currentJumpRjType.StartIn || currentJumpRjType.Name == Constants.RunAnalysisName)
+			myFall = extra_window_jumps_rj_fall;
 			
 		//used by cancel and finish
-		//currentEventType = new JumpType();
-		currentEventType = currentJumpType;
+		//currentEventType = new JumpRjType();
+		currentEventType = currentJumpRjType;
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 	
 		//change to page 1 of notebook_results if were in other
-		notebooks_change(1);
+		//update, don't do this now, because it's buggy with currentJump on More
+		//notebooks_change(1);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3168,7 +3090,7 @@ Console.WriteLine("X");
 			currentPerson.UniqueID, currentPerson.Name, 
 			currentSession.UniqueID, 
 			"jumpRj", //tableName
-			currentJumpType.Name, 
+			currentJumpRjType.Name, 
 			prefsDigitsNumber, myLimit, chronopicWin.Connected);
 		
 		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
@@ -3180,8 +3102,8 @@ Console.WriteLine("X");
 		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 	
 		currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
-				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight, 
-				myLimit, currentJumpType.JumpsLimited, 
+				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
+				myLimit, currentJumpRjType.JumpsLimited, 
 				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
 		
 		
@@ -3192,7 +3114,6 @@ Console.WriteLine("X");
 		
 		currentEventExecute.Manage();
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
-		*/
 	}
 		
 	private void on_jump_rj_finished (object o, EventArgs args) 
@@ -4791,7 +4712,7 @@ Console.WriteLine("X");
 	 */
 
 	
-	private void on_jump_type_add_activate (object o, EventArgs args) {
+	private void on_jump_type_add_clicked (object o, EventArgs args) {
 		Log.WriteLine("Add new jump type");
 			
 		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
@@ -4846,11 +4767,11 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_jump_type_delete_simple_clicked (object o, EventArgs args) {
+	private void on_jump_type_delete_simple (object o, EventArgs args) {
 		jumpsMoreWin = JumpsMoreWindow.Show(app1, false); //delete jump type
 	}
 	
-	private void on_jump_type_delete_reactive_activate (object o, EventArgs args) {
+	private void on_jump_type_delete_reactive (object o, EventArgs args) {
 		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false); //delete jump type
 	}
 	
@@ -5062,14 +4983,6 @@ Console.WriteLine("X");
 		button_delete_current_person.Sensitive = option;
 	}
 
-	private void menuJumpsSensitive(bool option)
-	{
-		menuitem_edit_selected_jump_rj.Sensitive = option;
-		menuitem_repair_selected_jump_rj.Sensitive = option;
-		menuitem_delete_selected_jump_rj.Sensitive = option;
-		menuitem_jump_type_delete_reactive.Sensitive = option;
-	}
-	
 	private void menuRunsSensitive(bool option)
 	{
 		menu_execute_simple_runs1.Sensitive = option;
@@ -5109,7 +5022,6 @@ Console.WriteLine("X");
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
-		menuJumpsSensitive(false);
 		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 		menuToolsSensitive(false);
@@ -5129,7 +5041,6 @@ Console.WriteLine("X");
 		notebook_options.Sensitive = false;
 		
 		//button_last.Sensitive = false;
-		button_rj_last.Sensitive=false;
 		button_run_last.Sensitive=false;
 		button_run_interval_last.Sensitive=false;
 	}
@@ -5156,7 +5067,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
-		menuJumpsSensitive(false);
 		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 		menuToolsSensitive(false);
@@ -5169,7 +5079,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);
-		menuJumpsSensitive(true);
 		menuRunsSensitive(true);
 		menuOtherSensitive(true);
 		menuToolsSensitive(true);
@@ -5196,7 +5105,6 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = false;
 		
 		//menu
-		menuJumpsSensitive(false);
 		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 			
@@ -5215,13 +5123,6 @@ Console.WriteLine("X");
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
 			switch (currentEventType.Type) {
-				case EventType.Types.JUMP:
-					if(currentJumpType.IsRepetitive) {
-						button_rj_last.Sensitive = true;
-					} else {
-						button_rj_last.Sensitive = false;
-					}
-					break;
 				case EventType.Types.RUN:
 					if(currentRunType.HasIntervals) {
 						button_run_interval_last.Sensitive = true;
@@ -5247,7 +5148,6 @@ Console.WriteLine("X");
 		}
 		
 		//menu
-		menuJumpsSensitive(true);
 		menuRunsSensitive(true);
 		menuOtherSensitive(true);
 	}
@@ -5268,12 +5168,9 @@ Console.WriteLine("X");
 			success = true;
 		} 
 		if (type == "ALL" || type == "JumpRj") {
-			menuitem_edit_selected_jump_rj.Sensitive = show;
-			menuitem_delete_selected_jump_rj.Sensitive = show;
 			button_edit_selected_jump_rj.Sensitive = show;
 			button_delete_selected_jump_rj.Sensitive = show;
 			button_repair_selected_jump_rj.Sensitive = show;
-			menuitem_repair_selected_jump_rj.Sensitive = show;
 
 			button_video_play_selected_jump_rj.Sensitive = false;
 			if (myTreeViewJumpsRj.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(

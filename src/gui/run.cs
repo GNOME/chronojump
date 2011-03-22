@@ -1119,9 +1119,14 @@ public class RunsMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override void deleteTestLine() {
+		SqliteRunType.Delete(selectedEventName);
+	}
+
 	protected override string [] findTestTypesInSessions() {
 		return SqliteRun.SelectRuns(-1, -1, selectedEventName); 
 	}
+
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		RunsMoreWindowBox.jumps_runs_more.Hide();
@@ -1362,6 +1367,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		}
 	}
 	
+	protected override void deleteTestLine() {
+		SqliteRunIntervalType.Delete(selectedEventName);
+	}
+
 	protected override string [] findTestTypesInSessions() {
 		return SqliteRunInterval.SelectRuns(-1, -1, selectedEventName); 
 	}

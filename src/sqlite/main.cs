@@ -1658,7 +1658,7 @@ class Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		//delete DJ
-		SqliteJumpType.Delete("DJ", true);
+		SqliteJumpType.Delete(Constants.JumpTypeTable, "DJ", true);
 	}
 
 

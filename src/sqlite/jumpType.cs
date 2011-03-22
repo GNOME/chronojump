@@ -451,11 +451,11 @@ class SqliteJumpType : Sqlite
 		//dbcon.Close();
 	}
 	
-	public static void Delete(string name, bool dbconOpened)
+	public static void Delete(string tableName, string name, bool dbconOpened)
 	{
 		if(!dbconOpened)
 			dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.JumpTypeTable +
+		dbcmd.CommandText = "Delete FROM " + tableName + 
 			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

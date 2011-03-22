@@ -652,13 +652,6 @@ public class EventMoreWindow
 	
 	void on_button_delete_type_clicked (object o, EventArgs args)
 	{
-		/*
-		//search for events of that type on db
-		if(selectedEventType == EventType.Types.JUMP.ToString())
-			tests = SqliteJump.SelectJumps(-1, -1, "", selectedEventName); 
-		else //RUN
-			tests = SqliteRun.SelectRuns(-1, -1, selectedEventName); 
-		*/
 		string [] tests = findTestTypesInSessions();
 
 		//this will be much better doing a select distinct(session) instead of using SelectJumps or Runs
@@ -680,12 +673,13 @@ public class EventMoreWindow
 		}
 	}
 	
+
+	protected virtual void deleteTestLine() {
+	}
+	
 	protected void on_button_delete_type_accepted (object o, EventArgs args)
 	{
-		if(selectedEventType == EventType.Types.JUMP.ToString())
-			SqliteJumpType.Delete(selectedEventName, false);
-		else //RUN
-			SqliteRunType.Delete(selectedEventName);
+		deleteTestLine();
 
 		TreeModel model;
 		TreeIter iter;

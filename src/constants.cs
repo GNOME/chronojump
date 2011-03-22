@@ -276,6 +276,10 @@ public class Constants
 	//public static string FileNameZoomOutIcon = "gtk-zoom-out.png";
 	public static string FileNameZoomInIcon = "gtk-zoom-in.png";
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
+	public static string FileNameNew1 = "gtk-new-1.png";
+	public static string FileNameNewPlus = "gtk-new-plus.png";
+	public static string FileNameOpen1 = "gtk-open-1.png";
+	public static string FileNameOpenPlus = "gtk-open-plus.png";
 
 	public static string FileNameJumps = "stock_up.png";
 	public static string FileNameJumpsRJ = "stock_up_down.png";

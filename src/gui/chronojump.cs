@@ -59,6 +59,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_mode_pulses;
 	[Widget] Gtk.Label label_mode_multi_chronopic;
 
+	[Widget] Gtk.Image image_persons_new_1;
+	[Widget] Gtk.Image image_persons_new_plus;
+	[Widget] Gtk.Image image_persons_open_1;
+	[Widget] Gtk.Image image_persons_open_plus;
 
 	[Widget] Gtk.Statusbar appbar2;
 	[Widget] Gtk.TreeView treeview_persons;
@@ -449,6 +453,7 @@ public partial class ChronoJumpWindow
 	
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+		changeTestImage("", "", "LOGO");
 
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
@@ -518,7 +523,23 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsMenuRadio(radio_mode_pulses);
 		UtilGtk.ColorsMenuRadio(radio_mode_multi_chronopic);
 		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
+		image_mode_jumps.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
+		image_mode_jumps_reactive.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRuns);
+		image_mode_runs.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
+		image_mode_runs_intervallic.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
+		image_mode_reaction_times.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
+		image_mode_pulses.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
+		image_mode_multi_chronopic.Pixbuf = pixbuf;
 
+		
+		//jumps changes
 		label_extra_window_radio_jump_free.ModifyFg(StateType.Active, UtilGtk.WHITE);
 		label_extra_window_radio_jump_sj.ModifyFg(StateType.Active, UtilGtk.WHITE);
 		label_extra_window_radio_jump_sjl.ModifyFg(StateType.Active, UtilGtk.WHITE);
@@ -541,21 +562,30 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_takeoff);
 		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_more);
 
+		//jumpsRj changes
+		label_extra_window_radio_jump_rj_j.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_rj_t.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_rj_unlimited.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_rj_hexagon.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_jump_rj_more.ModifyFg(StateType.Active, UtilGtk.WHITE);
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
-		image_mode_jumps.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
-		image_mode_jumps_reactive.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRuns);
-		image_mode_runs.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
-		image_mode_runs_intervallic.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
-		image_mode_reaction_times.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
-		image_mode_pulses.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
-		image_mode_multi_chronopic.Pixbuf = pixbuf;
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_j);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_t);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_unlimited);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_hexagon);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_more);
+
+		//persons buttons
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameNew1);
+		image_persons_new_1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameNewPlus);
+		image_persons_new_plus.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen1);
+		image_persons_open_1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpenPlus);
+		image_persons_open_plus.Pixbuf = pixbuf;
+
+
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
@@ -4897,12 +4927,18 @@ Console.WriteLine("X");
 			notebook_options.NextPage();
 		while(notebook_options.CurrentPage > desiredPage) 
 			notebook_options.PrevPage();
+	
+		//change test image according to notebook_execute	
+		if(notebook_execute.CurrentPage == 0)
+			changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 1)
+			changeTestImage(EventType.Types.JUMP.ToString(), currentJumpRjType.Name, currentJumpRjType.ImageFileName);
 	}
 	
 	//changed by user clicking on notebook tabs
 	private void on_notebook_change_by_user (object o, SwitchPageArgs args) {
 		//show chronojump logo on down-left area
-		changeTestImage("", "", "LOGO");
+		//changeTestImage("", "", "LOGO");
 	}
 	
 	//help
@@ -5056,7 +5092,7 @@ Console.WriteLine("X");
 		menuSessionSensitive(true);
 		menuToolsSensitive(true);
 		
-		changeTestImage("", "", "LOGO");
+		//changeTestImage("", "", "LOGO");
 	}
 
 	//only called by delete person functions (if we run out of persons)

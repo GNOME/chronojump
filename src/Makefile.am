@@ -319,6 +319,10 @@ RESOURCES = \
 	../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	../images/gtk-zoom-in.png,gtk-zoom-in.png \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
+	../images/gtk-new-1.png,gtk-new-1.png \
+	../images/gtk-new-plus.png,gtk-new-plus.png \
+	../images/gtk-open-1.png,gtk-open-1.png \
+	../images/gtk-open-plus.png,gtk-open-plus.png \
 	../images/chronojump_320.png,chronojump_320.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump_logo.png,chronojump_logo.png \

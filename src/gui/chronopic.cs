@@ -415,8 +415,8 @@ public class ChronopicWindow
 	private Chronopic chronopicInit (Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
 		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		if(isWindows)
-			Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
+		//if(isWindows)
+		//	Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
 
 		success = true;
 		
@@ -467,7 +467,7 @@ public class ChronopicWindow
 			if(isWindows) {
 				returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
 				returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
-				returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
+				//returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
 			}
 
 			//this will raise on_radiobutton_simulated_ativate and 

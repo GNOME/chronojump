@@ -53,10 +53,12 @@ public class PulseExecute : EventExecute
 	}
 
 	//execution
-	public PulseExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			//double progressbarLimit, 
+			ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -71,7 +73,10 @@ public class PulseExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+//		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
@@ -207,7 +212,7 @@ public class PulseExecute : EventExecute
 								tracks ++;	
 
 								//update event progressbar
-								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								//progressBarEventOrTimePreExecution(
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										false, //activityMode
@@ -217,7 +222,7 @@ public class PulseExecute : EventExecute
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								//eventExecuteWin.PreparePulseGraph(timestamp/1000.0, timesString);
+								//preparePulseGraph(timestamp/1000.0, timesString);
 								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
@@ -244,7 +249,7 @@ public class PulseExecute : EventExecute
 								}
 
 								//update event progressbar
-								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								//progressBarEventOrTimePreExecution(
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										true, //PercentageMode
@@ -253,7 +258,7 @@ public class PulseExecute : EventExecute
 								needUpdateEventProgressBar = true;
 
 								//update graph
-								//eventExecuteWin.PreparePulseGraph(timestamp/1000.0, timesString);
+								//preparePulseGraph(timestamp/1000.0, timesString);
 								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
@@ -299,7 +304,7 @@ public class PulseExecute : EventExecute
 	}
 	
 	protected override void updateProgressBarForFinish() {
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				totalPulsesNum
@@ -316,7 +321,7 @@ public class PulseExecute : EventExecute
 		//if event has end, chronojump will overwrite label_time_value
 			
 		//limited by tracks, but has no finished
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activiyMode
 				myTimeValue
@@ -348,11 +353,10 @@ public class PulseExecute : EventExecute
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//eventExecuteWin.PreparePulseGraph(Util.GetLast(timesString), timesString);
+		//app1.PreparePulseGraph(Util.GetLast(timesString), timesString);
 		prepareEventGraphPulse = new PrepareEventGraphPulse(Util.GetLast(timesString), timesString);
 		needUpdateGraphType = eventType.PULSE;
 		needUpdateGraph = true;
-		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 	}
 

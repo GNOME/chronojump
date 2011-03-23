@@ -40,10 +40,11 @@ public class ReactionTimeExecute : EventExecute
 	}
 
 	//reactionTime execution
-	public ReactionTimeExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+	public ReactionTimeExecute(int personID, string personName, int sessionID,   
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -54,7 +55,10 @@ public class ReactionTimeExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
 		simulated = false;
@@ -171,7 +175,7 @@ Log.Write("w1 ");
 					double percentageToPass = 2; //has two phases
 
 Log.Write("w5 ");			
-					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					//progressBarEventOrTimePreExecution(
 					//don't do it, put a boolean value and let the PulseGTK do it
 					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
@@ -194,7 +198,7 @@ Log.Write("w9 ");
 Log.Write("wa ");				
 						
 					//update event progressbar
-					//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+					//progressBarEventOrTimePreExecution(
 					//don't do it, put a boolean value and let the PulseGTK do it
 					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
@@ -227,7 +231,7 @@ Log.Write("wb ");
 	
 	protected override void updateTimeProgressBar() {
 		//has no finished, but move progressbar time
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				-1	//don't want to show info on label
@@ -256,12 +260,11 @@ Log.Write("wb ");
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//eventExecuteWin.PrepareJumpSimpleGraph(tv, tc);
+		//app1.PrepareJumpSimpleGraph(tv, tc);
 		prepareEventGraphReactionTime = new PrepareEventGraphReactionTime(time);
 		needUpdateGraphType = eventType.REACTIONTIME;
 		needUpdateGraph = true;
 		
-		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	

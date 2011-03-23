@@ -100,6 +100,7 @@ FILES = \
 	gui/dialogServerStats.cs\
  	gui/evaluator.cs\
  	gui/queryServer.cs\
+	gui/usefulObjects.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/global.cs\

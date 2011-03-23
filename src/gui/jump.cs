@@ -792,6 +792,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_label_cm;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_arms;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
+	[Widget] Gtk.Label extra_window_label_jumps_no_options;
 	
 	//options jumps_rj
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
@@ -804,6 +805,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_rj_label_weight;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
+	[Widget] Gtk.Label extra_window_label_jumps_rj_no_options;
 	
 	[Widget] Gtk.Label label_extra_window_radio_jump_free;
 	[Widget] Gtk.Label label_extra_window_radio_jump_sj;
@@ -918,28 +920,43 @@ partial class ChronoJumpWindow
 		extra_window_jumps_label_selected.UseMarkup = true; 
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
+		bool hasOptions = false;
 	
-		if(myJumpType.HasWeight)
+		if(myJumpType.HasWeight) {
+			hasOptions = true;
 			extra_window_showWeightData(myJumpType, true);	
-		else 
+		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
-				myJumpType.Name == Constants.TakeOffWeightName)
+				myJumpType.Name == Constants.TakeOffWeightName) 
 			extra_window_showFallData(myJumpType, false);	
-		else
-			extra_window_showFallData(myJumpType, true);	
+		else {
+			hasOptions = true;
+			extra_window_showFallData(myJumpType, true);
+		}
 		
 		//show technique (arms) only in DJ
-		//on DJa and DJna (coming from More jumps) don't need to show technique data 
 		if(myJumpType.StartIn || myJumpType.IsRepetitive || 
-				myJumpType.Name == "DJa" || myJumpType.Name == "DJna" || 
-				myJumpType.Name == Constants.TakeOffName || myJumpType.Name == Constants.TakeOffWeightName)
-			extra_window_showTechniqueArmsData(false);
-		else
-			extra_window_showTechniqueArmsData(true);
+				myJumpType.Name == Constants.TakeOffName || 
+				myJumpType.Name == Constants.TakeOffWeightName) {
+			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
+		} else if(myJumpType.Name == "DJa" || myJumpType.Name == "DJna") { 
+			//on DJa and DJna (coming from More jumps) need to show technique data but not change
+			if(myJumpType.Name == "DJa")
+				extra_window_jumps_check_dj_arms.Active = true;
+			else //myJumpType.Name == "DJna"
+				extra_window_jumps_check_dj_arms.Active = false;
+
+			hasOptions = true;
+			extra_window_showTechniqueArmsData(true, false); //visible, sensitive
+		}
+		else {
+			hasOptions = true;
+			extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;
+			extra_window_showTechniqueArmsData(true, true); //visible, sensitive
+		}
 		
-		extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;
 		extra_window_jumps_spinbutton_weight.Value = extra_window_jumps_weight;
 		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
 		if (extra_window_jumps_option == "Kg") {
@@ -947,6 +964,8 @@ partial class ChronoJumpWindow
 		} else {
 			extra_window_jumps_radiobutton_weight.Active = true;
 		}
+
+		extra_window_showNoOptions(myJumpType, hasOptions);
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
@@ -955,8 +974,10 @@ partial class ChronoJumpWindow
 		extra_window_jumps_rj_label_selected.UseMarkup = true; 
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
+		bool hasOptions = false;
 	
-		if(myJumpType.IsRepetitive && myJumpType.FixedValue >= 0) {
+		if(myJumpType.FixedValue >= 0) {
+			hasOptions = true;
 			string jumpsName = Catalog.GetString("jumps");
 			string secondsName = Catalog.GetString("seconds");
 			if(myJumpType.JumpsLimited) {
@@ -973,18 +994,23 @@ partial class ChronoJumpWindow
 				extra_window_jumps_rj_spinbutton_limit.Sensitive = true;
 				extra_window_jumps_rj_spinbutton_limit.Value = extra_window_jumps_rj_limited;
 			}
-		} 
+			extra_window_showLimitData (true);
+		} else  //unlimited
+			extra_window_showLimitData (false);
 
-		if(myJumpType.HasWeight)
+		if(myJumpType.HasWeight) {
+			hasOptions = true;
 			extra_window_showWeightData(myJumpType, true);	
-		else 
+		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
 		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
 				myJumpType.Name == Constants.TakeOffWeightName)
 			extra_window_showFallData(myJumpType, false);	
-		else
+		else {
 			extra_window_showFallData(myJumpType, true);	
+			hasOptions = true;
+		}
 		
 		extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
 		extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
@@ -993,6 +1019,8 @@ partial class ChronoJumpWindow
 		} else {
 			extra_window_jumps_rj_radiobutton_weight.Active = true;
 		}
+
+		extra_window_showNoOptions(myJumpType, hasOptions);
 	}
 
 
@@ -1116,9 +1144,12 @@ partial class ChronoJumpWindow
 		}
 	}
 	
-	private void extra_window_showTechniqueArmsData (bool show) {
+	private void extra_window_showTechniqueArmsData (bool show, bool sensitive) {
 		extra_window_jumps_label_dj_arms.Visible = show;
 		extra_window_jumps_check_dj_arms.Visible = show;
+		
+		extra_window_jumps_label_dj_arms.Sensitive = sensitive;
+		extra_window_jumps_check_dj_arms.Sensitive = sensitive;
 	}
 	
 	private void extra_window_showFallData (JumpType myJumpType, bool show) {
@@ -1131,6 +1162,20 @@ partial class ChronoJumpWindow
 			extra_window_jumps_spinbutton_fall.Visible = show;
 			extra_window_jumps_label_cm.Visible = show;
 		}
+	}
+	
+	private void extra_window_showLimitData (bool show) {
+		extra_window_jumps_rj_label_limit.Visible = show;
+		extra_window_jumps_rj_spinbutton_limit.Visible = show;
+		extra_window_jumps_rj_label_limit_units.Visible = show;
+	}
+	
+			
+	private void extra_window_showNoOptions(JumpType myJumpType, bool hasOptions) {
+		if(myJumpType.IsRepetitive) 
+			extra_window_label_jumps_rj_no_options.Visible = ! hasOptions;
+		else 
+			extra_window_label_jumps_no_options.Visible = ! hasOptions;
 	}
 
 

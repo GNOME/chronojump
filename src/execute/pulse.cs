@@ -76,6 +76,7 @@ public class PulseExecute : EventExecute
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
@@ -223,7 +224,7 @@ public class PulseExecute : EventExecute
 
 								//update graph
 								//preparePulseGraph(timestamp/1000.0, timesString);
-								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
+								PrepareEventGraphPulseObject = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
 
@@ -259,7 +260,7 @@ public class PulseExecute : EventExecute
 
 								//update graph
 								//preparePulseGraph(timestamp/1000.0, timesString);
-								prepareEventGraphPulse = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
+								PrepareEventGraphPulseObject = new PrepareEventGraphPulse(timestamp/1000.0, timesString);
 								needUpdateGraphType = eventType.PULSE;
 								needUpdateGraph = true;
 
@@ -354,7 +355,7 @@ public class PulseExecute : EventExecute
 		fakeButtonFinished.Click();
 		
 		//app1.PreparePulseGraph(Util.GetLast(timesString), timesString);
-		prepareEventGraphPulse = new PrepareEventGraphPulse(Util.GetLast(timesString), timesString);
+		PrepareEventGraphPulseObject = new PrepareEventGraphPulse(Util.GetLast(timesString), timesString);
 		needUpdateGraphType = eventType.PULSE;
 		needUpdateGraph = true;
 		needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here

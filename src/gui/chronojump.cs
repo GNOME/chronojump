@@ -328,6 +328,7 @@ public partial class ChronoJumpWindow
 
 	private static JumpType currentJumpType;
 	private static JumpType currentJumpRjType;
+	bool thisJumpIsSimple;	//needed on updating
 	bool lastJumpIsSimple;	//needed on update
 	private static RunType currentRunType;
 	private static RunType currentRunIntervalType;
@@ -2951,7 +2952,6 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
-Log.WriteLine("a");
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
@@ -2959,7 +2959,6 @@ Log.WriteLine("a");
 			else 
 				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_weight, currentPersonSession.Weight);
 		}
-Log.WriteLine("b");
 		double myFall = 0;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
@@ -2968,12 +2967,10 @@ Log.WriteLine("b");
 		}
 		
 			
-Log.WriteLine("c");
 		//used by cancel and finish
 		//currentEventType = new JumpType();
 		currentEventType = currentJumpType;
 			
-Log.WriteLine("d");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
@@ -2981,7 +2978,6 @@ Log.WriteLine("d");
 		//update, don't do this now, because it's buggy with currentJump on More
 		//notebooks_change(0);
 		
-Log.WriteLine("e");
 		//show the event doing window
 		double progressbarLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn || 
@@ -2989,14 +2985,14 @@ Log.WriteLine("e");
 				currentJumpType.Name == Constants.TakeOffWeightName)
 			progressbarLimit = 2; //2 for normal jump (or take off)
 			
-Log.WriteLine("f");
 		//don't let update until test finishes
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
-Log.WriteLine("g");
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 
@@ -3008,39 +3004,35 @@ Log.WriteLine("g");
 //			chronopicWin.Connected
 			);
 
-Log.WriteLine("h");
 		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
 		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
-Log.WriteLine("i");
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
 		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-Log.WriteLine("j");
 		//currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn,
 				progressbarLimit, egd);
 
-Log.WriteLine("k");
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
-Log.WriteLine("l");
 		if( currentJumpType.StartIn ) 
 			currentEventExecute.Manage();
 		 else 
 			currentEventExecute.ManageFall();
-
-Log.WriteLine("m");
+		
+		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
-Log.WriteLine("n");
 	}	
 
 	
@@ -3136,6 +3128,8 @@ Log.WriteLine("n");
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Reactive Jump"), //windowTitle
 			Catalog.GetString("Jumps"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 
@@ -3170,6 +3164,10 @@ Log.WriteLine("n");
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
+		
+		thisJumpIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
 	}
@@ -3379,6 +3377,8 @@ Log.WriteLine("n");
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Run"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 
@@ -3588,6 +3588,8 @@ Log.WriteLine("n");
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 		//	Catalog.GetString("Execute Intervallic Run"), //windowTitle
 			Catalog.GetString("Tracks"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 
@@ -3720,6 +3722,8 @@ Log.WriteLine("n");
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Jump"), //windowTitle
 //			Catalog.GetString("Execute Reaction Time"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -3885,6 +3889,8 @@ Log.WriteLine("n");
 		//show the event doing window
 //		eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Pulse"), //windowTitle
 			Catalog.GetString("Pulses"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 
@@ -4060,6 +4066,8 @@ Log.WriteLine("n");
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			currentPerson.UniqueID, 
+			currentPerson.Name, 
 //			Catalog.GetString("Execute Multi Chronopic"), //windowTitle
 			Catalog.GetString("Changes"),  	  //name of the different moments
 //			currentPerson.UniqueID, currentPerson.Name, 

@@ -58,6 +58,7 @@ public class ReactionTimeExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
@@ -261,7 +262,7 @@ Log.Write("wb ");
 		fakeButtonFinished.Click();
 		
 		//app1.PrepareJumpSimpleGraph(tv, tc);
-		prepareEventGraphReactionTime = new PrepareEventGraphReactionTime(time);
+		PrepareEventGraphReactionTimeObject = new PrepareEventGraphReactionTime(time);
 		needUpdateGraphType = eventType.REACTIONTIME;
 		needUpdateGraph = true;
 		

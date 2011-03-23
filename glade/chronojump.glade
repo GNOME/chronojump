@@ -18185,6 +18185,7 @@ weight</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="extra_window_jumps_rj_label_limit_units">
                                                             <property name="visible">True</property>
+                                                            <property name="xalign">0</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">1</property>
@@ -18458,28 +18459,46 @@ weight</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkEventBox" id="eventbox_image_test">
+                                              <widget class="GtkVBox" id="vbox28">
                                                 <property name="visible">True</property>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox_image_test">
+                                                  <widget class="GtkLabel" id="label9">
                                                     <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Description</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkAspectFrame" id="aspectframe1">
+                                                    <property name="visible">True</property>
+                                                    <property name="label_xalign">0</property>
+                                                    <property name="shadow_type">in</property>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox_image_test">
+                                                      <widget class="GtkEventBox" id="eventbox_image_test">
                                                         <property name="visible">True</property>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label_image_test">
+                                                          <widget class="GtkVBox" id="vbox_image_test">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_image_test">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_image_test">
                                                             <property name="visible">True</property>
                                                             <property name="use_markup">True</property>
                                                             <property name="ellipsize">end</property>
                                                             <property name="width_chars">15</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkAlignment" id="alignment106">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment106">
                                                             <property name="visible">True</property>
                                                             <property name="xalign">1</property>
                                                             <child>
@@ -18495,33 +18514,42 @@ weight</property>
                                                             </child>
                                                             </widget>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_test">
+                                                            <property name="visible">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkImage" id="image_test">
-                                                        <property name="visible">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="pack_type">end</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
                                                     </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
+                                                <property name="expand">False</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
@@ -18579,27 +18607,14 @@ weight</property>
                                                   <widget class="GtkVBox" id="vbox18">
                                                     <property name="visible">True</property>
                                                     <child>
-                                                      <widget class="GtkLabel" id="event_execute_label_phases_name">
-                                                        <property name="visible">True</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHBox" id="hbox14">
+                                                      <widget class="GtkHBox" id="hbox32">
                                                         <property name="visible">True</property>
                                                         <child>
-                                                          <widget class="GtkProgressBar" id="event_execute_progressbar_event">
-                                                            <property name="width_request">148</property>
-                                                            <property name="height_request">22</property>
+                                                          <widget class="GtkLabel" id="event_execute_label_phases_name">
                                                             <property name="visible">True</property>
-                                                            <property name="pulse_step">0.10000000149</property>
+                                                            <property name="label" translatable="yes">Phases</property>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -18617,7 +18632,16 @@ weight</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkProgressBar" id="event_execute_progressbar_event">
+                                                        <property name="height_request">22</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="pulse_step">0.10000000149</property>
+                                                      </widget>
+                                                      <packing>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -18631,29 +18655,14 @@ weight</property>
                                                     <property name="visible">True</property>
                                                     <property name="spacing">4</property>
                                                     <child>
-                                                      <widget class="GtkLabel" id="label251">
+                                                      <widget class="GtkHBox" id="hbox14">
                                                         <property name="visible">True</property>
-                                                        <property name="label" translatable="yes">Time</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHBox" id="hbox15">
-                                                        <property name="visible">True</property>
-                                                        <property name="spacing">4</property>
                                                         <child>
-                                                          <widget class="GtkProgressBar" id="event_execute_progressbar_time">
-                                                            <property name="width_request">148</property>
-                                                            <property name="height_request">22</property>
+                                                          <widget class="GtkLabel" id="label251">
                                                             <property name="visible">True</property>
-                                                            <property name="pulse_step">0.10000000149</property>
+                                                            <property name="label" translatable="yes">Time</property>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -18670,7 +18679,16 @@ weight</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkProgressBar" id="event_execute_progressbar_time">
+                                                        <property name="height_request">22</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="pulse_step">0.10000000149</property>
+                                                      </widget>
+                                                      <packing>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -18892,7 +18910,7 @@ weight</property>
                                         <child>
                                           <widget class="GtkVBox" id="vbox22">
                                             <property name="visible">True</property>
-                                            <property name="spacing">8</property>
+                                            <property name="spacing">10</property>
                                             <child>
                                               <widget class="GtkVBox" id="vbox26">
                                                 <property name="visible">True</property>
@@ -18902,7 +18920,6 @@ weight</property>
                                                     <child>
                                                       <widget class="GtkLabel" id="event_graph_label_graph_person">
                                                         <property name="visible">True</property>
-                                                        <property name="xalign">0</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">0</property>
@@ -18911,7 +18928,6 @@ weight</property>
                                                     <child>
                                                       <widget class="GtkLabel" id="event_graph_label_graph_test">
                                                         <property name="visible">True</property>
-                                                        <property name="xalign">0</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">1</property>
@@ -18924,12 +18940,19 @@ weight</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkDrawingArea" id="event_execute_drawingarea">
-                                                    <property name="width_request">300</property>
-                                                    <property name="height_request">200</property>
+                                                  <widget class="GtkAspectFrame" id="aspectframe2">
                                                     <property name="visible">True</property>
-                                                    <signal name="expose_event" handler="on_event_execute_drawingarea_expose_event"/>
-                                                    <signal name="configure_event" handler="on_event_execute_drawingarea_configure_event"/>
+                                                    <property name="label_xalign">0</property>
+                                                    <property name="shadow_type">in</property>
+                                                    <child>
+                                                      <widget class="GtkDrawingArea" id="event_execute_drawingarea">
+                                                        <property name="width_request">300</property>
+                                                        <property name="height_request">200</property>
+                                                        <property name="visible">True</property>
+                                                        <signal name="expose_event" handler="on_event_execute_drawingarea_expose_event"/>
+                                                        <signal name="configure_event" handler="on_event_execute_drawingarea_configure_event"/>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -19003,6 +19026,7 @@ weight</property>
                                                     <property name="visible">True</property>
                                                     <property name="n_rows">2</property>
                                                     <property name="n_columns">2</property>
+                                                    <property name="row_spacing">4</property>
                                                     <child>
                                                       <widget class="GtkTable" id="event_execute_table_jump_simple_values">
                                                         <property name="visible">True</property>
@@ -19251,7 +19275,7 @@ weight</property>
                                                         <property name="n_rows">4</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <child>
                                                           <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tc">
                                                             <property name="visible">True</property>
@@ -19502,7 +19526,7 @@ weight</property>
                                                         <property name="n_rows">4</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <property name="homogeneous">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label267">
@@ -19616,7 +19640,6 @@ weight</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -19641,6 +19664,7 @@ weight</property>
                                                     <property name="visible">True</property>
                                                     <property name="n_rows">2</property>
                                                     <property name="n_columns">2</property>
+                                                    <property name="row_spacing">4</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="event_execute_hbox_run_simple_titles">
                                                         <property name="visible">True</property>
@@ -19894,7 +19918,7 @@ weight</property>
                                                         <property name="n_rows">3</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <child>
                                                           <widget class="GtkEventBox" id="event_execute_eventbox_run_interval_speed">
                                                             <property name="visible">True</property>
@@ -20045,7 +20069,7 @@ weight</property>
                                                         <property name="n_rows">3</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <property name="homogeneous">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label305">
@@ -20131,7 +20155,6 @@ weight</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -20156,6 +20179,7 @@ weight</property>
                                                     <property name="visible">True</property>
                                                     <property name="n_rows">2</property>
                                                     <property name="n_columns">2</property>
+                                                    <property name="row_spacing">4</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="event_execute_hbox_reaction_time_titles">
                                                         <property name="visible">True</property>
@@ -20331,7 +20355,7 @@ weight</property>
                                                         <property name="n_rows">2</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label309">
                                                             <property name="visible">True</property>
@@ -20399,7 +20423,7 @@ weight</property>
                                                         <property name="n_rows">2</property>
                                                         <property name="n_columns">2</property>
                                                         <property name="column_spacing">4</property>
-                                                        <property name="row_spacing">2</property>
+                                                        <property name="row_spacing">4</property>
                                                         <property name="homogeneous">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="label313">
@@ -20457,7 +20481,6 @@ weight</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>

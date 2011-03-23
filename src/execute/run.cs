@@ -68,6 +68,7 @@ public class RunExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
@@ -330,7 +331,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 		fakeButtonFinished.Click();
 		
 		//app1.PrepareRunSimpleGraph(time, distance/time);
-		prepareEventGraphRunSimple = new PrepareEventGraphRunSimple(time, distance/time);
+		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(time, distance/time);
 		needUpdateGraphType = eventType.RUN;
 		needUpdateGraph = true;
 		
@@ -407,6 +408,7 @@ public class RunIntervalExecute : RunExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 	
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
@@ -494,7 +496,7 @@ public class RunIntervalExecute : RunExecute
 							distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 
 							//update graph
-							prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+							PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 									distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
 
 							needUpdateGraphType = eventType.RUNINTERVAL;
@@ -547,7 +549,7 @@ public class RunIntervalExecute : RunExecute
 								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 							
 								//update graph
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+								PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
 
 								needUpdateGraphType = eventType.RUNINTERVAL;
@@ -601,7 +603,7 @@ public class RunIntervalExecute : RunExecute
 								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
 							
 								//update graph
-								prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+								PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
 
 								needUpdateGraphType = eventType.RUNINTERVAL;
@@ -825,7 +827,7 @@ public class RunIntervalExecute : RunExecute
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 
-			prepareEventGraphRunInterval = new PrepareEventGraphRunInterval(
+			PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
 					distanceIntervalFixed, Util.GetLast(intervalTimesString), intervalTimesString, distanceTotal, distancesString);
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;

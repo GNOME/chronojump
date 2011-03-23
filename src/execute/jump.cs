@@ -48,10 +48,11 @@ public class JumpExecute : EventExecute
 	}
 
 	//jump execution
-	public JumpExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn)
+	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -65,6 +66,8 @@ public class JumpExecute : EventExecute
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
+		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -72,6 +75,7 @@ public class JumpExecute : EventExecute
 			hasFall = false;
 		}
 		
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
 		simulated = false;
@@ -243,7 +247,7 @@ Log.Write("w2 ");
 						initializeTimer();
 
 Log.Write("w3 ");				
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
@@ -271,7 +275,7 @@ Log.Write("w4 ");
 							percentageToPass = 3; //drop jump has three phases
 							
 Log.Write("w5 ");			
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
@@ -309,7 +313,7 @@ Log.Write("w6 ");
 
 						//update event progressbar
 Log.Write("w7 ");			
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
@@ -325,7 +329,7 @@ Log.Write("w9 ");
 Log.Write("wa ");				
 						
 						//update event progressbar
-						//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
@@ -359,7 +363,7 @@ Log.Write("wb ");
 	
 	protected override void updateTimeProgressBar() {
 		//has no finished, but move progressbar time
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				-1	//don't want to show info on label
@@ -461,13 +465,14 @@ public class JumpRjExecute : JumpExecute
 	}
 
 	//jump execution
-	public JumpRjExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, 
+	public JumpRjExecute(int personID, string personName, 
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
+			double progressbarLimit, ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -491,10 +496,13 @@ public class JumpRjExecute : JumpExecute
 		this.allowFinishAfterTime = allowFinishAfterTime;
 		this.volumeOn = volumeOn;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
 		
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
 		simulated = false;
@@ -662,7 +670,7 @@ public class JumpRjExecute : JumpExecute
 							tvCount = tvCount + 1;
 							
 							//update event progressbar
-							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							//app1.ProgressBarEventOrTimePreExecution(
 							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									jumpsLimited, //if jumpsLimited: do fraction; if time limited: do pulse
@@ -705,7 +713,7 @@ public class JumpRjExecute : JumpExecute
 							success = true;
 						
 							//update event progressbar
-							//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+							//app1.ProgressBarEventOrTimePreExecution(
 							updateProgressBar= new UpdateProgressBar (
 									true, //isEvent
 									true, //percentageMode
@@ -801,7 +809,7 @@ public class JumpRjExecute : JumpExecute
 	}
 	
 	protected override void updateProgressBarForFinish() {
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				//limitAsDouble
@@ -814,14 +822,14 @@ public class JumpRjExecute : JumpExecute
 
 		if(firstRjValue)  
 			//until it has not landed for first time, show a pulse with no values
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+			progressBarEventOrTimePreExecution(
 					false, //isEvent false: time
 					false, //activity mode
 					-1	//don't want to show info on label
 					); 
 		else
 			//after show a progressBar with time value
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+			progressBarEventOrTimePreExecution(
 					false, //isEvent false: time
 					!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
 					timerCount
@@ -987,7 +995,6 @@ public class JumpRjExecute : JumpExecute
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();
 
-			//eventExecuteWin.EventEnded();
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
 	}

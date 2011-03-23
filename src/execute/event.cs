@@ -72,7 +72,11 @@ public class EventExecute
 	protected bool needEndEvent;
 	
 	protected bool volumeOn;
+	protected double progressbarLimit;
 	protected RepetitiveConditionsWindow repetitiveConditionsWin;
+
+	protected ExecutingGraphData egd;
+	
 
 
 	//better as private and don't inherit, don't know why
@@ -108,6 +112,7 @@ public class EventExecute
 
 	//for raise a signal and manage it on chronojump.cs
 	protected Gtk.Button fakeButtonFinished;
+	protected Gtk.Button fakeButtonEventEnded;
 	
 	//for cancelling from chronojump.cs
 	protected bool cancel;
@@ -137,7 +142,8 @@ public class EventExecute
 	
 
 
-	protected EventExecuteWindow eventExecuteWin;
+	//protected EventExecuteWindow eventExecuteWin;
+	//protected ChronoJumpWindow app1;
 	
 	protected Event eventDone;
 	
@@ -255,10 +261,13 @@ public class EventExecute
 
 		//updateTimeProgressBar();
 		if(needEndEvent) {
-			eventExecuteWin.EventEnded();
+			//app1.EventEnded();
+			fakeButtonEventEnded.Click();
 			//needEndEvent = false;
 			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
-				eventExecuteWin.RunATouchPlatform();
+				//app1.RunATouchPlatform();
+				//fakeButtonRunATouchPlatform.Click();
+				runATouchPlatform();
 		} else 
 			updateTimeProgressBar();
 		
@@ -269,7 +278,8 @@ public class EventExecute
 
 		if(needUpdateEventProgressBar) {
 			//update event progressbar
-			eventExecuteWin.ProgressBarEventOrTimePreExecution(
+			//app1.ProgressBarEventOrTimePreExecution(
+			progressBarEventOrTimePreExecution(
 					updateProgressBar.IsEvent,
 					updateProgressBar.PercentageMode,
 					updateProgressBar.ValueToShow
@@ -296,12 +306,14 @@ public class EventExecute
 //	Console.WriteLine("pulse update graph 4");	
 		
 		if(needSensitiveButtonFinish) {
-			eventExecuteWin.ButtonFinishMakeSensitive();
+			//ButtonFinishMakeSensitive();
+			egd.Button_finish.Sensitive = true;
 			needSensitiveButtonFinish = false;
 		}
 		
 		if(needShowSyncMessage) {
-			eventExecuteWin.ShowSyncMessage(syncMessage);
+			//app1.ShowSyncMessage(syncMessage);
+			egd.Label_sync_message.Text = syncMessage;
 			needShowSyncMessage = false;
 		}
 		
@@ -314,6 +326,59 @@ public class EventExecute
 //	Console.WriteLine("pulse done");	
 		//else 
 		//	updateTimeProgressBar();
+	}
+	
+	private void runATouchPlatform() {
+		egd.Label_message1.Text = "<b>" + "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.\nAt this version, this message doesn't quit." + "</b>";
+		egd.Label_message1.UseMarkup = true;
+	}
+
+	public void RunANoStrides() {
+		egd.Label_message2.Text = "<b>" + "This Run Analysis is not valid because there are no strides." + "</b>";
+		egd.Label_message2.UseMarkup = true;
+	}
+	
+	protected void progressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
+	{
+		if (isEvent) 
+			progressbarEventOrTimeExecution (egd.Progressbar_event, percentageMode, egd.Label_event_value, events);
+		else
+			progressbarEventOrTimeExecution (egd.Progressbar_time, percentageMode, egd.Label_time_value, events);
+	}
+
+	protected void progressbarEventOrTimeExecution (Gtk.ProgressBar progressbar, bool percentageMode, Gtk.Label label_value, double events)
+	{
+		if(progressbarLimit == -1) {	//unlimited event (until 'finish' is clicked)
+			progressbar.Pulse();
+			//label_value.Text = events.ToString();
+			if(events != -1)
+				label_value.Text = Math.Round(events,3).ToString();
+		} else {
+			if(percentageMode) {
+				double myFraction = events / progressbarLimit *1.0;
+
+				if(myFraction > 1)
+					myFraction = 1;
+				else if(myFraction < 0)
+					myFraction = 0;
+
+				progressbar.Fraction = myFraction;
+				//progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + progressbarLimit.ToString();
+				if(events == -1) //we don't want to display nothing
+					//progressbar.Text = "";
+					label_value.Text = "";
+				else 
+					label_value.Text = Math.Round(events,3).ToString();
+			} else {
+				//activity mode
+				progressbar.Pulse();
+
+				//pass -1 in events in activity mode if don't want to use this label
+				if(events != -1)
+					//label_value.Text = Util.TrimDecimals(events.ToString(), 1);
+					label_value.Text = Math.Round(events,3).ToString();
+			}
+		}
 	}
 			
 	//check if we should simulate an arriving or leaving the platform depending on random time values
@@ -374,16 +439,18 @@ public class EventExecute
 	}
 			
 	private void updateGraph() {
+		/*
+		 * TODO: decide where Prepare methods should be. maybe here?, then need to pass layout, pixmap, drawingarea, ...
 		switch(needUpdateGraphType) {
 			case eventType.JUMP:
 				Log.Write("update graph: JUMP");
-				eventExecuteWin.PrepareJumpSimpleGraph(
+				app1.PrepareJumpSimpleGraph(
 						prepareEventGraphJumpSimple.tv, 
 						prepareEventGraphJumpSimple.tc);
 				break;
 			case eventType.JUMPREACTIVE:
 				Log.Write("update graph: JUMPREACTIVE");
-				eventExecuteWin.PrepareJumpReactiveGraph(
+				app1.PrepareJumpReactiveGraph(
 						prepareEventGraphJumpReactive.lastTv, 
 						prepareEventGraphJumpReactive.lastTc,
 						prepareEventGraphJumpReactive.tvString,
@@ -392,13 +459,13 @@ public class EventExecute
 				break;
 			case eventType.RUN:
 				Log.Write("update graph: RUN");
-				eventExecuteWin.PrepareRunSimpleGraph(
+				app1.PrepareRunSimpleGraph(
 						prepareEventGraphRunSimple.time, 
 						prepareEventGraphRunSimple.speed);
 				break;
 			case eventType.RUNINTERVAL:
 				Log.Write("update graph: RUNINTERVAL");
-				eventExecuteWin.PrepareRunIntervalGraph(
+				app1.PrepareRunIntervalGraph(
 						prepareEventGraphRunInterval.distance, 
 						prepareEventGraphRunInterval.lastTime,
 						prepareEventGraphRunInterval.timesString,
@@ -408,18 +475,18 @@ public class EventExecute
 				break;
 			case eventType.PULSE:
 				Log.Write("update graph: PULSE");
-				eventExecuteWin.PreparePulseGraph(
+				app1.PreparePulseGraph(
 						prepareEventGraphPulse.lastTime, 
 						prepareEventGraphPulse.timesString);
 				break;
 			case eventType.REACTIONTIME:
 				Log.Write("update graph: REACTIONTIME");
-				eventExecuteWin.PrepareReactionTimeGraph(
+				app1.PrepareReactionTimeGraph(
 						prepareEventGraphReactionTime.time); 
 				break;
 			case eventType.MULTICHRONOPIC:
 				Log.Write("update graph: MULTICHRONOPIC");
-				eventExecuteWin.PrepareMultiChronopicGraph(
+				app1.PrepareMultiChronopicGraph(
 						//prepareEventGraphMultiChronopic.timestamp, 
 						prepareEventGraphMultiChronopic.cp1StartedIn, 
 						prepareEventGraphMultiChronopic.cp2StartedIn, 
@@ -436,17 +503,18 @@ public class EventExecute
 						);
 				break;
 		}
+		*/
 	}
 	
 	protected virtual bool shouldFinishByTime() {
 		return true;
 	}
 
-	//called by the GTK loop (can call eventExecuteWin directly
+	//called by the GTK loop (can call app1 directly
 	protected virtual void updateProgressBarForFinish() {
 	}
 	
-	//called by the GTK loop (can call eventExecuteWin directly
+	//called by the GTK loop (can call app1 directly
 	protected virtual void updateTimeProgressBar() {
 	}
 	
@@ -467,7 +535,8 @@ public class EventExecute
 	{
 		cancel = true;
 		totallyCancelled = true;
-		eventExecuteWin.EventEnded();
+		//app1.EventEnded();
+		fakeButtonEventEnded.Click();
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
@@ -490,12 +559,17 @@ public class EventExecute
 		Console.WriteLine("at event.cs");
 	}
 			
-	public Gtk.Button FakeButtonFinished
-	{
-		get {
-			return	fakeButtonFinished;
-		}
+	public Gtk.Button FakeButtonFinished {
+		get { return fakeButtonFinished; }
 	}
+
+	public Gtk.Button FakeButtonEventEnded {
+		get { return fakeButtonEventEnded; }
+	}
+
+	//public Gtk.Button FakeButtonRunATouchPlatform {
+	//	get { return fakeButtonRunATouchPlatform; }
+	//}
 
 	//called from chronojump.cs for finishing events earlier
 	public bool Finish

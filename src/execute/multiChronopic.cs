@@ -75,9 +75,11 @@ public class MultiChronopicExecute : EventExecute
 	}
 
 	//execution
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
-			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app) {
-		this.eventExecuteWin = eventExecuteWin;
+	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
+			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app,
+			//double progressbarLimit, 
+			ExecutingGraphData egd 
+			) {
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -90,14 +92,18 @@ public class MultiChronopicExecute : EventExecute
 		
 		this.appbar = appbar;
 		this.app = app;
+//		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		chronopics = 1; 
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
-			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app) {
-		this.eventExecuteWin = eventExecuteWin;
+	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
+			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app,
+			//double progressbarLimit, 
+			ExecutingGraphData egd 
+			) {
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -111,15 +117,19 @@ public class MultiChronopicExecute : EventExecute
 		
 		this.appbar = appbar;
 		this.app = app;
+//		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		chronopics = 2; 
 		initValues();	
 	}
 	
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type, 
+	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Statusbar appbar, Gtk.Window app) {
-		this.eventExecuteWin = eventExecuteWin;
+			Gtk.Statusbar appbar, Gtk.Window app,
+			//double progressbarLimit, 
+			ExecutingGraphData egd 
+			) {
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -134,15 +144,19 @@ public class MultiChronopicExecute : EventExecute
 		
 		this.appbar = appbar;
 		this.app = app;
+//		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		chronopics = 3; 
 		initValues();	
 	}
 
-	public MultiChronopicExecute(EventExecuteWindow eventExecuteWin, int personID, string personName, int sessionID, string type,
+	public MultiChronopicExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Statusbar appbar, Gtk.Window app) {
-		this.eventExecuteWin = eventExecuteWin;
+			Gtk.Statusbar appbar, Gtk.Window app,
+			//double progressbarLimit, 
+			ExecutingGraphData egd 
+			) {
 		this.personID = personID;
 		this.personName = personName;
 		this.sessionID = sessionID;
@@ -158,6 +172,8 @@ public class MultiChronopicExecute : EventExecute
 		
 		this.appbar = appbar;
 		this.app = app;
+//		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
 		chronopics = 4; 
 		initValues();	
@@ -165,6 +181,7 @@ public class MultiChronopicExecute : EventExecute
 
 
 	private void initValues() {
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		simulated = false;
 
@@ -518,7 +535,7 @@ public class MultiChronopicExecute : EventExecute
 	
 	protected override void updateTimeProgressBar() {
 		//has no finished, but move progressbar time
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				-1	//don't want to show info on label

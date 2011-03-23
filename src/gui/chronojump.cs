@@ -166,10 +166,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_pulse;
 	[Widget] Gtk.Button button_repair_selected_pulse;
 
-	[Widget] Gtk.Table table_execute_test;
+	[Widget] Gtk.Box hbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Label label_connected_chronopics;
 	[Widget] Gtk.TextView textview_message_connected_chronopics;
+	[Widget] Gtk.Image image_connected_chronopics;
 
 	//multiChronopic	
 	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
@@ -327,6 +328,7 @@ public partial class ChronoJumpWindow
 
 	private static JumpType currentJumpType;
 	private static JumpType currentJumpRjType;
+	bool lastJumpIsSimple;	//needed on update
 	private static RunType currentRunType;
 	private static RunType currentRunIntervalType;
 	private static PulseType currentPulseType;
@@ -377,7 +379,7 @@ public partial class ChronoJumpWindow
 	
 	ChronopicWindow chronopicWin;
 	
-	static EventExecuteWindow eventExecuteWin;
+	//static EventExecuteWindow eventExecuteWin;
 
 	private bool firstRjValue;
 	private double rjTcCount;
@@ -2949,6 +2951,7 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+Log.WriteLine("a");
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
@@ -2956,6 +2959,7 @@ Console.WriteLine("X");
 			else 
 				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_weight, currentPersonSession.Weight);
 		}
+Log.WriteLine("b");
 		double myFall = 0;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
@@ -2964,10 +2968,12 @@ Console.WriteLine("X");
 		}
 		
 			
+Log.WriteLine("c");
 		//used by cancel and finish
 		//currentEventType = new JumpType();
 		currentEventType = currentJumpType;
 			
+Log.WriteLine("d");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
@@ -2975,47 +2981,66 @@ Console.WriteLine("X");
 		//update, don't do this now, because it's buggy with currentJump on More
 		//notebooks_change(0);
 		
+Log.WriteLine("e");
 		//show the event doing window
-		double myLimit = 3; //3 phases for show the Dj
+		double progressbarLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn || 
 				currentJumpType.Name == Constants.TakeOffName || 
 				currentJumpType.Name == Constants.TakeOffWeightName)
-			myLimit = 2; //2 for normal jump (or take off)
+			progressbarLimit = 2; //2 for normal jump (or take off)
 			
+Log.WriteLine("f");
 		//don't let update until test finishes
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Jump"), //windowTitle
+Log.WriteLine("g");
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Jump"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"jump", //tableName
-			currentJumpType.Name, 
-			prefsDigitsNumber, myLimit, chronopicWin.Connected);
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
+			Constants.JumpTable, //tableName
+			currentJumpType.Name 
+//			prefsDigitsNumber, 
+//			progressbarLimit 
+//			chronopicWin.Connected
+			);
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+Log.WriteLine("h");
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
+Log.WriteLine("i");
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-		currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+Log.WriteLine("j");
+		//currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn,
+				progressbarLimit, egd);
 
+Log.WriteLine("k");
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
+Log.WriteLine("l");
 		if( currentJumpType.StartIn ) 
 			currentEventExecute.Manage();
 		 else 
 			currentEventExecute.ManageFall();
 
+Log.WriteLine("m");
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
+Log.WriteLine("n");
 	}	
 
 	
@@ -3053,6 +3078,8 @@ Console.WriteLine("X");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
+
+		lastJumpIsSimple = true;
 		
 		//unhide buttons that allow jumping
 		sensitiveGuiEventDone();
@@ -3066,16 +3093,16 @@ Console.WriteLine("X");
 	
 	private void on_rj_activate (object o, EventArgs args) 
 	{
-		double myLimit = 0;
+		double progressbarLimit = 0;
 		
 		//if it's a unlimited interval run, put -1 as limit value
 		if(currentJumpRjType.Unlimited) {
-			myLimit = -1;
+			progressbarLimit = -1;
 		} else {
 			if(currentJumpRjType.FixedValue > 0) {
-				myLimit = currentJumpRjType.FixedValue;
+				progressbarLimit = currentJumpRjType.FixedValue;
 			} else {
-				myLimit = extra_window_jumps_rj_limited;
+				progressbarLimit = extra_window_jumps_rj_limited;
 			}
 		}
 
@@ -3107,27 +3134,34 @@ Console.WriteLine("X");
 			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Reactive Jump"), //windowTitle
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Reactive Jump"), //windowTitle
 			Catalog.GetString("Jumps"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"jumpRj", //tableName
-			currentJumpRjType.Name, 
-			prefsDigitsNumber, myLimit, chronopicWin.Connected);
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
+			Constants.JumpRjTable, //tableName
+			currentJumpRjType.Name
+//			prefsDigitsNumber, 
+//			progressbarLimit 
+//			chronopicWin.Connected
+			);
 		
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new configured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 	
-		currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		//currentEventExecute = new JumpRjExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
-				myLimit, currentJumpRjType.JumpsLimited, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin);
+				progressbarLimit, currentJumpRjType.JumpsLimited, 
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin, progressbarLimit, egd);
 		
 		
 		//suitable for limited by jump and time
@@ -3136,6 +3170,7 @@ Console.WriteLine("X");
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
 	}
 		
@@ -3181,13 +3216,15 @@ Console.WriteLine("X");
 				statsWin.ShowUpdateStatsButton();
 			}
 
+			lastJumpIsSimple = false;
+
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentJumpRj.TcString, currentJumpRj.TvString);
+			event_execute_LabelTimeValue = Util.GetTotalTime(currentJumpRj.TcString, currentJumpRj.TvString);
 			//possible deletion of last jump can make the jumps on event window be false
-			eventExecuteWin.LabelEventValue = currentJumpRj.Jumps;
+			event_execute_LabelEventValue = currentJumpRj.Jumps;
 		} 
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
@@ -3329,45 +3366,53 @@ Console.WriteLine("X");
 		//show the event doing window
 		
 		/*
-		double myLimit = 3; //3 phases for show the Dj
+		double progressbarLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn )
-			myLimit = 2; //2 for normal jump
+			progressbarLimit = 2; //2 for normal jump
 		*/
 		
-		double myLimit = 3; //same for startingIn than out (before)
+		double progressbarLimit = 3; //same for startingIn than out (before)
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Run"), //windowTitle
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Run"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"run", //tableName
-			currentRunType.Name, 
-			prefsDigitsNumber, myLimit, chronopicWin.Connected);
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
+			Constants.RunTable, //tableName
+			currentRunType.Name 
+//			prefsDigitsNumber, 
+//			progressbarLimit 
+//			chronopicWin.Connected
+			);
 		
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 
-		currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
+		//currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
+		currentEventExecute = new RunExecute(currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
+				progressbarLimit, egd);
 		
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
 	}
 	
@@ -3396,7 +3441,7 @@ Console.WriteLine("X");
 			sensitiveGuiYesEvent();
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			eventExecuteWin.LabelTimeValue = currentRun.Time;
+			event_execute_LabelTimeValue = currentRun.Time;
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
@@ -3512,16 +3557,16 @@ Console.WriteLine("X");
 			distanceInterval = (int) currentRunType.Distance;
 		}
 		
-		double myLimit = 0;
+		double progressbarLimit = 0;
 		//if it's a unlimited interval run, put -1 as limit value
 		//if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
 		if(currentRunType.Unlimited) {
-			myLimit = -1;
+			progressbarLimit = -1;
 		} else {
 			if(currentRunType.FixedValue > 0) {
-				myLimit = currentRunType.FixedValue;
+				progressbarLimit = currentRunType.FixedValue;
 			} else {
-				myLimit = runExtraWin.Limited;
+				progressbarLimit = runExtraWin.Limited;
 			}
 		}
 
@@ -3541,26 +3586,34 @@ Console.WriteLine("X");
 			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Intervallic Run"), //windowTitle
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+		//	Catalog.GetString("Execute Intervallic Run"), //windowTitle
 			Catalog.GetString("Tracks"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
 			Constants.RunIntervalTable, //tableName
-			currentRunType.Name, 
-			prefsDigitsNumber, myLimit, chronopicWin.Connected);
+			currentRunType.Name
+//			prefsDigitsNumber,
+//			progressbarLimit
+//			chronopicWin.Connected
+			);
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 	
-		currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
-				distanceInterval, myLimit, currentRunType.TracksLimited, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin);
+		//currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
+		currentEventExecute = new RunIntervalExecute(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
+				distanceInterval, progressbarLimit, currentRunType.TracksLimited, 
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
+				progressbarLimit, egd);
 		
 		
 		//suitable for limited by tracks and time
@@ -3568,6 +3621,7 @@ Console.WriteLine("X");
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
 	}
 
@@ -3608,9 +3662,9 @@ Console.WriteLine("X");
 			sensitiveGuiYesEvent();
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			eventExecuteWin.LabelTimeValue = currentRunInterval.TimeTotal;
+			event_execute_LabelTimeValue = currentRunInterval.TimeTotal;
 			//possible deletion of last run can make the runs on event window be false
-			eventExecuteWin.LabelEventValue = currentRunInterval.Tracks;
+			event_execute_LabelEventValue = currentRunInterval.Tracks;
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
@@ -3658,40 +3712,50 @@ Console.WriteLine("X");
 		notebooks_change(4);
 		
 		//show the event doing window
-		double myLimit = 2;
+		double progressbarLimit = 2;
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
 			statsWin.HideUpdateStatsButton();
 
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Reaction Time"), //windowTitle
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Jump"), //windowTitle
+//			Catalog.GetString("Execute Reaction Time"), //windowTitle
 			Catalog.GetString("Phases"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"reactionTime", //tableName
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
+			Constants.ReactionTimeTable, //tableName
 			//currentJumpType.Name, 
-			"", 
-			prefsDigitsNumber, myLimit, chronopicWin.Connected);
+			"" 
+//			prefsDigitsNumber,
+//			progressbarLimit
+//			chronopicWin.Connected
+				);
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-		currentEventExecute = new ReactionTimeExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		//currentEventExecute = new ReactionTimeExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				//currentJumpType.Name, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn,
+				progressbarLimit, egd);
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
 
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_reaction_time_finished);
 	}	
 
@@ -3819,31 +3883,41 @@ Console.WriteLine("X");
 			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Pulse"), //windowTitle
+//		eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Pulse"), //windowTitle
 			Catalog.GetString("Pulses"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
-			"pulse", //tableName
-			currentPulseType.Name, 
-			prefsDigitsNumber, totalPulses, chronopicWin.Connected);
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
+			Constants.PulseTable, //tableName
+			currentPulseType.Name 
+//			prefsDigitsNumber, 
+//			progressbarLimit 
+//			chronopicWin.Connected
+			);
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_clicked);
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
-		currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		//currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn);
+				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn, 
+				//progressbarLimit, 
+				egd);
 		
 		if(!chronopicWin.Connected)	
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 	}
 
@@ -3887,7 +3961,7 @@ Console.WriteLine("X");
 			sensitiveGuiYesEvent();
 
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
-			eventExecuteWin.LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
+			event_execute_LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
@@ -3905,11 +3979,11 @@ Console.WriteLine("X");
 
 	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
-		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_done);
+		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
 	}
 	
-	private void on_chronopic_window_done (object o, EventArgs args) {
-		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_done);
+	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
+		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
 		if(cps >= 2) {	
 			menuitem_multi_chronopic_start.Sensitive = true;
@@ -3943,6 +4017,11 @@ Console.WriteLine("X");
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = myMessage;
 		textview_message_connected_chronopics.Buffer = tb;
+
+		if(cps > 0)
+			image_connected_chronopics.Hide();
+		else
+			image_connected_chronopics.Show();
 	}
 
 
@@ -3979,24 +4058,29 @@ Console.WriteLine("X");
 			statsWin.HideUpdateStatsButton();
 
 		//show the event doing window
-		eventExecuteWin = EventExecuteWindow.Show(
-			Catalog.GetString("Execute Multi Chronopic"), //windowTitle
+		//eventExecuteWin = EventExecuteWindow.Show(
+		ExecutingGraphData egd = event_execute_initializeVariables(
+//			Catalog.GetString("Execute Multi Chronopic"), //windowTitle
 			Catalog.GetString("Changes"),  	  //name of the different moments
-			currentPerson.UniqueID, currentPerson.Name, 
-			currentSession.UniqueID, 
+//			currentPerson.UniqueID, currentPerson.Name, 
+//			currentSession.UniqueID, 
 			Constants.MultiChronopicTable, //tableName
-			currentMultiChronopicType.Name, 
-			prefsDigitsNumber, -1, chronopicWin.Connected
-			); //-1: unlimited pulses (or changes)
+			currentMultiChronopicType.Name
+//			prefsDigitsNumber, 
+//			-1	//-1: unlimited pulses (or changes) 
+//			chronopicWin.Connected
+			); 
 
-		eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
+		//eventExecuteWin.ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
+		event_execute_ButtonCancel.Clicked += new EventHandler(on_cancel_multi_clicked);
 		//multiFinishingByClickFinish = false;
-		eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
+		//eventExecuteWin.ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
+		event_execute_ButtonFinish.Clicked += new EventHandler(on_finish_multi_clicked);
 		
 		//when user clicks on update the eventExecute window 
 		//(for showing with his new confgured values: max, min and guides
-		eventExecuteWin.ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are don
-		eventExecuteWin.ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
+		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
+		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 
 		bool syncNeeded = false;
@@ -4007,36 +4091,48 @@ Console.WriteLine("X");
 
 		if(numConnected == 1)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+//					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name, 
 					chronopicWin.CP, 
 					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
-					appbar2, app1);
+					appbar2, app1, 
+					//progressbarlimit, 
+					egd);
 		else if(numConnected == 2)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,  
 					chronopicWin.CP, chronopicWin.CP2, 
 					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
-					appbar2, app1);
+					appbar2, app1, 
+					//progressbarlimit, 
+					egd);
 		else if(numConnected == 3)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
 					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
-					appbar2, app1);
+					appbar2, app1, 
+					//progressbarlimit, 
+					egd);
 		else if(numConnected == 4)
 			currentEventExecute = new MultiChronopicExecute(
-					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
 					syncNeeded, check_multi_delete_first.Active, 
 					entry_run_analysis_distance.Text.ToString(),
-					appbar2, app1);
+					appbar2, app1, 
+					//progressbarlimit, 
+					egd);
 
 		//if(!chronopicWin.Connected)	
 		//	currentEventExecute.SimulateInitValues(rand);
@@ -4046,6 +4142,8 @@ Console.WriteLine("X");
 		multiFinishing = false;
 		currentEventExecute.Manage();
 
+		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
+//		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
 	}
 
@@ -4061,7 +4159,7 @@ Console.WriteLine("X");
 		if(currentMultiChronopicType.Name == Constants.RunAnalysisName && ! currentEventExecute.MultiChronopicRunAUsedCP2()) 
 			//new DialogMessage(Constants.MessageTypes.WARNING, 
 			//		Catalog.GetString("This Run Analysis is not valid because there are no strides."));
-			eventExecuteWin.RunANoStrides();
+			currentEventExecute.RunANoStrides();
 		else if ( ! currentEventExecute.Cancel ) {
 Console.WriteLine("T");
 			/*
@@ -4125,12 +4223,12 @@ Console.WriteLine("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(currentJumpType.IsRepetitive) 
-						eventExecuteWin.PrepareJumpReactiveGraph(
+					if(lastJumpIsSimple) 
+						PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
+					else
+						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
 								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
-					else 
-						eventExecuteWin.PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
 					break;
 				case EventType.Types.RUN:
 					if(currentRunType.HasIntervals) {
@@ -4143,23 +4241,23 @@ Console.WriteLine("X");
 								distanceInterval = Util.GetRunIVariableDistancesStringRow(
 										runType.DistancesString, (int) currentRunInterval.Tracks -1);
 
-							eventExecuteWin.PrepareRunIntervalGraph(distanceInterval, 
+							PrepareRunIntervalGraph(distanceInterval, 
 								Util.GetLast(currentRunInterval.IntervalTimesString), 
 								currentRunInterval.IntervalTimesString, 
 								distanceTotal,
 								runType.DistancesString,
 								volumeOn, repetitiveConditionsWin);
 					} else
-						eventExecuteWin.PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 					break;
 				case EventType.Types.PULSE:
-					eventExecuteWin.PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
+					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
 					break;
 				case EventType.Types.REACTIONTIME:
-					eventExecuteWin.PrepareReactionTimeGraph(currentReactionTime.Time);
+					PrepareReactionTimeGraph(currentReactionTime.Time);
 					break;
 				case EventType.Types.MULTICHRONOPIC:
-					eventExecuteWin.PrepareMultiChronopicGraph(
+					PrepareMultiChronopicGraph(
 						//currentMultiChronopic.timestamp, 
 						Util.IntToBool(currentMultiChronopic.Cp1StartedIn), 
 						Util.IntToBool(currentMultiChronopic.Cp2StartedIn), 
@@ -5089,8 +5187,9 @@ Console.WriteLine("X");
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		
-		table_execute_test.Sensitive = false;
+		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		eventExecuteHideAllTables();
 		
 		//button_last.Sensitive = false;
 		button_run_last.Sensitive=false;
@@ -5108,7 +5207,7 @@ Console.WriteLine("X");
 		menuSessionSensitive(true);
 		menuToolsSensitive(true);
 		
-		table_execute_test.Sensitive = true;
+		hbox_execute_test.Sensitive = true;
 		
 		//changeTestImage("", "", "LOGO");
 	}

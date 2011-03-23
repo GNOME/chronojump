@@ -48,10 +48,11 @@ public class RunExecute : EventExecute
 	}
 
 	//run execution
-	public RunExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn)
+	public RunExecute(int personID, int sessionID, string type, double distance,   
+			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -64,7 +65,10 @@ public class RunExecute : EventExecute
 		this.pDN = pDN;
 		this.metersSecondsPreferred = metersSecondsPreferred;
 		this.volumeOn = volumeOn;
+		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 		
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
@@ -281,7 +285,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 				
 		
 		//has no finished, but move progressbar time
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				false, //activity mode
 				myTimeValue
@@ -325,12 +329,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		//eventExecuteWin.PrepareRunSimpleGraph(time, distance/time);
+		//app1.PrepareRunSimpleGraph(time, distance/time);
 		prepareEventGraphRunSimple = new PrepareEventGraphRunSimple(time, distance/time);
 		needUpdateGraphType = eventType.RUN;
 		needUpdateGraph = true;
 		
-		//eventExecuteWin.EventEnded();
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 
@@ -365,11 +368,12 @@ public class RunIntervalExecute : RunExecute
 	}
 
 	//run execution
-	public RunIntervalExecute(EventExecuteWindow eventExecuteWin, int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
+	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
-			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin)
+			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
+			double progressbarLimit, ExecutingGraphData egd 
+			)
 	{
-		this.eventExecuteWin = eventExecuteWin;
 		this.personID = personID;
 		this.sessionID = sessionID;
 		this.type = type;
@@ -400,7 +404,10 @@ public class RunIntervalExecute : RunExecute
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
+		this.progressbarLimit = progressbarLimit;
+		this.egd = egd;
 	
+		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 
 		simulated = false;
@@ -529,7 +536,7 @@ public class RunIntervalExecute : RunExecute
 									runPhase = runPhases.PLATFORM_END;
 								}
 								
-								//eventExecuteWin.ProgressBarEventOrTimePreExecution(
+								//progressBarEventOrTimePreExecution(
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
 										true, //tracksLimited: percentageMode
@@ -660,7 +667,7 @@ public class RunIntervalExecute : RunExecute
 	}
 	
 	protected override void updateProgressBarForFinish() {
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				limitAsDouble
@@ -701,7 +708,7 @@ public class RunIntervalExecute : RunExecute
 				break;
 		}
 				
-		eventExecuteWin.ProgressBarEventOrTimePreExecution(
+		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				//!tracksLimited, //if tracksLimited: activity, if timeLimited: fraction
 				percentageMode,
@@ -823,7 +830,6 @@ public class RunIntervalExecute : RunExecute
 			needUpdateGraphType = eventType.RUNINTERVAL;
 			needUpdateGraph = true;
 
-			//eventExecuteWin.EventEnded();
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}		
 	}

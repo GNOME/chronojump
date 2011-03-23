@@ -61,13 +61,13 @@ public class EventExecute
 	protected bool needShowSyncMessage;
 
 	//instances with the info to create
-	protected PrepareEventGraphJumpSimple prepareEventGraphJumpSimple; 
-	protected PrepareEventGraphJumpReactive prepareEventGraphJumpReactive;
-	protected PrepareEventGraphRunSimple prepareEventGraphRunSimple;
-	protected PrepareEventGraphRunInterval prepareEventGraphRunInterval;
-	protected PrepareEventGraphPulse prepareEventGraphPulse;
-	protected PrepareEventGraphReactionTime prepareEventGraphReactionTime;
-	protected PrepareEventGraphMultiChronopic prepareEventGraphMultiChronopic;
+	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
+	public PrepareEventGraphJumpReactive PrepareEventGraphJumpReactiveObject;
+	public PrepareEventGraphRunSimple PrepareEventGraphRunSimpleObject;
+	public PrepareEventGraphRunInterval PrepareEventGraphRunIntervalObject;
+	public PrepareEventGraphPulse PrepareEventGraphPulseObject;
+	public PrepareEventGraphReactionTime PrepareEventGraphReactionTimeObject;
+	public PrepareEventGraphMultiChronopic PrepareEventGraphMultiChronopicObject;
 	
 	protected bool needEndEvent;
 	
@@ -111,6 +111,7 @@ public class EventExecute
 	protected int timesForSavingRepetitive; //number of times that this repetive event needs for being recorded in temporal table
 
 	//for raise a signal and manage it on chronojump.cs
+	protected Gtk.Button fakeButtonUpdateGraph;
 	protected Gtk.Button fakeButtonFinished;
 	protected Gtk.Button fakeButtonEventEnded;
 	
@@ -439,72 +440,75 @@ public class EventExecute
 	}
 			
 	private void updateGraph() {
+		fakeButtonUpdateGraph.Click();
+	}
+
 		/*
 		 * TODO: decide where Prepare methods should be. maybe here?, then need to pass layout, pixmap, drawingarea, ...
 		switch(needUpdateGraphType) {
 			case eventType.JUMP:
 				Log.Write("update graph: JUMP");
 				app1.PrepareJumpSimpleGraph(
-						prepareEventGraphJumpSimple.tv, 
-						prepareEventGraphJumpSimple.tc);
+						PrepareEventGraphJumpSimpleObject.tv, 
+						PrepareEventGraphJumpSimpleObject.tc);
 				break;
 			case eventType.JUMPREACTIVE:
 				Log.Write("update graph: JUMPREACTIVE");
 				app1.PrepareJumpReactiveGraph(
-						prepareEventGraphJumpReactive.lastTv, 
-						prepareEventGraphJumpReactive.lastTc,
-						prepareEventGraphJumpReactive.tvString,
-						prepareEventGraphJumpReactive.tcString,
+						PrepareEventGraphJumpReactiveObject.lastTv, 
+						PrepareEventGraphJumpReactiveObject.lastTc,
+						PrepareEventGraphJumpReactiveObject.tvString,
+						PrepareEventGraphJumpReactiveObject.tcString,
 						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.RUN:
 				Log.Write("update graph: RUN");
 				app1.PrepareRunSimpleGraph(
-						prepareEventGraphRunSimple.time, 
-						prepareEventGraphRunSimple.speed);
+						PrepareEventGraphRunSimpleObject.time, 
+						PrepareEventGraphRunSimpleObject.speed);
 				break;
 			case eventType.RUNINTERVAL:
 				Log.Write("update graph: RUNINTERVAL");
 				app1.PrepareRunIntervalGraph(
-						prepareEventGraphRunInterval.distance, 
-						prepareEventGraphRunInterval.lastTime,
-						prepareEventGraphRunInterval.timesString,
-						prepareEventGraphRunInterval.distanceTotal,
-						prepareEventGraphRunInterval.distancesString,
+						PrepareEventGraphRunIntervalObject.distance, 
+						PrepareEventGraphRunIntervalObject.lastTime,
+						PrepareEventGraphRunIntervalObject.timesString,
+						PrepareEventGraphRunIntervalObject.distanceTotal,
+						PrepareEventGraphRunIntervalObject.distancesString,
 						volumeOn, repetitiveConditionsWin);
 				break;
 			case eventType.PULSE:
 				Log.Write("update graph: PULSE");
 				app1.PreparePulseGraph(
-						prepareEventGraphPulse.lastTime, 
-						prepareEventGraphPulse.timesString);
+						PrepareEventGraphPulse.lastTime, 
+						PrepareEventGraphPulse.timesString);
 				break;
 			case eventType.REACTIONTIME:
 				Log.Write("update graph: REACTIONTIME");
 				app1.PrepareReactionTimeGraph(
-						prepareEventGraphReactionTime.time); 
+						PrepareEventGraphReactionTimeObject.time); 
 				break;
 			case eventType.MULTICHRONOPIC:
 				Log.Write("update graph: MULTICHRONOPIC");
 				app1.PrepareMultiChronopicGraph(
-						//prepareEventGraphMultiChronopic.timestamp, 
-						prepareEventGraphMultiChronopic.cp1StartedIn, 
-						prepareEventGraphMultiChronopic.cp2StartedIn, 
-						prepareEventGraphMultiChronopic.cp3StartedIn, 
-						prepareEventGraphMultiChronopic.cp4StartedIn, 
-						prepareEventGraphMultiChronopic.cp1InStr, 
-						prepareEventGraphMultiChronopic.cp1OutStr,
-						prepareEventGraphMultiChronopic.cp2InStr, 
-						prepareEventGraphMultiChronopic.cp2OutStr,
-						prepareEventGraphMultiChronopic.cp3InStr, 
-						prepareEventGraphMultiChronopic.cp3OutStr,
-						prepareEventGraphMultiChronopic.cp4InStr, 
-						prepareEventGraphMultiChronopic.cp4OutStr
+						//PrepareEventGraphMultiChronopicObject.timestamp, 
+						PrepareEventGraphMultiChronopicObject.cp1StartedIn, 
+						PrepareEventGraphMultiChronopicObject.cp2StartedIn, 
+						PrepareEventGraphMultiChronopicObject.cp3StartedIn, 
+						PrepareEventGraphMultiChronopicObject.cp4StartedIn, 
+						PrepareEventGraphMultiChronopicObject.cp1InStr, 
+						PrepareEventGraphMultiChronopicObject.cp1OutStr,
+						PrepareEventGraphMultiChronopicObject.cp2InStr, 
+						PrepareEventGraphMultiChronopicObject.cp2OutStr,
+						PrepareEventGraphMultiChronopicObject.cp3InStr, 
+						PrepareEventGraphMultiChronopicObject.cp3OutStr,
+						PrepareEventGraphMultiChronopicObject.cp4InStr, 
+						PrepareEventGraphMultiChronopicObject.cp4OutStr
 						);
 				break;
 		}
 		*/
-	}
+//	}
 	
 	protected virtual bool shouldFinishByTime() {
 		return true;
@@ -559,6 +563,10 @@ public class EventExecute
 		Console.WriteLine("at event.cs");
 	}
 			
+	public Gtk.Button FakeButtonUpdateGraph {
+		get { return fakeButtonUpdateGraph; }
+	}
+
 	public Gtk.Button FakeButtonFinished {
 		get { return fakeButtonFinished; }
 	}

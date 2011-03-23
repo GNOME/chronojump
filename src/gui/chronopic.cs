@@ -462,13 +462,15 @@ public class ChronopicWindow
 		}
 		if(! success) {
 			returnString = Catalog.GetString("Problems communicating to chronopic.");
-			if(currentCp == 1) 
+			if(currentCp == 1) {
 				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
-			if(isWindows) {
-				returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
-				returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
-				//returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
+				returnString += Catalog.GetString("\n\nWe recommend to remove and connect USB cable.");
 			}
+			//if(isWindows) {
+				//returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
+				//returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
+				//returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
+			//}
 
 			//this will raise on_radiobutton_simulated_ativate and 
 			//will put cpRunning to false, and simulated to true and cp.Close()

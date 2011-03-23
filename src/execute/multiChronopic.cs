@@ -181,6 +181,7 @@ public class MultiChronopicExecute : EventExecute
 
 
 	private void initValues() {
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		simulated = false;
@@ -462,7 +463,7 @@ public class MultiChronopicExecute : EventExecute
 							}
 						}
 
-						prepareEventGraphMultiChronopic = new PrepareEventGraphMultiChronopic(
+						PrepareEventGraphMultiChronopicObject = new PrepareEventGraphMultiChronopic(
 								//timestamp/1000.0, 
 								cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
 								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);

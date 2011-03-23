@@ -75,6 +75,7 @@ public class JumpExecute : EventExecute
 			hasFall = false;
 		}
 		
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
@@ -403,7 +404,7 @@ Log.Write("wb ");
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
 		
-		prepareEventGraphJumpSimple = new PrepareEventGraphJumpSimple(tv, tc);
+		PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc);
 		needUpdateGraphType = eventType.JUMP;
 		needUpdateGraph = true;
 		
@@ -502,6 +503,7 @@ public class JumpRjExecute : JumpExecute
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
 		
+		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
 		fakeButtonFinished = new Gtk.Button();
 		
@@ -679,7 +681,7 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
+							PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;
 
@@ -722,7 +724,7 @@ public class JumpRjExecute : JumpExecute
 							needUpdateEventProgressBar = true;
 							
 							//update graph
-							prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
+							PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(lastTv, lastTc, tvString, tcString);
 							needUpdateGraphType = eventType.JUMPREACTIVE;
 							needUpdateGraph = true;
 						}
@@ -880,7 +882,7 @@ public class JumpRjExecute : JumpExecute
 			}
 			if(deletedEvent) {
 				//update graph if a event was deleted
-				prepareEventGraphJumpReactive = new PrepareEventGraphJumpReactive(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString);
+				PrepareEventGraphJumpReactiveObject = new PrepareEventGraphJumpReactive(Util.GetLast(tvString), Util.GetLast(tcString), tvString, tcString);
 				needUpdateGraphType = eventType.JUMPREACTIVE;
 				needUpdateGraph = true;
 

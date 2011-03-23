@@ -39,6 +39,8 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Label event_execute_label_event_type;
 	[Widget] Gtk.Label event_execute_label_phases_name;
 	[Widget] Gtk.Label event_execute_label_sync_message;
+	[Widget] Gtk.Label event_graph_label_graph_person;
+	[Widget] Gtk.Label event_graph_label_graph_test;
 	
 	[Widget] Gtk.ProgressBar event_execute_progressbar_event;
 	[Widget] Gtk.ProgressBar event_execute_progressbar_time;
@@ -144,8 +146,9 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.HBox hbox_capture;
 
 
-	//int personID;	
-	//int sessionID;	
+	int event_execute_personID;	
+	//int sessionID;
+	//string event_execute_personName;	
 	string event_execute_tableName;	
 	string event_execute_eventType;	
 	
@@ -228,8 +231,10 @@ public partial class ChronoJumpWindow
 	*/
 
 	ExecutingGraphData event_execute_initializeVariables (
+			int personID,
+			string personName,
 			string phasesName, 
-			string event_execute_tableName,
+			string tableName,
 			string event_execute_eventType
 //			double event_execute_limit
 			) 
@@ -243,14 +248,19 @@ public partial class ChronoJumpWindow
 		}
 
 		event_execute_configureColors();
+	
+		event_graph_label_graph_person.Text = personName;
+		event_graph_label_graph_test.Text = event_execute_eventType;
 
 
 //		event_execute.Title = windowTitle;
+		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 		this.event_execute_label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 								//"Phases" (simple jumps, dj, simple runs)
 //		this.personID = personID;
+		this.event_execute_personID = personID;
 //		this.event_execute_label_person.Text = personName;
-		this.event_execute_tableName = event_execute_tableName;
+		this.event_execute_tableName = tableName;
 //		this.sessionID = sessionID;
 
 		this.event_execute_eventType = event_execute_eventType;
@@ -590,17 +600,17 @@ public partial class ChronoJumpWindow
 
 		
 		//obtain data
-		string []jumps = SqliteJump.SelectJumps(currentSession.UniqueID, currentPerson.UniqueID, "", event_execute_eventType);
+		string []jumps = SqliteJump.SelectJumps(currentSession.UniqueID, event_execute_personID, "", event_execute_eventType);
 
 Log.WriteLine("Preparing simple A");
-		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "TV");
+		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "TV");
 		double tvSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TV");
 Log.WriteLine("Preparing simple B");
 
 		double tcPersonAVG = 0; 
 		double tcSessionAVG = 0; 
 		if(tc > 0) {
-			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "TC");
+			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "TC");
 			tcSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TC");
 		}
 		
@@ -749,19 +759,19 @@ Log.WriteLine("Preparing reactive A");
 			paintTime = true;
 		
 		//obtain data
-		string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, currentPerson.UniqueID, event_execute_eventType);
+		string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, event_execute_personID, event_execute_eventType);
 
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
 		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
-		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "distance");
+		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance");
 		//double distanceSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance");
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "distance/time");
+		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance/time");
 		double speedSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance/time");
 
 		double maxValue = 0;
@@ -941,9 +951,9 @@ Log.WriteLine("Preparing reactive A");
 
 		
 		//obtain data
-		string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, currentPerson.UniqueID);
+		string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, event_execute_personID);
 
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, currentPerson.UniqueID, event_execute_tableName, event_execute_eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
 		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
 		double maxValue = 0;
@@ -1795,8 +1805,30 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_label_message2.UseMarkup = true;
 	}
 	*/
+			
+	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args) {
+		switch (currentEventType.Type) {
+			case EventType.Types.JUMP:
+				if(thisJumpIsSimple) {
+					Log.Write("update graph: JUMP");
+					PrepareJumpSimpleGraph(
+							currentEventExecute.PrepareEventGraphJumpSimpleObject.tv, 
+							currentEventExecute.PrepareEventGraphJumpSimpleObject.tc);
+				} else {
+					Log.Write("update graph: JUMPREACTIVE");
+					PrepareJumpReactiveGraph(
+							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 
+							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
+							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
+							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
+							volumeOn, repetitiveConditionsWin);
+				}
+				break;
+		}
+
+	}
 	
-	public void on_event_execute_EventEnded(object o, EventArgs args) {
+	private void on_event_execute_EventEnded(object o, EventArgs args) {
 		hideButtons();
 		eventHasEnded = true;
 		

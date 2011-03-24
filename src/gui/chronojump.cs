@@ -272,6 +272,8 @@ public partial class ChronoJumpWindow
 	//persons
 	private TreeStore treeview_persons_store;
 	private TreeViewPersons myTreeViewPersons;
+	private Gtk.Button fakeButtonPersonUp;
+	private Gtk.Button fakeButtonPersonDown;
 	//normal jumps
 	private TreeStore treeview_jumps_store;
 	private TreeViewJumps myTreeViewJumps;
@@ -442,6 +444,25 @@ public partial class ChronoJumpWindow
 		loadPreferences ();
 
 		createTreeView_persons (treeview_persons);
+
+		/*
+		fakeButtonPersonUp = new Gtk.Button();
+		fakeButtonPersonDown = new Gtk.Button();
+
+		
+		AccelGroup accelGroup = new AccelGroup();
+		app1.AddAccelGroup(accelGroup);
+
+		fakeButtonPersonUp.Clicked += new EventHandler(upClicked);
+
+		AccelKey accelKey = new AccelKey(Gdk.Key.Up, Gdk.ModifierType.ControlMask, AccelFlags.Visible);
+
+		fakeButtonPersonUp.AddAccelerator("clicked", accelGroup, accelKey);
+
+//		Gtk.AccelGroup accelGroup = Accel.GroupsFromObject(app1);
+//		fakeButtonPersonUp.AddAccelerator("Clicked", accelGroup, "<CTRL>Up");
+		*/
+
 		createTreeView_jumps (treeview_jumps);
 		createTreeView_jumps_rj (treeview_jumps_rj);
 		createTreeView_runs (treeview_runs);
@@ -492,6 +513,12 @@ public partial class ChronoJumpWindow
 		
 	}
 	
+	private void upClicked(object o, EventArgs args) {
+		Log.WriteLine("upClicked!!!");
+	}
+	private void up2Clicked(object o, EventArgs args) {
+		Log.WriteLine("up2Clicked!!!");
+	}
 	private void on_extra_window_runs_test_changed(object o, EventArgs args) {
 	}
 	private void on_extra_window_runs_more(object o, EventArgs args) {
@@ -5088,6 +5115,25 @@ Console.WriteLine("X");
 
 	private void on_menuitem_formulas_activate (object o, EventArgs args) {
 		new DialogMessage(Constants.MessageTypes.INFO, "Here there will be bibliographic information about formulas and some notes.\n\nProbably this will be a window and not a dialog\n\nNote text is selectable");
+	}
+
+	private void on_menuitem_accelerators_activate (object o, EventArgs args) {
+		new DialogMessage(
+				Catalog.GetString("Accelerators help"),
+				Constants.MessageTypes.INFO, 
+				Catalog.GetString("Use these keys in order to work faster.") + "\n\n" +
+				"- " + Catalog.GetString("On execute test tab:") + "\n\n" +
+				"<tt><b>p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
+				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person in list") + "\n" +
+				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person in list") + "\n" +
+				"<tt><b>(space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
+				"\n" + "- " + Catalog.GetString("On results tab:") + "\n\n" +
+				"<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
+				"<tt><b>v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"<tt><b>e</b></tt> " + Catalog.GetString("Edit selected test") + "\n" +
+				"<tt><b>d</b></tt> " + Catalog.GetString("Delete selected test") + "\n" +
+				"<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)")
+				);
 	}
 
 	private void on_about1_activate (object o, EventArgs args) {

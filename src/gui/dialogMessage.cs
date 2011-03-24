@@ -31,7 +31,16 @@ public class DialogMessage
 	[Widget] Gtk.Image image_info;
 	[Widget] Gtk.Image image_help;
 
+	public DialogMessage (string title, Constants.MessageTypes type, string message)
+	{
+		initialize(title, type, message);
+	}
 	public DialogMessage (Constants.MessageTypes type, string message)
+	{
+		initialize("", type, message);
+	}
+
+	private void initialize(string title, Constants.MessageTypes type, string message)
 	{
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_message", null);
@@ -43,6 +52,9 @@ public class DialogMessage
 		//with this, user doesn't see a moving/changing creation window
 		//if uncommented, then does weird bug in windows not showing dialog as its correct size until window is moves
 		//dialog_message.Hide();	
+
+		if(title != "")
+			dialog_message.Title = title;
 
 		label_message.Text = message; 
 		label_message.UseMarkup = true; 

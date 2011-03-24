@@ -31,6 +31,13 @@ using LongoMatch.Video.Common;
 
 
 
+//--------------------------------------------------------
+//---------------- this WIDGET ---------------------------
+//---------------- is included in main gui ---------------
+//---------------- since 0.9.3 ---------------------------
+//--------------------------------------------------------
+
+
 public partial class ChronoJumpWindow 
 {
 //	[Widget] Gtk.Window event_execute;
@@ -1826,6 +1833,14 @@ Log.WriteLine("Preparing reactive A");
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
 							volumeOn, repetitiveConditionsWin);
+				}
+				break;
+			case EventType.Types.RUN:
+				if(lastRunIsSimple) {
+					Log.Write("update graph: RUN");
+					PrepareRunSimpleGraph(
+							currentEventExecute.PrepareEventGraphRunSimpleObject.time,
+							currentEventExecute.PrepareEventGraphRunSimpleObject.speed);
 				}
 				break;
 		}

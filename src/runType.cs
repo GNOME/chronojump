@@ -47,7 +47,7 @@ public class RunType : EventType
 			"Agility-Illinois", "Agility-Shuttle-Run" , "Agility-ZigZag",
 			"byLaps", "byTime", "unlimited", 
 			"20m10times", "7m30seconds", "20m endurance", 
-			"MTGUG" 
+			"MTGUG", "Gesell-DBT"
 		};
 
 		foreach(string search in predefinedTests)

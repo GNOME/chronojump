@@ -196,7 +196,6 @@ FILES = \
 	constants.cs\
  	report.cs\
  	updateProgressBar.cs\
- 	prepareEventGraphObjects.cs\
  	sport.cs\
  	log.cs\
  	serverPing.cs\

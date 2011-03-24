@@ -125,7 +125,17 @@ public class TreeViewPersons
 		}
 		return found;
 	}
-
+	
+	public void SelectNextRow(int personID)
+	{
+		SelectRow(FindRow(personID) +1);
+	}
+	
+	public void SelectPreviousRow(int personID)
+	{
+		SelectRow(FindRow(personID) -1);
+	}
+	
 	//add in the row position by alfabetical order
 	public void Add (string jumperID, string jumperName)
 	{

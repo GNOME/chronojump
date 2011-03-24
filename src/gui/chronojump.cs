@@ -515,21 +515,21 @@ public partial class ChronoJumpWindow
 		//change colors of tests mode
 		viewport_mode.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
-		label_mode_jumps.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_jumps_reactive.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_runs.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_runs_intervallic.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_reaction_times.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_pulses.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_mode_multi_chronopic.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		UtilGtk.ColorsMenuLabel(label_mode_jumps);
+		UtilGtk.ColorsMenuLabel(label_mode_jumps_reactive);
+		UtilGtk.ColorsMenuLabel(label_mode_runs);
+		UtilGtk.ColorsMenuLabel(label_mode_runs_intervallic);
+		UtilGtk.ColorsMenuLabel(label_mode_reaction_times);
+		UtilGtk.ColorsMenuLabel(label_mode_pulses);
+		UtilGtk.ColorsMenuLabel(label_mode_multi_chronopic);
 
-		UtilGtk.ColorsMenuRadio(radio_mode_jumps);
-		UtilGtk.ColorsMenuRadio(radio_mode_jumps_reactive);
-		UtilGtk.ColorsMenuRadio(radio_mode_runs);
-		UtilGtk.ColorsMenuRadio(radio_mode_runs_intervallic);
-		UtilGtk.ColorsMenuRadio(radio_mode_reaction_times);
-		UtilGtk.ColorsMenuRadio(radio_mode_pulses);
-		UtilGtk.ColorsMenuRadio(radio_mode_multi_chronopic);
+		UtilGtk.ColorsRadio(radio_mode_jumps);
+		UtilGtk.ColorsRadio(radio_mode_jumps_reactive);
+		UtilGtk.ColorsRadio(radio_mode_runs);
+		UtilGtk.ColorsRadio(radio_mode_runs_intervallic);
+		UtilGtk.ColorsRadio(radio_mode_reaction_times);
+		UtilGtk.ColorsRadio(radio_mode_pulses);
+		UtilGtk.ColorsRadio(radio_mode_multi_chronopic);
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps.Pixbuf = pixbuf;
@@ -548,69 +548,69 @@ public partial class ChronoJumpWindow
 
 		
 		//jumps changes
-		label_extra_window_radio_jump_free.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_sj.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_sjl.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_cmj.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_cmjl.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_abk.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_dj.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_rocket.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_takeoff.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_more.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_free);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_sj);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_sjl);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmj);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_abk);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_dj);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rocket);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_takeoff);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_more);
 		
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_free);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_sj);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_sjl);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_cmj);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_cmjl);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_abk);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_dj);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rocket);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_takeoff);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_more);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_free);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_sj);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_sjl);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_cmj);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_abk);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_dj);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rocket);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_takeoff);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_more);
 
 		//jumpsRj changes
-		label_extra_window_radio_jump_rj_j.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_rj_t.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_rj_unlimited.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_rj_hexagon.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_jump_rj_more.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_j);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_t);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_unlimited);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_hexagon);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_more);
 
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_j);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_t);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_unlimited);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_hexagon);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_more);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_j);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_t);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_unlimited);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_hexagon);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_more);
 
 		//runs changes
-		label_extra_window_radio_run_custom.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_20m.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_100m.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_200m.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_400m.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_gesell.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_20yard.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_505.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_illinois.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_margaria.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_shuttle.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		label_extra_window_radio_run_zigzag.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_custom);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_20m);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_100m);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_200m);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_400m);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_gesell);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_20yard);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_505);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_illinois);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_margaria);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_shuttle);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_zigzag);
 		
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_more);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_custom);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_20m);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_100m);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_200m);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_400m);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_gesell);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_20yard);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_505);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_illinois);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_margaria);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_shuttle);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_zigzag);
-		UtilGtk.ColorsMenuRadio(extra_window_radio_run_more);
+		UtilGtk.ColorsRadio(extra_window_radio_run_more);
+		UtilGtk.ColorsRadio(extra_window_radio_run_custom);
+		UtilGtk.ColorsRadio(extra_window_radio_run_20m);
+		UtilGtk.ColorsRadio(extra_window_radio_run_100m);
+		UtilGtk.ColorsRadio(extra_window_radio_run_200m);
+		UtilGtk.ColorsRadio(extra_window_radio_run_400m);
+		UtilGtk.ColorsRadio(extra_window_radio_run_gesell);
+		UtilGtk.ColorsRadio(extra_window_radio_run_20yard);
+		UtilGtk.ColorsRadio(extra_window_radio_run_505);
+		UtilGtk.ColorsRadio(extra_window_radio_run_illinois);
+		UtilGtk.ColorsRadio(extra_window_radio_run_margaria);
+		UtilGtk.ColorsRadio(extra_window_radio_run_shuttle);
+		UtilGtk.ColorsRadio(extra_window_radio_run_zigzag);
+		UtilGtk.ColorsRadio(extra_window_radio_run_more);
 
 
 

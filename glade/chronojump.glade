@@ -15629,7 +15629,7 @@ by you</property>
                       <widget class="GtkViewport" id="viewport_mode">
                         <property name="visible">True</property>
                         <property name="resize_mode">queue</property>
-                        <property name="hadjustment">0 0 738 73.799999999999997 664.20000000000005 738</property>
+                        <property name="hadjustment">0 0 730 73 657 730</property>
                         <property name="shadow_type">out</property>
                         <child>
                           <widget class="GtkHButtonBox" id="hbuttonbox2">
@@ -17067,30 +17067,130 @@ Chronopic</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkVBox" id="vbox32">
+                                  <widget class="GtkFrame" id="frame6">
                                     <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
+                                    <property name="label_yalign">0.69999998807907104</property>
+                                    <property name="shadow_type">out</property>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_runs_interval">
+                                      <widget class="GtkVBox" id="vbox32">
                                         <property name="visible">True</property>
-                                        <property name="spacing">12</property>
                                         <child>
-                                          <widget class="GtkHBox" id="hbox40">
+                                          <widget class="GtkHBox" id="hbox_runs_interval">
                                             <property name="visible">True</property>
+                                            <property name="spacing">12</property>
                                             <child>
-                                              <widget class="GtkRadioButton" id="extra_window_radio_run_interval_by_laps">
+                                              <widget class="GtkHBox" id="hbox40">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="tooltip" translatable="yes">Intervallic run limited by laps</property>
-                                                <property name="relief">none</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">False</property>
-                                                <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_extra_window_radio_run_interval_by_laps">
+                                                  <widget class="GtkRadioButton" id="extra_window_radio_run_interval_by_laps">
                                                     <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">By laps</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Intervallic run limited by laps</property>
+                                                    <property name="relief">none</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">False</property>
+                                                    <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_by_laps">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">By laps</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="extra_window_radio_run_interval_by_time">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="relief">none</property>
+                                                    <property name="draw_indicator">False</property>
+                                                    <property name="group">extra_window_radio_run_interval_by_laps</property>
+                                                    <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_by_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">Intervallic run limited by time</property>
+                                                        <property name="label" translatable="yes">By time</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="extra_window_radio_run_interval_unlimited">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Intervallic run unlimited (until "finish" button is clicked)</property>
+                                                    <property name="relief">none</property>
+                                                    <property name="draw_indicator">False</property>
+                                                    <property name="group">extra_window_radio_run_interval_by_laps</property>
+                                                    <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_unlimited">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">Unlimited</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="extra_window_radio_run_interval_mtgug">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="relief">none</property>
+                                                    <property name="draw_indicator">False</property>
+                                                    <property name="group">extra_window_radio_run_interval_by_laps</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_mtgug">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">MTGUG</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkRadioButton" id="extra_window_radio_run_interval_more">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="relief">none</property>
+                                                    <property name="draw_indicator">False</property>
+                                                    <property name="group">extra_window_radio_run_interval_by_laps</property>
+                                                    <signal name="clicked" handler="on_extra_window_runs_interval_more"/>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_more">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">More runs</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">4</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -17099,162 +17199,93 @@ Chronopic</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkRadioButton" id="extra_window_radio_run_interval_by_time">
+                                              <widget class="GtkHBox" id="hbox41">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="relief">none</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">False</property>
-                                                <property name="group">extra_window_radio_run_interval_by_laps</property>
-                                                <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label_extra_window_radio_run_interval_by_time">
+                                                  <widget class="GtkButton" id="button_time_bells">
                                                     <property name="visible">True</property>
-                                                    <property name="tooltip" translatable="yes">Intervallic run limited by time</property>
-                                                    <property name="label" translatable="yes">By time</property>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkRadioButton" id="extra_window_radio_run_interval_unlimited">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="tooltip" translatable="yes">Intervallic run unlimited (until "finish" button is clicked)</property>
-                                                <property name="relief">none</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">False</property>
-                                                <property name="group">extra_window_radio_run_interval_by_laps</property>
-                                                <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_extra_window_radio_run_interval_unlimited">
-                                                    <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">Unlimited</property>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkRadioButton" id="extra_window_radio_run_interval_mtgug">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="relief">none</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">False</property>
-                                                <property name="group">extra_window_radio_run_interval_by_laps</property>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_extra_window_radio_run_interval_mtgug">
-                                                    <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">MTGUG</property>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">3</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkRadioButton" id="extra_window_radio_run_interval_more">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="relief">none</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">False</property>
-                                                <property name="group">extra_window_radio_run_interval_by_laps</property>
-                                                <signal name="clicked" handler="on_extra_window_runs_interval_more"/>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label_extra_window_radio_run_interval_more">
-                                                    <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">More runs</property>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">4</property>
-                                              </packing>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkHBox" id="hbox41">
-                                            <property name="visible">True</property>
-                                            <child>
-                                              <widget class="GtkButton" id="button_time_bells">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="tooltip" translatable="yes">Bells</property>
-                                                <signal name="clicked" handler="on_button_time_bells_clicked"/>
-                                                <child>
-                                                  <widget class="GtkAlignment" id="alignment103">
-                                                    <property name="visible">True</property>
-                                                    <property name="xscale">0</property>
-                                                    <property name="yscale">0</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Bells</property>
+                                                    <signal name="clicked" handler="on_button_time_bells_clicked"/>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox216">
+                                                      <widget class="GtkAlignment" id="alignment103">
                                                         <property name="visible">True</property>
-                                                        <property name="spacing">2</property>
+                                                        <property name="xscale">0</property>
+                                                        <property name="yscale">0</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_run_interval_bell">
+                                                          <widget class="GtkHBox" id="hbox216">
                                                             <property name="visible">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_run_interval_bell">
+                                                            <property name="visible">True</property>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label438">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label438">
                                                             <property name="visible">True</property>
                                                             <property name="use_underline">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
-                                                          </packing>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
                                                         </child>
                                                       </widget>
                                                     </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
                                                 </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkButton" id="button23">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="tooltip" translatable="yes">Add run type</property>
-                                                <signal name="clicked" handler="on_run_type_add_activate"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image3213">
+                                                  <widget class="GtkButton" id="button23">
                                                     <property name="visible">True</property>
-                                                    <property name="stock">gtk-new</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Add run type</property>
+                                                    <signal name="clicked" handler="on_run_type_add_activate"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image3213">
+                                                        <property name="visible">True</property>
+                                                        <property name="stock">gtk-new</property>
+                                                      </widget>
+                                                    </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkButton" id="button3">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Add run type</property>
+                                                    <signal name="clicked" handler="on_run_type_delete_intervallic"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image2">
+                                                        <property name="visible">True</property>
+                                                        <property name="stock">gtk-remove</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">2</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -17262,64 +17293,50 @@ Chronopic</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
-                                            <child>
-                                              <widget class="GtkButton" id="button3">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="tooltip" translatable="yes">Add run type</property>
-                                                <signal name="clicked" handler="on_run_type_delete_intervallic"/>
-                                                <child>
-                                                  <widget class="GtkImage" id="image2">
-                                                    <property name="visible">True</property>
-                                                    <property name="stock">gtk-remove</property>
-                                                  </widget>
-                                                </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="position">0</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox38">
-                                        <property name="visible">True</property>
-                                        <property name="spacing">8</property>
-                                        <child>
-                                          <widget class="GtkLabel" id="label27">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">Selected:</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
                                             <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="extra_window_runs_interval_label_selected">
+                                          <widget class="GtkHBox" id="hbox38">
                                             <property name="visible">True</property>
-                                            <property name="label" translatable="yes">the selected test</property>
+                                            <property name="spacing">8</property>
+                                            <child>
+                                              <widget class="GtkLabel" id="label28">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">Selected:</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="extra_window_runs_interval_label_selected">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">the selected test</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label27">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
                                       <packing>
-                                        <property name="position">1</property>
+                                        <property name="type">label_item</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -20484,7 +20501,27 @@ weight</property>
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <widget class="GtkHBox" id="hbox39">
+                                <property name="visible">True</property>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>

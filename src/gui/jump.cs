@@ -778,6 +778,7 @@ public class RepairJumpRjWindow
 
 //--------------------------------------------------------
 //---------------- jump extra WIDGET --------------------
+//---------------- in 0.9.3 included in main gui ---------
 //--------------------------------------------------------
 
 partial class ChronoJumpWindow
@@ -806,7 +807,8 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
 	[Widget] Gtk.Label extra_window_label_jumps_rj_no_options;
-	
+
+	//labels notebook_execute	
 	[Widget] Gtk.Label label_extra_window_radio_jump_free;
 	[Widget] Gtk.Label label_extra_window_radio_jump_sj;
 	[Widget] Gtk.Label label_extra_window_radio_jump_sjl;
@@ -818,6 +820,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_jump_takeoff;
 	[Widget] Gtk.Label label_extra_window_radio_jump_more;
 
+	//radio notebook_execute	
 	[Widget] Gtk.RadioButton extra_window_radio_jump_free;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_sj;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_sjl;
@@ -840,7 +843,8 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_unlimited;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_hexagon;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_more;
-	
+
+	//selected test labels	
 	[Widget] Gtk.Label extra_window_jumps_label_selected;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_selected;
 	
@@ -861,8 +865,8 @@ partial class ChronoJumpWindow
 	double extra_window_jumps_rj_weight = 20;
 	double extra_window_jumps_rj_fall = 20;
 	
-	private static JumpType previousJumpType; //used on More to turnback if cancel or delete event is pressed
-	private static JumpType previousJumpRjType; //used on More to turnback if cancel or delete event is pressed
+	private JumpType previousJumpType; //used on More to turnback if cancel or delete event is pressed
+	private JumpType previousJumpRjType; //used on More to turnback if cancel or delete event is pressed
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
@@ -965,7 +969,7 @@ partial class ChronoJumpWindow
 			extra_window_jumps_radiobutton_weight.Active = true;
 		}
 
-		extra_window_showNoOptions(myJumpType, hasOptions);
+		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
@@ -1020,7 +1024,7 @@ partial class ChronoJumpWindow
 			extra_window_jumps_rj_radiobutton_weight.Active = true;
 		}
 
-		extra_window_showNoOptions(myJumpType, hasOptions);
+		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
 
 
@@ -1078,10 +1082,11 @@ partial class ChronoJumpWindow
 				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
 				);
 
-		//destroy the win for not having updating problems if a new jump type is created
-		jumpsRjMoreWin.Destroy();
 		
 		extra_window_jumps_rj_toggle_desired_button_on_toolbar(currentJumpRjType);
+	
+		//destroy the win for not having updating problems if a new jump type is created
+		jumpsRjMoreWin.Destroy();
 	}
 
 	//if it's cancelled (or deleted event) select desired toolbar button
@@ -1171,40 +1176,13 @@ partial class ChronoJumpWindow
 	}
 	
 			
-	private void extra_window_showNoOptions(JumpType myJumpType, bool hasOptions) {
+	private void extra_window_jumps_showNoOptions(JumpType myJumpType, bool hasOptions) {
 		if(myJumpType.IsRepetitive) 
 			extra_window_label_jumps_rj_no_options.Visible = ! hasOptions;
 		else 
 			extra_window_label_jumps_no_options.Visible = ! hasOptions;
 	}
 
-
-	void on_button_execute_test_clicked (object o, EventArgs args) {
-		if(radio_mode_jumps.Active) {
-			extra_window_jumps_weight = (double) extra_window_jumps_spinbutton_weight.Value;
-			extra_window_jumps_fall = (double) extra_window_jumps_spinbutton_fall.Value;
-			extra_window_jumps_arms = extra_window_jumps_check_dj_arms.Active;
-
-			//need to check DJ because is what happens when press DJ button
-			//need to check other because maybe we changed some option since last jump 
-			//and currentJumpType.Name is the name of last jump type, eg: DJa
-			if(currentJumpType.Name == "DJ" || 
-					currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
-				if(extra_window_jumps_arms)
-					currentJumpType = new JumpType("DJa");
-				else
-					currentJumpType = new JumpType("DJna");
-			}
-
-			on_normal_jump_activate(o, args);
-		} else if(radio_mode_jumps_reactive.Active) {
-			extra_window_jumps_rj_limited = (double) extra_window_jumps_rj_spinbutton_limit.Value;
-			extra_window_jumps_rj_weight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
-			extra_window_jumps_rj_fall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
-
-			on_rj_activate(o, args);
-		}
-	}
 
 
 	private void on_extra_window_jumps_radiobutton_kg_toggled (object o, EventArgs args)

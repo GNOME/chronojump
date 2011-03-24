@@ -871,125 +871,341 @@ public class RepairRunIntervalWindow
 
 //--------------------------------------------------------
 //---------------- run extra WIDGET --------------------
+//---------------- in 0.9.3 included in main gui ---------
 //--------------------------------------------------------
 
-public class RunExtraWindow 
+partial class ChronoJumpWindow
 {
-	[Widget] Gtk.Label label_limit;
-	[Widget] Gtk.SpinButton spinbutton_limit;
-	[Widget] Gtk.Label label_limit_units;
-	[Widget] Gtk.Label label_distance;
-	[Widget] Gtk.SpinButton distance_limit;
-	[Widget] Gtk.Label label_distance_units;
-	[Widget] Gtk.Window run_extra;
-	[Widget] Gtk.SpinButton spinbutton_distance;
-	[Widget] Gtk.Button button_accept;
 
-	static int distance;
-	static int limited = 10;
+	//labels notebook_execute	
+	[Widget] Gtk.Label label_extra_window_radio_run_custom;
+	[Widget] Gtk.Label label_extra_window_radio_run_20m;
+	[Widget] Gtk.Label label_extra_window_radio_run_100m;
+	[Widget] Gtk.Label label_extra_window_radio_run_200m;
+	[Widget] Gtk.Label label_extra_window_radio_run_400m;
+	[Widget] Gtk.Label label_extra_window_radio_run_gesell;
+	[Widget] Gtk.Label label_extra_window_radio_run_20yard;
+	[Widget] Gtk.Label label_extra_window_radio_run_505;
+	[Widget] Gtk.Label label_extra_window_radio_run_illinois;
+	[Widget] Gtk.Label label_extra_window_radio_run_margaria;
+	[Widget] Gtk.Label label_extra_window_radio_run_shuttle;
+	[Widget] Gtk.Label label_extra_window_radio_run_zigzag;
+	[Widget] Gtk.Label label_extra_window_radio_run_more;
 	
-	static RunExtraWindow RunExtraWindowBox;
-	Gtk.Window parent;
+	//radio notebook_execute	
+	[Widget] Gtk.RadioButton extra_window_radio_run_custom;
+	[Widget] Gtk.RadioButton extra_window_radio_run_20m;
+	[Widget] Gtk.RadioButton extra_window_radio_run_100m;
+	[Widget] Gtk.RadioButton extra_window_radio_run_200m;
+	[Widget] Gtk.RadioButton extra_window_radio_run_400m;
+	[Widget] Gtk.RadioButton extra_window_radio_run_gesell;
+	[Widget] Gtk.RadioButton extra_window_radio_run_20yard;
+	[Widget] Gtk.RadioButton extra_window_radio_run_505;
+	[Widget] Gtk.RadioButton extra_window_radio_run_illinois;
+	[Widget] Gtk.RadioButton extra_window_radio_run_margaria;
+	[Widget] Gtk.RadioButton extra_window_radio_run_shuttle;
+	[Widget] Gtk.RadioButton extra_window_radio_run_zigzag;
+	[Widget] Gtk.RadioButton extra_window_radio_run_more;
 
-	RunExtraWindow (Gtk.Window parent) {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_extra", null);
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-		//put an icon to window
-		UtilGtk.IconWindow(run_extra);
+
+	//options runs
+	[Widget] Gtk.Label extra_window_runs_label_distance;
+	[Widget] Gtk.SpinButton extra_window_runs_spinbutton_distance;
+	[Widget] Gtk.Label extra_window_runs_label_distance_units;
+
+	[Widget] Gtk.Label extra_window_label_runs_no_options;
+	
+	//options runs interval
+	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
+	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_distance;
+	[Widget] Gtk.Label extra_window_runs_interval_label_distance_units;
+
+	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
+	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
+	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
+
+	[Widget] Gtk.Label extra_window_label_runs_interval_no_options;
+
+	//selected test labels	
+	[Widget] Gtk.Label extra_window_runs_label_selected;
+	[Widget] Gtk.Label extra_window_runs_interval_label_selected;
+
+	double extra_window_runs_distance = 100;
+	double extra_window_runs_interval_distance = 100;
+	double extra_window_runs_interval_limit = 10;
+
+	private RunType previousRunType; //used on More to turnback if cancel or delete event is pressed
+	private RunType previousRunIntervalType; //used on More to turnback if cancel or delete event is pressed
+
+	
+	private void on_extra_window_runs_test_changed(object o, EventArgs args)
+	{
+		if(extra_window_radio_run_custom.Active) currentRunType = new RunType("Custom");
+		else if(extra_window_radio_run_20m.Active) currentRunType = new RunType("20m");
+		else if(extra_window_radio_run_100m.Active) currentRunType = new RunType("100m");
+		else if(extra_window_radio_run_200m.Active) currentRunType = new RunType("200m");
+		else if(extra_window_radio_run_400m.Active) currentRunType = new RunType("400m");
+		else if(extra_window_radio_run_gesell.Active) currentRunType = new RunType("Gesell-DBT");
+		else if(extra_window_radio_run_20yard.Active) currentRunType = new RunType("Agility-20Yard");
+		else if(extra_window_radio_run_505.Active) currentRunType = new RunType("Agility-505");
+		else if(extra_window_radio_run_illinois.Active) currentRunType = new RunType("Agility-Illinois");
+		else if(extra_window_radio_run_margaria.Active) currentRunType = new RunType("Margaria");
+		else if(extra_window_radio_run_shuttle.Active) currentRunType = new RunType("Agility-Shuttle-Run");
+		else if(extra_window_radio_run_zigzag.Active) currentRunType = new RunType("Agility-ZigZag");
+
+		extra_window_runs_initialize(currentRunType);
+	}
+
+	private void on_extra_window_runs_more(object o, EventArgs args)
+	{
+		previousRunType = currentRunType;
+
+		if(extra_window_radio_run_more.Active) {
+			runsMoreWin = RunsMoreWindow.Show(app1, true);
+			runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
+			runsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_cancelled);
+			runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
+		}
 	}
 	
-	static public RunExtraWindow Show (Gtk.Window parent, RunType myRunType) 
+	private void on_extra_window_runs_interval_test_changed(object o, EventArgs args)
 	{
-		if (RunExtraWindowBox == null) {
-			RunExtraWindowBox = new RunExtraWindow (parent);
+	}
+	
+	private void on_extra_window_runs_interval_more(object o, EventArgs args)
+	{
+		previousRunIntervalType = currentRunIntervalType;
+
+		if(extra_window_radio_run_more.Active) {
+			runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
+			runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+			runsIntervalMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_interval_cancelled);
+			runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
 		}
-		
-		if(myRunType.HasIntervals && ! myRunType.Unlimited) {
+	}
+	
+	private void extra_window_runs_initialize(RunType myRunType) 
+	{
+		extra_window_runs_label_selected.Text = "<b>" + Catalog.GetString(myRunType.Name) + "</b>";
+		extra_window_runs_label_selected.UseMarkup = true; 
+		currentEventType = myRunType;
+		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
+		bool hasOptions = false;
+
+		extra_window_runs_label_distance.Text = Catalog.GetString("Track distance\n(between platforms)");
+		extra_window_runs_label_distance_units.Text = Catalog.GetString("meters");
+
+		if(myRunType.Distance > 0) {
+			extra_window_runs_spinbutton_distance.Value = myRunType.Distance;
+			extra_window_showDistanceData(myRunType, true, false);	//visible, sensitive
+		} else {
+			if(myRunType.Name == "Margaria") {
+				extra_window_runs_label_distance.Text = Catalog.GetString("Vertical distance between\nstairs third and nine.");
+				extra_window_runs_label_distance_units.Text = Catalog.GetString("Millimeters.");
+				extra_window_runs_spinbutton_distance.Value = 1050;
+			} else {
+				extra_window_runs_spinbutton_distance.Value = extra_window_runs_distance; 
+			}
+			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
+
+		}
+
+		hasOptions = true;
+		extra_window_runs_showNoOptions(myRunType, hasOptions);
+	}
+	
+	private void extra_window_runs_interval_initialize(RunType myRunType) 
+	{
+		extra_window_runs_interval_label_selected.Text = "<b>" + Catalog.GetString(myRunType.Name) + "</b>";
+		extra_window_runs_interval_label_selected.UseMarkup = true; 
+		currentEventType = myRunType;
+		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
+		bool hasOptions = false;
+
+		if(myRunType.Distance > 0) {
+			extra_window_runs_interval_spinbutton_distance.Value = myRunType.Distance;
+			extra_window_showDistanceData(myRunType, true, false);	//visible, sensitive
+			hasOptions = true;
+		} else if(myRunType.Distance == 0) {
+			extra_window_runs_interval_spinbutton_distance.Value = extra_window_runs_interval_distance; 
+			extra_window_showDistanceData(myRunType, true, true);	//visible, sensitive
+			hasOptions = true;
+		} else { //variableDistancesString (eg. MTGUG) don't show anything
+			extra_window_showDistanceData(myRunType, false, false);	//visible, sensitive
+		}
+
+		if(! myRunType.Unlimited) {
 			string tracksName = Catalog.GetString("tracks");
 			string secondsName = Catalog.GetString("seconds");
 			if(myRunType.TracksLimited) 
-				RunExtraWindowBox.label_limit_units.Text = tracksName;
+				extra_window_runs_interval_label_limit_units.Text = tracksName;
 			else 
-				RunExtraWindowBox.label_limit_units.Text = secondsName;
+				extra_window_runs_interval_label_limit_units.Text = secondsName;
 			
 			if(myRunType.FixedValue > 0) {
-				RunExtraWindowBox.spinbutton_limit.Sensitive = false;
-				RunExtraWindowBox.spinbutton_limit.Value = myRunType.FixedValue;
+				extra_window_runs_interval_spinbutton_limit.Value = myRunType.FixedValue;
+				extra_window_showLimitData(true, false);	//visible, sensitive
+			} else {
+				extra_window_runs_interval_spinbutton_limit.Value = extra_window_runs_interval_limit;
+				extra_window_showLimitData(true, true);	//visible, sensitive
 			}
+			hasOptions = true;
 		} else {
-			hideIntervalData();	
+			extra_window_showLimitData(false, false);	//visible, sensitive
 		}
 
-		if(myRunType.Distance > 0) {
-			hideDistanceData();	
+		extra_window_runs_showNoOptions(myRunType, hasOptions);
+	}
+
+	private void on_more_runs_draw_image_test (object o, EventArgs args) {
+		currentEventType = new RunType(runsMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+	}
+	
+	private void on_more_runs_interval_draw_image_test (object o, EventArgs args) {
+		currentEventType = new RunType(runsIntervalMoreWin.SelectedEventName);
+		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+	}
+	
+	
+	//used from the dialogue "runs more"
+	private void on_more_runs_accepted (object o, EventArgs args) 
+	{
+		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
+	
+		currentRunType = new RunType(
+				runsMoreWin.SelectedEventName,	//name
+				false,				//hasIntervals
+				runsMoreWin.SelectedDistance,	//distance
+				false,				//tracksLimited (false, because has not intervals)
+				0,				//fixedValue (0, because has not intervals)
+				false,				//unlimited (false, because has not intervals)
+				runsMoreWin.SelectedDescription,
+				"", // distancesstring (deactivated now, TODO: activate)
+				SqliteEvent.GraphLinkSelectFileName("run", runsMoreWin.SelectedEventName)
+				);
+		
+		extra_window_runs_toggle_desired_button_on_toolbar(currentRunType);
+				
+		//destroy the win for not having updating problems if a new run type is created
+		runsMoreWin.Destroy();
+	}
+	
+	private void on_more_runs_interval_accepted (object o, EventArgs args) 
+	{
+		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
+		
+		currentRunType = new RunType(
+				runsIntervalMoreWin.SelectedEventName,	//name
+				true,					//hasIntervals
+				runsIntervalMoreWin.SelectedDistance,
+				runsIntervalMoreWin.SelectedTracksLimited,
+				runsIntervalMoreWin.SelectedLimitedValue,
+				runsIntervalMoreWin.SelectedUnlimited,
+				runsIntervalMoreWin.SelectedDescription,
+				runsIntervalMoreWin.SelectedDistancesString,
+				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsIntervalMoreWin.SelectedEventName)
+				);
+
+		/*
+		bool unlimited = false;
+		if(runsIntervalMoreWin.SelectedUnlimited)
+			unlimited = true;
+			*/
+		
+		extra_window_runs_interval_toggle_desired_button_on_toolbar(currentRunIntervalType);
+
+		//destroy the win for not having updating problems if a new runInterval type is created
+		runsIntervalMoreWin.Destroy();
+		
+		/*
+		//go to run extra if we need something to define
+		if( currentRunType.Distance == 0 || 
+				//(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
+				(currentRunType.FixedValue == 0 && ! unlimited) ) {
+			on_run_extra_activate(o, args);
+		} else {
+			on_run_interval_accepted(o, args);
 		}
-		
-		if(myRunType.Name == "Margaria") {
-			RunExtraWindowBox.label_distance.Text = Catalog.GetString("Vertical distance between\nstairs third and nine.");
-			RunExtraWindowBox.label_distance_units.Text = Catalog.GetString("Millimeters.");
-			distance = 1050;
-		} else
-			distance = 100;
-		
-		RunExtraWindowBox.spinbutton_distance.Value = distance;
-		RunExtraWindowBox.spinbutton_limit.Value = limited;
-		
-		RunExtraWindowBox.run_extra.Show ();
-
-		return RunExtraWindowBox;
+		*/
 	}
 	
-	static void hideIntervalData () {
-		RunExtraWindowBox.label_limit.Sensitive = false;
-		RunExtraWindowBox.spinbutton_limit.Sensitive = false;
-		RunExtraWindowBox.label_limit_units.Sensitive = false;
-	}
-	
-	static void hideDistanceData () {
-		RunExtraWindowBox.label_distance.Sensitive = false;
-		RunExtraWindowBox.spinbutton_distance.Sensitive = false;
-		RunExtraWindowBox.label_distance_units.Sensitive = false;
-	}
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
+	//if it's cancelled (or deleted event) select desired toolbar button
+	private void on_more_runs_cancelled (object o, EventArgs args) 
 	{
-		RunExtraWindowBox.run_extra.Hide();
-		RunExtraWindowBox = null;
+		currentRunType = previousRunType;
+		extra_window_runs_toggle_desired_button_on_toolbar(currentRunType);
 	}
 	
-	void on_run_extra_delete_event (object o, DeleteEventArgs args)
+	private void on_more_runs_interval_cancelled (object o, EventArgs args) 
 	{
-		RunExtraWindowBox.run_extra.Hide();
-		RunExtraWindowBox = null;
+		currentRunIntervalType = previousRunIntervalType;
+		extra_window_runs_interval_toggle_desired_button_on_toolbar(currentRunIntervalType);
 	}
 	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		distance = (int) spinbutton_distance.Value;
-		limited = (int) spinbutton_limit.Value;
-		
-		RunExtraWindowBox.run_extra.Hide();
-		RunExtraWindowBox = null;
+	private void extra_window_runs_toggle_desired_button_on_toolbar(RunType type) {
+		if(type.Name == "Custom") extra_window_radio_run_custom.Active = true;
+		else if(type.Name == "20m") extra_window_radio_run_20m.Active = true;
+		else if(type.Name == "100m") extra_window_radio_run_100m.Active = true;
+		else if(type.Name == "200m") extra_window_radio_run_200m.Active = true;
+		else if(type.Name == "400m") extra_window_radio_run_400m.Active = true;
+		else if(type.Name == "Gesell-DBT") extra_window_radio_run_gesell.Active = true;
+		else if(type.Name == "Agility-20Yard") extra_window_radio_run_20yard.Active = true;
+		else if(type.Name == "Agility-505") extra_window_radio_run_505.Active = true;
+		else if(type.Name == "Agility-Illinois") extra_window_radio_run_illinois.Active = true;
+		else if(type.Name == "Margaria") extra_window_radio_run_margaria.Active = true;
+		else if(type.Name == "Agility-Shuttle-Run") extra_window_radio_run_shuttle.Active = true;
+		else if(type.Name == "Agility-ZigZag") extra_window_radio_run_zigzag.Active = true;
+		else {
+			//don't do this:
+			//extra_window_radio_run_more.Active = true;
+			//because it will be a loop
+			//only do:
+			extra_window_runs_initialize(type);
+		}
+	}
+	
+	private void extra_window_runs_interval_toggle_desired_button_on_toolbar(RunType type) {
 	}
 
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
+	private void extra_window_showDistanceData (RunType myRunType, bool show, bool sensitive ) {
+		if(myRunType.HasIntervals) {
+			extra_window_runs_interval_label_distance.Visible = show;
+			extra_window_runs_interval_spinbutton_distance.Visible = show;
+			extra_window_runs_interval_label_distance_units.Visible = show;
+		
+			extra_window_runs_interval_label_distance.Sensitive = sensitive;
+			extra_window_runs_interval_spinbutton_distance.Sensitive = sensitive;
+			extra_window_runs_interval_label_distance_units.Sensitive = sensitive;
+		} else {
+			extra_window_runs_label_distance.Visible = show;
+			extra_window_runs_spinbutton_distance.Visible = show;
+			extra_window_runs_label_distance_units.Visible = show;
+		
+			extra_window_runs_label_distance.Sensitive = sensitive;
+			extra_window_runs_spinbutton_distance.Sensitive = sensitive;
+			extra_window_runs_label_distance_units.Sensitive = sensitive;
+		}
 	}
 	
-	public int Distance 
-	{
-		get { return distance;	}
+	private void extra_window_showLimitData (bool show, bool sensitive ) {
+		extra_window_runs_interval_label_limit.Visible = show;
+		extra_window_runs_interval_spinbutton_limit.Visible = show;
+		extra_window_runs_interval_label_limit_units.Visible = show;
+		
+		extra_window_runs_interval_label_limit.Sensitive = sensitive;
+		extra_window_runs_interval_spinbutton_limit.Sensitive = sensitive;
+		extra_window_runs_interval_label_limit_units.Sensitive = sensitive;
 	}
 	
-	public int Limited 
-	{
-		get { return limited;	}
+	private void extra_window_runs_showNoOptions(RunType myRunType, bool hasOptions) {
+		if(myRunType.HasIntervals) 
+			extra_window_label_runs_interval_no_options.Visible = ! hasOptions;
+		else 
+			extra_window_label_runs_no_options.Visible = ! hasOptions;
 	}
+
+
 }
 
 

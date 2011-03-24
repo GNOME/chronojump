@@ -90,7 +90,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menus
-	[Widget] Gtk.MenuItem menu_runs;
 	[Widget] Gtk.MenuItem menu_other;
 	[Widget] Gtk.MenuItem menu_tools;
 
@@ -118,14 +117,7 @@ public partial class ChronoJumpWindow
 	
 	//runs
 	[Widget] Gtk.MenuItem menu_execute_simple_runs1;
-	[Widget] Gtk.MenuItem menuitem_edit_selected_run;
-	[Widget] Gtk.MenuItem menuitem_delete_selected_run;
 	[Widget] Gtk.MenuItem menu_execute_intervallic_runs1;
-	[Widget] Gtk.MenuItem menuitem_edit_selected_run_interval;
-	[Widget] Gtk.MenuItem menuitem_repair_selected_run_interval;
-	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
-	[Widget] Gtk.MenuItem menuitem_run_type_add;
-	[Widget] Gtk.MenuItem menuitem_run_type_delete_intervallic;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
 	[Widget] Gtk.Button button_delete_selected_run;
@@ -134,22 +126,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_delete_selected_run_interval;
 	[Widget] Gtk.Button button_repair_selected_run_interval;
 
-	[Widget] Gtk.MenuItem menuitem_run_custom;
-	[Widget] Gtk.MenuItem menuitem_20m;
-	[Widget] Gtk.MenuItem menuitem_100m;
-	[Widget] Gtk.MenuItem menuitem_200m;
-	[Widget] Gtk.MenuItem menuitem_400m;
-	[Widget] Gtk.MenuItem menuitem_run_gesell;
-	[Widget] Gtk.MenuItem menuitem_run_20yard;
-	[Widget] Gtk.MenuItem menuitem_run_505;
-	[Widget] Gtk.MenuItem menuitem_run_illinois;
-	[Widget] Gtk.MenuItem menuitem_run_margaria;
-	[Widget] Gtk.MenuItem menuitem_run_shuttle;
-	[Widget] Gtk.MenuItem menuitem_run_zigzag;
-	[Widget] Gtk.MenuItem menuitem_run_interval_by_laps;
-	[Widget] Gtk.MenuItem menuitem_run_interval_by_time;
-	[Widget] Gtk.MenuItem menuitem_run_interval_unlimited;
-	[Widget] Gtk.MenuItem menuitem_run_interval_mtgug;
 
 	//other
 	//reaction time
@@ -228,9 +204,6 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Button button_pulse_more;
 
 	
-	[Widget] Gtk.Button button_run_last;
-	[Widget] Gtk.Button button_run_interval_last;
-
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options;
@@ -333,6 +306,8 @@ public partial class ChronoJumpWindow
 	bool lastJumpIsSimple;	//needed on update
 	private static RunType currentRunType;
 	private static RunType currentRunIntervalType;
+	bool thisRunIsSimple;	//needed on updating
+	bool lastRunIsSimple;	//needed on update
 	private static PulseType currentPulseType;
 	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
@@ -353,7 +328,7 @@ public partial class ChronoJumpWindow
 	RepairJumpRjWindow repairJumpRjWin;
 	JumpTypeAddWindow jumpTypeAddWin;
 	
-	RunExtraWindow runExtraWin; //for normal and intervaled runs 
+	//RunExtraWindow runExtraWin; //for normal and intervaled runs 
 	RunsMoreWindow runsMoreWin;
 	RunsIntervalMoreWindow runsIntervalMoreWin;
 	RunTypeAddWindow runTypeAddWin;
@@ -482,6 +457,8 @@ public partial class ChronoJumpWindow
 	
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+		on_extra_window_runs_test_changed(new object(), new EventArgs());
+		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 		changeTestImage("", "", "LOGO");
 
 		
@@ -513,17 +490,6 @@ public partial class ChronoJumpWindow
 		
 	}
 	
-	private void upClicked(object o, EventArgs args) {
-		Log.WriteLine("upClicked!!!");
-	}
-	private void up2Clicked(object o, EventArgs args) {
-		Log.WriteLine("up2Clicked!!!");
-	}
-	private void on_extra_window_runs_test_changed(object o, EventArgs args) {
-	}
-	private void on_extra_window_runs_more(object o, EventArgs args) {
-	}
-
 
 /*
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -616,6 +582,37 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_unlimited);
 		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_hexagon);
 		UtilGtk.ColorsMenuRadio(extra_window_radio_jump_rj_more);
+
+		//runs changes
+		label_extra_window_radio_run_custom.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_20m.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_100m.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_200m.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_400m.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_gesell.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_20yard.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_505.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_illinois.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_margaria.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_shuttle.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		label_extra_window_radio_run_zigzag.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_more);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_custom);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_20m);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_100m);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_200m);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_400m);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_gesell);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_20yard);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_505);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_illinois);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_margaria);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_shuttle);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_zigzag);
+		UtilGtk.ColorsMenuRadio(extra_window_radio_run_more);
+
+
 
 		//persons buttons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameNew1);
@@ -2832,8 +2829,44 @@ Console.WriteLine("X");
 		reportWin = ReportWindow.Show(app1, report);
 	}
 
-	private void on_enter_notify (object o, Gtk.EnterNotifyEventArgs args) {
-		Log.WriteLine("enter notify");
+
+	void on_button_execute_test_clicked (object o, EventArgs args) {
+		if(radio_mode_jumps.Active) {
+			extra_window_jumps_weight = (double) extra_window_jumps_spinbutton_weight.Value;
+			extra_window_jumps_fall = (double) extra_window_jumps_spinbutton_fall.Value;
+			extra_window_jumps_arms = extra_window_jumps_check_dj_arms.Active;
+
+			//need to check DJ because is what happens when press DJ button
+			//need to check other because maybe we changed some option since last jump 
+			//and currentJumpType.Name is the name of last jump type, eg: DJa
+			if(currentJumpType.Name == "DJ" || 
+					currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
+				if(extra_window_jumps_arms)
+					currentJumpType = new JumpType("DJa");
+				else
+					currentJumpType = new JumpType("DJna");
+			}
+
+			on_normal_jump_activate(o, args);
+		}
+		else if(radio_mode_jumps_reactive.Active) {
+			extra_window_jumps_rj_limited = (double) extra_window_jumps_rj_spinbutton_limit.Value;
+			extra_window_jumps_rj_weight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
+			extra_window_jumps_rj_fall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
+
+			on_rj_activate(o, args);
+		}
+		else if(radio_mode_runs.Active) {
+			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
+			
+			on_normal_run_activate(o, args);
+		}
+		else if(radio_mode_runs_intervallic.Active) {
+			extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
+			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
+			
+			on_run_interval_activate(o, args);
+		}
 	}
 
 
@@ -3283,58 +3316,7 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 	
-	private void on_button_run_more_clicked (object o, EventArgs args) 
-	{
-		runsMoreWin = RunsMoreWindow.Show(app1, true);
-		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
-		runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
-	}
-	
-	private void on_more_runs_draw_image_test (object o, EventArgs args) {
-		currentEventType = new RunType(runsMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
-	}
-	
-	
-	private void on_button_run_last_clicked (object o, EventArgs args) 
-	{
-		Log.WriteLine("button run last");
-		//currentRunType contains the last run type
-		if(currentRunType.Distance == 0) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_normal_run_activate(o, args);
-		}
-	}
-	
-	//used from the dialogue "runs more"
-	private void on_more_runs_accepted (object o, EventArgs args) 
-	{
-		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
-	
-		currentRunType = new RunType(
-				runsMoreWin.SelectedEventName,	//name
-				false,				//hasIntervals
-				runsMoreWin.SelectedDistance,	//distance
-				false,				//tracksLimited (false, because has not intervals)
-				0,				//fixedValue (0, because has not intervals)
-				false,				//unlimited (false, because has not intervals)
-				runsMoreWin.SelectedDescription,
-				"", // distancesstring (deactivated now, TODO: activate)
-				SqliteEvent.GraphLinkSelectFileName("run", runsMoreWin.SelectedEventName)
-				);
-		
-				
-		//destroy the win for not having updating problems if a new run type is created
-		runsMoreWin.Destroy();
-		
-		if( currentRunType.Distance == 0 ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_normal_run_activate(o, args);
-		}
-	}
-	
+	/*	
 	//here comes the unlimited runs (and every run with distance = 0 (undefined)
 	private void on_run_extra_activate (object o, EventArgs args) 
 	{
@@ -3354,42 +3336,18 @@ Console.WriteLine("X");
 			runExtraWin.Button_accept.Clicked += new EventHandler(on_normal_run_activate);
 		}
 	}
+	*/
 
 	//suitable for all runs not repetitive
 	private void on_normal_run_activate (object o, EventArgs args) 
 	{
-		if (o == (object) button_run_20m || o == (object) menuitem_20m) {
-			currentRunType = new RunType("20m");
-		} else if (o == (object) button_run_100m || o == (object) menuitem_100m) {
-			currentRunType = new RunType("100m");
-		} else if (o == (object) button_run_200m || o == (object) menuitem_200m) {
-			currentRunType = new RunType("200m");
-		} else if (o == (object) button_run_400m || o == (object) menuitem_400m) {
-			currentRunType = new RunType("400m");
-		} else if (o == (object) button_run_gesell || o == (object) menuitem_run_gesell) {
-			currentRunType = new RunType("Gesell-DBT");
-		} else if (o == (object) button_run_20yard || o == (object) menuitem_run_20yard) {
-			currentRunType = new RunType("Agility-20Yard");
-		} else if (o == (object) button_run_505 || o == (object) menuitem_run_505) {
-			currentRunType = new RunType("Agility-505");
-		} else if (o == (object) button_run_illinois || o == (object) menuitem_run_illinois) {
-			currentRunType = new RunType("Agility-Illinois");
-		} else if (o == (object) button_run_shuttle || o == (object) menuitem_run_shuttle) {
-			currentRunType = new RunType("Agility-Shuttle-Run");
-		} else if (o == (object) button_run_zigzag || o == (object) menuitem_run_zigzag) {
-			currentRunType = new RunType("Agility-ZigZag");
-		} 
-		// add others...
-		
-		changeTestImage(EventType.Types.RUN.ToString(), currentRunType.Name, currentRunType.ImageFileName);
-
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
-		int myDistance = 0;		
+		double myDistance = 0;		
 		if(currentRunType.Distance == 0) {
-			myDistance = runExtraWin.Distance;
+			myDistance = extra_window_runs_distance;
 		} else {
-			myDistance = (int) currentRunType.Distance;
+			myDistance = currentRunType.Distance;
 		}
 		
 		//used by cancel and finish
@@ -3400,15 +3358,10 @@ Console.WriteLine("X");
 		sensitiveGuiEventDoing();
 	
 		//change to page 2 of notebook_results if were in other
-		notebooks_change(2);
+		//update, don't do this now, because it's buggy with currentJump on More
+		//notebooks_change(2);
 			
 		//show the event doing window
-		
-		/*
-		double progressbarLimit = 3; //3 phases for show the Dj
-		if( currentJumpType.StartIn )
-			progressbarLimit = 2; //2 for normal jump
-		*/
 		
 		double progressbarLimit = 3; //same for startingIn than out (before)
 		
@@ -3453,6 +3406,10 @@ Console.WriteLine("X");
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
+
+		thisRunIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
 	}
@@ -3489,6 +3446,8 @@ Console.WriteLine("X");
 			createChronopicWindow(true);
 		}
 		
+		lastRunIsSimple = true;
+		
 		//unhide buttons that allow jumping, running
 		sensitiveGuiEventDone();
 	}
@@ -3498,69 +3457,11 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
-	private void on_button_run_interval_more_clicked (object o, EventArgs args) 
-	{
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
-		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
-		runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
-	}
-	
-	private void on_more_runs_interval_draw_image_test (object o, EventArgs args) {
-		currentEventType = new RunType(runsIntervalMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
-	}
-	
-	private void on_more_runs_interval_accepted (object o, EventArgs args) 
-	{
-		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
-		
-		Console.WriteLine(runsIntervalMoreWin.SelectedEventName);
-		Console.WriteLine(runsIntervalMoreWin.SelectedDistance.ToString());
-		Console.WriteLine(runsIntervalMoreWin.SelectedDistancesString);
-		currentRunType = new RunType(
-				runsIntervalMoreWin.SelectedEventName,	//name
-				true,					//hasIntervals
-				runsIntervalMoreWin.SelectedDistance,
-				runsIntervalMoreWin.SelectedTracksLimited,
-				runsIntervalMoreWin.SelectedLimitedValue,
-				runsIntervalMoreWin.SelectedUnlimited,
-				runsIntervalMoreWin.SelectedDescription,
-				runsIntervalMoreWin.SelectedDistancesString,
-				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsIntervalMoreWin.SelectedEventName)
-				);
-
-		bool unlimited = false;
-		if(runsIntervalMoreWin.SelectedUnlimited)
-			unlimited = true;
-
-		//destroy the win for not having updating problems if a new runInterval type is created
-		runsIntervalMoreWin.Destroy();
-		
-		//go to run extra if we need something to define
-		if( currentRunType.Distance == 0 || 
-				//(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
-				(currentRunType.FixedValue == 0 && ! unlimited) ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_run_interval_accepted(o, args);
-		}
-	}
-	
-	private void on_button_run_interval_last_clicked (object o, EventArgs args) 
-	{
-		//go to run extra if we need something to define
-		if( currentRunType.Distance == 0 || 
-				(currentRunType.FixedValue == 0 && ! currentRunType.Unlimited) ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_run_interval_accepted(o, args);
-		}
-	}
 	
 	//interval runs clicked from user interface
 	//(not suitable for the other runs we found in "more")
 	private void on_run_interval_activate (object o, EventArgs args) 
-	{
+	{/*
 		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
 		{	
 			currentRunType = new RunType("byLaps");
@@ -3582,11 +3483,12 @@ Console.WriteLine("X");
 		} else {
 			on_run_interval_accepted(o, args);
 		}
-			
+	*/		
 	}
 	
 	private void on_run_interval_accepted (object o, EventArgs args)
 	{
+		/*
 		Log.WriteLine("run interval accepted");
 		
 		//if distance can be always different in this run,
@@ -3664,8 +3566,13 @@ Console.WriteLine("X");
 			currentEventExecute.SimulateInitValues(rand);
 			
 		currentEventExecute.Manage();
+		
+		thisRunIsSimple = false; //used by: on_event_execute_update_graph_in_progress_clicked
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+		*/
 	}
 
 
@@ -4280,6 +4187,9 @@ Console.WriteLine("X");
 								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
+					if(lastRunIsSimple) 
+						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+					/*
 					if(currentRunType.HasIntervals) {
 							RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type);
 							double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
@@ -4298,6 +4208,7 @@ Console.WriteLine("X");
 								volumeOn, repetitiveConditionsWin);
 					} else
 						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+					*/
 					break;
 				case EventType.Types.PULSE:
 					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
@@ -5124,8 +5035,8 @@ Console.WriteLine("X");
 				Catalog.GetString("Use these keys in order to work faster.") + "\n\n" +
 				"- " + Catalog.GetString("On execute test tab:") + "\n\n" +
 				"<tt><b>p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
-				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person in list") + "\n" +
-				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person in list") + "\n" +
+				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
+				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
 				"<tt><b>(space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
 				"\n" + "- " + Catalog.GetString("On results tab:") + "\n\n" +
 				"<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
@@ -5198,19 +5109,6 @@ Console.WriteLine("X");
 		button_delete_current_person.Sensitive = option;
 	}
 
-	private void menuRunsSensitive(bool option)
-	{
-		menu_execute_simple_runs1.Sensitive = option;
-		menuitem_edit_selected_run.Sensitive = option;
-		menuitem_delete_selected_run.Sensitive = option;
-		menu_execute_intervallic_runs1.Sensitive = option;
-		menuitem_edit_selected_run_interval.Sensitive = option;
-		menuitem_repair_selected_run_interval.Sensitive = option;
-		menuitem_delete_selected_run_interval.Sensitive = option;
-		menuitem_run_type_add.Sensitive = option;
-		menuitem_run_type_delete_intervallic.Sensitive = option;
-	}
-	
 	private void menuOtherSensitive(bool option)
 	{
 		menuitem_reaction_time.Sensitive = option;
@@ -5236,7 +5134,6 @@ Console.WriteLine("X");
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
-		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 		menuToolsSensitive(false);
 		
@@ -5257,10 +5154,6 @@ Console.WriteLine("X");
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		eventExecuteHideAllTables();
-		
-		//button_last.Sensitive = false;
-		button_run_last.Sensitive=false;
-		button_run_interval_last.Sensitive=false;
 	}
 	
 	private void sensitiveGuiYesSession () {
@@ -5291,7 +5184,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
-		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 		menuToolsSensitive(false);
 	}
@@ -5307,7 +5199,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);
-		menuRunsSensitive(true);
 		menuOtherSensitive(true);
 		menuToolsSensitive(true);
 	
@@ -5334,7 +5225,6 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = false;
 		
 		//menu
-		menuRunsSensitive(false);
 		menuOtherSensitive(false);
 			
 		hbox_multi_chronopic_buttons.Sensitive = false;
@@ -5353,15 +5243,6 @@ Console.WriteLine("X");
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
 			switch (currentEventType.Type) {
-				case EventType.Types.RUN:
-					if(currentRunType.HasIntervals) {
-						button_run_interval_last.Sensitive = true;
-						button_run_last.Sensitive = false;
-					} else {
-						button_run_last.Sensitive = true;
-						button_run_interval_last.Sensitive = false;
-					}
-					break;
 				case EventType.Types.REACTIONTIME:
 					Log.WriteLine("sensitiveGuiEventDone reaction time");
 					break;
@@ -5378,7 +5259,6 @@ Console.WriteLine("X");
 		}
 		
 		//menu
-		menuRunsSensitive(true);
 		menuOtherSensitive(true);
 	}
 
@@ -5412,8 +5292,6 @@ Console.WriteLine("X");
 			success = true;
 		} 
 		if (type == "ALL" || type == "Run") {
-			menuitem_edit_selected_run.Sensitive = show;
-			menuitem_delete_selected_run.Sensitive = show;
 			button_edit_selected_run.Sensitive = show;
 			button_delete_selected_run.Sensitive = show;
 
@@ -5427,12 +5305,9 @@ Console.WriteLine("X");
 			success = true;
 		} 
 		if (type == "ALL" || type == "RunInterval") {
-			menuitem_edit_selected_run_interval.Sensitive = show;
-			menuitem_delete_selected_run_interval.Sensitive = show;
 			button_edit_selected_run_interval.Sensitive = show;
 			button_delete_selected_run_interval.Sensitive = show;
 			button_repair_selected_run_interval.Sensitive = show;
-			menuitem_repair_selected_run_interval.Sensitive = show;
 			
 			button_video_play_selected_run_interval.Sensitive = false;
 			if (myTreeViewRunsInterval.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(

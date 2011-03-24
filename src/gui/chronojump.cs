@@ -612,6 +612,19 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(extra_window_radio_run_zigzag);
 		UtilGtk.ColorsRadio(extra_window_radio_run_more);
 
+		//runs intervalchanges
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_by_laps);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_by_time);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_unlimited);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_mtgug);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_more);
+
+		UtilGtk.ColorsRadio(extra_window_radio_run_interval_by_laps);
+		UtilGtk.ColorsRadio(extra_window_radio_run_interval_by_time);
+		UtilGtk.ColorsRadio(extra_window_radio_run_interval_unlimited);
+		UtilGtk.ColorsRadio(extra_window_radio_run_interval_mtgug);
+		UtilGtk.ColorsRadio(extra_window_radio_run_interval_more);
+
 
 
 		//persons buttons
@@ -3460,7 +3473,7 @@ Console.WriteLine("X");
 	
 	//interval runs clicked from user interface
 	//(not suitable for the other runs we found in "more")
-	private void on_run_interval_activate (object o, EventArgs args) 
+	private void old_on_run_interval_activate (object o, EventArgs args) 
 	{/*
 		if(o == (object) button_run_interval_by_laps || o == (object) menuitem_run_interval_by_laps) 
 		{	
@@ -3486,37 +3499,36 @@ Console.WriteLine("X");
 	*/		
 	}
 	
-	private void on_run_interval_accepted (object o, EventArgs args)
+	private void on_run_interval_activate (object o, EventArgs args)
 	{
-		/*
 		Log.WriteLine("run interval accepted");
 		
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
-		int distanceInterval = 0;		
-		if(currentRunType.Distance == 0) {
-			distanceInterval = runExtraWin.Distance;
+		double distanceInterval = 0;		
+		if(currentRunIntervalType.Distance == 0) {
+			distanceInterval = extra_window_runs_interval_distance;
 		} else {
-			distanceInterval = (int) currentRunType.Distance;
+			distanceInterval = currentRunIntervalType.Distance;
 		}
 		
 		double progressbarLimit = 0;
 		//if it's a unlimited interval run, put -1 as limit value
 		//if(o == (object) button_rj_unlimited || o == (object) rj_unlimited) {
-		if(currentRunType.Unlimited) {
+		if(currentRunIntervalType.Unlimited) {
 			progressbarLimit = -1;
 		} else {
-			if(currentRunType.FixedValue > 0) {
-				progressbarLimit = currentRunType.FixedValue;
+			if(currentRunIntervalType.FixedValue > 0) {
+				progressbarLimit = currentRunIntervalType.FixedValue;
 			} else {
-				progressbarLimit = runExtraWin.Limited;
+				progressbarLimit = extra_window_runs_interval_limit;
 			}
 		}
 
 
 		//used by cancel and finish
 		//currentEventType = new RunType();
-		currentEventType = currentRunType;
+		currentEventType = currentRunIntervalType;
 			
 		//hide running buttons
 		sensitiveGuiEventDoing();
@@ -3538,7 +3550,7 @@ Console.WriteLine("X");
 //			currentPerson.UniqueID, currentPerson.Name, 
 //			currentSession.UniqueID, 
 			Constants.RunIntervalTable, //tableName
-			currentRunType.Name
+			currentRunIntervalType.Name
 //			prefsDigitsNumber,
 //			progressbarLimit
 //			chronopicWin.Connected
@@ -3554,9 +3566,9 @@ Console.WriteLine("X");
 		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 	
-		//currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
-		currentEventExecute = new RunIntervalExecute(currentPerson.UniqueID, currentSession.UniqueID, currentRunType.Name, 
-				distanceInterval, progressbarLimit, currentRunType.TracksLimited, 
+		//currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
+		currentEventExecute = new RunIntervalExecute(currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
+				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
 				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd);
 		
@@ -3572,7 +3584,6 @@ Console.WriteLine("X");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
-		*/
 	}
 
 
@@ -3607,6 +3618,8 @@ Console.WriteLine("X");
 				//statsWin.FillTreeView_stats(false, false);
 				statsWin.ShowUpdateStatsButton();
 			}
+
+			lastRunIsSimple = false;
 
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
@@ -4189,26 +4202,23 @@ Console.WriteLine("X");
 				case EventType.Types.RUN:
 					if(lastRunIsSimple) 
 						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
-					/*
-					if(currentRunType.HasIntervals) {
-							RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type);
-							double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
-									runType.DistancesString, currentRunInterval.Tracks);
+					else {
+						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type);
+						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
+								runType.DistancesString, currentRunInterval.Tracks);
 
-							double distanceInterval = currentRunInterval.DistanceInterval;
-							if(distanceInterval == -1) //variable distances
-								distanceInterval = Util.GetRunIVariableDistancesStringRow(
-										runType.DistancesString, (int) currentRunInterval.Tracks -1);
+						double distanceInterval = currentRunInterval.DistanceInterval;
+						if(distanceInterval == -1) //variable distances
+							distanceInterval = Util.GetRunIVariableDistancesStringRow(
+									runType.DistancesString, (int) currentRunInterval.Tracks -1);
 
-							PrepareRunIntervalGraph(distanceInterval, 
+						PrepareRunIntervalGraph(distanceInterval, 
 								Util.GetLast(currentRunInterval.IntervalTimesString), 
 								currentRunInterval.IntervalTimesString, 
 								distanceTotal,
 								runType.DistancesString,
 								volumeOn, repetitiveConditionsWin);
-					} else
-						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
-					*/
+					}
 					break;
 				case EventType.Types.PULSE:
 					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
@@ -4880,7 +4890,7 @@ Console.WriteLine("X");
 		runsMoreWin = RunsMoreWindow.Show(app1, false); //delete run type
 	}
 	
-	private void on_run_type_delete_intervallic_activate (object o, EventArgs args) {
+	private void on_run_type_delete_intervallic (object o, EventArgs args) {
 		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, false); //delete run type
 	}
 

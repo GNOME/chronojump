@@ -1841,6 +1841,15 @@ Log.WriteLine("Preparing reactive A");
 					PrepareRunSimpleGraph(
 							currentEventExecute.PrepareEventGraphRunSimpleObject.time,
 							currentEventExecute.PrepareEventGraphRunSimpleObject.speed);
+				} else {
+					Log.Write("update graph: RUNINTERVAL");
+					PrepareRunIntervalGraph(
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
+							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
+							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
+							volumeOn, repetitiveConditionsWin);
 				}
 				break;
 		}

@@ -2783,7 +2783,7 @@ show elevation as:</property>
     <property name="height_request">350</property>
     <property name="visible">True</property>
     <property name="border_width">10</property>
-    <property name="title" translatable="yes">More</property>
+    <property name="title" translatable="yes">All tests</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <signal name="delete_event" handler="on_jumps_runs_more_delete_event"/>
@@ -16187,9 +16187,27 @@ Chronopic</property>
                                                         <property name="group">extra_window_radio_jump_free</property>
                                                         <signal name="clicked" handler="on_extra_window_jumps_more"/>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label_extra_window_radio_jump_more">
+                                                          <widget class="GtkHBox" id="hbox42">
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">More jumps</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image3">
+                                                            <property name="visible">True</property>
+                                                            <property name="stock">gtk-add</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_more">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">All simple jumps</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -16449,9 +16467,27 @@ Chronopic</property>
                                                         <property name="group">extra_window_radio_jump_rj_j</property>
                                                         <signal name="clicked" handler="on_extra_window_jumps_rj_more"/>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_more">
+                                                          <widget class="GtkHBox" id="hbox43">
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">More Jumps</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image6">
+                                                            <property name="visible">True</property>
+                                                            <property name="stock">gtk-add</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_more">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">All reactive Jumps</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -16935,9 +16971,27 @@ Chronopic</property>
                                                         <property name="group">extra_window_radio_run_custom</property>
                                                         <signal name="clicked" handler="on_extra_window_runs_more"/>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label_extra_window_radio_run_more">
+                                                          <widget class="GtkHBox" id="hbox44">
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">More runs</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image15">
+                                                            <property name="visible">True</property>
+                                                            <property name="stock">gtk-add</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_run_more">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">All simple runs</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -17181,9 +17235,27 @@ Chronopic</property>
                                                     <property name="group">extra_window_radio_run_interval_by_laps</property>
                                                     <signal name="clicked" handler="on_extra_window_runs_interval_more"/>
                                                     <child>
-                                                      <widget class="GtkLabel" id="label_extra_window_radio_run_interval_more">
+                                                      <widget class="GtkHBox" id="hbox45">
                                                         <property name="visible">True</property>
-                                                        <property name="label" translatable="yes">More runs</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image16">
+                                                            <property name="visible">True</property>
+                                                            <property name="stock">gtk-add</property>
+                                                            <property name="icon-size">2</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label_extra_window_radio_run_interval_more">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">All intervallic runs</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                     </child>
                                                   </widget>
@@ -18514,7 +18586,6 @@ weight</property>
                                         <property name="spacing">12</property>
                                         <child>
                                           <widget class="GtkButton" id="button_execute_test">
-                                            <property name="label" translatable="yes">Execute test</property>
                                             <property name="height_request">75</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
@@ -18523,6 +18594,29 @@ weight</property>
                                             <property name="border_width">10</property>
                                             <signal name="clicked" handler="on_button_execute_test_clicked"/>
                                             <accelerator key="space" signal="clicked"/>
+                                            <child>
+                                              <widget class="GtkVBox" id="vbox33">
+                                                <property name="visible">True</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image17">
+                                                    <property name="visible">True</property>
+                                                    <property name="stock">gtk-execute</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label41">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Execute test</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -20504,7 +20598,14 @@ weight</property>
                               <widget class="GtkHBox" id="hbox39">
                                 <property name="visible">True</property>
                                 <child>
-                                  <placeholder/>
+                                  <widget class="GtkImage" id="image14">
+                                    <property name="visible">True</property>
+                                    <property name="stock">gtk-add</property>
+                                    <property name="icon-size">2</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                                 <child>
                                   <placeholder/>

@@ -28,6 +28,7 @@ using Gdk;
 public class UtilGtk
 {
 	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
+	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
 	public static Gdk.Color GREEN = new Gdk.Color(0xa8,0xaf,0xd0);
@@ -202,7 +203,16 @@ public class UtilGtk
 		combo.Sensitive = true;
 	}
 	
-	public static void ColorsMenuRadio(Gtk.RadioButton r) {
+	public static void ColorsMenuLabel(Gtk.Label l) {
+		l.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		l.ModifyFg(StateType.Normal, UtilGtk.BLACK);
+	}
+	
+	public static void ColorsTestLabel(Gtk.Label l) {
+		l.ModifyFg(StateType.Active, UtilGtk.WHITE);
+	}
+	
+	public static void ColorsRadio(Gtk.RadioButton r) {
 		r.ModifyBg(StateType.Normal, WHITE);
 		r.ModifyBg(StateType.Active, BLUE);
 		r.ModifyBg(StateType.Prelight, BLUE_CLEAR);

@@ -877,6 +877,7 @@ public class RepairRunIntervalWindow
 partial class ChronoJumpWindow
 {
 
+	//runs
 	//labels notebook_execute	
 	[Widget] Gtk.Label label_extra_window_radio_run_custom;
 	[Widget] Gtk.Label label_extra_window_radio_run_20m;
@@ -907,6 +908,20 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_run_zigzag;
 	[Widget] Gtk.RadioButton extra_window_radio_run_more;
 
+	//runs interval
+	//labels notebook_execute	
+	[Widget] Gtk.Label label_extra_window_radio_run_interval_by_laps;
+	[Widget] Gtk.Label label_extra_window_radio_run_interval_by_time;
+	[Widget] Gtk.Label label_extra_window_radio_run_interval_unlimited;
+	[Widget] Gtk.Label label_extra_window_radio_run_interval_mtgug;
+	[Widget] Gtk.Label label_extra_window_radio_run_interval_more;
+	
+	//radio notebook_execute	
+	[Widget] Gtk.RadioButton extra_window_radio_run_interval_by_laps;
+	[Widget] Gtk.RadioButton extra_window_radio_run_interval_by_time;
+	[Widget] Gtk.RadioButton extra_window_radio_run_interval_unlimited;
+	[Widget] Gtk.RadioButton extra_window_radio_run_interval_mtgug;
+	[Widget] Gtk.RadioButton extra_window_radio_run_interval_more;
 
 	//options runs
 	[Widget] Gtk.Label extra_window_runs_label_distance;
@@ -970,13 +985,19 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_runs_interval_test_changed(object o, EventArgs args)
 	{
+		if(extra_window_radio_run_interval_by_laps.Active) currentRunIntervalType = new RunType("byLaps");
+		else if(extra_window_radio_run_interval_by_time.Active) currentRunIntervalType = new RunType("byTime");
+		else if(extra_window_radio_run_interval_unlimited.Active) currentRunIntervalType = new RunType("unlimited");
+		else if(extra_window_radio_run_interval_mtgug.Active) currentRunIntervalType = new RunType("MTGUG");
+
+		extra_window_runs_interval_initialize(currentRunIntervalType);
 	}
 	
 	private void on_extra_window_runs_interval_more(object o, EventArgs args)
 	{
 		previousRunIntervalType = currentRunIntervalType;
 
-		if(extra_window_radio_run_more.Active) {
+		if(extra_window_radio_run_interval_more.Active) {
 			runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
 			runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
 			runsIntervalMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_interval_cancelled);
@@ -1095,7 +1116,7 @@ partial class ChronoJumpWindow
 	{
 		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
 		
-		currentRunType = new RunType(
+		currentRunIntervalType = new RunType(
 				runsIntervalMoreWin.SelectedEventName,	//name
 				true,					//hasIntervals
 				runsIntervalMoreWin.SelectedDistance,
@@ -1166,6 +1187,17 @@ partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_runs_interval_toggle_desired_button_on_toolbar(RunType type) {
+		if(type.Name == "byLaps") extra_window_radio_run_interval_by_laps.Active = true;
+		else if(type.Name == "byTime") extra_window_radio_run_interval_by_time.Active = true;
+		else if(type.Name == "unlimited") extra_window_radio_run_interval_unlimited.Active = true;
+		else if(type.Name == "MTGUG") extra_window_radio_run_interval_mtgug.Active = true;
+		else {
+			//don't do this:
+			//extra_window_radio_run_interval_more.Active = true;
+			//because it will be a loop
+			//only do:
+			extra_window_runs_interval_initialize(type);
+		}
 	}
 
 	private void extra_window_showDistanceData (RunType myRunType, bool show, bool sensitive ) {

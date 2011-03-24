@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -505,6 +505,7 @@ public partial class ChronoJumpWindow
 		event_execute_label_time_value.Text = "";
 	}
 
+	int allocationXOld;
 	bool sizeChanged;
 	public void on_event_execute_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
@@ -514,13 +515,15 @@ public partial class ChronoJumpWindow
 
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
 		
-		if(event_execute_pixmap == null || sizeChanged) {
+		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
 			event_execute_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
 			event_execute_erasePaint(event_execute_drawingarea);
 			
 			sizeChanged = false;
 		}
+
+		allocationXOld = allocation.Width;
 	}
 	
 	public void on_event_execute_drawingarea_expose_event(object o, ExposeEventArgs args)
@@ -529,8 +532,8 @@ public partial class ChronoJumpWindow
 		 * Do here the initialization
 		 */
 		
-		if(event_execute_pixmap == null || sizeChanged) {
-			Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
+		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
+		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
 			event_execute_pixmap = new Gdk.Pixmap (event_execute_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			event_execute_erasePaint(event_execute_drawingarea);
 
@@ -548,6 +551,7 @@ public partial class ChronoJumpWindow
 				area.Width, area.Height);
 		}
 		
+		allocationXOld = allocation.Width;
 	}
 
 

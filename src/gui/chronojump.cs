@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -80,7 +80,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_pulses;
 	[Widget] Gtk.Box hbox_jumps;
 	[Widget] Gtk.Box hbox_jumps_rj;
-	[Widget] Gtk.Box hbox_runs;
+	[Widget] Gtk.Table table_runs;
 	[Widget] Gtk.Box hbox_runs_interval;
 	[Widget] Gtk.Box hbox_pulses;
 	[Widget] Gtk.ComboBox combo_jumps;
@@ -125,7 +125,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_repair_selected_run_interval;
 	[Widget] Gtk.MenuItem menuitem_delete_selected_run_interval;
 	[Widget] Gtk.MenuItem menuitem_run_type_add;
-	[Widget] Gtk.MenuItem menuitem_run_type_delete_simple;
 	[Widget] Gtk.MenuItem menuitem_run_type_delete_intervallic;
 	[Widget] Gtk.Button button_edit_selected_run;
 	[Widget] Gtk.Button button_video_play_selected_run;
@@ -492,6 +491,13 @@ public partial class ChronoJumpWindow
 		*/
 		
 	}
+	
+	private void on_extra_window_runs_test_changed(object o, EventArgs args) {
+	}
+	private void on_extra_window_runs_more(object o, EventArgs args) {
+	}
+
+
 /*
 	private void chronopicAtStart(object o, EventArgs args) {
 		//make active menuitem chronopic, and this
@@ -891,6 +897,14 @@ public partial class ChronoJumpWindow
 
 	private int findRowOfCurrentPerson(Gtk.TreeView tv, TreeStore store, Person currentPerson) {
 		return myTreeViewPersons.FindRow(currentPerson.UniqueID);
+	}
+
+	private void on_treeview_persons_up (object o, EventArgs args) {
+		myTreeViewPersons.SelectPreviousRow(currentPerson.UniqueID);
+	}
+	
+	private void on_treeview_persons_down (object o, EventArgs args) {
+		myTreeViewPersons.SelectNextRow(currentPerson.UniqueID);
 	}
 	
 	//return true if selection is done (there's any person)
@@ -4924,7 +4938,7 @@ Console.WriteLine("X");
 		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false); //delete jump type
 	}
 	
-	private void on_run_type_delete_simple_activate (object o, EventArgs args) {
+	private void on_run_type_delete_simple (object o, EventArgs args) {
 		runsMoreWin = RunsMoreWindow.Show(app1, false); //delete run type
 	}
 	
@@ -5148,7 +5162,6 @@ Console.WriteLine("X");
 		menuitem_repair_selected_run_interval.Sensitive = option;
 		menuitem_delete_selected_run_interval.Sensitive = option;
 		menuitem_run_type_add.Sensitive = option;
-		menuitem_run_type_delete_simple.Sensitive = option;
 		menuitem_run_type_delete_intervallic.Sensitive = option;
 	}
 	
@@ -5270,7 +5283,7 @@ Console.WriteLine("X");
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
-		hbox_runs.Sensitive = false;
+		table_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
 		hbox_pulses.Sensitive = false;
 		
@@ -5286,7 +5299,7 @@ Console.WriteLine("X");
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
-		hbox_runs.Sensitive = true;
+		table_runs.Sensitive = true;
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		hbox_multi_chronopic_buttons.Sensitive = true;

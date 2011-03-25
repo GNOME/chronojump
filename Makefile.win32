@@ -1,16 +1,19 @@
-
-
 #Set-up environment variable 
-MONO_INSTALL_PATH=/c/Mono-2.4
-MONO_BIN_PATH=$(MONO_INSTALL_PATH)/bin
+MONO_INSTALL_PATH=/c/Mono
+MONO = $(MONO_INSTALL_PATH)/bin/mono.exe
+MKBUNDLE = $(MONO_INSTALL_PATH)/lib/mono/2.0/mkbundle.exe
+GTK = $(MONO_INSTALL_PATH)
+GST = c:\gstreamer.local
+
+CC   = gcc.exe
+CSC = $(MONO_INSTALL_PATH)/bin/gmcs
 BASH = /bin/bash.exe
-BUNDLE = makeBundle.sh $(MONO_INSTALL_PATH)
 RM = rm -f
-CSC = $(MONO_BIN_PATH)/gmcs
-OUT_DIR=build/windows_bundle/bin
-BUILD_DIR=build/windows_bundle/build
-DIST_DIR = ${BUILD_DIR}/..
+
+DIST_DIR = win32/dist
+BIN_DIR = ${DIST_DIR}/bin
 LOCALE_DIR =  ${DIST_DIR}/share/locale
+BUILD_DIR = win32/build
 
 # i18n
 PO_FILES = \
@@ -35,6 +38,27 @@ PO_FILES = \
 
 MO_FILES = $(foreach po,$(PO_FILES), $(LOCALE_DIR)/$(basename $(po))/LC_MESSAGES/chronojump.mo)
 GMO_FILES = $(patsubst %.po, $(BUILD_DIR)/%.gmo,$(PO_FILES))
+
+#libcesarplayer
+LIBCESARPLAYER_SOURCES=\
+	libcesarplayer/src/gstscreenshot.c\
+	libcesarplayer/src/bacon-resize.c\
+	libcesarplayer/src/video-utils.c\
+	libcesarplayer/src/bacon-video-widget-gst-0.10.c\
+	libcesarplayer/src/baconvideowidget-marshal.c\
+	libcesarplayer/src/gst-video-editor.c\
+	libcesarplayer/src/gst-camera-capturer.c
+	
+LINKOBJ  = $(patsubst libcesarplayer/src/%.c, $(BUILD_DIR)/%.o,$(LIBCESARPLAYER_SOURCES))
+
+LIBS =  -L"${GST}/bin" -L"${GTK}/bin" -llibgstreamer-0.10 -llibgstvideo-0.10  -llibgstaudio-0.10 -llibgstinterfaces-0.10 -llibgstpbutils-0.10 -llibgsttag-0.10 -limm32 -lshell32 -lole32 -luuid -lintl -llibcairo-2 -lpangowin32-1.0-0 -latk-1.0-0 -lgdk_pixbuf-2.0-0 -lgdk-win32-2.0-0 -lglib-2.0-0 -lgmodule-2.0-0 -lgobject-2.0-0 -lgio-2.0-0 -lgthread-2.0-0 -lgtk-win32-2.0-0  
+
+INCS =   -I"${GST}\include\gstreamer-0.10" -I"${GST}\include\libxml2" -I"${GTK}\include" -I"${GTK}\include\gtk-2.0" -I"${GTK}\lib\gtk-2.0\include" -I"${GTK}\include\atk-1.0" -I"${GTK}\include\pango-1.0" -I"${GTK}\include\cairo" -I"${GTK}\include\glib-2.0" -I"${GTK}\include\glib-2.0\glib" -I"${GTK}\lib\glib-2.0" -I"${GTK}\lib\glib-2.0\include" -I"${GTK}\include\libxml2" 
+
+LIBCESARPLAYER  = ${BUILD_DIR}/libcesarplayer.dll
+
+CFLAGS = $(INCS) -DWIN32 -mms-bitfields -shared   -Wall 
+LDFLAGS =  -shared -Wl -mno-cygwin -mms-bitfields  --export-all-symbols --enable-auto-import
 
 
 #CesarPlayer
@@ -323,7 +347,7 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/chronojump-boscosystem_320.png,chronojump-boscosystem_320.png
 
 CHRONOJUMP_REFERENCES = \
-	-pkg:glade-sharp-2.0 \
+	-r:../glade-sharp.dll \
 	-pkg:gtk-sharp-2.0 \
 	-pkg:glib-sharp-2.0 \
 	-r:System\
@@ -373,7 +397,18 @@ $(MO_FILES): $(LOCALE_DIR)/%/LC_MESSAGES/chronojump.mo : $(BUILD_DIR)/%.gmo
 	mkdir -p $(dir $@)
 	cp '$<' '$@'
 
-$(CHRONOJUMP):
+$(LIBCESARPLAYER): $(LINKOBJ)	
+	$(CC) $(LDFLAGS) -o $(LIBCESARPLAYER) $(LINKOBJ) $(LIBS)
+
+
+$(LINKOBJ): $(BUILD_DIR)/%.o : libcesarplayer/src/%.c
+	mkdir -p $(BUILD_DIR)
+	$(CC) -c '$<' -o '$@' $(CFLAGS)
+
+$(CESARPLAYER):
+	cd CesarPlayer && $(CSC) $(CSC_CESARPLAYER_FLAGS) -out:../$(CESARPLAYER) -target:$(CESARPLAYER_COMPILE_TARGET) $(CESARPLAYER_FILES) $(CESARPLAYER_REFERENCES) $(CESARPLAYER_RESOURCES)
+
+$(CHRONOJUMP): $(CESARPLAYER)
 	cd src && $(CSC) $(CSC_CHRONOJUMP_FLAGS) -out:../$(CHRONOJUMP) -target:$(CHRONOJUMP_COMPILE_TARGET) $(CHRONOJUMP_FILES) $(CHRONOJUMP_REFERENCES) $(CHRONOJUMP_RESOURCES)
 	
 $(CHRONOJUMP_MINI):

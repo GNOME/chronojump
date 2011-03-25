@@ -3,7 +3,8 @@ MONO_INSTALL_PATH=/c/Mono
 MONO = $(MONO_INSTALL_PATH)/bin/mono.exe
 MKBUNDLE = $(MONO_INSTALL_PATH)/lib/mono/2.0/mkbundle.exe
 GTK = $(MONO_INSTALL_PATH)
-GST = c:\gstreamer.local
+#GST = c:\gstreamer.local
+GST = c:\gstreamer
 
 CC   = gcc.exe
 CSC = $(MONO_INSTALL_PATH)/bin/gmcs
@@ -62,7 +63,8 @@ LDFLAGS =  -shared -Wl -mno-cygwin -mms-bitfields  --export-all-symbols --enable
 
 
 #CesarPlayer
-CESARPLAYER=${BUILD_DIR}/CesarPlayer.dll
+#CESARPLAYER=${BUILD_DIR}/CesarPlayer.dll
+CESARPLAYER=chronojump/win32/build/CesarPlayer.dll
 CSC_CESARPLAYER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -unsafe
 	CESARPLAYER_COMPILE_TARGET = library
 
@@ -148,6 +150,7 @@ CHRONOJUMP_FILES = \
 	gui/dialogServerStats.cs\
  	gui/evaluator.cs\
  	gui/queryServer.cs\
+ 	gui/usefulObjects.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/global.cs\
@@ -162,6 +165,9 @@ CHRONOJUMP_FILES = \
  	stats/fv.cs\
  	stats/potency.cs\
  	stats/rjAVGSD.cs\
+ 	stats/jumpSimpleSubtraction.cs\
+	stats/runSimple.cs\
+	stats/runIntervallic.cs\
 	stats/graphs/graphData.cs\
  	stats/graphs/graphROptions.cs\
  	stats/graphs/graphSerie.cs\
@@ -177,6 +183,9 @@ CHRONOJUMP_FILES = \
  	stats/graphs/fv.cs\
  	stats/graphs/potency.cs\
 	stats/graphs/rjAVGSD.cs\
+ 	stats/graphs/jumpSimpleSubtraction.cs\
+	stats/graphs/runSimple.cs\
+	stats/graphs/runIntervallic.cs\
 	sqlite/main.cs\
  	sqlite/preferences.cs\
  	sqlite/session.cs\
@@ -237,7 +246,6 @@ CHRONOJUMP_FILES = \
 	constants.cs\
  	report.cs\
  	updateProgressBar.cs\
- 	prepareEventGraphObjects.cs\
  	sport.cs\
  	log.cs\
  	serverPing.cs\
@@ -379,9 +387,11 @@ CHRONOJUMP_MINI_REFERENCES = \
 
 .PHONY: all all-before all-after clean clean-custom
 
+
 all: all-before ${GMO_FILES} ${LIBCESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
 
-install: $(LIBCESARPLAYER) ${MO_FILES} bundle
+Install: $(LIBCESARPLAYER) ${MO_FILES} bundle
+	cp $(LIBCESARPLAYER) "$(BIN_DIR)"
 
 clean: clean-custom
 	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
@@ -412,4 +422,11 @@ $(CHRONOJUMP): $(CESARPLAYER)
 	cd src && $(CSC) $(CSC_CHRONOJUMP_FLAGS) -out:../$(CHRONOJUMP) -target:$(CHRONOJUMP_COMPILE_TARGET) $(CHRONOJUMP_FILES) $(CHRONOJUMP_REFERENCES) $(CHRONOJUMP_RESOURCES)
 	
 $(CHRONOJUMP_MINI):
-	cd src && $(CSC) $(CSC_CHRONOJUMP_MINI_FLAGS) -out:../$(CHRONOJUMP_MINI) -target:$(CHRONOJUMP_MINI_COMPILE_TARGET) $(CHRONOJUMP_MINI_FILES) $(CHRONOJUMP_MINI_REFERENCES) 
+	cd src && $(CSC) $(CSC_CHRONOJUMP_MINI_FLAGS) -out:../$(CHRONOJUMP_MINI) -target:$(CHRONOJUMP_MINI_COMPILE_TARGET) $(CHRONOJUMP_MINI_FILES) $(CHRONOJUMP_MINI_REFERENCES)
+
+
+$(LIBCESARPLAYER): $(LINKOBJ)
+	$(CC) $(LDFLAGS) -o $(LIBCESARPLAYER) $(LINKOBJ) $(LIBS)
+
+$(CESARPLAYER):
+	cd CesarPlayer && $(CSC) $(CSC_CESARPLAYER_FLAGS) -out:/$(CESARPLAYER) -target:$(CESARPLAYER_COMPILE_TARGET) $(CESARPLAYER_FILES) $(CESARPLAYER_REFERENCES) $(CESARPLAYER_RESOURCES)

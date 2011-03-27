@@ -243,18 +243,18 @@ public class StatType {
 				else if(statisticSubType == Constants.FvIndexFormula) 
 					indexType = "F/V";
 				else if(
-						statisticSubType == Constants.PotencyLewisFormula ||
-						statisticSubType == Constants.PotencyHarmanFormula ||
-						statisticSubType == Constants.PotencySayersSJFormula ||
-						statisticSubType == Constants.PotencySayersCMJFormula ||
-						statisticSubType == Constants.PotencyShettyFormula ||
-						statisticSubType == Constants.PotencyCanavanFormula ||
+						statisticSubType == Constants.PotencyLewisFormulaShort ||
+						statisticSubType == Constants.PotencyHarmanFormulaShort ||
+						statisticSubType == Constants.PotencySayersSJFormulaShort ||
+						statisticSubType == Constants.PotencySayersCMJFormulaShort ||
+						statisticSubType == Constants.PotencyShettyFormulaShort ||
+						statisticSubType == Constants.PotencyCanavanFormulaShort ||
 						//statisticSubType == Constants.PotencyBahamondeFormula ||
-						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
-						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
+						statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormulaShort ||
+						statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort ||
+						statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort ||
+						statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormulaShort ||
+						statisticSubType == Constants.PotencyLaraFemaleSedentaryFormulaShort
 						) {
 					indexType = statisticSubType;
 				}

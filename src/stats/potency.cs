@@ -145,7 +145,31 @@ public class StatPotency : Stat
 				strFull[0] + "(" + strFull[2] + ")";
 		}
 
-		return string.Format(Catalog.GetString("{0} in {1} applied to {2} on {3}"), selectedValuesString, indexType, jumpType, mySessionString);
+		string indexTypePrint = indexType;
+		if(indexType == Constants.PotencyLewisFormulaShort)
+			indexTypePrint = Constants.PotencyLewisFormula;
+		else if(indexType == Constants.PotencyHarmanFormulaShort)
+			indexTypePrint = Constants.PotencyHarmanFormula;
+		else if(indexType == Constants.PotencySayersSJFormulaShort)
+			indexTypePrint = Constants.PotencySayersSJFormula;
+		else if(indexType == Constants.PotencySayersCMJFormulaShort)
+			indexTypePrint = Constants.PotencySayersCMJFormula;
+		else if(indexType == Constants.PotencyShettyFormulaShort)
+			indexTypePrint = Constants.PotencyShettyFormula;
+		else if(indexType == Constants.PotencyCanavanFormulaShort)
+			indexTypePrint = Constants.PotencyCanavanFormula;
+		else if(indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShort)
+			indexTypePrint = Constants.PotencyLaraMaleApplicantsSCFormula;
+		else if(indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort)
+			indexTypePrint = Constants.PotencyLaraFemaleEliteVoleiFormula;
+		else if(indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort)
+			indexTypePrint = Constants.PotencyLaraFemaleMediumVoleiFormula;
+		else if(indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShort)
+			indexTypePrint = Constants.PotencyLaraFemaleSCStudentsFormula;
+		else if(indexType == Constants.PotencyLaraFemaleSedentaryFormulaShort)
+			indexTypePrint = Constants.PotencyLaraFemaleSedentaryFormula;
+
+		return string.Format(Catalog.GetString("{0} in {1} applied to {2} on {3}"), selectedValuesString, indexTypePrint, jumpType, mySessionString);
 	}
 
 }

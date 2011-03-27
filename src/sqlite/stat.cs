@@ -1116,28 +1116,28 @@ Log.WriteLine(intervalSpeeds);
 		string extraWeight = "jump.weight*" + tps + ".weight/100.0"; 
 		string totalWeight = personWeight + " + " + extraWeight;
 
-		if(indexType == Constants.PotencyLewisFormula) {
+		if(indexType == Constants.PotencyLewisFormulaShort) {
 			moreSelect = 
 				ini + "2.21360 * 9.8 * (" + totalWeight + ") " + end + " AS indexPart1, " + 
 				ini + jumpHeightInM + end + " AS indexPart2WithoutSqrt, ";
 		}
-		else if (indexType == Constants.PotencyHarmanFormula) {
+		else if (indexType == Constants.PotencyHarmanFormulaShort) {
 			moreSelect = 
 				ini + "((61.9 * 100 * " + jumpHeightInM + ") + (36 * (" + totalWeight + ")) - 1822)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencySayersSJFormula) {
+		else if (indexType == Constants.PotencySayersSJFormulaShort) {
 			moreSelect = 
 				ini + "((60.7 * 100 * " + jumpHeightInM + ") + (45.3 * (" + totalWeight + ")) - 2055)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencySayersCMJFormula) {
+		else if (indexType == Constants.PotencySayersCMJFormulaShort) {
 			moreSelect = 
 				ini + "((51.9 * 100 * " + jumpHeightInM + ") + (48.9 * (" + totalWeight + ")) - 2007)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyShettyFormula) {
+		else if (indexType == Constants.PotencyShettyFormulaShort) {
 			moreSelect = 
 				ini + "((1925.72 * 100 * " + jumpHeightInM + ") + (14.74 * (" + totalWeight + ")) - 66.3)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyCanavanFormula) {
+		else if (indexType == Constants.PotencyCanavanFormulaShort) {
 			moreSelect = 
 				ini + "((65.1 * 100 * " + jumpHeightInM + ") + (25.8 * (" + totalWeight + ")) - 1413.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
@@ -1145,23 +1145,23 @@ Log.WriteLine(intervalSpeeds);
 		else if (indexType == Constants.PotencyBahamondeFormula) {
 		}
 		*/
-		else if (indexType == Constants.PotencyLaraMaleApplicantsSCFormula) {
+		else if (indexType == Constants.PotencyLaraMaleApplicantsSCFormulaShort) {
 			moreSelect = 
 				ini + "((62.5 * 100 * " + jumpHeightInM + ") + (50.3 * (" + totalWeight + ")) - 2184.7)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleEliteVoleiFormula) {
+		else if (indexType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort) {
 			moreSelect = 
 				ini + "((83.1 * 100 * " + jumpHeightInM + ") + (42 * (" + totalWeight + ")) - 2488)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleMediumVoleiFormula) {
+		else if (indexType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort) {
 			moreSelect = 
 				ini + "((53.6 * 100 * " + jumpHeightInM + ") + (67.5 * (" + totalWeight + ")) - 2624.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleSCStudentsFormula) {
+		else if (indexType == Constants.PotencyLaraFemaleSCStudentsFormulaShort) {
 			moreSelect = 
 				ini + "((56.7 * 100 * " + jumpHeightInM + ") + (47.2 * (" + totalWeight + ")) - 1772.6)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
-		else if (indexType == Constants.PotencyLaraFemaleSedentaryFormula) {
+		else if (indexType == Constants.PotencyLaraFemaleSedentaryFormulaShort) {
 			moreSelect = 
 				ini + "((68.2 * 100 * " + jumpHeightInM + ") + (40.8 * (" + totalWeight + ")) - 1731.1)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		} 
@@ -1224,7 +1224,7 @@ Log.WriteLine(intervalSpeeds);
 			}
 			
 			string indexValueString = "";
-			if(indexType == Constants.PotencyLewisFormula) {
+			if(indexType == Constants.PotencyLewisFormulaShort) {
 				indexValueString = 
 					(
 					 Convert.ToDouble(Util.ChangeDecimalSeparator(reader[3].ToString()))

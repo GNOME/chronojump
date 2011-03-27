@@ -165,8 +165,7 @@ public partial class ChronoJumpWindow
 	//from SportsTracker code
 	[Glade.WidgetAttribute]
 		private ImageMenuItem
-			menuitem_view_stats = null, menuitem_server_stats = null,
-					    menuitem_report_window = null;
+			menuitem_server_stats = null;
 	[Widget] Gtk.MenuItem menuitem_server_evaluator_data;
 	[Widget] Gtk.MenuItem menuitem_server_upload_session;
 	[Widget] Gtk.MenuItem menuitem_preferences;
@@ -346,7 +345,7 @@ public partial class ChronoJumpWindow
 	
 	ConfirmWindowJumpRun confirmWinJumpRun;	//for deleting jumps and RJ jumps (and runs)
 	ErrorWindow errorWin;
-	StatsWindow statsWin;
+//	StatsWindow statsWin;
 	ReportWindow reportWin;
 	RepetitiveConditionsWindow repetitiveConditionsWin;
 	GenericWindow genericWin;
@@ -487,7 +486,10 @@ public partial class ChronoJumpWindow
 			confirmWin.Button_accept.Clicked += new EventHandler(chronopicAtStart);
 		}
 		*/
-		
+
+		stats_win_create();
+		createdStatsWin = true;
+		//stats_win_initializeSession();
 	}
 	
 
@@ -671,10 +673,10 @@ public partial class ChronoJumpWindow
 
 		//menuitems (done differently)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
-		menuitem_view_stats.Image = new Gtk.Image(pixbuf);
+		//menuitem_view_stats.Image = new Gtk.Image(pixbuf);
 		menuitem_server_stats.Image = new Gtk.Image(pixbuf);
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
-		menuitem_report_window.Image = new Gtk.Image(pixbuf);
+		//menuitem_report_window.Image = new Gtk.Image(pixbuf);
 	}
 
 	private void loadPreferences () 
@@ -2109,7 +2111,7 @@ public partial class ChronoJumpWindow
 			app1.Title = progName + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
-				statsWin.InitializeSession(currentSession);
+				stats_win_initializeSession();
 			}
 		
 			resetAllTreeViews(true); //boolean means: "also persons"
@@ -2154,7 +2156,7 @@ public partial class ChronoJumpWindow
 			app1.Title = progName + " - " + currentSession.Name;
 
 			if(createdStatsWin) {
-				statsWin.InitializeSession(currentSession);
+				stats_win_initializeSession();
 			}
 		}
 	}
@@ -2172,7 +2174,7 @@ public partial class ChronoJumpWindow
 		app1.Title = progName + " - " + currentSession.Name;
 		
 		if(createdStatsWin) {
-			statsWin.InitializeSession(currentSession);
+			stats_win_initializeSession();
 		}
 		
 		resetAllTreeViews(true); //boolean means: "also persons"
@@ -2389,7 +2391,7 @@ public partial class ChronoJumpWindow
 			on_combo_pulses_changed(combo_pulses, args);
 
 			if(createdStatsWin) {
-				statsWin.FillTreeView_stats(false, true);
+				stats_win_fillTreeView_stats(false, true);
 			}
 
 //			personAddModifyWin.Destroy();
@@ -2421,14 +2423,14 @@ public partial class ChronoJumpWindow
 		bool foundPersons = selectRowTreeView_persons(treeview_persons, treeview_persons_store, 0);
 			
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, true);
+			stats_win_fillTreeView_stats(false, true);
 		}
 		
 		//if there are no persons
 		if(!foundPersons) {
 			sensitiveGuiNoPerson ();
 			if(createdStatsWin) {
-				statsWin.Hide();
+				stats_win_hide();
 			}
 		}
 	}
@@ -2440,13 +2442,15 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
+	/*
 	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
 		statsWin = StatsWindow.Show(app1, currentSession, 
 				prefsDigitsNumber, weightPercentPreferred, heightPreferred, 
 				report, reportWin);
 		createdStatsWin = true;
-		statsWin.InitializeSession(currentSession);
+		stats_win_initializeSession();
 	}
+	*/
 	
 	//edit
 	private void on_cut1_activate (object o, EventArgs args) {
@@ -2559,11 +2563,11 @@ public partial class ChronoJumpWindow
 
 		try {
 			if(createdStatsWin) {
-				statsWin.PrefsDigitsNumber = prefsDigitsNumber;
-				statsWin.WeightStatsPercent = weightPercentPreferred;
-				statsWin.HeightPreferred = heightPreferred;
+				//statsWin.PrefsDigitsNumber = prefsDigitsNumber;
+				//statsWin.WeightStatsPercent = weightPercentPreferred;
+				//statsWin.HeightPreferred = heightPreferred;
 
-				statsWin.FillTreeView_stats(false, true);
+				stats_win_fillTreeView_stats(false, true);
 			}
 
 			//pass to report
@@ -2620,7 +2624,7 @@ public partial class ChronoJumpWindow
 		//because it crashes in some thread problem
 		//that will be fixed in other release
 		//if(createdStatsWin)
-		//	statsWin.ShowUpdateStatsButton();
+		//	stats_win_showUpdateStatsButton();
 	}
 	
 	private void on_cancel_multi_clicked (object o, EventArgs args) 
@@ -2707,7 +2711,7 @@ public partial class ChronoJumpWindow
 		
 		//let update stats
 		if(createdStatsWin)
-			statsWin.ShowUpdateStatsButton();
+			stats_win_showUpdateStatsButton();
 	}
 		
 	//mark to only get inside on_multi_chronopic_finished one time
@@ -2737,7 +2741,7 @@ public partial class ChronoJumpWindow
 		
 		//let update stats
 		//if(createdStatsWin)
-		//	statsWin.ShowUpdateStatsButton();
+		//	stats_win_showUpdateStatsButton();
 	}
 		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
@@ -2836,11 +2840,13 @@ Console.WriteLine("X");
 			*/
 		}
 	}
-	
+
+/*
 	private void on_show_report_activate (object o, EventArgs args) {
 		Log.WriteLine("open report window");
 		reportWin = ReportWindow.Show(app1, report);
 	}
+	*/
 
 
 	void on_button_execute_test_clicked (object o, EventArgs args) {
@@ -3074,7 +3080,7 @@ Console.WriteLine("X");
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3146,8 +3152,8 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Jump"); //show
 		
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
-				statsWin.ShowUpdateStatsButton();
+				//stats_win_fillTreeView_stats(false, false);
+				stats_win_showUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last jump
@@ -3210,7 +3216,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -3297,8 +3303,8 @@ Console.WriteLine("X");
 			//currentEventExecute.StopThread();
 
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
-				statsWin.ShowUpdateStatsButton();
+				//stats_win_fillTreeView_stats(false, false);
+				stats_win_showUpdateStatsButton();
 			}
 
 			lastJumpIsSimple = false;
@@ -3380,7 +3386,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3445,7 +3451,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Run"); //show
 		
 			if(createdStatsWin) {
-				statsWin.ShowUpdateStatsButton();
+				stats_win_showUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last jump
@@ -3538,7 +3544,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -3615,8 +3621,8 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "RunInterval"); //show
 
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
-				statsWin.ShowUpdateStatsButton();
+				//stats_win_fillTreeView_stats(false, false);
+				stats_win_showUpdateStatsButton();
 			}
 
 			lastRunIsSimple = false;
@@ -3679,7 +3685,7 @@ Console.WriteLine("X");
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3743,8 +3749,8 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "ReactionTime"); //show
 		
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
-				statsWin.ShowUpdateStatsButton();
+				//stats_win_fillTreeView_stats(false, false);
+				stats_win_showUpdateStatsButton();
 			}
 		
 			//unhide buttons for delete last reaction time
@@ -3845,7 +3851,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//show the event doing window
 //		eventExecuteWin = EventExecuteWindow.Show(
@@ -3920,8 +3926,8 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Pulse"); //show
 			
 			if(createdStatsWin) {
-				//statsWin.FillTreeView_stats(false, false);
-				statsWin.ShowUpdateStatsButton();
+				//stats_win_fillTreeView_stats(false, false);
+				stats_win_showUpdateStatsButton();
 			}
 			
 			//unhide buttons for delete last jump
@@ -4022,7 +4028,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			statsWin.HideUpdateStatsButton();
+			stats_win_hideUpdateStatsButton();
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -4311,7 +4317,7 @@ Console.WriteLine("X");
 		}
 
 		if(createdStatsWin) 
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -4334,7 +4340,7 @@ Console.WriteLine("X");
 		}
 
 		if(createdStatsWin) 
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
@@ -4384,7 +4390,7 @@ Console.WriteLine("X");
 		}
 		
 		if(createdStatsWin) 
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 	}
 	
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
@@ -4401,7 +4407,7 @@ Console.WriteLine("X");
 		}
 		
 		if(createdStatsWin)
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 	}
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
@@ -4434,7 +4440,7 @@ Console.WriteLine("X");
 		}
 	
 		//if(createdStatsWin) {
-		//	statsWin.FillTreeView_stats(false, false);
+		//	stats_win_fillTreeView_stats(false, false);
 		//}
 	}
 	
@@ -4468,7 +4474,7 @@ Console.WriteLine("X");
 		}
 	
 		//if(createdStatsWin) {
-		//	statsWin.FillTreeView_stats(false, false);
+		//	stats_win_fillTreeView_stats(false, false);
 		//}
 	}
 	
@@ -4636,7 +4642,7 @@ Console.WriteLine("X");
 		showHideActionEventButtons(false, "Jump");
 
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 
@@ -4650,7 +4656,7 @@ Console.WriteLine("X");
 		showHideActionEventButtons(false, "JumpRj");
 
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 	
@@ -4700,7 +4706,7 @@ Console.WriteLine("X");
 		showHideActionEventButtons(false, "Run");
 
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 
@@ -4715,7 +4721,7 @@ Console.WriteLine("X");
 		showHideActionEventButtons(false, "RunInterval");
 
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 	
@@ -4748,7 +4754,7 @@ Console.WriteLine("X");
 
 		/*
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
 	}
@@ -4782,7 +4788,7 @@ Console.WriteLine("X");
 
 		/*
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
 	}
@@ -4921,7 +4927,7 @@ Console.WriteLine("X");
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
 		
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 	
@@ -4948,7 +4954,7 @@ Console.WriteLine("X");
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_runs_interval));
 		
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 	}
 
@@ -4976,7 +4982,7 @@ Console.WriteLine("X");
 		
 		/*
 		if(createdStatsWin) {
-			statsWin.FillTreeView_stats(false, false);
+			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
 	}
@@ -5130,8 +5136,6 @@ Console.WriteLine("X");
 	
 	private void menuToolsSensitive(bool option)
 	{
-		menuitem_view_stats.Sensitive = option;
-		menuitem_report_window.Sensitive = option;
 		menuitem_server_evaluator_data.Sensitive = option;
 		menuitem_server_upload_session.Sensitive = option;
 	}
@@ -5160,6 +5164,7 @@ Console.WriteLine("X");
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
+		vbox_stats.Sensitive = false;
 		
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -5176,6 +5181,7 @@ Console.WriteLine("X");
 		
 		menuSessionSensitive(true);
 		menuToolsSensitive(true);
+		vbox_stats.Sensitive = true;
 		
 		hbox_execute_test.Sensitive = true;
 		

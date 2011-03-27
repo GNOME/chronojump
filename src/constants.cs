@@ -170,26 +170,33 @@ public class Constants
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 */
-	public static string PotencyLewisFormula = Catalog.GetString("Peak power")+ " (Lewis, 1974) \n" +
+	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + " (Lewis, 1974)";
+	public static string PotencyLewisFormula = PotencyLewisFormulaShort + "\n" +
 		"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
 	
-	public static string PotencyHarmanFormula = Catalog.GetString("Peak power") + " (Harman, 1991) \n" +
+	
+	public static string PotencyHarmanFormulaShort = Catalog.GetString("Peak power") + " (Harman, 1991)";
+	public static string PotencyHarmanFormula = PotencyHarmanFormulaShort + "\n" +
 		"(61.9*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (36*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1822";
 	
-	public static string PotencySayersSJFormula = Catalog.GetString("Peak power") + " SJ (Sayers, 1999) \n" +
+	public static string PotencySayersSJFormulaShort = Catalog.GetString("Peak power") + " SJ (Sayers, 1999)";
+	public static string PotencySayersSJFormula = PotencySayersSJFormulaShort + "\n" +
 		"(60.7*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (45.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2055";
 	
-	public static string PotencySayersCMJFormula = Catalog.GetString("Peak power") + " CMJ (Sayers, 1999) \n" +
+	public static string PotencySayersCMJFormulaShort = Catalog.GetString("Peak power") + " CMJ (Sayers, 1999)";
+	public static string PotencySayersCMJFormula = PotencySayersCMJFormulaShort + "\n" +
 		"(51.9*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
 	
-	public static string PotencyShettyFormula = Catalog.GetString("Peak power") + " (Shetty, 2002) \n" +
+	public static string PotencyShettyFormulaShort = Catalog.GetString("Peak power") + " (Shetty, 2002)";
+	public static string PotencyShettyFormula = PotencyShettyFormulaShort + "\n" +
 		"(1925.72*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (14.74*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -66.3";
 	
-	public static string PotencyCanavanFormula = Catalog.GetString("Peak power") + " (Canavan, 2004) \n" +
+	public static string PotencyCanavanFormulaShort = Catalog.GetString("Peak power") + " (Canavan, 2004)";
+	public static string PotencyCanavanFormula = PotencyCanavanFormulaShort + "\n" +
 		"(65.1*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (25.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1413.1";
 	
@@ -200,23 +207,38 @@ public class Constants
 		")) -(15.3*" + Catalog.GetString("height") + "(cm)) -1413.1";
 	*/ //what is this height?
 	
-	public static string PotencyLaraMaleApplicantsSCFormula = Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Male applicants to a Faculty of Sport Sciencies") + ") \n" +
+	public static string PotencyLaraMaleApplicantsSCFormulaShort = 
+		Catalog.GetString("Peak power") + " (Lara, 2006, m)";
+	public static string PotencyLaraMaleApplicantsSCFormula = PotencyLaraMaleApplicantsSCFormulaShort + 
+		" (" + Catalog.GetString("Male applicants to a Faculty of Sport Sciencies") + ") \n" +
 		"(62.5*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (50.3*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2184.7";
 	
-	public static string PotencyLaraFemaleEliteVoleiFormula = Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female elite volleybol") + ") \n" +
+	public static string PotencyLaraFemaleEliteVoleiFormulaShort = 
+		Catalog.GetString("Peak power") + " (Lara, 2006, fev)"; 
+	public static string PotencyLaraFemaleEliteVoleiFormula = PotencyLaraFemaleEliteVoleiFormulaShort + 
+		" (" + Catalog.GetString("Female elite volleybol") + ") \n" +
 		"(83.1*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (42*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2488";
 	
-	public static string PotencyLaraFemaleMediumVoleiFormula = Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female medium volleybol") + ") \n" +
+	public static string PotencyLaraFemaleMediumVoleiFormulaShort = 
+		Catalog.GetString("Peak power") + " (Lara, 2006, fmv)";
+	public static string PotencyLaraFemaleMediumVoleiFormula = PotencyLaraFemaleMediumVoleiFormulaShort +
+		" (" + Catalog.GetString("Female medium volleybol") + ") \n" +
 		"(53.6*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (67.5*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2624.1";
 	
-	public static string PotencyLaraFemaleSCStudentsFormula = Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female sports sciencies students") + ") \n" +
+	public static string PotencyLaraFemaleSCStudentsFormulaShort = 
+		Catalog.GetString("Peak power") + " (Lara, 2006, fsc)";
+	public static string PotencyLaraFemaleSCStudentsFormula = PotencyLaraFemaleSCStudentsFormulaShort +
+		" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + 
+		Catalog.GetString("Female sports sciencies students") + ") \n" +
 		"(56.7*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (47.2*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1772.6";
 	
-	public static string PotencyLaraFemaleSedentaryFormula = Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female university students") + ") \n" +
+	public static string PotencyLaraFemaleSedentaryFormulaShort = Catalog.GetString("Peak power") + " (Lara, 2006, fu)";
+	public static string PotencyLaraFemaleSedentaryFormula = PotencyLaraFemaleSedentaryFormulaShort +
+		" (" + Catalog.GetString("Peak power") + " (Lara, 2006, " + Catalog.GetString("Female university students") + ") \n" +
 		"(68.2*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
 	

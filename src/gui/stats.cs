@@ -28,13 +28,11 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class StatsWindow {
+public partial class ChronoJumpWindow {
 	
-	[Widget] Gtk.Window stats_window;
-	static StatsWindow StatsWindowBox;
-	Gtk.Window parent;
 	SessionSelectStatsWindow sessionSelectStatsWin;
 
+	[Widget] Gtk.Box vbox_stats;
 	[Widget] Gtk.TreeView treeview_stats;
 	[Widget] Gtk.Box hbox_combo_stats_stat_type;
 	[Widget] Gtk.Box hbox_combo_stats_stat_subtype;
@@ -63,10 +61,10 @@ public class StatsWindow {
 	[Widget] Gtk.ScrolledWindow scrolledwindow_enunciate;
 	[Widget] Gtk.CheckButton checkbutton_show_enunciate;
 	
+	[Widget] Gtk.Notebook notebook_stats_win_options;
 	[Widget] Gtk.Box hbox_mark_consecutives;
 	[Widget] Gtk.CheckButton checkbutton_mark_consecutives;
 	[Widget] Gtk.SpinButton spinbutton_mark_consecutives;
-		
 	[Widget] Gtk.Label label_subtraction_between;
 	[Widget] Gtk.Box hbox_subtraction_between;
 	[Widget] Gtk.Box hbox_subtraction_between_1;
@@ -78,8 +76,9 @@ public class StatsWindow {
 	[Widget] Gtk.ComboBox combo_select_checkboxes;
 	
 	[Widget] Gtk.Image image_stats_win_graph;
+	[Widget] Gtk.Image image_stats_win_graph1;
 	[Widget] Gtk.Image image_stats_win_report;
-	[Widget] Gtk.Statusbar statusbar_stats;
+	[Widget] Gtk.Image image_stats_win_report1;
 	
 	[Widget] Gtk.Box hbox_combo_graph_type;
 	[Widget] Gtk.Label label_graph_var_x;
@@ -111,14 +110,9 @@ public class StatsWindow {
 	[Widget] Gtk.SpinButton spin_graph_margin_t; //top
 	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
 
-	int prefsDigitsNumber;
-	bool heightPreferred;
-	bool weightStatsPercent;
-	
 	//bool statsAutomatic = true;
 	bool statsAutomatic = false;
 	bool statsColumnsToRemove = false;
-	private Session currentSession;
 	//selected sessions
 	ArrayList selectedSessions;
 	
@@ -159,18 +153,18 @@ public class StatsWindow {
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
 		Catalog.GetString(Constants.SubtractionBetweenTests),
-		Constants.PotencyLewisFormula,
-		Constants.PotencyHarmanFormula,
-		Constants.PotencySayersSJFormula,
-		Constants.PotencySayersCMJFormula,
-		Constants.PotencyShettyFormula,
-		Constants.PotencyCanavanFormula,
-		//Constants.PotencyBahamondeFormula,
-		Constants.PotencyLaraMaleApplicantsSCFormula,
-		Constants.PotencyLaraFemaleEliteVoleiFormula,
-		Constants.PotencyLaraFemaleMediumVoleiFormula,
-		Constants.PotencyLaraFemaleSCStudentsFormula,
-		Constants.PotencyLaraFemaleSedentaryFormula
+		Constants.PotencyLewisFormulaShort,
+		Constants.PotencyHarmanFormulaShort,
+		Constants.PotencySayersSJFormulaShort,
+		Constants.PotencySayersCMJFormulaShort,
+		Constants.PotencyShettyFormulaShort,
+		Constants.PotencyCanavanFormulaShort,
+		//Constants.PotencyBahamondeFormulaShort,
+		Constants.PotencyLaraMaleApplicantsSCFormulaShort,
+		Constants.PotencyLaraFemaleEliteVoleiFormulaShort,
+		Constants.PotencyLaraFemaleMediumVoleiFormulaShort,
+		Constants.PotencyLaraFemaleSCStudentsFormulaShort,
+		Constants.PotencyLaraFemaleSedentaryFormulaShort
 	};
 		
 
@@ -204,32 +198,7 @@ public class StatsWindow {
 
 	ArrayList sendSelectedSessions;
 	
-	Report report;
-	ReportWindow reportWin;
-
-	
-	StatsWindow (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
-			Report report, ReportWindow reportWin)
-	{
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "stats_window", null);
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-		UtilGtk.ResizeIfNeeded(stats_window);
-
-		//put an icon to window
-		UtilGtk.IconWindow(stats_window);
-
-		this.currentSession = currentSession;
-		this.prefsDigitsNumber = prefsDigitsNumber;
-		this.weightStatsPercent = weightStatsPercent;
-		this.heightPreferred = heightPreferred;
-
-		this.report = report;
-		this.reportWin= reportWin;
-
+	private void stats_win_create() {
 		//myStat = new Stat(); //create and instance of myStat
 		myStatType = new StatType();
 
@@ -237,7 +206,7 @@ public class StatsWindow {
 		//in all the combos that are going to be created
 		blockFillingTreeview = true;
 		
-		putNonStandardIcons();	
+		stats_win_putNonStandardIcons();	
 
 		createComboSelectCheckboxes();
 
@@ -260,56 +229,35 @@ public class StatsWindow {
 
 		updateComboStats();
 			
-		
-		//textview_enunciate.Hide();
-		//scrolledwindow_enunciate.Hide();
-			
-		spinbutton_mark_consecutives.Sensitive = false;
-		hbox_mark_consecutives.Hide();
+		notebook_stats_win_options.Hide();	
 		hbox_graph_margins.Hide();
 		
 		//first graph type is boxplot, and it doesn't show transpose also colors are grey...
 		on_combo_graph_type_changed(new object(), new EventArgs());
-	}
-	
-
-	static public StatsWindow Show (Gtk.Window parent, Session currentSession, 
-			int prefsDigitsNumber, bool weightStatsPercent, bool heightPreferred, 
-			//int prefsDigitsNumber, bool heightPreferred, 
-			Report report, ReportWindow reportWin)
-	{
-		if (StatsWindowBox == null) {
-			StatsWindowBox = new StatsWindow (parent, currentSession, 
-					prefsDigitsNumber, weightStatsPercent, heightPreferred, 
-					//prefsDigitsNumber, heightPreferred, 
-					report, reportWin);
-		}
 		
 		//button update stats is unsensitive until a test finished
-		//StatsWindowBox.button_stats.Sensitive = false;
-		StatsWindowBox.button_stats.Visible = false;
-
-		StatsWindowBox.stats_window.Show ();
-		
-		return StatsWindowBox;
-	}
-
-	public void Hide()
-	{
-		StatsWindowBox.stats_window.Hide ();
+		button_stats.Visible = false;
 	}
 	
-	private void putNonStandardIcons() {
+	private void stats_win_hide()
+	{
+		//StatsWindowBox.stats_window.Hide ();
+		vbox_stats.Hide();
+	}
+	
+	private void stats_win_putNonStandardIcons() {
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_stats_win_graph.Pixbuf = pixbuf;
+		image_stats_win_graph1.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		image_stats_win_report.Pixbuf = pixbuf;
+		image_stats_win_report1.Pixbuf = pixbuf;
 	}
 	
-	public void InitializeSession(Session newCurrentSession) 
+	private void stats_win_initializeSession() 
 	{
-		currentSession = newCurrentSession;
+		//currentSession = newCurrentSession;
 
 		selectedSessions = new ArrayList(2);
 		selectedSessions.Add(currentSession.UniqueID + ":" + currentSession.Name + ":" + currentSession.Date);
@@ -632,7 +580,11 @@ public class StatsWindow {
 	}
 
 	private void updateComboStatsSubType() {
-		subtraction_between_tests_show(false);
+		bool showMarkConsecutives = false;
+		bool showSubtractionBetweenTests = false;
+		label_apply_to.Visible = true;
+		combo_stats_stat_apply_to.Visible = true;
+		//subtraction_between_tests_show(false);
 		if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
 			if(UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("No indexes")) {
@@ -658,34 +610,36 @@ public class StatsWindow {
 					SqliteJumpType.SelectJumpTypes("", "", true), ""); //only select name
 				UtilGtk.ComboUpdate(combo_subtraction_between_2, 
 					SqliteJumpType.SelectJumpTypes("", "", true), ""); //only select name
-				subtraction_between_tests_show(true);
+				//subtraction_between_tests_show(true);
+				showSubtractionBetweenTests = true;
+				label_apply_to.Visible = false;
+				combo_stats_stat_apply_to.Visible = false;
 				combo_stats_stat_apply_to.Active = 0;
-				combo_stats_stat_apply_to.Sensitive = true;
-			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormula) {
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.PotencySayersSJFormulaShort) {
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
 							"SJ"); //default value
-				combo_stats_stat_apply_to.Sensitive = true;
+				combo_stats_stat_apply_to.Sensitive = false;
 			} else {/*
 				   this applies to all potency formulas (default is CMJ), except SayersSJ 
-				Constants.PotencyLewisFormula,
-				Constants.PotencyHarmanFormula,
-				Constants.PotencySayersCMJFormula,
-				Constants.PotencyShettyFormula,
-				Constants.PotencyCanavanFormula,
-				Constants.PotencyBahamondeFormula,
-				Constants.PotencyLaraMaleApplicantsSCFormula,
-				Constants.PotencyLaraFemaleEliteVoleiFormula,
-				Constants.PotencyLaraFemaleMediumVoleiFormula,
-				Constants.PotencyLaraFemaleSCStudentsFormula,
-				Constants.PotencyLaraFemaleSedentaryFormula
+				Constants.PotencyLewisFormulaShort,
+				Constants.PotencyHarmanFormulaShort,
+				Constants.PotencySayersCMJFormulaShort,
+				Constants.PotencyShettyFormulaShort,
+				Constants.PotencyCanavanFormulaShort,
+				Constants.PotencyBahamondeFormulaShort,
+				Constants.PotencyLaraMaleApplicantsSCFormulaShort,
+				Constants.PotencyLaraFemaleEliteVoleiFormulaShort,
+				Constants.PotencyLaraFemaleMediumVoleiFormulaShort,
+				Constants.PotencyLaraFemaleSCStudentsFormulaShort,
+				Constants.PotencyLaraFemaleSedentaryFormulaShort
 				*/
 				combo_stats_stat_apply_to.Active = 
 					UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 							SqliteJumpType.SelectJumpTypes("", "nonTC", true), //only select name
 							"CMJ"); //default value
-				combo_stats_stat_apply_to.Sensitive = true;
+				combo_stats_stat_apply_to.Sensitive = false;
 			}
 		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
@@ -700,22 +654,32 @@ public class StatsWindow {
 		   */
 		if ( UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") ||
 				UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) {
-			hbox_mark_consecutives.Show();
+			//hbox_mark_consecutives.Show();
+			showMarkConsecutives = true;
 			checkbutton_transposed.Active = true;
 			checkbutton_transposed.Sensitive = false;
 			UtilGtk.ComboUpdate(combo_graph_type, Util.StringToStringArray(Constants.GraphTypeLines), "");
 			combo_graph_type.Active=0;
 		} else {
-			hbox_mark_consecutives.Hide();
+			//hbox_mark_consecutives.Hide();
 			checkbutton_transposed.Active = false;
 			checkbutton_transposed.Sensitive = true;
 			UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypes, "");
 			combo_graph_type.Active=0;
 		}
+		
+		if(showMarkConsecutives || showSubtractionBetweenTests) {
+			notebook_stats_win_options.Show();
+			if(showSubtractionBetweenTests)
+				notebook_stats_win_options.CurrentPage = 0;
+			else
+				notebook_stats_win_options.CurrentPage = 1;
+		} else
+			notebook_stats_win_options.Hide();
 	}
 	
 	//way of accessing from chronojump.cs
-	public void FillTreeView_stats (bool graph, bool force) 
+	private void stats_win_fillTreeView_stats (bool graph, bool force) 
 	{
 		//ask for statsAutomatic, because chronojump.cs doesn't know this
 		if(statsAutomatic || force) {
@@ -727,7 +691,7 @@ public class StatsWindow {
 	}
 
 	//creates a GraphROptions object	
-	public GraphROptions fillGraphROptions() {
+	private GraphROptions fillGraphROptions() {
 		//Dotchart plots col 2
 		string varx = UtilGtk.ComboGetActive(combo_graph_var_x);
 		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeDotchart)
@@ -835,7 +799,7 @@ public class StatsWindow {
 				statsJumpsType,
 				limit, 
 				heightPreferred,
-				weightStatsPercent, 
+				weightPercentPreferred, 
 				markedRows,
 				evolution_mark_consecutives,
 				graphROptions,
@@ -940,23 +904,7 @@ public class StatsWindow {
 		combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("None"));
 	}
 	
-	
-	//called from chronojump.cs for showing or hiding some widgets
-	//when a person is created or loaded 
-	public void Widgets(bool person)
-	{
-		if(person) {
-			combo_stats_stat_type.Sensitive = true;
-			combo_stats_stat_subtype.Sensitive = true;
-			combo_stats_stat_apply_to.Sensitive = true;
-		} else {
-			combo_stats_stat_type.Sensitive = false;
-			combo_stats_stat_subtype.Sensitive = false;
-			combo_stats_stat_apply_to.Sensitive = false;
-		}
-	}
-	
-	
+
 	
 	/* ---------------------------------------------------------
 	 * ----------------  STATS CALLBACKS--------------------
@@ -994,36 +942,15 @@ public class StatsWindow {
 	//now checkbox of stats automatic is disabled
 	//and user has to do it always by hand
 	//workaround to bug ???????
-	public void HideUpdateStatsButton() {
+	private void stats_win_hideUpdateStatsButton() {
 		//button_stats.Sensitive = false;
 		button_stats.Visible = false;
 	}
-	public void ShowUpdateStatsButton() {
+	private void stats_win_showUpdateStatsButton() {
 		//button_stats.Sensitive = true;
 		button_stats.Visible = true;
 	}
-				
-	private void subtraction_between_tests_show(bool show) {
-		if(show) {
-			label_subtraction_between.Show();
-			hbox_subtraction_between.Show();
-			hbox_subtraction_between_1.Show();
-			hbox_subtraction_between_2.Show();
-
-			//subtraction doesn't uses the combo: apply to
-			label_apply_to.Hide();
-			hbox_combo_stats_stat_apply_to.Hide();
-		} else {
-			label_subtraction_between.Hide();
-			hbox_subtraction_between.Hide();
-			hbox_subtraction_between_1.Hide();
-			hbox_subtraction_between_2.Hide();
-	
-			label_apply_to.Show();
-			hbox_combo_stats_stat_apply_to.Show();
-		}
-	}
-
+		
 	private void on_checkbutton_show_enunciate_clicked(object o, EventArgs args) {
 		if (checkbutton_show_enunciate.Active) {
 			textview_enunciate.Show();
@@ -1059,7 +986,7 @@ public class StatsWindow {
 			return;
 
 		//blank statusbar
-		statusbar_stats.Push( 1, "");
+		appbar2.Push( 1, "");
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
@@ -1094,18 +1021,18 @@ public class StatsWindow {
 		}
 		//in Potency formulas show only "all jumps" radiobutton
 		else if(statisticType == Constants.TypeJumpsSimple && ( 
-					statisticSubType == Constants.PotencyLewisFormula ||
-					statisticSubType == Constants.PotencyHarmanFormula ||
-					statisticSubType == Constants.PotencySayersSJFormula ||
-					statisticSubType == Constants.PotencySayersCMJFormula ||
-					statisticSubType == Constants.PotencyShettyFormula ||
-					statisticSubType == Constants.PotencyCanavanFormula ||
-					//statisticSubType == Constants.PotencyBahamondeFormula ||
-					statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormula ||
-					statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormula ||
-					statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormula ||
-					statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormula ||
-					statisticSubType == Constants.PotencyLaraFemaleSedentaryFormula
+					statisticSubType == Constants.PotencyLewisFormulaShort ||
+					statisticSubType == Constants.PotencyHarmanFormulaShort ||
+					statisticSubType == Constants.PotencySayersSJFormulaShort ||
+					statisticSubType == Constants.PotencySayersCMJFormulaShort ||
+					statisticSubType == Constants.PotencyShettyFormulaShort ||
+					statisticSubType == Constants.PotencyCanavanFormulaShort ||
+					//statisticSubType == Constants.PotencyBahamondeFormulaShort ||
+					statisticSubType == Constants.PotencyLaraMaleApplicantsSCFormulaShort ||
+					statisticSubType == Constants.PotencyLaraFemaleEliteVoleiFormulaShort ||
+					statisticSubType == Constants.PotencyLaraFemaleMediumVoleiFormulaShort ||
+					statisticSubType == Constants.PotencyLaraFemaleSCStudentsFormulaShort ||
+					statisticSubType == Constants.PotencyLaraFemaleSedentaryFormulaShort
 					) ) {
 			//change the radiobutton value
 			if(radiobutton_stats_jumps_limit.Active || radiobutton_stats_jumps_person_average.Active ||
@@ -1261,7 +1188,7 @@ public class StatsWindow {
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
 		Log.WriteLine("select sessions for stats");
-		sessionSelectStatsWin = SessionSelectStatsWindow.Show(stats_window, selectedSessions);
+		sessionSelectStatsWin = SessionSelectStatsWindow.Show(app1, selectedSessions);
 		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
 	}
 	
@@ -1329,50 +1256,21 @@ public class StatsWindow {
 			}
 			
 			//create or show the report window
-			reportWin = ReportWindow.Show(parent, report);
+			reportWin = ReportWindow.Show(app1, report);
 			//add current stat
 			reportWin.Add(statisticType, statisticSubType, statisticApplyTo, 
 					sendSelectedSessions, statsShowJumps, showSex.ToString(), 
 					myStatType.MarkedRows, fillGraphROptions());
 					
 			
-			statusbar_stats.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);
+			appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);
 		}
 		
 	}
-
-	void on_button_close_clicked (object o, EventArgs args)
-	{
-		StatsWindowBox.stats_window.Hide();
-		StatsWindowBox = null;
-	}
-	
-	void on_stats_window_delete_event (object o, DeleteEventArgs args)
-	{
-		StatsWindowBox.stats_window.Hide();
-		StatsWindowBox = null;
-	}
 	
 	
-	public int PrefsDigitsNumber 
-	{
-		set {
-			prefsDigitsNumber = value;
-		}
-	}
-	
-	public bool HeightPreferred 
-	{
-		set {
-			heightPreferred = value;
-		}
-	}
-
-	public bool WeightStatsPercent
-	{
-		set {
-			weightStatsPercent = value;
-		}
+	private void on_show_report_clicked (object o, EventArgs args) {
+		reportWin = ReportWindow.Show(app1, report);
 	}
 
 }

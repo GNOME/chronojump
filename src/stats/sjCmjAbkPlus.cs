@@ -129,9 +129,11 @@ public class StatSjCmjAbkPlus : Stat
 		if(statsJumpsType == 0) { //all jumps
 			selectedValuesString = allValuesString; 
 		} else if(statsJumpsType == 1) { //limit
-			selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit); 
+			selectedValuesString = string.Format(Catalog.GetPluralString(
+						"First value", "First {0} values", limit), limit);
 		} else if(statsJumpsType == 2) { //best of each jumper
-			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each jumper"), limit);
+			selectedValuesString = string.Format(Catalog.GetPluralString(
+						"Max value of each person", "Max {0} values of each person", limit), limit);
 		} else if(statsJumpsType == 3) { //avg of each jumper
 			selectedValuesString = avgValuesString; 
 		}  

@@ -242,9 +242,11 @@ public class StatRunIntervallic : Stat
 		if(statsJumpsType == 0) { //all jumps
 			selectedValuesString = allValuesString; 
 		} else if(statsJumpsType == 1) { //limit
-			selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit); 
+			selectedValuesString = string.Format(Catalog.GetPluralString(
+						"First value", "First {0} values", limit), limit);
 		} else if(statsJumpsType == 2) { //best of each jumper
-			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each person"), limit);
+			selectedValuesString = string.Format(Catalog.GetPluralString(
+						"Max value of each person", "Max {0} values of each person", limit), limit);
 		} 
 		/* this option is not possible in this statistic
 		else if(statsJumpsType == 3) { //avg of each jumper
@@ -258,7 +260,12 @@ public class StatRunIntervallic : Stat
 		
 		string bestResalted = "";
 		if(numContinuous != -1) {
-			bestResalted = string.Format(Catalog.GetString(" (best {0} consecutive runs marked)"), numContinuous);
+			bestResalted = string.Format(
+					Catalog.GetPluralString(
+						" (best run marked)",
+						" (best {0} consecutive runs marked)",
+						numContinuous),
+					numContinuous);
 		}
 
 		return string.Format(Catalog.GetString("{0} in Run Intervallic applied to {1} on {2}{3}"), selectedValuesString, jumpType, mySessionString, bestResalted);

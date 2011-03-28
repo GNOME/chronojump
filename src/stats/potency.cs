@@ -126,15 +126,6 @@ public class StatPotency : Stat
 		if(statsJumpsType == 0) { //all jumps
 			selectedValuesString = allValuesString; 
 		} 
-		/*
-		else if(statsJumpsType == 1) { //limit
-			selectedValuesString = string.Format(Catalog.GetString("First {0} values"), limit); 
-		} else if(statsJumpsType == 2) { //best of each jumper
-			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each jumper"), limit);
-		} else if(statsJumpsType == 3) { //avg of each jumper
-			selectedValuesString = avgValuesString; 
-		}  
-		*/
 
 		string mySessionString = "";
 		if(sessions.Count > 1) {

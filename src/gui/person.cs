@@ -605,7 +605,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			if(inserted == 1)
 				statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
 			else //more inserted
-				statusbar1.Push( 1, string.Format(Catalog.GetString("Successfully added {0} persons"), inserted));
+				statusbar1.Push( 1, string.Format(Catalog.GetPluralString(
+								"Successfully added one person.",
+								"Successfully added {0} persons.",
+								inserted),
+							inserted));
 
 			fakeButtonDone.Click();
 		}

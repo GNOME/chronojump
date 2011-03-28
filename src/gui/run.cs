@@ -640,10 +640,22 @@ public class RepairRunIntervalWindow
 		if(myRunType.FixedValue > 0) {
 			if(myRunType.TracksLimited) {
 				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} runs, you cannot add more."), myRunType.FixedValue);
+				fixedString = "\n" +  string.Format(
+						Catalog.GetPluralString(
+							"This run type is fixed to one run.", 
+							"This run type is fixed to {0} runs.",
+							myRunType.FixedValue), 
+						myRunType.FixedValue) +
+					Catalog.GetString("You cannot add more.");
 			} else {
 				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} seconds, totaltime cannot be greater."), myRunType.FixedValue);
+				fixedString = "\n" + string.Format(
+						Catalog.GetPluralString(
+							"This run type is fixed to one second.",
+							"This run type is fixed to {0} seconds.",
+							myRunType.FixedValue),
+						myRunType.FixedValue) +
+					Catalog.GetString("Totaltime cannot be greater.");
 			}
 		}
 		return runTypeString + fixedString;

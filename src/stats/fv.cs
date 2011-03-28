@@ -107,7 +107,8 @@ public class StatFv : StatIeIub
 		*/
 		
 		if(statsJumpsType == 2) { //best of each jumper
-			selectedValuesString = string.Format(Catalog.GetString("Max {0} values of each jumper"), limit);
+			selectedValuesString = string.Format(Catalog.GetPluralString(
+						"Max value of each person", "Max {0} values of each person", limit), limit);
 		} else if(statsJumpsType == 3) { //avg of each jumper
 			selectedValuesString = avgValuesString; 
 		}  

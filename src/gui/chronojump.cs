@@ -547,7 +547,7 @@ public partial class ChronoJumpWindow
 		image_mode_pulses.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
 		image_mode_multi_chronopic.Pixbuf = pixbuf;
-
+		
 		
 		//jumps changes
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_free);
@@ -670,6 +670,7 @@ public partial class ChronoJumpWindow
 		image_reaction_times_zoom.Pixbuf = pixbuf;
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
+		
 
 		//menuitems (done differently)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
@@ -5017,9 +5018,19 @@ Console.WriteLine("X");
 	
 		//change test image according to notebook_execute	
 		if(notebook_execute.CurrentPage == 0)
-			changeTestImage(EventType.Types.JUMP.ToString(), currentJumpType.Name, currentJumpType.ImageFileName);
+			changeTestImage(EventType.Types.JUMP.ToString(), 
+					currentJumpType.Name, currentJumpType.ImageFileName);
 		else if(notebook_execute.CurrentPage == 1)
-			changeTestImage(EventType.Types.JUMP.ToString(), currentJumpRjType.Name, currentJumpRjType.ImageFileName);
+			changeTestImage(EventType.Types.JUMP.ToString(), 
+					currentJumpRjType.Name, currentJumpRjType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 2)
+			changeTestImage(EventType.Types.RUN.ToString(), 
+					currentRunType.Name, currentRunType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 3)
+			changeTestImage(EventType.Types.RUN.ToString(), 
+					currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
+
+		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
 	
 	//changed by user clicking on notebook tabs

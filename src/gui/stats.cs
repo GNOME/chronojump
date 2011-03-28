@@ -32,8 +32,10 @@ public partial class ChronoJumpWindow {
 	
 	SessionSelectStatsWindow sessionSelectStatsWin;
 
+	[Widget] Gtk.Notebook notebook_stats_sup;
 	[Widget] Gtk.Box vbox_stats;
 	[Widget] Gtk.TreeView treeview_stats;
+	[Widget] Gtk.Box vbox_stats_type;
 	[Widget] Gtk.Box hbox_combo_stats_stat_type;
 	[Widget] Gtk.Box hbox_combo_stats_stat_subtype;
 	[Widget] Gtk.Box hbox_combo_stats_stat_apply_to;
@@ -79,6 +81,7 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.Image image_stats_win_graph1;
 	[Widget] Gtk.Image image_stats_win_report;
 	[Widget] Gtk.Image image_stats_win_report1;
+	[Widget] Gtk.Image image_results;
 	
 	[Widget] Gtk.Box hbox_combo_graph_type;
 	[Widget] Gtk.Label label_graph_var_x;
@@ -90,9 +93,9 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.ComboBox combo_graph_var_x;
 	[Widget] Gtk.ComboBox combo_graph_var_y;
 	[Widget] Gtk.ComboBox combo_graph_palette;
-	[Widget] Gtk.Label label_graph_options;
+	[Widget] Gtk.Label label_transposed;
 	[Widget] Gtk.CheckButton checkbutton_transposed;
-	[Widget] Gtk.Box hbox_line;
+	[Widget] Gtk.Label label_line;
 	[Widget] Gtk.SpinButton spin_line;
 
 	[Widget] Gtk.Box hbox_combo_graph_width;
@@ -103,8 +106,6 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.Box hbox_combo_graph_legend;
 	[Widget] Gtk.ComboBox combo_graph_legend;
 	
-	[Widget] Gtk.CheckButton checkbutton_margins;
-	[Widget] Gtk.Box hbox_graph_margins;
 	[Widget] Gtk.SpinButton spin_graph_margin_b; //bottom
 	[Widget] Gtk.SpinButton spin_graph_margin_l; //left
 	[Widget] Gtk.SpinButton spin_graph_margin_t; //top
@@ -133,6 +134,38 @@ public partial class ChronoJumpWindow {
 		Constants.TypeRunsSimple,
 		Constants.TypeRunsIntervallic,
 	};
+	
+	private void stats_win_change_test_type(int testPage) {
+		//no statistics for reactionTime, pulse and multichronopic
+		//show a label with this info
+		if(testPage >= 4) 
+			notebook_stats_sup.CurrentPage = 1;
+		else {
+			notebook_stats_sup.CurrentPage = 0;
+
+			bool sensitive = false;
+			bool showType = false;
+			if(testPage == 0) {
+				//on jumps show jumpsSimple and JumpsSimpleWithTC
+				string [] str = new string [2];
+				str[0] = comboStatsTypeOptions[0];
+				str[1] = comboStatsTypeOptions[1];
+				sensitive = true;
+				showType = true;
+				UtilGtk.ComboUpdate(combo_stats_stat_type, str, "");
+			}
+			else if(testPage == 1)
+				UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions[2]);
+			else if(testPage == 2)
+				UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions[3]);
+			else if(testPage == 3)
+				UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions[4]);
+
+			combo_stats_stat_type.Active = 0;
+			combo_stats_stat_type.Sensitive = sensitive;
+			vbox_stats_type.Visible = showType;
+		}
+	}
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
 		Constants.DjIndexFormula,
@@ -230,13 +263,13 @@ public partial class ChronoJumpWindow {
 		updateComboStats();
 			
 		notebook_stats_win_options.Hide();	
-		hbox_graph_margins.Hide();
 		
 		//first graph type is boxplot, and it doesn't show transpose also colors are grey...
 		on_combo_graph_type_changed(new object(), new EventArgs());
 		
 		//button update stats is unsensitive until a test finished
-		button_stats.Visible = false;
+		button_stats.Visible = true;
+		button_stats.Sensitive = false;
 	}
 	
 	private void stats_win_hide()
@@ -253,7 +286,10 @@ public partial class ChronoJumpWindow {
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		image_stats_win_report.Pixbuf = pixbuf;
 		image_stats_win_report1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
+		image_results.Pixbuf = pixbuf;
 	}
+
 	
 	private void stats_win_initializeSession() 
 	{
@@ -276,7 +312,11 @@ public partial class ChronoJumpWindow {
 	
 	private void createComboStatsType() {
 		combo_stats_stat_type = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions, "");
+				
+		string [] str = new string [2];
+		str[0] = comboStatsTypeOptions[0];
+		str[1] = comboStatsTypeOptions[1];
+		UtilGtk.ComboUpdate(combo_stats_stat_type, str, "");
 		combo_stats_stat_type.Active = 0;
 		
 		combo_stats_stat_type.Changed += new EventHandler (on_combo_stats_stat_type_changed);
@@ -399,12 +439,14 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void showTransposed(bool show) {
+		label_transposed.Visible = show;
 		checkbutton_transposed.Visible = show;
 		checkbutton_transposed.Active = true;
 	}
 	
 	private void showLineWidth(bool show) {
-		hbox_line.Visible = show;
+		label_line.Visible = show;
+		spin_line.Visible = show;
 	}
 
 	private void showGraphXYStuff(bool show) {
@@ -450,13 +492,6 @@ public partial class ChronoJumpWindow {
 		}
 	}
 	
-	private void on_checkbutton_margins_clicked(object o, EventArgs args) {
-		if(checkbutton_margins.Active)
-			hbox_graph_margins.Visible = true;
-		else
-			hbox_graph_margins.Visible = false;
-	}
-	
 	private void on_button_graph_margin_default_clicked(object o, EventArgs args) {
 		spin_graph_margin_b.Value = 5;
 		spin_graph_margin_l.Value = 4;
@@ -475,6 +510,7 @@ public partial class ChronoJumpWindow {
 					if( ! checkbutton_stats_sex.Active) {
 						//this will redo the treeview
 						checkbutton_stats_sex.Active = true;
+						fillTreeView_stats(false);
 						//put another time the value Male or Female in combo_select_checkboxes
 						combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, myText);
 					}
@@ -576,7 +612,8 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 
-		fillTreeView_stats(false);
+		//fillTreeView_stats(false);
+		button_stats.Sensitive = true;
 	}
 
 	private void updateComboStatsSubType() {
@@ -682,12 +719,13 @@ public partial class ChronoJumpWindow {
 	private void stats_win_fillTreeView_stats (bool graph, bool force) 
 	{
 		//ask for statsAutomatic, because chronojump.cs doesn't know this
-		if(statsAutomatic || force) {
-			fillTreeView_stats(graph);
-		}
+		//if(statsAutomatic || force) {
+		//	fillTreeView_stats(graph);
+		//}
 
 		//show update stats button
 		//ShowUpdateStatsButton();
+		button_stats.Sensitive = true;
 	}
 
 	//creates a GraphROptions object	
@@ -915,8 +953,9 @@ public partial class ChronoJumpWindow {
 		fillTreeView_stats(false);
 
 		//after update stats it will be unsensitive until a new test is finished
-		//button_stats.Sensitive = false;
-		button_stats.Visible = false;
+		//or new options selected
+		button_stats.Sensitive = false;
+		//button_stats.Visible = false;
 	}
 
 	private void on_button_graph_clicked (object o, EventArgs args) {
@@ -970,13 +1009,15 @@ public partial class ChronoJumpWindow {
 		}
 		
 		//if (statsAutomatic) { 
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		//}
 	}
 	
 	void on_spinbutton_mark_consecutives_changed (object o, EventArgs args) {
 		//if (statsAutomatic) { 
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		//}
 	}
 
@@ -1099,7 +1140,8 @@ public partial class ChronoJumpWindow {
 		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		}
 	}
 	
@@ -1112,7 +1154,8 @@ public partial class ChronoJumpWindow {
 		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		}
 	}
 	
@@ -1120,7 +1163,8 @@ public partial class ChronoJumpWindow {
 		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
 		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
 		if (myText != "" && myText2 != "") {
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		}
 	}
 	
@@ -1147,12 +1191,14 @@ public partial class ChronoJumpWindow {
 					combo_graph_type, types, UtilGtk.ComboGetActive(combo_graph_type));
 		}
 		update_stats_widgets_sensitiveness();
-		fillTreeView_stats(false);
+		//fillTreeView_stats(false);
+		button_stats.Sensitive = true;
 	}
 	
 	private void on_checkbutton_stats_sex_clicked(object o, EventArgs args)
 	{
-		fillTreeView_stats(false);
+		//fillTreeView_stats(false);
+		button_stats.Sensitive = true;
 	}
 
 	void on_radiobutton_stats_jumps_clicked (object o, EventArgs args)
@@ -1176,13 +1222,15 @@ public partial class ChronoJumpWindow {
 	
 		update_stats_widgets_sensitiveness();
 		
-		fillTreeView_stats(false);
+		//fillTreeView_stats(false);
+		button_stats.Sensitive = true;
 	}
 	
 	void on_spinbutton_stats_jumps_changed (object o, EventArgs args)
 	{
 		//if (statsAutomatic) { 
-			fillTreeView_stats(false);
+			//fillTreeView_stats(false);
+			button_stats.Sensitive = true;
 		//}
 	}
 	
@@ -1206,7 +1254,8 @@ public partial class ChronoJumpWindow {
 
 		update_stats_widgets_sensitiveness();
 
-		fillTreeView_stats(false);
+		//fillTreeView_stats(false);
+		button_stats.Sensitive = true;
 	}
 	
 	private void on_button_add_to_report_clicked (object o, EventArgs args) {

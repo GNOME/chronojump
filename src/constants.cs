@@ -242,7 +242,7 @@ public class Constants
 		"(68.2*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (40.8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -1731.1";
 	
-	public static string RJPotencyBoscoFormula = "Peak Power" + " (Bosco)" + "\n 9.81^2*TF*TT / (4*jumps*(TT-TF))";
+	public static string RJPotencyBoscoFormula = "Peak Power" + " (Bosco)" + " 9.81^2*TF*TT / (4*jumps*(TT-TF))";
 	public static string RJPotencyBoscoFormulaOnly = "9.81*9.81 * tvavg*jumps * time / ( 4.0 * jumps * (time - tvavg*jumps) )"; //*4.0 for having double division
 	public static string RJPotencyBoscoName = Catalog.GetString("Peak Power") + " (Bosco)";
 

@@ -304,6 +304,7 @@ RESOURCES = \
 	../images/chronopic_24.png,chronopic_24.png \
 	../images/chronopic_128.png,chronopic_128.png \
 	../images/gpm-statistics.png,gpm-statistics.png \
+	../images/spreadsheet.png,spreadsheet.png \
 	../images/stock_task-assigned.png,stock_task-assigned.png \
 	../images/preferences-system.png,preferences-system.png \
 	../images/stock_delete.png,stock_delete.png \

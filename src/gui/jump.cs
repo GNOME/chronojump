@@ -480,10 +480,22 @@ public class RepairJumpRjWindow
 		if(myJumpType.FixedValue > 0) {
 			if(myJumpType.JumpsLimited) {
 				//if it's a jump type jumpsLimited with a fixed value, then don't allow the creation of more jumps, and respect the -1 at last TF if found
-				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed to {0} jumps, you cannot add more."), myJumpType.FixedValue);
+				fixedString = "\n" + string.Format(
+						Catalog.GetPluralString(
+							"This jump type is fixed to one jump.",
+							"This jump type is fixed to {0} jumps.",
+							Convert.ToInt32(myJumpType.FixedValue)),
+						myJumpType.FixedValue) +
+					Catalog.GetString("You cannot add more.");
 			} else {
 				//if it's a jump type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = string.Format(Catalog.GetString("\nThis jump type is fixed to {0} seconds, totaltime cannot be greater."), myJumpType.FixedValue);
+				fixedString = "\n" + string.Format(
+						Catalog.GetPluralString(
+							"This jump type is fixed to one second.",
+							"This jump type is fixed to {0} secondss.",
+							Convert.ToInt32(myJumpType.FixedValue)),
+						myJumpType.FixedValue) +
+					Catalog.GetString("You cannot add more.");
 			}
 		}
 		return jumpTypeString + startString + fixedString;

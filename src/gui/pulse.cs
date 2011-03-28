@@ -330,17 +330,6 @@ public class RepairPulseWindow
 		 * currently all pulseTypes are non fixed, and it's not possible to create more types (by user), then there are no limitations
 		 */
 
-/*
-		if(myPulseType.FixedPulse > 0) {
-			if(myRunType.TracksLimited) {
-				//if it's a run type runsLimited with a fixed value, then don't allow the creation of more runs
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} runs, you cannot add more."), myRunType.FixedValue);
-			} else {
-				//if it's a run type timeLimited with a fixed value, then complain when the total time is higher
-				fixedString = string.Format(Catalog.GetString("\nThis run type is fixed to {0} seconds, totaltime cannot be greater."), myRunType.FixedValue);
-			}
-		}
-*/
 		return pulseTypeString + fixedString;
 	}
 

@@ -162,12 +162,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
 	//tools
-	//from SportsTracker code
-	[Glade.WidgetAttribute]
-		private ImageMenuItem
-			menuitem_server_stats = null;
-	[Widget] Gtk.MenuItem menuitem_server_evaluator_data;
-	[Widget] Gtk.MenuItem menuitem_server_upload_session;
 	[Widget] Gtk.MenuItem menuitem_preferences;
 
 
@@ -206,6 +200,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options;
+		
+	[Widget] Gtk.Frame frame_share_data;
 	
 	[Widget] Gtk.EventBox eventbox_image_test;
 	[Widget] Gtk.Box vbox_image_test;
@@ -670,14 +666,6 @@ public partial class ChronoJumpWindow
 		image_reaction_times_zoom.Pixbuf = pixbuf;
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
-		
-
-		//menuitems (done differently)
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
-		//menuitem_view_stats.Image = new Gtk.Image(pixbuf);
-		menuitem_server_stats.Image = new Gtk.Image(pixbuf);
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
-		//menuitem_report_window.Image = new Gtk.Image(pixbuf);
 	}
 
 	private void loadPreferences () 
@@ -1024,7 +1012,7 @@ public partial class ChronoJumpWindow
 
 	bool serverEvaluatorDoing;
 	// upload session and it's persons (callback)
-	private void on_menuitem_server_upload_session_pre (object o, EventArgs args) {
+	private void on_server_upload_session_pre (object o, EventArgs args) {
 		//evaluator stuff
 		//Server.ServerUploadEvaluator();
 		string evalMessage = "";
@@ -1069,7 +1057,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_menuitem_server_query_activate (object o, EventArgs args) {
+	private void on_menuitem_server_query (object o, EventArgs args) {
 		if(connectedAndCanI(Constants.ServerActionQuery)) {
 			ChronojumpServer myServer = new ChronojumpServer();
 			QueryServerWindow.Show(
@@ -1079,7 +1067,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void on_menuitem_server_ping (object o, EventArgs args) {
+	private void on_server_ping (object o, EventArgs args) {
 		string str = Server.Ping(false, progName, progVersion); //don't do insertion (will show versionAvailable)
 		//show online or offline (not the next version of client available)
 		if(str != Constants.ServerOffline)
@@ -1095,12 +1083,14 @@ public partial class ChronoJumpWindow
 		uploadSessionAfter = true;
 		server_evaluator_data (); 
 	}
-	
+
+	/*	
 	//called when only has to be created/updated the evaluator (not update session)
 	private void on_menuitem_server_evaluator_data_only (object o, EventArgs args) {
 		uploadSessionAfter = false;
 		server_evaluator_data (); 
 	}
+	*/
 	
 	private void server_evaluator_data () {
 		ServerEvaluator myEval = SqliteServer.SelectEvaluator(1); 
@@ -1139,7 +1129,7 @@ public partial class ChronoJumpWindow
 		server_upload_session();
 	}
 
-	private void on_menuitem_goto_server_website_activate (object o, EventArgs args) {
+	private void on_menuitem_goto_server_website (object o, EventArgs args) {
 		if(Util.IsWindows())
 			new DialogMessage(Constants.MessageTypes.INFO, 
 					"http://www.chronojump.org/server.html" + "\n" + 
@@ -5145,12 +5135,6 @@ Console.WriteLine("X");
 		menuitem_run_analysis.Sensitive = option;
 	}
 	
-	private void menuToolsSensitive(bool option)
-	{
-		menuitem_server_evaluator_data.Sensitive = option;
-		menuitem_server_upload_session.Sensitive = option;
-	}
-
 	private void sensitiveGuiNoSession () 
 	{
 		menuitem_preferences.Sensitive = true;
@@ -5160,7 +5144,6 @@ Console.WriteLine("X");
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
 		menuOtherSensitive(false);
-		menuToolsSensitive(false);
 		
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
@@ -5176,6 +5159,7 @@ Console.WriteLine("X");
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		vbox_stats.Sensitive = false;
+		frame_share_data.Sensitive = false;
 		
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -5191,8 +5175,8 @@ Console.WriteLine("X");
 		button_person_add_multiple.Sensitive = true;
 		
 		menuSessionSensitive(true);
-		menuToolsSensitive(true);
 		vbox_stats.Sensitive = true;
+		frame_share_data.Sensitive = true;
 		
 		hbox_execute_test.Sensitive = true;
 		
@@ -5212,7 +5196,6 @@ Console.WriteLine("X");
 		
 		menuPersonSelectedSensitive(false);
 		menuOtherSensitive(false);
-		menuToolsSensitive(false);
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -5227,7 +5210,6 @@ Console.WriteLine("X");
 		
 		menuPersonSelectedSensitive(true);
 		menuOtherSensitive(true);
-		menuToolsSensitive(true);
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");

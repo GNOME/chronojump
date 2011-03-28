@@ -13647,134 +13647,6 @@ by you</property>
               </widget>
             </child>
             <child>
-              <widget class="GtkMenuItem" id="menu_tools">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Tools</property>
-                <property name="use_underline">True</property>
-                <child>
-                  <widget class="GtkMenu" id="menu_view_menu">
-                    <child>
-                      <widget class="GtkImageMenuItem" id="menuitem_server">
-                        <property name="label" translatable="yes">_Server</property>
-                        <property name="visible">True</property>
-                        <property name="use_underline">True</property>
-                        <property name="use_stock">False</property>
-                        <child>
-                          <widget class="GtkMenu" id="menuitem_server_menu">
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_server_ping">
-                                <property name="label" translatable="yes">Check connection</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_server_ping"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image39">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-info</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkSeparatorMenuItem" id="separador23">
-                                <property name="visible">True</property>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_server_evaluator_data">
-                                <property name="label" translatable="yes">Evaluator data</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_server_evaluator_data_only"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image41">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-edit</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_server_upload_session">
-                                <property name="label" translatable="yes">Upload (or update) session to server</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_server_upload_session_pre"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image42">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-go-up</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkSeparatorMenuItem" id="separador24">
-                                <property name="visible">True</property>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_server_query">
-                                <property name="label" translatable="yes">Query</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_server_query_activate"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image37">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-find</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_server_stats">
-                                <property name="label" translatable="yes">Stats</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_server_stats"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image38">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-missing-image</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkSeparatorMenuItem" id="separador25">
-                                <property name="visible">True</property>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkImageMenuItem" id="menuitem_goto_server_website">
-                                <property name="label" translatable="yes">Goto server website</property>
-                                <property name="visible">True</property>
-                                <property name="use_stock">False</property>
-                                <signal name="activate" handler="on_menuitem_goto_server_website_activate"/>
-                                <child internal-child="image">
-                                  <widget class="GtkImage" id="image40">
-                                    <property name="visible">True</property>
-                                    <property name="stock">gtk-jump-to</property>
-                                  </widget>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-                        <child internal-child="image">
-                          <widget class="GtkImage" id="image19">
-                            <property name="visible">True</property>
-                            <property name="stock">gtk-connect</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
               <widget class="GtkMenuItem" id="help1">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Help</property>
@@ -22226,10 +22098,312 @@ on current Chronojump version.</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label11">
+                          <widget class="GtkVBox" id="vbox46">
                             <property name="visible">True</property>
-                            <property name="label">pending
-Here it will be server stuff</property>
+                            <property name="border_width">7</property>
+                            <property name="spacing">14</property>
+                            <child>
+                              <widget class="GtkHBox" id="hbox59">
+                                <property name="visible">True</property>
+                                <child>
+                                  <widget class="GtkTextView" id="textview1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="pixels_above_lines">4</property>
+                                    <property name="editable">False</property>
+                                    <property name="wrap_mode">word</property>
+                                    <property name="text" translatable="yes">Chronojump has a server in order to share data between users.
+Data is collected by users contributions and server generates statistics and graphs. 
+Anyone can check server stats and graphs and easily make querys to the server.
+Privacy is respected:
+- Names and comments are not uploaded.
+- Date of birth is hidden</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkVButtonBox" id="vbuttonbox3">
+                                    <property name="visible">True</property>
+                                    <child>
+                                      <widget class="GtkButton" id="button_server_check_connection">
+                                        <property name="height_request">50</property>
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="receives_default">True</property>
+                                        <property name="border_width">10</property>
+                                        <signal name="clicked" handler="on_server_ping"/>
+                                        <child>
+                                          <widget class="GtkHBox" id="hbox63">
+                                            <property name="visible">True</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <widget class="GtkImage" id="image20">
+                                                <property name="visible">True</property>
+                                                <property name="stock">gtk-info</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label55">
+                                                <property name="visible">True</property>
+                                                <property name="label" translatable="yes">Check connection</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                        <property name="position">0</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkVBox" id="vbox50">
+                                <property name="visible">True</property>
+                                <property name="spacing">10</property>
+                                <child>
+                                  <widget class="GtkFrame" id="frame_share_data">
+                                    <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
+                                    <property name="shadow_type">out</property>
+                                    <child>
+                                      <widget class="GtkHButtonBox" id="hbuttonbox8">
+                                        <property name="visible">True</property>
+                                        <child>
+                                          <widget class="GtkButton" id="button_upload_session">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="border_width">10</property>
+                                            <signal name="clicked" handler="on_server_upload_session_pre"/>
+                                            <child>
+                                              <widget class="GtkVBox" id="vbox48">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image7">
+                                                    <property name="visible">True</property>
+                                                    <property name="stock">gtk-go-up</property>
+                                                    <property name="icon-size">5</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label58">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Upload (or update) session to server</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label53">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">&lt;b&gt;Share data!&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="type">label_item</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkFrame" id="frame10">
+                                    <property name="visible">True</property>
+                                    <property name="label_xalign">0</property>
+                                    <property name="shadow_type">out</property>
+                                    <child>
+                                      <widget class="GtkHButtonBox" id="hbuttonbox7">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">12</property>
+                                        <property name="layout_style">center</property>
+                                        <child>
+                                          <widget class="GtkButton" id="button_server_query">
+                                            <property name="height_request">50</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="border_width">10</property>
+                                            <signal name="clicked" handler="on_menuitem_server_query"/>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox62">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image14">
+                                                    <property name="visible">True</property>
+                                                    <property name="stock">gtk-find</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label54">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Query to the server</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkButton" id="button_server_stats">
+                                            <property name="height_request">50</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <property name="border_width">10</property>
+                                            <signal name="clicked" handler="on_menuitem_server_stats"/>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox64">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_stats_win_graph2">
+                                                    <property name="visible">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label56">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Check basic stats</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label11">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">&lt;b&gt;Check data&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="type">label_item</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHButtonBox" id="hbuttonbox6">
+                                <property name="visible">True</property>
+                                <child>
+                                  <widget class="GtkButton" id="button_server_website">
+                                    <property name="height_request">50</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">True</property>
+                                    <signal name="clicked" handler="on_menuitem_goto_server_website"/>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox65">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">6</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image21">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-jump-to</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label57">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">Open server website (on browser)</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="pack_type">end</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="pack_type">end</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </widget>
                           <packing>
                             <property name="position">3</property>

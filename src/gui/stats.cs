@@ -80,6 +80,7 @@ public partial class ChronoJumpWindow {
 	
 	[Widget] Gtk.Image image_stats_win_graph;
 	[Widget] Gtk.Image image_stats_win_graph1;
+	[Widget] Gtk.Image image_stats_win_graph2;
 	[Widget] Gtk.Image image_stats_win_report;
 	[Widget] Gtk.Image image_stats_win_report1;
 	[Widget] Gtk.Image image_results;
@@ -286,6 +287,7 @@ public partial class ChronoJumpWindow {
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_stats_win_graph.Pixbuf = pixbuf;
 		image_stats_win_graph1.Pixbuf = pixbuf;
+		image_stats_win_graph2.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
 		image_stats_win_report.Pixbuf = pixbuf;
 		image_stats_win_report1.Pixbuf = pixbuf;

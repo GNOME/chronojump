@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -42,9 +42,10 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.ComboBox combo_stats_stat_type;
 	[Widget] Gtk.ComboBox combo_stats_stat_subtype;
 	[Widget] Gtk.ComboBox combo_stats_stat_apply_to;
+	[Widget] Gtk.Box hbox_mark_and_enunciate;
+	[Widget] Gtk.Frame frame_graph_and_report;
 	[Widget] Gtk.Label label_apply_to;
 	[Widget] Gtk.CheckButton checkbutton_stats_sex;
-	[Widget] Gtk.CheckButton checkbutton_stats_always;
 	[Widget] Gtk.Button button_stats;
 	
 	[Widget] Gtk.RadioButton radiobutton_current_session;
@@ -263,6 +264,8 @@ public partial class ChronoJumpWindow {
 		updateComboStats();
 			
 		notebook_stats_win_options.Hide();	
+		checkbutton_mark_consecutives.Active = false;
+		spinbutton_mark_consecutives.Sensitive = false;
 		
 		//first graph type is boxplot, and it doesn't show transpose also colors are grey...
 		on_combo_graph_type_changed(new object(), new EventArgs());
@@ -528,6 +531,12 @@ public partial class ChronoJumpWindow {
 		return Util.AddArrayString(comboCheckboxesOptionsWithoutPersons, Util.ArrayListToString(myStatType.PersonsWithData));
 	}
 
+	private void showUpdateStatsAndHideData(bool show) {
+		button_stats.Sensitive = show;
+		treeview_stats.Sensitive = ! show;
+		hbox_mark_and_enunciate.Sensitive = ! show;
+		frame_graph_and_report.Sensitive = ! show;
+	}
 	
 	private void updateComboStats() {
 		string [] nullOptions = { "-" };
@@ -612,10 +621,9 @@ public partial class ChronoJumpWindow {
 			combo_stats_stat_apply_to.Active = 0;
 		} 
 
-		//fillTreeView_stats(false);
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
-
+		
 	private void updateComboStatsSubType() {
 		bool showMarkConsecutives = false;
 		bool showSubtractionBetweenTests = false;
@@ -718,14 +726,7 @@ public partial class ChronoJumpWindow {
 	//way of accessing from chronojump.cs
 	private void stats_win_fillTreeView_stats (bool graph, bool force) 
 	{
-		//ask for statsAutomatic, because chronojump.cs doesn't know this
-		//if(statsAutomatic || force) {
-		//	fillTreeView_stats(graph);
-		//}
-
-		//show update stats button
-		//ShowUpdateStatsButton();
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
 
 	//creates a GraphROptions object	
@@ -912,6 +913,7 @@ public partial class ChronoJumpWindow {
 			} catch {} //maybe there's no data
 		}
 		
+		showUpdateStatsAndHideData(false);
 
 		if(allFine) {
 			return true;
@@ -951,11 +953,6 @@ public partial class ChronoJumpWindow {
 
 	private void on_button_stats_clicked (object o, EventArgs args) {
 		fillTreeView_stats(false);
-
-		//after update stats it will be unsensitive until a new test is finished
-		//or new options selected
-		button_stats.Sensitive = false;
-		//button_stats.Visible = false;
 	}
 
 	private void on_button_graph_clicked (object o, EventArgs args) {
@@ -963,30 +960,14 @@ public partial class ChronoJumpWindow {
 	}
 
 	
-	/* this is disabled now, see ShowUpdateStatsButton, HideUpdateStatsButton */
-	private void on_checkbutton_stats_always_clicked(object o, EventArgs args) 
-	{
-		if (statsAutomatic) { 
-			statsAutomatic = false; 
-			button_stats.Sensitive = true;
-		}
-		else { 
-			statsAutomatic = true; 
-			button_stats.Sensitive = false;
-			fillTreeView_stats(false);
-		}
-	}
-	
 	//allows to click on updateStatsButton (from chronojump.cs)
 	//now checkbox of stats automatic is disabled
 	//and user has to do it always by hand
 	//workaround to bug ???????
 	private void stats_win_hideUpdateStatsButton() {
-		//button_stats.Sensitive = false;
 		button_stats.Visible = false;
 	}
 	private void stats_win_showUpdateStatsButton() {
-		//button_stats.Sensitive = true;
 		button_stats.Visible = true;
 	}
 		
@@ -1008,17 +989,11 @@ public partial class ChronoJumpWindow {
 			spinbutton_mark_consecutives.Sensitive = false;
 		}
 		
-		//if (statsAutomatic) { 
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
-		//}
+		showUpdateStatsAndHideData(true);
 	}
 	
 	void on_spinbutton_mark_consecutives_changed (object o, EventArgs args) {
-		//if (statsAutomatic) { 
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
-		//}
+		showUpdateStatsAndHideData(true);
 	}
 
 	
@@ -1140,8 +1115,7 @@ public partial class ChronoJumpWindow {
 		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
+			showUpdateStatsAndHideData(true);
 		}
 	}
 	
@@ -1154,8 +1128,7 @@ public partial class ChronoJumpWindow {
 		string myText2 = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
 		string myText3 = UtilGtk.ComboGetActive(combo_stats_stat_apply_to);
 		if (myText != "" && (myText2 != "" || myText3 !="") ) {
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
+			showUpdateStatsAndHideData(true);
 		}
 	}
 	
@@ -1163,8 +1136,7 @@ public partial class ChronoJumpWindow {
 		string myText = UtilGtk.ComboGetActive(combo_subtraction_between_1);
 		string myText2 = UtilGtk.ComboGetActive(combo_subtraction_between_2);
 		if (myText != "" && myText2 != "") {
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
+			showUpdateStatsAndHideData(true);
 		}
 	}
 	
@@ -1191,14 +1163,12 @@ public partial class ChronoJumpWindow {
 					combo_graph_type, types, UtilGtk.ComboGetActive(combo_graph_type));
 		}
 		update_stats_widgets_sensitiveness();
-		//fillTreeView_stats(false);
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
 	
 	private void on_checkbutton_stats_sex_clicked(object o, EventArgs args)
 	{
-		//fillTreeView_stats(false);
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
 
 	void on_radiobutton_stats_jumps_clicked (object o, EventArgs args)
@@ -1222,16 +1192,12 @@ public partial class ChronoJumpWindow {
 	
 		update_stats_widgets_sensitiveness();
 		
-		//fillTreeView_stats(false);
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
 	
 	void on_spinbutton_stats_jumps_changed (object o, EventArgs args)
 	{
-		//if (statsAutomatic) { 
-			//fillTreeView_stats(false);
-			button_stats.Sensitive = true;
-		//}
+		showUpdateStatsAndHideData(true);
 	}
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
@@ -1254,8 +1220,7 @@ public partial class ChronoJumpWindow {
 
 		update_stats_widgets_sensitiveness();
 
-		//fillTreeView_stats(false);
-		button_stats.Sensitive = true;
+		showUpdateStatsAndHideData(true);
 	}
 	
 	private void on_button_add_to_report_clicked (object o, EventArgs args) {

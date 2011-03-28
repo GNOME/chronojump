@@ -22117,7 +22117,7 @@ Data is collected by users contributions and server generates statistics and gra
 Anyone can check server stats and graphs and easily make querys to the server.
 Privacy is respected:
 - Names, comments, photos and videos are not uploaded.
-- Dates of birth is hidden.</property>
+- Dates of birth are hidden.</property>
                                   </widget>
                                   <packing>
                                     <property name="position">0</property>

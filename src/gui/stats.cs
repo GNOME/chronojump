@@ -372,7 +372,7 @@ public partial class ChronoJumpWindow {
 		//combo_select_checkboxes.DisableActivate ();
 		combo_select_checkboxes.Changed += new EventHandler (on_combo_select_checkboxes_changed);
 
-		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, true, true, 0);
+		hbox_combo_select_checkboxes.PackStart(combo_select_checkboxes, false, false, 0);
 		hbox_combo_select_checkboxes.ShowAll();
 		combo_select_checkboxes.Sensitive = true;
 	}

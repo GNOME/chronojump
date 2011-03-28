@@ -22116,8 +22116,8 @@ on current Chronojump version.</property>
 Data is collected by users contributions and server generates statistics and graphs. 
 Anyone can check server stats and graphs and easily make querys to the server.
 Privacy is respected:
-- Names and comments are not uploaded.
-- Date of birth is hidden</property>
+- Names, comments, photos and videos are not uploaded.
+- Dates of birth is hidden.</property>
                                   </widget>
                                   <packing>
                                     <property name="position">0</property>

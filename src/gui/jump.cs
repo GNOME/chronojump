@@ -492,7 +492,7 @@ public class RepairJumpRjWindow
 				fixedString = "\n" + string.Format(
 						Catalog.GetPluralString(
 							"This jump type is fixed to one second.",
-							"This jump type is fixed to {0} secondss.",
+							"This jump type is fixed to {0} seconds.",
 							Convert.ToInt32(myJumpType.FixedValue)),
 						myJumpType.FixedValue) +
 					Catalog.GetString("You cannot add more.");

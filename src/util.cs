@@ -306,7 +306,7 @@ public class Util
 	public static string GetHeightInCentimeters (string time) {
 		// s = 4.9 * (tv/2)^2
 		double timeAsDouble = Convert.ToDouble(time);
-		double height = 100 * 4.9 * ( timeAsDouble / 2.0 ) * ( timeAsDouble / 2.0 ) ;
+		double height = 100 * 4.9 * Math.Pow( timeAsDouble / 2.0 , 2 );
 
 		return height.ToString();
 	}

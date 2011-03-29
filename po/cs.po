@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-03-28 15:12+0000\n"
-"PO-Revision-Date: 2011-03-29 08:52+0200\n"
+"POT-Creation-Date: 2011-03-29 06:57+0000\n"
+"PO-Revision-Date: 2011-03-29 09:05+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -462,7 +462,6 @@ msgid "<b>Best and worst values</b>"
 msgstr "<b>Nejlepší a nejhorší hodnoty</b>"
 
 #: ../glade/chronojump.glade.h:22
-#| msgid "<b>General data</b>"
 msgid "<b>Check data</b>"
 msgstr "<b>Kontrola dat</b>"
 
@@ -511,7 +510,6 @@ msgid "<b>Go around back of cone</b>"
 msgstr "<b>Zatáčení zpět okolo kuželu</b>"
 
 #: ../glade/chronojump.glade.h:34
-#| msgid "<b>Graph</b>"
 msgid "<b>Graph and report</b>"
 msgstr "<b>Graf a výstupní sestava</b>"
 
@@ -584,7 +582,6 @@ msgid "<b>Sex</b>"
 msgstr "<b>Pohlaví</b>"
 
 #: ../glade/chronojump.glade.h:52
-#| msgid "<b>General data</b>"
 msgid "<b>Share data!</b>"
 msgstr "<b>Sdílení dat!</b>"
 
@@ -918,7 +915,6 @@ msgid "Ask user if really wants to delete a test"
 msgstr "Dotazovat se uživatele, zda opravdu chce test smazat"
 
 #: ../glade/chronojump.glade.h:123
-#| msgid "select"
 msgid "Aspect"
 msgstr "Rozměry"
 
@@ -1750,7 +1746,6 @@ msgid "Open database folder"
 msgstr "Otevřít složku s databází"
 
 #: ../glade/chronojump.glade.h:321
-#| msgid "Chronojump Report window"
 msgid "Open report window"
 msgstr "Otevřít okno výstupní sestavy"
 
@@ -1891,7 +1886,6 @@ msgid "Query to server"
 msgstr "Dotaz na server"
 
 #: ../glade/chronojump.glade.h:353
-#| msgid "Query to server"
 msgid "Query to the server"
 msgstr "Dotaz na server"
 
@@ -2347,7 +2341,6 @@ msgid "Transpose"
 msgstr "Transponovat"
 
 #: ../glade/chronojump.glade.h:450
-#| msgid "Transpose"
 msgid "Transpose graph"
 msgstr "Transponovat graf"
 
@@ -2434,7 +2427,6 @@ msgid "Video available"
 msgstr "Je k dispozici video"
 
 #: ../glade/chronojump.glade.h:470
-#| msgid "Chronojump Report window"
 msgid "View report window"
 msgstr "Zobrazit okno výstupní sestavy"
 
@@ -2593,7 +2585,6 @@ msgid "mark consecutives"
 msgstr "označit po sobě jdoucí"
 
 #: ../glade/chronojump.glade.h:510
-#| msgid "mark consecutives"
 msgid "mark_consecutives"
 msgstr "označit po sobě jdoucí"
 
@@ -2671,12 +2662,10 @@ msgid "statistic's description"
 msgstr "popis statistiky"
 
 #: ../glade/chronojump.glade.h:528
-#| msgid "Stats"
 msgid "stats"
 msgstr "statistiky"
 
 #: ../glade/chronojump.glade.h:529
-#| msgid "action"
 msgid "subtraction"
 msgstr "rozdíl"
 
@@ -3578,7 +3567,6 @@ msgstr "Vyberte počet osob, které se mají přidat"
 
 #: ../src/gui/chronojump.cs:2348 ../src/gui/person.cs:609
 #, csharp-format
-#| msgid "Successfully added {0} persons"
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
 msgstr[0] "Úspěšně přidána jedna osoba."
@@ -4054,9 +4042,6 @@ msgstr ""
 
 #: ../src/gui/jump.cs:485
 #, csharp-format
-#| msgid ""
-#| "\n"
-#| "This jump type is fixed to {0} jumps, you cannot add more."
 msgid "This jump type is fixed to one jump."
 msgid_plural "This jump type is fixed to {0} jumps."
 msgstr[0] "Tento typ skoku má napevno určen jeden skok."
@@ -4069,11 +4054,10 @@ msgstr "Nemůžete přidat další."
 
 #: ../src/gui/jump.cs:494
 #, csharp-format
-#| msgid ""
-#| "\n"
-#| "This jump type is fixed to {0} jumps, you cannot add more."
+#| msgid "This jump type is fixed to one second."
+#| msgid_plural "This jump type is fixed to {0} secondss."
 msgid "This jump type is fixed to one second."
-msgid_plural "This jump type is fixed to {0} secondss."
+msgid_plural "This jump type is fixed to {0} seconds."
 msgstr[0] "Tento typ skoku je napevno určen na jednu sekundu."
 msgstr[1] "Tento typ skoku je napevno určen na {0} sekundy."
 msgstr[2] "Tento typ skoku je napevno určen na {0} sekund."
@@ -4349,9 +4333,6 @@ msgstr "Typ běhu: {0}."
 
 #: ../src/gui/run.cs:645
 #, csharp-format
-#| msgid ""
-#| "\n"
-#| "This run type is fixed to {0} runs, you cannot add more."
 msgid "This run type is fixed to one run."
 msgid_plural "This run type is fixed to {0} runs."
 msgstr[0] "Tento typ běhu má napevno určen jeden běh."
@@ -4360,9 +4341,6 @@ msgstr[2] "Tento typ běhu má napevno určen {0} běhů."
 
 #: ../src/gui/run.cs:654
 #, csharp-format
-#| msgid ""
-#| "\n"
-#| "This run type is fixed to {0} runs, you cannot add more."
 msgid "This run type is fixed to one second."
 msgid_plural "This run type is fixed to {0} seconds."
 msgstr[0] "Tento typ běhu je napevno určen na jednu sekundu."
@@ -6518,7 +6496,6 @@ msgstr "Index DJ"
 #: ../src/stats/runSimple.cs:114 ../src/stats/runIntervallic.cs:246
 #: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:133
 #, csharp-format
-#| msgid "First {0} values"
 msgid "First value"
 msgid_plural "First {0} values"
 msgstr[0] "První hodnota"
@@ -6533,7 +6510,6 @@ msgstr[2] "Prvních {0} hodnot"
 #: ../src/stats/runIntervallic.cs:249 ../src/stats/sjCmjAbk.cs:117
 #: ../src/stats/sjCmjAbkPlus.cs:136
 #, csharp-format
-#| msgid "Max {0} values of each person"
 msgid "Max value of each person"
 msgid_plural "Max {0} values of each person"
 msgstr[0] "Maximální hodnota každé osoby"
@@ -6640,7 +6616,6 @@ msgid "All values"
 msgstr "Všechny hodnoty"
 
 #: ../src/stats/main.cs:84
-#| msgid "Avg values of each jumper"
 msgid "Avg values of each person"
 msgstr "Průměrné hodnoty každé osoby"
 
@@ -6659,7 +6634,6 @@ msgstr "{0} pro průměr skoků pomocí {1} použitý na {2} v {3}"
 
 #: ../src/stats/rjEvolution.cs:279
 #, csharp-format
-#| msgid " (best {0} consecutive jumps marked using [tf/tc *100])"
 msgid " (best jump marked using [tf/tc *100])"
 msgid_plural " (best {0} consecutive jumps marked using [tf/tc *100])"
 msgstr[0] " (nejlepší skok označených pomocí [tf/tc *100])"
@@ -6684,7 +6658,6 @@ msgstr "{0} pro běh {1} v {2}"
 
 #: ../src/stats/runIntervallic.cs:265
 #, csharp-format
-#| msgid " (best {0} consecutive runs marked)"
 msgid " (best run marked)"
 msgid_plural " (best {0} consecutive runs marked)"
 msgstr[0] " (nejlepších označený běh)"

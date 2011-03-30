@@ -57,7 +57,7 @@ public class StatJumpSimpleSubtraction : Stat
 		}
 		
 		columnsString[0] = Catalog.GetString("Jumper");
-		columnsString[1] = Catalog.GetString("Result %");
+		columnsString[1] = Catalog.GetString("Result") + " %";
 		columnsString[2] = Catalog.GetString("Result");
 		columnsString[3] = test1;
 		columnsString[4] = test2;

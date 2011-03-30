@@ -72,7 +72,7 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			serieResultPercent.Title = Catalog.GetString("ResultPercent");
+			serieResultPercent.Title = Catalog.GetString("Result") + " %";
 			serieJump1.Title = test1;
 			serieJump2.Title = test2;
 		
@@ -80,7 +80,7 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 			serieJump1.IsLeftAxis = false;
 			serieJump2.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + "(%)"; 
+			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + " %"; 
 			CurrentGraphData.LabelRight = 
 				test1 + " " + Catalog.GetString("TF") + "(s), " + 
 				test2 + " " + Catalog.GetString("TF") + "(s)";
@@ -89,7 +89,7 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + "(%)";
+			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + " %";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

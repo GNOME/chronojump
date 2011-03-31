@@ -145,8 +145,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_connected_chronopics;
 
 	//multiChronopic	
-	[Widget] Gtk.MenuItem menuitem_multi_chronopic_start;
-	[Widget] Gtk.MenuItem menuitem_run_analysis;
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
 	[Widget] Gtk.Button button_video_play_selected_multi_chronopic;
 	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
@@ -203,6 +201,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
+	[Widget] Gtk.Button button_delete_this_test;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_volume;
@@ -1958,8 +1957,6 @@ public partial class ChronoJumpWindow
 
 	private void createComboMultiChronopic() 
 	{
-		menuitem_multi_chronopic_start.Sensitive = false;
-		menuitem_run_analysis.Sensitive = false;
 		button_multi_chronopic_start.Sensitive = false;
 		button_run_analysis.Sensitive = false;
 		entry_run_analysis_distance.Sensitive = false;
@@ -2893,6 +2890,13 @@ Console.WriteLine("X");
 		else if(radio_mode_pulses.Active) {
 			on_pulse_activate (o, args);
 		}
+
+		//if a test has been deleted
+		//notebook_results_data changes to page 8: "deleted test"
+		//when a new test is done
+		//this notebook has to poing again to data of it's test
+		//then just show same page as notebook_execute
+		notebook_results_data.CurrentPage = notebook_execute.CurrentPage;
 	}
 
 
@@ -3671,7 +3675,7 @@ Console.WriteLine("X");
 		sensitiveGuiEventDoing();
 
 		//change to page 4 of notebook_results if were in other
-		notebooks_change(4);
+		//notebooks_change(4);
 		
 		//show the event doing window
 		double progressbarLimit = 2;
@@ -3810,7 +3814,7 @@ Console.WriteLine("X");
 		sensitiveGuiEventDoing();
 		
 		//change to page 5 of notebook_results if were in other
-		notebooks_change(5);
+		//notebooks_change(5);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3919,20 +3923,18 @@ Console.WriteLine("X");
 	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
+Log.WriteLine("AAAAA");
 	}
 	
 	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
+Log.WriteLine("BBBBBB");
 		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
 		if(cps >= 2) {	
-			menuitem_multi_chronopic_start.Sensitive = true;
-			menuitem_run_analysis.Sensitive = true;
 			button_multi_chronopic_start.Sensitive = true;
 			entry_run_analysis_distance.Sensitive = true;
 			on_entry_run_analysis_distance_changed (o, args);
 		} else {
-			menuitem_multi_chronopic_start.Sensitive = false;
-			menuitem_run_analysis.Sensitive = false;
 			button_multi_chronopic_start.Sensitive = false;
 			entry_run_analysis_distance.Sensitive = false;
 			button_run_analysis.Sensitive = false;
@@ -3942,6 +3944,7 @@ Console.WriteLine("X");
 	}
 	
 	private void chronopicLabels(int cps) {
+Log.WriteLine("CCCCC");
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 
 		
@@ -3967,10 +3970,8 @@ Console.WriteLine("X");
 	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0" &&
 				chronopicWin.NumConnected()>=2) {
-			menuitem_run_analysis.Sensitive = true;
 			button_run_analysis.Sensitive = true;
 		} else {
-			menuitem_run_analysis.Sensitive = false;
 			button_run_analysis.Sensitive = false;
 		}
 	}
@@ -3978,10 +3979,10 @@ Console.WriteLine("X");
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
 		
-		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
-			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
-		else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis)
-			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
+//		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
+//			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
+//		else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis)
+//			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
 
 		//used by cancel and finish
 		currentEventType = new MultiChronopicType();
@@ -3990,7 +3991,7 @@ Console.WriteLine("X");
 		sensitiveGuiEventDoing();
 		
 		//change to page 6 of notebook_results if were in other
-		notebooks_change(6);
+		//notebooks_change(6);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -4564,6 +4565,38 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 	
+	private void on_delete_this_test_clicked (object o, EventArgs args) {
+		switch (currentEventType.Type) {
+			case EventType.Types.JUMP:
+				if(lastJumpIsSimple) 
+					on_delete_selected_jump_clicked(o, args);
+				else
+					on_delete_selected_jump_rj_clicked(o, args);
+				break;
+			case EventType.Types.RUN:
+				if(lastRunIsSimple) 
+					on_delete_selected_run_clicked(o, args);
+				else
+					on_delete_selected_run_interval_clicked(o, args);
+				break;
+			case EventType.Types.PULSE:
+				on_delete_selected_pulse_clicked(o, args);
+				break;
+			case EventType.Types.REACTIONTIME:
+				on_delete_selected_reaction_time_clicked(o, args);
+				break;
+			case EventType.Types.MULTICHRONOPIC:
+				on_delete_selected_multi_chronopic_clicked(o, args);
+				break;
+		}
+	}
+
+	private void deleted_last_test_update_widgets() {
+		button_delete_this_test.Sensitive = false;
+		event_execute_clearDrawingArea();
+		notebook_results_data.CurrentPage = 7; //shows "deleted test"
+	}
+	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		notebooks_change(0);
 		Log.WriteLine("delete selected jump (normal)");
@@ -4610,6 +4643,7 @@ Console.WriteLine("X");
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
+		deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -4624,6 +4658,7 @@ Console.WriteLine("X");
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
+		deleted_last_test_update_widgets();
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
@@ -4674,6 +4709,7 @@ Console.WriteLine("X");
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
+		deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
@@ -4689,6 +4725,7 @@ Console.WriteLine("X");
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
+		deleted_last_test_update_widgets();
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
@@ -4723,6 +4760,7 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
+		button_delete_this_test.Sensitive = false;
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
@@ -4757,6 +4795,7 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
+		button_delete_this_test.Sensitive = false;
 	}
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -4784,6 +4823,8 @@ Console.WriteLine("X");
 	
 		myTreeViewMultiChronopic.DelEvent(myTreeViewMultiChronopic.EventSelectedID);
 		showHideActionEventButtons(false, Constants.MultiChronopicName);
+		
+		button_delete_this_test.Sensitive = false;
 	}
 	
 
@@ -5107,12 +5148,6 @@ Console.WriteLine("X");
 		button_delete_current_person.Sensitive = option;
 	}
 
-	private void menuOtherSensitive(bool option)
-	{
-		menuitem_multi_chronopic_start.Sensitive = option;
-		menuitem_run_analysis.Sensitive = option;
-	}
-	
 	private void sensitiveGuiNoSession () 
 	{
 		menuitem_preferences.Sensitive = true;
@@ -5121,7 +5156,6 @@ Console.WriteLine("X");
 		//menuitems
 		menuSessionSensitive(false);
 		menuPersonSelectedSensitive(false);
-		menuOtherSensitive(false);
 		
 		vbox_image_test.Sensitive = false;
 		frame_persons.Sensitive = false;
@@ -5138,6 +5172,8 @@ Console.WriteLine("X");
 		notebook_options.Sensitive = false;
 		vbox_stats.Sensitive = false;
 		frame_share_data.Sensitive = false;
+		
+		button_delete_this_test.Sensitive = false;
 		
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -5173,7 +5209,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
-		menuOtherSensitive(false);
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -5187,7 +5222,6 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = true;
 		
 		menuPersonSelectedSensitive(true);
-		menuOtherSensitive(true);
 	
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");
@@ -5210,10 +5244,8 @@ Console.WriteLine("X");
 		table_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
 		hbox_pulses.Sensitive = false;
+		button_delete_this_test.Sensitive = false;
 		
-		//menu
-		menuOtherSensitive(false);
-			
 		hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
@@ -5226,6 +5258,7 @@ Console.WriteLine("X");
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		hbox_multi_chronopic_buttons.Sensitive = true;
+		button_delete_this_test.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
@@ -5244,9 +5277,6 @@ Console.WriteLine("X");
 					break;
 			}
 		}
-		
-		//menu
-		menuOtherSensitive(true);
 	}
 
 	private void showHideActionEventButtons(bool show, string type) {

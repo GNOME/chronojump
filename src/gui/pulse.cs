@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -119,128 +119,81 @@ public class EditPulseWindow : EditEventWindow
 //---------------- pulse extra WIDGET --------------------
 //--------------------------------------------------------
 
-public class PulseExtraWindow 
+public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.Window pulse_extra;
-	[Widget] Gtk.SpinButton spinbutton_pulse_step;
-	[Widget] Gtk.SpinButton spinbutton_ppm;
-	[Widget] Gtk.SpinButton spinbutton_total_pulses;
-	[Widget] Gtk.CheckButton checkbutton_unlimited;
-	[Widget] Gtk.HBox hbox_total_pulses;
-	[Widget] Gtk.Button button_accept;
-
-	static double pulseStep = 1.000;
-	static bool unlimited = true;
-	static int totalPulses = 10;
+	[Widget] Gtk.RadioButton extra_window_radio_pulses_custom;
+	[Widget] Gtk.RadioButton extra_window_radio_pulses_free;
 	
-	static PulseExtraWindow PulseExtraWindowBox;
-	Gtk.Window parent;
-
-	PulseExtraWindow (Gtk.Window parent) {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "pulse_extra", null);
-		gladeXML.Autoconnect(this);
-		this.parent = parent;
-		
-		//put an icon to window
-		UtilGtk.IconWindow(pulse_extra);
-	}
+	[Widget] Gtk.Label label_extra_window_radio_pulses_custom;
+	[Widget] Gtk.Label label_extra_window_radio_pulses_free;
 	
-	static public PulseExtraWindow Show (Gtk.Window parent, PulseType myPulseType) 
+	[Widget] Gtk.Label extra_window_pulses_label_selected;
+
+	[Widget] Gtk.VBox extra_window_pulses_vbox;
+	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
+	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
+	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_total_pulses;
+	[Widget] Gtk.CheckButton extra_window_pulses_checkbutton_unlimited;
+	[Widget] Gtk.HBox extra_window_pulses_hbox_total_pulses;
+	
+	[Widget] Gtk.Label extra_window_label_pulses_no_options;
+
+	double extra_window_pulseStep = 1.000;
+	bool extra_window_unlimited = true;
+	int extra_window_totalPulses = 10;
+	
+	private void on_extra_window_pulses_test_changed(object o, EventArgs args)
 	{
-		if (PulseExtraWindowBox == null) {
-			PulseExtraWindowBox = new PulseExtraWindow (parent);
+		if(extra_window_radio_pulses_free.Active) currentPulseType = new PulseType("Free");
+		else if (extra_window_radio_pulses_custom.Active) currentPulseType = new PulseType("Custom");
+		
+		extra_window_pulses_initialize(currentPulseType);
+	}
+
+	private void extra_window_pulses_initialize(PulseType myPulseType) 
+	{
+		extra_window_pulses_label_selected.Text = "<b>" + Catalog.GetString(myPulseType.Name) + "</b>";
+		extra_window_pulses_label_selected.UseMarkup = true; 
+		currentEventType = myPulseType;
+		changeTestImage(EventType.Types.PULSE.ToString(), myPulseType.Name, myPulseType.ImageFileName);
+		bool hasOptions = false;
+
+		if(myPulseType.Name == "Custom") {
+			hasOptions = true;
+			extra_window_pulses_spinbutton_pulse_step.Value = extra_window_pulseStep;
+			extra_window_pulses_spinbutton_total_pulses.Value = extra_window_totalPulses;
 		}
-		
-		//put default values or values from previous pulse
-		PulseExtraWindowBox.spinbutton_pulse_step.Value = pulseStep;
-		if(totalPulses == -1)
-			totalPulses = 10;
-		
-		PulseExtraWindowBox.spinbutton_total_pulses.Value = totalPulses;
-		
-		if(unlimited) 
-			PulseExtraWindowBox.checkbutton_unlimited.Active = true;
-		
-		PulseExtraWindowBox.pulse_extra.Show ();
 
-		return PulseExtraWindowBox;
+		extra_window_pulses_showNoOptions(hasOptions);
 	}
 	
-	
-	void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		PulseExtraWindowBox.pulse_extra.Hide();
-		PulseExtraWindowBox = null;
+	private void extra_window_pulses_showNoOptions(bool hasOptions) {
+		extra_window_label_pulses_no_options.Visible = ! hasOptions;
+		extra_window_pulses_vbox.Visible = hasOptions;
 	}
 	
-	void on_delete_event (object o, DeleteEventArgs args)
+
+	void on_extra_window_pulses_checkbutton_unlimited_clicked (object o, EventArgs args)
 	{
-		PulseExtraWindowBox.pulse_extra.Hide();
-		PulseExtraWindowBox = null;
-	}
-	
-	void on_button_accept_clicked (object o, EventArgs args)
-	{
-		pulseStep = (double) PulseExtraWindowBox.spinbutton_pulse_step.Value;
-		Log.WriteLine(string.Format("pulsestep: {0}", pulseStep));
-		if(checkbutton_unlimited.Active) {
-			totalPulses = -1;
-			unlimited = true;
-		}
-		else {
-			totalPulses = (int) PulseExtraWindowBox.spinbutton_total_pulses.Value;
-			unlimited = false;
-		}
-		
-		PulseExtraWindowBox.pulse_extra.Hide();
-		PulseExtraWindowBox = null;
+		extra_window_pulses_hbox_total_pulses.Visible = ! extra_window_pulses_checkbutton_unlimited.Active;
 	}
 
-	
-	void on_checkbutton_unlimited_clicked (object o, EventArgs args)
+	void on_extra_window_pulses_spinbutton_pulse_step_changed (object o, EventArgs args)
 	{
-		if(checkbutton_unlimited.Active) {
-			hbox_total_pulses.Hide();
-		} else {
-			hbox_total_pulses.Show();
-		}
-	}
-
-	void on_spinbutton_pulse_step_changed (object o, EventArgs args)
-	{
-		if((double) PulseExtraWindowBox.spinbutton_pulse_step.Value == 0) 
-			PulseExtraWindowBox.spinbutton_ppm.Value = 0;
+		if((double) extra_window_pulses_spinbutton_pulse_step.Value == 0) 
+			extra_window_pulses_spinbutton_ppm.Value = 0;
 		else 
-			PulseExtraWindowBox.spinbutton_ppm.Value = 60 / 
-				(double) PulseExtraWindowBox.spinbutton_pulse_step.Value;
+			extra_window_pulses_spinbutton_ppm.Value = 60 / 
+				(double) extra_window_pulses_spinbutton_pulse_step.Value;
 	}
 
-	void on_spinbutton_ppm_changed (object o, EventArgs args)
+	void on_extra_window_pulses_spinbutton_ppm_changed (object o, EventArgs args)
 	{
-		if((int) PulseExtraWindowBox.spinbutton_ppm.Value == 0)
-			PulseExtraWindowBox.spinbutton_pulse_step.Value = 0;
+		if((int) extra_window_pulses_spinbutton_ppm.Value == 0)
+			extra_window_pulses_spinbutton_pulse_step.Value = 0;
 		else
-			PulseExtraWindowBox.spinbutton_pulse_step.Value = 60 / 
-				(double) PulseExtraWindowBox.spinbutton_ppm.Value;
-	}
-
-
-		
-	public Button Button_accept 
-	{
-		set { button_accept = value;	}
-		get { return button_accept;	}
-	}
-
-	public double PulseStep
-	{
-		get { return pulseStep;	}
-	}
-	
-	public int TotalPulses
-	{
-		get { return totalPulses;	}
+			extra_window_pulses_spinbutton_pulse_step.Value = 60 / 
+				(double) extra_window_pulses_spinbutton_ppm.Value;
 	}
 	
 }

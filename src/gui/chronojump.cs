@@ -129,13 +129,10 @@ public partial class ChronoJumpWindow
 
 	//other
 	//reaction time
-	[Widget] Gtk.MenuItem menuitem_reaction_time;
 	[Widget] Gtk.Button button_edit_selected_reaction_time;
 	[Widget] Gtk.Button button_video_play_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
 	//pulse
-	[Widget] Gtk.MenuItem menuitem_pulse_free;
-	[Widget] Gtk.MenuItem menuitem_pulse_custom;
 	[Widget] Gtk.Button button_edit_selected_pulse;
 	[Widget] Gtk.Button button_video_play_selected_pulse;
 	[Widget] Gtk.Button button_delete_selected_pulse;
@@ -191,10 +188,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_unlimited;
 	[Widget] Gtk.Button button_run_interval_mtgug;
 	[Widget] Gtk.Button button_reaction_time_execute;
-	[Widget] Gtk.Button button_pulse_free;
-	[Widget] Gtk.Button button_pulse_custom;
-	[Widget] Gtk.Button button_reaction_time;
-	//[Widget] Gtk.Button button_pulse_more;
 
 	
 	[Widget] Gtk.Notebook notebook_execute;
@@ -304,6 +297,7 @@ public partial class ChronoJumpWindow
 	bool thisRunIsSimple;	//needed on updating
 	bool lastRunIsSimple;	//needed on update
 	private static PulseType currentPulseType;
+	private static ReactionTimeType currentReactionTimeType;
 	private static MultiChronopicType currentMultiChronopicType;
 	private static Report report;
 
@@ -334,7 +328,7 @@ public partial class ChronoJumpWindow
 	EditReactionTimeWindow editReactionTimeWin;
 
 	EditPulseWindow editPulseWin;
-	PulseExtraWindow pulseExtraWin;
+//	PulseExtraWindow pulseExtraWin;
 	RepairPulseWindow repairPulseWin;
 	
 	EditMultiChronopicWindow editMultiChronopicWin;
@@ -454,6 +448,8 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
 		on_extra_window_runs_test_changed(new object(), new EventArgs());
 		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
+		on_extra_window_pulses_test_changed(new object(), new EventArgs());
 		changeTestImage("", "", "LOGO");
 
 		
@@ -623,6 +619,15 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(extra_window_radio_run_interval_mtgug);
 		UtilGtk.ColorsRadio(extra_window_radio_run_interval_more);
 
+		//reaction times changes
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_reaction_time);
+		UtilGtk.ColorsRadio(extra_window_radio_reaction_time);
+
+		//pulses changes
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_pulses_free);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_pulses_custom);
+		UtilGtk.ColorsRadio(extra_window_radio_pulses_free);
+		UtilGtk.ColorsRadio(extra_window_radio_pulses_custom);
 
 
 		//persons buttons
@@ -2882,6 +2887,12 @@ Console.WriteLine("X");
 			
 			on_run_interval_activate(o, args);
 		}
+		else if(radio_mode_reaction_times.Active) {
+			on_reaction_time_activate (o, args);
+		}
+		else if(radio_mode_pulses.Active) {
+			on_pulse_activate (o, args);
+		}
 	}
 
 
@@ -3653,22 +3664,8 @@ Console.WriteLine("X");
 	//suitable for reaction times
 	private void on_reaction_time_activate (object o, EventArgs args) 
 	{
-/*
-		if(o == (object) button_free || o == (object) menuitem_jump_free) {
-			currentJumpType = new JumpType("Free");
-		}else if(o == (object) button_sj || o == (object) sj) {
-			currentJumpType = new JumpType("SJ");
-		} else if (o == (object) button_cmj || o == (object) cmj) {
-			currentJumpType = new JumpType("CMJ");
-		} else if (o == (object) button_abk || o == (object) abk) {
-			currentJumpType = new JumpType("ABK");
-		} else {
-		}
-			
-*/			
 		//used by cancel and finish
 		currentEventType = new ReactionTimeType();
-		//currentEventType = currentReactionTimeType;
 			
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
@@ -3722,6 +3719,8 @@ Console.WriteLine("X");
 		
 		currentEventExecute.Manage();
 
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_reaction_time_finished);
 	}	
@@ -3768,50 +3767,13 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
-	/*
-	private void on_button_pulse_more_clicked (object o, EventArgs args) 
-	{
-	}
-	*/
-	
-	private void on_more_pulse_accepted (object o, EventArgs args) 
-	{
 		/*
-		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
-		
-		currentRunType = new RunType(
-				runsIntervalMoreWin.SelectedRunType,	//name
-				true,					//hasIntervals
-				runsIntervalMoreWin.SelectedDistance,
-				runsIntervalMoreWin.SelectedTracksLimited,
-				runsIntervalMoreWin.SelectedLimitedValue,
-				runsIntervalMoreWin.SelectedUnlimited
-				);
-				
-		//go to run extra if we need something to define
-		if( currentRunType.Distance == 0 || 
-				(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_run_interval_accepted(o, args);
-		}
-		*/
-	}
-
-	/*	
-	private void on_button_pulse_last_clicked (object o, EventArgs args) 
-	{
-	}
-	*/
-	
 	private void on_button_pulse_free_activate (object o, EventArgs args) 
 	{
 		currentPulseType = new PulseType("Free");
 		on_pulse_accepted(o, args);
 	}
 	
-	//interval runs clicked from user interface
-	//(not suitable for the other runs we found in "more")
 	private void on_button_pulse_custom_activate (object o, EventArgs args) 
 	{
 		currentPulseType = new PulseType("Custom");
@@ -3819,8 +3781,9 @@ Console.WriteLine("X");
 		pulseExtraWin = PulseExtraWindow.Show(app1, currentPulseType);
 		pulseExtraWin.Button_accept.Clicked += new EventHandler(on_pulse_accepted);
 	}
+		*/
 	
-	private void on_pulse_accepted (object o, EventArgs args)
+	private void on_pulse_activate (object o, EventArgs args)
 	{
 		Log.WriteLine("pulse accepted");
 	
@@ -3831,8 +3794,12 @@ Console.WriteLine("X");
 			pulseStep = currentPulseType.FixedPulse; // -1
 			totalPulses = currentPulseType.TotalPulsesNum; //-1
 		} else { //custom (info comes from Extra Window
-			pulseStep = pulseExtraWin.PulseStep;
-			totalPulses = pulseExtraWin.TotalPulses; //-1: unlimited; or 'n': limited by 'n' pulses
+			pulseStep = extra_window_pulses_spinbutton_pulse_step.Value;
+			if(extra_window_pulses_checkbutton_unlimited.Active)
+				totalPulses = currentPulseType.TotalPulsesNum; //-1
+			else
+				totalPulses = Convert.ToInt32(
+						extra_window_pulses_spinbutton_total_pulses.Value); //-1: unlimited; or 'n': limited by 'n' pulses
 		}
 
 		//used by cancel and finish
@@ -3886,6 +3853,9 @@ Console.WriteLine("X");
 			currentEventExecute.SimulateInitValues(rand);
 		
 		currentEventExecute.Manage();
+		
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
 	}
@@ -5024,6 +4994,12 @@ Console.WriteLine("X");
 		else if(notebook_execute.CurrentPage == 3)
 			changeTestImage(EventType.Types.RUN.ToString(), 
 					currentRunIntervalType.Name, currentRunIntervalType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 4)
+			changeTestImage(EventType.Types.REACTIONTIME.ToString(), 
+					currentReactionTimeType.Name, currentReactionTimeType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 5)
+			changeTestImage(EventType.Types.PULSE.ToString(), 
+					currentPulseType.Name, currentPulseType.ImageFileName);
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
@@ -5133,9 +5109,6 @@ Console.WriteLine("X");
 
 	private void menuOtherSensitive(bool option)
 	{
-		menuitem_reaction_time.Sensitive = option;
-		menuitem_pulse_free.Sensitive = option;
-		menuitem_pulse_custom.Sensitive = option;
 		menuitem_multi_chronopic_start.Sensitive = option;
 		menuitem_run_analysis.Sensitive = option;
 	}

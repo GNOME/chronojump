@@ -1852,6 +1852,17 @@ Log.WriteLine("Preparing reactive A");
 							volumeOn, repetitiveConditionsWin);
 				}
 				break;
+			case EventType.Types.REACTIONTIME:
+					Log.Write("update graph: REACTIONTIME");
+					PrepareReactionTimeGraph(
+							currentEventExecute.PrepareEventGraphReactionTimeObject.time);
+				break;
+			case EventType.Types.PULSE:
+					Log.Write("update graph: PULSE");
+					PreparePulseGraph(
+							currentEventExecute.PrepareEventGraphPulseObject.lastTime,
+							currentEventExecute.PrepareEventGraphPulseObject.timesString);
+				break;
 		}
 
 	}

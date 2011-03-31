@@ -952,12 +952,7 @@ partial class ChronoJumpWindow
 			extra_window_showFallData(myJumpType, true);
 		}
 		
-		//show technique (arms) only in DJ
-		if(myJumpType.StartIn || myJumpType.IsRepetitive || 
-				myJumpType.Name == Constants.TakeOffName || 
-				myJumpType.Name == Constants.TakeOffWeightName) {
-			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
-		} else if(myJumpType.Name == "DJa" || myJumpType.Name == "DJna") { 
+		if(myJumpType.Name == "DJa" || myJumpType.Name == "DJna") { 
 			//on DJa and DJna (coming from More jumps) need to show technique data but not change
 			if(myJumpType.Name == "DJa")
 				extra_window_jumps_check_dj_arms.Active = true;
@@ -966,12 +961,15 @@ partial class ChronoJumpWindow
 
 			hasOptions = true;
 			extra_window_showTechniqueArmsData(true, false); //visible, sensitive
-		}
-		else {
+		} else if(myJumpType.Name == "DJ") { 
+			//user has pressed DJ button
 			hasOptions = true;
 			extra_window_jumps_check_dj_arms.Active = extra_window_jumps_arms;
+
+			on_extra_window_jumps_check_dj_arms_clicked(new object(), new EventArgs());
 			extra_window_showTechniqueArmsData(true, true); //visible, sensitive
-		}
+		} else 
+			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
 		
 		extra_window_jumps_spinbutton_weight.Value = extra_window_jumps_weight;
 		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
@@ -1037,6 +1035,17 @@ partial class ChronoJumpWindow
 		}
 
 		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
+	}
+
+	private void on_extra_window_jumps_check_dj_arms_clicked(object o, EventArgs args)
+	{
+		JumpType j = new JumpType();
+		if(extra_window_jumps_check_dj_arms.Active) 
+			j = new JumpType("DJa");
+		else
+			j = new JumpType("DJna");
+
+		changeTestImage(EventType.Types.JUMP.ToString(), j.Name, j.ImageFileName);
 	}
 
 
@@ -1121,7 +1130,7 @@ partial class ChronoJumpWindow
 		else if(type.Name == "CMJ") extra_window_radio_jump_cmj.Active = true;
 		else if(type.Name == "CMJl") extra_window_radio_jump_cmjl.Active = true;
 		else if(type.Name == "ABK") extra_window_radio_jump_abk.Active = true;
-		else if(type.Name == "DJ") extra_window_radio_jump_dj.Active = true;
+//		else if(type.Name == "DJ") extra_window_radio_jump_dj.Active = true;
 		else if(type.Name == "Rocket") extra_window_radio_jump_rocket.Active = true;
 		else if(type.Name == Constants.TakeOffName) extra_window_radio_jump_takeoff.Active = true;
 		else {
@@ -1216,6 +1225,7 @@ partial class ChronoJumpWindow
 	{
 		extra_window_jumps_rj_option = "%";
 	}
+	
 	
 	private string limitString()
 	{

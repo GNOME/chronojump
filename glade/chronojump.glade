@@ -13807,7 +13807,7 @@ by you</property>
                       <widget class="GtkViewport" id="viewport_mode">
                         <property name="visible">True</property>
                         <property name="resize_mode">queue</property>
-                        <property name="hadjustment">0 0 769 76.900000000000006 692.10000000000002 769</property>
+                        <property name="hadjustment">0 0 738 73.799999999999997 664.20000000000005 738</property>
                         <property name="shadow_type">out</property>
                         <child>
                           <widget class="GtkHButtonBox" id="hbuttonbox2">
@@ -16135,6 +16135,7 @@ weight</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
+                                                            <signal name="clicked" handler="on_extra_window_jumps_check_dj_arms_clicked"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="left_attach">1</property>

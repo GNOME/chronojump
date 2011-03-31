@@ -13371,33 +13371,6 @@ by you</property>
               </widget>
             </child>
             <child>
-              <widget class="GtkMenuItem" id="menu_other">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Other tests</property>
-                <property name="use_underline">True</property>
-                <child>
-                  <widget class="GtkMenu" id="menu_other_menu">
-                    <child>
-                      <widget class="GtkMenuItem" id="menuitem_multi_chronopic_start">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Multi Chronopic start</property>
-                        <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_multi_chronopic_start_clicked"/>
-                      </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkMenuItem" id="menuitem_run_analysis">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">Run analysis</property>
-                        <property name="use_underline">True</property>
-                        <signal name="activate" handler="on_multi_chronopic_start_clicked"/>
-                      </widget>
-                    </child>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
               <widget class="GtkMenuItem" id="help1">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Help</property>
@@ -13771,7 +13744,7 @@ by you</property>
                                             <property name="can_default">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">New person</property>
+                                            <property name="tooltip" translatable="yes">Delete person</property>
                                             <signal name="clicked" handler="on_delete_current_person_from_session_clicked"/>
                                             <child>
                                               <widget class="GtkImage" id="image53">
@@ -13834,7 +13807,7 @@ by you</property>
                       <widget class="GtkViewport" id="viewport_mode">
                         <property name="visible">True</property>
                         <property name="resize_mode">queue</property>
-                        <property name="hadjustment">0 0 738 73.799999999999997 664.20000000000005 738</property>
+                        <property name="hadjustment">0 0 769 76.900000000000006 692.10000000000002 769</property>
                         <property name="shadow_type">out</property>
                         <child>
                           <widget class="GtkHButtonBox" id="hbuttonbox2">
@@ -14154,7 +14127,6 @@ Chronopic</property>
                               <widget class="GtkNotebook" id="notebook_execute">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="show_tabs">False</property>
                                 <property name="show_border">False</property>
                                 <child>
                                   <widget class="GtkFrame" id="frame2">
@@ -15236,7 +15208,7 @@ Chronopic</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="has_tooltip">True</property>
-                                                        <property name="tooltip" translatable="yes">Add run type</property>
+                                                        <property name="tooltip" translatable="yes">Delete run type</property>
                                                         <signal name="clicked" handler="on_run_type_delete_simple"/>
                                                         <child>
                                                           <widget class="GtkImage" id="image4">
@@ -15552,7 +15524,7 @@ Chronopic</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <property name="has_tooltip">True</property>
-                                                    <property name="tooltip" translatable="yes">Add run type</property>
+                                                    <property name="tooltip" translatable="yes">Delete run type</property>
                                                     <signal name="clicked" handler="on_run_type_delete_intervallic"/>
                                                     <child>
                                                       <widget class="GtkImage" id="image2">
@@ -15759,6 +15731,7 @@ Chronopic</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
+                                                    <property name="relief">none</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">False</property>
                                                     <signal name="toggled" handler="on_extra_window_pulses_test_changed"/>
@@ -15779,6 +15752,7 @@ Chronopic</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
+                                                    <property name="relief">none</property>
                                                     <property name="active">True</property>
                                                     <property name="draw_indicator">False</property>
                                                     <property name="group">extra_window_radio_pulses_free</property>
@@ -19081,7 +19055,13 @@ weight</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <placeholder/>
+                                                  <widget class="GtkLabel" id="label64">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">pending</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">6</property>
+                                                  </packing>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkLabel" id="label39">
@@ -19094,9 +19074,60 @@ weight</property>
                                                     <property name="type">tab</property>
                                                   </packing>
                                                 </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label63">
+                                                    <property name="visible">True</property>
+                                                    <property name="label" translatable="yes">Deleted test</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">7</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label62">
+                                                    <property name="visible">True</property>
+                                                    <property name="label">8 deleted test</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">7</property>
+                                                    <property name="tab_fill">False</property>
+                                                    <property name="type">tab</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox67">
+                                                <property name="visible">True</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_delete_this_test">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Delete this test</property>
+                                                    <signal name="clicked" handler="on_delete_this_test_clicked"/>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image19">
+                                                        <property name="visible">True</property>
+                                                        <property name="stock">gtk-remove</property>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="pack_type">end</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">2</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -22259,45 +22290,65 @@ Privacy is respected:
                                     <property name="label_xalign">0</property>
                                     <property name="shadow_type">out</property>
                                     <child>
-                                      <widget class="GtkHButtonBox" id="hbuttonbox8">
+                                      <widget class="GtkVBox" id="vbox48">
                                         <property name="visible">True</property>
+                                        <property name="border_width">10</property>
                                         <child>
-                                          <widget class="GtkButton" id="button_upload_session">
+                                          <widget class="GtkHButtonBox" id="hbuttonbox8">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="border_width">10</property>
-                                            <signal name="clicked" handler="on_server_upload_session_pre"/>
                                             <child>
-                                              <widget class="GtkVBox" id="vbox48">
+                                              <widget class="GtkButton" id="button_upload_session">
                                                 <property name="visible">True</property>
-                                                <property name="spacing">6</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="border_width">10</property>
+                                                <signal name="clicked" handler="on_server_upload_session_pre"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image7">
+                                                  <widget class="GtkVBox" id="vbox54">
                                                     <property name="visible">True</property>
-                                                    <property name="stock">gtk-go-up</property>
-                                                    <property name="icon-size">5</property>
+                                                    <property name="spacing">6</property>
+                                                    <child>
+                                                      <widget class="GtkImage" id="image7">
+                                                        <property name="visible">True</property>
+                                                        <property name="stock">gtk-go-up</property>
+                                                        <property name="icon-size">5</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label58">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">Upload (or update) session to server</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
-                                                  <packing>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label58">
-                                                    <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">Upload (or update) session to server</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="position">1</property>
-                                                  </packing>
                                                 </child>
                                               </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
                                             <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label61">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">Simulated tests will be discarded.
+Evaluator can use real name or nickname.</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </widget>

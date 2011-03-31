@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -26,6 +26,18 @@ using System.Collections; //ArrayList
 
 using System.Threading;
 using Mono.Unix;
+
+public partial class ChronoJumpWindow 
+{
+	[Widget] Gtk.Label label_extra_window_radio_reaction_time;
+	[Widget] Gtk.RadioButton extra_window_radio_reaction_time;
+	
+	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
+	{
+		if(extra_window_radio_reaction_time.Active)
+			currentReactionTimeType = new ReactionTimeType("reactionTime");
+	}
+}
 
 //--------------------------------------------------------
 //---------------- EDIT REACTION TIME WIDGET -------------

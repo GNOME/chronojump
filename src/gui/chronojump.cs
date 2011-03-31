@@ -201,7 +201,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
-	[Widget] Gtk.Button button_delete_this_test;
+	[Widget] Gtk.Box hbox_this_test_buttons;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_volume;
@@ -4509,6 +4509,45 @@ Console.WriteLine("X");
 		}
 	}
 	*/
+	
+	private void on_video_play_this_test_clicked (object o, EventArgs args) {
+		Constants.TestTypes type = Constants.TestTypes.JUMP;
+		int id = 0;
+		switch (currentEventType.Type) {
+			case EventType.Types.JUMP:
+				if(lastJumpIsSimple) {
+					type = Constants.TestTypes.JUMP;
+					id = currentJump.UniqueID;
+				}
+				else {
+					type = Constants.TestTypes.JUMP_RJ;
+					id = currentJumpRj.UniqueID;
+				} break;
+			case EventType.Types.RUN:
+				if(lastRunIsSimple) {
+					type = Constants.TestTypes.RUN;
+					id = currentRun.UniqueID;
+				} else {
+					type = Constants.TestTypes.RUN_I;
+					id = currentRunInterval.UniqueID;
+				}
+				break;
+			case EventType.Types.PULSE:
+				type = Constants.TestTypes.PULSE;
+				id = currentPulse.UniqueID;
+				break;
+			case EventType.Types.REACTIONTIME:
+				type = Constants.TestTypes.RT;
+				id = currentReactionTime.UniqueID;
+				break;
+			case EventType.Types.MULTICHRONOPIC:
+				type = Constants.TestTypes.MULTICHRONOPIC;
+				id = currentMultiChronopic.UniqueID;
+				break;
+		}
+
+		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id));
+	}
 
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
 		if (myTreeViewJumps.EventSelectedID > 0) 
@@ -4566,7 +4605,6 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_delete_this_test_clicked (object o, EventArgs args) {
-		TreeIter iter = new TreeIter();
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(lastJumpIsSimple) {
@@ -4613,7 +4651,7 @@ Console.WriteLine("X");
 	}
 
 	private void deleted_last_test_update_widgets() {
-		button_delete_this_test.Sensitive = false;
+		hbox_this_test_buttons.Sensitive = false;
 		event_execute_clearDrawingArea();
 		notebook_results_data.CurrentPage = 7; //shows "deleted test"
 	}
@@ -5123,6 +5161,8 @@ Console.WriteLine("X");
 				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
 				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
 				"<tt><b>(space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
+				"<tt><b>v</b></tt> " + Catalog.GetString("Play video of this test") + " " + Catalog.GetString("(if available)")+ "\n" +
+				"<tt><b>d</b></tt> " + Catalog.GetString("Delete this test") + "\n" +
 				"\n" + "- " + Catalog.GetString("On results tab:") + "\n\n" +
 				"<tt><b>z</b></tt> " + Catalog.GetString("Zoom change") + "\n" +
 				"<tt><b>v</b></tt> " + Catalog.GetString("Play video of selected test") + " " + Catalog.GetString("(if available)")+ "\n" +
@@ -5219,7 +5259,7 @@ Console.WriteLine("X");
 		vbox_stats.Sensitive = false;
 		frame_share_data.Sensitive = false;
 		
-		button_delete_this_test.Sensitive = false;
+		hbox_this_test_buttons.Sensitive = false;
 		
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
@@ -5290,7 +5330,7 @@ Console.WriteLine("X");
 		table_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
 		hbox_pulses.Sensitive = false;
-		button_delete_this_test.Sensitive = false;
+		hbox_this_test_buttons.Sensitive = false;
 		
 		hbox_multi_chronopic_buttons.Sensitive = false;
 	}
@@ -5304,7 +5344,7 @@ Console.WriteLine("X");
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		hbox_multi_chronopic_buttons.Sensitive = true;
-		button_delete_this_test.Sensitive = true;
+		hbox_this_test_buttons.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {

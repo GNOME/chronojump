@@ -4566,26 +4566,47 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_delete_this_test_clicked (object o, EventArgs args) {
+		TreeIter iter = new TreeIter();
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
-				if(lastJumpIsSimple) 
+				if(lastJumpIsSimple) {
+					//maybe, after executing the test, user has selected other test on treeview
+					//delete this is called on execute
+					//we should ensure we are deleting last jump and not the selected jump
+					//force selection of last jump
+					if(currentJump.UniqueID != myTreeViewJumps.EventSelectedID)
+						myTreeViewJumps.SelectEvent(currentJump.UniqueID);
 					on_delete_selected_jump_clicked(o, args);
-				else
+				} else {
+					if(currentJumpRj.UniqueID != myTreeViewJumpsRj.EventSelectedID)
+						myTreeViewJumpsRj.SelectEvent(currentJumpRj.UniqueID);
 					on_delete_selected_jump_rj_clicked(o, args);
+				}
 				break;
 			case EventType.Types.RUN:
-				if(lastRunIsSimple) 
+				if(lastRunIsSimple) {
+					if(currentRun.UniqueID != myTreeViewRuns.EventSelectedID)
+						myTreeViewRuns.SelectEvent(currentRun.UniqueID);
 					on_delete_selected_run_clicked(o, args);
-				else
+				} else {
+					if(currentRunInterval.UniqueID != myTreeViewRunsInterval.EventSelectedID)
+						myTreeViewRunsInterval.SelectEvent(currentRunInterval.UniqueID);
 					on_delete_selected_run_interval_clicked(o, args);
+				}
 				break;
 			case EventType.Types.PULSE:
+				if(currentPulse.UniqueID != myTreeViewPulses.EventSelectedID)
+					myTreeViewPulses.SelectEvent(currentPulse.UniqueID);
 				on_delete_selected_pulse_clicked(o, args);
 				break;
 			case EventType.Types.REACTIONTIME:
+				if(currentReactionTime.UniqueID != myTreeViewReactionTimes.EventSelectedID)
+					myTreeViewReactionTimes.SelectEvent(currentReactionTime.UniqueID);
 				on_delete_selected_reaction_time_clicked(o, args);
 				break;
 			case EventType.Types.MULTICHRONOPIC:
+				if(currentMultiChronopic.UniqueID != myTreeViewMultiChronopic.EventSelectedID)
+					myTreeViewMultiChronopic.SelectEvent(currentMultiChronopic.UniqueID);
 				on_delete_selected_multi_chronopic_clicked(o, args);
 				break;
 		}
@@ -4599,14 +4620,14 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		notebooks_change(0);
-		Log.WriteLine("delete selected jump (normal)");
+		Log.WriteLine("delete this jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		Log.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete selected jump?"), "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
 				on_delete_selected_jump_accepted(o, args);
@@ -4616,13 +4637,13 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
 		notebooks_change(1);
-		Log.WriteLine("delete selected reactive jump");
+		Log.WriteLine("delete this reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected jump?"), 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), 
 						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
 			} else {
@@ -4632,45 +4653,55 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected jump");
+		Log.WriteLine("accept delete this jump");
+		int id = myTreeViewJumps.EventSelectedID;
 		
-		SqliteJump.Delete( "jump", (myTreeViewJumps.EventSelectedID).ToString() );
+		SqliteJump.Delete( "jump", id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted jump" ));
-		myTreeViewJumps.DelEvent(myTreeViewJumps.EventSelectedID);
+		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
-		deleted_last_test_update_widgets();
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, id );
+		//we can be here being called from jump treeview (not from execute tab)
+		//then what we are deleting is selected jump, not last jump 
+		//only if selected is last, then
+		//change executing window: drawingarea, button_delete, "deleted test" message
+		if(currentJump.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected jump");
+		Log.WriteLine("accept delete this jump");
+		int id = myTreeViewJumpsRj.EventSelectedID;
 		
-		SqliteJump.Delete("jumpRj", myTreeViewJumpsRj.EventSelectedID.ToString());
+		SqliteJump.Delete("jumpRj", id.ToString());
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump" ));
-		myTreeViewJumpsRj.DelEvent(myTreeViewJumpsRj.EventSelectedID);
+		myTreeViewJumpsRj.DelEvent(id);
 		showHideActionEventButtons(false, "JumpRj");
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
-		deleted_last_test_update_widgets();
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, id );
+		if(currentJumpRj.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		notebooks_change(2);
-		Log.WriteLine("delete selected run (normal)");
+		Log.WriteLine("delete this run (normal)");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete selected run?"), "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this run?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
 				on_delete_selected_run_accepted(o, args);
@@ -4681,13 +4712,13 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
 		notebooks_change(3);
-		Log.WriteLine("delete selected run interval");
+		Log.WriteLine("delete this run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected run?"), 
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this run?"), 
 						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
 			} else {
@@ -4697,40 +4728,46 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected run");
+		Log.WriteLine("accept delete this run");
+		int id = myTreeViewRuns.EventSelectedID;
 		
-		SqliteRun.Delete( "run", (myTreeViewRuns.EventSelectedID).ToString() );
+		SqliteRun.Delete( "run", id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted selected run" ));
 	
-		myTreeViewRuns.DelEvent(myTreeViewRuns.EventSelectedID);
+		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
-		deleted_last_test_update_widgets();
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RUN, id );
+		if(currentRun.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected run");
+		Log.WriteLine("accept delete this run");
+		int id = myTreeViewRunsInterval.EventSelectedID;
 		
-		SqliteRun.Delete( Constants.RunIntervalTable, (myTreeViewRunsInterval.EventSelectedID).ToString() );
+		SqliteRun.Delete( Constants.RunIntervalTable, id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run" ));
 	
-		myTreeViewRunsInterval.DelEvent(myTreeViewRunsInterval.EventSelectedID);
+		myTreeViewRunsInterval.DelEvent(id);
 		showHideActionEventButtons(false, "RunInterval");
 
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
 		}
-		deleted_last_test_update_widgets();
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, id );
+		if(currentRunInterval.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
 		notebooks_change(4);
-		Log.WriteLine("delete selected reaction time");
+		Log.WriteLine("delete this reaction time");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -4738,7 +4775,7 @@ Console.WriteLine("X");
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
 				on_delete_selected_reaction_time_accepted(o, args);
@@ -4747,12 +4784,13 @@ Console.WriteLine("X");
 	}
 		
 	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected reaction time");
+		Log.WriteLine("accept delete this reaction time");
+		int id = myTreeViewReactionTimes.EventSelectedID;
 		
-		SqliteJump.Delete( "reactiontime", (myTreeViewReactionTimes.EventSelectedID).ToString() );
+		SqliteJump.Delete( "reactiontime", id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted reaction time" ) );
-		myTreeViewReactionTimes.DelEvent(myTreeViewReactionTimes.EventSelectedID);
+		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
 
 		/*
@@ -4760,12 +4798,14 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
-		button_delete_this_test.Sensitive = false;
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
+		if(currentReactionTime.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
 		notebooks_change(5);
-		Log.WriteLine("delete selected pulse");
+		Log.WriteLine("delete this pulse");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -4773,7 +4813,7 @@ Console.WriteLine("X");
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete selected test?", "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
 				on_delete_selected_pulse_accepted(o, args);
@@ -4782,12 +4822,13 @@ Console.WriteLine("X");
 	}
 		
 	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected pulse");
+		Log.WriteLine("accept delete this pulse");
+		int id = myTreeViewPulses.EventSelectedID;
 		
-		SqliteJump.Delete( "pulse", (myTreeViewPulses.EventSelectedID).ToString() );
+		SqliteJump.Delete( "pulse", id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted pulse" ) );
-		myTreeViewPulses.DelEvent(myTreeViewPulses.EventSelectedID);
+		myTreeViewPulses.DelEvent(id);
 		showHideActionEventButtons(false, "Pulse");
 
 		/*
@@ -4795,18 +4836,20 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		*/
-		button_delete_this_test.Sensitive = false;
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, id );
+		if(currentPulse.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		notebooks_change(6);
-		Log.WriteLine("delete selected multi chronopic");
+		Log.WriteLine("delete this multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (askDeletion) {
-				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete selected test?"), "");
+				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this test?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
 			} else {
 				on_delete_selected_multi_chronopic_accepted(o, args);
@@ -4815,16 +4858,19 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_multi_chronopic_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete selected multi chronopic");
+		Log.WriteLine("accept delete this multi chronopic");
+		int id = myTreeViewMultiChronopic.EventSelectedID;
 		
-		SqliteMultiChronopic.Delete( (myTreeViewMultiChronopic.EventSelectedID).ToString() );
+		SqliteMultiChronopic.Delete( id.ToString() );
 		
 		appbar2.Push( 1, Catalog.GetString ( "Deleted multi chronopic" ));
 	
-		myTreeViewMultiChronopic.DelEvent(myTreeViewMultiChronopic.EventSelectedID);
+		myTreeViewMultiChronopic.DelEvent(id);
 		showHideActionEventButtons(false, Constants.MultiChronopicName);
 		
-		button_delete_this_test.Sensitive = false;
+		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.MULTICHRONOPIC, id );
+		if(currentMultiChronopic.UniqueID == id)
+			deleted_last_test_update_widgets();
 	}
 	
 

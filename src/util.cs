@@ -774,6 +774,13 @@ public class Util
 			File.Move(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
 		}
 	}
+	
+	public static void DeleteVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
+		string fileName = GetVideoFileName(sessionID, type, uniqueID);
+		if(File.Exists(fileName)) 
+			File.Delete(fileName);
+	}
+
 
 
 	/********** end of multimedia paths ************/

@@ -296,6 +296,11 @@ public class TreeViewEvent
 		}
 	}
 		
+	private void deleteParentIfEmpty(TreeIter iter) {
+		if( ! treeview.Model.IterHasChild(iter) ) 
+			store.Remove(ref iter);
+	}
+
 	public void DelEvent (int eventID)
 	{
 		TreeIter iter = new TreeIter();
@@ -337,11 +342,38 @@ public class TreeViewEvent
 		} while (treeview.Model.IterNext (ref iter));
 	}
 
-	private void deleteParentIfEmpty(TreeIter iter) {
-		if( ! treeview.Model.IterHasChild(iter) ) 
-			store.Remove(ref iter);
-	}
+	public void SelectEvent(int uniqueID) {
+		TreeIter iter = new TreeIter();
+		treeview.Model.GetIterFirst ( out iter ) ;
+		
+		/*
+		  new GTK# makes IterNext point to an invalid iter if there's no next
+		  then we cannot find parent of iter
+		  with the iterValid, we have the last valid children iter
+		  and we use it to find parent
+		  */
+		TreeIter iterValid = new TreeIter();
 
+		bool found = false;
+		do {
+			if( treeview.Model.IterHasChild(iter) ) {
+				treeview.Model.IterChildren (out iter, iter);
+				do {
+					int iterEventID =  Convert.ToInt32 ( treeview.Model.GetValue (iter, eventIDColumn) );
+					if(iterEventID == uniqueID) {
+						Log.WriteLine("We select:" + iterEventID);
+						treeview.Selection.SelectIter (iter);
+						found = true;
+					}
+					iterValid = iter;
+				} while (treeview.Model.IterNext (ref iter) && ! found);
+
+				iter= iterValid;
+				treeview.Model.IterParent (out iter, iter);
+			}
+		} while (treeview.Model.IterNext (ref iter) && ! found);
+	}	
+	
 	public void Unselect () {
 		treeview.Selection.UnselectAll();
 	}
@@ -357,8 +389,7 @@ public class TreeViewEvent
 			} while (treeview.Model.IterNext (ref iter));
 		}
 	}
-	
-	
+
 	public int EventSelectedID {
 		get {
 			TreeIter iter = new TreeIter();

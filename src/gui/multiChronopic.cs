@@ -29,6 +29,87 @@ using Mono.Unix;
 
 
 
+public partial class ChronoJumpWindow 
+{
+	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_start;
+	[Widget] Gtk.RadioButton extra_window_radio_multichronopic_run_analysis;
+	[Widget] Gtk.Label label_extra_window_radio_multichronopic_start;
+	[Widget] Gtk.Label label_extra_window_radio_multichronopic_run_analysis;
+
+	[Widget] Gtk.Label extra_window_multichronopic_label_selected;
+
+	[Widget] Gtk.TextView extra_window_textview_multichronopic_need_two;
+
+	[Widget] Gtk.CheckButton extra_window_check_multichronopic_sync;
+	[Widget] Gtk.CheckButton extra_window_check_multichronopic_delete_first;
+
+	//run analysis
+	[Widget] Gtk.HBox extra_window_hbox_run_analysis_total_distance;
+	[Widget] Gtk.SpinButton extra_window_spin_run_analysis_distance;
+	[Widget] Gtk.TextView extra_window_textview_run_analysis_cps_order;
+	
+	int extra_window_multichronopic_distance = 1000; //1000cm: 10m
+
+	private void on_extra_window_multichronopic_test_changed(object o, EventArgs args)
+	{
+		if(extra_window_radio_multichronopic_start.Active) 
+			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
+		else if(extra_window_radio_multichronopic_run_analysis.Active) 
+			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
+		
+		if(chronopicWin.NumConnected() < 2) 
+			extra_window_multichronopic_can_do(false);
+		else
+			extra_window_multichronopic_can_do(true);
+		
+		extra_window_multichronopic_initialize(currentMultiChronopicType);
+	}
+
+	private void extra_window_multichronopic_initialize(MultiChronopicType myMultiChronopicType) 
+	{
+		extra_window_multichronopic_label_selected.Text = "<b>" + 
+			Catalog.GetString(myMultiChronopicType.Name) + "</b>";
+		extra_window_multichronopic_label_selected.UseMarkup = true; 
+		currentEventType = myMultiChronopicType;
+		changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(), 
+				myMultiChronopicType.Name, myMultiChronopicType.ImageFileName);
+		bool hasOptions = false;
+
+		extra_window_spin_run_analysis_distance.Value = extra_window_multichronopic_distance;
+		bool showSyncAndDeleteFirst = false;
+		bool showRunDistance = false;
+		if(myMultiChronopicType.Name == Constants.MultiChronopicName) {
+			showSyncAndDeleteFirst = true;
+		} else if(myMultiChronopicType.Name == Constants.RunAnalysisName) {
+			showRunDistance = true;
+		}
+		extra_window_multichronopic_showSyncAndDeleteFirst(showSyncAndDeleteFirst);
+		extra_window_multichronopic_showRunDistance(showRunDistance);
+	}
+
+
+	private void extra_window_multichronopic_can_do(bool can_do) {
+		button_execute_test.Sensitive = can_do;
+		extra_window_textview_multichronopic_need_two.Visible = ! can_do;
+		
+		extra_window_check_multichronopic_sync.Sensitive = can_do;
+		extra_window_check_multichronopic_delete_first.Sensitive = can_do;
+		extra_window_hbox_run_analysis_total_distance.Sensitive = can_do;
+		extra_window_textview_run_analysis_cps_order.Sensitive = can_do;
+	}
+
+	private void extra_window_multichronopic_showSyncAndDeleteFirst(bool show) {
+		extra_window_check_multichronopic_sync.Visible = show;
+		extra_window_check_multichronopic_delete_first.Visible = show;
+	}
+	private void extra_window_multichronopic_showRunDistance(bool show) {
+		extra_window_hbox_run_analysis_total_distance.Visible = show;
+		extra_window_textview_run_analysis_cps_order.Visible = show;
+	}
+
+
+}
+
 //--------------------------------------------------------
 //---------------- EDIT MULTI CHRONOPIC WIDGET -----------
 //--------------------------------------------------------

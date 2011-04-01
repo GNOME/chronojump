@@ -27,9 +27,7 @@ public class ExecutingGraphData
 {
 	public Gtk.Button Button_cancel;
 	public Gtk.Button Button_finish;
-	public Gtk.Label Label_sync_message;
-	public Gtk.Label Label_message1;
-	public Gtk.Label Label_message2;
+	public Gtk.TextView Textview_message;
 	public Gtk.Label Label_event_value;
 	public Gtk.Label Label_time_value;
 	public Gtk.ProgressBar Progressbar_event;
@@ -37,15 +35,13 @@ public class ExecutingGraphData
 	
 	public ExecutingGraphData(
 			Gtk.Button Button_cancel, Gtk.Button Button_finish, 
-			Gtk.Label Label_sync_message, Gtk.Label Label_message1, Gtk.Label Label_message2,
+			Gtk.TextView Textview_message,
 			Gtk.Label Label_event_value, Gtk.Label Label_time_value,
 			Gtk.ProgressBar Progressbar_event, Gtk.ProgressBar Progressbar_time) 
 	{
 		this.Button_cancel =  Button_cancel;
 		this.Button_finish =  Button_finish;
-		this.Label_sync_message =  Label_sync_message;
-		this.Label_message1 =  Label_message1;
-		this.Label_message2 =  Label_message2;
+		this.Textview_message =  Textview_message;
 		this.Label_event_value =  Label_event_value;
 		this.Label_time_value =  Label_time_value;
 		this.Progressbar_event =  Progressbar_event;

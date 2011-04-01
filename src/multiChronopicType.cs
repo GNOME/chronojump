@@ -27,7 +27,7 @@ public class MultiChronopicType : EventType
 	   if false, a type doesn't need sync
 	   if true, it can be synced or not depending on checkbox active by user
 	   */
-	bool syncNeeded;
+	bool syncAvailable;
 
 	public MultiChronopicType() {
 		type = Types.MULTICHRONOPIC;
@@ -42,17 +42,17 @@ public class MultiChronopicType : EventType
 		
 		//if this changes, sqlite/pulseType.cs initialize table should change
 		if(name == Constants.MultiChronopicName) {
-			syncNeeded = true;
+			syncAvailable = true;
 			imageFileName = "multiChronopic.png";
 
 		} else if(name == Constants.RunAnalysisName) {
-			syncNeeded = false;
+			syncAvailable = false;
 			imageFileName = "run_analysis.png";
 		}
 	}
 
-	public bool SyncNeeded {
-		get { return syncNeeded; }
+	public bool SyncAvailable {
+		get { return syncAvailable; }
 	}
 }
 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -54,7 +54,7 @@ public class PulseExecute : EventExecute
 
 	//execution
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
 			//double progressbarLimit, 
 			ExecutingGraphData egd 
 			)
@@ -68,7 +68,7 @@ public class PulseExecute : EventExecute
 		
 	
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -137,7 +137,7 @@ public class PulseExecute : EventExecute
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		} else if (platformState==Chronopic.Plataforma.OFF) {
-			appbar.Push( 1, Catalog.GetString("You are OUT, start when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, start when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -346,9 +346,9 @@ public class PulseExecute : EventExecute
 		
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		if(simulated)
-			appbar.Push(1, Constants.SimulatedMessage);
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 		else
-			appbar.Push( 1, myStringPush );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 				
 	
 		//event will be raised, and managed in chronojump.cs

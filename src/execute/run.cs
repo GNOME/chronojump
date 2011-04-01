@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -49,7 +49,7 @@ public class RunExecute : EventExecute
 
 	//run execution
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn,
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd 
 			)
 	{
@@ -59,7 +59,7 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -114,14 +114,14 @@ Log.WriteLine("MANAGE(b)!!!!");
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( 1,Catalog.GetString("You are IN, RUN when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, RUN when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
 			startIn = true;
 			runPhase = runPhases.PLATFORM_INI;
 		} else if (platformState==Chronopic.Plataforma.OFF) {
-			appbar.Push( 1,Catalog.GetString("You are OUT, RUN when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, RUN when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -301,9 +301,9 @@ Log.WriteLine("MANAGE(3)!!!!");
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		if(simulated)
-			appbar.Push(1, Constants.SimulatedMessage);
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 		else
-			appbar.Push( 1,myStringPush );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 
 
 		string description = "";
@@ -370,7 +370,7 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd 
 			)
@@ -398,7 +398,7 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;
@@ -819,9 +819,9 @@ public class RunIntervalExecute : RunExecute
 							timeTotal.ToString(), metersSecondsPreferred )
 						, pDN ) ;
 			if(simulated)
-				appbar.Push(1, Constants.SimulatedMessage);
+				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 			else
-				appbar.Push( 1,myStringPush );
+				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 
 
 			//event will be raised, and managed in chronojump.cs

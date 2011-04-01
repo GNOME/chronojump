@@ -64,7 +64,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
 
-	[Widget] Gtk.Statusbar appbar2;
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
 	[Widget] Gtk.TreeView treeview_jumps_rj;
@@ -460,11 +459,6 @@ public partial class ChronoJumpWindow
 		sensitiveGuiNoSession();
 		definedSession = false;
 		
-		//if(recuperatedString == "")
-			appbar2.Push ( 1, Catalog.GetString ("Ready.") );
-		//else
-		//	appbar2.Push ( 1, recuperatedString );
-
 		rand = new Random(40);
 	
 		putNonStandardIcons();	
@@ -1032,7 +1026,7 @@ public partial class ChronoJumpWindow
 		else 
 			evalMessage = Catalog.GetString("Please, first check evaluator data is ok.");
 		
-		appbar2.Push ( 1, evalMessage );
+//		appbar2.Push ( 1, evalMessage );
 		
 		server_evaluator_data_and_after_upload_session();
 	}
@@ -1089,7 +1083,7 @@ public partial class ChronoJumpWindow
 
 	//called when after that has to continue with upload session
 	private void server_evaluator_data_and_after_upload_session() {
-		appbar2.Push ( 1, "" );
+//		appbar2.Push ( 1, "" );
 		uploadSessionAfter = true;
 		server_evaluator_data (); 
 	}
@@ -2137,10 +2131,7 @@ public partial class ChronoJumpWindow
 
 			//feedback (more in 1st session created)
 			string feedbackLoadUsers = Catalog.GetString ("Session created, now add or load persons.");
-			if(currentSession.UniqueID == 1)
-				new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
-			else
-				appbar2.Push ( 1, feedbackLoadUsers);
+			new DialogMessage(Constants.MessageTypes.INFO, feedbackLoadUsers);
 		}
 	}
 	
@@ -2214,7 +2205,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_delete_session_accepted (object o, EventArgs args) 
 	{
-		appbar2.Push( 1, Catalog.GetString("Deleted session and all its tests") );
+		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted session and all its tests."));
 		SqliteSession.DeleteAllStuff(currentSession.UniqueID.ToString());
 		
 		sensitiveGuiNoSession();
@@ -2225,9 +2216,9 @@ public partial class ChronoJumpWindow
 	
 	private void on_export_session_activate(object o, EventArgs args) {
 		if (o == (object) menuitem_export_csv) {
-			new ExportSessionCSV(currentSession, app1, appbar2, prefsDigitsNumber);
+			new ExportSessionCSV(currentSession, app1, prefsDigitsNumber);
 		} else if (o == (object) menuitem_export_xml) {
-			new ExportSessionXML(currentSession, app1, appbar2, prefsDigitsNumber);
+			new ExportSessionXML(currentSession, app1, prefsDigitsNumber);
 		} else {
 			Log.WriteLine("Error exporting");
 		}
@@ -2319,7 +2310,7 @@ public partial class ChronoJumpWindow
 						treeview_persons_store, 
 						rowToSelect);
 				sensitiveGuiYesPerson();
-				appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
+				//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + currentPerson.Name );
 			}
 		}
 	}
@@ -2359,7 +2350,7 @@ public partial class ChronoJumpWindow
 							"Successfully added {0} persons.", 
 							personAddMultipleWin.PersonsCreatedCount),
 						personAddMultipleWin.PersonsCreatedCount);
-		appbar2.Push( 1, Catalog.GetString(myString) );
+				//appbar2.Push( 1, Catalog.GetString(myString) );
 			}
 		}
 	}
@@ -2413,7 +2404,7 @@ public partial class ChronoJumpWindow
 	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
 		Log.WriteLine("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
-				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact)"), "", 
+				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "", 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
 
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_current_person_from_session_accepted);
@@ -2421,7 +2412,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_delete_current_person_from_session_accepted (object o, EventArgs args) 
 	{
-		appbar2.Push( 1, Catalog.GetString("Deleted person and all his/her tests on this session") );
+		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Deleted person and all his/her tests on this session."));
 		SqlitePersonSession.DeletePersonFromSessionAndTests(
 				currentSession.UniqueID.ToString(), currentPerson.UniqueID.ToString());
 		
@@ -3132,7 +3123,7 @@ Console.WriteLine("X");
 		//currentEventExecute = new JumpExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn,
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
 				progressbarLimit, egd);
 
 		if (!chronopicWin.Connected) 
@@ -3270,7 +3261,7 @@ Console.WriteLine("X");
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin, progressbarLimit, egd);
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin, progressbarLimit, egd);
 		
 		
 		//suitable for limited by jump and time
@@ -3440,7 +3431,7 @@ Console.WriteLine("X");
 		//currentEventExecute = new RunExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, 
 		currentEventExecute = new RunExecute(currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
 				progressbarLimit, egd);
 		
 		if (!chronopicWin.Connected) 
@@ -3597,7 +3588,7 @@ Console.WriteLine("X");
 		//currentEventExecute = new RunIntervalExecute(eventExecuteWin, currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 		currentEventExecute = new RunIntervalExecute(currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd);
 		
 		
@@ -3726,7 +3717,7 @@ Console.WriteLine("X");
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
 				//currentJumpType.Name, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn,
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
 				progressbarLimit, egd);
 
 		if (!chronopicWin.Connected) 
@@ -3860,7 +3851,7 @@ Console.WriteLine("X");
 		//currentEventExecute = new PulseExecute(eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				chronopicWin.CP, appbar2, app1, prefsDigitsNumber, volumeOn, 
+				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn, 
 				//progressbarLimit, 
 				egd);
 		
@@ -4047,7 +4038,7 @@ Log.WriteLine("CCCCC");
 					chronopicWin.CP, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					appbar2, app1, 
+					app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 2)
@@ -4058,7 +4049,7 @@ Log.WriteLine("CCCCC");
 					chronopicWin.CP, chronopicWin.CP2, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					appbar2, app1, 
+					app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 3)
@@ -4069,7 +4060,7 @@ Log.WriteLine("CCCCC");
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					appbar2, app1, 
+					app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 4)
@@ -4080,7 +4071,7 @@ Log.WriteLine("CCCCC");
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					appbar2, app1, 
+					app1, 
 					//progressbarlimit, 
 					egd);
 
@@ -4708,7 +4699,6 @@ Console.WriteLine("X");
 		
 		SqliteJump.Delete( "jump", id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted jump" ));
 		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
 
@@ -4730,7 +4720,6 @@ Console.WriteLine("X");
 		
 		SqliteJump.Delete("jumpRj", id.ToString());
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted reactive jump" ));
 		myTreeViewJumpsRj.DelEvent(id);
 		showHideActionEventButtons(false, "JumpRj");
 
@@ -4783,8 +4772,6 @@ Console.WriteLine("X");
 		
 		SqliteRun.Delete( "run", id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted selected run" ));
-	
 		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
 
@@ -4802,8 +4789,6 @@ Console.WriteLine("X");
 		
 		SqliteRun.Delete( Constants.RunIntervalTable, id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted intervallic run" ));
-	
 		myTreeViewRunsInterval.DelEvent(id);
 		showHideActionEventButtons(false, "RunInterval");
 
@@ -4839,7 +4824,6 @@ Console.WriteLine("X");
 		
 		SqliteJump.Delete( "reactiontime", id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted reaction time" ) );
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
 
@@ -4877,7 +4861,6 @@ Console.WriteLine("X");
 		
 		SqliteJump.Delete( "pulse", id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted pulse" ) );
 		myTreeViewPulses.DelEvent(id);
 		showHideActionEventButtons(false, "Pulse");
 
@@ -4913,8 +4896,6 @@ Console.WriteLine("X");
 		
 		SqliteMultiChronopic.Delete( id.ToString() );
 		
-		appbar2.Push( 1, Catalog.GetString ( "Deleted multi chronopic" ));
-	
 		myTreeViewMultiChronopic.DelEvent(id);
 		showHideActionEventButtons(false, Constants.MultiChronopicName);
 		

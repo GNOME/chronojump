@@ -105,7 +105,7 @@ public class EventExecute
 	
 	protected States loggedState;		//log of last state
 	//protected Gtk.ProgressBar progressBar;
-	protected Gtk.Statusbar appbar;
+	protected Gtk.TextView event_execute_textview_message;
 	protected Gtk.Window app;
 	protected int pDN;
 	

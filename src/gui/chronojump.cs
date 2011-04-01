@@ -148,13 +148,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
 	[Widget] Gtk.Button button_video_play_selected_multi_chronopic;
 	[Widget] Gtk.Button button_delete_selected_multi_chronopic;
-	[Widget] Gtk.Box hbox_multi_chronopic_buttons;
-	[Widget] Gtk.Button button_multi_chronopic_start;
-	[Widget] Gtk.Button button_run_analysis;
-	[Widget] Gtk.Entry entry_run_analysis_distance;
-	[Widget] Gtk.CheckButton check_multi_sync;
-	[Widget] Gtk.CheckButton check_multi_delete_first;
-	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
+//	[Widget] Gtk.Box hbox_multi_chronopic_buttons;
+//	[Widget] Gtk.Button button_multi_chronopic_start;
+//	[Widget] Gtk.Button button_run_analysis;
+//	[Widget] Gtk.Entry extra_window_spin_run_analysis_distance;
+//	[Widget] Gtk.CheckButton extra_window_check_multichronopic_sync;
+//	[Widget] Gtk.CheckButton extra_window_check_multichronopic_delete_first;
+//	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
 	//tools
 	[Widget] Gtk.MenuItem menuitem_preferences;
@@ -440,8 +440,12 @@ public partial class ChronoJumpWindow
 		createComboRunsInterval();
 		//reaction_times has no combo
 		createComboPulses();
-		createComboMultiChronopic();
+		//createComboMultiChronopic();
 		createdStatsWin = false;
+		
+		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
+
+		createChronopicWindow(false);
 	
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
@@ -449,12 +453,8 @@ public partial class ChronoJumpWindow
 		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
 		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
+		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		changeTestImage("", "", "LOGO");
-
-		
-		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
-
-		createChronopicWindow(false);
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -627,6 +627,12 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_pulses_custom);
 		UtilGtk.ColorsRadio(extra_window_radio_pulses_free);
 		UtilGtk.ColorsRadio(extra_window_radio_pulses_custom);
+
+		//multichronopic changes
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_multichronopic_start);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_multichronopic_run_analysis);
+		UtilGtk.ColorsRadio(extra_window_radio_multichronopic_start);
+		UtilGtk.ColorsRadio(extra_window_radio_multichronopic_run_analysis);
 
 
 		//persons buttons
@@ -1955,12 +1961,14 @@ public partial class ChronoJumpWindow
 		combo_pulses.Sensitive = false;
 	}
 
+	/*
 	private void createComboMultiChronopic() 
 	{
 		button_multi_chronopic_start.Sensitive = false;
 		button_run_analysis.Sensitive = false;
-		entry_run_analysis_distance.Sensitive = false;
+		extra_window_spin_run_analysis_distance.Sensitive = false;
 	}
+	*/
 
 	private void on_combo_jumps_changed(object o, EventArgs args) {
 		//combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
@@ -2889,6 +2897,9 @@ Console.WriteLine("X");
 		}
 		else if(radio_mode_pulses.Active) {
 			on_pulse_activate (o, args);
+		}
+		else if(radio_mode_multi_chronopic.Active) {
+			on_multi_chronopic_start_clicked(o, args);
 		}
 
 		//if a test has been deleted
@@ -3928,17 +3939,21 @@ Log.WriteLine("AAAAA");
 	
 	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
 Log.WriteLine("BBBBBB");
-		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
+		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
+	
+		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
+		/*
 		if(cps >= 2) {	
 			button_multi_chronopic_start.Sensitive = true;
-			entry_run_analysis_distance.Sensitive = true;
-			on_entry_run_analysis_distance_changed (o, args);
+			extra_window_spin_run_analysis_distance.Sensitive = true;
+			on_extra_window_spin_run_analysis_distance_changed (o, args);
 		} else {
 			button_multi_chronopic_start.Sensitive = false;
-			entry_run_analysis_distance.Sensitive = false;
+			extra_window_spin_run_analysis_distance.Sensitive = false;
 			button_run_analysis.Sensitive = false;
 		}
+		*/
 		
 		chronopicLabels(cps);
 	}
@@ -3967,14 +3982,16 @@ Log.WriteLine("CCCCC");
 	}
 
 
-	private void on_entry_run_analysis_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(entry_run_analysis_distance.Text, false) && entry_run_analysis_distance.Text != "0" &&
+	/*
+	private void on_extra_window_spin_run_analysis_distance_changed (object o, EventArgs args) {
+		if(Util.IsNumber(extra_window_spin_run_analysis_distance.Text, false) && extra_window_spin_run_analysis_distance.Text != "0" &&
 				chronopicWin.NumConnected()>=2) {
 			button_run_analysis.Sensitive = true;
 		} else {
 			button_run_analysis.Sensitive = false;
 		}
 	}
+	*/
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
@@ -3983,6 +4000,12 @@ Log.WriteLine("CCCCC");
 //			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
 //		else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis)
 //			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
+
+
+		bool syncAvailable = false;
+		if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
+			syncAvailable = true;
+
 
 		//used by cancel and finish
 		currentEventType = new MultiChronopicType();
@@ -4025,53 +4048,55 @@ Log.WriteLine("CCCCC");
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 
-		bool syncNeeded = false;
-		if(currentMultiChronopicType.SyncNeeded && check_multi_sync.Active)
-			syncNeeded = true;
+		/*
+		bool syncAvailable = false;
+		if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
+			syncAvailable = true;
+			*/
 
 		int numConnected = chronopicWin.NumConnected();
 
 		if(numConnected == 1)
 			currentEventExecute = new MultiChronopicExecute(
-//					eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, 
 					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name, 
 					chronopicWin.CP, 
-					syncNeeded, check_multi_delete_first.Active, 
-					entry_run_analysis_distance.Text.ToString(),
+					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
+					extra_window_spin_run_analysis_distance.Value.ToString(),
 					appbar2, app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 2)
 			currentEventExecute = new MultiChronopicExecute(
-					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, 
 					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,  
 					chronopicWin.CP, chronopicWin.CP2, 
-					syncNeeded, check_multi_delete_first.Active, 
-					entry_run_analysis_distance.Text.ToString(),
+					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
+					extra_window_spin_run_analysis_distance.Value.ToString(),
 					appbar2, app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 3)
 			currentEventExecute = new MultiChronopicExecute(
-					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, 
 					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
-					syncNeeded, check_multi_delete_first.Active, 
-					entry_run_analysis_distance.Text.ToString(),
+					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
+					extra_window_spin_run_analysis_distance.Value.ToString(),
 					appbar2, app1, 
 					//progressbarlimit, 
 					egd);
 		else if(numConnected == 4)
 			currentEventExecute = new MultiChronopicExecute(
-					//eventExecuteWin, currentPerson.UniqueID, currentPerson.Name, 
+					//eventExecuteWin, 
 					currentPerson.UniqueID, currentPerson.Name, 
 					currentSession.UniqueID, currentMultiChronopicType.Name,
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
-					syncNeeded, check_multi_delete_first.Active, 
-					entry_run_analysis_distance.Text.ToString(),
+					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
+					extra_window_spin_run_analysis_distance.Value.ToString(),
 					appbar2, app1, 
 					//progressbarlimit, 
 					egd);
@@ -4084,6 +4109,8 @@ Log.WriteLine("CCCCC");
 		multiFinishing = false;
 		currentEventExecute.Manage();
 
+		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
+			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 //		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
@@ -4152,6 +4179,8 @@ Console.WriteLine("X");
 		Console.WriteLine("RR3");
 		sensitiveGuiEventDone();
 		Console.WriteLine("RR4");
+		
+		event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
 	}
 		
 
@@ -5125,6 +5154,17 @@ Console.WriteLine("X");
 		else if(notebook_execute.CurrentPage == 5)
 			changeTestImage(EventType.Types.PULSE.ToString(), 
 					currentPulseType.Name, currentPulseType.ImageFileName);
+		else if(notebook_execute.CurrentPage == 6) {
+			changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(), 
+					currentMultiChronopicType.Name, currentMultiChronopicType.ImageFileName);
+		}
+	
+		//button_execute_test have to be non sensitive in multichronopic without two cps
+		//else has to be sensitive	
+		if(notebook_execute.CurrentPage == 6 && chronopicWin.NumConnected() < 2)
+			extra_window_multichronopic_can_do(false);
+		else 
+			extra_window_multichronopic_can_do(true);
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
@@ -5332,7 +5372,7 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = false;
 		hbox_this_test_buttons.Sensitive = false;
 		
-		hbox_multi_chronopic_buttons.Sensitive = false;
+		//hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
 	private void sensitiveGuiEventDone () {
@@ -5343,7 +5383,7 @@ Console.WriteLine("X");
 		table_runs.Sensitive = true;
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
-		hbox_multi_chronopic_buttons.Sensitive = true;
+		//hbox_multi_chronopic_buttons.Sensitive = true;
 		hbox_this_test_buttons.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)

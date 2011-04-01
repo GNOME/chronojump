@@ -45,7 +45,7 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Label event_execute_label_person;
 //	[Widget] Gtk.Label event_execute_label_event_type;
 	[Widget] Gtk.Label event_execute_label_phases_name;
-	[Widget] Gtk.Label event_execute_label_sync_message;
+	[Widget] Gtk.TextView event_execute_textview_message;
 	[Widget] Gtk.Label event_graph_label_graph_person;
 	[Widget] Gtk.Label event_graph_label_graph_test;
 	
@@ -139,9 +139,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image event_execute_image_run_interval_time_good;
 	[Widget] Gtk.Image event_execute_image_run_interval_time_bad;
 	
-	[Widget] Gtk.Label event_execute_label_message1;
-	[Widget] Gtk.Label event_execute_label_message2;
-		
 	[Widget] Gtk.Notebook notebook_results_data;
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
@@ -258,7 +255,8 @@ public partial class ChronoJumpWindow
 	
 		event_graph_label_graph_person.Text = personName;
 		event_graph_label_graph_test.Text = event_execute_eventType;
-
+				
+		event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
 
 //		event_execute.Title = windowTitle;
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
@@ -274,10 +272,6 @@ public partial class ChronoJumpWindow
 //		this.event_execute_label_event_type.Text = this.event_execute_eventType;
 //		this.pDN = pDN;
 //		this.event_execute_limit = event_execute_limit;
-
-		event_execute_label_message1.Text = "";
-		event_execute_label_message2.Text = "";
-			
 
 		//finish not sensitive for all events. 
 		//Later reactive, interval and pulse will sensitive it when a subevent is done
@@ -325,8 +319,7 @@ public partial class ChronoJumpWindow
 		
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 
-				event_execute_label_sync_message,  
-				event_execute_label_message1,  event_execute_label_message2,
+				event_execute_textview_message,  
 				event_execute_label_event_value,  event_execute_label_time_value,
 				event_execute_progressbar_event,  event_execute_progressbar_time);
 		return executingGraphData;
@@ -496,7 +489,7 @@ public partial class ChronoJumpWindow
 
 	/*
 	public void ShowSyncMessage(string str) {
-		event_execute_label_sync_message.Text = str;
+		event_execute_textview_sync_message.Text = str;
 	}
 	*/
 		

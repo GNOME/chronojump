@@ -218,4 +218,10 @@ public class UtilGtk
 		r.ModifyBg(StateType.Prelight, BLUE_CLEAR);
 	}
 
+	public static TextBuffer TextViewPrint(string message) {
+		TextBuffer tb = new TextBuffer (new TextTagTable());
+		tb.Text = message;
+		return tb;
+	}
+
 }

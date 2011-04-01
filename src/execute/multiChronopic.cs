@@ -417,7 +417,8 @@ public class MultiChronopicExecute : EventExecute
 					}
 					else if (syncing == syncStates.CONTACTED && myPS == Chronopic.Plataforma.OFF && myLS == States.ON) {
 						syncing = syncStates.DONE;
-						syncMessage = Catalog.GetString("Synchronization done.");
+						syncMessage = Catalog.GetString("Synchronization done.") + "\n" + 
+							Catalog.GetString("Test starts now.");
 						needShowSyncMessage = true;
 					}
 					else {

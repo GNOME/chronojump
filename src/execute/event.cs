@@ -21,6 +21,7 @@
 using System;
 using System.Data;
 using System.Text; //StringBuilder
+using Gtk;
 
 using System.Threading;
 using System.IO.Ports;
@@ -313,8 +314,7 @@ public class EventExecute
 		}
 		
 		if(needShowSyncMessage) {
-			//app1.ShowSyncMessage(syncMessage);
-			egd.Label_sync_message.Text = syncMessage;
+			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(syncMessage);
 			needShowSyncMessage = false;
 		}
 		
@@ -330,13 +330,14 @@ public class EventExecute
 	}
 	
 	private void runATouchPlatform() {
-		egd.Label_message1.Text = "<b>" + "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.\nAt this version, this message doesn't quit." + "</b>";
-		egd.Label_message1.UseMarkup = true;
+		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.") + "\n" + 
+			Catalog.GetString("At this version, this message doesn't quit.");
+		egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
 	}
 
 	public void RunANoStrides() {
-		egd.Label_message2.Text = "<b>" + "This Run Analysis is not valid because there are no strides." + "</b>";
-		egd.Label_message2.UseMarkup = true;
+		string message = Catalog.GetString("This Run Analysis is not valid because there are no strides.");
+		egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
 	}
 	
 	protected void progressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 

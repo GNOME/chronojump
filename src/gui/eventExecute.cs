@@ -1546,9 +1546,9 @@ Log.WriteLine("Preparing reactive A");
 	}
 
 	int yCp1Out = 20;
-	int yCp2Out = 90;
-	int yCp3Out = 160;
-	int yCp4Out = 230;
+	int yCp2Out = 75;
+	int yCp3Out = 130;
+	int yCp4Out = 185;
 
 	//TODO: fix this method
 	private void paintMultiChronopic (Gtk.DrawingArea drawingarea, 
@@ -1579,12 +1579,14 @@ Log.WriteLine("Preparing reactive A");
 		Console.WriteLine("total time: {0}", timeTotal);
 
 
+		/*
 		//TODO: done this now because we come here with only 1 string filled and this does problems
 		if(timeTotal == 0) {
 			event_execute_alignment.SetSizeRequest(700, 300);
 			sizeChanged = true;
 			return;
 		}
+		*/
 
 		int ancho=drawingarea.Allocation.Width;
 
@@ -1795,21 +1797,6 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_pixmap.DrawLayout (pen_gris, 20, yCp2Out -20, layout);
 	}
 
-	/*
-	public void event_execute_RunATouchPlatform() {
-		//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now. (from gui/eventExecute.cs");
-		this.event_execute_label_message1.Text = "<b>" + "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.\nAt this version, this message doesn't quit." + "</b>";
-		event_execute_label_message1.UseMarkup = true;
-	}
-	*/
-	/*
-	public void event_execute_RunANoStrides() {
-		//new DialogMessage(Constants.MessageTypes.WARNING, "This Run Analysis is not valid because there are no strides.");
-		this.event_execute_label_message2.Text = "<b>" + "This Run Analysis is not valid because there are no strides." + "</b>";
-		event_execute_label_message2.UseMarkup = true;
-	}
-	*/
-			
 	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args) {
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
@@ -1856,6 +1843,22 @@ Log.WriteLine("Preparing reactive A");
 							currentEventExecute.PrepareEventGraphPulseObject.lastTime,
 							currentEventExecute.PrepareEventGraphPulseObject.timesString);
 				break;
+			case EventType.Types.MULTICHRONOPIC:
+					Log.Write("update graph: MULTICHRONOPIC");
+					PrepareMultiChronopicGraph(
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp1StartedIn,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp2StartedIn,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp3StartedIn,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp4StartedIn,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp1InStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp1OutStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp2InStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp2OutStr, 
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp3InStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp3OutStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp4InStr,
+							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp4OutStr);
+					break;
 		}
 
 	}

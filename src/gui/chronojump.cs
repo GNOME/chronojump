@@ -3982,26 +3982,9 @@ Log.WriteLine("CCCCC");
 	}
 
 
-	/*
-	private void on_extra_window_spin_run_analysis_distance_changed (object o, EventArgs args) {
-		if(Util.IsNumber(extra_window_spin_run_analysis_distance.Text, false) && extra_window_spin_run_analysis_distance.Text != "0" &&
-				chronopicWin.NumConnected()>=2) {
-			button_run_analysis.Sensitive = true;
-		} else {
-			button_run_analysis.Sensitive = false;
-		}
-	}
-	*/
-
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
 		Log.WriteLine("multi chronopic accepted");
 		
-//		if(o == (object) button_multi_chronopic_start || o == (object) menuitem_multi_chronopic_start) 
-//			currentMultiChronopicType = new MultiChronopicType(Constants.MultiChronopicName);
-//		else if(o == (object) button_run_analysis || o == (object) menuitem_run_analysis)
-//			currentMultiChronopicType = new MultiChronopicType(Constants.RunAnalysisName);
-
-
 		bool syncAvailable = false;
 		if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
 			syncAvailable = true;

@@ -1004,7 +1004,7 @@ public partial class ChronoJumpWindow {
 			return;
 
 		//blank statusbar
-		appbar2.Push( 1, "");
+		//appbar2.Push( 1, "");
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
@@ -1279,7 +1279,7 @@ public partial class ChronoJumpWindow {
 					myStatType.MarkedRows, fillGraphROptions());
 					
 			
-			appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);
+			//appbar2.Push( 1, Catalog.GetString("Successfully added") + " " + statisticType + "-" + statisticSubType + "-" + statisticApplyTo);
 		}
 		
 	}

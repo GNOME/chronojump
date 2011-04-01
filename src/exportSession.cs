@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -39,7 +39,6 @@ public class ExportSession
 	protected Session mySession;
 	protected TextWriter writer;
 	protected static Gtk.Window app1;
-	protected static Gtk.Statusbar myAppbar;
 	protected string fileName;
 	
 	protected int prefsDigitsNumber;
@@ -51,12 +50,10 @@ public class ExportSession
 	public ExportSession() {
 	}
 
-	//public ExportSession(Session mySession, Gtk.Window app1, Gnome.AppBar mainAppbar) 
-	public ExportSession(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
+	public ExportSession(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
 	{
 		this.mySession = mySession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
-		myAppbar = mainAppbar;
 		
 		spreadsheetString = "";
 
@@ -117,7 +114,7 @@ public class ExportSession
 			Log.WriteLine("cancelled");
 			//report does not currently send the appBar reference
 			if(formatFile != "report") {
-				myAppbar.Push ( 1, Catalog.GetString ("Cancelled") );
+				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			}
 			fc.Hide ();
 			return ;
@@ -847,11 +844,10 @@ public class ExportSession
 public class ExportSessionCSV : ExportSession 
 {
 
-	public ExportSessionCSV(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
+	public ExportSessionCSV(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
 	{
 		this.mySession = mySession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
-		myAppbar = mainAppbar;
 	
 		spreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>");
 
@@ -887,7 +883,8 @@ public class ExportSessionCSV : ExportSession
 	protected override void printFooter()
 	{
 		Log.WriteLine( "Correctly exported" );
-		myAppbar.Push ( 1, Catalog.GetString ("Exported to file: ") + fileName );
+		string myString = Catalog.GetString ("Exported to file: ") + fileName;
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	
 	~ExportSessionCSV() {}
@@ -897,13 +894,12 @@ public class ExportSessionXML : ExportSession
 {
 	private XmlTextWriter xr;
 		
-	public ExportSessionXML(Session mySession, Gtk.Window app1, Gtk.Statusbar mainAppbar, int prefsDigitsNumber) 
+	public ExportSessionXML(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
 	//public ExportXML(Session mySession, Gtk.Window app1) 
 	{
 		this.mySession = mySession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
 		//this.app1 = app1;
-		myAppbar = mainAppbar;
 		
 		//xr = new XmlTextWriter(fileExport, null);
 		//xr.Formatting = Formatting.Indented;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -41,7 +41,7 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(int personID, string personName, int sessionID,   
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd 
 			)
 	{
@@ -50,7 +50,7 @@ public class ReactionTimeExecute : EventExecute
 		this.sessionID = sessionID;
 		
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -102,7 +102,7 @@ public class ReactionTimeExecute : EventExecute
 		
 		
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( 1,Catalog.GetString("You are IN, RELEASE when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, RELEASE when prepared!!") );
 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
@@ -246,9 +246,9 @@ Log.Write("wb ");
 			type + " " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) ;
 		
 		if(simulated)
-			appbar.Push(1, Constants.SimulatedMessage);
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 		else
-			appbar.Push( 1,myStringPush );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 
 		uniqueID = SqliteReactionTime.Insert(
 				false, Constants.ReactionTimeTable, 

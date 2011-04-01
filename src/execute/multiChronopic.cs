@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -76,7 +76,7 @@ public class MultiChronopicExecute : EventExecute
 
 	//execution
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
-			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app,
+			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
 			//double progressbarLimit, 
 			ExecutingGraphData egd 
 			) {
@@ -90,7 +90,6 @@ public class MultiChronopicExecute : EventExecute
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
 		
-		this.appbar = appbar;
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -100,7 +99,7 @@ public class MultiChronopicExecute : EventExecute
 	}
 	
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
-			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Statusbar appbar, Gtk.Window app,
+			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
 			//double progressbarLimit, 
 			ExecutingGraphData egd 
 			) {
@@ -115,7 +114,6 @@ public class MultiChronopicExecute : EventExecute
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
 		
-		this.appbar = appbar;
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -126,7 +124,7 @@ public class MultiChronopicExecute : EventExecute
 	
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Statusbar appbar, Gtk.Window app,
+			Gtk.Window app,
 			//double progressbarLimit, 
 			ExecutingGraphData egd 
 			) {
@@ -142,7 +140,6 @@ public class MultiChronopicExecute : EventExecute
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
 		
-		this.appbar = appbar;
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -153,7 +150,7 @@ public class MultiChronopicExecute : EventExecute
 
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type,
 			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, string vars, 
-			Gtk.Statusbar appbar, Gtk.Window app,
+			Gtk.Window app,
 			//double progressbarLimit, 
 			ExecutingGraphData egd 
 			) {
@@ -170,7 +167,6 @@ public class MultiChronopicExecute : EventExecute
 		this.deleteFirst = deleteFirst;
 		this.vars = vars;
 		
-		this.appbar = appbar;
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
@@ -614,20 +610,7 @@ public class MultiChronopicExecute : EventExecute
 					cp3InStr, cp3OutStr, cp4InStr, cp4OutStr,
 					vars, //distance
 					description, Util.BoolToNegativeInt(simulated)); 
-
-
-			/* //TODO
-			string myStringPush =   
-				//Catalog.GetString("Last jump: ") + 
-				personName + " " + 
-				type + " (" + limitString + ") " +
-				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
-				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
-			appbar.Push( 1,myStringPush );
-			*/
 		}
-
-
 	}
 	
 

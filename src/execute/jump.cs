@@ -49,7 +49,7 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool volumeOn,
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd 
 			)
 	{
@@ -61,7 +61,7 @@ public class JumpExecute : EventExecute
 		this.weight = weight;
 		
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -125,7 +125,7 @@ public class JumpExecute : EventExecute
 		
 		
 		if (platformState==Chronopic.Plataforma.ON) {
-			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, JUMP when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
@@ -175,7 +175,7 @@ public class JumpExecute : EventExecute
 
 		
 		if (platformState==Chronopic.Plataforma.OFF) {
-			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, JUMP when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -389,9 +389,9 @@ Log.Write("wb ");
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
 		if(simulated)
-			appbar.Push(1, Constants.SimulatedMessage);
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 		else
-			appbar.Push( 1,myStringPush );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
@@ -469,7 +469,7 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(int personID, string personName, 
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.Statusbar appbar, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd 
 			)
@@ -490,7 +490,7 @@ public class JumpRjExecute : JumpExecute
 		}
 		
 		this.cp = cp;
-		this.appbar = appbar;
+		this.event_execute_textview_message = event_execute_textview_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -544,11 +544,11 @@ public class JumpRjExecute : JumpExecute
 		bool success = false;
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
-			appbar.Push( 1,Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, JUMP when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
-			appbar.Push( 1,Catalog.GetString("You are IN, JUMP when prepared!!") );
+			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, JUMP when prepared!!") );
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else {
@@ -989,9 +989,9 @@ public class JumpRjExecute : JumpExecute
 				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 			if(simulated)
-				appbar.Push(1, Constants.SimulatedMessage);
+				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
 			else
-				appbar.Push(1, myStringPush );
+				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
 		
 
 			//event will be raised, and managed in chronojump.cs

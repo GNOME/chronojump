@@ -22687,12 +22687,7 @@ Evaluator can use real name or nickname.</property>
           <widget class="GtkHBox" id="hbox27">
             <property name="visible">True</property>
             <child>
-              <widget class="GtkStatusbar" id="appbar2">
-                <property name="visible">True</property>
-              </widget>
-              <packing>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <widget class="GtkCheckButton" id="checkbutton_volume">

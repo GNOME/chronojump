@@ -386,9 +386,9 @@ public class MultiChronopicExecute : EventExecute
 		bool isFirstIn = true;
 
 		syncStates syncing = syncStates.DONE;
-		if(type != Constants.RunAnalysisName || syncFirst) {
+		if(syncFirst) {
 			syncing = syncStates.NOTHING;
-			syncMessage = Catalog.GetString("Press Test button in all Chronopics simultaneously.");
+			syncMessage = Catalog.GetString("Press and mantain Test button in all Chronopics simultaneously.");
 			needShowSyncMessage = true;
 		}
 
@@ -467,7 +467,8 @@ public class MultiChronopicExecute : EventExecute
 						PrepareEventGraphMultiChronopicObject = new PrepareEventGraphMultiChronopic(
 								//timestamp/1000.0, 
 								cp1StartedIn, cp2StartedIn, cp3StartedIn, cp4StartedIn,
-								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
+								cp1InStr, cp1OutStr, cp2InStr, cp2OutStr, 
+								cp3InStr, cp3OutStr, cp4InStr, cp4OutStr);
 						needUpdateGraphType = eventType.MULTICHRONOPIC;
 						needUpdateGraph = true;
 

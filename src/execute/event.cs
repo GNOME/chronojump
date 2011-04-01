@@ -330,8 +330,7 @@ public class EventExecute
 	}
 	
 	private void runATouchPlatform() {
-		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.") + "\n" + 
-			Catalog.GetString("At this version, this message doesn't quit.");
+		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.");
 		egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
 	}
 

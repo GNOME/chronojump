@@ -58,8 +58,10 @@ public class EventExecute
 	}
 	protected eventType needUpdateGraphType;
 	
-	protected string syncMessage;
-	protected bool needShowSyncMessage;
+	//protected string syncMessage;
+	//protected bool needShowSyncMessage;
+	protected string feedbackMessage;
+	protected bool needShowFeedbackMessage;
 
 	//instances with the info to create
 	public PrepareEventGraphJumpSimple PrepareEventGraphJumpSimpleObject; 
@@ -313,9 +315,9 @@ public class EventExecute
 			needSensitiveButtonFinish = false;
 		}
 		
-		if(needShowSyncMessage) {
-			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(syncMessage);
-			needShowSyncMessage = false;
+		if(needShowFeedbackMessage) {
+			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
+			needShowFeedbackMessage = false;
 		}
 		
 		

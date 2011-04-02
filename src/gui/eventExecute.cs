@@ -1816,7 +1816,7 @@ Log.WriteLine("Preparing reactive A");
 				}
 				break;
 			case EventType.Types.RUN:
-				if(lastRunIsSimple) {
+				if(thisRunIsSimple) {
 					Log.Write("update graph: RUN");
 					PrepareRunSimpleGraph(
 							currentEventExecute.PrepareEventGraphRunSimpleObject.time,

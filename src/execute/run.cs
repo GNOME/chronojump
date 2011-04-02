@@ -114,14 +114,16 @@ Log.WriteLine("MANAGE(b)!!!!");
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, RUN when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are IN, RUN when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
 			startIn = true;
 			runPhase = runPhases.PLATFORM_INI;
 		} else if (platformState==Chronopic.Plataforma.OFF) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, RUN when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -226,7 +228,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 					//don't record time
 						
 					initializeTimer();
-
+						
 					//update event progressbar
 					updateProgressBar = new UpdateProgressBar (
 							true, //isEvent
@@ -234,6 +236,9 @@ Log.WriteLine("MANAGE(3)!!!!");
 							2 //normal run, phase 2/3
 							);  
 					needUpdateEventProgressBar = true;
+					
+					feedbackMessage = "";
+					needShowFeedbackMessage = true; 
 					
 					//change the automata state
 					loggedState = States.OFF;
@@ -301,9 +306,10 @@ Log.WriteLine("MANAGE(3)!!!!");
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
 		if(simulated)
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+			feedbackMessage = "";
+		needShowFeedbackMessage = true; 
 
 
 		string description = "";
@@ -467,6 +473,9 @@ public class RunIntervalExecute : RunExecute
 						runPhase = runPhases.RUNNING;
 						//run starts
 						initializeTimer();
+					
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					}
 					else {
 						runPhase = runPhases.RUNNING;
@@ -623,6 +632,9 @@ public class RunIntervalExecute : RunExecute
 						//run starts
 						initializeTimer();
 						lastTc = 0;
+
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					} else
 						lastTc = timestamp/1000.0;
 						
@@ -819,9 +831,10 @@ public class RunIntervalExecute : RunExecute
 							timeTotal.ToString(), metersSecondsPreferred )
 						, pDN ) ;
 			if(simulated)
-				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 			else
-				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+				feedbackMessage = "";
+			needShowFeedbackMessage = true; 
 
 
 			//event will be raised, and managed in chronojump.cs

@@ -3931,32 +3931,19 @@ Console.WriteLine("X");
 	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
-Log.WriteLine("AAAAA");
 	}
 	
 	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
-Log.WriteLine("BBBBBB");
 		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
-	
-		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
-		/*
-		if(cps >= 2) {	
-			button_multi_chronopic_start.Sensitive = true;
-			extra_window_spin_run_analysis_distance.Sensitive = true;
-			on_extra_window_spin_run_analysis_distance_changed (o, args);
-		} else {
-			button_multi_chronopic_start.Sensitive = false;
-			extra_window_spin_run_analysis_distance.Sensitive = false;
-			button_run_analysis.Sensitive = false;
-		}
-		*/
+
+		if(radio_mode_multi_chronopic.Active)	
+			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		
 		chronopicLabels(cps);
 	}
 	
 	private void chronopicLabels(int cps) {
-Log.WriteLine("CCCCC");
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 
 		
@@ -4159,11 +4146,8 @@ Console.WriteLine("X");
 		Console.WriteLine("RR3");
 		sensitiveGuiEventDone();
 		Console.WriteLine("RR4");
-		
-		event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
 	}
 		
-
 
 	/*
 	 * update button is clicked on eventWindow, chronojump.cs delegate points here
@@ -4716,8 +4700,13 @@ Console.WriteLine("X");
 		//then what we are deleting is selected jump, not last jump 
 		//only if selected is last, then
 		//change executing window: drawingarea, button_delete, "deleted test" message
-		if(currentJump.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentJump.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentJump (no one jumped), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -4733,8 +4722,13 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, id );
-		if(currentJumpRj.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentJumpRj.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentJumpRj (no one jumped), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
@@ -4785,8 +4779,13 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RUN, id );
-		if(currentRun.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentRun.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentRun (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
@@ -4802,8 +4801,13 @@ Console.WriteLine("X");
 			stats_win_fillTreeView_stats(false, false);
 		}
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, id );
-		if(currentRunInterval.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentRunInterval.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentRunInterval (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
@@ -4839,8 +4843,13 @@ Console.WriteLine("X");
 		}
 		*/
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
-		if(currentReactionTime.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentReactionTime.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentReactionTime (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
@@ -4876,8 +4885,13 @@ Console.WriteLine("X");
 		}
 		*/
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, id );
-		if(currentPulse.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentPulse.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentPulse (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -4906,8 +4920,13 @@ Console.WriteLine("X");
 		showHideActionEventButtons(false, Constants.MultiChronopicName);
 		
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.MULTICHRONOPIC, id );
-		if(currentMultiChronopic.UniqueID == id)
-			deleted_last_test_update_widgets();
+		try {
+			if(currentMultiChronopic.UniqueID == id)
+				deleted_last_test_update_widgets();
+		} catch {
+			//there's no currentMultiChronopic (no one done it now), then it crashed,
+			//but don't need to update widgets
+		}
 	}
 	
 

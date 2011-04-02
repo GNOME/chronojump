@@ -125,7 +125,7 @@ public class PulseExecute : EventExecute
 		//we record always de TC+TF (or time between we pulse platform and we pulse again)
 		//we don't care about the time between the get in and the get out the platform
 		if (platformState==Chronopic.Plataforma.ON) {
-			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!!");
+			string myMessage = Catalog.GetString("You are IN, please leave the platform, prepare for start, and press the 'accept' button!");
 
 			ConfirmWindow confirmWin;		
 			confirmWin = ConfirmWindow.Show(myMessage, "", "");
@@ -137,7 +137,8 @@ public class PulseExecute : EventExecute
 			//if confirmWin.Button_cancel is pressed retuen
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
 		} else if (platformState==Chronopic.Plataforma.OFF) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, start when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are OUT, start when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -201,6 +202,9 @@ public class PulseExecute : EventExecute
 							pulsePhase = pulsePhases.DOING;
 							//pulse starts
 							initializeTimer();
+
+							feedbackMessage = "";
+							needShowFeedbackMessage = true; 
 						} else {
 							//is not the first pulse
 							if(totalPulsesNum == -1) {
@@ -346,9 +350,10 @@ public class PulseExecute : EventExecute
 		
 		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		if(simulated)
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+			feedbackMessage = "";
+		needShowFeedbackMessage = true; 
 				
 	
 		//event will be raised, and managed in chronojump.cs

@@ -125,7 +125,8 @@ public class JumpExecute : EventExecute
 		
 		
 		if (platformState==Chronopic.Plataforma.ON) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, JUMP when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
@@ -175,7 +176,8 @@ public class JumpExecute : EventExecute
 
 		
 		if (platformState==Chronopic.Plataforma.OFF) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.OFF;
@@ -240,14 +242,10 @@ public class JumpExecute : EventExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
-Log.Write("w1 ");				
-
 					if(hasFall && tc == 0) {
-Log.Write("w2 ");				
 						//jump with fall, landed first time
 						initializeTimer();
 
-Log.Write("w3 ");				
 						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -256,7 +254,9 @@ Log.Write("w3 ");
 								1 //it's a drop: phase 1/3
 								);
 						needUpdateEventProgressBar = true;
-Log.Write("w4 ");				
+		
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					} else {
 						//jump with fall: second landed; or without fall first landing
 					
@@ -275,7 +275,6 @@ Log.Write("w4 ");
 						if(hasFall)
 							percentageToPass = 3; //drop jump has three phases
 							
-Log.Write("w5 ");			
 						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -284,7 +283,6 @@ Log.Write("w5 ");
 								percentageToPass
 								);
 						needUpdateEventProgressBar = true;
-Log.Write("w6 ");				
 					}
 					
 					loggedState = States.ON;
@@ -313,7 +311,6 @@ Log.Write("w6 ");
 						}
 
 						//update event progressbar
-Log.Write("w7 ");			
 						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
@@ -322,12 +319,8 @@ Log.Write("w7 ");
 								2 //it's a drop jump: phase 2/3
 								);
 						needUpdateEventProgressBar = true;
-Log.Write("w8 ");				
 					} else {
-Log.Write("w9 ");				
 						initializeTimer();
-						
-Log.Write("wa ");				
 						
 						//update event progressbar
 						//app1.ProgressBarEventOrTimePreExecution(
@@ -338,7 +331,9 @@ Log.Write("wa ");
 								1 //normal jump, phase 1/2
 								);
 						needUpdateEventProgressBar = true;
-Log.Write("wb ");				
+						
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					}
 
 					//change the automata state
@@ -389,9 +384,10 @@ Log.Write("wb ");
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
 		if(simulated)
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+			feedbackMessage = "";
+		needShowFeedbackMessage = true; 
 
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
@@ -544,11 +540,13 @@ public class JumpRjExecute : JumpExecute
 		bool success = false;
 
 		if (platformState==Chronopic.Plataforma.OFF && hasFall ) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are OUT, JUMP when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else if (platformState==Chronopic.Plataforma.ON && ! hasFall ) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, JUMP when prepared!!") );
+			feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 			success = true;
 		} else {
@@ -648,6 +646,9 @@ public class JumpRjExecute : JumpExecute
 
 						//but start timer
 						initializeTimer();
+						
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					} else {
 						//reactive jump has not finished... record the next jump
 						Log.WriteLine(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
@@ -989,9 +990,10 @@ public class JumpRjExecute : JumpExecute
 				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
 			if(simulated)
-				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 			else
-				event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+				feedbackMessage = "";
+			needShowFeedbackMessage = true; 
 		
 
 			//event will be raised, and managed in chronojump.cs

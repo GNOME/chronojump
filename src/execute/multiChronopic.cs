@@ -384,8 +384,8 @@ public class MultiChronopicExecute : EventExecute
 		syncStates syncing = syncStates.DONE;
 		if(syncFirst) {
 			syncing = syncStates.NOTHING;
-			syncMessage = Catalog.GetString("Press and mantain Test button in all Chronopics simultaneously.");
-			needShowSyncMessage = true;
+			feedbackMessage = Catalog.GetString("Press and mantain Test button in all Chronopics simultaneously.");
+			needShowFeedbackMessage = true;
 		}
 
 		do {
@@ -404,18 +404,21 @@ public class MultiChronopicExecute : EventExecute
 					if (firstValue) {
 						firstValue = false;
 						initializeTimer(); //this is for first Chronopic and only for simulated
+						
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
 					}
 							
 					if(syncing == syncStates.NOTHING && myPS == Chronopic.Plataforma.ON && myLS == States.OFF) {
 						syncing = syncStates.CONTACTED;
-						syncMessage = Catalog.GetString("Release Test button in all Chronopics simultaneously.");
-						needShowSyncMessage = true;
+						feedbackMessage = Catalog.GetString("Release Test button in all Chronopics simultaneously.");
+						needShowFeedbackMessage = true;
 					}
 					else if (syncing == syncStates.CONTACTED && myPS == Chronopic.Plataforma.OFF && myLS == States.ON) {
 						syncing = syncStates.DONE;
-						syncMessage = Catalog.GetString("Synchronization done.") + "\n" + 
+						feedbackMessage = Catalog.GetString("Synchronization done.") + "\n" + 
 							Catalog.GetString("Test starts now.");
-						needShowSyncMessage = true;
+						needShowFeedbackMessage = true;
 					}
 					else {
 						if(type != Constants.RunAnalysisName)

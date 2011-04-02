@@ -102,8 +102,8 @@ public class ReactionTimeExecute : EventExecute
 		
 		
 		if (platformState==Chronopic.Plataforma.ON) {
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Catalog.GetString("You are IN, RELEASE when prepared!!") );
-
+			feedbackMessage = Catalog.GetString("You are IN, RELEASE when prepared!");
+			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
 			loggedState = States.ON;
@@ -160,8 +160,6 @@ public class ReactionTimeExecute : EventExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
-Log.Write("w1 ");				
-
 					if(simulated)
 						timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
@@ -175,7 +173,6 @@ Log.Write("w1 ");
 					//update event progressbar
 					double percentageToPass = 2; //has two phases
 
-Log.Write("w5 ");			
 					//progressBarEventOrTimePreExecution(
 					//don't do it, put a boolean value and let the PulseGTK do it
 					updateProgressBar = new UpdateProgressBar (
@@ -184,7 +181,6 @@ Log.Write("w5 ");
 							percentageToPass
 							);
 					needUpdateEventProgressBar = true;
-Log.Write("w6 ");				
 
 					loggedState = States.ON;
 				}
@@ -193,10 +189,10 @@ Log.Write("w6 ");
 			
 					//it's out, was inside (= has released)
 					
-Log.Write("w9 ");				
 					initializeTimer();
 						
-Log.Write("wa ");				
+					feedbackMessage = "";
+					needShowFeedbackMessage = true; 
 						
 					//update event progressbar
 					//progressBarEventOrTimePreExecution(
@@ -207,7 +203,6 @@ Log.Write("wa ");
 							1 //normal jump, phase 1/2
 							);
 					needUpdateEventProgressBar = true;
-Log.Write("wb ");				
 
 					//change the automata state
 					loggedState = States.OFF;
@@ -246,9 +241,10 @@ Log.Write("wb ");
 			type + " " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) ;
 		
 		if(simulated)
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(Constants.SimulatedMessage);
+			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
-			event_execute_textview_message.Buffer = UtilGtk.TextViewPrint(myStringPush );
+			feedbackMessage = "";
+		needShowFeedbackMessage = true; 
 
 		uniqueID = SqliteReactionTime.Insert(
 				false, Constants.ReactionTimeTable, 

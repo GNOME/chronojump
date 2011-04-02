@@ -15,11 +15,12 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using System.IO;
+using Gdk;
 using Gtk;
 using Glade;
 //using Gnome;
@@ -58,6 +59,9 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_weight_kg;
 	[Widget] Gtk.TextView textview_power;
 
+	[Widget] Gtk.CheckButton checkbutton_volume;
+	[Widget] Gtk.Image image_volume;
+	[Widget] Gtk.Label label_volume;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -92,7 +96,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool allowFinishRjAfterTime)
+			string language, bool allowFinishRjAfterTime, bool volumeOn)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -126,7 +130,6 @@ public class PreferencesWindow {
 			PreferencesWindowBox.textview_power.Hide();
 		}
 		
-
 		if(showInitialSpeed)  
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
 		else 
@@ -176,10 +179,39 @@ public class PreferencesWindow {
 		else 
 			PreferencesWindowBox.radio_speed_km.Active = true; 
 		
+		UtilGtk.ColorsCheck(PreferencesWindowBox.checkbutton_volume);
+		PreferencesWindowBox.checkbutton_volume.Active = volumeOn;
+		PreferencesWindowBox.on_checkbutton_volume_clicked(new object(), new EventArgs());
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;
 	}
+	
+	private void changeVolumeButton(bool myVolume) {
+		Pixbuf pixbuf;
+		if(myVolume) {
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+			label_volume.Text = Catalog.GetString("Sound activated.");
+		} else {
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
+			label_volume.Text = Catalog.GetString("No Sound.");
+		}
+		image_volume.Pixbuf = pixbuf;
+	}
+	
+	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
+		if(checkbutton_volume.Active) {
+Log.Write("A");
+			SqlitePreferences.Update("volumeOn", "True", false);
+			label_volume.Text = Catalog.GetString("Sound activated.");
+		} else {
+Log.Write("B");
+			SqlitePreferences.Update("volumeOn", "False", false);
+			label_volume.Text = Catalog.GetString("No Sound.");
+		}
+		changeVolumeButton(checkbutton_volume.Active);
+	}
+
 	
 	private void createComboLanguage(string myLanguageCode) {
 		/*

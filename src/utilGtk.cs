@@ -217,6 +217,13 @@ public class UtilGtk
 		r.ModifyBg(StateType.Active, BLUE);
 		r.ModifyBg(StateType.Prelight, BLUE_CLEAR);
 	}
+	
+	public static void ColorsCheck(Gtk.CheckButton c) {
+		c.ModifyBg(StateType.Normal, WHITE);
+		c.ModifyBg(StateType.Active, BLUE);
+		c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
+	}
+
 
 	public static TextBuffer TextViewPrint(string message) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());

@@ -203,7 +203,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_this_test_buttons;
 
 	//non standard icons	
-	[Widget] Gtk.Image image_volume;
 	[Widget] Gtk.Image image_jump_reactive_bell;
 	[Widget] Gtk.Image image_run_interval_bell;
 	[Widget] Gtk.Image image_jump_reactive_repair;
@@ -761,7 +760,7 @@ public partial class ChronoJumpWindow
 			volumeOn = true;
 		 else 
 			volumeOn = false;
-		changeVolumeButton(volumeOn);
+		//changeVolumeButton(volumeOn);
 	
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows())
@@ -2466,7 +2465,7 @@ public partial class ChronoJumpWindow
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
-				allowFinishRjAfterTime);
+				allowFinishRjAfterTime, volumeOn);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -2556,7 +2555,14 @@ public partial class ChronoJumpWindow
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows()) 
 		//	languageChange();
-	
+		
+		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
+			volumeOn = true;
+		 else 
+			volumeOn = false;
+
+		if(repetitiveConditionsWin != null)
+			repetitiveConditionsWin.VolumeOn = volumeOn;
 
 		try {
 			if(createdStatsWin) {
@@ -5184,32 +5190,7 @@ Console.WriteLine("X");
 
 		new About(progVersion, translator_credits);
 	}
-
-	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		if(volumeOn) {
-			volumeOn = false;
-			SqlitePreferences.Update("volumeOn", "False", false);
-		} else {
-			volumeOn = true;
-			SqlitePreferences.Update("volumeOn", "True", false);
-		}
-		changeVolumeButton(volumeOn);
-
-//		if(repetitiveConditionsWin != null)
-			repetitiveConditionsWin.VolumeOn = volumeOn;
-
-		//Log.WriteLine("VolumeOn: {0}", volumeOn.ToString());
-	}
 		
-	private void changeVolumeButton(bool myVolume) {
-		Pixbuf pixbuf;
-		if(myVolume) 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
-		else 
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
-		image_volume.Pixbuf = pixbuf;
-	}
-
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(true, volumeOn); //show jumps
 	}

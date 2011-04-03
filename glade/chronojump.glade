@@ -3198,7 +3198,7 @@ show elevation as:</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label128">
+              <widget class="GtkLabel" id="label_main_options">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Main
@@ -3212,7 +3212,7 @@ options</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkTable" id="table16">
+              <widget class="GtkTable" id="table_main_options">
                 <property name="visible">True</property>
                 <property name="border_width">8</property>
                 <property name="n_rows">3</property>
@@ -3221,7 +3221,6 @@ options</property>
                 <property name="row_spacing">4</property>
                 <child>
                   <widget class="GtkLabel" id="label129">
-                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Type</property>
                   </widget>
                   <packing>
@@ -14217,7 +14216,6 @@ Chronopic</property>
                                 <child>
                                   <widget class="GtkNotebook" id="notebook_execute">
                                     <property name="visible">True</property>
-                                    <property name="show_tabs">False</property>
                                     <property name="show_border">False</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame2">
@@ -14515,7 +14513,7 @@ Chronopic</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Add jump type</property>
-                                                            <signal name="clicked" handler="on_jump_type_add_clicked"/>
+                                                            <signal name="clicked" handler="on_jump_simple_type_add_clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image3210">
                                                             <property name="visible">True</property>
@@ -14840,7 +14838,7 @@ Chronopic</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Add jump type</property>
-                                                            <signal name="clicked" handler="on_jump_type_add_clicked"/>
+                                                            <signal name="clicked" handler="on_jump_reactive_type_add_clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image1">
                                                             <property name="visible">True</property>

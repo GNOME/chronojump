@@ -375,14 +375,15 @@ public class JumpExecute : EventExecute
 		} else {
 			tc = 0;
 		}
-			
+		
+		/*	
 		string myStringPush =   
-			//Catalog.GetString("Last jump: ") + 
 			personName + " " + 
 			type + tcString + " " + Catalog.GetString("TF") + ": " + Util.TrimDecimals( tv.ToString(), pDN ) ;
 		if(weight > 0) {
 			myStringPush = myStringPush + "(" + weight.ToString() + "%)";
 		}
+		*/
 		if(simulated)
 			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
@@ -983,12 +984,14 @@ public class JumpRjExecute : JumpExecute
 
 
 			//event will be raised, and managed in chronojump.cs
+			/*
 			string myStringPush =   
 				//Catalog.GetString("Last jump: ") + 
 				personName + " " + 
 				type + " (" + limitString + ") " +
 				" " + Catalog.GetString("AVG TF") + ": " + Util.TrimDecimals( Util.GetAverage (tvString).ToString(), pDN ) +
 				" " + Catalog.GetString("AVG TC") + ": " + Util.TrimDecimals( Util.GetAverage (tcString).ToString(), pDN ) ;
+			*/
 			if(simulated)
 				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 			else

@@ -302,9 +302,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 	{
 		Log.WriteLine(string.Format("TIME: {0}", time.ToString()));
 		
+		/*
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
 			type + " " + Catalog.GetString("time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) + 
 			" " + Catalog.GetString("speed") + ": " + Util.TrimDecimals ( (distance/time).ToString(), pDN );
+		*/
 		if(simulated)
 			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else
@@ -824,12 +826,14 @@ public class RunIntervalExecute : RunExecute
 			else
 				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracks;
 
+			/*
 			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + ", " + 
 				type + tempValuesString + ", " +
 				Catalog.GetString("AVG Speed") + ": " + Util.TrimDecimals( 
 						Util.GetSpeed(distanceTotal.ToString(),
 							timeTotal.ToString(), metersSecondsPreferred )
 						, pDN ) ;
+			*/
 			if(simulated)
 				feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 			else

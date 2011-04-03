@@ -236,9 +236,11 @@ public class ReactionTimeExecute : EventExecute
 
 	protected override void write()
 	{
+		/*
 		string myStringPush =   
 			personName + " " + 
 			type + " " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( time.ToString(), pDN ) ;
+		*/
 		
 		if(simulated)
 			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);

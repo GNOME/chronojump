@@ -348,7 +348,7 @@ public class PulseExecute : EventExecute
 		//define the created object
 		eventDone = new Pulse(uniqueID, personID, sessionID, type, fixedPulse, totalPulsesNum, timesString, "", Util.BoolToNegativeInt(simulated)); 
 		
-		string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
+		//string myStringPush =   Catalog.GetString("Last pulse") + ": " + personName + " " + type ;
 		if(simulated)
 			feedbackMessage = Catalog.GetString(Constants.SimulatedMessage);
 		else

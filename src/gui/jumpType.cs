@@ -37,6 +37,11 @@ public class JumpTypeAddWindow
 	[Widget] Gtk.Button button_accept;
 	public Gtk.Button fakeButtonAccept;
 	[Widget] Gtk.Entry entry_name;
+
+
+	[Widget] Gtk.Label label_main_options;
+	[Widget] Gtk.Table table_main_options;
+
 	[Widget] Gtk.RadioButton radiobutton_simple;
 	[Widget] Gtk.RadioButton radiobutton_repetitive;
 	[Widget] Gtk.RadioButton radiobutton_unlimited;
@@ -57,7 +62,7 @@ public class JumpTypeAddWindow
 
 	public bool InsertedSimple;
 
-	JumpTypeAddWindow (Gtk.Window parent) {
+	JumpTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jump_type_add", null);
 		gladeXML.Autoconnect(this);
@@ -69,27 +74,41 @@ public class JumpTypeAddWindow
 		UtilGtk.IconWindow(jump_type_add);
 	}
 	
-	static public JumpTypeAddWindow Show (Gtk.Window parent)
+	static public JumpTypeAddWindow Show (Gtk.Window parent, bool simple)
 	{
 		if (JumpTypeAddWindowBox == null) {
-			JumpTypeAddWindowBox = new JumpTypeAddWindow (parent);
+			JumpTypeAddWindowBox = new JumpTypeAddWindow (parent, simple);
 		}
 		
 		JumpTypeAddWindowBox.jump_type_add.Show ();
-		JumpTypeAddWindowBox.fillDialog ();
+		JumpTypeAddWindowBox.fillDialog (simple);
 
 		return JumpTypeAddWindowBox;
 	}
 	
-	private void fillDialog ()
+	private void fillDialog (bool simple)
 	{
 		vbox_limited.Sensitive = false;	
 		hbox_fixed.Sensitive = false;	
 		button_accept.Sensitive = false;
 		spin_fixed_num.Sensitive = false;
 		radiobutton_extra_weight_no.Active = true;
+
+		//active the desired radio
+		if(simple)
+			radiobutton_simple.Active = true;
+		else
+			radiobutton_repetitive.Active = true;
+
+		//don't show the radios
+		radiobutton_simple.Visible = false;
+		radiobutton_repetitive.Visible = false;
+
+		//if simple don't show nothing
+		label_main_options.Visible = ! simple;
+		table_main_options.Visible = ! simple;
 	}
-		
+
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		JumpTypeAddWindowBox.jump_type_add.Hide();

@@ -4938,10 +4938,17 @@ Console.WriteLine("X");
 	 */
 
 	
-	private void on_jump_type_add_clicked (object o, EventArgs args) {
-		Log.WriteLine("Add new jump type");
+	private void on_jump_simple_type_add_clicked (object o, EventArgs args) {
+		Log.WriteLine("Add simple new jump type");
 			
-		jumpTypeAddWin = JumpTypeAddWindow.Show(app1);
+		jumpTypeAddWin = JumpTypeAddWindow.Show(app1, true); //is simple
+		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
+	}
+	
+	private void on_jump_reactive_type_add_clicked (object o, EventArgs args) {
+		Log.WriteLine("Add reactive new jump type");
+			
+		jumpTypeAddWin = JumpTypeAddWindow.Show(app1, false); //is reactive
 		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	

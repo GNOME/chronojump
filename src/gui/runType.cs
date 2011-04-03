@@ -37,6 +37,10 @@ public class RunTypeAddWindow
 	[Widget] Gtk.Button button_accept;
 	public Gtk.Button fakeButtonAccept;
 	[Widget] Gtk.Entry entry_name;
+	
+	[Widget] Gtk.Label label_main_options;
+	[Widget] Gtk.Table table_main_options;
+
 	[Widget] Gtk.RadioButton radiobutton_simple;
 	[Widget] Gtk.RadioButton radiobutton_interval;
 	[Widget] Gtk.RadioButton radiobutton_unlimited;
@@ -79,7 +83,7 @@ public class RunTypeAddWindow
 
 	public bool InsertedSimple;
 
-	RunTypeAddWindow (Gtk.Window parent) {
+	RunTypeAddWindow (Gtk.Window parent, bool simple) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "run_type_add", null);
 		gladeXML.Autoconnect(this);
@@ -91,29 +95,42 @@ public class RunTypeAddWindow
 		UtilGtk.IconWindow(run_type_add);
 	}
 	
-	static public RunTypeAddWindow Show (Gtk.Window parent)
+	static public RunTypeAddWindow Show (Gtk.Window parent, bool simple)
 	{
 		if (RunTypeAddWindowBox == null) {
-			RunTypeAddWindowBox = new RunTypeAddWindow (parent);
+			RunTypeAddWindowBox = new RunTypeAddWindow (parent, simple);
 		}
 		
 		RunTypeAddWindowBox.run_type_add.Show ();
-		RunTypeAddWindowBox.fillDialog ();
+		RunTypeAddWindowBox.fillDialog (simple);
 
 		return RunTypeAddWindowBox;
 	}
 	
-	private void fillDialog ()
+	private void fillDialog (bool simple)
 	{
-		vbox_limited.Sensitive = false;	
-		hbox_fixed.Sensitive = false;	
+		//active the desired radio
+		if(simple)
+			radiobutton_simple.Active = true;
+		else
+			radiobutton_interval.Active = true;
+
+		//don't show the radios
+		radiobutton_simple.Visible = false;
+		radiobutton_interval.Visible = false;
+
+		//if simple don't show nothing
+		label_main_options.Visible = ! simple;
+		table_main_options.Visible = ! simple;
+
+		//hbox_fixed.Sensitive = false;	
 		button_accept.Sensitive = false;
 		spin_fixed_tracks_or_time.Sensitive = false;
 		label_distance.Text = Catalog.GetString("Distance");
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		label_decimal.Text = string.Format(Catalog.GetString("\n(decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 		
-		radiobutton_dist_different.Sensitive = false;
+		radiobutton_dist_different.Visible = ! simple;
 		hbox_distance_fixed.Hide();	
 		vbox_distance_variable.Hide();	
 					

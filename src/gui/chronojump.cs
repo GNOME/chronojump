@@ -4965,10 +4965,17 @@ Console.WriteLine("X");
 		combo_jumps_rj.Active = 0;
 	}
 
-	private void on_run_type_add_activate (object o, EventArgs args) {
-		Log.WriteLine("Add new run type");
+	private void on_run_simple_type_add_activate (object o, EventArgs args) {
+		Log.WriteLine("Add simple new run type");
 			
-		runTypeAddWin = RunTypeAddWindow.Show(app1);
+		runTypeAddWin = RunTypeAddWindow.Show(app1, true); //is simple
+		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
+	}
+	
+	private void on_run_intervallic_type_add_activate (object o, EventArgs args) {
+		Log.WriteLine("Add intervallic new run type");
+			
+		runTypeAddWin = RunTypeAddWindow.Show(app1, false); //is intervallic
 		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	

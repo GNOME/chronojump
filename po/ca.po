@@ -3868,7 +3868,7 @@ msgstr "Afegit salt reactiu."
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4614
 msgid "Added simple run."
-msgstr "Afegida cursa reactiva."
+msgstr "Afegida cursa simple."
 
 #. without filter, only select name
 #: ../src/gui/chronojump.cs:4617

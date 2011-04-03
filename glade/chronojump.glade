@@ -3580,7 +3580,7 @@ options</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label137">
+              <widget class="GtkLabel" id="label_main_options">
                 <property name="visible">True</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Main
@@ -3594,7 +3594,7 @@ options</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkTable" id="table18">
+              <widget class="GtkTable" id="table_main_options">
                 <property name="visible">True</property>
                 <property name="border_width">8</property>
                 <property name="n_rows">3</property>
@@ -3603,7 +3603,6 @@ options</property>
                 <property name="row_spacing">4</property>
                 <child>
                   <widget class="GtkLabel" id="label138">
-                    <property name="visible">True</property>
                     <property name="label" translatable="yes">Type</property>
                   </widget>
                   <packing>
@@ -14216,6 +14215,7 @@ Chronopic</property>
                                 <child>
                                   <widget class="GtkNotebook" id="notebook_execute">
                                     <property name="visible">True</property>
+                                    <property name="show_tabs">False</property>
                                     <property name="show_border">False</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame2">
@@ -15239,6 +15239,7 @@ Chronopic</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox33">
                                                         <property name="visible">True</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
                                                           <widget class="GtkRadioButton" id="extra_window_radio_run_more">
                                                             <property name="visible">True</property>
@@ -15286,7 +15287,7 @@ Chronopic</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Add run type</property>
-                                                            <signal name="clicked" handler="on_run_type_add_activate"/>
+                                                            <signal name="clicked" handler="on_run_simple_type_add_activate"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image3212">
                                                             <property name="visible">True</property>
@@ -15551,6 +15552,7 @@ Chronopic</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox41">
                                                     <property name="visible">True</property>
+                                                    <property name="spacing">4</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_time_bells">
                                                         <property name="visible">True</property>
@@ -15604,7 +15606,7 @@ Chronopic</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="has_tooltip">True</property>
                                                         <property name="tooltip" translatable="yes">Add run type</property>
-                                                        <signal name="clicked" handler="on_run_type_add_activate"/>
+                                                        <signal name="clicked" handler="on_run_intervallic_type_add_activate"/>
                                                         <child>
                                                           <widget class="GtkImage" id="image3213">
                                                             <property name="visible">True</property>

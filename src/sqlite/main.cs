@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -86,6 +86,16 @@ class Sqlite
 	
 	~Sqlite() {}
 
+	//these two methods are used by methods who want to leave the connection opened
+	//because lots of similar transactions have to be done
+	public static void Open()
+	{
+		dbcon.Open();
+	}
+	public static void Close()
+	{
+		dbcon.Close();
+	}
 
 	public static bool Connect()
 	{

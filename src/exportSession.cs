@@ -235,7 +235,7 @@ public class ExportSession
 				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
-		
+	
 		foreach (Person p in myPersons) {
 			PersonSession ps = SqlitePersonSession.Select(p.UniqueID, mySession.UniqueID);
 			string sportName = (SqliteSport.Select(ps.SportID)).Name;
@@ -287,10 +287,13 @@ public class ExportSession
 					Catalog.GetString("Simulated") 
 				  );
 
+
+			Sqlite.Open();
 			foreach (string jumpString in myJumps) {
 				string [] myStr = jumpString.Split(new char[] {':'});
 					
 				double personWeight = SqlitePersonSession.SelectAttribute(
+						true, 	//dbconOpened
 						Convert.ToInt32(myStr[2]),
 						Convert.ToInt32(myStr[3]),
 						Constants.Weight);
@@ -331,6 +334,8 @@ public class ExportSession
 						
 					   );
 			}
+			Sqlite.Close();
+
 			writeData(myData);
 			writeData("VERTICAL-SPACE");
 		}
@@ -346,6 +351,7 @@ public class ExportSession
 		if(myJumpsRj.Length > 0) 
 			printTitles(title); 
 
+		Sqlite.Open();
 		foreach (string jump in myJumpsRj) {
 			
 			if(showSubjumps) {
@@ -394,6 +400,7 @@ public class ExportSession
 				myWeight = Util.WeightFromPercentToKg(
 						Convert.ToDouble(myStr[8]), 
 						SqlitePersonSession.SelectAttribute(
+							true, 	//dbconOpened
 							Convert.ToInt32(myStr[2]),
 							Convert.ToInt32(myStr[3]),
 							Constants.Weight
@@ -461,6 +468,8 @@ public class ExportSession
 				writeData("VERTICAL-SPACE");
 			}
 		}
+		Sqlite.Close();
+
 		//if not showSubjumps write data at last for not having every row as TH
 		if(! showSubjumps) {
 			writeData(myData);

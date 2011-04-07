@@ -319,7 +319,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 			// P = W * 9.8 * D / t   
 			// W: person weight
 			// D: distance between 3d and 9th stair
-			double weight = SqlitePersonSession.SelectAttribute(personID, sessionID, Constants.Weight);
+			double weight = SqlitePersonSession.SelectAttribute(false, personID, sessionID, Constants.Weight);
 			double distanceMeters = distance / 1000;
 			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
 		} else if(type == "Gesell-DBT") 

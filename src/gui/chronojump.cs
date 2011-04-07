@@ -4266,7 +4266,7 @@ Console.WriteLine("X");
 		if(eventOldPerson == myJump.PersonID) {
 			if(! weightPercentPreferred) {
 				double personWeight = SqlitePersonSession.SelectAttribute(
-						myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
 			myTreeViewJumps.Update(myJump);
@@ -4289,7 +4289,7 @@ Console.WriteLine("X");
 		if(eventOldPerson == myJump.PersonID) {
 			if(! weightPercentPreferred) {
 				double personWeight = SqlitePersonSession.SelectAttribute(
-						myJump.PersonID, currentSession.UniqueID, Constants.Weight);
+						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
 			}
 			myTreeViewJumpsRj.Update(myJump);

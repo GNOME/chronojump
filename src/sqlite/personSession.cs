@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2010   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -85,9 +85,10 @@ class SqlitePersonSession : Sqlite
 	
 	//we KNOW session
 	//select doubles
-	public static double SelectAttribute(int personID, int sessionID, string attribute)
+	public static double SelectAttribute(bool dbconOpened, int personID, int sessionID, string attribute)
 	{
-		dbcon.Open();
+		if( ! dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonSessionTable +
 		       	" WHERE personID == " + personID + 
@@ -104,7 +105,9 @@ class SqlitePersonSession : Sqlite
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
 		reader.Close();
-		dbcon.Close();
+		if( ! dbconOpened)
+			dbcon.Close();
+
 		return myReturn;
 	}
 

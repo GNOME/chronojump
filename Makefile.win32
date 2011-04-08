@@ -3,18 +3,18 @@ MONO_INSTALL_PATH=/c/Mono
 MONO = $(MONO_INSTALL_PATH)/bin/mono.exe
 MKBUNDLE = $(MONO_INSTALL_PATH)/lib/mono/2.0/mkbundle.exe
 GTK = $(MONO_INSTALL_PATH)
-#GST = c:\gstreamer.local
-GST = c:\gstreamer
+GST = c:\gstreamer.local
 
 CC   = gcc.exe
 CSC = $(MONO_INSTALL_PATH)/bin/gmcs
 BASH = /bin/bash.exe
 RM = rm -f
+BUNDLE = makeBundle.sh ${MONO_INSTALL_PATH}
 
-DIST_DIR = win32/dist
+DIST_DIR = build/windows_bundle
 BIN_DIR = ${DIST_DIR}/bin
 LOCALE_DIR =  ${DIST_DIR}/share/locale
-BUILD_DIR = win32/build
+BUILD_DIR = build/windows_bundle/build
 
 # i18n
 PO_FILES = \
@@ -63,8 +63,7 @@ LDFLAGS =  -shared -Wl -mno-cygwin -mms-bitfields  --export-all-symbols --enable
 
 
 #CesarPlayer
-#CESARPLAYER=${BUILD_DIR}/CesarPlayer.dll
-CESARPLAYER=chronojump/win32/build/CesarPlayer.dll
+CESARPLAYER=${BUILD_DIR}/CesarPlayer.dll
 CSC_CESARPLAYER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -unsafe
 	CESARPLAYER_COMPILE_TARGET = library
 
@@ -339,7 +338,7 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/chronopic_24.png,chronopic_24.png \
 	-resource:../images/chronopic_128.png,chronopic_128.png \
 	-resource:../images/gpm-statistics.png,gpm-statistics.png \
-	-resource:../images/spreadsheet,spreadsheet.png \
+	-resource:../images/spreadsheet.png,spreadsheet.png \
 	-resource:../images/stock_task-assigned.png,stock_task-assigned.png \
 	-resource:../images/preferences-system.png,preferences-system.png \
 	-resource:../images/stock_delete.png,stock_delete.png \
@@ -391,8 +390,7 @@ CHRONOJUMP_MINI_REFERENCES = \
 
 all: all-before ${GMO_FILES} ${LIBCESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
 
-Install: $(LIBCESARPLAYER) ${MO_FILES} bundle
-	cp $(LIBCESARPLAYER) "$(BIN_DIR)"
+install: $(LIBCESARPLAYER) ${MO_FILES} bundle
 
 clean: clean-custom
 	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
@@ -424,10 +422,3 @@ $(CHRONOJUMP): $(CESARPLAYER)
 	
 $(CHRONOJUMP_MINI):
 	cd src && $(CSC) $(CSC_CHRONOJUMP_MINI_FLAGS) -out:../$(CHRONOJUMP_MINI) -target:$(CHRONOJUMP_MINI_COMPILE_TARGET) $(CHRONOJUMP_MINI_FILES) $(CHRONOJUMP_MINI_REFERENCES)
-
-
-$(LIBCESARPLAYER): $(LINKOBJ)
-	$(CC) $(LDFLAGS) -o $(LIBCESARPLAYER) $(LINKOBJ) $(LIBS)
-
-$(CESARPLAYER):
-	cd CesarPlayer && $(CSC) $(CSC_CESARPLAYER_FLAGS) -out:/$(CESARPLAYER) -target:$(CESARPLAYER_COMPILE_TARGET) $(CESARPLAYER_FILES) $(CESARPLAYER_REFERENCES) $(CESARPLAYER_RESOURCES)

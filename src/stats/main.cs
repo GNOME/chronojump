@@ -1032,10 +1032,17 @@ public class Stat
 				continue;
 			}
 
-			//in isRjEvolution then check it this serie will be shown (each jumper has a TC and a TF serie)
-			if( ! acceptCheckedData( divideAndRoundDown(countSeries)) ) {
-				countSeries ++;
-				continue;
+			//in isRjEvolution then check if this serie will be shown (each jumper has a TC and a TF serie)
+			if(isRjEvolution) {
+				if( ! acceptCheckedData( divideAndRoundDown(countSeries)) ) {
+					countSeries ++;
+					continue;
+				}
+			} else {
+				if(! acceptCheckedData(countSeries)) {
+					countSeries ++;
+					continue;
+				}
 			}
 
 			rD += "serie" + count.ToString() + " <- c(";
@@ -1068,9 +1075,16 @@ public class Stat
 		int i=0;
 		string sep2 = "";
 		foreach(GraphSerie serie in GraphSeries) {
-			if(acceptCheckedData(divideAndRoundDown(i++))) {
-				colNamesD += sep2 + "'" + serie.Title + "'";
-				sep2 = ", ";
+			if(isRjEvolution) {
+				if(acceptCheckedData(divideAndRoundDown(i++))) {
+					colNamesD += sep2 + "'" + serie.Title + "'";
+					sep2 = ", ";
+				}
+			} else {
+				if(acceptCheckedData(i++)) {
+					colNamesD += sep2 + "'" + serie.Title + "'";
+					sep2 = ", ";
+				}
 			}
 		}
 		//create rows

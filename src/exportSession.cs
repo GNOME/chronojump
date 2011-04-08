@@ -554,10 +554,17 @@ public class ExportSession
 			}
 
 			string [] myStr = runString.Split(new char[] {':'});
+
+			RunType myRunType = new RunType();
+			string myRunTypeString = myStr[4];
+			string myRunDistanceInterval = myStr[7];
+			if(myRunDistanceInterval == "-1" || myRunDistanceInterval == "-1.0") {
+				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunTypeString);
+			}
 			myData.Add (
 					myStr[2] + ":" +    			//personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, run.uniqueID
-					myStr[4] + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
+					myRunTypeString + ":" +  Util.TrimDecimals(myStr[5], dec) + ":" + 	//run.type, run.distancetotal
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//run.timetotal
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
@@ -595,8 +602,16 @@ public class ExportSession
 				
 				int count = 1;
 				foreach(string myTime in timeString) {
-					myData.Add((count++).ToString() + ":" + 
-							Util.TrimDecimals(Util.GetSpeed(myStr[7], myTime, true), dec) + ":" + //true for: m/s
+					string myDistance = myStr[7];
+					string myShowDistance = "";
+					if(myRunDistanceInterval == "-1" || myRunDistanceInterval == "-1.0") {
+						myDistance = Util.GetRunIVariableDistancesStringRow(
+								myRunType.DistancesString, count -1).ToString();
+						myShowDistance = " (" + myDistance.ToString() + "m)";
+					}
+
+					myData.Add((count++).ToString() + myShowDistance + ":" + 
+							Util.TrimDecimals(Util.GetSpeed(myDistance, myTime, true), dec) + ":" + //true for: m/s
 							Util.TrimDecimals(myTime, dec)
 						  );
 				}

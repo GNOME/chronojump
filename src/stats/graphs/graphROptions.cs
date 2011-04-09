@@ -39,10 +39,11 @@ public class GraphROptions
 	public int MarginLeft;
 	public int MarginTop;
 	public int MarginRight;
+	public double XAxisFontSize;
 	
 	public GraphROptions(string Type, string VarX, string VarY, string Palette, bool Transposed, 
 			int LineWidth, int Width, int Height, string Legend,
-			int MarginBottom, int MarginLeft, int MarginTop, int MarginRight) {
+			int MarginBottom, int MarginLeft, int MarginTop, int MarginRight, double XAxisFontSize) {
 		this.Type = Type;
 		this.VarX = VarX;
 		this.VarY = VarY;
@@ -56,6 +57,7 @@ public class GraphROptions
 		this.MarginLeft = MarginLeft;
 		this.MarginTop = MarginTop;
 		this.MarginRight = MarginRight;
+		this.XAxisFontSize = XAxisFontSize;
 	}
 	public GraphROptions() {
 	}
@@ -76,10 +78,11 @@ public class GraphROptions
 		this.MarginLeft = Convert.ToInt32(strFull[10]);
 		this.MarginTop = Convert.ToInt32(strFull[11]);
 		this.MarginRight = Convert.ToInt32(strFull[12]);
+		this.XAxisFontSize = Convert.ToDouble(strFull[13]);
 	}
 
 	public override string ToString() {
 		return Type + ":" + VarX + ":" + VarY + ":" + Palette + ":" + Transposed + ":" + LineWidth + ":" + Width + ":" + Height + ":" + Legend + 
-			":" + MarginBottom + ":" + MarginLeft + ":" + MarginTop + ":" + MarginRight;
+			":" + MarginBottom + ":" + MarginLeft + ":" + MarginTop + ":" + MarginRight + ":" + XAxisFontSize;
 	}
 }	

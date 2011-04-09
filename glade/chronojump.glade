@@ -13902,7 +13902,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 738 73.799999999999997 664.20000000000005 738</property>
+                            <property name="hadjustment">0 0 730 73 657 730</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbuttonbox2">
@@ -21933,15 +21933,15 @@ Second Chronopic to platforms.</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox_graph_margins">
                                                         <property name="visible">True</property>
-                                                        <property name="spacing">20</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox383">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox384">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label777">
                                                             <property name="visible">True</property>
@@ -21978,7 +21978,7 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox385">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label778">
                                                             <property name="visible">True</property>
@@ -22015,7 +22015,7 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox386">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label779">
                                                             <property name="visible">True</property>
@@ -22052,7 +22052,7 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox387">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label780">
                                                             <property name="visible">True</property>
@@ -22086,6 +22086,54 @@ Second Chronopic to platforms.</property>
                                                             <property name="position">3</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkVSeparator" id="vseparator_stats_x_axis">
+                                                            <property name="visible">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_stats_x_axis">
+                                                            <property name="visible">True</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label66">
+                                                            <property name="visible">True</property>
+                                                            <property name="tooltip" translatable="yes">Adjust this and bottom margin if athlete's names are long.</property>
+                                                            <property name="label" translatable="yes">X axis font size</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_graph_x_cex_axis">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="adjustment">0.80000000000000004 0.5 1 0.10000000000000001 1 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="digits">1</property>
+                                                            <property name="snap_to_ticks">True</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">5</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -22104,6 +22152,7 @@ Second Chronopic to platforms.</property>
                                                           <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                           </packing>
                                                         </child>

@@ -112,6 +112,10 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.SpinButton spin_graph_margin_l; //left
 	[Widget] Gtk.SpinButton spin_graph_margin_t; //top
 	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
+	[Widget] Gtk.SpinButton spin_graph_x_cex_axis; //font size of x axis
+		
+	[Widget] Gtk.VSeparator vseparator_stats_x_axis;
+	[Widget] Gtk.HBox hbox_stats_x_axis;
 
 	//bool statsAutomatic = true;
 	bool statsAutomatic = false;
@@ -460,6 +464,11 @@ public partial class ChronoJumpWindow {
 		hbox_combo_graph_var_x.Visible = show;
 		hbox_combo_graph_var_y.Visible = show;
 	}
+			
+	private void showXAxisOptions(bool show) {
+		vseparator_stats_x_axis.Visible = show;
+		hbox_stats_x_axis.Visible = show;
+	}
 
 	private void on_combo_graph_type_changed(object o, EventArgs args) {
 		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeXY)
@@ -495,6 +504,13 @@ public partial class ChronoJumpWindow {
 			label_graph_legend.Visible = true;
 			combo_graph_legend.Visible = true;
 		}
+		
+		showXAxisOptions(false);
+
+		//barplot and lines can have font size on X axis
+		if(UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeBarplot ||
+				UtilGtk.ComboGetActive(combo_graph_type) == Constants.GraphTypeLines)
+			showXAxisOptions(true);
 	}
 	
 	private void on_button_graph_margin_default_clicked(object o, EventArgs args) {
@@ -502,6 +518,7 @@ public partial class ChronoJumpWindow {
 		spin_graph_margin_l.Value = 4;
 		spin_graph_margin_t.Value = 4;
 		spin_graph_margin_r.Value = 2;
+		spin_graph_x_cex_axis.Value = 0.8;
 	}
 
 	private void on_combo_select_checkboxes_changed(object o, EventArgs args) {
@@ -751,7 +768,8 @@ public partial class ChronoJumpWindow {
 				Convert.ToInt32(spin_graph_margin_b.Value), 
 				Convert.ToInt32(spin_graph_margin_l.Value), 
 				Convert.ToInt32(spin_graph_margin_t.Value), 
-				Convert.ToInt32(spin_graph_margin_r.Value) 
+				Convert.ToInt32(spin_graph_margin_r.Value),
+				Convert.ToDouble(spin_graph_x_cex_axis.Value)
 				);
 	}
 

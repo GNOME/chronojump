@@ -962,17 +962,6 @@ public partial class ChronoJumpWindow {
 	}
 
 	
-	//allows to click on updateStatsButton (from chronojump.cs)
-	//now checkbox of stats automatic is disabled
-	//and user has to do it always by hand
-	//workaround to bug ???????
-	private void stats_win_hideUpdateStatsButton() {
-		button_stats.Visible = false;
-	}
-	private void stats_win_showUpdateStatsButton() {
-		button_stats.Visible = true;
-	}
-		
 	private void on_checkbutton_show_enunciate_clicked(object o, EventArgs args) {
 		if (checkbutton_show_enunciate.Active) {
 			textview_enunciate.Show();

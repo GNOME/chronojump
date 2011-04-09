@@ -2627,7 +2627,7 @@ public partial class ChronoJumpWindow
 		//because it crashes in some thread problem
 		//that will be fixed in other release
 		//if(createdStatsWin)
-		//	stats_win_showUpdateStatsButton();
+		//	showUpdateStatsAndHideData(true);
 	}
 	
 	private void on_cancel_multi_clicked (object o, EventArgs args) 
@@ -2714,7 +2714,7 @@ public partial class ChronoJumpWindow
 		
 		//let update stats
 		if(createdStatsWin)
-			stats_win_showUpdateStatsButton();
+			showUpdateStatsAndHideData(true);
 	}
 		
 	//mark to only get inside on_multi_chronopic_finished one time
@@ -2744,7 +2744,7 @@ public partial class ChronoJumpWindow
 		
 		//let update stats
 		//if(createdStatsWin)
-		//	stats_win_showUpdateStatsButton();
+		//	showUpdateStatsAndHideData(true);
 	}
 		
 	//if user doesn't touch the platform after pressing "finish", sometimes it gets waiting a Read_event
@@ -3099,7 +3099,7 @@ Console.WriteLine("X");
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3171,8 +3171,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Jump"); //show
 		
 			if(createdStatsWin) {
-				//stats_win_fillTreeView_stats(false, false);
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 		
 			//unhide buttons for delete last jump
@@ -3235,7 +3234,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -3322,8 +3321,7 @@ Console.WriteLine("X");
 			//currentEventExecute.StopThread();
 
 			if(createdStatsWin) {
-				//stats_win_fillTreeView_stats(false, false);
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 
 			lastJumpIsSimple = false;
@@ -3405,7 +3403,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3470,7 +3468,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Run"); //show
 		
 			if(createdStatsWin) {
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 		
 			//unhide buttons for delete last jump
@@ -3563,7 +3561,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -3640,8 +3638,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "RunInterval"); //show
 
 			if(createdStatsWin) {
-				//stats_win_fillTreeView_stats(false, false);
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 
 			lastRunIsSimple = false;
@@ -3690,7 +3687,7 @@ Console.WriteLine("X");
 			
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//eventExecuteWin = EventExecuteWindow.Show(
 		ExecutingGraphData egd = event_execute_initializeVariables(
@@ -3756,8 +3753,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "ReactionTime"); //show
 		
 			if(createdStatsWin) {
-				//stats_win_fillTreeView_stats(false, false);
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 		
 			//unhide buttons for delete last reaction time
@@ -3826,7 +3822,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
 //		eventExecuteWin = EventExecuteWindow.Show(
@@ -3904,8 +3900,7 @@ Console.WriteLine("X");
 			showHideActionEventButtons(true, "Pulse"); //show
 			
 			if(createdStatsWin) {
-				//stats_win_fillTreeView_stats(false, false);
-				stats_win_showUpdateStatsButton();
+				showUpdateStatsAndHideData(true);
 			}
 			
 			//unhide buttons for delete last jump
@@ -3985,7 +3980,7 @@ Console.WriteLine("X");
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
-			stats_win_hideUpdateStatsButton();
+			showUpdateStatsAndHideData(false);
 
 		//show the event doing window
 		//eventExecuteWin = EventExecuteWindow.Show(
@@ -4398,10 +4393,6 @@ Console.WriteLine("X");
 			treeview_reaction_times_storeReset();
 			fillTreeView_reaction_times();
 		}
-	
-		//if(createdStatsWin) {
-		//	stats_win_fillTreeView_stats(false, false);
-		//}
 	}
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
@@ -4432,10 +4423,6 @@ Console.WriteLine("X");
 			treeview_pulses_storeReset();
 			fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
 		}
-	
-		//if(createdStatsWin) {
-		//	stats_win_fillTreeView_stats(false, false);
-		//}
 	}
 	
 	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
@@ -4837,11 +4824,6 @@ Console.WriteLine("X");
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
 
-		/*
-		if(createdStatsWin) {
-			stats_win_fillTreeView_stats(false, false);
-		}
-		*/
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.RT, id );
 		try {
 			if(currentReactionTime.UniqueID == id)
@@ -4879,11 +4861,6 @@ Console.WriteLine("X");
 		myTreeViewPulses.DelEvent(id);
 		showHideActionEventButtons(false, "Pulse");
 
-		/*
-		if(createdStatsWin) {
-			stats_win_fillTreeView_stats(false, false);
-		}
-		*/
 		Util.DeleteVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, id );
 		try {
 			if(currentPulse.UniqueID == id)
@@ -5102,12 +5079,6 @@ Console.WriteLine("X");
 		
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
-		
-		/*
-		if(createdStatsWin) {
-			stats_win_fillTreeView_stats(false, false);
-		}
-		*/
 	}
 
 	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {

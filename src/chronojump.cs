@@ -502,7 +502,7 @@ Console.WriteLine("--6--");
 			
 
 		Thread.Sleep (50);
-		Log.Write(" (PulseGTK:" + thread.ThreadState.ToString() + ") ");
+		//Log.Write(" (PulseGTK:" + thread.ThreadState.ToString() + ") ");
 		return true;
 	}
 	

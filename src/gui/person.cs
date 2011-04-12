@@ -112,11 +112,11 @@ public class PersonRecuperateWindow {
 	protected void createTreeView (Gtk.TreeView tv, int count) {
 		tv.HeadersVisible=true;
 		
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("ID"), count++);
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("Name"), count++);
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("Sex"), count++);
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("Date of Birth"), count++);
-		UtilGtk.CreateCols(tv, store, Catalog.GetString("Description"), count++);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("ID"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Name"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Sex"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Date of Birth"), count++, true);
+		UtilGtk.CreateCols(tv, store, Catalog.GetString("Description"), count++, true);
 
 		//sort non textual cols	
 		store.SetSortFunc (firstColumn + 0, UtilGtk.IdColumnCompare);

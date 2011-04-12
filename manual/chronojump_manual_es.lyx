@@ -532,383 +532,16 @@ http://www.chronojump.org/documents_es.html
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float table
-placement H
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="5">
-<features>
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="2cm">
-<column alignment="center" valignment="top" width="2cm">
-<column alignment="center" valignment="top" width="2.5cm">
-<column alignment="center" valignment="top" width="2.5cm">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+La versión actual de Chronopic es la Chronopic3 
 \size small
-Versión
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Lanzamiento
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Conexión
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Disponible en*
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Precio*
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-\size small
-Chronopic3
-\series default
- (fig 
+(fig 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Chronopic3"
 
 \end_inset
 
-)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-marzo 2008
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="2cm">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-USB
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Se envía a todo el mundo
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-37€
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Chronopic2-USB (fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Chronopic2-USB"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-septiembre 2007
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-USB
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Argentina
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-150$ argentinos
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Chronopic2-Serie (fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Chronopic2-Serie"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-septiembre 2007
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Serie
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Argentina
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-150$ argentinos
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Chronopic1 (fig 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Chronopic1"
-
-\end_inset
-
-)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-2005
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-Serie
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-España
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size small
-70 €
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\size small
-* Actualmente sólo se comercializa la Chronopic3.
- Para conseguirla, consulte la tienda web de Chronojump 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://www.chronojump.org/hardware_store_es.html
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:Versiones-de-Chronopic"
-
-\end_inset
-
-Versiones de Chronopic.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+).
 \end_layout
 
 \begin_layout Standard
@@ -977,251 +610,15 @@ La imagen superior corresponde a la tirada inicial de 200 unidades, en que
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic_2_0_usb_front_mini.jpg
-	width 250pt
-	height 159pt
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Chronopic2-USB"
-
-\end_inset
-
-Chronopic2-USB.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic_2_0_serial_front_mini.jpg
-	width 250pt
-	height 213pt
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Chronopic2-Serie"
-
-\end_inset
-
-Chronopic2-Serie.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\noindent
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic_foto.jpg
-	width 250pt
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:chronopic1"
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Chronopic1"
-
-\end_inset
-
-Chronopic1.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopic
- 2.0, este último en dos versiones: Serial y USB.
- Además de la posibilidad de uso del puerto USB, el Chronopic 2.0 es más
- pequeño y barato que el 1.0.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Montaje de Chronopic3 (tirada inicial)
-\end_layout
-
-\begin_layout Standard
-Chronopic3 se distribuye con el circuito por un lado y los elementos que
- conforman la caja: metacrilatos, tornillos y arandelas por otro.
- La figura 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Montaje-del-Chronopic3."
-
-\end_inset
-
- muestra el montaje del mismo.
- Nota: estas instrucciones son necesarias sólo para la tirada inicial, puesto
- que las Chronopics siguientes ya vienen montadas de fábrica.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic_box_mount.png
-	lyxscale 50
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Montaje-del-Chronopic3."
-
-\end_inset
-
-Montaje del Chronopic3 (tirada inicial).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Conexiones de Chronopic
 \end_layout
 
 \begin_layout Standard
-Las Chronopics USB, como Chronopic3, disponen de una entrada USB que gracias
- a un cable del mismo tipo se conectarán al ordenador.
+Chronopic3 dispone de una entrada USB que gracias a un cable del mismo tipo
+ se conectará al ordenador.
  Por ese cable la Chronopic recibirá la alimentación (toma de corriente)
  y se comunicará con el ordenador.
-\end_layout
-
-\begin_layout Standard
-Por otro lado, las Chronopics serie necesitan alimentación externa, por
- tanto deberán conectarse a un alimentador.
- Para más información, consultar el apartado 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Alimentación-de-Chronopic"
-
-\end_inset
-
-.
- Además, estas Chronopics requerirán de conectarse al ordenador por un cable.
- Si el ordenador tiene puerto serie, bastará con un cable telefónico-serie.
- Si el ordenador no tiene puerto USB, deberá convertirse a USB, para ello
- a parte del cable mencionado, será necesario un cable USB-serie o una pcmcia
- o adaptador con la misma funcionalidad.
- Puede consultar la figura 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:chronopic1"
-
-\end_inset
-
- para un ejemplo de conexión de la Chronopic1.
 \end_layout
 
 \begin_layout Standard
@@ -1244,9 +641,8 @@ Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
 \end_layout
 
 \begin_layout Standard
-La versión 0.9 del Software Chronojump permite conectar hasta 4 chronopics
- con una señal independiente, conectadas cada una a su vez a uno o más dispositi
-vos de detección.
+Se permite conectar hasta 4 chronopics con una señal independiente, conectadas
+ cada una a su vez a uno o más dispositivos de detección.
  De esta manera se pueden cronometrar independientemente a varios sujetos,
  cronometrar ritmos complejos u otras aplicaciones.
 \end_layout
@@ -1257,7 +653,7 @@ Funcionamiento de Chronopic
 
 \begin_layout Standard
 Chronopic detecta los cambios de la plataforma de contactos y los envía
- al ordenador por el cable USB, USB-serie o serie.
+ al ordenador.
  También es posible usar el pulsador de prueba para simular los cambios
  de la plataforma.
 \end_layout
@@ -1269,62 +665,7 @@ Chronopic dispone de una luz que cuando está encendida indica que el sujeto
 \end_layout
 
 \begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Alimentación-de-Chronopic"
-
-\end_inset
-
-Alimentación de Chronopic
-\end_layout
-
-\begin_layout Standard
-Chronopic3 y Chronopic2.0-USB se alimentan por el propio cable USB, el resto
- de chronopics se alimentan usando un alimentador de 4.5 a 6 voltios, pudiendo
- adquirirse un alimentador convencional (que se conecta a la corriente eléctrica
-) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
- Esta opción facilita los tests de campo en las chronopics serie.
-\end_layout
-
-\begin_layout Standard
-Continuando con las antiguas Chronopics serie, la conexión de la batería
- debería encender automáticamente la luz del Chronopic, aunque Chronopic
- no esté conectado a ningún ordenador.
- Esta es una buena prueba para saber si la alimentación es la correcta.
-\end_layout
-
-\begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Chronopic-puertos-serie-usb"
-
-\end_inset
-
-Puertos USB y serie
-\end_layout
-
-\begin_layout Standard
-Chronopic se conecta a la plataforma de contactos y al ordenador.
- La conexión al ordenador se realiza mediante un puerto tal y como se indica
- en el cuadro 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:Versiones-de-Chronopic"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Hoy en día, la mayoría de los ordenadores portátiles no disponen de puerto
- serie, así que el puerto USB es el requerido por la mayoría de usuarios.
- Los usuarios sin puerto serie, pero con un Chronopic que se conecta por
- este puerto, deberán conseguir una tarjeta de tipo pcmcia o similar que
- le agregue un puerto serie a su ordenador, o conseguir un cable USB-serie,
- siendo esta última opción la favorita.
- En muchas ciudades es difícil encontrar estos cables en stock si no se
- han pedido previamente, otra opción es la compra por Internet.
+Puertos USB
 \end_layout
 
 \begin_layout Standard
@@ -1332,7 +673,7 @@ El sistema operativo asigna nombres a los puertos, tal y como se indica
  en el cuadro 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "tab:Nombres-de-puerto"
+reference "tab:Nombres-de-puertos-USB"
 
 \end_inset
 
@@ -1349,7 +690,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="4">
+<lyxtabular version="3" rows="3" columns="4">
 <features>
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -1407,48 +748,6 @@ MS Windows
 \begin_inset Text
 
 \begin_layout Plain Layout
-Serie
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-COM1
-\series default
- o COM2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-MS Windows
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 USB
 \end_layout
 
@@ -1469,48 +768,6 @@ COM1, COM2, COM3, ...
 
 \begin_layout Plain Layout
 Requiere un driver
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-GNU/Linux
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Serie
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-/dev/ttyS0
-\series default
- o /dev/ttyS1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
 \end_layout
 
 \end_inset
@@ -1571,7 +828,7 @@ USB
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:Nombres-de-puerto"
+name "tab:Nombres-de-puertos-USB"
 
 \end_inset
 
@@ -1611,37 +868,6 @@ Un driver es un pequeño programa que le indica al ordenador cómo debe funciona
 La placa Chronopic3 requiere un driver para funcionar en Windows.
  Este driver se instala automáticamente al instalar cualquier versión de
  Chronojump a partir de la 0,7.
-\end_layout
-
-\begin_layout Standard
-La placa Chronopic2-USB puede requerir un driver si Windows no es capaz
- de detectarla.
- Windows debería asignar automáticamente un nombre (COM1...
- COM8) a la conexión por puerto USB pero en muchos equipos o instalaciones
- de Windows no lo hace, y por eso es necesario el driver (aunque los fabricantes
- de los cables digan que no es necesario pues según ellos es detectado de
- forma automática).
- Por ello se recomienda bajarse un driver USB-serie como este: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip
-\end_layout
-
-\end_inset
-
-, o cualquier otro facilitado por el fabricante u obtenido buscando por
- la red 
-\begin_inset Quotes eld
-\end_inset
-
-USB-serial driver
-\begin_inset Quotes erd
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard
@@ -1690,8 +916,17 @@ Nuevo hardware encontrado
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
 Chronopic3 en GNU/Linux
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1790,8 +1025,17 @@ url{http://msdark.
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
 Los kernels de Linux aparecidos a partir del año 2009, detectan la placa
  Chronopic sin ningún problema.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1805,14 +1049,8 @@ Detección del puerto
 \end_layout
 
 \begin_layout Standard
-Tal y como se explica en el apartado 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Chronopic-puertos-serie-usb"
-
-\end_inset
-
-, se asignará un nombre de puerto a la conexión.
+Se asignará un nombre de puerto a la conexión que diferirá en función del
+ sistema operativo:
 \end_layout
 
 \begin_layout Standard
@@ -1821,8 +1059,7 @@ En el caso de
 Linux
 \series default
  el nombre de puerto no suele ser problema, pues los nombres son claros
- y la opción /dev/ttyUSB0 (USB-serie) o /dev/ttyS0 (serie) suele ser la
- correcta.
+ y la opción /dev/ttyUSB0 suele ser la correcta.
  
 \end_layout
 
@@ -1954,17 +1191,8 @@ COM3
 \end_layout
 
 \begin_layout Standard
-Raramente el nombre del puerto cambiará, así que esta operación debe realizarse
- sólo una vez, ya que cuando haya introducido el nombre del puerto en la
- ventana de configuración de chronopic (tal y como se explica en el apartado
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Conexión-de-Chronopic/s"
-
-\end_inset
-
-).
+El nombre de puerto podría cambiar en después de reiniciar el ordenador
+ o conectar otros periféricos USB.
 \end_layout
 
 \begin_layout Standard
@@ -2090,30 +1318,13 @@ Realice cada una de las pruebas hasta que encuentre cuál es el fallo.
 \end_layout
 
 \begin_layout Enumerate
-Problema de alimentación: 
-\end_layout
-
-\begin_deeper
-\begin_layout Enumerate
-En Chronopics USB (Como Chronopic3), la luz del mismo debe encenderse al
- conectar el cable USB (siempre que el ordenador esté encendido, no haya
- una plataforma conectada y alguien pisándola, o se esté pulsando el pulsador
- de prueba).
+Problema de alimentación: La luz del Chronopic debe encenderse al conectar
+ el de alimentación (cable USB) siempre que el ordenador esté encendido,
+ no haya una plataforma conectada y alguien pisándola, o se esté pulsando
+ el pulsador de prueba.
  
 \end_layout
 
-\begin_layout Enumerate
-En Chronopics serie se recomienda conectar la alimentación al Chronopic
- y verificar que la luz se enciende (no es necesario ordenador).
- Si no se enciende significa que falla el Chronopic o el alimentador, pruebe
- si es posible con otro alimentador o Chronopic para determinar cuál es
- el que falla.
- El alimentador debe estar entre 4.5 y 6 voltios.
- Algunos alimentadores tienen dos polaridades, pregunte al vendedor y conecte
- con la polaridad correcta.
-\end_layout
-
-\end_deeper
 \begin_layout Enumerate
 Problema de plataforma de contactos: Conecte la plataforma de contactos
  (sin necesidad de ordenador) al Chronopic y verifique que pulsando en la
@@ -9063,6 +8274,928 @@ name "fig:Preferencias3"
 \end_inset
 
 Ventana de preferencias - pestaña 3.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Chronopics anteriores a Chronopic 3
+\end_layout
+
+\begin_layout Standard
+Nota: Este apéndice es únicamente de interés para los que disponen de una
+ placa Chronopic antigua.
+ Estas placas se vendieron antes de marzo de 2008.
+\end_layout
+
+\begin_layout Section
+Versiones de Chronopic
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2.5cm">
+<column alignment="center" valignment="top" width="2.5cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Versión
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Lanzamiento
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Conexión
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Disponible en*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Precio*
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size small
+Chronopic3
+\series default
+ (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic3"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+marzo 2008
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="2cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Se envía a todo el mundo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+37€
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic2-USB (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-USB"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+septiembre 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+150$ argentinos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic2-Serie (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-Serie"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+septiembre 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+150$ argentinos
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic1 (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic1"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+2005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+España
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+70 €
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size small
+* Actualmente sólo se comercializa la Chronopic3.
+ Para conseguirla, consulte la tienda web de Chronojump 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/hardware_store_es.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Versiones-de-Chronopic"
+
+\end_inset
+
+Versiones de Chronopic.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_2_0_usb_front_mini.jpg
+	width 250pt
+	height 159pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-USB"
+
+\end_inset
+
+Chronopic2-USB.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_2_0_serial_front_mini.jpg
+	width 250pt
+	height 213pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-Serie"
+
+\end_inset
+
+Chronopic2-Serie.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_foto.jpg
+	width 250pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:chronopic1"
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic1"
+
+\end_inset
+
+Chronopic1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopic
+ 2.0, este último en dos versiones: Serial y USB.
+ Además de la posibilidad de uso del puerto USB, el Chronopic 2.0 es más
+ pequeño y barato que el 1.0.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conexiones de Chronopics serie
+\end_layout
+
+\begin_layout Standard
+Las Chronopics serie necesitan alimentación externa, por tanto deberán conectars
+e a un alimentador.
+ Además, estas Chronopics requerirán de conectarse al ordenador por un cable.
+ Si el ordenador tiene puerto serie, bastará con un cable telefónico-serie.
+ Si el ordenador no tiene puerto USB, deberá convertirse a USB, para ello
+ a parte del cable mencionado, será necesario un cable USB-serie o una pcmcia
+ o adaptador con la misma funcionalidad.
+ Puede consultar la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:chronopic1"
+
+\end_inset
+
+ para un ejemplo de conexión de la Chronopic1.
+\end_layout
+
+\begin_layout Standard
+En cuanto a la alimentación, las Chronopics serie se alimentan usando un
+ alimentador de 4.5 a 6 voltios, pudiendo adquirirse un alimentador convencional
+ (que se conecta a la corriente eléctrica) o crearse un alimentador casero
+ con 3 pilas de 1,5 voltios.
+ Esta opción facilita los tests de campo en las chronopics serie.
+ La conexión de la batería debería encender automáticamente la luz del Chronopic
+, aunque Chronopic no esté conectado a ningún ordenador.
+ Esta es una buena prueba para saber si la alimentación es la correcta.
+\end_layout
+
+\begin_layout Standard
+En caso de problemas de funcionamiento, se recomienda conectar la alimentación
+ al Chronopic y verificar que la luz se enciende (no es necesario ordenador
+ ni plataforma de contactos).
+ Si no se enciende significa que falla el Chronopic o el alimentador, pruebe
+ si es posible con otro alimentador o Chronopic para determinar cuál es
+ el que falla.
+ El alimentador debe estar entre 4.5 y 6 voltios.
+ Algunos alimentadores tienen dos polaridades, pregunte al vendedor y conecte
+ con la polaridad correcta.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Chronopic-puertos-serie-usb"
+
+\end_inset
+
+Puertos USB y serie
+\end_layout
+
+\begin_layout Standard
+Los usuarios que disponen de un Chronopic serie y sin puerto serie en el
+ ordenador, deberán conseguir una tarjeta de tipo pcmcia o similar que le
+ agregue un puerto serie a su ordenador, o conseguir un cable USB-serie,
+ siendo esta última opción la favorita.
+ En muchas ciudades es difícil encontrar estos cables en stock si no se
+ han pedido previamente, otra opción es la compra por Internet.
+\end_layout
+
+\begin_layout Standard
+El sistema operativo asigna nombres a los puertos, tal y como se indica
+ en el cuadro 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Nombres-de-puertos-USB-y-serie"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="5cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sistema operativo
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tipo de puerto
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nombre
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MS Windows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+COM1
+\series default
+ o COM2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MS Windows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+COM1, COM2, COM3, ...
+ (visto hasta COM27)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GNU/Linux
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Serie
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+/dev/ttyS0
+\series default
+ o /dev/ttyS1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GNU/Linux
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+/dev/ttyUSB0
+\series default
+, /dev/ttyUSB1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Nombres-de-puertos-USB-y-serie"
+
+\end_inset
+
+Nombres de puerto en cada sistema operativo.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+Los nombres más usuales se muestran en negrita.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La placa Chronopic2-USB puede requerir un driver si Windows no es capaz
+ de detectarla.
+ Windows debería asignar automáticamente un nombre (COM1...
+ COM8) a la conexión por puerto USB pero en muchos equipos o instalaciones
+ de Windows no lo hace, y por eso es necesario el driver (aunque los fabricantes
+ de los cables digan que no es necesario pues según ellos es detectado de
+ forma automática).
+ Por ello se recomienda bajarse un driver USB-serie como este: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip
+\end_layout
+
+\end_inset
+
+, o cualquier otro facilitado por el fabricante u obtenido buscando por
+ la red 
+\begin_inset Quotes eld
+\end_inset
+
+USB-serial driver
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Montaje de Chronopic3 (tirada inicial)
+\end_layout
+
+\begin_layout Standard
+Chronopic3 se distribuyó inicialmente con el circuito por un lado y los
+ elementos que conforman la caja: metacrilatos, tornillos y arandelas por
+ otro.
+ La figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Montaje-del-Chronopic3."
+
+\end_inset
+
+ muestra el montaje del mismo.
+ Nota: estas instrucciones son necesarias sólo para la tirada inicial, puesto
+ que las Chronopics siguientes ya vienen montadas de fábrica.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_box_mount.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Montaje-del-Chronopic3."
+
+\end_inset
+
+Montaje del Chronopic3 (tirada inicial).
 \end_layout
 
 \end_inset

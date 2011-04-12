@@ -159,10 +159,12 @@ public class UtilGtk
 		myCombo.AppendText (myData);
 	}
 
-	public static void CreateCols (Gtk.TreeView tv, Gtk.TreeStore store, string name, int verticalPos) {
+	public static void CreateCols (Gtk.TreeView tv, Gtk.TreeStore store, 
+			string name, int verticalPos, bool visible) {
 		Gtk.TreeViewColumn myCol = new Gtk.TreeViewColumn (name, new CellRendererText(), "text", verticalPos);
 		myCol.SortColumnId = verticalPos;
 		myCol.SortIndicator = true;
+		myCol.Visible = visible;
 		tv.AppendColumn ( myCol );
 	}
 	

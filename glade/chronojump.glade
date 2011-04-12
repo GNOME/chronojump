@@ -13547,7 +13547,7 @@ by you</property>
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkVBox" id="vbox65">
-                        <property name="width_request">190</property>
+                        <property name="width_request">180</property>
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkFrame" id="frame_persons">
@@ -13661,7 +13661,6 @@ by you</property>
                                     </child>
                                     <child>
                                       <widget class="GtkScrolledWindow" id="scrolledwindow24">
-                                        <property name="width_request">145</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="hscrollbar_policy">automatic</property>
@@ -13911,7 +13910,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 1 0.10000000000000001 0.90000000000000002 1</property>
+                            <property name="hadjustment">0 0 730 73 657 730</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbuttonbox2">

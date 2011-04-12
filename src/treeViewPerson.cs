@@ -59,11 +59,12 @@ public class TreeViewPersons
 	{
 		treeview.HeadersVisible=true;
 		int i=0;
+		bool visible = false;
 		foreach(string myCol in columnsString) {
-			//treeview.AppendColumn (Catalog.GetString(myCol), new CellRendererText(), "text", i++);
-			UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++);
+			UtilGtk.CreateCols(treeview, store, Catalog.GetString(myCol), i++, visible);
 			if(i == 1)
 				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
+			visible = true;
 		}
 	}
 	

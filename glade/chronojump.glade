@@ -1924,23 +1924,32 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTextView" id="textview_power">
-                    <property name="width_request">300</property>
+                  <widget class="GtkAlignment" id="alignment1">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="pixels_below_lines">2</property>
-                    <property name="editable">False</property>
-                    <property name="wrap_mode">word</property>
-                    <property name="cursor_visible">False</property>
-                    <property name="text" translatable="yes">On main window, power is calculated depending on jump type:
--Jumps with TC &amp; TF: Bosco Relative Power (W/Kg)
- 	P = 24.6 * (Total time + Flight time) / Contact time
--Jumps without TC: Lewis Peak Power 1974 (W)
-	P = SQRT(4.9) * 9.8 * (body weight+extra weight) *
-	SQRT(jump height in meters)
-If you want to use other formulas, go to Tools / Statistics.</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <widget class="GtkTextView" id="textview_power">
+                        <property name="width_request">300</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="editable">False</property>
+                        <property name="wrap_mode">word</property>
+                        <property name="left_margin">4</property>
+                        <property name="cursor_visible">False</property>
+                        <property name="text" translatable="yes">On jumps results tab, power is calculated depending on jump type:
+
+Jumps with TC &amp; TF: Bosco Relative Power (W/Kg)
+P = 24.6 * (Total time + Flight time) / Contact time
+
+Jumps without TC: Lewis Peak Power 1974 (W)
+P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)
+
+If you want to use other formulas, go to Statistics.</property>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
+                    <property name="padding">2</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -2006,7 +2015,7 @@ If you want to use other formulas, go to Tools / Statistics.</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="padding">10</property>
+                        <property name="padding">12</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -13902,7 +13911,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 730 73 657 730</property>
+                            <property name="hadjustment">0 0 1 0.10000000000000001 0.90000000000000002 1</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbuttonbox2">

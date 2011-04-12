@@ -22,10 +22,10 @@ PRE
 http://sourceforge.net/projects/mingw/files/
 2: install msys
 http://sourceforge.net/projects/mingw/files/
-3: install mono in a dir without spaces
+3: install mono in a dir without spaces (use 2.4)
 4: install innosetup
 
-In 'Makefile.win32'change MONO_INSTALL_PATH to the Mono installation folder (eg: MONO_INSTALL_PATH=/c/Mono-2.4)
+In 'Makefile.win32'change MONO_INSTALL_PATH to the Mono installation folder (eg: MONO_INSTALL_PATH=/c/Mono)
 MONO HAS TO BE INSTALLED IN A PATH WIHTOUT SPACES
 
 on mingw/msys, go to chronojump folder and run:
@@ -66,3 +66,10 @@ change version AT TWO PLACES:
 -OutputBaseFilename
 
 compile
+
+when running, if crashes do:
+
+open a MinGW Msys terminal
+rxvt.exe
+cd /c/ProgramFiles/Chronojump/bin
+Chronojump.exe

@@ -89,8 +89,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_pulses;
 
 	//menus
-	[Widget] Gtk.MenuItem menu_other;
-	[Widget] Gtk.MenuItem menu_tools;
+	[Widget] Gtk.MenuItem session_menuitem;
+	[Widget] Gtk.MenuItem help_menuitem;
 
 	//menu session
 	[Widget] Gtk.MenuItem menuitem_edit_session;
@@ -155,10 +155,6 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.CheckButton extra_window_check_multichronopic_delete_first;
 //	[Widget] Gtk.Entry entry_multi_chronopic_cp2;
 
-	//tools
-	[Widget] Gtk.MenuItem menuitem_preferences;
-
-
 	//widgets for enable or disable
 	[Widget] Gtk.Button button_new;
 	[Widget] Gtk.Button button_open;
@@ -201,6 +197,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
 	[Widget] Gtk.Box hbox_this_test_buttons;
+		
+	[Widget] Gtk.Button button_upload_session;
+	[Widget] Gtk.Button button_activate_chronopics;
 
 	//non standard icons	
 	[Widget] Gtk.Image image_jump_reactive_bell;
@@ -3090,10 +3089,6 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
-		//change to page 0 of notebook_results if were in other
-		//update, don't do this now, because it's buggy with currentJump on More
-		//notebooks_change(0);
-		
 		//show the event doing window
 		double progressbarLimit = 3; //3 phases for show the Dj
 		if( currentJumpType.StartIn || 
@@ -3232,10 +3227,6 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 	
-		//change to page 1 of notebook_results if were in other
-		//update, don't do this now, because it's buggy with currentJump on More
-		//notebooks_change(1);
-		
 		//don't let update until test finishes
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
@@ -3397,10 +3388,6 @@ Console.WriteLine("X");
 		//hide jumping (running) buttons
 		sensitiveGuiEventDoing();
 	
-		//change to page 2 of notebook_results if were in other
-		//update, don't do this now, because it's buggy with currentJump on More
-		//notebooks_change(2);
-			
 		//show the event doing window
 		
 		double progressbarLimit = 3; //same for startingIn than out (before)
@@ -3560,9 +3547,6 @@ Console.WriteLine("X");
 		//hide running buttons
 		sensitiveGuiEventDoing();
 		
-		//change to page 3 of notebook_results if were in other
-		notebooks_change(3);
-		
 		//don't let update until test finishes
 		if(createdStatsWin)
 			showUpdateStatsAndHideData(false);
@@ -3683,9 +3667,6 @@ Console.WriteLine("X");
 		//hide jumping buttons
 		sensitiveGuiEventDoing();
 
-		//change to page 4 of notebook_results if were in other
-		//notebooks_change(4);
-		
 		//show the event doing window
 		double progressbarLimit = 2;
 			
@@ -3820,9 +3801,6 @@ Console.WriteLine("X");
 			
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
-		
-		//change to page 5 of notebook_results if were in other
-		//notebooks_change(5);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -3978,9 +3956,6 @@ Console.WriteLine("X");
 			
 		//hide pulse buttons
 		sensitiveGuiEventDoing();
-		
-		//change to page 6 of notebook_results if were in other
-		//notebooks_change(6);
 		
 		//don't let update until test finishes
 		if(createdStatsWin)
@@ -5229,7 +5204,6 @@ Console.WriteLine("X");
 
 	private void sensitiveGuiNoSession () 
 	{
-		menuitem_preferences.Sensitive = true;
 		treeview_persons.Sensitive = false;
 		
 		//menuitems
@@ -5316,6 +5290,11 @@ Console.WriteLine("X");
 	}
 	
 	private void sensitiveGuiEventDoing () {
+		session_menuitem.Sensitive = false;
+		help_menuitem.Sensitive = false;
+		viewport_mode.Sensitive = false;
+		frame_persons.Sensitive = false;
+		
 		button_execute_test.Sensitive = false;
 		//hbox
 		hbox_jumps.Sensitive = false;
@@ -5325,10 +5304,20 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = false;
 		hbox_this_test_buttons.Sensitive = false;
 		
+		button_upload_session.Sensitive = false;
+		button_activate_chronopics.Sensitive = false;
+		notebook_options.Sensitive = false;
+		event_execute_button_update.Sensitive = false;
+		
 		//hbox_multi_chronopic_buttons.Sensitive = false;
 	}
    
 	private void sensitiveGuiEventDone () {
+		session_menuitem.Sensitive = true;
+		help_menuitem.Sensitive = true;
+		viewport_mode.Sensitive = true;
+		frame_persons.Sensitive = true;
+
 		button_execute_test.Sensitive = true;
 		//hbox
 		hbox_jumps.Sensitive = true;
@@ -5338,6 +5327,11 @@ Console.WriteLine("X");
 		hbox_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
 		hbox_this_test_buttons.Sensitive = true;
+		
+		button_upload_session.Sensitive = true;
+		button_activate_chronopics.Sensitive = true;
+		notebook_options.Sensitive = true;
+		event_execute_button_update.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {

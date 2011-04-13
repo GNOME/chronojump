@@ -1260,7 +1260,6 @@ Log.WriteLine("Preparing reactive A");
 		int alto=drawingarea.Allocation.Height;
 
 		
-		Log.WriteLine("Painting reactive A");
 		event_execute_erasePaint(drawingarea);
 		
 		writeMarginsText(maxValue, minValue, alto);

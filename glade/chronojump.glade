@@ -13339,7 +13339,7 @@ by you</property>
           <widget class="GtkMenuBar" id="C">
             <property name="visible">True</property>
             <child>
-              <widget class="GtkMenuItem" id="session">
+              <widget class="GtkMenuItem" id="session_menuitem">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Session</property>
                 <property name="use_underline">True</property>
@@ -13468,12 +13468,12 @@ by you</property>
               </widget>
             </child>
             <child>
-              <widget class="GtkMenuItem" id="help1">
+              <widget class="GtkMenuItem" id="help_menuitem">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Help</property>
                 <property name="use_underline">True</property>
                 <child>
-                  <widget class="GtkMenu" id="help1_menu">
+                  <widget class="GtkMenu" id="help_menu">
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_manual">
                         <property name="label">_Manual</property>
@@ -13915,7 +13915,7 @@ by you</property>
                             <property name="hadjustment">0 0 735 73.5 661.5 735</property>
                             <property name="shadow_type">out</property>
                             <child>
-                              <widget class="GtkHButtonBox" id="hbuttonbox2">
+                              <widget class="GtkHButtonBox" id="hbutton_radio_modes">
                                 <property name="visible">True</property>
                                 <child>
                                   <widget class="GtkRadioButton" id="radio_mode_jumps">

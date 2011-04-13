@@ -17616,7 +17616,7 @@ Second Chronopic to platforms.</property>
                                             <child>
                                               <widget class="GtkVBox" id="vbox22">
                                                 <property name="visible">True</property>
-                                                <property name="spacing">10</property>
+                                                <property name="spacing">2</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox15">
                                                     <property name="visible">True</property>
@@ -17653,6 +17653,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="label_xalign">0</property>
                                                             <property name="shadow_type">in</property>
+                                                            <property name="yalign">0</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox30">
                                                             <property name="visible">True</property>
@@ -17810,7 +17811,7 @@ Second Chronopic to platforms.</property>
                                                 <child>
                                                   <widget class="GtkNotebook" id="notebook_results_data">
                                                     <property name="width_request">250</property>
-                                                    <property name="height_request">100</property>
+                                                    <property name="height_request">72</property>
                                                     <property name="visible">True</property>
                                                     <property name="show_tabs">False</property>
                                                     <property name="show_border">False</property>

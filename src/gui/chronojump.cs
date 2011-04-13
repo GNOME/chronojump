@@ -461,6 +461,10 @@ public partial class ChronoJumpWindow
 		rand = new Random(40);
 	
 		putNonStandardIcons();	
+		eventExecutePutNonStandardIcons();
+		//eventExecuteCreateComboGraphResultsSize();
+
+
 		/*
 	
 		if(chronopicPort != Constants.ChronopicDefaultPortWindows && 

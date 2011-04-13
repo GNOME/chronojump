@@ -143,7 +143,12 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.DrawingArea event_execute_drawingarea;
 	[Widget] Box event_execute_hbox_drawingarea;
+	[Widget] Gtk.Box hbox_combo_graph_results_width;
+	[Widget] Gtk.Box hbox_combo_graph_results_height;
+	[Widget] Gtk.ComboBox combo_graph_results_width;
+	[Widget] Gtk.ComboBox combo_graph_results_height;
 	[Widget] Gtk.Alignment event_execute_alignment;
+	//[Widget] Gtk.Alignment event_execute_alignment_drawingarea;
 	//static Gdk.Pixmap event_execute_pixmap = null;
 	Gdk.Pixmap event_execute_pixmap = null;
 	
@@ -182,6 +187,10 @@ public partial class ChronoJumpWindow
 	Pango.Layout layout;
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
+	
+	private static string [] comboGraphResultsSize = {
+		"100", "200", "300", "400", "500"
+	};
 	
 	//static EventExecuteWindow EventExecuteWindowBox;
 	
@@ -310,9 +319,7 @@ public partial class ChronoJumpWindow
 		
 		layout = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
-
-		eventExecutePutNonStandardIcons();
-		
+	
 		eventHasEnded = false;
 	
 		cameraRecordInitiate();
@@ -471,6 +478,39 @@ public partial class ChronoJumpWindow
 		notebook_results_data.CurrentPage = 5;
 	}
 	
+	/*
+	private void eventExecuteCreateComboGraphResultsSize() {
+		combo_graph_results_width = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_results_width, comboGraphResultsSize, "");
+		combo_graph_results_width.Active=2; //300
+		
+		hbox_combo_graph_results_width.PackStart(combo_graph_results_width, true, true, 0);
+		hbox_combo_graph_results_width.ShowAll();
+		combo_graph_results_width.Sensitive = true;
+		
+		combo_graph_results_width.Changed += new EventHandler (on_combo_graph_results_changed);
+		
+		combo_graph_results_height = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_graph_results_height, comboGraphResultsSize, "");
+		combo_graph_results_height.Active=1; //200
+		
+		hbox_combo_graph_results_height.PackStart(combo_graph_results_height, true, true, 0);
+		hbox_combo_graph_results_height.ShowAll();
+		combo_graph_results_height.Sensitive = true;
+		
+		combo_graph_results_height.Changed += new EventHandler (on_combo_graph_results_changed);
+	}
+	*/
+
+	/*	
+	private void on_combo_graph_results_changed(object o, EventArgs args) {
+		//event_execute_drawingarea.Size(
+		event_execute_alignment_drawingarea.SetSizeRequest(
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_results_width)),
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_graph_results_height)));
+		sizeChanged = true;
+	}
+	*/
 	
 	//called for cleaning the graph of a event done before than the current
 	private void event_execute_clearDrawingArea() 
@@ -1220,6 +1260,7 @@ Log.WriteLine("Preparing reactive A");
 		int alto=drawingarea.Allocation.Height;
 
 		
+		Log.WriteLine("Painting reactive A");
 		event_execute_erasePaint(drawingarea);
 		
 		writeMarginsText(maxValue, minValue, alto);
@@ -1355,6 +1396,10 @@ Log.WriteLine("Preparing reactive A");
 				event_execute_image_jump_reactive_tf_tc_bad.Show();
 		}
 
+		/*
+		 * these Log.writeLines are useful to don't "get the thread dead"
+		 * without them , sometimes drawingarea is not painted
+		 */
 		event_execute_label_jump_reactive_tc_now.Text = Util.TrimDecimals(lastTc.ToString(), prefsDigitsNumber);
 		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), prefsDigitsNumber);
 		event_execute_label_jump_reactive_tf_now.Text = Util.TrimDecimals(lastTv.ToString(), prefsDigitsNumber);

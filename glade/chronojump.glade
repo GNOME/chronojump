@@ -13706,6 +13706,7 @@ by you</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox36">
                                                         <property name="visible">True</property>
+                                                        <property name="spacing">2</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_persons_up">
                                                             <property name="visible">True</property>
@@ -13797,6 +13798,7 @@ by you</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox16">
                                             <property name="visible">True</property>
+                                            <property name="spacing">2</property>
                                             <child>
                                               <widget class="GtkButton" id="button_edit_current_person">
                                                 <property name="visible">True</property>
@@ -13910,7 +13912,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 730 73 657 730</property>
+                            <property name="hadjustment">0 0 735 73.5 661.5 735</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbuttonbox2">
@@ -16096,10 +16098,12 @@ Chronopic</property>
                                                         <property name="visible">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="extra_window_label_jumps_no_options">
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                           </widget>
                                                           <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -16136,55 +16140,6 @@ Chronopic</property>
                                                             <property name="bottom_attach">4</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options"></property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox24">
-                                                            <property name="visible">True</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_kg">
-                                                            <property name="label">Kg</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="toggled" handler="on_extra_window_jumps_radiobutton_kg_toggled"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_weight">
-                                                            <property name="label" translatable="yes">% body 
-weight</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_kg</property>
-                                                            <signal name="toggled" handler="on_extra_window_jumps_radiobutton_weight_toggled"/>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="top_attach">2</property>
-                                                            <property name="bottom_attach">3</property>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            <property name="y_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -16286,7 +16241,44 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_kg">
+                                                            <property name="label">Kg</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_extra_window_jumps_radiobutton_kg_toggled"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options"></property>
+                                                            <property name="y_options"></property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_weight">
+                                                            <property name="label" translatable="yes">% body 
+weight</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_kg</property>
+                                                            <signal name="toggled" handler="on_extra_window_jumps_radiobutton_weight_toggled"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"></property>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -16310,10 +16302,12 @@ weight</property>
                                                         <property name="visible">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="extra_window_label_jumps_rj_no_options">
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                           </widget>
                                                           <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -16385,53 +16379,6 @@ weight</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="y_options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox23">
-                                                            <property name="visible">True</property>
-                                                            <property name="spacing">11</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_kg">
-                                                            <property name="label">Kg</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
-                                                            <property name="label" translatable="yes">% body 
-weight</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_rj_radiobutton_kg</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="top_attach">3</property>
-                                                            <property name="bottom_attach">4</property>
-                                                            <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
@@ -16520,7 +16467,42 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_kg">
+                                                            <property name="label">Kg</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options"></property>
+                                                            <property name="y_options"></property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_rj_radiobutton_weight">
+                                                            <property name="label" translatable="yes">% body 
+weight</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">extra_window_jumps_rj_radiobutton_kg</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"></property>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -16548,10 +16530,12 @@ weight</property>
                                                         <property name="visible">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="extra_window_label_runs_no_options">
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                           </widget>
                                                           <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -16610,6 +16594,7 @@ weight</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="padding">8</property>
                                                             <property name="position">1</property>
                                                           </packing>
@@ -16635,10 +16620,12 @@ weight</property>
                                                         <property name="visible">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="extra_window_label_runs_interval_no_options">
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                           </widget>
                                                           <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -16804,10 +16791,12 @@ weight</property>
                                                         <property name="visible">True</property>
                                                         <child>
                                                           <widget class="GtkLabel" id="extra_window_label_pulses_no_options">
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                           </widget>
                                                           <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                           </packing>
                                                         </child>
@@ -17670,7 +17659,7 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <widget class="GtkDrawingArea" id="event_execute_drawingarea">
                                                             <property name="width_request">300</property>
-                                                            <property name="height_request">200</property>
+                                                            <property name="height_request">225</property>
                                                             <property name="visible">True</property>
                                                             <signal name="expose_event" handler="on_event_execute_drawingarea_expose_event"/>
                                                             <signal name="configure_event" handler="on_event_execute_drawingarea_configure_event"/>
@@ -17685,6 +17674,69 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox37">
                                                             <property name="visible">True</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox67">
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label67">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">Width</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_graph_results_width">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox68">
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label68">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">Height</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_graph_results_height">
+                                                            <property name="visible">True</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_properties">
                                                             <property name="visible">True</property>
@@ -17704,7 +17756,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -17724,9 +17776,8 @@ Second Chronopic to platforms.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -17734,6 +17785,7 @@ Second Chronopic to platforms.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
@@ -17757,6 +17809,8 @@ Second Chronopic to platforms.</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkNotebook" id="notebook_results_data">
+                                                    <property name="width_request">250</property>
+                                                    <property name="height_request">100</property>
                                                     <property name="visible">True</property>
                                                     <property name="show_tabs">False</property>
                                                     <property name="show_border">False</property>
@@ -18092,14 +18146,14 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox222">
+                                                            <widget class="GtkHBox" id="hbox226">
                                                             <property name="visible">True</property>
                                                             <property name="spacing">5</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label446">
+                                                            <widget class="GtkLabel" id="label448">
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">TF</property>
+                                                            <property name="label" translatable="yes">TF / TC</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -18108,10 +18162,12 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox223">
+                                                            <widget class="GtkHBox" id="hbox227">
                                                             <property name="visible">True</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_good">
+                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_tc_good">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18119,7 +18175,9 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_bad">
+                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_tc_bad">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18139,8 +18197,8 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
@@ -18166,6 +18224,8 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_jump_reactive_tc_good">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18174,6 +18234,8 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_jump_reactive_tc_bad">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18200,14 +18262,14 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox226">
+                                                            <widget class="GtkHBox" id="hbox222">
                                                             <property name="visible">True</property>
                                                             <property name="spacing">5</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label448">
+                                                            <widget class="GtkLabel" id="label446">
                                                             <property name="visible">True</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">TF / TC</property>
+                                                            <property name="label" translatable="yes">TF</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -18216,10 +18278,12 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox227">
+                                                            <widget class="GtkHBox" id="hbox223">
                                                             <property name="visible">True</property>
                                                             <child>
-                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_tc_good">
+                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_good">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18227,7 +18291,9 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_tc_bad">
+                                                            <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_bad">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -18247,8 +18313,8 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="top_attach">3</property>
-                                                            <property name="bottom_attach">4</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
@@ -19281,12 +19347,15 @@ Second Chronopic to platforms.</property>
                                                     </child>
                                                   </widget>
                                                   <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox_this_test_buttons">
                                                     <property name="visible">True</property>
+                                                    <property name="spacing">2</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_video_play_this_test">
                                                         <property name="visible">True</property>

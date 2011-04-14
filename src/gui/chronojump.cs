@@ -197,6 +197,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
 	[Widget] Gtk.Box hbox_this_test_buttons;
+	[Widget] Gtk.Button button_video_play_this_test;
 		
 	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.Button button_activate_chronopics;
@@ -5354,6 +5355,7 @@ Console.WriteLine("X");
 
 	private void showHideActionEventButtons(bool show, string type) {
 		bool success = false;
+		bool recordedVideo = false;
 		if(type == "ALL" || type == "Jump") {
 			button_edit_selected_jump.Sensitive = show;
 			button_delete_selected_jump.Sensitive = show;
@@ -5362,8 +5364,11 @@ Console.WriteLine("X");
 			if (myTreeViewJumps.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.JUMP,
-							myTreeViewJumps.EventSelectedID)))
+							myTreeViewJumps.EventSelectedID))) {
 				button_video_play_selected_jump.Sensitive = true;
+				recordedVideo = true;
+			}
+
 
 			success = true;
 		} 
@@ -5376,8 +5381,10 @@ Console.WriteLine("X");
 			if (myTreeViewJumpsRj.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.JUMP_RJ,
-							myTreeViewJumpsRj.EventSelectedID)))
+							myTreeViewJumpsRj.EventSelectedID))) {
 				button_video_play_selected_jump_rj.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
@@ -5389,8 +5396,10 @@ Console.WriteLine("X");
 			if (myTreeViewRuns.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.RUN,
-							myTreeViewRuns.EventSelectedID)))
+							myTreeViewRuns.EventSelectedID))) {
 				button_video_play_selected_run.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
@@ -5403,8 +5412,10 @@ Console.WriteLine("X");
 			if (myTreeViewRunsInterval.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.RUN_I,
-							myTreeViewRunsInterval.EventSelectedID)))
+							myTreeViewRunsInterval.EventSelectedID))) {
 				button_video_play_selected_run_interval.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
@@ -5416,8 +5427,10 @@ Console.WriteLine("X");
 			if (myTreeViewReactionTimes.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.RT,
-							myTreeViewReactionTimes.EventSelectedID)))
+							myTreeViewReactionTimes.EventSelectedID))) {
 				button_video_play_selected_reaction_time.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
@@ -5432,8 +5445,10 @@ Console.WriteLine("X");
 			if (myTreeViewPulses.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.PULSE,
-							myTreeViewPulses.EventSelectedID)))
+							myTreeViewPulses.EventSelectedID))) {
 				button_video_play_selected_pulse.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
@@ -5445,14 +5460,17 @@ Console.WriteLine("X");
 			if (myTreeViewMultiChronopic.EventSelectedID > 0 && File.Exists(Util.GetVideoFileName(
 							currentSession.UniqueID, 
 							Constants.TestTypes.MULTICHRONOPIC,
-							myTreeViewMultiChronopic.EventSelectedID)))
+							myTreeViewMultiChronopic.EventSelectedID))) {
 				button_video_play_selected_multi_chronopic.Sensitive = true;
+				recordedVideo = true;
+			}
 
 			success = true;
 		} 
-		if (!success) {
+		if (!success)
 			Log.WriteLine(string.Format("Error in showHideActionEventButtons, type: {0}", type));
-		}
+
+		button_video_play_this_test.Sensitive = recordedVideo;
 	}
 	
 	/*

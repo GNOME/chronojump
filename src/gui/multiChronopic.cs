@@ -95,7 +95,6 @@ public partial class ChronoJumpWindow
 		extra_window_check_multichronopic_sync.Sensitive = can_do;
 		extra_window_check_multichronopic_delete_first.Sensitive = can_do;
 		extra_window_vbox_run_analysis_total_distance.Sensitive = can_do;
-		extra_window_textview_run_analysis_cps_order.Sensitive = can_do;
 	}
 
 	private void extra_window_multichronopic_showSyncAndDeleteFirst(bool show) {

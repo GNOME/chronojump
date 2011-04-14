@@ -13538,7 +13538,6 @@ by you</property>
         <child>
           <widget class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
-            <property name="bottom_padding">6</property>
             <child>
               <widget class="GtkVBox" id="vbox_principal">
                 <property name="visible">True</property>
@@ -13557,7 +13556,6 @@ by you</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment52">
                                 <property name="visible">True</property>
-                                <property name="left_padding">6</property>
                                 <child>
                                   <widget class="GtkVBox" id="vbox66">
                                     <property name="visible">True</property>
@@ -13781,6 +13779,7 @@ by you</property>
                                                 <property name="visible">True</property>
                                                 <property name="xalign">0</property>
                                                 <property name="use_markup">True</property>
+                                                <property name="ellipsize">end</property>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -13912,7 +13911,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 711 71.100000000000009 639.89999999999998 711</property>
+                            <property name="hadjustment">0 0 719 71.900000000000006 647.10000000000002 719</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbutton_radio_modes">
@@ -14215,6 +14214,7 @@ Chronopic</property>
                           <widget class="GtkNotebook" id="notebook_main">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="show_border">False</property>
                             <property name="tab_hborder">6</property>
                             <property name="tab_vborder">4</property>
                             <child>
@@ -16074,7 +16074,7 @@ Chronopic</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox_execute_test">
                                     <property name="visible">True</property>
-                                    <property name="spacing">12</property>
+                                    <property name="spacing">10</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame1">
                                         <property name="visible">True</property>
@@ -16229,7 +16229,6 @@ weight</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_underline">True</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">extra_window_jumps_radiobutton_kg</property>
                                                             <signal name="toggled" handler="on_extra_window_jumps_radiobutton_weight_toggled"/>
@@ -17015,6 +17014,8 @@ weight</property>
                                                             <property name="editable">False</property>
                                                             <property name="wrap_mode">word</property>
                                                             <property name="justification">center</property>
+                                                            <property name="cursor_visible">False</property>
+                                                            <property name="accepts_tab">False</property>
                                                             <property name="text" translatable="yes">Need to connect two Chronopics</property>
                                                           </widget>
                                                           <packing>
@@ -17064,14 +17065,22 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkAlignment" id="alignment15">
+                                                            <property name="width_request">100</property>
+                                                            <property name="visible">True</property>
+                                                            <child>
                                                             <widget class="GtkTextView" id="extra_window_textview_run_analysis_cps_order">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="editable">False</property>
                                                             <property name="wrap_mode">word</property>
                                                             <property name="justification">center</property>
+                                                            <property name="cursor_visible">False</property>
+                                                            <property name="accepts_tab">False</property>
                                                             <property name="text" translatable="yes">First Chronopic should be connected to photocells.
 Second Chronopic to platforms.</property>
+                                                            </widget>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -17279,42 +17288,46 @@ Second Chronopic to platforms.</property>
                                     <child>
                                       <widget class="GtkVBox" id="vbox24">
                                         <property name="visible">True</property>
-                                        <property name="spacing">8</property>
                                         <child>
                                           <widget class="GtkVBox" id="vbox25">
                                             <property name="visible">True</property>
-                                            <property name="spacing">12</property>
+                                            <property name="spacing">8</property>
                                             <child>
-                                              <widget class="GtkButton" id="button_execute_test">
-                                                <property name="height_request">75</property>
+                                              <widget class="GtkAlignment" id="alignment14">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <property name="has_tooltip">True</property>
-                                                <property name="tooltip" translatable="yes">Or press 'space'</property>
-                                                <property name="border_width">10</property>
-                                                <signal name="clicked" handler="on_button_execute_test_clicked"/>
-                                                <accelerator key="space" signal="clicked"/>
+                                                <property name="top_padding">10</property>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox33">
+                                                  <widget class="GtkButton" id="button_execute_test">
+                                                    <property name="height_request">60</property>
                                                     <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="has_tooltip">True</property>
+                                                    <property name="tooltip" translatable="yes">Or press 'space'</property>
+                                                    <signal name="clicked" handler="on_button_execute_test_clicked"/>
+                                                    <accelerator key="space" signal="clicked"/>
                                                     <child>
-                                                      <widget class="GtkImage" id="image17">
+                                                      <widget class="GtkVBox" id="vbox33">
                                                         <property name="visible">True</property>
-                                                        <property name="stock">gtk-execute</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image17">
+                                                            <property name="visible">True</property>
+                                                            <property name="stock">gtk-execute</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label41">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">Execute test</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
-                                                      <packing>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkLabel" id="label41">
-                                                        <property name="visible">True</property>
-                                                        <property name="label" translatable="yes">Execute test</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="position">1</property>
-                                                      </packing>
                                                     </child>
                                                   </widget>
                                                 </child>
@@ -17327,7 +17340,7 @@ Second Chronopic to platforms.</property>
                                             <child>
                                               <widget class="GtkVBox" id="vbox16">
                                                 <property name="visible">True</property>
-                                                <property name="spacing">10</property>
+                                                <property name="spacing">8</property>
                                                 <child>
                                                   <widget class="GtkVBox" id="vbox17">
                                                     <property name="visible">True</property>
@@ -17366,7 +17379,6 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkProgressBar" id="event_execute_progressbar_event">
-                                                            <property name="height_request">22</property>
                                                             <property name="visible">True</property>
                                                             <property name="pulse_step">0.10000000149</property>
                                                           </widget>
@@ -17413,7 +17425,6 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkProgressBar" id="event_execute_progressbar_time">
-                                                            <property name="height_request">22</property>
                                                             <property name="visible">True</property>
                                                             <property name="pulse_step">0.10000000149</property>
                                                           </widget>
@@ -17439,13 +17450,13 @@ Second Chronopic to platforms.</property>
                                                     <property name="wrap_mode">word</property>
                                                   </widget>
                                                   <packing>
+                                                    <property name="expand">False</property>
                                                     <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkHButtonBox" id="hbuttonbox1">
                                                     <property name="visible">True</property>
-                                                    <property name="layout_style">spread</property>
                                                     <child>
                                                       <widget class="GtkButton" id="event_execute_button_cancel">
                                                         <property name="label">gtk-cancel</property>
@@ -17484,13 +17495,12 @@ Second Chronopic to platforms.</property>
                                                     </child>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">False</property>
                                                     <property name="position">2</property>
                                                   </packing>
                                                 </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
                                                 <property name="position">1</property>
                                               </packing>
                                             </child>
@@ -17513,7 +17523,6 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkVBox" id="vbox15">
                                                     <property name="visible">True</property>
                                                     <property name="border_width">4</property>
-                                                    <property name="spacing">10</property>
                                                     <child>
                                                       <widget class="GtkTable" id="table1">
                                                         <property name="visible">True</property>
@@ -17542,7 +17551,6 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkTextView" id="textview_message_connected_chronopics">
-                                                            <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="editable">False</property>
@@ -17557,7 +17565,6 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkImage" id="image_connected_chronopics">
-                                                            <property name="visible">True</property>
                                                             <property name="stock">gtk-no</property>
                                                           </widget>
                                                           <packing>
@@ -22559,6 +22566,7 @@ on current Chronojump version.</property>
                                         <property name="pixels_above_lines">4</property>
                                         <property name="editable">False</property>
                                         <property name="wrap_mode">word</property>
+                                        <property name="cursor_visible">False</property>
                                         <property name="text" translatable="yes">Chronojump has a server in order to share data between users.
 Data is collected by users contributions and server generates statistics and graphs. 
 Anyone can check server stats and graphs and easily make querys to the server.
@@ -22575,14 +22583,13 @@ Privacy is respected:
                                         <property name="visible">True</property>
                                         <child>
                                           <widget class="GtkButton" id="button_server_check_connection">
-                                            <property name="height_request">50</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="receives_default">True</property>
                                             <property name="border_width">10</property>
                                             <signal name="clicked" handler="on_server_ping"/>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox63">
+                                              <widget class="GtkVBox" id="vbox73">
                                                 <property name="visible">True</property>
                                                 <property name="spacing">6</property>
                                                 <child>
@@ -22644,7 +22651,6 @@ Privacy is respected:
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
-                                                    <property name="border_width">10</property>
                                                     <signal name="clicked" handler="on_server_upload_session_pre"/>
                                                     <child>
                                                       <widget class="GtkVBox" id="vbox54">
@@ -22912,7 +22918,7 @@ Evaluator can use real name or nickname.</property>
                         </child>
                       </widget>
                       <packing>
-                        <property name="padding">2</property>
+                        <property name="padding">3</property>
                         <property name="position">1</property>
                       </packing>
                     </child>

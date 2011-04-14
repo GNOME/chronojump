@@ -13811,6 +13811,7 @@ by you</property>
                                                   <widget class="GtkImage" id="image1977">
                                                     <property name="visible">True</property>
                                                     <property name="stock">gtk-edit</property>
+                                                    <property name="icon-size">2</property>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -13832,6 +13833,7 @@ by you</property>
                                                   <widget class="GtkImage" id="image1188">
                                                     <property name="visible">True</property>
                                                     <property name="stock">gtk-dialog-info</property>
+                                                    <property name="icon-size">2</property>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -13851,9 +13853,9 @@ by you</property>
                                                 <property name="tooltip" translatable="yes">Delete person</property>
                                                 <signal name="clicked" handler="on_delete_current_person_from_session_clicked"/>
                                                 <child>
-                                                  <widget class="GtkImage" id="image53">
+                                                  <widget class="GtkImage" id="image_person_delete">
                                                     <property name="visible">True</property>
-                                                    <property name="stock">gtk-remove</property>
+                                                    <property name="icon-size">2</property>
                                                   </widget>
                                                 </child>
                                               </widget>
@@ -13911,7 +13913,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 719 71.900000000000006 647.10000000000002 719</property>
+                            <property name="hadjustment">0 0 711 71.100000000000009 639.89999999999998 711</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbutton_radio_modes">
@@ -14225,7 +14227,6 @@ Chronopic</property>
                                 <child>
                                   <widget class="GtkNotebook" id="notebook_execute">
                                     <property name="visible">True</property>
-                                    <property name="show_tabs">False</property>
                                     <property name="show_border">False</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame2">
@@ -14528,6 +14529,7 @@ Chronopic</property>
                                                             <widget class="GtkImage" id="image3210">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-new</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -14546,9 +14548,9 @@ Chronopic</property>
                                                             <property name="tooltip" translatable="yes">Delete jump type</property>
                                                             <signal name="clicked" handler="on_jump_type_delete_simple"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image5">
+                                                            <widget class="GtkImage" id="image_jump_type_delete_simple">
                                                             <property name="visible">True</property>
-                                                            <property name="stock">gtk-remove</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -14816,6 +14818,7 @@ Chronopic</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_jump_reactive_bell">
                                                             <property name="visible">True</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">0</property>
@@ -14853,6 +14856,7 @@ Chronopic</property>
                                                             <widget class="GtkImage" id="image1">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-new</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -14871,9 +14875,9 @@ Chronopic</property>
                                                             <property name="tooltip" translatable="yes">Delete jump type</property>
                                                             <signal name="clicked" handler="on_jump_type_delete_reactive"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image13">
+                                                            <widget class="GtkImage" id="image_jump_type_delete_reactive">
                                                             <property name="visible">True</property>
-                                                            <property name="stock">gtk-remove</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -15302,7 +15306,7 @@ Chronopic</property>
                                                             <widget class="GtkImage" id="image3212">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-new</property>
-                                                            <property name="icon-size">1</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -15321,10 +15325,9 @@ Chronopic</property>
                                                             <property name="tooltip" translatable="yes">Delete run type</property>
                                                             <signal name="clicked" handler="on_run_type_delete_simple"/>
                                                             <child>
-                                                            <widget class="GtkImage" id="image4">
+                                                            <widget class="GtkImage" id="image_run_type_delete_simple">
                                                             <property name="visible">True</property>
-                                                            <property name="stock">gtk-remove</property>
-                                                            <property name="icon-size">1</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -15583,6 +15586,7 @@ Chronopic</property>
                                                             <child>
                                                             <widget class="GtkImage" id="image_run_interval_bell">
                                                             <property name="visible">True</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">0</property>
@@ -15621,6 +15625,7 @@ Chronopic</property>
                                                           <widget class="GtkImage" id="image3213">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-new</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -15638,9 +15643,9 @@ Chronopic</property>
                                                         <property name="tooltip" translatable="yes">Delete run type</property>
                                                         <signal name="clicked" handler="on_run_type_delete_intervallic"/>
                                                         <child>
-                                                          <widget class="GtkImage" id="image2">
+                                                          <widget class="GtkImage" id="image_run_type_delete_intervallic">
                                                             <property name="visible">True</property>
-                                                            <property name="stock">gtk-remove</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -17767,6 +17772,7 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkImage" id="image1664">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-properties</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -17789,6 +17795,7 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkImage" id="image1665">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-refresh</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -19393,7 +19400,7 @@ Second Chronopic to platforms.</property>
                                                           <widget class="GtkImage" id="image22">
                                                             <property name="visible">True</property>
                                                             <property name="stock">gtk-media-play</property>
-                                                            <property name="icon-size">1</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -19414,9 +19421,9 @@ Second Chronopic to platforms.</property>
                                                         <signal name="clicked" handler="on_delete_this_test_clicked"/>
                                                         <accelerator key="d" signal="clicked"/>
                                                         <child>
-                                                          <widget class="GtkImage" id="image19">
+                                                          <widget class="GtkImage" id="image_delete_this_test">
                                                             <property name="visible">True</property>
-                                                            <property name="stock">gtk-remove</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>

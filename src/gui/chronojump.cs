@@ -208,6 +208,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_jump_reactive_repair;
 	[Widget] Gtk.Image image_run_interval_repair;
 	[Widget] Gtk.Image image_pulse_repair;
+	[Widget] Gtk.Image image_person_delete;
+	[Widget] Gtk.Image image_delete_this_test;
 	[Widget] Gtk.Image image_jump_delete;
 	[Widget] Gtk.Image image_jump_reactive_delete;
 	[Widget] Gtk.Image image_run_delete;
@@ -215,6 +217,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_reaction_time_delete;
 	[Widget] Gtk.Image image_pulse_delete;
 	[Widget] Gtk.Image image_multi_chronopic_delete;
+	[Widget] Gtk.Image image_jump_type_delete_simple;
+	[Widget] Gtk.Image image_jump_type_delete_reactive;
+	[Widget] Gtk.Image image_run_type_delete_simple;
+	[Widget] Gtk.Image image_run_type_delete_intervallic;
 
 	[Widget] Gtk.Image image_jumps_zoom;
 	[Widget] Gtk.Image image_jumps_rj_zoom;
@@ -654,6 +660,8 @@ public partial class ChronoJumpWindow
 		image_pulse_repair.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		image_person_delete.Pixbuf = pixbuf;
+		image_delete_this_test.Pixbuf = pixbuf;
 		image_jump_delete.Pixbuf = pixbuf;
 		image_jump_reactive_delete.Pixbuf = pixbuf;
 		image_run_delete.Pixbuf = pixbuf;
@@ -661,6 +669,10 @@ public partial class ChronoJumpWindow
 		image_reaction_time_delete.Pixbuf = pixbuf;
 		image_pulse_delete.Pixbuf = pixbuf;
 		image_multi_chronopic_delete.Pixbuf = pixbuf;
+		image_jump_type_delete_simple.Pixbuf = pixbuf;
+		image_jump_type_delete_reactive.Pixbuf = pixbuf;
+		image_run_type_delete_simple.Pixbuf = pixbuf;
+		image_run_type_delete_intervallic.Pixbuf = pixbuf;
 		
 		//zoom icons, done like this because there's one zoom icon created ad-hoc, 
 		//and is not nice that the other are different for an user theme change

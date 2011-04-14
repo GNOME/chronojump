@@ -51,7 +51,7 @@ $make -f Makefile.win32 clean
 $make -f Makefile.win32
 
 put stuff in bundle:
-$make -f Makefile.win32 Install
+$make -f Makefile.win32 install
 
 but:
 needs to move win32/bundle stuff 
@@ -64,6 +64,7 @@ open chronojump_innosetup.iss on build folder
 change version AT TWO PLACES:
 -AppVerName
 -OutputBaseFilename
+Change the driver name if new available
 
 compile
 

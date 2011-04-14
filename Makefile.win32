@@ -388,12 +388,14 @@ CHRONOJUMP_MINI_REFERENCES = \
 .PHONY: all all-before all-after clean clean-custom
 
 
-all: all-before ${GMO_FILES} ${LIBCESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
+all: all-before ${GMO_FILES} ${LIBCESARPLAYER} ${CESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) all-after
 
 install: $(LIBCESARPLAYER) ${MO_FILES} bundle
+	cp $(LIBCESARPLAYER) ${DIST_DIR}/bin
+	cp ${CESARPLAYER} ${DIST_DIR}/bin
 
 clean: clean-custom
-	${RM} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
+	${RM} ${CESARPLAYER} ${LIBCESARPLAYER} $(CHRONOJUMP) $(CHRONOJUMP_MINI) $(GMO_FILES) $(BUILD_DIR)/temp* $(BUILD_DIR)/logo.o
 
 bundle: $(CHRONOJUMP) $(CHRONOJUMP_MINI)
 	cd $(BUILD_DIR) && ${BASH} $(BUNDLE) 

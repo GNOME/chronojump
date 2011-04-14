@@ -13692,6 +13692,7 @@ by you</property>
                                                     <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Current person</property>
                                                     <property name="use_markup">True</property>
+                                                    <property name="ellipsize">end</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -13913,7 +13914,7 @@ by you</property>
                           <widget class="GtkViewport" id="viewport_mode">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 711 71.100000000000009 639.89999999999998 711</property>
+                            <property name="hadjustment">0 0 744 74.400000000000006 669.60000000000002 744</property>
                             <property name="shadow_type">out</property>
                             <child>
                               <widget class="GtkHButtonBox" id="hbutton_radio_modes">
@@ -14227,6 +14228,7 @@ Chronopic</property>
                                 <child>
                                   <widget class="GtkNotebook" id="notebook_execute">
                                     <property name="visible">True</property>
+                                    <property name="show_tabs">False</property>
                                     <property name="show_border">False</property>
                                     <child>
                                       <widget class="GtkFrame" id="frame2">
@@ -17843,7 +17845,6 @@ Second Chronopic to platforms.</property>
                                                     <property name="width_request">225</property>
                                                     <property name="height_request">72</property>
                                                     <property name="visible">True</property>
-                                                    <property name="show_tabs">False</property>
                                                     <property name="show_border">False</property>
                                                     <child>
                                                       <widget class="GtkTable" id="table3">
@@ -19368,7 +19369,7 @@ Second Chronopic to platforms.</property>
                                                     <child>
                                                       <widget class="GtkLabel" id="label62">
                                                         <property name="visible">True</property>
-                                                        <property name="label">8 deleted test</property>
+                                                        <property name="label">8</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">7</property>

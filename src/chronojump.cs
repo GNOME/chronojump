@@ -51,6 +51,7 @@ public class ChronoJump
 	string splashMessage = "";
 	bool creatingDB = false; //on creation and on update always refresh labels
 	bool updatingDB = false;
+	private static string baseDirectory;
 
 
 	public static void Main(string [] args) 
@@ -68,6 +69,10 @@ public class ChronoJump
 		System.Console.SetError(sw);
 		sw.AutoFlush = true;
 */
+
+		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"../../");
+		if(Util.IsWindows())
+			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
 
 		//this call has to be done to chronojump.prg
 		//chronojump.prg createBlankDB
@@ -91,6 +96,10 @@ public class ChronoJump
 	}
 
 	bool createdSplashWin = false;
+
+	public static string RelativeToPrefix(string relativePath) {
+		return System.IO.Path.Combine(baseDirectory, relativePath);
+	}
 
 	public ChronoJump (string [] args) 
 	{

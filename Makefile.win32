@@ -344,9 +344,20 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/stock_delete.png,stock_delete.png \
 	-resource:../images/chronojump_icon.png,chronojump_icon.png \
 	-resource:../images/chronojump_icon_graph.png,chronojump_icon_graph.png \
+	-resource:../images/stock_right.png,stock_right.png \
+	-resource:../images/stock_right_left.png,stock_right_left.png \
+	-resource:../images/stock_up.png,stock_up.png \
+	-resource:../images/stock_up_down.png,stock_up_down.png \
+	-resource:../images/reaction_time_menu.png,reaction_time_menu.png \
+	-resource:../images/pulse_menu.png,pulse_menu.png \
+	-resource:../images/multichronopic_menu.png,multichronopic_menu.png \
 	-resource:../images/gtk-zoom-fit.png,gtk-zoom-fit.png \
 	-resource:../images/gtk-zoom-in.png,gtk-zoom-in.png \
 	-resource:../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
+	-resource:../images/gtk-new-1.png,gtk-new-1.png \
+	-resource:../images/gtk-new-plus.png,gtk-new-plus.png \
+	-resource:../images/gtk-open-1.png,gtk-open-1.png \
+	-resource:../images/gtk-open-plus.png,gtk-open-plus.png \
 	-resource:../images/chronojump_320.png,chronojump_320.png \
 	-resource:../images/calendar.png,calendar.png \
 	-resource:../images/chronojump_logo.png,chronojump_logo.png \

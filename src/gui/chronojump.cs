@@ -3937,10 +3937,13 @@ Console.WriteLine("X");
 		tb.Text = myMessage;
 		textview_message_connected_chronopics.Buffer = tb;
 
+		/*
+		 * hidden to save space
 		if(cps > 0)
 			image_connected_chronopics.Hide();
 		else
 			image_connected_chronopics.Show();
+		*/
 	}
 
 

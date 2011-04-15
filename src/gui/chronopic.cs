@@ -76,6 +76,7 @@ public class ChronopicWindow
 	[Widget] Gtk.Button button_connect_cp4;
 	
 	[Widget] Gtk.Image chronopic_image;
+	[Widget] Gtk.TextView textview_ports_found;
 
 	//chronopic connection thread
 	Thread thread;
@@ -176,6 +177,7 @@ public class ChronopicWindow
 		ChronopicWindowBox.volumeOn = volumeOn;
 		ChronopicWindowBox.checkChronopicDisconnected();
 		ChronopicWindowBox.createCombos();
+		ChronopicWindowBox.findPorts();
 		ChronopicWindowBox.chronopic_window.Show();
 	
 		return ChronopicWindowBox;
@@ -370,6 +372,10 @@ public class ChronopicWindow
 			button_connect_cp3.Sensitive = portOk;
 		else if (o == combo_linux4 || o == combo_windows4) 
 			button_connect_cp4.Sensitive = portOk;
+	}
+	
+	private void findPorts() {
+		textview_ports_found.Buffer = UtilGtk.TextViewPrint(Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
 	}
 
 	private void chronopicAtStart(object o, EventArgs args) {

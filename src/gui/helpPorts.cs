@@ -31,6 +31,7 @@ public class HelpPorts
 	[Widget] Gtk.TextView textview_info;
 	[Widget] Gtk.TextView textview_detected;
 	[Widget] Gtk.Label label_info;
+	[Widget] Gtk.Label label_detection;
 	[Widget] Gtk.Label label_detected;
 	[Widget] Gtk.Label label_manual;
 	[Widget] Gtk.Button button_check_port;

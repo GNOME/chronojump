@@ -40,7 +40,6 @@ using LongoMatch.Video.Common;
 
 public partial class ChronoJumpWindow 
 {
-//	[Widget] Gtk.Window event_execute;
 	
 //	[Widget] Gtk.Label event_execute_label_person;
 //	[Widget] Gtk.Label event_execute_label_event_type;
@@ -61,7 +60,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button event_execute_button_cancel;
 	[Widget] Gtk.Button event_execute_button_finish;
 	[Widget] Gtk.Button event_execute_button_update;
-//	[Widget] Gtk.Button button_close;
 
 	
 	[Widget] Gtk.Table event_execute_table_jump_simple;
@@ -192,56 +190,6 @@ public partial class ChronoJumpWindow
 		"100", "200", "300", "400", "500"
 	};
 	
-	//static EventExecuteWindow EventExecuteWindowBox;
-	
-/*	
-	EventExecuteWindow () {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "event_execute", null);
-		gladeXML.Autoconnect(this);
-		
-		//put an icon to window
-		UtilGtk.IconWindow(event_execute);
-
-		//this hides it when it's creating (hiding and showing tables stuff)
-		//then user doesn't see a moving/changing creation window
-		event_execute.Hide ();
-		
-		if(Util.IsWindows()) {
-			event_execute_rightMargin = 50;
-			event_execute_arcSystemCorrection = 1;
-		}
-
-		configureColors();
-	}
-	*/
-
-	/*
-	static public EventExecuteWindow Show (
-			string windowTitle, string phasesName, int personID, string personName, int sessionID, 
-			string event_execute_tableName, string event_execute_eventType, int pDN, double limit, bool connected)
-	{
-		if (EventExecuteWindowBox == null) {
-			EventExecuteWindowBox = new EventExecuteWindow (); 
-		}
-
-		//create the properties window if doesnt' exists, but do not show
-		if(eventGraphConfigureWin == null)
-			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
-
-		
-		EventExecuteWindowBox.hideAllTables();
-		EventExecuteWindowBox.hideImages();
-	
-		EventExecuteWindowBox.initializeVariables (
-				windowTitle, phasesName, personID, personName, sessionID, 
-				event_execute_tableName, event_execute_eventType, pDN, limit, connected);
-
-		EventExecuteWindowBox.event_execute.Show ();
-
-		return EventExecuteWindowBox;
-	}
-	*/
 
 	ExecutingGraphData event_execute_initializeVariables (
 			int personID,
@@ -271,16 +219,10 @@ public partial class ChronoJumpWindow
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 		this.event_execute_label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 								//"Phases" (simple jumps, dj, simple runs)
-//		this.personID = personID;
 		this.event_execute_personID = personID;
-//		this.event_execute_label_person.Text = personName;
 		this.event_execute_tableName = tableName;
-//		this.sessionID = sessionID;
 
 		this.event_execute_eventType = event_execute_eventType;
-//		this.event_execute_label_event_type.Text = this.event_execute_eventType;
-//		this.pDN = pDN;
-//		this.event_execute_limit = event_execute_limit;
 
 		//finish not sensitive for all events. 
 		//Later reactive, interval and pulse will sensitive it when a subevent is done
@@ -322,7 +264,8 @@ public partial class ChronoJumpWindow
 	
 		eventHasEnded = false;
 	
-		cameraRecordInitiate();
+		if(videoOn)
+			cameraRecordInitiate();
 		
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 

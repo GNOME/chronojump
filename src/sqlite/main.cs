@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.81";
+	static string lastChronojumpDatabaseVersion = "0.82";
 
 	public Sqlite() {
 	}
@@ -1105,6 +1105,20 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.81";
 			}
+			if(currentVersion == "0.81") {
+				dbcon.Open();
+				conversionRateTotal = 2;
+
+				conversionRate = 1;
+				SqlitePreferences.Insert ("videoOn", "True"); 
+				conversionRate = 2;
+				Log.WriteLine("Converted DB to 0.82 Added videoOn"); 
+
+				SqlitePreferences.Update ("databaseVersion", "0.82", true); 
+				
+				dbcon.Close();
+				currentVersion = "0.82";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1237,6 +1251,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.81 - 0.82 Converted DB to 0.82 Added videoOn 
 		//0.80 - 0.81 Converted DB to 0.81 Added tempRunInterval initial speed
 		//0.79 - 0.80 Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)
 		//0.78 - 0.79 Converted DB to 0.79 (Added multimediaStorage structure id)

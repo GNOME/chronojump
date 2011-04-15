@@ -1853,10 +1853,12 @@ Log.WriteLine("Preparing reactive A");
 	private void on_event_execute_EventEnded(object o, EventArgs args) {
 		hideButtons();
 		eventHasEnded = true;
-		
-		capturer.Stop();
-		capturer.Close();
-		capturer.Dispose();
+	
+		if(videoOn) {	
+			capturer.Stop();
+			capturer.Close();
+			capturer.Dispose();
+		}
 	}
 	
 	

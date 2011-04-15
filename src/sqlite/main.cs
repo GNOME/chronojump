@@ -1110,7 +1110,7 @@ class Sqlite
 				conversionRateTotal = 2;
 
 				conversionRate = 1;
-				SqlitePreferences.Insert ("videoOn", "True"); 
+				SqlitePreferences.Insert ("videoOn", "False"); 
 				conversionRate = 2;
 				Log.WriteLine("Converted DB to 0.82 Added videoOn"); 
 

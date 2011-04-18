@@ -495,16 +495,6 @@ public partial class ChronoJumpWindow
 	}
 */
 
-	private void createChronopicWindow(bool recreate) {
-		ArrayList cpd = new ArrayList();
-		for(int i=1; i<=4;i++) {
-			ChronopicPortData a = new ChronopicPortData(i,"",false);
-			cpd.Add(a);
-		}
-		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
-		chronopicLabels(0);
-	}
-
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
@@ -3929,9 +3919,29 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
+	//recreate is used when a Chronopic was disconnected
+	private void createChronopicWindow(bool recreate) {
+		ArrayList cpd = new ArrayList();
+		for(int i=1; i<=4;i++) {
+			ChronopicPortData a = new ChronopicPortData(i,"",false);
+			cpd.Add(a);
+		}
+		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
+		chronopicLabels(0);
+	}
+
 	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
+		chronopicWin.Button_reload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
+	}
+	
+	private void chronopicWindowReload(object o, EventArgs args) {
+		chronopicWin.Button_reload.Clicked -= new EventHandler(chronopicWindowReload);
+		//create chronopic window again (maybe new ports)
+		createChronopicWindow(true);
+		//show it
+		on_chronopic_clicked(o, args);
 	}
 	
 	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
@@ -3943,7 +3953,7 @@ Console.WriteLine("X");
 		
 		chronopicLabels(cps);
 	}
-	
+
 	private void chronopicLabels(int cps) {
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 

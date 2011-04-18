@@ -36,33 +36,38 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Window app1;
 
-	[Widget] Gtk.Viewport viewport_mode;
-	[Widget] Gtk.RadioButton radio_mode_jumps;
-	[Widget] Gtk.RadioButton radio_mode_jumps_reactive;
-	[Widget] Gtk.RadioButton radio_mode_runs;
-	[Widget] Gtk.RadioButton radio_mode_runs_intervallic;
-	[Widget] Gtk.RadioButton radio_mode_reaction_times;
-	[Widget] Gtk.RadioButton radio_mode_pulses;
-	[Widget] Gtk.RadioButton radio_mode_multi_chronopic;
-	[Widget] Gtk.Image image_mode_jumps;
-	[Widget] Gtk.Image image_mode_jumps_reactive;
-	[Widget] Gtk.Image image_mode_runs;
-	[Widget] Gtk.Image image_mode_runs_intervallic;
-	[Widget] Gtk.Image image_mode_reaction_times;
-	[Widget] Gtk.Image image_mode_pulses;
-	[Widget] Gtk.Image image_mode_multi_chronopic;
-	[Widget] Gtk.Label label_mode_jumps;
-	[Widget] Gtk.Label label_mode_jumps_reactive;
-	[Widget] Gtk.Label label_mode_runs;
-	[Widget] Gtk.Label label_mode_runs_intervallic;
-	[Widget] Gtk.Label label_mode_reaction_times;
-	[Widget] Gtk.Label label_mode_pulses;
-	[Widget] Gtk.Label label_mode_multi_chronopic;
+	//gui for small screens
+	[Widget] Gtk.Viewport viewport_mode_small;
+	[Widget] Gtk.RadioButton radio_mode_jumps_small;
+	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
+	[Widget] Gtk.RadioButton radio_mode_runs_small;
+	[Widget] Gtk.RadioButton radio_mode_runs_intervallic_small;
+	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
+	[Widget] Gtk.RadioButton radio_mode_pulses_small;
+	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
+	[Widget] Gtk.Image image_mode_jumps_small;
+	[Widget] Gtk.Image image_mode_jumps_reactive_small;
+	[Widget] Gtk.Image image_mode_runs_small;
+	[Widget] Gtk.Image image_mode_runs_intervallic_small;
+	[Widget] Gtk.Image image_mode_reaction_times_small;
+	[Widget] Gtk.Image image_mode_pulses_small;
+	[Widget] Gtk.Image image_mode_multi_chronopic_small;
+	[Widget] Gtk.Label label_mode_jumps_small;
+	[Widget] Gtk.Label label_mode_jumps_reactive_small;
+	[Widget] Gtk.Label label_mode_runs_small;
+	[Widget] Gtk.Label label_mode_runs_intervallic_small;
+	[Widget] Gtk.Label label_mode_reaction_times_small;
+	[Widget] Gtk.Label label_mode_pulses_small;
+	[Widget] Gtk.Label label_mode_multi_chronopic_small;
+
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;
 	[Widget] Gtk.Image image_persons_open_1;
 	[Widget] Gtk.Image image_persons_open_plus;
+
+	[Widget] Gtk.Box vbox_persons;
+	[Widget] Gtk.Frame frame_test_options;
 
 	[Widget] Gtk.TreeView treeview_persons;
 	[Widget] Gtk.TreeView treeview_jumps;
@@ -103,6 +108,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
 	[Widget] Gtk.Label label_current_person;
+	[Widget] Gtk.Label label_current_person_title;
 	
 	//tests
 	//jumps
@@ -364,6 +370,8 @@ public partial class ChronoJumpWindow
 
 	private string runningFileName; //useful for knowing if there are two chronojump instances
 
+	private bool normalGUI; //false means small gui
+
 	//const int statusbarID = 1;
 
 
@@ -495,43 +503,74 @@ public partial class ChronoJumpWindow
 	}
 */
 
+	private bool normalGUIOld = true; //to know if we changed state. Start as true
+	private void on_app1_size_allocate(object obj, SizeAllocatedArgs args) {
+		int width;
+		int height;
+		app1.GetSize(out width, out height);
+		if(width >= 1000)
+			normalGUI = true;
+		else 
+			normalGUI = false;
+		if(normalGUI != normalGUIOld) {
+			Log.WriteLine("Change Size. New is normal? -> " + normalGUI.ToString());
+			normalGUIOld = normalGUI;
+			changeGUIAspect();
+		}
+	}
+	
+	private void changeGUIAspect() {
+		//QueryChildPacking(frame_test_options,
+		if(normalGUI) {
+			//if change these values, change also in glade
+			//frame_test_options.BoxChild.Expand(true);
+			label_current_person_title.Text=Catalog.GetString("Current person");
+		} else {
+			//frame_test_options.BoxChild.Expand(false);
+			label_current_person_title.Text=Catalog.GetString("Current");
+		}
+	}
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
 	
 		//change colors of tests mode
-		viewport_mode.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
-		UtilGtk.ColorsMenuLabel(label_mode_jumps);
-		UtilGtk.ColorsMenuLabel(label_mode_jumps_reactive);
-		UtilGtk.ColorsMenuLabel(label_mode_runs);
-		UtilGtk.ColorsMenuLabel(label_mode_runs_intervallic);
-		UtilGtk.ColorsMenuLabel(label_mode_reaction_times);
-		UtilGtk.ColorsMenuLabel(label_mode_pulses);
-		UtilGtk.ColorsMenuLabel(label_mode_multi_chronopic);
+		/*
+		 * gui for small screens
+		 */
+		viewport_mode_small.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
-		UtilGtk.ColorsRadio(radio_mode_jumps);
-		UtilGtk.ColorsRadio(radio_mode_jumps_reactive);
-		UtilGtk.ColorsRadio(radio_mode_runs);
-		UtilGtk.ColorsRadio(radio_mode_runs_intervallic);
-		UtilGtk.ColorsRadio(radio_mode_reaction_times);
-		UtilGtk.ColorsRadio(radio_mode_pulses);
-		UtilGtk.ColorsRadio(radio_mode_multi_chronopic);
-		
+		UtilGtk.ColorsMenuLabel(label_mode_jumps_small);
+		UtilGtk.ColorsMenuLabel(label_mode_jumps_reactive_small);
+		UtilGtk.ColorsMenuLabel(label_mode_runs_small);
+		UtilGtk.ColorsMenuLabel(label_mode_runs_intervallic_small);
+		UtilGtk.ColorsMenuLabel(label_mode_reaction_times_small);
+		UtilGtk.ColorsMenuLabel(label_mode_pulses_small);
+		UtilGtk.ColorsMenuLabel(label_mode_multi_chronopic_small);
+
+		UtilGtk.ColorsRadio(radio_mode_jumps_small);
+		UtilGtk.ColorsRadio(radio_mode_jumps_reactive_small);
+		UtilGtk.ColorsRadio(radio_mode_runs_small);
+		UtilGtk.ColorsRadio(radio_mode_runs_intervallic_small);
+		UtilGtk.ColorsRadio(radio_mode_reaction_times_small);
+		UtilGtk.ColorsRadio(radio_mode_pulses_small);
+		UtilGtk.ColorsRadio(radio_mode_multi_chronopic_small);
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
-		image_mode_jumps.Pixbuf = pixbuf;
+		image_mode_jumps_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);
-		image_mode_jumps_reactive.Pixbuf = pixbuf;
+		image_mode_jumps_reactive_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRuns);
-		image_mode_runs.Pixbuf = pixbuf;
+		image_mode_runs_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameRunsInterval);
-		image_mode_runs_intervallic.Pixbuf = pixbuf;
+		image_mode_runs_intervallic_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameReactionTime);
-		image_mode_reaction_times.Pixbuf = pixbuf;
+		image_mode_reaction_times_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNamePulse);
-		image_mode_pulses.Pixbuf = pixbuf;
+		image_mode_pulses_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameMultiChronopic);
-		image_mode_multi_chronopic.Pixbuf = pixbuf;
+		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
 		
 		
 		//jumps changes
@@ -809,50 +848,43 @@ public partial class ChronoJumpWindow
 */
 
 	/* ---------------------------------------------------------
-	 * ----------------  test modes ----------------------------
+	 * ----------------  test modes (small GUI) ----------------
 	 *  --------------------------------------------------------
 	 */
 	
-	public void on_radio_mode_jumps_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps.Active) {
+	public void on_radio_mode_jumps_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_jumps_small.Active) 
 			notebooks_change(0);
-		}
 	}
 
-	public void on_radio_mode_jumps_reactive_toggled (object obj, EventArgs args) {
-		if(radio_mode_jumps_reactive.Active) {
+	public void on_radio_mode_jumps_reactive_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_jumps_reactive_small.Active) 
 			notebooks_change(1);
-		}
 	}
 
-	public void on_radio_mode_runs_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs.Active) {
+	public void on_radio_mode_runs_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_runs_small.Active) 
 			notebooks_change(2);
-		}
 	}
 
-	public void on_radio_mode_runs_intervallic_toggled (object obj, EventArgs args) {
-		if(radio_mode_runs_intervallic.Active) {
+	public void on_radio_mode_runs_intervallic_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_runs_intervallic_small.Active) 
 			notebooks_change(3);
-		}
 	}
 
-	public void on_radio_mode_reaction_times_toggled (object obj, EventArgs args) {
-		if(radio_mode_reaction_times.Active) {
+	public void on_radio_mode_reaction_times_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_reaction_times_small.Active) 
 			notebooks_change(4);
-		}
 	}
 
-	public void on_radio_mode_pulses_toggled (object obj, EventArgs args) {
-		if(radio_mode_pulses.Active) {
+	public void on_radio_mode_pulses_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_pulses_small.Active) 
 			notebooks_change(5);
-		}
 	}
 
-	public void on_radio_mode_multi_chronopic_toggled (object obj, EventArgs args) {
-		if(radio_mode_multi_chronopic.Active) {
+	public void on_radio_mode_multi_chronopic_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_multi_chronopic_small.Active) 
 			notebooks_change(6);
-		}
 	}
 
 	/* ---------------------------------------------------------
@@ -2870,7 +2902,7 @@ Console.WriteLine("X");
 
 
 	void on_button_execute_test_clicked (object o, EventArgs args) {
-		if(radio_mode_jumps.Active) {
+		if(radio_mode_jumps_small.Active) {
 			extra_window_jumps_weight = (double) extra_window_jumps_spinbutton_weight.Value;
 			extra_window_jumps_fall = (double) extra_window_jumps_spinbutton_fall.Value;
 			extra_window_jumps_arms = extra_window_jumps_check_dj_arms.Active;
@@ -2888,31 +2920,31 @@ Console.WriteLine("X");
 
 			on_normal_jump_activate(o, args);
 		}
-		else if(radio_mode_jumps_reactive.Active) {
+		else if(radio_mode_jumps_reactive_small.Active) {
 			extra_window_jumps_rj_limited = (double) extra_window_jumps_rj_spinbutton_limit.Value;
 			extra_window_jumps_rj_weight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
 			extra_window_jumps_rj_fall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
 
 			on_rj_activate(o, args);
 		}
-		else if(radio_mode_runs.Active) {
+		else if(radio_mode_runs_small.Active) {
 			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
 			
 			on_normal_run_activate(o, args);
 		}
-		else if(radio_mode_runs_intervallic.Active) {
+		else if(radio_mode_runs_intervallic_small.Active) {
 			extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
 			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
 			
 			on_run_interval_activate(o, args);
 		}
-		else if(radio_mode_reaction_times.Active) {
+		else if(radio_mode_reaction_times_small.Active) {
 			on_reaction_time_activate (o, args);
 		}
-		else if(radio_mode_pulses.Active) {
+		else if(radio_mode_pulses_small.Active) {
 			on_pulse_activate (o, args);
 		}
-		else if(radio_mode_multi_chronopic.Active) {
+		else if(radio_mode_multi_chronopic_small.Active) {
 			on_multi_chronopic_start_clicked(o, args);
 		}
 
@@ -2922,96 +2954,6 @@ Console.WriteLine("X");
 		//this notebook has to poing again to data of it's test
 		//then just show same page as notebook_execute
 		notebook_results_data.CurrentPage = notebook_execute.CurrentPage;
-	}
-
-
-	
-	private void on_button_enter (object o, EventArgs args) {
-		/*
-		//jump simple
-		if(o == (object) button_free || o == (object) menuitem_jump_free) {
-			currentEventType = new JumpType("Free");
-		} else if(o == (object) button_sj) {
-			currentEventType = new JumpType("SJ");
-		} else 	if(o == (object) button_sj_l) {
-			currentEventType = new JumpType("SJl");
-		} else 	if(o == (object) button_cmj) {
-			currentEventType = new JumpType("CMJ");
-		} else 	if(o == (object) button_cmj_l) {
-			currentEventType = new JumpType("CMJl");
-		} else 	if(o == (object) button_abk) {
-			currentEventType = new JumpType("ABK");
-//no abk_l button currently
-//		} else 	if(o == (object) button_abk_l) {
-//			currentEventType = new JumpType("ABKl");
-		} else 	if(o == (object) button_dj) {
-			currentEventType = new JumpType("DJ");
-		} else 	if(o == (object) button_rocket) {
-			currentEventType = new JumpType("Rocket");
-		} else 	if(o == (object) button_take_off) {
-			currentEventType = new JumpType(Constants.TakeOffName);
-		//jumpRJ
-		} else 	if(o == (object) button_rj_j) {
-			currentEventType = new JumpType("RJ(j)");
-		} else 	if(o == (object) button_rj_t) {
-			currentEventType = new JumpType("RJ(t)");
-		} else 	if(o == (object) button_rj_unlimited) {
-			currentEventType = new JumpType("RJ(unlimited)");
-		} else 	if(o == (object) button_rj_hexagon) {
-			currentEventType = new JumpType("RJ(hexagon)");
-		//run
-		} else 	if(o == (object) button_run_custom) {
-			currentEventType = new RunType("Custom");
-		} else 	if(o == (object) button_run_20m) {
-			currentEventType = new RunType("20m");
-		} else 	if(o == (object) button_run_20m) {
-			currentEventType = new RunType("100m");
-		} else 	if(o == (object) button_run_100m) {
-			currentEventType = new RunType("100m");
-		} else 	if(o == (object) button_run_200m) {
-			currentEventType = new RunType("200m");
-		} else 	if(o == (object) button_run_400m) {
-			currentEventType = new RunType("400m");
-		} else 	if(o == (object) button_run_gesell) {
-			currentEventType = new RunType("Gesell-DBT");
-		} else 	if(o == (object) button_run_20yard) {
-			currentEventType = new RunType("Agility-20Yard");
-		} else 	if(o == (object) button_run_505) {
-			currentEventType = new RunType("Agility-505");
-		} else 	if(o == (object) button_run_illinois) {
-			currentEventType = new RunType("Agility-Illinois");
-		} else 	if(o == (object) button_run_margaria) {
-			currentEventType = new RunType("Margaria");
-		} else 	if(o == (object) button_run_shuttle) {
-			currentEventType = new RunType("Agility-Shuttle-Run");
-		} else 	if(o == (object) button_run_zigzag) {
-			currentEventType = new RunType("Agility-ZigZag");
-		//run interval
-		} else 	if(o == (object) button_run_interval_by_laps) {
-			currentEventType = new RunType("byLaps");
-		} else 	if(o == (object) button_run_interval_by_time) {
-			currentEventType = new RunType("byTime");
-		} else 	if(o == (object) button_run_interval_unlimited) {
-			currentEventType = new RunType("unlimited");
-		} else 	if(o == (object) button_run_interval_mtgug) {
-			currentEventType = new RunType("MTGUG");
-		//reactionTime
-		} else 	if(o == (object) button_reaction_time) {
-			currentEventType = new ReactionTimeType("reactionTime");
-		//pulse
-		} else 	if(o == (object) button_pulse_free) {
-			currentEventType = new PulseType("Free");
-		} else 	if(o == (object) button_pulse_custom) {
-			currentEventType = new PulseType("Custom");
-		//multiChronopic
-		} else 	if(o == (object) button_multi_chronopic_start) {
-			currentEventType = new MultiChronopicType(Constants.MultiChronopicName);
-		} else 	if(o == (object) button_run_analysis) {
-			currentEventType = new MultiChronopicType(Constants.RunAnalysisName);
-		}
-
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
-		*/
 	}
 
 
@@ -3948,7 +3890,7 @@ Console.WriteLine("X");
 		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
 
-		if(radio_mode_multi_chronopic.Active)	
+		if(radio_mode_multi_chronopic_small.Active)	
 			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		
 		chronopicLabels(cps);
@@ -5329,7 +5271,7 @@ Console.WriteLine("X");
 	private void sensitiveGuiEventDoing () {
 		session_menuitem.Sensitive = false;
 		help_menuitem.Sensitive = false;
-		viewport_mode.Sensitive = false;
+		viewport_mode_small.Sensitive = false;
 		frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
@@ -5352,7 +5294,7 @@ Console.WriteLine("X");
 	private void sensitiveGuiEventDone () {
 		session_menuitem.Sensitive = true;
 		help_menuitem.Sensitive = true;
-		viewport_mode.Sensitive = true;
+		viewport_mode_small.Sensitive = true;
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;

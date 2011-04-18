@@ -494,7 +494,6 @@ public partial class ChronoJumpWindow
 	{
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
-	
 
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
 		
@@ -1068,7 +1067,6 @@ Log.WriteLine("Preparing reactive A");
 			double tcNow, double tcPerson, double tcSession,
 			double maxValue, double minValue, int topMargin, int bottomMargin)
 	{
-		
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
@@ -1138,7 +1136,6 @@ Log.WriteLine("Preparing reactive A");
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
-		
 	}
 
 	private void paintRunSimple (Gtk.DrawingArea drawingarea, Gdk.GC myPen, string [] runs, 
@@ -1788,12 +1785,10 @@ Log.WriteLine("Preparing reactive A");
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
 				if(thisJumpIsSimple) {
-					Log.Write("update graph: JUMP");
 					PrepareJumpSimpleGraph(
 							currentEventExecute.PrepareEventGraphJumpSimpleObject.tv, 
 							currentEventExecute.PrepareEventGraphJumpSimpleObject.tc);
 				} else {
-					Log.Write("update graph: JUMPREACTIVE");
 					PrepareJumpReactiveGraph(
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
@@ -1804,12 +1799,10 @@ Log.WriteLine("Preparing reactive A");
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple) {
-					Log.Write("update graph: RUN");
 					PrepareRunSimpleGraph(
 							currentEventExecute.PrepareEventGraphRunSimpleObject.time,
 							currentEventExecute.PrepareEventGraphRunSimpleObject.speed);
 				} else {
-					Log.Write("update graph: RUNINTERVAL");
 					PrepareRunIntervalGraph(
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
 							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
@@ -1820,18 +1813,15 @@ Log.WriteLine("Preparing reactive A");
 				}
 				break;
 			case EventType.Types.REACTIONTIME:
-					Log.Write("update graph: REACTIONTIME");
 					PrepareReactionTimeGraph(
 							currentEventExecute.PrepareEventGraphReactionTimeObject.time);
 				break;
 			case EventType.Types.PULSE:
-					Log.Write("update graph: PULSE");
 					PreparePulseGraph(
 							currentEventExecute.PrepareEventGraphPulseObject.lastTime,
 							currentEventExecute.PrepareEventGraphPulseObject.timesString);
 				break;
 			case EventType.Types.MULTICHRONOPIC:
-					Log.Write("update graph: MULTICHRONOPIC");
 					PrepareMultiChronopicGraph(
 							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp1StartedIn,
 							currentEventExecute.PrepareEventGraphMultiChronopicObject.cp2StartedIn,

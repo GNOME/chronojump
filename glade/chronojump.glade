@@ -13427,6 +13427,7 @@ by you</property>
     <property name="title" translatable="yes">Chronojump</property>
     <property name="default_width">800</property>
     <property name="default_height">600</property>
+    <signal name="size_allocate" handler="on_app1_size_allocate"/>
     <signal name="delete_event" handler="on_delete_event"/>
     <child>
       <widget class="GtkVBox" id="vbox69">
@@ -13641,8 +13642,7 @@ by you</property>
                   <widget class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
                     <child>
-                      <widget class="GtkVBox" id="vbox65">
-                        <property name="width_request">180</property>
+                      <widget class="GtkVBox" id="vbox_persons">
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkFrame" id="frame_persons">
@@ -13783,7 +13783,7 @@ by you</property>
                                               <widget class="GtkHBox" id="hbox35">
                                                 <property name="visible">True</property>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label18">
+                                                  <widget class="GtkLabel" id="label_current_person_title">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
                                                     <property name="label" translatable="yes">Current person</property>
@@ -14008,28 +14008,28 @@ by you</property>
                       <widget class="GtkVBox" id="vbox1">
                         <property name="visible">True</property>
                         <child>
-                          <widget class="GtkViewport" id="viewport_mode">
+                          <widget class="GtkViewport" id="viewport_mode_small">
                             <property name="visible">True</property>
                             <property name="resize_mode">queue</property>
-                            <property name="hadjustment">0 0 1 0.10000000000000001 0.90000000000000002 1</property>
-                            <property name="shadow_type">out</property>
                             <child>
-                              <widget class="GtkHButtonBox" id="hbutton_radio_modes">
+                              <widget class="GtkHBox" id="hbox_radio_modes">
                                 <property name="visible">True</property>
+                                <property name="spacing">8</property>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_jumps">
+                                  <widget class="GtkRadioButton" id="radio_mode_jumps_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <signal name="toggled" handler="on_radio_mode_jumps_toggled"/>
+                                    <signal name="toggled" handler="on_radio_mode_jumps_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox2">
+                                      <widget class="GtkVBox" id="vbox74">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_jumps">
+                                          <widget class="GtkImage" id="image_mode_jumps_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14038,7 +14038,7 @@ by you</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_jumps">
+                                          <widget class="GtkLabel" id="label_mode_jumps_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Jumps</property>
                                             <property name="justify">center</property>
@@ -14051,25 +14051,25 @@ by you</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_jumps_reactive">
+                                  <widget class="GtkRadioButton" id="radio_mode_jumps_reactive_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_jumps_reactive_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_jumps_reactive_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox3">
+                                      <widget class="GtkVBox" id="vbox75">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_jumps_reactive">
+                                          <widget class="GtkImage" id="image_mode_jumps_reactive_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14078,7 +14078,7 @@ by you</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_jumps_reactive">
+                                          <widget class="GtkLabel" id="label_mode_jumps_reactive_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Jumps
 reactive</property>
@@ -14092,25 +14092,25 @@ reactive</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">1</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_runs">
+                                  <widget class="GtkRadioButton" id="radio_mode_runs_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_runs_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_runs_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox4">
+                                      <widget class="GtkVBox" id="vbox76">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_runs">
+                                          <widget class="GtkImage" id="image_mode_runs_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14119,7 +14119,7 @@ reactive</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_runs">
+                                          <widget class="GtkLabel" id="label_mode_runs_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Runs</property>
                                             <property name="justify">center</property>
@@ -14132,25 +14132,25 @@ reactive</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_runs_intervallic">
+                                  <widget class="GtkRadioButton" id="radio_mode_runs_intervallic_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_runs_intervallic_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_runs_intervallic_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox5">
+                                      <widget class="GtkVBox" id="vbox77">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_runs_intervallic">
+                                          <widget class="GtkImage" id="image_mode_runs_intervallic_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14159,7 +14159,7 @@ reactive</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_runs_intervallic">
+                                          <widget class="GtkLabel" id="label_mode_runs_intervallic_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Runs
 intervallic</property>
@@ -14173,25 +14173,25 @@ intervallic</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">3</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_reaction_times">
+                                  <widget class="GtkRadioButton" id="radio_mode_reaction_times_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_reaction_times_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_reaction_times_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox6">
+                                      <widget class="GtkVBox" id="vbox78">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_reaction_times">
+                                          <widget class="GtkImage" id="image_mode_reaction_times_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14200,7 +14200,7 @@ intervallic</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_reaction_times">
+                                          <widget class="GtkLabel" id="label_mode_reaction_times_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Reaction
 times</property>
@@ -14214,25 +14214,25 @@ times</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">4</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_pulses">
+                                  <widget class="GtkRadioButton" id="radio_mode_pulses_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_pulses_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_pulses_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox7">
+                                      <widget class="GtkVBox" id="vbox79">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_pulses">
+                                          <widget class="GtkImage" id="image_mode_pulses_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14241,7 +14241,7 @@ times</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_pulses">
+                                          <widget class="GtkLabel" id="label_mode_pulses_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Pulses</property>
                                             <property name="justify">center</property>
@@ -14254,25 +14254,25 @@ times</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">5</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_mode_multi_chronopic">
+                                  <widget class="GtkRadioButton" id="radio_mode_multi_chronopic_small">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="relief">none</property>
+                                    <property name="active">True</property>
                                     <property name="draw_indicator">False</property>
-                                    <property name="group">radio_mode_jumps</property>
-                                    <signal name="toggled" handler="on_radio_mode_multi_chronopic_toggled"/>
+                                    <property name="group">radio_mode_jumps_small</property>
+                                    <signal name="toggled" handler="on_radio_mode_multi_chronopic_small_toggled"/>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox8">
+                                      <widget class="GtkVBox" id="vbox80">
                                         <property name="visible">True</property>
+                                        <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkImage" id="image_mode_multi_chronopic">
+                                          <widget class="GtkImage" id="image_mode_multi_chronopic_small">
                                             <property name="visible">True</property>
                                             <property name="stock">gtk-missing-image</property>
                                           </widget>
@@ -14281,7 +14281,7 @@ times</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_mode_multi_chronopic">
+                                          <widget class="GtkLabel" id="label_mode_multi_chronopic_small">
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Multi-
 Chronopic</property>
@@ -14295,8 +14295,6 @@ Chronopic</property>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
                                     <property name="position">6</property>
                                   </packing>
                                 </child>
@@ -14305,8 +14303,6 @@ Chronopic</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="padding">4</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
@@ -16180,7 +16176,7 @@ Chronopic</property>
                                     <property name="visible">True</property>
                                     <property name="spacing">10</property>
                                     <child>
-                                      <widget class="GtkFrame" id="frame1">
+                                      <widget class="GtkFrame" id="frame_test_options">
                                         <property name="visible">True</property>
                                         <property name="label_xalign">0</property>
                                         <property name="label_yalign">0.69999998807907104</property>
@@ -17939,8 +17935,6 @@ Second Chronopic to platforms.</property>
                                                 </child>
                                                 <child>
                                                   <widget class="GtkNotebook" id="notebook_results_data">
-                                                    <property name="width_request">225</property>
-                                                    <property name="height_request">72</property>
                                                     <property name="visible">True</property>
                                                     <property name="show_tabs">False</property>
                                                     <property name="show_border">False</property>
@@ -18293,6 +18287,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox227">
+                                                            <property name="width_request">16</property>
                                                             <property name="visible">True</property>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_tc_good">
@@ -18351,6 +18346,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox225">
+                                                            <property name="width_request">16</property>
                                                             <property name="visible">True</property>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_jump_reactive_tc_good">
@@ -18409,6 +18405,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox223">
+                                                            <property name="width_request">16</property>
                                                             <property name="visible">True</property>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_jump_reactive_tf_good">
@@ -18956,6 +18953,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox221">
+                                                            <property name="width_request">24</property>
                                                             <property name="visible">True</property>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_run_interval_time_good">
@@ -18967,6 +18965,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkImage" id="event_execute_image_run_interval_time_bad">
+                                                            <property name="width_request">24</property>
                                                             <property name="visible">True</property>
                                                             </widget>
                                                             <packing>
@@ -21444,17 +21443,33 @@ Second Chronopic to platforms.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkHBox" id="hbox52">
+                                          <widget class="GtkTable" id="table6">
                                             <property name="visible">True</property>
-                                            <property name="border_width">3</property>
-                                            <property name="spacing">5</property>
-                                            <property name="homogeneous">True</property>
+                                            <property name="n_rows">2</property>
+                                            <property name="n_columns">2</property>
+                                            <property name="column_spacing">13</property>
                                             <child>
-                                              <widget class="GtkVBox" id="vbox45">
+                                              <widget class="GtkRadioButton" id="radiobutton_stats_jumps_all">
+                                                <property name="label" translatable="yes">All</property>
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="use_underline">True</property>
+                                                <property name="draw_indicator">True</property>
+                                                <property name="group">radiobutton_stats_jumps_person_average</property>
+                                                <signal name="clicked" handler="on_radiobutton_stats_jumps_clicked"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox53">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_stats_jumps_all">
-                                                    <property name="label" translatable="yes">All</property>
+                                                  <widget class="GtkRadioButton" id="radiobutton_stats_jumps_limit">
+                                                    <property name="label" translatable="yes">Limit</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
@@ -21468,77 +21483,62 @@ Second Chronopic to platforms.</property>
                                                     <property name="position">0</property>
                                                   </packing>
                                                 </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkVBox" id="vbox41">
-                                                <property name="visible">True</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox53">
+                                                  <widget class="GtkSpinButton" id="spin_stats_jumps_limit">
                                                     <property name="visible">True</property>
-                                                    <property name="spacing">6</property>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_stats_jumps_limit">
-                                                        <property name="label" translatable="yes">Limit</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="use_underline">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radiobutton_stats_jumps_person_average</property>
-                                                        <signal name="clicked" handler="on_radiobutton_stats_jumps_clicked"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkSpinButton" id="spin_stats_jumps_limit">
-                                                        <property name="visible">True</property>
-                                                        <property name="sensitive">False</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="invisible_char">●</property>
-                                                        <property name="adjustment">10 1 99 1 10 0</property>
-                                                        <property name="climb_rate">1</property>
-                                                        <property name="snap_to_ticks">True</property>
-                                                        <property name="numeric">True</property>
-                                                        <signal name="changed" handler="on_spinbutton_stats_jumps_changed"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="invisible_char">●</property>
+                                                    <property name="adjustment">10 1 99 1 10 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                    <signal name="changed" handler="on_spinbutton_stats_jumps_changed"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
-                                                    <property name="position">0</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">1</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkVBox" id="vbox43">
+                                              <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_average">
+                                                <property name="label" translatable="yes">Person's average</property>
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="use_underline">True</property>
+                                                <property name="active">True</property>
+                                                <property name="draw_indicator">True</property>
+                                                <property name="group">radiobutton_stats_jumps_all</property>
+                                                <signal name="clicked" handler="on_radiobutton_stats_jumps_clicked"/>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkHBox" id="hbox54">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_average">
-                                                    <property name="label" translatable="yes">Person's average</property>
+                                                  <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_bests">
+                                                    <property name="label" translatable="yes">Person's bests</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="use_underline">True</property>
-                                                    <property name="active">True</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <property name="group">radiobutton_stats_jumps_person_average</property>
                                                     <signal name="clicked" handler="on_radiobutton_stats_jumps_clicked"/>
                                                   </widget>
                                                   <packing>
@@ -21546,63 +21546,31 @@ Second Chronopic to platforms.</property>
                                                     <property name="position">0</property>
                                                   </packing>
                                                 </child>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">2</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkVBox" id="vbox44">
-                                                <property name="visible">True</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox54">
+                                                  <widget class="GtkSpinButton" id="spin_stats_jumps_person_bests">
                                                     <property name="visible">True</property>
-                                                    <property name="spacing">6</property>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_stats_jumps_person_bests">
-                                                        <property name="label" translatable="yes">Person's bests</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="use_underline">True</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radiobutton_stats_jumps_person_average</property>
-                                                        <signal name="clicked" handler="on_radiobutton_stats_jumps_clicked"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkSpinButton" id="spin_stats_jumps_person_bests">
-                                                        <property name="visible">True</property>
-                                                        <property name="sensitive">False</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="invisible_char">●</property>
-                                                        <property name="adjustment">1 1 99 1 10 0</property>
-                                                        <property name="climb_rate">1</property>
-                                                        <property name="snap_to_ticks">True</property>
-                                                        <property name="numeric">True</property>
-                                                        <signal name="changed" handler="on_spinbutton_stats_jumps_changed"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="invisible_char">●</property>
+                                                    <property name="adjustment">1 1 99 1 10 0</property>
+                                                    <property name="climb_rate">1</property>
+                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                    <signal name="changed" handler="on_spinbutton_stats_jumps_changed"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
-                                                    <property name="position">0</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
                                                   </packing>
                                                 </child>
                                               </widget>
                                               <packing>
-                                                <property name="expand">False</property>
-                                                <property name="position">3</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -22050,6 +22018,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="tooltip" translatable="yes">Width of the line</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">2</property>
                                                             <property name="adjustment">1 1 5 1 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
@@ -22060,7 +22029,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">5</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="x_options"></property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -22165,6 +22134,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">2</property>
                                                             <property name="adjustment">5 1 20 1 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
@@ -22202,6 +22172,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">2</property>
                                                             <property name="adjustment">4 1 20 1 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
@@ -22239,6 +22210,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">2</property>
                                                             <property name="adjustment">4 1 20 1 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
@@ -22276,6 +22248,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">2</property>
                                                             <property name="adjustment">2 1 20 1 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
@@ -22291,15 +22264,6 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="position">3</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkVSeparator" id="vseparator_stats_x_axis">
-                                                            <property name="visible">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -22323,6 +22287,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
                                                             <property name="adjustment">0.80000000000000004 0.5 1 0.10000000000000001 1 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="digits">1</property>
@@ -22338,7 +22303,7 @@ Second Chronopic to platforms.</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -22387,14 +22352,12 @@ Second Chronopic to platforms.</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox47">
                                                     <property name="visible">True</property>
-                                                    <property name="homogeneous">True</property>
                                                     <child>
                                                       <widget class="GtkHButtonBox" id="hbuttonbox3">
                                                         <property name="visible">True</property>
                                                         <property name="layout_style">center</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_graph">
-                                                            <property name="width_request">175</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -22666,19 +22629,26 @@ on current Chronojump version.</property>
                                   <widget class="GtkHBox" id="hbox59">
                                     <property name="visible">True</property>
                                     <child>
-                                      <widget class="GtkTextView" id="textview1">
+                                      <widget class="GtkScrolledWindow" id="scrolledwindow2">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="pixels_above_lines">4</property>
-                                        <property name="editable">False</property>
-                                        <property name="wrap_mode">word</property>
-                                        <property name="cursor_visible">False</property>
-                                        <property name="text" translatable="yes">Chronojump has a server in order to share data between users.
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
+                                        <child>
+                                          <widget class="GtkTextView" id="textview1">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="pixels_above_lines">4</property>
+                                            <property name="editable">False</property>
+                                            <property name="cursor_visible">False</property>
+                                            <property name="text" translatable="yes">Chronojump has a server in order to share data between users.
 Data is collected by users contributions and server generates statistics and graphs. 
 Anyone can check server stats and graphs and easily make querys to the server.
 Privacy is respected:
 - Names, comments, photos and videos are not uploaded.
 - Dates of birth are hidden.</property>
+                                          </widget>
+                                        </child>
                                       </widget>
                                       <packing>
                                         <property name="position">0</property>
@@ -22727,12 +22697,12 @@ Privacy is respected:
                                         </child>
                                       </widget>
                                       <packing>
+                                        <property name="expand">False</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="expand">False</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>

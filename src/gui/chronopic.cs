@@ -75,8 +75,13 @@ public class ChronopicWindow
 	[Widget] Gtk.Button button_connect_cp3;
 	[Widget] Gtk.Button button_connect_cp4;
 	
+	[Widget] Gtk.CheckButton checkbutton_multi_show;
+	[Widget] Gtk.Table table_multi_chronopic;
+	[Widget] Gtk.Button button_reload;
+	
 	[Widget] Gtk.Image chronopic_image;
 	[Widget] Gtk.TextView textview_ports_found;
+	[Widget] Gtk.TextView textview_ports_found_explanation;
 
 	//chronopic connection thread
 	Thread thread;
@@ -152,8 +157,12 @@ public class ChronopicWindow
 	}
 	
 	//recreate is used when a Chronopic was disconnected
+	//port names com from gui/chronojump.cs to this method (myCpd)
 	static public ChronopicWindow Create (ArrayList myCpd, bool recreate, bool volumeOn)
 	{
+		if (ChronopicWindowBox != null && recreate) {
+			ChronopicWindowBox.chronopic_window.Hide();
+		}
 		if (ChronopicWindowBox == null || recreate) {
 			ChronopicWindowBox = new ChronopicWindow (myCpd);
 		}
@@ -177,13 +186,20 @@ public class ChronopicWindow
 		ChronopicWindowBox.volumeOn = volumeOn;
 		ChronopicWindowBox.checkChronopicDisconnected();
 		ChronopicWindowBox.createCombos();
+
+		//findPorts only puts info on textview
+		//ports info comes from gui/chronojump.cs to Create mehod
 		ChronopicWindowBox.findPorts();
+
 		ChronopicWindowBox.chronopic_window.Show();
 	
 		return ChronopicWindowBox;
 	}
 
 	private void setDefaultValues() {
+		checkbutton_multi_show.Active = false;
+		table_multi_chronopic.Visible = false;
+
 		if(isWindows) {
 			combo_linux1.Hide();
 			combo_linux2.Hide();
@@ -375,7 +391,19 @@ public class ChronopicWindow
 	}
 	
 	private void findPorts() {
-		textview_ports_found.Buffer = UtilGtk.TextViewPrint(Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
+		string saferPorts = "";
+		if(Util.IsWindows())
+			saferPorts =
+				"\n\n" + Catalog.GetString("Note ports above COM4 may not work.") + "\n" + 
+				Catalog.GetString("If you want a safer port, press help button below and press 'Force Chronopic to port COM1 or COM2'.");
+
+		textview_ports_found.Buffer = UtilGtk.TextViewPrint(
+				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
+		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
+				Catalog.GetString("These are USB devices like Chronopic but also pendrives, USB printers...") + "\n" + 
+				Catalog.GetString("If you just connected Chronopic, refresh this window pressing 'Refresh'.") +
+				saferPorts
+				);
 	}
 
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -487,6 +515,9 @@ public class ChronopicWindow
 		return myCp;
 	}
 	
+	private void on_checkbutton_multi_show_clicked(object o, EventArgs args) {
+		table_multi_chronopic.Visible = checkbutton_multi_show.Active;
+	}
 
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
 		if (o == null)
@@ -529,7 +560,10 @@ public class ChronopicWindow
 		Log.WriteLine("HELP");
 		new HelpPorts();
 	}
-
+	
+	private void on_button_reload_clicked (object o, EventArgs args) {
+		//event will be raised and managed on gui/chronojump.cs
+	}
 
 	public void SerialPortsClose() {
 		Console.WriteLine("Closing sp");
@@ -754,5 +788,12 @@ public class ChronopicWindow
 	public Button FakeWindowDone {
 		get { return fakeWindowDone; }
 	}
+	
+	public Button Button_reload
+	{
+		set { button_reload = value;	}
+		get { return button_reload;	}
+	}
+
 
 }

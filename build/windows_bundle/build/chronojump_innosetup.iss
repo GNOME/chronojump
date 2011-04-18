@@ -62,6 +62,6 @@ Name: "{group}\Chronojump Theme change - Cambiar tema"; Filename: "{app}\bin\gtk
 Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{app}\drivers\CDM20802_Setup.exe";
+Filename: "{app}\drivers\CDM20814_Setup.exe";
 Filename: "{app}\bin\Chronojump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
 

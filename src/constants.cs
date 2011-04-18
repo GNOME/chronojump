@@ -258,8 +258,8 @@ public class Constants
 	//global stat types
 	public static string TypeSessionSummary = Catalog.GetString("Session summary");
 	public static string TypeJumperSummary = Catalog.GetString("Jumper summary");
-	public static string TypeJumpsSimple = Catalog.GetString("Jumps: Simple");
-	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Jumps: Simple with TC");
+	public static string TypeJumpsSimple = Catalog.GetString("Simple");
+	public static string TypeJumpsSimpleWithTC = Catalog.GetString("Simple with TC");
 	public static string TypeJumpsReactive = Catalog.GetString("Jumps: Reactive");
 	public static string TypeRunsSimple = Catalog.GetString("Runs: Simple");
 	public static string TypeRunsIntervallic = Catalog.GetString("Runs: Intervallic");

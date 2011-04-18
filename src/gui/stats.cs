@@ -114,7 +114,6 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
 	[Widget] Gtk.SpinButton spin_graph_x_cex_axis; //font size of x axis
 		
-	[Widget] Gtk.VSeparator vseparator_stats_x_axis;
 	[Widget] Gtk.HBox hbox_stats_x_axis;
 
 	//bool statsAutomatic = true;
@@ -466,7 +465,6 @@ public partial class ChronoJumpWindow {
 	}
 			
 	private void showXAxisOptions(bool show) {
-		vseparator_stats_x_axis.Visible = show;
 		hbox_stats_x_axis.Visible = show;
 	}
 

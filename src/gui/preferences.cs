@@ -66,6 +66,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
 	[Widget] Gtk.Label label_video;
+	[Widget] Gtk.Label label_video_experimental;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -222,10 +223,14 @@ public class PreferencesWindow {
 		image_video_yes.Visible = myVideo;
 		image_video_no.Visible = ! myVideo;
 		
-		if(myVideo)		
+		if(myVideo) {	
 			label_video.Text = Catalog.GetString("Enabled test video recording and person's snapshots.");
-		else
+			label_video_experimental.Visible = true;
+		}
+		else {
 			label_video.Text = Catalog.GetString("Disabled video and snapshots.");
+			label_video_experimental.Visible = false;
+		}
 	}
 	
 	private void on_checkbutton_video_clicked(object o, EventArgs args) {

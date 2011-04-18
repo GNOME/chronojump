@@ -1891,7 +1891,7 @@
               <widget class="GtkVBox" id="vbox1">
                 <property name="visible">True</property>
                 <property name="border_width">7</property>
-                <property name="spacing">4</property>
+                <property name="spacing">12</property>
                 <child>
                   <widget class="GtkHBox" id="hbox1">
                     <property name="visible">True</property>
@@ -2021,9 +2021,30 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label_video">
+                      <widget class="GtkVBox" id="vbox2">
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <widget class="GtkLabel" id="label_video">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                          </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label_video_experimental">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">EXPERIMENTAL, Chronojump may crash.</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </widget>
                       <packing>
                         <property name="position">1</property>
@@ -2034,6 +2055,9 @@
                     <property name="expand">False</property>
                     <property name="position">1</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </widget>
               <packing>

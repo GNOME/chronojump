@@ -262,6 +262,7 @@ Log.WriteLine("doing backup");
 			}
 
 			Log.WriteLine ( Catalog.GetString ("tables already created") ); 
+		
 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
 			//SqliteJump.FindBadRjs();
@@ -328,8 +329,10 @@ Log.WriteLine("doing backup");
 			if( versionAvailableKnown.Length > 0 && new Version(versionAvailableKnown) > new Version(progVersion) ) 
 				messageToShowOnBoot += "\n" + Catalog.GetString("Chronojump crashed before.") + "\n" +
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
-			else
+			else {
 				messageToShowOnBoot += messageChrashedBefore;
+				SqlitePreferences.Update("videoOn", "False", false);
+			}
 		}
 		
 		
@@ -582,6 +585,10 @@ Console.WriteLine("--6--");
 			//windowsTextLog +
 			"\n\n" +	
 			Catalog.GetString("Your help is needed.") + "\n";
+
+	
+		messageChrashedBefore += "\n" + Catalog.GetString("Experimental webcam record has been disabled.") + "\n";
+
 
 		/*
 		 * This are the only outputs to Console. Other's use Log that prints to console and to log file

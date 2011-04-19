@@ -771,7 +771,11 @@ public class Util
 	public static void MoveTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
 		if(File.Exists(GetVideoTempFileName())) {
 			CreateVideoSessionDirIfNeeded(sessionID);
-			File.Move(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+			try {
+				File.Move(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+			} catch {
+				File.Copy(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+			}
 		}
 	}
 	

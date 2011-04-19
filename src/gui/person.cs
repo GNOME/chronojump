@@ -943,8 +943,17 @@ public class PersonAddModifyWindow
 
 		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
 		if(File.Exists(photoFile)) {
-			pixbuf = new Pixbuf (photoFile); //from a file
-			image_photo_mini.Pixbuf = pixbuf;
+			try {
+				pixbuf = new Pixbuf (photoFile); //from a file
+				image_photo_mini.Pixbuf = pixbuf;
+			} catch {
+				//on windows there are problem using the fileNames that are not on temp
+				string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+				File.Copy(photoFile, tempFileName, true);
+				pixbuf = new Pixbuf (tempFileName);
+				image_photo_mini.Pixbuf = pixbuf;
+			}
 		}
 		//show zoom button only if big image exists
 		if(File.Exists(Util.GetPhotoFileName(false, currentPerson.UniqueID)))
@@ -963,12 +972,15 @@ public class PersonAddModifyWindow
 	}
 	
 	void on_button_zoom_clicked (object o, EventArgs args) {
-		string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
-		if(adding)
-			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
-					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
-		
-		new DialogImageTest(currentPerson.Name, fileName);
+		string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
+				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		if(! adding) {
+			//on windows there are problem using the fileNames that are not on temp
+			string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
+			File.Copy(fileName, tempFileName, true);
+		}
+
+		new DialogImageTest(currentPerson.Name, tempFileName);
 	}
 
 	Gtk.Window capturerWindow;
@@ -990,38 +1002,49 @@ public class PersonAddModifyWindow
 		capturerWindow.Add(capturer);
 		capturerWindow.Modal=true;
 		capturerWindow.ShowAll();
+		capturerWindow.Present();
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
 		capturer.Run();
 	}
 
 	private void on_snapshot_done(Pixbuf pixbuf) {
-		string fileName = Util.GetPhotoFileName(false, currentPerson.UniqueID);
-		if(adding)
-			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
-					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		string fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoTemp +
+				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 		
 		pixbuf.Save(fileName,"jpeg");
+		
+		//on windows there are problem using the fileNames that are not on temp
+		if(!adding)
+			File.Copy(fileName, Util.GetPhotoFileName(false, currentPerson.UniqueID), true); //overwrite
+
 		button_zoom.Sensitive = true;
 	}
 
 	private void on_snapshot_mini_done(Pixbuf pixbuf) {
-		string fileName = Util.GetPhotoFileName(true, currentPerson.UniqueID);
-		if(adding)
-			fileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		string tempSmallFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+				Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 		
-		pixbuf.Save(fileName,"jpeg");
+		pixbuf.Save(tempSmallFileName,"jpeg");
+		
+		//on windows there are problem using the fileNames that are not on temp
+		if(!adding)
+			File.Copy(tempSmallFileName, Util.GetPhotoFileName(true, currentPerson.UniqueID), true); //overwrite
+		
 		capturer.Close();
 		capturer.Dispose();
 		capturerWindow.Hide();
-		
-		string photoFile = Util.GetPhotoFileName(true, currentPerson.UniqueID);
-		if(adding)
-			photoFile = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
-					Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 
-		if(File.Exists(photoFile)) {
-			Pixbuf pixbuf2 = new Pixbuf (photoFile); //from a file
+
+		string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +
+			Util.GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
+		if(!adding) {
+			//on windows there are problem using the fileNames that are not on temp
+			string fileName = Util.GetPhotoFileName(true, currentPerson.UniqueID);
+			File.Copy(fileName, tempFileName, true);
+		}
+		
+		if(File.Exists(tempFileName)) {
+			Pixbuf pixbuf2 = new Pixbuf (tempFileName); //from a file
 			image_photo_mini.Pixbuf = pixbuf2;
 		}
 	}

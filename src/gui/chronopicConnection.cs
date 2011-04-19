@@ -114,10 +114,11 @@ public class ChronopicConnection
 
 	private void on_delete_event (object o, DeleteEventArgs args)
 	{
-		//button_cancel.Click();
+		button_cancel.Click();
+		args.RetVal = true;
 
-		ChronopicConnectionBox.chronopic_connection.Hide();
-		ChronopicConnectionBox = null;
+		//ChronopicConnectionBox.chronopic_connection.Hide();
+		//ChronopicConnectionBox = null;
 	}
 	
 	public Button Button_cancel 

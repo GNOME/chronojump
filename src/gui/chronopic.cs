@@ -77,7 +77,7 @@ public class ChronopicWindow
 	
 	[Widget] Gtk.CheckButton checkbutton_multi_show;
 	[Widget] Gtk.Table table_multi_chronopic;
-	[Widget] Gtk.Button button_reload;
+	//[Widget] Gtk.Button button_reload;
 	
 	[Widget] Gtk.Image chronopic_image;
 	[Widget] Gtk.TextView textview_ports_found;
@@ -91,6 +91,7 @@ public class ChronopicWindow
 
 	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic detection ended
 	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic detection ended
+	//[Widget] Gtk.Button fakeWindowReload; //raised when asked to reload
 
 	bool isWindows;	
 
@@ -173,6 +174,7 @@ public class ChronopicWindow
 		ChronopicWindowBox.volumeOn = volumeOn;
 
 		ChronopicWindowBox.fakeWindowDone = new Gtk.Button();
+		//ChronopicWindowBox.fakeWindowReload = new Gtk.Button();
 		
 		return ChronopicWindowBox;
 	}
@@ -181,7 +183,7 @@ public class ChronopicWindow
 	{
 		if (ChronopicWindowBox == null) {
 			ChronopicWindowBox = new ChronopicWindow (cpd);
-		}
+		} 
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
 		ChronopicWindowBox.checkChronopicDisconnected();
@@ -192,6 +194,8 @@ public class ChronopicWindow
 		ChronopicWindowBox.findPorts();
 
 		ChronopicWindowBox.chronopic_window.Show();
+		ChronopicWindowBox.chronopic_window.Present();
+Log.WriteLine("bbb");
 	
 		return ChronopicWindowBox;
 	}
@@ -288,14 +292,16 @@ public class ChronopicWindow
 	//private void createComboWindows(string myPort, Gtk.ComboBox myCombo) {
 	private void createComboWindows() {
 		//combo port stuff
-		comboWindowsOptions = new string[257];
-		for (int i=1; i <= 257; i ++)
+		comboWindowsOptions = new string[32];
+		for (int i=1; i <= 32; i ++)
 			comboWindowsOptions[i-1] = "COM" + i;
+		string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortWindows);
+		string [] allWithDef = Util.AddArrayString(def, comboWindowsOptions);
 	
-		UtilGtk.ComboUpdate(combo_windows1, comboWindowsOptions, Constants.ChronopicDefaultPortWindows);
-		UtilGtk.ComboUpdate(combo_windows2, comboWindowsOptions, Constants.ChronopicDefaultPortWindows);
-		UtilGtk.ComboUpdate(combo_windows3, comboWindowsOptions, Constants.ChronopicDefaultPortWindows);
-		UtilGtk.ComboUpdate(combo_windows4, comboWindowsOptions, Constants.ChronopicDefaultPortWindows);
+		UtilGtk.ComboUpdate(combo_windows1, allWithDef, Constants.ChronopicDefaultPortWindows);
+		UtilGtk.ComboUpdate(combo_windows2, allWithDef, Constants.ChronopicDefaultPortWindows);
+		UtilGtk.ComboUpdate(combo_windows3, allWithDef, Constants.ChronopicDefaultPortWindows);
+		UtilGtk.ComboUpdate(combo_windows4, allWithDef, Constants.ChronopicDefaultPortWindows);
 				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {
@@ -401,7 +407,7 @@ public class ChronopicWindow
 				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
 				Catalog.GetString("These are USB devices like Chronopic but also pendrives, USB printers...") + "\n" + 
-				Catalog.GetString("If you just connected Chronopic, refresh this window pressing 'Refresh'.") +
+				Catalog.GetString("If you just connected Chronopic, close and open again this window.") +
 				saferPorts
 				);
 	}
@@ -561,10 +567,6 @@ public class ChronopicWindow
 		new HelpPorts();
 	}
 	
-	private void on_button_reload_clicked (object o, EventArgs args) {
-		//event will be raised and managed on gui/chronojump.cs
-	}
-
 	public void SerialPortsClose() {
 		Console.WriteLine("Closing sp");
 		sp.Close();
@@ -740,6 +742,14 @@ public class ChronopicWindow
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
 
+	/*	
+	private void on_button_reload_clicked (object o, EventArgs args) {
+		Log.WriteLine("RELOAD");
+		fakeWindowReload.Click();
+		//ChronopicWindowBox.chronopic_window.Hide();
+	}
+	*/
+
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		//nice: this makes windows no destroyed, then it works like button_close
@@ -788,12 +798,13 @@ public class ChronopicWindow
 	public Button FakeWindowDone {
 		get { return fakeWindowDone; }
 	}
-	
-	public Button Button_reload
+
+	/*	
+	public Button FakeWindowReload
 	{
-		set { button_reload = value;	}
-		get { return button_reload;	}
+		get { return fakeWindowReload; }
 	}
+	*/
 
 
 }

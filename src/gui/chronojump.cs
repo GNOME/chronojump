@@ -2340,10 +2340,20 @@ public partial class ChronoJumpWindow
 			//when adding new person, photos cannot be recorded as currentPerson.UniqueID
 			//because it was undefined. Copy them now
 			if(File.Exists(Util.GetPhotoTempFileName(false)) && File.Exists(Util.GetPhotoTempFileName(true))) {
-				File.Move(Util.GetPhotoTempFileName(false), 
-						Util.GetPhotoFileName(false, currentPerson.UniqueID));
-				File.Move(Util.GetPhotoTempFileName(true), 
-						Util.GetPhotoFileName(true, currentPerson.UniqueID));
+				try {
+					File.Move(Util.GetPhotoTempFileName(false), 
+							Util.GetPhotoFileName(false, currentPerson.UniqueID));
+				} catch {
+					File.Copy(Util.GetPhotoTempFileName(false), 
+							Util.GetPhotoFileName(false, currentPerson.UniqueID));
+				}
+				try {
+					File.Move(Util.GetPhotoTempFileName(true), 
+							Util.GetPhotoFileName(true, currentPerson.UniqueID));
+				} catch {
+					File.Move(Util.GetPhotoTempFileName(true), 
+							Util.GetPhotoFileName(true, currentPerson.UniqueID));
+				}
 			}
 			
 			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
@@ -3874,17 +3884,24 @@ Console.WriteLine("X");
 
 	private void on_chronopic_clicked (object o, EventArgs args) {
 		chronopicWin = ChronopicWindow.View(volumeOn);
-		chronopicWin.Button_reload.Clicked += new EventHandler(chronopicWindowReload);
+		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
 	}
-	
+
+	/*	
 	private void chronopicWindowReload(object o, EventArgs args) {
-		chronopicWin.Button_reload.Clicked -= new EventHandler(chronopicWindowReload);
+		//chronopicWin.FakeWindowReload.Clicked -= new EventHandler(chronopicWindowReload);
+
+		//store ports info and update labels if necessary
+		on_chronopic_window_connected_or_done (o, args);
+
 		//create chronopic window again (maybe new ports)
-		createChronopicWindow(true);
+		//createChronopicWindow(true);
+
 		//show it
-		on_chronopic_clicked(o, args);
+		chronopicWin = ChronopicWindow.View(volumeOn);
 	}
+	*/
 	
 	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
 		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);

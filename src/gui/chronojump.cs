@@ -372,6 +372,8 @@ public partial class ChronoJumpWindow
 
 	private bool normalGUI; //false means small gui
 
+	int chronopicCancelledTimes = 0;
+
 	//const int statusbarID = 1;
 
 
@@ -2098,6 +2100,15 @@ public partial class ChronoJumpWindow
 		//Log.End();
 		//Log.Delete();
 		Log.WriteLine("Bye3!");
+
+		if(chronopicCancelledTimes > 0 && Util.IsWindows()) {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("Attention, current version of Chronojump gets hanged on exit\nif user has cancelled detection of Chronopic.") + "\n\n" +
+					Catalog.GetString("Sorry, you will have to close Chronojump using CTRL + ALT + DEL."));
+		}
+		
+		Log.WriteLine("Bye4!");
+		
 		Application.Quit();
 	}
 
@@ -3878,7 +3889,9 @@ Console.WriteLine("X");
 			ChronopicPortData a = new ChronopicPortData(i,"",false);
 			cpd.Add(a);
 		}
+
 		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
+		chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		chronopicLabels(0);
 	}
 
@@ -3886,6 +3899,12 @@ Console.WriteLine("X");
 		chronopicWin = ChronopicWindow.View(volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
+	}
+
+		
+	private void on_chronopic_window_cancelled (object o, EventArgs ags) {
+		chronopicWin.FakeButtonCancelled.Clicked -= new EventHandler(on_chronopic_window_cancelled);
+		chronopicCancelledTimes ++;
 	}
 
 	/*	

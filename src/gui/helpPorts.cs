@@ -76,8 +76,8 @@ public class HelpPorts
 		label_detected.UseMarkup = true;
 		
 		label_manual.Text = 
-			Catalog.GetString("More information on <b>Chronojump Manual</b> at section:") + " <b>4.6</b>\n" +
-			"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n" + 
+			Catalog.GetString("More information on <b>Chronojump Manual</b>") + "\n" +
+			"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n\n" + 
 			Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 			"<i>http://chronojump.org/documents.html</i>";
 		label_manual.UseMarkup = true;
@@ -96,20 +96,20 @@ public class HelpPorts
 				"4 " + Catalog.GetString("Select <i>administrate dispositives</i>. It's first button.") +  "\n" +
 				"5 " + Catalog.GetString("Click on the '+' at left of COM and LPT ports.") +  "\n" +
 				"6 " + Catalog.GetString("The port name will be what it's written like COM? on the USB-serial line.") +  "\n" + "  " + Catalog.GetString("Eg: if it's written COM7, then you should write COM7 at Chronopic window.") + "\n\n" +
-				Catalog.GetString("If it doesn't work, try to force to COM1 or COM2, as it's explained on parent window.")
+				Catalog.GetString("If it doesn't work, try to force to COM1 - COM4, as it's explained on parent window.")
 				);
 	}
 
 	private void on_button_force_port_clicked (object o, EventArgs args)
 	{
 		new DialogMessage(Constants.MessageTypes.HELP,
-				Catalog.GetString("Force Chronopic port to COM1 or COM2") + "\n\n" +
+				Catalog.GetString("Force Chronopic port to COM1 - COM4") + "\n\n" +
 				"1 " + Catalog.GetString("Find the port as explained at <i>Check Chronopic port</i>.") + "\n" +
 				"2 " + Catalog.GetString("At the line where port is shown right click and select <i>properties</i> (last option).") +  "\n" +
 				"3 " + Catalog.GetString("Go to <i>Port configurations</i>.") +  "\n" +
 				"4 " + Catalog.GetString("Go to <i>Advanced options</i>.") +  "\n" +
-				"5 " + Catalog.GetString("Select COM1 or COM2 on the list shown on that window.") + "\n" +
-				Catalog.GetString("If COM1 and COM2 are <i>used</i>, then select unused ports below 10.") + "\n" + Catalog.GetString("If doesn't work, try to select the COM1 or COM2 (normally they are not really <i>used</i>).")
+				"5 " + Catalog.GetString("Select COM1, COM2, COM3 or COM4 on the list shown on that window.") + "\n" +
+				Catalog.GetString("If COM1 - COM4 are <i>used</i>, then select unused ports below 10.") + "\n" + Catalog.GetString("If doesn't work, try to select the COM1 - COM4 (normally they are not really <i>used</i>).")
 				);
 	}
 

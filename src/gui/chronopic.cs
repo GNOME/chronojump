@@ -400,8 +400,9 @@ Log.WriteLine("bbb");
 		string saferPorts = "";
 		if(Util.IsWindows())
 			saferPorts =
-				"\n\n" + Catalog.GetString("Note ports above COM4 may not work.") + "\n" + 
-				Catalog.GetString("If you want a safer port, press help button below and press 'Force Chronopic to port COM1 or COM2'.");
+				"\n\n" + Catalog.GetString("COM3 use to be the correct port (if available).") + "\n" + 
+				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
+				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 or COM2'.");
 
 		textview_ports_found.Buffer = UtilGtk.TextViewPrint(
 				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));

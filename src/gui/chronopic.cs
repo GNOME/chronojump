@@ -88,6 +88,7 @@ public class ChronopicWindow
 	bool needUpdateChronopicWin;
 	bool updateChronopicWinValuesState;
 	string updateChronopicWinValuesMessage;
+	Gtk.Button fakeButtonCancelled;
 
 	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic detection ended
 	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic detection ended
@@ -234,6 +235,8 @@ Log.WriteLine("bbb");
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
+		
+		fakeButtonCancelled = new Gtk.Button();
 	}
 	
 	//check if user has disconnected chronopic or port has changed
@@ -402,7 +405,7 @@ Log.WriteLine("bbb");
 			saferPorts =
 				"\n\n" + Catalog.GetString("COM3 use to be the correct port (if available).") + "\n" + 
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
-				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 or COM2'.");
+				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 - COM4'.");
 
 		textview_ports_found.Buffer = UtilGtk.TextViewPrint(
 				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
@@ -429,7 +432,7 @@ Log.WriteLine("bbb");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
-		ChronopicConnection chronopicConnectionWin = ChronopicConnection.Show();
+		chronopicConnectionWin = ChronopicConnection.Show();
 		chronopicConnectionWin.Pulse();
 		
 		Thread.Sleep (50);
@@ -575,10 +578,11 @@ Log.WriteLine("bbb");
 
 
 	void prepareChronopicConnection() {
-		ChronopicConnection chronopicConnectionWin = ChronopicConnection.Show();
+		//ChronopicConnection chronopicConnectionWin = ChronopicConnection.Show();
+		chronopicConnectionWin = ChronopicConnection.Show();
 		chronopicConnectionWin.LabelFeedBackReset();
 
-		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
+//		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
 		
 		fakeConnectionButton = new Gtk.Button();
 		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
@@ -590,6 +594,8 @@ Log.WriteLine("bbb");
 	
 	protected void waitChronopicStart () 
 	{
+		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
+
 		if(currentCp == 1) {
 		//	simulated = false;
 		//	SqlitePreferences.Update("simulated", simulated.ToString(), false);
@@ -726,9 +732,19 @@ Log.WriteLine("bbb");
 
 	private void on_chronopic_cancelled (object o, EventArgs args) {
 		Log.WriteLine("cancelled-----");
+		fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
 		
 		//kill the chronopicInit function that is waiting event 
-		thread.Abort();
+		//thread.Abort();
+		//http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing
+		//Log.Write(thread.ThreadState.ToString());
+		thread.IsBackground = true;
+		
+		//try to solve windows problems when a chronopic detection was cancelled
+		//Log.Write(thread.ThreadState.ToString());
+		//thread.Join(1000);
+		//Log.Write(thread.ThreadState.ToString());
+
 		
 		updateChronopicWinValuesState= false; //disconnected
 		updateChronopicWinValuesMessage= Catalog.GetString("Cancelled by user");
@@ -807,5 +823,8 @@ Log.WriteLine("bbb");
 	}
 	*/
 
+	public Gtk.Button FakeButtonCancelled {
+		get { return fakeButtonCancelled; }
+	}
 
 }

@@ -1001,9 +1001,12 @@ public class PersonAddModifyWindow
  		capturerWindow = new Gtk.Window("Capturer");
 		capturerWindow.Add(capturer);
 		capturerWindow.Modal=true;
+
+		person_win.Hide();
+
 		capturerWindow.ShowAll();
 		capturerWindow.Present();
-		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
+		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
 		capturer.Run();
 	}
 
@@ -1033,6 +1036,8 @@ public class PersonAddModifyWindow
 		capturer.Close();
 		capturer.Dispose();
 		capturerWindow.Hide();
+
+		person_win.Show();
 
 
 		string tempFileName = Path.Combine(Path.GetTempPath(), Constants.PhotoSmallTemp +

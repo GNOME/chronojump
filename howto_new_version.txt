@@ -1,0 +1,44 @@
+change version on configure.ac and src/AssemblyInfo.cs
+
+linux stuff
+------------
+make dist
+(if doesn't work, do autogen.sh first)
+
+git commit -a
+missatge: Bump version 0.9.3
+
+git push
+git tag -a 0.9.3
+git push origin --tags
+scp chronojump-0.9.3.tar.gz xaviblas@master.gnome.org:.
+ssh xaviblas@master.gnome.org
+ftpadmin install chronojump-0.9.3.tar.gz
+
+windows stuff
+------------
+copy glade, src, images, ... to virtualbox folder
+make -f Makefile.win32 clean
+make -f Makefile.win32 
+make -f Makefile.win32 install
+open Innosetup and compile
+upload the tarball
+
+scp Chronojump...exe xaviblas@master.gnome.org:.
+ssh xaviblas@master.gnome.org
+chmod +x Chrono...exe
+mv Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
+signal-ftp-sync
+wait 5'
+
+server stuff
+------------
+ssh to chronojump server, sqlite-3 chronojump_server.db
+update preferences set value="0.9.3.0" where name="versionAvailable";
+
+tell people stuff
+-------------
+twitters
+publish on website
+publish on forum
+twitters again with photos, changes, ...

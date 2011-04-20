@@ -147,6 +147,7 @@ class Test {
 
 		//-- Crear objeto chronopic, para acceder al chronopic
 		Chronopic cp = new Chronopic(sp);
+		cp.Flush();
 
 
 		//-- Obtener el estado inicial de la plataforma

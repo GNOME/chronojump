@@ -33,14 +33,10 @@ msgmerge -o ca.po ca_old.po chronojump.pot
 mv es.po es_old.po
 msgmerge -o es.po es_old.po chronojump.pot
 
-5.- edit the ca.po with a multiporpose editor like vim, or a po editor like poedit
+5.- edit the ca.po with a multipurpose editor like vim, or a po editor like poedit
 poedit it's better because it fast finds what needs to be translated
 
-6.- generate the locales
-cd ..
-./compile_po_files.sh
-
-remember to compile (make) for see results
+6.- make, sudo make install
 ---------
 ---------
 

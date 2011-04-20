@@ -197,7 +197,6 @@ public partial class ChronoJumpWindow
 			string phasesName, 
 			string tableName,
 			string event_execute_eventType
-//			double event_execute_limit
 			) 
 	{
 		eventExecuteHideAllTables();
@@ -215,7 +214,6 @@ public partial class ChronoJumpWindow
 				
 		event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
 
-//		event_execute.Title = windowTitle;
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 		this.event_execute_label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 								//"Phases" (simple jumps, dj, simple runs)
@@ -586,18 +584,23 @@ public partial class ChronoJumpWindow
 
 		
 		//obtain data
-		string []jumps = SqliteJump.SelectJumps(currentSession.UniqueID, event_execute_personID, "", event_execute_eventType);
+		string []jumps = SqliteJump.SelectJumps(
+				currentSession.UniqueID, event_execute_personID, "", event_execute_eventType);
 
-Log.WriteLine("Preparing simple A");
-		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "TV");
-		double tvSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TV");
-Log.WriteLine("Preparing simple B");
+		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(
+				currentSession.UniqueID, event_execute_personID, 
+				event_execute_tableName, event_execute_eventType, "TV");
+		double tvSessionAVG = SqliteSession.SelectAVGEventsOfAType(
+				currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TV");
 
 		double tcPersonAVG = 0; 
 		double tcSessionAVG = 0; 
 		if(tc > 0) {
-			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "TC");
-			tcSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TC");
+			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(
+					currentSession.UniqueID, event_execute_personID, 
+					event_execute_tableName, event_execute_eventType, "TC");
+			tcSessionAVG = SqliteSession.SelectAVGEventsOfAType(
+					currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TC");
 		}
 		
 		double maxValue = 0;
@@ -641,7 +644,8 @@ Log.WriteLine("Preparing simple B");
 		}
 		
 		//paint graph
-		paintJumpSimple (event_execute_drawingarea, jumps, tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+		paintJumpSimple (event_execute_drawingarea, jumps, tv, tvPersonAVG, tvSessionAVG, 
+				tc, tcPersonAVG, tcSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 
 		//printLabels
 		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
@@ -922,7 +926,8 @@ Log.WriteLine("Preparing reactive A");
 		int pulses = Util.GetNumberOfJumps(timesString, true); 
 
 		//paint graph
-		paintPulse (event_execute_drawingarea, lastTime, timesString, Util.GetAverage(timesString), pulses, maxValue, minValue, topMargin, bottomMargin);
+		paintPulse (event_execute_drawingarea, lastTime, timesString, 
+				Util.GetAverage(timesString), pulses, maxValue, minValue, topMargin, bottomMargin);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -939,8 +944,10 @@ Log.WriteLine("Preparing reactive A");
 		//obtain data
 		string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, event_execute_personID);
 
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(
+				currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(
+				currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -966,8 +973,6 @@ Log.WriteLine("Preparing reactive A");
 		}
 		
 		//paint graph (use simple jump method)
-		//TODO: fix this, paintJumpSimple changed
-		//paintJumpSimple (event_execute_drawingarea, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
 		paintJumpSimple (event_execute_drawingarea, rts, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
 
 		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
@@ -1872,55 +1877,8 @@ Log.WriteLine("Preparing reactive A");
 	
 	void on_event_execute_button_help_clicked (object o, EventArgs args)
 	{
-/*		
-		new DialogMessage(Constants.MessageTypes.HELP, Catalog.GetString("This window shows the execution of a test. In the graph, you may see:\n\nSIMPLE TESTS:\n-\"Now\": shows the data of the current test.\n-\"Person AVG\": shows the average of the current person executing this type of test on this session.\n-\"Session AVG\": shows the Average of all persons executing this type of test on this session.\n\nREPETITIVE TESTS:\n-\"Now\": shows the data of the current test.\n-\"AVG\": shows the average of the current test.\n\n(For more statistics data, you may use the statistics window).\n\nYou may change the graph options using buttons on the left.\n\nAt the bottom you may see the evolution of the test, and you may finish it (depending on the type of test), or even cancel it."));
-*/
 	}
 
-/*	
-	public void ProgressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 
-	{
-		if (isEvent) 
-			progressbarEventOrTimeExecution (event_execute_progressbar_event, percentageMode, event_execute_label_event_value, events);
-		else
-			progressbarEventOrTimeExecution (event_execute_progressbar_time, percentageMode, event_execute_label_time_value, events);
-	}
-
-	private void progressbarEventOrTimeExecution (Gtk.ProgressBar progressbar, bool percentageMode, Gtk.Label label_value, double events)
-	{
-		if(event_execute_limit == -1) {	//unlimited event (until 'finish' is clicked)
-			progressbar.Pulse();
-			//label_value.Text = events.ToString();
-			if(events != -1)
-				label_value.Text = Math.Round(events,3).ToString();
-		} else {
-			if(percentageMode) {
-				double myFraction = events / event_execute_limit;
-
-				if(myFraction > 1)
-					myFraction = 1;
-				else if(myFraction < 0)
-					myFraction = 0;
-
-				progressbar.Fraction = myFraction;
-				//progressbar.Text = Util.TrimDecimals(events.ToString(), 1) + " / " + event_execute_limit.ToString();
-				if(events == -1) //we don't want to display nothing
-					//progressbar.Text = "";
-					label_value.Text = "";
-				else 
-					label_value.Text = Math.Round(events,3).ToString();
-			} else {
-				//activity mode
-				progressbar.Pulse();
-
-				//pass -1 in events in activity mode if don't want to use this label
-				if(events != -1)
-					//label_value.Text = Util.TrimDecimals(events.ToString(), 1);
-					label_value.Text = Math.Round(events,3).ToString();
-			}
-		}
-	}
-	*/
 
 	//projecte cubevirtual de juan gonzalez
 	
@@ -2001,35 +1959,6 @@ Log.WriteLine("Preparing reactive A");
 	void on_event_execute_button_cancel_clicked (object o, EventArgs args)
 	{
 		hideButtons();
-	}
-		
-	void on_event_execute_button_close_clicked (object o, EventArgs args)
-	{
-		/*
-		//capturerWindow.Hide();
-
-		EventExecuteWindowBox.event_execute.Hide();
-		EventExecuteWindowBox.event_execute.Destroy();
-		EventExecuteWindowBox = null;
-		*/
-	}
-	
-	void on_event_execute_delete_event (object o, DeleteEventArgs args)
-	{
-		/*
-		//if there's an event doing, simulate a cancel
-		//see eventHasEnded comments at beginning of this file
-		if(!eventHasEnded)
-			event_execute_button_cancel.Click();
-		
-		capturer.Close();
-		capturer.Dispose();
-		//capturerWindow.Hide();
-		
-		EventExecuteWindowBox.event_execute.Hide();
-		EventExecuteWindowBox.event_execute.Destroy();
-		EventExecuteWindowBox = null;
-		*/
 	}
 	
 	//when event finishes, we should put in the label_time, the correct totalTime, that comes from chronopic

@@ -149,7 +149,7 @@ public class Server
 			//fill data
 			sessionUploadWin.FillData(sessionUploadPersonData);
 
-			//not need to update until there'm more data coming from the other thread
+			//not need to update until there's more data coming from the other thread
 			updatingServerSession = false;
 			needUpdateServerSession = false;
 		}
@@ -204,7 +204,7 @@ public class Server
 				Person person = p;
 
 				//do not continue with this person if has been banned to upload
-				if(Util.FoundInArrayList(notToUpload, person.UniqueID.ToString()))
+				if(Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
 					continue;
 
 				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);  

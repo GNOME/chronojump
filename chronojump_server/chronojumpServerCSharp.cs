@@ -64,7 +64,7 @@ public class ChronojumpServer {
 	public bool CanINew(string action, string clientVersion)
 	{
 		Version cv = new Version(clientVersion);
-		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,18))
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,9,3))
 			return true;
 		else if(action == Constants.ServerActionStats && cv >= new Version(0,8,18))
 			return true;
@@ -74,6 +74,7 @@ public class ChronojumpServer {
 		return false;
 	}
 
+/* note this is old*/
 	[WebMethod(Description="Check actions that client can do depending on it's version)")]
 	public bool CanI(string action, double clientVersion)
 	{

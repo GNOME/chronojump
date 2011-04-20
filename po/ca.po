@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 18:21+0200\n"
-"PO-Revision-Date: 2011-04-20 18:22+0100\n"
+"POT-Creation-Date: 2011-04-20 20:36+0200\n"
+"PO-Revision-Date: 2011-04-20 20:36+0100\n"
 "Last-Translator: Xavier de Blas <xaiblas@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -1052,7 +1052,7 @@ msgstr "Canviar Zoom (z)"
 
 #: ../glade/chronojump.glade.h:141
 msgid "Check"
-msgstr "Comprovar"
+msgstr "Marcar"
 
 #: ../glade/chronojump.glade.h:142
 #: ../src/gui/helpPorts.cs:90
@@ -1183,10 +1183,10 @@ msgstr "Connectant amb el Chronopic"
 #: ../glade/chronojump.glade.h:173
 msgid ""
 "Contact platform\n"
-"(modular circuit board)"
+"(circuit board)"
 msgstr ""
 "Plataforma de contactes\n"
-"(circuit imprès modular)"
+"(circuit imprès)"
 
 #: ../glade/chronojump.glade.h:175
 msgid ""

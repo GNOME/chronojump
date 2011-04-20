@@ -88,7 +88,7 @@ public class ChronopicWindow
 	bool needUpdateChronopicWin;
 	bool updateChronopicWinValuesState;
 	string updateChronopicWinValuesMessage;
-	Gtk.Button fakeButtonCancelled;
+	//Gtk.Button fakeButtonCancelled;
 
 	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic detection ended
 	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic detection ended
@@ -236,7 +236,7 @@ Log.WriteLine("bbb");
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
 		
-		fakeButtonCancelled = new Gtk.Button();
+		//fakeButtonCancelled = new Gtk.Button();
 	}
 	
 	//check if user has disconnected chronopic or port has changed
@@ -748,7 +748,7 @@ Log.WriteLine("bbb");
 
 	private void on_chronopic_cancelled (object o, EventArgs args) {
 		Log.WriteLine("cancelled-----");
-		fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
+		//fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
 		
 		cpDoing.AbortFlush = true;
 
@@ -756,7 +756,7 @@ Log.WriteLine("bbb");
 		//thread.Abort();
 		//http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing
 		//Log.Write(thread.ThreadState.ToString());
-		thread.IsBackground = true;
+		//thread.IsBackground = true;
 		
 		//try to solve windows problems when a chronopic detection was cancelled
 		//Log.Write(thread.ThreadState.ToString());
@@ -767,7 +767,6 @@ Log.WriteLine("bbb");
 		updateChronopicWinValuesState= false; //disconnected
 		updateChronopicWinValuesMessage= Catalog.GetString("Cancelled by user");
 		needUpdateChronopicWin = true;
-			
 	}
 	
 	void on_button_close_clicked (object o, EventArgs args)
@@ -841,8 +840,8 @@ Log.WriteLine("bbb");
 	}
 	*/
 
-	public Gtk.Button FakeButtonCancelled {
-		get { return fakeButtonCancelled; }
-	}
+	//public Gtk.Button FakeButtonCancelled {
+	//	get { return fakeButtonCancelled; }
+	//}
 
 }

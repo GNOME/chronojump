@@ -372,7 +372,7 @@ public partial class ChronoJumpWindow
 
 	private bool normalGUI; //false means small gui
 
-	int chronopicCancelledTimes = 0;
+	//int chronopicCancelledTimes = 0;
 
 	//const int statusbarID = 1;
 
@@ -2083,14 +2083,17 @@ public partial class ChronoJumpWindow
 
 
 	private void on_quit1_activate (object o, EventArgs args) {
+		/*
 		if(chronopicCancelledTimes > 0 && Util.IsWindows()) {
-		//if(chronopicCancelledTimes > 0) {
 			confirmWinJumpRun = ConfirmWindowJumpRun.Show( 
 					Catalog.GetString("Attention, current version of Chronojump gets hanged on exit\nif user has cancelled detection of Chronopic."),
 					Catalog.GetString("Sorry, you will have to close Chronojump using CTRL + ALT + DEL."));
 			confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_quit2_activate);
 		} else
 			on_quit2_activate(new object(), new EventArgs());
+		
+		*/
+		on_quit2_activate(new object(), new EventArgs());
 	}
 		
 
@@ -2117,8 +2120,8 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("Bye3!");
 		Application.Quit();
 		Log.WriteLine("Bye4!");
-		Environment.Exit(Environment.ExitCode);
-		Log.WriteLine("Bye5!");
+		//Environment.Exit(Environment.ExitCode);
+		//Log.WriteLine("Bye5!");
 	}
 	
 	/* ---------------------------------------------------------
@@ -3874,7 +3877,7 @@ Console.WriteLine("X");
 		}
 
 		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
-		chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
+		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		chronopicLabels(0);
 	}
 
@@ -3884,11 +3887,13 @@ Console.WriteLine("X");
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
 	}
 
-		
+	
+	/*	
 	private void on_chronopic_window_cancelled (object o, EventArgs ags) {
 		chronopicWin.FakeButtonCancelled.Clicked -= new EventHandler(on_chronopic_window_cancelled);
 		chronopicCancelledTimes ++;
 	}
+	*/
 
 	/*	
 	private void chronopicWindowReload(object o, EventArgs args) {

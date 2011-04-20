@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	{
 		if(extra_window_radio_reaction_time.Active)
 			currentReactionTimeType = new ReactionTimeType("reactionTime");
+		currentEventType = currentReactionTimeType;
 	}
 }
 

@@ -40,8 +40,9 @@ public class Constants
 		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n" + Catalog.GetString("Statistics support.") 
 	};
 	public static string [] Documenters = {
-		"Xavier de Blas Foix (xaviblas@gmail.com)\n",
-		"Helena Olsson (hjolsson@gmail.com) (Chronojump Manual English translation)\n"
+		"Xavier de Blas Foix (xaviblas@gmail.com)\n\n",
+		"Helena Olsson (hjolsson@gmail.com)\n",
+		"(" + Catalog.GetString("Chronojump Manual English translation") + ")"
 	};
 	
 	public static string ChronojumpWebsite = "http://www.chronojump.org";

@@ -379,7 +379,23 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_button_image_test_zoom_clicked(object o, EventArgs args) {
-		new DialogImageTest(currentEventType);
+		EventType myType;
+		if(radio_mode_jumps_small.Active) 
+			myType = currentJumpType;
+		else if(radio_mode_jumps_reactive_small.Active) 
+			myType = currentJumpRjType;
+		else if(radio_mode_runs_small.Active) 
+			myType = currentRunType;
+		else if(radio_mode_runs_intervallic_small.Active) 
+			myType = currentRunIntervalType;
+		else if(radio_mode_reaction_times_small.Active) 
+			myType = currentReactionTimeType;
+		else if(radio_mode_pulses_small.Active) 
+			myType = currentPulseType;
+		else //if(radio_mode_multi_chronopic_small.Active) 
+			myType = currentMultiChronopicType;
+
+		new DialogImageTest(myType);
 	}
 	
 	
@@ -438,14 +454,14 @@ public partial class ChronoJumpWindow
 
 		createChronopicWindow(false);
 	
-		on_extra_window_jumps_test_changed(new object(), new EventArgs());
-		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
-		on_extra_window_runs_test_changed(new object(), new EventArgs());
-		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
-		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
-		on_extra_window_pulses_test_changed(new object(), new EventArgs());
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
-		changeTestImage("", "", "LOGO");
+		on_extra_window_pulses_test_changed(new object(), new EventArgs());
+		on_extra_window_reaction_times_test_changed(new object(), new EventArgs());
+		on_extra_window_runs_interval_test_changed(new object(), new EventArgs());
+		on_extra_window_runs_test_changed(new object(), new EventArgs());
+		on_extra_window_jumps_rj_test_changed(new object(), new EventArgs());
+		on_extra_window_jumps_test_changed(new object(), new EventArgs());
+		//changeTestImage("", "", "LOGO");
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();

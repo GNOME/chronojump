@@ -4038,8 +4038,9 @@ msgstr "Repareu el test seleccionat"
 #: ../src/gui/chronojump.cs:4992
 msgid "translator-credits"
 msgstr ""
+"Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)\n"
+"Xavier de Blas <xaviblas@gmail.com>, 2007-2011"
 "Elisabet Bermejo <elibermejo@gmail.com>, 2007.\n"
-"Xavier de Blas <xaviblas@gmail.com>, 2007"
 
 #: ../src/gui/chronojump.cs:5305
 msgid "Done for testing purposes. Chronojump will exit badly"

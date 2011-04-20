@@ -2145,12 +2145,12 @@ msgstr "Derecha"
 
 #: ../glade/chronojump.glade.h:381
 msgid "Rocket"
-msgstr "Cohete"
+msgstr "Rocket"
 
 #: ../glade/chronojump.glade.h:382
 #: ../src/jumpType.cs:97
 msgid "Rocket Jump"
-msgstr "Salto cohete"
+msgstr "Salto Rocket"
 
 #: ../glade/chronojump.glade.h:383
 #: ../src/stats/runSimple.cs:52
@@ -4051,7 +4051,7 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2009\n"
 "Eduardo Retamales <eretamales@gnome.cl>, 2007-2008\n"
-"Xavier de Blas <xaviblas@gmail.com>, 2005\n"
+"Xavier de Blas <xaviblas@gmail.com>, 2005, 2011\n"
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
 "QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 

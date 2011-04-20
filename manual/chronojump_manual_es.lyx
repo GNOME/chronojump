@@ -61,7 +61,7 @@ Manual de Chronojump
 
 
 \size large
-(Actualizado a versión de Chronojump 0.9)
+(Actualizado a versión de Chronojump 0.9.2)
 \end_layout
 
 \begin_layout Author
@@ -1401,6 +1401,46 @@ Uso de Chronojump
 
 \begin_layout Chapter
 Uso de Chronojump
+\end_layout
+
+\begin_layout Section
+IMPORTANTE, LEER PRIMERO
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Chronojump 0.9.3 ha cambiado su interfaz gráfica de forma sustancial.
+ Desafortunadamente este manual no está actualizado a dichos cambios.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Todo cuanto puede encontrar en el presente documento le puede ser útil para
+ saber qué puede hacer con Chronojump, aunque muchas de las cosas se realizan
+ ahora de forma ligeramente diferente.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Debido a que Chronojump 0.9.3 es mucho más fácil de usar, esperamos que usted
+ pueda adaptarse.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Este manual será actualizado en el futuro.
+ Disculpe las molestias.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

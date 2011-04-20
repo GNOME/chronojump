@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 13:12+0200\n"
-"PO-Revision-Date: 2011-04-20 17:30+0100\n"
+"POT-Creation-Date: 2011-04-20 18:21+0200\n"
+"PO-Revision-Date: 2011-04-20 18:22+0100\n"
 "Last-Translator: Xavier de Blas <xaiblas@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -56,23 +56,27 @@ msgstr "Suport d'instal·lació: Autotools, packaging, bundle"
 msgid "Statistics support."
 msgstr "Suport estadístic."
 
-#: ../src/constants.cs:107
+#: ../src/constants.cs:45
+msgid "Chronojump Manual English translation"
+msgstr "Traducció del manual a l'anglès"
+
+#: ../src/constants.cs:109
 msgid "Any"
 msgstr "Qualsevol"
 
-#: ../src/constants.cs:127
+#: ../src/constants.cs:129
 msgid "Server is connected."
 msgstr "El servidor està connectat."
 
-#: ../src/constants.cs:128
+#: ../src/constants.cs:130
 msgid "Sorry, server is currently offline. Try later."
 msgstr "Ho sentim, el servidor està desconnectat. Provi-ho després."
 
-#: ../src/constants.cs:129
+#: ../src/constants.cs:131
 msgid "Or maybe you are not connected to the Internet or your firewall is restricting connections"
 msgstr "O potser el seu ordinador no està connectat a l'Internet, o hi ha un firewall restringint les connexions"
 
-#: ../src/constants.cs:157
+#: ../src/constants.cs:159
 #: ../glade/chronojump.glade.h:338
 msgid "Other"
 msgstr "Altres"
@@ -85,61 +89,61 @@ msgstr "Altres"
 #. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 #. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 #.
-#: ../src/constants.cs:173
-#: ../src/constants.cs:178
-#: ../src/constants.cs:183
-#: ../src/constants.cs:188
-#: ../src/constants.cs:193
-#: ../src/constants.cs:198
-#: ../src/constants.cs:211
-#: ../src/constants.cs:218
-#: ../src/constants.cs:225
-#: ../src/constants.cs:232
-#: ../src/constants.cs:234
-#: ../src/constants.cs:239
-#: ../src/constants.cs:241
-msgid "Peak power"
-msgstr "Pic de potència"
-
-#: ../src/constants.cs:175
-#: ../src/constants.cs:181
-#: ../src/constants.cs:186
-#: ../src/constants.cs:191
-#: ../src/constants.cs:196
-#: ../src/constants.cs:201
-#: ../src/constants.cs:215
-#: ../src/constants.cs:222
-#: ../src/constants.cs:229
-#: ../src/constants.cs:237
-#: ../src/constants.cs:243
-msgid "body weight"
-msgstr "pes corporal"
-
-#: ../src/constants.cs:175
-#: ../src/constants.cs:181
-#: ../src/constants.cs:186
-#: ../src/constants.cs:191
-#: ../src/constants.cs:196
-#: ../src/constants.cs:201
-#: ../src/constants.cs:215
-#: ../src/constants.cs:222
-#: ../src/constants.cs:229
-#: ../src/constants.cs:237
-#: ../src/constants.cs:243
-msgid "extra weight"
-msgstr "pes extra"
-
 #: ../src/constants.cs:175
 #: ../src/constants.cs:180
 #: ../src/constants.cs:185
 #: ../src/constants.cs:190
 #: ../src/constants.cs:195
 #: ../src/constants.cs:200
-#: ../src/constants.cs:214
-#: ../src/constants.cs:221
-#: ../src/constants.cs:228
+#: ../src/constants.cs:213
+#: ../src/constants.cs:220
+#: ../src/constants.cs:227
+#: ../src/constants.cs:234
 #: ../src/constants.cs:236
-#: ../src/constants.cs:242
+#: ../src/constants.cs:241
+#: ../src/constants.cs:243
+msgid "Peak power"
+msgstr "Pic de potència"
+
+#: ../src/constants.cs:177
+#: ../src/constants.cs:183
+#: ../src/constants.cs:188
+#: ../src/constants.cs:193
+#: ../src/constants.cs:198
+#: ../src/constants.cs:203
+#: ../src/constants.cs:217
+#: ../src/constants.cs:224
+#: ../src/constants.cs:231
+#: ../src/constants.cs:239
+#: ../src/constants.cs:245
+msgid "body weight"
+msgstr "pes corporal"
+
+#: ../src/constants.cs:177
+#: ../src/constants.cs:183
+#: ../src/constants.cs:188
+#: ../src/constants.cs:193
+#: ../src/constants.cs:198
+#: ../src/constants.cs:203
+#: ../src/constants.cs:217
+#: ../src/constants.cs:224
+#: ../src/constants.cs:231
+#: ../src/constants.cs:239
+#: ../src/constants.cs:245
+msgid "extra weight"
+msgstr "pes extra"
+
+#: ../src/constants.cs:177
+#: ../src/constants.cs:182
+#: ../src/constants.cs:187
+#: ../src/constants.cs:192
+#: ../src/constants.cs:197
+#: ../src/constants.cs:202
+#: ../src/constants.cs:216
+#: ../src/constants.cs:223
+#: ../src/constants.cs:230
+#: ../src/constants.cs:238
+#: ../src/constants.cs:244
 #: ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52
 #: ../src/stats/graphs/fv.cs:74
@@ -147,29 +151,29 @@ msgstr "pes extra"
 msgid "height"
 msgstr "alçada"
 
-#: ../src/constants.cs:213
+#: ../src/constants.cs:215
 msgid "Male applicants to a Faculty of Sport Sciencies"
 msgstr "Homes aspirants a una Facultat de Ciències de l'Esport"
 
-#: ../src/constants.cs:220
+#: ../src/constants.cs:222
 msgid "Female elite volleybol"
 msgstr "Jugadores d'elit de voleibol"
 
-#: ../src/constants.cs:227
+#: ../src/constants.cs:229
 msgid "Female medium volleybol"
 msgstr "Jugadores de nivell mig de voleibol"
 
-#: ../src/constants.cs:235
+#: ../src/constants.cs:237
 msgid "Female sports sciencies students"
 msgstr "Noies estudiants de ciències de l'esport"
 
-#: ../src/constants.cs:241
+#: ../src/constants.cs:243
 msgid "Female university students"
 msgstr "Noies universitàries"
 
 #. *4.0 for having double division
 #. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:247
+#: ../src/constants.cs:249
 #: ../src/stats/potency.cs:60
 #: ../src/stats/graphs/potency.cs:61
 #: ../src/stats/graphs/potency.cs:71
@@ -179,144 +183,144 @@ msgid "Peak Power"
 msgstr "Pic de potència"
 
 #. global stat types
-#: ../src/constants.cs:259
+#: ../src/constants.cs:261
 msgid "Session summary"
 msgstr "Resum de la sessió"
 
-#: ../src/constants.cs:260
+#: ../src/constants.cs:262
 msgid "Jumper summary"
 msgstr "Resum del saltador"
 
-#: ../src/constants.cs:261
+#: ../src/constants.cs:263
 #: ../glade/chronojump.glade.h:427
 #: ../src/gui/convertWeight.cs:61
 #: ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Simple"
 
-#: ../src/constants.cs:262
+#: ../src/constants.cs:264
 msgid "Simple with TC"
 msgstr "Simple amb TC"
 
-#: ../src/constants.cs:263
+#: ../src/constants.cs:265
 msgid "Jumps: Reactive"
 msgstr "Salts: Reactiu"
 
-#: ../src/constants.cs:264
+#: ../src/constants.cs:266
 msgid "Runs: Simple"
 msgstr "Curses: simples"
 
-#: ../src/constants.cs:265
+#: ../src/constants.cs:267
 msgid "Runs: Intervallic"
 msgstr "Curses: Intervals"
 
 #. strings
-#: ../src/constants.cs:268
+#: ../src/constants.cs:270
 msgid "See all jumps"
 msgstr "Mostrar tots els salts"
 
-#: ../src/constants.cs:269
+#: ../src/constants.cs:271
 msgid "See all runs"
 msgstr "Mostrar totes les curses"
 
-#: ../src/constants.cs:270
+#: ../src/constants.cs:272
 msgid "See all pulses"
 msgstr "Mostrar tots els polsos"
 
-#: ../src/constants.cs:292
+#: ../src/constants.cs:294
 msgid "black only"
 msgstr "negre"
 
-#: ../src/constants.cs:359
+#: ../src/constants.cs:361
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Típics ports de serie i USB a Windows:"
 
-#: ../src/constants.cs:361
+#: ../src/constants.cs:363
 msgid "Also, these are possible:"
 msgstr "A més, això és possible:"
 
-#: ../src/constants.cs:365
+#: ../src/constants.cs:367
 msgid "Typical serial serial ports on GNU/Linux:"
 msgstr "Ports serie típics a GNU/Linux:"
 
-#: ../src/constants.cs:367
+#: ../src/constants.cs:369
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Ports serie USB típics a GNU/Linux:"
 
-#: ../src/constants.cs:369
+#: ../src/constants.cs:371
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Si usa Chronopic3, tindrà un port USB-sèrie."
 
-#: ../src/constants.cs:372
+#: ../src/constants.cs:374
 msgid "Serial ports found:"
 msgstr "Ports sèrie trobats:"
 
-#: ../src/constants.cs:373
+#: ../src/constants.cs:375
 msgid "USB-serial ports found:"
 msgstr "Ports USB-sèrie trobats:"
 
-#: ../src/constants.cs:374
+#: ../src/constants.cs:376
 msgid "Not found any USB-serial ports."
 msgstr "No s'ha trobat cap port USB-sèrie."
 
-#: ../src/constants.cs:374
+#: ../src/constants.cs:376
 msgid "Is Chronopic connected?"
 msgstr "Segur que Chronopic es troba connectat?"
 
-#: ../src/constants.cs:403
+#: ../src/constants.cs:405
 msgid "--Undefined"
 msgstr "--Indefinit"
 
-#: ../src/constants.cs:404
+#: ../src/constants.cs:406
 msgid "--Any"
 msgstr "--Qualsevol"
 
-#: ../src/constants.cs:407
+#: ../src/constants.cs:409
 msgid "-None"
 msgstr "-Cap"
 
-#: ../src/constants.cs:411
-#: ../src/constants.cs:442
+#: ../src/constants.cs:413
+#: ../src/constants.cs:444
 #: ../glade/chronojump.glade.h:469
 #: ../src/gui/person.cs:1276
 #: ../src/gui/person.cs:1292
 msgid "Undefined"
 msgstr "Indefinit"
 
-#: ../src/constants.cs:420
+#: ../src/constants.cs:422
 msgid "Africa"
 msgstr "Àfrica"
 
-#: ../src/constants.cs:421
+#: ../src/constants.cs:423
 msgid "Antarctica"
 msgstr "Antàrtida"
 
-#: ../src/constants.cs:422
+#: ../src/constants.cs:424
 msgid "Asia"
 msgstr "Àsia"
 
-#: ../src/constants.cs:423
+#: ../src/constants.cs:425
 msgid "Europe"
 msgstr "Europa"
 
-#: ../src/constants.cs:424
+#: ../src/constants.cs:426
 msgid "North America"
 msgstr "Amèrica del Nord"
 
-#: ../src/constants.cs:425
+#: ../src/constants.cs:427
 msgid "Oceania"
 msgstr "Oceania"
 
-#: ../src/constants.cs:426
+#: ../src/constants.cs:428
 msgid "South America"
 msgstr "Amèrica del Sud"
 
-#: ../src/constants.cs:430
+#: ../src/constants.cs:432
 msgid "Tests are SIMULATED until Chronopic is connected."
 msgstr "Els tests són SIMULATS fins que no es connecti la placa Chronopic."
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:431
+#: ../src/constants.cs:433
 #: ../src/exportSession.cs:287
 #: ../src/exportSession.cs:389
 #: ../src/exportSession.cs:496
@@ -327,65 +331,65 @@ msgstr "Els tests són SIMULATS fins que no es connecti la placa Chronopic."
 msgid "Simulated"
 msgstr "Simulat"
 
-#: ../src/constants.cs:433
+#: ../src/constants.cs:435
 msgid "All tests available except MultiChronopic."
 msgstr "Disponibles tots els tests excepte MultiChronopic"
 
-#: ../src/constants.cs:434
+#: ../src/constants.cs:436
 msgid "All tests available."
 msgstr "Tots els tests disponibles."
 
-#: ../src/constants.cs:445
+#: ../src/constants.cs:447
 msgid "Sedentary/Ocasional practice"
 msgstr "Sedentari/Practicant ocasional"
 
-#: ../src/constants.cs:449
+#: ../src/constants.cs:451
 msgid "Regular practice"
 msgstr "Pràctica regular"
 
-#: ../src/constants.cs:450
+#: ../src/constants.cs:452
 msgid "Competition"
 msgstr "Competició"
 
-#: ../src/constants.cs:451
+#: ../src/constants.cs:453
 msgid "Elite"
 msgstr "Elit"
 
-#: ../src/constants.cs:455
+#: ../src/constants.cs:457
 msgid "Initializing"
 msgstr "Inicialitzant"
 
 #. 0
-#: ../src/constants.cs:456
+#: ../src/constants.cs:458
 msgid "Checking database"
 msgstr "Comprovant base de dades"
 
 #. 1
-#: ../src/constants.cs:457
+#: ../src/constants.cs:459
 msgid "Creating database"
 msgstr "Creant base de dades"
 
 #. 2
-#: ../src/constants.cs:458
+#: ../src/constants.cs:460
 msgid "Making database backup"
 msgstr "Realitzant còpia de base de dades"
 
 #. 3
-#: ../src/constants.cs:459
+#: ../src/constants.cs:461
 msgid "Updating database"
 msgstr "Actualitzant base de dades"
 
 #. 4
-#: ../src/constants.cs:460
+#: ../src/constants.cs:462
 msgid "Check for new version"
 msgstr "Comprova si hi ha una nova versió"
 
 #. 5
-#: ../src/constants.cs:461
+#: ../src/constants.cs:463
 msgid "Preparing main Window"
 msgstr "Preparant finestra principal"
 
-#: ../src/constants.cs:486
+#: ../src/constants.cs:488
 #: ../glade/chronojump.glade.h:317
 #: ../src/gui/jump.cs:1303
 #: ../src/gui/jump.cs:1308
@@ -394,7 +398,7 @@ msgstr "Preparant finestra principal"
 msgid "No"
 msgstr "No"
 
-#: ../src/constants.cs:487
+#: ../src/constants.cs:489
 #: ../glade/chronojump.glade.h:493
 #: ../src/gui/jump.cs:1301
 #: ../src/gui/jump.cs:1306
@@ -411,23 +415,23 @@ msgstr "No"
 msgid "Yes"
 msgstr "Sí"
 
-#: ../src/constants.cs:489
+#: ../src/constants.cs:491
 msgid "In"
 msgstr "Dins"
 
-#: ../src/constants.cs:490
+#: ../src/constants.cs:492
 msgid "Out"
 msgstr "Fora"
 
-#: ../src/constants.cs:523
+#: ../src/constants.cs:525
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Ho sentim, aquest arxiu multimèdia no existeix."
 
-#: ../src/constants.cs:528
+#: ../src/constants.cs:530
 msgid "Running start. Started with initial speed."
 msgstr "Comença cursa amb velocitat inicial."
 
-#: ../src/constants.cs:529
+#: ../src/constants.cs:531
 msgid "Standing start. Started without initial speed."
 msgstr "Comença cursa sense velocitat inicial."
 
@@ -449,12 +453,10 @@ msgid "(m)"
 msgstr "(m)"
 
 #: ../glade/chronojump.glade.h:6
-#, fuzzy
 msgid "0"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:7
-#, fuzzy
 msgid "1"
 msgstr ""
 
@@ -463,7 +465,6 @@ msgid "100m"
 msgstr "100m"
 
 #: ../glade/chronojump.glade.h:9
-#, fuzzy
 msgid "2"
 msgstr ""
 
@@ -480,7 +481,6 @@ msgid "20m"
 msgstr "20m"
 
 #: ../glade/chronojump.glade.h:13
-#, fuzzy
 msgid "3"
 msgstr ""
 
@@ -493,7 +493,6 @@ msgid "400m"
 msgstr "400m"
 
 #: ../glade/chronojump.glade.h:16
-#, fuzzy
 msgid "5"
 msgstr ""
 
@@ -502,12 +501,10 @@ msgid "505"
 msgstr "505"
 
 #: ../glade/chronojump.glade.h:18
-#, fuzzy
 msgid "6"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:19
-#, fuzzy
 msgid "7"
 msgstr ""
 
@@ -1243,14 +1240,14 @@ msgstr "Crear un tipus de cursa nova"
 
 #. frame_test_options.BoxChild.Expand(false);
 #: ../glade/chronojump.glade.h:187
-#: ../src/gui/chronojump.cs:508
+#: ../src/gui/chronojump.cs:524
 msgid "Current"
 msgstr "Actual"
 
 #. if change these values, change also in glade
 #. frame_test_options.BoxChild.Expand(true);
 #: ../glade/chronojump.glade.h:188
-#: ../src/gui/chronojump.cs:505
+#: ../src/gui/chronojump.cs:521
 msgid "Current person"
 msgstr "Subjecte actual"
 
@@ -1422,7 +1419,7 @@ msgid "E-mail will never be shown in public."
 msgstr "El correu electrònic no serà mai mostrat."
 
 #: ../glade/chronojump.glade.h:222
-#: ../src/gui/chronojump.cs:1009
+#: ../src/gui/chronojump.cs:1025
 msgid "Edit"
 msgstr "Editar"
 
@@ -1455,7 +1452,7 @@ msgid "Execute reaction time"
 msgstr "Executeu temps de reacció"
 
 #: ../glade/chronojump.glade.h:230
-#: ../src/gui/chronojump.cs:4979
+#: ../src/gui/chronojump.cs:4995
 msgid "Execute test"
 msgstr "Executeu el test"
 
@@ -1643,7 +1640,7 @@ msgstr "Salt reactiu"
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:268
 #: ../src/exportSession.cs:384
-#: ../src/gui/chronojump.cs:3160
+#: ../src/gui/chronojump.cs:3176
 #: ../src/gui/jump.cs:1518
 #: ../src/gui/jump.cs:1568
 #: ../src/gui/jump.cs:1616
@@ -1992,9 +1989,9 @@ msgid "Persons"
 msgstr "atletes"
 
 #: ../glade/chronojump.glade.h:349
-#: ../src/gui/chronojump.cs:3038
-#: ../src/gui/chronojump.cs:3292
-#: ../src/gui/chronojump.cs:3521
+#: ../src/gui/chronojump.cs:3054
+#: ../src/gui/chronojump.cs:3308
+#: ../src/gui/chronojump.cs:3537
 msgid "Phases"
 msgstr "Fases"
 
@@ -2061,7 +2058,7 @@ msgstr "Pols"
 
 #: ../glade/chronojump.glade.h:364
 #: ../src/exportSession.cs:198
-#: ../src/gui/chronojump.cs:3625
+#: ../src/gui/chronojump.cs:3641
 #: ../src/gui/person.cs:2137
 #: ../src/gui/session.cs:699
 #: ../src/report.cs:196
@@ -2789,7 +2786,6 @@ msgid "change"
 msgstr "canvi"
 
 #: ../glade/chronojump.glade.h:512
-#, fuzzy
 msgid "cm"
 msgstr ""
 
@@ -3062,7 +3058,7 @@ msgid "Chronojump crashed before."
 msgstr "ChronoJump ha fallat anteriorment"
 
 #: ../src/chronojump.cs:331
-#: ../src/gui/chronojump.cs:1062
+#: ../src/gui/chronojump.cs:1078
 msgid "Please, update to new version: "
 msgstr "Si us plau actualitzeu Chronojump"
 
@@ -3310,7 +3306,7 @@ msgstr "La cursa no es gravarà, el primer tram és fora de temps"
 
 #: ../src/execute/run.cs:827
 #: ../src/exportSession.cs:548
-#: ../src/gui/chronojump.cs:3409
+#: ../src/gui/chronojump.cs:3425
 #: ../src/gui/run.cs:1500
 #: ../src/gui/run.cs:1563
 #: ../src/gui/run.cs:1613
@@ -3629,96 +3625,96 @@ msgstr ""
 msgid "Exported to file: "
 msgstr "Exportant a l'arxiu: "
 
-#: ../src/gui/chronojump.cs:700
+#: ../src/gui/chronojump.cs:716
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Versió de la base de dades de Chronojump: {0}"
 
-#: ../src/gui/chronojump.cs:804
+#: ../src/gui/chronojump.cs:820
 msgid "Preferences loaded"
 msgstr "Preferències carregades"
 
-#: ../src/gui/chronojump.cs:1013
+#: ../src/gui/chronojump.cs:1029
 msgid "Show all tests of"
 msgstr "Mostra tots els tests de"
 
-#: ../src/gui/chronojump.cs:1020
+#: ../src/gui/chronojump.cs:1036
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Esborreu a {0} d'aquesta sessió"
 
-#: ../src/gui/chronojump.cs:1045
+#: ../src/gui/chronojump.cs:1061
 msgid "Please, first fill evaluator data."
 msgstr "Si us plau, primer completi les dades de l'avaluador"
 
-#: ../src/gui/chronojump.cs:1047
+#: ../src/gui/chronojump.cs:1063
 msgid "Please, first check evaluator data is ok."
 msgstr "Si us plau, comprobi que les dades d'avaluador són correctes."
 
-#: ../src/gui/chronojump.cs:1061
+#: ../src/gui/chronojump.cs:1077
 msgid "Your version of Chronojump is too old for this."
 msgstr "Ho sentim, la seva versió de Chronojump és massa antiga per la vostra base de dades."
 
 #. false: don't do insertion
 #. false: don't do insertion
-#: ../src/gui/chronojump.cs:1129
+#: ../src/gui/chronojump.cs:1145
 msgid "Do you want to upload evaluator data now?"
 msgstr "Desitgeu pujar les dades d'avaluador?"
 
-#: ../src/gui/chronojump.cs:1133
+#: ../src/gui/chronojump.cs:1149
 msgid "Currently cannot upload."
 msgstr "En aquest moment no es poden pujar les dades."
 
-#: ../src/gui/chronojump.cs:1199
+#: ../src/gui/chronojump.cs:1215
 msgid "<b>Weight</b> of the following persons is not ok:"
 msgstr "El <b>pes</b> de les següents persones no és correcte:"
 
-#: ../src/gui/chronojump.cs:1213
+#: ../src/gui/chronojump.cs:1229
 msgid "<b>Country</b> of the following persons is undefined:"
 msgstr "El <b>país</b> de les següents persones no s'ha definit:"
 
-#: ../src/gui/chronojump.cs:1227
+#: ../src/gui/chronojump.cs:1243
 msgid "<b>Sport</b> of the following persons is undefined:"
 msgstr "<b>L'esport</b> de les següents persones no s'ha definit:"
 
-#: ../src/gui/chronojump.cs:1241
+#: ../src/gui/chronojump.cs:1257
 msgid "Please, fix this before uploading:"
 msgstr "Si us plau, arregli el següent abans de pujar les dades:"
 
-#: ../src/gui/chronojump.cs:1243
+#: ../src/gui/chronojump.cs:1259
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr "O quan tracti de pujar la sessió novament, marqui aquestes persones per a que no pugin al servidor."
 
-#: ../src/gui/chronojump.cs:1260
+#: ../src/gui/chronojump.cs:1276
 msgid "Session will be uploaded to server."
 msgstr "La sessió pujarà al servidor."
 
-#: ../src/gui/chronojump.cs:1261
+#: ../src/gui/chronojump.cs:1277
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr "Els noms, dates de naixement i descripcions de les persones seran oscultats."
 
-#: ../src/gui/chronojump.cs:1262
+#: ../src/gui/chronojump.cs:1278
 msgid "You can upload again this session if you add more data or persons."
 msgstr "Més endavant, vostè pot pujar aquesta sessió altre cop per a afegir més persones o salts."
 
-#: ../src/gui/chronojump.cs:1265
+#: ../src/gui/chronojump.cs:1281
 msgid "Session has been uploaded to server before."
 msgstr "La sessió s'ha pujat al servidor anteriorment"
 
-#: ../src/gui/chronojump.cs:1266
+#: ../src/gui/chronojump.cs:1282
 msgid "Uploading new data."
 msgstr "Pujant noves dades."
 
-#: ../src/gui/chronojump.cs:1268
+#: ../src/gui/chronojump.cs:1284
 msgid "All the uploaded data will be licensed as:"
 msgstr "Totes les dades pujades seran llicenciades com a:"
 
-#: ../src/gui/chronojump.cs:1269
+#: ../src/gui/chronojump.cs:1285
 msgid "Creative Commons Attribution 3.0"
 msgstr "Creative Commons Atribució 3.0"
 
 #. label_link
-#: ../src/gui/chronojump.cs:1274
+#: ../src/gui/chronojump.cs:1290
 msgid "Are you sure you want to upload this session to server?"
 msgstr "Esteu segur que voleu pujar al servidor la sessió actual?"
 
@@ -3799,33 +3795,33 @@ msgstr "Esteu segur que voleu pujar al servidor la sessió actual?"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/chronojump.cs:1390
-#: ../src/gui/chronojump.cs:1472
-#: ../src/gui/chronojump.cs:1552
-#: ../src/gui/chronojump.cs:1633
-#: ../src/gui/chronojump.cs:1713
-#: ../src/gui/chronojump.cs:1793
-#: ../src/gui/chronojump.cs:1888
+#: ../src/gui/chronojump.cs:1406
+#: ../src/gui/chronojump.cs:1488
+#: ../src/gui/chronojump.cs:1568
+#: ../src/gui/chronojump.cs:1649
+#: ../src/gui/chronojump.cs:1729
+#: ../src/gui/chronojump.cs:1809
+#: ../src/gui/chronojump.cs:1904
 msgid "Edit selected"
 msgstr "Editeu seleccionat"
 
-#: ../src/gui/chronojump.cs:1397
-#: ../src/gui/chronojump.cs:1483
-#: ../src/gui/chronojump.cs:1559
-#: ../src/gui/chronojump.cs:1644
-#: ../src/gui/chronojump.cs:1720
-#: ../src/gui/chronojump.cs:1804
-#: ../src/gui/chronojump.cs:1901
+#: ../src/gui/chronojump.cs:1413
+#: ../src/gui/chronojump.cs:1499
+#: ../src/gui/chronojump.cs:1575
+#: ../src/gui/chronojump.cs:1660
+#: ../src/gui/chronojump.cs:1736
+#: ../src/gui/chronojump.cs:1820
+#: ../src/gui/chronojump.cs:1917
 msgid "Delete selected"
 msgstr "Esborreu seleccionat"
 
-#: ../src/gui/chronojump.cs:1476
-#: ../src/gui/chronojump.cs:1637
-#: ../src/gui/chronojump.cs:1797
+#: ../src/gui/chronojump.cs:1492
+#: ../src/gui/chronojump.cs:1653
+#: ../src/gui/chronojump.cs:1813
 msgid "Repair selected"
 msgstr "Repareu seleccionat"
 
-#: ../src/gui/chronojump.cs:2087
+#: ../src/gui/chronojump.cs:2103
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -3836,27 +3832,27 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/chronojump.cs:2148
+#: ../src/gui/chronojump.cs:2164
 msgid "Session created, now add or load persons."
 msgstr "Sessió creada, ara cal afegir o carregar les persones."
 
-#: ../src/gui/chronojump.cs:2217
+#: ../src/gui/chronojump.cs:2233
 msgid "Are you sure you want to delete the current session"
 msgstr "Esteu segur que voleu esborrar la sessió actual?"
 
-#: ../src/gui/chronojump.cs:2217
+#: ../src/gui/chronojump.cs:2233
 msgid "and all the session tests?"
 msgstr "i tots els tests de la sessió?"
 
-#: ../src/gui/chronojump.cs:2223
+#: ../src/gui/chronojump.cs:2239
 msgid "Deleted session and all its tests."
 msgstr "S'ha esborrat la sessió i tots els seus tests."
 
-#: ../src/gui/chronojump.cs:2345
+#: ../src/gui/chronojump.cs:2361
 msgid "Select number of persons to add"
 msgstr "Seleccioni el nombre de persones a afegir"
 
-#: ../src/gui/chronojump.cs:2374
+#: ../src/gui/chronojump.cs:2390
 #: ../src/gui/person.cs:613
 #, csharp-format
 msgid "Successfully added one person."
@@ -3864,7 +3860,7 @@ msgid_plural "Successfully added {0} persons."
 msgstr[0] "Afegit un subjecte"
 msgstr[1] "Afegits {0} subjectes"
 
-#: ../src/gui/chronojump.cs:2432
+#: ../src/gui/chronojump.cs:2448
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n"
 "(His/her personal data and tests in other sessions will remain intact.)"
@@ -3873,15 +3869,15 @@ msgstr ""
 "esborrar tots els seus tests realitzats en aquesta sessió\n"
 "(Les dades personals i els tests realitzats a d'altres sessions no es modificaran)"
 
-#: ../src/gui/chronojump.cs:2433
+#: ../src/gui/chronojump.cs:2449
 msgid "Current Person: "
 msgstr "atleta actual: "
 
-#: ../src/gui/chronojump.cs:2440
+#: ../src/gui/chronojump.cs:2456
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Esborrat el subjecte actual i tots els seus tests d'aquesta sessió"
 
-#: ../src/gui/chronojump.cs:2688
+#: ../src/gui/chronojump.cs:2704
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -3889,7 +3885,7 @@ msgstr ""
 "Si us plau, toqueu la plataforma de contacte per cancel·lar-ho tot.\n"
 "Després premeu el botó\n"
 
-#: ../src/gui/chronojump.cs:2731
+#: ../src/gui/chronojump.cs:2747
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full cancelling.\n"
@@ -3898,7 +3894,7 @@ msgstr ""
 "Si us plau, toqueu la plataforma de contacte als Chronopics [{0}] per a cancel·lar-ho del tot.\n"
 "Després premeu el botó\n"
 
-#: ../src/gui/chronojump.cs:2793
+#: ../src/gui/chronojump.cs:2809
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -3906,143 +3902,143 @@ msgstr ""
 "Si us plau, toqueu la plataforma de contacte per finalitzar.\n"
 "Després premeu el botó:\n"
 
-#: ../src/gui/chronojump.cs:2847
+#: ../src/gui/chronojump.cs:2863
 #, csharp-format
 msgid "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
 msgstr "Si us plau, toqueu la plataforma de contacte als Chronopics [{0}] per a finalitzar."
 
-#: ../src/gui/chronojump.cs:2848
+#: ../src/gui/chronojump.cs:2864
 msgid "Then press this button:\n"
 msgstr "Llavors premi el botó:\n"
 
-#: ../src/gui/chronojump.cs:3809
+#: ../src/gui/chronojump.cs:3825
 msgid "Changes"
 msgstr "Canvis"
 
-#: ../src/gui/chronojump.cs:4011
+#: ../src/gui/chronojump.cs:4027
 msgid "Cannot update. Probably this test was deleted."
 msgstr "No es pot actualitzar. Probablement aquest test va ser esborrat."
 
-#: ../src/gui/chronojump.cs:4450
 #: ../src/gui/chronojump.cs:4466
+#: ../src/gui/chronojump.cs:4482
 msgid "Do you want to delete this jump?"
 msgstr "Desitgeu esborrar aquest salt?"
 
-#: ../src/gui/chronojump.cs:4467
+#: ../src/gui/chronojump.cs:4483
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Atenció: Esborrar un subsalt reactiu esborrarà el salt sencer"
 
-#: ../src/gui/chronojump.cs:4532
-#: ../src/gui/chronojump.cs:4549
+#: ../src/gui/chronojump.cs:4548
+#: ../src/gui/chronojump.cs:4565
 msgid "Do you want to delete this run?"
 msgstr "Desitgeu esborrar aquesta cursa?"
 
-#: ../src/gui/chronojump.cs:4550
+#: ../src/gui/chronojump.cs:4566
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Atenció: esborrar un interval de la cursa esborrarà tota la cursa"
 
-#: ../src/gui/chronojump.cs:4684
+#: ../src/gui/chronojump.cs:4700
 msgid "Do you want to delete this test?"
 msgstr "Desitgeu esborrar aquest test?"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4738
+#: ../src/gui/chronojump.cs:4754
 msgid "Added simple jump."
 msgstr "Afegit salt simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4741
+#: ../src/gui/chronojump.cs:4757
 msgid "Added reactive jump."
 msgstr "Afegit salt reactiu."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4765
+#: ../src/gui/chronojump.cs:4781
 msgid "Added simple run."
 msgstr "Afegida cursa simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4768
+#: ../src/gui/chronojump.cs:4784
 msgid "Added intervallic run."
 msgstr "Afegida cursa amb intervals."
 
-#: ../src/gui/chronojump.cs:4972
+#: ../src/gui/chronojump.cs:4988
 msgid "Accelerators help"
 msgstr "Ajuda al voltant dels acceleradors"
 
-#: ../src/gui/chronojump.cs:4974
+#: ../src/gui/chronojump.cs:4990
 msgid "Use these keys in order to work faster."
-msgstr "Usi aquestes tecles per a treballar és de pressa."
+msgstr "Usi aquestes tecles per a treballar més de pressa."
 
-#: ../src/gui/chronojump.cs:4975
+#: ../src/gui/chronojump.cs:4991
 msgid "On execute test tab:"
 msgstr "A la pestanya d'executar test:"
 
-#: ../src/gui/chronojump.cs:4976
+#: ../src/gui/chronojump.cs:4992
 msgid "Edit selected person"
 msgstr "Editar la Persona seleccionada (p)"
 
-#: ../src/gui/chronojump.cs:4977
+#: ../src/gui/chronojump.cs:4993
 msgid "CURSOR_UP"
 msgstr "CURSOR_DALT"
 
-#: ../src/gui/chronojump.cs:4977
+#: ../src/gui/chronojump.cs:4993
 msgid "Select previous person"
 msgstr "Seleccioni la persona anterior"
 
-#: ../src/gui/chronojump.cs:4978
+#: ../src/gui/chronojump.cs:4994
 msgid "CURSOR_DOWN"
 msgstr "CURSOR_BAIX"
 
-#: ../src/gui/chronojump.cs:4978
+#: ../src/gui/chronojump.cs:4994
 msgid "Select next person"
 msgstr "Seleccioni la persona següent"
 
-#: ../src/gui/chronojump.cs:4980
+#: ../src/gui/chronojump.cs:4996
 msgid "Play video of this test"
 msgstr "Reproduir vídeo d'aquest test"
 
-#: ../src/gui/chronojump.cs:4980
-#: ../src/gui/chronojump.cs:4984
-#: ../src/gui/chronojump.cs:4987
+#: ../src/gui/chronojump.cs:4996
+#: ../src/gui/chronojump.cs:5000
+#: ../src/gui/chronojump.cs:5003
 msgid "(if available)"
 msgstr "(si es troba disponible)"
 
-#: ../src/gui/chronojump.cs:4981
+#: ../src/gui/chronojump.cs:4997
 msgid "Delete this test"
 msgstr "Esborreu aquest test"
 
-#: ../src/gui/chronojump.cs:4982
+#: ../src/gui/chronojump.cs:4998
 msgid "On results tab:"
 msgstr "A la pestanya de resultats:"
 
-#: ../src/gui/chronojump.cs:4983
+#: ../src/gui/chronojump.cs:4999
 msgid "Zoom change"
 msgstr "Canviar el Zoom"
 
-#: ../src/gui/chronojump.cs:4984
+#: ../src/gui/chronojump.cs:5000
 msgid "Play video of selected test"
 msgstr "Reproduir vídeo del test seleccionat"
 
-#: ../src/gui/chronojump.cs:4985
+#: ../src/gui/chronojump.cs:5001
 msgid "Edit selected test"
 msgstr "Editeu el test seleccionat"
 
-#: ../src/gui/chronojump.cs:4986
+#: ../src/gui/chronojump.cs:5002
 msgid "Delete selected test"
 msgstr "Esborreu el test seleccionat"
 
-#: ../src/gui/chronojump.cs:4987
+#: ../src/gui/chronojump.cs:5003
 msgid "Repair selected test"
 msgstr "Repareu el test seleccionat"
 
-#: ../src/gui/chronojump.cs:4992
+#: ../src/gui/chronojump.cs:5008
 msgid "translator-credits"
 msgstr ""
 "Jordi Mas i Hernàndez <jmas@softcatala.org>, 2008, 2011 (fixes typos)\n"
 "Xavier de Blas <xaviblas@gmail.com>, 2007-2011\n"
 "Elisabet Bermejo <elibermejo@gmail.com>, 2007."
 
-#: ../src/gui/chronojump.cs:5305
+#: ../src/gui/chronojump.cs:5321
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Fet per a realitzar proves de desenvolupament. Chronojump es tancarà ara."
 
@@ -4589,7 +4585,7 @@ msgstr "vats"
 msgid "You need to activate sounds in main window (bottom)"
 msgstr "Cal que activi els sons a la finestra principal (part inferior)"
 
-#: ../src/gui/reactionTime.cs:59
+#: ../src/gui/reactionTime.cs:60
 msgid "reaction time"
 msgstr "temps de reacció"
 
@@ -4867,7 +4863,7 @@ msgstr "Salt reactiu limitat per temps"
 
 #: ../src/jumpType.cs:180
 msgid "Reactive Jump unlimited (until finish button is clicked)"
-msgstr "Salt reactiu fins prémer el botó <<Finalitzar»"
+msgstr "Salt reactiu fins prémer el botó 'Finalitzar'"
 
 #: ../src/jumpType.cs:191
 msgid "Run between two photocells recording contact and flight times in contact platform/s."
@@ -5240,7 +5236,6 @@ msgid "The total distance run should not be too great so that fatigue does not b
 msgstr "La distància total de cursa no ha de ser massa gran. La fatiga no ha d'aparèixer en aquest test."
 
 #: ../src/runType.cs:315
-#, fuzzy
 msgid "Margaria-Kalamen"
 msgstr ""
 

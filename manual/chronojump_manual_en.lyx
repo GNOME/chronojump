@@ -61,7 +61,7 @@ Manual de Chronojump
 
 
 \size large
-(updated until Chronojump 0.9 version)
+(updated until Chronojump 0.9.2 version)
 \end_layout
 
 \begin_layout Author
@@ -1296,6 +1296,57 @@ Using Chronojump
 
 \begin_layout Chapter
 Using Chronojump
+\end_layout
+
+\begin_layout Section
+IMPORTANT, READ FIRST
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Chronojump 0.9.3 has changed massively the graphical interface.
+ Unfortunately, this manual is not updated to that change.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+All you can find in the current Chronojump Manual is useful because you
+ will know what you can do, but lots of the things are done now differently.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+As Chronojump 0.9.3 is lot easier, we hope you can find the way to do what
+ you want.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Manual will be updated in the future.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Also note lots of the images are from the spanish version.
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Sorry for the inconvenience.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section

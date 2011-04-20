@@ -87,7 +87,7 @@ public class ChronojumpServer {
 		else 
 			return false; //"for if the flyes"
 
-		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,8,17))
+		if(action == Constants.ServerActionUploadSession && cv >= new Version(0,9,3))
 			return true;
 		else if(action == Constants.ServerActionStats && cv >= new Version(0,8))
 			return true;

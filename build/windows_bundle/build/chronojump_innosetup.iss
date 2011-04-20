@@ -58,6 +58,7 @@ Name: "{group}\Chronopic Firmware Recorder "; Filename: "{app}\bin\chronopic-fir
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
 Name: "{group}\Chronojump Manual spanish"; Filename: "{app}\share\doc\chronojump\chronojump_manual_es.pdf"
+Name: "{group}\Chronojump Manual english"; Filename: "{app}\share\doc\chronojump\chronojump_manual_en.pdf"
 Name: "{group}\Chronojump Theme change - Cambiar tema"; Filename: "{app}\bin\gtk2_prefs.exe"; WorkingDir: "{app}\bin"
 Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 

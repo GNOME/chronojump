@@ -746,7 +746,7 @@ public class PersonNotUploadWindow : PersonsRecuperateFromOtherSessionWindow
 		foreach (Person person in myPersons) {
 			store.AppendValues (
 					! Util.FoundInArrayList(initiallyUnchecked, person.UniqueID.ToString()), 
-					person.UniqueID, 
+					person.UniqueID.ToString(), 
 					person.Name, 
 					getCorrectSex(person.Sex), 
 					person.DateBorn.ToShortDateString(), 

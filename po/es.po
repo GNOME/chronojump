@@ -518,7 +518,7 @@ msgstr "<b>Valores mejores y peores</b>"
 
 #: ../glade/chronojump.glade.h:22
 msgid "<b>Check data</b>"
-msgstr "<b>Comprobar datos</b>"
+msgstr "<b>Datos genéricos</b>"
 
 #: ../glade/chronojump.glade.h:23
 msgid "<b>Chronojump</b>"
@@ -1104,8 +1104,9 @@ msgstr ""
 "Chronojump dispone de un servidor para compartir datos entre usuarios.\n"
 "Los datos son una contribución por los usuarios para que el servidor genere estadísticas y gráficas.\n"
 "Cualquiera puede ver las estadísticas y gráficas, así como realizar consultas al servidor de forma sencilla.\n"
-"Se respeta la privacidad:- Los nombres, comentarios, fotos y vídeos no suben al servidor.\n"
-"- Las fechas de nacimiento se ocultan."
+"Se respeta la privacidad:\n"
+"- Los nombres, comentarios, fotos y vídeos no suben al servidor.\n"
+"- Se ocultan las fechas de nacimiento."
 
 #: ../glade/chronojump.glade.h:157
 msgid "Chronojump language select"
@@ -1901,7 +1902,7 @@ msgid ""
 "\n"
 "If you want to use other formulas, go to Statistics."
 msgstr ""
-"En la ventana principal, la potencia se calcula dependiendo del tipo de salto:\n"
+"En la ventana de resultados, la potencia se calcula dependiendo del tipo de salto:\n"
 "\n"
 "Saltos con TC y TV: Potencia Relativa de Bosco (W/Kg)\n"
 "P = 24.6 * (Tiempo total + Tiempo de vuelo) / Tiempo de contacto\n"
@@ -4084,7 +4085,7 @@ msgstr "Estos son dispositivos USB como Chronopic, pero también pendrives, impr
 
 #: ../src/gui/chronopic.cs:414
 msgid "If you just plugged Chronopic cable and expected port is not listed, close and open again this window."
-msgstr "SI acaba de conectar el cable y el puerto esperado no se ha listado, cierre y abra otra vez esta ventana."
+msgstr "Si acaba de conectar el cable y el puerto esperado no se ha listado, cierre y abra otra vez esta ventana."
 
 #: ../src/gui/chronopic.cs:462
 msgid "starting connection with chronopic"
@@ -4519,7 +4520,7 @@ msgstr "Sin sonidos."
 #: ../src/gui/preferences.cs:227
 #: ../src/gui/preferences.cs:239
 msgid "Enabled test video recording and person's snapshots."
-msgstr "Activada la grabación de las pruebas y fotografías de usuarios."
+msgstr "Activada la grabación de las pruebas y fotografías de los sujetos."
 
 #: ../src/gui/preferences.cs:231
 #: ../src/gui/preferences.cs:242

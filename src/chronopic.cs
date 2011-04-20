@@ -48,6 +48,12 @@ public class Chronopic {
 	//  CONSTRUCTORES Y DESTRUCTORES
 	//******************************
 
+	//-- Fake Constructor
+	//only used when there's a problem in detection and must return a Chronopic instance
+	//see gui/chronopic.cs chronopicInit
+	public Chronopic() {
+	}
+
 	//-- Constructor
 	public Chronopic(SerialPort sp)
 	{
@@ -75,9 +81,9 @@ Console.Write("3");
 		this.sp = sp;
 
 Console.Write("4");
-		//-- Vaciar buffer
-		this.flush();
-Console.Write("5");
+//		//-- Vaciar buffer
+//		//done in a separate method
+//		this.flush();
 	}
 
 	//-- Destructor
@@ -295,6 +301,8 @@ Console.Write(" o3 ");
 		return status;
 	}
 
+	public bool AbortFlush;	
+
 	//-- Vaciar buffer de entrada
 	//-- De momento se hace leyendo muchos datos y descartando
 	private void flush()
@@ -304,13 +312,20 @@ Console.Write(" o3 ");
 		//try, catch done because mono-1.2.3 throws an exception when there's a timeout
 		//http://bugzilla.gnome.org/show_bug.cgi?id=420520
 		bool success = false;
+		AbortFlush = false;
 		do{
 			try{
 				sp.Read(buffer,0,256);
 				success = true;
-			} catch {}
+				Log.Write(" spReaded ");
+			} catch {
+				Log.Write(" catchedTimeOut ");
+			}
 
-		} while(!success);
+		} while(! success && ! AbortFlush);
+		if(AbortFlush) {
+			Log.WriteLine("Abort flush");
+		}
 	}
 
 	public void Flush() {

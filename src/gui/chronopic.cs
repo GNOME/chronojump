@@ -411,7 +411,7 @@ Log.WriteLine("bbb");
 				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
 				Catalog.GetString("These are USB devices like Chronopic but also pendrives, USB printers...") + "\n" + 
-				Catalog.GetString("If you just connected Chronopic, close and open again this window.") +
+				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") +
 				saferPorts
 				);
 	}
@@ -456,7 +456,8 @@ Log.WriteLine("bbb");
 	}
 
 	//chronopic init should not touch  gtk, for the threads
-	private Chronopic chronopicInit (Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
+	//private Chronopic chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
+	private void chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
 		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
 		//if(isWindows)
@@ -472,29 +473,41 @@ Log.WriteLine("bbb");
 			Log.WriteLine("chronopicInit-2");		
 			//-- Create chronopic object, for accessing chronopic
 			myCp = new Chronopic(mySp);
-
-			Log.WriteLine("chronopicInit-3");		
-			//on windows, this check make a crash 
-			//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
-			//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
-
-			//-- Obtener el estado inicial de la plataforma
-
-			bool ok=false;
-			Log.WriteLine("chronopicInit-4");		
-			do {
-				Log.WriteLine("chronopicInit-5");		
-				ok=myCp.Read_platform(out myPS);
-				Log.WriteLine("chronopicInit-6");		
-			} while(!ok);
-			Log.WriteLine("chronopicInit-7");		
-			if (!ok) {
-				//-- Si hay error terminar
-				Log.WriteLine(string.Format("Error: {0}", myCp.Error));
+			
+			Log.WriteLine("chronopicInit-2.1");		
+			myCp.Flush();
+			
+			//if myCp has been cancelled
+			if(myCp.AbortFlush) {
+				Log.WriteLine("chronopicInit-2.2 cancelled");
 				success = false;
+				myCp = new Chronopic(); //fake constructor
+			} else {
+				Log.WriteLine("chronopicInit-3");		
+				//on windows, this check make a crash 
+				//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
+				//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
+
+				//-- Obtener el estado inicial de la plataforma
+
+				bool ok=false;
+				Log.WriteLine("chronopicInit-4");		
+				do {
+					Log.WriteLine("chronopicInit-5");		
+					ok=myCp.Read_platform(out myPS);
+					Log.WriteLine("chronopicInit-6");		
+				} while(!ok);
+				Log.WriteLine("chronopicInit-7");		
+				if (!ok) {
+					//-- Si hay error terminar
+					Log.WriteLine(string.Format("Error: {0}", myCp.Error));
+					success = false;
+				}
 			}
 		} catch {
+			Log.WriteLine("chronopicInit-2.a catched");
 			success = false;
+			myCp = new Chronopic(); //fake constructor
 		}
 			
 		returnString = "";
@@ -502,7 +515,6 @@ Log.WriteLine("bbb");
 			if(currentCp == 1)
 				connected = true;
 			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
-			//appbar2.Push( 1, returnString);
 		}
 		if(! success) {
 			returnString = Catalog.GetString("Problems communicating to chronopic.");
@@ -510,11 +522,6 @@ Log.WriteLine("bbb");
 				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
 				returnString += Catalog.GetString("\n\nWe recommend to remove and connect USB cable.");
 			}
-			//if(isWindows) {
-				//returnString += Catalog.GetString("\n\nOn Windows we recommend to remove and connect USB or serial cable from the computer after every unsuccessful port test.");
-				//returnString += Catalog.GetString("\n... And after cancelling Chronopic detection.");
-				//returnString += Catalog.GetString("\n\n... Later, when you close Chronojump it will probably get frozen. If this happens, let's press CTRL+C on the black screen.");
-			//}
 
 			//this will raise on_radiobutton_simulated_ativate and 
 			//will put cpRunning to false, and simulated to true and cp.Close()
@@ -522,7 +529,7 @@ Log.WriteLine("bbb");
 				connected = false;
 			}
 		}
-		return myCp;
+//		return myCp;
 	}
 	
 	private void on_checkbutton_multi_show_clicked(object o, EventArgs args) {
@@ -578,7 +585,6 @@ Log.WriteLine("bbb");
 
 
 	void prepareChronopicConnection() {
-		//ChronopicConnection chronopicConnectionWin = ChronopicConnection.Show();
 		chronopicConnectionWin = ChronopicConnection.Show();
 		chronopicConnectionWin.LabelFeedBackReset();
 
@@ -587,11 +593,13 @@ Log.WriteLine("bbb");
 		fakeConnectionButton = new Gtk.Button();
 		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
 
+		needUpdateChronopicWin = false;
 		thread = new Thread(new ThreadStart(waitChronopicStart));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
 	}
-	
+
+	static Chronopic cpDoing;	
 	protected void waitChronopicStart () 
 	{
 		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
@@ -613,7 +621,9 @@ Log.WriteLine("bbb");
 			
 		if(currentCp == 1) {
 			myPort = ((ChronopicPortData) cpd[0]).Port;
-			cp = chronopicInit(cp, out sp, platformState, myPort, out message, out success);
+			cpDoing = cp;
+			chronopicInit(out cpDoing, out sp, platformState, myPort, out message, out success);
+			cp = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[0]).Connected=true;
 				button_connect_cp1.Sensitive = false;
@@ -643,7 +653,9 @@ Log.WriteLine("bbb");
 		}
 		else if(currentCp == 2) {
 			myPort = ((ChronopicPortData) cpd[1]).Port;
-			cp2 = chronopicInit(cp2, out sp2, platformState2, myPort, out message, out success);
+			cpDoing = cp2;
+			chronopicInit(out cpDoing, out sp2, platformState2, myPort, out message, out success);
+			cp2 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[1]).Connected=true;
 				button_connect_cp2.Sensitive = false;
@@ -669,7 +681,9 @@ Log.WriteLine("bbb");
 		}
 		else if(currentCp == 3) {
 			myPort = ((ChronopicPortData) cpd[2]).Port;
-			cp3 = chronopicInit(cp3, out sp3, platformState3, myPort, out message, out success);
+			cpDoing = cp3;
+			chronopicInit(out cpDoing, out sp3, platformState3, myPort, out message, out success);
+			cp3 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[2]).Connected=true;
 				button_connect_cp3.Sensitive = false;
@@ -691,7 +705,9 @@ Log.WriteLine("bbb");
 		}
 		else if(currentCp == 4) {
 			myPort = ((ChronopicPortData) cpd[3]).Port;
-			cp4 = chronopicInit(cp4, out sp4, platformState4, myPort, out message, out success);
+			cpDoing = cp4;
+			chronopicInit(out cpDoing, out sp4, platformState4, myPort, out message, out success);
+			cp4 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[3]).Connected=true;
 				button_connect_cp4.Sensitive = false;
@@ -734,6 +750,8 @@ Log.WriteLine("bbb");
 		Log.WriteLine("cancelled-----");
 		fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
 		
+		cpDoing.AbortFlush = true;
+
 		//kill the chronopicInit function that is waiting event 
 		//thread.Abort();
 		//http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing

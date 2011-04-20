@@ -2077,42 +2077,24 @@ public partial class ChronoJumpWindow
 	 */
 	
 	private void on_delete_event (object o, DeleteEventArgs args) {
-		Log.WriteLine("Bye!");
-    
-		if(chronopicWin.Connected == true) {
-			chronopicWin.SerialPortsClose();
-		}
-	
-		try {	
-			File.Delete(runningFileName);
-		} catch {
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					string.Format(Catalog.GetString("Could not delete file:\n{0}"), runningFileName));
-		}
-
-		if(File.Exists(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db"))
-			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
-				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
-		
-		Log.WriteLine("Bye2!");
-
-		System.Console.Out.Close();
-		//Log.End();
-		//Log.Delete();
-		Log.WriteLine("Bye3!");
-
-		if(chronopicCancelledTimes > 0 && Util.IsWindows()) {
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Catalog.GetString("Attention, current version of Chronojump gets hanged on exit\nif user has cancelled detection of Chronopic.") + "\n\n" +
-					Catalog.GetString("Sorry, you will have to close Chronojump using CTRL + ALT + DEL."));
-		}
-		
-		Log.WriteLine("Bye4!");
-		
-		Application.Quit();
+		args.RetVal = true;
+		on_quit1_activate (new object(), new EventArgs ());
 	}
 
+
 	private void on_quit1_activate (object o, EventArgs args) {
+		if(chronopicCancelledTimes > 0 && Util.IsWindows()) {
+		//if(chronopicCancelledTimes > 0) {
+			confirmWinJumpRun = ConfirmWindowJumpRun.Show( 
+					Catalog.GetString("Attention, current version of Chronojump gets hanged on exit\nif user has cancelled detection of Chronopic."),
+					Catalog.GetString("Sorry, you will have to close Chronojump using CTRL + ALT + DEL."));
+			confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_quit2_activate);
+		} else
+			on_quit2_activate(new object(), new EventArgs());
+	}
+		
+
+	private void on_quit2_activate (object o, EventArgs args) {
 		Log.WriteLine("Bye!");
     
 		if(chronopicWin.Connected == true) {
@@ -2132,10 +2114,11 @@ public partial class ChronoJumpWindow
 		
 		Log.WriteLine("Bye2!");
 		System.Console.Out.Close();
-		//Log.End();
-		//Log.Delete();
 		Log.WriteLine("Bye3!");
 		Application.Quit();
+		Log.WriteLine("Bye4!");
+		Environment.Exit(Environment.ExitCode);
+		Log.WriteLine("Bye5!");
 	}
 	
 	/* ---------------------------------------------------------

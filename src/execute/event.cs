@@ -292,9 +292,7 @@ public class EventExecute
 			needUpdateEventProgressBar = false;
 		}
 		
-//	Console.WriteLine("pulse update graph");	
 		if(needUpdateGraph) {
-//	Console.WriteLine("pulse update graph 2");	
 			//solve problems when runAnalysis ended and tries to paint window
 			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
 				Console.WriteLine("is MC, RA, finished!");	
@@ -304,10 +302,8 @@ public class EventExecute
 			} else
 				updateGraph();
 	
-//			Console.WriteLine("pulse update graph 3");	
 			needUpdateGraph = false;
 		}
-//	Console.WriteLine("pulse update graph 4");	
 		
 		if(needSensitiveButtonFinish) {
 			//ButtonFinishMakeSensitive();
@@ -326,9 +322,6 @@ public class EventExecute
 			finish = true;
 			updateProgressBarForFinish();
 		} 
-//	Console.WriteLine("pulse done");	
-		//else 
-		//	updateTimeProgressBar();
 	}
 	
 	private void runATouchPlatform() {
@@ -399,7 +392,6 @@ public class EventExecute
 		
 		//if the time is too much, finish
 		if(timerCount - simulatedTimeAccumulatedBefore > timeMax) {
-//				Log.WriteLine("EXCEEDES MAX!");
 				simulateChangePlatform();
 		}
 		
@@ -410,10 +402,8 @@ public class EventExecute
 			//rand.NextDouble gives a value between 0 and 1
 			//if we multiply by the (simulatedRange * 10 +1), then we will have 4 options if the range is ,4
 			//check if the value is less than 1 (it's one change in four options) and if it's 1, then simulated the change platform
-			//double dice = 0;
 			double myRand = rand.NextDouble();
 			double dice = myRand * (simulatedRange *10 +1);
-//			Log.WriteLine(string.Format("rand: {0}, dice: {1}", myRand, dice));
 			if (dice < 1)
 			{
 				simulateChangePlatform();
@@ -444,73 +434,6 @@ public class EventExecute
 	private void updateGraph() {
 		fakeButtonUpdateGraph.Click();
 	}
-
-		/*
-		 * TODO: decide where Prepare methods should be. maybe here?, then need to pass layout, pixmap, drawingarea, ...
-		switch(needUpdateGraphType) {
-			case eventType.JUMP:
-				Log.Write("update graph: JUMP");
-				app1.PrepareJumpSimpleGraph(
-						PrepareEventGraphJumpSimpleObject.tv, 
-						PrepareEventGraphJumpSimpleObject.tc);
-				break;
-			case eventType.JUMPREACTIVE:
-				Log.Write("update graph: JUMPREACTIVE");
-				app1.PrepareJumpReactiveGraph(
-						PrepareEventGraphJumpReactiveObject.lastTv, 
-						PrepareEventGraphJumpReactiveObject.lastTc,
-						PrepareEventGraphJumpReactiveObject.tvString,
-						PrepareEventGraphJumpReactiveObject.tcString,
-						volumeOn, repetitiveConditionsWin);
-				break;
-			case eventType.RUN:
-				Log.Write("update graph: RUN");
-				app1.PrepareRunSimpleGraph(
-						PrepareEventGraphRunSimpleObject.time, 
-						PrepareEventGraphRunSimpleObject.speed);
-				break;
-			case eventType.RUNINTERVAL:
-				Log.Write("update graph: RUNINTERVAL");
-				app1.PrepareRunIntervalGraph(
-						PrepareEventGraphRunIntervalObject.distance, 
-						PrepareEventGraphRunIntervalObject.lastTime,
-						PrepareEventGraphRunIntervalObject.timesString,
-						PrepareEventGraphRunIntervalObject.distanceTotal,
-						PrepareEventGraphRunIntervalObject.distancesString,
-						volumeOn, repetitiveConditionsWin);
-				break;
-			case eventType.PULSE:
-				Log.Write("update graph: PULSE");
-				app1.PreparePulseGraph(
-						PrepareEventGraphPulse.lastTime, 
-						PrepareEventGraphPulse.timesString);
-				break;
-			case eventType.REACTIONTIME:
-				Log.Write("update graph: REACTIONTIME");
-				app1.PrepareReactionTimeGraph(
-						PrepareEventGraphReactionTimeObject.time); 
-				break;
-			case eventType.MULTICHRONOPIC:
-				Log.Write("update graph: MULTICHRONOPIC");
-				app1.PrepareMultiChronopicGraph(
-						//PrepareEventGraphMultiChronopicObject.timestamp, 
-						PrepareEventGraphMultiChronopicObject.cp1StartedIn, 
-						PrepareEventGraphMultiChronopicObject.cp2StartedIn, 
-						PrepareEventGraphMultiChronopicObject.cp3StartedIn, 
-						PrepareEventGraphMultiChronopicObject.cp4StartedIn, 
-						PrepareEventGraphMultiChronopicObject.cp1InStr, 
-						PrepareEventGraphMultiChronopicObject.cp1OutStr,
-						PrepareEventGraphMultiChronopicObject.cp2InStr, 
-						PrepareEventGraphMultiChronopicObject.cp2OutStr,
-						PrepareEventGraphMultiChronopicObject.cp3InStr, 
-						PrepareEventGraphMultiChronopicObject.cp3OutStr,
-						PrepareEventGraphMultiChronopicObject.cp4InStr, 
-						PrepareEventGraphMultiChronopicObject.cp4OutStr
-						);
-				break;
-		}
-		*/
-//	}
 	
 	protected virtual bool shouldFinishByTime() {
 		return true;

@@ -306,9 +306,10 @@ class SqliteJumpType : Sqlite
 		return myTypes;
 	}
 	
-	public static JumpType SelectAndReturnJumpType(string typeName) 
+	public static JumpType SelectAndReturnJumpType(string typeName, bool dbconOpened) 
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpTypeTable + " " +
 			" WHERE name  = '" + typeName +
@@ -331,14 +332,16 @@ class SqliteJumpType : Sqlite
 		myJumpType.IsPredefined = myJumpType.FindIfIsPredefined();
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 
 		return myJumpType;
 	}
 
-	public static JumpType SelectAndReturnJumpRjType(string typeName) 
+	public static JumpType SelectAndReturnJumpRjType(string typeName, bool dbconOpened) 
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpRjTypeTable + " " +
 			" WHERE name  = '" + typeName +
@@ -372,7 +375,8 @@ class SqliteJumpType : Sqlite
 		myJumpType.IsPredefined = myJumpType.FindIfIsPredefined();
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 
 		return myJumpType;
 	}

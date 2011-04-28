@@ -152,9 +152,10 @@ class SqliteRun : Sqlite
 		return myRuns;
 	}
 
-	public static Run SelectRunData(int uniqueID)
+	public static Run SelectRunData(int uniqueID, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -169,7 +170,8 @@ class SqliteRun : Sqlite
 		Run myRun = new Run(DataReaderToStringArray(reader, 9));
 	
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return myRun;
 	}
 		

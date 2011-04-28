@@ -136,9 +136,10 @@ class SqliteReactionTime : Sqlite
 		return myEvents;
 	}
 
-	public static ReactionTime SelectReactionTimeData(int uniqueID)
+	public static ReactionTime SelectReactionTimeData(int uniqueID, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -153,7 +154,8 @@ class SqliteReactionTime : Sqlite
 		ReactionTime myRT = new ReactionTime(DataReaderToStringArray(reader, 7));
 	
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return myRT;
 	}
 		

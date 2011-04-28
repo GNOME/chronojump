@@ -608,7 +608,7 @@ Console.WriteLine("--6--");
 		int existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData);
+			JumpRj myJumpRj = SqliteJumpRj.SelectJumpData("tempJumpRj", existsTempData, false);
 			try {
 				myJumpRj.InsertAtDB (true, Constants.JumpRjTable);
 			} catch {} //pitty, cannot insert
@@ -621,7 +621,7 @@ Console.WriteLine("--6--");
 		existsTempData = Sqlite.TempDataExists(tableName);
 		if(existsTempData > 0)
 		{
-			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData);
+			RunInterval myRun = SqliteRunInterval.SelectRunData("tempRunInterval", existsTempData, false);
 			try {
 				myRun.InsertAtDB (true, Constants.RunIntervalTable);
 			} catch {} //pitty, cannot insert

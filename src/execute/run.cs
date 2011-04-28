@@ -393,7 +393,7 @@ public class RunIntervalExecute : RunExecute
 		//if distances are variable
 		distancesString = "";
 		if(distanceInterval == -1) {
-			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(type);
+			RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(type, false);
 			distancesString = runType.DistancesString;
 		}
 

@@ -434,7 +434,7 @@ public class RepairJumpRjWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type);
+		jumpType = SqliteJumpType.SelectAndReturnJumpRjType(myJump.Type, false);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = createTextForTextView(jumpType);

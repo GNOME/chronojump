@@ -172,11 +172,12 @@ class SqliteJumpRj : SqliteJump
 		return myJumps;
 	}
 
-	public static JumpRj SelectJumpData(string tableName, int uniqueID)
+	public static JumpRj SelectJumpData(string tableName, int uniqueID, bool dbconOpened)
 	{
 		//tableName is jumpRj or tempJumpRj
 
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
@@ -190,7 +191,8 @@ class SqliteJumpRj : SqliteJump
 		JumpRj myJump = new JumpRj(DataReaderToStringArray(reader, 18));
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return myJump;
 	}
 	

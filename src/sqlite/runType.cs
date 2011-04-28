@@ -126,9 +126,10 @@ class SqliteRunType : Sqlite
 		return myLast;
 	}
 	
-	public static RunType SelectAndReturnRunType(string typeName) 
+	public static RunType SelectAndReturnRunType(string typeName, bool dbconOpened) 
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name  = '" + typeName +
@@ -151,7 +152,8 @@ class SqliteRunType : Sqlite
 		myRunType.IsPredefined = myRunType.FindIfIsPredefined();
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 
 		return myRunType;
 	}
@@ -426,9 +428,10 @@ class SqliteRunIntervalType : SqliteRunType
 		return myTypes;
 	}
 
-	public static RunType SelectAndReturnRunIntervalType(string typeName) 
+	public static RunType SelectAndReturnRunIntervalType(string typeName, bool dbconOpened) 
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name  = '" + typeName +
@@ -456,7 +459,8 @@ class SqliteRunIntervalType : SqliteRunType
 		myRunType.IsPredefined = myRunType.FindIfIsPredefined();
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 
 		return myRunType;
 	}

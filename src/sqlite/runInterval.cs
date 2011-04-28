@@ -156,11 +156,12 @@ class SqliteRunInterval : SqliteRun
 		return myRuns;
 	}
 
-	public static RunInterval SelectRunData(string tableName, int uniqueID)
+	public static RunInterval SelectRunData(string tableName, int uniqueID, bool dbconOpened)
 	{
 		//tableName can be runInterval or tempRunInterval
 
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
@@ -174,7 +175,8 @@ class SqliteRunInterval : SqliteRun
 		RunInterval myRun = new RunInterval(DataReaderToStringArray(reader, 13));
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return myRun;
 	}
 

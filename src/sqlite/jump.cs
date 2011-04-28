@@ -173,9 +173,10 @@ class SqliteJump : Sqlite
 		return myJumps;
 	}
 
-	public static Jump SelectJumpData(int uniqueID)
+	public static Jump SelectJumpData(int uniqueID, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
 		
@@ -189,7 +190,10 @@ class SqliteJump : Sqlite
 		Jump myJump = new Jump(DataReaderToStringArray(reader, 11));
 	
 		reader.Close();
-		dbcon.Close();
+		
+		if(!dbconOpened)
+			dbcon.Close();
+
 		return myJump;
 	}
 		

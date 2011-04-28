@@ -559,7 +559,7 @@ public class ExportSession
 			string myRunTypeString = myStr[4];
 			string myRunDistanceInterval = myStr[7];
 			if(myRunDistanceInterval == "-1" || myRunDistanceInterval == "-1.0") {
-				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunTypeString);
+				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunTypeString, false);
 			}
 			myData.Add (
 					myStr[2] + ":" +    			//personID

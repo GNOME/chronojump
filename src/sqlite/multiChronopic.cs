@@ -179,9 +179,10 @@ class SqliteMultiChronopic : Sqlite
 		return myEvents;
 	}
 
-	public static MultiChronopic SelectMultiChronopicData(int uniqueID)
+	public static MultiChronopic SelectMultiChronopicData(int uniqueID, bool dbconOpened)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -196,7 +197,8 @@ class SqliteMultiChronopic : Sqlite
 		MultiChronopic mc = new MultiChronopic(DataReaderToStringArray(reader, 19));
 	
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
 		return mc;
 	}
 

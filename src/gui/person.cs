@@ -1625,7 +1625,7 @@ public class PersonAddModifyWindow
 		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, currentPerson.UniqueID, "Margaria");
 		foreach(string myStr in myMargarias) {
 			string [] margaria = myStr.Split(new char[] {':'});
-			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]));
+			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]), false);
 			double distanceMeters = mRun.Distance / 1000;
 			mRun.Description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / mRun.Time).ToString(), pDN) + " (Watts)";
 			SqliteRun.Update(mRun.UniqueID, mRun.Type, mRun.Distance.ToString(), mRun.Time.ToString(), mRun.PersonID, mRun.Description);

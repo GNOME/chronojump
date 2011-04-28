@@ -599,7 +599,7 @@ public class RepairRunIntervalWindow
 		label_header.Text = string.Format(Catalog.GetString("Use this window to repair this test.\nDouble clic any cell to edit it (decimal separator: '{0}')"), localeInfo.NumberDecimalSeparator);
 	
 		
-		type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type);
+		type = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRun.Type, false);
 		
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = createTextForTextView(type);

@@ -906,37 +906,37 @@ public partial class ChronoJumpWindow
 				treeviewPersonsContextMenu(currentPerson);
 			} else if(myTv == treeview_jumps) {
 				if (myTreeViewJumps.EventSelectedID > 0) {
-					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
+					Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 					treeviewJumpsContextMenu(myJump);
 				}
 			} else if(myTv == treeview_jumps_rj) {
 				if (myTreeViewJumpsRj.EventSelectedID > 0) {
-					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+					JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 					treeviewJumpsRjContextMenu(myJump);
 				}
 			} else if(myTv == treeview_runs) {
 				if (myTreeViewRuns.EventSelectedID > 0) {
-					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
+					Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 					treeviewRunsContextMenu(myRun);
 				}
 			} else if(myTv == treeview_runs_interval) {
 				if (myTreeViewRunsInterval.EventSelectedID > 0) {
-					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
+					RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 					treeviewRunsIntervalContextMenu(myRun);
 				}
 			} else if(myTv == treeview_reaction_times) {
 				if (myTreeViewReactionTimes.EventSelectedID > 0) {
-					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+					ReactionTime myRt = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
 					treeviewReactionTimesContextMenu(myRt);
 				}
 			} else if(myTv == treeview_pulses) {
 				if (myTreeViewPulses.EventSelectedID > 0) {
-					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+					Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 					treeviewPulsesContextMenu(myPulse);
 				}
 			} else if(myTv == treeview_multi_chronopic) {
 				if (myTreeViewMultiChronopic.EventSelectedID > 0) {
-					MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+					MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 					treeviewMultiChronopicContextMenu(mc);
 				}
 			} else
@@ -3982,7 +3982,7 @@ Console.WriteLine("X");
 					if(lastRunIsSimple) 
 						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
 					else {
-						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type);
+						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 
 								runType.DistancesString, currentRunInterval.Tracks);
 
@@ -4045,7 +4045,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
+			Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
@@ -4061,7 +4061,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
@@ -4073,7 +4073,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected jump accepted");
 	
-		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID );
+		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
@@ -4096,7 +4096,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected jump RJ accepted");
 	
-		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
@@ -4123,7 +4123,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
+			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 			myRun.MetersSecondsPreferred = metersSecondsPreferred;
 			eventOldPerson = myRun.PersonID;
 		
@@ -4140,7 +4140,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
@@ -4152,7 +4152,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected run accepted");
 		
-		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID );
+		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -4169,7 +4169,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected run interval accepted");
 		
-		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
+		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRun.PersonID)
@@ -4190,7 +4190,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a event and not a person
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
-			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+			ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false );
 			eventOldPerson = myRT.PersonID;
 		
 			//4.- edit this event
@@ -4202,7 +4202,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected reaction time accepted");
 		
-		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID );
+		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false);
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myRT.PersonID)
@@ -4220,7 +4220,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a event and not a person
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- obtain the data of the selected event
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 			eventOldPerson = myPulse.PersonID;
 		
 			//4.- edit this event
@@ -4232,7 +4232,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected pulse accepted");
 		
-		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myPulse.PersonID)
@@ -4250,7 +4250,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- obtain the data of the selected test
-			MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+			MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 			eventOldPerson = mc.PersonID;
 		
 			//4.- edit this jump
@@ -4262,7 +4262,7 @@ Console.WriteLine("X");
 	private void on_edit_selected_multi_chronopic_accepted (object o, EventArgs args) {
 		Log.WriteLine("edit selected multi chronopic accepted");
 	
-		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID );
+		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == mc.PersonID) 
@@ -4830,7 +4830,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- obtain the data of the selected jump
-			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID );
+			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 			//4.- edit this jump
 			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
@@ -4857,7 +4857,7 @@ Console.WriteLine("X");
 		//(check also if it's not a individual run interval, then pass the parent run interval)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
-			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID );
+			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 		
 			//4.- edit this run
 			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
@@ -4884,7 +4884,7 @@ Console.WriteLine("X");
 		//(check also if it's not a individual pulse, then pass the parent pulse)
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- obtain the data of the selected pulse
-			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID );
+			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 		
 			//4.- edit this pulse
 			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, prefsDigitsNumber);

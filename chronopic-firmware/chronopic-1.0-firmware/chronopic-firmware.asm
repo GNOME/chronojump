@@ -40,9 +40,9 @@ TICK    EQU 0xD9
 ;-- 10ms
 ;-- DEBOUNCE_TIME   EQU 0x01
 ;-- 50ms
-;-- DEBOUNCE_TIME   EQU 0x05
+DEBOUNCE_TIME   EQU 0x05
 ;-- 100ms
-DEBOUNCE_TIME   EQU 0x0A
+;-- DEBOUNCE_TIME   EQU 0x0A
 
 ;-- Status of main automaton
 STAT_WAITING_EVENT EQU 0x00                

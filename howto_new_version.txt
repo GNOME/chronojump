@@ -41,4 +41,9 @@ tell people stuff
 twitters
 publish on website
 publish on forum
+Tell people to update wikipedia page
 twitters again with photos, changes, ...
+
+other stuff
+-----------
+Update manual/s to chronojump site if changed

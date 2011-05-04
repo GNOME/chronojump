@@ -35,7 +35,7 @@ using System.IO; 	//File && TextWriter
 
 using Mono.Unix;
 
-class Test {
+class ChronoJumpMini {
 
 	//-- Estado del automata
 	enum Automata {

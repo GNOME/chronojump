@@ -191,3 +191,20 @@ public class PrepareEventGraphMultiChronopic {
 	~PrepareEventGraphMultiChronopic() {}
 }
 
+public class UpdateProgressBar {
+	public bool IsEvent;
+	public bool PercentageMode;
+	public double ValueToShow;
+
+	public UpdateProgressBar() {
+	}
+
+	public UpdateProgressBar(bool isEvent, bool percentageMode, double valueToShow) {
+		this.IsEvent = isEvent;
+		this.PercentageMode = percentageMode;
+		this.ValueToShow = valueToShow;
+	}
+
+	~UpdateProgressBar() {}
+}
+

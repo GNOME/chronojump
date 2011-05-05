@@ -21,8 +21,6 @@
 using System;
 using System.Data;
 using System.Collections; //ArrayList
-using System.Drawing;
-using System.Drawing.Imaging;
 
 public class GraphSerie
 {

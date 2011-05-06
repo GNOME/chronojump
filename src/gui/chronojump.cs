@@ -104,6 +104,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_export_xml;
 		
 	//menu person
+	[Widget] Gtk.Button button_persons_up;
+	[Widget] Gtk.Button button_persons_down;
 	[Widget] Gtk.Button button_edit_current_person;
 	[Widget] Gtk.Button button_show_all_person_events;
 	[Widget] Gtk.Button button_delete_current_person;
@@ -4952,11 +4954,17 @@ Console.WriteLine("X");
 		}
 	
 		//button_execute_test have to be non sensitive in multichronopic without two cps
-		//else has to be sensitive	
-		if(notebook_execute.CurrentPage == 6 && chronopicWin.NumConnected() < 2)
-			extra_window_multichronopic_can_do(false);
-		else 
-			extra_window_multichronopic_can_do(true);
+		//else has to be sensitive
+
+		//if there are persons
+		if (notebook_execute.CurrentPage == 6) {
+			if (chronopicWin.NumConnected() >= 2)
+				extra_window_multichronopic_can_do(true);
+			else 
+				extra_window_multichronopic_can_do(false);
+		} else {
+			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+		}
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
@@ -5036,6 +5044,8 @@ Console.WriteLine("X");
 	
 	private void menuPersonSelectedSensitive(bool option)
 	{
+		button_persons_up.Sensitive = option;
+		button_persons_down.Sensitive = option;
 		button_edit_current_person.Sensitive = option;
 		button_show_all_person_events.Sensitive = option;
 		button_delete_current_person.Sensitive = option;
@@ -5066,7 +5076,6 @@ Console.WriteLine("X");
 		frame_share_data.Sensitive = false;
 		
 		hbox_this_test_buttons.Sensitive = false;
-		
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		eventExecuteHideAllTables();
@@ -5084,8 +5093,6 @@ Console.WriteLine("X");
 		vbox_stats.Sensitive = true;
 		frame_share_data.Sensitive = true;
 		
-		hbox_execute_test.Sensitive = true;
-		
 		//changeTestImage("", "", "LOGO");
 	}
 
@@ -5101,6 +5108,7 @@ Console.WriteLine("X");
 		treeview_persons.Sensitive = false;
 		
 		menuPersonSelectedSensitive(false);
+		hbox_execute_test.Sensitive = false;
 	}
 	
 	private void sensitiveGuiYesPerson () {
@@ -5123,6 +5131,8 @@ Console.WriteLine("X");
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;
+		
+		hbox_execute_test.Sensitive = true;
 	}
 	
 	private void sensitiveGuiYesEvent () {

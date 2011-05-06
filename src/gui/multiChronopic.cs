@@ -89,6 +89,10 @@ public partial class ChronoJumpWindow
 
 
 	private void extra_window_multichronopic_can_do(bool can_do) {
+		//if there are no persons, cannot show this stuff
+		if( ! myTreeViewPersons.IsThereAnyRecord() )
+			can_do = false;
+
 		button_execute_test.Sensitive = can_do;
 		extra_window_textview_multichronopic_need_two.Visible = ! can_do;
 		

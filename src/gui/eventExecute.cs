@@ -241,7 +241,6 @@ public partial class ChronoJumpWindow
 		}
 
 		event_execute_button_cancel.Sensitive = true;
-//		event_execute_button_close.Sensitive = false;
 
 		event_execute_clearDrawingArea();
 		clearProgressBars();
@@ -1764,7 +1763,6 @@ Log.WriteLine("Preparing reactive A");
 		
 	private void hideButtons() {
 		event_execute_button_cancel.Sensitive = false;
-//		button_close.Sensitive = true;
 		event_execute_button_finish.Sensitive = false;
 	}
 

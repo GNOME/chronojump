@@ -110,6 +110,11 @@ public class TreeViewPersons
 		}
 	}
 	
+	public bool IsThereAnyRecord() {
+		TreeIter iter;
+		return store.GetIterFirst(out iter);
+	}
+	
 	public int FindRow(int uniqueID)
 	{
 		TreeIter iter;

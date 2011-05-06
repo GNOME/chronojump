@@ -195,7 +195,6 @@ FILES = \
 	utilGtk.cs\
 	constants.cs\
  	report.cs\
- 	updateProgressBar.cs\
  	sport.cs\
  	log.cs\
  	serverPing.cs\

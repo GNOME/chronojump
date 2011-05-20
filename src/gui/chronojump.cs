@@ -4758,6 +4758,7 @@ Console.WriteLine("X");
 			UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
 		}
+		updateComboStats();
 		combo_jumps.Active = 0;
 		combo_jumps_rj.Active = 0;
 	}
@@ -4785,6 +4786,7 @@ Console.WriteLine("X");
 			UtilGtk.ComboUpdate(combo_runs_interval, SqliteRunIntervalType.SelectRunIntervalTypes(Constants.AllRunsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added intervallic run."));
 		}
+		updateComboStats();
 		combo_runs.Active = 0;
 		combo_runs_interval.Active = 0;
 	}

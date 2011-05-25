@@ -14,12 +14,14 @@ History:
              modify configuration Bits: close WDT
              modify ISR and MAIN LOOP's if --> else if
              limit COUNTDEBOUNCE overflow in INTERRUPT(isr)
-	     assembler is more efficient than C 
+	     assembler is more efficient than C
+  2011-05-25 change crystal from 4 to 20 MHz by Teng Wei Hua <wadedang@gmail.com>
+             let SPBRG = 0X81
 */
 
 //-- this PIC is going to be used:
-//#include <pic16f876A.h>
-#include <pic16f876a.h> //xavi (Linux Mint 10)
+#include <pic16f876A.h> //Wade (Windows)
+//#include <pic16f876a.h> //xavi (Linux Mint 10)
 
 
 //*****************************************
@@ -178,7 +180,11 @@ void isr(void) __interrupt 0
 //---------------------------------------
 void sci_configuration()
 {
-    SPBRG = 0X19;   // Speed: 9600 baud
+    // wade : start
+    // SPBRG = 0X19;   // crystal:  4MHz Speed: 9600 baud 
+    // SPBRG = 0X81;   // crystal: 20MHz Speed: 9600 baud
+    SPBRG = 0X81;   // Speed: 9600 baud
+    // wade : end
     TXSTA = 0X24;   // Configure transmitter
     RCSTA = 0X90;   // Configure receiver
 }
@@ -393,6 +399,10 @@ void main(void)
 	__asm
 	CLRWDT
 	__endasm;
+
+        // wade : start
+        // sci_sendchar(FCHANGE);
+	// wade : end
 
 	//-- Analize serial port waiting to a frame
 	if (RCIF == 1)	// Yes--> Service of platform status

@@ -3203,6 +3203,7 @@ show elevation as:</property>
             <child>
               <widget class="GtkHBox" id="hbox59">
                 <property name="visible">True</property>
+                <property name="spacing">10</property>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_startIn_yes">
                     <property name="label" translatable="yes">yes</property>
@@ -3260,6 +3261,7 @@ show elevation as:</property>
             <child>
               <widget class="GtkHBox" id="hbox60">
                 <property name="visible">True</property>
+                <property name="spacing">10</property>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_extra_weight_yes">
                     <property name="label" translatable="yes">yes</property>

@@ -7,8 +7,12 @@ con = dbConnect(drv, file)
 
 def.par <- par(no.readonly = TRUE) # save default, for resetting...
 
-
+#refered to person77
 persons <- dbGetQuery(con, "SELECT sport.name AS sport, speciallity.name AS speciallity, country.name AS country, person77.sex AS sex, personSession77.practice AS level FROM person77, personSession77, country, sport, speciallity WHERE person77.uniqueID=personSession77.personID AND person77.countryID = country.uniqueID AND personSession77.sportID == sport.uniqueID AND personSession77.speciallityID=speciallity.uniqueID GROUP BY personID")
+
+#done separately because it's refered to personSession77
+ages <- dbGetQuery(con, "SELECT (strftime('%Y', session.date) - strftime('%Y', person77.dateborn)) - (strftime('%m-%d', session.date) < strftime('%m-%d', person77.dateborn)) AS years from person77, personSession77, session WHERE personSession77.personID = person77.uniqueID AND personSession77.sessionID = session.UniqueID AND years>1")
+
 
 persons$sportF<-factor(persons$sport)
 #persons$speciallityF<-factor(persons$speciallity)
@@ -18,7 +22,7 @@ persons$levelF<-factor(persons$level)
 
 par(new=FALSE, oma=c(1,1,5,1))
 #par(mfcol=c(2,2))
-nf <- layout(matrix(c(1,1,1,2,3,4), 3, 2, byrow=FALSE), respect=TRUE)
+nf <- layout(matrix(c(1,1,2,3,4,5), 3, 2, byrow=FALSE), respect=TRUE)
 #layout.show(nf)
 
 dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=levels(persons$sportF)[order (table(persons$sportF))], main="Sport")
@@ -27,7 +31,9 @@ dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=levels(per
 
 dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=levels(persons$countryF)[order (table(persons$countryF))], main="Country")
 
-pie(table(persons$sexF), labels=levels(persons$sexF), main="Sex", 
+hist(ages$years, breaks=10, main="Age", xlab="Years (at session day)")
+
+pie(table(persons$sexF), labels=levels(persons$sexF), main="Gender", 
   col=rainbow(length(levels(persons$sexF))))
 
 levels(persons$levelF)=c("Sedentary", "Regular practice", "Competition", "Elite") #undefined is impossible on server

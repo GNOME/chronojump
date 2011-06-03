@@ -1,21 +1,26 @@
 if [ -f /var/www/mono/need-to-update-r-graphs ]
 then
-  R CMD BATCH heights_by_jumps_boxplot.R
+  R CMD BATCH evaluators.R
 sleep 5
   R CMD BATCH persons.R
 sleep 5
-  R CMD BATCH tv_by_level_sex_jumptype.R
+  R CMD BATCH tf_by_jumps_boxplot.R
 sleep 5
-  R CMD BATCH evaluators.R
+  R CMD BATCH tf_by_extra_weight.R
+sleep 5
+  R CMD BATCH ieiub.R
+sleep 5
+  R CMD BATCH tf_by_level_sex_jumptype.R
 
 sleep 5
 cd /var/www/web/server/images
-convert -resize 225x225 heights_by_jumps_boxplot.png small/heights_by_jumps_boxplot.png
-convert -resize 225x225 persons.png small/persons.png
-convert -resize 225x225 tv_by_level_sex_jumptype.png small/tv_by_level_sex_jumptype.png
 convert -resize 225x225 evaluators.png small/evaluators.png
+convert -resize 225x225 persons.png small/persons.png
+convert -resize 225x225 tf_by_jumps_boxplot.png small/tf_by_jumps_boxplot.png
+convert -resize 225x225 tf_by_extra_weight.png small/tf_by_extra_weight.png
+convert -resize 225x225 ieiub.png small/ieiub.png
+convert -resize 225x225 tf_by_level_sex_jumptype.png small/tf_by_level_sex_jumptype.png
 
 rm /var/www/mono/need-to-update-r-graphs
 fi
-
 

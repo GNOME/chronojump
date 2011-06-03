@@ -1,5 +1,5 @@
 library(GDD)
-GDD(file="/var/www/web/server/images/tv_by_level_sex_jumptype.png", type="png", w=670, h=670)
+GDD(file="/var/www/web/server/images/tf_by_level_sex_jumptype.png", type="png", w=670, h=670)
 library(RSQLite)
 drv = dbDriver("SQLite")
 file = "/root/.local/share/Chronojump/database/chronojump_server.db"
@@ -24,12 +24,12 @@ jumps$sexNum <- recode(jumps$sexF, '"M" = .1; "F" = -.1; ',
      scales=list(x=list(tick.number=3, relation='same'), 
      y=list(relation='same')),
      xlab="level",
+     ylab="tf",
      pch=19, col=cols,
      auto.key=list(border=FALSE, text=c("Males", "Females"), col=cols, points = FALSE),
-       #title="TV by level, sex and jump type", sub="hola"),
-       main="TV by level, sex and jump type", 
+       main="TF by level, sex and jump type", 
         sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red",
-     #key=list(title(main="TV by level, sex and jump type", 
+     #key=list(title(main="TF by level, sex and jump type", 
      #   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")),
      data=jumps)
      

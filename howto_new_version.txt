@@ -2,8 +2,8 @@ change version on configure.ac and src/AssemblyInfo.cs
 
 linux stuff
 ------------
+sh autogen.sh
 make dist
-(if doesn't work, do autogen.sh first)
 
 git commit -a
 missatge: Bump version 0.9.3

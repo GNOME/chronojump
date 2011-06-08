@@ -142,7 +142,7 @@ class SqliteMultiChronopic : Sqlite
 
 		
 		while(reader.Read()) {
-
+			//Util.ConvertToPointIfNeeded is used because multichronopic data is recorded by mistake as ',' instead of '.' on database
 			myArray.Add (reader[0].ToString() + ":" +	//person.name
 					reader[1].ToString() + ":" +	//mc.uniqueID
 					reader[2].ToString() + ":" + 	//mc.personID
@@ -152,14 +152,14 @@ class SqliteMultiChronopic : Sqlite
 					reader[6].ToString() + ":" + 	//mc.cp2StartedIn
 					reader[7].ToString() + ":" + 	//mc.cp3StartedIn
 					reader[8].ToString() + ":" + 	//mc.cp4StartedIn
-					reader[9].ToString() + ":" + 	//mc.cp1InStr
-					reader[10].ToString() + ":" + 	//mc.cp1OutStr
-					reader[11].ToString() + ":" + 	//mc.cp2InStr
-					reader[12].ToString() + ":" + 	//mc.cp2OutStr
-					reader[13].ToString() + ":" + 	//mc.cp3InStr
-					reader[14].ToString() + ":" + 	//mc.cp3OutStr
-					reader[15].ToString() + ":" + 	//mc.cp4InStr
-					reader[16].ToString() + ":" + 	//mc.cp4OutStr
+					Util.ConvertToPointIfNeeded(reader[9].ToString()) + ":" + 	//mc.cp1InStr
+					Util.ConvertToPointIfNeeded(reader[10].ToString()) + ":" + 	//mc.cp1OutStr
+					Util.ConvertToPointIfNeeded(reader[11].ToString()) + ":" + 	//mc.cp2InStr
+					Util.ConvertToPointIfNeeded(reader[12].ToString()) + ":" + 	//mc.cp2OutStr
+					Util.ConvertToPointIfNeeded(reader[13].ToString()) + ":" + 	//mc.cp3InStr
+					Util.ConvertToPointIfNeeded(reader[14].ToString()) + ":" + 	//mc.cp3OutStr
+					Util.ConvertToPointIfNeeded(reader[15].ToString()) + ":" + 	//mc.cp4InStr
+					Util.ConvertToPointIfNeeded(reader[16].ToString()) + ":" + 	//mc.cp4OutStr
 					reader[17].ToString() + ":" + 	//vars
 					reader[18].ToString() + ":" + 	//description
 					reader[19].ToString()		//simulated

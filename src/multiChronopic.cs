@@ -77,6 +77,7 @@ public class MultiChronopic : Event
 	}
 	
 	//used to select a event at SqliteMultiChronopic.SelectMultiChronopicData and at Sqlite.convertTables
+	//Util.ConvertToPointIfNeeded is used because multichronopic data is recorded by mistake as ',' instead of '.' on database
 	public MultiChronopic(string [] eventString) {
 		this.uniqueID = Convert.ToInt32(eventString[0]);
 		this.personID = Convert.ToInt32(eventString[1]);
@@ -86,14 +87,14 @@ public class MultiChronopic : Event
 		this.cp2StartedIn = Convert.ToInt32(eventString[5]);
 		this.cp3StartedIn = Convert.ToInt32(eventString[6]);
 		this.cp4StartedIn = Convert.ToInt32(eventString[7]);
-		this.cp1InStr = eventString[8];
-		this.cp1OutStr = eventString[9];
-		this.cp2InStr = eventString[10];
-		this.cp2OutStr = eventString[11];
-		this.cp3InStr = eventString[12];
-		this.cp3OutStr = eventString[13];
-		this.cp4InStr = eventString[14];
-		this.cp4OutStr = eventString[15];
+		this.cp1InStr  = Util.ConvertToPointIfNeeded(eventString[8]);
+		this.cp1OutStr = Util.ConvertToPointIfNeeded(eventString[9]);
+		this.cp2InStr  = Util.ConvertToPointIfNeeded(eventString[10]);
+		this.cp2OutStr = Util.ConvertToPointIfNeeded(eventString[11]);
+		this.cp3InStr  = Util.ConvertToPointIfNeeded(eventString[12]);
+		this.cp3OutStr = Util.ConvertToPointIfNeeded(eventString[13]);
+		this.cp4InStr  = Util.ConvertToPointIfNeeded(eventString[14]);
+		this.cp4OutStr = Util.ConvertToPointIfNeeded(eventString[15]);
 		this.vars = eventString[16];
 		this.description = eventString[17];
 		this.simulated = Convert.ToInt32(eventString[18]);

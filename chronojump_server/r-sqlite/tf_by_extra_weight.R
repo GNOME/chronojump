@@ -52,7 +52,7 @@ par(def.par)#- reset to default
 
 par(new=TRUE)
 plot(-1,type="n",axes=F,xlab='',ylab='')
-title(main="Correlations between extra weight in % and Flight time",
+title(main="Correlations between extra weight in % and flight time",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
 dev.off()

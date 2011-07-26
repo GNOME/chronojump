@@ -12,18 +12,18 @@ jumpsRj <- dbGetQuery(con, "SELECT COUNT(jumpRj.uniqueID) AS conta, SEvaluator.n
 persons <- dbGetQuery(con, "SELECT COUNT(DISTINCT(person77.uniqueID)) AS conta, SEvaluator.name AS names FROM person77, SEvaluator, session, personSession77 WHERE person77.uniqueID=personSession77.personID AND session.uniqueID=personSession77.sessionID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
 def.par <- par(no.readonly = TRUE) # save default, for resetting...
-par(new=FALSE, oma=c(1,1,5,1))
-#nf <- layout(matrix(c(1,1,2,3), 2, 2, byrow=TRUE), respect=TRUE)
-par(mfcol=c(3,1))
+par(new=FALSE, oma=c(1,1,4,1))
+nf <- layout(matrix(c(1,2,3), 3, 1, byrow=TRUE), heights=c(11,10,7), respect=FALSE)
+#par(mfcol=c(3,1))
 
-persons$names<-factor(persons$names)
-jumps$names<-factor(jumps$names)
-jumpsRj$names<-factor(jumpsRj$names)
+personsOrdered = persons[order(persons$conta),]
+jumpsOrdered = jumps[order(jumps$conta),]
+jumpsRjOrdered = jumpsRj[order(jumpsRj$conta),]
 
 cex=.7
-dotchart(persons$conta[order (persons$conta)], labels=levels(persons$names)[order (persons$conta)], main="Persons", cex=cex)
-dotchart(jumps$conta[order (jumps$conta)], labels=levels(jumps$names)[order (jumps$conta)], main="Jumps (simple)", cex=cex)
-dotchart(jumpsRj$conta[order (jumpsRj$conta)], labels=levels(jumpsRj$names)[order (jumpsRj$conta)], main="Jumps (reactive)", cex=cex)
+dotchart(personsOrdered$conta, labels=personsOrdered$names, main=paste("Persons"," [",sum(persons$conta),"]"), cex=cex)
+dotchart(jumpsOrdered$conta, labels=jumpsOrdered$names, main=paste("Jumps (simple)"," [",sum(jumps$conta),"]"), cex=cex)
+dotchart(jumpsRjOrdered$conta, labels=jumpsRjOrdered$names, main=paste("Jumps (reactive)"," [",sum(jumpsRj$conta),"]"), cex=cex)
 
 
 par(def.par)#- reset to default

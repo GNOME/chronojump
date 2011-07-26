@@ -5,30 +5,59 @@ drv = dbDriver("SQLite")
 file = "/root/.local/share/Chronojump/database/chronojump_server.db"
 con = dbConnect(drv, file)
 
+persons <- dbGetQuery(con, "SELECT COUNT(DISTINCT(person77.uniqueID)) AS conta, SEvaluator.name AS names FROM person77, SEvaluator, session, personSession77 WHERE person77.uniqueID=personSession77.personID AND session.uniqueID=personSession77.sessionID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name DESC;")
+
 jumps <- dbGetQuery(con, "SELECT COUNT(jump.uniqueID) AS conta, SEvaluator.name AS names FROM jump, SEvaluator, session WHERE jump.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
 jumpsRj <- dbGetQuery(con, "SELECT COUNT(jumpRj.uniqueID) AS conta, SEvaluator.name AS names FROM jumpRj, SEvaluator, session WHERE jumpRj.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY conta DESC;")
 
-persons <- dbGetQuery(con, "SELECT COUNT(DISTINCT(person77.uniqueID)) AS conta, SEvaluator.name AS names FROM person77, SEvaluator, session, personSession77 WHERE person77.uniqueID=personSession77.personID AND session.uniqueID=personSession77.sessionID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
+runs <- dbGetQuery(con, "SELECT COUNT(run.uniqueID) AS conta, SEvaluator.name AS names FROM run, SEvaluator, session WHERE run.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
-def.par <- par(no.readonly = TRUE) # save default, for resetting...
-par(new=FALSE, oma=c(1,1,4,1))
-nf <- layout(matrix(c(1,2,3), 3, 1, byrow=TRUE), heights=c(11,10,7), respect=FALSE)
-#par(mfcol=c(3,1))
+runsInterval <- dbGetQuery(con, "SELECT COUNT(runInterval.uniqueID) AS conta, SEvaluator.name AS names FROM runInterval, SEvaluator, session WHERE runInterval.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
-personsOrdered = persons[order(persons$conta),]
-jumpsOrdered = jumps[order(jumps$conta),]
-jumpsRjOrdered = jumpsRj[order(jumpsRj$conta),]
+reactionTimes <- dbGetQuery(con, "SELECT COUNT(reactiontime.uniqueID) AS conta, SEvaluator.name AS names FROM reactiontime, SEvaluator, session WHERE reactiontime.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
-cex=.7
-dotchart(personsOrdered$conta, labels=personsOrdered$names, main=paste("Persons"," [",sum(persons$conta),"]"), cex=cex)
-dotchart(jumpsOrdered$conta, labels=jumpsOrdered$names, main=paste("Jumps (simple)"," [",sum(jumps$conta),"]"), cex=cex)
-dotchart(jumpsRjOrdered$conta, labels=jumpsRjOrdered$names, main=paste("Jumps (reactive)"," [",sum(jumpsRj$conta),"]"), cex=cex)
+pulses <- dbGetQuery(con, "SELECT COUNT(pulse.uniqueID) AS conta, SEvaluator.name AS names FROM pulse, SEvaluator, session WHERE pulse.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
+multichronopic <- dbGetQuery(con, "SELECT COUNT(multichronopic.uniqueID) AS conta, SEvaluator.name AS names FROM multichronopic, SEvaluator, session WHERE multichronopic.sessionID=session.uniqueID AND session.evaluatorID=Sevaluator.uniqueID GROUP BY SEvaluator.name ORDER BY SEvaluator.name;")
 
-par(def.par)#- reset to default
-par(new=TRUE)
-plot(-1,type="n",axes=F,xlab='',ylab='')
+par(oma=c(1,6,1,1))
+
+a <- merge(persons, jumps, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps")
+a <- merge(a, jumpsRj, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive")
+a <- merge(a, runs, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs")
+a <- merge(a, runsInterval, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs", "runs_intervallic")
+a <- merge(a, reactionTimes, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs", "runs_intervallic", "reaction_times")
+a <- merge(a, pulses, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs", "runs_intervallic", "reaction_times", "pulses")
+a <- merge(a, multichronopic, by="names", all.x=T)
+colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs", "runs_intervallic", "reaction_times", "pulses", "multichronopic")
+
+#prepare sort
+a <- replace(a,is.na(a),0)
+#fix columns with all "" because there's no data
+a$runs <- as.numeric(a$runs)
+a$multichronopic <- as.numeric(a$multichronopic)
+#fix duplicates:
+a[(a$names == "Josep M. Padullés"),2:9] = a[(a$names == "Josep M. Padullés"),2:9] + a[(a$names == "Josep M Padullés"),2:9]
+a <- subset(a,a$names != "Josep M Padullés")
+a[(a$names == "Jeffrey Pagaduan"),2:9] = a[(a$names == "Jeffrey Pagaduan"),2:9] + a[(a$names == "Jeffrey C. Pagaduan"),2:9]
+a <- subset(a,a$names != "Jeffrey C. Pagaduan")
+#sort
+a <- a[order(a$persons + a$jumps + a$jumps_reactive + a$runs + a$runs_intervallic + a$reaction_times + a$pulses + a$multichronopic),]
+
+#prepare graph
+b=cbind(a$persons, a$jumps , a$jumps_reactive, a$runs, a$runs_intervallic, a$reaction_times, a$pulses, a$multichronopic)
+colnames(b)=c("persons", "jumps", "jumps_reactive", "runs", "runs_intervallic", "reaction_times", "pulses", "multichronopic")
+rownames(b)=a$names
+
+#graph
+barplot(t(b), horiz=T, las=2, col=rainbow(8), legend=colnames(b), args.legend=list(x = "bottomright", bg="White"))
 title(main="Data uploaded by evaluator",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
 

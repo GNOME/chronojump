@@ -37,6 +37,8 @@ TICK    EQU 0xD9
 ;-- This value can be changed, in order to select the most suitable
 ;-- Signals with a duration lower than this value are considered spurious
 
+;-- 0ms
+;-- DEBOUNCE_TIME   EQU 0x00
 ;-- 10ms
 ;-- DEBOUNCE_TIME   EQU 0x01
 ;-- 50ms

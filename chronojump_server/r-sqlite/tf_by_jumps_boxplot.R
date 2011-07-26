@@ -13,13 +13,15 @@ jumpsF <- subset(jumps, jumps$sex=="F")
 par(mfrow=c(2,1))
 
 ntypes <- length(levels(as.factor (jumpsM$type)))
-bp=boxplot(jumpsM$tv ~ jumpsM$type, las=2, col=terrain.colors(ntypes))
-text(1:ntypes, .4, paste("n=",format(bp$n),sep=""), xpd = TRUE, col = "grey20", cex=0.8)
+bp=boxplot(jumpsM$tv ~ jumpsM$type, las=2, col=terrain.colors(ntypes),cex.axis=.7)
+mtext("n=", at=0, col = "grey20", cex=0.8)
+mtext(format(bp$n), at=1:ntypes, xpd = TRUE, col = "grey20", cex=0.8)
 title(main="Flight times by jumps in males")
 
 ntypes <- length(levels(as.factor (jumpsF$type)))
-bp=boxplot(jumpsF$tv ~ jumpsF$type, las=2, col=topo.colors(ntypes))
-text(1:ntypes, .4, paste("n=",format(bp$n),sep=""), xpd = TRUE, col = "grey20", cex=0.8)
+bp=boxplot(jumpsF$tv ~ jumpsF$type, las=2, col=topo.colors(ntypes), cex.axis=.7)
+mtext("n=", at=0, col = "grey20", cex=0.8)
+mtext(format(bp$n), at=1:ntypes, xpd = TRUE, col = "grey20", cex=0.8)
 title(main="Flight times by jumps in females",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
 

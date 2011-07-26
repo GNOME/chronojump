@@ -8,6 +8,8 @@ sleep 5
 sleep 5
   R CMD BATCH tf_by_extra_weight.R
 sleep 5
+  R CMD BATCH tf_by_age.R
+sleep 5
   R CMD BATCH ieiub.R
 sleep 5
   R CMD BATCH tf_by_level_sex_jumptype.R
@@ -18,6 +20,7 @@ convert -resize 225x225 evaluators.png small/evaluators.png
 convert -resize 225x225 persons.png small/persons.png
 convert -resize 225x225 tf_by_jumps_boxplot.png small/tf_by_jumps_boxplot.png
 convert -resize 225x225 tf_by_extra_weight.png small/tf_by_extra_weight.png
+convert -resize 225x225 tf_by_age.png small/tf_by_age.png
 convert -resize 225x225 ieiub.png small/ieiub.png
 convert -resize 225x225 tf_by_level_sex_jumptype.png small/tf_by_level_sex_jumptype.png
 

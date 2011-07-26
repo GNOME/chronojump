@@ -20,24 +20,26 @@ persons$countryF<-factor(persons$country)
 persons$sexF<-factor(persons$sex)
 persons$levelF<-factor(persons$level)
 
-par(new=FALSE, oma=c(1,1,5,1))
+par(new=FALSE, oma=c(1,1,5,0))
 #par(mfcol=c(2,2))
-nf <- layout(matrix(c(1,1,2,3,4,5), 3, 2, byrow=FALSE), respect=TRUE)
+nf <- layout(matrix(c(1,1,2,3,4,5), 3, 2, byrow=FALSE), widths=c(2,1), heights=c(10,10,13), respect=FALSE)
 #layout.show(nf)
 
-dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=levels(persons$sportF)[order (table(persons$sportF))], main="Sport")
+dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=strtrim(levels(persons$sportF),15)[order (table(persons$sportF))], main="Sport")
+abline(v=seq(from=0,to=max(table(persons$sportF)),by=10),col = "lightgray", lty=3)
 #dotchart(table(persons$speciallityF), labels=levels(persons$speciallityF), main="athletics speciallities")
 #SPECIALLITIES fer amb un altre select i nomes d'atletisme
 
-dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=levels(persons$countryF)[order (table(persons$countryF))], main="Country")
-
-hist(ages$years, breaks=10, main="Age", xlab="Years (at session day)")
+dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=strtrim(levels(persons$countryF),15)[order (table(persons$countryF))], main="Country")
+abline(v=seq(from=0,to=max(table(persons$countryF)),by=25),col = "lightgray", lty=3)
 
 pie(table(persons$sexF), labels=levels(persons$sexF), main="Gender", 
   col=rainbow(length(levels(persons$sexF))))
 
 levels(persons$levelF)=c("Sedentary", "Regular practice", "Competition", "Elite") #undefined is impossible on server
-  pie(table(persons$levelF), main="Level", col=rainbow(length(levels(persons$levelF))))
+  pie(table(persons$levelF), main="Level", col=rainbow(length(levels(persons$levelF))),cex=.8)
+
+hist(ages$years, breaks=10, main="Age", xlab="Years (at session day)")
 
   #par(mfcol=c(1,1))
   par(def.par)#- reset to default

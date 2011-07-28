@@ -52,12 +52,13 @@ colnames(a)=c("names", "persons", "jumps", "jumps_reactive", "runs_intervallic",
 #prepare sort
 a <- replace(a,is.na(a),0)
 #fix columns with all "" because there's no data
-a$runs <- as.numeric(a$runs)
-a$multichronopic <- as.numeric(a$multichronopic)
+#a$runs <- as.numeric(a$runs)
+#a$multichronopic <- as.numeric(a$multichronopic)
 #fix duplicates:
-a[(a$names == "Josep M. Padullés"),2:9] = a[(a$names == "Josep M. Padullés"),2:9] + a[(a$names == "Josep M Padullés"),2:9]
+columns = 7 #when add runs and multichronopic put 9.
+a[(a$names == "Josep M. Padullés"),2:columns] = a[(a$names == "Josep M. Padullés"),2:columns] + a[(a$names == "Josep M Padullés"),2:columns]
 a <- subset(a,a$names != "Josep M Padullés")
-a[(a$names == "Jeffrey Pagaduan"),2:9] = a[(a$names == "Jeffrey Pagaduan"),2:9] + a[(a$names == "Jeffrey C. Pagaduan"),2:9]
+a[(a$names == "Jeffrey Pagaduan"),2:columns] = a[(a$names == "Jeffrey Pagaduan"),2:columns] + a[(a$names == "Jeffrey C. Pagaduan"),2:columns]
 a <- subset(a,a$names != "Jeffrey C. Pagaduan")
 #sort
 #a <- a[order(a$persons + a$jumps + a$jumps_reactive + a$runs + a$runs_intervallic + a$reaction_times + a$pulses + a$multichronopic),]
@@ -67,7 +68,16 @@ a <- a[order(a$persons + a$jumps + a$jumps_reactive + a$runs_intervallic + a$rea
 #b=cbind(a$persons, a$jumps , a$jumps_reactive, a$runs, a$runs_intervallic, a$reaction_times, a$pulses, a$multichronopic)
 #colnames(b)=c("persons", "jumps", "jumps_reactive", "runs", "runs_intervallic", "reaction_times", "pulses", "multichronopic")
 b=cbind(a$persons, a$jumps , a$jumps_reactive, a$runs_intervallic, a$reaction_times, a$pulses)
-colnames(b)=c("persons", "jumps", "jumps_reactive", "runs_intervallic", "reaction_times", "pulses")
+
+#colnames(b)=c("persons", "jumps", "jumps_reactive", "runs_intervallic", "reaction_times", "pulses")
+colnames(b)=c(
+	paste("persons (", sum(persons$conta), ")"), 
+	paste("jumps (", sum(jumps$conta), ")"), paste("jumps_reactive (", sum(jumpsRj$conta), ")"), 
+	paste("runs_intervallic (", sum(runsInterval$conta), ")"), 
+	paste("reaction_times (", sum(reactionTimes$conta), ")"), 
+	paste("pulses (", sum(pulses$conta), ")")
+	)
+
 rownames(b)=a$names
 
 #graph

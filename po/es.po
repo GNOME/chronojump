@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-05-19 15:52+0000\n"
-"PO-Revision-Date: 2011-05-20 13:24+0200\n"
+"POT-Creation-Date: 2011-08-25 20:46+0000\n"
+"PO-Revision-Date: 2011-08-26 11:23+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -23,379 +23,37 @@ msgstr ""
 "Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. the strings created by Catalog cannot be const
-#: ../src/constants.cs:30
-msgid ""
-"Translator, there's a glossary that will help you in Chronojump "
-"translation:\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
-"chronojump_glossary_for_translators.html"
+#: ../CesarPlayer/Capturer/FakeCapturer.cs:81
+msgid "Fake live source"
 msgstr ""
-"Traductor, existe un glosario que le ayudará en la traducción de "
-"Chronojump:\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
-"chronojump_glossary_for_translators.html"
 
-#: ../src/constants.cs:33
-msgid "Project leader and main developer."
-msgstr "Líder del proyecto y desarrollador principal."
-
-#: ../src/constants.cs:34
-msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr "Skypic, Chronopic, conexión entre hardware y software."
-
-#: ../src/constants.cs:35
-msgid "Chronopic2 creation, Chronojump tester."
-msgstr "Creación de Chronopic2, probador de Chronojump."
-
-#: ../src/constants.cs:36
-msgid "Chronopic3 industrial prototype."
-msgstr "Prototipo industrial Chronopic3."
-
-#: ../src/constants.cs:37 ../src/constants.cs:38
-msgid "OpenCV Detection of knee angle."
-msgstr "OpenCV, detección del ángulo de la rodilla"
-
-#: ../src/constants.cs:39
-msgid "Installation support: Autotools, packaging, bundle."
-msgstr "Soporte a la instalación: Autotools, empaquetado, bundle"
-
-#: ../src/constants.cs:40
-msgid "Statistics support."
-msgstr "Soporte estadístico."
-
-#: ../src/constants.cs:41
-msgid "Translation of Firmware to C, and new firmware features."
-msgstr "Traducción del «firmware» a C, y nuevas características del «firmware.»"
-
-#: ../src/constants.cs:46
-msgid "Chronojump Manual English translation"
-msgstr "Traducción al inglés del manual de Chronojump"
-
-#: ../src/constants.cs:110
-msgid "Any"
-msgstr "Cualquiera"
-
-#: ../src/constants.cs:130
-msgid "Server is connected."
-msgstr "El servidor está conectado."
-
-#: ../src/constants.cs:131
-msgid "Sorry, server is currently offline. Try later."
-msgstr ""
-"Lo sentimos, el servidor está fuera de línea. Por favor, Pruebe más tarde."
-
-#: ../src/constants.cs:132
-msgid ""
-"Or maybe you are not connected to the Internet or your firewall is "
-"restricting connections"
-msgstr ""
-"O quizás no esté conectado a Internet, o su Firewall esté restringiendo "
-"conexiones"
-
-#: ../src/constants.cs:160 ../glade/chronojump.glade.h:338
-msgid "Other"
-msgstr "Otros"
-
-#. Josep Ma Padullés test
-#. translate (take off?)
-#. translate (take off?)
-#. OLD, check this
-#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
-#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
-#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
-#.
-#: ../src/constants.cs:176 ../src/constants.cs:181 ../src/constants.cs:186
-#: ../src/constants.cs:191 ../src/constants.cs:196 ../src/constants.cs:201
-#: ../src/constants.cs:214 ../src/constants.cs:221 ../src/constants.cs:228
-#: ../src/constants.cs:235 ../src/constants.cs:237 ../src/constants.cs:242
-#: ../src/constants.cs:244
-msgid "Peak power"
-msgstr "Pico de potencia"
-
-#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
-#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
-#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
-#: ../src/constants.cs:240 ../src/constants.cs:246
-msgid "body weight"
-msgstr "peso corporal"
-
-#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
-#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
-#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
-#: ../src/constants.cs:240 ../src/constants.cs:246
-msgid "extra weight"
-msgstr "peso extra"
-
-#: ../src/constants.cs:178 ../src/constants.cs:183 ../src/constants.cs:188
-#: ../src/constants.cs:193 ../src/constants.cs:198 ../src/constants.cs:203
-#: ../src/constants.cs:217 ../src/constants.cs:224 ../src/constants.cs:231
-#: ../src/constants.cs:239 ../src/constants.cs:245 ../src/stats/fv.cs:51
-#: ../src/stats/fv.cs:52 ../src/stats/graphs/fv.cs:74
-#: ../src/stats/graphs/fv.cs:75
-msgid "height"
-msgstr "altura"
-
-#: ../src/constants.cs:216
-msgid "Male applicants to a Faculty of Sport Sciencies"
-msgstr "Candidatos masculinos a la facultad de ciencias del deporte"
-
-#: ../src/constants.cs:223
-msgid "Female elite volleybol"
-msgstr "Voleibol femenino de elite"
-
-#: ../src/constants.cs:230
-msgid "Female medium volleybol"
-msgstr "Voleibol medio femenino"
-
-#: ../src/constants.cs:238
-msgid "Female sports sciencies students"
-msgstr "Estudiantes femeninas de ciencias deportivas"
-
-#: ../src/constants.cs:244
-msgid "Female university students"
-msgstr "Estudiantes universitarias femeninas"
-
-#. *4.0 for having double division
-#. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:250 ../src/stats/potency.cs:60
-#: ../src/stats/graphs/potency.cs:61 ../src/stats/graphs/potency.cs:71
-#: ../src/stats/graphs/potency.cs:81 ../src/stats/graphs/potency.cs:91
-msgid "Peak Power"
-msgstr "Pico de potencia"
-
-#. global stat types
-#: ../src/constants.cs:262
-msgid "Session summary"
-msgstr "Sumario de Sesión"
-
-#: ../src/constants.cs:263
-msgid "Jumper summary"
-msgstr "Sumario de Saltador"
-
-#: ../src/constants.cs:264 ../glade/chronojump.glade.h:427
-#: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
-msgid "Simple"
-msgstr "Simple"
-
-#: ../src/constants.cs:265
-msgid "Simple with TC"
-msgstr "Simple con TC"
-
-#: ../src/constants.cs:266
-msgid "Jumps: Reactive"
-msgstr "Salto: Reactivo"
-
-#: ../src/constants.cs:267
-msgid "Runs: Simple"
-msgstr "Carreras: Simple"
-
-#: ../src/constants.cs:268
-msgid "Runs: Intervallic"
-msgstr "Carreras: Tramos"
-
-#. strings
-#: ../src/constants.cs:271
-msgid "See all jumps"
-msgstr "Mostrar todos los saltos"
-
-#: ../src/constants.cs:272
-msgid "See all runs"
-msgstr "Mostrar todas las carreras"
-
-#: ../src/constants.cs:273
-msgid "See all pulses"
-msgstr "Mostrar todos los pulsos"
-
-#: ../src/constants.cs:295
-msgid "black only"
-msgstr "sólo negro"
-
-#: ../src/constants.cs:362
-msgid "Typical serial and USB-serial ports on Windows:"
-msgstr "Típicos puertos serie y USB en Windows:"
-
-#: ../src/constants.cs:364
-msgid "Also, these are possible:"
-msgstr "Además, estos son posibles:"
-
-#: ../src/constants.cs:368
-msgid "Typical serial serial ports on GNU/Linux:"
-msgstr "Puertos serie típicos en GNU/Linux:"
-
-#: ../src/constants.cs:370
-msgid "Typical USB-serial ports on GNU/Linux:"
-msgstr "Puertos serie USB típicos en GNU/Linux:"
-
-#: ../src/constants.cs:372
-msgid "If you use Chronopic3, you will have an USB-serial port."
-msgstr "Si usted usa Chronopic3, tendrá un puerto USB-serie."
-
-#: ../src/constants.cs:375
-msgid "Serial ports found:"
-msgstr "Puertos serie encontrados:"
-
-#: ../src/constants.cs:376
-msgid "USB-serial ports found:"
-msgstr "Puertos USB-serie encontrados:"
-
-#: ../src/constants.cs:377
-msgid "Not found any USB-serial ports."
-msgstr "No se ha encontrado ningún puerto USB-serie."
-
-#: ../src/constants.cs:377
-msgid "Is Chronopic connected?"
-msgstr "¿Está Chronopic conectado?"
-
-#: ../src/constants.cs:406
-msgid "--Undefined"
-msgstr "--Indefinido"
-
-#: ../src/constants.cs:407
-msgid "--Any"
-msgstr "--Cualquiera"
-
-#: ../src/constants.cs:410
-msgid "-None"
-msgstr "-Ninguno"
-
-#: ../src/constants.cs:414 ../src/constants.cs:445
-#: ../glade/chronojump.glade.h:469 ../src/gui/person.cs:1276
-#: ../src/gui/person.cs:1292
-msgid "Undefined"
-msgstr "Indefinido"
-
-#: ../src/constants.cs:423
-msgid "Africa"
-msgstr "África"
-
-#: ../src/constants.cs:424
-msgid "Antarctica"
-msgstr "Antártida"
-
-#: ../src/constants.cs:425
-msgid "Asia"
-msgstr "Asia"
-
-#: ../src/constants.cs:426
-msgid "Europe"
-msgstr "Europa"
-
-#: ../src/constants.cs:427
-msgid "North America"
-msgstr "Norteamérica"
-
-#: ../src/constants.cs:428
-msgid "Oceania"
-msgstr "Oceanía"
-
-#: ../src/constants.cs:429
-msgid "South America"
-msgstr "Sudamérica"
-
-#: ../src/constants.cs:433
-msgid "Tests are SIMULATED until Chronopic is connected."
-msgstr "Las pruebas son SIMULADAS hasta que se conecte Chronopic."
-
-#. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:434 ../src/exportSession.cs:287
-#: ../src/exportSession.cs:389 ../src/exportSession.cs:496
-#: ../src/exportSession.cs:551 ../src/exportSession.cs:642
-#: ../src/exportSession.cs:683 ../src/exportSession.cs:742
-msgid "Simulated"
-msgstr "Simulado"
-
-#: ../src/constants.cs:436
-msgid "All tests available except MultiChronopic."
-msgstr "Todas las pruebas disponibles excepto MultiChronopic."
-
-#: ../src/constants.cs:437
-msgid "All tests available."
-msgstr "Disponibles todas las pruebas."
-
-#: ../src/constants.cs:448
-msgid "Sedentary/Ocasional practice"
-msgstr "Sedentario/Practicante ocasional"
-
-#: ../src/constants.cs:452
-msgid "Regular practice"
-msgstr "Práctica regular"
-
-#: ../src/constants.cs:453
-msgid "Competition"
-msgstr "Competición"
-
-#: ../src/constants.cs:454
-msgid "Elite"
-msgstr "Élite"
-
-#: ../src/constants.cs:458
-msgid "Initializing"
-msgstr "Inicializando"
-
-#. 0
-#: ../src/constants.cs:459
-msgid "Checking database"
-msgstr "Comprobando base de datos"
-
-#. 1
-#: ../src/constants.cs:460
-msgid "Creating database"
-msgstr "Creando base de datos"
-
-#. 2
-#: ../src/constants.cs:461
-msgid "Making database backup"
-msgstr "Realizando copia de base de datos"
-
-#. 3
-#: ../src/constants.cs:462
-msgid "Updating database"
-msgstr "Actualizando base de datos."
-
-#. 4
-#: ../src/constants.cs:463
-msgid "Check for new version"
-msgstr "Comprobando nueva versión"
-
-#. 5
-#: ../src/constants.cs:464
-msgid "Preparing main Window"
-msgstr "Preparando ventana principal"
-
-#: ../src/constants.cs:489 ../glade/chronojump.glade.h:317
-#: ../src/gui/jump.cs:1303 ../src/gui/jump.cs:1308 ../src/gui/jump.cs:1502
-#: ../src/gui/jump.cs:1507
-msgid "No"
-msgstr "No"
-
-#: ../src/constants.cs:490 ../glade/chronojump.glade.h:493
-#: ../src/gui/jump.cs:1301 ../src/gui/jump.cs:1306 ../src/gui/jump.cs:1337
-#: ../src/gui/jump.cs:1340 ../src/gui/jump.cs:1367 ../src/gui/jump.cs:1370
-#: ../src/gui/jump.cs:1500 ../src/gui/jump.cs:1505 ../src/gui/jump.cs:1579
-#: ../src/gui/jump.cs:1582 ../src/gui/jump.cs:1627 ../src/gui/jump.cs:1630
-msgid "Yes"
-msgstr "Sí"
-
-#: ../src/constants.cs:492
-msgid "In"
-msgstr "Dentro"
-
-#: ../src/constants.cs:493
-msgid "Out"
-msgstr "Fuera"
-
-#: ../src/constants.cs:526
-msgid "Sorry, this multimedia file does not exists."
-msgstr "Disculpe, este archivo multimedia no existe."
-
-#: ../src/constants.cs:531
-msgid "Running start. Started with initial speed."
-msgstr "Comienza carrera con velocidad inicial."
-
-#: ../src/constants.cs:532
-msgid "Standing start. Started without initial speed."
-msgstr "Comienza carrera sin velocidad inicial."
+#: ../CesarPlayer/gtk-gui/LongoMatch.Gui.CapturerBin.cs:146
+#| msgid "Take snapshot"
+msgid "Take _snaphot"
+msgstr "_Capturar pantalla"
+
+#: ../CesarPlayer/gtk-gui/LongoMatch.Gui.PlayerBin.cs:221
+#| msgid "Time"
+msgid "Time:"
+msgstr "Tiempo:"
+
+#: ../CesarPlayer/Gui/CapturerBin.cs:353
+msgid "Device disconnected. The capture will be paused"
+msgstr "Dispositivo desconectado. Se detendrá la captura"
+
+#: ../CesarPlayer/Gui/CapturerBin.cs:362
+msgid "Device reconnected.Do you want to restart the capture?"
+msgstr "Dispositivo reconectado. ¿Quiere reiniciar la captura?"
+
+#: ../CesarPlayer/Utils/Device.cs:83
+#| msgid "Default values"
+msgid "Default device"
+msgstr "Dispositivo predeterminado"
+
+#: ../CesarPlayer/Utils/MediaFile.cs:160
+#: ../CesarPlayer/Utils/PreviewMediaFile.cs:116
+msgid "Invalid video file:"
+msgstr "Archivo de vídeo no válido"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -713,19 +371,19 @@ msgstr "ABK"
 #. don't plot AVG row on multisession
 #: ../glade/chronojump.glade.h:80 ../src/exportSession.cs:446
 #: ../src/exportSession.cs:591 ../src/exportSession.cs:704
-#: ../src/exportSession.cs:805 ../src/stats/graphs/potency.cs:110
-#: ../src/stats/graphs/djIndex.cs:111 ../src/stats/graphs/djQ.cs:111
-#: ../src/stats/graphs/fv.cs:109 ../src/stats/graphs/fv.cs:149
-#: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
-#: ../src/stats/graphs/ieIub.cs:118 ../src/stats/graphs/rjAVGSD.cs:69
+#: ../src/exportSession.cs:805 ../src/stats/graphs/djIndex.cs:111
+#: ../src/stats/graphs/djQ.cs:111 ../src/stats/graphs/fv.cs:109
+#: ../src/stats/graphs/fv.cs:149 ../src/stats/graphs/global.cs:108
+#: ../src/stats/graphs/global.cs:165 ../src/stats/graphs/ieIub.cs:118
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:109
+#: ../src/stats/graphs/potency.cs:110 ../src/stats/graphs/rjAVGSD.cs:69
 #: ../src/stats/graphs/rjAVGSD.cs:78 ../src/stats/graphs/rjIndex.cs:71
 #: ../src/stats/graphs/rjIndex.cs:72 ../src/stats/graphs/rjIndex.cs:110
 #: ../src/stats/graphs/rjPotencyBosco.cs:76
 #: ../src/stats/graphs/rjPotencyBosco.cs:77
 #: ../src/stats/graphs/rjPotencyBosco.cs:122
 #: ../src/stats/graphs/runSimple.cs:99 ../src/stats/graphs/sjCmjAbk.cs:102
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:110
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:109 ../src/stats/main.cs:188
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:110 ../src/stats/main.cs:188
 #: ../src/stats/main.cs:216 ../src/stats/main.cs:358 ../src/stats/main.cs:385
 #: ../src/stats/main.cs:670 ../src/stats/main.cs:692 ../src/stats/main.cs:741
 #: ../src/stats/main.cs:764 ../src/stats/main.cs:791 ../src/stats/main.cs:917
@@ -1383,7 +1041,7 @@ msgstr "Evaluadores"
 msgid "Execute reaction time"
 msgstr "Ejecutar tiempo de reacción"
 
-#: ../glade/chronojump.glade.h:230 ../src/gui/chronojump.cs:5003
+#: ../glade/chronojump.glade.h:230 ../src/gui/chronojump.cs:5005
 msgid "Execute test"
 msgstr "Ejecutar prueba"
 
@@ -1461,20 +1119,19 @@ msgid "Graph this statistic"
 msgstr "Pintar gráfica de la estadística"
 
 #: ../glade/chronojump.glade.h:249 ../src/exportSession.cs:234
-#: ../src/exportSession.cs:282 ../src/stats/potency.cs:63
-#: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
+#: ../src/exportSession.cs:282 ../src/stats/djIndex.cs:33
+#: ../src/stats/djQ.cs:33 ../src/stats/graphs/djIndex.cs:70
+#: ../src/stats/graphs/djIndex.cs:86 ../src/stats/graphs/djQ.cs:70
+#: ../src/stats/graphs/djQ.cs:86 ../src/stats/graphs/fv.cs:83
+#: ../src/stats/graphs/fv.cs:84 ../src/stats/graphs/global.cs:68
+#: ../src/stats/graphs/global.cs:77 ../src/stats/graphs/global.cs:88
 #: ../src/stats/graphs/potency.cs:74 ../src/stats/graphs/potency.cs:85
-#: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
-#: ../src/stats/graphs/djQ.cs:70 ../src/stats/graphs/djQ.cs:86
-#: ../src/stats/graphs/fv.cs:83 ../src/stats/graphs/fv.cs:84
-#: ../src/stats/graphs/global.cs:68 ../src/stats/graphs/global.cs:77
-#: ../src/stats/graphs/global.cs:88 ../src/stats/graphs/sjCmjAbk.cs:65
-#: ../src/stats/graphs/sjCmjAbk.cs:71 ../src/stats/graphs/sjCmjAbk.cs:78
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:73
+#: ../src/stats/graphs/sjCmjAbk.cs:65 ../src/stats/graphs/sjCmjAbk.cs:71
+#: ../src/stats/graphs/sjCmjAbk.cs:78 ../src/stats/graphs/sjCmjAbkPlus.cs:73
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:82
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:90 ../src/stats/sjCmjAbk.cs:53
-#: ../src/stats/sjCmjAbkPlus.cs:63 ../src/treeViewJump.cs:40
-#: ../src/treeViewMultiChronopic.cs:228
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:90 ../src/stats/potency.cs:63
+#: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
+#: ../src/treeViewJump.cs:40 ../src/treeViewMultiChronopic.cs:228
 msgid "Height"
 msgstr "Altura"
 
@@ -1732,8 +1389,8 @@ msgstr "Multimedia"
 #: ../glade/chronojump.glade.h:308 ../src/exportSession.cs:217
 #: ../src/exportSession.cs:231 ../src/gui/jump.cs:1288 ../src/gui/jump.cs:1485
 #: ../src/gui/person.cs:118 ../src/gui/run.cs:1301 ../src/gui/run.cs:1470
-#: ../src/gui/session.cs:687 ../src/gui/session.cs:856
-#: ../src/gui/server.cs:164 ../src/report.cs:241
+#: ../src/gui/server.cs:164 ../src/gui/session.cs:687
+#: ../src/gui/session.cs:856 ../src/report.cs:241
 msgid "Name"
 msgstr "Nombre"
 
@@ -1768,6 +1425,12 @@ msgstr "Nuevo atleta (múltiple)"
 #: ../glade/chronojump.glade.h:316
 msgid "New session"
 msgstr "Nueva sesión"
+
+#: ../glade/chronojump.glade.h:317 ../src/constants.cs:489
+#: ../src/gui/jump.cs:1303 ../src/gui/jump.cs:1308 ../src/gui/jump.cs:1502
+#: ../src/gui/jump.cs:1507
+msgid "No"
+msgstr "No"
 
 #: ../glade/chronojump.glade.h:318
 msgid "No options"
@@ -1837,6 +1500,10 @@ msgstr "Navegar por la web del servidor"
 #: ../glade/chronojump.glade.h:337
 msgid "Or press 'space'"
 msgstr "O pulse 'spacio'"
+
+#: ../glade/chronojump.glade.h:338 ../src/constants.cs:160
+msgid "Other"
+msgstr "Otros"
 
 #: ../glade/chronojump.glade.h:339
 msgid "Other. Specify:"
@@ -2209,6 +1876,11 @@ msgstr "Mostrar el tiempo"
 msgid "Shuttle"
 msgstr "Shuttle"
 
+#: ../glade/chronojump.glade.h:427 ../src/constants.cs:264
+#: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
+msgid "Simple"
+msgstr "Simple"
+
 #: ../glade/chronojump.glade.h:428 ../src/jumpType.cs:76
 msgid "Simple jump with no special technique"
 msgstr "Salto simple sin ninguna técnica concreta"
@@ -2235,11 +1907,11 @@ msgid "Speciallity"
 msgstr "Especialidad"
 
 #: ../glade/chronojump.glade.h:434 ../src/exportSession.cs:494
+#: ../src/stats/graphs/runIntervallic.cs:75
 #: ../src/stats/graphs/runSimple.cs:65 ../src/stats/graphs/runSimple.cs:73
-#: ../src/stats/graphs/runSimple.cs:82
-#: ../src/stats/graphs/runIntervallic.cs:75 ../src/stats/runSimple.cs:52
-#: ../src/stats/runIntervallic.cs:65 ../src/stats/runIntervallic.cs:70
-#: ../src/stats/runIntervallic.cs:74 ../src/treeViewRun.cs:50
+#: ../src/stats/graphs/runSimple.cs:82 ../src/stats/runIntervallic.cs:65
+#: ../src/stats/runIntervallic.cs:70 ../src/stats/runIntervallic.cs:74
+#: ../src/stats/runSimple.cs:52 ../src/treeViewRun.cs:50
 #: ../src/treeViewRun.cs:126
 msgid "Speed"
 msgstr "Velocidad"
@@ -2315,18 +1987,18 @@ msgstr "TC"
 #: ../src/stats/graphs/djQ.cs:83 ../src/stats/graphs/global.cs:70
 #: ../src/stats/graphs/global.cs:79 ../src/stats/graphs/global.cs:90
 #: ../src/stats/graphs/ieIub.cs:94 ../src/stats/graphs/ieIub.cs:95
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:85
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:86
 #: ../src/stats/graphs/rjEvolution.cs:105 ../src/stats/graphs/rjIndex.cs:72
 #: ../src/stats/graphs/rjIndex.cs:82 ../src/stats/graphs/rjPotencyBosco.cs:77
 #: ../src/stats/graphs/rjPotencyBosco.cs:93 ../src/stats/graphs/sjCmjAbk.cs:64
 #: ../src/stats/graphs/sjCmjAbk.cs:70 ../src/stats/graphs/sjCmjAbk.cs:80
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:72
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:80
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:92
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:85
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:86
-#: ../src/stats/rjEvolution.cs:73 ../src/stats/rjEvolution.cs:78
-#: ../src/stats/rjIndex.cs:33 ../src/stats/rjPotencyBosco.cs:33
-#: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:64
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:92 ../src/stats/rjEvolution.cs:73
+#: ../src/stats/rjEvolution.cs:78 ../src/stats/rjIndex.cs:33
+#: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/sjCmjAbk.cs:53
+#: ../src/stats/sjCmjAbkPlus.cs:64
 msgid "TF"
 msgstr "TV"
 
@@ -2434,6 +2106,11 @@ msgstr "Tipo"
 msgid "Type of test"
 msgstr "Tipo de prueba"
 
+#: ../glade/chronojump.glade.h:469 ../src/constants.cs:414
+#: ../src/constants.cs:445 ../src/gui/person.cs:1276 ../src/gui/person.cs:1292
+msgid "Undefined"
+msgstr "Indefinido"
+
 #: ../glade/chronojump.glade.h:470
 msgid "Undefined."
 msgstr "Indefinido."
@@ -2533,6 +2210,14 @@ msgstr "Anchura de la línea"
 #: ../glade/chronojump.glade.h:492
 msgid "X axis font size"
 msgstr "Fuente eje X"
+
+#: ../glade/chronojump.glade.h:493 ../src/constants.cs:490
+#: ../src/gui/jump.cs:1301 ../src/gui/jump.cs:1306 ../src/gui/jump.cs:1337
+#: ../src/gui/jump.cs:1340 ../src/gui/jump.cs:1367 ../src/gui/jump.cs:1370
+#: ../src/gui/jump.cs:1500 ../src/gui/jump.cs:1505 ../src/gui/jump.cs:1579
+#: ../src/gui/jump.cs:1582 ../src/gui/jump.cs:1627 ../src/gui/jump.cs:1630
+msgid "Yes"
+msgstr "Sí"
 
 #: ../glade/chronojump.glade.h:494
 msgid "ZigZag"
@@ -2804,6 +2489,197 @@ msgstr "mujer"
 msgid "yes"
 msgstr "sí"
 
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2569
+msgid ""
+"The requested audio output was not found. Please select another audio output "
+"in the Multimedia Systems Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2575
+msgid "Location not found."
+msgstr "Ubicación no encontrada."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2579
+msgid ""
+"Could not open location; you might not have permission to open the file."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2591
+msgid ""
+"The video output is in use by another application. Please close other video "
+"applications, or select another video output in the Multimedia Systems "
+"Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2598
+msgid ""
+"The audio output is in use by another application. Please select another "
+"audio output in the Multimedia Systems Selector. You may want to consider "
+"using a sound server."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2617
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2623
+#, c-format
+msgid "The playback of this movie requires a %s plugin which is not installed."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2625
+#, c-format
+msgid ""
+"The playback of this movie requires the following decoders which are not "
+"installed:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2651
+msgid ""
+"Cannot play this file over the network. Try downloading it to disk first."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2726
+msgid "Media file could not be played."
+msgstr "No se pudo reproducir el archivo."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2868
+msgid "Failed to retrieve working directory"
+msgstr "Falló al obtener la carpeta de trabajo"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4597
+#, fuzzy
+#| msgid "Burundi"
+msgid "Surround"
+msgstr "Burundi"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4599
+#| msgid "Monaco"
+msgid "Mono"
+msgstr "Mono"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4601
+#| msgid "Stride"
+msgid "Stereo"
+msgstr "Estéreo"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4956
+msgid "Too old version of GStreamer installed."
+msgstr "Versión de GStreamer instalada muy antigua"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4963
+msgid "Media contains no supported video streams."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5394
+#, c-format
+msgid ""
+"Failed to create a GStreamer play object. Please check your GStreamer "
+"installation."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5468
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5595
+#, c-format
+msgid ""
+"Failed to open video output. It may not be available. Please select another "
+"video output in the Multimedia Systems Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5480
+#, c-format
+msgid ""
+"Could not find the video output. You may need to install additional "
+"GStreamer plugins, or select another video output in the Multimedia Systems "
+"Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5516
+#, c-format
+msgid ""
+"Failed to open audio output. You may not have permission to open the sound "
+"device, or the sound server may not be running. Please select another audio "
+"output in the Multimedia Systems Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5536
+#, c-format
+msgid ""
+"Could not find the audio output. You may need to install additional "
+"GStreamer plugins, or select another audio output in the Multimedia Systems "
+"Selector."
+msgstr ""
+
+#. hour:minutes:seconds
+#. Translators: This is a time format, like "9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. * the separator that your locale uses or use "%Id" instead
+#. * of "%d" if your locale uses localized digits.
+#.
+#: ../libcesarplayer/src/video-utils.c:92
+#: ../libcesarplayer/src/video-utils.c:111
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. minutes:seconds
+#. Translators: This is a time format, like "5:02" for 5
+#. * minutes and 2 seconds. You may change ":" to the
+#. * separator that your locale uses or use "%Id" instead of
+#. * "%d" if your locale uses localized digits.
+#.
+#: ../libcesarplayer/src/video-utils.c:102
+#, c-format
+msgctxt "short time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#: ../libcesarplayer/src/video-utils.c:142
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d hora"
+msgstr[1] "%d horas"
+
+#: ../libcesarplayer/src/video-utils.c:144
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minuto"
+msgstr[1] "%d minutos"
+
+#: ../libcesarplayer/src/video-utils.c:146
+#, c-format
+#| msgid "seconds"
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d segundo"
+msgstr[1] "%d segundos"
+
+#. hour:minutes:seconds
+#: ../libcesarplayer/src/video-utils.c:150
+#, c-format
+msgid "%s %s %s"
+msgstr "%s %s %s"
+
+#. minutes:seconds
+#: ../libcesarplayer/src/video-utils.c:153
+#, c-format
+msgid "%s %s"
+msgstr "%s %s"
+
+#. seconds
+#: ../libcesarplayer/src/video-utils.c:156
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#. 0 seconds
+#: ../libcesarplayer/src/video-utils.c:159
+#| msgid "seconds"
+msgid "0 seconds"
+msgstr "0 seconds"
+
 #: ../src/chronojump.cs:181
 msgid "no tables, creating ..."
 msgstr "no se ha encontrado base de datos, creando tablas ..."
@@ -3032,6 +2908,351 @@ msgstr "El archivo {0} existe con los atributos {1}, creado en {2}"
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
 msgstr "Está seguro de que desea sobreescribir el archivo: {0}"
+
+#. the strings created by Catalog cannot be const
+#: ../src/constants.cs:30
+msgid ""
+"Translator, there's a glossary that will help you in Chronojump "
+"translation:\n"
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
+"chronojump_glossary_for_translators.html"
+msgstr ""
+"Traductor, existe un glosario que le ayudará en la traducción de "
+"Chronojump:\n"
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/"
+"chronojump_glossary_for_translators.html"
+
+#: ../src/constants.cs:33
+msgid "Project leader and main developer."
+msgstr "Líder del proyecto y desarrollador principal."
+
+#: ../src/constants.cs:34
+msgid "Skypic, Chronopic, connection between hardware and software."
+msgstr "Skypic, Chronopic, conexión entre hardware y software."
+
+#: ../src/constants.cs:35
+msgid "Chronopic2 creation, Chronojump tester."
+msgstr "Creación de Chronopic2, probador de Chronojump."
+
+#: ../src/constants.cs:36
+msgid "Chronopic3 industrial prototype."
+msgstr "Prototipo industrial Chronopic3."
+
+#: ../src/constants.cs:37 ../src/constants.cs:38
+msgid "OpenCV Detection of knee angle."
+msgstr "OpenCV, detección del ángulo de la rodilla"
+
+#: ../src/constants.cs:39
+msgid "Installation support: Autotools, packaging, bundle."
+msgstr "Soporte a la instalación: Autotools, empaquetado, bundle"
+
+#: ../src/constants.cs:40
+msgid "Statistics support."
+msgstr "Soporte estadístico."
+
+#: ../src/constants.cs:41
+msgid "Translation of Firmware to C, and new firmware features."
+msgstr "Traducción del «firmware» a C, y nuevas características del «firmware.»"
+
+#: ../src/constants.cs:46
+msgid "Chronojump Manual English translation"
+msgstr "Traducción al inglés del manual de Chronojump"
+
+#: ../src/constants.cs:110
+msgid "Any"
+msgstr "Cualquiera"
+
+#: ../src/constants.cs:130
+msgid "Server is connected."
+msgstr "El servidor está conectado."
+
+#: ../src/constants.cs:131
+msgid "Sorry, server is currently offline. Try later."
+msgstr ""
+"Lo sentimos, el servidor está fuera de línea. Por favor, Pruebe más tarde."
+
+#: ../src/constants.cs:132
+msgid ""
+"Or maybe you are not connected to the Internet or your firewall is "
+"restricting connections"
+msgstr ""
+"O quizás no esté conectado a Internet, o su Firewall esté restringiendo "
+"conexiones"
+
+#. Josep Ma Padullés test
+#. translate (take off?)
+#. translate (take off?)
+#. OLD, check this
+#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
+#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
+#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
+#.
+#: ../src/constants.cs:176 ../src/constants.cs:181 ../src/constants.cs:186
+#: ../src/constants.cs:191 ../src/constants.cs:196 ../src/constants.cs:201
+#: ../src/constants.cs:214 ../src/constants.cs:221 ../src/constants.cs:228
+#: ../src/constants.cs:235 ../src/constants.cs:237 ../src/constants.cs:242
+#: ../src/constants.cs:244
+msgid "Peak power"
+msgstr "Pico de potencia"
+
+#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
+#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
+#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
+#: ../src/constants.cs:240 ../src/constants.cs:246
+msgid "body weight"
+msgstr "peso corporal"
+
+#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
+#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
+#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
+#: ../src/constants.cs:240 ../src/constants.cs:246
+msgid "extra weight"
+msgstr "peso extra"
+
+#: ../src/constants.cs:178 ../src/constants.cs:183 ../src/constants.cs:188
+#: ../src/constants.cs:193 ../src/constants.cs:198 ../src/constants.cs:203
+#: ../src/constants.cs:217 ../src/constants.cs:224 ../src/constants.cs:231
+#: ../src/constants.cs:239 ../src/constants.cs:245 ../src/stats/fv.cs:51
+#: ../src/stats/fv.cs:52 ../src/stats/graphs/fv.cs:74
+#: ../src/stats/graphs/fv.cs:75
+msgid "height"
+msgstr "altura"
+
+#: ../src/constants.cs:216
+msgid "Male applicants to a Faculty of Sport Sciencies"
+msgstr "Candidatos masculinos a la facultad de ciencias del deporte"
+
+#: ../src/constants.cs:223
+msgid "Female elite volleybol"
+msgstr "Voleibol femenino de elite"
+
+#: ../src/constants.cs:230
+msgid "Female medium volleybol"
+msgstr "Voleibol medio femenino"
+
+#: ../src/constants.cs:238
+msgid "Female sports sciencies students"
+msgstr "Estudiantes femeninas de ciencias deportivas"
+
+#: ../src/constants.cs:244
+msgid "Female university students"
+msgstr "Estudiantes universitarias femeninas"
+
+#. *4.0 for having double division
+#. CurrentGraphData.GraphTitle = this.ToString();
+#: ../src/constants.cs:250 ../src/stats/graphs/potency.cs:61
+#: ../src/stats/graphs/potency.cs:71 ../src/stats/graphs/potency.cs:81
+#: ../src/stats/graphs/potency.cs:91 ../src/stats/potency.cs:60
+msgid "Peak Power"
+msgstr "Pico de potencia"
+
+#. global stat types
+#: ../src/constants.cs:262
+msgid "Session summary"
+msgstr "Sumario de Sesión"
+
+#: ../src/constants.cs:263
+msgid "Jumper summary"
+msgstr "Sumario de Saltador"
+
+#: ../src/constants.cs:265
+msgid "Simple with TC"
+msgstr "Simple con TC"
+
+#: ../src/constants.cs:266
+msgid "Jumps: Reactive"
+msgstr "Salto: Reactivo"
+
+#: ../src/constants.cs:267
+msgid "Runs: Simple"
+msgstr "Carreras: Simple"
+
+#: ../src/constants.cs:268
+msgid "Runs: Intervallic"
+msgstr "Carreras: Tramos"
+
+#. strings
+#: ../src/constants.cs:271
+msgid "See all jumps"
+msgstr "Mostrar todos los saltos"
+
+#: ../src/constants.cs:272
+msgid "See all runs"
+msgstr "Mostrar todas las carreras"
+
+#: ../src/constants.cs:273
+msgid "See all pulses"
+msgstr "Mostrar todos los pulsos"
+
+#: ../src/constants.cs:295
+msgid "black only"
+msgstr "sólo negro"
+
+#: ../src/constants.cs:362
+msgid "Typical serial and USB-serial ports on Windows:"
+msgstr "Típicos puertos serie y USB en Windows:"
+
+#: ../src/constants.cs:364
+msgid "Also, these are possible:"
+msgstr "Además, estos son posibles:"
+
+#: ../src/constants.cs:368
+msgid "Typical serial serial ports on GNU/Linux:"
+msgstr "Puertos serie típicos en GNU/Linux:"
+
+#: ../src/constants.cs:370
+msgid "Typical USB-serial ports on GNU/Linux:"
+msgstr "Puertos serie USB típicos en GNU/Linux:"
+
+#: ../src/constants.cs:372
+msgid "If you use Chronopic3, you will have an USB-serial port."
+msgstr "Si usted usa Chronopic3, tendrá un puerto USB-serie."
+
+#: ../src/constants.cs:375
+msgid "Serial ports found:"
+msgstr "Puertos serie encontrados:"
+
+#: ../src/constants.cs:376
+msgid "USB-serial ports found:"
+msgstr "Puertos USB-serie encontrados:"
+
+#: ../src/constants.cs:377
+msgid "Not found any USB-serial ports."
+msgstr "No se ha encontrado ningún puerto USB-serie."
+
+#: ../src/constants.cs:377
+msgid "Is Chronopic connected?"
+msgstr "¿Está Chronopic conectado?"
+
+#: ../src/constants.cs:406
+msgid "--Undefined"
+msgstr "--Indefinido"
+
+#: ../src/constants.cs:407
+msgid "--Any"
+msgstr "--Cualquiera"
+
+#: ../src/constants.cs:410
+msgid "-None"
+msgstr "-Ninguno"
+
+#: ../src/constants.cs:423
+msgid "Africa"
+msgstr "África"
+
+#: ../src/constants.cs:424
+msgid "Antarctica"
+msgstr "Antártida"
+
+#: ../src/constants.cs:425
+msgid "Asia"
+msgstr "Asia"
+
+#: ../src/constants.cs:426
+msgid "Europe"
+msgstr "Europa"
+
+#: ../src/constants.cs:427
+msgid "North America"
+msgstr "Norteamérica"
+
+#: ../src/constants.cs:428
+msgid "Oceania"
+msgstr "Oceanía"
+
+#: ../src/constants.cs:429
+msgid "South America"
+msgstr "Sudamérica"
+
+#: ../src/constants.cs:433
+msgid "Tests are SIMULATED until Chronopic is connected."
+msgstr "Las pruebas son SIMULADAS hasta que se conecte Chronopic."
+
+#. Catalog.GetString("Angles") + ":" +
+#: ../src/constants.cs:434 ../src/exportSession.cs:287
+#: ../src/exportSession.cs:389 ../src/exportSession.cs:496
+#: ../src/exportSession.cs:551 ../src/exportSession.cs:642
+#: ../src/exportSession.cs:683 ../src/exportSession.cs:742
+msgid "Simulated"
+msgstr "Simulado"
+
+#: ../src/constants.cs:436
+msgid "All tests available except MultiChronopic."
+msgstr "Todas las pruebas disponibles excepto MultiChronopic."
+
+#: ../src/constants.cs:437
+msgid "All tests available."
+msgstr "Disponibles todas las pruebas."
+
+#: ../src/constants.cs:448
+msgid "Sedentary/Ocasional practice"
+msgstr "Sedentario/Practicante ocasional"
+
+#: ../src/constants.cs:452
+msgid "Regular practice"
+msgstr "Práctica regular"
+
+#: ../src/constants.cs:453
+msgid "Competition"
+msgstr "Competición"
+
+#: ../src/constants.cs:454
+msgid "Elite"
+msgstr "Élite"
+
+#: ../src/constants.cs:458
+msgid "Initializing"
+msgstr "Inicializando"
+
+#. 0
+#: ../src/constants.cs:459
+msgid "Checking database"
+msgstr "Comprobando base de datos"
+
+#. 1
+#: ../src/constants.cs:460
+msgid "Creating database"
+msgstr "Creando base de datos"
+
+#. 2
+#: ../src/constants.cs:461
+msgid "Making database backup"
+msgstr "Realizando copia de base de datos"
+
+#. 3
+#: ../src/constants.cs:462
+msgid "Updating database"
+msgstr "Actualizando base de datos."
+
+#. 4
+#: ../src/constants.cs:463
+msgid "Check for new version"
+msgstr "Comprobando nueva versión"
+
+#. 5
+#: ../src/constants.cs:464
+msgid "Preparing main Window"
+msgstr "Preparando ventana principal"
+
+#: ../src/constants.cs:492
+msgid "In"
+msgstr "Dentro"
+
+#: ../src/constants.cs:493
+msgid "Out"
+msgstr "Fuera"
+
+#: ../src/constants.cs:526
+msgid "Sorry, this multimedia file does not exists."
+msgstr "Disculpe, este archivo multimedia no existe."
+
+#: ../src/constants.cs:531
+msgid "Running start. Started with initial speed."
+msgstr "Comienza carrera con velocidad inicial."
+
+#: ../src/constants.cs:532
+msgid "Standing start. Started without initial speed."
+msgstr "Comienza carrera sin velocidad inicial."
 
 #: ../src/execute/event.cs:328
 msgid ""
@@ -3311,15 +3532,15 @@ msgstr "Total"
 
 #: ../src/exportSession.cs:449 ../src/exportSession.cs:595
 #: ../src/exportSession.cs:706 ../src/exportSession.cs:820
-#: ../src/stats/graphs/potency.cs:156 ../src/stats/graphs/djIndex.cs:163
-#: ../src/stats/graphs/djQ.cs:164 ../src/stats/graphs/fv.cs:149
-#: ../src/stats/graphs/global.cs:108 ../src/stats/graphs/global.cs:165
-#: ../src/stats/graphs/ieIub.cs:158 ../src/stats/graphs/rjAVGSD.cs:70
+#: ../src/stats/graphs/djIndex.cs:163 ../src/stats/graphs/djQ.cs:164
+#: ../src/stats/graphs/fv.cs:149 ../src/stats/graphs/global.cs:108
+#: ../src/stats/graphs/global.cs:165 ../src/stats/graphs/ieIub.cs:158
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:150
+#: ../src/stats/graphs/potency.cs:156 ../src/stats/graphs/rjAVGSD.cs:70
 #: ../src/stats/graphs/rjAVGSD.cs:79 ../src/stats/graphs/rjIndex.cs:156
 #: ../src/stats/graphs/rjPotencyBosco.cs:186
 #: ../src/stats/graphs/runSimple.cs:139 ../src/stats/graphs/sjCmjAbk.cs:136
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:150
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:150 ../src/stats/main.cs:188
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:150 ../src/stats/main.cs:188
 #: ../src/stats/main.cs:216 ../src/stats/main.cs:359 ../src/stats/main.cs:386
 #: ../src/stats/main.cs:671 ../src/stats/main.cs:742 ../src/stats/main.cs:764
 #: ../src/stats/main.cs:791 ../src/stats/rjAVGSD.cs:35
@@ -3729,85 +3950,85 @@ msgid "Added reactive jump."
 msgstr "Añadido salto reactivo."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4783
+#: ../src/gui/chronojump.cs:4784
 msgid "Added simple run."
 msgstr "Añadida carrera simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4786
+#: ../src/gui/chronojump.cs:4787
 msgid "Added intervallic run."
 msgstr "Añadida carrera con tramos."
 
-#: ../src/gui/chronojump.cs:4996
+#: ../src/gui/chronojump.cs:4998
 msgid "Accelerators help"
 msgstr "Ayuda de acceleradores"
 
-#: ../src/gui/chronojump.cs:4998
+#: ../src/gui/chronojump.cs:5000
 msgid "Use these keys in order to work faster."
 msgstr "Use las siguientes teclas para trabajar más rápido."
 
-#: ../src/gui/chronojump.cs:4999
+#: ../src/gui/chronojump.cs:5001
 msgid "On execute test tab:"
 msgstr "En la pestaña de Ejecutar prueba:"
 
-#: ../src/gui/chronojump.cs:5000
+#: ../src/gui/chronojump.cs:5002
 msgid "Edit selected person"
 msgstr "Editar sujeto seleccionado"
 
-#: ../src/gui/chronojump.cs:5001
+#: ../src/gui/chronojump.cs:5003
 msgid "CURSOR_UP"
 msgstr "CURSOR_ARRIBA"
 
-#: ../src/gui/chronojump.cs:5001
+#: ../src/gui/chronojump.cs:5003
 msgid "Select previous person"
 msgstr "Seleccionar el sujeto anterior"
 
-#: ../src/gui/chronojump.cs:5002
+#: ../src/gui/chronojump.cs:5004
 msgid "CURSOR_DOWN"
 msgstr "CURSOR_ABAJO"
 
-#: ../src/gui/chronojump.cs:5002
+#: ../src/gui/chronojump.cs:5004
 msgid "Select next person"
 msgstr "Seleccionar el sujeto siguiente"
 
-#: ../src/gui/chronojump.cs:5004
+#: ../src/gui/chronojump.cs:5006
 msgid "Play video of this test"
 msgstr "Reproducir vídeo de esta prueba"
 
-#: ../src/gui/chronojump.cs:5004 ../src/gui/chronojump.cs:5008
-#: ../src/gui/chronojump.cs:5011
+#: ../src/gui/chronojump.cs:5006 ../src/gui/chronojump.cs:5010
+#: ../src/gui/chronojump.cs:5013
 msgid "(if available)"
 msgstr "(si se encuentra disponible)"
 
-#: ../src/gui/chronojump.cs:5005
+#: ../src/gui/chronojump.cs:5007
 msgid "Delete this test"
 msgstr "Borrar esta prueba"
 
-#: ../src/gui/chronojump.cs:5006
+#: ../src/gui/chronojump.cs:5008
 msgid "On results tab:"
 msgstr "El la pestaña de Resultados:"
 
-#: ../src/gui/chronojump.cs:5007
+#: ../src/gui/chronojump.cs:5009
 msgid "Zoom change"
 msgstr "cambiar Zoom"
 
-#: ../src/gui/chronojump.cs:5008
+#: ../src/gui/chronojump.cs:5010
 msgid "Play video of selected test"
 msgstr "Reproducir vídeo de la prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5009
+#: ../src/gui/chronojump.cs:5011
 msgid "Edit selected test"
 msgstr "Editar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5010
+#: ../src/gui/chronojump.cs:5012
 msgid "Delete selected test"
 msgstr "Borrar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5011
+#: ../src/gui/chronojump.cs:5013
 msgid "Repair selected test"
 msgstr "Reparar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5016
+#: ../src/gui/chronojump.cs:5018
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2009\n"
@@ -3816,7 +4037,7 @@ msgstr ""
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
 "QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
-#: ../src/gui/chronojump.cs:5331
+#: ../src/gui/chronojump.cs:5333
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Programado para realizar pruebas de desarrollo. Chronojump fallará y se "
@@ -3926,6 +4147,10 @@ msgstr ""
 "Nuevo peso\n"
 "opción 2"
 
+#: ../src/gui/evaluator.cs:345
+msgid "Select of Birth"
+msgstr "Fecha de nacimiento"
+
 #: ../src/gui/event.cs:315
 msgid "Playing video"
 msgstr "Reproduciendo vídeo"
@@ -3960,10 +4185,6 @@ msgstr "por favor, editelos o bórrelos."
 #: ../src/gui/event.cs:671
 msgid "Are you sure you want to delete this test type?"
 msgstr "¿Seguro que desea borrar este tipo de prueba?"
-
-#: ../src/gui/evaluator.cs:345
-msgid "Select of Birth"
-msgstr "Fecha de nacimiento"
 
 #. write "last" to show last jump
 #: ../src/gui/eventExecute.cs:1133 ../src/gui/eventExecute.cs:1184
@@ -4354,8 +4575,8 @@ msgstr "Tipo de pulso: {0}."
 
 #. CurrentGraphData.GraphTitle = this.ToString();
 #: ../src/gui/queryServer.cs:105 ../src/gui/queryServer.cs:678
-#: ../src/gui/stats.cs:181 ../src/statType.cs:331
-#: ../src/stats/graphs/rjIndex.cs:59
+#: ../src/gui/stats.cs:181 ../src/stats/graphs/rjIndex.cs:59
+#: ../src/statType.cs:331
 msgid "Average Index"
 msgstr "Índice medio"
 
@@ -4379,13 +4600,13 @@ msgstr "carreras"
 msgid "watts"
 msgstr "vatios"
 
-#: ../src/gui/repetitiveConditions.cs:177
-msgid "You need to activate sounds in main window (bottom)"
-msgstr "Debe activar los sonidos en la ventana principal (abajo)"
-
 #: ../src/gui/reactionTime.cs:60
 msgid "reaction time"
 msgstr "tiempo de reacción"
+
+#: ../src/gui/repetitiveConditions.cs:177
+msgid "You need to activate sounds in main window (bottom)"
+msgstr "Debe activar los sonidos en la ventana principal (abajo)"
 
 #: ../src/gui/report.cs:138
 msgid "Session/s"
@@ -4488,6 +4709,14 @@ msgstr "Indefinido"
 msgid "Run type: '{0}' exists. Please, use another name"
 msgstr "El tipo de carrera: '{0}' ya existe. Por favor use otro nombre"
 
+#: ../src/gui/server.cs:201
+msgid "Uploaded test type"
+msgstr "Subido el tipo de prueba"
+
+#: ../src/gui/server.cs:206
+msgid "Uploaded sport"
+msgstr "Subido el deporte"
+
 #: ../src/gui/session.cs:106
 msgid "New Session"
 msgstr "Nueva sesión"
@@ -4552,14 +4781,6 @@ msgstr "Carreras simples"
 #: ../src/gui/session.cs:697
 msgid "Runs interval"
 msgstr "Carreras con tramos"
-
-#: ../src/gui/server.cs:201
-msgid "Uploaded test type"
-msgstr "Subido el tipo de prueba"
-
-#: ../src/gui/server.cs:206
-msgid "Uploaded sport"
-msgstr "Subido el deporte"
 
 #.
 #. if is RjEvolution, or runInervallic show mark consecutives, graph only with lines and transposed
@@ -6580,46 +6801,14 @@ msgstr "Halterofilia"
 msgid "Wrestling"
 msgstr "Lucha"
 
-#: ../src/stats/potency.cs:59 ../src/stats/djIndex.cs:31
-#: ../src/stats/djQ.cs:31 ../src/stats/fv.cs:49 ../src/stats/ieIub.cs:64
-#: ../src/stats/jumpSimpleSubtraction.cs:59 ../src/stats/rjAVGSD.cs:33
+#: ../src/stats/djIndex.cs:31 ../src/stats/djQ.cs:31 ../src/stats/fv.cs:49
+#: ../src/stats/ieIub.cs:64 ../src/stats/jumpSimpleSubtraction.cs:59
+#: ../src/stats/potency.cs:59 ../src/stats/rjAVGSD.cs:33
 #: ../src/stats/rjEvolution.cs:65 ../src/stats/rjIndex.cs:31
 #: ../src/stats/rjPotencyBosco.cs:31 ../src/stats/sjCmjAbkPlus.cs:63
 #: ../src/treeViewJump.cs:37
 msgid "Jumper"
 msgstr "Saltador"
-
-#: ../src/stats/potency.cs:61 ../src/stats/graphs/potency.cs:72
-msgid "Person's Weight"
-msgstr "Peso del atleta"
-
-#: ../src/stats/potency.cs:62 ../src/stats/graphs/potency.cs:73
-msgid "Extra Weight"
-msgstr "Peso extra"
-
-#: ../src/stats/potency.cs:132 ../src/stats/djIndex.cs:126
-#: ../src/stats/djQ.cs:126 ../src/stats/fv.cs:118 ../src/stats/global.cs:149
-#: ../src/stats/ieIub.cs:126 ../src/stats/jumpSimpleSubtraction.cs:122
-#: ../src/stats/rjIndex.cs:128 ../src/stats/rjPotencyBosco.cs:130
-#: ../src/stats/runSimple.cs:124 ../src/stats/sjCmjAbk.cs:124
-#: ../src/stats/sjCmjAbkPlus.cs:143
-msgid " various sessions "
-msgstr "varias sesiones"
-
-#: ../src/stats/potency.cs:135 ../src/stats/djIndex.cs:129
-#: ../src/stats/djQ.cs:129 ../src/stats/fv.cs:121 ../src/stats/global.cs:152
-#: ../src/stats/ieIub.cs:129 ../src/stats/jumpSimpleSubtraction.cs:125
-#: ../src/stats/rjAVGSD.cs:193 ../src/stats/rjEvolution.cs:272
-#: ../src/stats/rjIndex.cs:131 ../src/stats/rjPotencyBosco.cs:133
-#: ../src/stats/runSimple.cs:127 ../src/stats/runIntervallic.cs:258
-#: ../src/stats/sjCmjAbk.cs:127 ../src/stats/sjCmjAbkPlus.cs:146
-msgid " session "
-msgstr " sesión "
-
-#: ../src/stats/potency.cs:163 ../src/stats/rjPotencyBosco.cs:137
-#, csharp-format
-msgid "{0} in {1} applied to {2} on {3}"
-msgstr "{0} en {1} aplicado a {2} en {3}"
 
 #: ../src/stats/djIndex.cs:32 ../src/stats/graphs/djIndex.cs:69
 msgid "Dj Index"
@@ -6629,7 +6818,7 @@ msgstr "Índice Dj"
 #: ../src/stats/ieIub.cs:116 ../src/stats/jumpSimpleSubtraction.cs:112
 #: ../src/stats/rjAVGSD.cs:180 ../src/stats/rjEvolution.cs:259
 #: ../src/stats/rjIndex.cs:118 ../src/stats/rjPotencyBosco.cs:120
-#: ../src/stats/runSimple.cs:114 ../src/stats/runIntervallic.cs:246
+#: ../src/stats/runIntervallic.cs:246 ../src/stats/runSimple.cs:114
 #: ../src/stats/sjCmjAbk.cs:114 ../src/stats/sjCmjAbkPlus.cs:133
 #, csharp-format
 msgid "First value"
@@ -6641,14 +6830,33 @@ msgstr[1] "Primeros {0} valores"
 #: ../src/stats/global.cs:142 ../src/stats/ieIub.cs:119
 #: ../src/stats/jumpSimpleSubtraction.cs:115 ../src/stats/rjAVGSD.cs:183
 #: ../src/stats/rjEvolution.cs:262 ../src/stats/rjIndex.cs:121
-#: ../src/stats/rjPotencyBosco.cs:123 ../src/stats/runSimple.cs:117
-#: ../src/stats/runIntervallic.cs:249 ../src/stats/sjCmjAbk.cs:117
+#: ../src/stats/rjPotencyBosco.cs:123 ../src/stats/runIntervallic.cs:249
+#: ../src/stats/runSimple.cs:117 ../src/stats/sjCmjAbk.cs:117
 #: ../src/stats/sjCmjAbkPlus.cs:136
 #, csharp-format
 msgid "Max value of each person"
 msgid_plural "Max {0} values of each person"
 msgstr[0] "Máximo valor de cada saltador"
 msgstr[1] "Máximos {0} valores de cada saltador"
+
+#: ../src/stats/djIndex.cs:126 ../src/stats/djQ.cs:126 ../src/stats/fv.cs:118
+#: ../src/stats/global.cs:149 ../src/stats/ieIub.cs:126
+#: ../src/stats/jumpSimpleSubtraction.cs:122 ../src/stats/potency.cs:132
+#: ../src/stats/rjIndex.cs:128 ../src/stats/rjPotencyBosco.cs:130
+#: ../src/stats/runSimple.cs:124 ../src/stats/sjCmjAbk.cs:124
+#: ../src/stats/sjCmjAbkPlus.cs:143
+msgid " various sessions "
+msgstr "varias sesiones"
+
+#: ../src/stats/djIndex.cs:129 ../src/stats/djQ.cs:129 ../src/stats/fv.cs:121
+#: ../src/stats/global.cs:152 ../src/stats/ieIub.cs:129
+#: ../src/stats/jumpSimpleSubtraction.cs:125 ../src/stats/potency.cs:135
+#: ../src/stats/rjAVGSD.cs:193 ../src/stats/rjEvolution.cs:272
+#: ../src/stats/rjIndex.cs:131 ../src/stats/rjPotencyBosco.cs:133
+#: ../src/stats/runIntervallic.cs:258 ../src/stats/runSimple.cs:127
+#: ../src/stats/sjCmjAbk.cs:127 ../src/stats/sjCmjAbkPlus.cs:146
+msgid " session "
+msgstr " sesión "
 
 #: ../src/stats/djIndex.cs:133
 #, csharp-format
@@ -6688,15 +6896,16 @@ msgstr "{0} en algunos saltos y estadisticos en {1}{2}"
 #. this.operation = "AVG";
 #. }
 #.
-#: ../src/stats/graphs/potency.cs:55 ../src/stats/graphs/djIndex.cs:52
-#: ../src/stats/graphs/djQ.cs:52 ../src/stats/graphs/fv.cs:58
-#: ../src/stats/graphs/global.cs:51 ../src/stats/graphs/ieIub.cs:65
-#: ../src/stats/graphs/rjAVGSD.cs:55 ../src/stats/graphs/rjEvolution.cs:65
-#: ../src/stats/graphs/rjIndex.cs:53 ../src/stats/graphs/rjPotencyBosco.cs:55
-#: ../src/stats/graphs/runSimple.cs:51
-#: ../src/stats/graphs/runIntervallic.cs:65 ../src/stats/graphs/sjCmjAbk.cs:50
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:51
+#: ../src/stats/graphs/djIndex.cs:52 ../src/stats/graphs/djQ.cs:52
+#: ../src/stats/graphs/fv.cs:58 ../src/stats/graphs/global.cs:51
+#: ../src/stats/graphs/ieIub.cs:65
 #: ../src/stats/graphs/jumpSimpleSubtraction.cs:61
+#: ../src/stats/graphs/potency.cs:55 ../src/stats/graphs/rjAVGSD.cs:55
+#: ../src/stats/graphs/rjEvolution.cs:65 ../src/stats/graphs/rjIndex.cs:53
+#: ../src/stats/graphs/rjPotencyBosco.cs:55
+#: ../src/stats/graphs/runIntervallic.cs:65
+#: ../src/stats/graphs/runSimple.cs:51 ../src/stats/graphs/sjCmjAbk.cs:50
+#: ../src/stats/graphs/sjCmjAbkPlus.cs:51
 msgid "ChronoJump graph"
 msgstr "ChronoJump - gráfico"
 
@@ -6731,6 +6940,14 @@ msgstr "Resta entre {0} {1} y {0} {2}"
 msgid "Result"
 msgstr "Resultado"
 
+#: ../src/stats/graphs/potency.cs:72 ../src/stats/potency.cs:61
+msgid "Person's Weight"
+msgstr "Peso del atleta"
+
+#: ../src/stats/graphs/potency.cs:73 ../src/stats/potency.cs:62
+msgid "Extra Weight"
+msgstr "Peso extra"
+
 #: ../src/stats/ieIub.cs:137
 #, csharp-format
 msgid "{0} in index {1} on {2}"
@@ -6758,6 +6975,11 @@ msgstr "Dispersión"
 msgid "Chronojump Graph"
 msgstr "ChronoJump - gráfico"
 
+#: ../src/stats/potency.cs:163 ../src/stats/rjPotencyBosco.cs:137
+#, csharp-format
+msgid "{0} in {1} applied to {2} on {3}"
+msgstr "{0} en {1} aplicado a {2} en {3}"
+
 #: ../src/stats/rjAVGSD.cs:202
 #, csharp-format
 msgid "{0} at average of jumps using {1} applied to {2} on {3}"
@@ -6781,11 +7003,6 @@ msgstr "{0} en Rj Evolution aplicado a {1} en {2}{3}"
 msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgstr "{0} en Rj Índice [(tvavg-tcavg)/tcavg *100] aplicado a {1} en {2}"
 
-#: ../src/stats/runSimple.cs:131
-#, csharp-format
-msgid "{0} in {1} run on {2}"
-msgstr "{0} en {1} carrera en {2}"
-
 #: ../src/stats/runIntervallic.cs:265
 #, csharp-format
 msgid " (best run marked)"
@@ -6797,6 +7014,11 @@ msgstr[1] "(marcados los {0} mejores tramos)"
 #, csharp-format
 msgid "{0} in Run Intervallic applied to {1} on {2}{3}"
 msgstr "{0} en Carrera con tramos aplicado a {1} en {2}{3}"
+
+#: ../src/stats/runSimple.cs:131
+#, csharp-format
+msgid "{0} in {1} run on {2}"
+msgstr "{0} en {1} carrera en {2}"
 
 #: ../src/stats/sjCmjAbk.cs:131
 #, csharp-format

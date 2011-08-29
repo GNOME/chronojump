@@ -1,11 +1,11 @@
 #server
-#library(GDD)
-#GDD(file="/var/www/web/server/images/evaluators.png", type="png", w=670, h=670)
-#file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+library(GDD)
+GDD(file="/var/www/web/server/images/evaluators.png", type="png", w=670, h=670)
+file = "/root/.local/share/Chronojump/database/chronojump_server.db"
 
 #local
-pdf(file="evaluators.pdf", width=7, height=7)
-file = "/home/xavier/.local/share/Chronojump/database/chronojump_server_2011-07-26.db"
+#pdf(file="evaluators.pdf", width=7, height=7)
+#file = "/home/xavier/.local/share/Chronojump/database/chronojump_server_2011-07-26.db"
 
 library(RSQLite)
 drv = dbDriver("SQLite")
@@ -99,11 +99,11 @@ title(main="Data uploaded by evaluator",
   sub=paste(Sys.Date(),"(YYYY-MM-DD)"), cex.sub = 0.75, font.sub = 3, col.sub = "red")
 
 par(new=TRUE)
-par(mar=c(5.2,12,20,2))
+par(mar=c(5.2,12,26,2))
 
-persons <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(personSession77.uniqueID) AS conta FROM session,personSession77 WHERE personSession77.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY date;")
-jumps <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(jump.uniqueID) AS conta FROM session,jump WHERE jump.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY date;")
-jumpsRj <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(jumpRj.uniqueID) AS conta FROM session,jumpRj WHERE jumpRj.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY date;")
+persons <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(personSession77.uniqueID) AS conta FROM session,personSession77 WHERE personSession77.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY session.uploadedDate;")
+jumps <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(jump.uniqueID) AS conta FROM session,jump WHERE jump.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY session.uploadedDate;")
+jumpsRj <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(jumpRj.uniqueID) AS conta FROM session,jumpRj WHERE jumpRj.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY session.uploadedDate;")
 dates = c(as.Date(persons$date),as.Date(jumps$date),as.Date(jumpsRj$date))
 minx=min(dates)
 maxx=max(dates)

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-05-25 16:14+0000\n"
-"PO-Revision-Date: 2011-05-27 22:19+0100\n"
+"POT-Creation-Date: 2011-08-29 21:38+0000\n"
+"PO-Revision-Date: 2011-09-07 21:33+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -23,430 +23,34 @@ msgstr ""
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-# TC (time of contact) - čS = Čas stika
-# TF (Time of flight) - čL = Čas leta
-#. the strings created by Catalog cannot be const
-#: ../src/constants.cs:30
-msgid ""
-"Translator, there's a glossary that will help you in Chronojump translation:\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
-msgstr ""
-"Slovarček pojmov uporabljenih v programu ChronoJump se nahaja na:\n"
-" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
-
-#: ../src/constants.cs:33
-msgid "Project leader and main developer."
-msgstr "Vodja projekta in glavni razvijalec programa."
-
-#: ../src/constants.cs:34
-msgid "Skypic, Chronopic, connection between hardware and software."
-msgstr "Napravi skypik in kronopik; povezava med strojno in programsko opremo."
-
-#: ../src/constants.cs:35
-msgid "Chronopic2 creation, Chronojump tester."
-msgstr "Naprava kronopik2, ChronoJump testnik."
-
-#: ../src/constants.cs:36
-msgid "Chronopic3 industrial prototype."
-msgstr "naprava kronopik3, industrijski prototip."
-
-#: ../src/constants.cs:37
-#: ../src/constants.cs:38
-msgid "OpenCV Detection of knee angle."
-msgstr "OpenCV (Computer Vision) knjižnica za zaznavanje kota kolena."
-
-#: ../src/constants.cs:39
-msgid "Installation support: Autotools, packaging, bundle."
-msgstr "Podpora namestitve: autotools, ustvarjanje paketov programske opreme."
-
-#: ../src/constants.cs:40
-msgid "Statistics support."
-msgstr "Podpora statistike."
-
-#: ../src/constants.cs:41
-msgid "Translation of Firmware to C, and new firmware features."
-msgstr "Prevod strojne programske opreme v programski jezik C in nove zmožnosti programske opreme."
-
-#: ../src/constants.cs:46
-msgid "Chronojump Manual English translation"
-msgstr "Angleški prevod priročnika ChronoJump"
-
-#: ../src/constants.cs:110
-msgid "Any"
-msgstr "Katerikoli"
-
-#: ../src/constants.cs:130
-msgid "Server is connected."
-msgstr "Strežnik je povezan."
-
-#: ../src/constants.cs:131
-msgid "Sorry, server is currently offline. Try later."
-msgstr "Strežnik trenutno ni povezan v omrežje. Poskusite znova kasneje."
-
-#: ../src/constants.cs:132
-msgid "Or maybe you are not connected to the Internet or your firewall is restricting connections"
-msgstr "Morda ni ustrezne povezave na splet ali pa požarni zid omejuje povezovanje s strežnikom"
-
-#: ../src/constants.cs:160
-#: ../glade/chronojump.glade.h:338
-msgid "Other"
-msgstr "Drugo"
-
-#. Josep Ma Padullés test
-#. translate (take off?)
-#. translate (take off?)
-#. OLD, check this
-#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
-#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
-#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
-#.
-#: ../src/constants.cs:176
-#: ../src/constants.cs:181
-#: ../src/constants.cs:186
-#: ../src/constants.cs:191
-#: ../src/constants.cs:196
-#: ../src/constants.cs:201
-#: ../src/constants.cs:214
-#: ../src/constants.cs:221
-#: ../src/constants.cs:228
-#: ../src/constants.cs:235
-#: ../src/constants.cs:237
-#: ../src/constants.cs:242
-#: ../src/constants.cs:244
-msgid "Peak power"
-msgstr "Končna moč"
-
-#: ../src/constants.cs:178
-#: ../src/constants.cs:184
-#: ../src/constants.cs:189
-#: ../src/constants.cs:194
-#: ../src/constants.cs:199
-#: ../src/constants.cs:204
-#: ../src/constants.cs:218
-#: ../src/constants.cs:225
-#: ../src/constants.cs:232
-#: ../src/constants.cs:240
-#: ../src/constants.cs:246
-msgid "body weight"
-msgstr "telesna teža"
-
-#: ../src/constants.cs:178
-#: ../src/constants.cs:184
-#: ../src/constants.cs:189
-#: ../src/constants.cs:194
-#: ../src/constants.cs:199
-#: ../src/constants.cs:204
-#: ../src/constants.cs:218
-#: ../src/constants.cs:225
-#: ../src/constants.cs:232
-#: ../src/constants.cs:240
-#: ../src/constants.cs:246
-msgid "extra weight"
-msgstr "dodatna obtežitev"
-
-#: ../src/constants.cs:178
-#: ../src/constants.cs:183
-#: ../src/constants.cs:188
-#: ../src/constants.cs:193
-#: ../src/constants.cs:198
-#: ../src/constants.cs:203
-#: ../src/constants.cs:217
-#: ../src/constants.cs:224
-#: ../src/constants.cs:231
-#: ../src/constants.cs:239
-#: ../src/constants.cs:245
-#: ../src/stats/fv.cs:51
-#: ../src/stats/fv.cs:52
-#: ../src/stats/graphs/fv.cs:74
-#: ../src/stats/graphs/fv.cs:75
-msgid "height"
-msgstr "višina"
-
-#: ../src/constants.cs:216
-msgid "Male applicants to a Faculty of Sport Sciencies"
-msgstr "Moški prijavljen za športno fakulteto"
-
-#: ../src/constants.cs:223
-msgid "Female elite volleybol"
-msgstr "Ženska izbrana vrsta za odbojko"
-
-#: ../src/constants.cs:230
-msgid "Female medium volleybol"
-msgstr "Ženska klubska vrsta za odbojko"
-
-#: ../src/constants.cs:238
-msgid "Female sports sciencies students"
-msgstr "Ženske študentke športnih ved"
-
-#: ../src/constants.cs:244
-msgid "Female university students"
-msgstr "Ženske univerzitetne študentke"
-
-#. *4.0 for having double division
-#. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:250
-#: ../src/stats/potency.cs:60
-#: ../src/stats/graphs/potency.cs:61
-#: ../src/stats/graphs/potency.cs:71
-#: ../src/stats/graphs/potency.cs:81
-#: ../src/stats/graphs/potency.cs:91
-msgid "Peak Power"
-msgstr "Končna moč"
-
-#. global stat types
-#: ../src/constants.cs:262
-msgid "Session summary"
-msgstr "Povzetek seje"
-
-#: ../src/constants.cs:263
-msgid "Jumper summary"
-msgstr "Povzetek skakalca"
-
-#: ../src/constants.cs:264
-#: ../glade/chronojump.glade.h:427
-#: ../src/gui/convertWeight.cs:61
-#: ../src/gui/convertWeight.cs:108
-msgid "Simple"
-msgstr "Enostavno"
-
-#: ../src/constants.cs:265
-msgid "Simple with TC"
-msgstr "Preprosto s čS"
-
-#: ../src/constants.cs:266
-msgid "Jumps: Reactive"
-msgstr "Skoki: repetitivno-eksplozivni skok"
-
-#: ../src/constants.cs:267
-msgid "Runs: Simple"
-msgstr "Teki: enostavni teki"
-
-# http://www.thefreedictionary.com/intervallic
-# točka 3
-#: ../src/constants.cs:268
-msgid "Runs: Intervallic"
-msgstr "Teki: Intervalni tek"
-
-#. strings
-#: ../src/constants.cs:271
-msgid "See all jumps"
-msgstr "Pregled vseh skokov"
-
-#: ../src/constants.cs:272
-msgid "See all runs"
-msgstr "Pregled vseh tekov"
-
-#: ../src/constants.cs:273
-msgid "See all pulses"
-msgstr "Pogled vseh ritmičnih podatkov"
-
-#: ../src/constants.cs:295
-msgid "black only"
-msgstr "le črna"
-
-#: ../src/constants.cs:362
-msgid "Typical serial and USB-serial ports on Windows:"
-msgstr "Običajna zaporedna in USB vrata na okolju Windows:"
-
-#: ../src/constants.cs:364
-msgid "Also, these are possible:"
-msgstr "Mogoče so tudi:"
-
-#: ../src/constants.cs:368
-msgid "Typical serial serial ports on GNU/Linux:"
-msgstr "Običajna zaporedna vrata na GNU/Linux:"
-
-#: ../src/constants.cs:370
-msgid "Typical USB-serial ports on GNU/Linux:"
-msgstr "Običajna USB vrata na GNU/Linux:"
-
-#: ../src/constants.cs:372
-msgid "If you use Chronopic3, you will have an USB-serial port."
-msgstr "V primeru uporabe naprave kronopik3 so zahtevana prosta USB vrata."
-
-#: ../src/constants.cs:375
-msgid "Serial ports found:"
-msgstr "Zaznana zaporedna vrata:"
-
-#: ../src/constants.cs:376
-msgid "USB-serial ports found:"
-msgstr "Zaznana USB vrata:"
-
-#: ../src/constants.cs:377
-msgid "Not found any USB-serial ports."
-msgstr "Ni mogoče najti USB vrat."
-
-#: ../src/constants.cs:377
-msgid "Is Chronopic connected?"
-msgstr "Ali je naprava kronopik povezana?"
-
-#: ../src/constants.cs:406
-msgid "--Undefined"
-msgstr "---Nedoločeno"
-
-#: ../src/constants.cs:407
-msgid "--Any"
-msgstr "--Katerikoli"
-
-#: ../src/constants.cs:410
-msgid "-None"
-msgstr "-Brez"
-
-#: ../src/constants.cs:414
-#: ../src/constants.cs:445
-#: ../glade/chronojump.glade.h:469
-#: ../src/gui/person.cs:1276
-#: ../src/gui/person.cs:1292
-msgid "Undefined"
-msgstr "Nedoločeno"
-
-#: ../src/constants.cs:423
-msgid "Africa"
-msgstr "Afrika"
-
-#: ../src/constants.cs:424
-msgid "Antarctica"
-msgstr "Antarktika"
-
-#: ../src/constants.cs:425
-msgid "Asia"
-msgstr "Azija"
-
-#: ../src/constants.cs:426
-msgid "Europe"
-msgstr "Evropa"
-
-#: ../src/constants.cs:427
-msgid "North America"
-msgstr "Severna Amerika"
-
-#: ../src/constants.cs:428
-msgid "Oceania"
-msgstr "Oceanija"
-
-#: ../src/constants.cs:429
-msgid "South America"
-msgstr "Južna Amerika"
-
-#: ../src/constants.cs:433
-msgid "Tests are SIMULATED until Chronopic is connected."
-msgstr "Testi so simulirani, dokler je naprava kronopik povezana."
-
-#. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:434
-#: ../src/exportSession.cs:287
-#: ../src/exportSession.cs:389
-#: ../src/exportSession.cs:496
-#: ../src/exportSession.cs:551
-#: ../src/exportSession.cs:642
-#: ../src/exportSession.cs:683
-#: ../src/exportSession.cs:742
-msgid "Simulated"
-msgstr "Simulirano"
-
-#: ../src/constants.cs:436
-msgid "All tests available except MultiChronopic."
-msgstr "Razpoložljivi so vsi testi, razen testov za multikronopik."
-
-#: ../src/constants.cs:437
-msgid "All tests available."
-msgstr "Vsi razpoložljivi testi"
-
-#: ../src/constants.cs:448
-msgid "Sedentary/Ocasional practice"
-msgstr "Občasna vadba"
-
-#: ../src/constants.cs:452
-msgid "Regular practice"
-msgstr "Redna vadba"
-
-#: ../src/constants.cs:453
-msgid "Competition"
-msgstr "Tekmovanje"
-
-#: ../src/constants.cs:454
-msgid "Elite"
-msgstr "Izbrana vrsta"
-
-#: ../src/constants.cs:458
-msgid "Initializing"
-msgstr "Začenjanje"
-
-#. 0
-#: ../src/constants.cs:459
-msgid "Checking database"
-msgstr "Preverjanje podatkovne zbirke"
-
-#. 1
-#: ../src/constants.cs:460
-msgid "Creating database"
-msgstr "Ustvarjanje podatkovne zbirke"
-
-#. 2
-#: ../src/constants.cs:461
-msgid "Making database backup"
-msgstr "Ustvarjanje varnostne kopije podatkovne zbirke"
-
-#. 3
-#: ../src/constants.cs:462
-msgid "Updating database"
-msgstr "Posodabljanje podatkovne zbirke"
-
-#. 4
-#: ../src/constants.cs:463
-msgid "Check for new version"
-msgstr "Preverjanje za novo različico"
-
-#. 5
-#: ../src/constants.cs:464
-msgid "Preparing main Window"
-msgstr "Pripravljanje glavnega okna"
-
-#: ../src/constants.cs:489
-#: ../glade/chronojump.glade.h:317
-#: ../src/gui/jump.cs:1303
-#: ../src/gui/jump.cs:1308
-#: ../src/gui/jump.cs:1502
-#: ../src/gui/jump.cs:1507
-msgid "No"
-msgstr "Ne"
-
-#: ../src/constants.cs:490
-#: ../glade/chronojump.glade.h:493
-#: ../src/gui/jump.cs:1301
-#: ../src/gui/jump.cs:1306
-#: ../src/gui/jump.cs:1337
-#: ../src/gui/jump.cs:1340
-#: ../src/gui/jump.cs:1367
-#: ../src/gui/jump.cs:1370
-#: ../src/gui/jump.cs:1500
-#: ../src/gui/jump.cs:1505
-#: ../src/gui/jump.cs:1579
-#: ../src/gui/jump.cs:1582
-#: ../src/gui/jump.cs:1627
-#: ../src/gui/jump.cs:1630
-msgid "Yes"
-msgstr "Da"
-
-#: ../src/constants.cs:492
-msgid "In"
-msgstr "NA PODLOGI"
-
-#: ../src/constants.cs:493
-msgid "Out"
-msgstr "OB PODLOGI"
-
-#: ../src/constants.cs:526
-msgid "Sorry, this multimedia file does not exists."
-msgstr "Predstavnostna datoteka ne obstaja."
-
-#: ../src/constants.cs:531
-msgid "Running start. Started with initial speed."
-msgstr "Start v teku. Začetek teka z začetno hitrostjo."
-
-#: ../src/constants.cs:532
-msgid "Standing start. Started without initial speed."
-msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
+#: ../CesarPlayer/Capturer/FakeCapturer.cs:81
+msgid "Fake live source"
+msgstr "Lažni vir v živo"
+
+#: ../CesarPlayer/gtk-gui/LongoMatch.Gui.CapturerBin.cs:146
+msgid "Take _snaphot"
+msgstr "Zajem _slike"
+
+#: ../CesarPlayer/gtk-gui/LongoMatch.Gui.PlayerBin.cs:221
+msgid "Time:"
+msgstr "Čas:"
+
+#: ../CesarPlayer/Gui/CapturerBin.cs:353
+msgid "Device disconnected. The capture will be paused"
+msgstr "Naprava ni povezana. Zajemanje bo prekinjeno."
+
+#: ../CesarPlayer/Gui/CapturerBin.cs:362
+msgid "Device reconnected.Do you want to restart the capture?"
+msgstr "Naprava je ponovno povezana. Ali želite ponovno začeti zajemanje?"
+
+#: ../CesarPlayer/Utils/Device.cs:83
+msgid "Default device"
+msgstr "Privzeta naprava"
+
+#: ../CesarPlayer/Utils/MediaFile.cs:160
+#: ../CesarPlayer/Utils/PreviewMediaFile.cs:116
+msgid "Invalid video file:"
+msgstr "Neveljavna video datoteka:"
 
 #: ../glade/chronojump.glade.h:1
 msgid " "
@@ -769,7 +373,6 @@ msgstr "ABK"
 #: ../src/exportSession.cs:591
 #: ../src/exportSession.cs:704
 #: ../src/exportSession.cs:805
-#: ../src/stats/graphs/potency.cs:110
 #: ../src/stats/graphs/djIndex.cs:111
 #: ../src/stats/graphs/djQ.cs:111
 #: ../src/stats/graphs/fv.cs:109
@@ -777,6 +380,8 @@ msgstr "ABK"
 #: ../src/stats/graphs/global.cs:108
 #: ../src/stats/graphs/global.cs:165
 #: ../src/stats/graphs/ieIub.cs:118
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:109
+#: ../src/stats/graphs/potency.cs:110
 #: ../src/stats/graphs/rjAVGSD.cs:69
 #: ../src/stats/graphs/rjAVGSD.cs:78
 #: ../src/stats/graphs/rjIndex.cs:71
@@ -788,7 +393,6 @@ msgstr "ABK"
 #: ../src/stats/graphs/runSimple.cs:99
 #: ../src/stats/graphs/sjCmjAbk.cs:102
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:110
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:109
 #: ../src/stats/main.cs:188
 #: ../src/stats/main.cs:216
 #: ../src/stats/main.cs:358
@@ -1556,11 +1160,8 @@ msgstr "Izris statistke"
 #: ../glade/chronojump.glade.h:249
 #: ../src/exportSession.cs:234
 #: ../src/exportSession.cs:282
-#: ../src/stats/potency.cs:63
 #: ../src/stats/djIndex.cs:33
 #: ../src/stats/djQ.cs:33
-#: ../src/stats/graphs/potency.cs:74
-#: ../src/stats/graphs/potency.cs:85
 #: ../src/stats/graphs/djIndex.cs:70
 #: ../src/stats/graphs/djIndex.cs:86
 #: ../src/stats/graphs/djQ.cs:70
@@ -1570,12 +1171,15 @@ msgstr "Izris statistke"
 #: ../src/stats/graphs/global.cs:68
 #: ../src/stats/graphs/global.cs:77
 #: ../src/stats/graphs/global.cs:88
+#: ../src/stats/graphs/potency.cs:74
+#: ../src/stats/graphs/potency.cs:85
 #: ../src/stats/graphs/sjCmjAbk.cs:65
 #: ../src/stats/graphs/sjCmjAbk.cs:71
 #: ../src/stats/graphs/sjCmjAbk.cs:78
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:73
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:82
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:90
+#: ../src/stats/potency.cs:63
 #: ../src/stats/sjCmjAbk.cs:53
 #: ../src/stats/sjCmjAbkPlus.cs:63
 #: ../src/treeViewJump.cs:40
@@ -1854,9 +1458,9 @@ msgstr "Predstavnost"
 #: ../src/gui/person.cs:118
 #: ../src/gui/run.cs:1301
 #: ../src/gui/run.cs:1470
+#: ../src/gui/server.cs:164
 #: ../src/gui/session.cs:687
 #: ../src/gui/session.cs:856
-#: ../src/gui/server.cs:164
 #: ../src/report.cs:241
 msgid "Name"
 msgstr "Ime"
@@ -1893,6 +1497,15 @@ msgstr "Novi testiranci"
 #: ../glade/chronojump.glade.h:316
 msgid "New session"
 msgstr "Nova seja"
+
+#: ../glade/chronojump.glade.h:317
+#: ../src/constants.cs:489
+#: ../src/gui/jump.cs:1303
+#: ../src/gui/jump.cs:1308
+#: ../src/gui/jump.cs:1502
+#: ../src/gui/jump.cs:1507
+msgid "No"
+msgstr "Ne"
 
 #: ../glade/chronojump.glade.h:318
 msgid "No options"
@@ -1960,6 +1573,11 @@ msgstr "Odpri spletišče strežnika (v brskalniku)"
 #: ../glade/chronojump.glade.h:337
 msgid "Or press 'space'"
 msgstr "Ali pa pritisnite 'preslednico'."
+
+#: ../glade/chronojump.glade.h:338
+#: ../src/constants.cs:160
+msgid "Other"
+msgstr "Drugo"
 
 #: ../glade/chronojump.glade.h:339
 msgid "Other. Specify:"
@@ -2360,6 +1978,13 @@ msgstr "Pokaži čas"
 msgid "Shuttle"
 msgstr "Shuttle Run test"
 
+#: ../glade/chronojump.glade.h:427
+#: ../src/constants.cs:264
+#: ../src/gui/convertWeight.cs:61
+#: ../src/gui/convertWeight.cs:108
+msgid "Simple"
+msgstr "Enostavno"
+
 #: ../glade/chronojump.glade.h:428
 #: ../src/jumpType.cs:76
 msgid "Simple jump with no special technique"
@@ -2390,14 +2015,14 @@ msgstr "Posebnost"
 
 #: ../glade/chronojump.glade.h:434
 #: ../src/exportSession.cs:494
+#: ../src/stats/graphs/runIntervallic.cs:75
 #: ../src/stats/graphs/runSimple.cs:65
 #: ../src/stats/graphs/runSimple.cs:73
 #: ../src/stats/graphs/runSimple.cs:82
-#: ../src/stats/graphs/runIntervallic.cs:75
-#: ../src/stats/runSimple.cs:52
 #: ../src/stats/runIntervallic.cs:65
 #: ../src/stats/runIntervallic.cs:70
 #: ../src/stats/runIntervallic.cs:74
+#: ../src/stats/runSimple.cs:52
 #: ../src/treeViewRun.cs:50
 #: ../src/treeViewRun.cs:126
 msgid "Speed"
@@ -2499,6 +2124,8 @@ msgstr "čS"
 #: ../src/stats/graphs/global.cs:90
 #: ../src/stats/graphs/ieIub.cs:94
 #: ../src/stats/graphs/ieIub.cs:95
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:85
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:86
 #: ../src/stats/graphs/rjEvolution.cs:105
 #: ../src/stats/graphs/rjIndex.cs:72
 #: ../src/stats/graphs/rjIndex.cs:82
@@ -2510,8 +2137,6 @@ msgstr "čS"
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:72
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:80
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:92
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:85
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:86
 #: ../src/stats/rjEvolution.cs:73
 #: ../src/stats/rjEvolution.cs:78
 #: ../src/stats/rjIndex.cs:33
@@ -2635,6 +2260,14 @@ msgstr "Vrsta"
 msgid "Type of test"
 msgstr "Vrsta testa"
 
+#: ../glade/chronojump.glade.h:469
+#: ../src/constants.cs:414
+#: ../src/constants.cs:445
+#: ../src/gui/person.cs:1276
+#: ../src/gui/person.cs:1292
+msgid "Undefined"
+msgstr "Nedoločeno"
+
 #: ../glade/chronojump.glade.h:470
 msgid "Undefined."
 msgstr "Nedoločeno."
@@ -2732,6 +2365,23 @@ msgstr "Širina črte"
 #: ../glade/chronojump.glade.h:492
 msgid "X axis font size"
 msgstr "Velikost pisave osi X"
+
+#: ../glade/chronojump.glade.h:493
+#: ../src/constants.cs:490
+#: ../src/gui/jump.cs:1301
+#: ../src/gui/jump.cs:1306
+#: ../src/gui/jump.cs:1337
+#: ../src/gui/jump.cs:1340
+#: ../src/gui/jump.cs:1367
+#: ../src/gui/jump.cs:1370
+#: ../src/gui/jump.cs:1500
+#: ../src/gui/jump.cs:1505
+#: ../src/gui/jump.cs:1579
+#: ../src/gui/jump.cs:1582
+#: ../src/gui/jump.cs:1627
+#: ../src/gui/jump.cs:1630
+msgid "Yes"
+msgstr "Da"
 
 #: ../glade/chronojump.glade.h:494
 msgid "ZigZag"
@@ -3016,6 +2666,183 @@ msgstr "ženska"
 msgid "yes"
 msgstr "da"
 
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2569
+msgid "The requested audio output was not found. Please select another audio output in the Multimedia Systems Selector."
+msgstr "Zahtevanega odvoda zvoka ni mogoče najti. Izberite drug odvod zvoka v izbirniku predstavnega sistema."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2575
+msgid "Location not found."
+msgstr "Mesta ni mogoče najti."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2579
+msgid "Could not open location; you might not have permission to open the file."
+msgstr "Ni mogoče odpreti  mesta; morda ni ustreznih dovoljenj."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2591
+#, fuzzy
+msgid "The video output is in use by another application. Please close other video applications, or select another video output in the Multimedia Systems Selector."
+msgstr "Odvod slike uporablja drug program. Ustavite program, ki zaseda odvod, ali pa izberite nov odvod med nastavitvami sistema."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2598
+#, fuzzy
+msgid "The audio output is in use by another application. Please select another audio output in the Multimedia Systems Selector. You may want to consider using a sound server."
+msgstr "Odvod zvoka uporablja drug program. Ustavite program, ki zaseda izhod, ali pa izberite nov odvod med nastavitvami sistema. Razmislite o uporabi zvočnega strežnika."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2617
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2623
+#, fuzzy, c-format
+msgid "The playback of this movie requires a %s plugin which is not installed."
+msgstr ""
+"Predvajanje tega posnetka zahteva uporabo navedenih dekodirnikov, ki pa niso nameščeni:\n"
+"\n"
+"%s"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2625
+#, c-format
+msgid ""
+"The playback of this movie requires the following decoders which are not installed:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2651
+#, fuzzy
+msgid "Cannot play this file over the network. Try downloading it to disk first."
+msgstr "Ni mogoče predvajanje preko omrežja. Poskusite prenesti datoteko na disk."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2726
+#, fuzzy
+msgid "Media file could not be played."
+msgstr "Predstavne datoteke ni mogoče predvajati."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2868
+#, fuzzy
+msgid "Failed to retrieve working directory"
+msgstr "Pridobivanje delovne mape je spodletelo."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4597
+msgid "Surround"
+msgstr "Surround sistem zvoka"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4599
+msgid "Mono"
+msgstr "Mono"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4601
+msgid "Stereo"
+msgstr "Stereo"
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4956
+msgid "Too old version of GStreamer installed."
+msgstr "Nameščena je prestara različica programa GStreamer."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4963
+msgid "Media contains no supported video streams."
+msgstr "Posnetek ne vsebuje podprtih pretokov slike."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5394
+#, fuzzy, c-format
+msgid "Failed to create a GStreamer play object. Please check your GStreamer installation."
+msgstr "Napaka med ustvarjanjem GStreamer predmeta predvajanja. Preverite nastavitve."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5468
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5595
+#, c-format
+msgid "Failed to open video output. It may not be available. Please select another video output in the Multimedia Systems Selector."
+msgstr ""
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5480
+#, fuzzy, c-format
+msgid "Could not find the video output. You may need to install additional GStreamer plugins, or select another video output in the Multimedia Systems Selector."
+msgstr "Ni mogoče najti odvoda zvoka. Naložiti je treba dodatne GStreamer vstavke ali pa je treba izbrati drug odvod slike med sistemskimi nastavitvami."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5516
+#, fuzzy, c-format
+msgid "Failed to open audio output. You may not have permission to open the sound device, or the sound server may not be running. Please select another audio output in the Multimedia Systems Selector."
+msgstr "Napaka med odpiranjem zvočnega odvoda. Morda ni ustreznih sistemskih dovoljenj za odpiranje zvočne naprave ali pa zvočni strežnik ne deluje. Izberite drug zvočni odvod v sistemskih nastavitvah."
+
+#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5536
+#, fuzzy, c-format
+msgid "Could not find the audio output. You may need to install additional GStreamer plugins, or select another audio output in the Multimedia Systems Selector."
+msgstr "Ni mogoče najti odvoda zvoka. Naložiti je treba dodatne GStreamer vstavke ali pa je treba izbrati drug odvod slike med sistemskimi nastavitvami."
+
+#. hour:minutes:seconds
+#. Translators: This is a time format, like "9:05:02" for 9
+#. * hours, 5 minutes, and 2 seconds. You may change ":" to
+#. * the separator that your locale uses or use "%Id" instead
+#. * of "%d" if your locale uses localized digits.
+#.
+#: ../libcesarplayer/src/video-utils.c:92
+#: ../libcesarplayer/src/video-utils.c:111
+#, c-format
+msgctxt "long time format"
+msgid "%d:%02d:%02d"
+msgstr "%d:%02d:%02d"
+
+#. minutes:seconds
+#. Translators: This is a time format, like "5:02" for 5
+#. * minutes and 2 seconds. You may change ":" to the
+#. * separator that your locale uses or use "%Id" instead of
+#. * "%d" if your locale uses localized digits.
+#.
+#: ../libcesarplayer/src/video-utils.c:102
+#, c-format
+msgctxt "short time format"
+msgid "%d:%02d"
+msgstr "%d:%02d"
+
+#: ../libcesarplayer/src/video-utils.c:142
+#, c-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] "%d ur"
+msgstr[1] "%d ura"
+msgstr[2] "%d uri"
+msgstr[3] "%d ure"
+
+#: ../libcesarplayer/src/video-utils.c:144
+#, c-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d minut"
+msgstr[1] "%d minuta"
+msgstr[2] "%d minuti"
+msgstr[3] "%d minute"
+
+# plural
+#: ../libcesarplayer/src/video-utils.c:146
+#, c-format
+msgid "%d second"
+msgid_plural "%d seconds"
+msgstr[0] "%d sekund"
+msgstr[1] "%d sekunda"
+msgstr[2] "%d sekundi"
+msgstr[3] "%d sekunde"
+
+#. hour:minutes:seconds
+#: ../libcesarplayer/src/video-utils.c:150
+#, c-format
+msgid "%s %s %s"
+msgstr "%s:%s:%s"
+
+#. minutes:seconds
+#: ../libcesarplayer/src/video-utils.c:153
+#, c-format
+msgid "%s %s"
+msgstr "%s:%s"
+
+#. seconds
+#: ../libcesarplayer/src/video-utils.c:156
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+# plural
+#. 0 seconds
+#: ../libcesarplayer/src/video-utils.c:159
+msgid "0 seconds"
+msgstr "0 sekund"
+
 #: ../src/chronojump.cs:181
 msgid "no tables, creating ..."
 msgstr "ni razpredelnic, zato bo ustvarjana ..."
@@ -3230,6 +3057,385 @@ msgstr "Datoteka {0} obstaja z atributi {1} in je bila ustvarjena ob {2}"
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
 msgstr "Ali ste prepričani, da želite prepisati datoteko: {0}"
+
+# TC (time of contact) - čS = Čas stika
+# TF (Time of flight) - čL = Čas leta
+#. the strings created by Catalog cannot be const
+#: ../src/constants.cs:30
+msgid ""
+"Translator, there's a glossary that will help you in Chronojump translation:\n"
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
+msgstr ""
+"Slovarček pojmov uporabljenih v programu ChronoJump se nahaja na:\n"
+" http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html"
+
+#: ../src/constants.cs:33
+msgid "Project leader and main developer."
+msgstr "Vodja projekta in glavni razvijalec programa."
+
+#: ../src/constants.cs:34
+msgid "Skypic, Chronopic, connection between hardware and software."
+msgstr "Napravi skypik in kronopik; povezava med strojno in programsko opremo."
+
+#: ../src/constants.cs:35
+msgid "Chronopic2 creation, Chronojump tester."
+msgstr "Naprava kronopik2, ChronoJump testnik."
+
+#: ../src/constants.cs:36
+msgid "Chronopic3 industrial prototype."
+msgstr "naprava kronopik3, industrijski prototip."
+
+#: ../src/constants.cs:37
+#: ../src/constants.cs:38
+msgid "OpenCV Detection of knee angle."
+msgstr "OpenCV (Computer Vision) knjižnica za zaznavanje kota kolena."
+
+#: ../src/constants.cs:39
+msgid "Installation support: Autotools, packaging, bundle."
+msgstr "Podpora namestitve: autotools, ustvarjanje paketov programske opreme."
+
+#: ../src/constants.cs:40
+msgid "Statistics support."
+msgstr "Podpora statistike."
+
+#: ../src/constants.cs:41
+msgid "Translation of Firmware to C, and new firmware features."
+msgstr "Prevod strojne programske opreme v programski jezik C in nove zmožnosti programske opreme."
+
+#: ../src/constants.cs:46
+msgid "Chronojump Manual English translation"
+msgstr "Angleški prevod priročnika ChronoJump"
+
+#: ../src/constants.cs:110
+msgid "Any"
+msgstr "Katerikoli"
+
+#: ../src/constants.cs:130
+msgid "Server is connected."
+msgstr "Strežnik je povezan."
+
+#: ../src/constants.cs:131
+msgid "Sorry, server is currently offline. Try later."
+msgstr "Strežnik trenutno ni povezan v omrežje. Poskusite znova kasneje."
+
+#: ../src/constants.cs:132
+msgid "Or maybe you are not connected to the Internet or your firewall is restricting connections"
+msgstr "Morda ni ustrezne povezave na splet ali pa požarni zid omejuje povezovanje s strežnikom"
+
+#. Josep Ma Padullés test
+#. translate (take off?)
+#. translate (take off?)
+#. OLD, check this
+#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
+#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
+#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
+#.
+#: ../src/constants.cs:176
+#: ../src/constants.cs:181
+#: ../src/constants.cs:186
+#: ../src/constants.cs:191
+#: ../src/constants.cs:196
+#: ../src/constants.cs:201
+#: ../src/constants.cs:214
+#: ../src/constants.cs:221
+#: ../src/constants.cs:228
+#: ../src/constants.cs:235
+#: ../src/constants.cs:237
+#: ../src/constants.cs:242
+#: ../src/constants.cs:244
+msgid "Peak power"
+msgstr "Končna moč"
+
+#: ../src/constants.cs:178
+#: ../src/constants.cs:184
+#: ../src/constants.cs:189
+#: ../src/constants.cs:194
+#: ../src/constants.cs:199
+#: ../src/constants.cs:204
+#: ../src/constants.cs:218
+#: ../src/constants.cs:225
+#: ../src/constants.cs:232
+#: ../src/constants.cs:240
+#: ../src/constants.cs:246
+msgid "body weight"
+msgstr "telesna teža"
+
+#: ../src/constants.cs:178
+#: ../src/constants.cs:184
+#: ../src/constants.cs:189
+#: ../src/constants.cs:194
+#: ../src/constants.cs:199
+#: ../src/constants.cs:204
+#: ../src/constants.cs:218
+#: ../src/constants.cs:225
+#: ../src/constants.cs:232
+#: ../src/constants.cs:240
+#: ../src/constants.cs:246
+msgid "extra weight"
+msgstr "dodatna obtežitev"
+
+#: ../src/constants.cs:178
+#: ../src/constants.cs:183
+#: ../src/constants.cs:188
+#: ../src/constants.cs:193
+#: ../src/constants.cs:198
+#: ../src/constants.cs:203
+#: ../src/constants.cs:217
+#: ../src/constants.cs:224
+#: ../src/constants.cs:231
+#: ../src/constants.cs:239
+#: ../src/constants.cs:245
+#: ../src/stats/fv.cs:51
+#: ../src/stats/fv.cs:52
+#: ../src/stats/graphs/fv.cs:74
+#: ../src/stats/graphs/fv.cs:75
+msgid "height"
+msgstr "višina"
+
+#: ../src/constants.cs:216
+msgid "Male applicants to a Faculty of Sport Sciencies"
+msgstr "Moški prijavljen za športno fakulteto"
+
+#: ../src/constants.cs:223
+msgid "Female elite volleybol"
+msgstr "Ženska izbrana vrsta za odbojko"
+
+#: ../src/constants.cs:230
+msgid "Female medium volleybol"
+msgstr "Ženska klubska vrsta za odbojko"
+
+#: ../src/constants.cs:238
+msgid "Female sports sciencies students"
+msgstr "Ženske študentke športnih ved"
+
+#: ../src/constants.cs:244
+msgid "Female university students"
+msgstr "Ženske univerzitetne študentke"
+
+#. *4.0 for having double division
+#. CurrentGraphData.GraphTitle = this.ToString();
+#: ../src/constants.cs:250
+#: ../src/stats/graphs/potency.cs:61
+#: ../src/stats/graphs/potency.cs:71
+#: ../src/stats/graphs/potency.cs:81
+#: ../src/stats/graphs/potency.cs:91
+#: ../src/stats/potency.cs:60
+msgid "Peak Power"
+msgstr "Končna moč"
+
+#. global stat types
+#: ../src/constants.cs:262
+msgid "Session summary"
+msgstr "Povzetek seje"
+
+#: ../src/constants.cs:263
+msgid "Jumper summary"
+msgstr "Povzetek skakalca"
+
+#: ../src/constants.cs:265
+msgid "Simple with TC"
+msgstr "Preprosto s čS"
+
+#: ../src/constants.cs:266
+msgid "Jumps: Reactive"
+msgstr "Skoki: repetitivno-eksplozivni skok"
+
+#: ../src/constants.cs:267
+msgid "Runs: Simple"
+msgstr "Teki: enostavni teki"
+
+# http://www.thefreedictionary.com/intervallic
+# točka 3
+#: ../src/constants.cs:268
+msgid "Runs: Intervallic"
+msgstr "Teki: Intervalni tek"
+
+#. strings
+#: ../src/constants.cs:271
+msgid "See all jumps"
+msgstr "Pregled vseh skokov"
+
+#: ../src/constants.cs:272
+msgid "See all runs"
+msgstr "Pregled vseh tekov"
+
+#: ../src/constants.cs:273
+msgid "See all pulses"
+msgstr "Pogled vseh ritmičnih podatkov"
+
+#: ../src/constants.cs:295
+msgid "black only"
+msgstr "le črna"
+
+#: ../src/constants.cs:362
+msgid "Typical serial and USB-serial ports on Windows:"
+msgstr "Običajna zaporedna in USB vrata na okolju Windows:"
+
+#: ../src/constants.cs:364
+msgid "Also, these are possible:"
+msgstr "Mogoče so tudi:"
+
+#: ../src/constants.cs:368
+msgid "Typical serial serial ports on GNU/Linux:"
+msgstr "Običajna zaporedna vrata na GNU/Linux:"
+
+#: ../src/constants.cs:370
+msgid "Typical USB-serial ports on GNU/Linux:"
+msgstr "Običajna USB vrata na GNU/Linux:"
+
+#: ../src/constants.cs:372
+msgid "If you use Chronopic3, you will have an USB-serial port."
+msgstr "V primeru uporabe naprave kronopik3 so zahtevana prosta USB vrata."
+
+#: ../src/constants.cs:375
+msgid "Serial ports found:"
+msgstr "Zaznana zaporedna vrata:"
+
+#: ../src/constants.cs:376
+msgid "USB-serial ports found:"
+msgstr "Zaznana USB vrata:"
+
+#: ../src/constants.cs:377
+msgid "Not found any USB-serial ports."
+msgstr "Ni mogoče najti USB vrat."
+
+#: ../src/constants.cs:377
+msgid "Is Chronopic connected?"
+msgstr "Ali je naprava kronopik povezana?"
+
+#: ../src/constants.cs:406
+msgid "--Undefined"
+msgstr "---Nedoločeno"
+
+#: ../src/constants.cs:407
+msgid "--Any"
+msgstr "--Katerikoli"
+
+#: ../src/constants.cs:410
+msgid "-None"
+msgstr "-Brez"
+
+#: ../src/constants.cs:423
+msgid "Africa"
+msgstr "Afrika"
+
+#: ../src/constants.cs:424
+msgid "Antarctica"
+msgstr "Antarktika"
+
+#: ../src/constants.cs:425
+msgid "Asia"
+msgstr "Azija"
+
+#: ../src/constants.cs:426
+msgid "Europe"
+msgstr "Evropa"
+
+#: ../src/constants.cs:427
+msgid "North America"
+msgstr "Severna Amerika"
+
+#: ../src/constants.cs:428
+msgid "Oceania"
+msgstr "Oceanija"
+
+#: ../src/constants.cs:429
+msgid "South America"
+msgstr "Južna Amerika"
+
+#: ../src/constants.cs:433
+msgid "Tests are SIMULATED until Chronopic is connected."
+msgstr "Testi so simulirani, dokler je naprava kronopik povezana."
+
+#. Catalog.GetString("Angles") + ":" +
+#: ../src/constants.cs:434
+#: ../src/exportSession.cs:287
+#: ../src/exportSession.cs:389
+#: ../src/exportSession.cs:496
+#: ../src/exportSession.cs:551
+#: ../src/exportSession.cs:642
+#: ../src/exportSession.cs:683
+#: ../src/exportSession.cs:742
+msgid "Simulated"
+msgstr "Simulirano"
+
+#: ../src/constants.cs:436
+msgid "All tests available except MultiChronopic."
+msgstr "Razpoložljivi so vsi testi, razen testov za multikronopik."
+
+#: ../src/constants.cs:437
+msgid "All tests available."
+msgstr "Vsi razpoložljivi testi"
+
+#: ../src/constants.cs:448
+msgid "Sedentary/Ocasional practice"
+msgstr "Občasna vadba"
+
+#: ../src/constants.cs:452
+msgid "Regular practice"
+msgstr "Redna vadba"
+
+#: ../src/constants.cs:453
+msgid "Competition"
+msgstr "Tekmovanje"
+
+#: ../src/constants.cs:454
+msgid "Elite"
+msgstr "Izbrana vrsta"
+
+#: ../src/constants.cs:458
+msgid "Initializing"
+msgstr "Začenjanje"
+
+#. 0
+#: ../src/constants.cs:459
+msgid "Checking database"
+msgstr "Preverjanje podatkovne zbirke"
+
+#. 1
+#: ../src/constants.cs:460
+msgid "Creating database"
+msgstr "Ustvarjanje podatkovne zbirke"
+
+#. 2
+#: ../src/constants.cs:461
+msgid "Making database backup"
+msgstr "Ustvarjanje varnostne kopije podatkovne zbirke"
+
+#. 3
+#: ../src/constants.cs:462
+msgid "Updating database"
+msgstr "Posodabljanje podatkovne zbirke"
+
+#. 4
+#: ../src/constants.cs:463
+msgid "Check for new version"
+msgstr "Preverjanje za novo različico"
+
+#. 5
+#: ../src/constants.cs:464
+msgid "Preparing main Window"
+msgstr "Pripravljanje glavnega okna"
+
+#: ../src/constants.cs:492
+msgid "In"
+msgstr "NA PODLOGI"
+
+#: ../src/constants.cs:493
+msgid "Out"
+msgstr "OB PODLOGI"
+
+#: ../src/constants.cs:526
+msgid "Sorry, this multimedia file does not exists."
+msgstr "Predstavnostna datoteka ne obstaja."
+
+#: ../src/constants.cs:531
+msgid "Running start. Started with initial speed."
+msgstr "Start v teku. Začetek teka z začetno hitrostjo."
+
+#: ../src/constants.cs:532
+msgid "Standing start. Started without initial speed."
+msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
 
 #: ../src/execute/event.cs:328
 msgid "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution."
@@ -3541,13 +3747,14 @@ msgstr "Skupaj"
 #: ../src/exportSession.cs:595
 #: ../src/exportSession.cs:706
 #: ../src/exportSession.cs:820
-#: ../src/stats/graphs/potency.cs:156
 #: ../src/stats/graphs/djIndex.cs:163
 #: ../src/stats/graphs/djQ.cs:164
 #: ../src/stats/graphs/fv.cs:149
 #: ../src/stats/graphs/global.cs:108
 #: ../src/stats/graphs/global.cs:165
 #: ../src/stats/graphs/ieIub.cs:158
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:150
+#: ../src/stats/graphs/potency.cs:156
 #: ../src/stats/graphs/rjAVGSD.cs:70
 #: ../src/stats/graphs/rjAVGSD.cs:79
 #: ../src/stats/graphs/rjIndex.cs:156
@@ -3555,7 +3762,6 @@ msgstr "Skupaj"
 #: ../src/stats/graphs/runSimple.cs:139
 #: ../src/stats/graphs/sjCmjAbk.cs:136
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:150
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:150
 #: ../src/stats/main.cs:188
 #: ../src/stats/main.cs:216
 #: ../src/stats/main.cs:359
@@ -4161,6 +4367,10 @@ msgstr ""
 "Nova teža\n"
 "možnost 2"
 
+#: ../src/gui/evaluator.cs:345
+msgid "Select of Birth"
+msgstr "Izbor dneva rojstva"
+
 #: ../src/gui/event.cs:315
 msgid "Playing video"
 msgstr "Predvajanje posnetka"
@@ -4196,10 +4406,6 @@ msgstr "najprej jih je treba urediti ali izbrisati."
 #: ../src/gui/event.cs:671
 msgid "Are you sure you want to delete this test type?"
 msgstr "Ali ste prepričani, da želite izbrisati to vrsto testa?"
-
-#: ../src/gui/evaluator.cs:345
-msgid "Select of Birth"
-msgstr "Izbor dneva rojstva"
 
 #. write "last" to show last jump
 #: ../src/gui/eventExecute.cs:1133
@@ -4587,8 +4793,8 @@ msgstr "Vrsta ritma: {0}."
 #: ../src/gui/queryServer.cs:105
 #: ../src/gui/queryServer.cs:678
 #: ../src/gui/stats.cs:181
-#: ../src/statType.cs:331
 #: ../src/stats/graphs/rjIndex.cs:59
+#: ../src/statType.cs:331
 msgid "Average Index"
 msgstr "Povprečni indeks"
 
@@ -4613,13 +4819,13 @@ msgstr "teki"
 msgid "watts"
 msgstr "vati"
 
-#: ../src/gui/repetitiveConditions.cs:177
-msgid "You need to activate sounds in main window (bottom)"
-msgstr "Zvoke je treba omogočiti v glavnem oknu (spodaj)"
-
 #: ../src/gui/reactionTime.cs:60
 msgid "reaction time"
 msgstr "odzivni čas"
+
+#: ../src/gui/repetitiveConditions.cs:177
+msgid "You need to activate sounds in main window (bottom)"
+msgstr "Zvoke je treba omogočiti v glavnem oknu (spodaj)"
 
 #: ../src/gui/report.cs:138
 msgid "Session/s"
@@ -4730,6 +4936,14 @@ msgstr "Ni določeno"
 msgid "Run type: '{0}' exists. Please, use another name"
 msgstr "Vrsta teka '{0}' že obstaja. Uporabite drugo ime."
 
+#: ../src/gui/server.cs:201
+msgid "Uploaded test type"
+msgstr "Poslana vrsta testa"
+
+#: ../src/gui/server.cs:206
+msgid "Uploaded sport"
+msgstr "Poslan šport"
+
 #: ../src/gui/session.cs:106
 msgid "New Session"
 msgstr "Nova seja"
@@ -4795,14 +5009,6 @@ msgstr "Enostavni teki"
 #: ../src/gui/session.cs:697
 msgid "Runs interval"
 msgstr "Intervalni teki"
-
-#: ../src/gui/server.cs:201
-msgid "Uploaded test type"
-msgstr "Poslana vrsta testa"
-
-#: ../src/gui/server.cs:206
-msgid "Uploaded sport"
-msgstr "Poslan šport"
 
 #.
 #. if is RjEvolution, or runInervallic show mark consecutives, graph only with lines and transposed
@@ -6611,12 +6817,12 @@ msgstr "Dvigovanje uteži"
 msgid "Wrestling"
 msgstr "Rokoborba"
 
-#: ../src/stats/potency.cs:59
 #: ../src/stats/djIndex.cs:31
 #: ../src/stats/djQ.cs:31
 #: ../src/stats/fv.cs:49
 #: ../src/stats/ieIub.cs:64
 #: ../src/stats/jumpSimpleSubtraction.cs:59
+#: ../src/stats/potency.cs:59
 #: ../src/stats/rjAVGSD.cs:33
 #: ../src/stats/rjEvolution.cs:65
 #: ../src/stats/rjIndex.cs:31
@@ -6625,55 +6831,6 @@ msgstr "Rokoborba"
 #: ../src/treeViewJump.cs:37
 msgid "Jumper"
 msgstr "Skakalec"
-
-#: ../src/stats/potency.cs:61
-#: ../src/stats/graphs/potency.cs:72
-msgid "Person's Weight"
-msgstr "Teža testiranca"
-
-#: ../src/stats/potency.cs:62
-#: ../src/stats/graphs/potency.cs:73
-msgid "Extra Weight"
-msgstr "Dodatna obtežitev"
-
-#: ../src/stats/potency.cs:132
-#: ../src/stats/djIndex.cs:126
-#: ../src/stats/djQ.cs:126
-#: ../src/stats/fv.cs:118
-#: ../src/stats/global.cs:149
-#: ../src/stats/ieIub.cs:126
-#: ../src/stats/jumpSimpleSubtraction.cs:122
-#: ../src/stats/rjIndex.cs:128
-#: ../src/stats/rjPotencyBosco.cs:130
-#: ../src/stats/runSimple.cs:124
-#: ../src/stats/sjCmjAbk.cs:124
-#: ../src/stats/sjCmjAbkPlus.cs:143
-msgid " various sessions "
-msgstr " različne seje"
-
-#: ../src/stats/potency.cs:135
-#: ../src/stats/djIndex.cs:129
-#: ../src/stats/djQ.cs:129
-#: ../src/stats/fv.cs:121
-#: ../src/stats/global.cs:152
-#: ../src/stats/ieIub.cs:129
-#: ../src/stats/jumpSimpleSubtraction.cs:125
-#: ../src/stats/rjAVGSD.cs:193
-#: ../src/stats/rjEvolution.cs:272
-#: ../src/stats/rjIndex.cs:131
-#: ../src/stats/rjPotencyBosco.cs:133
-#: ../src/stats/runSimple.cs:127
-#: ../src/stats/runIntervallic.cs:258
-#: ../src/stats/sjCmjAbk.cs:127
-#: ../src/stats/sjCmjAbkPlus.cs:146
-msgid " session "
-msgstr " seja"
-
-#: ../src/stats/potency.cs:163
-#: ../src/stats/rjPotencyBosco.cs:137
-#, csharp-format
-msgid "{0} in {1} applied to {2} on {3}"
-msgstr "{0} v {1} uporabljeno za {2} na {3}"
 
 #: ../src/stats/djIndex.cs:32
 #: ../src/stats/graphs/djIndex.cs:69
@@ -6689,8 +6846,8 @@ msgstr "Indeks SzO"
 #: ../src/stats/rjEvolution.cs:259
 #: ../src/stats/rjIndex.cs:118
 #: ../src/stats/rjPotencyBosco.cs:120
-#: ../src/stats/runSimple.cs:114
 #: ../src/stats/runIntervallic.cs:246
+#: ../src/stats/runSimple.cs:114
 #: ../src/stats/sjCmjAbk.cs:114
 #: ../src/stats/sjCmjAbkPlus.cs:133
 #, csharp-format
@@ -6711,8 +6868,8 @@ msgstr[3] "Prve {0} vrednosti"
 #: ../src/stats/rjEvolution.cs:262
 #: ../src/stats/rjIndex.cs:121
 #: ../src/stats/rjPotencyBosco.cs:123
-#: ../src/stats/runSimple.cs:117
 #: ../src/stats/runIntervallic.cs:249
+#: ../src/stats/runSimple.cs:117
 #: ../src/stats/sjCmjAbk.cs:117
 #: ../src/stats/sjCmjAbkPlus.cs:136
 #, csharp-format
@@ -6722,6 +6879,39 @@ msgstr[0] "Najvišjih {0} vrednosti vsakega testiranca"
 msgstr[1] "Najvišja {0} vrednost vsakega skakalca"
 msgstr[2] "Najvišji {0} vrednosti vsakega testiranca"
 msgstr[3] "Najvišje {0} vrednosti vsakega testiranca"
+
+#: ../src/stats/djIndex.cs:126
+#: ../src/stats/djQ.cs:126
+#: ../src/stats/fv.cs:118
+#: ../src/stats/global.cs:149
+#: ../src/stats/ieIub.cs:126
+#: ../src/stats/jumpSimpleSubtraction.cs:122
+#: ../src/stats/potency.cs:132
+#: ../src/stats/rjIndex.cs:128
+#: ../src/stats/rjPotencyBosco.cs:130
+#: ../src/stats/runSimple.cs:124
+#: ../src/stats/sjCmjAbk.cs:124
+#: ../src/stats/sjCmjAbkPlus.cs:143
+msgid " various sessions "
+msgstr " različne seje"
+
+#: ../src/stats/djIndex.cs:129
+#: ../src/stats/djQ.cs:129
+#: ../src/stats/fv.cs:121
+#: ../src/stats/global.cs:152
+#: ../src/stats/ieIub.cs:129
+#: ../src/stats/jumpSimpleSubtraction.cs:125
+#: ../src/stats/potency.cs:135
+#: ../src/stats/rjAVGSD.cs:193
+#: ../src/stats/rjEvolution.cs:272
+#: ../src/stats/rjIndex.cs:131
+#: ../src/stats/rjPotencyBosco.cs:133
+#: ../src/stats/runIntervallic.cs:258
+#: ../src/stats/runSimple.cs:127
+#: ../src/stats/sjCmjAbk.cs:127
+#: ../src/stats/sjCmjAbkPlus.cs:146
+msgid " session "
+msgstr " seja"
 
 #: ../src/stats/djIndex.cs:133
 #, csharp-format
@@ -6763,21 +6953,21 @@ msgstr "{0} v nekaj skokih in statistiki na {1}{2}"
 #. this.operation = "AVG";
 #. }
 #.
-#: ../src/stats/graphs/potency.cs:55
 #: ../src/stats/graphs/djIndex.cs:52
 #: ../src/stats/graphs/djQ.cs:52
 #: ../src/stats/graphs/fv.cs:58
 #: ../src/stats/graphs/global.cs:51
 #: ../src/stats/graphs/ieIub.cs:65
+#: ../src/stats/graphs/jumpSimpleSubtraction.cs:61
+#: ../src/stats/graphs/potency.cs:55
 #: ../src/stats/graphs/rjAVGSD.cs:55
 #: ../src/stats/graphs/rjEvolution.cs:65
 #: ../src/stats/graphs/rjIndex.cs:53
 #: ../src/stats/graphs/rjPotencyBosco.cs:55
-#: ../src/stats/graphs/runSimple.cs:51
 #: ../src/stats/graphs/runIntervallic.cs:65
+#: ../src/stats/graphs/runSimple.cs:51
 #: ../src/stats/graphs/sjCmjAbk.cs:50
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:51
-#: ../src/stats/graphs/jumpSimpleSubtraction.cs:61
 msgid "ChronoJump graph"
 msgstr "Graf ChronoJump"
 
@@ -6821,6 +7011,16 @@ msgstr "Odštevanje med {0} {1} in {0} {2}"
 msgid "Result"
 msgstr "Rezultat"
 
+#: ../src/stats/graphs/potency.cs:72
+#: ../src/stats/potency.cs:61
+msgid "Person's Weight"
+msgstr "Teža testiranca"
+
+#: ../src/stats/graphs/potency.cs:73
+#: ../src/stats/potency.cs:62
+msgid "Extra Weight"
+msgstr "Dodatna obtežitev"
+
 #: ../src/stats/ieIub.cs:137
 #, csharp-format
 msgid "{0} in index {1} on {2}"
@@ -6848,6 +7048,12 @@ msgstr "Razpršitev"
 msgid "Chronojump Graph"
 msgstr "Graf ChronoJump"
 
+#: ../src/stats/potency.cs:163
+#: ../src/stats/rjPotencyBosco.cs:137
+#, csharp-format
+msgid "{0} in {1} applied to {2} on {3}"
+msgstr "{0} v {1} uporabljeno za {2} na {3}"
+
 #: ../src/stats/rjAVGSD.cs:202
 #, csharp-format
 msgid "{0} at average of jumps using {1} applied to {2} on {3}"
@@ -6873,11 +7079,6 @@ msgstr "{0} v razvoju RES uporabljen na {1} na {2}{3}"
 msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgstr "{0} v indeksu RES [(čLpovp-čSpovp)/čSpovp*100] uporabljeno na {1} na {2}"
 
-#: ../src/stats/runSimple.cs:131
-#, csharp-format
-msgid "{0} in {1} run on {2}"
-msgstr "{0} v {1} na {2}"
-
 # plural
 #: ../src/stats/runIntervallic.cs:265
 #, csharp-format
@@ -6892,6 +7093,11 @@ msgstr[3] "(najboljši {0} označeni zaporedni teki)"
 #, csharp-format
 msgid "{0} in Run Intervallic applied to {1} on {2}{3}"
 msgstr "{0} v razvoju RES uporabljen na {1} na {2}{3}"
+
+#: ../src/stats/runSimple.cs:131
+#, csharp-format
+msgid "{0} in {1} run on {2}"
+msgstr "{0} v {1} na {2}"
 
 #: ../src/stats/sjCmjAbk.cs:131
 #, csharp-format

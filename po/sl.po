@@ -14,10 +14,10 @@ msgstr ""
 "PO-Revision-Date: 2011-09-15 22:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -2699,13 +2699,13 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
-"Za predvajanje tega filma potrebujete naslednje dekodirnike, ki niso nameščeni:\n"
+"Za predvajanje tega filma je treba namestiti naslednje dekodirnike:\n"
 "\n"
 "%s"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2651
 msgid "Cannot play this file over the network. Try downloading it to disk first."
-msgstr "Te datoteke ni mogoče predvajati prek omrežja. Poskusite jo najprej prenesti na disk."
+msgstr "Te datoteke ni mogoče predvajati prek omrežja. Poskusite jo najprej prejeti na disk."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2726
 msgid "Media file could not be played."
@@ -7151,4 +7151,3 @@ msgstr "Razlika"
 #: ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Tekač"
-

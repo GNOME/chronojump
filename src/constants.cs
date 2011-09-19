@@ -365,7 +365,7 @@ public class Constants
 				"\t<i>COM3 ... COM27</i>");
 	
 	public static string PortNamesLinux = 
-		string.Format(Catalog.GetString("Typical serial serial ports on GNU/Linux:") + 
+		string.Format(Catalog.GetString("Typical serial ports on GNU/Linux:") + 
 				"\t<i>/dev/ttyS0\t/dev/ttyS1</i>\n" +
 				Catalog.GetString("Typical USB-serial ports on GNU/Linux:") +
 				"\t<i>/dev/ttyUSB0\t/dev/ttyUSB1</i>" + "\n" + 

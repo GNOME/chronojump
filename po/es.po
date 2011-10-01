@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2011-08-25 20:46+0000\n"
-"PO-Revision-Date: 2011-08-26 11:23+0200\n"
+"POT-Creation-Date: 2011-09-19 13:42+0000\n"
+"PO-Revision-Date: 2011-10-01 10:57+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,15 +25,13 @@ msgstr ""
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
-msgstr ""
+msgstr "Fuente en falso directo"
 
 #: ../CesarPlayer/gtk-gui/LongoMatch.Gui.CapturerBin.cs:146
-#| msgid "Take snapshot"
 msgid "Take _snaphot"
 msgstr "_Capturar pantalla"
 
 #: ../CesarPlayer/gtk-gui/LongoMatch.Gui.PlayerBin.cs:221
-#| msgid "Time"
 msgid "Time:"
 msgstr "Tiempo:"
 
@@ -46,7 +44,6 @@ msgid "Device reconnected.Do you want to restart the capture?"
 msgstr "Dispositivo reconectado. ¿Quiere reiniciar la captura?"
 
 #: ../CesarPlayer/Utils/Device.cs:83
-#| msgid "Default values"
 msgid "Default device"
 msgstr "Dispositivo predeterminado"
 
@@ -2494,6 +2491,8 @@ msgid ""
 "The requested audio output was not found. Please select another audio output "
 "in the Multimedia Systems Selector."
 msgstr ""
+"No se encontró la salida de sonido solicitada. Seleccione otra salida de "
+"sonido en el Selector de sistemas multimedia."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2575
 msgid "Location not found."
@@ -2503,6 +2502,7 @@ msgstr "Ubicación no encontrada."
 msgid ""
 "Could not open location; you might not have permission to open the file."
 msgstr ""
+"No se pudo abrir la ubicación; quizá no tiene permiso para abrir el archivo."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2591
 msgid ""
@@ -2510,6 +2510,9 @@ msgid ""
 "applications, or select another video output in the Multimedia Systems "
 "Selector."
 msgstr ""
+"La salida de vídeo la está usando otra aplicación. Cierre las otras "
+"aplicaciones de vídeo o seleccione otra salida de vídeo en el Selector de "
+"sistemas multimedia."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2598
 msgid ""
@@ -2517,12 +2520,17 @@ msgid ""
 "audio output in the Multimedia Systems Selector. You may want to consider "
 "using a sound server."
 msgstr ""
+"La salida de sonido la está usando otra aplicación. Seleccione otra salida "
+"de sonido en el Selector de sistemas multimedia. Quizá deba considerar usar "
+"un servidor de sonido."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2617
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2623
 #, c-format
 msgid "The playback of this movie requires a %s plugin which is not installed."
 msgstr ""
+"La reproducción de esta película requiere un complemento %s que no está "
+"instalado."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2625
 #, c-format
@@ -2532,11 +2540,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"La reproducción de esta película requiere los siguientes decodificadores, "
+"que no están instalados:\n"
+"\n"
+"%s"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2651
 msgid ""
 "Cannot play this file over the network. Try downloading it to disk first."
 msgstr ""
+"No se puede reproducir este archivo a través de la red. Intente descargarlo "
+"primero."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2726
 msgid "Media file could not be played."
@@ -2547,18 +2561,15 @@ msgid "Failed to retrieve working directory"
 msgstr "Falló al obtener la carpeta de trabajo"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4597
-#, fuzzy
 #| msgid "Burundi"
 msgid "Surround"
-msgstr "Burundi"
+msgstr "Envolvente"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4599
-#| msgid "Monaco"
 msgid "Mono"
 msgstr "Mono"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4601
-#| msgid "Stride"
 msgid "Stereo"
 msgstr "Estéreo"
 
@@ -2568,7 +2579,7 @@ msgstr "Versión de GStreamer instalada muy antigua"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4963
 msgid "Media contains no supported video streams."
-msgstr ""
+msgstr "El soporte no contiene ningún flujo de vídeo soportado."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5394
 #, c-format
@@ -2576,6 +2587,8 @@ msgid ""
 "Failed to create a GStreamer play object. Please check your GStreamer "
 "installation."
 msgstr ""
+"Falló al crear el objeto de reproducción GStreamer. Compruebe su instalación "
+"de GStreamer."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5468
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5595
@@ -2584,6 +2597,8 @@ msgid ""
 "Failed to open video output. It may not be available. Please select another "
 "video output in the Multimedia Systems Selector."
 msgstr ""
+"Falló al abrir la salida de vídeo. Puede que no esté disponible. Seleccione "
+"otra salida de vídeo en el Selector de sistemas multimedia"
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5480
 #, c-format
@@ -2592,6 +2607,9 @@ msgid ""
 "GStreamer plugins, or select another video output in the Multimedia Systems "
 "Selector."
 msgstr ""
+"No se pudo encontrar la salida de vídeo. Quizá necesite instalar "
+"complementos adicionales de GStreamer, o seleccionar otra salida de vídeo en "
+"el Selector de sistemas multimedia."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5516
 #, c-format
@@ -2600,6 +2618,9 @@ msgid ""
 "device, or the sound server may not be running. Please select another audio "
 "output in the Multimedia Systems Selector."
 msgstr ""
+"Falló al abrir la salida de sonido. Quizá no tenga permiso para abrir el "
+"dispositivo de sonido, o el servidor de sonido quizá no esté funcionando. "
+"Seleccione otra salida de sonido en el Selector de sistemas multimedia."
 
 #: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5536
 #, c-format
@@ -2608,6 +2629,9 @@ msgid ""
 "GStreamer plugins, or select another audio output in the Multimedia Systems "
 "Selector."
 msgstr ""
+"No se pudo encontrar la salida de sonido. Quizá necesite instalar "
+"complementos adicionales de GStreamer, o seleccionar otra salida de sonido "
+"en el Selector de sistemas multimedia."
 
 #. hour:minutes:seconds
 #. Translators: This is a time format, like "9:05:02" for 9
@@ -2650,7 +2674,6 @@ msgstr[1] "%d minutos"
 
 #: ../libcesarplayer/src/video-utils.c:146
 #, c-format
-#| msgid "seconds"
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d segundo"
@@ -2676,7 +2699,6 @@ msgstr "%s"
 
 #. 0 seconds
 #: ../libcesarplayer/src/video-utils.c:159
-#| msgid "seconds"
 msgid "0 seconds"
 msgstr "0 seconds"
 
@@ -2952,7 +2974,8 @@ msgstr "Soporte estadístico."
 
 #: ../src/constants.cs:41
 msgid "Translation of Firmware to C, and new firmware features."
-msgstr "Traducción del «firmware» a C, y nuevas características del «firmware.»"
+msgstr ""
+"Traducción del «firmware» a C, y nuevas características del «firmware.»"
 
 #: ../src/constants.cs:46
 msgid "Chronojump Manual English translation"
@@ -3097,8 +3120,9 @@ msgid "Also, these are possible:"
 msgstr "Además, estos son posibles:"
 
 #: ../src/constants.cs:368
-msgid "Typical serial serial ports on GNU/Linux:"
-msgstr "Puertos serie típicos en GNU/Linux:"
+#| msgid "Typical USB-serial ports on GNU/Linux:"
+msgid "Typical serial ports on GNU/Linux:"
+msgstr "Puertos serie típicos en GNU/Linux:"
 
 #: ../src/constants.cs:370
 msgid "Typical USB-serial ports on GNU/Linux:"
@@ -4335,7 +4359,8 @@ msgid ""
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
 "Use esta ventana para reparar esta prueba.\n"
-"Pulse dos veces en cualquier celda para editar (separador de decimales: «{0}»)"
+"Pulse dos veces en cualquier celda para editar (separador de decimales: "
+"«{0}»)"
 
 #: ../src/gui/jump.cs:472
 #, csharp-format
@@ -5038,8 +5063,8 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
 msgstr ""
-"Tiene que caminar en esta barra tan rápido como le sea posible «tal que así», "
-"si toca el suelo, simplemente continúe."
+"Tiene que caminar en esta barra tan rápido como le sea posible «tal que "
+"así», si toca el suelo, simplemente continúe."
 
 #: ../src/runType.cs:162
 msgid ""
@@ -7072,6 +7097,9 @@ msgstr "Diferencia"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Corredor"
+
+#~ msgid "Typical serial serial ports on GNU/Linux:"
+#~ msgstr "Puertos serie típicos en GNU/Linux:"
 
 #~ msgid ""
 #~ "Attention, current version of Chronojump gets hanged on exit\n"

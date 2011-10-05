@@ -7685,7 +7685,7 @@ The names and dates of birth of the athletes and the evaluators will never
 \end_layout
 
 \begin_layout Chapter
-Preferences
+Preferences and using Chronojump on more than one computer
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Preferencias"
@@ -7698,61 +7698,172 @@ name "sec:Preferencias"
 \begin_layout Standard
 The preferences window 
 \emph on
-Tools / Preferences
+Session / Preferences
 \emph default
-, is divided into three tabs:
-\end_layout
+, is divided into three tabs 
+\emph on
+Database
+\emph default
+, 
+\emph on
+Show
+\emph default
+ and 
+\emph on
+Others.
 
-\begin_layout Description
-Database (Figure 
+\emph default
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Preferencias1"
+reference "fig:Preferencias"
 
 \end_inset
 
-) shows where you are, to open the folder, and make one copy of it in a
- directory of choice for the users.
- It shows two possible locations for the database because some operating
+ show this tabs.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Database
+\emph default
+ tab shows where you are, to open the folder, and make one copy of it in
+ a directory of choice for the users.
+ Maybe it shows two possible locations for the database because some Windows
  systems offer a place to store data while the program runs, and another
  when it’s closed.
 \end_layout
 
-\begin_layout Description
-Show (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Preferencias2"
-
-\end_inset
-
-) the options of which are the columns of information you want to display
- in the windows of data and statistics.
-\end_layout
-
-\begin_layout Description
-Other (Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Preferencias3"
-
-\end_inset
-
-) The first two options refers to the number of decimals (recommended 3),
- and how to delete them of the test.
- The last action is specific to the time limited reactive jumps.
- If you use these tests, click here to check which behavior you prefer when
- the subject is in the air at the end of the set time.
+\begin_layout Standard
+Use this tab to have a copy of your data in order to avoid loosing your
+ sessions, persons and tests on a hard disk problem or if operating system
+ is reinstalled.
+ Also you can use this tab to have Cronojump database in more than one computer.
 \end_layout
 
 \begin_layout Standard
+Current Chronojump version has not an synchronization tool that allows to
+ easily manage two computers daily and have your database in both.
+ The only solution now is to copy database from one system to another.
+ If you want to copy database from computer A to computer B, do the following:
+\end_layout
+
+\begin_layout Enumerate
+On computer A:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Go to: 
+\emph on
+Session / preferences / database / copy database
+\end_layout
+
+\begin_layout Enumerate
+Select where to copy it (eg: your Desktop folder or a pendrive).
+ The file is named 
+\emph on
+chronojump.db
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+On computer B:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If Chronojump is not installed, do it.
+\end_layout
+
+\begin_layout Enumerate
+Go to 
+\emph on
+Session / preferences / database / open database folder
+\emph default
+ 
+\end_layout
+
+\begin_layout Enumerate
+If you have valuable data on B, then you should rename 
+\emph on
+chronojump.db
+\emph default
+ file in this folder or copy to any place.
+\end_layout
+
+\begin_layout Enumerate
+Copy the 
+\emph on
+chronojump.db
+\emph default
+ file from A to the database folder on B.
+\end_layout
+
+\begin_layout Enumerate
+Close chronojump, open again, and it's done.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Show
+\emph default
+ tab, shows the options related to information you want to display in the
+ windows of data and statistics.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Other
+\emph default
+ tab has three options.
+ First refers to the number of decimals (recommended 3).
+ If second option is active, then a confirmation window will be shown every
+ time that user wants to delete a test.
+ The last action is specific to the time that limits reactive jumps.
+ If this option is checked, then a reactive jump limited by time will accept
+ a jump where the person is in the air in the moment that time finishes.
+ If is unchecked then this last jump will be rejected.
+\end_layout
+
+\begin_layout Standard
+
+\lang spanish
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
 \align center
+
+\lang spanish
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features>
+<column alignment="center" valignment="top" width="6cm">
+<column alignment="center" valignment="top" width="6cm">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\lang spanish
 \begin_inset Graphics
 	filename Preferencias-1.png
 	scale 60
@@ -7762,37 +7873,15 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Preferencias1"
-
 \end_inset
-
-Window preferences - Tab 1.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
 
 \begin_layout Plain Layout
 \align center
+
+\lang spanish
 \begin_inset Graphics
 	filename Preferencias-2.png
 	scale 60
@@ -7802,37 +7891,17 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Preferencias2"
-
 \end_inset
-
-Window preferences - Tab 2.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
+</cell>
+</row>
+<row topspace="0.5cm">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="12cm">
+\begin_inset Text
 
 \begin_layout Plain Layout
 \align center
+
+\lang spanish
 \begin_inset Graphics
 	filename Preferencias-3.png
 	scale 60
@@ -7842,17 +7911,38 @@ status open
 
 \end_layout
 
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
 \begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang spanish
 \begin_inset Caption
 
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:Preferencias3"
+name "fig:Preferencias"
 
 \end_inset
 
-Window preferences - Tab 3.
+Preferences window.
 \end_layout
 
 \end_inset

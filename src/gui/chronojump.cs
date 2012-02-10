@@ -191,6 +191,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_reaction_time_execute;
 
 	
+	[Widget] Gtk.Notebook notebook_sup;
+	[Widget] Gtk.Box hbox_menu_sup_server;
+	[Widget] Gtk.Notebook notebook_main;
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options;
@@ -465,6 +468,7 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		//changeTestImage("", "", "LOGO");
 
+		notebook_main_encoder_and_server_hide();
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 		definedSession = false;
@@ -4975,6 +4979,28 @@ Console.WriteLine("X");
 	private void on_notebook_change_by_user (object o, SwitchPageArgs args) {
 		//show chronojump logo on down-left area
 		//changeTestImage("", "", "LOGO");
+	}
+	
+	private void on_notebook_sup_switch_page (object o, SwitchPageArgs args) {
+		//select something in main according on selected on sup
+		if(notebook_sup.CurrentPage == 0) { 		//contacts
+			notebook_main_encoder_and_server_hide();
+		} else if(notebook_sup.CurrentPage == 1) { 	//encoder
+			notebook_main.GetNthPage(3).Visible = true;
+			notebook_main.Page = 3;			//at main, encoder is 3
+			notebook_main.ShowTabs = false;
+		} else {					//server
+			notebook_main.GetNthPage(4).Visible = true;
+			notebook_main.Page = 4;			//at main, server is 4
+			notebook_main.ShowTabs = false;
+		}
+	}
+			
+	private void notebook_main_encoder_and_server_hide () {
+		notebook_main.Page = 0;
+		notebook_main.ShowTabs = true;
+		notebook_main.GetNthPage(3).Visible = false;
+		notebook_main.GetNthPage(4).Visible = false;
 	}
 	
 	//help

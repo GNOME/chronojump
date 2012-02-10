@@ -518,7 +518,7 @@ msgstr "<b>Valors millors i pitjors</b>"
 
 #: ../glade/chronojump.glade.h:22
 msgid "<b>Check data</b>"
-msgstr "<b>Dades genèriques</b>"
+msgstr "<b>Consultar dades</b>"
 
 #: ../glade/chronojump.glade.h:23
 msgid "<b>Chronojump</b>"

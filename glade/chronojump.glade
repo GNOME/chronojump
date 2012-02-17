@@ -22762,13 +22762,14 @@ on current Chronojump version.</property>
                                                 <property name="border_width">10</property>
                                                 <signal name="clicked" handler="on_server_ping"/>
                                                 <child>
-                                                  <widget class="GtkVBox" id="vbox73">
+                                                  <widget class="GtkHBox" id="hbox59">
                                                     <property name="visible">True</property>
                                                     <property name="spacing">6</property>
                                                     <child>
                                                       <widget class="GtkImage" id="image20">
                                                         <property name="visible">True</property>
-                                                        <property name="stock">gtk-info</property>
+                                                        <property name="stock">gtk-network</property>
+                                                        <property name="icon-size">5</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">0</property>
@@ -23026,6 +23027,7 @@ Evaluator can use real name or nickname.</property>
                                                       <widget class="GtkImage" id="image21">
                                                         <property name="visible">True</property>
                                                         <property name="stock">gtk-jump-to</property>
+                                                        <property name="icon-size">5</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">0</property>

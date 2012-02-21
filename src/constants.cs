@@ -173,10 +173,38 @@ public class Constants
 		"(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 */
-	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + " (Lewis, 1974)";
+	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + Catalog.GetString("Added g to have Watts") + " (Lewis, 1974)";
 	public static string PotencyLewisFormula = PotencyLewisFormulaShort + "\n" +
 		"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
-	
+	//see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
+	//Estimation of human power output from maximal vertical jump and body mass
+	//1988
+	//Everett A. Harman, Michael T. Rosenstein, Peter N.
+	//Frykman, Richard M. Rosenstein and William J.
+	//Kraemer
+	//The Lewis formula, and nomogram based on the formula, have
+	//become widely used among coaches, physical educators, and researchers to
+	//estimate power output during the vertical jump-and-reach test (1,8).
+	//According to the formula,
+	//POWERkg.. = SQRT(4.9) .WEIGHTkg.SQRT(JUMP-REACH SCOREm), (1)
+	//The formula and nomogram appear to have been first published in
+	//1974 in a book on interval training by Fox and Mathews (4). The only
+	//reference provided for the formula was a note stating "Courtesy, Office of
+	//Naval Research". The formula and nomogram were popularized in the
+	//1976 and 1981 editions of the widely used exercise physiology textbook by
+	//Fox and Mathews (3,7), and have been more recently published in a book
+	//on tests and measurements for physical educators (5).
+	//A phone conversation with Dr. Mathews revealed that he developed
+	//the formula and nomogram in conjunction with his student, Mr. Lewis.
+	//Development of the nomogram was funded in part by the Office of Naval
+	//Research.
+	//An obvious problem with the formula is that it does not use
+	//standard units. Power should be measured in watts, which are
+	//newton-meters per second. Kilograms are units of mass, not weight or
+	//force. The following adjusted version of the formula includes the multiplier
+	//9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
+	//newtons, yielding power in watts (N.m/s).
+	//POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
 	
 	public static string PotencyHarmanFormulaShort = Catalog.GetString("Peak power") + " (Harman, 1991)";
 	public static string PotencyHarmanFormula = PotencyHarmanFormulaShort + "\n" +

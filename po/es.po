@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-02-10 19:01+0000\n"
-"PO-Revision-Date: 2012-02-12 13:30+0100\n"
+"POT-Creation-Date: 2012-02-21 13:09+0000\n"
+"PO-Revision-Date: 2012-02-23 13:58+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -602,7 +602,7 @@ msgstr "Seleccionar datos para informe HTML"
 msgid "show..."
 msgstr "mostrar..."
 
-#: ../glade/chronojump.glade.h:128 ../src/constants.cs:264
+#: ../glade/chronojump.glade.h:128 ../src/constants.cs:293
 #: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Simple"
@@ -980,7 +980,7 @@ msgstr "Errores"
 msgid "Video available"
 msgstr "Vídeo disponible"
 
-#: ../glade/chronojump.glade.h:213 ../src/constants.cs:490
+#: ../glade/chronojump.glade.h:213 ../src/constants.cs:519
 #: ../src/gui/jump.cs:1301 ../src/gui/jump.cs:1306 ../src/gui/jump.cs:1337
 #: ../src/gui/jump.cs:1340 ../src/gui/jump.cs:1367 ../src/gui/jump.cs:1370
 #: ../src/gui/jump.cs:1500 ../src/gui/jump.cs:1505 ../src/gui/jump.cs:1579
@@ -988,7 +988,7 @@ msgstr "Vídeo disponible"
 msgid "Yes"
 msgstr "Sí"
 
-#: ../glade/chronojump.glade.h:214 ../src/constants.cs:489
+#: ../glade/chronojump.glade.h:214 ../src/constants.cs:518
 #: ../src/gui/jump.cs:1303 ../src/gui/jump.cs:1308 ../src/gui/jump.cs:1502
 #: ../src/gui/jump.cs:1507
 msgid "No"
@@ -1397,8 +1397,8 @@ msgstr "Datos del evaluador"
 msgid "Select your Chronometer"
 msgstr "Seleccionar su cronómetro"
 
-#: ../glade/chronojump.glade.h:306 ../src/constants.cs:414
-#: ../src/constants.cs:445 ../src/gui/person.cs:1276 ../src/gui/person.cs:1292
+#: ../glade/chronojump.glade.h:306 ../src/constants.cs:443
+#: ../src/constants.cs:474 ../src/gui/person.cs:1276 ../src/gui/person.cs:1292
 msgid "Undefined"
 msgstr "Indefinido"
 
@@ -1649,9 +1649,6 @@ msgstr ""
 "Chronopic"
 
 #: ../glade/chronojump.glade.h:367
-#| msgid ""
-#| "Contact platform\n"
-#| "(tempered steel)"
 msgid "Contacts (platform or photocell)"
 msgstr "Contactos (plataforma o fotocélulas)"
 
@@ -1664,15 +1661,6 @@ msgid "Linear encoder"
 msgstr "Codificador lineal"
 
 #: ../glade/chronojump.glade.h:370
-#| msgid ""
-#| "Chronojump has a server in order to share data between users.\n"
-#| "Data is collected by users contributions and server generates statistics "
-#| "and graphs. \n"
-#| "Anyone can check server stats and graphs and easily make querys to the "
-#| "server.\n"
-#| "Privacy is respected:\n"
-#| "- Names, comments, photos and videos are not uploaded.\n"
-#| "- Dates of birth are hidden."
 msgid ""
 "Chronojump has a server in order to share data between users.\n"
 "Data is collected by users contributions and server generates statistics and "
@@ -2497,7 +2485,6 @@ msgid "Open server website (on browser)"
 msgstr "Navegar por la web del servidor"
 
 #: ../glade/chronojump.glade.h:560
-#| msgid "Server stats"
 msgid "Server actions"
 msgstr "Acciones del servidor"
 
@@ -3008,8 +2995,7 @@ msgstr "Soporte estadístico."
 
 #: ../src/constants.cs:41
 msgid "Translation of Firmware to C, and new firmware features."
-msgstr ""
-"Traducción del «firmware» a C, y nuevas características del «firmware.»"
+msgstr "Traducción del «firmware» a C, y nuevas características del «firmware.»"
 
 #: ../src/constants.cs:46
 msgid "Chronojump Manual English translation"
@@ -3044,270 +3030,303 @@ msgstr ""
 #. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
 #. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 #.
-#: ../src/constants.cs:176 ../src/constants.cs:181 ../src/constants.cs:186
-#: ../src/constants.cs:191 ../src/constants.cs:196 ../src/constants.cs:201
-#: ../src/constants.cs:214 ../src/constants.cs:221 ../src/constants.cs:228
-#: ../src/constants.cs:235 ../src/constants.cs:237 ../src/constants.cs:242
-#: ../src/constants.cs:244
+#. see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
+#. Estimation of human power output from maximal vertical jump and body mass
+#. 1988
+#. Everett A. Harman, Michael T. Rosenstein, Peter N.
+#. Frykman, Richard M. Rosenstein and William J.
+#. Kraemer
+#. The Lewis formula, and nomogram based on the formula, have
+#. become widely used among coaches, physical educators, and researchers to
+#. estimate power output during the vertical jump-and-reach test (1,8).
+#. According to the formula,
+#. POWERkg.. = SQRT(4.9) .WEIGHTkg.SQRT(JUMP-REACH SCOREm), (1)
+#. The formula and nomogram appear to have been first published in
+#. 1974 in a book on interval training by Fox and Mathews (4). The only
+#. reference provided for the formula was a note stating "Courtesy, Office of
+#. Naval Research". The formula and nomogram were popularized in the
+#. 1976 and 1981 editions of the widely used exercise physiology textbook by
+#. Fox and Mathews (3,7), and have been more recently published in a book
+#. on tests and measurements for physical educators (5).
+#. A phone conversation with Dr. Mathews revealed that he developed
+#. the formula and nomogram in conjunction with his student, Mr. Lewis.
+#. Development of the nomogram was funded in part by the Office of Naval
+#. Research.
+#. An obvious problem with the formula is that it does not use
+#. standard units. Power should be measured in watts, which are
+#. newton-meters per second. Kilograms are units of mass, not weight or
+#. force. The following adjusted version of the formula includes the multiplier
+#. 9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
+#. newtons, yielding power in watts (N.m/s).
+#. POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
+#: ../src/constants.cs:176 ../src/constants.cs:210 ../src/constants.cs:215
+#: ../src/constants.cs:220 ../src/constants.cs:225 ../src/constants.cs:230
+#: ../src/constants.cs:243 ../src/constants.cs:250 ../src/constants.cs:257
+#: ../src/constants.cs:264 ../src/constants.cs:266 ../src/constants.cs:271
+#: ../src/constants.cs:273
 msgid "Peak power"
 msgstr "Pico de potencia"
 
-#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
-#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
-#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
-#: ../src/constants.cs:240 ../src/constants.cs:246
+#: ../src/constants.cs:177
+msgid "adapted (added g to have Watts)"
+msgstr "adaptado (añadido g para tener watios)"
+
+#: ../src/constants.cs:179 ../src/constants.cs:213 ../src/constants.cs:218
+#: ../src/constants.cs:223 ../src/constants.cs:228 ../src/constants.cs:233
+#: ../src/constants.cs:247 ../src/constants.cs:254 ../src/constants.cs:261
+#: ../src/constants.cs:269 ../src/constants.cs:275
 msgid "body weight"
 msgstr "peso corporal"
 
-#: ../src/constants.cs:178 ../src/constants.cs:184 ../src/constants.cs:189
-#: ../src/constants.cs:194 ../src/constants.cs:199 ../src/constants.cs:204
-#: ../src/constants.cs:218 ../src/constants.cs:225 ../src/constants.cs:232
-#: ../src/constants.cs:240 ../src/constants.cs:246
+#: ../src/constants.cs:179 ../src/constants.cs:213 ../src/constants.cs:218
+#: ../src/constants.cs:223 ../src/constants.cs:228 ../src/constants.cs:233
+#: ../src/constants.cs:247 ../src/constants.cs:254 ../src/constants.cs:261
+#: ../src/constants.cs:269 ../src/constants.cs:275
 msgid "extra weight"
 msgstr "peso extra"
 
-#: ../src/constants.cs:178 ../src/constants.cs:183 ../src/constants.cs:188
-#: ../src/constants.cs:193 ../src/constants.cs:198 ../src/constants.cs:203
-#: ../src/constants.cs:217 ../src/constants.cs:224 ../src/constants.cs:231
-#: ../src/constants.cs:239 ../src/constants.cs:245 ../src/stats/fv.cs:51
+#: ../src/constants.cs:179 ../src/constants.cs:212 ../src/constants.cs:217
+#: ../src/constants.cs:222 ../src/constants.cs:227 ../src/constants.cs:232
+#: ../src/constants.cs:246 ../src/constants.cs:253 ../src/constants.cs:260
+#: ../src/constants.cs:268 ../src/constants.cs:274 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/graphs/fv.cs:74
 #: ../src/stats/graphs/fv.cs:75
 msgid "height"
 msgstr "altura"
 
-#: ../src/constants.cs:216
+#: ../src/constants.cs:245
 msgid "Male applicants to a Faculty of Sport Sciencies"
 msgstr "Candidatos masculinos a la facultad de ciencias del deporte"
 
-#: ../src/constants.cs:223
+#: ../src/constants.cs:252
 msgid "Female elite volleybol"
 msgstr "Voleibol femenino de elite"
 
-#: ../src/constants.cs:230
+#: ../src/constants.cs:259
 msgid "Female medium volleybol"
 msgstr "Voleibol medio femenino"
 
-#: ../src/constants.cs:238
+#: ../src/constants.cs:267
 msgid "Female sports sciencies students"
 msgstr "Estudiantes femeninas de ciencias deportivas"
 
-#: ../src/constants.cs:244
+#: ../src/constants.cs:273
 msgid "Female university students"
 msgstr "Estudiantes universitarias femeninas"
 
 #. *4.0 for having double division
 #. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:250 ../src/stats/graphs/potency.cs:61
+#: ../src/constants.cs:279 ../src/stats/graphs/potency.cs:61
 #: ../src/stats/graphs/potency.cs:71 ../src/stats/graphs/potency.cs:81
 #: ../src/stats/graphs/potency.cs:91 ../src/stats/potency.cs:60
 msgid "Peak Power"
 msgstr "Pico de potencia"
 
 #. global stat types
-#: ../src/constants.cs:262
+#: ../src/constants.cs:291
 msgid "Session summary"
 msgstr "Sumario de Sesión"
 
-#: ../src/constants.cs:263
+#: ../src/constants.cs:292
 msgid "Jumper summary"
 msgstr "Sumario de Saltador"
 
-#: ../src/constants.cs:265
+#: ../src/constants.cs:294
 msgid "Simple with TC"
 msgstr "Simple con TC"
 
-#: ../src/constants.cs:266
+#: ../src/constants.cs:295
 msgid "Jumps: Reactive"
 msgstr "Salto: Reactivo"
 
-#: ../src/constants.cs:267
+#: ../src/constants.cs:296
 msgid "Runs: Simple"
 msgstr "Carreras: Simple"
 
-#: ../src/constants.cs:268
+#: ../src/constants.cs:297
 msgid "Runs: Intervallic"
 msgstr "Carreras: Tramos"
 
 #. strings
-#: ../src/constants.cs:271
+#: ../src/constants.cs:300
 msgid "See all jumps"
 msgstr "Mostrar todos los saltos"
 
-#: ../src/constants.cs:272
+#: ../src/constants.cs:301
 msgid "See all runs"
 msgstr "Mostrar todas las carreras"
 
-#: ../src/constants.cs:273
+#: ../src/constants.cs:302
 msgid "See all pulses"
 msgstr "Mostrar todos los pulsos"
 
-#: ../src/constants.cs:295
+#: ../src/constants.cs:324
 msgid "black only"
 msgstr "sólo negro"
 
-#: ../src/constants.cs:362
+#: ../src/constants.cs:391
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Típicos puertos serie y USB en Windows:"
 
-#: ../src/constants.cs:364
+#: ../src/constants.cs:393
 msgid "Also, these are possible:"
 msgstr "Además, estos son posibles:"
 
-#: ../src/constants.cs:368
+#: ../src/constants.cs:397
 msgid "Typical serial ports on GNU/Linux:"
 msgstr "Puertos serie típicos en GNU/Linux:"
 
-#: ../src/constants.cs:370
+#: ../src/constants.cs:399
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Puertos serie USB típicos en GNU/Linux:"
 
-#: ../src/constants.cs:372
+#: ../src/constants.cs:401
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Si usted usa Chronopic3, tendrá un puerto USB-serie."
 
-#: ../src/constants.cs:375
+#: ../src/constants.cs:404
 msgid "Serial ports found:"
 msgstr "Puertos serie encontrados:"
 
-#: ../src/constants.cs:376
+#: ../src/constants.cs:405
 msgid "USB-serial ports found:"
 msgstr "Puertos USB-serie encontrados:"
 
-#: ../src/constants.cs:377
+#: ../src/constants.cs:406
 msgid "Not found any USB-serial ports."
 msgstr "No se ha encontrado ningún puerto USB-serie."
 
-#: ../src/constants.cs:377
+#: ../src/constants.cs:406
 msgid "Is Chronopic connected?"
 msgstr "¿Está Chronopic conectado?"
 
-#: ../src/constants.cs:406
+#: ../src/constants.cs:435
 msgid "--Undefined"
 msgstr "--Indefinido"
 
-#: ../src/constants.cs:407
+#: ../src/constants.cs:436
 msgid "--Any"
 msgstr "--Cualquiera"
 
-#: ../src/constants.cs:410
+#: ../src/constants.cs:439
 msgid "-None"
 msgstr "-Ninguno"
 
-#: ../src/constants.cs:423
+#: ../src/constants.cs:452
 msgid "Africa"
 msgstr "África"
 
-#: ../src/constants.cs:424
+#: ../src/constants.cs:453
 msgid "Antarctica"
 msgstr "Antártida"
 
-#: ../src/constants.cs:425
+#: ../src/constants.cs:454
 msgid "Asia"
 msgstr "Asia"
 
-#: ../src/constants.cs:426
+#: ../src/constants.cs:455
 msgid "Europe"
 msgstr "Europa"
 
-#: ../src/constants.cs:427
+#: ../src/constants.cs:456
 msgid "North America"
 msgstr "Norteamérica"
 
-#: ../src/constants.cs:428
+#: ../src/constants.cs:457
 msgid "Oceania"
 msgstr "Oceanía"
 
-#: ../src/constants.cs:429
+#: ../src/constants.cs:458
 msgid "South America"
 msgstr "Sudamérica"
 
-#: ../src/constants.cs:433
+#: ../src/constants.cs:462
 msgid "Tests are SIMULATED until Chronopic is connected."
 msgstr "Las pruebas son SIMULADAS hasta que se conecte Chronopic."
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:434 ../src/exportSession.cs:287
+#: ../src/constants.cs:463 ../src/exportSession.cs:287
 #: ../src/exportSession.cs:389 ../src/exportSession.cs:496
 #: ../src/exportSession.cs:551 ../src/exportSession.cs:642
 #: ../src/exportSession.cs:683 ../src/exportSession.cs:742
 msgid "Simulated"
 msgstr "Simulado"
 
-#: ../src/constants.cs:436
+#: ../src/constants.cs:465
 msgid "All tests available except MultiChronopic."
 msgstr "Todas las pruebas disponibles excepto MultiChronopic."
 
-#: ../src/constants.cs:437
+#: ../src/constants.cs:466
 msgid "All tests available."
 msgstr "Disponibles todas las pruebas."
 
-#: ../src/constants.cs:448
+#: ../src/constants.cs:477
 msgid "Sedentary/Ocasional practice"
 msgstr "Sedentario/Practicante ocasional"
 
-#: ../src/constants.cs:452
+#: ../src/constants.cs:481
 msgid "Regular practice"
 msgstr "Práctica regular"
 
-#: ../src/constants.cs:453
+#: ../src/constants.cs:482
 msgid "Competition"
 msgstr "Competición"
 
-#: ../src/constants.cs:454
+#: ../src/constants.cs:483
 msgid "Elite"
 msgstr "Élite"
 
-#: ../src/constants.cs:458
+#: ../src/constants.cs:487
 msgid "Initializing"
 msgstr "Inicializando"
 
 #. 0
-#: ../src/constants.cs:459
+#: ../src/constants.cs:488
 msgid "Checking database"
 msgstr "Comprobando base de datos"
 
 #. 1
-#: ../src/constants.cs:460
+#: ../src/constants.cs:489
 msgid "Creating database"
 msgstr "Creando base de datos"
 
 #. 2
-#: ../src/constants.cs:461
+#: ../src/constants.cs:490
 msgid "Making database backup"
 msgstr "Realizando copia de base de datos"
 
 #. 3
-#: ../src/constants.cs:462
+#: ../src/constants.cs:491
 msgid "Updating database"
 msgstr "Actualizando base de datos."
 
 #. 4
-#: ../src/constants.cs:463
+#: ../src/constants.cs:492
 msgid "Check for new version"
 msgstr "Comprobando nueva versión"
 
 #. 5
-#: ../src/constants.cs:464
+#: ../src/constants.cs:493
 msgid "Preparing main Window"
 msgstr "Preparando ventana principal"
 
-#: ../src/constants.cs:492
+#: ../src/constants.cs:521
 msgid "In"
 msgstr "Dentro"
 
-#: ../src/constants.cs:493
+#: ../src/constants.cs:522
 msgid "Out"
 msgstr "Fuera"
 
-#: ../src/constants.cs:526
+#: ../src/constants.cs:555
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Disculpe, este archivo multimedia no existe."
 
-#: ../src/constants.cs:531
+#: ../src/constants.cs:560
 msgid "Running start. Started with initial speed."
 msgstr "Comienza carrera con velocidad inicial."
 
-#: ../src/constants.cs:532
+#: ../src/constants.cs:561
 msgid "Standing start. Started without initial speed."
 msgstr "Comienza carrera sin velocidad inicial."
 
@@ -4392,8 +4411,7 @@ msgid ""
 "Double clic any cell to edit it (decimal separator: '{0}')"
 msgstr ""
 "Use esta ventana para reparar esta prueba.\n"
-"Pulse dos veces en cualquier celda para editar (separador de decimales: "
-"«{0}»)"
+"Pulse dos veces en cualquier celda para editar (separador de decimales: «{0}»)"
 
 #: ../src/gui/jump.cs:472
 #, csharp-format
@@ -5096,8 +5114,8 @@ msgid ""
 "You have to walk on this bar as fast as possible 'like this', if you touch "
 "the ground just continue."
 msgstr ""
-"Tiene que caminar en esta barra tan rápido como le sea posible «tal que "
-"así», si toca el suelo, simplemente continúe."
+"Tiene que caminar en esta barra tan rápido como le sea posible «tal que así», "
+"si toca el suelo, simplemente continúe."
 
 #: ../src/runType.cs:162
 msgid ""

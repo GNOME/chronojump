@@ -35,6 +35,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_bar;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
+	[Widget] Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.Image image_encoder_capture;
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
@@ -50,9 +52,6 @@ public partial class ChronoJumpWindow
 	private string encoderEC="c";	//"c" or "ec"
 	private string encoderAnalysis="powerBars";
 
-//TODO: pass selected time
-//TODO:pass minimal height 
-//
 //TODO: on capture only show ups if concentric
 
 	//TODO: que el curve no pugui ser mes alt de actual numero de curves, per tant s'ha de retornar algun valor. ha de canviar cada cop que hi ha un capture o recalculate
@@ -73,10 +72,18 @@ public partial class ChronoJumpWindow
 	{
 		//TODO: que surti barra de progres de calculando... despres de capturar i boto de cerrar automatico
 		//TODO: i mostrar valors des de la gui (potser a zona dreta damunt del zoom)
+		
+		double mass = 0;
+		if(radiobutton_encoder_capture_bar.Active)
+			mass = spin_encoder_bar_limit.Value;
+		else
+			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
 
 		//capture data
 		EncoderParams ep = new EncoderParams(
-				4000, Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value)); //R decimal: '.'
+				(int) spin_encoder_capture_time.Value, 
+				mass,
+				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value)); //R decimal: '.'
 
 		EncoderStruct es = new EncoderStruct(
 				"",					//no data input
@@ -96,7 +103,9 @@ public partial class ChronoJumpWindow
 		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-2;
 
 		ep = new EncoderParams(
+				(int) spin_encoder_capture_min_height.Value, 
 				false,			//isJump (1st) is not used in "curves"
+				mass,
 				encoderEC, "curves",
 				"0", 0, w, h); 		//smoothOne, and curve are not used in "curves"
 
@@ -137,6 +146,12 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
+		double mass = 0;
+		if(radiobutton_encoder_capture_bar.Active)
+			mass = spin_encoder_bar_limit.Value;
+		else
+			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
+
 		if(radiobutton_encoder_concentric.Active)
 			encoderEC = "c";
 		else
@@ -146,7 +161,9 @@ public partial class ChronoJumpWindow
 		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-2;
 
 		EncoderParams ep = new EncoderParams(
+				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
+				mass,
 				encoderEC, encoderAnalysis,
 				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
 				(int) spin_encoder_analyze_curve_num.Value, w, h);
@@ -159,7 +176,6 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
 
 		//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
-		//TODO per l'anterior estaria be saber la mida de la image_encoder_analyze i passa-ho al call_graph.py
 		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 		image_encoder_analyze.Pixbuf = pixbuf;
 	}

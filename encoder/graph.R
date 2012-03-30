@@ -1,6 +1,4 @@
 library("EMD")
-#argv <-commandArgs(TRUE);	xmin <- as.numeric(argv[1]);	xmax <- as.numeric(argv[2])
-
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
 findCurves <- function(rawdata, eccon, min_height, draw) {
@@ -326,12 +324,8 @@ find.mfrow <- function(n) {
 #currently only used "c" and "ec-con". no need of ec-con-rep because c and ec-con are repetitive
 eccons=c("c","ec-con","ec-con-rep") 
 
-mass = 79
 g = 9.81
 smoothingAll= 0.1
-#smoothingOne= 0.7 #good smoothing in ec-con is when speed crosses 0 in lowest and highests points encoder line
-minHeight= 300
-#file="data.txt"; isJump=TRUE
 #file="data_falla.txt"; isJump=FALSE #TODO em sembla que falla perque no hi ha cap curve, pq totes son mes petites que minHeight
 
 colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
@@ -348,13 +342,15 @@ if(length(args) < 3) {
 	outputGraph=args[2]
 	outputData1=args[3]
 	outputData2=args[4]
-	isJump=as.logical(args[5])
-	eccon=args[6]
-	analysis=args[7]
-	smoothingOne=args[8]
-	jump=args[9]
-	width=as.numeric(args[10])
-	height=as.numeric(args[11])
+	minHeight=as.numeric(args[5])*10 #from cm to mm
+	isJump=as.logical(args[6])
+	mass=as.numeric(args[7])
+	eccon=args[8]
+	analysis=args[9]
+	smoothingOne=args[10]
+	jump=args[11]
+	width=as.numeric(args[12])
+	height=as.numeric(args[13])
 
 	png(outputGraph, width=width, height=height)
 
@@ -382,7 +378,8 @@ if(length(args) < 3) {
 	if(analysis=="single") 
 		if(jump>0) 
 			paint(rawdata, eccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
-					1,curves[jump,3],smoothingOne,mass,paste(analysis,eccon,titleType,jump),TRUE,FALSE,TRUE,TRUE)
+					1,curves[jump,3],smoothingOne,mass,paste(analysis,eccon,titleType,jump),
+					TRUE,FALSE,TRUE,TRUE)
 	if(analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))

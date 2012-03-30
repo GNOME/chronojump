@@ -57,6 +57,8 @@ public partial class ChronoJumpWindow
 	//TODO: que el curve no pugui ser mes alt de actual numero de curves, per tant s'ha de retornar algun valor. ha de canviar cada cop que hi ha un capture o recalculate
 
 	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa
+	//TODO:recording time a main options (entre weights i smoothing)
+	//TODO: curves amb par mar mes gran
 	
 	public void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;
@@ -73,16 +75,11 @@ public partial class ChronoJumpWindow
 		//TODO: que surti barra de progres de calculando... despres de capturar i boto de cerrar automatico
 		//TODO: i mostrar valors des de la gui (potser a zona dreta damunt del zoom)
 		
-		double mass = 0;
-		if(radiobutton_encoder_capture_bar.Active)
-			mass = spin_encoder_bar_limit.Value;
-		else
-			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
 
 		//capture data
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
-				mass,
+				findMass(),
 				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value)); //R decimal: '.'
 
 		EncoderStruct es = new EncoderStruct(
@@ -92,7 +89,16 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
+		makeCurvesGraph();
+	}
+	
+	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
+	{
+		makeCurvesGraph();
+	}
 
+	private void makeCurvesGraph() 
+	{
 		if(radiobutton_encoder_concentric.Active)
 			encoderEC = "c";
 		else
@@ -102,14 +108,14 @@ public partial class ChronoJumpWindow
 		int w = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-2; //image is inside (is smaller than) viewport
 		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-2;
 
-		ep = new EncoderParams(
+		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				false,			//isJump (1st) is not used in "curves"
-				mass,
+				findMass(),
 				encoderEC, "curves",
 				"0", 0, w, h); 		//smoothOne, and curve are not used in "curves"
 
-		es = new EncoderStruct(
+		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
 				Util.GetEncoderGraphTempFileName(),
 				"NULL", "NULL", ep);		//no data ouptut
@@ -119,7 +125,17 @@ public partial class ChronoJumpWindow
 		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 		image_encoder_capture.Pixbuf = pixbuf;
 	}
+	
+	private string findMass() {
+		double mass = 0;
+		if(radiobutton_encoder_capture_bar.Active)
+			mass = spin_encoder_bar_limit.Value;
+		else
+			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
 
+		return Util.ConvertToPoint(mass); //R decimal: '.'
+	}
+	
 	//show curve_num only on simple and superpose
 	public void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=true;

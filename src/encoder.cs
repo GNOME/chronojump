@@ -27,7 +27,9 @@ using Mono.Unix;
 public class EncoderParams
 {
 	private int time;
+	private double mass;
 
+	private int minHeight;
 	private bool isJump;
 	private string contractionEC;
 	private string analysis;
@@ -36,20 +38,24 @@ public class EncoderParams
 	private int width;
 	private int height;
 	
-	public EncoderParams(int time, string smooth)
+	public EncoderParams(int time, double mass, string smooth)
 	{
 		this.time = time;
+		this.mass = mass;
 		this.smooth = smooth;
 	}
 	
 	public string ToString1 () 
 	{
-		return time.ToString() + " " + smooth;
+		return time.ToString() + " " + mass.ToString() + " " + smooth;
 	}
 	
-	public EncoderParams(bool isJump, string contractionEC, string analysis, string smooth, int curve, int width, int height)
+	public EncoderParams(int minHeight, bool isJump, double mass, string contractionEC, 
+			string analysis, string smooth, int curve, int width, int height)
 	{
+		this.minHeight = minHeight;
 		this.isJump = isJump;
+		this.mass = mass;
 		this.contractionEC = contractionEC;
 		this.analysis = analysis;
 		this.smooth = smooth;
@@ -60,7 +66,7 @@ public class EncoderParams
 	
 	public string ToString2 () 
 	{
-		return isJump + " " + contractionEC + " " + analysis + " " + 
+		return minHeight + " " + isJump + " " + mass + " " + contractionEC + " " + analysis + " " + 
 			smooth + " " + curve + " " + width + " " + height;
 	}
 

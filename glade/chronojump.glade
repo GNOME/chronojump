@@ -23091,7 +23091,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="spacing">4</property>
                                                             <child>
-                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_minimal_height">
+                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_min_height">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>

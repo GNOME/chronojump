@@ -27,10 +27,10 @@ print(sys.argv)
 # ============
 # = Variable =
 # ============
-#record_time = 10000                          # how long do you want to record (ms).
 outputFile = sys.argv[1]
-record_time = int(sys.argv[2])
-smoothingOne = float(sys.argv[3])
+record_time = int(sys.argv[2])*1000		#from s to ms
+mass = float(sys.argv[3])
+smoothingOne = float(sys.argv[4])
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(115200)
@@ -104,10 +104,6 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		myR.assign('a',temp[start:end])
 		myR.run('a.cumsum <- cumsum(a)')
 		myR.run('range <- abs(a.cumsum[length(a)]-a.cumsum[1])')
-
-#TODO: this spar should be 0.7,configurable, try it
-#then data here and in graph.R will be the same
-
 		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 		myR.run('accel <- predict( speed, deriv=1 )')
 		myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
@@ -137,9 +133,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		if(meanPower > 3500): colPower = REDINV
 		else: colPower = RED
 			
-		print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
-#		print(phase, "%4i" % phaseRange, "%6.2f" % meanSpeed, "%6.2f" % maxSpeed, 
-#				"%7.2f" % meanPower, "%8.2f" % peakPower, "%4i" % peakPowerT)
+		print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + 
+		colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -172,7 +167,6 @@ if __name__ == '__main__':
 	#print "connecting with R"
 	myR = R()
 	#myR.run('library("EMD")') #cal per extrema, pero no per splines
-	mass = 70
 	myR.assign('mass',mass)
 	myR.run('weight=mass*9.81')
 	myR.assign('k',2)

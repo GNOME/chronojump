@@ -60,7 +60,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button event_execute_button_cancel;
 	[Widget] Gtk.Button event_execute_button_finish;
 	[Widget] Gtk.Button event_execute_button_update;
-
+	
 	
 	[Widget] Gtk.Table event_execute_table_jump_simple;
 	[Widget] Gtk.Table event_execute_table_jump_reactive;
@@ -1876,7 +1876,7 @@ Log.WriteLine("Preparing reactive A");
 	void on_event_execute_button_help_clicked (object o, EventArgs args)
 	{
 	}
-
+	
 
 	//projecte cubevirtual de juan gonzalez
 	

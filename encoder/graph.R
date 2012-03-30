@@ -1,0 +1,449 @@
+library("EMD")
+#argv <-commandArgs(TRUE);	xmin <- as.numeric(argv[1]);	xmax <- as.numeric(argv[2])
+
+
+#this will replace below methods: findPics1ByMinindex, findPics2BySpeed
+findCurves <- function(rawdata, eccon, min_height, draw) {
+	a=cumsum(rawdata)
+	b=extrema(a)
+	start=0; end=0; startH=0
+	tempStart=0; tempEnd=0;
+	#TODO: fer algo per si no es detecta el minindex previ al salt
+	if(eccon=="c") {
+		if(length(b$minindex)==0) { b$minindex=cbind(1,1) }
+		if(length(b$maxindex)==0) { b$maxindex=cbind(length(a),length(a)) }
+		#fixes if 1st minindex is after 1st maxindex
+		if(b$maxindex[1] < b$minindex[1]) { b$minindex = rbind(c(1,1),b$minindex) } 
+		row=1; i=1; j=1
+		while(max(c(i,j)) <= min(c(length(b$minindex[,1]),length(b$maxindex[,1])))) {
+			tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
+			tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+			height=a[tempEnd]-a[tempStart]
+#			print(paste(height,i,j))
+			if(height >= min_height) { 
+				start[row] = tempStart
+				end[row]   = tempEnd
+				startH[row]= a[b$minindex[i,1]]		#height at start
+				row=row+1;
+#				if(eccon=="c") { break } #c only needs one result
+			} 
+			i=i+1; j=j+1
+		}
+	} else { #ec-con, and ec-con-rep
+		row=1; i=1; j=2
+		while(j <= length(b$maxindex[,1])) {
+			tempStart = mean(c(b$maxindex[i,1],b$maxindex[i,2]))
+			tempEnd   = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+			bottom=min(a[tempStart:tempEnd]) #find min value between the two tops
+			mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
+			height=mintop-bottom
+#			print(paste(height,i,j))
+			if(height >= min_height) { 
+				start[row] = tempStart
+				end[row]   = tempEnd
+				startH[row] = a[b$maxindex[i,1]]		#height at start
+				row=row+1; i=j; 
+#				if(eccon=="ec-con") { break } #ec-con only needs one result
+			} 
+			j=j+1
+		}
+	}
+	if(draw) {
+		plot(a,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T)
+		abline(v=b$maxindex,lty=3); abline(v=b$minindex,lty=3)
+		if(eccon=="c") 
+			segments(x0=start,y0=min(a),x1=end,y1=min(a),col="red")
+		else
+			arrows(x0=start,y0=min(a),x1=end,y1=min(a),col="red",code=3)
+		for(i in 1:length(start)) 
+			text(x=(start[i]+end[i])/2,y=min(a),labels=i, adj=c(0.5,0),cex=1,col="red")
+	}
+	return(as.data.frame(cbind(start,end,startH)))
+}
+
+
+#based on findPics2BySpeed
+#only used in eccon "c"
+reduceCurveBySpeed <- function(startT, rawdata, smoothing) {
+	a=rawdata
+	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+	b=extrema(speed$y)
+	xmin=1
+	for(i in b$cross[,2]) 		{ if(i < length(a)-20) { xmin = i; } } #left adjust
+#	for(i in rev(b$cross[,2])) 	{ if(i > xtop2) { xmax = i; } } #right adjust
+#	return (data.frame(ini=xmin, end=xmax))	#return data related to all pics (initial timer count)
+	return(xmin+startT)
+}
+
+#go here with every single jump
+kinematics <- function(a, mass, g) {
+	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
+	accel <- predict( speed, deriv=1 )
+	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
+
+	force <- mass*accel$y
+	if(isJump)
+		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
+
+	power <- force*speed$y
+	return(list(speedy=speed$y, accely=accel$y, force=force, power=power))
+}
+
+powerBars <- function(kinematics) {
+	#meanSpeed <- mean(abs(kinematics$speedy))
+	#maxSpeed <- max(abs(kinematics$speedy))
+	meanPower <- mean(abs(kinematics$power))
+	peakPower <- max(kinematics$power)
+	peakPowerT <- which(kinematics$power == peakPower)
+	return(data.frame(meanPower,peakPower,peakPowerT))
+}
+
+kinematicRanges <- function(rawdata,curves,mass,g) {
+	n=length(curves[,1])
+	maxSpeedy=0;maxForce=0;maxPower=0
+	for(i in 1:n) { 
+		kn=kinematics(rawdata[curves[i,1]:curves[i,2]],mass,g)
+		if(max(abs(kn$speedy)) > maxSpeedy)
+			maxSpeedy = max(abs(kn$speedy))
+		if(max(abs(kn$force)) > maxForce)
+			maxForce = max(abs(kn$force))
+		if(max(abs(kn$power)) > maxPower)
+			maxPower = max(abs(kn$power))
+	}
+	return(list(
+		speedy=c(-maxSpeedy,maxSpeedy),
+		force=c(-maxForce,maxForce),
+		power=c(-maxPower,maxPower)))
+}
+
+paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
+	startX, startH, smoothing, mass, title, draw, labels, axesAndTitle, legend) {
+	#eccons ec-con and ec-con-rep is the same here (only show one curve)
+	#receive data as cumulative sum
+	lty=c(1,1,1)
+	rawdata=rawdata[xmin:xmax]
+	a=cumsum(rawdata)
+	a=a+startH
+
+	if(draw) {
+		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
+		par(mar=c(5, 4, 4, 8))
+	
+		#plot distance
+		#plot(a,type="h",xlim=c(xmin,xmax),xlab="time (ms)",ylab="Left: distance (mm); Right: speed (m/s), accelration (m/s^2)",col="gray", axes=F) #this shows background on distance (nice when plotting distance and speed, but confusing when there are more variables)
+		xlab="";ylab="";
+		if(labels) {
+			xlab="time (ms)"
+			ylab="Left: distance (mm); Right: speed (m/s), force (N), power (W)"
+		}
+		ylim=yrange
+		if(ylim[1]=="undefined") { ylim=NULL }
+		if(!axesAndTitle)
+			title=""
+		plot(a,type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F, main=title)
+		if(axesAndTitle) {
+			axis(1) 	#can be added xmin
+			axis(2)
+		}
+		par(new=T)
+		colNormal="black"
+		if(superpose)
+			colNormal="gray30"
+		if(highlight==FALSE)
+			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=1,axes=F)
+		else
+			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+		abline(h=0,lty=3,col="black")
+
+		abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
+	}
+
+	#speed
+	#scan file again (raw data: mm displaced every ms, no cumulative sum)
+	a=rawdata
+	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+	if(draw) {
+		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$speedy
+		par(new=T)
+		if(highlight==FALSE)
+			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
+		else
+			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+		if(axesAndTitle) {
+			axis(4, col=cols[1], lty=lty[1], line=0)
+			abline(h=0,lty=3,col="black")
+		}
+	}
+
+	#show extrema values in speed
+	b=extrema(speed$y)
+	#if(draw & !superpose) 
+	#	segments(x0=b$maxindex,y0=0,x1=b$maxindex,y1=speed$y[b$maxindex],col=cols[1])
+
+	#declare variables:
+	concentric=0
+	eccentric=0
+	if(eccon=="c") {
+		concentric=1:length(a)
+	} else {	#"ec-con", "ec-con-rep"
+		crossSpeedInMiddle = b$cross[,1]
+		crossDownToUp=0
+		count=1
+		for(i in crossSpeedInMiddle) {
+			if(speed$y[i-2]<0) {
+				crossDownToUp[count]=i
+				count=count+1
+			}
+		}
+		eccentric=1:min(crossDownToUp)
+		concentric=max(crossDownToUp):length(a)
+		if(draw) {
+			abline(v=min(crossDownToUp),col=cols[1])
+			abline(v=max(crossDownToUp),col=cols[1])
+			mtext(text=min(crossDownToUp),side=1,at=min(crossDownToUp),cex=.8,col=cols[1])
+			mtext(text=max(crossDownToUp),side=1,at=max(crossDownToUp),cex=.8,col=cols[1])
+			mtext(text="eccentric ",side=3,at=min(crossDownToUp),cex=.8,adj=1,col=cols[1])
+			mtext(text=" concentric ",side=3,at=max(crossDownToUp),cex=.8,adj=0,col=cols[1])
+		}
+	}
+
+	accel <- predict( speed, deriv=1 )
+	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
+#print(c(knRanges$accely, max(accel$y), min(accel$y)))
+	force <- mass*accel$y
+	if(isJump)
+		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
+	if(draw) {
+		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$force
+		par(new=T)
+		if(highlight==FALSE)
+			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
+		else
+			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+		if(axesAndTitle)
+			axis(4, col=cols[2], lty=lty[2], line=2.8)
+	}
+
+	
+	#mark when it's air and land
+	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
+	#but this eccon will be not done
+	if(draw & (!superpose || (superpose & highlight)) & isJump) {
+		weight=mass*9.81
+		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+		takeoff = max(which(force>=weight))
+		abline(v=takeoff,lty=1,col=cols[2]) 
+		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
+		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
+		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
+		if(eccon=="ec-con") {
+			landing = min(which(force>=weight))
+			abline(v=landing,lty=1,col=cols[2]) 
+			mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
+			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
+		}
+	}
+	#forceToBodyMass <- force - weight
+	#b=extrema(forceToBodyMass)
+	#abline(v=b$cross[,1],lty=3,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+	#text(x=(mean(b$cross[1,1],b$cross[1,2])+mean(b$cross[2,1],b$cross[2,2]))/2, y=weight, 
+	#		labels=paste("flight time:", mean(b$cross[2,1],b$cross[2,2])-mean(b$cross[1,1],b$cross[1,2]),"ms"), 
+	#		col=cols[2], cex=.8, adj=c(0.5,0))
+
+	#power #normalment m=massa barra + peses: 	F=m*a #com es va contra gravetat: 		F=m*a+m*g  	F=m*(a+g) #g sempre es positiva. a es negativa en la baixada de manera que en caiguda lliure F=0 #cal afegir la resistencia del encoder a la força #Potència	P=F*V #si es treballa amb el pes corporal, cal afegir-lo
+
+	#F=m*a		#bar
+	#F=(m*a)+(m*g) #jump m*(a+g) F=m*0
+
+	power <- force*speed$y
+	if(draw) {
+		ylim=c(-max(abs(range(power))),max(abs(range(power))))	#put 0 in the middle
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$power
+		par(new=T);
+		if(highlight==FALSE)
+			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=1,axes=F)
+		else
+			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+		if(axesAndTitle) 
+			axis(4, col=cols[3], lty=lty[3], line=5.6, lwd=2)
+	}
+
+	#time to arrive to peak power
+	peakPowerT=which(power == max(power))
+	if(draw & !superpose) {
+		abline(v=peakPowerT, col=cols[3])
+		#points(peakPowerT, max(power),col=cols[3])
+		text(x=peakPowerT,y=max(power),labels=round(max(power),3), adj=c(0.5,0),cex=.8,col=cols[3])
+		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
+	}
+	#average power
+
+	meanPowerE = 0
+	if(eccon != "c") 
+		meanPowerE = mean(abs(power[eccentric]))
+	meanPowerC = mean(abs(power[concentric]))
+	if(draw & !superpose) {
+		arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+		text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
+		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+	}
+	if(draw) {
+		if(legend & axesAndTitle) {
+			legendPos = "bottomleft"
+			if(eccon=="c")
+				legendPos = "bottomright"
+			legend(legendPos, xjust=1, legend=c("Distance","Speed","Force","Power"), lty=c(1,lty[1],lty[2],lty[3]), 
+					lwd=c(1,1,1,2), col=c("black",cols[1],cols[2],cols[3]), title=paste("Smoothing:",smoothing), cex=1, bg="white")
+			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
+		}
+	}
+}
+
+paintPowerPeakPowerBars <- function(paf) {
+	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
+	bp <- barplot(rbind(paf[,1],paf[,2]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
+			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
+	par(new=T)
+	plot(bp[2,],paf[,3],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
+	legend("bottomleft",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"))
+	axis(4)
+	mtext("time at peak power (s)", side=4, line=3)
+}
+		
+find.mfrow <- function(n) {
+	if(n<=3) return(c(1,n))
+	else if(n<=6) return(c(2,ceiling(n/2)))
+	else if(n<=8) return(c(2,ceiling(n/2)))
+	else return(c(3, ceiling(n/3)))
+}
+#concentric, eccentric-concentric, repetitions of eccentric-concentric
+#currently only used "c" and "ec-con". no need of ec-con-rep because c and ec-con are repetitive
+eccons=c("c","ec-con","ec-con-rep") 
+
+mass = 79
+g = 9.81
+smoothingAll= 0.1
+#smoothingOne= 0.7 #good smoothing in ec-con is when speed crosses 0 in lowest and highests points encoder line
+minHeight= 300
+#file="data.txt"; isJump=TRUE
+#file="data_falla.txt"; isJump=FALSE #TODO em sembla que falla perque no hi ha cap curve, pq totes son mes petites que minHeight
+
+colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
+#colSpeed="black"; colForce="black"; colPower="black"		#black & white
+cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
+
+#--- user commands ---
+args <- commandArgs(TRUE)
+print(args)
+if(length(args) < 3) {
+#	print("USAGE:\nRscript graph.R c superpose graph.png\neccons:curves, single, side, superpose, powerBars \nsingle and superpose needs a param at end (the jump):\nRscript graph.R c single graph.png 2\n")
+} else {
+	file=args[1]
+	outputGraph=args[2]
+	outputData1=args[3]
+	outputData2=args[4]
+	isJump=as.logical(args[5])
+	eccon=args[6]
+	analysis=args[7]
+	smoothingOne=args[8]
+	jump=args[9]
+	width=as.numeric(args[10])
+	height=as.numeric(args[11])
+
+	png(outputGraph, width=width, height=height)
+
+	rawdata=scan(file=file,sep=",")
+
+	titleType = "execution"
+	if(isJump)
+		titleType="jump"
+	
+	curvesPlot = FALSE
+	if(analysis=="curves") 
+		curvesPlot = TRUE
+	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
+	n=length(curves[,1])
+	for(i in 1:n) { 
+		if(eccon=="c") {
+			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)
+			if(curvesPlot)
+				abline(v=curves[i,1],col="red")
+		}
+	}
+
+	print(curves)
+
+	if(analysis=="single") 
+		if(jump>0) 
+			paint(rawdata, eccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
+					1,curves[jump,3],smoothingOne,mass,paste(analysis,eccon,titleType,jump),TRUE,FALSE,TRUE,TRUE)
+	if(analysis=="side") {
+		#comparar 6 salts, falta que xlim i ylim sigui el mateix
+		par(mfrow=find.mfrow(n))
+		a=cumsum(rawdata)
+		yrange=c(min(a),max(a))
+		knRanges=kinematicRanges(rawdata,curves,mass,g)
+		for(i in 1:n) {
+			paint(rawdata, eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+				1,curves[i,3],smoothingOne,mass,paste(titleType,i),TRUE,FALSE,TRUE,FALSE)
+		}
+		par(mfrow=c(1,1))
+	}
+	if(analysis=="superpose") {	#TODO: fix on ec-con startH
+		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
+		#fer que acabin al mateix punt encara que no iniciin en el mateix
+		#arreglar que els eixos de l'esq han de seguir un ylim,pero els de la dreta un altre, basat en el que es vol observar
+		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
+		wide=max(curves$end-curves$start)
+		a=cumsum(rawdata)
+		yrange=c(min(a),max(a))
+		knRanges=kinematicRanges(rawdata,curves,mass,g)
+		for(i in 1:n) {
+			#in superpose all jumps end at max height
+			#start can change, some are longer than other
+			#xmin and xmax should be the same for all in terms of X concordance
+			#but line maybe don't start on the absolute left
+			#this is controled by startX
+			startX = curves[i,1]-(curves[i,2]-wide)+1;
+			paint(rawdata, eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==jump),
+				startX,curves[i,3],smoothingOne,mass,paste(titleType,jump),TRUE,FALSE,(i==1),TRUE)
+			par(new=T)
+		}
+		par(new=F)
+		print(knRanges)
+	}
+	if(analysis=="powerBars") {
+		paf = data.frame()
+		for(i in 1:n) { 
+			paf=rbind(paf,(powerBars(kinematics(rawdata[curves[i,1]:curves[i,2]], mass, g))))
+		}
+		paintPowerPeakPowerBars(paf)
+	}
+	if(analysis=="others") {
+		#revisar amb ec-con
+		i=2; eccon="ec-con"
+		curves=findCurves(rawdata, eccon, minHeight, TRUE)
+		paint(rawdata, eccon, curves[i,1],curves[i,2],"undefined","undefined",FALSE,FALSE,
+			1,curves[i,3],smoothingOne,mass,paste(titleType,jump),TRUE,TRUE,TRUE,TRUE)
+	
+	#	png("graph.png", width=1020, height=732)
+		g(file, 1,5000, smoothingOne, mass, "Xavi peña performance")
+	#	dev.off()
+	}
+	if(analysis=="exportCSV") {
+		export=cumsum(rawdata)
+		file="export.csv" #TODO change this, for not deleting last record
+		#TODO....
+	}
+	dev.off()
+}
+
+#warnings()
+
+

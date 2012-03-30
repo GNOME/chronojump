@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -759,8 +759,6 @@ public class Util
 				Path.GetTempPath(), fileName + GetMultimediaExtension(Constants.MultimediaItems.PHOTO));
 	}
 	
-	
-	
 	public static string GetMultimediaExtension (Constants.MultimediaItems multimediaItem) {
 		if(multimediaItem == Constants.MultimediaItems.VIDEO)
 			return Constants.ExtensionVideo;
@@ -785,10 +783,66 @@ public class Util
 			File.Delete(fileName);
 	}
 
-
-
 	/********** end of multimedia paths ************/
+
+
+	/********** start of encoder paths ************/
 	
+	/*
+	 * encoder data and graphs are organized by sessions
+	 * chronojump / encoder / sessionID / data
+	 * chronojump / encoder / sessionID / graphs
+	 */
+		
+	public static string GetEncoderDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "encoder");
+	}
+
+	//to store encoder data and graphs
+	public static void CreateEncoderDirIfNeeded () {
+		string [] dirs = { GetEncoderDir() }; 
+		foreach (string d in dirs) {
+			if( ! Directory.Exists(d)) {
+				Directory.CreateDirectory (d);
+				Log.WriteLine (string.Format("created dir: {0}", d));
+			}
+		}
+	}
+
+	public static string GetEncoderSessionDir (int sessionID) {
+		return GetEncoderDir() + Path.DirectorySeparatorChar + sessionID.ToString();
+	}
+
+	public static string GetEncoderSessionDataDir (int sessionID) {
+		return GetEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + "data";
+	}
+
+	public static string GetEncoderSessionGraphsDir (int sessionID) {
+		return GetEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + "graphs";
+	}
+	
+	public static void CreateEncoderSessionDirsIfNeeded (int sessionID) {
+		string [] dirs = { GetEncoderSessionDir(sessionID), 
+			GetEncoderSessionDataDir(sessionID), GetEncoderSessionGraphsDir(sessionID) }; 
+		foreach (string d in dirs) {
+			if( ! Directory.Exists(d)) {
+				Directory.CreateDirectory (d);
+				Log.WriteLine (string.Format("created dir: {0}", d));
+			}
+		}
+	}
+	
+	public static string GetEncoderDataTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderDataTemp);
+	}
+	public static string GetEncoderGraphTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphTemp);
+	}
+
+	
+	/********** end of encoder paths ************/
 
 	public static string GetManualDir() {
 		//we are on:
@@ -843,7 +897,7 @@ public class Util
 
 	public static void RunRScript(string rScript){
 		ProcessStartInfo pinfo;
-        Process r;
+	        Process r;
 		string rBin="R";
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
@@ -867,6 +921,53 @@ public class Util
 		r.WaitForExit();
 		while (!File.Exists(outputFile));				
 	}
+	
+	//python program
+	public static void RunPythonEncoder(string pythonScript, EncoderStruct es, bool useTerminal) {
+		ProcessStartInfo pinfo;
+	        Process p;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+		
+		string pBin="python";
+		if(useTerminal) {
+			pBin="xterm";
+		}
+
+//		if (IsWindows())
+//			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/python.exe");
+
+		pinfo = new ProcessStartInfo();
+		pinfo.FileName=pBin;
+
+		string outputFileCheck = "";
+		if(useTerminal) {
+			pinfo.Arguments = "-hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
+				pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
+			outputFileCheck = es.OutputData1;
+		} else {
+			pinfo.Arguments = pythonScript + " " + es.InputData + " " + 
+				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + es.Ep.ToString2();
+			outputFileCheck = es.OutputGraph;
+		}
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+
+		Console.WriteLine("-------------------");
+		Console.WriteLine(outputFileCheck);
+		if (File.Exists(outputFileCheck))
+			File.Delete(outputFileCheck);
+ 
+		p = new Process();
+		p.StartInfo = pinfo;
+		p.Start();
+		p.WaitForExit();
+		while (!File.Exists(outputFileCheck));
+	}
+
+
+
 /*
  * currently not used, we copy the assemblies now
  *

@@ -53,6 +53,13 @@ public class UtilGtk
 		//libmono-cairo2.0-cil
 		return Gdk.Display.Default.GetScreen(0).Height;
 	}
+	
+	public static int WidgetWidth(Gtk.Widget w) {
+		return w.Allocation.Width;
+	}
+	public static int WidgetHeight(Gtk.Widget w) {
+		return w.Allocation.Height;
+	}
 
 	public static void IconWindow(Gtk.Window myWindow) {
 		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);

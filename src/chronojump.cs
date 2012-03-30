@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -151,6 +151,16 @@ public class ChronoJump
 
 		//to store user videos and photos
 		Util.CreateMultimediaDirsIfNeeded();
+		//to store encoder data and graphs
+		Util.CreateEncoderDirIfNeeded();
+
+//TODO: create encoder session dirs when load or create a session, or when use encoder with button capture_from_encoder
+//TODO: when a session is deleted, encoder data has to be deleted, also multimedia videos, I suppose. Show message to user warning about it
+//TODO: encoder sensitive when person is loaded
+//TODO: encoder weight auto written depending on person loaded, and changes if it changes person or weight
+
+
+
 		
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToNewLocationIfNeeded();

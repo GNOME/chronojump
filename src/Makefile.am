@@ -69,6 +69,7 @@ FILES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
 	gui/confirm.cs\
+	gui/encoder.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
  	gui/eventGraphConfigure.cs\
@@ -167,6 +168,7 @@ FILES = \
 	../chronojump_server/ChronojumpServer.cs\
 	AssemblyInfo.cs\
 	chronojump.cs\
+	encoder.cs\
  	event.cs\
  	eventType.cs\
  	jump.cs\

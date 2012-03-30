@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -240,6 +240,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_reaction_times_zoom;
 	[Widget] Gtk.Image image_pulses_zoom;
 	[Widget] Gtk.Image image_multi_chronopic_zoom;
+	
+	//encoder
+	[Widget] Gtk.Image image_encoder_capture_zoom;
+	[Widget] Gtk.Image image_encoder_analyze_zoom;
 
 	Random rand;
 	bool volumeOn;
@@ -271,6 +275,8 @@ public partial class ChronoJumpWindow
 	//multiChronopic
 	private TreeStore treeview_multi_chronopic_store;
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
+	
+
 
 	//preferences variables
 	private static int prefsDigitsNumber;
@@ -683,6 +689,7 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
 		image_run_interval_bell.Pixbuf = pixbuf;
+		image_encoder_bell.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
 		image_jump_reactive_repair.Pixbuf = pixbuf;
@@ -715,6 +722,11 @@ public partial class ChronoJumpWindow
 		image_reaction_times_zoom.Pixbuf = pixbuf;
 		image_pulses_zoom.Pixbuf = pixbuf;
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
+		
+		//encoder
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		image_encoder_capture_zoom.Pixbuf = pixbuf;
+		image_encoder_analyze_zoom.Pixbuf = pixbuf;
 	}
 
 	private void loadPreferences () 
@@ -4970,6 +4982,7 @@ Console.WriteLine("X");
 				extra_window_multichronopic_can_do(false);
 		} else {
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+			button_encoder_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);
@@ -5106,6 +5119,7 @@ Console.WriteLine("X");
 		hbox_this_test_buttons.Sensitive = false;
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		button_encoder_capture.Sensitive = false;
 		eventExecuteHideAllTables();
 	}
 	
@@ -5129,6 +5143,7 @@ Console.WriteLine("X");
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
+		button_encoder_capture.Sensitive = false;
 
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
@@ -5143,6 +5158,7 @@ Console.WriteLine("X");
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
+		button_encoder_capture.Sensitive = true;
 
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
@@ -5161,6 +5177,8 @@ Console.WriteLine("X");
 		combo_pulses.Sensitive = true;
 		
 		hbox_execute_test.Sensitive = true;
+
+		label_encoder_person_weight.Text = currentPersonSession.Weight.ToString();
 	}
 	
 	private void sensitiveGuiYesEvent () {
@@ -5173,6 +5191,7 @@ Console.WriteLine("X");
 		frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
+		button_encoder_capture.Sensitive = false;
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
@@ -5196,6 +5215,7 @@ Console.WriteLine("X");
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
+		button_encoder_capture.Sensitive = true;
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

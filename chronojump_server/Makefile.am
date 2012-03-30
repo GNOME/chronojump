@@ -24,6 +24,7 @@ FILES = \
 	../src/sqlite/*.cs\
 	../src/util.cs\
 	../src/utilDate.cs\
+	../src/encoder.cs\
 	../src/event.cs\
 	../src/jump.cs\
 	../src/run.cs\

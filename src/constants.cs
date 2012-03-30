@@ -559,4 +559,17 @@ public class Constants
 	
 	public static string RunStartInitialSpeedYes = Catalog.GetString("Running start. Started with initial speed.");
 	public static string RunStartInitialSpeedNo = Catalog.GetString("Standing start. Started without initial speed.");
+
+	/*
+	 * encoder storage
+	 * chronojump / encoder / sessionID / data
+	 * chronojump / encoder / sessionID / graphs
+	 */
+	
+	public static string EncoderScriptCapture = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/pyserial_pyper.py";
+	public static string EncoderScriptGraphCall = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";
+	public static string EncoderDataTemp = "chronojump-last-encoder-data.txt";
+	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
+	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";
+
 }

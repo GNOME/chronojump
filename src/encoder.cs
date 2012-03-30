@@ -27,7 +27,7 @@ using Mono.Unix;
 public class EncoderParams
 {
 	private int time;
-	private double mass;
+	private string mass; //to pass always as "." to R
 
 	private int minHeight;
 	private bool isJump;
@@ -38,7 +38,7 @@ public class EncoderParams
 	private int width;
 	private int height;
 	
-	public EncoderParams(int time, double mass, string smooth)
+	public EncoderParams(int time, string mass, string smooth)
 	{
 		this.time = time;
 		this.mass = mass;
@@ -50,7 +50,7 @@ public class EncoderParams
 		return time.ToString() + " " + mass.ToString() + " " + smooth;
 	}
 	
-	public EncoderParams(int minHeight, bool isJump, double mass, string contractionEC, 
+	public EncoderParams(int minHeight, bool isJump, string mass, string contractionEC, 
 			string analysis, string smooth, int curve, int width, int height)
 	{
 		this.minHeight = minHeight;

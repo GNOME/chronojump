@@ -133,8 +133,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		if(meanPower > 3500): colPower = REDINV
 		else: colPower = RED
 			
-		print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + 
-		colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
+		print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):

@@ -49,12 +49,6 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 	if(draw) {
 		plot(a,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T)
 		abline(v=b$maxindex,lty=3); abline(v=b$minindex,lty=3)
-		if(eccon=="c") 
-			segments(x0=start,y0=min(a),x1=end,y1=min(a),col="red")
-		else
-			arrows(x0=start,y0=min(a),x1=end,y1=min(a),col="red",code=3)
-		for(i in 1:length(start)) 
-			text(x=(start[i]+end[i])/2,y=min(a),labels=i, adj=c(0.5,0),cex=1,col="red")
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -361,16 +355,22 @@ if(length(args) < 3) {
 		titleType="jump"
 	
 	curvesPlot = FALSE
-	if(analysis=="curves") 
+	if(analysis=="curves") {
 		curvesPlot = TRUE
+		par(mar=c(1,2.5,1,1))
+	}
 	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
 	n=length(curves[,1])
 	for(i in 1:n) { 
-		if(eccon=="c") {
+		if(eccon=="c") 
 			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)
-			if(curvesPlot)
-				abline(v=curves[i,1],col="red")
-		}
+	}
+	if(curvesPlot) {
+		rawdata.cumsum=cumsum(rawdata)
+		arrows(x0=curves[,1],y0=min(rawdata.cumsum),x1=curves[,2],y1=min(rawdata.cumsum),
+				col="red",code=3,length=0.1)
+		for(i in 1:length(curves[,1])) 
+			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum),labels=i, adj=c(0.5,0),cex=1,col="red")
 	}
 
 	print(curves)

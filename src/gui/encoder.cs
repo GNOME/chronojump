@@ -30,7 +30,7 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.SpinButton spin_encoder_bar_limit;
 	[Widget] Gtk.SpinButton spin_encoder_jump_limit;
-	[Widget] Gtk.SpinButton spin_encoder_analyze_smooth;
+	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Label label_encoder_person_weight;
@@ -88,7 +88,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
 				findMass(),
-				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
+				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon()
 				); 
 
@@ -120,7 +120,9 @@ public partial class ChronoJumpWindow
 				false,			//isJump (1st) is not used in "curves"
 				findMass(),
 				findEccon(), "curves",
-				"0", 0, w, h); 		//smoothOne, and curve are not used in "curves"
+				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+			       	0, 			//curve is not used here
+				w, h); 
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
@@ -146,7 +148,7 @@ public partial class ChronoJumpWindow
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(),
 				findEccon(), encoderAnalysis,
-				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
+				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				(int) spin_encoder_analyze_curve_num.Value, w, h);
 
 		EncoderStruct es = new EncoderStruct(
@@ -160,6 +162,8 @@ public partial class ChronoJumpWindow
 		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 		image_encoder_analyze.Pixbuf = pixbuf;
 	}
+
+//TODO: auto close capturing window
 
 	//show curve_num only on simple and superpose
 	public void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {

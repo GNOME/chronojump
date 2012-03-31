@@ -14578,7 +14578,7 @@ Chronopic</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkSpinButton" id="spin_encoder_analyze_smooth">
+                                                  <widget class="GtkSpinButton" id="spin_encoder_smooth">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="invisible_char">●</property>

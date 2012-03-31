@@ -31,9 +31,10 @@ outputFile = sys.argv[1]
 record_time = int(sys.argv[2])*1000		#from s to ms
 mass = float(sys.argv[3])
 smoothingOne = float(sys.argv[4])
+eccon = sys.argv[5]				#contraction "ec" or "c"
 
 delete_initial_time = 20			#delete first records because there's encoder bug
-#w_baudrate = 9600                           # Setting the baudrate of Chronopic(115200)
+#w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
 w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
 #w_serial_port = 4                           # Setting the serial port (Windows), windows's device number need minus 1
 w_serial_port = "/dev/ttyUSB0"             # Setting the serial port (Linux)
@@ -92,7 +93,7 @@ def colorize(text, color, bold):
 	return ESCAPE + (FORMAT % (color, )) + text + RESET
 
 
-def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne):
+def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon):
 	if (len(top_values)>0 and len(bottom_values)>0):
 		if direction_now == 1:
 			start=top_values[len(top_values)-1]
@@ -132,8 +133,9 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		else: colSpeed = GREEN
 		if(meanPower > 3500): colPower = REDINV
 		else: colPower = RED
-			
-		print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
+		
+		if eccon == "ec" or direction_now == -1:
+			print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -224,7 +226,7 @@ if __name__ == '__main__':
 				phase = 0
 				speed = 0
 	
-				if(direction_now == 1):
+				if direction_now == 1:
 					#we are going up, we passed the ditection_change_count
 					#then we can record the bottom moment
 					#and print speed on going down
@@ -246,7 +248,7 @@ if __name__ == '__main__':
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 
-							direction_now, smoothingOne)
+							direction_now, smoothingOne, eccon)
 	
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change

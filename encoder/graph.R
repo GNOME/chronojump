@@ -68,7 +68,7 @@ reduceCurveBySpeed <- function(startT, rawdata, smoothing) {
 }
 
 #go here with every single jump
-kinematics <- function(a, mass, g) {
+kinematicsF <- function(a, mass, g) {
 	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
 	accel <- predict( speed, deriv=1 )
 	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
@@ -82,19 +82,19 @@ kinematics <- function(a, mass, g) {
 }
 
 powerBars <- function(kinematics) {
-	#meanSpeed <- mean(abs(kinematics$speedy))
-	#maxSpeed <- max(abs(kinematics$speedy))
+	meanSpeed <- mean(abs(kinematics$speedy))
+	maxSpeed <- max(abs(kinematics$speedy))
 	meanPower <- mean(abs(kinematics$power))
 	peakPower <- max(kinematics$power)
 	peakPowerT <- which(kinematics$power == peakPower)
-	return(data.frame(meanPower,peakPower,peakPowerT))
+	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT))
 }
 
 kinematicRanges <- function(rawdata,curves,mass,g) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
 	for(i in 1:n) { 
-		kn=kinematics(rawdata[curves[i,1]:curves[i,2]],mass,g)
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],mass,g)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -299,13 +299,13 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 paintPowerPeakPowerBars <- function(paf) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
-	bp <- barplot(rbind(paf[,1],paf[,2]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
+	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
 	par(new=T)
-	plot(bp[2,],paf[,3],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
+	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
 	legend("bottomleft",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"))
 	axis(4)
-	mtext("time at peak power (s)", side=4, line=3)
+	mtext("time at peak power (s)", side=4, line=-1)
 }
 		
 find.mfrow <- function(n) {
@@ -349,6 +349,7 @@ if(length(args) < 3) {
 	png(outputGraph, width=width, height=height)
 
 	rawdata=scan(file=file,sep=",")
+	rawdata.cumsum=cumsum(rawdata)
 
 	titleType = "execution"
 	if(isJump)
@@ -357,7 +358,7 @@ if(length(args) < 3) {
 	curvesPlot = FALSE
 	if(analysis=="curves") {
 		curvesPlot = TRUE
-		par(mar=c(1,2.5,1,1))
+		par(mar=c(2,2.5,1,1))
 	}
 	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
 	n=length(curves[,1])
@@ -366,7 +367,6 @@ if(length(args) < 3) {
 			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)
 	}
 	if(curvesPlot) {
-		rawdata.cumsum=cumsum(rawdata)
 		arrows(x0=curves[,1],y0=min(rawdata.cumsum),x1=curves[,2],y1=min(rawdata.cumsum),
 				col="red",code=3,length=0.1)
 		for(i in 1:length(curves[,1])) 
@@ -415,12 +415,19 @@ if(length(args) < 3) {
 		par(new=F)
 		print(knRanges)
 	}
-	if(analysis=="powerBars") {
+	if(analysis=="powerBars" || analysis=="curves") {
 		paf = data.frame()
 		for(i in 1:n) { 
-			paf=rbind(paf,(powerBars(kinematics(rawdata[curves[i,1]:curves[i,2]], mass, g))))
+			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], mass, g))))
 		}
-		paintPowerPeakPowerBars(paf)
+		if(analysis=="powerBars")
+			paintPowerPeakPowerBars(paf)
+		if(analysis=="curves") {
+			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+			colnames(paf)=c("width","height","meanSpeed","maxSpeed","meanPower","peakPower","peakPowerT")
+			print(paf)
+			write.csv(paf, outputData1)
+		}
 	}
 	if(analysis=="others") {
 		#revisar amb ec-con

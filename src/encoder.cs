@@ -69,6 +69,12 @@ public class EncoderParams
 		return minHeight + " " + isJump + " " + mass + " " + eccon + " " + analysis + " " + 
 			smooth + " " + curve + " " + width + " " + height;
 	}
+	
+	public string Analysis
+	{
+		get { return analysis; }
+	}
+
 
 	~EncoderParams() {}
 }
@@ -96,3 +102,30 @@ public class EncoderStruct
 
 	~EncoderStruct() {}
 }
+
+//used on TreeView
+public class EncoderCurve
+{
+	public EncoderCurve (string n, string width, string height, string meanSpeed, string maxSpeed, 
+			string meanPower, string peakPower, string peakPowerT)
+	{
+		this.N = n;
+		this.Width = width;
+		this.Height = height;
+		this.MeanSpeed = meanSpeed;
+		this.MaxSpeed = maxSpeed;
+		this.MeanPower = meanPower;
+		this.PeakPower = peakPower;
+		this.PeakPowerT = peakPowerT;
+	}
+
+	public string N;
+	public string Width;
+	public string Height;
+	public string MeanSpeed;
+	public string MaxSpeed;
+	public string MeanPower;
+	public string PeakPower;
+	public string PeakPowerT;
+}
+

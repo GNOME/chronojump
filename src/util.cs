@@ -951,7 +951,13 @@ public class Util
 		} else {
 			pinfo.Arguments = pythonScript + " " + es.InputData + " " + 
 				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + es.Ep.ToString2();
-			outputFileCheck = es.OutputGraph;
+
+			//curves does first graph and then csv curves. 
+			//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
+			if(es.Ep.Analysis == "curves")
+				outputFileCheck = es.OutputData1; 
+			else
+				outputFileCheck = es.OutputGraph;
 		}
 
 		pinfo.CreateNoWindow = true;

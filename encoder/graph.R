@@ -368,9 +368,9 @@ if(length(args) < 3) {
 	}
 	if(curvesPlot) {
 		arrows(x0=curves[,1],y0=min(rawdata.cumsum),x1=curves[,2],y1=min(rawdata.cumsum),
-				col="red",code=3,length=0.1)
+				col="blue",code=3,length=0.1)
 		for(i in 1:length(curves[,1])) 
-			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum),labels=i, adj=c(0.5,0),cex=1,col="red")
+			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum),labels=i, adj=c(0.5,0),cex=1,col="blue")
 	}
 
 	print(curves)
@@ -426,7 +426,7 @@ if(length(args) < 3) {
 			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("width","height","meanSpeed","maxSpeed","meanPower","peakPower","peakPowerT")
 			print(paf)
-			write.csv(paf, outputData1)
+			write.csv(paf, outputData1, quote=FALSE)
 		}
 	}
 	if(analysis=="others") {

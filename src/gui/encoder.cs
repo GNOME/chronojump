@@ -23,6 +23,8 @@ using System.IO;
 using Gtk;
 using Gdk;
 using Glade;
+using System.Collections;
+
 
 public partial class ChronoJumpWindow 
 {
@@ -50,7 +52,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 
-	TreeStore store;
+	TreeStore encoderStore;
+
+	ArrayList encoderCurves;
+        Gtk.ListStore encoderListStore;
+
 
 	private string encoderAnalysis="powerBars";
 
@@ -202,23 +208,163 @@ public partial class ChronoJumpWindow
 		string [] columnsString = {"n","Width","Height","MeanSpeed","MaxSpeed",
 			"MeanPower","PeakPower","PeakPowerT"};
 
-		int columns=8;
-		Type [] types = new Type [columns];
-		int i;
-		for (i=0; i < columns; i++) {
-			types[i] = typeof (string);
-		}
-		store = new TreeStore(types);
+		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
+		if (contents == null) 
+			return;
 
-		treeview_encoder_curves.Model = store;
-		
-		//prepareHeaders
+		encoderCurves = new ArrayList ();
+
+		string line;
+		using (StringReader reader = new StringReader (contents)) {
+			line = reader.ReadLine ();	//headers
+			Log.WriteLine(line);
+			do {
+				line = reader.ReadLine ();
+				Log.WriteLine(line);
+				if (line == null)
+					break;
+
+				string [] cells = line.Split(new char[] {','});
+				cells = fixDecimals(cells);
+				//iter = encoderStore.AppendValues(cells);
+
+				encoderCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
+							cells[3], cells[4], cells[5], cells[6],cells[7]));
+
+			} while(true);
+		}
+
+		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		foreach (EncoderCurve curve in encoderCurves) {
+			encoderListStore.AppendValues (curve);
+		}
+
+		treeview_encoder_curves.Model = encoderListStore;
+
 		treeview_encoder_curves.HeadersVisible=true;
-		i=0;
+
+		int i=0;
 		foreach(string myCol in columnsString) {
-			treeview_encoder_curves.AppendColumn (myCol, new CellRendererText(), "text", i++);
+			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
+			CellRendererText aCell = new CellRendererText();
+			aColumn.Title=myCol;
+			aColumn.PackStart (aCell, true);
+
+			//crt1.Foreground = "red";
+			//crt1.Background = "blue";
+		
+			switch(i){	
+				case 0:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderN));
+					break;
+				case 1:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWidth));
+					break;
+				case 2:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					break;
+				case 3:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					break;
+				case 4:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					break;
+				case 5:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					break;
+				case 6:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					break;
+				case 7:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+			}
+			
+
+			treeview_encoder_curves.AppendColumn (aColumn);
+			i++;
 		}
 	}
+
+
+	/* rendering columns */
+
+	string colorGood= "ForestGreen"; //more at System.Drawing.Color (Monodoc)
+	string colorBad= "red";
+	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.N;
+	}
+	private void RenderWidth (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.Width;
+	}
+	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.Height;
+	}
+	
+	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		if (Convert.ToDouble(curve.MeanSpeed) >= 2.5) 
+			(cell as Gtk.CellRendererText).Foreground = colorGood;
+		else 
+			(cell as Gtk.CellRendererText).Foreground = colorBad;
+
+		(cell as Gtk.CellRendererText).Text = curve.MeanSpeed;
+	}
+
+	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		if (Convert.ToDouble(curve.MaxSpeed) >= 2.5) 
+			(cell as Gtk.CellRendererText).Foreground = colorGood;
+		else 
+			(cell as Gtk.CellRendererText).Foreground = colorBad;
+
+		(cell as Gtk.CellRendererText).Text = curve.MaxSpeed;
+	}
+
+	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		if (Convert.ToDouble(curve.MeanPower) >= 1700) 
+			(cell as Gtk.CellRendererText).Foreground = colorGood;
+		else 
+			(cell as Gtk.CellRendererText).Foreground = colorBad;
+
+		(cell as Gtk.CellRendererText).Text = curve.MeanPower;
+	}
+
+	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		if (Convert.ToDouble(curve.PeakPower) >= 1700) 
+			(cell as Gtk.CellRendererText).Foreground = colorGood;
+		else 
+			(cell as Gtk.CellRendererText).Foreground = colorBad;
+
+		(cell as Gtk.CellRendererText).Text = curve.PeakPower;
+	}
+
+	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		if (Convert.ToDouble(curve.PeakPowerT) <= 100) 
+			(cell as Gtk.CellRendererText).Foreground = colorGood;
+		else 
+			(cell as Gtk.CellRendererText).Foreground = colorBad;
+
+		(cell as Gtk.CellRendererText).Text = curve.PeakPowerT;
+	}
+
+	/* end of rendering cols */
+
+
 	
 	private void removeColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
@@ -229,32 +375,12 @@ public partial class ChronoJumpWindow
 	private void updateTreeView() {
 		removeColumns();
 		CreateTreeViewEncoder();
-		fillTreeView();
 	}
 
-	private void fillTreeView()
-	{
-		TreeIter iter = new TreeIter();
-		
-		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
-		string line;
-		if (contents != null) {
-			using (StringReader reader = new StringReader (contents)) {
-				line = reader.ReadLine ();	//headers
-				do {
-					line = reader.ReadLine ();
-					if (line == null)
-						break;
-
-					string [] cells = line.Split(new char[] {','});
-					cells = fixDecimals(cells);
-					iter = store.AppendValues(cells);
-				} while(true);
-			}
-		}
-	}
 	
 	private string [] fixDecimals(string [] cells) {
+		for(int i=1; i <= 2; i++)
+			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		for(int i=3; i <= 6; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 		return cells;

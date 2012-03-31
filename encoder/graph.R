@@ -299,6 +299,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 paintPowerPeakPowerBars <- function(paf) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
+
+
+print(paf[,3])
+
 	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
 	par(new=T)
@@ -420,12 +424,14 @@ if(length(args) < 3) {
 		for(i in 1:n) { 
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], mass, g))))
 		}
-		if(analysis=="powerBars")
+		if(analysis=="powerBars") {
 			paintPowerPeakPowerBars(paf)
+			#print(paf)
+		} 
 		if(analysis=="curves") {
 			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("width","height","meanSpeed","maxSpeed","meanPower","peakPower","peakPowerT")
-			print(paf)
+			#print(paf)
 			write.csv(paf, outputData1, quote=FALSE)
 		}
 	}

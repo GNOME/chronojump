@@ -24,14 +24,19 @@ from pyper import *
 
 print(sys.argv)
 
+FALSE = 0
+TRUE = 1
+
 # ============
 # = Variable =
 # ============
 outputFile = sys.argv[1]
 record_time = int(sys.argv[2])*1000		#from s to ms
-mass = float(sys.argv[3])
-smoothingOne = float(sys.argv[4])
-eccon = sys.argv[5]				#contraction "ec" or "c"
+minHeight = int(sys.argv[3])			#all is stored, but only display when vertical range is >= minHeight
+isJump = sys.argv[4]
+mass = float(sys.argv[5])
+smoothingOne = float(sys.argv[6])
+eccon = sys.argv[7]				#contraction "ec" or "c"
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -72,8 +77,6 @@ def cumulative_sum(n):
 	return cum_sum
 
 #https://wiki.archlinux.org/index.php/Color_Bash_Prompt#Prompt_escapes
-FALSE = 0
-TRUE = 1
 
 BLACK = 30
 RED = 31
@@ -93,7 +96,7 @@ def colorize(text, color, bold):
 	return ESCAPE + (FORMAT % (color, )) + text + RESET
 
 
-def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon):
+def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minHeight, isJump):
 	if (len(top_values)>0 and len(bottom_values)>0):
 		if direction_now == 1:
 			start=top_values[len(top_values)-1]
@@ -101,14 +104,37 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		else:
 			start=bottom_values[len(bottom_values)-1]
 			end=top_values[len(top_values)-1]
+		
 		myR.assign('smoothingOne',smoothingOne)
 		myR.assign('a',temp[start:end])
+		
+		if direction_now == -1:
+			myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
+
+			#reduce curve by speed, the same way as graph.R
+			myR.run('b=extrema(speed$y)')
+			myR.run('maxSpeedT <- min(which(speed$y == max(speed$y)))')
+			maxSpeedT = myR.get('maxSpeedT')
+			bcrossLen = myR.get('length(b$cross[,2])')
+			bcross = myR.get('b$cross[,2]')
+			if bcrossLen == 1:
+				x_ini = bcrossLen
+			else:
+				for i in bcross:
+					if i < maxSpeedT:
+						x_ini = i  #left adjust
+			
+			myR.assign('a',temp[start+x_ini:end])
+	
+		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 		myR.run('a.cumsum <- cumsum(a)')
 		myR.run('range <- abs(a.cumsum[length(a)]-a.cumsum[1])')
-		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 		myR.run('accel <- predict( speed, deriv=1 )')
 		myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
-		myR.run('force <- mass*(accel$y+9.81)')
+		if isJump == "True":
+			myR.run('force <- mass*(accel$y+9.81)')
+		else:
+			myR.run('force <- mass*accel$y')
 		myR.run('power <- force*speed$y')
 		myR.run('meanPower <- mean(abs(power))')
 		myR.run('peakPower <- max(power)')
@@ -133,9 +159,12 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		else: colSpeed = GREEN
 		if(meanPower > 3500): colPower = REDINV
 		else: colPower = RED
+
+		phasRange = phaseRange / 10 #from cm to mm
 		
 		if eccon == "ec" or direction_now == -1:
-			print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
+			if phaseRange >= minHeight:
+				print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -167,7 +196,7 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 if __name__ == '__main__':
 	#print "connecting with R"
 	myR = R()
-	#myR.run('library("EMD")') #cal per extrema, pero no per splines
+	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
 	myR.assign('mass',mass)
 	myR.run('weight=mass*9.81')
 	myR.assign('k',2)
@@ -220,7 +249,6 @@ if __name__ == '__main__':
 			direction_change_count = direction_change_count + 1
 			if direction_change_count >= direction_change_period:
 
-				#k=cumulative_sum(temp[previous_frame_change:i-direction_change_period])
 				k=list(temp_cumsum[previous_frame_change:i-direction_change_period])
 	
 				phase = 0
@@ -235,6 +263,8 @@ if __name__ == '__main__':
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
 					frames_push_bottom2.append(new_frame_change)
 					phase = " down"
+					#print previous_frame_change
+					#print new_frame_change
 					speed = min(temp_speed[previous_frame_change:new_frame_change])
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
@@ -248,7 +278,7 @@ if __name__ == '__main__':
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 
-							direction_now, smoothingOne, eccon)
+							direction_now, smoothingOne, eccon, minHeight, isJump)
 	
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change

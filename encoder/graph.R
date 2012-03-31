@@ -47,7 +47,7 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 		}
 	}
 	if(draw) {
-		plot(a,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T)
+		plot(a/10,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T) #/10 mm -> cm
 		abline(v=b$maxindex,lty=3); abline(v=b$minindex,lty=3)
 	}
 	return(as.data.frame(cbind(start,end,startH)))
@@ -56,15 +56,18 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 
 #based on findPics2BySpeed
 #only used in eccon "c"
+#if this changes, change also in python capture file
 reduceCurveBySpeed <- function(startT, rawdata, smoothing) {
 	a=rawdata
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	b=extrema(speed$y)
-	xmin=1
-	for(i in b$cross[,2]) 		{ if(i < length(a)-20) { xmin = i; } } #left adjust
-#	for(i in rev(b$cross[,2])) 	{ if(i > xtop2) { xmax = i; } } #right adjust
-#	return (data.frame(ini=xmin, end=xmax))	#return data related to all pics (initial timer count)
-	return(xmin+startT)
+
+	#find the b$cross at left of max speed
+	x.ini=1
+	maxSpeedT <- min(which(speed$y == max(speed$y)))
+	for(i in b$cross[,2]) 		{ if(i < maxSpeedT) { x.ini = i } } #left adjust
+
+	return(startT+x.ini)
 }
 
 #go here with every single jump
@@ -86,7 +89,7 @@ powerBars <- function(kinematics) {
 	maxSpeed <- max(abs(kinematics$speedy))
 	meanPower <- mean(abs(kinematics$power))
 	peakPower <- max(kinematics$power)
-	peakPowerT <- which(kinematics$power == peakPower)
+	peakPowerT <- min(which(kinematics$power == peakPower))
 	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT))
 }
 
@@ -299,10 +302,6 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 paintPowerPeakPowerBars <- function(paf) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
-
-
-print(paf[,3])
-
 	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
 	par(new=T)
@@ -365,16 +364,18 @@ if(length(args) < 3) {
 		par(mar=c(2,2.5,1,1))
 	}
 	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
+	print(curves)
 	n=length(curves[,1])
 	for(i in 1:n) { 
 		if(eccon=="c") 
 			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)
 	}
 	if(curvesPlot) {
-		arrows(x0=curves[,1],y0=min(rawdata.cumsum),x1=curves[,2],y1=min(rawdata.cumsum),
+		#/10 mm -> cm
+		arrows(x0=curves[,1],y0=min(rawdata.cumsum)/10,x1=curves[,2],y1=min(rawdata.cumsum)/10,
 				col="blue",code=3,length=0.1)
 		for(i in 1:length(curves[,1])) 
-			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum),labels=i, adj=c(0.5,0),cex=1,col="blue")
+			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum)/10,labels=i, adj=c(0.5,0),cex=1,col="blue")
 	}
 
 	print(curves)
@@ -426,12 +427,10 @@ if(length(args) < 3) {
 		}
 		if(analysis=="powerBars") {
 			paintPowerPeakPowerBars(paf)
-			#print(paf)
 		} 
 		if(analysis=="curves") {
 			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("width","height","meanSpeed","maxSpeed","meanPower","peakPower","peakPowerT")
-			#print(paf)
 			write.csv(paf, outputData1, quote=FALSE)
 		}
 	}

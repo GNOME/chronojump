@@ -87,6 +87,8 @@ public partial class ChronoJumpWindow
 		//capture data
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
+				(int) spin_encoder_capture_min_height.Value, 
+				!radiobutton_encoder_capture_bar.Active,
 				findMass(),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon()
@@ -117,7 +119,7 @@ public partial class ChronoJumpWindow
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
-				false,			//isJump (1st) is not used in "curves"
+				!radiobutton_encoder_capture_bar.Active,
 				findMass(),
 				findEccon(), "curves",
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'

@@ -37,9 +37,11 @@ public class EncoderParams
 	private int width;
 	private int height;
 	
-	public EncoderParams(int time, string mass, string smooth, string eccon)
+	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon)
 	{
 		this.time = time;
+		this.minHeight = minHeight;
+		this.isJump = isJump;
 		this.mass = mass;
 		this.smooth = smooth;
 		this.eccon = eccon;
@@ -47,7 +49,8 @@ public class EncoderParams
 	
 	public string ToString1 () 
 	{
-		return time.ToString() + " " + mass.ToString() + " " + smooth + " " + eccon;
+		return time.ToString() + " " + minHeight.ToString() + " " + isJump.ToString() + 
+			" " + mass.ToString() + " " + smooth + " " + eccon;
 	}
 	
 	public EncoderParams(int minHeight, bool isJump, string mass, string eccon, 

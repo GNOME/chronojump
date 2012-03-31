@@ -475,7 +475,6 @@ public partial class ChronoJumpWindow
 		//changeTestImage("", "", "LOGO");
 
 		notebook_main_encoder_and_server_hide();
-		CreateTreeViewEncoder();
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();

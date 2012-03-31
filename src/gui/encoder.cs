@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO; 
 using Gtk;
 using Gdk;
 using Glade;
@@ -38,6 +39,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.Image image_encoder_capture;
+	[Widget] Gtk.TreeView treeview_encoder_curves;
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
@@ -48,8 +50,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 
+	TreeStore store;
 
-	private string encoderEC="c";	//"c" or "ec"
 	private string encoderAnalysis="powerBars";
 
 //TODO: on capture only show ups if concentric
@@ -57,8 +59,8 @@ public partial class ChronoJumpWindow
 	//TODO: que el curve no pugui ser mes alt de actual numero de curves, per tant s'ha de retornar algun valor. ha de canviar cada cop que hi ha un capture o recalculate
 
 	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa
-	//TODO:recording time a main options (entre weights i smoothing)
-	//TODO: curves amb par mar mes gran
+	//TODO: in ec, curves and powerBars have to be different on ec than on c
+	//
 	
 	public void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;
@@ -80,7 +82,9 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
 				findMass(),
-				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value)); //R decimal: '.'
+				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
+				findEccon()
+				); 
 
 		EncoderStruct es = new EncoderStruct(
 				"",					//no data input
@@ -90,20 +94,17 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
 		makeCurvesGraph();
+		updateTreeView();
 	}
 	
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
 		makeCurvesGraph();
+		updateTreeView();
 	}
 
 	private void makeCurvesGraph() 
 	{
-		if(radiobutton_encoder_concentric.Active)
-			encoderEC = "c";
-		else
-			encoderEC = "ec";
-		
 	      	//show curves graph
 		int w = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-2; //image is inside (is smaller than) viewport
 		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-2;
@@ -112,30 +113,48 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				false,			//isJump (1st) is not used in "curves"
 				findMass(),
-				encoderEC, "curves",
+				findEccon(), "curves",
 				"0", 0, w, h); 		//smoothOne, and curve are not used in "curves"
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
 				Util.GetEncoderGraphTempFileName(),
-				"NULL", "NULL", ep);		//no data ouptut
+				Util.GetEncoderCurvesTempFileName(), 
+				"NULL", ep);
 		
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es,false);
 
 		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 		image_encoder_capture.Pixbuf = pixbuf;
 	}
-	
-	private string findMass() {
-		double mass = 0;
-		if(radiobutton_encoder_capture_bar.Active)
-			mass = spin_encoder_bar_limit.Value;
-		else
-			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
 
-		return Util.ConvertToPoint(mass); //R decimal: '.'
+
+	//TODO: garantir path windows	
+	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
+	{
+		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-2; //image is inside (is smaller than) viewport
+		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-2;
+
+		EncoderParams ep = new EncoderParams(
+				(int) spin_encoder_capture_min_height.Value, 
+				!radiobutton_encoder_capture_bar.Active,
+				findMass(),
+				findEccon(), encoderAnalysis,
+				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
+				(int) spin_encoder_analyze_curve_num.Value, w, h);
+
+		EncoderStruct es = new EncoderStruct(
+				Util.GetEncoderDataTempFileName(), 
+				Util.GetEncoderGraphTempFileName(),
+				"NULL", "NULL", ep);		//no data ouptut
+
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
+
+		//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
+		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+		image_encoder_analyze.Pixbuf = pixbuf;
 	}
-	
+
 	//show curve_num only on simple and superpose
 	public void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=true;
@@ -159,42 +178,91 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="powerBars";
 	}
 
-	//TODO: garantir path windows	
-	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
-	{
+	private string findMass() {
 		double mass = 0;
 		if(radiobutton_encoder_capture_bar.Active)
 			mass = spin_encoder_bar_limit.Value;
 		else
 			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
 
+		return Util.ConvertToPoint(mass); //R decimal: '.'
+	}
+	
+	private string findEccon() {	
 		if(radiobutton_encoder_concentric.Active)
-			encoderEC = "c";
+			return "c";
 		else
-			encoderEC = "ec";
+			return "ec";
+	}
+	
 
-		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-2; //image is inside (is smaller than) viewport
-		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-2;
+	/* TreeView stuff */	
 
-		EncoderParams ep = new EncoderParams(
-				(int) spin_encoder_capture_min_height.Value, 
-				!radiobutton_encoder_capture_bar.Active,
-				mass,
-				encoderEC, encoderAnalysis,
-				Util.ConvertToPoint((double) spin_encoder_analyze_smooth.Value), //R decimal: '.'
-				(int) spin_encoder_analyze_curve_num.Value, w, h);
+	public void CreateTreeViewEncoder() {
+		string [] columnsString = {"n","Width","Height","MeanSpeed","MaxSpeed",
+			"MeanPower","PeakPower","PeakPowerT"};
 
-		EncoderStruct es = new EncoderStruct(
-				Util.GetEncoderDataTempFileName(), 
-				Util.GetEncoderGraphTempFileName(),
-				"NULL", "NULL", ep);		//no data ouptut
+		int columns=8;
+		Type [] types = new Type [columns];
+		int i;
+		for (i=0; i < columns; i++) {
+			types[i] = typeof (string);
+		}
+		store = new TreeStore(types);
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
-
-		//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
-		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
-		image_encoder_analyze.Pixbuf = pixbuf;
+		treeview_encoder_curves.Model = store;
+		
+		//prepareHeaders
+		treeview_encoder_curves.HeadersVisible=true;
+		i=0;
+		foreach(string myCol in columnsString) {
+			treeview_encoder_curves.AppendColumn (myCol, new CellRendererText(), "text", i++);
+		}
+	}
+	
+	private void removeColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) 
+			treeview_encoder_curves.RemoveColumn (column);
 	}
 
+	private void updateTreeView() {
+		removeColumns();
+		CreateTreeViewEncoder();
+		fillTreeView();
+	}
+
+	private void fillTreeView()
+	{
+		TreeIter iter = new TreeIter();
+		
+		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
+		string line;
+		if (contents != null) {
+			using (StringReader reader = new StringReader (contents)) {
+				line = reader.ReadLine ();	//headers
+				do {
+					line = reader.ReadLine ();
+					if (line == null)
+						break;
+
+					string [] cells = line.Split(new char[] {','});
+					cells = fixDecimals(cells);
+					iter = store.AppendValues(cells);
+				} while(true);
+			}
+		}
+	}
+	
+	private string [] fixDecimals(string [] cells) {
+		for(int i=3; i <= 6; i++)
+			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+		return cells;
+	}
+	
+	
+	/* end of TreeView stuff */	
+
+	
 }	
 

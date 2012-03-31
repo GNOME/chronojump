@@ -837,6 +837,9 @@ public class Util
 	public static string GetEncoderDataTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderDataTemp);
 	}
+	public static string GetEncoderCurvesTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderCurvesTemp);
+	}
 	public static string GetEncoderGraphTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphTemp);
 	}
@@ -964,6 +967,18 @@ public class Util
 		p.Start();
 		p.WaitForExit();
 		while (!File.Exists(outputFileCheck));
+	}
+
+	public static string ReadFile(string fileName)
+	{
+		try {
+			StreamReader reader = File.OpenText(fileName);
+			string contents = reader.ReadToEnd ();
+			reader.Close();
+			return contents;
+		} catch {
+			return null;
+		}
 	}
 
 

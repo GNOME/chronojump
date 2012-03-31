@@ -28,35 +28,35 @@ public class EncoderParams
 {
 	private int time;
 	private string mass; //to pass always as "." to R
-
 	private int minHeight;
 	private bool isJump;
-	private string contractionEC;
+	private string eccon;
 	private string analysis;
 	private string smooth; //to pass always as "." to R
 	private int curve;
 	private int width;
 	private int height;
 	
-	public EncoderParams(int time, string mass, string smooth)
+	public EncoderParams(int time, string mass, string smooth, string eccon)
 	{
 		this.time = time;
 		this.mass = mass;
 		this.smooth = smooth;
+		this.eccon = eccon;
 	}
 	
 	public string ToString1 () 
 	{
-		return time.ToString() + " " + mass.ToString() + " " + smooth;
+		return time.ToString() + " " + mass.ToString() + " " + smooth + " " + eccon;
 	}
 	
-	public EncoderParams(int minHeight, bool isJump, string mass, string contractionEC, 
+	public EncoderParams(int minHeight, bool isJump, string mass, string eccon, 
 			string analysis, string smooth, int curve, int width, int height)
 	{
 		this.minHeight = minHeight;
 		this.isJump = isJump;
 		this.mass = mass;
-		this.contractionEC = contractionEC;
+		this.eccon = eccon;
 		this.analysis = analysis;
 		this.smooth = smooth;
 		this.curve = curve;
@@ -66,7 +66,7 @@ public class EncoderParams
 	
 	public string ToString2 () 
 	{
-		return minHeight + " " + isJump + " " + mass + " " + contractionEC + " " + analysis + " " + 
+		return minHeight + " " + isJump + " " + mass + " " + eccon + " " + analysis + " " + 
 			smooth + " " + curve + " " + width + " " + height;
 	}
 

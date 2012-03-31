@@ -14506,6 +14506,63 @@ Chronopic</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <widget class="GtkHBox" id="hbox87">
+                                                <property name="visible">True</property>
+                                                <property name="spacing">8</property>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label82">
+                                                    <property name="visible">True</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Recording time</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkHBox" id="hbox74">
+                                                    <property name="visible">True</property>
+                                                    <property name="spacing">4</property>
+                                                    <child>
+                                                      <widget class="GtkSpinButton" id="spin_encoder_capture_time">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="invisible_char">●</property>
+                                                        <property name="adjustment">10 5 99 1 10 0</property>
+                                                        <property name="climb_rate">1</property>
+                                                        <property name="snap_to_ticks">True</property>
+                                                        <property name="numeric">True</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label84">
+                                                        <property name="visible">True</property>
+                                                        <property name="xalign">1</property>
+                                                        <property name="label" translatable="yes">s</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <widget class="GtkHBox" id="hbox86">
                                                 <property name="visible">True</property>
                                                 <property name="spacing">8</property>
@@ -14513,7 +14570,7 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label85">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Smoothing factor</property>
+                                                    <property name="label" translatable="yes">Smoothing</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
@@ -14541,7 +14598,7 @@ Chronopic</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="position">2</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -22973,7 +23030,7 @@ on current Chronojump version.</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox89">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">12</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radiobutton_encoder_concentric">
                                                             <property name="label" translatable="yes">Concentric</property>
@@ -22984,6 +23041,7 @@ on current Chronojump version.</property>
                                                             <property name="draw_indicator">True</property>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -22998,11 +23056,13 @@ on current Chronojump version.</property>
                                                             <property name="group">radiobutton_encoder_concentric</property>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -23017,65 +23077,9 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox87">
-                                                            <property name="visible">True</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label82">
-                                                            <property name="visible">True</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Recording time</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox74">
-                                                            <property name="visible">True</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_time">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="invisible_char">●</property>
-                                                            <property name="adjustment">10 5 99 1 10 0</property>
-                                                            <property name="climb_rate">1</property>
-                                                            <property name="snap_to_ticks">True</property>
-                                                            <property name="numeric">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label84">
-                                                            <property name="visible">True</property>
-                                                            <property name="xalign">1</property>
-                                                            <property name="label" translatable="yes">s</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox88">
                                                             <property name="visible">True</property>
-                                                            <property name="spacing">4</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label78">
                                                             <property name="visible">True</property>
@@ -23125,7 +23129,8 @@ on current Chronojump version.</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="position">3</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -23170,7 +23175,8 @@ on current Chronojump version.</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="position">4</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -23256,7 +23262,7 @@ on current Chronojump version.</property>
                                                     <property name="vscrollbar_policy">automatic</property>
                                                     <property name="shadow_type">etched-in</property>
                                                     <child>
-                                                      <widget class="GtkTreeView" id="treeview_jumps1">
+                                                      <widget class="GtkTreeView" id="treeview_encoder_curves">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="rules_hint">True</property>
@@ -23306,7 +23312,7 @@ on current Chronojump version.</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">2</property>
                                                           </packing>
                                                         </child>
@@ -23327,7 +23333,6 @@ on current Chronojump version.</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">False</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                           </packing>
@@ -23335,6 +23340,7 @@ on current Chronojump version.</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
+                                                        <property name="pack_type">end</property>
                                                         <property name="position">1</property>
                                                       </packing>
                                                     </child>
@@ -23526,6 +23532,7 @@ on current Chronojump version.</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_clicked"/>
                                                             </widget>
                                                             <packing>
+                                                            <property name="expand">False</property>
                                                             <property name="padding">12</property>
                                                             <property name="position">0</property>
                                                             </packing>

@@ -189,10 +189,21 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		crossSpeedInMiddle = b$cross[,1]
 		crossDownToUp=0
 		count=1
+
+		#the -2 is to know if speed goes from down to up or vicerversa
+		#we use -2 to know the 2ms before
+		#maybe data has not started, then look what happens 2 ms later
 		for(i in crossSpeedInMiddle) {
-			if(speed$y[i-2]<0) {
-				crossDownToUp[count]=i
-				count=count+1
+			if(i>2) {
+				if(speed$y[i-2]<0) {
+					crossDownToUp[count]=i
+					count=count+1
+				}
+			} else {
+				if(speed$y[i+2]>0) {
+					crossDownToUp[count]=i
+					count=count+1
+				}
 			}
 		}
 		eccentric=1:min(crossDownToUp)

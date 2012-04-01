@@ -160,7 +160,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		if(meanPower > 3500): colPower = REDINV
 		else: colPower = RED
 
-		phasRange = phaseRange / 10 #from cm to mm
+		phaseRange = phaseRange / 10 #from cm to mm
 		
 		if eccon == "ec" or direction_now == -1:
 			if phaseRange >= minHeight:

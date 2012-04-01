@@ -43,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
 	
+	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
@@ -60,10 +61,7 @@ public partial class ChronoJumpWindow
 
 	private string encoderAnalysis="powerBars";
 
-//TODO: on capture only show ups if concentric
-
-	//TODO: que el curve no pugui ser mes alt de actual numero de curves, per tant s'ha de retornar algun valor. ha de canviar cada cop que hi ha un capture o recalculate
-
+	//TODO: improve formatting of data.ataany column show same number of digits at left of dec point
 	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa
 	//TODO: in ec, curves and powerBars have to be different on ec than on c
 	//
@@ -101,21 +99,42 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
-		makeCurvesGraph();
-		updateTreeView();
+		updateThings();
 	}
-	
+		
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		makeCurvesGraph();
-		updateTreeView();
+		updateThings();
 	}
+	
+	private void updateThings() 
+	{
+		makeCurvesGraph();
+		
+		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
+		if (contents == null) {
+			//TODO: no data: make some of the gui unsensitive ??
+			button_encoder_analyze.Sensitive = false;
+		} else {
+			removeColumns();
+			int curvesNum = createTreeViewEncoder(contents);
+			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
+			button_encoder_analyze.Sensitive = true;
+		}
+	}
+	
+	private void removeColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) 
+			treeview_encoder_curves.RemoveColumn (column);
+	}
+
 
 	private void makeCurvesGraph() 
 	{
 	      	//show curves graph
-		int w = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-2; //image is inside (is smaller than) viewport
-		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-2;
+		int w = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; //image is inside (is smaller than) viewport
+		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
@@ -142,8 +161,8 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
-		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-2; //image is inside (is smaller than) viewport
-		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-2;
+		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; //image is inside (is smaller than) viewport
+		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
@@ -210,17 +229,16 @@ public partial class ChronoJumpWindow
 
 	/* TreeView stuff */	
 
-	public void CreateTreeViewEncoder() {
-		string [] columnsString = {"n","Width","Height","MeanSpeed","MaxSpeed",
-			"MeanPower","PeakPower","PeakPowerT"};
+	//returns curves num
+	private int createTreeViewEncoder(string contents) {
+		string [] columnsString = {"n","Duration (s)","Height (cm)","MeanSpeed (m/s)","MaxSpeed (m/s)", //duration (s): width
+			"MeanPower (W)","PeakPower (W)","PeakPowerT (s)"};
 
-		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
-		if (contents == null) 
-			return;
 
 		encoderCurves = new ArrayList ();
 
 		string line;
+		int curvesCount = 0;
 		using (StringReader reader = new StringReader (contents)) {
 			line = reader.ReadLine ();	//headers
 			Log.WriteLine(line);
@@ -229,6 +247,8 @@ public partial class ChronoJumpWindow
 				Log.WriteLine(line);
 				if (line == null)
 					break;
+
+				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
 				cells = fixDecimals(cells);
@@ -290,6 +310,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_curves.AppendColumn (aColumn);
 			i++;
 		}
+		return curvesCount;
 	}
 
 
@@ -372,17 +393,6 @@ public partial class ChronoJumpWindow
 
 
 	
-	private void removeColumns() {
-		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
-		foreach (Gtk.TreeViewColumn column in myColumns) 
-			treeview_encoder_curves.RemoveColumn (column);
-	}
-
-	private void updateTreeView() {
-		removeColumns();
-		CreateTreeViewEncoder();
-	}
-
 	
 	private string [] fixDecimals(string [] cells) {
 		for(int i=1; i <= 2; i++)

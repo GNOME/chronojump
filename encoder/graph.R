@@ -35,14 +35,17 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 			bottom=min(a[tempStart:tempEnd]) #find min value between the two tops
 			mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
 			height=mintop-bottom
-#			print(paste(height,i,j))
 			if(height >= min_height) { 
 				start[row] = tempStart
 				end[row]   = tempEnd
 				startH[row] = a[b$maxindex[i,1]]		#height at start
-				row=row+1; i=j; 
-#				if(eccon=="ec-con") { break } #ec-con only needs one result
-			} 
+				row=row+1
+				i=j
+			} else {
+				if(a[tempEnd] >= a[tempStart]) {
+					i=j
+				}
+			}
 			j=j+1
 		}
 	}

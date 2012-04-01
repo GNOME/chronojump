@@ -283,8 +283,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		meanPowerE = mean(abs(power[eccentric]))
 	meanPowerC = mean(abs(power[concentric]))
 	if(draw & !superpose) {
-		arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-		text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		if(eccon != "c") {
+			arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		}
 		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
 		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
 	}
@@ -365,7 +367,18 @@ if(length(args) < 3) {
 	}
 	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
 	print(curves)
+
 	n=length(curves[,1])
+
+	#if not found curves with this data, plot a "sorry" message and exit
+	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,"Sorry, no curves matched your criteria",cex=1.5)
+		dev.off()
+		write("", outputData1)
+		quit()
+	}
+
 	for(i in 1:n) { 
 		if(eccon=="c") 
 			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)

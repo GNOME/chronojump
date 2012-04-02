@@ -117,6 +117,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 			maxSpeedT = myR.get('maxSpeedT')
 			bcrossLen = myR.get('length(b$cross[,2])')
 			bcross = myR.get('b$cross[,2]')
+			if bcrossLen == 0:
+				return
 			if bcrossLen == 1:
 				x_ini = bcrossLen
 			else:
@@ -165,6 +167,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		if eccon == "ec" or direction_now == -1:
 			if phaseRange >= minHeight:
 				print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
+			else:
+				print chr(27) + "[2;37m" + phase + chr(27) + "[0;47m" + "%6i," % phaseRange + chr(27)+"[0m" + chr(27) + "[2;37m" + meanSpeedCol + "%9.2f," % maxSpeed + meanPowerCol + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -263,23 +267,22 @@ if __name__ == '__main__':
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
 					frames_push_bottom2.append(new_frame_change)
 					phase = " down"
-					#print previous_frame_change
-					#print new_frame_change
-					speed = min(temp_speed[previous_frame_change:new_frame_change])
+					if previous_frame_change != 0 and new_frame_change != 0:
+						speed = min(temp_speed[previous_frame_change:new_frame_change])
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
 					frames_pull_top1.append(new_frame_change)
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(max(k))
 					frames_pull_top2.append(new_frame_change)
 					phase = "   up"
-					speed = max(temp_speed[previous_frame_change:new_frame_change])
+					if previous_frame_change != 0 and new_frame_change != 0:
+						speed = max(temp_speed[previous_frame_change:new_frame_change])
 	
-#				print phase, "|" + "%(speed)6.2f" %{"speed":speed}, "|", calculate_range(temp_cumsum, frames_pull_top1, frames_push_bottom1, direction_now)
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 
 							direction_now, smoothingOne, eccon, minHeight, isJump)
-	
+					
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change
 					]])+'')
@@ -303,12 +306,6 @@ if __name__ == '__main__':
 	file.write(''+','.join([str(i) for i in temp[previous_frame_change:len(temp)]])+'')
 	file.flush()
 	file.close()
-	#print "data saved"
-
-	#print ("frames_pull_top1: ",frames_pull_top1)
-	#print ("frames_pull_top2: ",frames_pull_top2)
-	#print ("frames_push_bottom1: ",frames_push_bottom1)
-	#print ("frames_push_bottom2: ",frames_push_bottom2)
 
 #	print "creating graph..."
 #	update_graph(0,record_time)
@@ -343,12 +340,7 @@ if __name__ == '__main__':
 #				update_graph(0,record_time)
 
 
-	#print "CUMSUM ---------"
-	#print(temp_cumsum)
-	#print "SPEED ----------"
-	#print(temp_speed)
-	#print "HAZ COPIA DE data.txt !!!"
-	print "Done! Please, close this window."
+	print "\nDone! Please, close this window."
 
 #except:
 #	print "aarrgggggh!!"

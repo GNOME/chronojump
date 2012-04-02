@@ -13643,6 +13643,95 @@ by you</property>
                       <widget class="GtkVBox" id="vbox_persons">
                         <property name="visible">True</property>
                         <child>
+                          <widget class="GtkHSeparator" id="hseparator1">
+                            <property name="visible">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHBox" id="hbox77">
+                            <property name="visible">True</property>
+                            <property name="spacing">8</property>
+                            <child>
+                              <widget class="GtkHBox" id="hbox91">
+                                <property name="visible">True</property>
+                                <property name="spacing">4</property>
+                                <child>
+                                  <widget class="GtkLabel" id="label_chronopics">
+                                    <property name="visible">True</property>
+                                    <property name="xpad">5</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;Chronopics&lt;/b&gt;</property>
+                                    <property name="use_markup">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label_connected_chronopics_new">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;0&lt;/b&gt;</property>
+                                    <property name="use_markup">True</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="ellipsize">end</property>
+                                    <property name="max_width_chars">25</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="button_activate_chronopics_new">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="can_default">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="has_tooltip">True</property>
+                                <property name="tooltip" translatable="yes">Connect Chronopics</property>
+                                <property name="relief">half</property>
+                                <signal name="clicked" handler="on_chronopic_clicked"/>
+                                <child>
+                                  <widget class="GtkImage" id="image5">
+                                    <property name="visible">True</property>
+                                    <property name="stock">gtk-connect</property>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHSeparator" id="hseparator2">
+                            <property name="visible">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
                           <widget class="GtkFrame" id="frame_persons">
                             <property name="visible">True</property>
                             <property name="label_xalign">0</property>
@@ -13780,6 +13869,7 @@ by you</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox35">
                                                 <property name="visible">True</property>
+                                                <property name="spacing">4</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_current_person_title">
                                                     <property name="visible">True</property>
@@ -13983,7 +14073,7 @@ by you</property>
                             <child>
                               <widget class="GtkLabel" id="label197">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">&lt;b&gt;persons&lt;/b&gt;</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Persons&lt;/b&gt;</property>
                                 <property name="use_markup">True</property>
                               </widget>
                               <packing>
@@ -13992,7 +14082,7 @@ by you</property>
                             </child>
                           </widget>
                           <packing>
-                            <property name="position">0</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </widget>

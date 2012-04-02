@@ -65,6 +65,7 @@ public partial class ChronoJumpWindow
 	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa
 	//TODO: in ec, curves and powerBars have to be different on ec than on c
 	//TODO: smaller zoom button on analysis
+	//TODO: put chronopic detection in a generic place
 	
 	public void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;

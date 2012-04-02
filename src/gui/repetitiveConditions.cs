@@ -29,6 +29,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Window repetitive_conditions;
 //	[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
+	[Widget] Gtk.Frame frame_best_and_worst;
+	[Widget] Gtk.Label label_other_conditions;
+
 	/* jumps */	
 	[Widget] Gtk.Table table_jump_conditions;
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
@@ -59,6 +62,18 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_greater;
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
+	/* encoder */
+	[Widget] Gtk.Table table_encoder_conditions;
+	[Widget] Gtk.CheckButton checkbutton_encoder_power_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_power_lower;
+	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_power_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_lower;
+
+
 	/* bell tests*/	
 	[Widget] Gtk.RadioButton radiobutton_test_good;
 	[Widget] Gtk.RadioButton radiobutton_test_bad;
@@ -73,6 +88,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_lower;
 	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
 	[Widget] Gtk.Image image_repetitive_time_lower;
+	[Widget] Gtk.Image image_encoder_power_higher;
+	[Widget] Gtk.Image image_encoder_peakpower_higher;
 	[Widget] Gtk.Image image_repetitive_test_good;
 	//bells bad (red)
 	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
@@ -81,7 +98,11 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_greater;
 	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
 	[Widget] Gtk.Image image_repetitive_time_greater;
+	[Widget] Gtk.Image image_encoder_power_lower;
+	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
+	
+	public Gtk.Button FakeButtonClose;
 
 	//static bool volumeOn;
 	bool volumeOn;
@@ -99,6 +120,8 @@ public class RepetitiveConditionsWindow
 		//put an icon to window
 		UtilGtk.IconWindow(repetitive_conditions);
 		
+		FakeButtonClose = new Gtk.Button();
+		
 		putNonStandardIcons();
 	}
 
@@ -114,34 +137,44 @@ public class RepetitiveConditionsWindow
 		return RepetitiveConditionsWindowBox;
 	}
 	
-	public void View (bool showJumps, bool volumeOn) {
+	public void View (Constants.BellModes bellMode, bool volumeOn) {
 		//this.volumeOn = volumeOn;
 
 		//when user "deleted_event" the window
 		if (RepetitiveConditionsWindowBox == null) {
 			RepetitiveConditionsWindowBox = new RepetitiveConditionsWindow (); 
 		}
-		RepetitiveConditionsWindowBox.showWidgets(showJumps);
+		RepetitiveConditionsWindowBox.showWidgets(bellMode);
 		RepetitiveConditionsWindowBox.repetitive_conditions.Show ();
 		RepetitiveConditionsWindowBox.volumeOn = volumeOn;
 	}
 
-	void showWidgets(bool showJumps) {
-		if(showJumps) {
+	void showWidgets(Constants.BellModes bellMode) {
+		frame_best_and_worst.Hide();
+		label_other_conditions.Hide();
+	
+		table_jump_conditions.Hide();
+		checkbutton_jump_tf_tc_best.Hide();
+		checkbutton_jump_tf_tc_worst.Hide();
+		table_run_conditions.Hide();
+		checkbutton_run_time_best.Hide();
+		checkbutton_run_time_worst.Hide();
+		table_encoder_conditions.Hide();
+
+		if(bellMode == Constants.BellModes.JUMPS) {
+			frame_best_and_worst.Show();
+			label_other_conditions.Show();
 			table_jump_conditions.Show();
 			checkbutton_jump_tf_tc_best.Show();
 			checkbutton_jump_tf_tc_worst.Show();
-			table_run_conditions.Hide();
-			checkbutton_run_time_best.Hide();
-			checkbutton_run_time_worst.Hide();
-//			scrolled_conditions	
-		} else {
+		} else if(bellMode == Constants.BellModes.RUNS) {
+			frame_best_and_worst.Show();
+			label_other_conditions.Show();
 			table_run_conditions.Show();
 			checkbutton_run_time_best.Show();
 			checkbutton_run_time_worst.Show();
-			table_jump_conditions.Hide();
-			checkbutton_jump_tf_tc_best.Hide();
-			checkbutton_jump_tf_tc_worst.Hide();
+		} else { //encoder
+			table_encoder_conditions.Show();
 		}
 	}
 
@@ -154,6 +187,8 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_time_lower.Pixbuf = pixbuf;
+		image_encoder_power_higher.Pixbuf = pixbuf;
+		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
@@ -163,6 +198,8 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_time_greater.Pixbuf = pixbuf;
+		image_encoder_power_lower.Pixbuf = pixbuf;
+		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
 	}
 
@@ -181,6 +218,7 @@ public class RepetitiveConditionsWindow
 	void on_button_close_clicked (object o, EventArgs args)
 	{
 		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
+		FakeButtonClose.Click();
 //		RepetitiveConditionsWindowBox = null;
 	}
 
@@ -193,6 +231,54 @@ public class RepetitiveConditionsWindow
 	public bool VolumeOn {
 		set { volumeOn = value; }
 	}
+
+	/* Auto.mark checkbox if spinbutton is changed */
+	
+	/* jumps */
+	void on_spinbutton_tf_greater_value_changed (object o, EventArgs args) {
+		checkbutton_tf_greater.Active = true;
+	}
+	void on_spinbutton_tf_lower_value_changed (object o, EventArgs args) {
+		checkbutton_tf_lower.Active = true;
+	}
+
+	void on_spinbutton_tc_greater_value_changed (object o, EventArgs args) {
+		checkbutton_tc_greater.Active = true;
+	}
+	void on_spinbutton_tc_lower_value_changed (object o, EventArgs args) {
+		checkbutton_tc_lower.Active = true;
+	}
+
+	void on_spinbutton_tf_tc_greater_value_changed (object o, EventArgs args) {
+		checkbutton_tf_tc_greater.Active = true;
+	}
+	void on_spinbutton_tf_tc_lower_value_changed (object o, EventArgs args) {
+		checkbutton_tf_tc_lower.Active = true;
+	}
+
+	/*runs*/
+	void on_spinbutton_time_greater_value_changed (object o, EventArgs args) {
+		checkbutton_time_greater.Active = true;
+	}
+	void on_spinbutton_time_lower_value_changed (object o, EventArgs args) {
+		checkbutton_time_lower.Active = true;
+	}
+
+	/* encoder */
+	void on_spinbutton_encoder_power_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_power_higher.Active = true;
+	}
+	void on_spinbutton_encoder_peakpower_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_peakpower_higher.Active = true;
+	}
+
+	void on_spinbutton_encoder_power_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_power_lower.Active = true;
+	}
+	void on_spinbutton_encoder_peakpower_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_peakpower_lower.Active = true;
+	}
+
 
 	/* JUMPS */
 	public bool TfTcBest {
@@ -274,6 +360,35 @@ public class RepetitiveConditionsWindow
 
 	public double RunTimeLowerValue {
 		get { return Convert.ToDouble(spinbutton_time_lower.Value); }
+	}
+
+	/* ENCODER */
+	public bool EncoderPowerHigher {
+		get { return checkbutton_encoder_power_higher.Active; }
+	}
+	public int EncoderPowerHigherValue {
+		get { return Convert.ToInt32(spinbutton_encoder_power_higher.Value); }
+	}
+
+	public bool EncoderPeakPowerHigher {
+		get { return checkbutton_encoder_peakpower_higher.Active; }
+	}
+	public int EncoderPeakPowerHigherValue {
+		get { return Convert.ToInt32(spinbutton_encoder_peakpower_higher.Value); }
+	}
+
+	public bool EncoderPowerLower {
+		get { return checkbutton_encoder_power_lower.Active; }
+	}
+	public int EncoderPowerLowerValue {
+		get { return Convert.ToInt32(spinbutton_encoder_power_lower.Value); }
+	}
+
+	public bool EncoderPeakPowerLower {
+		get { return checkbutton_encoder_peakpower_lower.Active; }
+	}
+	public int EncoderPeakPowerLowerValue {
+		get { return Convert.ToInt32(spinbutton_encoder_peakpower_lower.Value); }
 	}
 
 }

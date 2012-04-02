@@ -37,6 +37,10 @@ isJump = sys.argv[4]
 mass = float(sys.argv[5])
 smoothingOne = float(sys.argv[6])
 eccon = sys.argv[7]				#contraction "ec" or "c"
+powerHigherCondition = int(sys.argv[8])
+peakPowerHigherCondition = int(sys.argv[9])
+powerLowerCondition = int(sys.argv[10])
+peakPowerLowerCondition = int(sys.argv[11])
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -94,6 +98,14 @@ def colorize(text, color, bold):
 	else:
 		FORMAT = '0;%dm'
 	return ESCAPE + (FORMAT % (color, )) + text + RESET
+
+def assignColor(found, conditionHigher, conditionLower):
+	if conditionHigher != -1 and found >= conditionHigher:
+		return GREEN
+	elif conditionLower != -1 and found <= conditionLower:
+		return RED
+	else:
+		return BLACK
 
 
 def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minHeight, isJump):
@@ -156,17 +168,20 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		peakPowerT = myR.get('peakPowerT')
 
 		meanSpeedCol = "%10.2f," % meanSpeed
+
+#		if(meanSpeed > 2): colSpeed = GREENINV
+#		else: colSpeed = GREEN
+		
 		meanPowerCol = "%10.2f," % meanPower
-		if(meanSpeed > 2): colSpeed = GREENINV
-		else: colSpeed = GREEN
-		if(meanPower > 3500): colPower = REDINV
-		else: colPower = RED
+		colPower = assignColor(meanPower, powerHigherCondition, powerLowerCondition)
+		peakPowerCol = "%10.2f," % peakPower
+		colPeakPower = assignColor(peakPower, peakPowerHigherCondition, peakPowerLowerCondition)
 
 		phaseRange = phaseRange / 10 #from cm to mm
 		
 		if eccon == "ec" or direction_now == -1:
 			if phaseRange >= minHeight:
-				print phaseCol + "%6i," % phaseRange + colorize(meanSpeedCol,colSpeed,TRUE) + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,TRUE) + "%10.2f," % peakPower + "%11i" % peakPowerT
+				print phaseCol + "%6i," % phaseRange + "%10.2f," % meanSpeed + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,colPower!=BLACK) + colorize(peakPowerCol,colPeakPower,colPeakPower!=BLACK) + "%11i" % peakPowerT
 			else:
 				print chr(27) + "[2;37m" + phase + chr(27) + "[0;47m" + "%6i," % phaseRange + chr(27)+"[0m" + chr(27) + "[2;37m" + meanSpeedCol + "%9.2f," % maxSpeed + meanPowerCol + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
 

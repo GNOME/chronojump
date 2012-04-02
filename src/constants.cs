@@ -559,6 +559,10 @@ public class Constants
 	
 	public static string RunStartInitialSpeedYes = Catalog.GetString("Running start. Started with initial speed.");
 	public static string RunStartInitialSpeedNo = Catalog.GetString("Standing start. Started without initial speed.");
+	
+	public enum BellModes {
+		JUMPS, RUNS, ENCODER
+	}
 
 	/*
 	 * encoder storage

@@ -60,14 +60,17 @@ public partial class ChronoJumpWindow
 
 
 	private string encoderAnalysis="powerBars";
-	
+
+	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa. Falten els sons des de python
+
+	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")
+
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
 	
 	
 
 	//TODO: improve formatting of data.ataany column show same number of digits at left of dec point
-	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa
 	//TODO: in ec, curves and powerBars have to be different on ec than on c
 	//TODO: smaller zoom button on analysis
 	
@@ -85,7 +88,20 @@ public partial class ChronoJumpWindow
 	{
 		//TODO: que surti barra de progres de calculando... despres de capturar i boto de cerrar automatico
 		//TODO: i mostrar valors des de la gui (potser a zona dreta damunt del zoom)
-		
+	
+		int powerHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderPowerHigher)		
+			powerHigherCondition = repetitiveConditionsWin.EncoderPowerHigherValue;
+		int peakPowerHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderPeakPowerHigher)		
+			peakPowerHigherCondition = repetitiveConditionsWin.EncoderPeakPowerHigherValue;
+
+		int powerLowerCondition = -1;
+		if(repetitiveConditionsWin.EncoderPowerLower)		
+			powerLowerCondition = repetitiveConditionsWin.EncoderPowerLowerValue;
+		int peakPowerLowerCondition = -1;
+		if(repetitiveConditionsWin.EncoderPeakPowerLower)		
+			peakPowerLowerCondition = repetitiveConditionsWin.EncoderPeakPowerLowerValue;
 
 		//capture data
 		EncoderParams ep = new EncoderParams(
@@ -94,7 +110,9 @@ public partial class ChronoJumpWindow
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
-				findEccon()
+				findEccon(),
+				powerHigherCondition, peakPowerHigherCondition,
+				powerLowerCondition, peakPowerLowerCondition
 				); 
 
 		EncoderStruct es = new EncoderStruct(
@@ -104,17 +122,18 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
-		updateThings();
+		EncoderUpdateThings(true);
 	}
 		
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		updateThings();
+		EncoderUpdateThings(true);
 	}
 	
-	private void updateThings() 
+	private void EncoderUpdateThings(bool graph) 
 	{
-		makeCurvesGraph();
+		if(graph)
+			makeCurvesGraph();
 		
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
 		if (contents == null) {
@@ -321,8 +340,21 @@ public partial class ChronoJumpWindow
 
 	/* rendering columns */
 
-	string colorGood= "ForestGreen"; //more at System.Drawing.Color (Monodoc)
-	string colorBad= "red";
+	private string assignColor(double found, bool higherActive, bool lowerActive, int higherValue, int lowerValue) 
+	{
+		//more at System.Drawing.Color (Monodoc)
+		string colorGood= "ForestGreen"; 
+		string colorBad= "red";
+		string colorNothing= "black";
+
+		if(higherActive && found >= higherValue)
+			return colorGood;
+		else if(lowerActive && found <= lowerValue)
+			return colorBad;
+		else
+			return colorNothing;
+	}
+
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -336,61 +368,54 @@ public partial class ChronoJumpWindow
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = curve.Height;
+		(cell as Gtk.CellRendererText).Text = (Convert.ToDouble(curve.Height)/10).ToString(); //mm -> cm
 	}
 	
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		if (Convert.ToDouble(curve.MeanSpeed) >= 2.5) 
-			(cell as Gtk.CellRendererText).Foreground = colorGood;
-		else 
-			(cell as Gtk.CellRendererText).Foreground = colorBad;
-
 		(cell as Gtk.CellRendererText).Text = curve.MeanSpeed;
 	}
 
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		if (Convert.ToDouble(curve.MaxSpeed) >= 2.5) 
-			(cell as Gtk.CellRendererText).Foreground = colorGood;
-		else 
-			(cell as Gtk.CellRendererText).Foreground = colorBad;
-
 		(cell as Gtk.CellRendererText).Text = curve.MaxSpeed;
 	}
 
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		if (Convert.ToDouble(curve.MeanPower) >= 1700) 
-			(cell as Gtk.CellRendererText).Foreground = colorGood;
-		else 
-			(cell as Gtk.CellRendererText).Foreground = colorBad;
-
+		(cell as Gtk.CellRendererText).Foreground = assignColor(
+				Convert.ToDouble(curve.MeanPower),
+				repetitiveConditionsWin.EncoderPowerHigher, 
+				repetitiveConditionsWin.EncoderPowerLower, 
+				repetitiveConditionsWin.EncoderPowerHigherValue,
+				repetitiveConditionsWin.EncoderPowerLowerValue);
 		(cell as Gtk.CellRendererText).Text = curve.MeanPower;
 	}
 
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		if (Convert.ToDouble(curve.PeakPower) >= 1700) 
-			(cell as Gtk.CellRendererText).Foreground = colorGood;
-		else 
-			(cell as Gtk.CellRendererText).Foreground = colorBad;
-
+		(cell as Gtk.CellRendererText).Foreground = assignColor(
+				Convert.ToDouble(curve.PeakPower),
+				repetitiveConditionsWin.EncoderPeakPowerHigher, 
+				repetitiveConditionsWin.EncoderPeakPowerLower, 
+				repetitiveConditionsWin.EncoderPeakPowerHigherValue,
+				repetitiveConditionsWin.EncoderPeakPowerLowerValue);
 		(cell as Gtk.CellRendererText).Text = curve.PeakPower;
 	}
 
 	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		/*
 		if (Convert.ToDouble(curve.PeakPowerT) <= 100) 
 			(cell as Gtk.CellRendererText).Foreground = colorGood;
 		else 
 			(cell as Gtk.CellRendererText).Foreground = colorBad;
-
+		*/
 		(cell as Gtk.CellRendererText).Text = curve.PeakPowerT;
 	}
 

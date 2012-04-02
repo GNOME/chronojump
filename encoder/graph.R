@@ -368,6 +368,15 @@ if(length(args) < 3) {
 	png(outputGraph, width=width, height=height)
 
 	rawdata=scan(file=file,sep=",")
+
+	if(length(rawdata)==0) {
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,"Encoder is not connected.",cex=1.5)
+		dev.off()
+		write("", outputData1)
+		quit()
+	}
+
 	rawdata.cumsum=cumsum(rawdata)
 
 	titleType = "execution"
@@ -387,7 +396,7 @@ if(length(args) < 3) {
 	#if not found curves with this data, plot a "sorry" message and exit
 	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Sorry, no curves matched your criteria",cex=1.5)
+		text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
 		dev.off()
 		write("", outputData1)
 		quit()

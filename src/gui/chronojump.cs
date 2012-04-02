@@ -462,6 +462,7 @@ public partial class ChronoJumpWindow
 		createdStatsWin = false;
 		
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
+		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
 		createChronopicWindow(false);
 	
@@ -5064,12 +5065,23 @@ Console.WriteLine("X");
 	}
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(true, volumeOn); //show jumps
+		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, volumeOn);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(false, volumeOn); //show runs
+		repetitiveConditionsWin.View(Constants.BellModes.RUNS, volumeOn);
 	}
+	
+	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
+	}
+		
+	private void on_repetitive_conditions_closed(object o, EventArgs args) {
+		//repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler
+		Log.WriteLine("UPDATING ENCODER TV");
+		EncoderUpdateThings(false);
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  SENSITIVE GUI METHODS-------------------

@@ -36,8 +36,14 @@ public class EncoderParams
 	private int curve;
 	private int width;
 	private int height;
+	private int powerHigherCondition;
+	private int peakPowerHigherCondition;
+	private int powerLowerCondition;
+	private int peakPowerLowerCondition;
 	
-	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon)
+	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon,
+			int powerHigherCondition, int peakPowerHigherCondition,
+			int powerLowerCondition, int peakPowerLowerCondition)
 	{
 		this.time = time;
 		this.minHeight = minHeight;
@@ -45,12 +51,18 @@ public class EncoderParams
 		this.mass = mass;
 		this.smooth = smooth;
 		this.eccon = eccon;
+		this.powerHigherCondition = powerHigherCondition;
+		this.peakPowerHigherCondition = peakPowerHigherCondition;
+		this.powerLowerCondition = powerLowerCondition;
+		this.peakPowerLowerCondition = peakPowerLowerCondition;
 	}
 	
 	public string ToString1 () 
 	{
 		return time.ToString() + " " + minHeight.ToString() + " " + isJump.ToString() + 
-			" " + mass.ToString() + " " + smooth + " " + eccon;
+			" " + mass.ToString() + " " + smooth + " " + eccon +
+			" " + powerHigherCondition.ToString() + " " + peakPowerHigherCondition.ToString() +
+			" " + powerLowerCondition.ToString() + " " + peakPowerLowerCondition.ToString();
 	}
 	
 	public EncoderParams(int minHeight, bool isJump, string mass, string eccon, 

@@ -1,10 +1,25 @@
+# 
+#  This file is part of ChronoJump
+# 
+#  ChronoJump is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or   
+#     (at your option) any later version.
+#     
+#  ChronoJump is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+#     GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+#   Copyright (C) 2004-2012   Teng Wei Hua <wadedang@gmail.com>, Xavier de Blas <xaviblas@gmail.com> 
+# 
 # encoding=utf-8
 #
 # This problem is for reading data form Chronopic.
-#
-# History:
-#    2011-09-01 Reading data.
-#    2011-12-27 add function: Recording if encoder changes the direction.
 
 
 
@@ -37,10 +52,16 @@ isJump = sys.argv[4]
 mass = float(sys.argv[5])
 smoothingOne = float(sys.argv[6])
 eccon = sys.argv[7]				#contraction "ec" or "c"
-powerHigherCondition = int(sys.argv[8])
-peakPowerHigherCondition = int(sys.argv[9])
-powerLowerCondition = int(sys.argv[10])
-peakPowerLowerCondition = int(sys.argv[11])
+heightHigherCondition = int(sys.argv[8])
+heightLowerCondition = int(sys.argv[9])
+meanSpeedHigherCondition = int(sys.argv[10])
+meanSpeedLowerCondition = int(sys.argv[11])
+maxSpeedHigherCondition = int(sys.argv[12])
+maxSpeedLowerCondition = int(sys.argv[13])
+powerHigherCondition = int(sys.argv[14])
+powerLowerCondition = int(sys.argv[15])
+peakPowerHigherCondition = int(sys.argv[16])
+peakPowerLowerCondition = int(sys.argv[17])
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -171,7 +192,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 			maxSpeed = myR.get('max(speed$y)')
 			phase = "   up,"
 			phaseCol = colorize(phase,BLUE,TRUE)
-		phaseRange = myR.get('range')
+		height = myR.get('range')
 		meanPower = myR.get('meanPower')
 		peakPower = myR.get('peakPower')
 		peakPowerT = myR.get('peakPowerT')
@@ -181,28 +202,41 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 #		if(meanSpeed > 2): colSpeed = GREENINV
 #		else: colSpeed = GREEN
 		
-		meanPowerCol = "%10.2f," % meanPower
-		colPower = assignColor(meanPower, powerHigherCondition, powerLowerCondition)
-		peakPowerCol = "%10.2f," % peakPower
-		colPeakPower = assignColor(peakPower, peakPowerHigherCondition, peakPowerLowerCondition)
+		height = height / 10 #from cm to mm
+		
+		#F mean Formatted
+		heightF = "%6i," % height
+		colorHeight = assignColor(height, heightHigherCondition, heightLowerCondition)
+		
+		meanSpeedF = "%10.2f," % meanSpeed
+		colorMeanSpeed = assignColor(meanSpeed, meanSpeedHigherCondition, meanSpeedLowerCondition)
+		
+		maxSpeedF = "%10.2f," % maxSpeed
+		colorMaxSpeed = assignColor(maxSpeed, maxSpeedHigherCondition, maxSpeedLowerCondition)
+		
+		meanPowerF = "%10.2f," % meanPower
+		colorMeanPower = assignColor(meanPower, powerHigherCondition, powerLowerCondition)
+
+		peakPowerF = "%10.2f," % peakPower
+		colorPeakPower = assignColor(peakPower, peakPowerHigherCondition, peakPowerLowerCondition)
 
 		play = False
-		if colPower == GREEN or colPeakPower == GREEN:
-			play = True
-			soundFile = soundFileGood
-		elif colPower == RED or colPeakPower == RED:
+		#if only one param is bad, will sound bad
+		if colorHeight == RED or colorMeanSpeed == RED or colorMaxSpeed == RED or colorMeanPower == RED or colorPeakPower == RED:
 			play = True
 			soundFile = soundFileBad
+		elif colorHeight == GREEN or colorMeanSpeed == GREEN or colorMaxSpeed == GREEN or colorMeanPower == GREEN or colorPeakPower == GREEN:
+			play = True
+			soundFile = soundFileGood
 
-		phaseRange = phaseRange / 10 #from cm to mm
-		
 		if eccon == "ec" or direction_now == -1:
-			if phaseRange >= minHeight:
-				print phaseCol + "%6i," % phaseRange + "%10.2f," % meanSpeed + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,colPower!=BLACK) + colorize(peakPowerCol,colPeakPower,colPeakPower!=BLACK) + "%11i" % peakPowerT
+			if height >= minHeight:
+				#print phaseCol + "%6i," % phaseRange + "%10.2f," % meanSpeed + "%9.2f," % maxSpeed + colorize(meanPowerF,colorPower,colorPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%11i" % peakPowerT
+				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%11i" % peakPowerT
 				if play:
 					playsound(soundFile)
 			else:
-				print chr(27) + "[0;37m" + phase + chr(27) + "[0;47m" + "%6i," % phaseRange + chr(27)+"[0m" + chr(27) + "[0;37m" + meanSpeedCol + "%9.2f," % maxSpeed + meanPowerCol + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
+				print chr(27) + "[0;37m" + phase + chr(27) + "[0;47m" + "%6i," % height + chr(27)+"[0m" + chr(27) + "[0;37m" + meanSpeedF + "%9.2f," % maxSpeed + meanPowerF + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):

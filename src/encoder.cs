@@ -36,14 +36,23 @@ public class EncoderParams
 	private int curve;
 	private int width;
 	private int height;
+	private double heightHigherCondition;
+	private double heightLowerCondition;
+	private double meanSpeedHigherCondition;
+	private double meanSpeedLowerCondition;
+	private double maxSpeedHigherCondition;
+	private double maxSpeedLowerCondition;
 	private int powerHigherCondition;
-	private int peakPowerHigherCondition;
 	private int powerLowerCondition;
+	private int peakPowerHigherCondition;
 	private int peakPowerLowerCondition;
 	
 	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon,
-			int powerHigherCondition, int peakPowerHigherCondition,
-			int powerLowerCondition, int peakPowerLowerCondition)
+			double heightHigherCondition, double heightLowerCondition, 
+			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
+			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
+			int powerHigherCondition, int powerLowerCondition, 
+			int peakPowerHigherCondition, int peakPowerLowerCondition)
 	{
 		this.time = time;
 		this.minHeight = minHeight;
@@ -51,9 +60,15 @@ public class EncoderParams
 		this.mass = mass;
 		this.smooth = smooth;
 		this.eccon = eccon;
+		this.heightHigherCondition = heightHigherCondition;
+		this.heightLowerCondition = heightLowerCondition;
+		this.meanSpeedHigherCondition = meanSpeedHigherCondition;
+		this.meanSpeedLowerCondition = meanSpeedLowerCondition;
+		this.maxSpeedHigherCondition = maxSpeedHigherCondition;
+		this.maxSpeedLowerCondition = maxSpeedLowerCondition;
 		this.powerHigherCondition = powerHigherCondition;
-		this.peakPowerHigherCondition = peakPowerHigherCondition;
 		this.powerLowerCondition = powerLowerCondition;
+		this.peakPowerHigherCondition = peakPowerHigherCondition;
 		this.peakPowerLowerCondition = peakPowerLowerCondition;
 	}
 	
@@ -61,8 +76,11 @@ public class EncoderParams
 	{
 		return time.ToString() + " " + minHeight.ToString() + " " + isJump.ToString() + 
 			" " + mass.ToString() + " " + smooth + " " + eccon +
-			" " + powerHigherCondition.ToString() + " " + peakPowerHigherCondition.ToString() +
-			" " + powerLowerCondition.ToString() + " " + peakPowerLowerCondition.ToString();
+			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
+			" " + meanSpeedHigherCondition.ToString() + 	" " + meanSpeedLowerCondition.ToString() +
+			" " + maxSpeedHigherCondition.ToString() + 	" " + maxSpeedLowerCondition.ToString() +
+			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
+			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString();
 	}
 	
 	public EncoderParams(int minHeight, bool isJump, string mass, string eccon, 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -30,10 +30,11 @@ public class RepetitiveConditionsWindow
 //	[Widget] Gtk.ScrolledWindow scrolled_conditions;
 
 	[Widget] Gtk.Frame frame_best_and_worst;
-	[Widget] Gtk.Label label_other_conditions;
+	[Widget] Gtk.Box hbox_jump_best_worst;
+	[Widget] Gtk.Box hbox_run_best_worst;
 
 	/* jumps */	
-	[Widget] Gtk.Table table_jump_conditions;
+	[Widget] Gtk.Box hbox_jump_conditions;
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_worst;
 
@@ -52,7 +53,7 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_tf_tc_lower;
 
 	/* runs */	
-	[Widget] Gtk.Table table_run_conditions;
+	[Widget] Gtk.Box hbox_run_conditions;
 	[Widget] Gtk.CheckButton checkbutton_run_time_best;
 	[Widget] Gtk.CheckButton checkbutton_run_time_worst;
 	
@@ -63,7 +64,19 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
-	[Widget] Gtk.Table table_encoder_conditions;
+	[Widget] Gtk.Box hbox_encoder_conditions;
+	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
+	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_lower;
+	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_height_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_height_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_power_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_power_lower;
@@ -88,6 +101,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_lower;
 	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
 	[Widget] Gtk.Image image_repetitive_time_lower;
+	[Widget] Gtk.Image image_encoder_height_higher;
+	[Widget] Gtk.Image image_encoder_mean_speed_higher;
+	[Widget] Gtk.Image image_encoder_max_speed_higher;
 	[Widget] Gtk.Image image_encoder_power_higher;
 	[Widget] Gtk.Image image_encoder_peakpower_higher;
 	[Widget] Gtk.Image image_repetitive_test_good;
@@ -98,6 +114,9 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_repetitive_tc_greater;
 	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
 	[Widget] Gtk.Image image_repetitive_time_greater;
+	[Widget] Gtk.Image image_encoder_height_lower;
+	[Widget] Gtk.Image image_encoder_mean_speed_lower;
+	[Widget] Gtk.Image image_encoder_max_speed_lower;
 	[Widget] Gtk.Image image_encoder_power_lower;
 	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
@@ -151,30 +170,22 @@ public class RepetitiveConditionsWindow
 
 	void showWidgets(Constants.BellModes bellMode) {
 		frame_best_and_worst.Hide();
-		label_other_conditions.Hide();
-	
-		table_jump_conditions.Hide();
-		checkbutton_jump_tf_tc_best.Hide();
-		checkbutton_jump_tf_tc_worst.Hide();
-		table_run_conditions.Hide();
-		checkbutton_run_time_best.Hide();
-		checkbutton_run_time_worst.Hide();
-		table_encoder_conditions.Hide();
+		hbox_jump_best_worst.Hide();
+		hbox_run_best_worst.Hide();
+		hbox_jump_conditions.Hide();
+		hbox_run_conditions.Hide();
+		hbox_encoder_conditions.Hide();
 
 		if(bellMode == Constants.BellModes.JUMPS) {
 			frame_best_and_worst.Show();
-			label_other_conditions.Show();
-			table_jump_conditions.Show();
-			checkbutton_jump_tf_tc_best.Show();
-			checkbutton_jump_tf_tc_worst.Show();
+			hbox_jump_best_worst.Show();
+			hbox_jump_conditions.Show();
 		} else if(bellMode == Constants.BellModes.RUNS) {
 			frame_best_and_worst.Show();
-			label_other_conditions.Show();
-			table_run_conditions.Show();
-			checkbutton_run_time_best.Show();
-			checkbutton_run_time_worst.Show();
+			hbox_run_best_worst.Show();
+			hbox_run_conditions.Show();
 		} else { //encoder
-			table_encoder_conditions.Show();
+			hbox_encoder_conditions.Show();
 		}
 	}
 
@@ -187,6 +198,9 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_time_lower.Pixbuf = pixbuf;
+		image_encoder_height_higher.Pixbuf = pixbuf;
+		image_encoder_mean_speed_higher.Pixbuf = pixbuf;
+		image_encoder_max_speed_higher.Pixbuf = pixbuf;
 		image_encoder_power_higher.Pixbuf = pixbuf;
 		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
@@ -198,6 +212,9 @@ public class RepetitiveConditionsWindow
 		image_repetitive_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_time_greater.Pixbuf = pixbuf;
+		image_encoder_height_lower.Pixbuf = pixbuf;
+		image_encoder_mean_speed_lower.Pixbuf = pixbuf;
+		image_encoder_max_speed_lower.Pixbuf = pixbuf;
 		image_encoder_power_lower.Pixbuf = pixbuf;
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
@@ -265,15 +282,36 @@ public class RepetitiveConditionsWindow
 	}
 
 	/* encoder */
+	void on_spinbutton_encoder_height_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_height_higher.Active = true;
+	}
+	void on_spinbutton_encoder_height_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_height_lower.Active = true;
+	}
+	
+	void on_spinbutton_encoder_mean_speed_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_mean_speed_higher.Active = true;
+	}
+	void on_spinbutton_encoder_mean_speed_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_mean_speed_lower.Active = true;
+	}
+	
+	void on_spinbutton_encoder_max_speed_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_max_speed_higher.Active = true;
+	}
+	void on_spinbutton_encoder_max_speed_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_max_speed_lower.Active = true;
+	}
+	
 	void on_spinbutton_encoder_power_higher_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_power_higher.Active = true;
 	}
-	void on_spinbutton_encoder_peakpower_higher_value_changed (object o, EventArgs args) {
-		checkbutton_encoder_peakpower_higher.Active = true;
-	}
-
 	void on_spinbutton_encoder_power_lower_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_power_lower.Active = true;
+	}
+
+	void on_spinbutton_encoder_peakpower_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_peakpower_higher.Active = true;
 	}
 	void on_spinbutton_encoder_peakpower_lower_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_peakpower_lower.Active = true;
@@ -288,11 +326,9 @@ public class RepetitiveConditionsWindow
 		get { return checkbutton_jump_tf_tc_worst.Active; }
 	}
 
-
 	public bool TfGreater {
 		get { return checkbutton_tf_greater.Active; }
 	}
-
 	public bool TfLower {
 		get { return checkbutton_tf_lower.Active; }
 	}
@@ -300,7 +336,6 @@ public class RepetitiveConditionsWindow
 	public bool TcGreater {
 		get { return checkbutton_tc_greater.Active; }
 	}
-
 	public bool TcLower {
 		get { return checkbutton_tc_lower.Active; }
 	}
@@ -308,16 +343,13 @@ public class RepetitiveConditionsWindow
 	public bool TfTcGreater {
 		get { return checkbutton_tf_tc_greater.Active; }
 	}
-
 	public bool TfTcLower {
 		get { return checkbutton_tf_tc_lower.Active; }
 	}
 
-
 	public double TfGreaterValue {
 		get { return Convert.ToDouble(spinbutton_tf_greater.Value); }
 	}
-
 	public double TfLowerValue {
 		get { return Convert.ToDouble(spinbutton_tf_lower.Value); }
 	}
@@ -325,7 +357,6 @@ public class RepetitiveConditionsWindow
 	public double TcGreaterValue {
 		get { return Convert.ToDouble(spinbutton_tc_greater.Value); }
 	}
-
 	public double TcLowerValue {
 		get { return Convert.ToDouble(spinbutton_tc_lower.Value); }
 	}
@@ -333,7 +364,6 @@ public class RepetitiveConditionsWindow
 	public double TfTcGreaterValue {
 		get { return Convert.ToDouble(spinbutton_tf_tc_greater.Value); }
 	}
-
 	public double TfTcLowerValue {
 		get { return Convert.ToDouble(spinbutton_tf_tc_lower.Value); }
 	}
@@ -349,7 +379,6 @@ public class RepetitiveConditionsWindow
 	public bool RunTimeGreater {
 		get { return checkbutton_time_greater.Active; }
 	}
-
 	public bool RunTimeLower {
 		get { return checkbutton_time_lower.Active; }
 	}
@@ -357,17 +386,65 @@ public class RepetitiveConditionsWindow
 	public double RunTimeGreaterValue {
 		get { return Convert.ToDouble(spinbutton_time_greater.Value); }
 	}
-
 	public double RunTimeLowerValue {
 		get { return Convert.ToDouble(spinbutton_time_lower.Value); }
 	}
 
 	/* ENCODER */
+	public bool EncoderHeightHigher {
+		get { return checkbutton_encoder_height_higher.Active; }
+	}
+	public double EncoderHeightHigherValue {
+		get { return Convert.ToDouble(spinbutton_encoder_height_higher.Value); }
+	}
+	
+	public bool EncoderHeightLower {
+		get { return checkbutton_encoder_height_lower.Active; }
+	}
+	public double EncoderHeightLowerValue {
+		get { return Convert.ToDouble(spinbutton_encoder_height_lower.Value); }
+	}
+
+	public bool EncoderMeanSpeedHigher {
+		get { return checkbutton_encoder_mean_speed_higher.Active; }
+	}
+	public double EncoderMeanSpeedHigherValue {
+		get { return Convert.ToDouble(spinbutton_encoder_mean_speed_higher.Value); }
+	}
+	
+	public bool EncoderMeanSpeedLower {
+		get { return checkbutton_encoder_mean_speed_lower.Active; }
+	}
+	public double EncoderMeanSpeedLowerValue {
+		get { return Convert.ToDouble(spinbutton_encoder_mean_speed_lower.Value); }
+	}
+
+	public bool EncoderMaxSpeedHigher {
+		get { return checkbutton_encoder_max_speed_higher.Active; }
+	}
+	public double EncoderMaxSpeedHigherValue {
+		get { return Convert.ToDouble(spinbutton_encoder_max_speed_higher.Value); }
+	}
+	
+	public bool EncoderMaxSpeedLower {
+		get { return checkbutton_encoder_max_speed_lower.Active; }
+	}
+	public double EncoderMaxSpeedLowerValue {
+		get { return Convert.ToDouble(spinbutton_encoder_max_speed_lower.Value); }
+	}
+
 	public bool EncoderPowerHigher {
 		get { return checkbutton_encoder_power_higher.Active; }
 	}
 	public int EncoderPowerHigherValue {
 		get { return Convert.ToInt32(spinbutton_encoder_power_higher.Value); }
+	}
+	
+	public bool EncoderPowerLower {
+		get { return checkbutton_encoder_power_lower.Active; }
+	}
+	public int EncoderPowerLowerValue {
+		get { return Convert.ToInt32(spinbutton_encoder_power_lower.Value); }
 	}
 
 	public bool EncoderPeakPowerHigher {
@@ -375,13 +452,6 @@ public class RepetitiveConditionsWindow
 	}
 	public int EncoderPeakPowerHigherValue {
 		get { return Convert.ToInt32(spinbutton_encoder_peakpower_higher.Value); }
-	}
-
-	public bool EncoderPowerLower {
-		get { return checkbutton_encoder_power_lower.Active; }
-	}
-	public int EncoderPowerLowerValue {
-		get { return Convert.ToInt32(spinbutton_encoder_power_lower.Value); }
 	}
 
 	public bool EncoderPeakPowerLower {

@@ -18,7 +18,7 @@ from pyper import *
 #import subprocess
 #import pygame.image
 #import pygame.display
-#import pygame
+import pygame
 #from pygame.locals import * #mouse and key definitions
 
 
@@ -64,23 +64,32 @@ frames_push_bottom1 = list()
 frames_push_bottom2 = list()
 previous_frame_change = 0
 
-#modes:
-#0: don't do calculations
-mode = 0	
-
 lag=20
 
 
-#unused now
-def cumulative_sum(n):
-	cum_sum = []
-	y = 0
-	for i in n:   # <--- i will contain elements (not indices) from n
-		y += i    # <--- so you need to add i, not n[i]
-		cum_sum.append(y)
-	return cum_sum
 
 #https://wiki.archlinux.org/index.php/Color_Bash_Prompt#Prompt_escapes
+
+
+#sound stuff
+#http://code.activestate.com/recipes/521884-play-sound-files-with-pygame-in-a-cross-platform-m/
+# global constants
+FREQ = 44100   # same as audio CD
+BITSIZE = -16  # unsigned 16 bit
+CHANNELS = 2   # 1 == mono, 2 == stereo
+BUFFER = 1024  # audio buffer size in no. of samples
+FRAMERATE = 30 # how often to check if playback has finished
+def playsound(soundfile):
+    sound = pygame.mixer.Sound(soundfile)
+    clock = pygame.time.Clock()
+    sound.play()
+    while pygame.mixer.get_busy():
+        clock.tick(FRAMERATE)
+
+soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/service-login.ogg"
+soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/dialog-question.ogg"
+soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/dialog-error.ogg"
+
 
 BLACK = 30
 RED = 31
@@ -177,13 +186,23 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		peakPowerCol = "%10.2f," % peakPower
 		colPeakPower = assignColor(peakPower, peakPowerHigherCondition, peakPowerLowerCondition)
 
+		play = False
+		if colPower == GREEN or colPeakPower == GREEN:
+			play = True
+			soundFile = soundFileGood
+		elif colPower == RED or colPeakPower == RED:
+			play = True
+			soundFile = soundFileBad
+
 		phaseRange = phaseRange / 10 #from cm to mm
 		
 		if eccon == "ec" or direction_now == -1:
 			if phaseRange >= minHeight:
 				print phaseCol + "%6i," % phaseRange + "%10.2f," % meanSpeed + "%9.2f," % maxSpeed + colorize(meanPowerCol,colPower,colPower!=BLACK) + colorize(peakPowerCol,colPeakPower,colPeakPower!=BLACK) + "%11i" % peakPowerT
+				if play:
+					playsound(soundFile)
 			else:
-				print chr(27) + "[2;37m" + phase + chr(27) + "[0;47m" + "%6i," % phaseRange + chr(27)+"[0m" + chr(27) + "[2;37m" + meanSpeedCol + "%9.2f," % maxSpeed + meanPowerCol + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
+				print chr(27) + "[0;37m" + phase + chr(27) + "[0;47m" + "%6i," % phaseRange + chr(27)+"[0m" + chr(27) + "[0;37m" + meanSpeedCol + "%9.2f," % maxSpeed + meanPowerCol + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -213,6 +232,15 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 
 #try:
 if __name__ == '__main__':
+	print("Please, wait...\n")
+	# initialize pygame.mixer module
+	# if these setting do not work with your audio system
+	# change the global constants accordingly
+	try:
+		pygame.mixer.init(FREQ, BITSIZE, CHANNELS, BUFFER)
+	except pygame.error, exc:
+		print >>sys.stderr, "Could not initialize sound system: %s" % exc
+	
 	#print "connecting with R"
 	myR = R()
 	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
@@ -220,12 +248,6 @@ if __name__ == '__main__':
 	myR.run('weight=mass*9.81')
 	myR.assign('k',2)
 
-	# Initial serial
-	#print(sys.argv)
-	#if(len(sys.argv) == 2):
-	#	file = open(sys.argv[1], 'w')
-	#else:
-	#	file = open("data.txt", 'w')
 	file = open(outputFile, 'w')
 
 	ser = serial.Serial(w_serial_port)
@@ -241,6 +263,8 @@ if __name__ == '__main__':
 		#if ser.readable(): #commented because don't work on linux
 		ser.read()
 
+	print("START!\n")
+	playsound(soundFileStart)
 	print("phase, range, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT")
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux

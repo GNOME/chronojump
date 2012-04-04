@@ -23245,6 +23245,7 @@ on current Chronojump version.</property>
                                               <widget class="GtkAlignment" id="alignment19">
                                                 <property name="visible">True</property>
                                                 <property name="left_padding">12</property>
+                                                <property name="right_padding">12</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox58">
                                                     <property name="visible">True</property>
@@ -23717,7 +23718,7 @@ on current Chronojump version.</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="padding">8</property>
+                                        <property name="padding">4</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
@@ -23856,6 +23857,7 @@ on current Chronojump version.</property>
                                               <widget class="GtkAlignment" id="alignment17">
                                                 <property name="visible">True</property>
                                                 <property name="left_padding">12</property>
+                                                <property name="right_padding">12</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox79">
                                                     <property name="visible">True</property>
@@ -24039,7 +24041,7 @@ on current Chronojump version.</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="padding">8</property>
+                                        <property name="padding">4</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>

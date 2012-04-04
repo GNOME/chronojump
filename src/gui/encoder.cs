@@ -90,19 +90,37 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
-		//TODO: que surti barra de progres de calculando... despres de capturar i boto de cerrar automatico
-		//TODO: i mostrar valors des de la gui (potser a zona dreta damunt del zoom)
+		double heightHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderHeightHigher)		
+			heightHigherCondition = repetitiveConditionsWin.EncoderHeightHigherValue;
+		double heightLowerCondition = -1;
+		if(repetitiveConditionsWin.EncoderHeightLower)		
+			heightLowerCondition = repetitiveConditionsWin.EncoderHeightLowerValue;
+	
+		double meanSpeedHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderMeanSpeedHigher)		
+			meanSpeedHigherCondition = repetitiveConditionsWin.EncoderMeanSpeedHigherValue;
+		double meanSpeedLowerCondition = -1;
+		if(repetitiveConditionsWin.EncoderMeanSpeedLower)		
+			meanSpeedLowerCondition = repetitiveConditionsWin.EncoderMeanSpeedLowerValue;
+	
+		double maxSpeedHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderMaxSpeedHigher)		
+			maxSpeedHigherCondition = repetitiveConditionsWin.EncoderMaxSpeedHigherValue;
+		double maxSpeedLowerCondition = -1;
+		if(repetitiveConditionsWin.EncoderMaxSpeedLower)		
+			maxSpeedLowerCondition = repetitiveConditionsWin.EncoderMaxSpeedLowerValue;
 	
 		int powerHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderPowerHigher)		
 			powerHigherCondition = repetitiveConditionsWin.EncoderPowerHigherValue;
-		int peakPowerHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderPeakPowerHigher)		
-			peakPowerHigherCondition = repetitiveConditionsWin.EncoderPeakPowerHigherValue;
-
 		int powerLowerCondition = -1;
 		if(repetitiveConditionsWin.EncoderPowerLower)		
 			powerLowerCondition = repetitiveConditionsWin.EncoderPowerLowerValue;
+		
+		int peakPowerHigherCondition = -1;
+		if(repetitiveConditionsWin.EncoderPeakPowerHigher)		
+			peakPowerHigherCondition = repetitiveConditionsWin.EncoderPeakPowerHigherValue;
 		int peakPowerLowerCondition = -1;
 		if(repetitiveConditionsWin.EncoderPeakPowerLower)		
 			peakPowerLowerCondition = repetitiveConditionsWin.EncoderPeakPowerLowerValue;
@@ -115,8 +133,11 @@ public partial class ChronoJumpWindow
 				findMass(),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon(),
-				powerHigherCondition, peakPowerHigherCondition,
-				powerLowerCondition, peakPowerLowerCondition
+				heightHigherCondition, heightLowerCondition,
+				meanSpeedHigherCondition, meanSpeedLowerCondition,
+				maxSpeedHigherCondition, maxSpeedLowerCondition,
+				powerHigherCondition, powerLowerCondition,
+				peakPowerHigherCondition, peakPowerLowerCondition
 				); 
 
 		EncoderStruct es = new EncoderStruct(
@@ -358,8 +379,7 @@ public partial class ChronoJumpWindow
 
 
 	/* rendering columns */
-
-	private string assignColor(double found, bool higherActive, bool lowerActive, int higherValue, int lowerValue) 
+	private string assignColor(double found, bool higherActive, bool lowerActive, double higherValue, double lowerValue) 
 	{
 		//more at System.Drawing.Color (Monodoc)
 		string colorGood= "ForestGreen"; 
@@ -372,6 +392,12 @@ public partial class ChronoJumpWindow
 			return colorBad;
 		else
 			return colorNothing;
+	}
+
+	private string assignColor(double found, bool higherActive, bool lowerActive, int higherValue, int lowerValue) 
+	{
+		return assignColor(found, higherActive, lowerActive, 
+				Convert.ToDouble(higherValue), Convert.ToDouble(lowerValue));
 	}
 
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -390,6 +416,12 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string heightToCm = (Convert.ToDouble(curve.Height)/10).ToString();
+		(cell as Gtk.CellRendererText).Foreground = assignColor(
+				Convert.ToDouble(heightToCm),
+				repetitiveConditionsWin.EncoderHeightHigher, 
+				repetitiveConditionsWin.EncoderHeightLower, 
+				repetitiveConditionsWin.EncoderHeightHigherValue,
+				repetitiveConditionsWin.EncoderHeightLowerValue);
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(heightToCm,8,1),Convert.ToDouble(heightToCm));
 	}
@@ -397,6 +429,12 @@ public partial class ChronoJumpWindow
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Foreground = assignColor(
+				Convert.ToDouble(curve.MeanSpeed),
+				repetitiveConditionsWin.EncoderMeanSpeedHigher, 
+				repetitiveConditionsWin.EncoderMeanSpeedLower, 
+				repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
+				repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MeanSpeed));
@@ -405,6 +443,12 @@ public partial class ChronoJumpWindow
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Foreground = assignColor(
+				Convert.ToDouble(curve.MaxSpeed),
+				repetitiveConditionsWin.EncoderMaxSpeedHigher, 
+				repetitiveConditionsWin.EncoderMaxSpeedLower, 
+				repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
+				repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MaxSpeed));

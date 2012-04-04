@@ -71,7 +71,6 @@ public partial class ChronoJumpWindow
 	//TODO: solve the problem of connecting two different chronopics
 	
 	//TODO: in ec, curves and powerBars have to be different on ec than on c
-	//TODO: smaller zoom button on analysis
 	
 	public void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;

@@ -497,6 +497,11 @@ public partial class ChronoJumpWindow
 		stats_win_create();
 		createdStatsWin = true;
 		//stats_win_initializeSession();
+	
+		encoder_pulsebar_capture.Fraction = 1;
+		encoder_pulsebar_capture.Text = "";
+		encoder_pulsebar_analyze.Fraction = 1;
+		encoder_pulsebar_analyze.Text = "";
 	}
 	
 
@@ -5051,7 +5056,9 @@ Console.WriteLine("X");
 	}
 		
 	private void on_repetitive_conditions_closed(object o, EventArgs args) {
-		EncoderUpdateThings(false);
+		encoderDoGraph = false;
+		EncoderUpdateThings();
+		//don't need thread here, because is fast (there's no need to call R and graph)
 	}
 
 

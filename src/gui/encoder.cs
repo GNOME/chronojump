@@ -24,6 +24,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Collections;
+using System.Threading;
 
 
 public partial class ChronoJumpWindow 
@@ -42,6 +43,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
@@ -52,18 +54,22 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
+	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
 
 	TreeStore encoderStore;
 
 	ArrayList encoderCurves;
         Gtk.ListStore encoderListStore;
 
+	Thread encoderThread;
 
 	private string encoderAnalysis="powerBars";
+	static bool encoderDoGraph;
+	enum encoderModes { CAPTURE, ANALYZE }
+	
 
 	//TODO: add encoder info of wade on about
 	//TODO: improve message if chronopic is not connected
-	//TODO: campanes a l'encoder pq mostri colors i sons en funcio del que passa. Falten els sons des de python
 
 	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")
 
@@ -72,11 +78,11 @@ public partial class ChronoJumpWindow
 	
 	//TODO: in ec, curves and powerBars have to be different on ec than on c
 	
-	public void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;
 		spin_encoder_jump_limit.Sensitive = false;
 	}
-	public void on_radiobutton_encoder_capture_jump_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_capture_jump_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = false;
 		spin_encoder_jump_limit.Sensitive = true;
 	}
@@ -120,17 +126,20 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
-		EncoderUpdateThings(true);
+		encoderDoGraph = true;
+		encoderThreadStart(encoderModes.CAPTURE);
 	}
 		
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		EncoderUpdateThings(true);
+		encoderDoGraph = true;
+		encoderThreadStart(encoderModes.CAPTURE);
 	}
 	
-	private void EncoderUpdateThings(bool graph) 
+	//private void EncoderUpdateThings(bool graph) 
+	private void EncoderUpdateThings() 
 	{
-		if(graph)
+		if(encoderDoGraph)
 			makeCurvesGraph();
 		
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
@@ -179,9 +188,21 @@ public partial class ChronoJumpWindow
 		image_encoder_capture.Pixbuf = pixbuf;
 	}
 
+	void on_button_encoder_save_clicked (object o, EventArgs args) 
+	{
+	}
+	void on_button_encoder_load_clicked (object o, EventArgs args) 
+	{
+	}
+	
 
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
+	{
+		encoderThreadStart(encoderModes.ANALYZE);
+	}
+	
+	private void analyze () 
 	{
 		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; //image is inside (is smaller than) viewport
 		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
@@ -209,23 +230,23 @@ public partial class ChronoJumpWindow
 //TODO: auto close capturing window
 
 	//show curve_num only on simple and superpose
-	public void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="single";
 	}
 
-	public void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="superpose";
 	}
-	public void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="side";
 	}
-	public void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="powerBars";
@@ -424,8 +445,6 @@ public partial class ChronoJumpWindow
 	}
 
 	/* end of rendering cols */
-
-
 	
 	
 	private string [] fixDecimals(string [] cells) {
@@ -436,9 +455,69 @@ public partial class ChronoJumpWindow
 		return cells;
 	}
 	
-	
 	/* end of TreeView stuff */	
 
+	/* thread stuff */
+
+	private void encoderThreadStart(encoderModes mode) {
+		if(mode == encoderModes.CAPTURE) {
+			encoder_pulsebar_capture.Text = "Please, wait.";
+			treeview_encoder_curves.Sensitive = false;
+			encoderThread = new Thread(new ThreadStart(EncoderUpdateThings));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+		} else {
+			encoder_pulsebar_analyze.Text = "Please, wait.";
+			encoderThread = new Thread(new ThreadStart(analyze));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
+		}
+		encoderThread.Start(); 
+	}
+	
+	private bool pulseGTKEncoderCapture ()
+	{
+		if(! encoderThread.IsAlive) {
+			finishPulsebar(encoderModes.CAPTURE);
+			Log.Write("dying");
+			return false;
+		}
+		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		Thread.Sleep (50);
+		Log.Write(encoderThread.ThreadState.ToString());
+		return true;
+	}
+	
+	private bool pulseGTKEncoderAnalyze ()
+	{
+		if(! encoderThread.IsAlive) {
+			finishPulsebar(encoderModes.ANALYZE);
+			Log.Write("dying");
+			return false;
+		}
+		updatePulsebar(encoderModes.ANALYZE); //activity on pulsebar
+		Thread.Sleep (50);
+		Log.Write(encoderThread.ThreadState.ToString());
+		return true;
+	}
+	
+	private void updatePulsebar (encoderModes mode) {
+		if(mode == encoderModes.CAPTURE) 
+			encoder_pulsebar_capture.Pulse();
+		else
+			encoder_pulsebar_analyze.Pulse();
+	}
+	
+	private void finishPulsebar(encoderModes mode) {
+		if(mode == encoderModes.CAPTURE) {
+			encoder_pulsebar_capture.Fraction = 1;
+			encoder_pulsebar_capture.Text = "";
+			treeview_encoder_curves.Sensitive = true;
+		} else {
+			encoder_pulsebar_analyze.Fraction = 1;
+			encoder_pulsebar_analyze.Text = "";
+		}
+	}
+	
+	/* end of thread stuff */
 	
 }	
 

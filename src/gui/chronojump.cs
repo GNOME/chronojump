@@ -5056,9 +5056,7 @@ Console.WriteLine("X");
 	}
 		
 	private void on_repetitive_conditions_closed(object o, EventArgs args) {
-		encoderDoGraph = false;
-		EncoderUpdateThings();
-		//don't need thread here, because is fast (there's no need to call R and graph)
+		encoderUpdateTreeView();
 	}
 
 

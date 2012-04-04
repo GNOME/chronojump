@@ -231,12 +231,11 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 
 		if eccon == "ec" or direction_now == -1:
 			if height >= minHeight:
-				#print phaseCol + "%6i," % phaseRange + "%10.2f," % meanSpeed + "%9.2f," % maxSpeed + colorize(meanPowerF,colorPower,colorPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%11i" % peakPowerT
 				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%11i" % peakPowerT
 				if play:
 					playsound(soundFile)
 			else:
-				print chr(27) + "[0;37m" + phase + chr(27) + "[0;47m" + "%6i," % height + chr(27)+"[0m" + chr(27) + "[0;37m" + meanSpeedF + "%9.2f," % maxSpeed + meanPowerF + "%10.2f," % peakPower + "%11i" % peakPowerT + chr(27)+"[0m"
+				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):

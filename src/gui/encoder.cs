@@ -63,12 +63,14 @@ public partial class ChronoJumpWindow
 
 	Thread encoderThread;
 
+	int image_encoder_width;
+	int image_encoder_height;
+
 	private string encoderAnalysis="powerBars";
-	static bool encoderDoGraph;
 	enum encoderModes { CAPTURE, ANALYZE }
 	
 
-	//TODO: add encoder info of wade on about
+	//TODO: check all repetitive conditions areok on pyserial and on treeview
 	//TODO: improve message if chronopic is not connected
 
 	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")
@@ -147,22 +149,16 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
-		encoderDoGraph = true;
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
 		
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		encoderDoGraph = true;
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
 	
-	//private void EncoderUpdateThings(bool graph) 
-	private void EncoderUpdateThings() 
+	private void encoderUpdateTreeView()
 	{
-		if(encoderDoGraph)
-			makeCurvesGraph();
-		
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
 		if (contents == null) {
 			//TODO: no data: make some of the gui unsensitive ??
@@ -182,12 +178,9 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void makeCurvesGraph() 
+	//this is called by non gtk thread. Don't do gtk stuff here
+	private void encoderCreateCurvesGraphR() 
 	{
-	      	//show curves graph
-		int w = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; //image is inside (is smaller than) viewport
-		int h = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
-
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
@@ -195,7 +188,7 @@ public partial class ChronoJumpWindow
 				findEccon(), "curves",
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 			       	0, 			//curve is not used here
-				w, h); 
+				image_encoder_width, image_encoder_height); 
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
@@ -204,10 +197,8 @@ public partial class ChronoJumpWindow
 				"NULL", ep);
 		
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es,false);
-
-		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
-		image_encoder_capture.Pixbuf = pixbuf;
 	}
+		
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
@@ -223,18 +214,17 @@ public partial class ChronoJumpWindow
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
 	
+	//this is called by non gtk thread. Don't do gtk stuff here
 	private void analyze () 
 	{
-		int w = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; //image is inside (is smaller than) viewport
-		int h = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
-
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(),
 				findEccon(), encoderAnalysis,
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
-				(int) spin_encoder_analyze_curve_num.Value, w, h);
+				(int) spin_encoder_analyze_curve_num.Value, 
+				image_encoder_width, image_encoder_height); 
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
@@ -242,10 +232,6 @@ public partial class ChronoJumpWindow
 				"NULL", "NULL", ep);		//no data ouptut
 
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
-
-		//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
-		Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
-		image_encoder_analyze.Pixbuf = pixbuf;
 	}
 
 //TODO: auto close capturing window
@@ -505,11 +491,19 @@ public partial class ChronoJumpWindow
 
 	private void encoderThreadStart(encoderModes mode) {
 		if(mode == encoderModes.CAPTURE) {
+			//image is inside (is smaller than) viewport
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
+
 			encoder_pulsebar_capture.Text = "Please, wait.";
 			treeview_encoder_curves.Sensitive = false;
-			encoderThread = new Thread(new ThreadStart(EncoderUpdateThings));
+			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 		} else {
+			//the -3 is because image is inside (is smaller than) viewport
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
+
 			encoder_pulsebar_analyze.Text = "Please, wait.";
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
@@ -555,9 +549,18 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = 1;
 			encoder_pulsebar_capture.Text = "";
 			treeview_encoder_curves.Sensitive = true;
+			
+			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+			image_encoder_capture.Pixbuf = pixbuf;
+
+			encoderUpdateTreeView();
 		} else {
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoder_pulsebar_analyze.Text = "";
+			
+			//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
+			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+			image_encoder_analyze.Pixbuf = pixbuf;
 		}
 	}
 	

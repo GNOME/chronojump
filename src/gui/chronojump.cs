@@ -5077,8 +5077,6 @@ Console.WriteLine("X");
 	}
 		
 	private void on_repetitive_conditions_closed(object o, EventArgs args) {
-		//repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler
-		Log.WriteLine("UPDATING ENCODER TV");
 		EncoderUpdateThings(false);
 	}
 

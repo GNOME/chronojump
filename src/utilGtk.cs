@@ -240,4 +240,30 @@ public class UtilGtk
 		return tb;
 	}
 
+	//Done because align to the right on TreeView is not working
+	public static string TVNumPrint (string num, int start, int dec) {
+		string decS="}";
+		if(dec==1)
+			decS = ".0}";
+		else if(dec==2)
+			decS = ".00}";
+		else if(dec==3)
+			decS = ".000}";
+
+		int inc;
+		if(Convert.ToDouble(num) >= 10000)
+			inc = 0;
+		else if(Convert.ToDouble(num) >= 1000)
+			inc = 1;
+		else if(Convert.ToDouble(num) >= 100)
+			inc = 2;
+		else if(Convert.ToDouble(num) >= 10)
+			inc = 3;
+		else
+			inc = 4;
+		
+		return "{0," + (start + inc).ToString() + ":0" + decS;
+	}
+
+
 }

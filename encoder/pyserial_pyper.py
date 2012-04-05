@@ -95,9 +95,11 @@ lag=20
 #sound stuff
 #http://code.activestate.com/recipes/521884-play-sound-files-with-pygame-in-a-cross-platform-m/
 # global constants
-FREQ = 44100   # same as audio CD
+#FREQ = 44100   # same as audio CD
+FREQ = 8000   # same as audio CD
 BITSIZE = -16  # unsigned 16 bit
-CHANNELS = 2   # 1 == mono, 2 == stereo
+#CHANNELS = 2   # 1 == mono, 2 == stereo
+CHANNELS = 1   # 1 == mono, 2 == stereo
 BUFFER = 1024  # audio buffer size in no. of samples
 FRAMERATE = 30 # how often to check if playback has finished
 def playsound(soundfile):
@@ -107,9 +109,10 @@ def playsound(soundfile):
     while pygame.mixer.get_busy():
         clock.tick(FRAMERATE)
 
-soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/service-login.ogg"
-soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/dialog-question.ogg"
-soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/dialog-error.ogg"
+soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Question.wav"
+soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Asterisk.wav"
+#soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Beep.wav"
+soundFileBad = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Hand.wav"
 
 
 BLACK = 30

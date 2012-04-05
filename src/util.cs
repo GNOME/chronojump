@@ -1014,7 +1014,8 @@ public class Util
 						System.Media.SystemSounds.Asterisk.Play();
 						break;
 					case Constants.SoundTypes.BAD:
-						System.Media.SystemSounds.Beep.Play();
+						//System.Media.SystemSounds.Beep.Play();
+						System.Media.SystemSounds.Hand.Play();
 						break;
 				}
 			} catch {}

@@ -326,11 +326,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 	if(draw) {
 		if(legend & axesAndTitle) {
-			legendPos = "bottomleft"
-			if(eccon=="c")
-				legendPos = "bottomright"
+			legendPos = "bottom"
+			par(xpd=T)
 			legend(legendPos, xjust=1, legend=c("Distance","Speed","Force","Power"), lty=c(1,lty[1],lty[2],lty[3]), 
-					lwd=c(1,1,1,2), col=c("black",cols[1],cols[2],cols[3]), title=paste("Smoothing:",smoothing), cex=1, bg="white")
+					lwd=c(1,1,1,2), col=c("black",cols[1],cols[2],cols[3]), cex=1, bg="white", ncol=4, inset=-.2)
+			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}
 	}
@@ -340,9 +340,9 @@ paintPowerPeakPowerBars <- function(paf) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
-	par(new=T)
+	par(new=T, xpd=T)
 	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
-	legend("bottomleft",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"))
+	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)
 	axis(4)
 	mtext("time at peak power (s)", side=4, line=-1)
 }
@@ -439,7 +439,8 @@ if(length(args) < 3) {
 	if(analysis=="single") 
 		if(jump>0) 
 			paint(rawdata, eccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
-					1,curves[jump,3],smoothingOne,mass,paste(analysis,eccon,titleType,jump),
+					1,curves[jump,3],smoothingOne,mass,
+					paste(analysis, " ", eccon, " ", titleType, " ", jump," (smoothing: ",smoothingOne,")",sep=""),
 					TRUE,FALSE,TRUE,TRUE)
 	if(analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix

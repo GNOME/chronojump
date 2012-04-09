@@ -72,7 +72,6 @@ public partial class ChronoJumpWindow
 
 	//TODO: check all repetitive conditions areok on pyserial and on treeview
 	//TODO: fix spinbutton on repetitive conditions (page...) to ensure decimal can be selected
-	//TODO: put chancel button
 	
 	//TODO: improve message if chronopic is not connected
 

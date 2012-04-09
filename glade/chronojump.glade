@@ -6397,7 +6397,7 @@ suitable for agility tests)</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox153">
                                     <property name="visible">True</property>
-                                    <property name="spacing">2</property>
+                                    <property name="spacing">6</property>
                                     <child>
                                       <widget class="GtkLabel" id="label351">
                                         <property name="visible">True</property>
@@ -6444,7 +6444,7 @@ suitable for agility tests)</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox154">
                                     <property name="visible">True</property>
-                                    <property name="spacing">2</property>
+                                    <property name="spacing">6</property>
                                     <child>
                                       <widget class="GtkLabel" id="label352">
                                         <property name="visible">True</property>
@@ -6500,7 +6500,7 @@ suitable for agility tests)</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox214">
                                     <property name="visible">True</property>
-                                    <property name="spacing">2</property>
+                                    <property name="spacing">6</property>
                                     <child>
                                       <widget class="GtkLabel" id="label436">
                                         <property name="visible">True</property>
@@ -6547,7 +6547,7 @@ suitable for agility tests)</property>
                                 <child>
                                   <widget class="GtkHBox" id="hbox215">
                                     <property name="visible">True</property>
-                                    <property name="spacing">2</property>
+                                    <property name="spacing">6</property>
                                     <child>
                                       <widget class="GtkLabel" id="label437">
                                         <property name="visible">True</property>
@@ -18485,8 +18485,10 @@ Second Chronopic to platforms.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkHButtonBox" id="hbuttonbox1">
+                                                          <widget class="GtkVButtonBox" id="vbuttonbox1">
                                                             <property name="visible">True</property>
+                                                            <property name="spacing">10</property>
+                                                            <property name="layout_style">spread</property>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_cancel">
                                                             <property name="label">gtk-cancel</property>

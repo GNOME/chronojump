@@ -72,6 +72,7 @@ public partial class ChronoJumpWindow
 
 	//TODO: check all repetitive conditions areok on pyserial and on treeview
 	//TODO: fix spinbutton on repetitive conditions (page...) to ensure decimal can be selected
+	//TODO: put chancel button
 	
 	//TODO: improve message if chronopic is not connected
 
@@ -156,7 +157,10 @@ public partial class ChronoJumpWindow
 		
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		encoderThreadStart(encoderModes.CAPTURE);
+		if (File.Exists(Util.GetEncoderDataTempFileName()))
+			encoderThreadStart(encoderModes.CAPTURE);
+		else
+			encoder_pulsebar_capture.Text = "Missing data.";
 	}
 	
 	private void encoderUpdateTreeView()

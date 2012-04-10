@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.82";
+	static string lastChronojumpDatabaseVersion = "0.83";
 
 	public Sqlite() {
 	}
@@ -1119,6 +1119,19 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.82";
 			}
+			if(currentVersion == "0.82") {
+				dbcon.Open();
+				conversionRateTotal = 2;
+				
+				conversionRate = 1;
+				SqliteEncoder.createTable();
+				conversionRate = 2;
+				Log.WriteLine("Created encoder tables.");
+
+				SqlitePreferences.Update ("databaseVersion", "0.83", true); 
+				dbcon.Close();
+				currentVersion = "0.83";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1154,7 +1167,7 @@ class Sqlite
 	{
 		dbcon.Open();
 
-		creationTotal = 13;
+		creationTotal = 14;
 		creationRate = 1;
 
 		SqliteServer sqliteServerObject = new SqliteServer();
@@ -1230,6 +1243,10 @@ class Sqlite
 		SqliteMultiChronopic sqliteMultiChronopicObject = new SqliteMultiChronopic();
 		sqliteMultiChronopicObject.createTable(Constants.MultiChronopicTable);
 	
+		//encoder	
+		creationRate ++;
+		SqliteEncoder.createTable();
+
 		//sports
 		creationRate ++;
 		SqliteSport.createTable();
@@ -1237,7 +1254,7 @@ class Sqlite
 		SqliteSpeciallity.createTable();
 		SqliteSpeciallity.initialize();
 		SqliteSpeciallity.InsertUndefined(true);
-
+				
 		creationRate ++;
 		SqlitePersonSession sqlitePersonSessionObject = new SqlitePersonSession();
 		sqlitePersonSessionObject.createTable(Constants.PersonSessionTable);
@@ -1251,6 +1268,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.82 - 0.83 Converted DB to 0.83 Created encoder table
 		//0.81 - 0.82 Converted DB to 0.82 Added videoOn 
 		//0.80 - 0.81 Converted DB to 0.81 Added tempRunInterval initial speed
 		//0.79 - 0.80 Converted DB to 0.80 Added run and runInterval initial speed (if not done in 0.56 conversion)

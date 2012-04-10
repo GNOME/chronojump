@@ -97,6 +97,7 @@ public class Constants
 	public const string ReactionTimeTable = "reactionTime";
 	public const string MultiChronopicTable = "multiChronopic";
 	public const string TempMultiChronopicTable = "tempMultiChronopic"; //TODO
+	public const string EncoderTable = "encoder";
 
 	//tests types
 	public const string JumpTypeTable = "jumpType";

@@ -94,6 +94,10 @@ public class GenericWindow
 		tb.Text = str;
 		textview.Buffer = tb;
 	}
+	
+	public void SetButtonAcceptLabel(string str) {
+		button_accept.Label=str;
+	}
 
 
 	protected void on_button_cancel_clicked (object o, EventArgs args)

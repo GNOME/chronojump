@@ -25,6 +25,7 @@ using Gdk;
 using Glade;
 using System.Collections;
 using System.Threading;
+using Mono.Unix;
 
 
 public partial class ChronoJumpWindow 
@@ -68,6 +69,8 @@ public partial class ChronoJumpWindow
 
 	private string encoderAnalysis="powerBars";
 	enum encoderModes { CAPTURE, ANALYZE }
+	
+	GenericWindow genericWinForEncoder;
 	
 
 	//TODO: check all repetitive conditions areok on pyserial and on treeview
@@ -134,7 +137,7 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
-				findMass(),
+				findMass(true),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon(),
 				heightHigherCondition, heightLowerCondition,
@@ -189,7 +192,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
-				findMass(),
+				findMass(true),
 				findEccon(), "curves",
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 			       	0, 			//curve is not used here
@@ -207,7 +210,39 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
+		genericWinForEncoder = GenericWindow.Show(Catalog.GetString("Add an optional description"), Constants.GenericWindowShow.TEXTVIEW);
+		genericWinForEncoder.SetTextview("");
+		genericWinForEncoder.SetButtonAcceptLabel(Catalog.GetString("Save"));
+
+		genericWinForEncoder.Button_accept.Clicked += new EventHandler(on_save_description_add_accepted);
 	}
+	
+	private void on_save_description_add_accepted (object o, EventArgs args) {
+		genericWinForEncoder.Button_accept.Clicked -= new EventHandler(on_save_description_add_accepted);
+		string desc = genericWinForEncoder.TextviewSelected;
+		
+		Log.WriteLine(desc);
+	
+		//Saving file
+		//Util.MoveTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID);
+		Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID);
+
+		//Adding on SQL
+		SqliteEncoder.Insert(false, "-1", 
+				currentPerson.UniqueID, currentSession.UniqueID, 
+				"put an automatic name",	//TODO: using uniqueID and a counter, or maybe it's sql id autoincrement
+				Util.GetEncoderSessionDataDir(currentSession.UniqueID),	//url
+				(! radiobutton_encoder_capture_bar.Active).ToString(),
+				findMass(false), //when save on sql, do not include person weight
+				findEccon(),
+				(int) spin_encoder_capture_time.Value, 
+				(int) spin_encoder_capture_min_height.Value, 
+				(double) spin_encoder_smooth.Value,
+				desc);
+		
+		encoder_pulsebar_capture.Text = "Saved.";
+	}
+
 	void on_button_encoder_load_clicked (object o, EventArgs args) 
 	{
 	}
@@ -225,7 +260,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
-				findMass(),
+				findMass(true),
 				findEccon(), encoderAnalysis,
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				(int) spin_encoder_analyze_curve_num.Value, 
@@ -264,12 +299,15 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="powerBars";
 	}
 
-	private string findMass() {
+	private string findMass(bool includePerson) {
 		double mass = 0;
 		if(radiobutton_encoder_capture_bar.Active)
 			mass = spin_encoder_bar_limit.Value;
-		else
-			mass = Convert.ToDouble(label_encoder_person_weight.Text) + spin_encoder_jump_limit.Value;
+		else {
+			mass = spin_encoder_jump_limit.Value;
+			if(includePerson)
+				mass += Convert.ToDouble(label_encoder_person_weight.Text);
+		}
 
 		return Util.ConvertToPoint(mass); //R decimal: '.'
 	}

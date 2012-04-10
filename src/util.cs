@@ -844,6 +844,21 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphTemp);
 	}
 
+//	public static void MoveTempEncoderData(int sessionID, int uniqueID) {
+	public static void CopyTempEncoderData(int sessionID, int uniqueID) {
+		if(File.Exists(GetEncoderDataTempFileName())) {
+			CreateEncoderSessionDirsIfNeeded(sessionID);
+//			try {
+//				File.Move(GetEncoderDataTempFileName(), GetEncoderSessionDataDir(sessionID));
+//			} catch {
+				File.Copy(GetEncoderDataTempFileName(), 
+						GetEncoderSessionDataDir(sessionID) + 
+						Path.DirectorySeparatorChar + 
+						"encoder-copied.txt");
+//			}
+		}
+	}
+	
 	
 	/********** end of encoder paths ************/
 

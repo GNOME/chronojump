@@ -43,7 +43,6 @@ class SqliteEncoder : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"name TEXT, " +
 			"url TEXT, " +
 			"type TEXT, " +		//"bar" or "jump"
 			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
@@ -60,7 +59,7 @@ class SqliteEncoder : Sqlite
 	 * Encoder class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, float smooth, string description)
+	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string url, string type, string extraWeight, string eccon, int time, int minHeight, float smooth, string description)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -69,9 +68,9 @@ class SqliteEncoder : Sqlite
 			uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + tableName +  
-				" (uniqueID, personID, sessionID, name, url, type, extraWeight, econ, time, minHeight, smooth, description)" +
+				" (uniqueID, personID, sessionID, url, type, extraWeight, econ, time, minHeight, smooth, description)" +
 				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", '" + name + "', '" + url + "', '" + type + "', '" 
+				+ personID + ", " + sessionID + ", '" + url + "', '" + type + "', '" 
 				+ extraWeight + "', '" + eccon + "', " + time + ", " + minHeight + ", " 
 				+ Util.ConvertToPoint(smooth) + ", '" + description + "')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());

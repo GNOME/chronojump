@@ -19,7 +19,7 @@
 # 
 # encoding=utf-8
 #
-# This program is for reading data form Chronopic.
+# This program is for reading data from Chronopic.
 
 
 

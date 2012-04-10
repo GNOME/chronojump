@@ -140,6 +140,7 @@ FILES = \
 	sqlite/main.cs\
  	sqlite/preferences.cs\
  	sqlite/session.cs\
+ 	sqlite/encoder.cs\
  	sqlite/jump.cs\
  	sqlite/jumpRj.cs\
  	sqlite/jumpType.cs\

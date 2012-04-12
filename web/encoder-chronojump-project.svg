@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with gnuclad 0.2.4 -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="920"
+   height="738"
+   id="svg2"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="encoder-chronojump-project.svg"
+   inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/encoder-chronojump-project.png"
+   inkscape:export-xdpi="72"
+   inkscape:export-ydpi="72">
+  <metadata
+     id="metadata262">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Chronojump encoder</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview260"
+     showgrid="false"
+     inkscape:zoom="0.39566396"
+     inkscape:cx="460"
+     inkscape:cy="369"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer_included_svg" />
+  <title
+     id="title4">Chronojump encoder</title>
+  <defs
+     id="defs6">
+    <linearGradient
+       id="__yearline"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         stop-color="#037"
+         offset="0"
+         stop-opacity="1"
+         id="stop9" />
+      <stop
+         stop-color="#37d"
+         offset="1"
+         stop-opacity="1"
+         id="stop11" />
+    </linearGradient>
+    <linearGradient
+       id="__infobox_fill"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         stop-color="#51b1f1"
+         offset="0"
+         stop-opacity="1"
+         id="stop14" />
+      <stop
+         stop-color="#3181f1"
+         offset="1"
+         stop-opacity="1"
+         id="stop16" />
+    </linearGradient>
+    <linearGradient
+       id="__infobox_stroke"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         stop-color="#3181f1"
+         offset="0"
+         stop-opacity="1"
+         id="stop19" />
+      <stop
+         stop-color="#51b1f1"
+         offset="1"
+         stop-opacity="1"
+         id="stop21" />
+    </linearGradient>
+    <filter
+       id="__infobox_shadow"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         stdDeviation="5"
+         id="feGaussianBlur24" />
+    </filter>
+    <circle
+       id="__connectors_start"
+       cx="0"
+       cy="0"
+       r="6"
+       stroke="none" />
+    <rect
+       id="__fadeout"
+       height="1"
+       width="0"
+       y="-0.5"
+       x="0" />
+    <!-- BEGIN additional SVG images - definitions -->
+    <!-- END additional SVG images - definitions -->
+  </defs>
+  <g
+     inkscape:label="Background"
+     inkscape:groupmode="layer"
+     id="layer_background">
+    <rect
+       x="0"
+       y="0"
+       width="920"
+       height="738"
+       rx="10"
+       ry="10"
+       fill="#fff"
+       id="rect29" />
+  </g>
+  <g
+     inkscape:label="Year Rulers"
+     inkscape:groupmode="layer"
+     id="layer_yearrulers"
+     stroke-width="1"
+     stroke="#eee">
+    <line
+       x1="10"
+       y1="0"
+       x2="10"
+       y2="738"
+       stroke-width="2"
+       stroke="#ddd"
+       id="line32" />
+    <line
+       x1="47"
+       y1="0"
+       x2="47"
+       y2="738"
+       id="line34" />
+    <line
+       x1="85"
+       y1="0"
+       x2="85"
+       y2="738"
+       id="line36" />
+    <line
+       x1="122"
+       y1="0"
+       x2="122"
+       y2="738"
+       id="line38" />
+    <line
+       x1="160"
+       y1="0"
+       x2="160"
+       y2="738"
+       id="line40" />
+    <line
+       x1="197"
+       y1="0"
+       x2="197"
+       y2="738"
+       id="line42" />
+    <line
+       x1="235"
+       y1="0"
+       x2="235"
+       y2="738"
+       id="line44" />
+    <line
+       x1="272"
+       y1="0"
+       x2="272"
+       y2="738"
+       id="line46" />
+    <line
+       x1="310"
+       y1="0"
+       x2="310"
+       y2="738"
+       id="line48" />
+    <line
+       x1="347"
+       y1="0"
+       x2="347"
+       y2="738"
+       id="line50" />
+    <line
+       x1="385"
+       y1="0"
+       x2="385"
+       y2="738"
+       id="line52" />
+    <line
+       x1="422"
+       y1="0"
+       x2="422"
+       y2="738"
+       id="line54" />
+    <line
+       x1="460"
+       y1="0"
+       x2="460"
+       y2="738"
+       stroke-width="2"
+       stroke="#ddd"
+       id="line56" />
+    <line
+       x1="497"
+       y1="0"
+       x2="497"
+       y2="738"
+       id="line58" />
+    <line
+       x1="535"
+       y1="0"
+       x2="535"
+       y2="738"
+       id="line60" />
+    <line
+       x1="572"
+       y1="0"
+       x2="572"
+       y2="738"
+       id="line62" />
+    <line
+       x1="610"
+       y1="0"
+       x2="610"
+       y2="738"
+       id="line64" />
+    <line
+       x1="647"
+       y1="0"
+       x2="647"
+       y2="738"
+       id="line66" />
+    <line
+       x1="685"
+       y1="0"
+       x2="685"
+       y2="738"
+       id="line68" />
+    <line
+       x1="722"
+       y1="0"
+       x2="722"
+       y2="738"
+       id="line70" />
+    <line
+       x1="760"
+       y1="0"
+       x2="760"
+       y2="738"
+       id="line72" />
+    <line
+       x1="797"
+       y1="0"
+       x2="797"
+       y2="738"
+       id="line74" />
+    <line
+       x1="835"
+       y1="0"
+       x2="835"
+       y2="738"
+       id="line76" />
+    <line
+       x1="872"
+       y1="0"
+       x2="872"
+       y2="738"
+       id="line78" />
+    <line
+       x1="910"
+       y1="0"
+       x2="910"
+       y2="738"
+       stroke-width="2"
+       stroke="#ddd"
+       id="line80" />
+  </g>
+  <g
+     inkscape:label="Domains"
+     inkscape:groupmode="layer"
+     id="layer_domains" />
+  <g
+     inkscape:label="Connectors"
+     inkscape:groupmode="layer"
+     id="layer_connectors"
+     style="opacity:0.6;" />
+  <g
+     inkscape:label="Lines"
+     inkscape:groupmode="layer"
+     id="layer_lines"
+     style="fill:none;stroke-width:1;">
+    <path
+       id="__line_Ship__encoders__to__costumers"
+       d="M 427 60 C 604.75,60 486.25,160 664,160 L 664 160 L 683 160"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Interviews__with__trainers"
+       d="M 316 60 C 395.5,60 342.5,80 422,80 L 422 80 L 572 80"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Decide__final__price"
+       d="M 460 60 C 572.5,60 497.5,100 610,100 L 610 100 L 610 100"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Start__reservation__process"
+       d="M 444 60 C 581.25,60 489.75,120 627,120 L 627 120 L 646 120"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Buy__n__encoder__units"
+       d="M 435 60 C 594,60 488,140 647,140 L 647 140 L 664 140"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_-__PROJECT"
+       d="M -17 60 L 685 60"
+       stroke="#FF8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Fix__encoder__and__Chronopic__in__box"
+       d="M 277 200 C 515.5,200 356.5,380 595,380 L 595 380 L 627 380"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Find__encoder__2.5m"
+       d="M 91 200 C 170.5,200 117.5,220 197,220 L 197 220 L 310 220"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Estimate__Chronopic__adjusting__price"
+       d="M 336 240 C 530.25,240 400.75,360 595,360 L 595 360 L 610 360"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Adjust__1__Chronopic"
+       d="M 235 240 C 262.75,240 244.25,260 272,260 L 272 260 L 272 260"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Write__firmware"
+       d="M 235 240 C 262.75,240 244.25,280 272,280 L 272 280 L 272 280"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Test__firmware"
+       d="M 235 240 C 262.75,240 244.25,300 272,300 L 272 300 L 347 300"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Adjust__12__Chronopics"
+       d="M 360 240 C 519,240 413,320 572,320 L 572 320 L 572 320"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Document__adjusting__of__Chronopic"
+       d="M 358 240 C 535.75,240 417.25,340 595,340 L 595 340 L 610 340"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Adjust__Chronopics"
+       d="M 85 200 C 197.5,200 122.5,240 235,240 L 235 240 L 610 240"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_-__HARDWARE"
+       d="M -17 200 L 627 200"
+       stroke="#FF8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Export__and__Report"
+       d="M 552 460 C 589.5,460 564.5,700 602,700 L 602 700 L 627 700"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Write__software__to__read__data__from__Chronopic"
+       d="M 166 420 C 245.5,420 192.5,440 272,440 L 272 440 L 552 440"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Fix__bugs__and__add__other__features"
+       d="M 552 460 C 608.25,460 570.75,720 627,720 L 627 720 L 664 720"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Graph__data__(basic)"
+       d="M 552 460 C 567,460 557,480 572,480 L 572 480 L 572 480"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Recalculate__data"
+       d="M 552 460 C 567,460 557,500 572,500 L 572 500 L 572 500"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Add__threads"
+       d="M 552 460 C 567,460 557,520 572,520 L 572 520 L 572 520"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Add__feedback__(audio__and__visual)"
+       d="M 552 460 C 567,460 557,540 572,540 L 572 540 L 610 540"
+       stroke="#00ff00"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Create__GUI"
+       d="M 552 460 C 567,460 557,560 572,560 L 572 560 L 610 560"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Create__SQL__methods"
+       d="M 552 460 C 567,460 557,580 572,580 L 572 580 L 610 580"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Store__selected__curves"
+       d="M 572 600 C 594.5,600 579.5,620 602,620 L 602 620 L 627 620"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Save__data"
+       d="M 552 460 C 567,460 557,600 572,600 L 572 600 L 610 600"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Define__tests"
+       d="M 552 460 C 589.5,460 564.5,640 602,640 L 602 640 L 627 640"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Graphs__crossing__user__variables"
+       d="M 552 460 C 589.5,460 564.5,660 602,660 L 602 660 L 627 660"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Graphs__comparing__users"
+       d="M 552 460 C 589.5,460 564.5,680 602,680 L 602 680 L 627 680"
+       stroke="#ff0000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_Integrate__encoder__in__Chronojump"
+       d="M 402 420 C 514.5,420 439.5,460 552,460 L 552 460 L 627 460"
+       stroke="#ff8000"
+       style="stroke-width:1;" />
+    <path
+       id="__line_-__SOFTWARE"
+       d="M -17 420 L 664 420"
+       stroke="#FF8000"
+       style="stroke-width:1;" />
+  </g>
+  <g
+     inkscape:label="Dots"
+     inkscape:groupmode="layer"
+     id="layer_dots"
+     style="stroke:none;">
+    <circle
+       id="__dot_Ship__encoders__to__costumers"
+       cx="664"
+       cy="160"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Interviews__with__trainers"
+       cx="422"
+       cy="80"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Decide__final__price"
+       cx="610"
+       cy="100"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Start__reservation__process"
+       cx="627"
+       cy="120"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Buy__n__encoder__units"
+       cx="647"
+       cy="140"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_-__PROJECT"
+       cx="-17"
+       cy="60"
+       r="8"
+       fill="#FF8000"
+       stroke="none" />
+    <circle
+       id="__dot_Fix__encoder__and__Chronopic__in__box"
+       cx="595"
+       cy="380"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_Find__encoder__2.5m"
+       cx="197"
+       cy="220"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Estimate__Chronopic__adjusting__price"
+       cx="595"
+       cy="360"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Adjust__1__Chronopic"
+       cx="272"
+       cy="260"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Write__firmware"
+       cx="272"
+       cy="280"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Test__firmware"
+       cx="272"
+       cy="300"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Adjust__12__Chronopics"
+       cx="572"
+       cy="320"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Document__adjusting__of__Chronopic"
+       cx="595"
+       cy="340"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_Adjust__Chronopics"
+       cx="235"
+       cy="240"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_-__HARDWARE"
+       cx="-17"
+       cy="200"
+       r="8"
+       fill="#FF8000"
+       stroke="none" />
+    <circle
+       id="__dot_Export__and__Report"
+       cx="602"
+       cy="700"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Write__software__to__read__data__from__Chronopic"
+       cx="272"
+       cy="440"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Fix__bugs__and__add__other__features"
+       cx="627"
+       cy="720"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Graph__data__(basic)"
+       cx="572"
+       cy="480"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Recalculate__data"
+       cx="572"
+       cy="500"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Add__threads"
+       cx="572"
+       cy="520"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Add__feedback__(audio__and__visual)"
+       cx="572"
+       cy="540"
+       r="8"
+       fill="#00ff00"
+       stroke="none" />
+    <circle
+       id="__dot_Create__GUI"
+       cx="572"
+       cy="560"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_Create__SQL__methods"
+       cx="572"
+       cy="580"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_Store__selected__curves"
+       cx="602"
+       cy="620"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Save__data"
+       cx="572"
+       cy="600"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_Define__tests"
+       cx="602"
+       cy="640"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Graphs__crossing__user__variables"
+       cx="602"
+       cy="660"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Graphs__comparing__users"
+       cx="602"
+       cy="680"
+       r="8"
+       fill="#ff0000"
+       stroke="none" />
+    <circle
+       id="__dot_Integrate__encoder__in__Chronojump"
+       cx="552"
+       cy="460"
+       r="8"
+       fill="#ff8000"
+       stroke="none" />
+    <circle
+       id="__dot_-__SOFTWARE"
+       cx="-17"
+       cy="420"
+       r="8"
+       fill="#FF8000"
+       stroke="none" />
+  </g>
+  <g
+     inkscape:label="Icons"
+     inkscape:groupmode="layer"
+     id="layer_icons" />
+  <g
+     inkscape:label="Labels"
+     inkscape:groupmode="layer"
+     id="layer_labels"
+     style="font-size:16px;stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;">
+    <text
+       x="672"
+       y="155"
+       id="text152">Ship encoders to costumers</text>
+    <text
+       x="430"
+       y="75"
+       id="text154">Interviews with trainers</text>
+    <text
+       x="618"
+       y="95"
+       id="text156">Decide final price</text>
+    <text
+       x="635"
+       y="115"
+       id="text158">Start reservation process</text>
+    <text
+       x="655"
+       y="135"
+       id="text160">Buy n encoder units</text>
+    <text
+       x="-9"
+       y="55"
+       id="text162">- PROJECT</text>
+    <text
+       x="603"
+       y="375"
+       id="text164">Fix encoder and Chronopic in box</text>
+    <text
+       x="205"
+       y="215"
+       id="text166">Find encoder 2.5m</text>
+    <text
+       x="603"
+       y="355"
+       id="text168">Estimate Chronopic adjusting price</text>
+    <text
+       x="280"
+       y="255"
+       id="text170">Adjust 1 Chronopic</text>
+    <text
+       x="280"
+       y="275"
+       id="text172">Write firmware</text>
+    <text
+       x="280"
+       y="295"
+       id="text174">Test firmware</text>
+    <text
+       x="580"
+       y="315"
+       id="text176">Adjust 12 Chronopics</text>
+    <text
+       x="603"
+       y="335"
+       id="text178">Document adjusting of Chronopic</text>
+    <text
+       x="243"
+       y="235"
+       id="text180">Adjust Chronopics</text>
+    <text
+       x="-9"
+       y="195"
+       id="text182">- HARDWARE</text>
+    <text
+       x="610"
+       y="695"
+       id="text184">Export and Report</text>
+    <text
+       x="280"
+       y="435"
+       id="text186">Write software to read data from Chronopic</text>
+    <text
+       x="635"
+       y="715"
+       id="text188">Fix bugs and add other features</text>
+    <text
+       x="580"
+       y="475"
+       id="text190">Graph data (basic)</text>
+    <text
+       x="580"
+       y="495"
+       id="text192">Recalculate data</text>
+    <text
+       x="580"
+       y="515"
+       id="text194">Add threads</text>
+    <text
+       x="580"
+       y="535"
+       id="text196">Add feedback (audio and visual)</text>
+    <text
+       x="580"
+       y="555"
+       id="text198">Create GUI</text>
+    <text
+       x="580"
+       y="575"
+       id="text200">Create SQL methods</text>
+    <text
+       x="610"
+       y="615"
+       id="text202">Store selected curves</text>
+    <text
+       x="580"
+       y="595"
+       id="text204">Save data</text>
+    <text
+       x="610"
+       y="635"
+       id="text206">Define tests</text>
+    <text
+       x="610"
+       y="655"
+       id="text208">Graphs crossing user variables</text>
+    <text
+       x="610"
+       y="675"
+       id="text210">Graphs comparing users</text>
+    <text
+       x="560"
+       y="455"
+       id="text212">Integrate encoder in Chronojump</text>
+    <text
+       x="-9"
+       y="415"
+       id="text214">- SOFTWARE</text>
+  </g>
+  <g
+     inkscape:label="Yearlines"
+     inkscape:groupmode="layer"
+     id="layer_yearlines"
+     style="stroke:none;fill:url(#__yearline);">
+    <rect
+       x="0"
+       y="0"
+       rx="5"
+       ry="5"
+       width="920"
+       height="30"
+       id="rect217" />
+    <g
+       style="font-size:28px;stroke:none;fill:#fff;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;text-anchor:middle;"
+       id="g219">
+      <text
+         x="235"
+         y="25"
+         id="text221">
+        <tspan
+           id="tspan223">2011</tspan>
+      </text>
+      <text
+         x="685"
+         y="25"
+         id="text225">
+        <tspan
+           id="tspan227">2012</tspan>
+      </text>
+    </g>
+  </g>
+  <g
+     inkscape:label="Infobox"
+     inkscape:groupmode="layer"
+     id="layer_infobox"
+     style="stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;">
+    <rect
+       x="20"
+       y="620"
+       width="195"
+       height="100"
+       rx="10"
+       ry="10"
+       fill="#000"
+       filter="url(#__infobox_shadow)"
+       opacity="0.6"
+       id="rect230" />
+    <rect
+       x="20"
+       y="620"
+       width="195"
+       height="100"
+       rx="10"
+       ry="10"
+       fill="url(#__infobox_fill)"
+       stroke="url(#__infobox_stroke)"
+       stroke-width="2"
+       id="rect232" />
+    <text
+       x="26"
+       y="641"
+       id="text234">
+      <tspan
+         style="font-size:18px;font-weight:bold;"
+         id="tspan236">Chronojump encoder</tspan>
+    </text>
+    <text
+       x="26"
+       y="654"
+       id="text238">
+      <tspan
+         style="font-size:12px;"
+         id="tspan240">http://chronojump.org</tspan>
+    </text>
+    <text
+       x="26"
+       y="669"
+       id="text242">
+      <tspan
+         style="font-size:12px;"
+         id="tspan244">GREEN: Done</tspan>
+    </text>
+    <text
+       x="26"
+       y="684"
+       id="text246">
+      <tspan
+         style="font-size:12px;"
+         id="tspan248">ORANGE: Doing</tspan>
+    </text>
+    <text
+       x="26"
+       y="699"
+       id="text250">
+      <tspan
+         style="font-size:12px;"
+         id="tspan252">RED: Later</tspan>
+    </text>
+    <text
+       x="26"
+       y="714"
+       id="text254">
+      <tspan
+         style="font-size:12px;"
+         id="tspan256">2012-Apr-12</tspan>
+    </text>
+  </g>
+  <!-- BEGIN additional images -->
+  <g
+     inkscape:label="Included PNG Images"
+     inkscape:groupmode="layer"
+     id="layer_included_png" />
+  <g
+     inkscape:label="Included SVG Images"
+     inkscape:groupmode="layer"
+     id="layer_included_svg" />
+  <!-- END additional images -->
+</svg>

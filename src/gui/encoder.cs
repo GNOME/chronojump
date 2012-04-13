@@ -436,7 +436,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.Width,8,1),Convert.ToDouble(curve.Width));
+			String.Format(UtilGtk.TVNumPrint(curve.Width,8,3),Convert.ToDouble(curve.Width)/1000); //ms->s
 	}
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{

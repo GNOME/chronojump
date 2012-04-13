@@ -7919,7 +7919,6 @@ suitable for agility tests)</property>
                               <packing>
                                 <property name="left_attach">2</property>
                                 <property name="right_attach">3</property>
-                                <property name="x_options"></property>
                                 <property name="y_options"></property>
                               </packing>
                             </child>
@@ -8360,7 +8359,6 @@ suitable for agility tests)</property>
                               <packing>
                                 <property name="left_attach">2</property>
                                 <property name="right_attach">3</property>
-                                <property name="x_options"></property>
                                 <property name="y_options"></property>
                               </packing>
                             </child>

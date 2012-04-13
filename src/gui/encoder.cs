@@ -159,7 +159,7 @@ public partial class ChronoJumpWindow
 		if (File.Exists(Util.GetEncoderDataTempFileName()))
 			encoderThreadStart(encoderModes.CAPTURE);
 		else
-			encoder_pulsebar_capture.Text = "Missing data.";
+			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
 	}
 	
 	private void encoderUpdateTreeView()
@@ -237,7 +237,7 @@ public partial class ChronoJumpWindow
 				(double) spin_encoder_smooth.Value,
 				desc);
 		
-		encoder_pulsebar_capture.Text = "Saved.";
+		encoder_pulsebar_capture.Text = Catalog.GetString("Saved.");
 	}
 
 	void on_button_encoder_load_clicked (object o, EventArgs args) 
@@ -321,8 +321,16 @@ public partial class ChronoJumpWindow
 
 	//returns curves num
 	private int createTreeViewEncoder(string contents) {
-		string [] columnsString = {"n","Duration (s)","Height (cm)","MeanSpeed (m/s)","MaxSpeed (m/s)", //duration (s): width
-			"MeanPower (W)","PeakPower (W)","PeakPowerT (s)"};
+		string [] columnsString = {
+			"n",
+			Catalog.GetString("Duration") + " (s)",
+			Catalog.GetString("Height") + " (cm)",
+			Catalog.GetString("MeanSpeed") + " (m/s)",
+			Catalog.GetString("MaxSpeed") + " (m/s)", //duration (s): width
+			Catalog.GetString("MeanPower") + " (W)",
+			Catalog.GetString("PeakPower") + " (W)",
+			Catalog.GetString("PeakPowerTime") + " (s)"
+		};
 
 
 		encoderCurves = new ArrayList ();
@@ -535,7 +543,7 @@ public partial class ChronoJumpWindow
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
 
-			encoder_pulsebar_capture.Text = "Please, wait.";
+			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
 			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
@@ -544,7 +552,7 @@ public partial class ChronoJumpWindow
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
 
-			encoder_pulsebar_analyze.Text = "Please, wait.";
+			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 		}

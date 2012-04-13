@@ -73,9 +73,6 @@ public partial class ChronoJumpWindow
 	GenericWindow genericWinForEncoder;
 	
 
-	//TODO: check all repetitive conditions areok on pyserial and on treeview
-	//TODO: fix spinbutton on repetitive conditions (page...) to ensure decimal can be selected
-	
 	//TODO: improve message if chronopic is not connected
 
 	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")

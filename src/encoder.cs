@@ -77,8 +77,10 @@ public class EncoderParams
 		return time.ToString() + " " + minHeight.ToString() + " " + isJump.ToString() + 
 			" " + mass.ToString() + " " + smooth + " " + eccon +
 			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
-			" " + meanSpeedHigherCondition.ToString() + 	" " + meanSpeedLowerCondition.ToString() +
-			" " + maxSpeedHigherCondition.ToString() + 	" " + maxSpeedLowerCondition.ToString() +
+			" " + Util.ConvertToPoint(meanSpeedHigherCondition.ToString()) + 	
+			" " + Util.ConvertToPoint(meanSpeedLowerCondition.ToString()) +
+			" " + Util.ConvertToPoint(maxSpeedHigherCondition.ToString()) + 	
+			" " + Util.ConvertToPoint(maxSpeedLowerCondition.ToString()) +
 			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
 			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString();
 	}

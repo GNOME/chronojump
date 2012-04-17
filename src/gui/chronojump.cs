@@ -548,7 +548,7 @@ public partial class ChronoJumpWindow
 		/*
 		 * gui for small screens
 		 */
-		viewport_mode_small.ModifyBg(StateType.Normal, UtilGtk.WHITE);
+		//viewport_mode_small.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
 		UtilGtk.ColorsMenuLabel(label_mode_jumps_small);
 		UtilGtk.ColorsMenuLabel(label_mode_jumps_reactive_small);

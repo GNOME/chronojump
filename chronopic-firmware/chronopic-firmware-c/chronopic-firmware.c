@@ -16,7 +16,10 @@ PIC16F87
   * RB5 : option  pin 26
 
 History:
-  2011-01-01 complete TMR0 interrupt
+  2005 Original Firmware from Juan González <juan@iearobotics.com>
+  2010 Translated comments to english by Xavi de Blas <xaviblas@gmail.com>
+  Since 2011 all changes are made by Teng Wei Hua <wadegang@gmail.com>
+  2011-01-01 Rewritten Firmware on C. complete TMR0 interrupt
   2011-05-13 ERROR: TIME = 04 ED
              modify configuration Bits: close WDT
              modify ISR and MAIN LOOP's if --> else if

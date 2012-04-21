@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-10 17:15+0000\n"
-"PO-Revision-Date: 2012-04-10 19:42+0100\n"
+"POT-Creation-Date: 2012-04-20 14:04+0000\n"
+"PO-Revision-Date: 2012-04-21 12:20+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -160,6 +160,7 @@ msgstr "Razlage"
 #: ../glade/chronojump.glade.h:19
 #: ../src/exportSession.cs:234
 #: ../src/exportSession.cs:282
+#: ../src/gui/encoder.cs:327
 #: ../src/stats/djIndex.cs:33
 #: ../src/stats/djQ.cs:33
 #: ../src/stats/graphs/djIndex.cs:70
@@ -4520,6 +4521,52 @@ msgid ""
 msgstr ""
 "Nova teža\n"
 "možnost 2"
+
+#: ../src/gui/encoder.cs:162
+msgid "Missing data."
+msgstr "Manjkajo podatki."
+
+#: ../src/gui/encoder.cs:210
+msgid "Add an optional description"
+msgstr "Splošni opis."
+
+#: ../src/gui/encoder.cs:212
+msgid "Save"
+msgstr "Shrani"
+
+#: ../src/gui/encoder.cs:240
+msgid "Saved."
+msgstr "Shranjeno."
+
+#: ../src/gui/encoder.cs:326
+msgid "Duration"
+msgstr "Trajanje"
+
+#: ../src/gui/encoder.cs:328
+msgid "MeanSpeed"
+msgstr "Povprečna hitrost"
+
+#: ../src/gui/encoder.cs:329
+msgid "MaxSpeed"
+msgstr "Največja hitrost"
+
+#. duration (s): width
+#: ../src/gui/encoder.cs:330
+msgid "MeanPower"
+msgstr "Povprečna moč"
+
+#: ../src/gui/encoder.cs:331
+msgid "PeakPower"
+msgstr "Končna moč"
+
+#: ../src/gui/encoder.cs:332
+msgid "PeakPowerTime"
+msgstr "Čas končne moči"
+
+#: ../src/gui/encoder.cs:546
+#: ../src/gui/encoder.cs:555
+msgid "Please, wait."
+msgstr "Počakajte."
 
 #: ../src/gui/evaluator.cs:345
 msgid "Select of Birth"

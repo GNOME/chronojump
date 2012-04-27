@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -34,6 +34,7 @@ public class RunType : EventType
 					//when distance is -1, distancesString is distance of each track, 
 					//	eg: "7-5-9" for a runInterval with three tracks of 7, 5 and 9 meters each
 					//	this is nice for agility tests
+	 				//	and RSA: distancesString 8-4-R3-5   means: 8m, 4m, rest 3 seconds, 5m
 
 	public RunType() {
 		type = Types.RUN;
@@ -47,7 +48,7 @@ public class RunType : EventType
 			"Agility-Illinois", "Agility-Shuttle-Run" , "Agility-ZigZag",
 			"byLaps", "byTime", "unlimited", 
 			"20m10times", "7m30seconds", "20m endurance", 
-			"MTGUG", "Gesell-DBT"
+			"MTGUG", "Gesell-DBT", "RSA 8-4-R3-5"
 		};
 
 		foreach(string search in predefinedTests)
@@ -386,6 +387,16 @@ public class RunType : EventType
 				"<b>" + Catalog.GetString("Abstract:") + "</b>\n" +
 				"http://linkinghub.elsevier.com/retrieve/pii/S0167494308001763";
 
+		} else if(name == "RSA 8-4-R3-5") {
+			hasIntervals 	= true; 
+			distance 	= -1;
+			tracksLimited 	= true;
+			fixedValue 	= 4;
+			unlimited 	= false;
+			isPredefined	= true;
+			description	= "RSA testing";
+			imageFileName = "run_interval.png";
+			distancesString = "8-4-R3-5";	//this intervallic run has different distance for each track
 		}
 
 	}

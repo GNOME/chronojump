@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -317,7 +317,8 @@ class SqliteRunIntervalType : SqliteRunType
 			"20m10times:20:1:10:0:Run 10 times a 20m distance:",	//only in more runs
 			"7m30seconds:7:0:30:0:Make max laps in 30 seconds:",	//only in more runs
 			"20m endurance:20:0:0:1:Continue running in 20m distance:",	//only in more runs
-			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19"
+			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19",
+			"RSA 8-4-R2-5:-1:1:4:0:RSA testing:8-4-R3-5"
 		};
 		foreach(string myString in iniRunTypes) {
 			//RunIntervalTypeInsert(myString, true);

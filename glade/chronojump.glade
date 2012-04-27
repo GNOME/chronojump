@@ -15522,6 +15522,7 @@ Chronopic</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="padding">8</property>
                                                             <property name="position">9</property>
                                                             </packing>
                                                             </child>
@@ -15669,20 +15670,20 @@ Chronopic</property>
                                                             <widget class="GtkHBox" id="hbox 1">
                                                             <property name="visible">True</property>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_j">
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_hexagon">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Simple jump with no special technique</property>
+                                                            <property name="tooltip" translatable="yes">CounterMovement Jump</property>
                                                             <property name="relief">none</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_jump_rj_j</property>
                                                             <signal name="toggled" handler="on_extra_window_jumps_rj_test_changed"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_j">
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_hexagon">
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">RJ(j)</property>
+                                                            <property name="label" translatable="yes">Hexagon</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -15741,20 +15742,20 @@ Chronopic</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_hexagon">
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_j">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">CounterMovement Jump</property>
+                                                            <property name="tooltip" translatable="yes">Simple jump with no special technique</property>
                                                             <property name="relief">none</property>
+                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
-                                                            <property name="group">extra_window_radio_jump_rj_j</property>
                                                             <signal name="toggled" handler="on_extra_window_jumps_rj_test_changed"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_hexagon">
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_j">
                                                             <property name="visible">True</property>
-                                                            <property name="label" translatable="yes">Hexagon</property>
+                                                            <property name="label" translatable="yes">RJ(j)</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -15803,6 +15804,7 @@ Chronopic</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="padding">8</property>
                                                             <property name="position">4</property>
                                                             </packing>
                                                             </child>
@@ -16537,6 +16539,28 @@ Chronopic</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_run_interval_rsa_test_1">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_run_interval_by_laps</property>
+                                                            <signal name="toggled" handler="on_extra_window_runs_interval_test_changed"/>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_run_interval_rsa_test_1">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">RSA test 1</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="position">4</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkRadioButton" id="extra_window_radio_run_interval_more">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -16572,7 +16596,8 @@ Chronopic</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="padding">8</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                           </widget>

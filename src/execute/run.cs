@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -236,7 +236,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 							2 //normal run, phase 2/3
 							);  
 					needUpdateEventProgressBar = true;
-					
+				
 					feedbackMessage = "";
 					needShowFeedbackMessage = true; 
 					
@@ -369,7 +369,10 @@ public class RunIntervalExecute : RunExecute
 
 
 	string distancesString; //if distances are variable (distanceInterval == -1), this is used
-	double distanceIntervalFixed; //if distanceInterval i -1, then Fixed is the corresponding base on distancesString
+	double distanceIntervalFixed; //if distanceInterval == -1, then Fixed is the corresponding base on distancesString
+	double lastTc;		//useful to know time on contact platform because intervalTimesString does not differentiate
+							
+	bool RSABellDone;
 
 	//private Chronopic cp;
 
@@ -450,12 +453,11 @@ public class RunIntervalExecute : RunExecute
 		
 		int countForSavingTempTable = 0;
 	
-		double lastTc = 0;
+		lastTc = 0;
 					
 		distanceIntervalFixed = distanceInterval;
 		
 		do {
-
 			if(simulated) 
 				ok = true;
 			else 
@@ -469,6 +471,9 @@ public class RunIntervalExecute : RunExecute
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
+					
+					//show RSA count down only on air		
+					needShowCountDown = false;
 					
 					//if we start out, and we arrive to the platform for the first time, don't record nothing
 					if(runPhase == runPhases.PRE_RUNNING) {
@@ -485,6 +490,8 @@ public class RunIntervalExecute : RunExecute
 						
 						//if interval run is "unlimited" not limited by tracks, nor time, 
 						//then play with the progress bar until finish button is pressed
+					
+					
 						if(limitAsDouble == -1) {
 							
 							if(simulated)
@@ -629,7 +636,7 @@ public class RunIntervalExecute : RunExecute
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
-		
+							
 					if(runPhase == runPhases.PLATFORM_INI) {
 						//run starts
 						initializeTimer();
@@ -637,14 +644,27 @@ public class RunIntervalExecute : RunExecute
 
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
-					} else
+					} else {
 						lastTc = timestamp/1000.0;
+						
+						//RSA
+						double RSAseconds = Util.GetRunIVariableDistancesThisRowIsRSA(
+								distancesString, Convert.ToInt32(tracks));
+						if(RSAseconds > 0) {
+							RSABellDone = false;
+							needShowCountDown = true;
+						} else {
+							needShowCountDown = false;
+							feedbackMessage = "";
+							needShowFeedbackMessage = true;
+						}
+					}
+
 						
 					runPhase = runPhases.RUNNING;
 
 					//change the automata state
 					loggedState = States.OFF;
-
 				}
 			}
 		} while ( ! success && ! cancel && ! finish );
@@ -670,7 +690,19 @@ public class RunIntervalExecute : RunExecute
 			totallyCancelled = true;
 		}
 	}
-	
+
+	protected override string countDownMessage() {
+		double waitSeconds = Util.GetRunIVariableDistancesThisRowIsRSA(distancesString, Convert.ToInt32(tracks))
+			 - (timerCount - Util.GetTotalTime(intervalTimesString) - lastTc);
+
+		if (waitSeconds < 0 && ! RSABellDone) {
+			Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+			RSABellDone = true;
+		}
+
+		return string.Format(Catalog.GetString("Wait {0} seconds"), Util.TrimDecimals(waitSeconds, 1));
+	}
+
 	protected override bool shouldFinishByTime() {
 		//check if it should finish now (time limited, not unlimited and time exceeded)
 		//check that the run started
@@ -739,14 +771,14 @@ public class RunIntervalExecute : RunExecute
 				
 	protected void writeRunInterval(bool tempTable)
 	{
-		int tracks = 0;
+		int tracksHere = 0; //different than globakl tracks variable
 		string limitString = "";
 
 		//if user clicked in finish earlier
 		if(finish) {
 			if(tracksLimited) {
-				tracks = Util.GetNumberOfJumps(intervalTimesString, false);
-				limitString = tracks.ToString() + "R";
+				tracksHere = Util.GetNumberOfJumps(intervalTimesString, false);
+				limitString = tracksHere.ToString() + "R";
 			} else {
 				//when we mark that run should finish by time, chronopic thread is probably capturing data
 				//check if it captured more than date limit, and if it has done, delete last(s) run(s)
@@ -773,22 +805,22 @@ public class RunIntervalExecute : RunExecute
 						}
 					}
 				}
-				//tracks are defined here (and not before) because can change on "while(eventPassed)" before
-				tracks = Util.GetNumberOfJumps(intervalTimesString, false);
+				//tracksHere are defined here (and not before) because can change on "while(eventPassed)" before
+				tracksHere = Util.GetNumberOfJumps(intervalTimesString, false);
 				limitString = Util.GetTotalTime(intervalTimesString) + "T";
 			}
 		} else {
 			if(tracksLimited) {
 				limitString = limitAsDouble.ToString() + "R";
-				tracks = (int) limitAsDouble;
+				tracksHere = (int) limitAsDouble;
 			} else {
 				limitString = limitAsDouble.ToString() + "T";
 				string [] myStringFull = intervalTimesString.Split(new char[] {'='});
-				tracks = myStringFull.Length;
+				tracksHere = myStringFull.Length;
 			}
 		}
 
-		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+		distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracksHere);
 		timeTotal = Util.GetTotalTime(intervalTimesString); 
 		
 
@@ -800,7 +832,7 @@ public class RunIntervalExecute : RunExecute
 		if(tempTable)
 			SqliteRunInterval.Insert(false, Constants.TempRunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
-					distanceInterval, intervalTimesString, tracks, 
+					distanceInterval, intervalTimesString, tracksHere, 
 					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated),
@@ -809,7 +841,7 @@ public class RunIntervalExecute : RunExecute
 		else {
 			uniqueID = SqliteRunInterval.Insert(false, Constants.RunIntervalTable, "NULL", personID, sessionID, type, 
 					distanceTotal, timeTotal,
-					distanceInterval, intervalTimesString, tracks, 
+					distanceInterval, intervalTimesString, tracksHere, 
 					description,
 					limitString,
 					Util.BoolToNegativeInt(simulated),
@@ -817,14 +849,14 @@ public class RunIntervalExecute : RunExecute
 					);
 
 			//define the created object
-			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracks, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
+			eventDone = new RunInterval(uniqueID, personID, sessionID, type, distanceTotal, timeTotal, distanceInterval, intervalTimesString, tracksHere, description, limitString, Util.BoolToNegativeInt(simulated), !startIn); 
 
 
 			string tempValuesString = "";
 			if(tracksLimited) 
-				tempValuesString = " (" + distanceIntervalFixed + "x" + tracks + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
+				tempValuesString = " (" + distanceIntervalFixed + "x" + tracksHere + "R), " + Catalog.GetString("Time") + ": " + Util.TrimDecimals( timeTotal.ToString(), pDN);
 			else
-				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracks;
+				tempValuesString = " (" + distanceIntervalFixed + "x" + Util.TrimDecimals( timeTotal.ToString(), pDN) + "T), " + Catalog.GetString("Tracks") + ": " + tracksHere;
 
 			/*
 			string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + ", " + 

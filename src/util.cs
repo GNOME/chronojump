@@ -1358,12 +1358,31 @@ public class Util
 
 	/* 
 	 * when distances are variable on run interval 
+	 */ 
+	/*
+	 * RSA has this code:
+	 * runIntervalType distancesString 8-5-R6-9   means: 8m, 5m, rest 6 seconds, 9m
 	 */
+
+	
+	//returns 0 if not RSA, if RSA, returns seconds
+	public static double GetRunIVariableDistancesThisRowIsRSA(string distancesString, int row) {
+		string [] str = distancesString.Split(new char[] {'-'});
+		row = row % str.Length;
+		if(str[row].StartsWith("R"))
+			return Convert.ToDouble(str[row].Substring(1));
+		else
+			return 0;
+	}
+
 	//thought for values starting by 0
 	public static double GetRunIVariableDistancesStringRow(string distancesString, int row) {
 		string [] str = distancesString.Split(new char[] {'-'});
 		row = row % str.Length;
-		return Convert.ToDouble(str[row]);
+		if(str[row].StartsWith("R"))
+			return 0;
+		else	
+			return Convert.ToDouble(str[row]);
 	}
 	
 	public static double GetRunIVariableDistancesDistanceDone(string distancesString, int tracks) {
@@ -1392,6 +1411,11 @@ public class Util
 			double time = Convert.ToDouble(times[i]);
 		
 			int distPos = i % times.Length;
+
+			//RSA is not counted as speed
+			if(distances[distPos].StartsWith("R"))
+				continue;
+
 			double distance = Convert.ToDouble(distances[distPos]);
 
 			double speed = distance / time;
@@ -1421,6 +1445,15 @@ public class Util
 			//if has variable distance each track
 			if(distanceInterval == -1.0) {
 				int distPos = i % distances.Length;
+			
+				//RSA is not counted as speed
+				if(distances[distPos].StartsWith("R")) {
+					//if don't want to show the speed as 0, then delete next two lines
+					speeds += sep + "0"; 
+					sep = separator;
+					continue;
+				}
+
 				distance = Convert.ToDouble(distances[distPos]);
 			} else 
 				distance = distanceInterval;

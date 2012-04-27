@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.83";
+	static string lastChronojumpDatabaseVersion = "0.84";
 
 	public Sqlite() {
 	}
@@ -1132,6 +1132,25 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.83";
 			}
+			if(currentVersion == "0.83") {
+				dbcon.Open();
+				
+				RunType type = new RunType();
+				type.Name = "RSA 8-4-R3-5";
+				type.Distance = -1;
+				type.TracksLimited = true;
+				type.FixedValue = 4;
+				type.Unlimited = false;
+				type.Description = "RSA testing";
+				type.DistancesString = "8-4-R3-5";
+				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
+
+				Log.WriteLine("Added 1st RSA test.");
+
+				SqlitePreferences.Update ("databaseVersion", "0.84", true); 
+				dbcon.Close();
+				currentVersion = "0.84";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1268,6 +1287,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.83 - 0.84 Converted DB to 0.84 Added first RSA test 
 		//0.82 - 0.83 Converted DB to 0.83 Created encoder table
 		//0.81 - 0.82 Converted DB to 0.82 Added videoOn 
 		//0.80 - 0.81 Converted DB to 0.81 Added tempRunInterval initial speed

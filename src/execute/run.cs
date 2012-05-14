@@ -700,7 +700,11 @@ public class RunIntervalExecute : RunExecute
 			RSABellDone = true;
 		}
 
-		return string.Format(Catalog.GetString("Wait {0} seconds"), Util.TrimDecimals(waitSeconds, 1));
+		return string.Format(Catalog.GetPluralString(
+					"Wait 1 second.",
+					"Wait {0} seconds.",
+					Convert.ToInt32(waitSeconds)),
+				Util.TrimDecimals(waitSeconds, 1));
 	}
 
 	protected override bool shouldFinishByTime() {

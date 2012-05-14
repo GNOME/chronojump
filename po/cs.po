@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-27 14:07+0000\n"
-"PO-Revision-Date: 2012-05-12 13:24+0200\n"
+"POT-Creation-Date: 2012-05-14 08:38+0000\n"
+"PO-Revision-Date: 2012-05-14 17:42+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -941,7 +941,7 @@ msgstr "Identifikátor"
 msgid "Contact time"
 msgstr "Čas kontaktu"
 
-#: ../glade/chronojump.glade.h:209 ../src/execute/run.cs:857
+#: ../glade/chronojump.glade.h:209 ../src/execute/run.cs:861
 #: ../src/exportSession.cs:385 ../src/exportSession.cs:493
 #: ../src/exportSession.cs:640 ../src/exportSession.cs:699
 #: ../src/exportSession.cs:783 ../src/gui/pulse.cs:298
@@ -3522,16 +3522,19 @@ msgstr "Jste UVNITŘ, až budete připraveni, UTÍKEJTE!"
 msgid "You are OUT, RUN when prepared!"
 msgstr "Jste MIMO, až budete připraveni, UTÍKEJTE!"
 
-#: ../src/execute/run.cs:703
+#: ../src/execute/run.cs:704
 #, csharp-format
-msgid "Wait {0} seconds"
-msgstr "Čekejte {0} sekund"
+msgid "Wait 1 second."
+msgid_plural "Wait {0} seconds."
+msgstr[0] "Čekejte 1 sekundu"
+msgstr[1] "Čekejte {0} sekundy"
+msgstr[2] "Čekejte {0} sekund"
 
-#: ../src/execute/run.cs:793
+#: ../src/execute/run.cs:797
 msgid "Run will not be recorded, 1st track is out of time"
 msgstr "Běh nebude zaznamenán, první dráha je mimo časový limit"
 
-#: ../src/execute/run.cs:859 ../src/exportSession.cs:548
+#: ../src/execute/run.cs:863 ../src/exportSession.cs:548
 #: ../src/gui/chronojump.cs:3448 ../src/gui/run.cs:1504 ../src/gui/run.cs:1567
 #: ../src/gui/run.cs:1617
 msgid "Tracks"

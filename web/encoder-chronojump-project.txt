@@ -1,6 +1,6 @@
 update date on .conf
 gnuclad encoder-chronojump-project.csv SVG encoder-chronojump-project.conf
-inskcape guardar com a png (72ppp), pq com a pdf no es veu igual
+inskcape guardar "pagina" com a png (72ppp), pq com a pdf no es veu igual
 
 OLD:
 Després obrir des d'inkscape i guardar com a pdf (això es fa pq latex mostra les imatges fora de la pagina a l'esquerra (inicis de tenis de mesa i programacion), al fer el pdf nomes s'agafa el que cau dins la pagina. així latex no mostrara aquella part esquerra)

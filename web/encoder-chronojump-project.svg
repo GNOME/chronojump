@@ -39,16 +39,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
+     inkscape:window-width="1024"
+     inkscape:window-height="715"
      id="namedview260"
      showgrid="false"
-     inkscape:zoom="0.39566396"
+     inkscape:zoom="0.40108401"
      inkscape:cx="460"
      inkscape:cy="369"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer_included_svg" />
   <title
      id="title4">Chronojump encoder</title>
@@ -361,7 +361,7 @@
     <path
        id="__line_Estimate__Chronopic__adjusting__price"
        d="M 336 240 C 530.25,240 400.75,360 595,360 L 595 360 L 610 360"
-       stroke="#ff0000"
+       stroke="#ff8000"
        style="stroke-width:1;" />
     <path
        id="__line_Adjust__1__Chronopic"
@@ -386,7 +386,7 @@
     <path
        id="__line_Document__adjusting__of__Chronopic"
        d="M 358 240 C 535.75,240 417.25,340 595,340 L 595 340 L 610 340"
-       stroke="#ff8000"
+       stroke="#00ff00"
        style="stroke-width:1;" />
     <path
        id="__line_Adjust__Chronopics"
@@ -545,7 +545,7 @@
        cx="595"
        cy="360"
        r="8"
-       fill="#ff0000"
+       fill="#ff8000"
        stroke="none" />
     <circle
        id="__dot_Adjust__1__Chronopic"
@@ -580,7 +580,7 @@
        cx="595"
        cy="340"
        r="8"
-       fill="#ff8000"
+       fill="#00ff00"
        stroke="none" />
     <circle
        id="__dot_Adjust__Chronopics"
@@ -952,7 +952,7 @@
        id="text254">
       <tspan
          style="font-size:12px;"
-         id="tspan256">2012-Apr-12</tspan>
+         id="tspan256">2012-May-15</tspan>
     </text>
   </g>
   <!-- BEGIN additional images -->

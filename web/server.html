@@ -48,9 +48,9 @@
 			<div id="slides">
 				<div id="slide1">
 					<ul>
-						<li><a href="#evaluators">Evaluators</a></li>
-						<li><a href="#persons">Persons</a></li>
-						<li><a href="#tests">Tests</a></li>
+						<li><a href="#evaluators"><img src="images/server-stats-types-evaluators.png"></a></li>
+						<li><a href="#persons"><img src="images/server-stats-types-persons.png"></a></li>
+						<li><a href="#tests"><img src="images/server-stats-types-tests.png"></a></li>
 					</ul>
 				</div>
 			</div>
@@ -63,7 +63,7 @@
 						<tr valign="top"><td rowspan="2">
 								<img src="server/images/small/evaluators.png" alt="Chronojump Server">
 								</td><td width="100%">
-								In this graph you can see the different contributors that have uploaded data in the server. Each contributor has two bars, one with the number of jumps uploaded, and other with number of persons uploaded.
+								In this graph you can see the different contributors that have uploaded data in the server.<br><br>You can see a more complete report in the <a href="http://chronojump.org/server/chronojump_server_log.html">Chronojump server log</a>.
 								</td></tr>
 								<tr><td valign="bottom">
 										<a href="server/images/evaluators.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
@@ -77,7 +77,7 @@
 						<tr valign="top"><td rowspan="2">
 								<img src="server/images/small/persons.png" alt="Chronojump Server">
 								</td><td width="100%">
-								Here you can see a graph of the persons (atheltes) that are in server. This graph shows:
+								Here you can see a graph of the persons (athletes) that are in server. This graph shows:
 								<ul>
 									<li>Sport
 									<li>Country
@@ -93,66 +93,123 @@
 				</div>
 				<div id="tests">
 					<table id="server" border="0">
-						<tr><th colspan="3"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="3" bgcolor="#6c77ab" height="1px"></td></tr>
+						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
+						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
 						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
+							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
+							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
+							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
 						</tr>
 						<tr valign="top"><td colspan="2" rowspan="2">
 								<img src="server/images/small/tf_by_jumps_boxplot.png" width="140" height="140">
-						</td><td width="100%">
-								This image shows a graph for males and another for females. Each graph plots boxplots of different simple jumps (only on flight time) that are on server.
+						</td><td colspan="3" width="100%">
+								<b>Flight times by jumps</b>
+								<br>This image shows a graph for males and another for females. Each graph plots boxplots of different simple jumps (only on flight time) that are on server.
 								<br><br>Each boxplot shows quantiles and rare values (if any).
 								<br>Also <i>n</i> value is shown.
 								</td></tr>
-								<tr><td valign="bottom">
+								<tr><td colspan="3" valign="bottom">
 										<a href="server/images/tf_by_jumps_boxplot.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
 							</td>
 					</tr></table>
 				</div>
 				<div id="tests2">
 					<table id="server" border="0">
-						<tr><th colspan="3"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="3" bgcolor="#6c77ab" height="1px"></td></tr>
+						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
+						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
 						<tr>
 							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/tf_by_extra_weight.png" width="140" height="140">
-						</td><td width="100%">
-								This image shows correlation between jumps flight time and extra weight.
-								</td></tr>
-								<tr><td valign="bottom">
-										<a href="server/images/tf_by_extra_weight.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests3">
-					<table id="server" border="0">
-						<tr><th colspan="3"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="3" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
+							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
+							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
+							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
 						</tr>
 						<tr valign="top"><td colspan="2" rowspan="2">
 								<img src="server/images/small/tf_by_level_sex_jumptype.png" width="140" height="140">
-						</td><td width="100%">
+						</td><td colspan="3" width="100%">
+								<b>Flight time by level, sex, jump type</b>
 								This is a four variable graph:
 								<ul>
-									<li>Height of jump
+									<li>Flight time
 									<li>Practice level
 									<li>Jump type
 									<li>Sex
 								</ul>
 								</td></tr>
-								<tr><td valign="bottom">
+								<tr><td colspan="3" valign="bottom">
 										<a href="server/images/tf_by_level_sex_jumptype.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
+							</td>
+					</tr></table>
+				</div>
+				<div id="tests3">
+					<table id="server" border="0">
+						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
+						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
+						<tr>
+							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
+							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><img src="server/images/small/ieiub.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
+							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
+							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
+						</tr>
+						<tr valign="top"><td colspan="2" rowspan="2">
+								<img src="server/images/small/ieiub.png" width="140" height="140">
+						</td><td colspan="3" width="100%">
+								<b>IE IUB</b>
+								<br>This is an indexes graph:
+								<ul>
+									<li>IE (relationship between CMJ and SJ)
+									<li>IUB (relationship between ABK and CMJ)
+								</ul>
+								</td></tr>
+								<tr><td colspan="3" valign="bottom">
+										<a href="server/images/ieiub.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
+							</td>
+					</tr></table>
+				</div>
+				<div id="tests4">
+					<table id="server" border="0">
+						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
+						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
+						<tr>
+							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
+							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
+							<td><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
+							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
+						</tr>
+						<tr valign="top"><td colspan="2" rowspan="2">
+								<img src="server/images/small/tf_by_extra_weight.png" width="140" height="140">
+						</td><td colspan="3" width="100%">
+								<b>Correlations extra weight - flight time</b>
+								<br>This image shows correlation between jumps flight time and extra weight.
+								</td></tr>
+								<tr><td colspan="3" valign="bottom">
+										<a href="server/images/tf_by_extra_weight.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
+							</td>
+					</tr></table>
+				</div>
+				<div id="tests5">
+					<table id="server" border="0">
+						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
+						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
+						<tr>
+							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
+							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
+							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
+							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
+							<td width="100%"><img src="server/images/small/tf_by_age.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
+						</tr>
+						<tr valign="top"><td colspan="2" rowspan="2">
+								<img src="server/images/small/tf_by_age.png" width="140" height="140">
+						</td><td colspan="3" width="100%">
+								<b>Correlations age - flight time</b>
+								<br>This image shows correlation between jumps flight time and age of persons at session date.
+								</td></tr>
+								<tr><td colspan="3" valign="bottom">
+										<a href="server/images/tf_by_age.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
 							</td>
 					</tr></table>
 				</div>

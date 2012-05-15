@@ -24,6 +24,8 @@ convert -resize 225x225 tf_by_age.png small/tf_by_age.png
 convert -resize 225x225 ieiub.png small/ieiub.png
 convert -resize 225x225 tf_by_level_sex_jumptype.png small/tf_by_level_sex_jumptype.png
 
+./chronojump_server_log.sh
+
 rm /var/www/mono/need-to-update-r-graphs
 fi
 

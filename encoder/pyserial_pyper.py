@@ -178,10 +178,10 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		myR.run('range <- abs(a.cumsum[length(a)]-a.cumsum[1])')
 		myR.run('accel <- predict( speed, deriv=1 )')
 		myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
-		if isJump == "True":
-			myR.run('force <- mass*(accel$y+9.81)')
-		else:
-			myR.run('force <- mass*accel$y')
+#		if isJump == "True":
+		myR.run('force <- mass*(accel$y+9.81)')
+#		else:
+#			myR.run('force <- mass*accel$y')
 		myR.run('power <- force*speed$y')
 		myR.run('meanPower <- mean(abs(power))')
 		myR.run('peakPower <- max(power)')

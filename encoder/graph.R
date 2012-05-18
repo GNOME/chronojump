@@ -99,8 +99,8 @@ kinematicsF <- function(a, mass, g) {
 	accel <- predict( speed, deriv=1 )
 	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
 
-	force <- mass*accel$y
-	if(isJump)
+#	force <- mass*accel$y
+#	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
 
 	power <- force*speed$y
@@ -241,8 +241,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	accel <- predict( speed, deriv=1 )
 	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
-	force <- mass*accel$y
-	if(isJump)
+#	force <- mass*accel$y
+#	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
 	if(draw) {
 		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle

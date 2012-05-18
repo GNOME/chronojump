@@ -845,18 +845,21 @@ public class Util
 	}
 
 //	public static void MoveTempEncoderData(int sessionID, int uniqueID) {
-	public static void CopyTempEncoderData(int sessionID, int uniqueID) {
+	public static string CopyTempEncoderData(int sessionID, int uniqueID, string personName) {
+		string fileName="";
 		if(File.Exists(GetEncoderDataTempFileName())) {
 			CreateEncoderSessionDirsIfNeeded(sessionID);
 //			try {
 //				File.Move(GetEncoderDataTempFileName(), GetEncoderSessionDataDir(sessionID));
 //			} catch {
+				fileName = uniqueID.ToString() + "-" + personName + "-" +
+						UtilDate.ToFile(DateTime.Now) + ".txt";
 				File.Copy(GetEncoderDataTempFileName(), 
 						GetEncoderSessionDataDir(sessionID) + 
-						Path.DirectorySeparatorChar + 
-						"encoder-copied.txt");
+						Path.DirectorySeparatorChar + fileName);
 //			}
 		}
+		return fileName;
 	}
 	
 	

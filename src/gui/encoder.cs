@@ -222,12 +222,12 @@ public partial class ChronoJumpWindow
 	
 		//Saving file
 		//Util.MoveTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID);
-		Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID);
+		string fileName = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
 
 		//Adding on SQL
 		SqliteEncoder.Insert(false, "-1", 
 				currentPerson.UniqueID, currentSession.UniqueID, 
-				"put an automatic name",	//TODO: using uniqueID and a counter, or maybe it's sql id autoincrement
+				fileName,
 				Util.GetEncoderSessionDataDir(currentSession.UniqueID),	//url
 				(! radiobutton_encoder_capture_bar.Active).ToString(),
 				findMass(false), //when save on sql, do not include person weight

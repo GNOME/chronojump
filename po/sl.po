@@ -10,14 +10,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-04-20 14:04+0000\n"
-"PO-Revision-Date: 2012-04-21 12:20+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"POT-Creation-Date: 2012-05-14 08:38+0000\n"
+"PO-Revision-Date: 2012-05-20 11:25+0100\n"
+"Last-Translator: filmsi\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -106,12 +106,12 @@ msgstr "Zajem zaslonske slike"
 #: ../src/gui/jump.cs:1291
 #: ../src/gui/jump.cs:1490
 #: ../src/gui/person.cs:121
-#: ../src/gui/run.cs:1303
-#: ../src/gui/run.cs:1474
-#: ../src/runType.cs:190
-#: ../src/runType.cs:226
-#: ../src/runType.cs:267
-#: ../src/runType.cs:296
+#: ../src/gui/run.cs:1307
+#: ../src/gui/run.cs:1478
+#: ../src/runType.cs:191
+#: ../src/runType.cs:227
+#: ../src/runType.cs:268
+#: ../src/runType.cs:297
 #: ../src/treeViewEvent.cs:39
 msgid "Description"
 msgstr "Opis"
@@ -150,10 +150,10 @@ msgstr "Dodaj nov šport"
 #: ../src/gui/session.cs:701
 #: ../src/gui/session.cs:859
 #: ../src/report.cs:243
-#: ../src/runType.cs:195
-#: ../src/runType.cs:212
-#: ../src/runType.cs:281
-#: ../src/runType.cs:302
+#: ../src/runType.cs:196
+#: ../src/runType.cs:213
+#: ../src/runType.cs:282
+#: ../src/runType.cs:303
 msgid "Comments"
 msgstr "Razlage"
 
@@ -570,7 +570,7 @@ msgstr "Ustvari novo vrsto teka v podatkovni zbirki"
 
 #: ../glade/chronojump.glade.h:110
 #: ../src/gui/jump.cs:1486
-#: ../src/gui/run.cs:1472
+#: ../src/gui/run.cs:1476
 msgid "Limited by"
 msgstr "Omejeno z"
 
@@ -588,8 +588,8 @@ msgstr "intervalni"
 
 #: ../glade/chronojump.glade.h:114
 #: ../src/exportSession.cs:492
-#: ../src/gui/run.cs:1302
-#: ../src/gui/run.cs:1471
+#: ../src/gui/run.cs:1306
+#: ../src/gui/run.cs:1475
 #: ../src/gui/runType.cs:129
 #: ../src/stats/graphs/runSimple.cs:66
 #: ../src/stats/graphs/runSimple.cs:75
@@ -1018,7 +1018,7 @@ msgid "Contact time"
 msgstr "Čas stika"
 
 #: ../glade/chronojump.glade.h:209
-#: ../src/execute/run.cs:825
+#: ../src/execute/run.cs:861
 #: ../src/exportSession.cs:385
 #: ../src/exportSession.cs:493
 #: ../src/exportSession.cs:640
@@ -1131,7 +1131,7 @@ msgstr "Predvajaj posnetek"
 #: ../src/gui/run.cs:618
 #: ../src/gui/run.cs:699
 #: ../src/gui/run.cs:798
-#: ../src/gui/run.cs:1072
+#: ../src/gui/run.cs:1075
 msgid "seconds"
 msgstr "sekund"
 
@@ -1471,8 +1471,8 @@ msgstr "Elektronski naslov ne bo nikoli javno prikazana."
 #: ../src/gui/jump.cs:1288
 #: ../src/gui/jump.cs:1485
 #: ../src/gui/person.cs:118
-#: ../src/gui/run.cs:1301
-#: ../src/gui/run.cs:1470
+#: ../src/gui/run.cs:1305
+#: ../src/gui/run.cs:1474
 #: ../src/gui/server.cs:164
 #: ../src/gui/session.cs:687
 #: ../src/gui/session.cs:856
@@ -1881,8 +1881,8 @@ msgid "<b>Select test</b>"
 msgstr "<b>Izbrani test</b>"
 
 #: ../glade/chronojump.glade.h:398
-msgid "RJ(j)"
-msgstr "RES (omejen s skoki)"
+msgid "Hexagon"
+msgstr "Šesterokotnik"
 
 #: ../glade/chronojump.glade.h:399
 msgid "RJ(t)"
@@ -1894,15 +1894,15 @@ msgstr "RES (omejen s časom)"
 #: ../src/gui/jump.cs:1515
 #: ../src/gui/jump.cs:1561
 #: ../src/gui/jump.cs:1609
-#: ../src/gui/run.cs:1497
-#: ../src/gui/run.cs:1559
-#: ../src/gui/run.cs:1609
+#: ../src/gui/run.cs:1501
+#: ../src/gui/run.cs:1563
+#: ../src/gui/run.cs:1613
 msgid "Unlimited"
 msgstr "Neomejeno"
 
 #: ../glade/chronojump.glade.h:401
-msgid "Hexagon"
-msgstr "Šesterokotnik"
+msgid "RJ(j)"
+msgstr "RES (omejen s skoki)"
 
 #: ../glade/chronojump.glade.h:402
 msgid "All reactive Jumps"
@@ -1997,50 +1997,55 @@ msgid "MTGUG"
 msgstr "MTGUG test"
 
 #: ../glade/chronojump.glade.h:425
+#| msgid "All tests"
+msgid "RSA test 1"
+msgstr "Preizkus RSA 1"
+
+#: ../glade/chronojump.glade.h:426
 msgid "All intervallic runs"
 msgstr "Vsi intervalni teki"
 
-#: ../glade/chronojump.glade.h:426
+#: ../glade/chronojump.glade.h:427
 msgid "4"
 msgstr "4"
 
-#: ../glade/chronojump.glade.h:427
+#: ../glade/chronojump.glade.h:428
 msgid "Execute reaction time"
 msgstr "Izvedi odzivni čas"
 
-#: ../glade/chronojump.glade.h:428
+#: ../glade/chronojump.glade.h:429
 msgid "<b>Execute reaction time</b>"
 msgstr "<b>Izvajanje odzivnega časa</b>"
 
-#: ../glade/chronojump.glade.h:429
+#: ../glade/chronojump.glade.h:430
 msgid "5"
 msgstr "5"
 
-#: ../glade/chronojump.glade.h:430
+#: ../glade/chronojump.glade.h:431
 msgid "6"
 msgstr "6"
 
-#: ../glade/chronojump.glade.h:431
+#: ../glade/chronojump.glade.h:432
 msgid "Multi Chronopic test"
 msgstr "Test z multikronopiki"
 
-#: ../glade/chronojump.glade.h:432
+#: ../glade/chronojump.glade.h:433
 msgid "Run analysis"
 msgstr "Analiza teka"
 
-#: ../glade/chronojump.glade.h:433
+#: ../glade/chronojump.glade.h:434
 msgid "7"
 msgstr "7"
 
-#: ../glade/chronojump.glade.h:434
+#: ../glade/chronojump.glade.h:435
 msgid "No options"
 msgstr "Ni možnosti"
 
-#: ../glade/chronojump.glade.h:435
+#: ../glade/chronojump.glade.h:436
 msgid "Additional weight"
 msgstr "Dodatna obtežitev"
 
-#: ../glade/chronojump.glade.h:437
+#: ../glade/chronojump.glade.h:438
 #, no-c-format
 msgid ""
 "% body \n"
@@ -2049,15 +2054,15 @@ msgstr ""
 "% telesne\n"
 "teže"
 
-#: ../glade/chronojump.glade.h:439
+#: ../glade/chronojump.glade.h:440
 msgid "Technique"
 msgstr "Tehnika"
 
-#: ../glade/chronojump.glade.h:440
+#: ../glade/chronojump.glade.h:441
 msgid "Using arms"
 msgstr "Z zamahom"
 
-#: ../glade/chronojump.glade.h:441
+#: ../glade/chronojump.glade.h:442
 msgid ""
 "Track distance \n"
 "(between platforms)"
@@ -2066,43 +2071,43 @@ msgstr ""
 "(med merilnima podlogama)"
 
 # tukaj najbrž govorijo o pulse per minute - utrip na minuto
-#: ../glade/chronojump.glade.h:443
+#: ../glade/chronojump.glade.h:444
 msgid "ppm"
 msgstr "unm"
 
-#: ../glade/chronojump.glade.h:444
+#: ../glade/chronojump.glade.h:445
 msgid "<b>pulse step</b>"
 msgstr "<b>tempo ritma</b>"
 
-#: ../glade/chronojump.glade.h:445
+#: ../glade/chronojump.glade.h:446
 msgid "unlimited pulses"
 msgstr "neomejeni ritem"
 
-#: ../glade/chronojump.glade.h:446
+#: ../glade/chronojump.glade.h:447
 msgid "total pulses"
 msgstr "skupni ritmi"
 
-#: ../glade/chronojump.glade.h:447
+#: ../glade/chronojump.glade.h:448
 msgid "Need to connect two Chronopics"
 msgstr "Povezati je treba dva kronopika"
 
-#: ../glade/chronojump.glade.h:448
+#: ../glade/chronojump.glade.h:449
 msgid "Delete first"
 msgstr "Izbriši prvi podatek"
 
-#: ../glade/chronojump.glade.h:449
+#: ../glade/chronojump.glade.h:450
 msgid "Delete first TC and TF of each chronopic"
 msgstr "Izbriši podatka prvega čS in čL vsake naprave kronopik"
 
-#: ../glade/chronojump.glade.h:450
+#: ../glade/chronojump.glade.h:451
 msgid "Synchronize"
 msgstr "Usklajevanje"
 
-#: ../glade/chronojump.glade.h:451
+#: ../glade/chronojump.glade.h:452
 msgid "Synchronize chronopics"
 msgstr "Uskladi naprave kronopik"
 
-#: ../glade/chronojump.glade.h:452
+#: ../glade/chronojump.glade.h:453
 msgid ""
 "First Chronopic should be connected to photocells.\n"
 "Second Chronopic to platforms."
@@ -2110,73 +2115,73 @@ msgstr ""
 "Prva naprava kronopik mora biti povezana s fotocelicami.\n"
 "Druga naprava pa z merilno podlogo."
 
-#: ../glade/chronojump.glade.h:454
+#: ../glade/chronojump.glade.h:455
 msgid "Total distance"
 msgstr "Skupna razdalja"
 
-#: ../glade/chronojump.glade.h:455
+#: ../glade/chronojump.glade.h:456
 msgid "<b>Test options</b>"
 msgstr "<b>Možnosti testa</b>"
 
-#: ../glade/chronojump.glade.h:456
+#: ../glade/chronojump.glade.h:457
 msgid "Or press 'space'"
 msgstr "Ali pa pritisnite 'preslednico'."
 
-#: ../glade/chronojump.glade.h:457
+#: ../glade/chronojump.glade.h:458
 #: ../src/gui/chronojump.cs:5027
 msgid "Execute test"
 msgstr "Izvedi test"
 
-#: ../glade/chronojump.glade.h:458
+#: ../glade/chronojump.glade.h:459
 #: ../src/gui/chronojump.cs:3077
 #: ../src/gui/chronojump.cs:3331
 #: ../src/gui/chronojump.cs:3560
 msgid "Phases"
 msgstr "Koraki"
 
-#: ../glade/chronojump.glade.h:459
+#: ../glade/chronojump.glade.h:460
 msgid "Cancel test"
 msgstr "Prekliči test"
 
-#: ../glade/chronojump.glade.h:460
+#: ../glade/chronojump.glade.h:461
 msgid "Finish"
 msgstr "Končaj"
 
-#: ../glade/chronojump.glade.h:461
+#: ../glade/chronojump.glade.h:462
 msgid "Finish test (save test until this moment)"
 msgstr "Končaj test (test bo shranjen do tega trenutka)"
 
-#: ../glade/chronojump.glade.h:462
+#: ../glade/chronojump.glade.h:463
 msgid "Connected Chronopics"
 msgstr "Povezani kronopiki"
 
-#: ../glade/chronojump.glade.h:463
+#: ../glade/chronojump.glade.h:464
 msgid "Configure Chronopic/s"
 msgstr "Nastavitev kronopikov"
 
-#: ../glade/chronojump.glade.h:464
+#: ../glade/chronojump.glade.h:465
 msgid "Configure connection with external hardware."
 msgstr "Nastavitev povezav z zunanjo strojno opremo."
 
-#: ../glade/chronojump.glade.h:465
+#: ../glade/chronojump.glade.h:466
 msgid "<b>Chronopic connection</b>"
 msgstr "<b>Povezava z napravo kronopik</b>"
 
-#: ../glade/chronojump.glade.h:466
+#: ../glade/chronojump.glade.h:467
 #: ../src/treeViewMultiChronopic.cs:227
 msgid "Width"
 msgstr "Širina"
 
-#: ../glade/chronojump.glade.h:467
+#: ../glade/chronojump.glade.h:468
 msgid "Properties"
 msgstr "Lastnosti"
 
-#: ../glade/chronojump.glade.h:468
+#: ../glade/chronojump.glade.h:469
 msgid "Update"
 msgstr "Posodobi"
 
 #. Log.WriteLine("TC: {0}", tc.ToString());
-#: ../glade/chronojump.glade.h:469
+#: ../glade/chronojump.glade.h:470
 #: ../src/execute/jump.cs:374
 #: ../src/exportSession.cs:278
 #: ../src/exportSession.cs:439
@@ -2200,13 +2205,13 @@ msgstr "Posodobi"
 msgid "TC"
 msgstr "čS"
 
-#: ../glade/chronojump.glade.h:470
+#: ../glade/chronojump.glade.h:471
 msgid " "
 msgstr " "
 
 #. cols: 4, 6, 8, ...
 #. cols: 3, 5, 7, ...
-#: ../glade/chronojump.glade.h:471
+#: ../glade/chronojump.glade.h:472
 #: ../src/exportSession.cs:279
 #: ../src/exportSession.cs:440
 #: ../src/gui/convertWeight.cs:114
@@ -2245,30 +2250,30 @@ msgstr " "
 msgid "TF"
 msgstr "čL"
 
-#: ../glade/chronojump.glade.h:472
+#: ../glade/chronojump.glade.h:473
 msgid "Now"
 msgstr "Takoj"
 
-#: ../glade/chronojump.glade.h:473
+#: ../glade/chronojump.glade.h:474
 msgid "Person AVG"
 msgstr "Srednje vrednosti testiranca"
 
-#: ../glade/chronojump.glade.h:474
+#: ../glade/chronojump.glade.h:475
 msgid "Session AVG"
 msgstr "Srednja vrednost seje"
 
-#: ../glade/chronojump.glade.h:475
+#: ../glade/chronojump.glade.h:476
 msgid "TF / TC"
 msgstr "čL / čS"
 
-#: ../glade/chronojump.glade.h:476
+#: ../glade/chronojump.glade.h:477
 msgid "Last jump"
 msgstr "Zadnji skok"
 
 #. don't plot AVG and SD rows
 #. if multisession, add AVG and SD cols
 #. don't plot AVG row on multisession
-#: ../glade/chronojump.glade.h:477
+#: ../glade/chronojump.glade.h:478
 #: ../src/exportSession.cs:446
 #: ../src/exportSession.cs:591
 #: ../src/exportSession.cs:704
@@ -2318,127 +2323,127 @@ msgstr "Zadnji skok"
 msgid "AVG"
 msgstr "Srednja vrednost"
 
-#: ../glade/chronojump.glade.h:478
+#: ../glade/chronojump.glade.h:479
 msgid "Last run"
 msgstr "Zadnji tek"
 
-#: ../glade/chronojump.glade.h:479
+#: ../glade/chronojump.glade.h:480
 msgid "Last pulse"
 msgstr "Zadnji podatek ritma"
 
-#: ../glade/chronojump.glade.h:480
+#: ../glade/chronojump.glade.h:481
 msgid "pending"
 msgstr "v čakanju"
 
-#: ../glade/chronojump.glade.h:481
+#: ../glade/chronojump.glade.h:482
 msgid "Deleted test"
 msgstr "Izbrisani test"
 
-#: ../glade/chronojump.glade.h:482
+#: ../glade/chronojump.glade.h:483
 msgid "Play Video (v)"
 msgstr "Predvajaj posnetek (v)"
 
-#: ../glade/chronojump.glade.h:483
+#: ../glade/chronojump.glade.h:484
 msgid "Delete this test (d)"
 msgstr "Izbriši ta test (d)"
 
-#: ../glade/chronojump.glade.h:484
+#: ../glade/chronojump.glade.h:485
 msgid "<b>Results</b>"
 msgstr "<b>Rezultati</b>"
 
-#: ../glade/chronojump.glade.h:485
+#: ../glade/chronojump.glade.h:486
 msgid "Change zoom (z)"
 msgstr "Spremeni povečavo (z)"
 
-#: ../glade/chronojump.glade.h:486
+#: ../glade/chronojump.glade.h:487
 msgid "Edit selected (e)"
 msgstr "Uredi izbrano (e)"
 
-#: ../glade/chronojump.glade.h:487
+#: ../glade/chronojump.glade.h:488
 msgid "Delete selected (d)"
 msgstr "Izbriši izbrano (d)"
 
 #. this.heightPreferred = heightPreferred;
-#: ../glade/chronojump.glade.h:488
+#: ../glade/chronojump.glade.h:489
 #: ../src/stats/global.cs:52
 #: ../src/stats/sjCmjAbk.cs:52
 msgid "Jump"
 msgstr "Skok"
 
-#: ../glade/chronojump.glade.h:489
+#: ../glade/chronojump.glade.h:490
 msgid "Repair selected (r)"
 msgstr "Popravi izbrano (r)"
 
-#: ../glade/chronojump.glade.h:490
+#: ../glade/chronojump.glade.h:491
 msgid "Jump Reactive"
 msgstr "Repetitivno-eksplozivni skok"
 
-#: ../glade/chronojump.glade.h:491
+#: ../glade/chronojump.glade.h:492
 #: ../src/stats/runSimple.cs:52
 msgid "Run"
 msgstr "Tek"
 
 # http://www.thefreedictionary.com/intervallic
 # točka 3
-#: ../glade/chronojump.glade.h:492
+#: ../glade/chronojump.glade.h:493
 msgid "Run Intervallic"
 msgstr "Intervalni tek"
 
-#: ../glade/chronojump.glade.h:493
+#: ../glade/chronojump.glade.h:494
 #: ../src/gui/session.cs:698
 msgid "Reaction time"
 msgstr "Odzivni čas"
 
-#: ../glade/chronojump.glade.h:494
+#: ../glade/chronojump.glade.h:495
 msgid "Pulse"
 msgstr "Ritem"
 
-#: ../glade/chronojump.glade.h:495
-#: ../src/runType.cs:232
+#: ../glade/chronojump.glade.h:496
+#: ../src/runType.cs:233
 msgid "Results"
 msgstr "Rezultati"
 
-#: ../glade/chronojump.glade.h:496
+#: ../glade/chronojump.glade.h:497
 #: ../src/gui/report.cs:136
 msgid "Subtype"
 msgstr "Podvrsta"
 
-#: ../glade/chronojump.glade.h:497
+#: ../glade/chronojump.glade.h:498
 #: ../src/gui/report.cs:137
 msgid "Apply to"
 msgstr "Uporabi za"
 
-#: ../glade/chronojump.glade.h:498
+#: ../glade/chronojump.glade.h:499
 msgid "Subtraction between"
 msgstr "Odštevanje med"
 
-#: ../glade/chronojump.glade.h:499
+#: ../glade/chronojump.glade.h:500
 msgid "and"
 msgstr "in"
 
-#: ../glade/chronojump.glade.h:500
+#: ../glade/chronojump.glade.h:501
 msgid "subtraction"
 msgstr "odštevanje"
 
-#: ../glade/chronojump.glade.h:501
+#: ../glade/chronojump.glade.h:502
 msgid "mark consecutives"
 msgstr "označi zaporedne"
 
-#: ../glade/chronojump.glade.h:502
+#: ../glade/chronojump.glade.h:503
 msgid "mark best 'n' consecutives"
 msgstr "označi najboljših 'n' zaporednih"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:504
 msgid "mark_consecutives"
 msgstr "označi_zaporedne"
 
 #. frame_test_options.BoxChild.Expand(false);
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:505
 #: ../src/gui/chronojump.cs:539
 msgid "Current"
 msgstr "Trenutno"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:506
 #: ../src/gui/person.cs:317
 #: ../src/gui/person.cs:430
 #: ../src/gui/person.cs:484
@@ -2448,11 +2453,11 @@ msgstr "Trenutno"
 msgid "Selected"
 msgstr "Izbrano"
 
-#: ../glade/chronojump.glade.h:506
+#: ../glade/chronojump.glade.h:507
 msgid "select"
 msgstr "izberi"
 
-#: ../glade/chronojump.glade.h:507
+#: ../glade/chronojump.glade.h:508
 #: ../src/gui/person.cs:315
 #: ../src/gui/person.cs:443
 #: ../src/gui/stats.cs:210
@@ -2463,147 +2468,147 @@ msgstr "izberi"
 msgid "All"
 msgstr "Vse"
 
-#: ../glade/chronojump.glade.h:508
+#: ../glade/chronojump.glade.h:509
 #: ../src/gui/stats.cs:1265
 #: ../src/report.cs:289
 msgid "Limit"
 msgstr "Omeji"
 
-#: ../glade/chronojump.glade.h:509
+#: ../glade/chronojump.glade.h:510
 msgid "Person's average"
 msgstr "Povprečje rezultatov"
 
-#: ../glade/chronojump.glade.h:510
+#: ../glade/chronojump.glade.h:511
 msgid "Person's bests"
 msgstr "Najboljši rezultat"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:512
 msgid "Show tests"
 msgstr "Pokaži teste"
 
-#: ../glade/chronojump.glade.h:512
+#: ../glade/chronojump.glade.h:513
 #: ../src/gui/report.cs:140
 msgid "Show sex"
 msgstr "Pokaži spol"
 
-#: ../glade/chronojump.glade.h:513
+#: ../glade/chronojump.glade.h:514
 msgid "Show description"
 msgstr "Pokaži opis"
 
-#: ../glade/chronojump.glade.h:514
+#: ../glade/chronojump.glade.h:515
 msgid "After a test, use it to update statistics"
 msgstr "Po testu ga uporabite za posodobitev statistike"
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:516
 msgid "Update stats"
 msgstr "Posodobi statistiko"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:517
 msgid "Mark"
 msgstr "Oznaka"
 
-#: ../glade/chronojump.glade.h:517
+#: ../glade/chronojump.glade.h:518
 msgid "statistic's description"
 msgstr "opis statistike"
 
-#: ../glade/chronojump.glade.h:518
+#: ../glade/chronojump.glade.h:519
 msgid "var X"
 msgstr "spr X"
 
 # spr. = Spremenljivka
-#: ../glade/chronojump.glade.h:519
+#: ../glade/chronojump.glade.h:520
 msgid "var Y"
 msgstr "spr Y"
 
-#: ../glade/chronojump.glade.h:520
+#: ../glade/chronojump.glade.h:521
 msgid "Transpose"
 msgstr "premesti"
 
-#: ../glade/chronojump.glade.h:521
+#: ../glade/chronojump.glade.h:522
 msgid "Transpose graph"
 msgstr "Transponiraj graf"
 
-#: ../glade/chronojump.glade.h:522
+#: ../glade/chronojump.glade.h:523
 msgid "Width of the line"
 msgstr "Širina črte"
 
-#: ../glade/chronojump.glade.h:523
+#: ../glade/chronojump.glade.h:524
 msgid "Line width"
 msgstr "Širina črte"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:525
 msgid "Legend"
 msgstr "Legenda"
 
-#: ../glade/chronojump.glade.h:525
+#: ../glade/chronojump.glade.h:526
 msgid "Palette"
 msgstr "Paleta"
 
-#: ../glade/chronojump.glade.h:526
+#: ../glade/chronojump.glade.h:527
 msgid "Aspect"
 msgstr "Razmerje"
 
-#: ../glade/chronojump.glade.h:527
+#: ../glade/chronojump.glade.h:528
 msgid "Bottom"
 msgstr "Spodaj"
 
-#: ../glade/chronojump.glade.h:528
+#: ../glade/chronojump.glade.h:529
 msgid "Left"
 msgstr "Levo"
 
-#: ../glade/chronojump.glade.h:529
+#: ../glade/chronojump.glade.h:530
 msgid "Top"
 msgstr "Zgoraj"
 
-#: ../glade/chronojump.glade.h:530
+#: ../glade/chronojump.glade.h:531
 msgid "Right"
 msgstr "Desno"
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:532
 msgid "Adjust this and bottom margin if athlete's names are long."
 msgstr "Prilagodi robove, v kolikor je ime testiranca predolgo."
 
-#: ../glade/chronojump.glade.h:532
+#: ../glade/chronojump.glade.h:533
 msgid "X axis font size"
 msgstr "Velikost pisave osi X"
 
-#: ../glade/chronojump.glade.h:533
+#: ../glade/chronojump.glade.h:534
 msgid "Default values"
 msgstr "Privzete vrednosti"
 
-#: ../glade/chronojump.glade.h:534
+#: ../glade/chronojump.glade.h:535
 msgid "Margins"
 msgstr "Robovi"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:536
 msgid "Graph"
 msgstr "Graf"
 
-#: ../glade/chronojump.glade.h:536
+#: ../glade/chronojump.glade.h:537
 msgid "Add this statistic and its graph to report window"
 msgstr "Dodajanje statistike in grafa v okno poročila"
 
-#: ../glade/chronojump.glade.h:537
+#: ../glade/chronojump.glade.h:538
 msgid "Add to report"
 msgstr "Dodaj poročilu"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:539
 msgid "View report window"
 msgstr "Pogled okna poročila"
 
-#: ../glade/chronojump.glade.h:539
+#: ../glade/chronojump.glade.h:540
 msgid "Open report window"
 msgstr "Odpri okno poročila"
 
-#: ../glade/chronojump.glade.h:540
+#: ../glade/chronojump.glade.h:541
 msgid "<b>Graph and report</b>"
 msgstr "<b>Graf in poročilo</b>"
 
-#: ../glade/chronojump.glade.h:541
+#: ../glade/chronojump.glade.h:542
 msgid "stats"
 msgstr "statistika"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:543
 msgid ""
 "Sorry, no statistics for this test type\n"
 "on current Chronojump version."
@@ -2611,99 +2616,99 @@ msgstr ""
 "Za to vrsto testa statistika še ni na voljo\n"
 "s trenutno različico programa Chronojump."
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:545
 msgid "error"
 msgstr "napaka"
 
-#: ../glade/chronojump.glade.h:545
+#: ../glade/chronojump.glade.h:546
 msgid "Statistics"
 msgstr "Statistika"
 
-#: ../glade/chronojump.glade.h:546
+#: ../glade/chronojump.glade.h:547
 msgid "Contacts (platform or photocell)"
 msgstr "Stiki (merilna podloga ali fotocelice)"
 
-#: ../glade/chronojump.glade.h:547
+#: ../glade/chronojump.glade.h:548
 msgid "+"
 msgstr "+"
 
-#: ../glade/chronojump.glade.h:548
+#: ../glade/chronojump.glade.h:549
 msgid "Weight bar"
 msgstr "Stolpec teže"
 
-#: ../glade/chronojump.glade.h:549
+#: ../glade/chronojump.glade.h:550
 msgid "Concentric"
 msgstr "Koncentrično"
 
-#: ../glade/chronojump.glade.h:550
+#: ../glade/chronojump.glade.h:551
 msgid "Eccentric-concentric"
 msgstr "Ekscentrično-koncentrično"
 
-#: ../glade/chronojump.glade.h:551
+#: ../glade/chronojump.glade.h:552
 msgid "Minimal height"
 msgstr "Najmanjša višina"
 
-#: ../glade/chronojump.glade.h:552
+#: ../glade/chronojump.glade.h:553
 msgid "Recording time"
 msgstr "Čas snemanja"
 
-#: ../glade/chronojump.glade.h:553
+#: ../glade/chronojump.glade.h:554
 msgid "s"
 msgstr "s"
 
-#: ../glade/chronojump.glade.h:554
+#: ../glade/chronojump.glade.h:555
 msgid "Smoothing"
 msgstr "Glajenje"
 
-#: ../glade/chronojump.glade.h:555
+#: ../glade/chronojump.glade.h:556
 msgid "<b>Options</b>"
 msgstr "<b>Možnosti</b>"
 
-#: ../glade/chronojump.glade.h:556
+#: ../glade/chronojump.glade.h:557
 msgid "Capture from encoder"
 msgstr "Zajemi preko kodirnika"
 
-#: ../glade/chronojump.glade.h:557
+#: ../glade/chronojump.glade.h:558
 msgid "Recalculate"
 msgstr "Ponovno izračunaj"
 
-#: ../glade/chronojump.glade.h:558
+#: ../glade/chronojump.glade.h:559
 msgid "Capture"
 msgstr "Zajemanje"
 
-#: ../glade/chronojump.glade.h:559
+#: ../glade/chronojump.glade.h:560
 msgid "Show power bars"
 msgstr "Pokaži stolpce moči ..."
 
-#: ../glade/chronojump.glade.h:560
+#: ../glade/chronojump.glade.h:561
 msgid "Single curve"
 msgstr "Enojna krivulja"
 
-#: ../glade/chronojump.glade.h:561
+#: ../glade/chronojump.glade.h:562
 msgid "Side compare"
 msgstr "Primerjava strani"
 
-#: ../glade/chronojump.glade.h:562
+#: ../glade/chronojump.glade.h:563
 msgid "Superpose"
 msgstr "Superpozicija"
 
-#: ../glade/chronojump.glade.h:563
+#: ../glade/chronojump.glade.h:564
 msgid "Curve number"
 msgstr "Število krivulje"
 
-#: ../glade/chronojump.glade.h:564
+#: ../glade/chronojump.glade.h:565
 msgid "<b>Mode</b>"
 msgstr "<b>Način</b>"
 
-#: ../glade/chronojump.glade.h:565
+#: ../glade/chronojump.glade.h:566
 msgid "Analyze"
 msgstr "Preuči"
 
-#: ../glade/chronojump.glade.h:566
+#: ../glade/chronojump.glade.h:567
 msgid "Linear encoder"
 msgstr "Linearni kodirnik"
 
-#: ../glade/chronojump.glade.h:567
+#: ../glade/chronojump.glade.h:568
 msgid ""
 "Chronojump has a server in order to share data between users.\n"
 "Data is collected by users contributions and server generates statistics and graphs.\n"
@@ -2713,23 +2718,23 @@ msgstr ""
 "Podatke zbirajo uporabniki, strežnik pa ustvarja statistiko in grafe.\n"
 "Vsakomur je dovoljeno pregledovati statistiko in grafe ter zaganjati poizvedbe na strežniku."
 
-#: ../glade/chronojump.glade.h:570
+#: ../glade/chronojump.glade.h:571
 msgid "Check connection"
 msgstr "Preveri povezavo"
 
-#: ../glade/chronojump.glade.h:571
+#: ../glade/chronojump.glade.h:572
 msgid "Query to the server"
 msgstr "Poizvedba na strežniku"
 
-#: ../glade/chronojump.glade.h:572
+#: ../glade/chronojump.glade.h:573
 msgid "Check basic stats"
 msgstr "Preveri osnovno statistiko"
 
-#: ../glade/chronojump.glade.h:573
+#: ../glade/chronojump.glade.h:574
 msgid "<b>Check data</b>"
 msgstr "<b>Pregled podatkov</b>"
 
-#: ../glade/chronojump.glade.h:574
+#: ../glade/chronojump.glade.h:575
 msgid ""
 "Privacy is respected:\n"
 "- Names, comments, photos and videos are not uploaded.\n"
@@ -2745,39 +2750,39 @@ msgstr ""
 "Simulirani testi so prezrti.\n"
 "Uporabljena so prava imena ali vzdevki."
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:581
 msgid "Upload (or update) session to server"
 msgstr "Pošlji (ali posodobi) sejo na strežniku"
 
-#: ../glade/chronojump.glade.h:581
+#: ../glade/chronojump.glade.h:582
 msgid "<b>Share data!</b>"
 msgstr "<b>Izmenjava  podatkov</b>"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:583
 msgid "Open server website (on browser)"
 msgstr "Odpri spletišče strežnika (v brskalniku)"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:584
 msgid "Server actions"
 msgstr "Dejanja strežnika"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:585
 msgid "Chronopic window"
 msgstr "Okno naprave kronopik"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:586
 msgid "Connect"
 msgstr "Poveži"
 
-#: ../glade/chronojump.glade.h:586
+#: ../glade/chronojump.glade.h:587
 msgid "<b>Main Chronopic</b> (used on all tests)"
 msgstr "<b>Glavna naprava kronopik</b> (uporabljena pri vseh testih)"
 
-#: ../glade/chronojump.glade.h:587
+#: ../glade/chronojump.glade.h:588
 msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr "<b>Dodatki</b> (uporabni z multikronopiki)"
 
-#: ../glade/chronojump.glade.h:588
+#: ../glade/chronojump.glade.h:589
 msgid "<b>Chronopic is on one of these ports</b>"
 msgstr "<b>Povezava z napravo kronopik je na enih izmed navedenih vrat</b>"
 
@@ -3588,15 +3593,15 @@ msgstr "Start v teku. Začetek teka z začetno hitrostjo."
 msgid "Standing start. Started without initial speed."
 msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
 
-#: ../src/execute/event.cs:328
+#: ../src/execute/event.cs:337
 msgid "Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution."
 msgstr "Po koncu testa se je treba merilne podloge dotakniti. V kolikor se je ne, se program Chronojump, ob naslednjem zagonu, lahko sesuje."
 
-#: ../src/execute/event.cs:333
+#: ../src/execute/event.cs:342
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr "Analiza teka ni veljavna, ker ni zaznanih korakov."
 
-#: ../src/execute/event.cs:478
+#: ../src/execute/event.cs:491
 msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
 msgstr "Naprava kronopik ni povezana. Napravo je treba ponovno povezati preko pogovornega okna Kronopik."
 
@@ -3682,16 +3687,28 @@ msgstr "Ste NA PODLOGI! STECITE, ko boste pripravljeni!"
 msgid "You are OUT, RUN when prepared!"
 msgstr "Ste OB PODLOGI! STECITE, ko boste pripravljeni!"
 
-#: ../src/execute/run.cs:761
+# plural
+#: ../src/execute/run.cs:704
+#, csharp-format
+#| msgid "%d second"
+#| msgid_plural "%d seconds"
+msgid "Wait 1 second."
+msgid_plural "Wait {0} seconds."
+msgstr[0] "Počakajte {0} sekund."
+msgstr[1] "Počakajte {0} sekundo."
+msgstr[2] "Počakajte {0} sekundi."
+msgstr[3] "Počakajte {0} sekunde."
+
+#: ../src/execute/run.cs:797
 msgid "Run will not be recorded, 1st track is out of time"
 msgstr "Tek ne bo zabeležen, saj je na prvi progi čas že pretekel"
 
-#: ../src/execute/run.cs:827
+#: ../src/execute/run.cs:863
 #: ../src/exportSession.cs:548
 #: ../src/gui/chronojump.cs:3448
-#: ../src/gui/run.cs:1500
-#: ../src/gui/run.cs:1563
-#: ../src/gui/run.cs:1613
+#: ../src/gui/run.cs:1504
+#: ../src/gui/run.cs:1567
+#: ../src/gui/run.cs:1617
 msgid "Tracks"
 msgstr "Proge"
 
@@ -4777,18 +4794,18 @@ msgstr "Števec"
 
 #: ../src/gui/jump.cs:1261
 #: ../src/gui/jump.cs:1454
-#: ../src/gui/run.cs:1275
-#: ../src/gui/run.cs:1443
+#: ../src/gui/run.cs:1279
+#: ../src/gui/run.cs:1447
 msgid "Delete test type defined by user"
 msgstr "Izbriši uporabniško določeno vrsto testa"
 
 #: ../src/gui/jump.cs:1487
-#: ../src/gui/run.cs:1473
+#: ../src/gui/run.cs:1477
 msgid "Limited value"
 msgstr "Omejena vrednost"
 
 #: ../src/gui/jump.cs:1520
-#: ../src/gui/run.cs:1502
+#: ../src/gui/run.cs:1506
 msgid "Seconds"
 msgstr "Sekunde"
 
@@ -5095,7 +5112,7 @@ msgstr[3] "Ta vrsta teka je omejena na {0} sekunde."
 msgid "Totaltime cannot be greater."
 msgstr "Skupni čas ne more biti večji."
 
-#: ../src/gui/run.cs:1028
+#: ../src/gui/run.cs:1031
 msgid ""
 "Track distance\n"
 "(between platforms)"
@@ -5103,11 +5120,11 @@ msgstr ""
 "Razdalja med točkama\n"
 "(med dvema podlagama)"
 
-#: ../src/gui/run.cs:1029
+#: ../src/gui/run.cs:1032
 msgid "meters"
 msgstr "metri"
 
-#: ../src/gui/run.cs:1036
+#: ../src/gui/run.cs:1039
 msgid ""
 "Vertical distance between\n"
 "stairs third and nine."
@@ -5115,20 +5132,20 @@ msgstr ""
 "Navpična razdalja med\n"
 "stopnicama tri in devet."
 
-#: ../src/gui/run.cs:1037
+#: ../src/gui/run.cs:1040
 msgid "Millimeters."
 msgstr "Milimetri."
 
-#: ../src/gui/run.cs:1071
+#: ../src/gui/run.cs:1074
 msgid "tracks"
 msgstr "proge"
 
-#: ../src/gui/run.cs:1313
-#: ../src/gui/run.cs:1341
-#: ../src/gui/run.cs:1370
-#: ../src/gui/run.cs:1486
-#: ../src/gui/run.cs:1550
-#: ../src/gui/run.cs:1600
+#: ../src/gui/run.cs:1317
+#: ../src/gui/run.cs:1345
+#: ../src/gui/run.cs:1374
+#: ../src/gui/run.cs:1490
+#: ../src/gui/run.cs:1554
+#: ../src/gui/run.cs:1604
 msgid "Not defined"
 msgstr "Ni določeno"
 
@@ -5359,372 +5376,372 @@ msgstr "brez prog"
 msgid "Evolution."
 msgstr "Napredek"
 
-#: ../src/runType.cs:80
+#: ../src/runType.cs:81
 msgid "Variable distance running"
 msgstr "Teki različnih dolžin"
 
-#: ../src/runType.cs:88
+#: ../src/runType.cs:89
 msgid "Run 20 meters"
 msgstr "Tek na 20 metrov"
 
-#: ../src/runType.cs:96
+#: ../src/runType.cs:97
 msgid "Run 100 meters"
 msgstr "Tek na 100 metrov"
 
-#: ../src/runType.cs:104
+#: ../src/runType.cs:105
 msgid "Run 200 meters"
 msgstr "Tek na 200 metrov"
 
-#: ../src/runType.cs:112
+#: ../src/runType.cs:113
 msgid "Run 400 meters"
 msgstr "Tek na 400 metrov"
 
-#: ../src/runType.cs:120
+#: ../src/runType.cs:121
 msgid "Run 1000 meters"
 msgstr "Tek na 1000 metrov"
 
-#: ../src/runType.cs:128
+#: ../src/runType.cs:129
 msgid "Run 2000 meters"
 msgstr "Tek na 2000 metrov"
 
-#: ../src/runType.cs:140
+#: ../src/runType.cs:141
 msgid "Note on measurement"
 msgstr "Opomba o meritvah"
 
-#: ../src/runType.cs:141
+#: ../src/runType.cs:142
 msgid "Measured time will be the time between two platforms"
 msgstr "Izmerjen čas je čas med dvema merilnima podlogama."
 
-#: ../src/runType.cs:142
+#: ../src/runType.cs:143
 msgid "Short description"
 msgstr "Kratek opis"
 
-#: ../src/runType.cs:143
+#: ../src/runType.cs:144
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr "Merjenci morajo stopati preko prečke, kakor hitro je to mogoče."
 
-#: ../src/runType.cs:144
+#: ../src/runType.cs:145
 msgid "From one platform to another without falling down."
 msgstr "Od ene merilne podloge do druge brez padca."
 
-#: ../src/runType.cs:145
+#: ../src/runType.cs:146
 msgid "If they touched the ground they had to continue."
 msgstr "V primeru, da se dotaknejo tal, morajo nadaljevati."
 
-#: ../src/runType.cs:146
+#: ../src/runType.cs:147
 msgid "The hands were on their waist."
 msgstr "Roke so bile ob bokih."
 
-#: ../src/runType.cs:147
-#: ../src/runType.cs:157
+#: ../src/runType.cs:148
+#: ../src/runType.cs:158
 msgid "Without shoes."
 msgstr "Brez obuval."
 
-#: ../src/runType.cs:148
-#: ../src/runType.cs:166
+#: ../src/runType.cs:149
+#: ../src/runType.cs:167
 msgid "Every ground contact is penalized with 2 seconds."
 msgstr "Vsak dotik tal se kaznuje z dodatkom dveh sekund k skupnemu času testa."
 
-#: ../src/runType.cs:149
+#: ../src/runType.cs:150
 msgid "The best of 2 attempts were recorded."
 msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
-#: ../src/runType.cs:151
+#: ../src/runType.cs:152
 msgid "Gesell's Bar"
 msgstr "Gesellova prečka"
 
-#: ../src/runType.cs:152
+#: ../src/runType.cs:153
 msgid "Length: 2.5 m."
 msgstr "Dolžina: 2,5 m."
 
-#: ../src/runType.cs:153
+#: ../src/runType.cs:154
 msgid "Wide: 4 cm."
 msgstr "Širina: 4 cm."
 
-#: ../src/runType.cs:155
+#: ../src/runType.cs:156
 msgid "Protocol"
 msgstr "Protokol"
 
-#: ../src/runType.cs:156
+#: ../src/runType.cs:157
 msgid "CONDITIONS: "
 msgstr "RAZMERE:"
 
-#: ../src/runType.cs:158
+#: ../src/runType.cs:159
 msgid "Hands on their waist."
 msgstr "Roke na boke."
 
-#: ../src/runType.cs:159
+#: ../src/runType.cs:160
 msgid "In front of a wall in order to avoid distractions."
 msgstr "Pred zidom v izogibanje odvračanja pozornosti."
 
-#: ../src/runType.cs:160
+#: ../src/runType.cs:161
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
 msgstr "NAVODILA IN PRIKAZ:"
 
-#: ../src/runType.cs:161
+#: ../src/runType.cs:162
 msgid "You have to walk on this bar as fast as possible 'like this', if you touch the ground just continue."
 msgstr "Po prečki je treba hoditi, kakor hitro je le mogoče 'na tak način'. V primeru, da se dotaknete tal, enostavno nadaljujte s hojo."
 
-#: ../src/runType.cs:162
+#: ../src/runType.cs:163
 msgid "'Like this' means normal, with a foot in front of the other, not side by side."
 msgstr "'Na tak način' pomeni, da hodite normalno, z enim stopalom pred drugim in ne bočno s stopalom ob stopalu."
 
-#: ../src/runType.cs:164
+#: ../src/runType.cs:165
 msgid "SCORE: "
 msgstr "REZULTAT:"
 
-#: ../src/runType.cs:165
+#: ../src/runType.cs:166
 msgid "Time will start since first platform is touched, and will stop when second platform is reached."
 msgstr "Čas bo začel teči ob dotiku prve merilne podloge in bo zaustavljen ob dotiku druge."
 
-#: ../src/runType.cs:167
+#: ../src/runType.cs:168
 msgid "The best of 2 attempts will be recorded."
 msgstr "Zabeležen bo najboljši rezultat dveh poskusov."
 
-#: ../src/runType.cs:169
-#: ../src/runType.cs:384
+#: ../src/runType.cs:170
+#: ../src/runType.cs:385
 msgid "Reference:"
 msgstr "Sklic:"
 
-#: ../src/runType.cs:183
+#: ../src/runType.cs:184
 msgid "20Yard Agility test"
 msgstr "20 jardni test agilnosti"
 
-#: ../src/runType.cs:185
+#: ../src/runType.cs:186
 msgid "This test is part of a battery for the USA Women's Soccer Team. The NFL use a very similar test for the NFL Combine Testing, the 20 yard shuttle."
 msgstr "Test uporablja ženska nogometna ekipa ZDA. Organizacija NFL uporablja zelo podoben test za lastna testiranja; 20 jardni Shuttle run test."
 
-#: ../src/runType.cs:187
-#: ../src/runType.cs:264
+#: ../src/runType.cs:188
+#: ../src/runType.cs:265
 msgid "Purpose"
 msgstr "Namen"
 
-#: ../src/runType.cs:188
+#: ../src/runType.cs:189
 msgid "The 20 yard agility run is a simple measure of an athlete’s ability to accelerate, decelerate, change direction, and to accelerate again."
 msgstr "20 jardni test agilnosti je enostavno merilo sposobnosti pospeševanja, zaustavljanja, spreminjanja smeri gibanja in ponovnega pospeševanja. "
 
-#: ../src/runType.cs:190
-#: ../src/runType.cs:209
-#: ../src/runType.cs:229
-#: ../src/runType.cs:267
-#: ../src/runType.cs:296
+#: ../src/runType.cs:191
+#: ../src/runType.cs:210
+#: ../src/runType.cs:230
+#: ../src/runType.cs:268
+#: ../src/runType.cs:297
 msgid "Procedure"
 msgstr "Postopek"
 
-#: ../src/runType.cs:191
+#: ../src/runType.cs:192
 msgid "Set up three marker cones in a straight line, exactly five yards apart - cones B, A(center) and C. At each cone place a line across using marking tape. The timer is positioned at the level of the center A cone, facing the athlete. The athlete straddles the center cone A with feet an equal distance apart and parallel to the line of cones. When ready, the athlete runs to cone B (touching the line with either foot), turns and accelerates to cone C (touching the line), and finishes by accelerating through the line at cone A. The stopwatch is started on the first movement of the athlete and stops the watch when the athlete’s torso crosses the center line."
 msgstr "Postavite tri označevalne stožce v ravni črti, natančno pet jardov (4,5 m) narazen - stožci B, A (sredina) in C. Na vsak stožec postavite črto z označevalnim trakom. Časovnik je postavljen na raven sredinskega A stožca, obrnjen proti merjencu. Ta zajaha središčni stožec A s stopali enako razdaljo narazen in vzporedno s črto stožcev. Ko je pripravljen, merjenec steče do stožca B (se dotakne črte z eno od nog), se obrne in pospeši do stožca C (se dotakne črte) in konča s pospeševanjem skozi črto pri stožcu A. Časomer je zagnan ob prvem premiku merjenca in se zaustavi, ko ta s prsi prečka središčno črto."
 
-#: ../src/runType.cs:193
-#: ../src/runType.cs:271
+#: ../src/runType.cs:194
+#: ../src/runType.cs:272
 msgid "Scoring"
 msgstr "Točkovanje"
 
-#: ../src/runType.cs:194
+#: ../src/runType.cs:195
 msgid "Record the best time of two trials."
 msgstr "Zabeleži najboljši čas dveh poskusov."
 
-#: ../src/runType.cs:196
+#: ../src/runType.cs:197
 msgid "Encourage athletes to accelerate through the finish line to maximize their result."
 msgstr "Spodbudite merjence, da pospešijo skozi ciljno črto za doseganje boljših rezultatov."
 
-#: ../src/runType.cs:198
-#: ../src/runType.cs:215
-#: ../src/runType.cs:250
-#: ../src/runType.cs:284
-#: ../src/runType.cs:306
+#: ../src/runType.cs:199
+#: ../src/runType.cs:216
+#: ../src/runType.cs:251
+#: ../src/runType.cs:285
+#: ../src/runType.cs:307
 msgid "Cited with permission."
 msgstr "Navedeno z dovoljenjem."
 
-#: ../src/runType.cs:207
+#: ../src/runType.cs:208
 msgid "505 Agility test"
 msgstr "Test agilnosti 505"
 
-#: ../src/runType.cs:210
+#: ../src/runType.cs:211
 msgid "Markers are set up 5 and 15 meters from a line marked on the ground. The athlete runs from the 15 meter marker towards the line (run in distance to build up speed) and through the 5 m markers, turns on the line and runs back through the 5 m markers. The time is recorded from when the athletes first runs through the 5 meter marker, and stopped when they return through these markers (that is, the time taken to cover the 5 m up and back distance - 10 m total). The best of two trails is recorded. The turning ability on each leg should be tested. The subject should be encouraged to not overstep the line by too much, as this will increase their time."
 msgstr "Oznake so postavljene 5 in 15 metrov od črte označene na tleh. Merjenec steče od 15 metrske oznake proti črti (s tem pridobi hitrost) in skozi 5m oznake, se obrne na črti in teče nazaj skozi 5m oznake. Zabeležen je čas od prvega prečkanja 5 metrske oznake do ponovnega prečkanja 5 metrske oznake (torej čas potreben za 5 m tek naprej in nazaj - skupaj 10m). Zabeleži se najboljši čas dveh ponovitev. Priporočeno je testirati zmožnost obračanja obeh nog. Merjenca je treba opomniti, da črte ne prestopi preveč, saj se bo s tem povečal čas teka."
 
-#: ../src/runType.cs:213
+#: ../src/runType.cs:214
 msgid "This is a test of 180 degree turning ability. This ability may not be applicable to some sports."
 msgstr "Test je namenjen merjenju sposobnosti obračanja za 180 stopinj. Rezultat tega testa zmožnosti za nekatere športe ni uporaben."
 
-#: ../src/runType.cs:224
+#: ../src/runType.cs:225
 msgid "Illinois Agility test"
 msgstr "Test agilnosti Illinois"
 
-#: ../src/runType.cs:227
+#: ../src/runType.cs:228
 msgid "The length of the course is 10 meters and the width (distance between the start and finish points) is 5 meters. Four cones are used to mark the start, finish and the two turning points. Another four cones are placed down the center an equal distance apart. Each cone in the center is spaced 3.3 meters apart."
 msgstr "Dolžina proge je 10 metrov, širina (razdalja med začetnimi in končnimi točkami) pa je 5 metrov. Štirje stožci so uporabljeni za oznako začetka, cilja in dveh točk obračanja. Dodatni štirje stožci so postavljeni na sredino v enakem razmiku 3,3 metra narazen."
 
-#: ../src/runType.cs:230
+#: ../src/runType.cs:231
 msgid "Subjects should lie on their front (head to the start line) and hands by their shoulders. On the 'Go' command the stopwatch is started, and the athlete gets up as quickly as possible and runs around the course in the direction indicated, without knocking the cones over, to the finish line, at which the timing is stopped."
 msgstr "Merjenci naj ležijo na trebuhu (z glavo obrnjeno v smeri startne črte) in rokami na ramenih. Na ukaz 'pojdi' je zagnan časomer in merjenec čim hitreje vstane in steče po progi in okoli stožcev brez dotika do ciljne črte, ko se merjenje časa zaustavi."
 
-#: ../src/runType.cs:233
+#: ../src/runType.cs:234
 msgid "The table below gives some rating scores (in seconds) for the test"
 msgstr "V spodnji razpredelnici so podane ocene rezultatov testa (v sekundah)"
 
-#: ../src/runType.cs:234
+#: ../src/runType.cs:235
 msgid "Rating"
 msgstr "Ocena"
 
-#: ../src/runType.cs:234
+#: ../src/runType.cs:235
 msgid "Males"
 msgstr "Moški"
 
-#: ../src/runType.cs:234
+#: ../src/runType.cs:235
 msgid "Females"
 msgstr "Ženske"
 
-#: ../src/runType.cs:235
+#: ../src/runType.cs:236
 msgid "Excellent"
 msgstr "Odlično"
 
-#: ../src/runType.cs:236
+#: ../src/runType.cs:237
 msgid "Good"
 msgstr "Dobro"
 
-#: ../src/runType.cs:237
+#: ../src/runType.cs:238
 msgid "Average"
 msgstr "Povprečno"
 
-#: ../src/runType.cs:238
+#: ../src/runType.cs:239
 msgid "Fair"
 msgstr "Zadovoljivo"
 
-#: ../src/runType.cs:239
+#: ../src/runType.cs:240
 msgid "Poor"
 msgstr "Slabo"
 
-#: ../src/runType.cs:241
-#: ../src/runType.cs:278
+#: ../src/runType.cs:242
+#: ../src/runType.cs:279
 msgid "Advantages"
 msgstr "Prednosti"
 
-#: ../src/runType.cs:242
+#: ../src/runType.cs:243
 msgid "This is a simple test to administer, requiring little equipment. Can test players ability to turn in different directions, and different angles."
 msgstr "To je enostaven test za izvajanje in zahteva malo opreme. S testom preverimo sposobnosti obračanja v različne smeri pod različnimi koti."
 
-#: ../src/runType.cs:244
+#: ../src/runType.cs:245
 msgid "Disadvantages"
 msgstr "Slabosti"
 
-#: ../src/runType.cs:245
+#: ../src/runType.cs:246
 msgid "Choice of footwear and surface of area can effect times greatly. Results can be subject to timing inconsistencies, which may be overcome by using timing gates. Cannot distinguish between left and right turning ability."
 msgstr "Izbor ustrezne obutve in površine tal za izvajanje testov, močno vplivata na izmerjene čase. Na rezultate vpliva nedoslednost merjenja, ki je mogoče izboljšati z uporabo časovnih vrstc. Ni mogoče ločiti med zmožnostjo obračanja levo in desno."
 
-#: ../src/runType.cs:247
-#: ../src/runType.cs:274
+#: ../src/runType.cs:248
+#: ../src/runType.cs:275
 msgid "Variations"
 msgstr "Odstopanja"
 
-#: ../src/runType.cs:248
+#: ../src/runType.cs:249
 msgid "The starting and finishing sides can be swapped, so that turning direction is changed."
 msgstr "Mesto začetka in konca je mogoče poljubno zamenjati, s čimer se zamenja tudi smer zavoja."
 
-#: ../src/runType.cs:260
+#: ../src/runType.cs:261
 msgid "Shuttle Run Agility test"
 msgstr "Shuttle Run test agilnosti"
 
-#: ../src/runType.cs:262
+#: ../src/runType.cs:263
 msgid "This test describes the procedures as used in the President's Challenge Fitness Awards. The variations listed give other ways to also perform this test."
 msgstr "Test je povzet po postopku testa 'President's Challenge Fitness Awards'. Našteta odstopanja kažejo na vzporedne načine izvajanja tega testa."
 
-#: ../src/runType.cs:265
+#: ../src/runType.cs:266
 msgid "This is a test of speed and agility, important in many sports."
 msgstr "To je test hitrosti in agilnosti, pomembnih pri veliko športih."
 
-#: ../src/runType.cs:268
+#: ../src/runType.cs:269
 msgid "This test requires the person to run back and forth between two parallel lines as fast as possible. Set up two lines of cones 30 feet apart or use line markings, and place two blocks of wood or a similar object behind one of the lines. Starting at the line opposite the blocks, on the signal 'Ready? Go!' the participant runs to the other line, picks up a block and returns to place it behind the starting line, then returns to pick up the second block, then runs with it back across the line."
 msgstr "Test zahteva, da testiranec teče naprej in nazaj med dvema vzporednima črtama kolikor hitro je to mogoče. Postaviti je treba dve vrsti stožcev na razdalji 30 čevljev in postaviti dva lesena predmeta za eno od črt. Testiranec začne na strani, kjer ni lesenih predmetov in ob ukazu 'Pojdi!' steče na drugo stran, pobere leseni predmet in ga prinese za začetno črto, se znova vrne in pobere drugi leseni predmet ter z njim steče nazaj čez začetno črto."
 
-#: ../src/runType.cs:272
+#: ../src/runType.cs:273
 msgid "Two or more trails may be performed, and the quickest time is recorded. Results are recorded to the nearest tenth of a second."
 msgstr "Priporočeno je izvesti več kot eno ponovitev testa in zabeležiti najhitrejši dosežen čas. Rezultate je priporočeno zaokrožiti na desetinko sekunde."
 
-#: ../src/runType.cs:274
-#: ../src/runType.cs:299
+#: ../src/runType.cs:275
+#: ../src/runType.cs:300
 msgid "Modifications"
 msgstr "Spremembe"
 
-#: ../src/runType.cs:275
+#: ../src/runType.cs:276
 msgid "The test procedure can be varied by changing the number of shuttles performed, the distance between turns (some use 10 meters rather than 30 feet) and by removing the need for the person pick up and return objects from the turning points."
 msgstr "Izvedbo testa je mogoče spremeniti s spremembo števila izvedenih Shuttle Run pretekov, razdaljo med obrati (nekateri namesto 30 čevljev uporabijo 10 metrov) in z odstranitvijo potrebe po pobiranju in vračanju predmetov s točk obračanja."
 
-#: ../src/runType.cs:279
+#: ../src/runType.cs:280
 msgid "This test can be conducted on large groups relatively quickly with minimal equipment required."
 msgstr "Test je mogoče hitro izvesti z večjimi skupinami z zelo malo zahtevane opreme."
 
-#: ../src/runType.cs:282
+#: ../src/runType.cs:283
 msgid "The blocks should be placed at the line, not thrown across them. Also make sure the participants run through the finish line to maximize their score."
 msgstr "Lesene predmete je treba položiti na črto in ne vreči čez njo. Prav tako je treba spodbujati merjence, da skozi ciljno črto tečejo za čim boljši rezultat."
 
-#: ../src/runType.cs:294
+#: ../src/runType.cs:295
 msgid "ZigZag Agility test"
 msgstr "Test agilnosti Cik-Cak"
 
-#: ../src/runType.cs:297
+#: ../src/runType.cs:298
 msgid "Similar to the Shuttle Run test, this test requires the athlete to run a course in the shortest possible time. A standard zig zag course is with four cones placed on the corners of a rectangle 10 by 16 feet, with one more cone placed in the centre. If the cones are labelled 1 to 4 around the rectangle going along the longer side first, and the centre cone is C, the test begins at 1, then to C, 2, 3, C, 4, then back to 1."
 msgstr "Podobno kot Shuttle Run test, ta test zahteva pretek razdalje v najkrajšem možnem času. Običajna cik-cak proga je postavljena s štirimi stožci, postavljenimi na kotih pravokotnega območja, ki meri 10 (9,1 m) krat 16 (14,6 m) čevljev z dodatnim stožcem na sredini. V primeru, da so stožci označeni od 1 do 4 okoli pravokotnika, pri čemer gredo najprej po daljši stranici in je središčni stožec C, se test začne pri 1, nato na C, 2, 3, C, 4 in nazaj na 1."
 
-#: ../src/runType.cs:300
+#: ../src/runType.cs:301
 msgid "This test procedure can be modified by changing the distance between cones, and the number of circuits performed."
 msgstr "Test je mogoče prilagoditi s spremembo razdalje med stožci in številom krogov teka."
 
-#: ../src/runType.cs:303
+#: ../src/runType.cs:304
 msgid "The total distance run should not be too great so that fatigue does not become a factor."
 msgstr "Skupna dolžina teka ne sme biti prevelika, da utrujenost ne postane dejavnik pri merjenju."
 
-#: ../src/runType.cs:315
+#: ../src/runType.cs:316
 msgid "Margaria-Kalamen"
 msgstr "Margaria-Kalamen test"
 
-#: ../src/runType.cs:324
+#: ../src/runType.cs:325
 msgid "Run n laps x distance"
 msgstr "Pretecite n krogov na razdalji x metrov"
 
-#: ../src/runType.cs:332
+#: ../src/runType.cs:333
 msgid "Make max laps in n seconds"
 msgstr "Pretecite čim več krogov v n sekundah"
 
-#: ../src/runType.cs:341
+#: ../src/runType.cs:342
 msgid "Continue running in n distance"
 msgstr "Nadaljujte s tekom na razdalji n metrov"
 
-#: ../src/runType.cs:349
+#: ../src/runType.cs:350
 msgid "Run 10 times a 20m distance"
 msgstr "Pretecite 10 krat razdaljo 20 metrov"
 
-#: ../src/runType.cs:357
+#: ../src/runType.cs:358
 msgid "Make max laps in 30 seconds"
 msgstr "Pretecite čim več krogov v 30 sekundah"
 
-#: ../src/runType.cs:366
+#: ../src/runType.cs:367
 msgid "Continue running in 20m distance"
 msgstr "Nadaljujte s tekom na 20 metrov"
 
-#: ../src/runType.cs:375
+#: ../src/runType.cs:376
 msgid "Modified time Getup and Go test"
 msgstr "Spremenjen čas testa Vstani in steci"
 
 #. this intervallic run has different distance for each track
-#: ../src/runType.cs:378
+#: ../src/runType.cs:379
 msgid "The instructions given to perform the test were as follows: \"Sit down with your back resting on the back of the chair and with your two arms resting on your legs. When you hear the word 'go', stand up without using your arms, kick the ball in front of you as hard as you possibly can, using the instep of the foot you feel the safest. Then walk at your normal pace while counting backwards from 15 to 0 out loud. Turn around back the cone, without touching it, and go back to your seat, stepping into the circles, trying not to touch any of them. Finally, sit down again, trying not to use your arms\"."
 msgstr "Navodila za izvedbo testa so: \"Sedite tako, da ste s hrbtom naslonjeni na hrbtišče stola in imate roke položene na nogah. Ko zaslišite besedo 'pojdi', vstanite brez uporabe rok, brcnite žogo kolikor močno jo lahko z notranjo stranjo stopala. Nadaljujte s hojo z običajno hitrostjo in medtem glasno odštevajte od števila 15 do 0. Obkrožite stožec brez dotikanja in pojdite nazaj do svojega stola s stopanjem v obroče. Poskusite se izogniti dotikanju obročev. Na koncu se poskusite ponovno usesti brez uporabe rok\"."
 
-#: ../src/runType.cs:380
+#: ../src/runType.cs:381
 msgid "The stopwatches were activated on the word 'go' and the button that saved the time intervals was pressed also after the following stages: when the subject stood up and kicked the ball; when the ball passed the 8 m line; and when the subject returned to the seated position in the same chair (42 cm height from the seat to the ground). The total time needed to perform the test provided a quantitative evaluation of performance. A qualitative evaluation was performed by the completion of an AQ. This AQ assesses 6 items with a Likert scale from 0 to 3, where 0 is the equivalent to needing help in order to perform the task, and 3 is equivalent to performing the task unaided with no mistakes. The maximum points that can be attained are 18. The items assessed were: (1) standing up from the chair, (2) kicking the ball, (3) walking whilst counting backwards from 15 to 0, (4) walking around the cone, (5) walking whilst stepping into the circles, and (6) sitting back down again."
 msgstr "Časomeri so bili zagnani ob ukazu 'pojdi', gumb, ki shrani časovne razmike pa je bil pritisnjen tudi po naslednjih korakih: ko merjenec vstane in brcne žogo; ko žoga prečka črto na 8 metrih; in ko se merjenec vrne v sedeč položaj na istem stolu (sedišče je 42 cm od tal). Skupni čas za izvedbo testa zagotovi kvantitativno oceno zmogljivosti. Kvalitativna ocena je bila izvedena z izpolnitvijo ocenjevalnega vprašalnika. Ta vprašalnik oceni 6 postavk z Likertovo lestvico od 0 do 3, kjer 0 ustreza potrebi po pomoči za izvedbo naloge in 3 ustreza izvedbi naloge brez pomoči in brez napak. Največje število možnih dobljenih točk je 18. Ocenjene postavke so: (1) vstajanje s stola, (2) brcanje žoge, (3) hoja med štetjem nazaj od 15 do 0, (4) hoja okoli stožcev, (5) hoja med stopanjem v obroče in (6) ponovno usedanje."
 
-#: ../src/runType.cs:381
+#: ../src/runType.cs:382
 msgid "Assessment questionnaire"
 msgstr "Ocenjevalni vprašalnik"
 
-#: ../src/runType.cs:382
+#: ../src/runType.cs:383
 msgid "Once the test finishes proceed to edit and you will be able to complete the assesment questionnaire."
 msgstr "Po koncu testa nadaljujte z urejanjem in mogoče bo dokončati ocenjevalni vprašalnik."
 
-#: ../src/runType.cs:386
+#: ../src/runType.cs:387
 msgid "Abstract:"
 msgstr "Povzetek:"
 
@@ -7358,33 +7375,3 @@ msgstr "Razlika"
 msgid "Runner"
 msgstr "Tekač"
 
-#~ msgid "condition"
-#~ msgstr "pogoj"
-
-#~ msgid "action"
-#~ msgstr "dejanje"
-
-#~ msgid "Conditions in repetive test"
-#~ msgstr "Pogoji repetitivnega testa"
-
-#~ msgid "<b>persons</b>"
-#~ msgstr "<b>testiranci</b>"
-
-#~ msgid "<b>Main options</b>"
-#~ msgstr "<b>Glavne možnosti</b>"
-
-#~ msgid "Encoder stuff"
-#~ msgstr "Nastavitve kodirnika"
-
-#~ msgid "Work in progress"
-#~ msgstr "Delo v teku"
-
-#~ msgid ""
-#~ "Simulated tests will be discarded.\n"
-#~ "Evaluator can use real name or nickname."
-#~ msgstr ""
-#~ "Simulirani testi bodo zavrženi.\n"
-#~ "Ocenjevalec mora uporabiti pravo ime ali naziv."
-
-#~ msgid "Typical serial serial ports on GNU/Linux:"
-#~ msgstr "Običajna zaporedna vrata na GNU/Linux:"

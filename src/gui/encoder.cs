@@ -519,7 +519,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PeakPowerT,8,0),Convert.ToInt32(curve.PeakPowerT));
+			String.Format(UtilGtk.TVNumPrint(curve.Width,8,3),Convert.ToDouble(curve.PeakPowerT)/1000); //ms->s
 	}
 
 	/* end of rendering cols */

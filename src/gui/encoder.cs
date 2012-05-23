@@ -439,8 +439,18 @@ public partial class ChronoJumpWindow
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
+		if(radiobutton_encoder_concentric.Active)
+			(cell as Gtk.CellRendererText).Text = 
+				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
+		else {
+			string phase = "e";
+			bool isEven = (Convert.ToInt32(curve.N) % 2 == 0); //check if it's even (in spanish "par")
+			if(isEven)
+				phase = "c";
+				
+			(cell as Gtk.CellRendererText).Text = 
+				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
+		}
 	}
 	private void RenderWidth (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{

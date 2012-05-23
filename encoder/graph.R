@@ -47,7 +47,7 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 			} 
 			i=i+1; j=j+1
 		}
-	} else { #ec-con, and ec-con-rep
+	} else { #ec, and ec-rep
 		row=1; i=1; j=2
 		while(j <= length(b$maxindex[,1])) {
 			tempStart = mean(c(b$maxindex[i,1],b$maxindex[i,2]))
@@ -56,11 +56,23 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 			mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
 			height=mintop-bottom
 			if(height >= min_height) { 
-				start[row] = tempStart
-				end[row]   = tempEnd
-				startH[row] = a[b$maxindex[i,1]]		#height at start
-				row=row+1
-				i=j
+				if(eccon == "ecS") {
+					start[row] = tempStart
+					end[row]   = mean(which(a[tempStart:tempEnd] == bottom) + tempStart)
+					startH[row] = a[b$maxindex[i,1]]		#height at start
+					row=row+1
+					start[row] = end[row-1] + 1
+					end[row]   = tempEnd
+					startH[row] = a[start[row]]		#height at start
+					row=row+1
+					i=j
+				} else {
+					start[row] = tempStart
+					end[row]   = tempEnd
+					startH[row] = a[b$maxindex[i,1]]		#height at start
+					row=row+1
+					i=j
+				}
 			} else {
 				if(a[tempEnd] >= a[tempStart]) {
 					i=j
@@ -136,7 +148,7 @@ kinematicRanges <- function(rawdata,curves,mass,g) {
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothing, mass, title, draw, labels, axesAndTitle, legend) {
-	#eccons ec-con and ec-con-rep is the same here (only show one curve)
+	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
 	rawdata=rawdata[xmin:xmax]
@@ -205,7 +217,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	eccentric=0
 	if(eccon=="c") {
 		concentric=1:length(a)
-	} else {	#"ec-con", "ec-con-rep"
+	} else {	#"ec", "ec-rep"
 		crossSpeedInMiddle = b$cross[,1]
 		crossDownToUp=0
 		count=1
@@ -269,7 +281,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
-		if(eccon=="ec-con") {
+		if(eccon=="ec") {
 			landing = min(which(force>=weight))
 			abline(v=landing,lty=1,col=cols[2]) 
 			mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
@@ -354,8 +366,9 @@ find.mfrow <- function(n) {
 	else return(c(3, ceiling(n/3)))
 }
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
-#currently only used "c" and "ec-con". no need of ec-con-rep because c and ec-con are repetitive
-eccons=c("c","ec-con","ec-con-rep") 
+#currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
+#"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
+eccons=c("c","ec","ec-rep","ecS") 
 
 g = 9.81
 smoothingAll= 0.1
@@ -405,6 +418,10 @@ if(length(args) < 3) {
 	
 	curvesPlot = FALSE
 	if(analysis=="curves") {
+		#on curves ec, show eccentric-concentric phases separately
+		if(eccon=="ec") {
+			eccon="ecS"
+		}
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,1,1))
 	}
@@ -430,8 +447,14 @@ if(length(args) < 3) {
 		#/10 mm -> cm
 		arrows(x0=curves[,1],y0=min(rawdata.cumsum)/10,x1=curves[,2],y1=min(rawdata.cumsum)/10,
 				col="blue",code=3,length=0.1)
-		for(i in 1:length(curves[,1])) 
-			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum)/10,labels=i, adj=c(0.5,0),cex=1,col="blue")
+		for(i in 1:length(curves[,1])) { 
+			myLabel = i
+			if(eccon=="ecS") {
+				myEc=c("c","e")
+				myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
+			}
+			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum)/10,labels=myLabel, adj=c(0.5,0),cex=1,col="blue")
+		}
 	}
 
 	print(curves)
@@ -454,7 +477,7 @@ if(length(args) < 3) {
 		}
 		par(mfrow=c(1,1))
 	}
-	if(analysis=="superpose") {	#TODO: fix on ec-con startH
+	if(analysis=="superpose") {	#TODO: fix on ec startH
 		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
 		#fer que acabin al mateix punt encara que no iniciin en el mateix
 		#arreglar que els eixos de l'esq han de seguir un ylim,pero els de la dreta un altre, basat en el que es vol observar
@@ -492,8 +515,8 @@ if(length(args) < 3) {
 		}
 	}
 	if(analysis=="others") {
-		#revisar amb ec-con
-		i=2; eccon="ec-con"
+		#revisar amb ec
+		i=2; eccon="ec"
 		curves=findCurves(rawdata, eccon, minHeight, TRUE)
 		paint(rawdata, eccon, curves[i,1],curves[i,2],"undefined","undefined",FALSE,FALSE,
 			1,curves[i,3],smoothingOne,mass,paste(titleType,jump),TRUE,TRUE,TRUE,TRUE)

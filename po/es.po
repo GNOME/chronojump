@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-14 08:38+0000\n"
-"PO-Revision-Date: 2012-05-14 11:25+0200\n"
+"POT-Creation-Date: 2012-05-23 10:08+0000\n"
+"PO-Revision-Date: 2012-05-23 14:18+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -886,8 +886,9 @@ msgid "<b>Peak power</b> (W)"
 msgstr "<b>Pico de potencia</b> (W)"
 
 #: ../glade/chronojump.glade.h:194
-msgid "<b>Power</b> (W)"
-msgstr "<b>Potencia</b> (W)"
+#| msgid "<b>Peak power</b> (W)"
+msgid "<b>Mean power</b> (W)"
+msgstr "<b>Pico de potencia</b> (W)"
 
 #: ../glade/chronojump.glade.h:195
 msgid "<b>Mean speed</b> (m/s)"
@@ -3541,7 +3542,6 @@ msgstr "Está FUERA, cuando esté preparado inicie la carrera!"
 
 #: ../src/execute/run.cs:704
 #, csharp-format
-#| msgid "Wait {0} seconds"
 msgid "Wait 1 second."
 msgid_plural "Wait {0} seconds."
 msgstr[0] "Espere 1 segundo"
@@ -4381,7 +4381,7 @@ msgstr "Pico de potencia"
 msgid "PeakPowerTime"
 msgstr "Duración del pico de potencia"
 
-#: ../src/gui/encoder.cs:546 ../src/gui/encoder.cs:555
+#: ../src/gui/encoder.cs:574 ../src/gui/encoder.cs:583
 msgid "Please, wait."
 msgstr "Espere."
 
@@ -7310,6 +7310,9 @@ msgstr "Diferencia"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Corredor"
+
+#~ msgid "<b>Power</b> (W)"
+#~ msgstr "<b>Potencia</b> (W)"
 
 #~ msgid "condition"
 #~ msgstr "Condición"

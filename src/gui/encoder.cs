@@ -418,7 +418,9 @@ public partial class ChronoJumpWindow
 		//more at System.Drawing.Color (Monodoc)
 		string colorGood= "ForestGreen"; 
 		string colorBad= "red";
-		string colorNothing= "black";
+		string colorNothing= "";	
+		//colorNothing will use default color on system, previous I used black,
+		//but if the color of the users theme is not 000000, then it looked too different
 
 		if(higherActive && found >= higherValue)
 			return colorGood;
@@ -443,19 +445,25 @@ public partial class ChronoJumpWindow
 	private void RenderWidth (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		double myWidth = Convert.ToDouble(curve.Width)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.Width,8,3),Convert.ToDouble(curve.Width)/1000); //ms->s
+			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),8,3),myWidth); 
 	}
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		string heightToCm = (Convert.ToDouble(curve.Height)/10).ToString();
-		(cell as Gtk.CellRendererText).Foreground = assignColor(
+		string myColor = assignColor(
 				Convert.ToDouble(heightToCm),
 				repetitiveConditionsWin.EncoderHeightHigher, 
 				repetitiveConditionsWin.EncoderHeightLower, 
 				repetitiveConditionsWin.EncoderHeightHigherValue,
 				repetitiveConditionsWin.EncoderHeightLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(heightToCm,8,1),Convert.ToDouble(heightToCm));
 	}
@@ -463,12 +471,17 @@ public partial class ChronoJumpWindow
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Foreground = assignColor(
+		string myColor = assignColor(
 				Convert.ToDouble(curve.MeanSpeed),
 				repetitiveConditionsWin.EncoderMeanSpeedHigher, 
 				repetitiveConditionsWin.EncoderMeanSpeedLower, 
 				repetitiveConditionsWin.EncoderMeanSpeedHigherValue,
 				repetitiveConditionsWin.EncoderMeanSpeedLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MeanSpeed));
@@ -477,12 +490,17 @@ public partial class ChronoJumpWindow
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Foreground = assignColor(
+		string myColor = assignColor(
 				Convert.ToDouble(curve.MaxSpeed),
 				repetitiveConditionsWin.EncoderMaxSpeedHigher, 
 				repetitiveConditionsWin.EncoderMaxSpeedLower, 
 				repetitiveConditionsWin.EncoderMaxSpeedHigherValue,
 				repetitiveConditionsWin.EncoderMaxSpeedLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MaxSpeed));
@@ -491,13 +509,17 @@ public partial class ChronoJumpWindow
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Foreground = assignColor(
+		string myColor = assignColor(
 				Convert.ToDouble(curve.MeanPower),
 				repetitiveConditionsWin.EncoderPowerHigher, 
 				repetitiveConditionsWin.EncoderPowerLower, 
 				repetitiveConditionsWin.EncoderPowerHigherValue,
 				repetitiveConditionsWin.EncoderPowerLowerValue);
-			
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,9,3),Convert.ToDouble(curve.MeanPower));
 	}
@@ -505,12 +527,17 @@ public partial class ChronoJumpWindow
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Foreground = assignColor(
+		string myColor = assignColor(
 				Convert.ToDouble(curve.PeakPower),
 				repetitiveConditionsWin.EncoderPeakPowerHigher, 
 				repetitiveConditionsWin.EncoderPeakPowerLower, 
 				repetitiveConditionsWin.EncoderPeakPowerHigherValue,
 				repetitiveConditionsWin.EncoderPeakPowerLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,9,3),Convert.ToDouble(curve.PeakPower));
 	}
@@ -518,8 +545,9 @@ public partial class ChronoJumpWindow
 	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		double myPPT = Convert.ToDouble(curve.PeakPowerT)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.Width,8,3),Convert.ToDouble(curve.PeakPowerT)/1000); //ms->s
+			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),8,3),myPPT);
 	}
 
 	/* end of rendering cols */

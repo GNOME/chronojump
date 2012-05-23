@@ -7666,7 +7666,7 @@ suitable for agility tests)</property>
                               <widget class="GtkLabel" id="label6">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Power&lt;/b&gt; (W)</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Mean power&lt;/b&gt; (W)</property>
                                 <property name="use_markup">True</property>
                               </widget>
                               <packing>
@@ -8116,7 +8116,7 @@ suitable for agility tests)</property>
                               <widget class="GtkLabel" id="label4">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Power&lt;/b&gt; (W)</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Mean power&lt;/b&gt; (W)</property>
                                 <property name="use_markup">True</property>
                               </widget>
                               <packing>

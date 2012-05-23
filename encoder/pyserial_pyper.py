@@ -198,7 +198,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		height = myR.get('range')
 		meanPower = myR.get('meanPower')
 		peakPower = myR.get('peakPower')
-		peakPowerT = myR.get('peakPowerT')
+		peakPowerT = myR.get('peakPowerT/1000') #ms -> s
 
 		meanSpeedCol = "%10.2f," % meanSpeed
 
@@ -234,7 +234,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 
 		if eccon == "ec" or direction_now == -1:
 			if height >= minHeight:
-				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%11i" % peakPowerT
+				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
 				if play:
 					playsound(soundFile)
 			else:

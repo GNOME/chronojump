@@ -190,8 +190,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_run_interval_mtgug;
 	[Widget] Gtk.Button button_reaction_time_execute;
 
-	
-	[Widget] Gtk.Box hbox_menu_sup_server;
 	[Widget] Gtk.Notebook notebook_execute;
 	[Widget] Gtk.Notebook notebook_results;
 	[Widget] Gtk.Notebook notebook_options;

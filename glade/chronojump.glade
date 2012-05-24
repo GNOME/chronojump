@@ -23772,11 +23772,9 @@ Anyone can check server stats and graphs and easily make querys to the server.</
                                                             <widget class="GtkHBox" id="hbox52">
                                                             <property name="visible">True</property>
                                                             <property name="spacing">4</property>
-                                                            <property name="homogeneous">True</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label61">
                                                             <property name="visible">True</property>
-                                                            <property name="xpad">8</property>
                                                             <property name="ypad">8</property>
                                                             <property name="label" translatable="yes">Privacy is respected:
 - Names, comments, photos and videos are not uploaded.

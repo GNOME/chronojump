@@ -350,8 +350,13 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 paintPowerPeakPowerBars <- function(paf) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
+	myNums = 1:length(paf[,1])
+	if(eccon=="ecS") {
+		myEc=c("c","e")
+		myNums = paste(trunc((myNums+1)/2),myEc[(myNums%%2)+1],sep="")
+	}
 	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=1:n,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
+			names.arg=myNums,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
 	par(new=T, xpd=T)
 	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
 	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)
@@ -419,9 +424,9 @@ if(length(args) < 3) {
 	curvesPlot = FALSE
 	if(analysis=="curves") {
 		#on curves ec, show eccentric-concentric phases separately
-		if(eccon=="ec") {
-			eccon="ecS"
-		}
+#		if(eccon=="ec") {
+#			eccon="ecS"
+#		}
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,1,1))
 	}

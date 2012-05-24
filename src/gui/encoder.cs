@@ -51,6 +51,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
+	[Widget] Gtk.Label label_encoder_analyze_eccon;
+	[Widget] Gtk.Box hbox_encoder_analyze_eccon;
+	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_both;
+	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
 	[Widget] Gtk.Label label_encoder_analyze_curve_num;
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
@@ -89,6 +93,16 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_capture_jump_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = false;
 		spin_encoder_jump_limit.Sensitive = true;
+	}
+
+	private void on_radiobutton_encoder_eccon_toggled (object obj, EventArgs args) {
+		if(radiobutton_encoder_concentric.Active) {
+			label_encoder_analyze_eccon.Sensitive=false;
+			hbox_encoder_analyze_eccon.Sensitive=false;
+		} else if(radiobutton_encoder_analyze_powerbars.Active) {
+			label_encoder_analyze_eccon.Sensitive=true;
+			hbox_encoder_analyze_eccon.Sensitive=true;
+		}
 	}
 
 	//TODO: garantir path windows	
@@ -136,7 +150,7 @@ public partial class ChronoJumpWindow
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(true),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
-				findEccon(),
+				findEccon(true),					//force ecS (ecc-conc separated)
 				heightHigherCondition, heightLowerCondition,
 				meanSpeedHigherCondition, meanSpeedLowerCondition,
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
@@ -171,6 +185,8 @@ public partial class ChronoJumpWindow
 		} else {
 			removeColumns();
 			int curvesNum = createTreeViewEncoder(contents);
+			if(! radiobutton_encoder_concentric.Active)
+				curvesNum = curvesNum / 2;
 			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
 			button_encoder_analyze.Sensitive = true;
 		}
@@ -190,7 +206,8 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(true),
-				findEccon(), "curves",
+				findEccon(true),					//force ecS (ecc-conc separated)
+				"curves",
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height); 
@@ -231,7 +248,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderSessionDataDir(currentSession.UniqueID),	//url
 				(! radiobutton_encoder_capture_bar.Active).ToString(),
 				findMass(false), //when save on sql, do not include person weight
-				findEccon(),
+				findEccon(true),					//force ecS (ecc-conc separated)
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
 				(double) spin_encoder_smooth.Value,
@@ -258,7 +275,8 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				!radiobutton_encoder_capture_bar.Active,
 				findMass(true),
-				findEccon(), encoderAnalysis,
+				findEccon(false),		//do not force ecS (ecc-conc separated)
+				encoderAnalysis,
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				(int) spin_encoder_analyze_curve_num.Value, 
 				image_encoder_width, image_encoder_height); 
@@ -278,22 +296,39 @@ public partial class ChronoJumpWindow
 		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="single";
+		//together, mandatory
+		label_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Sensitive=false;
+		radiobutton_encoder_eccon_together.Active = true;
 	}
 
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="superpose";
+		//together, mandatory
+		label_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Sensitive=false;
+		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="side";
+		//together, mandatory
+		label_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Sensitive=false;
+		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="powerBars";
+		//can select together or separated
+		if(! radiobutton_encoder_concentric.Active) {
+			label_encoder_analyze_eccon.Sensitive=true;
+			hbox_encoder_analyze_eccon.Sensitive=true;
+		}
 	}
 
 	private string findMass(bool includePerson) {
@@ -309,13 +344,17 @@ public partial class ChronoJumpWindow
 		return Util.ConvertToPoint(mass); //R decimal: '.'
 	}
 	
-	private string findEccon() {	
+	private string findEccon(bool ecconSeparated) {	
 		if(radiobutton_encoder_concentric.Active)
 			return "c";
-		else
-			return "ec";
+		else {
+			if(ecconSeparated || ! radiobutton_encoder_eccon_together.Active)
+				return "ecS";
+			else 
+				return "ec";
+		}
 	}
-	
+
 
 	/* TreeView stuff */	
 

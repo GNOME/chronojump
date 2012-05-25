@@ -887,7 +887,7 @@ msgstr "<b>Pico de potencia</b> (W)"
 
 #: ../glade/chronojump.glade.h:194
 msgid "<b>Mean power</b> (W)"
-msgstr "<b>Pico de potencia</b> (W)"
+msgstr "<b>Potencia media</b> (W)"
 
 #: ../glade/chronojump.glade.h:195
 msgid "<b>Mean speed</b> (m/s)"
@@ -4391,12 +4391,12 @@ msgstr "Pico de potencia"
 
 #: ../src/gui/encoder.cs:381
 msgid "PeakPowerTime"
-msgstr "Duración del pico de potencia"
+msgstr "Instante del pico de potencia"
 
 #: ../src/gui/encoder.cs:382
 #| msgid "PeakPower"
 msgid "PeakPower/PPT"
-msgstr "Pico de potencia/PPT"
+msgstr "Pico de potencia/Instante"
 
 #: ../src/gui/encoder.cs:645 ../src/gui/encoder.cs:654
 msgid "Please, wait."

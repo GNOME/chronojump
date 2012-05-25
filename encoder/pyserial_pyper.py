@@ -199,6 +199,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		meanPower = myR.get('meanPower')
 		peakPower = myR.get('peakPower')
 		peakPowerT = myR.get('peakPowerT/1000') #ms -> s
+		pp_ppt = peakPower / peakPowerT
 
 		meanSpeedCol = "%10.2f," % meanSpeed
 
@@ -234,7 +235,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 
 		if eccon == "ec" or direction_now == -1:
 			if height >= minHeight:
-				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
+				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT  + "%10.2f" % pp_ppt 
 				if play:
 					playsound(soundFile)
 			else:
@@ -301,7 +302,7 @@ if __name__ == '__main__':
 
 	print("START!\n")
 	playsound(soundFileStart)
-	print("phase, range, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT")
+	print("phase, range, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT, peakPower/ppt")
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()

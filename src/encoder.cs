@@ -142,7 +142,7 @@ public class EncoderStruct
 public class EncoderCurve
 {
 	public EncoderCurve (string n, string width, string height, string meanSpeed, string maxSpeed, 
-			string meanPower, string peakPower, string peakPowerT)
+			string meanPower, string peakPower, string peakPowerT, string PP_PPT)
 	{
 		this.N = n;
 		this.Width = width;
@@ -152,6 +152,7 @@ public class EncoderCurve
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
+		this.PP_PPT = PP_PPT;	//PeakPower / PeakPowerTime
 	}
 
 	public string N;
@@ -162,5 +163,6 @@ public class EncoderCurve
 	public string MeanPower;
 	public string PeakPower;
 	public string PeakPowerT;
+	public string PP_PPT;
 }
 

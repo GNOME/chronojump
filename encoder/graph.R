@@ -125,7 +125,8 @@ powerBars <- function(kinematics) {
 	meanPower <- mean(abs(kinematics$power))
 	peakPower <- max(kinematics$power)
 	peakPowerT <- min(which(kinematics$power == peakPower))
-	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT))
+	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
+	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt))
 }
 
 kinematicRanges <- function(rawdata,curves,mass,g) {
@@ -423,10 +424,6 @@ if(length(args) < 3) {
 	
 	curvesPlot = FALSE
 	if(analysis=="curves") {
-		#on curves ec, show eccentric-concentric phases separately
-#		if(eccon=="ec") {
-#			eccon="ecS"
-#		}
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,1,1))
 	}
@@ -515,7 +512,8 @@ if(length(args) < 3) {
 		} 
 		if(analysis=="curves") {
 			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
-			colnames(paf)=c("width","height","meanSpeed","maxSpeed","meanPower","peakPower","peakPowerT")
+			colnames(paf)=c("width","height","meanSpeed","maxSpeed",
+				"meanPower","peakPower","peakPowerT","pp_ppt")
 			write.csv(paf, outputData1, quote=FALSE)
 		}
 	}

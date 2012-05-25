@@ -221,18 +221,32 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es,false);
 	}
 		
+	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
+	{
+		Log.WriteLine("TODO: Load stream");
+	}
 
-	void on_button_encoder_save_clicked (object o, EventArgs args) 
+	void on_button_encoder_delete_selected_clicked (object o, EventArgs args) 
+	{
+		Log.WriteLine("TODO: Delete selected");
+	}
+
+	void on_button_encoder_save_selected_clicked (object o, EventArgs args) 
+	{
+		Log.WriteLine("TODO: Save selected");
+	}
+
+	void on_button_encoder_save_stream_clicked (object o, EventArgs args) 
 	{
 		genericWinForEncoder = GenericWindow.Show(Catalog.GetString("Add an optional description"), Constants.GenericWindowShow.TEXTVIEW);
 		genericWinForEncoder.SetTextview("");
 		genericWinForEncoder.SetButtonAcceptLabel(Catalog.GetString("Save"));
 
-		genericWinForEncoder.Button_accept.Clicked += new EventHandler(on_save_description_add_accepted);
+		genericWinForEncoder.Button_accept.Clicked += new EventHandler(on_save_stream_description_add_accepted);
 	}
 	
-	private void on_save_description_add_accepted (object o, EventArgs args) {
-		genericWinForEncoder.Button_accept.Clicked -= new EventHandler(on_save_description_add_accepted);
+	private void on_save_stream_description_add_accepted (object o, EventArgs args) {
+		genericWinForEncoder.Button_accept.Clicked -= new EventHandler(on_save_stream_description_add_accepted);
 		string desc = genericWinForEncoder.TextviewSelected;
 		
 		Log.WriteLine(desc);
@@ -257,10 +271,6 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_capture.Text = Catalog.GetString("Saved.");
 	}
 
-	void on_button_encoder_load_clicked (object o, EventArgs args) 
-	{
-	}
-	
 
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
@@ -362,13 +372,14 @@ public partial class ChronoJumpWindow
 	private int createTreeViewEncoder(string contents) {
 		string [] columnsString = {
 			"n",
-			Catalog.GetString("Duration") + " (s)",
-			Catalog.GetString("Height") + " (cm)",
-			Catalog.GetString("MeanSpeed") + " (m/s)",
-			Catalog.GetString("MaxSpeed") + " (m/s)", //duration (s): width
-			Catalog.GetString("MeanPower") + " (W)",
-			Catalog.GetString("PeakPower") + " (W)",
-			Catalog.GetString("PeakPowerTime") + " (s)"
+			Catalog.GetString("Duration") + "\n (s)",
+			Catalog.GetString("Height") + "\n (cm)",
+			Catalog.GetString("MeanSpeed") + "\n (m/s)",
+			Catalog.GetString("MaxSpeed") + "\n (m/s)", //duration (s): width
+			Catalog.GetString("MeanPower") + "\n (W)",
+			Catalog.GetString("PeakPower") + "\n (W)",
+			Catalog.GetString("PeakPowerTime") + "\n (s)",
+			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
 		};
 
 
@@ -392,7 +403,7 @@ public partial class ChronoJumpWindow
 				//iter = encoderStore.AppendValues(cells);
 
 				encoderCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
-							cells[3], cells[4], cells[5], cells[6],cells[7]));
+							cells[3], cells[4], cells[5], cells[6], cells[7], cells[8]));
 
 			} while(true);
 		}
@@ -440,6 +451,9 @@ public partial class ChronoJumpWindow
 					break;
 				case 7:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 8:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
 			
@@ -496,7 +510,7 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myWidth = Convert.ToDouble(curve.Width)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),8,3),myWidth); 
+			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),6,3),myWidth); 
 	}
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -514,7 +528,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(heightToCm,8,1),Convert.ToDouble(heightToCm));
+			String.Format(UtilGtk.TVNumPrint(heightToCm,6,1),Convert.ToDouble(heightToCm));
 	}
 	
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -533,7 +547,7 @@ public partial class ChronoJumpWindow
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MeanSpeed));
+			String.Format("{0,10:0.000}",Convert.ToDouble(curve.MeanSpeed));
 	}
 
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -552,7 +566,7 @@ public partial class ChronoJumpWindow
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,12:0.000}",Convert.ToDouble(curve.MaxSpeed));
+			String.Format("{0,10:0.000}",Convert.ToDouble(curve.MaxSpeed));
 	}
 	
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -596,7 +610,14 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myPPT = Convert.ToDouble(curve.PeakPowerT)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),8,3),myPPT);
+			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),7,3),myPPT);
+	}
+
+	private void RenderPP_PPT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),curve.PP_PPT);
 	}
 
 	/* end of rendering cols */
@@ -605,8 +626,9 @@ public partial class ChronoJumpWindow
 	private string [] fixDecimals(string [] cells) {
 		for(int i=1; i <= 2; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
-		for(int i=3; i <= 6; i++)
+		for(int i=3; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+		cells[8] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[8])),1); //pp/ppt
 		return cells;
 	}
 	

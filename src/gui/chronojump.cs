@@ -726,7 +726,6 @@ public partial class ChronoJumpWindow
 		
 		//encoder
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
-		image_encoder_capture_zoom.Pixbuf = pixbuf;
 		image_encoder_analyze_zoom.Pixbuf = pixbuf;
 	}
 

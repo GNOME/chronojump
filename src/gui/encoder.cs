@@ -75,6 +75,7 @@ public partial class ChronoJumpWindow
 	int image_encoder_height;
 
 	private string encoderAnalysis="powerBars";
+	private string ecconLast;
 	enum encoderModes { CAPTURE, ANALYZE }
 	
 	GenericWindow genericWinForEncoder;
@@ -228,6 +229,10 @@ public partial class ChronoJumpWindow
 				"NULL", ep);
 		
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es,false);
+
+		//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
+		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
+		ecconLast = findEccon(false);
 	}
 		
 	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
@@ -506,7 +511,7 @@ public partial class ChronoJumpWindow
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		if(radiobutton_encoder_concentric.Active)
+		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
 		else {

@@ -449,8 +449,7 @@ if(length(args) < 3) {
 	}
 
 	for(i in 1:n) { 
-#		if(eccon=="c") 
-			curves[i,1]=reduceCurveBySpeed(eccon, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
+		curves[i,1]=reduceCurveBySpeed(eccon, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
 	}
 	if(curvesPlot) {
 		#/10 mm -> cm
@@ -520,8 +519,8 @@ if(length(args) < 3) {
 			paintPowerPeakPowerBars(paf)
 		} 
 		if(analysis=="curves") {
-			paf=cbind(curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
-			colnames(paf)=c("width","height","meanSpeed","maxSpeed",
+			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
 				"meanPower","peakPower","peakPowerT","pp_ppt")
 			write.csv(paf, outputData1, quote=FALSE)
 		}

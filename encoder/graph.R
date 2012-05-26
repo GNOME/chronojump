@@ -94,14 +94,19 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 #based on findPics2BySpeed
 #only used in eccon "c"
 #if this changes, change also in python capture file
-reduceCurveBySpeed <- function(startT, rawdata, smoothing) {
+reduceCurveBySpeed <- function(eccon, startT, rawdata, smoothing) {
 	a=rawdata
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	b=extrema(speed$y)
 
 	#find the b$cross at left of max speed
 	x.ini=1
-	maxSpeedT <- min(which(speed$y == max(speed$y)))
+	
+	searchValue = max(speed$y)
+	if(eccon != "c")
+		searchValue = min(speed$y)
+
+	maxSpeedT <- min(which(speed$y == searchValue))
 	for(i in b$cross[,2]) 		{ if(i < maxSpeedT) { x.ini = i } } #left adjust
 
 	return(startT+x.ini)
@@ -444,20 +449,22 @@ if(length(args) < 3) {
 	}
 
 	for(i in 1:n) { 
-		if(eccon=="c") 
-			curves[i,1]=reduceCurveBySpeed(curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingAll)
+#		if(eccon=="c") 
+			curves[i,1]=reduceCurveBySpeed(eccon, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
 	}
 	if(curvesPlot) {
 		#/10 mm -> cm
-		arrows(x0=curves[,1],y0=min(rawdata.cumsum)/10,x1=curves[,2],y1=min(rawdata.cumsum)/10,
-				col="blue",code=3,length=0.1)
 		for(i in 1:length(curves[,1])) { 
 			myLabel = i
+			myY = min(rawdata.cumsum)/10
 			if(eccon=="ecS") {
 				myEc=c("c","e")
 				myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
+				myY = rawdata.cumsum[curves[i,1]]/10
 			}
-			text(x=(curves[i,1]+curves[i,2])/2,y=min(rawdata.cumsum)/10,labels=myLabel, adj=c(0.5,0),cex=1,col="blue")
+			text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,0),cex=1,col="blue")
+			arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
+					col="blue",code=3,length=0.1)
 		}
 	}
 

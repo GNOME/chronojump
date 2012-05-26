@@ -45,6 +45,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
+	[Widget] Gtk.Button button_encoder_delete_selected;
+	[Widget] Gtk.Button button_encoder_save_selected;
+	[Widget] Gtk.Button button_encoder_save_stream;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
@@ -76,16 +79,22 @@ public partial class ChronoJumpWindow
 	
 	GenericWindow genericWinForEncoder;
 	
-
-	//TODO: improve message if chronopic is not connected
-
 	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
 	
-	//TODO: in ec, curves and powerBars have to be different on ec than on c
-	
+	private void encoderInitializeVariables() {
+		encoder_pulsebar_capture.Fraction = 1;
+		encoder_pulsebar_capture.Text = "";
+		encoder_pulsebar_analyze.Fraction = 1;
+		encoder_pulsebar_analyze.Text = "";
+		
+		//the glade cursor_changed does not work on mono 1.2.5 windows
+		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
+		sensitiveEncoderRowButtons(false);
+	}
+
 	private void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
 		spin_encoder_bar_limit.Sensitive = true;
 		spin_encoder_jump_limit.Sensitive = false;
@@ -372,6 +381,7 @@ public partial class ChronoJumpWindow
 	private int createTreeViewEncoder(string contents) {
 		string [] columnsString = {
 			"n",
+			Catalog.GetString("Start") + "\n (s)",
 			Catalog.GetString("Duration") + "\n (s)",
 			Catalog.GetString("Height") + "\n (cm)",
 			Catalog.GetString("MeanSpeed") + "\n (m/s)",
@@ -403,7 +413,8 @@ public partial class ChronoJumpWindow
 				//iter = encoderStore.AppendValues(cells);
 
 				encoderCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
-							cells[3], cells[4], cells[5], cells[6], cells[7], cells[8]));
+							cells[3], cells[4], cells[5], cells[6], 
+							cells[7], cells[8], cells[9]));
 
 			} while(true);
 		}
@@ -432,27 +443,30 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderN));
 					break;
 				case 1:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWidth));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 2:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWidth));
 					break;
 				case 3:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 4:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 5:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 8:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 9:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -505,12 +519,19 @@ public partial class ChronoJumpWindow
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
 	}
+	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		double myStart = Convert.ToDouble(curve.Start)/1000; //ms->s
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(myStart.ToString(),6,3),myStart); 
+	}
 	private void RenderWidth (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myWidth = Convert.ToDouble(curve.Width)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),6,3),myWidth); 
+			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),5,3),myWidth); 
 	}
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -528,7 +549,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(heightToCm,6,1),Convert.ToDouble(heightToCm));
+			String.Format(UtilGtk.TVNumPrint(heightToCm,5,1),Convert.ToDouble(heightToCm));
 	}
 	
 	private void RenderMeanSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -624,12 +645,36 @@ public partial class ChronoJumpWindow
 	
 	
 	private string [] fixDecimals(string [] cells) {
-		for(int i=1; i <= 2; i++)
+		for(int i=1; i <= 3; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
-		for(int i=3; i <= 7; i++)
+		for(int i=4; i <= 8; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
-		cells[8] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[8])),1); //pp/ppt
+		cells[9] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[8])),1); //pp/ppt
 		return cells;
+	}
+	
+	private int treeviewEncoderCurvesEventSelectedID() {
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview_encoder_curves.Model;
+		if (treeview_encoder_curves.Selection.GetSelected (out myModel, out iter)) 
+			return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N);
+			//this return an int, also in ec
+		else 
+			return 0;
+	}
+	
+	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) {
+		if (treeviewEncoderCurvesEventSelectedID() == 0)
+			sensitiveEncoderRowButtons(false);
+		else {
+			sensitiveEncoderRowButtons(true);
+			Log.WriteLine(treeviewEncoderCurvesEventSelectedID().ToString());
+		}
+	}
+
+	private void sensitiveEncoderRowButtons(bool sensitive) {
+		button_encoder_delete_selected.Sensitive = sensitive;
+		button_encoder_save_selected.Sensitive = sensitive;
 	}
 	
 	/* end of TreeView stuff */	
@@ -662,6 +707,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive) {
 			finishPulsebar(encoderModes.CAPTURE);
+			sensitiveEncoderRowButtons(false);
 			Log.Write("dying");
 			return false;
 		}
@@ -675,6 +721,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive) {
 			finishPulsebar(encoderModes.ANALYZE);
+			sensitiveEncoderRowButtons(false);
 			Log.Write("dying");
 			return false;
 		}

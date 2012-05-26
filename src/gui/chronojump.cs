@@ -495,11 +495,8 @@ public partial class ChronoJumpWindow
 		stats_win_create();
 		createdStatsWin = true;
 		//stats_win_initializeSession();
-	
-		encoder_pulsebar_capture.Fraction = 1;
-		encoder_pulsebar_capture.Text = "";
-		encoder_pulsebar_analyze.Fraction = 1;
-		encoder_pulsebar_analyze.Text = "";
+
+		encoderInitializeVariables();	
 	}
 	
 

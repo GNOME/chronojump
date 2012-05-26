@@ -654,7 +654,7 @@ public partial class ChronoJumpWindow
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		for(int i=4; i <= 8; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
-		cells[9] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[8])),1); //pp/ppt
+		cells[9] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[9])),1); //pp/ppt
 		return cells;
 	}
 	

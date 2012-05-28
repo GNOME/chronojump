@@ -1005,6 +1005,51 @@ public class Util
 		}
 	}
 
+	public static void EncoderDeleteRow(string fileName, int start, int duration) {
+		string contents = ReadFile(fileName);
+		int startPos = 0;
+		int durationPos = 0;
+		int i,digits;
+		for(i=0, digits=0; i < contents.Length; i++) {
+			if(Char.IsDigit(contents[i])) {
+				digits ++;
+				if(digits==start) {
+					startPos = i;
+					//but digit can be negative, check previous char if it was a '-'
+					if(contents[i-1] == '-')
+						startPos = i-1;
+					//duration == -1 means: until the end
+					if(duration == -1) {
+						//when removing from startPos until the end,
+						//the ',' before startPos will be in the end of the file
+						//and then chronojump will try to read after that comma
+						//because it reads in a Split (',')
+						//for this reason we need to start removing that comma if exists
+						if(contents[startPos-1] == ',')
+							startPos --;
+						
+						durationPos = contents.Length - startPos;
+						break;
+					}
+				}
+				if(startPos > 0 && digits == start + duration) 
+					durationPos = i-startPos;
+			}
+		}
+		Log.WriteLine("s "+ startPos.ToString());
+		Log.WriteLine("d "+ durationPos.ToString());
+		Log.WriteLine("i " + i.ToString());
+
+		StringBuilder myStringBuilder = new StringBuilder(contents);
+		myStringBuilder.Remove(startPos, durationPos);
+		contents = myStringBuilder.ToString();
+		
+		TextWriter writer = File.CreateText(fileName);
+		writer.Write(contents);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+	}
+
 
 
 /*

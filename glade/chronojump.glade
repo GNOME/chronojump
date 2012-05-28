@@ -24475,6 +24475,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="pulse_step">0.10000000149</property>
                                               </widget>
                                               <packing>
+                                                <property name="expand">False</property>
                                                 <property name="fill">False</property>
                                                 <property name="position">2</property>
                                               </packing>
@@ -24563,7 +24564,7 @@ Evaluator can use real name or nickname.</property>
                                             <property name="spacing">20</property>
                                             <child>
                                               <widget class="GtkButton" id="button_encoder_delete_selected">
-                                                <property name="label">Delete selected row</property>
+                                                <property name="label">Delete selected</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
@@ -24581,7 +24582,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="spacing">12</property>
                                                 <child>
                                                   <widget class="GtkButton" id="button_encoder_save_selected">
-                                                    <property name="label">Save selected row</property>
+                                                    <property name="label">Save selected</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>

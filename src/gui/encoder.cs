@@ -35,6 +35,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
+	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Label label_encoder_person_weight;
 	[Widget] Gtk.RadioButton radiobutton_encoder_concentric;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_bar;
@@ -80,7 +81,7 @@ public partial class ChronoJumpWindow
 	
 	GenericWindow genericWinForEncoder;
 	
-	//TODO: store encoder data: auto save, and show on a treeview. Put button to delete current (or should be called "last")
+	//TODO: store encoder data: auto save, and show on a treeview.
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
@@ -242,7 +243,40 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_delete_selected_clicked (object o, EventArgs args) 
 	{
-		Log.WriteLine("TODO: Delete selected");
+		//concentric stuff
+		int duration;
+		int selectedID = treeviewEncoderCurvesEventSelectedID();
+
+		if(ecconLast != "c") {
+			bool isEven = (selectedID % 2 == 0); //check if it's even (in spanish "par")
+			if(isEven)
+				selectedID --;
+		}
+
+		EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID);
+
+		//some start at ,5 because of the spline filtering
+		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
+
+		if( (ecconLast == "c" && selectedID == encoderCurves.Count) ||
+				(ecconLast != "c" && selectedID+1 == encoderCurves.Count) )
+			duration = -1; //until the end
+		else {
+			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
+			if(ecconLast != "c")
+				curveNext = treeviewEncoderCurvesGetCurve(selectedID+2);
+
+			int curveNextStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
+
+			duration = curveNextStart - curveStart;
+		}
+
+		if(curve.Start != null) {
+			Log.WriteLine(curveStart + "->" + duration);
+			Util.EncoderDeleteRow(Util.GetEncoderDataTempFileName(), curveStart, duration);
+		}
+		//force a recalculate
+		on_button_encoder_recalculate_clicked (o, args); 
 	}
 
 	void on_button_encoder_save_selected_clicked (object o, EventArgs args) 
@@ -390,7 +424,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Duration") + "\n (s)",
 			Catalog.GetString("Height") + "\n (cm)",
 			Catalog.GetString("MeanSpeed") + "\n (m/s)",
-			Catalog.GetString("MaxSpeed") + "\n (m/s)", //duration (s): width
+			Catalog.GetString("MaxSpeed") + "\n (m/s)",
 			Catalog.GetString("MeanPower") + "\n (W)",
 			Catalog.GetString("PeakPower") + "\n (W)",
 			Catalog.GetString("PeakPowerTime") + "\n (s)",
@@ -415,7 +449,6 @@ public partial class ChronoJumpWindow
 
 				string [] cells = line.Split(new char[] {','});
 				cells = fixDecimals(cells);
-				//iter = encoderStore.AppendValues(cells);
 
 				encoderCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
 							cells[3], cells[4], cells[5], cells[6], 
@@ -430,7 +463,7 @@ public partial class ChronoJumpWindow
 		}
 
 		treeview_encoder_curves.Model = encoderListStore;
-
+				
 		treeview_encoder_curves.HeadersVisible=true;
 
 		int i=0;
@@ -451,7 +484,7 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 2:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderWidth));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 3:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
@@ -531,12 +564,12 @@ public partial class ChronoJumpWindow
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(myStart.ToString(),6,3),myStart); 
 	}
-	private void RenderWidth (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	private void RenderDuration (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		double myWidth = Convert.ToDouble(curve.Width)/1000; //ms->s
+		double myDuration = Convert.ToDouble(curve.Duration)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myWidth.ToString(),5,3),myWidth); 
+			String.Format(UtilGtk.TVNumPrint(myDuration.ToString(),5,3),myDuration); 
 	}
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -661,19 +694,61 @@ public partial class ChronoJumpWindow
 	private int treeviewEncoderCurvesEventSelectedID() {
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview_encoder_curves.Model;
+		
 		if (treeview_encoder_curves.Selection.GetSelected (out myModel, out iter)) 
 			return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N);
-			//this return an int, also in ec
+				//this return an int, also in ec
 		else 
 			return 0;
 	}
+	
+	private EncoderCurve treeviewEncoderCurvesGetCurve(int row) {
+		TreeIter iter = new TreeIter();
+		bool iterOk = encoderListStore.GetIterFirst(out iter);
+		if(iterOk) {
+			int count=1;
+			do {
+				if(count==row) 
+					return (EncoderCurve) treeview_encoder_curves.Model.GetValue (iter, 0);
+				count ++;
+			} while (encoderListStore.IterNext (ref iter));
+		}
+		EncoderCurve curve = new EncoderCurve();
+		return curve;
+	}
+
 	
 	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) {
 		if (treeviewEncoderCurvesEventSelectedID() == 0)
 			sensitiveEncoderRowButtons(false);
 		else {
 			sensitiveEncoderRowButtons(true);
-			Log.WriteLine(treeviewEncoderCurvesEventSelectedID().ToString());
+			/*
+			 * TODO: try that on eccon != "c", two lines get selected
+			int line = Convert.ToInt32(treeviewEncoderCurvesEventSelectedID());
+			
+			//on ecc-con select both lines
+			if(ecconLast != "c") {
+				treeview_encoder_curves.CursorChanged -= on_treeview_encoder_curves_cursor_changed; 
+				
+				TreeIter iter;
+				treeview_encoder_curves.Model.GetIterFirst ( out iter ) ;
+				bool isEven = (line % 2 == 0); //check if it's even (in spanish "par")
+				if(isEven) {
+					//select also previous row
+					for(int i=1; i < line -1; i++)
+						treeview_encoder_curves.Model.IterNext (ref iter);
+				}
+				else {
+					//select also next row
+					for(int i=1; i < line +1; i++)
+						treeview_encoder_curves.Model.IterNext (ref iter);
+				}
+			
+				treeview_encoder_curves.Selection.SelectIter(iter);
+				treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
+			}
+		*/
 		}
 	}
 

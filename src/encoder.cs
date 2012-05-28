@@ -141,12 +141,15 @@ public class EncoderStruct
 //used on TreeView
 public class EncoderCurve
 {
-	public EncoderCurve (string n, string start, string width, string height, string meanSpeed, string maxSpeed, 
+	public EncoderCurve () {
+	}
+
+	public EncoderCurve (string n, string start, string duration, string height, string meanSpeed, string maxSpeed, 
 			string meanPower, string peakPower, string peakPowerT, string PP_PPT)
 	{
 		this.N = n;
 		this.Start = start;
-		this.Width = width;
+		this.Duration = duration;
 		this.Height = height;
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed = maxSpeed;
@@ -158,7 +161,7 @@ public class EncoderCurve
 
 	public string N;
 	public string Start;
-	public string Width;
+	public string Duration;
 	public string Height;
 	public string MeanSpeed;
 	public string MaxSpeed;

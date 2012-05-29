@@ -459,12 +459,16 @@ if(length(args) < 3) {
 		for(i in 1:length(curves[,1])) { 
 			myLabel = i
 			myY = min(rawdata.cumsum)/10
+			adjVert = 0
 			if(eccon=="ecS") {
 				myEc=c("c","e")
 				myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
 				myY = rawdata.cumsum[curves[i,1]]/10
+				if(i%%2 == 1) {
+					adjVert = 1
+				}
 			}
-			text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,0),cex=1,col="blue")
+			text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
 			arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
 					col="blue",code=3,length=0.1)
 		}

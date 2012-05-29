@@ -94,7 +94,7 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 #based on findPics2BySpeed
 #only used in eccon "c"
 #if this changes, change also in python capture file
-reduceCurveBySpeed <- function(eccon, startT, rawdata, smoothing) {
+reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 	a=rawdata
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	b=extrema(speed$y)
@@ -102,11 +102,14 @@ reduceCurveBySpeed <- function(eccon, startT, rawdata, smoothing) {
 	#find the b$cross at left of max speed
 	x.ini=1
 	
+	#from searchValue, go to the left, searchValue is at max speed on going up
+	#but is min speed on going down (this happens when not "concentric" and when phase is odd (impar)
 	searchValue = max(speed$y)
-	if(eccon != "c")
+	if(eccon != "c" & row%%2 == 1)
 		searchValue = min(speed$y)
 
 	maxSpeedT <- min(which(speed$y == searchValue))
+	
 	for(i in b$cross[,2]) 		{ if(i < maxSpeedT) { x.ini = i } } #left adjust
 
 	return(startT+x.ini)
@@ -449,7 +452,7 @@ if(length(args) < 3) {
 	}
 
 	for(i in 1:n) { 
-		curves[i,1]=reduceCurveBySpeed(eccon, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
+		curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
 	}
 	if(curvesPlot) {
 		#/10 mm -> cm

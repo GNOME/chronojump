@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_recalculate;
+	[Widget] Gtk.Button button_encoder_load_stream;
 	[Widget] Gtk.Label label_encoder_person_weight;
 	[Widget] Gtk.RadioButton radiobutton_encoder_concentric;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_bar;
@@ -46,8 +47,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.Button button_encoder_delete_selected;
-	[Widget] Gtk.Button button_encoder_save_selected;
+	[Widget] Gtk.Entry entry_encoder_capture_comment;
+	[Widget] Gtk.Button button_encoder_delete_curve;
+	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_stream;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
@@ -82,9 +84,12 @@ public partial class ChronoJumpWindow
 	GenericWindow genericWinForEncoder;
 	
 	//TODO: store encoder data: auto save, and show on a treeview.
+	//TODO: auto close capturing window
+	//TODO: fix date of creation-saving stream and curve
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
+
 	
 	private void encoderInitializeVariables() {
 		encoder_pulsebar_capture.Fraction = 1;
@@ -251,7 +256,7 @@ public partial class ChronoJumpWindow
 		return treeviewEncoderCurvesGetCurve(selectedID);
 	}
 
-	void on_button_encoder_delete_selected_clicked (object o, EventArgs args) 
+	void on_button_encoder_delete_curve_clicked (object o, EventArgs args) 
 	{
 		int selectedID = treeviewEncoderCurvesEventSelectedID();
 		EncoderCurve curve = getCurve(selectedID);
@@ -274,66 +279,75 @@ public partial class ChronoJumpWindow
 
 		if(curve.Start != null) {
 			//Log.WriteLine(curveStart + "->" + duration);
-			Util.EncoderDeleteRow(Util.GetEncoderDataTempFileName(), curveStart, duration);
+			Util.EncoderDeleteCurve(Util.GetEncoderDataTempFileName(), curveStart, duration);
 		}
 		//force a recalculate
 		on_button_encoder_recalculate_clicked (o, args); 
 	}
 
-	void on_button_encoder_save_selected_clicked (object o, EventArgs args) 
+	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
-		int selectedID = treeviewEncoderCurvesEventSelectedID();
-		EncoderCurve curve = getCurve(selectedID);
+		string type = "";
+		string feedback = "";
+		string fileSaved = "";
+		string path = "";
 
-		//some start at ,5 because of the spline filtering
-		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
-
-		int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
-		if(ecconLast != "c") {
-			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
-			duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
+		Gtk.Button button = (Gtk.Button) o;
+		if(button == button_encoder_save_curve) {
+			type = "curve";
+			decimal curveNum = (decimal) treeviewEncoderCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
+			if(ecconLast != "c")
+				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
+			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
+		} else {	//(button == button_encoder_save_stream) {
+			type = "stream";
+			feedback = Catalog.GetString("Stream saved");
 		}
-			
-		//Log.WriteLine(curveStart + "->" + duration);
-		Util.EncoderSaveRow(Util.GetEncoderDataTempFileName(), curveStart, duration);
 		
-		//force a recalculate
-		//on_button_encoder_recalculate_clicked (o, args); 
-	}
+		string desc = entry_encoder_capture_comment.Text.ToString();
+		//Log.WriteLine(desc);
 
-	void on_button_encoder_save_stream_clicked (object o, EventArgs args) 
-	{
-		genericWinForEncoder = GenericWindow.Show(Catalog.GetString("Add an optional description"), Constants.GenericWindowShow.TEXTVIEW);
-		genericWinForEncoder.SetTextview("");
-		genericWinForEncoder.SetButtonAcceptLabel(Catalog.GetString("Save"));
+		if(type == "curve") {
+			int selectedID = treeviewEncoderCurvesEventSelectedID();
+			EncoderCurve curve = getCurve(selectedID);
 
-		genericWinForEncoder.Button_accept.Clicked += new EventHandler(on_save_stream_description_add_accepted);
-	}
-	
-	private void on_save_stream_description_add_accepted (object o, EventArgs args) {
-		genericWinForEncoder.Button_accept.Clicked -= new EventHandler(on_save_stream_description_add_accepted);
-		string desc = genericWinForEncoder.TextviewSelected;
-		
-		Log.WriteLine(desc);
-	
-		//Saving file
-		//Util.MoveTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID);
-		string fileName = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
+			//some start at ,5 because of the spline filtering
+			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
+
+			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
+			if(ecconLast != "c") {
+				EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
+				duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
+			}
+
+			//Log.WriteLine(curveStart + "->" + duration);
+			fileSaved = Util.EncoderSaveCurve(Util.GetEncoderDataTempFileName(), curveStart, duration,
+					currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
+			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
+		} else { //stream
+			fileSaved = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
+			path = Util.GetEncoderSessionDataStreamDir(currentSession.UniqueID);
+		}
+
+		if(radiobutton_encoder_capture_bar.Active)
+			type += "BAR";
+		else
+			type += "JUMP";
 
 		//Adding on SQL
 		SqliteEncoder.Insert(false, "-1", 
 				currentPerson.UniqueID, currentSession.UniqueID, 
-				fileName,
-				Util.GetEncoderSessionDataDir(currentSession.UniqueID),	//url
-				(! radiobutton_encoder_capture_bar.Active).ToString(),
-				findMass(false), //when save on sql, do not include person weight
-				findEccon(true),					//force ecS (ecc-conc separated)
+				fileSaved,
+				path,			//url
+				type,
+				findMass(false),	//when save on sql, do not include person weight
+				findEccon(true), 	//force ecS (ecc-conc separated)
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
 				(double) spin_encoder_smooth.Value,
 				desc);
 		
-		encoder_pulsebar_capture.Text = Catalog.GetString("Saved.");
+		encoder_pulsebar_capture.Text = feedback;
 	}
 
 
@@ -363,8 +377,6 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
 	}
-
-//TODO: auto close capturing window
 
 	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
@@ -436,7 +448,7 @@ public partial class ChronoJumpWindow
 	//returns curves num
 	private int createTreeViewEncoder(string contents) {
 		string [] columnsString = {
-			"n",
+			Catalog.GetString("Curve") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
 			Catalog.GetString("Duration") + "\n (s)",
 			Catalog.GetString("Height") + "\n (cm)",
@@ -789,8 +801,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void sensitiveEncoderRowButtons(bool sensitive) {
-		button_encoder_delete_selected.Sensitive = sensitive;
-		button_encoder_save_selected.Sensitive = sensitive;
+		button_encoder_delete_curve.Sensitive = sensitive;
+		button_encoder_save_curve.Sensitive = sensitive;
 	}
 	
 	/* end of TreeView stuff */	

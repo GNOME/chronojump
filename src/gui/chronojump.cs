@@ -5015,7 +5015,7 @@ Console.WriteLine("X");
 				Constants.MessageTypes.INFO, 
 				Catalog.GetString("Use these keys in order to work faster.") + "\n\n" +
 				"- " + Catalog.GetString("On execute test tab:") + "\n\n" +
-				"<tt><b>p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
+				"<tt><b>CTRL+p</b></tt> " + Catalog.GetString("Edit selected person") + "\n" +
 				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_UP") + "</b></tt> " + Catalog.GetString("Select previous person") + "\n" +
 				"<tt><b>CTRL+" + Catalog.GetString("CURSOR_DOWN") + "</b></tt> " + Catalog.GetString("Select next person") + "\n" +
 				"<tt><b>(space)</b></tt> " + Catalog.GetString("Execute test") + "\n" +
@@ -5106,6 +5106,8 @@ Console.WriteLine("X");
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
+		button_encoder_recalculate.Sensitive = false;
+		button_encoder_load_stream.Sensitive = false;
 		eventExecuteHideAllTables();
 	}
 	
@@ -5130,6 +5132,8 @@ Console.WriteLine("X");
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
+		button_encoder_recalculate.Sensitive = false;
+		button_encoder_load_stream.Sensitive = false;
 
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
@@ -5145,6 +5149,8 @@ Console.WriteLine("X");
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
 		button_encoder_capture.Sensitive = true;
+		button_encoder_recalculate.Sensitive = true;
+		button_encoder_load_stream.Sensitive = true;
 
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
@@ -5178,6 +5184,8 @@ Console.WriteLine("X");
 		
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
+		button_encoder_recalculate.Sensitive = false;
+		button_encoder_load_stream.Sensitive = false;
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
@@ -5202,6 +5210,8 @@ Console.WriteLine("X");
 
 		button_execute_test.Sensitive = true;
 		button_encoder_capture.Sensitive = true;
+		button_encoder_recalculate.Sensitive = true;
+		button_encoder_load_stream.Sensitive = true;
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

@@ -819,13 +819,23 @@ public class Util
 		return GetEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + "data";
 	}
 
+	public static string GetEncoderSessionDataCurveDir (int sessionID) {
+		return GetEncoderSessionDataDir(sessionID) + Path.DirectorySeparatorChar + "curve";
+	}
+
+	public static string GetEncoderSessionDataStreamDir (int sessionID) {
+		return GetEncoderSessionDataDir(sessionID) + Path.DirectorySeparatorChar + "stream";
+	}
+
 	public static string GetEncoderSessionGraphsDir (int sessionID) {
 		return GetEncoderSessionDir(sessionID) + Path.DirectorySeparatorChar + "graphs";
 	}
 	
 	public static void CreateEncoderSessionDirsIfNeeded (int sessionID) {
-		string [] dirs = { GetEncoderSessionDir(sessionID), 
-			GetEncoderSessionDataDir(sessionID), GetEncoderSessionGraphsDir(sessionID) }; 
+		string [] dirs = { 
+			GetEncoderSessionDir(sessionID), GetEncoderSessionDataDir(sessionID), 
+			GetEncoderSessionDataCurveDir(sessionID), GetEncoderSessionDataStreamDir(sessionID), 
+			GetEncoderSessionGraphsDir(sessionID) }; 
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
 				Directory.CreateDirectory (d);
@@ -845,7 +855,8 @@ public class Util
 	}
 
 //	public static void MoveTempEncoderData(int sessionID, int uniqueID) {
-	public static string CopyTempEncoderData(int sessionID, int uniqueID, string personName) {
+	public static string CopyTempEncoderData(int sessionID, int uniqueID, string personName) 
+	{
 		string fileName="";
 		if(File.Exists(GetEncoderDataTempFileName())) {
 			CreateEncoderSessionDirsIfNeeded(sessionID);
@@ -854,8 +865,9 @@ public class Util
 //			} catch {
 				fileName = uniqueID.ToString() + "-" + personName + "-" +
 						UtilDate.ToFile(DateTime.Now) + ".txt";
+				
 				File.Copy(GetEncoderDataTempFileName(), 
-						GetEncoderSessionDataDir(sessionID) + 
+						GetEncoderSessionDataStreamDir(sessionID) + 
 						Path.DirectorySeparatorChar + fileName);
 //			}
 		}
@@ -1045,7 +1057,7 @@ public class Util
 		return returnStr;
 	}
 
-	public static void EncoderDeleteRow(string fileName, int start, int duration) {
+	public static void EncoderDeleteCurve(string fileName, int start, int duration) {
 		string contents = ReadFile(fileName);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
@@ -1061,18 +1073,25 @@ public class Util
 		((IDisposable)writer).Dispose();
 	}
 
-	public static void EncoderSaveRow(string fileName, int start, int duration) {
-		string contents = ReadFile(fileName);
+	public static string EncoderSaveCurve(string fileNameStream, int start, int duration, 
+			int sessionID, int uniqueID, string personName) 
+	{
+		string contents = ReadFile(fileNameStream);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
 		contents = contents.Substring(
 				Convert.ToInt32(startAndDuration[0]), 
 				Convert.ToInt32(startAndDuration[1])-1); //-1 is for not ending file with a comma
+			
+		string fileCurve = uniqueID.ToString() + "-" + personName + "-" + UtilDate.ToFile(DateTime.Now) + ".txt";
+		string fileCurveFull = GetEncoderSessionDataCurveDir(sessionID) + Path.DirectorySeparatorChar + fileCurve;
 		
-		TextWriter writer = File.CreateText(fileName + "-testrow");
+		TextWriter writer = File.CreateText(fileCurveFull);
 		writer.Write(contents);
 		writer.Flush();
 		((IDisposable)writer).Dispose();
+
+		return fileCurve;
 	}
 
 

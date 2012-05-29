@@ -45,7 +45,7 @@ class SqliteEncoder : Sqlite
 			"sessionID INT, " +
 			"name TEXT, " +
 			"url TEXT, " +
-			"type TEXT, " +		//"bar" or "jump"
+			"type TEXT, " +		//"streamBAR", "streamJUMP", "curveBAR", "curveJUMP"
 			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
 			"eccon TEXT, " +	//"c" or "ec"
 			"time INT, " +

@@ -1005,8 +1005,7 @@ public class Util
 		}
 	}
 
-	public static void EncoderDeleteRow(string fileName, int start, int duration) {
-		string contents = ReadFile(fileName);
+	private static string [] encoderFindPos(string contents, int start, int duration) {
 		int startPos = 0;
 		int durationPos = 0;
 		int i,digits;
@@ -1036,12 +1035,24 @@ public class Util
 					durationPos = i-startPos;
 			}
 		}
-		Log.WriteLine("s "+ startPos.ToString());
-		Log.WriteLine("d "+ durationPos.ToString());
-		Log.WriteLine("i " + i.ToString());
+		//Log.WriteLine("s "+ startPos.ToString());
+		//Log.WriteLine("d "+ durationPos.ToString());
+		//Log.WriteLine("i " + i.ToString());
+
+		string [] returnStr = new string[2];
+		returnStr [0] = startPos.ToString();
+		returnStr [1] = durationPos.ToString();
+		return returnStr;
+	}
+
+	public static void EncoderDeleteRow(string fileName, int start, int duration) {
+		string contents = ReadFile(fileName);
+		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
 		StringBuilder myStringBuilder = new StringBuilder(contents);
-		myStringBuilder.Remove(startPos, durationPos);
+		myStringBuilder.Remove(
+				Convert.ToInt32(startAndDuration[0]),
+				Convert.ToInt32(startAndDuration[1]));
 		contents = myStringBuilder.ToString();
 		
 		TextWriter writer = File.CreateText(fileName);
@@ -1050,6 +1061,19 @@ public class Util
 		((IDisposable)writer).Dispose();
 	}
 
+	public static void EncoderSaveRow(string fileName, int start, int duration) {
+		string contents = ReadFile(fileName);
+		string [] startAndDuration = encoderFindPos(contents, start, duration);
+
+		contents = contents.Substring(
+				Convert.ToInt32(startAndDuration[0]), 
+				Convert.ToInt32(startAndDuration[1])-1); //-1 is for not ending file with a comma
+		
+		TextWriter writer = File.CreateText(fileName + "-testrow");
+		writer.Write(contents);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+	}
 
 
 /*

@@ -241,23 +241,25 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("TODO: Load stream");
 	}
 
-	void on_button_encoder_delete_selected_clicked (object o, EventArgs args) 
+	private EncoderCurve getCurve(int selectedID) 
 	{
-		//concentric stuff
-		int duration;
-		int selectedID = treeviewEncoderCurvesEventSelectedID();
-
 		if(ecconLast != "c") {
 			bool isEven = (selectedID % 2 == 0); //check if it's even (in spanish "par")
 			if(isEven)
 				selectedID --;
 		}
+		return treeviewEncoderCurvesGetCurve(selectedID);
+	}
 
-		EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID);
+	void on_button_encoder_delete_selected_clicked (object o, EventArgs args) 
+	{
+		int selectedID = treeviewEncoderCurvesEventSelectedID();
+		EncoderCurve curve = getCurve(selectedID);
 
 		//some start at ,5 because of the spline filtering
 		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
+		int duration;
 		if( (ecconLast == "c" && selectedID == encoderCurves.Count) ||
 				(ecconLast != "c" && selectedID+1 == encoderCurves.Count) )
 			duration = -1; //until the end
@@ -267,12 +269,11 @@ public partial class ChronoJumpWindow
 				curveNext = treeviewEncoderCurvesGetCurve(selectedID+2);
 
 			int curveNextStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
-
 			duration = curveNextStart - curveStart;
 		}
 
 		if(curve.Start != null) {
-			Log.WriteLine(curveStart + "->" + duration);
+			//Log.WriteLine(curveStart + "->" + duration);
 			Util.EncoderDeleteRow(Util.GetEncoderDataTempFileName(), curveStart, duration);
 		}
 		//force a recalculate
@@ -281,7 +282,23 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_save_selected_clicked (object o, EventArgs args) 
 	{
-		Log.WriteLine("TODO: Save selected");
+		int selectedID = treeviewEncoderCurvesEventSelectedID();
+		EncoderCurve curve = getCurve(selectedID);
+
+		//some start at ,5 because of the spline filtering
+		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
+
+		int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
+		if(ecconLast != "c") {
+			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
+			duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
+		}
+			
+		//Log.WriteLine(curveStart + "->" + duration);
+		Util.EncoderSaveRow(Util.GetEncoderDataTempFileName(), curveStart, duration);
+		
+		//force a recalculate
+		//on_button_encoder_recalculate_clicked (o, args); 
 	}
 
 	void on_button_encoder_save_stream_clicked (object o, EventArgs args) 

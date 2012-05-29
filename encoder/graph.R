@@ -24,6 +24,7 @@ library("EMD")
 findCurves <- function(rawdata, eccon, min_height, draw) {
 	a=cumsum(rawdata)
 	b=extrema(a)
+print(b)
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
 	#TODO: fer algo per si no es detecta el minindex previ al salt
@@ -49,6 +50,15 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 		}
 	} else { #ec, and ec-rep
 		row=1; i=1; j=2
+		#when saved a row with ec-con, and there's only this curve, extrema doesn't find maxindex
+		if(length(b$maxindex) == 0) {
+			start[1] =1
+			end[1]   = mean(which(a == min(a)))
+			startH[1]=a[1]
+			start[2] =end[1]+1
+			end[2]   =length(a)
+			startH[2]=a[start[2]]
+		}
 		while(j <= length(b$maxindex[,1])) {
 			tempStart = mean(c(b$maxindex[i,1],b$maxindex[i,2]))
 			tempEnd   = mean(c(b$maxindex[j,1],b$maxindex[j,2]))

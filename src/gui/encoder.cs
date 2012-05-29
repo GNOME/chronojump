@@ -480,6 +480,11 @@ public partial class ChronoJumpWindow
 		}
 
 		treeview_encoder_curves.Model = encoderListStore;
+
+		if(ecconLast == "c")
+			treeview_encoder_curves.Selection.Mode = SelectionMode.Single;
+		else
+			treeview_encoder_curves.Selection.Mode = SelectionMode.Multiple;
 				
 		treeview_encoder_curves.HeadersVisible=true;
 
@@ -708,17 +713,6 @@ public partial class ChronoJumpWindow
 		return cells;
 	}
 	
-	private int treeviewEncoderCurvesEventSelectedID() {
-		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview_encoder_curves.Model;
-		
-		if (treeview_encoder_curves.Selection.GetSelected (out myModel, out iter)) 
-			return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N);
-				//this return an int, also in ec
-		else 
-			return 0;
-	}
-	
 	private EncoderCurve treeviewEncoderCurvesGetCurve(int row) {
 		TreeIter iter = new TreeIter();
 		bool iterOk = encoderListStore.GetIterFirst(out iter);
@@ -734,38 +728,63 @@ public partial class ChronoJumpWindow
 		return curve;
 	}
 
-	
-	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) {
-		if (treeviewEncoderCurvesEventSelectedID() == 0)
-			sensitiveEncoderRowButtons(false);
-		else {
-			sensitiveEncoderRowButtons(true);
-			/*
-			 * TODO: try that on eccon != "c", two lines get selected
-			int line = Convert.ToInt32(treeviewEncoderCurvesEventSelectedID());
-			
-			//on ecc-con select both lines
-			if(ecconLast != "c") {
-				treeview_encoder_curves.CursorChanged -= on_treeview_encoder_curves_cursor_changed; 
-				
-				TreeIter iter;
-				treeview_encoder_curves.Model.GetIterFirst ( out iter ) ;
-				bool isEven = (line % 2 == 0); //check if it's even (in spanish "par")
-				if(isEven) {
-					//select also previous row
-					for(int i=1; i < line -1; i++)
-						treeview_encoder_curves.Model.IterNext (ref iter);
-				}
-				else {
-					//select also next row
-					for(int i=1; i < line +1; i++)
-						treeview_encoder_curves.Model.IterNext (ref iter);
-				}
-			
-				treeview_encoder_curves.Selection.SelectIter(iter);
-				treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
+	private int treeviewEncoderCurvesEventSelectedID() {
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview_encoder_curves.Model;
+		
+		if(ecconLast == "c") {
+			if (treeview_encoder_curves.Selection.GetSelected (out myModel, out iter)) 
+				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N); //this return an int, also in ec
+		} else {
+			int selectedLength = treeview_encoder_curves.Selection.GetSelectedRows().Length;
+			if(selectedLength == 1 || selectedLength == 2) { 
+				TreePath path = treeview_encoder_curves.Selection.GetSelectedRows()[0];
+				myModel.GetIter(out iter, path);
+				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N);
 			}
-		*/
+		}
+		return 0;
+	}
+	
+	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) 
+	{
+		int lineNum = treeviewEncoderCurvesEventSelectedID();
+		sensitiveEncoderRowButtons(false);
+		
+		//on ecc-con select both lines
+		if(ecconLast == "c") {
+			if (lineNum > 0)
+				sensitiveEncoderRowButtons(true);
+		} else {
+			TreeIter iter = new TreeIter();
+
+			treeview_encoder_curves.CursorChanged -= on_treeview_encoder_curves_cursor_changed; 
+
+			if (treeview_encoder_curves.Selection.GetSelectedRows().Length == 1) 
+			{
+				treeview_encoder_curves.Selection.UnselectAll();
+
+				//on even, select also previous row
+				//on odd, select also next row
+				treeview_encoder_curves.Model.GetIterFirst ( out iter ) ;
+				bool isEven = (lineNum % 2 == 0); //check if it's even (in spanish "par")
+				int start = lineNum;
+				if(isEven) 
+					start = lineNum-1;
+
+				//select 1st row
+				for(int i=1; i < start; i++)
+					treeview_encoder_curves.Model.IterNext (ref iter);
+				treeview_encoder_curves.Selection.SelectIter(iter);
+
+				//select 2nd row
+				treeview_encoder_curves.Model.IterNext (ref iter);
+				treeview_encoder_curves.Selection.SelectIter(iter);
+				
+				if (treeview_encoder_curves.Selection.GetSelectedRows().Length == 2) 
+					sensitiveEncoderRowButtons(true);
+			}
+			treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		}
 	}
 

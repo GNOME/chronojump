@@ -16,8 +16,8 @@
    inkscape:version="0.48.0 r9654"
    sodipodi:docname="encoder-chronojump-project.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/encoder-chronojump-project.png"
-   inkscape:export-xdpi="72"
-   inkscape:export-ydpi="72">
+   inkscape:export-xdpi="71.951218"
+   inkscape:export-ydpi="71.951218">
   <metadata
      id="metadata262">
     <rdf:RDF>
@@ -39,8 +39,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1024"
-     inkscape:window-height="715"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
      id="namedview260"
      showgrid="false"
      inkscape:zoom="0.40108401"
@@ -48,7 +48,7 @@
      inkscape:cy="369"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer_included_svg" />
   <title
      id="title4">Chronojump encoder</title>
@@ -446,7 +446,7 @@
     <path
        id="__line_Store__selected__curves"
        d="M 572 600 C 594.5,600 579.5,620 602,620 L 602 620 L 627 620"
-       stroke="#ff0000"
+       stroke="#00ff00"
        style="stroke-width:1;" />
     <path
        id="__line_Save__data"
@@ -664,7 +664,7 @@
        cx="602"
        cy="620"
        r="8"
-       fill="#ff0000"
+       fill="#00ff00"
        stroke="none" />
     <circle
        id="__dot_Save__data"
@@ -952,7 +952,7 @@
        id="text254">
       <tspan
          style="font-size:12px;"
-         id="tspan256">2012-May-15</tspan>
+         id="tspan256">2012-May-30</tspan>
     </text>
   </g>
   <!-- BEGIN additional images -->

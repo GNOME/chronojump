@@ -117,6 +117,9 @@ public class GenericWindow
 		
 		foreach (string [] line in data) 
 			store.AppendValues (line);
+		
+		setButtonAcceptSensitive(false);
+		treeview.CursorChanged += on_treeview_cursor_changed; 
 	}
 	
 	private TreeStore getStore (int columns)
@@ -132,20 +135,50 @@ public class GenericWindow
 	
 	private void prepareHeaders(string [] columnsString) 
 	{
+		treeviewRemoveColumns();
 		treeview.HeadersVisible=true;
 		int i=0;
 		bool visible = false;
 		foreach(string myCol in columnsString) {
 			UtilGtk.CreateCols(treeview, store, myCol, i++, visible);
-			if(i == 1)
+			if(i == 1)	//first columns: ID, is hidden
 				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
 			visible = true;
 		}
 	}
 	
+	private void treeviewRemoveColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) {
+			treeview.RemoveColumn (column);
+		}
+	}
+	
+	private void on_treeview_cursor_changed (object o, EventArgs args) 
+	{
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter)) 
+			setButtonAcceptSensitive(true);
+		else
+			setButtonAcceptSensitive(false);
+	}
+	
+	public int TreeviewSelectedRowID() {
+		TreeIter iter = new TreeIter();
+		TreeModel myModel = treeview.Model;
+		if (treeview.Selection.GetSelected (out myModel, out iter)) 
+			return Convert.ToInt32(treeview.Model.GetValue (iter, 0));
+		else
+			return 0;
+	}
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
+	}
+	
+	private void setButtonAcceptSensitive(bool show) {
+		button_accept.Sensitive=show;
 	}
 
 

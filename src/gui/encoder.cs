@@ -30,8 +30,8 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.SpinButton spin_encoder_bar_limit;
-	[Widget] Gtk.SpinButton spin_encoder_jump_limit;
+	[Widget] Gtk.SpinButton spin_encoder_bar_weight;
+	[Widget] Gtk.SpinButton spin_encoder_jump_weight;
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
@@ -80,6 +80,7 @@ public partial class ChronoJumpWindow
 	private string encoderAnalysis="powerBars";
 	private string ecconLast;
 	private string encoderTimeStamp;
+	private string encoderStreamUniqueID;
 	enum encoderModes { CAPTURE, ANALYZE }
 	
 	//TODO: store encoder data: auto save, and show on a treeview.
@@ -102,12 +103,12 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
-		spin_encoder_bar_limit.Sensitive = true;
-		spin_encoder_jump_limit.Sensitive = false;
+		spin_encoder_bar_weight.Sensitive = true;
+		spin_encoder_jump_weight.Sensitive = false;
 	}
 	private void on_radiobutton_encoder_capture_jump_toggled (object obj, EventArgs args) {
-		spin_encoder_bar_limit.Sensitive = false;
-		spin_encoder_jump_limit.Sensitive = true;
+		spin_encoder_bar_weight.Sensitive = false;
+		spin_encoder_jump_weight.Sensitive = true;
 	}
 
 	private void on_radiobutton_encoder_eccon_toggled (object obj, EventArgs args) {
@@ -181,6 +182,7 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
+		encoderStreamUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
@@ -244,7 +246,7 @@ public partial class ChronoJumpWindow
 		
 	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
 	{
-		ArrayList data = SqliteEncoder.SelectStreams(false, currentPerson.UniqueID, currentSession.UniqueID);
+		ArrayList data = SqliteEncoder.SelectStreams(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
 
 		ArrayList dataPrint = new ArrayList();
 		foreach(EncoderSQL es in data) {
@@ -265,6 +267,36 @@ public partial class ChronoJumpWindow
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
 		genericWin.SetTreeview(columnsString, dataPrint);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
+		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_stream_accepted);
+	}
+	
+	protected void on_encoder_load_stream_accepted (object o, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_stream_accepted);
+		int uniqueID = genericWin.TreeviewSelectedRowID();
+
+		ArrayList data = SqliteEncoder.SelectStreams(false, uniqueID, 
+				currentPerson.UniqueID, currentSession.UniqueID);
+
+		foreach(EncoderSQL es in data) {	//it will run only one time
+			Util.CopyEncoderDataToTemp(es.url, es.name);
+			if(es.type.EndsWith("BAR")) { //BAR or JUMP
+				radiobutton_encoder_capture_bar.Active = true;
+				spin_encoder_bar_weight.Value = Convert.ToInt32(es.extraWeight);
+			} else {
+				radiobutton_encoder_capture_bar.Active = false;
+				spin_encoder_jump_weight.Value = Convert.ToInt32(es.extraWeight);
+			}
+			radiobutton_encoder_concentric.Active = es.eccon == "c";
+			spin_encoder_capture_min_height.Value = es.minHeight;
+			spin_encoder_smooth.Value = es.smooth;
+			encoderTimeStamp = es.GetDate(false); 
+			encoderStreamUniqueID = es.uniqueID;
+		}
+	
+		//force a recalculate
+		on_button_encoder_recalculate_clicked (o, args); 
 	}
 
 	private EncoderCurve getCurve(int selectedID) 
@@ -322,7 +354,6 @@ public partial class ChronoJumpWindow
 			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
 		} else {	//(button == button_encoder_save_stream) {
 			type = "stream";
-			feedback = Catalog.GetString("Stream saved");
 		}
 		
 		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
@@ -342,12 +373,13 @@ public partial class ChronoJumpWindow
 			}
 
 			//Log.WriteLine(curveStart + "->" + duration);
+			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
 			fileSaved = Util.EncoderSaveCurve(Util.GetEncoderDataTempFileName(), curveStart, duration,
 					currentSession.UniqueID, currentPerson.UniqueID, 
-					currentPerson.Name, encoderTimeStamp);
+					currentPerson.Name, encoderTimeStamp, curveIDMax);
 			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //stream
-			fileSaved = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
+			fileSaved = Util.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
 			path = Util.GetEncoderSessionDataStreamDir(currentSession.UniqueID);
 		}
@@ -356,9 +388,13 @@ public partial class ChronoJumpWindow
 			type += "BAR";
 		else
 			type += "JUMP";
+		
+		string myID = "-1";	
+		if(button == button_encoder_save_stream)
+			myID = encoderStreamUniqueID;
 
 		EncoderSQL eSQL = new EncoderSQL(
-				"-1", 
+				myID, 
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				fileSaved,		//to know date do: select substr(name,-23,19) from encoder;
 				path,			//url
@@ -370,8 +406,21 @@ public partial class ChronoJumpWindow
 				(double) spin_encoder_smooth.Value,
 				desc);
 		
-				//Adding on SQL
-		SqliteEncoder.Insert(false, eSQL);
+		//if is a stream that we just loaded, then don't insert, do an update
+		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
+		//on curves, always insert, because it can be done with different smoothing, different params
+		if(myID == "-1") {
+			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
+			if(button == button_encoder_save_stream) {
+				encoderStreamUniqueID = myID;
+				feedback = Catalog.GetString("Stream saved");
+			}
+		}
+		else {
+			//only stream is updated
+			SqliteEncoder.Update(false, eSQL); //Adding on SQL
+			feedback = Catalog.GetString("Stream updated");
+		}
 		
 		encoder_pulsebar_capture.Text = feedback;
 	}
@@ -447,9 +496,9 @@ public partial class ChronoJumpWindow
 	private string findMass(bool includePerson) {
 		double mass = 0;
 		if(radiobutton_encoder_capture_bar.Active)
-			mass = spin_encoder_bar_limit.Value;
+			mass = spin_encoder_bar_weight.Value;
 		else {
-			mass = spin_encoder_jump_limit.Value;
+			mass = spin_encoder_jump_weight.Value;
 			if(includePerson)
 				mass += Convert.ToDouble(label_encoder_person_weight.Text);
 		}

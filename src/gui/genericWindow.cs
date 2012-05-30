@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -24,6 +24,7 @@ using Glade;
 //using Gnome;
 using GLib; //for Value
 //using System.Text; //StringBuilder
+using System.Collections; //ArrayList
 
 
 public class GenericWindow
@@ -34,14 +35,18 @@ public class GenericWindow
 	[Widget] Gtk.Entry entry;
 	[Widget] Gtk.SpinButton spin_int;
 	[Widget] Gtk.SpinButton spin_double;
-	[Widget] Gtk.ScrolledWindow scrolled_window;
 	[Widget] Gtk.Box hbox_height_metric;
 	[Widget] Gtk.SpinButton spin_feet;
 	[Widget] Gtk.SpinButton spin_inches;
+	[Widget] Gtk.ScrolledWindow scrolled_window_textview;
 	[Widget] Gtk.TextView textview;
+	[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
+	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_accept;
 
 	static GenericWindow GenericWindowBox;
+	
+	private TreeStore store;
 	
 	public GenericWindow ()
 	{
@@ -71,7 +76,8 @@ public class GenericWindow
 		spin_int.Hide();
 		spin_double.Hide();
 		hbox_height_metric.Hide();
-		scrolled_window.Hide();
+		scrolled_window_textview.Hide();
+		scrolled_window_treeview.Hide();
 
 		if(stuff == Constants.GenericWindowShow.ENTRY)
 			entry.Show();
@@ -81,8 +87,10 @@ public class GenericWindow
 			spin_double.Show();
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
 			hbox_height_metric.Show();
-		else //if(stuff == Constants.GenericWindowShow.TEXTVIEW)
-			scrolled_window.Show();
+		else if(stuff == Constants.GenericWindowShow.TEXTVIEW)
+			scrolled_window_textview.Show();
+		else //if(stuff == Constants.GenericWindowShow.TREEVIEW)
+			scrolled_window_treeview.Show();
 	}
 	
 	public void SetSpinRange(double min, double max) {
@@ -94,6 +102,47 @@ public class GenericWindow
 		tb.Text = str;
 		textview.Buffer = tb;
 	}
+	
+	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
+	public void SetTreeview(string [] columnsString, ArrayList data) 
+	{
+		//adjust window to be bigger
+		generic_window.Resizable = true;
+		scrolled_window_treeview.WidthRequest = 500;
+		scrolled_window_treeview.HeightRequest = 250;
+
+		store = getStore(columnsString.Length); 
+		treeview.Model = store;
+		prepareHeaders(columnsString);
+		
+		foreach (string [] line in data) 
+			store.AppendValues (line);
+	}
+	
+	private TreeStore getStore (int columns)
+	{
+		//prepares the TreeStore for required columns
+		Type [] types = new Type [columns];
+		for (int i=0; i < columns; i++) {
+			types[i] = typeof (string);
+		}
+		TreeStore myStore = new TreeStore(types);
+		return myStore;
+	}
+	
+	private void prepareHeaders(string [] columnsString) 
+	{
+		treeview.HeadersVisible=true;
+		int i=0;
+		bool visible = false;
+		foreach(string myCol in columnsString) {
+			UtilGtk.CreateCols(treeview, store, myCol, i++, visible);
+			if(i == 1)
+				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
+			visible = true;
+		}
+	}
+	
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;

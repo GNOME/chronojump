@@ -79,9 +79,8 @@ public partial class ChronoJumpWindow
 
 	private string encoderAnalysis="powerBars";
 	private string ecconLast;
+	private string encoderTimeStamp;
 	enum encoderModes { CAPTURE, ANALYZE }
-	
-	GenericWindow genericWinForEncoder;
 	
 	//TODO: store encoder data: auto save, and show on a treeview.
 	//TODO: auto close capturing window
@@ -181,6 +180,8 @@ public partial class ChronoJumpWindow
 
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
+		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
+
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
 		
@@ -243,7 +244,27 @@ public partial class ChronoJumpWindow
 		
 	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
 	{
-		Log.WriteLine("TODO: Load stream");
+		ArrayList data = SqliteEncoder.SelectStreams(false, currentPerson.UniqueID, currentSession.UniqueID);
+
+		ArrayList dataPrint = new ArrayList();
+		foreach(EncoderSQL es in data) {
+			dataPrint.Add(es.ToStringArray());
+		}
+		
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Type"),
+			Catalog.GetString("Contraction"),
+			Catalog.GetString("Extra weight"),
+			Catalog.GetString("Date"),
+			Catalog.GetString("Comment")
+		};
+
+		genericWin = GenericWindow.Show(
+				string.Format(Catalog.GetString("Select stream of athlete {0} on this session."), 
+					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
+
+		genericWin.SetTreeview(columnsString, dataPrint);
 	}
 
 	private EncoderCurve getCurve(int selectedID) 
@@ -304,7 +325,7 @@ public partial class ChronoJumpWindow
 			feedback = Catalog.GetString("Stream saved");
 		}
 		
-		string desc = entry_encoder_capture_comment.Text.ToString();
+		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
 		//Log.WriteLine(desc);
 
 		if(type == "curve") {
@@ -322,10 +343,12 @@ public partial class ChronoJumpWindow
 
 			//Log.WriteLine(curveStart + "->" + duration);
 			fileSaved = Util.EncoderSaveCurve(Util.GetEncoderDataTempFileName(), curveStart, duration,
-					currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
+					currentSession.UniqueID, currentPerson.UniqueID, 
+					currentPerson.Name, encoderTimeStamp);
 			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //stream
-			fileSaved = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, currentPerson.Name);
+			fileSaved = Util.CopyTempEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
+					currentPerson.Name, encoderTimeStamp);
 			path = Util.GetEncoderSessionDataStreamDir(currentSession.UniqueID);
 		}
 
@@ -334,10 +357,10 @@ public partial class ChronoJumpWindow
 		else
 			type += "JUMP";
 
-		//Adding on SQL
-		SqliteEncoder.Insert(false, "-1", 
+		EncoderSQL eSQL = new EncoderSQL(
+				"-1", 
 				currentPerson.UniqueID, currentSession.UniqueID, 
-				fileSaved,
+				fileSaved,		//to know date do: select substr(name,-23,19) from encoder;
 				path,			//url
 				type,
 				findMass(false),	//when save on sql, do not include person weight
@@ -346,6 +369,9 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				(double) spin_encoder_smooth.Value,
 				desc);
+		
+				//Adding on SQL
+		SqliteEncoder.Insert(false, eSQL);
 		
 		encoder_pulsebar_capture.Text = feedback;
 	}

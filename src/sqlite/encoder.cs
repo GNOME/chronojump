@@ -60,20 +60,21 @@ class SqliteEncoder : Sqlite
 	 * Encoder class methods
 	 */
 	
-	public static int Insert(bool dbconOpened, string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, double smooth, string description)
+	public static int Insert(bool dbconOpened, EncoderSQL es)
+//			string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, double smooth, string description)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
-		if(uniqueID == "-1")
-			uniqueID = "NULL";
+		if(es.uniqueID == "-1")
+			es.uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
 				" (uniqueID, personID, sessionID, name, url, type, extraWeight, eccon, time, minHeight, smooth, description)" +
-				" VALUES (" + uniqueID + ", "
-				+ personID + ", " + sessionID + ", '" + name + "', '" + url + "', '" + type + "', '" 
-				+ extraWeight + "', '" + eccon + "', " + time + ", " + minHeight + ", " 
-				+ Util.ConvertToPoint(smooth) + ", '" + description + "')" ;
+				" VALUES (" + es.uniqueID + ", "
+				+ es.personID + ", " + es.sessionID + ", '" + es.name + "', '" + es.url + "', '" + es.type + "', '" 
+				+ es.extraWeight + "', '" + es.eccon + "', " + es.time + ", " + es.minHeight + ", " 
+				+ Util.ConvertToPoint(es.smooth) + ", '" + es.description + "')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -89,5 +90,43 @@ class SqliteEncoder : Sqlite
 		return myLast;
 	}
 	
+	public static ArrayList SelectStreams (bool dbconOpened, int personID, int sessionID)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderTable + 
+			" WHERE personID = " + personID + " AND sessionID = " + sessionID +
+			" AND SUBSTR(type,1,6)='stream'";
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList(1);
+
+		EncoderSQL es = new EncoderSQL();
+		while(reader.Read()) {
+			es = new EncoderSQL (
+					reader[0].ToString(),			//uniqueID
+					Convert.ToInt32(reader[1].ToString()),	//personID	
+					Convert.ToInt32(reader[2].ToString()),	//sessionID
+					reader[3].ToString(),			//name
+					reader[4].ToString(),			//url
+					reader[5].ToString(),			//type
+					reader[6].ToString(),			//extraWeight
+					reader[7].ToString(),			//eccon
+					Convert.ToInt32(reader[8].ToString()),	//time
+					Convert.ToInt32(reader[9].ToString()),	//minHeight
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), //smooth
+					reader[11].ToString()			//description
+					);
+			array.Add (es);
+		}
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return array;
+	}
 
 }

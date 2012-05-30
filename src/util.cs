@@ -855,7 +855,7 @@ public class Util
 	}
 
 //	public static void MoveTempEncoderData(int sessionID, int uniqueID) {
-	public static string CopyTempEncoderData(int sessionID, int uniqueID, string personName) 
+	public static string CopyTempEncoderData(int sessionID, int uniqueID, string personName, string timeStamp) 
 	{
 		string fileName="";
 		if(File.Exists(GetEncoderDataTempFileName())) {
@@ -864,7 +864,7 @@ public class Util
 //				File.Move(GetEncoderDataTempFileName(), GetEncoderSessionDataDir(sessionID));
 //			} catch {
 				fileName = uniqueID.ToString() + "-" + personName + "-" +
-						UtilDate.ToFile(DateTime.Now) + ".txt";
+						timeStamp + ".txt";
 				
 				File.Copy(GetEncoderDataTempFileName(), 
 						GetEncoderSessionDataStreamDir(sessionID) + 
@@ -1074,7 +1074,7 @@ public class Util
 	}
 
 	public static string EncoderSaveCurve(string fileNameStream, int start, int duration, 
-			int sessionID, int uniqueID, string personName) 
+			int sessionID, int uniqueID, string personName, string timeStamp) 
 	{
 		string contents = ReadFile(fileNameStream);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
@@ -1083,7 +1083,7 @@ public class Util
 				Convert.ToInt32(startAndDuration[0]), 
 				Convert.ToInt32(startAndDuration[1])-1); //-1 is for not ending file with a comma
 			
-		string fileCurve = uniqueID.ToString() + "-" + personName + "-" + UtilDate.ToFile(DateTime.Now) + ".txt";
+		string fileCurve = uniqueID.ToString() + "-" + personName + "-" + timeStamp + ".txt";
 		string fileCurveFull = GetEncoderSessionDataCurveDir(sessionID) + Path.DirectorySeparatorChar + fileCurve;
 		
 		TextWriter writer = File.CreateText(fileCurveFull);

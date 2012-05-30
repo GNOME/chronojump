@@ -11289,7 +11289,7 @@ comments</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkScrolledWindow" id="scrolled_window">
+              <widget class="GtkScrolledWindow" id="scrolled_window_textview">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="shadow_type">in</property>
@@ -11304,6 +11304,22 @@ comments</property>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkScrolledWindow" id="scrolled_window_treeview">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <widget class="GtkTreeView" id="treeview">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="position">5</property>
               </packing>
             </child>
           </widget>

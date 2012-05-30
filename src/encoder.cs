@@ -171,3 +171,64 @@ public class EncoderCurve
 	public string PP_PPT;
 }
 
+public class EncoderSQL
+{
+	public string uniqueID;
+	public int personID;
+	public int sessionID;
+	public string name;
+	public string url;
+	public string type;
+	public string extraWeight;
+	public string eccon;
+	public int time;
+	public int minHeight;
+	public double smooth;
+	public string description;
+	
+	private string ecconLong;
+	
+	public EncoderSQL ()
+	{
+	}
+
+	public EncoderSQL (string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, double smooth, string description)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.name = name;
+		this.url = url;
+		this.type = type;
+		this.extraWeight = extraWeight;
+		this.eccon = eccon;
+		this.time = time;
+		this.minHeight = minHeight;
+		this.smooth = smooth;
+		this.description = description;
+
+		if(eccon == "c")
+			ecconLong = Catalog.GetString("Concentric");
+		else
+			ecconLong = Catalog.GetString("Eccentric-concentric");
+	}
+	
+	private string getDate() {
+		int pointPos = name.LastIndexOf('.');
+		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
+		string date = name.Substring(pointPos - dateLength, dateLength);
+		string [] dateParts = date.Split(new char[] {'_'});
+		return dateParts[0] + " " + dateParts[1].Replace('-',':');
+	}
+
+	public string [] ToStringArray () {
+		string [] str = new String [5];
+		str[0] = uniqueID;
+		str[1] = type;
+		str[2] = ecconLong;
+		str[3] = extraWeight;
+		str[4] = getDate();
+		str[5] = description;
+		return str;
+	}
+}

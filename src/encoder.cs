@@ -224,10 +224,17 @@ public class EncoderSQL
 		return date;
 	}
 
+	private string typePretty() {
+		if(type.EndsWith("BAR"))
+			return Catalog.GetString("Weight bar");
+		else
+			return Catalog.GetString("Jump");
+	}
+
 	public string [] ToStringArray () {
 		string [] str = new String [6];
 		str[0] = uniqueID;
-		str[1] = type;
+		str[1] = typePretty();
 		str[2] = ecconLong;
 		str[3] = extraWeight;
 		str[4] = GetDate(true);

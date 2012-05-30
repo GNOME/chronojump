@@ -1975,6 +1975,27 @@ Console.WriteLine("5" + tableName);
 		return myReaderStr;
 	}
 
+	public static int Max (string tableName, string column, bool dbconOpened)
+	{
+		if(!dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "SELECT MAX(" + column + ") FROM " + tableName ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		int myReturn = 0;
+		if(reader.Read()) 
+			myReturn = Convert.ToInt32(reader[0].ToString());
+		reader.Close();
+
+		if(!dbconOpened)
+			dbcon.Close();
+		return myReturn;
+	}
+
 	public static int Count (string tableName, bool dbconOpened)
 	{
 		if(!dbconOpened)

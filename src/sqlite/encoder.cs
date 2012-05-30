@@ -61,7 +61,6 @@ class SqliteEncoder : Sqlite
 	 */
 	
 	public static int Insert(bool dbconOpened, EncoderSQL es)
-//			string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, double smooth, string description)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -90,14 +89,49 @@ class SqliteEncoder : Sqlite
 		return myLast;
 	}
 	
-	public static ArrayList SelectStreams (bool dbconOpened, int personID, int sessionID)
+	public static void Update(bool dbconOpened, EncoderSQL es)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
+		if(es.uniqueID == "-1")
+			es.uniqueID = "NULL";
+
+		dbcmd.CommandText = "UPDATE " + Constants.EncoderTable + " SET " +
+				" personID = " + es.personID +
+				", sessionID = " + es.sessionID +
+				", name = '" + es.name +
+				"', url = '" + es.url +
+				"', type = '" + es.type +
+				"', extraWeight = '" + es.extraWeight +
+				"', eccon = '" + es.eccon +
+				"', time = " + es.time +
+				", minHeight = " + es.minHeight +
+				", smooth = " + Util.ConvertToPoint(es.smooth) +
+				", description = '" + es.description + "'" +
+				" WHERE uniqueID == " + es.uniqueID ;
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
+	
+	public static ArrayList SelectStreams (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " AND uniqueID = " + uniqueID;
+
+
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderTable + 
 			" WHERE personID = " + personID + " AND sessionID = " + sessionID +
-			" AND SUBSTR(type,1,6)='stream'";
+			" AND SUBSTR(type,1,6)='stream'" + uniqueIDStr;
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

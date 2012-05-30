@@ -213,21 +213,24 @@ public class EncoderSQL
 			ecconLong = Catalog.GetString("Eccentric-concentric");
 	}
 	
-	private string getDate() {
+	public string GetDate(bool pretty) {
 		int pointPos = name.LastIndexOf('.');
 		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
 		string date = name.Substring(pointPos - dateLength, dateLength);
-		string [] dateParts = date.Split(new char[] {'_'});
-		return dateParts[0] + " " + dateParts[1].Replace('-',':');
+		if(pretty) {
+			string [] dateParts = date.Split(new char[] {'_'});
+			date = dateParts[0] + " " + dateParts[1].Replace('-',':');
+		}
+		return date;
 	}
 
 	public string [] ToStringArray () {
-		string [] str = new String [5];
+		string [] str = new String [6];
 		str[0] = uniqueID;
 		str[1] = type;
 		str[2] = ecconLong;
 		str[3] = extraWeight;
-		str[4] = getDate();
+		str[4] = GetDate(true);
 		str[5] = description;
 		return str;
 	}

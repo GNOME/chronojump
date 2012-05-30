@@ -24058,7 +24058,7 @@ Evaluator can use real name or nickname.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkSpinButton" id="spin_encoder_jump_limit">
+                                                          <widget class="GtkSpinButton" id="spin_encoder_jump_weight">
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
@@ -24078,7 +24078,7 @@ Evaluator can use real name or nickname.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkSpinButton" id="spin_encoder_bar_limit">
+                                                          <widget class="GtkSpinButton" id="spin_encoder_bar_weight">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>

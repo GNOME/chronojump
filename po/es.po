@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-29 20:41+0000\n"
-"PO-Revision-Date: 2012-05-30 17:36+0200\n"
+"POT-Creation-Date: 2012-05-30 19:43+0000\n"
+"PO-Revision-Date: 2012-05-31 11:12+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -142,7 +142,7 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: ../glade/chronojump.glade.h:19 ../src/exportSession.cs:234
-#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:454
+#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:529
 #: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
 #: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
 #: ../src/stats/graphs/djQ.cs:70 ../src/stats/graphs/djQ.cs:86
@@ -194,7 +194,8 @@ msgid "Place"
 msgstr "Lugar"
 
 #: ../glade/chronojump.glade.h:28 ../src/exportSession.cs:219
-#: ../src/gui/session.cs:689 ../src/gui/session.cs:858 ../src/report.cs:242
+#: ../src/gui/encoder.cs:261 ../src/gui/session.cs:689
+#: ../src/gui/session.cs:858 ../src/report.cs:242
 msgid "Date"
 msgstr "Fecha"
 
@@ -257,7 +258,7 @@ msgstr "Marcar"
 msgid "Search filter"
 msgstr "Filtro de búsqueda"
 
-#: ../glade/chronojump.glade.h:43
+#: ../glade/chronojump.glade.h:43 ../src/gui/encoder.cs:270
 msgid "Load"
 msgstr "Cargar"
 
@@ -463,8 +464,8 @@ msgstr "sí"
 msgid "no"
 msgstr "no"
 
-#: ../glade/chronojump.glade.h:96 ../src/gui/jump.cs:1290
-#: ../src/gui/jump.cs:1489
+#: ../glade/chronojump.glade.h:96 ../src/gui/encoder.cs:260
+#: ../src/gui/jump.cs:1290 ../src/gui/jump.cs:1489
 msgid "Extra weight"
 msgstr "Peso extra"
 
@@ -479,7 +480,8 @@ msgstr ""
 #: ../glade/chronojump.glade.h:99 ../src/exportSession.cs:277
 #: ../src/exportSession.cs:491 ../src/exportSession.cs:543
 #: ../src/exportSession.cs:680 ../src/exportSession.cs:740
-#: ../src/gui/convertWeight.cs:112 ../src/gui/report.cs:135
+#: ../src/gui/convertWeight.cs:112 ../src/gui/encoder.cs:258
+#: ../src/gui/report.cs:135
 msgid "Type"
 msgstr "Tipo"
 
@@ -1036,7 +1038,7 @@ msgstr "m"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:224 ../src/gui/encoder.cs:452
+#: ../glade/chronojump.glade.h:224 ../src/gui/encoder.cs:527
 msgid "Start"
 msgstr "Salida"
 
@@ -2554,12 +2556,10 @@ msgid "Capture"
 msgstr "Capturar"
 
 #: ../glade/chronojump.glade.h:577
-#| msgid "Current"
 msgid "Current stream"
 msgstr "Flujo actual"
 
 #: ../glade/chronojump.glade.h:578
-#| msgid "Single curve"
 msgid "User curves"
 msgstr "Curvas del usuario"
 
@@ -2568,7 +2568,6 @@ msgid "Select"
 msgstr "Seleccionar"
 
 #: ../glade/chronojump.glade.h:580
-#| msgid "<b>0</b>"
 msgid "<b>Data</b>"
 msgstr "<b>Datos</b>"
 
@@ -3646,7 +3645,7 @@ msgid "SessionID"
 msgstr "ID de sesión"
 
 #: ../src/exportSession.cs:231 ../src/gui/convertWeight.cs:106
-#: ../src/gui/person.cs:117
+#: ../src/gui/encoder.cs:257 ../src/gui/person.cs:117
 msgid "ID"
 msgstr "ID"
 
@@ -4370,54 +4369,75 @@ msgstr ""
 "Nuevo peso\n"
 "opción 2"
 
-#: ../src/gui/encoder.cs:192
+#: ../src/gui/encoder.cs:195
 msgid "Missing data."
 msgstr "Faltan datos."
 
+#: ../src/gui/encoder.cs:259
+#| msgid "subtraction"
+msgid "Contraction"
+msgstr "Contracción"
+
+#: ../src/gui/encoder.cs:262 ../src/gui/report.cs:143
+msgid "Comment"
+msgstr "Comentario"
+
+#: ../src/gui/encoder.cs:266
+#, csharp-format
+#| msgid "Delete {0} from this session"
+msgid "Select stream of athlete {0} on this session."
+msgstr "Seleccionar el flujo del atleta {0} en esta sesión."
+
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:301
+#: ../src/gui/encoder.cs:354
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Curva {0} guardada"
 
-#: ../src/gui/encoder.cs:304
+#: ../src/gui/encoder.cs:416
 msgid "Stream saved"
 msgstr "Flujo guardado"
 
-#: ../src/gui/encoder.cs:451
-#| msgid "Current"
+#. only stream is updated
+#. Adding on SQL
+#: ../src/gui/encoder.cs:422
+#| msgid "Stream saved"
+msgid "Stream updated"
+msgstr "Flujo actualizado"
+
+#: ../src/gui/encoder.cs:526
 msgid "Curve"
 msgstr "Curva"
 
-#: ../src/gui/encoder.cs:453
+#: ../src/gui/encoder.cs:528
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoder.cs:455
+#: ../src/gui/encoder.cs:530
 msgid "MeanSpeed"
 msgstr "Velocidad media"
 
-#: ../src/gui/encoder.cs:456
+#: ../src/gui/encoder.cs:531
 msgid "MaxSpeed"
 msgstr "Velocidad máxima"
 
-#: ../src/gui/encoder.cs:457
+#: ../src/gui/encoder.cs:532
 msgid "MeanPower"
 msgstr "Potencia media"
 
-#: ../src/gui/encoder.cs:458
+#: ../src/gui/encoder.cs:533
 msgid "PeakPower"
 msgstr "Pico de potencia"
 
-#: ../src/gui/encoder.cs:459
+#: ../src/gui/encoder.cs:534
 msgid "PeakPowerTime"
 msgstr "Instante del pico de potencia"
 
-#: ../src/gui/encoder.cs:460
+#: ../src/gui/encoder.cs:535
 msgid "PeakPower/PPT"
 msgstr "Pico de potencia/Instante"
 
-#: ../src/gui/encoder.cs:818 ../src/gui/encoder.cs:827
+#: ../src/gui/encoder.cs:893 ../src/gui/encoder.cs:902
 msgid "Please, wait."
 msgstr "Espere."
 
@@ -4897,10 +4917,6 @@ msgstr "Filas marcadas"
 #: ../src/gui/report.cs:142
 msgid "Graph Options"
 msgstr "Opciones de gráfica"
-
-#: ../src/gui/report.cs:143
-msgid "Comment"
-msgstr "Comentario"
 
 #: ../src/gui/report.cs:353
 msgid "Comment this statistic"

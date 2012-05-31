@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-05-30 19:43+0000\n"
+"POT-Creation-Date: 2012-05-31 10:10+0000\n"
 "PO-Revision-Date: 2012-05-31 11:12+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -3040,7 +3040,7 @@ msgstr "Pulsar CTRL-c para terminar la sesión"
 
 #: ../src/chronojump_mini.cs:245
 msgid "Invalid args. Use:"
-msgstr "Argumentos inválidos. Use:"
+msgstr "Argumentos no válidos. Use:"
 
 #: ../src/chronojump_mini.cs:249 ../src/chronojump_mini.cs:256
 msgid "Examples:"
@@ -4374,7 +4374,6 @@ msgid "Missing data."
 msgstr "Faltan datos."
 
 #: ../src/gui/encoder.cs:259
-#| msgid "subtraction"
 msgid "Contraction"
 msgstr "Contracción"
 
@@ -4384,7 +4383,6 @@ msgstr "Comentario"
 
 #: ../src/gui/encoder.cs:266
 #, csharp-format
-#| msgid "Delete {0} from this session"
 msgid "Select stream of athlete {0} on this session."
 msgstr "Seleccionar el flujo del atleta {0} en esta sesión."
 
@@ -4401,7 +4399,6 @@ msgstr "Flujo guardado"
 #. only stream is updated
 #. Adding on SQL
 #: ../src/gui/encoder.cs:422
-#| msgid "Stream saved"
 msgid "Stream updated"
 msgstr "Flujo actualizado"
 

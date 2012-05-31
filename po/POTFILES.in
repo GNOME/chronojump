@@ -12,6 +12,7 @@ libcesarplayer/src/video-utils.c
 src/chronojump.cs
 src/chronojump_mini.cs
 src/constants.cs
+src/encoder.cs
 src/execute/event.cs
 src/execute/jump.cs
 src/execute/multiChronopic.cs

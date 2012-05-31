@@ -126,11 +126,10 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 }
 
 #go here with every single jump
-kinematicsF <- function(a, mass, g) {
+kinematicsF <- function(a, mass, smoothingOne, g) {
 	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
 	accel <- predict( speed, deriv=1 )
 	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
-
 #	force <- mass*accel$y
 #	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
@@ -149,11 +148,17 @@ powerBars <- function(kinematics) {
 	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt))
 }
 
-kinematicRanges <- function(rawdata,curves,mass,g) {
+kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
 	for(i in 1:n) { 
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],mass,g)
+		myMass = mass
+		mySmoothingOne = smoothingOne
+		if(! singleFile) {
+			myMass = curves[i,5]
+			mySmoothingOne = curves[i,6]
+		}
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,mySmoothingOne,g)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -391,6 +396,24 @@ find.mfrow <- function(n) {
 	else if(n<=8) return(c(2,ceiling(n/2)))
 	else return(c(3, ceiling(n/3)))
 }
+
+find.yrange <- function(singleFile, rawdata, curves) {
+	if(singleFile) {
+		a=cumsum(rawdata)
+		return (c(min(a),max(a)))
+	} else {
+		n=length(curves[,1])
+		y.max = 0
+		for(i in 1:n) { 
+			y.current = cumsum(rawdata[curves[i,1]:curves[i,2]])
+			if(max(y.current) > y.max){
+				y.max = max(y.current)
+			}
+		}
+		return (c(0,y.max))
+	}
+}
+
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
@@ -425,18 +448,7 @@ if(length(args) < 3) {
 	height=as.numeric(args[13])
 
 	png(outputGraph, width=width, height=height)
-
-	rawdata=scan(file=file,sep=",")
-
-	if(length(rawdata)==0) {
-		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Encoder is not connected.",cex=1.5)
-		dev.off()
-		write("", outputData1)
-		quit()
-	}
-
-	rawdata.cumsum=cumsum(rawdata)
+	
 
 	titleType = "execution"
 	if(isJump)
@@ -447,44 +459,97 @@ if(length(args) < 3) {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,1,1))
 	}
-	curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
-	print(curves)
 
-	n=length(curves[,1])
-
-	#if not found curves with this data, plot a "sorry" message and exit
-	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
-		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
-		dev.off()
-		write("", outputData1)
-		quit()
-	}
-
-	for(i in 1:n) { 
-		curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
-	}
-	if(curvesPlot) {
-		#/10 mm -> cm
-		for(i in 1:length(curves[,1])) { 
-			myLabel = i
-			myY = min(rawdata.cumsum)/10
-			adjVert = 0
-			if(eccon=="ecS") {
-				myEc=c("c","e")
-				myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
-				myY = rawdata.cumsum[curves[i,1]]/10
-				if(i%%2 == 1) {
-					adjVert = 1
-				}
-			}
-			text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
-			arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
-					col="blue",code=3,length=0.1)
+	singleFile = TRUE
+	if(nchar(file) >= 40) {
+		#file="/tmp...../chronojump-encoder-graph-input-multi.txt"
+		#substr(file, nchar(file)-39, nchar(file))
+		#[1] "chronojump-encoder-graph-input-multi.txt"
+		if(substr(file, nchar(file)-39, nchar(file)) == "chronojump-encoder-graph-input-multi.txt") {
+			singleFile = FALSE
 		}
 	}
+	
+	if(! singleFile) {
+		#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
+		#this are separated movements
+		#maybe all are concentric (there's no returning to 0 phase)
 
-	print(curves)
+		#this version of curves will have added specific data cols: type, mass, smoothingOne, dateTime
+		inputMultiData=read.csv(file=file,sep=",")
+		rawdata = NULL
+		count = 1
+		start = NULL; end = NULL; startH = NULL
+		type = NULL; mass = NULL; smooth = NULL; dateTime = NULL
+		for(i in 1:length(inputMultiData[,1])) { 
+			print (i)
+			dataTemp=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
+			print(length(dataTemp))
+			rawdata = c(rawdata, dataTemp)
+			start[i] = count
+			end[i] = length(dataTemp) + count -1
+			startH[i] = 0
+			type[i] = as.vector(inputMultiData$type[i])
+			mass[i] = inputMultiData$mass[i]
+			smooth[i] = inputMultiData$smoothingOne[i]
+			dateTime[i] = inputMultiData$dateTime[i]
+			count = count + length(dataTemp)
+		}		
+		curves = data.frame(start,end,startH,type,mass,smooth,dateTime,stringsAsFactors=F)
+		rownames(curves)=1:length(rownames(curves))
+		#print(curves)
+		n=length(curves[,1])
+	} else {
+		rawdata=scan(file=file,sep=",")
+
+		if(length(rawdata)==0) {
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0,y=0,"Encoder is not connected.",cex=1.5)
+			dev.off()
+			write("", outputData1)
+			quit()
+		}
+
+		rawdata.cumsum=cumsum(rawdata)
+	
+		curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
+		#print(curves)
+		n=length(curves[,1])
+
+		#if not found curves with this data, plot a "sorry" message and exit
+		if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
+			dev.off()
+			write("", outputData1)
+			quit()
+		}
+
+		for(i in 1:n) { 
+			curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
+		}
+		if(curvesPlot) {
+			#/10 mm -> cm
+			for(i in 1:length(curves[,1])) { 
+				myLabel = i
+				myY = min(rawdata.cumsum)/10
+				adjVert = 0
+				if(eccon=="ecS") {
+					myEc=c("c","e")
+					myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
+					myY = rawdata.cumsum[curves[i,1]]/10
+					if(i%%2 == 1) {
+						adjVert = 1
+					}
+				}
+				text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
+				arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
+						col="blue",code=3,length=0.1)
+			}
+		}
+
+		#print(curves)
+	}
 
 	if(analysis=="single") 
 		if(jump>0) 
@@ -495,12 +560,22 @@ if(length(args) < 3) {
 	if(analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))
-		a=cumsum(rawdata)
-		yrange=c(min(a),max(a))
-		knRanges=kinematicRanges(rawdata,curves,mass,g)
+
+		#a=cumsum(rawdata)
+		#yrange=c(min(a),max(a))
+		yrange=find.yrange(singleFile, rawdata,curves)
+
+		knRanges=kinematicRanges(singleFile,rawdata,curves,mass,smoothingOne,g)
+
 		for(i in 1:n) {
+			myMass = mass
+			mySmoothingOne = smoothingOne
+			if(! singleFile) {
+				myMass = curves[i,5]
+				mySmoothingOne = curves[i,6]
+			}
 			paint(rawdata, eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-				1,curves[i,3],smoothingOne,mass,paste(titleType,i),TRUE,FALSE,TRUE,FALSE)
+				1,curves[i,3],mySmoothingOne,myMass,paste(titleType,i),TRUE,FALSE,TRUE,FALSE)
 		}
 		par(mfrow=c(1,1))
 	}
@@ -510,9 +585,12 @@ if(length(args) < 3) {
 		#arreglar que els eixos de l'esq han de seguir un ylim,pero els de la dreta un altre, basat en el que es vol observar
 		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
 		wide=max(curves$end-curves$start)
-		a=cumsum(rawdata)
-		yrange=c(min(a),max(a))
-		knRanges=kinematicRanges(rawdata,curves,mass,g)
+		
+		#a=cumsum(rawdata)
+		#yrange=c(min(a),max(a))
+		yrange=find.yrange(singleFile, rawdata,curves)
+
+		knRanges=kinematicRanges(singleFile,rawdata,curves,mass,smoothingOne,g)
 		for(i in 1:n) {
 			#in superpose all jumps end at max height
 			#start can change, some are longer than other
@@ -530,7 +608,13 @@ if(length(args) < 3) {
 	if(analysis=="powerBars" || analysis=="curves") {
 		paf = data.frame()
 		for(i in 1:n) { 
-			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], mass, g))))
+			myMass = mass
+			mySmoothingOne = smoothingOne
+			if(! singleFile) {
+				myMass = curves[i,5]
+				mySmoothingOne = curves[i,6]
+			}
+			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], myMass, mySmoothingOne, g))))
 		}
 		if(analysis=="powerBars") {
 			paintPowerPeakPowerBars(paf)

@@ -119,7 +119,8 @@ class SqliteEncoder : Sqlite
 	}
 	
 	
-	public static ArrayList SelectStreams (bool dbconOpened, int uniqueID, int personID, int sessionID)
+	public static ArrayList Select (bool dbconOpened, 
+			int uniqueID, int personID, int sessionID, string typeStartsWith)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -128,10 +129,15 @@ class SqliteEncoder : Sqlite
 		if(uniqueID != -1)
 			uniqueIDStr = " AND uniqueID = " + uniqueID;
 
+		string typeStr = "";
+		if(typeStartsWith == "stream")
+			typeStr = " AND SUBSTR(type,1,6)='stream'";
+		else if(typeStartsWith == "curve")
+			typeStr = " AND SUBSTR(type,1,5)='curve'";
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderTable + 
 			" WHERE personID = " + personID + " AND sessionID = " + sessionID +
-			" AND SUBSTR(type,1,6)='stream'" + uniqueIDStr;
+			typeStr + uniqueIDStr;
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

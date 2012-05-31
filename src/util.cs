@@ -853,6 +853,10 @@ public class Util
 	public static string GetEncoderGraphTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphTemp);
 	}
+	public static string GetEncoderGraphInputMulti() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphInputMulti);
+	}
+
 
 //	public static void MoveTempToEncoderData(int sessionID, int uniqueID) {
 	public static string CopyTempToEncoderData(int sessionID, int uniqueID, string personName, string timeStamp) 

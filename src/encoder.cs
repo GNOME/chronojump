@@ -46,7 +46,11 @@ public class EncoderParams
 	private int powerLowerCondition;
 	private int peakPowerHigherCondition;
 	private int peakPowerLowerCondition;
-	
+
+	public EncoderParams()
+	{
+	}
+
 	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon,
 			double heightHigherCondition, double heightLowerCondition, 
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
@@ -105,11 +109,10 @@ public class EncoderParams
 			smooth + " " + curve + " " + width + " " + height;
 	}
 	
-	public string Analysis
-	{
+	public string Analysis {
 		get { return analysis; }
 	}
-
+	
 
 	~EncoderParams() {}
 }
@@ -241,4 +244,5 @@ public class EncoderSQL
 		str[5] = description;
 		return str;
 	}
+
 }

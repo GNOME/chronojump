@@ -24705,6 +24705,7 @@ Evaluator can use real name or nickname.</property>
                                                         <property name="receives_default">False</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
+                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_data_current_stream_toggled"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -24725,6 +24726,7 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radiobutton_encoder_analyze_data_current_stream</property>
+                                                            <signal name="toggled" handler="on_radiobutton_encoder_analyze_data_user_curves_toggled"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="position">0</property>
@@ -24733,7 +24735,6 @@ Evaluator can use real name or nickname.</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_analyze_data_select_user_curves">
                                                             <property name="label" translatable="yes">Select</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                           </widget>

@@ -53,6 +53,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_save_stream;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_stream;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
@@ -83,12 +85,12 @@ public partial class ChronoJumpWindow
 	private string encoderStreamUniqueID;
 	enum encoderModes { CAPTURE, ANALYZE }
 	
-	//TODO: store encoder data: auto save, and show on a treeview.
 	//TODO: auto close capturing window
-	//TODO: fix date of creation-saving stream and curve
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
+	//
+	//TODO: analyze-user curves: create file with n lines: titlecurve,otherparams,...,filecurve and pass this file to graph.R. graph.R will know that this file is not a rawdata file because will be called chronojump-encoder-graph-input-multi.txt
 
 	
 	private void encoderInitializeVariables() {
@@ -219,6 +221,7 @@ public partial class ChronoJumpWindow
 
 
 	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderCreateCurvesGraphR() 
 	{
 		EncoderParams ep = new EncoderParams(
@@ -246,7 +249,7 @@ public partial class ChronoJumpWindow
 		
 	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
 	{
-		ArrayList data = SqliteEncoder.SelectStreams(false, -1, currentPerson.UniqueID, currentSession.UniqueID);
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "stream");
 
 		ArrayList dataPrint = new ArrayList();
 		foreach(EncoderSQL es in data) {
@@ -276,8 +279,8 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_stream_accepted);
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 
-		ArrayList data = SqliteEncoder.SelectStreams(false, uniqueID, 
-				currentPerson.UniqueID, currentSession.UniqueID);
+		ArrayList data = SqliteEncoder.Select(false, uniqueID, 
+				currentPerson.UniqueID, currentSession.UniqueID, "stream");
 
 		foreach(EncoderSQL es in data) {	//it will run only one time
 			Util.CopyEncoderDataToTemp(es.url, es.name);
@@ -433,24 +436,74 @@ public partial class ChronoJumpWindow
 	}
 	
 	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
 	private void analyze () 
 	{
-		EncoderParams ep = new EncoderParams(
-				(int) spin_encoder_capture_min_height.Value, 
-				!radiobutton_encoder_capture_bar.Active,
-				findMass(true),
-				findEccon(false),		//do not force ecS (ecc-conc separated)
-				encoderAnalysis,
-				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
-				(int) spin_encoder_analyze_curve_num.Value, 
-				image_encoder_width, image_encoder_height); 
+		EncoderParams ep = new EncoderParams();
+		string dataFileName = "";
 
-		EncoderStruct es = new EncoderStruct(
-				Util.GetEncoderDataTempFileName(), 
+		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+			//-1 because data will be different on any curve
+			ep = new EncoderParams(
+					-1, 
+					!radiobutton_encoder_capture_bar.Active,
+					"-1",			//mass
+					findEccon(false),	//do not force ecS (ecc-conc separated)
+					encoderAnalysis,
+					"-1",
+					-1,
+					image_encoder_width, 
+					image_encoder_height); 
+			
+			dataFileName = Util.GetEncoderGraphInputMulti();
+
+			//create dataFileName
+			double bodyMass = Convert.ToDouble(label_encoder_person_weight.Text);
+			ArrayList data = SqliteEncoder.Select(false, -1, 
+					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		
+				
+			TextWriter writer = File.CreateText(dataFileName);
+			writer.WriteLine("type,mass,smoothingOne,dateTime,fullURL");
+			foreach(EncoderSQL eSQL in data) {
+				double mass = Convert.ToDouble(eSQL.extraWeight);	//TODO: check this
+				if(eSQL.type == "curveJUMP")
+					mass += bodyMass;
+
+				writer.WriteLine(eSQL.type + "," + mass.ToString() + "," + 
+						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
+						eSQL.url + Path.DirectorySeparatorChar + eSQL.name);
+			}
+			writer.Flush();
+			((IDisposable)writer).Dispose();
+		} else {
+			ep = new EncoderParams(
+					(int) spin_encoder_capture_min_height.Value, 
+					!radiobutton_encoder_capture_bar.Active,
+					findMass(true),
+					findEccon(false),		//do not force ecS (ecc-conc separated)
+					encoderAnalysis,
+					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+					(int) spin_encoder_analyze_curve_num.Value, 
+					image_encoder_width,
+					image_encoder_height); 
+			
+			dataFileName = Util.GetEncoderDataTempFileName();
+		}
+
+		EncoderStruct encoderStruct = new EncoderStruct(
+				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
 				"NULL", "NULL", ep);		//no data ouptut
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es, false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, encoderStruct, false);
+	}
+	
+	private void on_radiobutton_encoder_analyze_data_current_stream_toggled (object obj, EventArgs args) {
+		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
+	}
+	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
+		button_encoder_analyze.Sensitive = currentPerson != null;
 	}
 
 	//show curve_num only on simple and superpose
@@ -900,6 +953,7 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
+
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 		}

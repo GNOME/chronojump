@@ -36,25 +36,29 @@ class SqliteEncoder : Sqlite
 	 * create and initialize tables
 	 */
 	
-	protected internal static void createTable()
+	protected internal static void createTableEncoder()
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"personID INT, " +
 			"sessionID INT, " +
-			"name TEXT, " +
-			"url TEXT, " +
-			"type TEXT, " +		//"streamBAR", "streamJUMP", "curveBAR", "curveJUMP"
-			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"exerciseID INT, " +
 			"eccon TEXT, " +	//"c" or "ec"
+			"laterality TEXT, " +	//"left" "right" "both"
+			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"streamOrCurve TEXT, " + //"stream" or "curve", old: "streamBAR", "streamJUMP", "curveBAR", "curveJUMP"
+			"filename TEXT, " +
+			"url TEXT, " +
 			"time INT, " +
 			"minHeight INT, " +
 			"smooth FLOAT, " +  
-			"description TEXT )";
+			"description TEXT, " +
+			"future1 TEXT, " +
+			"future2 TEXT, " +
+			"future3 TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
-	
 	
 	/*
 	 * Encoder class methods
@@ -168,5 +172,58 @@ class SqliteEncoder : Sqlite
 
 		return array;
 	}
+	
+	/*
+	 * EncoderExercise stuff
+	 */
+	
+	
+	//ressistance (weight bar, machine, goma, none, inertial, ...)
+	protected internal static void createTableEncoderExercise()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.EncoderExerciseTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"name TEXT, " +
+			"percentBodyWeight INT, " +
+			"ressistance TEXT, " +
+			"description TEXT, " +
+			"future1 TEXT, " +
+			"future2 TEXT, " +
+			"future3 TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	public static void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
+			string ressistance, string description)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
 
+		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
+				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
+				" VALUES (NULL, '" + name + "', " + percentBodyWeight + ", '" + 
+				ressistance + "', '" + description + "', '','','')";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
+	protected internal static void initializeTableEncoderExercise()
+	{
+		string [] iniEncoderExercises = {
+			//name:percentBodyWeight:ressistance:description
+			"Bench press:0:weight bar:", 
+			"Squat:75:weight bar:", 
+			"Jump:100:none:"
+		};
+		
+		foreach(string line in iniEncoderExercises) {
+			string [] parts = line.Split(new char[] {':'});
+			InsertExercise(false,parts[0],Convert.ToInt32(parts[1]),parts[2],parts[3]);
+		}
+	}
+	
 }

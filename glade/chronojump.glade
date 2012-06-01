@@ -24862,7 +24862,6 @@ Evaluator can use real name or nickname.</property>
                                                         <child>
                                                           <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_superpose">
                                                             <property name="label" translatable="yes">Superpose</property>
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>

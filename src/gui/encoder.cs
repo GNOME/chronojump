@@ -47,6 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
+	[Widget] Gtk.Label label_encoder_capture_comment;
 	[Widget] Gtk.Entry entry_encoder_capture_comment;
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
@@ -89,6 +90,13 @@ public partial class ChronoJumpWindow
 	
 	//TODO: auto close capturing window
 
+	//TODO: fixing powerbars problem, [false: sqlite.encoder curves don't store if it's "c" or "ec", then graph.R when doing the curves, don't do a row for the e and another for the c, because don't know in which curves have to differentiate], also don't plot names ok. This affects at multi and do it good in order to compare c and ec contractions of same person. change encoder table, adding "contraction", "exerciseID" (uniqueID of table encoderExercise), "laterality" (Right, Left, Both)
+	//
+	//
+	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
+	//TODO: if mode is ecc-con, curves used have to be eccon
+	//TODO: when change person: unsensitive: recalculate, capture graph, treeview capture, buttons caputre on bottom, analyze button
+
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
 	//
@@ -96,11 +104,8 @@ public partial class ChronoJumpWindow
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze
 	//TODO: Add exercise. at capture add combobox of exercises or treeview that pop ups (maybe genericWin). squat, benchpress, jump. change weight bar, and jump radiobuttons to this combobox, addoption of others, and add them on sqlite
-	//Any exercise should have: name of exercise, %body weight, ressistance (maquina, goma, res, inercial, ...),comment
-	//
-	//TODO: Add "lateralitat": Right, Left, Both; 
+	
 	//to analyze: user has to select: session, athlete, exercise, 
-	//TODO: an exericise like squat have to count body as 70% and be changeable by user,because some publications use the 100%
 	//TODO: single curve, and side, checkbox to show1 param, 2 or three
 	//TODO: powerbars with checkbox to show1 param, 2 or three
 	//TODO: on capture (quasi-realtime), show powerbars or curves or both
@@ -216,14 +221,14 @@ public partial class ChronoJumpWindow
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
 		if (contents == null) {
 			//TODO: no data: make some of the gui unsensitive ??
-			button_encoder_analyze.Sensitive = false;
+			sensitiveEncoderGlobalButtons(false);
 		} else {
 			removeColumns();
 			int curvesNum = createTreeViewEncoder(contents);
 			if(! radiobutton_encoder_concentric.Active)
 				curvesNum = curvesNum / 2;
 			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
-			button_encoder_analyze.Sensitive = true;
+			sensitiveEncoderGlobalButtons(true);
 		}
 	}
 	
@@ -994,10 +999,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void sensitiveEncoderGlobalButtons(bool sensitive) {
+		label_encoder_capture_comment.Sensitive = sensitive;
+		entry_encoder_capture_comment.Sensitive = sensitive;
+		button_encoder_save_stream.Sensitive = sensitive;
+		button_encoder_analyze.Sensitive = sensitive;
+	}
+
 	private void sensitiveEncoderRowButtons(bool sensitive) {
 		button_encoder_delete_curve.Sensitive = sensitive;
 		button_encoder_save_curve.Sensitive = sensitive;
-		button_encoder_save_all_curves.Sensitive = sensitive;
 	}
 	
 	/* end of TreeView stuff */	

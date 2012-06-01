@@ -1124,7 +1124,9 @@ class Sqlite
 				conversionRateTotal = 2;
 				
 				conversionRate = 1;
-				SqliteEncoder.createTable();
+				SqliteEncoder.createTableEncoder();
+				SqliteEncoder.createTableEncoderExercise();
+				SqliteEncoder.initializeTableEncoderExercise();
 				conversionRate = 2;
 				Log.WriteLine("Created encoder tables.");
 
@@ -1264,7 +1266,9 @@ class Sqlite
 	
 		//encoder	
 		creationRate ++;
-		SqliteEncoder.createTable();
+		SqliteEncoder.createTableEncoder();
+		SqliteEncoder.createTableEncoderExercise();
+		SqliteEncoder.initializeTableEncoderExercise();
 
 		//sports
 		creationRate ++;

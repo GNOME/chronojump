@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -195,6 +195,10 @@ public class UtilGtk
 				return col.Title;
 		
 		return "";
+	}
+
+	public static int CountRows(Gtk.ListStore ls) {
+		return(ls.IterNChildren());
 	}
 
 	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {

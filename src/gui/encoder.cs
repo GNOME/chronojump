@@ -92,7 +92,7 @@ public partial class ChronoJumpWindow
 	//TODO: solve the problem of connecting two different chronopics
 	//
 	//TODO: analyze-user curves: create file with n lines: titlecurve,otherparams,...,filecurve and pass this file to graph.R. graph.R will know that this file is not a rawdata file because will be called chronojump-encoder-graph-input-multi.txt
-	//TODO: if user has no curves, has to stop, multi file gets generated with title row but no curves
+	//TODO: if user has no curves, has to stop, multi file gets generated with title row but no curves. Fixed, but need to (best) don't allow to analyze, or show a clear message, blanking the graphic
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze
 	//TODO: Add exercise. at capture add combobox of exercises or treeview that pop ups (maybe genericWin). squat, benchpress, jump. change weight bar, and jump radiobuttons to this combobox, addoption of others, and add them on sqlite
@@ -482,6 +482,10 @@ public partial class ChronoJumpWindow
 			double bodyMass = Convert.ToDouble(label_encoder_person_weight.Text);
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+
+			//TODO: in the future plot a "no curves" message, or beter done allow to analyze if there's no curves
+			if(data.Count == 0)
+				return;
 		
 				
 			TextWriter writer = File.CreateText(dataFileName);

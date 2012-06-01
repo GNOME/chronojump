@@ -24,7 +24,7 @@ library("EMD")
 findCurves <- function(rawdata, eccon, min_height, draw) {
 	a=cumsum(rawdata)
 	b=extrema(a)
-print(b)
+	
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
 	#TODO: fer algo per si no es detecta el minindex previ al salt
@@ -414,6 +414,17 @@ find.yrange <- function(singleFile, rawdata, curves) {
 	}
 }
 
+quitIfNoData <- function(n, curves, outputData1) {
+	#if not found curves with this data, plot a "sorry" message and exit
+	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
+		dev.off()
+		write("", outputData1)
+		quit()
+	}
+}
+
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
@@ -499,6 +510,7 @@ if(length(args) < 3) {
 		rownames(curves)=1:length(rownames(curves))
 		#print(curves)
 		n=length(curves[,1])
+		quitIfNoData(n, curves, outputData1)
 	} else {
 		rawdata=scan(file=file,sep=",")
 
@@ -515,15 +527,6 @@ if(length(args) < 3) {
 		curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
 		#print(curves)
 		n=length(curves[,1])
-
-		#if not found curves with this data, plot a "sorry" message and exit
-		if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
-			plot(0,0,type="n",axes=F,xlab="",ylab="")
-			text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
-			dev.off()
-			write("", outputData1)
-			quit()
-		}
 
 		for(i in 1:n) { 
 			curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)

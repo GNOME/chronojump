@@ -24595,7 +24595,7 @@ Evaluator can use real name or nickname.</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox80">
                                                 <property name="visible">True</property>
-                                                <property name="spacing">12</property>
+                                                <property name="spacing">8</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_encoder_capture_comment">
                                                     <property name="visible">True</property>
@@ -24630,6 +24630,29 @@ Evaluator can use real name or nickname.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
+                                                  <widget class="GtkButton" id="button_encoder_save_all_curves">
+                                                    <property name="label">Save all curves</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_encoder_save_clicked"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">3</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkVSeparator" id="vseparator2">
+                                                    <property name="visible">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="position">4</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
                                                   <widget class="GtkButton" id="button_encoder_save_stream">
                                                     <property name="label">Save stream</property>
                                                     <property name="visible">True</property>
@@ -24640,7 +24663,7 @@ Evaluator can use real name or nickname.</property>
                                                   <packing>
                                                     <property name="expand">False</property>
                                                     <property name="fill">False</property>
-                                                    <property name="position">3</property>
+                                                    <property name="position">5</property>
                                                   </packing>
                                                 </child>
                                               </widget>

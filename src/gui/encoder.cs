@@ -50,6 +50,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Entry entry_encoder_capture_comment;
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
+	[Widget] Gtk.Button button_encoder_save_all_curves;
 	[Widget] Gtk.Button button_encoder_save_stream;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
@@ -91,6 +92,19 @@ public partial class ChronoJumpWindow
 	//TODO: solve the problem of connecting two different chronopics
 	//
 	//TODO: analyze-user curves: create file with n lines: titlecurve,otherparams,...,filecurve and pass this file to graph.R. graph.R will know that this file is not a rawdata file because will be called chronojump-encoder-graph-input-multi.txt
+	//TODO: if user has no curves, has to stop, multi file gets generated with title row but no curves
+	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
+	//TODO: treeview on analyze
+	//TODO: Add exercise. at capture add combobox of exercises or treeview that pop ups (maybe genericWin). squat, benchpress, jump. change weight bar, and jump radiobuttons to this combobox, addoption of others, and add them on sqlite
+	//Any exercise should have: name of exercise, %body weight, ressistance (maquina, goma, res, inercial, ...),comment
+	//
+	//TODO: Add "lateralitat": Right, Left, Both; 
+	//to analyze: user has to select: session, athlete, exercise, 
+	//TODO: an exericise like squat have to count body as 70% and be changeable by user,because some publications use the 100%
+	//TODO: single curve, and side, checkbox to show1 param, 2 or three
+	//TODO: powerbars with checkbox to show1 param, 2 or three
+	//TODO: on capture (quasi-realtime), show powerbars or curves or both
+	//
 
 	
 	private void encoderInitializeVariables() {
@@ -302,20 +316,10 @@ public partial class ChronoJumpWindow
 		on_button_encoder_recalculate_clicked (o, args); 
 	}
 
-	private EncoderCurve getCurve(int selectedID) 
-	{
-		if(ecconLast != "c") {
-			bool isEven = (selectedID % 2 == 0); //check if it's even (in spanish "par")
-			if(isEven)
-				selectedID --;
-		}
-		return treeviewEncoderCurvesGetCurve(selectedID);
-	}
-
 	void on_button_encoder_delete_curve_clicked (object o, EventArgs args) 
 	{
 		int selectedID = treeviewEncoderCurvesEventSelectedID();
-		EncoderCurve curve = getCurve(selectedID);
+		EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID, true);
 
 		//some start at ,5 because of the spline filtering
 		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
@@ -325,9 +329,9 @@ public partial class ChronoJumpWindow
 				(ecconLast != "c" && selectedID+1 == encoderCurves.Count) )
 			duration = -1; //until the end
 		else {
-			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
+			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1, false);
 			if(ecconLast != "c")
-				curveNext = treeviewEncoderCurvesGetCurve(selectedID+2);
+				curveNext = treeviewEncoderCurvesGetCurve(selectedID+2, false);
 
 			int curveNextStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
 			duration = curveNextStart - curveStart;
@@ -343,39 +347,56 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
+		Gtk.Button button = (Gtk.Button) o;
+		if(button == button_encoder_save_curve) {
+			int selectedID = treeviewEncoderCurvesEventSelectedID();
+			encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("curve", selectedID);
+		} else if(button == button_encoder_save_all_curves) 
+			for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
+				encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("allCurves", i);
+		else 	//(button == button_encoder_save_stream) 
+			encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("stream", 0);
+
+	}
+
+	string encoderSaveStreamOrCurve (string mode, int selectedID) 
+	{
+		//mode is different than type. 
+		//mode can be curve, allCurves or stream
+		//type is to print on db at type column: curve or stream + (bar or jump)
 		string type = "";
 		string feedback = "";
 		string fileSaved = "";
 		string path = "";
 
-		Gtk.Button button = (Gtk.Button) o;
-		if(button == button_encoder_save_curve) {
+		if(mode == "curve") {
 			type = "curve";
 			decimal curveNum = (decimal) treeviewEncoderCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
 			if(ecconLast != "c")
 				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
 			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
-		} else {	//(button == button_encoder_save_stream) {
+		} else if(mode == "allCurves") {
+			type = "curve";
+			feedback = Catalog.GetString("All curves saved");
+		} else 	//mode == "stream"
 			type = "stream";
-		}
 		
 		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
 		//Log.WriteLine(desc);
 
-		if(type == "curve") {
-			int selectedID = treeviewEncoderCurvesEventSelectedID();
-			EncoderCurve curve = getCurve(selectedID);
+		if(mode == "curve" || mode == "allCurves") {
+			EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID,true);
 
 			//some start at ,5 because of the spline filtering
 			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
 			if(ecconLast != "c") {
-				EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1);
+				EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1,false);
 				duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
 			}
 
-			//Log.WriteLine(curveStart + "->" + duration);
+			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
 			fileSaved = Util.EncoderSaveCurve(Util.GetEncoderDataTempFileName(), curveStart, duration,
 					currentSession.UniqueID, currentPerson.UniqueID, 
@@ -393,7 +414,7 @@ public partial class ChronoJumpWindow
 			type += "JUMP";
 		
 		string myID = "-1";	
-		if(button == button_encoder_save_stream)
+		if(mode == "stream")
 			myID = encoderStreamUniqueID;
 
 		EncoderSQL eSQL = new EncoderSQL(
@@ -414,7 +435,7 @@ public partial class ChronoJumpWindow
 		//on curves, always insert, because it can be done with different smoothing, different params
 		if(myID == "-1") {
 			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
-			if(button == button_encoder_save_stream) {
+			if(mode == "stream") {
 				encoderStreamUniqueID = myID;
 				feedback = Catalog.GetString("Stream saved");
 			}
@@ -425,7 +446,7 @@ public partial class ChronoJumpWindow
 			feedback = Catalog.GetString("Stream updated");
 		}
 		
-		encoder_pulsebar_capture.Text = feedback;
+		return feedback;
 	}
 
 
@@ -853,7 +874,17 @@ public partial class ChronoJumpWindow
 		return cells;
 	}
 	
-	private EncoderCurve treeviewEncoderCurvesGetCurve(int row) {
+	//the bool is for ecc-concentric
+	//there two rows are selected
+	//if user clicks on 2n row, and bool is true, first row is the returned curve
+	private EncoderCurve treeviewEncoderCurvesGetCurve(int row, bool onEccConTakeFirst) 
+	{
+		if(onEccConTakeFirst && ecconLast != "c") {
+			bool isEven = (row % 2 == 0); //check if it's even (in spanish "par")
+			if(isEven)
+				row --;
+		}
+
 		TreeIter iter = new TreeIter();
 		bool iterOk = encoderListStore.GetIterFirst(out iter);
 		if(iterOk) {
@@ -931,6 +962,7 @@ public partial class ChronoJumpWindow
 	private void sensitiveEncoderRowButtons(bool sensitive) {
 		button_encoder_delete_curve.Sensitive = sensitive;
 		button_encoder_save_curve.Sensitive = sensitive;
+		button_encoder_save_all_curves.Sensitive = sensitive;
 	}
 	
 	/* end of TreeView stuff */	

@@ -24756,10 +24756,13 @@ Evaluator can use real name or nickname.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_encoder_analyze_data_select_user_curves">
-                                                            <property name="label" translatable="yes">Select</property>
+                                                          <widget class="GtkButton" id="button_encoder_analyze_data_show_user_curves">
+                                                            <property name="label" translatable="yes">Show</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
+                                                            <signal name="clicked" handler="on_button_encoder_analyze_data_show_user_curves_clicked"/>
                                                           </widget>
                                                           <packing>
                                                             <property name="position">1</property>

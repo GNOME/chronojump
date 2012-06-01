@@ -43,6 +43,7 @@ public class GenericWindow
 	[Widget] Gtk.ScrolledWindow scrolled_window_treeview;
 	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_cancel;
 
 	static GenericWindow GenericWindowBox;
 	
@@ -118,7 +119,6 @@ public class GenericWindow
 		foreach (string [] line in data) 
 			store.AppendValues (line);
 		
-		setButtonAcceptSensitive(false);
 		treeview.CursorChanged += on_treeview_cursor_changed; 
 	}
 	
@@ -159,9 +159,9 @@ public class GenericWindow
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview.Model;
 		if (treeview.Selection.GetSelected (out myModel, out iter)) 
-			setButtonAcceptSensitive(true);
+			SetButtonAcceptSensitive(true);
 		else
-			setButtonAcceptSensitive(false);
+			SetButtonAcceptSensitive(false);
 	}
 	
 	public int TreeviewSelectedRowID() {
@@ -177,10 +177,13 @@ public class GenericWindow
 		button_accept.Label=str;
 	}
 	
-	private void setButtonAcceptSensitive(bool show) {
+	public void SetButtonAcceptSensitive(bool show) {
 		button_accept.Sensitive=show;
 	}
-
+	
+	public void ShowButtonCancel(bool show) {
+		button_cancel.Visible = show;
+	}
 
 	protected void on_button_cancel_clicked (object o, EventArgs args)
 	{

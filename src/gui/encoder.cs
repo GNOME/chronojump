@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_stream;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
+	[Widget] Gtk.Button button_encoder_analyze_data_show_user_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
@@ -91,7 +92,6 @@ public partial class ChronoJumpWindow
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
 	//
-	//TODO: analyze-user curves: create file with n lines: titlecurve,otherparams,...,filecurve and pass this file to graph.R. graph.R will know that this file is not a rawdata file because will be called chronojump-encoder-graph-input-multi.txt
 	//TODO: if user has no curves, has to stop, multi file gets generated with title row but no curves. Fixed, but need to (best) don't allow to analyze, or show a clear message, blanking the graphic
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze
@@ -260,6 +260,34 @@ public partial class ChronoJumpWindow
 		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
 		ecconLast = findEccon(false);
 	}
+	
+	void on_button_encoder_analyze_data_show_user_curves_clicked (object o, EventArgs args) 
+	{
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+
+		ArrayList dataPrint = new ArrayList();
+		foreach(EncoderSQL es in data) {
+			dataPrint.Add(es.ToStringArray());
+		}
+		
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Type"),
+			Catalog.GetString("Contraction"),
+			Catalog.GetString("Extra weight"),
+			Catalog.GetString("Date"),
+			Catalog.GetString("Comment")
+		};
+
+		genericWin = GenericWindow.Show(
+				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
+					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
+
+		genericWin.SetTreeview(columnsString, dataPrint);
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptSensitive(true);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
+	}
 		
 	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
 	{
@@ -285,6 +313,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.SetTreeview(columnsString, dataPrint);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
+		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_stream_accepted);
 	}
 	
@@ -526,9 +555,11 @@ public partial class ChronoJumpWindow
 	
 	private void on_radiobutton_encoder_analyze_data_current_stream_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
+		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = currentPerson != null;
+		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
 	}
 
 	//show curve_num only on simple and superpose

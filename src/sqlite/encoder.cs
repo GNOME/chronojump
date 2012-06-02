@@ -47,7 +47,7 @@ class SqliteEncoder : Sqlite
 			"eccon TEXT, " +	//"c" or "ec"
 			"laterality TEXT, " +	//"left" "right" "both"
 			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
-			"streamOrCurve TEXT, " + //"stream" or "curve", old: "streamBAR", "streamJUMP", "curveBAR", "curveJUMP"
+			"signalOrCurve TEXT, " + //"signal" or "curve"
 			"filename TEXT, " +
 			"url TEXT, " +
 			"time INT, " +
@@ -73,12 +73,12 @@ class SqliteEncoder : Sqlite
 			es.uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
-				" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, streamOrCurve, filename, url, time, minHeight, smooth, description, future1, future2, future3)" +
+				" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename, url, time, minHeight, smooth, description, future1, future2, future3)" +
 				" VALUES (" + es.uniqueID + ", " +
 				es.personID + ", " + es.sessionID + ", " +
 				es.exerciseID + ", '" + es.eccon + "', '" +
 				es.laterality + "', '" + es.extraWeight + "', '" +
-				es.streamOrCurve + "', '" + es.filename + "', '" +
+				es.signalOrCurve + "', '" + es.filename + "', '" +
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
 				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', '', '', '')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -111,7 +111,7 @@ class SqliteEncoder : Sqlite
 				", eccon = '" + es.eccon +
 				"', laterality = '" + es.laterality +
 				"', extraWeight = '" + es.extraWeight +
-				"', streamOrCurve = '" + es.streamOrCurve +
+				"', signalOrCurve = '" + es.signalOrCurve +
 				"', filename = '" + es.filename +
 				"', url = '" + es.url +
 				"', time = " + es.time +
@@ -132,7 +132,7 @@ class SqliteEncoder : Sqlite
 	
 	
 	public static ArrayList Select (bool dbconOpened, 
-			int uniqueID, int personID, int sessionID, string streamOrCurve)
+			int uniqueID, int personID, int sessionID, string signalOrCurve)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -145,7 +145,7 @@ class SqliteEncoder : Sqlite
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
 			" WHERE personID = " + personID + " AND sessionID = " + sessionID + 
-			" AND streamOrCurve = '" + streamOrCurve + 
+			" AND signalOrCurve = '" + signalOrCurve + 
 			"' AND " + Constants.EncoderTable + ".exerciseID = " + 
 			Constants.EncoderExerciseTable + ".uniqueID " +
 			uniqueIDStr;
@@ -166,7 +166,7 @@ class SqliteEncoder : Sqlite
 					reader[4].ToString(),			//eccon
 					reader[5].ToString(),			//laterality
 					reader[6].ToString(),			//extraWeight
-					reader[7].ToString(),			//streamOrCurve
+					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename
 					reader[9].ToString(),			//url
 					Convert.ToInt32(reader[10].ToString()),	//time

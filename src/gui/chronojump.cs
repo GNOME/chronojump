@@ -5107,7 +5107,7 @@ Console.WriteLine("X");
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
 		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_stream.Sensitive = false;
+		button_encoder_load_signal.Sensitive = false;
 		eventExecuteHideAllTables();
 	}
 	
@@ -5133,7 +5133,7 @@ Console.WriteLine("X");
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
 		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_stream.Sensitive = false;
+		button_encoder_load_signal.Sensitive = false;
 
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
@@ -5150,7 +5150,7 @@ Console.WriteLine("X");
 		button_execute_test.Sensitive = true;
 		button_encoder_capture.Sensitive = true;
 		button_encoder_recalculate.Sensitive = true;
-		button_encoder_load_stream.Sensitive = true;
+		button_encoder_load_signal.Sensitive = true;
 
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
@@ -5185,7 +5185,7 @@ Console.WriteLine("X");
 		button_execute_test.Sensitive = false;
 		button_encoder_capture.Sensitive = false;
 		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_stream.Sensitive = false;
+		button_encoder_load_signal.Sensitive = false;
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
@@ -5211,7 +5211,7 @@ Console.WriteLine("X");
 		button_execute_test.Sensitive = true;
 		button_encoder_capture.Sensitive = true;
 		button_encoder_recalculate.Sensitive = true;
-		button_encoder_load_stream.Sensitive = true;
+		button_encoder_load_signal.Sensitive = true;
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

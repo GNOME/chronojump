@@ -35,7 +35,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_recalculate;
-	[Widget] Gtk.Button button_encoder_load_stream;
+	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
@@ -48,7 +48,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_all_curves;
-	[Widget] Gtk.Button button_encoder_save_stream;
+	[Widget] Gtk.Button button_encoder_save_signal;
 	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_encoder_exercise;
@@ -59,7 +59,7 @@ public partial class ChronoJumpWindow
 
 	
 	[Widget] Gtk.Button button_encoder_analyze;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_stream;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
 	[Widget] Gtk.Button button_encoder_analyze_data_show_user_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
@@ -86,7 +86,7 @@ public partial class ChronoJumpWindow
 	private string encoderAnalysis="powerBars";
 	private string ecconLast;
 	private string encoderTimeStamp;
-	private string encoderStreamUniqueID;
+	private string encoderSignalUniqueID;
 	enum encoderModes { CAPTURE, ANALYZE }
 	
 	//TODO: auto close capturing window
@@ -94,7 +94,7 @@ public partial class ChronoJumpWindow
 	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
 	//TODO: when change person: unsensitive: recalculate, capture graph, treeview capture, buttons caputre on bottom, analyze button
 	//TODO: when selected user curves, Single curve spinbutton have to grow (done). Also do it if person changes (pending)
-	//TODO: laterality have to be shown on treeviews: stream and curve. also check that is correct in database
+	//TODO: laterality have to be shown on treeviews: signal and curve. also check that is correct in database
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
@@ -186,7 +186,7 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
-		encoderStreamUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
+		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
@@ -280,9 +280,9 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
 	}
 		
-	void on_button_encoder_load_stream_clicked (object o, EventArgs args) 
+	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "stream");
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal");
 
 		ArrayList dataPrint = new ArrayList();
 		foreach(EncoderSQL es in data) {
@@ -299,22 +299,22 @@ public partial class ChronoJumpWindow
 		};
 
 		genericWin = GenericWindow.Show(
-				string.Format(Catalog.GetString("Select stream of athlete {0} on this session."), 
+				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
 		genericWin.SetTreeview(columnsString, dataPrint);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonAcceptSensitive(false);
-		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_stream_accepted);
+		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
 	}
 	
-	protected void on_encoder_load_stream_accepted (object o, EventArgs args)
+	protected void on_encoder_load_signal_accepted (object o, EventArgs args)
 	{
-		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_stream_accepted);
+		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_signal_accepted);
 		int uniqueID = genericWin.TreeviewSelectedRowID();
 
 		ArrayList data = SqliteEncoder.Select(false, uniqueID, 
-				currentPerson.UniqueID, currentSession.UniqueID, "stream");
+				currentPerson.UniqueID, currentSession.UniqueID, "signal");
 
 		foreach(EncoderSQL es in data) {	//it will run only one time
 			Util.CopyEncoderDataToTemp(es.url, es.filename);
@@ -326,7 +326,7 @@ public partial class ChronoJumpWindow
 			spin_encoder_capture_min_height.Value = es.minHeight;
 			spin_encoder_smooth.Value = es.smooth;
 			encoderTimeStamp = es.GetDate(false); 
-			encoderStreamUniqueID = es.uniqueID;
+			encoderSignalUniqueID = es.uniqueID;
 		}
 	
 		//force a recalculate
@@ -367,36 +367,36 @@ public partial class ChronoJumpWindow
 		Gtk.Button button = (Gtk.Button) o;
 		if(button == button_encoder_save_curve) {
 			int selectedID = treeviewEncoderCurvesEventSelectedID();
-			encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("curve", selectedID);
+			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
 		} else if(button == button_encoder_save_all_curves) 
 			for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
-				encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("allCurves", i);
-		else 	//(button == button_encoder_save_stream) 
-			encoder_pulsebar_capture.Text = encoderSaveStreamOrCurve("stream", 0);
+				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
+		else 	//(button == button_encoder_save_signal) 
+			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 
 	}
 
-	string encoderSaveStreamOrCurve (string mode, int selectedID) 
+	string encoderSaveSignalOrCurve (string mode, int selectedID) 
 	{
 		//mode is different than type. 
-		//mode can be curve, allCurves or stream
-		//type is to print on db at type column: curve or stream + (bar or jump)
-		string streamOrCurve = "";
+		//mode can be curve, allCurves or signal
+		//type is to print on db at type column: curve or signal + (bar or jump)
+		string signalOrCurve = "";
 		string feedback = "";
 		string fileSaved = "";
 		string path = "";
 
 		if(mode == "curve") {
-			streamOrCurve = "curve";
+			signalOrCurve = "curve";
 			decimal curveNum = (decimal) treeviewEncoderCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
 			if(ecconLast != "c")
 				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
 			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
 		} else if(mode == "allCurves") {
-			streamOrCurve = "curve";
+			signalOrCurve = "curve";
 			feedback = Catalog.GetString("All curves saved");
-		} else 	//mode == "stream"
-			streamOrCurve = "stream";
+		} else 	//mode == "signal"
+			signalOrCurve = "signal";
 		
 		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
 		//Log.WriteLine(desc);
@@ -419,15 +419,15 @@ public partial class ChronoJumpWindow
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
-		} else { //stream
+		} else { //signal
 			fileSaved = Util.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
-			path = Util.GetEncoderSessionDataStreamDir(currentSession.UniqueID);
+			path = Util.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
 
 		string myID = "-1";	
-		if(mode == "stream")
-			myID = encoderStreamUniqueID;
+		if(mode == "signal")
+			myID = encoderSignalUniqueID;
 
 		EncoderSQL eSQL = new EncoderSQL(
 				myID, 
@@ -438,7 +438,7 @@ public partial class ChronoJumpWindow
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				UtilGtk.ComboGetActive(combo_encoder_laterality),
 				findMass(false),	//when save on sql, do not include person weight
-				streamOrCurve,
+				signalOrCurve,
 				fileSaved,		//to know date do: select substr(name,-23,19) from encoder;
 				path,			//url
 				(int) spin_encoder_capture_time.Value, 
@@ -451,20 +451,20 @@ public partial class ChronoJumpWindow
 				);
 
 		
-		//if is a stream that we just loaded, then don't insert, do an update
+		//if is a signal that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
 		//on curves, always insert, because it can be done with different smoothing, different params
 		if(myID == "-1") {
 			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
-			if(mode == "stream") {
-				encoderStreamUniqueID = myID;
-				feedback = Catalog.GetString("Stream saved");
+			if(mode == "signal") {
+				encoderSignalUniqueID = myID;
+				feedback = Catalog.GetString("Signal saved");
 			}
 		}
 		else {
-			//only stream is updated
+			//only signal is updated
 			SqliteEncoder.Update(false, eSQL); //Adding on SQL
-			feedback = Catalog.GetString("Stream updated");
+			feedback = Catalog.GetString("Signal updated");
 		}
 		
 		return feedback;
@@ -563,7 +563,7 @@ public partial class ChronoJumpWindow
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, encoderStruct, false);
 	}
 	
-	private void on_radiobutton_encoder_analyze_data_current_stream_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 
@@ -1112,7 +1112,7 @@ public partial class ChronoJumpWindow
 	private void sensitiveEncoderGlobalButtons(bool sensitive) {
 		label_encoder_capture_comment.Sensitive = sensitive;
 		entry_encoder_capture_comment.Sensitive = sensitive;
-		button_encoder_save_stream.Sensitive = sensitive;
+		button_encoder_save_signal.Sensitive = sensitive;
 		button_encoder_analyze.Sensitive = sensitive;
 	}
 

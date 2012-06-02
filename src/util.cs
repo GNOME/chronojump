@@ -823,8 +823,8 @@ public class Util
 		return GetEncoderSessionDataDir(sessionID) + Path.DirectorySeparatorChar + "curve";
 	}
 
-	public static string GetEncoderSessionDataStreamDir (int sessionID) {
-		return GetEncoderSessionDataDir(sessionID) + Path.DirectorySeparatorChar + "stream";
+	public static string GetEncoderSessionDataSignalDir (int sessionID) {
+		return GetEncoderSessionDataDir(sessionID) + Path.DirectorySeparatorChar + "signal";
 	}
 
 	public static string GetEncoderSessionGraphsDir (int sessionID) {
@@ -834,7 +834,7 @@ public class Util
 	public static void CreateEncoderSessionDirsIfNeeded (int sessionID) {
 		string [] dirs = { 
 			GetEncoderSessionDir(sessionID), GetEncoderSessionDataDir(sessionID), 
-			GetEncoderSessionDataCurveDir(sessionID), GetEncoderSessionDataStreamDir(sessionID), 
+			GetEncoderSessionDataCurveDir(sessionID), GetEncoderSessionDataSignalDir(sessionID), 
 			GetEncoderSessionGraphsDir(sessionID) }; 
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
@@ -871,7 +871,7 @@ public class Util
 						timeStamp + ".txt";
 				
 				File.Copy(GetEncoderDataTempFileName(), 
-						GetEncoderSessionDataStreamDir(sessionID) + 
+						GetEncoderSessionDataSignalDir(sessionID) + 
 						Path.DirectorySeparatorChar + fileName, true);
 //			}
 		}
@@ -1085,10 +1085,10 @@ public class Util
 		((IDisposable)writer).Dispose();
 	}
 
-	public static string EncoderSaveCurve(string fileNameStream, int start, int duration, 
+	public static string EncoderSaveCurve(string fileNameSignal, int start, int duration, 
 			int sessionID, int uniqueID, string personName, string timeStamp, int curveIDMax) 
 	{
-		string contents = ReadFile(fileNameStream);
+		string contents = ReadFile(fileNameSignal);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
 		contents = contents.Substring(

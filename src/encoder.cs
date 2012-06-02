@@ -183,7 +183,7 @@ public class EncoderSQL
 	public string eccon;
 	public string laterality;
 	public string extraWeight;
-	public string streamOrCurve;
+	public string signalOrCurve;
 	public string filename;
 	public string url;
 	public int time;
@@ -202,7 +202,7 @@ public class EncoderSQL
 	}
 
 	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
-			string eccon, string laterality, string extraWeight, string streamOrCurve, 
+			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, double smooth, 
 			string description, string future1, string future2, string future3, 
 			string exerciseName
@@ -215,7 +215,7 @@ public class EncoderSQL
 		this.eccon = eccon;
 		this.laterality = laterality;
 		this.extraWeight = extraWeight;
-		this.streamOrCurve = streamOrCurve;
+		this.signalOrCurve = signalOrCurve;
 		this.filename = filename;
 		this.url = url;
 		this.time = time;

@@ -24461,12 +24461,12 @@ Evaluator can use real name or nickname.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkButton" id="button_encoder_load_stream">
-                                                <property name="label">Load stream</property>
+                                              <widget class="GtkButton" id="button_encoder_load_signal">
+                                                <property name="label">Load signal</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_button_encoder_load_stream_clicked"/>
+                                                <signal name="clicked" handler="on_button_encoder_load_signal_clicked"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -24617,8 +24617,8 @@ Evaluator can use real name or nickname.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_encoder_save_stream">
-                                                    <property name="label">Save stream</property>
+                                                  <widget class="GtkButton" id="button_encoder_save_signal">
+                                                    <property name="label">Save signal</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
@@ -24685,14 +24685,14 @@ Evaluator can use real name or nickname.</property>
                                                     <property name="visible">True</property>
                                                     <property name="spacing">20</property>
                                                     <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_data_current_stream">
-                                                        <property name="label" translatable="yes">Current stream</property>
+                                                      <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_data_current_signal">
+                                                        <property name="label" translatable="yes">Current signal</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
                                                         <property name="active">True</property>
                                                         <property name="draw_indicator">True</property>
-                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_data_current_stream_toggled"/>
+                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_data_current_signal_toggled"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -24712,7 +24712,7 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">radiobutton_encoder_analyze_data_current_stream</property>
+                                                            <property name="group">radiobutton_encoder_analyze_data_current_signal</property>
                                                             <signal name="toggled" handler="on_radiobutton_encoder_analyze_data_user_curves_toggled"/>
                                                           </widget>
                                                           <packing>

@@ -375,13 +375,23 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
-paintPowerPeakPowerBars <- function(paf) {
+paintPowerPeakPowerBars <- function(paf, myEccons) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = 1:length(paf[,1])
 	if(eccon=="ecS") {
-		myEc=c("c","e")
-		myNums = paste(trunc((myNums+1)/2),myEc[(myNums%%2)+1],sep="")
+		if(! singleFile) {
+			j=0
+			for(i in 1:length(myEccons)) {
+				myNums[i] = paste(i-j,myEccons[i],sep="")
+				if(myEccons[i] == "e")
+					j=j+1
+			}
+		} else {
+			myEc=c("c","e")
+			myNums = paste(trunc((myNums+1)/2),myEc[(myNums%%2)+1],sep="")
+		}
 	}
+
 	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=myNums,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
 	par(new=T, xpd=T)
@@ -405,13 +415,16 @@ find.yrange <- function(singleFile, rawdata, curves) {
 	} else {
 		n=length(curves[,1])
 		y.max = 0
+		y.min = 10000
 		for(i in 1:n) { 
 			y.current = cumsum(rawdata[curves[i,1]:curves[i,2]])
-			if(max(y.current) > y.max){
+			if(max(y.current) > y.max)
 				y.max = max(y.current)
-			}
+			if(min(y.current) < y.min)
+				y.min = min(y.current)
+			
 		}
-		return (c(0,y.max))
+		return (c(y.min,y.max))
 	}
 }
 
@@ -474,10 +487,10 @@ if(length(args) < 3) {
 
 	singleFile = TRUE
 	if(nchar(file) >= 40) {
-		#file="/tmp...../chronojump-encoder-graph-input-multi.txt"
+		#file="/tmp...../chronojump-encoder-graph-input-multi.csv"
 		#substr(file, nchar(file)-39, nchar(file))
-		#[1] "chronojump-encoder-graph-input-multi.txt"
-		if(substr(file, nchar(file)-39, nchar(file)) == "chronojump-encoder-graph-input-multi.txt") {
+		#[1] "chronojump-encoder-graph-input-multi.csv"
+		if(substr(file, nchar(file)-39, nchar(file)) == "chronojump-encoder-graph-input-multi.csv") {
 			singleFile = FALSE
 		}
 	}
@@ -487,29 +500,60 @@ if(length(args) < 3) {
 		#this are separated movements
 		#maybe all are concentric (there's no returning to 0 phase)
 
-		#this version of curves will have added specific data cols: exerciseName, mass, smoothingOne, dateTime
-		inputMultiData=read.csv(file=file,sep=",")
+		#this version of curves has added specific data cols:
+		#exerciseName, mass, smoothingOne, dateTime, myEccon
+
+		inputMultiData=read.csv(file=file,sep=",",stringsAsFactors=F)
+
 		rawdata = NULL
 		count = 1
 		start = NULL; end = NULL; startH = NULL
-		exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL
+		exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL; myEccon = NULL
+		newLines=0; 
 		for(i in 1:length(inputMultiData[,1])) { 
-			print (i)
-			dataTemp=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
-			print(length(dataTemp))
-			rawdata = c(rawdata, dataTemp)
-			start[i] = count
-			end[i] = length(dataTemp) + count -1
-			startH[i] = 0
-			exerciseName[i] = as.vector(inputMultiData$exerciseName[i])
-			mass[i] = inputMultiData$mass[i]
-			smooth[i] = inputMultiData$smoothingOne[i]
-			dateTime[i] = inputMultiData$dateTime[i]
-			count = count + length(dataTemp)
+			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
+			dataTempPhase=dataTempFile
+			processTimes = 1
+			changePos = 0
+			#if this curve is ecc-con and we want separated, divide the curve in two
+			if(as.vector(inputMultiData$eccon[i]) != "c" & eccon =="ecS") {
+				changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+				processTimes = 2
+			}
+			for(j in 1:processTimes) {
+				if(processTimes == 2) {
+					if(j == 1) {
+						dataTempPhase=dataTempFile[1:changePos]
+					} else {
+						dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
+						newLines=newLines+1
+					}
+				}
+				rawdata = c(rawdata, dataTempPhase)
+				start[i+newLines] = count
+				end[i+newLines] = length(dataTempPhase) + count -1
+				startH[i+newLines] = 0
+				exerciseName[i+newLines] = as.vector(inputMultiData$exerciseName[i])
+				mass[i+newLines] = inputMultiData$mass[i]
+				smooth[i+newLines] = inputMultiData$smoothingOne[i]
+				dateTime[i+newLines] = as.vector(inputMultiData$dateTime[i])
+
+				#myEccon[i+newLines] = as.vector(inputMultiData$eccon[i])
+				if(processTimes == 2 & j == 1) 
+					myEccon[i+newLines] = "e"
+				else {
+					if(inputMultiData$eccon[i] == "c")
+						myEccon[i+newLines] = "c"
+					else
+						myEccon[i+newLines] = "ec"
+				}
+
+				count = count + length(dataTempPhase)
+			}
 		}		
-		curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,stringsAsFactors=F)
+		curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F)
 		rownames(curves)=1:length(rownames(curves))
-		#print(curves)
+		print(curves)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, outputData1)
 	} else {
@@ -555,30 +599,43 @@ if(length(args) < 3) {
 		#print(curves)
 	}
 
-	if(analysis=="single") 
-		if(jump>0) 
-			paint(rawdata, eccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
-					1,curves[jump,3],smoothingOne,mass,
-					paste(analysis, " ", eccon, " ", titleType, " ", jump," (smoothing: ",smoothingOne,")",sep=""),
+	if(analysis=="single") {
+		if(jump>0) {
+			myMass = mass
+			mySmoothingOne = smoothingOne
+			myEccon = eccon
+			if(! singleFile) {
+				myMass = curves[jump,5]
+				mySmoothingOne = curves[jump,6]
+				myEccon = curves[jump,8]
+			}
+			paint(rawdata, myEccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
+					1,curves[jump,3],mySmoothingOne,myMass,
+					paste(analysis, " ", myEccon, " ", titleType, " ", jump," (smoothing: ",mySmoothingOne,")",sep=""),
 					TRUE,FALSE,TRUE,TRUE)
+		}
+	}
+
 	if(analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))
 
 		#a=cumsum(rawdata)
 		#yrange=c(min(a),max(a))
-		yrange=find.yrange(singleFile, rawdata,curves)
+		yrange=find.yrange(singleFile, rawdata, curves)
 
 		knRanges=kinematicRanges(singleFile,rawdata,curves,mass,smoothingOne,g)
 
 		for(i in 1:n) {
 			myMass = mass
 			mySmoothingOne = smoothingOne
+			myEccon = eccon
 			if(! singleFile) {
 				myMass = curves[i,5]
 				mySmoothingOne = curves[i,6]
+				myEccon = curves[i,8]
 			}
-			paint(rawdata, eccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
 				1,curves[i,3],mySmoothingOne,myMass,paste(titleType,i),TRUE,FALSE,TRUE,FALSE)
 		}
 		par(mfrow=c(1,1))
@@ -614,14 +671,16 @@ if(length(args) < 3) {
 		for(i in 1:n) { 
 			myMass = mass
 			mySmoothingOne = smoothingOne
+			myEccon = eccon
 			if(! singleFile) {
 				myMass = curves[i,5]
 				mySmoothingOne = curves[i,6]
+				myEccon = curves[i,8]
 			}
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], myMass, mySmoothingOne, g))))
 		}
 		if(analysis=="powerBars") {
-			paintPowerPeakPowerBars(paf)
+			paintPowerPeakPowerBars(paf, curves[,8])	#myEccon
 		} 
 		if(analysis=="curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)

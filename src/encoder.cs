@@ -29,7 +29,7 @@ public class EncoderParams
 	private int time;
 	private string mass; //to pass always as "." to R
 	private int minHeight;
-	private bool isJump;
+	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
 	private string eccon;
 	private string analysis;
 	private string smooth; //to pass always as "." to R
@@ -51,7 +51,7 @@ public class EncoderParams
 	{
 	}
 
-	public EncoderParams(int time, int minHeight, bool isJump, string mass, string smooth, string eccon,
+	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, string smooth, string eccon,
 			double heightHigherCondition, double heightLowerCondition, 
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
@@ -60,7 +60,7 @@ public class EncoderParams
 	{
 		this.time = time;
 		this.minHeight = minHeight;
-		this.isJump = isJump;
+		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
 		this.mass = mass;
 		this.smooth = smooth;
 		this.eccon = eccon;
@@ -78,7 +78,7 @@ public class EncoderParams
 	
 	public string ToString1 () 
 	{
-		return time.ToString() + " " + minHeight.ToString() + " " + isJump.ToString() + 
+		return time.ToString() + " " + minHeight.ToString() + " " + exercisePercentBodyWeight.ToString() + 
 			" " + mass.ToString() + " " + smooth + " " + eccon +
 			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
 			" " + Util.ConvertToPoint(meanSpeedHigherCondition.ToString()) + 	
@@ -89,11 +89,11 @@ public class EncoderParams
 			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString();
 	}
 	
-	public EncoderParams(int minHeight, bool isJump, string mass, string eccon, 
+	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
 			string analysis, string smooth, int curve, int width, int height)
 	{
 		this.minHeight = minHeight;
-		this.isJump = isJump;
+		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
 		this.mass = mass;
 		this.eccon = eccon;
 		this.analysis = analysis;
@@ -105,7 +105,7 @@ public class EncoderParams
 	
 	public string ToString2 () 
 	{
-		return minHeight + " " + isJump + " " + mass + " " + eccon + " " + analysis + " " + 
+		return minHeight + " " + exercisePercentBodyWeight + " " + mass + " " + eccon + " " + analysis + " " + 
 			smooth + " " + curve + " " + width + " " + height;
 	}
 	
@@ -179,36 +179,53 @@ public class EncoderSQL
 	public string uniqueID;
 	public int personID;
 	public int sessionID;
-	public string name;
-	public string url;
-	public string type;
-	public string extraWeight;
+	public int exerciseID;
 	public string eccon;
+	public string laterality;
+	public string extraWeight;
+	public string streamOrCurve;
+	public string filename;
+	public string url;
 	public int time;
 	public int minHeight;
 	public double smooth;
 	public string description;
+	public string future1;
+	public string future2;
+	public string future3;
+	public string exerciseName;
 	
-	private string ecconLong;
+	public string ecconLong;
 	
 	public EncoderSQL ()
 	{
 	}
 
-	public EncoderSQL (string uniqueID, int personID, int sessionID, string name, string url, string type, string extraWeight, string eccon, int time, int minHeight, double smooth, string description)
+	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
+			string eccon, string laterality, string extraWeight, string streamOrCurve, 
+			string filename, string url, int time, int minHeight, double smooth, 
+			string description, string future1, string future2, string future3, 
+			string exerciseName
+			)
 	{
 		this.uniqueID = uniqueID;
 		this.personID = personID;
 		this.sessionID = sessionID;
-		this.name = name;
-		this.url = url;
-		this.type = type;
-		this.extraWeight = extraWeight;
+		this.exerciseID = exerciseID;
 		this.eccon = eccon;
+		this.laterality = laterality;
+		this.extraWeight = extraWeight;
+		this.streamOrCurve = streamOrCurve;
+		this.filename = filename;
+		this.url = url;
 		this.time = time;
 		this.minHeight = minHeight;
 		this.smooth = smooth;
 		this.description = description;
+		this.future1 = future1;
+		this.future2 = future2;
+		this.future3 = future3;
+		this.exerciseName = exerciseName;
 
 		if(eccon == "c")
 			ecconLong = Catalog.GetString("Concentric");
@@ -217,9 +234,9 @@ public class EncoderSQL
 	}
 	
 	public string GetDate(bool pretty) {
-		int pointPos = name.LastIndexOf('.');
+		int pointPos = filename.LastIndexOf('.');
 		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss
-		string date = name.Substring(pointPos - dateLength, dateLength);
+		string date = filename.Substring(pointPos - dateLength, dateLength);
 		if(pretty) {
 			string [] dateParts = date.Split(new char[] {'_'});
 			date = dateParts[0] + " " + dateParts[1].Replace('-',':');
@@ -227,17 +244,10 @@ public class EncoderSQL
 		return date;
 	}
 
-	private string typePretty() {
-		if(type.EndsWith("BAR"))
-			return Catalog.GetString("Weight bar");
-		else
-			return Catalog.GetString("Jump");
-	}
-
 	public string [] ToStringArray () {
 		string [] str = new String [6];
 		str[0] = uniqueID;
-		str[1] = typePretty();
+		str[1] = exerciseName;
 		str[2] = ecconLong;
 		str[3] = extraWeight;
 		str[4] = GetDate(true);
@@ -246,3 +256,27 @@ public class EncoderSQL
 	}
 
 }
+
+public class EncoderExercise
+{
+	public EncoderExercise() {
+	}
+
+	public int uniqueID;
+	public string name;
+	public int percentBodyWeight;
+	public string ressistance;
+	public string description;
+
+	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, string ressistance, string description)
+	{
+		this.uniqueID = uniqueID;
+		this.name = name;
+		this.percentBodyWeight = percentBodyWeight;
+		this.ressistance = ressistance;
+		this.description = description;
+	}
+
+	~EncoderExercise() {}
+}
+

@@ -30,16 +30,12 @@ using Mono.Unix;
 
 public partial class ChronoJumpWindow 
 {
-	[Widget] Gtk.SpinButton spin_encoder_bar_weight;
-	[Widget] Gtk.SpinButton spin_encoder_jump_weight;
+	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_stream;
-	[Widget] Gtk.Label label_encoder_person_weight;
-	[Widget] Gtk.RadioButton radiobutton_encoder_concentric;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_bar;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
@@ -54,6 +50,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_save_all_curves;
 	[Widget] Gtk.Button button_encoder_save_stream;
 	
+	[Widget] Gtk.Box hbox_combo_encoder_exercise;
+	[Widget] Gtk.ComboBox combo_encoder_exercise;
+	[Widget] Gtk.Box hbox_combo_encoder_eccon;
+	[Widget] Gtk.ComboBox combo_encoder_eccon;
+	[Widget] Gtk.Box hbox_combo_encoder_laterality;
+	[Widget] Gtk.ComboBox combo_encoder_laterality;
+
+	
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_stream;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
@@ -66,7 +70,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_analyze_eccon;
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_both;
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
-	[Widget] Gtk.Label label_encoder_analyze_curve_num;
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
@@ -96,14 +99,14 @@ public partial class ChronoJumpWindow
 	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
 	//TODO: if mode is ecc-con, curves used have to be eccon
 	//TODO: when change person: unsensitive: recalculate, capture graph, treeview capture, buttons caputre on bottom, analyze button
+	//TODO: when selected user curves, Single curve spinbutton have to grow. Also do it if person changes
+	//TODO: laterality have to be shown on treeviews: stream and curve. also check that is correct in database
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
 	//
-	//TODO: if user has no curves, has to stop, multi file gets generated with title row but no curves. Fixed, but need to (best) don't allow to analyze, or show a clear message, blanking the graphic
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze
-	//TODO: Add exercise. at capture add combobox of exercises or treeview that pop ups (maybe genericWin). squat, benchpress, jump. change weight bar, and jump radiobuttons to this combobox, addoption of others, and add them on sqlite
 	
 	//to analyze: user has to select: session, athlete, exercise, 
 	//TODO: single curve, and side, checkbox to show1 param, 2 or three
@@ -112,7 +115,7 @@ public partial class ChronoJumpWindow
 	//
 
 	
-	private void encoderInitializeVariables() {
+	private void encoderInitializeStuff() {
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture.Text = "";
 		encoder_pulsebar_analyze.Fraction = 1;
@@ -121,19 +124,13 @@ public partial class ChronoJumpWindow
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		sensitiveEncoderRowButtons(false);
-	}
-
-	private void on_radiobutton_encoder_capture_bar_toggled (object obj, EventArgs args) {
-		spin_encoder_bar_weight.Sensitive = true;
-		spin_encoder_jump_weight.Sensitive = false;
-	}
-	private void on_radiobutton_encoder_capture_jump_toggled (object obj, EventArgs args) {
-		spin_encoder_bar_weight.Sensitive = false;
-		spin_encoder_jump_weight.Sensitive = true;
+		createEncoderCombos();
+		sensitiveEncoderGlobalButtons(false);
 	}
 
 	private void on_radiobutton_encoder_eccon_toggled (object obj, EventArgs args) {
-		if(radiobutton_encoder_concentric.Active) {
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) == "Concentric") {
 			label_encoder_analyze_eccon.Sensitive=false;
 			hbox_encoder_analyze_eccon.Sensitive=false;
 		} else if(radiobutton_encoder_analyze_powerbars.Active) {
@@ -184,7 +181,9 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
-				!radiobutton_encoder_capture_bar.Active,
+				Convert.ToInt32(
+					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight) ),
 				findMass(true),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
@@ -225,7 +224,8 @@ public partial class ChronoJumpWindow
 		} else {
 			removeColumns();
 			int curvesNum = createTreeViewEncoder(contents);
-			if(! radiobutton_encoder_concentric.Active)
+			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) != "Concentric") 
 				curvesNum = curvesNum / 2;
 			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
 			sensitiveEncoderGlobalButtons(true);
@@ -245,7 +245,9 @@ public partial class ChronoJumpWindow
 	{
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
-				!radiobutton_encoder_capture_bar.Active,
+				Convert.ToInt32(
+					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight) ),
 				findMass(true),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				"curves",
@@ -277,7 +279,7 @@ public partial class ChronoJumpWindow
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
-			Catalog.GetString("Type"),
+			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
 			Catalog.GetString("Date"),
@@ -305,7 +307,7 @@ public partial class ChronoJumpWindow
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
-			Catalog.GetString("Type"),
+			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
 			Catalog.GetString("Date"),
@@ -331,15 +333,12 @@ public partial class ChronoJumpWindow
 				currentPerson.UniqueID, currentSession.UniqueID, "stream");
 
 		foreach(EncoderSQL es in data) {	//it will run only one time
-			Util.CopyEncoderDataToTemp(es.url, es.name);
-			if(es.type.EndsWith("BAR")) { //BAR or JUMP
-				radiobutton_encoder_capture_bar.Active = true;
-				spin_encoder_bar_weight.Value = Convert.ToInt32(es.extraWeight);
-			} else {
-				radiobutton_encoder_capture_bar.Active = false;
-				spin_encoder_jump_weight.Value = Convert.ToInt32(es.extraWeight);
-			}
-			radiobutton_encoder_concentric.Active = es.eccon == "c";
+			Util.CopyEncoderDataToTemp(es.url, es.filename);
+			UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
+			UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
+			UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
+			spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
+
 			spin_encoder_capture_min_height.Value = es.minHeight;
 			spin_encoder_smooth.Value = es.smooth;
 			encoderTimeStamp = es.GetDate(false); 
@@ -398,22 +397,22 @@ public partial class ChronoJumpWindow
 		//mode is different than type. 
 		//mode can be curve, allCurves or stream
 		//type is to print on db at type column: curve or stream + (bar or jump)
-		string type = "";
+		string streamOrCurve = "";
 		string feedback = "";
 		string fileSaved = "";
 		string path = "";
 
 		if(mode == "curve") {
-			type = "curve";
+			streamOrCurve = "curve";
 			decimal curveNum = (decimal) treeviewEncoderCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
 			if(ecconLast != "c")
 				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
 			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
 		} else if(mode == "allCurves") {
-			type = "curve";
+			streamOrCurve = "curve";
 			feedback = Catalog.GetString("All curves saved");
 		} else 	//mode == "stream"
-			type = "stream";
+			streamOrCurve = "stream";
 		
 		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
 		//Log.WriteLine(desc);
@@ -442,11 +441,6 @@ public partial class ChronoJumpWindow
 			path = Util.GetEncoderSessionDataStreamDir(currentSession.UniqueID);
 		}
 
-		if(radiobutton_encoder_capture_bar.Active)
-			type += "BAR";
-		else
-			type += "JUMP";
-		
 		string myID = "-1";	
 		if(mode == "stream")
 			myID = encoderStreamUniqueID;
@@ -454,15 +448,24 @@ public partial class ChronoJumpWindow
 		EncoderSQL eSQL = new EncoderSQL(
 				myID, 
 				currentPerson.UniqueID, currentSession.UniqueID, 
+				Convert.ToInt32(
+					Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight) ),	//exerciseID
+				findEccon(true), 	//force ecS (ecc-conc separated)
+				UtilGtk.ComboGetActive(combo_encoder_laterality),
+				findMass(false),	//when save on sql, do not include person weight
+				streamOrCurve,
 				fileSaved,		//to know date do: select substr(name,-23,19) from encoder;
 				path,			//url
-				type,
-				findMass(false),	//when save on sql, do not include person weight
-				findEccon(true), 	//force ecS (ecc-conc separated)
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
 				(double) spin_encoder_smooth.Value,
-				desc);
+				desc,
+				"","","",
+				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
+				);
+
 		
 		//if is a stream that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
@@ -487,6 +490,16 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
+		//if userCurves and no data, return
+		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+			ArrayList data = SqliteEncoder.Select(false, -1, 
+					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			if(data.Count == 0)
+				return;
+			//TODO: in the future plot a "no curves" message,
+			//or beter done allow to analyze if there's no curves
+		}
+
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
 	
@@ -501,7 +514,9 @@ public partial class ChronoJumpWindow
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
 					-1, 
-					!radiobutton_encoder_capture_bar.Active,
+					Convert.ToInt32(
+						Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+						encoderExercisesTranslationAndBodyPWeight) ),
 					"-1",			//mass
 					findEccon(false),	//do not force ecS (ecc-conc separated)
 					encoderAnalysis,
@@ -513,32 +528,29 @@ public partial class ChronoJumpWindow
 			dataFileName = Util.GetEncoderGraphInputMulti();
 
 			//create dataFileName
-			double bodyMass = Convert.ToDouble(label_encoder_person_weight.Text);
+			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
-			//TODO: in the future plot a "no curves" message, or beter done allow to analyze if there's no curves
-			if(data.Count == 0)
-				return;
-		
-				
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("type,mass,smoothingOne,dateTime,fullURL");
+			writer.WriteLine("exerciseName,mass,smoothingOne,dateTime,fullURL");
 			foreach(EncoderSQL eSQL in data) {
-				double mass = Convert.ToDouble(eSQL.extraWeight);	//TODO: check this
-				if(eSQL.type == "curveJUMP")
-					mass += bodyMass;
+				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
+				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
+				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
-				writer.WriteLine(eSQL.type + "," + mass.ToString() + "," + 
+				writer.WriteLine(ex.name + "," + mass.ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
-						eSQL.url + Path.DirectorySeparatorChar + eSQL.name);
+						eSQL.url + Path.DirectorySeparatorChar + eSQL.filename);
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
 		} else {
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 
-					!radiobutton_encoder_capture_bar.Active,
+					Convert.ToInt32(
+						Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+						encoderExercisesTranslationAndBodyPWeight) ),
 					findMass(true),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					encoderAnalysis,
@@ -569,7 +581,6 @@ public partial class ChronoJumpWindow
 
 	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
-		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="single";
 		//together, mandatory
@@ -579,7 +590,6 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
-		label_encoder_analyze_curve_num.Sensitive=true;
 		spin_encoder_analyze_curve_num.Sensitive=true;
 		encoderAnalysis="superpose";
 		//together, mandatory
@@ -588,7 +598,6 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
-		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="side";
 		//together, mandatory
@@ -597,31 +606,32 @@ public partial class ChronoJumpWindow
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
-		label_encoder_analyze_curve_num.Sensitive=false;
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="powerBars";
 		//can select together or separated
-		if(! radiobutton_encoder_concentric.Active) {
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) != "Concentric") {
 			label_encoder_analyze_eccon.Sensitive=true;
 			hbox_encoder_analyze_eccon.Sensitive=true;
 		}
 	}
 
 	private string findMass(bool includePerson) {
-		double mass = 0;
-		if(radiobutton_encoder_capture_bar.Active)
-			mass = spin_encoder_bar_weight.Value;
-		else {
-			mass = spin_encoder_jump_weight.Value;
-			if(includePerson)
-				mass += Convert.ToDouble(label_encoder_person_weight.Text);
+		double mass = spin_encoder_extra_weight.Value;
+		if(includePerson) {
+			//TODO: maybe better have a currentEncoderExercise global variable
+			int exPBodyWeight = Convert.ToInt32(
+					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight) );
+			mass += currentPersonSession.Weight * exPBodyWeight / 100.0;
 		}
 
 		return Util.ConvertToPoint(mass); //R decimal: '.'
 	}
 	
 	private string findEccon(bool ecconSeparated) {	
-		if(radiobutton_encoder_concentric.Active)
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) == "Concentric") 
 			return "c";
 		else {
 			if(ecconSeparated || ! radiobutton_encoder_eccon_together.Active)
@@ -629,6 +639,98 @@ public partial class ChronoJumpWindow
 			else 
 				return "ec";
 		}
+	}
+	
+	/* encoder exercise stuff */
+	
+	
+	string [] encoderExercisesTranslationAndBodyPWeight;
+	string [] encoderEcconTranslation;
+	string [] encoderLateralityTranslation;
+
+	protected void createEncoderCombos() {
+		//create combo exercises
+		combo_encoder_exercise = ComboBox.NewText ();
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1);
+		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
+		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
+		int i =0;
+		foreach(EncoderExercise ex in encoderExercises) {
+			encoderExercisesTranslationAndBodyPWeight[i] = 
+				ex.uniqueID + ":" + ex.name + ":" + Catalog.GetString(ex.name) + ":" + ex.percentBodyWeight;
+			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
+			i++;
+		}
+		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
+		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
+				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
+		
+		//create combo eccon
+		string [] comboEcconOptions = { "Concentric", "Eccentric-concentric" };
+		string [] comboEcconOptionsTranslated = { 
+			Catalog.GetString("Concentric"), Catalog.GetString("Eccentric-concentric") };
+		encoderEcconTranslation = new String [comboEcconOptions.Length];
+		for(int j=0; j < 2 ; j++)
+			encoderEcconTranslation[j] = comboEcconOptions[j] + ":" + comboEcconOptionsTranslated[j];
+		combo_encoder_eccon = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_eccon, comboEcconOptionsTranslated, "");
+		combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, 
+				Catalog.GetString(comboEcconOptions[0]));
+		combo_encoder_eccon.Changed += new EventHandler (on_combo_encoder_eccon_changed);
+		
+		//create combo laterality
+		string [] comboLateralityOptions = { "Both", "Right", "Left" };
+		string [] comboLateralityOptionsTranslated = { 
+			Catalog.GetString("Both"), Catalog.GetString("Right"), Catalog.GetString("Left") };
+		encoderLateralityTranslation = new String [comboLateralityOptions.Length];
+		for(int j=0; j < 3 ; j++)
+			encoderLateralityTranslation[j] = 
+				comboLateralityOptions[j] + ":" + comboLateralityOptionsTranslated[j];
+		combo_encoder_laterality = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptions, "");
+		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
+				Catalog.GetString(comboLateralityOptions[0]));
+		combo_encoder_laterality.Changed += new EventHandler (on_combo_encoder_laterality_changed);
+		
+		//pack combos
+
+		hbox_combo_encoder_exercise.PackStart(combo_encoder_exercise, true, true, 0);
+		hbox_combo_encoder_exercise.ShowAll();
+		combo_encoder_exercise.Sensitive = true;
+
+		hbox_combo_encoder_eccon.PackStart(combo_encoder_eccon, true, true, 0);
+		hbox_combo_encoder_eccon.ShowAll();
+		combo_encoder_eccon.Sensitive = true;
+
+		hbox_combo_encoder_laterality.PackStart(combo_encoder_laterality, true, true, 0);
+		hbox_combo_encoder_laterality.ShowAll();
+		combo_encoder_laterality.Sensitive = true;
+	}
+
+	void on_combo_encoder_exercise_changed (object o, EventArgs args) 
+	{
+		//TODO
+	}
+
+	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
+	{
+		//TODO
+	}
+
+	void on_combo_encoder_laterality_changed (object o, EventArgs args) 
+	{
+		//TODO
+	}
+
+	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 
+	{
+		//TODO
+	}
+
+	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
+	{
+		//TODO
 	}
 
 

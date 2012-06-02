@@ -73,11 +73,14 @@ class SqliteEncoder : Sqlite
 			es.uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
-				" (uniqueID, personID, sessionID, name, url, type, extraWeight, eccon, time, minHeight, smooth, description)" +
-				" VALUES (" + es.uniqueID + ", "
-				+ es.personID + ", " + es.sessionID + ", '" + es.name + "', '" + es.url + "', '" + es.type + "', '" 
-				+ es.extraWeight + "', '" + es.eccon + "', " + es.time + ", " + es.minHeight + ", " 
-				+ Util.ConvertToPoint(es.smooth) + ", '" + es.description + "')" ;
+				" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, streamOrCurve, filename, url, time, minHeight, smooth, description, future1, future2, future3)" +
+				" VALUES (" + es.uniqueID + ", " +
+				es.personID + ", " + es.sessionID + ", " +
+				es.exerciseID + ", '" + es.eccon + "', '" +
+				es.laterality + "', '" + es.extraWeight + "', '" +
+				es.streamOrCurve + "', '" + es.filename + "', '" +
+				es.url + "', " + es.time + ", " + es.minHeight + ", " +
+				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', '', '', '')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -104,16 +107,21 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderTable + " SET " +
 				" personID = " + es.personID +
 				", sessionID = " + es.sessionID +
-				", name = '" + es.name +
-				"', url = '" + es.url +
-				"', type = '" + es.type +
+				", exerciseID = " + es.exerciseID +
+				", eccon = '" + es.eccon +
+				"', laterality = '" + es.laterality +
 				"', extraWeight = '" + es.extraWeight +
-				"', eccon = '" + es.eccon +
+				"', streamOrCurve = '" + es.streamOrCurve +
+				"', filename = '" + es.filename +
+				"', url = '" + es.url +
 				"', time = " + es.time +
 				", minHeight = " + es.minHeight +
 				", smooth = " + Util.ConvertToPoint(es.smooth) +
-				", description = '" + es.description + "'" +
-				" WHERE uniqueID == " + es.uniqueID ;
+				", description = '" + es.description + 
+				"', future1 = '" + es.future1 + 
+				"', future2 = '" + es.future2 + 
+				"', future3 = '" + es.future3 + 
+				"' WHERE uniqueID == " + es.uniqueID ;
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -124,24 +132,24 @@ class SqliteEncoder : Sqlite
 	
 	
 	public static ArrayList Select (bool dbconOpened, 
-			int uniqueID, int personID, int sessionID, string typeStartsWith)
+			int uniqueID, int personID, int sessionID, string streamOrCurve)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
-			uniqueIDStr = " AND uniqueID = " + uniqueID;
+			uniqueIDStr = " AND " + Constants.EncoderTable + ".uniqueID = " + uniqueID;
 
-		string typeStr = "";
-		if(typeStartsWith == "stream")
-			typeStr = " AND SUBSTR(type,1,6)='stream'";
-		else if(typeStartsWith == "curve")
-			typeStr = " AND SUBSTR(type,1,5)='curve'";
-
-		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderTable + 
-			" WHERE personID = " + personID + " AND sessionID = " + sessionID +
-			typeStr + uniqueIDStr;
+		dbcmd.CommandText = "SELECT " + 
+			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
+			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
+			" WHERE personID = " + personID + " AND sessionID = " + sessionID + 
+			" AND streamOrCurve = '" + streamOrCurve + 
+			"' AND " + Constants.EncoderTable + ".exerciseID = " + 
+			Constants.EncoderExerciseTable + ".uniqueID " +
+			uniqueIDStr;
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -154,15 +162,21 @@ class SqliteEncoder : Sqlite
 					reader[0].ToString(),			//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID	
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
-					reader[3].ToString(),			//name
-					reader[4].ToString(),			//url
-					reader[5].ToString(),			//type
+					Convert.ToInt32(reader[3].ToString()),	//exerciseID
+					reader[4].ToString(),			//eccon
+					reader[5].ToString(),			//laterality
 					reader[6].ToString(),			//extraWeight
-					reader[7].ToString(),			//eccon
-					Convert.ToInt32(reader[8].ToString()),	//time
-					Convert.ToInt32(reader[9].ToString()),	//minHeight
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[10].ToString())), //smooth
-					reader[11].ToString()			//description
+					reader[7].ToString(),			//streamOrCurve
+					reader[8].ToString(),			//filename
+					reader[9].ToString(),			//url
+					Convert.ToInt32(reader[10].ToString()),	//time
+					Convert.ToInt32(reader[11].ToString()),	//minHeight
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[12].ToString())), //smooth
+					reader[13].ToString(),			//description
+					reader[14].ToString(),			//future1
+					reader[15].ToString(),			//future2
+					reader[16].ToString(),			//future3
+					reader[17].ToString()			//EncoderExercise.name
 					);
 			array.Add (es);
 		}
@@ -222,8 +236,47 @@ class SqliteEncoder : Sqlite
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(false,parts[0],Convert.ToInt32(parts[1]),parts[2],parts[3]);
+			InsertExercise(false, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3]);
 		}
 	}
+
+	//if submited a -1, returns an especific EncoderExercise that can be read like this	
+	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
+	public static ArrayList SelectEncoderExercises(int uniqueID) 
+	{
+		dbcon.Open();
+
+		string uniqueIDStr = "";
+		if(uniqueID != -1)
+			uniqueIDStr = " WHERE " + Constants.EncoderExerciseTable + ".uniqueID = " + uniqueID;
+		
+		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		ArrayList array = new ArrayList(1);
+		EncoderExercise ex = new EncoderExercise();
+		while(reader.Read()) {
+			ex = new EncoderExercise (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					reader[1].ToString(),			//name
+					Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
+					reader[3].ToString(),			//ressistance
+					reader[4].ToString()			//description
+					);
+			array.Add(ex);
+		}
+
+		reader.Close();
 	
+		//close database connection
+		dbcon.Close();
+
+		return array;
+	}
+
 }

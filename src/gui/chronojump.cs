@@ -496,7 +496,7 @@ public partial class ChronoJumpWindow
 		createdStatsWin = true;
 		//stats_win_initializeSession();
 
-		encoderInitializeVariables();	
+		encoderInitializeStuff();	
 	}
 	
 
@@ -5170,7 +5170,6 @@ Console.WriteLine("X");
 		
 		hbox_execute_test.Sensitive = true;
 
-		label_encoder_person_weight.Text = currentPersonSession.Weight.ToString();
 		button_encoder_analyze.Sensitive = radiobutton_encoder_analyze_data_user_curves.Active;
 	}
 	

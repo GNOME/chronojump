@@ -299,7 +299,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#mark when it's air and land
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
-	if(draw & (!superpose || (superpose & highlight)) & isJump) {
+	#if(draw & (!superpose || (superpose & highlight)) & isJump) {
+	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*9.81
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
 		takeoff = max(which(force>=weight))
@@ -449,7 +450,7 @@ if(length(args) < 3) {
 	outputData1=args[3]
 	outputData2=args[4]
 	minHeight=as.numeric(args[5])*10 #from cm to mm
-	isJump=as.logical(args[6])
+	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
 	mass=as.numeric(args[7])
 	eccon=args[8]
 	analysis=args[9]
@@ -462,8 +463,8 @@ if(length(args) < 3) {
 	
 
 	titleType = "execution"
-	if(isJump)
-		titleType="jump"
+	#if(isJump)
+	#	titleType="jump"
 	
 	curvesPlot = FALSE
 	if(analysis=="curves") {
@@ -486,12 +487,12 @@ if(length(args) < 3) {
 		#this are separated movements
 		#maybe all are concentric (there's no returning to 0 phase)
 
-		#this version of curves will have added specific data cols: type, mass, smoothingOne, dateTime
+		#this version of curves will have added specific data cols: exerciseName, mass, smoothingOne, dateTime
 		inputMultiData=read.csv(file=file,sep=",")
 		rawdata = NULL
 		count = 1
 		start = NULL; end = NULL; startH = NULL
-		type = NULL; mass = NULL; smooth = NULL; dateTime = NULL
+		exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL
 		for(i in 1:length(inputMultiData[,1])) { 
 			print (i)
 			dataTemp=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
@@ -500,13 +501,13 @@ if(length(args) < 3) {
 			start[i] = count
 			end[i] = length(dataTemp) + count -1
 			startH[i] = 0
-			type[i] = as.vector(inputMultiData$type[i])
+			exerciseName[i] = as.vector(inputMultiData$exerciseName[i])
 			mass[i] = inputMultiData$mass[i]
 			smooth[i] = inputMultiData$smoothingOne[i]
 			dateTime[i] = inputMultiData$dateTime[i]
 			count = count + length(dataTemp)
 		}		
-		curves = data.frame(start,end,startH,type,mass,smooth,dateTime,stringsAsFactors=F)
+		curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,stringsAsFactors=F)
 		rownames(curves)=1:length(rownames(curves))
 		#print(curves)
 		n=length(curves[,1])

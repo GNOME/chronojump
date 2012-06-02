@@ -75,8 +75,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
 
-	TreeStore encoderStore;
-
 	ArrayList encoderCurves;
         Gtk.ListStore encoderListStore;
 
@@ -93,13 +91,9 @@ public partial class ChronoJumpWindow
 	
 	//TODO: auto close capturing window
 
-	//TODO: fixing powerbars problem, [false: sqlite.encoder curves don't store if it's "c" or "ec", then graph.R when doing the curves, don't do a row for the e and another for the c, because don't know in which curves have to differentiate], also don't plot names ok. This affects at multi and do it good in order to compare c and ec contractions of same person. change encoder table, adding "contraction", "exerciseID" (uniqueID of table encoderExercise), "laterality" (Right, Left, Both)
-	//
-	//
 	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
-	//TODO: if mode is ecc-con, curves used have to be eccon
 	//TODO: when change person: unsensitive: recalculate, capture graph, treeview capture, buttons caputre on bottom, analyze button
-	//TODO: when selected user curves, Single curve spinbutton have to grow. Also do it if person changes
+	//TODO: when selected user curves, Single curve spinbutton have to grow (done). Also do it if person changes (pending)
 	//TODO: laterality have to be shown on treeviews: stream and curve. also check that is correct in database
 
 	//TODO: put chronopic detection in a generic place. Done But:
@@ -126,17 +120,7 @@ public partial class ChronoJumpWindow
 		sensitiveEncoderRowButtons(false);
 		createEncoderCombos();
 		sensitiveEncoderGlobalButtons(false);
-	}
-
-	private void on_radiobutton_encoder_eccon_toggled (object obj, EventArgs args) {
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == "Concentric") {
-			label_encoder_analyze_eccon.Sensitive=false;
-			hbox_encoder_analyze_eccon.Sensitive=false;
-		} else if(radiobutton_encoder_analyze_powerbars.Active) {
-			label_encoder_analyze_eccon.Sensitive=true;
-			hbox_encoder_analyze_eccon.Sensitive=true;
-		}
+		spin_encoder_analyze_curve_num.SetRange(1,1);
 	}
 
 	//TODO: garantir path windows	
@@ -511,6 +495,13 @@ public partial class ChronoJumpWindow
 		string dataFileName = "";
 
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+			string myEccon = "ec";
+			if(! radiobutton_encoder_eccon_together.Active)
+				myEccon = "ecS";
+			int myCurveNum = -1;
+			if(encoderAnalysis == "single")
+				myCurveNum = (int) spin_encoder_analyze_curve_num.Value;
+
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
 					-1, 
@@ -518,10 +509,10 @@ public partial class ChronoJumpWindow
 						Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 						encoderExercisesTranslationAndBodyPWeight) ),
 					"-1",			//mass
-					findEccon(false),	//do not force ecS (ecc-conc separated)
+					myEccon,	//this decides if analysis will be together or separated
 					encoderAnalysis,
 					"-1",
-					-1,
+					myCurveNum,
 					image_encoder_width, 
 					image_encoder_height); 
 			
@@ -533,7 +524,7 @@ public partial class ChronoJumpWindow
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("exerciseName,mass,smoothingOne,dateTime,fullURL");
+			writer.WriteLine("exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 			foreach(EncoderSQL eSQL in data) {
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
 				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
@@ -541,7 +532,9 @@ public partial class ChronoJumpWindow
 
 				writer.WriteLine(ex.name + "," + mass.ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
-						eSQL.url + Path.DirectorySeparatorChar + eSQL.filename);
+						eSQL.url + Path.DirectorySeparatorChar + eSQL.filename + "," +
+						eSQL.eccon	//this is the eccon of every curve
+						);
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
@@ -573,10 +566,15 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_data_current_stream_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
+
+		spin_encoder_analyze_curve_num.SetRange(1, UtilGtk.CountRows(encoderListStore));
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = currentPerson != null;
 		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
+		
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 	}
 
 	//show curve_num only on simple and superpose
@@ -609,11 +607,11 @@ public partial class ChronoJumpWindow
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="powerBars";
 		//can select together or separated
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) != "Concentric") {
+		//if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+		//			encoderEcconTranslation) != "Concentric") {
 			label_encoder_analyze_eccon.Sensitive=true;
 			hbox_encoder_analyze_eccon.Sensitive=true;
-		}
+		//}
 	}
 
 	private string findMass(bool includePerson) {
@@ -628,13 +626,14 @@ public partial class ChronoJumpWindow
 
 		return Util.ConvertToPoint(mass); //R decimal: '.'
 	}
-	
-	private string findEccon(bool ecconSeparated) {	
+
+	//TODO: check all this	
+	private string findEccon(bool forceEcconSeparated) {	
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) == "Concentric") 
 			return "c";
 		else {
-			if(ecconSeparated || ! radiobutton_encoder_eccon_together.Active)
+			if(forceEcconSeparated || ! radiobutton_encoder_eccon_together.Active)
 				return "ecS";
 			else 
 				return "ec";
@@ -715,7 +714,16 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
-		//TODO
+		/*
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) == "Concentric") {
+			label_encoder_analyze_eccon.Sensitive=false;
+			hbox_encoder_analyze_eccon.Sensitive=false;
+		} else if(radiobutton_encoder_analyze_powerbars.Active) {
+			label_encoder_analyze_eccon.Sensitive=true;
+			hbox_encoder_analyze_eccon.Sensitive=true;
+		}
+		*/
 	}
 
 	void on_combo_encoder_laterality_changed (object o, EventArgs args) 

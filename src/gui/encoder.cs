@@ -61,6 +61,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
+	[Widget] Gtk.Box hbox_encoder_user_curves_num;
+	[Widget] Gtk.Label label_encoder_user_curves_num;
 	[Widget] Gtk.Button button_encoder_analyze_data_show_user_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
@@ -88,12 +90,13 @@ public partial class ChronoJumpWindow
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 	enum encoderModes { CAPTURE, ANALYZE }
+	enum encoderSensEnum { 
+		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
+
 	
 	//TODO: auto close capturing window
 
 	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
-	//TODO: when change person: unsensitive: recalculate, capture graph, treeview capture, buttons caputre on bottom, analyze button
-	//TODO: when selected user curves, Single curve spinbutton have to grow (done). Also do it if person changes (pending)
 	//TODO: laterality have to be shown on treeviews: signal and curve. also check that is correct in database
 
 	//TODO: put chronopic detection in a generic place. Done But:
@@ -107,6 +110,7 @@ public partial class ChronoJumpWindow
 	//TODO: powerbars with checkbox to show1 param, 2 or three
 	//TODO: on capture (quasi-realtime), show powerbars or curves or both
 	//
+	//TODO: exercises info, exercises add
 
 	
 	private void encoderInitializeStuff() {
@@ -115,11 +119,11 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 		
+		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
+
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
-		sensitiveEncoderRowButtons(false);
 		createEncoderCombos();
-		sensitiveEncoderGlobalButtons(false);
 		spin_encoder_analyze_curve_num.SetRange(1,1);
 	}
 
@@ -203,20 +207,19 @@ public partial class ChronoJumpWindow
 	{
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
 		if (contents == null) {
-			//TODO: no data: make some of the gui unsensitive ??
-			sensitiveEncoderGlobalButtons(false);
+			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
-			removeColumns();
+			treeviewEncoderRemoveColumns();
 			int curvesNum = createTreeViewEncoder(contents);
 			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) != "Concentric") 
 				curvesNum = curvesNum / 2;
 			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
-			sensitiveEncoderGlobalButtons(true);
+			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		}
 	}
 	
-	private void removeColumns() {
+	private void treeviewEncoderRemoveColumns() {
 		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) 
 			treeview_encoder_curves.RemoveColumn (column);
@@ -566,15 +569,16 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
+		hbox_encoder_user_curves_num.Sensitive = false;
 
 		spin_encoder_analyze_curve_num.SetRange(1, UtilGtk.CountRows(encoderListStore));
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
-		button_encoder_analyze.Sensitive = currentPerson != null;
+		button_encoder_analyze.Sensitive = (currentPerson != null && Convert.ToInt32(label_encoder_user_curves_num.Text) >0);
 		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
+		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
 		
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
-		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+		spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_num.Text));
 	}
 
 	//show curve_num only on simple and superpose
@@ -606,12 +610,9 @@ public partial class ChronoJumpWindow
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		spin_encoder_analyze_curve_num.Sensitive=false;
 		encoderAnalysis="powerBars";
-		//can select together or separated
-		//if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-		//			encoderEcconTranslation) != "Concentric") {
-			label_encoder_analyze_eccon.Sensitive=true;
-			hbox_encoder_analyze_eccon.Sensitive=true;
-		//}
+			
+		label_encoder_analyze_eccon.Sensitive=true;
+		hbox_encoder_analyze_eccon.Sensitive=true;
 	}
 
 	private string findMass(bool includePerson) {
@@ -758,7 +759,6 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("PeakPowerTime") + "\n (s)",
 			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
 		};
-
 
 		encoderCurves = new ArrayList ();
 
@@ -1070,12 +1070,12 @@ public partial class ChronoJumpWindow
 	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) 
 	{
 		int lineNum = treeviewEncoderCurvesEventSelectedID();
-		sensitiveEncoderRowButtons(false);
+		encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		
 		//on ecc-con select both lines
 		if(ecconLast == "c") {
 			if (lineNum > 0)
-				sensitiveEncoderRowButtons(true);
+				encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
 		} else {
 			TreeIter iter = new TreeIter();
 
@@ -1103,26 +1103,103 @@ public partial class ChronoJumpWindow
 				treeview_encoder_curves.Selection.SelectIter(iter);
 				
 				if (treeview_encoder_curves.Selection.GetSelectedRows().Length == 2) 
-					sensitiveEncoderRowButtons(true);
+					encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
 			}
 			treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		}
 	}
-
-	private void sensitiveEncoderGlobalButtons(bool sensitive) {
-		label_encoder_capture_comment.Sensitive = sensitive;
-		entry_encoder_capture_comment.Sensitive = sensitive;
-		button_encoder_save_signal.Sensitive = sensitive;
-		button_encoder_analyze.Sensitive = sensitive;
-	}
-
-	private void sensitiveEncoderRowButtons(bool sensitive) {
-		button_encoder_delete_curve.Sensitive = sensitive;
-		button_encoder_save_curve.Sensitive = sensitive;
-	}
 	
 	/* end of TreeView stuff */	
 
+	/* sensitivity stuff */	
+			
+	//called when a person changes
+	private void encoderPersonChanged() {
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		label_encoder_user_curves_num.Text = data.Count.ToString();
+		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+
+		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
+		treeviewEncoderRemoveColumns();
+		image_encoder_capture.Sensitive = false;
+		image_encoder_analyze.Sensitive = false;
+	}
+
+	private void encoderButtonsSensitive(encoderSensEnum option) {
+		//columns
+		//c0 button_encoder_capture
+		//c1 button_encoder_recalculate
+		//c2 button_encoder_load_signal
+		//c3 button_encoder_save_all_curves && button_encoder_save_signal && 
+		//	label_encoder_capture_comment && entry_encoder_capture_comment
+		//c4 button_encoder_delete_curve && button_encoder_save_curve
+		//c5 button_encoder_analyze
+		//c6 button_encoder_analyze_data_show_user_curves
+
+		//other dependencies
+		//c5 True needs 
+		//	(signal || (! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
+		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
+		
+		//columns		 0  1  2  3  4  5  6
+		int [] noSession = 	{0, 0, 0, 0, 0, 0, 0};
+		int [] noPerson = 	{0, 0, 0, 0, 0, 0, 0};
+		int [] yesPerson = 	{1, 0, 1, 0, 0, 1, 1};
+		int [] processing = 	{0, 0, 0, 0, 0, 0, 0};
+		int [] doneNoSignal = 	{1, 1, 1, 0, 0, 1, 1};
+		int [] doneYesSignal = 	{1, 1, 1, 1, 0, 1, 1};
+		int [] selectedCurve = 	{1, 1, 1, 1, 1, 1, 1};
+		int [] table = new int[7];
+
+		switch(option) {
+			case encoderSensEnum.NOSESSION:
+				table = noSession;
+				break;
+			case encoderSensEnum.NOPERSON:
+				table = noPerson;
+				break;
+			case encoderSensEnum.YESPERSON:
+				table = yesPerson;
+				break;
+			case encoderSensEnum.PROCESSING:
+				table = processing;
+				break;
+			case encoderSensEnum.DONENOSIGNAL:
+				table = doneNoSignal;
+				break;
+			case encoderSensEnum.DONEYESSIGNAL:
+				table = doneYesSignal;
+				break;
+			case encoderSensEnum.SELECTEDCURVE:
+				table = selectedCurve;
+				break;
+		}
+
+		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
+		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
+		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
+		
+		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
+		button_encoder_save_signal.Sensitive = Util.IntToBool(table[3]);
+		label_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
+		entry_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
+		
+		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
+		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
+		
+		button_encoder_analyze.Sensitive = 
+			(Util.IntToBool(table[5]) && 
+			 (UtilGtk.CountRows(encoderListStore) > 0 ||
+			  (! radiobutton_encoder_analyze_data_current_signal.Active && 
+			   Convert.ToInt32(label_encoder_user_curves_num.Text) >0)));
+
+		button_encoder_analyze_data_show_user_curves.Sensitive = 
+			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
+	}
+
+	/* end of sensitivity stuff */	
+			
+	
 	/* thread stuff */
 
 	private void encoderThreadStart(encoderModes mode) {
@@ -1145,6 +1222,7 @@ public partial class ChronoJumpWindow
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 		}
+		encoderButtonsSensitive(encoderSensEnum.PROCESSING);
 		encoderThread.Start(); 
 	}
 	
@@ -1152,7 +1230,6 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive) {
 			finishPulsebar(encoderModes.CAPTURE);
-			sensitiveEncoderRowButtons(false);
 			Log.Write("dying");
 			return false;
 		}
@@ -1166,7 +1243,6 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive) {
 			finishPulsebar(encoderModes.ANALYZE);
-			sensitiveEncoderRowButtons(false);
 			Log.Write("dying");
 			return false;
 		}
@@ -1201,6 +1277,10 @@ public partial class ChronoJumpWindow
 			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 			image_encoder_analyze.Pixbuf = pixbuf;
 		}
+
+		treeview_encoder_curves.Sensitive = true;
+		image_encoder_capture.Sensitive = true;
+		image_encoder_analyze.Sensitive = true;
 	}
 	
 	/* end of thread stuff */

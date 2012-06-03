@@ -206,16 +206,20 @@ public partial class ChronoJumpWindow
 	private void encoderUpdateTreeView()
 	{
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
-		if (contents == null) {
+		if (contents == null || contents == "") {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
 			treeviewEncoderRemoveColumns();
 			int curvesNum = createTreeViewEncoder(contents);
-			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) != "Concentric") 
-				curvesNum = curvesNum / 2;
-			spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
-			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+			if(curvesNum == 0) 
+				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+			else {
+				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+						encoderEcconTranslation) != "Concentric") 
+					curvesNum = curvesNum / 2;
+				spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
+				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+			}
 		}
 	}
 	
@@ -1075,7 +1079,7 @@ public partial class ChronoJumpWindow
 	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) 
 	{
 		int lineNum = treeviewEncoderCurvesEventSelectedID();
-		encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
 		//on ecc-con select both lines
 		if(ecconLast == "c") {
@@ -1135,9 +1139,10 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 button_encoder_save_all_curves && button_encoder_save_signal && 
-		//	label_encoder_capture_comment && entry_encoder_capture_comment
-		//c4 button_encoder_delete_curve && button_encoder_save_curve
+		//c3 button_encoder_save_all_curves , button_encoder_save_signal && 
+		//	label_encoder_capture_comment , entry_encoder_capture_comment
+		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive
+		//c4 button_encoder_delete_curve , button_encoder_save_curve
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_show_user_curves
 
@@ -1188,6 +1193,8 @@ public partial class ChronoJumpWindow
 		button_encoder_save_signal.Sensitive = Util.IntToBool(table[3]);
 		label_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
 		entry_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
+		image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
+		image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
 		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
@@ -1286,8 +1293,6 @@ public partial class ChronoJumpWindow
 		}
 
 		treeview_encoder_curves.Sensitive = true;
-		image_encoder_capture.Sensitive = true;
-		image_encoder_analyze.Sensitive = true;
 	}
 	
 	/* end of thread stuff */

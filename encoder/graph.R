@@ -576,7 +576,8 @@ if(length(args) < 3) {
 		curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
 		print(curves)
 		n=length(curves[,1])
-
+		quitIfNoData(n, curves, outputData1)
+		
 		for(i in 1:n) { 
 			curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
 		}
@@ -670,6 +671,7 @@ if(length(args) < 3) {
 		par(new=F)
 		print(knRanges)
 	}
+	
 	if(analysis=="powerBars" || analysis=="curves") {
 		paf = data.frame()
 		for(i in 1:n) { 

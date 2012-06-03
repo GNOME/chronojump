@@ -1006,6 +1006,7 @@ public partial class ChronoJumpWindow
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
 			label_current_person.UseMarkup = true; 
+		
 			return true;
 		} else {
 			return false;
@@ -1030,6 +1031,8 @@ public partial class ChronoJumpWindow
 			currentPersonSession = SqlitePersonSession.Select(Convert.ToInt32(selectedID), currentSession.UniqueID);
 			label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
 			label_current_person.UseMarkup = true; 
+		
+			encoderPersonChanged();
 		}
 	}
 
@@ -4981,7 +4984,7 @@ Console.WriteLine("X");
 				extra_window_multichronopic_can_do(false);
 		} else {
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			button_encoder_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
+			//button_encoder_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);
@@ -5105,9 +5108,9 @@ Console.WriteLine("X");
 		hbox_this_test_buttons.Sensitive = false;
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
-		button_encoder_capture.Sensitive = false;
-		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_signal.Sensitive = false;
+
+		encoderButtonsSensitive(encoderSensEnum.NOSESSION);
+		
 		eventExecuteHideAllTables();
 	}
 	
@@ -5131,9 +5134,9 @@ Console.WriteLine("X");
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
 		button_execute_test.Sensitive = false;
-		button_encoder_capture.Sensitive = false;
-		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_signal.Sensitive = false;
+		
+		encoderButtonsSensitive(encoderSensEnum.NOPERSON);
+		encoderPersonChanged();
 
 		notebook_execute.Sensitive = false;
 		notebook_results.Sensitive = false;
@@ -5148,9 +5151,9 @@ Console.WriteLine("X");
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		button_execute_test.Sensitive = true;
-		button_encoder_capture.Sensitive = true;
-		button_encoder_recalculate.Sensitive = true;
-		button_encoder_load_signal.Sensitive = true;
+
+		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
+		encoderPersonChanged();
 
 		notebook_execute.Sensitive = true;
 		notebook_results.Sensitive = true;
@@ -5169,8 +5172,6 @@ Console.WriteLine("X");
 		combo_pulses.Sensitive = true;
 		
 		hbox_execute_test.Sensitive = true;
-
-		button_encoder_analyze.Sensitive = radiobutton_encoder_analyze_data_user_curves.Active;
 	}
 	
 	private void sensitiveGuiYesEvent () {
@@ -5183,9 +5184,9 @@ Console.WriteLine("X");
 		frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
-		button_encoder_capture.Sensitive = false;
-		button_encoder_recalculate.Sensitive = false;
-		button_encoder_load_signal.Sensitive = false;
+
+		encoderButtonsSensitive(encoderSensEnum.PROCESSING);
+		
 		//hbox
 		hbox_jumps.Sensitive = false;
 		hbox_jumps_rj.Sensitive = false;
@@ -5209,9 +5210,9 @@ Console.WriteLine("X");
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
-		button_encoder_capture.Sensitive = true;
-		button_encoder_recalculate.Sensitive = true;
-		button_encoder_load_signal.Sensitive = true;
+		
+		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;

@@ -24048,7 +24048,7 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Add new exercise</property>
+                                                            <property name="tooltip" translatable="yes">Show description of this exercise</property>
                                                             <signal name="clicked" handler="on_button_encoder_exercise_info_clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image4">
@@ -24720,6 +24720,42 @@ Evaluator can use real name or nickname.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
+                                                          <widget class="GtkHBox" id="hbox_encoder_user_curves_num">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label76">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">(</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_user_curves_num">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">0</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label80">
+                                                            <property name="visible">True</property>
+                                                            <property name="label" translatable="yes">)</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
                                                           <widget class="GtkButton" id="button_encoder_analyze_data_show_user_curves">
                                                             <property name="label" translatable="yes">Show</property>
                                                             <property name="visible">True</property>
@@ -24729,7 +24765,7 @@ Evaluator can use real name or nickname.</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_data_show_user_curves_clicked"/>
                                                           </widget>
                                                           <packing>
-                                                            <property name="position">1</property>
+                                                            <property name="position">2</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
@@ -24890,7 +24926,6 @@ Evaluator can use real name or nickname.</property>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox_encoder_analyze_eccon">
                                                             <property name="visible">True</property>
-                                                            <property name="sensitive">True</property>
                                                             <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radiobutton_encoder_eccon_together">

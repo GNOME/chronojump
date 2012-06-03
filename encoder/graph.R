@@ -71,7 +71,7 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 					end[row]   = mean(which(a[tempStart:tempEnd] == bottom) + tempStart)
 					startH[row] = a[b$maxindex[i,1]]		#height at start
 					row=row+1
-					start[row] = end[row-1] + 1
+					start[row] = end[(row-1)] + 1
 					end[row]   = tempEnd
 					startH[row] = a[start[row]]		#height at start
 					row=row+1
@@ -253,12 +253,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#maybe data has not started, then look what happens 2 ms later
 		for(i in crossSpeedInMiddle) {
 			if(i>2) {
-				if(speed$y[i-2]<0) {
+				if(speed$y[(i-2)]<0) {
 					crossDownToUp[count]=i
 					count=count+1
 				}
 			} else {
-				if(speed$y[i+2]>0) {
+				if(speed$y[(i+2)]>0) {
 					crossDownToUp[count]=i
 					count=count+1
 				}
@@ -388,7 +388,7 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 			}
 		} else {
 			myEc=c("c","e")
-			myNums = paste(trunc((myNums+1)/2),myEc[(myNums%%2)+1],sep="")
+			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
 		}
 	}
 
@@ -525,27 +525,31 @@ if(length(args) < 3) {
 					if(j == 1) {
 						dataTempPhase=dataTempFile[1:changePos]
 					} else {
+						#IMP: 
+						#note that following line without the parentheses on changePos+1
+						#gives different data.
+						#never forget parentheses to operate inside the brackets
 						dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
 						newLines=newLines+1
 					}
 				}
 				rawdata = c(rawdata, dataTempPhase)
-				start[i+newLines] = count
-				end[i+newLines] = length(dataTempPhase) + count -1
-				startH[i+newLines] = 0
-				exerciseName[i+newLines] = as.vector(inputMultiData$exerciseName[i])
-				mass[i+newLines] = inputMultiData$mass[i]
-				smooth[i+newLines] = inputMultiData$smoothingOne[i]
-				dateTime[i+newLines] = as.vector(inputMultiData$dateTime[i])
+				start[(i+newLines)] = count
+				end[(i+newLines)] = length(dataTempPhase) + count -1
+				startH[(i+newLines)] = 0
+				exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
+				mass[(i+newLines)] = inputMultiData$mass[i]
+				smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
+				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
 				#myEccon[i+newLines] = as.vector(inputMultiData$eccon[i])
 				if(processTimes == 2 & j == 1) 
-					myEccon[i+newLines] = "e"
+					myEccon[(i+newLines)] = "e"
 				else {
 					if(inputMultiData$eccon[i] == "c")
-						myEccon[i+newLines] = "c"
+						myEccon[(i+newLines)] = "c"
 					else
-						myEccon[i+newLines] = "ec"
+						myEccon[(i+newLines)] = "ec"
 				}
 
 				count = count + length(dataTempPhase)
@@ -570,7 +574,7 @@ if(length(args) < 3) {
 		rawdata.cumsum=cumsum(rawdata)
 	
 		curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
-		#print(curves)
+		print(curves)
 		n=length(curves[,1])
 
 		for(i in 1:n) { 
@@ -584,7 +588,7 @@ if(length(args) < 3) {
 				adjVert = 0
 				if(eccon=="ecS") {
 					myEc=c("c","e")
-					myLabel = paste(trunc((i+1)/2),myEc[(i%%2)+1],sep="")
+					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = rawdata.cumsum[curves[i,1]]/10
 					if(i%%2 == 1) {
 						adjVert = 1
@@ -596,7 +600,7 @@ if(length(args) < 3) {
 			}
 		}
 
-		#print(curves)
+		print(curves)
 	}
 
 	if(analysis=="single") {

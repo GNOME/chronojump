@@ -259,14 +259,18 @@ public class EncoderSQL
 
 public class EncoderExercise
 {
-	public EncoderExercise() {
-	}
-
 	public int uniqueID;
 	public string name;
 	public int percentBodyWeight;
 	public string ressistance;
 	public string description;
+
+	public EncoderExercise() {
+	}
+
+	public EncoderExercise(string name) {
+		this.name = name;
+	}
 
 	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, string ressistance, string description)
 	{

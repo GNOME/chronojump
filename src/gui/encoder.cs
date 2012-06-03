@@ -109,8 +109,6 @@ public partial class ChronoJumpWindow
 	//TODO: single curve, and side, checkbox to show1 param, 2 or three
 	//TODO: powerbars with checkbox to show1 param, 2 or three
 	//TODO: on capture (quasi-realtime), show powerbars or curves or both
-	//
-	//TODO: exercises info, exercises add
 
 	
 	private void encoderInitializeStuff() {
@@ -171,7 +169,7 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				Convert.ToInt32(
 					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight) ),
+					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
 				findMass(true),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
@@ -238,7 +236,7 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				Convert.ToInt32(
 					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight) ),
+					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
 				findMass(true),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				"curves",
@@ -536,7 +534,8 @@ public partial class ChronoJumpWindow
 			writer.WriteLine("exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 			foreach(EncoderSQL eSQL in data) {
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
-				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
+				EncoderExercise ex = (EncoderExercise) 
+					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
 				writer.WriteLine(ex.name + "," + mass.ToString() + "," + 
@@ -660,20 +659,24 @@ public partial class ChronoJumpWindow
 	protected void createEncoderCombos() {
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1);
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1, false);
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
 		foreach(EncoderExercise ex in encoderExercises) {
+			string nameTranslated = ex.name;
+			//do not translated user created exercises
+			//this names are in SqliteEncoder.initializeTableEncoderExercise()
+			if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
+				nameTranslated = Catalog.GetString(ex.name);
 			encoderExercisesTranslationAndBodyPWeight[i] = 
-				ex.uniqueID + ":" + ex.name + ":" + Catalog.GetString(ex.name) + ":" + ex.percentBodyWeight;
+				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
 			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
 			i++;
 		}
 		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
 		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
-		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
 		
 		//create combo eccon
 		string [] comboEcconOptions = { "Concentric", "Eccentric-concentric" };
@@ -700,7 +703,6 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptions, "");
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
-		combo_encoder_laterality.Changed += new EventHandler (on_combo_encoder_laterality_changed);
 		
 		//pack combos
 
@@ -717,11 +719,6 @@ public partial class ChronoJumpWindow
 		combo_encoder_laterality.Sensitive = true;
 	}
 
-	void on_combo_encoder_exercise_changed (object o, EventArgs args) 
-	{
-		//TODO
-	}
-
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
 		/*
@@ -736,19 +733,113 @@ public partial class ChronoJumpWindow
 		*/
 	}
 
-	void on_combo_encoder_laterality_changed (object o, EventArgs args) 
-	{
-		//TODO
-	}
-
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 
 	{
-		//TODO
+		int exerciseID = Convert.ToInt32(
+				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+				encoderExercisesTranslationAndBodyPWeight) );	//exerciseID
+		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(exerciseID,false)[0];
+
+		ArrayList bigArray = new ArrayList();
+
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
+		ArrayList a4 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(ex.name);
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(false); a2.Add("");
+		bigArray.Add(a2);
+		
+		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(false); a3.Add(ex.ressistance);
+		bigArray.Add(a3);
+		
+		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(false); a4.Add(ex.description);
+		bigArray.Add(a4);
+		
+		genericWin = GenericWindow.Show(Catalog.GetString("Encoder exercise name:"), bigArray);
+		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
+		genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
+		genericWin.LabelEntry2 = Catalog.GetString("Ressitance");
+		genericWin.LabelEntry3 = Catalog.GetString("Description");
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
 	}
 
 	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
 	{
-		//TODO
+		ArrayList bigArray = new ArrayList();
+
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
+		ArrayList a4 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+
+		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+		
+		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
+		
+		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
+		bigArray.Add(a4);
+		
+		genericWin = GenericWindow.Show(
+				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
+		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
+		genericWin.SetSpinRange(0, 100);
+		genericWin.LabelEntry2 = Catalog.GetString("Ressitance");
+		genericWin.LabelEntry3 = Catalog.GetString("Description");
+		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
+		
+		genericWin.HideOnAccept = false;
+
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_add_accepted);
+	}
+	
+	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) 
+	{
+		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
+
+		Log.WriteLine("Trying to insert: " + name);
+		if(name == "")
+			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
+		else if (Sqlite.Exists(Constants.EncoderExerciseTable, name))
+			genericWin.SetLabelError(string.Format(Catalog.GetString(
+							"Error: An exercise named '{0}' already exists."), name));
+		else {
+			SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
+					genericWin.Entry2Selected, genericWin.Entry3Selected);
+
+			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1, false);
+			encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
+			string [] exerciseNamesToCombo = new String [encoderExercises.Count];
+			int i =0;
+			foreach(EncoderExercise ex in encoderExercises) {
+				string nameTranslated = ex.name;
+				//do not translated user created exercises
+				//this names are in SqliteEncoder.initializeTableEncoderExercise()
+				if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
+					nameTranslated = Catalog.GetString(ex.name);
+				encoderExercisesTranslationAndBodyPWeight[i] = 
+					ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
+				exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
+				i++;
+			}
+			UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
+			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, name);
+
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
+			genericWin.HideAndNull();
+			Log.WriteLine("done");
+		}
 	}
 
 

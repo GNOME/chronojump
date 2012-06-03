@@ -224,7 +224,10 @@ class SqliteEncoder : Sqlite
 		if(! dbconOpened)
 			dbcon.Close();
 	}
-	
+
+	//Note: if this names change, or there are new, change them on both:
+	//gui/encoder createEncoderCombos();	
+	//gui/encoder on_button_encoder_exercise_add_accepted (object o, EventArgs args) 
 	protected internal static void initializeTableEncoderExercise()
 	{
 		string [] iniEncoderExercises = {
@@ -242,15 +245,18 @@ class SqliteEncoder : Sqlite
 
 	//if submited a -1, returns an especific EncoderExercise that can be read like this	
 	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
-	public static ArrayList SelectEncoderExercises(int uniqueID) 
+	public static ArrayList SelectEncoderExercises(int uniqueID, bool onlyNames) 
 	{
 		dbcon.Open();
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
 			uniqueIDStr = " WHERE " + Constants.EncoderExerciseTable + ".uniqueID = " + uniqueID;
-		
-		dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
+	
+		if(onlyNames)
+			dbcmd.CommandText = "SELECT name FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
+		else
+			dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -260,20 +266,26 @@ class SqliteEncoder : Sqlite
 		
 		ArrayList array = new ArrayList(1);
 		EncoderExercise ex = new EncoderExercise();
-		while(reader.Read()) {
-			ex = new EncoderExercise (
-					Convert.ToInt32(reader[0].ToString()),	//uniqueID
-					reader[1].ToString(),			//name
-					Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
-					reader[3].ToString(),			//ressistance
-					reader[4].ToString()			//description
-					);
-			array.Add(ex);
+		
+		if(onlyNames) {
+			while(reader.Read()) {
+				ex = new EncoderExercise (reader[0].ToString());
+				array.Add(ex);
+			}
+		} else {
+			while(reader.Read()) {
+				ex = new EncoderExercise (
+						Convert.ToInt32(reader[0].ToString()),	//uniqueID
+						reader[1].ToString(),			//name
+						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
+						reader[3].ToString(),			//ressistance
+						reader[4].ToString()			//description
+						);
+				array.Add(ex);
+			}
 		}
 
 		reader.Close();
-	
-		//close database connection
 		dbcon.Close();
 
 		return array;

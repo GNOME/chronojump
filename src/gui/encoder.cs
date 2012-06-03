@@ -377,6 +377,8 @@ public partial class ChronoJumpWindow
 		else 	//(button == button_encoder_save_signal) 
 			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		label_encoder_user_curves_num.Text = data.Count.ToString();
 	}
 
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
@@ -567,11 +569,14 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
-		button_encoder_analyze.Sensitive = encoderTimeStamp != null;
+		int rows = UtilGtk.CountRows(encoderListStore);
+
+		//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
+		button_encoder_analyze.Sensitive = (rows > 0);
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 		hbox_encoder_user_curves_num.Sensitive = false;
 
-		spin_encoder_analyze_curve_num.SetRange(1, UtilGtk.CountRows(encoderListStore));
+		spin_encoder_analyze_curve_num.SetRange(1, rows);
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		button_encoder_analyze.Sensitive = (currentPerson != null && Convert.ToInt32(label_encoder_user_curves_num.Text) >0);
@@ -1186,12 +1191,12 @@ public partial class ChronoJumpWindow
 		
 		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
-		
+
+		bool signal = radiobutton_encoder_analyze_data_current_signal.Active;
 		button_encoder_analyze.Sensitive = 
 			(Util.IntToBool(table[5]) && 
-			 (UtilGtk.CountRows(encoderListStore) > 0 ||
-			  (! radiobutton_encoder_analyze_data_current_signal.Active && 
-			   Convert.ToInt32(label_encoder_user_curves_num.Text) >0)));
+			 (signal && UtilGtk.CountRows(encoderListStore) > 0 ||
+			  (! signal && Convert.ToInt32(label_encoder_user_curves_num.Text) >0)));
 
 		button_encoder_analyze_data_show_user_curves.Sensitive = 
 			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
@@ -1276,6 +1281,8 @@ public partial class ChronoJumpWindow
 			//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
 			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 			image_encoder_analyze.Pixbuf = pixbuf;
+			
+			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		}
 
 		treeview_encoder_curves.Sensitive = true;

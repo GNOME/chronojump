@@ -61,7 +61,14 @@ public class GenericWindow
 	static GenericWindow GenericWindowBox;
 	
 	private TreeStore store;
+	
+	//used to read data, see if it's ok, and print an error message.
+	//if all is ok, destroy it with HideAndNull()
 	public bool HideOnAccept;
+	
+	//used when we don't need to read data, 
+	//and we want to ensure next window will be created at needed size
+	public bool DestroyOnAccept;
 	
 	public GenericWindow ()
 	{
@@ -88,6 +95,7 @@ public class GenericWindow
 		GenericWindowBox.label_header.Text = textHeader;
 		GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;
+		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
 	}
@@ -105,6 +113,7 @@ public class GenericWindow
 		GenericWindowBox.label_header.Text = textHeader;
 		GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;
+		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
 	}
@@ -205,7 +214,7 @@ public class GenericWindow
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
-		scrolled_window_treeview.WidthRequest = 500;
+		scrolled_window_treeview.WidthRequest = 550;
 		scrolled_window_treeview.HeightRequest = 250;
 
 		store = getStore(columnsString.Length); 
@@ -297,10 +306,12 @@ public class GenericWindow
 	{
 		if(HideOnAccept)
 			GenericWindowBox.generic_window.Hide();
-		//GenericWindowBox = null;
+		if(DestroyOnAccept)
+			GenericWindowBox = null;
 	}
 	
 	//when ! HideOnAccept, use this to close window
+	//also is better to call it always tat is closed clicking on accept (after data has been readed)
 	public void HideAndNull() {
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;

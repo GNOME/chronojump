@@ -67,12 +67,21 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
-	[Widget] Gtk.Label label_encoder_analyze_eccon;
+	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.Box hbox_encoder_analyze_eccon;
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_both;
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
+	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
+	
+	[Widget] Gtk.Box hbox_encoder_analyze_load_vs_power;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_load_vs_power_mean;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_load_vs_power_peak;
+	
+	[Widget] Gtk.Box hbox_encoder_analyze_force_vs_speed;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_force_vs_speed_mean;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_force_vs_speed_max;
+	
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
@@ -85,7 +94,7 @@ public partial class ChronoJumpWindow
 	int image_encoder_width;
 	int image_encoder_height;
 
-	private string encoderAnalysis="powerBars";
+	private static string encoderAnalysis="powerBars";
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
@@ -96,8 +105,9 @@ public partial class ChronoJumpWindow
 	
 	//TODO: auto close capturing window
 
-	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph)
+	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph). Put also exercise name and weight 
 	//TODO: laterality have to be shown on treeviews: signal and curve. also check that is correct in database
+	//TODO: the load (Kg) in graphs has to account the exercice body percent and the extra
 
 	//TODO: put chronopic detection in a generic place. Done But:
 	//TODO: solve the problem of connecting two different chronopics
@@ -122,7 +132,7 @@ public partial class ChronoJumpWindow
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		createEncoderCombos();
-		spin_encoder_analyze_curve_num.SetRange(1,1);
+		spin_encoder_analyze_curve_num.SetRange(0,0);
 	}
 
 	//TODO: garantir path windows	
@@ -262,12 +272,13 @@ public partial class ChronoJumpWindow
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
 		ArrayList dataPrint = new ArrayList();
-		foreach(EncoderSQL es in data) {
-			dataPrint.Add(es.ToStringArray());
-		}
+		int count = 1;
+		foreach(EncoderSQL es in data) 
+			dataPrint.Add(es.ToStringArray(count++));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
+			Catalog.GetString("Curve"),
 			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
@@ -282,6 +293,11 @@ public partial class ChronoJumpWindow
 		genericWin.SetTreeview(columnsString, dataPrint);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
+
+		//used when we don't need to read data, 
+		//and we want to ensure next window will be created at needed size
+		genericWin.DestroyOnAccept=true;
+
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
 	}
 		
@@ -290,12 +306,13 @@ public partial class ChronoJumpWindow
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal");
 
 		ArrayList dataPrint = new ArrayList();
-		foreach(EncoderSQL es in data) {
-			dataPrint.Add(es.ToStringArray());
-		}
+		int count = 1;
+		foreach(EncoderSQL es in data) 
+			dataPrint.Add(es.ToStringArray(count++));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
+			Catalog.GetString("Signal"),
 			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
@@ -316,7 +333,10 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_accepted (object o, EventArgs args)
 	{
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_load_signal_accepted);
+
 		int uniqueID = genericWin.TreeviewSelectedRowID();
+		
+		genericWin.HideAndNull();
 
 		ArrayList data = SqliteEncoder.Select(false, uniqueID, 
 				currentPerson.UniqueID, currentSession.UniqueID, "signal");
@@ -381,6 +401,7 @@ public partial class ChronoJumpWindow
 
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
 		label_encoder_user_curves_num.Text = data.Count.ToString();
+		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 	}
 
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
@@ -490,7 +511,7 @@ public partial class ChronoJumpWindow
 			//TODO: in the future plot a "no curves" message,
 			//or beter done allow to analyze if there's no curves
 		}
-
+		
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
 	
@@ -500,13 +521,31 @@ public partial class ChronoJumpWindow
 	{
 		EncoderParams ep = new EncoderParams();
 		string dataFileName = "";
+		
+		//use this send because we change it to send it to R
+		//but we don't want to change encoderAnalysis because we want to know again if == "loadVSPower" 
+		string sendAnalysis = encoderAnalysis;
 
+		if(sendAnalysis == "loadVSPower") {
+			if(radiobutton_encoder_analyze_load_vs_power_mean.Active)
+				sendAnalysis = "loadVSPowerMean";
+			else
+				sendAnalysis = "loadVSPowerPeak";
+		}
+
+		if(sendAnalysis == "forceVSSpeed") {
+			if(radiobutton_encoder_analyze_force_vs_speed_mean.Active)
+				sendAnalysis = "forceVSSpeedMean";
+			else
+				sendAnalysis = "forceVSSpeedMax";
+		}
+			
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
 			if(! radiobutton_encoder_eccon_together.Active)
 				myEccon = "ecS";
 			int myCurveNum = -1;
-			if(encoderAnalysis == "single")
+			if(sendAnalysis == "single")
 				myCurveNum = (int) spin_encoder_analyze_curve_num.Value;
 
 			//-1 because data will be different on any curve
@@ -517,7 +556,7 @@ public partial class ChronoJumpWindow
 						encoderExercisesTranslationAndBodyPWeight) ),
 					"-1",			//mass
 					myEccon,	//this decides if analysis will be together or separated
-					encoderAnalysis,
+					sendAnalysis,
 					"-1",
 					myCurveNum,
 					image_encoder_width, 
@@ -554,7 +593,7 @@ public partial class ChronoJumpWindow
 						encoderExercisesTranslationAndBodyPWeight) ),
 					findMass(true),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
-					encoderAnalysis,
+					sendAnalysis,
 					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 					(int) spin_encoder_analyze_curve_num.Value, 
 					image_encoder_width,
@@ -589,39 +628,71 @@ public partial class ChronoJumpWindow
 		spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_num.Text));
 	}
 
+
 	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
-		spin_encoder_analyze_curve_num.Sensitive=true;
+		hbox_encoder_analyze_curve_num.Visible=true;
+		hbox_encoder_analyze_load_vs_power.Visible=false;
+		hbox_encoder_analyze_force_vs_speed.Visible=false;
 		encoderAnalysis="single";
 		//together, mandatory
-		label_encoder_analyze_eccon.Sensitive=false;
 		hbox_encoder_analyze_eccon.Sensitive=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 
+	/*
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
-		spin_encoder_analyze_curve_num.Sensitive=true;
+		hbox_encoder_analyze_curve_num.Visible=true;
+		hbox_encoder_analyze_load_vs_power.Visible=false;
+		hbox_encoder_analyze_force_vs_speed.Visible=false;
 		encoderAnalysis="superpose";
+		
 		//together, mandatory
-		label_encoder_analyze_eccon.Sensitive=false;
 		hbox_encoder_analyze_eccon.Sensitive=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
+	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
-		spin_encoder_analyze_curve_num.Sensitive=false;
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_encoder_analyze_load_vs_power.Visible=false;
+		hbox_encoder_analyze_force_vs_speed.Visible=false;
 		encoderAnalysis="side";
+		
 		//together, mandatory
-		label_encoder_analyze_eccon.Sensitive=false;
 		hbox_encoder_analyze_eccon.Sensitive=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
-		spin_encoder_analyze_curve_num.Sensitive=false;
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_encoder_analyze_load_vs_power.Visible=false;
+		hbox_encoder_analyze_force_vs_speed.Visible=false;
 		encoderAnalysis="powerBars";
-			
-		label_encoder_analyze_eccon.Sensitive=true;
+		
 		hbox_encoder_analyze_eccon.Sensitive=true;
 	}
+	
+	private void on_radiobutton_encoder_analyze_load_vs_power_toggled (object obj, EventArgs args) {
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_encoder_analyze_load_vs_power.Visible=true;
+		hbox_encoder_analyze_force_vs_speed.Visible=false;
+		
+		//analyze button will check the mean, peak radios
+		encoderAnalysis="loadVSPower";
+		
+		hbox_encoder_analyze_eccon.Sensitive=false;
+	}
+
+	private void on_radiobutton_encoder_analyze_force_vs_speed_toggled (object obj, EventArgs args) {
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_encoder_analyze_load_vs_power.Visible=false;
+		hbox_encoder_analyze_force_vs_speed.Visible=true;
+		
+		//analyze button will check the mean, max radios
+		encoderAnalysis="forceVSSpeed";
+		
+		hbox_encoder_analyze_eccon.Sensitive=false;
+	}
+
 
 	private string findMass(bool includePerson) {
 		double mass = spin_encoder_extra_weight.Value;
@@ -724,10 +795,8 @@ public partial class ChronoJumpWindow
 		/*
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) == "Concentric") {
-			label_encoder_analyze_eccon.Sensitive=false;
 			hbox_encoder_analyze_eccon.Sensitive=false;
 		} else if(radiobutton_encoder_analyze_powerbars.Active) {
-			label_encoder_analyze_eccon.Sensitive=true;
 			hbox_encoder_analyze_eccon.Sensitive=true;
 		}
 		*/

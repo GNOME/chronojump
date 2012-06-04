@@ -137,7 +137,8 @@ kinematicsF <- function(a, mass, smoothingOne, g) {
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
 
 	power <- force*speed$y
-	return(list(speedy=speed$y, accely=accel$y, force=force, power=power))
+
+	return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
 powerBars <- function(kinematics) {
@@ -147,7 +148,13 @@ powerBars <- function(kinematics) {
 	peakPower <- max(kinematics$power)
 	peakPowerT <- min(which(kinematics$power == peakPower))
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
-	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt))
+	meanForce <- mean(abs(kinematics$force))
+	maxForce <- max(abs(kinematics$force))
+
+	#here paf is generated
+	#mass is not used by powerBars, but used by Kg/W (loadVSPower)
+	#meanForce and maxForce are not used by powerBars, but used by F/S (forceVSSpeed)
+	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt, kinematics$mass,meanForce,maxForce))
 }
 
 kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
@@ -400,9 +407,80 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
 	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)
 	axis(4)
-	mtext("time at peak power (s)", side=4, line=-1)
+	mtext("Time at peak power (s)", side=4, line=-1)
+}
+			
+paintLoadVSPower <- function (paf, option) {
+	power=(paf[,3])
+	peakPower=(paf[,4])
+	x=(paf[,7])	#mass
+
+	if(option == "mean") {
+		y=power
+		ylab="Power (W)"
+	}
+	else {
+		y=peakPower
+		ylab="Peak Power (W)"
+	}
+
+	#problem with balls is that two values two close looks bad
+	#suboption="balls"
+	suboption="side"
+	if(suboption == "balls") {
+		cexBalls = 3
+		cexNums = 1
+		adjHor = 0.5
+		nums=as.character(1:length(x))
+	} else if (suboption == "side") {
+		cexBalls = 1.5
+		cexNums = .7
+		adjHor = 0
+		nums=paste("  ",as.character(1:length(x)))
+	}
+
+	plot(x,y, xlab="Displaced mass (Kg)", ylab=ylab,pch=21,bg="gold",cex=cexBalls)
+	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
+	lines(smooth.spline(x,y),col="red")
 }
 		
+paintForceVSSpeed <- function (paf,option) {
+	meanSpeed=(paf[,1])
+	maxSpeed=(paf[,2])
+	meanForce=(paf[,8])
+	maxForce=(paf[,9])
+
+	if(option == "mean") {
+		x=meanSpeed
+		y=meanForce
+		xlab="Mean speed (m/s)"
+		ylab="Mean force (N)"
+	} else {
+		x=maxSpeed
+		y=maxForce
+		xlab="Max speed (m/s)"
+		ylab="Max force (N)"
+	}
+
+	#problem with balls is that two values two close looks bad
+	#suboption="balls"
+	suboption="side"
+	if(suboption == "balls") {
+		cexBalls = 3
+		cexNums = 1
+		adjHor = 0.5
+		nums=as.character(1:length(x))
+	} else if (suboption == "side") {
+		cexBalls = 1.5
+		cexNums = .7
+		adjHor = 0
+		nums=paste("  ",as.character(1:length(x)))
+	}
+
+	plot(x,y, xlab=xlab, ylab=ylab,pch=21,bg="gold",cex=cexBalls)
+	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
+	lines(smooth.spline(x,y,spar=.5),col="red")
+}
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))
 	else if(n<=6) return(c(2,ceiling(n/2)))
@@ -673,10 +751,15 @@ if(length(args) < 3) {
 			par(new=T)
 		}
 		par(new=F)
-		print(knRanges)
+		#print(knRanges)
 	}
 	
-	if(analysis=="powerBars" || analysis=="curves") {
+	if(
+			analysis == "powerBars" || 
+			analysis == "loadVSPowerMean" || analysis == "loadVSPowerPeak" || 
+			analysis == "forceVSSpeedMean" || analysis == "forceVSSpeedMax" ||
+			analysis == "curves") 
+	{
 		paf = data.frame()
 		for(i in 1:n) { 
 			myMass = mass
@@ -689,10 +772,19 @@ if(length(args) < 3) {
 			}
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], myMass, mySmoothingOne, g))))
 		}
-		if(analysis=="powerBars") {
+		#print(paf)
+
+		if(analysis == "powerBars") 
 			paintPowerPeakPowerBars(paf, curves[,8])	#myEccon
-		} 
-		if(analysis=="curves") {
+		else if(analysis == "loadVSPowerMean") 
+			paintLoadVSPower(paf,"mean")		
+		else if(analysis == "loadVSPowerPeak") 
+			paintLoadVSPower(paf,"peak")		
+		else if(analysis == "forceVSSpeedMean") 
+			paintForceVSSpeed(paf,"mean")		
+		else if(analysis == "forceVSSpeedMax") 
+			paintForceVSSpeed(paf,"max")		
+		else if(analysis == "curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
 				"meanPower","peakPower","peakPowerT","pp_ppt")

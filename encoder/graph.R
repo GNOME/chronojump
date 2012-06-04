@@ -439,9 +439,9 @@ paintLoadVSPower <- function (paf, option) {
 		nums=paste("  ",as.character(1:length(x)))
 	}
 
-	plot(x,y, xlab="Displaced mass (Kg)", ylab=ylab,pch=21,bg="gold",cex=cexBalls)
+	plot(x,y, xlab="Displaced mass (Kg)", ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
 	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
-	lines(smooth.spline(x,y),col="red")
+	lines(smooth.spline(x,y),col="darkblue")
 }
 		
 paintForceVSSpeed <- function (paf,option) {
@@ -477,9 +477,9 @@ paintForceVSSpeed <- function (paf,option) {
 		nums=paste("  ",as.character(1:length(x)))
 	}
 
-	plot(x,y, xlab=xlab, ylab=ylab,pch=21,bg="gold",cex=cexBalls)
+	plot(x,y, xlab=xlab, ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
 	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
-	lines(smooth.spline(x,y,spar=.5),col="red")
+	lines(smooth.spline(x,y,spar=.5),col="darkblue")
 }
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))

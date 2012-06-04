@@ -119,6 +119,15 @@ public partial class ChronoJumpWindow
 	//TODO: single curve, and side, checkbox to show1 param, 2 or three
 	//TODO: powerbars with checkbox to show1 param, 2 or three
 	//TODO: on capture (quasi-realtime), show powerbars or curves or both
+	//
+	//TODO: Alert if signal captured is not saved. alert when:
+	//	- Change person, load another session, doing another capture, load another signal, closing the software.
+	//	- Or autosave every signal after capturing, and put a delete signal button, 
+	//	and convert the save signal to update signal
+	//
+	//TODO: if a signal is loaded, exercise has to be updated on combo. (use exerciseID in database)
+	//
+	//TODO: do the graphical capturing with pygame
 
 	
 	private void encoderInitializeStuff() {
@@ -577,7 +586,7 @@ public partial class ChronoJumpWindow
 					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
-				writer.WriteLine(ex.name + "," + mass.ToString() + "," + 
+				writer.WriteLine(ex.name + "," + Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						eSQL.url + Path.DirectorySeparatorChar + eSQL.filename + "," +
 						eSQL.eccon	//this is the eccon of every curve

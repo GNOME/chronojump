@@ -244,14 +244,15 @@ public class EncoderSQL
 		return date;
 	}
 
-	public string [] ToStringArray () {
-		string [] str = new String [6];
+	public string [] ToStringArray (int count) {
+		string [] str = new String [7];
 		str[0] = uniqueID;
-		str[1] = exerciseName;
-		str[2] = ecconLong;
-		str[3] = extraWeight;
-		str[4] = GetDate(true);
-		str[5] = description;
+		str[1] = count.ToString();
+		str[2] = exerciseName;
+		str[3] = ecconLong;
+		str[4] = extraWeight;
+		str[5] = GetDate(true);
+		str[6] = description;
 		return str;
 	}
 

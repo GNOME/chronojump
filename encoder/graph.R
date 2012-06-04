@@ -115,7 +115,9 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 	#from searchValue, go to the left, searchValue is at max speed on going up
 	#but is min speed on going down (this happens when not "concentric" and when phase is odd (impar)
 	searchValue = max(speed$y)
-	if(eccon != "c" & row%%2 == 1)
+	if(eccon == "ec")
+		searchValue = min(speed$y)
+	else if(eccon == "ecS" & row%%2 == 1)
 		searchValue = min(speed$y)
 
 	maxSpeedT <- min(which(speed$y == searchValue))
@@ -542,10 +544,12 @@ if(length(args) < 3) {
 				smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
-				#myEccon[i+newLines] = as.vector(inputMultiData$eccon[i])
-				if(processTimes == 2 & j == 1) 
-					myEccon[(i+newLines)] = "e"
-				else {
+				if(processTimes == 2) {
+					if(j == 1) 
+						myEccon[(i+newLines)] = "e"
+					else
+						myEccon[(i+newLines)] = "c"
+				} else {
 					if(inputMultiData$eccon[i] == "c")
 						myEccon[(i+newLines)] = "c"
 					else

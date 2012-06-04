@@ -16,10 +16,10 @@
    inkscape:version="0.48.0 r9654"
    sodipodi:docname="encoder-chronojump-project.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/web/encoder-chronojump-project.png"
-   inkscape:export-xdpi="71.951218"
-   inkscape:export-ydpi="71.951218">
+   inkscape:export-xdpi="71.949997"
+   inkscape:export-ydpi="71.949997">
   <metadata
-     id="metadata262">
+     id="metadata266">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -39,16 +39,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
-     id="namedview260"
+     inkscape:window-width="1024"
+     inkscape:window-height="715"
+     id="namedview264"
      showgrid="false"
      inkscape:zoom="0.40108401"
      inkscape:cx="460"
      inkscape:cy="369"
      inkscape:window-x="0"
      inkscape:window-y="24"
-     inkscape:window-maximized="0"
+     inkscape:window-maximized="1"
      inkscape:current-layer="layer_included_svg" />
   <title
      id="title4">Chronojump encoder</title>
@@ -441,7 +441,7 @@
     <path
        id="__line_Create__SQL__methods"
        d="M 552 460 C 567,460 557,580 572,580 L 572 580 L 610 580"
-       stroke="#ff8000"
+       stroke="#00ff00"
        style="stroke-width:1;" />
     <path
        id="__line_Store__selected__curves"
@@ -456,12 +456,12 @@
     <path
        id="__line_Define__tests"
        d="M 552 460 C 589.5,460 564.5,640 602,640 L 602 640 L 627 640"
-       stroke="#ff0000"
+       stroke="#00ff00"
        style="stroke-width:1;" />
     <path
        id="__line_Graphs__crossing__user__variables"
        d="M 552 460 C 589.5,460 564.5,660 602,660 L 602 660 L 627 660"
-       stroke="#ff0000"
+       stroke="#00ff00"
        style="stroke-width:1;" />
     <path
        id="__line_Graphs__comparing__users"
@@ -657,7 +657,7 @@
        cx="572"
        cy="580"
        r="8"
-       fill="#ff8000"
+       fill="#00ff00"
        stroke="none" />
     <circle
        id="__dot_Store__selected__curves"
@@ -678,14 +678,14 @@
        cx="602"
        cy="640"
        r="8"
-       fill="#ff0000"
+       fill="#00ff00"
        stroke="none" />
     <circle
        id="__dot_Graphs__crossing__user__variables"
        cx="602"
        cy="660"
        r="8"
-       fill="#ff0000"
+       fill="#00ff00"
        stroke="none" />
     <circle
        id="__dot_Graphs__comparing__users"
@@ -886,9 +886,9 @@
      style="stroke:none;fill:#000;font-family:Liberation Sans, Arial, Helvetica;-inkscape-font-specification:Liberation Sans, Arial, Helvetica;">
     <rect
        x="20"
-       y="620"
-       width="195"
-       height="100"
+       y="580"
+       width="260"
+       height="122"
        rx="10"
        ry="10"
        fill="#000"
@@ -897,9 +897,9 @@
        id="rect230" />
     <rect
        x="20"
-       y="620"
-       width="195"
-       height="100"
+       y="580"
+       width="260"
+       height="122"
        rx="10"
        ry="10"
        fill="url(#__infobox_fill)"
@@ -908,7 +908,7 @@
        id="rect232" />
     <text
        x="26"
-       y="641"
+       y="601"
        id="text234">
       <tspan
          style="font-size:18px;font-weight:bold;"
@@ -916,43 +916,51 @@
     </text>
     <text
        x="26"
-       y="654"
+       y="614"
        id="text238">
       <tspan
          style="font-size:12px;"
-         id="tspan240">http://chronojump.org</tspan>
+         id="tspan240">GREEN: Done</tspan>
     </text>
     <text
        x="26"
-       y="669"
+       y="629"
        id="text242">
       <tspan
          style="font-size:12px;"
-         id="tspan244">GREEN: Done</tspan>
+         id="tspan244">ORANGE: Doing</tspan>
     </text>
     <text
        x="26"
-       y="684"
+       y="644"
        id="text246">
       <tspan
          style="font-size:12px;"
-         id="tspan248">ORANGE: Doing</tspan>
+         id="tspan248">RED: Later</tspan>
     </text>
     <text
        x="26"
-       y="699"
+       y="659"
        id="text250">
       <tspan
          style="font-size:12px;"
-         id="tspan252">RED: Later</tspan>
+         id="tspan252">http://chronojump.org</tspan>
     </text>
     <text
        x="26"
-       y="714"
+       y="674"
        id="text254">
       <tspan
          style="font-size:12px;"
-         id="tspan256">2012-May-30</tspan>
+         id="tspan256">2012-Jun-4. See complete progress here:</tspan>
+    </text>
+    <text
+       x="26"
+       y="689"
+       id="text258">
+      <tspan
+         style="font-size:12px;"
+         id="tspan260">http://git.gnome.org/browse/chronojump/log/</tspan>
     </text>
   </g>
   <!-- BEGIN additional images -->

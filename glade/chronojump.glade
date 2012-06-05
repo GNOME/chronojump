@@ -25077,31 +25077,17 @@ Evaluator can use real name or nickname.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_load_vs_power">
-                                                        <property name="label" translatable="yes">Load / Power</property>
+                                                      <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_cross">
+                                                        <property name="label" translatable="yes">Cross variables</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">False</property>
                                                         <property name="draw_indicator">True</property>
                                                         <property name="group">radiobutton_encoder_analyze_powerbars</property>
-                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_load_vs_power_toggled"/>
+                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_cross_toggled"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_force_vs_speed">
-                                                        <property name="label" translatable="yes">Force / Speed</property>
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">False</property>
-                                                        <property name="draw_indicator">True</property>
-                                                        <property name="group">radiobutton_encoder_analyze_powerbars</property>
-                                                        <signal name="toggled" handler="on_radiobutton_encoder_analyze_force_vs_speed_toggled"/>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -25115,7 +25101,7 @@ Evaluator can use real name or nickname.</property>
                                                         <signal name="toggled" handler="on_radiobutton_encoder_analyze_side_toggled"/>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">3</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -25129,7 +25115,7 @@ Evaluator can use real name or nickname.</property>
                                                         <signal name="toggled" handler="on_radiobutton_encoder_analyze_single_toggled"/>
                                                       </widget>
                                                       <packing>
-                                                        <property name="position">4</property>
+                                                        <property name="position">3</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
@@ -25167,6 +25153,7 @@ Evaluator can use real name or nickname.</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox92">
                                             <property name="visible">True</property>
+                                            <property name="spacing">12</property>
                                             <child>
                                               <widget class="GtkHBox" id="hbox_encoder_analyze_curve_num">
                                                 <property name="spacing">6</property>
@@ -25203,33 +25190,9 @@ Evaluator can use real name or nickname.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox_encoder_analyze_load_vs_power">
-                                                <property name="spacing">6</property>
+                                              <widget class="GtkHBox" id="hbox_combo_encoder_analyze_cross">
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_load_vs_power_mean">
-                                                    <property name="label" translatable="yes">Mean power</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw_indicator">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_load_vs_power_peak">
-                                                    <property name="label" translatable="yes">Peak power</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="draw_indicator">True</property>
-                                                    <property name="group">radiobutton_encoder_analyze_load_vs_power_mean</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="position">1</property>
-                                                  </packing>
+                                                  <placeholder/>
                                                 </child>
                                               </widget>
                                               <packing>
@@ -25237,10 +25200,10 @@ Evaluator can use real name or nickname.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox_encoder_analyze_force_vs_speed">
+                                              <widget class="GtkHBox" id="hbox_encoder_analyze_mean_or_max">
                                                 <property name="spacing">6</property>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_force_vs_speed_mean">
+                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_mean">
                                                     <property name="label" translatable="yes">Mean values</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
@@ -25253,13 +25216,13 @@ Evaluator can use real name or nickname.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_force_vs_speed_max">
+                                                  <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_max">
                                                     <property name="label" translatable="yes">Max values</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">False</property>
                                                     <property name="draw_indicator">True</property>
-                                                    <property name="group">radiobutton_encoder_analyze_force_vs_speed_mean</property>
+                                                    <property name="group">radiobutton_encoder_analyze_mean</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="position">1</property>
@@ -25281,7 +25244,7 @@ Evaluator can use real name or nickname.</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox74">
                                             <property name="visible">True</property>
-                                            <property name="spacing">12</property>
+                                            <property name="spacing">10</property>
                                             <child>
                                               <widget class="GtkButton" id="button_encoder_analyze">
                                                 <property name="label" translatable="yes">Analyze</property>
@@ -25297,7 +25260,6 @@ Evaluator can use real name or nickname.</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
-                                                <property name="padding">12</property>
                                                 <property name="position">0</property>
                                               </packing>
                                             </child>

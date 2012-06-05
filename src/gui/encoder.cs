@@ -58,7 +58,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_eccon;
 	[Widget] Gtk.Box hbox_combo_encoder_laterality;
 	[Widget] Gtk.ComboBox combo_encoder_laterality;
-
+	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
+	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
@@ -77,13 +78,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
 	
-	[Widget] Gtk.Box hbox_encoder_analyze_load_vs_power;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_load_vs_power_mean;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_load_vs_power_peak;
-	
-	[Widget] Gtk.Box hbox_encoder_analyze_force_vs_speed;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_force_vs_speed_mean;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_force_vs_speed_max;
+	[Widget] Gtk.Box hbox_encoder_analyze_mean_or_max;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_mean;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_max;
 	
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
@@ -141,6 +138,8 @@ public partial class ChronoJumpWindow
 	//TODO: fix problem that on saving maybe dirs are not created
 	//
 	//TODO: on session load, show encoder stuff
+	//
+	//TODO: capture also with webcam an attach it to signal or curve
 
 	
 	private void encoderInitializeStuff() {
@@ -581,21 +580,19 @@ public partial class ChronoJumpWindow
 		string dataFileName = "";
 		
 		//use this send because we change it to send it to R
-		//but we don't want to change encoderAnalysis because we want to know again if == "loadVSPower" 
+		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
 		string sendAnalysis = encoderAnalysis;
 
-		if(sendAnalysis == "loadVSPower") {
-			if(radiobutton_encoder_analyze_load_vs_power_mean.Active)
-				sendAnalysis = "loadVSPowerMean";
+		if(sendAnalysis == "cross") {
+			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+						encoderAnalyzeCrossTranslation);
+			//convert: "Force / Speed" in: "cross.Force.Speed.mean"
+			string [] crossNameFull = crossName.Split(new char[] {' '});
+			sendAnalysis += "." + crossNameFull[0] + "." + crossNameFull[2]; //[1]=="/"
+			if(radiobutton_encoder_analyze_mean.Active)
+				sendAnalysis += ".mean";
 			else
-				sendAnalysis = "loadVSPowerPeak";
-		}
-
-		if(sendAnalysis == "forceVSSpeed") {
-			if(radiobutton_encoder_analyze_force_vs_speed_mean.Active)
-				sendAnalysis = "forceVSSpeedMean";
-			else
-				sendAnalysis = "forceVSSpeedMax";
+				sendAnalysis += ".max";
 		}
 			
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
@@ -690,8 +687,8 @@ public partial class ChronoJumpWindow
 	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
-		hbox_encoder_analyze_load_vs_power.Visible=false;
-		hbox_encoder_analyze_force_vs_speed.Visible=false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="single";
 		//together, mandatory
 		hbox_encoder_analyze_eccon.Sensitive=false;
@@ -701,8 +698,8 @@ public partial class ChronoJumpWindow
 	/*
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
-		hbox_encoder_analyze_load_vs_power.Visible=false;
-		hbox_encoder_analyze_force_vs_speed.Visible=false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="superpose";
 		
 		//together, mandatory
@@ -712,8 +709,8 @@ public partial class ChronoJumpWindow
 	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_encoder_analyze_load_vs_power.Visible=false;
-		hbox_encoder_analyze_force_vs_speed.Visible=false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="side";
 		
 		//together, mandatory
@@ -722,34 +719,22 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_encoder_analyze_load_vs_power.Visible=false;
-		hbox_encoder_analyze_force_vs_speed.Visible=false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="powerBars";
 		
 		hbox_encoder_analyze_eccon.Sensitive=true;
 	}
 	
-	private void on_radiobutton_encoder_analyze_load_vs_power_toggled (object obj, EventArgs args) {
+	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_encoder_analyze_load_vs_power.Visible=true;
-		hbox_encoder_analyze_force_vs_speed.Visible=false;
-		
-		//analyze button will check the mean, peak radios
-		encoderAnalysis="loadVSPower";
+		hbox_combo_encoder_analyze_cross.Visible=true;
+		hbox_encoder_analyze_mean_or_max.Visible=true;
+		encoderAnalysis="cross";
 		
 		hbox_encoder_analyze_eccon.Sensitive=false;
 	}
-
-	private void on_radiobutton_encoder_analyze_force_vs_speed_toggled (object obj, EventArgs args) {
-		hbox_encoder_analyze_curve_num.Visible=false;
-		hbox_encoder_analyze_load_vs_power.Visible=false;
-		hbox_encoder_analyze_force_vs_speed.Visible=true;
-		
-		//analyze button will check the mean, max radios
-		encoderAnalysis="forceVSSpeed";
-		
-		hbox_encoder_analyze_eccon.Sensitive=false;
-	}
+	
 
 
 	private string findMass(bool includePerson) {
@@ -784,6 +769,7 @@ public partial class ChronoJumpWindow
 	string [] encoderExercisesTranslationAndBodyPWeight;
 	string [] encoderEcconTranslation;
 	string [] encoderLateralityTranslation;
+	string [] encoderAnalyzeCrossTranslation;
 
 	protected void createEncoderCombos() {
 		//create combo exercises
@@ -833,6 +819,22 @@ public partial class ChronoJumpWindow
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
 		
+		//create combo analyze cross (variables)
+		string [] comboAnalyzeCrossOptions = { 
+			"Speed / Load", "Force / Load", "Power / Load", "Force / Speed", "Power / Speed" };
+		string [] comboAnalyzeCrossOptionsTranslated = { 
+			Catalog.GetString("Speed / Load"), Catalog.GetString("Force / Load"), 
+			Catalog.GetString("Power / Load"), Catalog.GetString("Force / Speed"),
+			Catalog.GetString("Power / Speed") };
+		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
+		for(int j=0; j < 5 ; j++)
+			encoderAnalyzeCrossTranslation[j] = 
+				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
+		combo_encoder_analyze_cross = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptions, "");
+		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
+				Catalog.GetString(comboAnalyzeCrossOptions[0]));
+		
 		//pack combos
 
 		hbox_combo_encoder_exercise.PackStart(combo_encoder_exercise, true, true, 0);
@@ -846,6 +848,11 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_laterality.PackStart(combo_encoder_laterality, true, true, 0);
 		hbox_combo_encoder_laterality.ShowAll();
 		combo_encoder_laterality.Sensitive = true;
+		
+		hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
+		hbox_combo_encoder_analyze_cross.ShowAll(); 
+		combo_encoder_analyze_cross.Sensitive = true;
+		hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
 	}
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
@@ -1546,7 +1553,7 @@ public partial class ChronoJumpWindow
 		} else {
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
-				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
 			} else {
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio

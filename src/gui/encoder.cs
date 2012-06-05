@@ -49,7 +49,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_all_curves;
-	[Widget] Gtk.Button button_encoder_save_signal;
+	[Widget] Gtk.Button button_encoder_update_signal;
+	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_encoder_exercise;
@@ -100,7 +101,9 @@ public partial class ChronoJumpWindow
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
-	enum encoderModes { CAPTURE, ANALYZE }
+	
+	//difference between CAPTURE and RECALCULATE_OR_LOAD is: CAPTURE does a autosave at end
+	enum encoderModes { CAPTURE, RECALCULATE_OR_LOAD, ANALYZE } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	private static bool encoderProcessCancel;
@@ -125,18 +128,19 @@ public partial class ChronoJumpWindow
 	//
 	//TODO: Alert if signal captured is not saved. alert when:
 	//	- Change person, load another session, doing another capture, load another signal, closing the software.
-	//	- Or autosave every signal after capturing, and put a delete signal button, 
-	//	and convert the save signal to update signal
 	//
 	//TODO: if a signal is loaded, exercise has to be updated on combo. (use exerciseID in database)
 	//
 	//TODO: do the graphical capturing with pygame
 	//
 	//TODO: allow gui/generic.cs to select rows on treeview. return an array of selected uniqueIDs or curveID
+	//TODO: allow gui/generic.cs to select rows on treeview to be deleted
 	//
 	//TODO: calling to R should give feedback during the process
 	//
 	//TODO: fix problem that on saving maybe dirs are not created
+	//
+	//TODO: on session load, show encoder stuff
 
 	
 	private void encoderInitializeStuff() {
@@ -229,7 +233,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
 		if (File.Exists(Util.GetEncoderDataTempFileName()))
-			encoderThreadStart(encoderModes.CAPTURE);
+			encoderThreadStart(encoderModes.RECALCULATE_OR_LOAD);
 		else
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
 	}
@@ -258,6 +262,9 @@ public partial class ChronoJumpWindow
 		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) 
 			treeview_encoder_curves.RemoveColumn (column);
+
+		//blank the encoderListStore
+		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
 
@@ -380,6 +387,28 @@ public partial class ChronoJumpWindow
 		//force a recalculate
 		on_button_encoder_recalculate_clicked (o, args); 
 	}
+	
+	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
+	{
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+					"Are you sure you want to delete this signal?"), "", "");
+		confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
+	}	
+
+	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
+	{
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "")[0];
+		//remove the file
+		bool deletedOk = Util.FileDelete(eSQL.GetFullURL());
+		if(deletedOk) {
+			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
+			encoderSignalUniqueID = "-1";
+			treeviewEncoderRemoveColumns();
+			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
+		}
+	}
 
 	void on_button_encoder_delete_curve_clicked (object o, EventArgs args) 
 	{
@@ -404,7 +433,7 @@ public partial class ChronoJumpWindow
 
 		if(curve.Start != null) {
 			//Log.WriteLine(curveStart + "->" + duration);
-			Util.EncoderDeleteCurve(Util.GetEncoderDataTempFileName(), curveStart, duration);
+			Util.EncoderDeleteCurveFromSignal(Util.GetEncoderDataTempFileName(), curveStart, duration);
 		}
 		//force a recalculate
 		on_button_encoder_recalculate_clicked (o, args); 
@@ -413,18 +442,22 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
 		Gtk.Button button = (Gtk.Button) o;
-		if(button == button_encoder_save_curve) {
-			int selectedID = treeviewEncoderCurvesEventSelectedID();
-			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
-		} else if(button == button_encoder_save_all_curves) 
-			for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
-				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
-		else 	//(button == button_encoder_save_signal) 
-			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
-		label_encoder_user_curves_num.Text = data.Count.ToString();
-		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+		if(button == button_encoder_update_signal) 
+			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
+		else {
+			if(button == button_encoder_save_curve) {
+				int selectedID = treeviewEncoderCurvesEventSelectedID();
+				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
+			} else if(button == button_encoder_save_all_curves) 
+				for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
+					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
+
+			ArrayList data = SqliteEncoder.Select(false, -1, 
+					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			label_encoder_user_curves_num.Text = data.Count.ToString();
+			spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+		}
 	}
 
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
@@ -602,7 +635,7 @@ public partial class ChronoJumpWindow
 
 				writer.WriteLine(ex.name + "," + Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
-						eSQL.url + Path.DirectorySeparatorChar + eSQL.filename + "," +
+						eSQL.GetFullURL() + "," +
 						eSQL.eccon	//this is the eccon of every curve
 						);
 			}
@@ -1322,8 +1355,8 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 button_encoder_save_all_curves , button_encoder_save_signal && 
-		//	label_encoder_capture_comment , entry_encoder_capture_comment
+		//c3 button_encoder_save_all_curves , button_encoder_update_signal, button_encoder_delete_signal,
+		//	label_encoder_capture_comment , entry_encoder_capture_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive
 		//c4 button_encoder_delete_curve , button_encoder_save_curve
 		//c5 button_encoder_analyze
@@ -1332,7 +1365,8 @@ public partial class ChronoJumpWindow
 
 		//other dependencies
 		//c5 True needs 
-		//	(signal || (! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
+		//	(signal && treeviewEncoder has rows) || 
+		//	(! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
 		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
 		
 		//columns		 0  1  2  3  4  5  6  7
@@ -1340,7 +1374,7 @@ public partial class ChronoJumpWindow
 		int [] noPerson = 	{0, 0, 0, 0, 0, 0, 0, 0};
 		int [] yesPerson = 	{1, 0, 1, 0, 0, 1, 1, 0};
 		int [] processing = 	{0, 0, 0, 0, 0, 0, 0, 1};
-		int [] doneNoSignal = 	{1, 1, 1, 0, 0, 1, 1, 0};
+		int [] doneNoSignal = 	{1, 0, 1, 0, 0, 1, 1, 0};
 		int [] doneYesSignal = 	{1, 1, 1, 1, 0, 1, 1, 0};
 		int [] selectedCurve = 	{1, 1, 1, 1, 1, 1, 1, 0};
 		int [] table = new int[7];
@@ -1374,7 +1408,8 @@ public partial class ChronoJumpWindow
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
 		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
-		button_encoder_save_signal.Sensitive = Util.IntToBool(table[3]);
+		button_encoder_update_signal.Sensitive = Util.IntToBool(table[3]);
+		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		label_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
 		entry_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
 		image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
@@ -1402,7 +1437,7 @@ public partial class ChronoJumpWindow
 	/* thread stuff */
 
 	private void encoderThreadStart(encoderModes mode) {
-		if(mode == encoderModes.CAPTURE) {
+		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
@@ -1410,8 +1445,11 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
 			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
-		} else {
+			if(mode == encoderModes.CAPTURE)
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+			else // mode == encoderModes.RECALCULATE_OR_LOAD
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
+		} else { //encoderModes.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
@@ -1442,6 +1480,23 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 	
+	private bool pulseGTKEncoderRecalculateOrLoad ()
+	{
+		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			if(encoderProcessCancel){
+				Util.CancelRScript = true;
+			}
+
+			finishPulsebar(encoderModes.RECALCULATE_OR_LOAD);
+			Log.Write("dying");
+			return false;
+		}
+		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		Thread.Sleep (50);
+		Log.Write(encoderThread.ThreadState.ToString());
+		return true;
+	}
+	
 	private bool pulseGTKEncoderAnalyze ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
@@ -1460,39 +1515,45 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void updatePulsebar (encoderModes mode) {
-		if(mode == encoderModes.CAPTURE) 
+		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) 
 			encoder_pulsebar_capture.Pulse();
 		else
 			encoder_pulsebar_analyze.Pulse();
 	}
 	
 	private void finishPulsebar(encoderModes mode) {
-		if(mode == encoderModes.CAPTURE) {
+		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
-			
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 			} else {
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
 				encoderUpdateTreeView();
+		
+				//autosave signal (but not in recalculate or load)
+				if(mode == encoderModes.CAPTURE)
+					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
+				else
+					encoder_pulsebar_capture.Text = "";
 			}
 
 			encoder_pulsebar_capture.Fraction = 1;
-			encoder_pulsebar_capture.Text = "";
 
 		} else {
-			if(encoderProcessCancel) 
+			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
-			else {
+				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+			} else {
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_analyze.Pixbuf = pixbuf;
+				encoder_pulsebar_analyze.Text = "";
 			}
 
 			encoder_pulsebar_analyze.Fraction = 1;
-			encoder_pulsebar_analyze.Text = "";
 			
 			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		}

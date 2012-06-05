@@ -175,12 +175,4 @@ class SqlitePulse : Sqlite
 		dbcon.Close();
 	}
 
-	public static void Delete(string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
 }

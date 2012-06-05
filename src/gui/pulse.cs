@@ -462,7 +462,7 @@ public class RepairPulseWindow
 		myPulse.TimesString = timeString;
 
 		//save it deleting the old first for having the same uniqueID
-		SqlitePulse.Delete(myPulse.UniqueID.ToString());
+		Sqlite.Delete(Constants.PulseTable,myPulse.UniqueID);
 
 		myPulse.InsertAtDB(false, Constants.PulseTable);
 		/*

@@ -28,6 +28,8 @@ using System.IO; 		//for detect OS
 //this class tries to be a space for methods that are used in different classes
 public class Util
 {
+	public static bool CancelRScript;
+
 	//all numbers are saved in database with '.' as decimal separator (method for numbers)
 	public static string ConvertToPoint (double myDouble)
 	{
@@ -887,6 +889,7 @@ public class Util
 	}
 	
 	
+	
 	/********** end of encoder paths ************/
 
 	public static string GetManualDir() {
@@ -939,7 +942,29 @@ public class Util
 		}
 	}
 	
-	public static bool CancelRScript;
+	public static bool FileDelete(string fileName) {
+		try {
+			if(File.Exists(fileName)) {
+				File.Delete(fileName);
+				return true;
+			}
+		} catch {}
+		return false;
+	}
+
+	public static string ReadFile(string fileName)
+	{
+		try {
+			StreamReader reader = File.OpenText(fileName);
+			string contents = reader.ReadToEnd ();
+			reader.Close();
+			return contents;
+		} catch {
+			return null;
+		}
+	}
+
+	
 	public static void RunRScript(string rScript){
 		CancelRScript = false;
 
@@ -1020,19 +1045,7 @@ public class Util
 		p.WaitForExit();
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
-
-	public static string ReadFile(string fileName)
-	{
-		try {
-			StreamReader reader = File.OpenText(fileName);
-			string contents = reader.ReadToEnd ();
-			reader.Close();
-			return contents;
-		} catch {
-			return null;
-		}
-	}
-
+	
 	private static string [] encoderFindPos(string contents, int start, int duration) {
 		int startPos = 0;
 		int durationPos = 0;
@@ -1073,7 +1086,7 @@ public class Util
 		return returnStr;
 	}
 
-	public static void EncoderDeleteCurve(string fileName, int start, int duration) {
+	public static void EncoderDeleteCurveFromSignal(string fileName, int start, int duration) {
 		string contents = ReadFile(fileName);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 

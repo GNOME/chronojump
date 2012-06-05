@@ -244,12 +244,4 @@ class SqliteMultiChronopic : Sqlite
 		dbcon.Close();
 	}
 
-	public static void Delete(string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
 }

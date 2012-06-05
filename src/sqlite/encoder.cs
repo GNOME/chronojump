@@ -130,25 +130,30 @@ class SqliteEncoder : Sqlite
 			dbcon.Close();
 	}
 	
-	
+	//pass uniqueID value and then will return one record. do like this:
+	//EncoderSQL = (EncoderSQL) SqliteEncoder.Select(false, myYniqueID, 0, 0, "")[0];
+	//or
+	//pass uniqueID==-1 and personID, sessioID, signalOrCurve values, and will return some records
 	public static ArrayList Select (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
-		string uniqueIDStr = "";
+		string selectStr = "";
 		if(uniqueID != -1)
-			uniqueIDStr = " AND " + Constants.EncoderTable + ".uniqueID = " + uniqueID;
+			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
+		else
+			selectStr = "personID = " + personID + " AND sessionID = " + sessionID + 
+			" AND signalOrCurve = '" + signalOrCurve + "'";
 
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
-			" WHERE personID = " + personID + " AND sessionID = " + sessionID + 
-			" AND signalOrCurve = '" + signalOrCurve + 
-			"' AND " + Constants.EncoderTable + ".exerciseID = " + 
-			Constants.EncoderExerciseTable + ".uniqueID " +
-			uniqueIDStr;
+			" WHERE " + selectStr +
+			" AND " + Constants.EncoderTable + ".exerciseID = " + 
+			Constants.EncoderExerciseTable + ".uniqueID ";
+
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;

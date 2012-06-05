@@ -514,14 +514,4 @@ finishForeach:
 		dbcon.Close();
 	}
 
-
-	public static void Delete(int uniqueID)
-	{
-		dbcmd.CommandText = "Delete FROM " + Constants.PersonTable +
-			" WHERE uniqueID == " + uniqueID.ToString();
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-	}
-
-
 }

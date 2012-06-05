@@ -357,7 +357,7 @@ class SqlitePersonSession : Sqlite
 
 		//if person is not in other sessions, delete it from DB
 		if(! PersonExistsInPS(Convert.ToInt32(personID))) {
-			SqlitePerson.Delete(Convert.ToInt32(personID));
+			Delete(Constants.PersonTable, Convert.ToInt32(personID));
 
 			//delete photos if any
 			if(File.Exists(Util.GetPhotoFileName(false, Convert.ToInt32(personID))))

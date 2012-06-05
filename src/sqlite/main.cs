@@ -1644,7 +1644,7 @@ class Sqlite
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
 			if(! SqlitePersonSession.PersonExistsInPS(personID))
-				SqlitePerson.Delete(personID);
+				Delete(Constants.PersonTable, personID);
 		}
 	}
 				
@@ -1971,13 +1971,15 @@ Console.WriteLine("5" + tableName);
 		//6th drop temp table
 		Sqlite.dropTable(Constants.ConvertTempTable);
 	}
-	
+
 	protected static string [] DataReaderToStringArray (SqliteDataReader reader, int columns) {
 		string [] myReaderStr = new String[columns];
 		for (int i=0; i < columns; i ++)
 			myReaderStr[i] = reader[i].ToString();
 		return myReaderStr;
 	}
+
+	/* methods for different classes */
 
 	public static int Max (string tableName, string column, bool dbconOpened)
 	{
@@ -2042,6 +2044,18 @@ Console.WriteLine("5" + tableName);
 		return myReturn;
 	}
 
+	public static void Delete(string tableName, int uniqueID)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "Delete FROM " + tableName +
+			" WHERE uniqueID == " + uniqueID.ToString();
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
+
+	/* end of methods for different classes */
 	
 	/* 
 	 * SERVER STUFF

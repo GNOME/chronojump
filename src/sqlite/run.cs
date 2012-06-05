@@ -190,14 +190,5 @@ class SqliteRun : Sqlite
 		dbcon.Close();
 	}
 
-	public static void Delete(string runTable, string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + runTable + 
-			" WHERE uniqueID == " + uniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
 }
 

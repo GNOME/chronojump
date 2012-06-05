@@ -752,7 +752,7 @@ public class RepairJumpRjWindow
 		}
 
 		//save it deleting the old first for having the same uniqueID
-		SqliteJump.Delete("jumpRj", jumpRj.UniqueID);
+		Sqlite.Delete(Constants.JumpRjTable, jumpRj.UniqueID);
 		jumpRj.InsertAtDB(false, Constants.JumpRjTable); 
 		/*
 		SqliteJump.InsertRj("jumpRj", jumpRj.UniqueID.ToString(), jumpRj.PersonID, jumpRj.SessionID, 

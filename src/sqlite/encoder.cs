@@ -131,9 +131,9 @@ class SqliteEncoder : Sqlite
 	}
 	
 	//pass uniqueID value and then will return one record. do like this:
-	//EncoderSQL = (EncoderSQL) SqliteEncoder.Select(false, myYniqueID, 0, 0, "")[0];
+	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];
 	//or
-	//pass uniqueID==-1 and personID, sessioID, signalOrCurve values, and will return some records
+	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	public static ArrayList Select (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve)
 	{

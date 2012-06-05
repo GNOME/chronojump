@@ -44,8 +44,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.Label label_encoder_capture_comment;
-	[Widget] Gtk.Entry entry_encoder_capture_comment;
+	[Widget] Gtk.Entry entry_encoder_signal_comment;
+	[Widget] Gtk.Entry entry_encoder_curve_comment;
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_all_curves;
@@ -482,9 +482,7 @@ public partial class ChronoJumpWindow
 		} else 	//mode == "signal"
 			signalOrCurve = "signal";
 		
-		string desc = Util.RemoveTildeAndColonAndDot(entry_encoder_capture_comment.Text.ToString());
-		//Log.WriteLine(desc);
-
+		string desc = "";
 		if(mode == "curve" || mode == "allCurves") {
 			EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID,true);
 
@@ -496,6 +494,8 @@ public partial class ChronoJumpWindow
 				EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1,false);
 				duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
 			}
+		
+			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
 
 			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
@@ -504,6 +504,8 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
+			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
+
 			fileSaved = Util.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
 			path = Util.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
@@ -1355,10 +1357,10 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 button_encoder_save_all_curves , button_encoder_update_signal, button_encoder_delete_signal,
-		//	label_encoder_capture_comment , entry_encoder_capture_comment,
+		//c3 button_encoder_save_all_curves , button_encoder_update_signal, 
+		//	button_encoder_delete_signal, entry_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive
-		//c4 button_encoder_delete_curve , button_encoder_save_curve
+		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_show_user_curves
 		//c7 button_cancel (on capture and analyze)
@@ -1410,13 +1412,13 @@ public partial class ChronoJumpWindow
 		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_update_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
-		label_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
-		entry_encoder_capture_comment.Sensitive = Util.IntToBool(table[3]);
+		entry_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
 		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
+		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[3]);
 
 		bool signal = radiobutton_encoder_analyze_data_current_signal.Active;
 		button_encoder_analyze.Sensitive = 

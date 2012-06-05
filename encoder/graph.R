@@ -433,13 +433,13 @@ paintLoadVSPower <- function (paf, option) {
 		adjHor = 0.5
 		nums=as.character(1:length(x))
 	} else if (suboption == "side") {
-		cexBalls = 1.5
-		cexNums = .7
+		cexBalls = 1.8
+		cexNums = .8
 		adjHor = 0
 		nums=paste("  ",as.character(1:length(x)))
 	}
 
-	plot(x,y, xlab="Displaced mass (Kg)", ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
+	plot(x,y, xlab="Mass (Kg)", ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
 	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
 	lines(smooth.spline(x,y),col="darkblue")
 }
@@ -471,8 +471,8 @@ paintForceVSSpeed <- function (paf,option) {
 		adjHor = 0.5
 		nums=as.character(1:length(x))
 	} else if (suboption == "side") {
-		cexBalls = 1.5
-		cexNums = .7
+		cexBalls = 1.8
+		cexNums = .8
 		adjHor = 0
 		nums=paste("  ",as.character(1:length(x)))
 	}

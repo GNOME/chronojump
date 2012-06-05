@@ -841,7 +841,7 @@ public class RepairRunIntervalWindow
 		}
 
 		//save it deleting the old first for having the same uniqueID
-		SqliteRun.Delete(Constants.RunIntervalTable, runInterval.UniqueID);
+		Sqlite.Delete(Constants.RunIntervalTable, runInterval.UniqueID);
 		runInterval.InsertAtDB(false, Constants.RunIntervalTable); 
 		/*
 		SqliteRun.InsertInterval(false, Constants.RunIntervalTable, runInterval.UniqueID.ToString(), 

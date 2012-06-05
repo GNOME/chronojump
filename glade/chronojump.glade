@@ -24683,14 +24683,40 @@ Evaluator can use real name or nickname.</property>
                                         <child>
                                           <widget class="GtkHBox" id="hbox78">
                                             <property name="visible">True</property>
-                                            <property name="spacing">20</property>
+                                            <property name="spacing">10</property>
                                             <child>
-                                              <widget class="GtkButton" id="button_encoder_delete_curve">
-                                                <property name="label">Delete curve</property>
+                                              <widget class="GtkVBox" id="vbox2">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">True</property>
-                                                <signal name="clicked" handler="on_button_encoder_delete_curve_clicked"/>
+                                                <property name="spacing">6</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_encoder_delete_curve">
+                                                    <property name="label">Delete selected curve</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_encoder_delete_curve_clicked"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_encoder_delete_signal">
+                                                    <property name="label">Delete signal</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="sensitive">False</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_encoder_delete_signal_clicked"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -24699,16 +24725,19 @@ Evaluator can use real name or nickname.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkHBox" id="hbox80">
+                                              <widget class="GtkTable" id="table7">
                                                 <property name="visible">True</property>
-                                                <property name="spacing">8</property>
+                                                <property name="n_rows">2</property>
+                                                <property name="n_columns">2</property>
+                                                <property name="column_spacing">20</property>
+                                                <property name="row_spacing">6</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label_encoder_capture_comment">
                                                     <property name="visible">True</property>
                                                     <property name="label" translatable="yes">Add comment</property>
                                                   </widget>
                                                   <packing>
-                                                    <property name="position">0</property>
+                                                    <property name="x_options"></property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -24718,58 +24747,63 @@ Evaluator can use real name or nickname.</property>
                                                     <property name="invisible_char">●</property>
                                                   </widget>
                                                   <packing>
-                                                    <property name="position">1</property>
+                                                    <property name="top_attach">1</property>
+                                                    <property name="bottom_attach">2</property>
+                                                    <property name="x_options"></property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_encoder_save_curve">
-                                                    <property name="label">Save curve</property>
+                                                  <widget class="GtkButton" id="button_encoder_update_signal">
+                                                    <property name="label">Update signal</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="receives_default">True</property>
                                                     <signal name="clicked" handler="on_button_encoder_save_clicked"/>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">2</property>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
+                                                    <property name="top_attach">1</property>
+                                                    <property name="bottom_attach">2</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkButton" id="button_encoder_save_all_curves">
-                                                    <property name="label">Save all curves</property>
+                                                  <widget class="GtkHBox" id="hbox80">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_save_clicked"/>
+                                                    <property name="spacing">8</property>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_encoder_save_curve">
+                                                        <property name="label">Save curve</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_save_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_encoder_save_all_curves">
+                                                        <property name="label">Save all curves</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <signal name="clicked" handler="on_button_encoder_save_clicked"/>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">3</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkVSeparator" id="vseparator2">
-                                                    <property name="visible">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="position">4</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkButton" id="button_encoder_save_signal">
-                                                    <property name="label">Save signal</property>
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">True</property>
-                                                    <signal name="clicked" handler="on_button_encoder_save_clicked"/>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">5</property>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
+                                                    <property name="x_options"></property>
                                                   </packing>
                                                 </child>
                                               </widget>

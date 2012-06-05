@@ -4514,7 +4514,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this jump");
 		int id = myTreeViewJumps.EventSelectedID;
 		
-		SqliteJump.Delete( "jump", id.ToString() );
+		Sqlite.Delete(Constants.JumpTable, id);
 		
 		myTreeViewJumps.DelEvent(id);
 		showHideActionEventButtons(false, "Jump");
@@ -4540,7 +4540,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this jump");
 		int id = myTreeViewJumpsRj.EventSelectedID;
 		
-		SqliteJump.Delete("jumpRj", id.ToString());
+		Sqlite.Delete(Constants.JumpRjTable, id);
 		
 		myTreeViewJumpsRj.DelEvent(id);
 		showHideActionEventButtons(false, "JumpRj");
@@ -4597,7 +4597,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this run");
 		int id = myTreeViewRuns.EventSelectedID;
 		
-		SqliteRun.Delete( "run", id.ToString() );
+		Sqlite.Delete(Constants.RunTable, id);
 		
 		myTreeViewRuns.DelEvent(id);
 		showHideActionEventButtons(false, "Run");
@@ -4619,7 +4619,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this run");
 		int id = myTreeViewRunsInterval.EventSelectedID;
 		
-		SqliteRun.Delete( Constants.RunIntervalTable, id.ToString() );
+		Sqlite.Delete(Constants.RunIntervalTable, id);
 		
 		myTreeViewRunsInterval.DelEvent(id);
 		showHideActionEventButtons(false, "RunInterval");
@@ -4659,7 +4659,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this reaction time");
 		int id = myTreeViewReactionTimes.EventSelectedID;
 		
-		SqliteJump.Delete( "reactiontime", id.ToString() );
+		Sqlite.Delete(Constants.ReactionTimeTable, id);
 		
 		myTreeViewReactionTimes.DelEvent(id);
 		showHideActionEventButtons(false, "ReactionTime");
@@ -4696,7 +4696,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this pulse");
 		int id = myTreeViewPulses.EventSelectedID;
 		
-		SqliteJump.Delete( "pulse", id.ToString() );
+		Sqlite.Delete(Constants.PulseTable, id);
 		
 		myTreeViewPulses.DelEvent(id);
 		showHideActionEventButtons(false, "Pulse");
@@ -4731,7 +4731,7 @@ Console.WriteLine("X");
 		Log.WriteLine("accept delete this multi chronopic");
 		int id = myTreeViewMultiChronopic.EventSelectedID;
 		
-		SqliteMultiChronopic.Delete( id.ToString() );
+		Sqlite.Delete(Constants.MultiChronopicTable, id);
 		
 		myTreeViewMultiChronopic.DelEvent(id);
 		showHideActionEventButtons(false, Constants.MultiChronopicName);

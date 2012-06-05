@@ -21,6 +21,7 @@
 using System;
 using System.Data;
 using System.Text; //StringBuilder
+using System.IO;   //for Path
 
 using Mono.Unix;
 
@@ -242,6 +243,10 @@ public class EncoderSQL
 			date = dateParts[0] + " " + dateParts[1].Replace('-',':');
 		}
 		return date;
+	}
+
+	public string GetFullURL() {
+		return url + Path.DirectorySeparatorChar + filename;
 	}
 
 	public string [] ToStringArray (int count) {

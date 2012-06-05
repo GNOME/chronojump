@@ -225,16 +225,6 @@ class SqliteJump : Sqlite
 		dbcon.Close();
 	}
 
-	public static void Delete(string jumpTable, string uniqueID)
-	{
-		dbcon.Open();
-		dbcmd.CommandText = "Delete FROM " + jumpTable +
-			" WHERE uniqueID == " + uniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
-	}
-
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...
 	public static void ChangeWeightToL()
 	{

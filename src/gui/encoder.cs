@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
+	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
@@ -59,6 +60,7 @@ public partial class ChronoJumpWindow
 
 	
 	[Widget] Gtk.Button button_encoder_analyze;
+	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
 	[Widget] Gtk.Box hbox_encoder_user_curves_num;
@@ -94,13 +96,14 @@ public partial class ChronoJumpWindow
 	int image_encoder_width;
 	int image_encoder_height;
 
-	private static string encoderAnalysis="powerBars";
+	private string encoderAnalysis="powerBars";
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 	enum encoderModes { CAPTURE, ANALYZE }
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
+	private static bool encoderProcessCancel;
 
 	
 	//TODO: auto close capturing window
@@ -128,6 +131,12 @@ public partial class ChronoJumpWindow
 	//TODO: if a signal is loaded, exercise has to be updated on combo. (use exerciseID in database)
 	//
 	//TODO: do the graphical capturing with pygame
+	//
+	//TODO: allow gui/generic.cs to select rows on treeview. return an array of selected uniqueIDs or curveID
+	//
+	//TODO: calling to R should give feedback during the process
+	//
+	//TODO: fix problem that on saving maybe dirs are not created
 
 	
 	private void encoderInitializeStuff() {
@@ -212,6 +221,11 @@ public partial class ChronoJumpWindow
 		encoderThreadStart(encoderModes.CAPTURE);
 	}
 		
+	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
+	{
+		encoderProcessCancel = true;
+	}
+
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
 		if (File.Exists(Util.GetEncoderDataTempFileName()))
@@ -520,7 +534,7 @@ public partial class ChronoJumpWindow
 			//TODO: in the future plot a "no curves" message,
 			//or beter done allow to analyze if there's no curves
 		}
-		
+	
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
 	
@@ -1314,20 +1328,21 @@ public partial class ChronoJumpWindow
 		//c4 button_encoder_delete_curve , button_encoder_save_curve
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_show_user_curves
+		//c7 button_cancel (on capture and analyze)
 
 		//other dependencies
 		//c5 True needs 
 		//	(signal || (! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
 		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
 		
-		//columns		 0  1  2  3  4  5  6
-		int [] noSession = 	{0, 0, 0, 0, 0, 0, 0};
-		int [] noPerson = 	{0, 0, 0, 0, 0, 0, 0};
-		int [] yesPerson = 	{1, 0, 1, 0, 0, 1, 1};
-		int [] processing = 	{0, 0, 0, 0, 0, 0, 0};
-		int [] doneNoSignal = 	{1, 1, 1, 0, 0, 1, 1};
-		int [] doneYesSignal = 	{1, 1, 1, 1, 0, 1, 1};
-		int [] selectedCurve = 	{1, 1, 1, 1, 1, 1, 1};
+		//columns		 0  1  2  3  4  5  6  7
+		int [] noSession = 	{0, 0, 0, 0, 0, 0, 0, 0};
+		int [] noPerson = 	{0, 0, 0, 0, 0, 0, 0, 0};
+		int [] yesPerson = 	{1, 0, 1, 0, 0, 1, 1, 0};
+		int [] processing = 	{0, 0, 0, 0, 0, 0, 0, 1};
+		int [] doneNoSignal = 	{1, 1, 1, 0, 0, 1, 1, 0};
+		int [] doneYesSignal = 	{1, 1, 1, 1, 0, 1, 1, 0};
+		int [] selectedCurve = 	{1, 1, 1, 1, 1, 1, 1, 0};
 		int [] table = new int[7];
 
 		switch(option) {
@@ -1376,6 +1391,9 @@ public partial class ChronoJumpWindow
 
 		button_encoder_analyze_data_show_user_curves.Sensitive = 
 			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
+		
+		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
+		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);
 	}
 
 	/* end of sensitivity stuff */	
@@ -1409,7 +1427,11 @@ public partial class ChronoJumpWindow
 	
 	private bool pulseGTKEncoderCapture ()
 	{
-		if(! encoderThread.IsAlive) {
+		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			if(encoderProcessCancel){
+				Util.CancelRScript = true;
+			}
+
 			finishPulsebar(encoderModes.CAPTURE);
 			Log.Write("dying");
 			return false;
@@ -1422,7 +1444,11 @@ public partial class ChronoJumpWindow
 	
 	private bool pulseGTKEncoderAnalyze ()
 	{
-		if(! encoderThread.IsAlive) {
+		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			if(encoderProcessCancel){
+				Util.CancelRScript = true;
+			}
+
 			finishPulsebar(encoderModes.ANALYZE);
 			Log.Write("dying");
 			return false;
@@ -1442,21 +1468,31 @@ public partial class ChronoJumpWindow
 	
 	private void finishPulsebar(encoderModes mode) {
 		if(mode == encoderModes.CAPTURE) {
+			if(encoderProcessCancel) {
+				encoderProcessCancel = false;
+			
+				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+			} else {
+				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+				image_encoder_capture.Pixbuf = pixbuf;
+				encoderUpdateTreeView();
+			}
+
 			encoder_pulsebar_capture.Fraction = 1;
 			encoder_pulsebar_capture.Text = "";
-			treeview_encoder_curves.Sensitive = true;
-			
-			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
-			image_encoder_capture.Pixbuf = pixbuf;
 
-			encoderUpdateTreeView();
 		} else {
+			if(encoderProcessCancel) 
+				encoderProcessCancel = false;
+			else {
+				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
+				//o si es una sola i fa alguna edicio
+				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+				image_encoder_analyze.Pixbuf = pixbuf;
+			}
+
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoder_pulsebar_analyze.Text = "";
-			
-			//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom), o si es una sola i fa alguna edicio
-			Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
-			image_encoder_analyze.Pixbuf = pixbuf;
 			
 			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 		}

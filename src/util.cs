@@ -939,8 +939,10 @@ public class Util
 		}
 	}
 	
-
+	public static bool CancelRScript;
 	public static void RunRScript(string rScript){
+		CancelRScript = false;
+
 		ProcessStartInfo pinfo;
 	        Process r;
 		string rBin="R";
@@ -964,11 +966,13 @@ public class Util
 		r.StartInfo = pinfo;
 		r.Start();
 		r.WaitForExit();
-		while (!File.Exists(outputFile));				
+		while ( ! ( File.Exists(outputFile) || CancelRScript) );
 	}
 	
 	//python program
 	public static void RunPythonEncoder(string pythonScript, EncoderStruct es, bool useTerminal) {
+		CancelRScript = false;
+
 		ProcessStartInfo pinfo;
 	        Process p;
 		//If output file is not given, R will try to write in the running folder
@@ -1014,7 +1018,7 @@ public class Util
 		p.StartInfo = pinfo;
 		p.Start();
 		p.WaitForExit();
-		while (!File.Exists(outputFileCheck));
+		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 
 	public static string ReadFile(string fileName)

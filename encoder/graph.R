@@ -409,20 +409,31 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 	axis(4)
 	mtext("Time at peak power (s)", side=4, line=-1)
 }
-			
-paintLoadVSPower <- function (paf, option) {
-	power=(paf[,3])
-	peakPower=(paf[,4])
-	x=(paf[,7])	#mass
 
-	if(option == "mean") {
-		y=power
-		ylab="Power (W)"
-	}
-	else {
-		y=peakPower
-		ylab="Peak Power (W)"
-	}
+#see paf for more info
+findPosInPaf <- function(var, option) {
+print("fPIP option")
+print(option)
+	pos = 0
+	if(var == "Speed")
+		pos = 1
+	else if(var == "Power")
+		pos = 3
+	else if(var == "Load") #or Mass
+		pos = 7
+	else if(var == "Force")
+		pos = 8
+	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
+		pos=pos+1
+	return(pos)
+}
+
+#option: mean or max
+paintCrossVariables <- function (paf, varX, varY, option) {
+print("pCV option")
+print(option)
+	x = (paf[,findPosInPaf(varX, option)])
+	y = (paf[,findPosInPaf(varY, option)])
 
 	#problem with balls is that two values two close looks bad
 	#suboption="balls"
@@ -439,48 +450,11 @@ paintLoadVSPower <- function (paf, option) {
 		nums=paste("  ",as.character(1:length(x)))
 	}
 
-	plot(x,y, xlab="Mass (Kg)", ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
-	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
+	plot(x,y, xlab=varX, ylab=varY, pch=21,col="blue",bg="lightblue",cex=cexBalls)
+	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
 	lines(smooth.spline(x,y),col="darkblue")
 }
-		
-paintForceVSSpeed <- function (paf,option) {
-	meanSpeed=(paf[,1])
-	maxSpeed=(paf[,2])
-	meanForce=(paf[,8])
-	maxForce=(paf[,9])
-
-	if(option == "mean") {
-		x=meanSpeed
-		y=meanForce
-		xlab="Mean speed (m/s)"
-		ylab="Mean force (N)"
-	} else {
-		x=maxSpeed
-		y=maxForce
-		xlab="Max speed (m/s)"
-		ylab="Max force (N)"
-	}
-
-	#problem with balls is that two values two close looks bad
-	#suboption="balls"
-	suboption="side"
-	if(suboption == "balls") {
-		cexBalls = 3
-		cexNums = 1
-		adjHor = 0.5
-		nums=as.character(1:length(x))
-	} else if (suboption == "side") {
-		cexBalls = 1.8
-		cexNums = .8
-		adjHor = 0
-		nums=paste("  ",as.character(1:length(x)))
-	}
-
-	plot(x,y, xlab=xlab, ylab=ylab,pch=21,col="blue",bg="lightblue",cex=cexBalls)
-	text(x,y,nums,adj=c(adjHor,0.5),cex=cexNums)
-	lines(smooth.spline(x,y,spar=.5),col="darkblue")
-}
+			
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))
 	else if(n<=6) return(c(2,ceiling(n/2)))
@@ -546,7 +520,7 @@ if(length(args) < 3) {
 	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
 	mass=as.numeric(args[7])
 	eccon=args[8]
-	analysis=args[9]
+	analysis=args[9]	#in cross comes as "cross.force.speed"
 	smoothingOne=args[10]
 	jump=args[11]
 	width=as.numeric(args[12])
@@ -753,12 +727,14 @@ if(length(args) < 3) {
 		par(new=F)
 		#print(knRanges)
 	}
-	
+
+	print(analysis)
+	#analysis in cross variables comes as:
+	#"cross.Speed.Force.mean" 	#2nd is X, 3d is X. "mean" can also be "max"
+	analysisCross = unlist(strsplit(analysis, "\\."))
+	print(analysisCross)
 	if(
-			analysis == "powerBars" || 
-			analysis == "loadVSPowerMean" || analysis == "loadVSPowerPeak" || 
-			analysis == "forceVSSpeedMean" || analysis == "forceVSSpeedMax" ||
-			analysis == "curves") 
+			analysis == "powerBars" || analysisCross[1] == "cross" || analysis == "curves") 
 	{
 		paf = data.frame()
 		for(i in 1:n) { 
@@ -776,14 +752,8 @@ if(length(args) < 3) {
 
 		if(analysis == "powerBars") 
 			paintPowerPeakPowerBars(paf, curves[,8])	#myEccon
-		else if(analysis == "loadVSPowerMean") 
-			paintLoadVSPower(paf,"mean")		
-		else if(analysis == "loadVSPowerPeak") 
-			paintLoadVSPower(paf,"peak")		
-		else if(analysis == "forceVSSpeedMean") 
-			paintForceVSSpeed(paf,"mean")		
-		else if(analysis == "forceVSSpeedMax") 
-			paintForceVSSpeed(paf,"max")		
+		else if(analysisCross[1] == "cross")
+			paintCrossVariables(paf, analysisCross[3], analysisCross[2], analysisCross[4])
 		else if(analysis == "curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",

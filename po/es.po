@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-06-05 12:13+0000\n"
-"PO-Revision-Date: 2012-06-05 14:23+0200\n"
+"POT-Creation-Date: 2012-06-05 19:15+0000\n"
+"PO-Revision-Date: 2012-06-06 13:38+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,8 +99,8 @@ msgstr "Capturar pantalla"
 #: ../src/exportSession.cs:285 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:495 ../src/exportSession.cs:550
 #: ../src/exportSession.cs:641 ../src/exportSession.cs:682
-#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:892
-#: ../src/gui/encoder.cs:924 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
+#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:901
+#: ../src/gui/encoder.cs:933 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
 #: ../src/gui/person.cs:121 ../src/gui/run.cs:1307 ../src/gui/run.cs:1478
 #: ../src/runType.cs:191 ../src/runType.cs:227 ../src/runType.cs:268
 #: ../src/runType.cs:297 ../src/treeViewEvent.cs:39
@@ -143,7 +143,7 @@ msgid "Comments"
 msgstr "Comentarios"
 
 #: ../glade/chronojump.glade.h:19 ../src/exportSession.cs:234
-#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:979
+#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:988
 #: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
 #: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
 #: ../src/stats/graphs/djQ.cs:70 ../src/stats/graphs/djQ.cs:86
@@ -195,7 +195,7 @@ msgid "Place"
 msgstr "Lugar"
 
 #: ../glade/chronojump.glade.h:28 ../src/exportSession.cs:219
-#: ../src/gui/encoder.cs:315 ../src/gui/encoder.cs:349
+#: ../src/gui/encoder.cs:314 ../src/gui/encoder.cs:348
 #: ../src/gui/session.cs:689 ../src/gui/session.cs:858 ../src/report.cs:242
 msgid "Date"
 msgstr "Fecha"
@@ -259,7 +259,7 @@ msgstr "Marcar"
 msgid "Search filter"
 msgstr "Filtro de búsqueda"
 
-#: ../glade/chronojump.glade.h:43 ../src/gui/encoder.cs:358
+#: ../glade/chronojump.glade.h:43 ../src/gui/encoder.cs:357
 msgid "Load"
 msgstr "Cargar"
 
@@ -465,8 +465,8 @@ msgstr "sí"
 msgid "no"
 msgstr "no"
 
-#: ../glade/chronojump.glade.h:96 ../src/gui/encoder.cs:314
-#: ../src/gui/encoder.cs:348 ../src/gui/jump.cs:1290 ../src/gui/jump.cs:1489
+#: ../glade/chronojump.glade.h:96 ../src/gui/encoder.cs:313
+#: ../src/gui/encoder.cs:347 ../src/gui/jump.cs:1290 ../src/gui/jump.cs:1489
 msgid "Extra weight"
 msgstr "Peso extra"
 
@@ -1034,7 +1034,7 @@ msgstr "m"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:223 ../src/gui/encoder.cs:977
+#: ../glade/chronojump.glade.h:223 ../src/gui/encoder.cs:986
 msgid "Start"
 msgstr "Salida"
 
@@ -2367,7 +2367,7 @@ msgstr "Aspecto"
 msgid "Bottom"
 msgstr "Abajo"
 
-#: ../glade/chronojump.glade.h:529 ../src/gui/encoder.cs:824
+#: ../glade/chronojump.glade.h:529 ../src/gui/encoder.cs:812
 msgid "Left"
 msgstr "Izquierda"
 
@@ -2375,7 +2375,7 @@ msgstr "Izquierda"
 msgid "Top"
 msgstr "Arriba"
 
-#: ../glade/chronojump.glade.h:531 ../src/gui/encoder.cs:824
+#: ../glade/chronojump.glade.h:531 ../src/gui/encoder.cs:812
 msgid "Right"
 msgstr "Derecha"
 
@@ -2508,24 +2508,25 @@ msgid "Contacts (platform or photocell)"
 msgstr "Contactos (plataforma o fotocélulas)"
 
 #: ../glade/chronojump.glade.h:565
-msgid "Show description of this exercise"
-msgstr "Mostrar una descripción de este ejercicio"
+#| msgid "Graph Options"
+msgid "Options: "
+msgstr "Opciones: "
 
 #: ../glade/chronojump.glade.h:566
-msgid "Add new exercise"
-msgstr "Añadir ejercicio nuevo"
-
-#: ../glade/chronojump.glade.h:567
-msgid "<b>Exercise</b>"
-msgstr "<b>Ejercicio</b>"
-
-#: ../glade/chronojump.glade.h:568
 msgid "Recording time"
 msgstr "Tiempo de grabación"
 
-#: ../glade/chronojump.glade.h:569
+#: ../glade/chronojump.glade.h:567
 msgid "s"
 msgstr "s"
+
+#: ../glade/chronojump.glade.h:568
+msgid "Show description of this exercise"
+msgstr "Mostrar una descripción de este ejercicio"
+
+#: ../glade/chronojump.glade.h:569
+msgid "Add new exercise"
+msgstr "Añadir ejercicio nuevo"
 
 #: ../glade/chronojump.glade.h:570
 msgid "Minimal height"
@@ -2536,70 +2537,72 @@ msgid "Smoothing"
 msgstr "Suavizado"
 
 #: ../glade/chronojump.glade.h:572
-msgid "<b>Options</b>"
-msgstr "<b>Opciones</b>"
+msgid "<b>Exercise</b>"
+msgstr "<b>Ejercicio</b>"
 
 #: ../glade/chronojump.glade.h:573
 msgid "Capture from encoder"
 msgstr "Capturar del codificador"
 
-#: ../glade/chronojump.glade.h:574
-msgid "Recalculate"
-msgstr "Recalcular"
-
-#: ../glade/chronojump.glade.h:575 ../src/exportSession.cs:77
+#: ../glade/chronojump.glade.h:574 ../src/exportSession.cs:77
 #: ../src/gui/preferences.cs:346
 msgid "Cancel"
 msgstr "Cancelar"
 
+#: ../glade/chronojump.glade.h:575
+msgid "Recalculate"
+msgstr "Recalcular"
+
 #: ../glade/chronojump.glade.h:576
+#| msgid "<b>Speciallity</b>"
+msgid "<b>Signal</b>"
+msgstr "<b>Señal</b>"
+
+#: ../glade/chronojump.glade.h:577
 msgid "Capture"
 msgstr "Capturar"
 
-#: ../glade/chronojump.glade.h:577
+#: ../glade/chronojump.glade.h:578
 msgid "Current signal"
 msgstr "Señal actual"
 
-#: ../glade/chronojump.glade.h:578
+#: ../glade/chronojump.glade.h:579
 msgid "User curves"
 msgstr "Curvas del usuario"
 
-#: ../glade/chronojump.glade.h:579
+#: ../glade/chronojump.glade.h:580
 msgid "("
 msgstr "("
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:581
 msgid ")"
 msgstr ")"
 
-#: ../glade/chronojump.glade.h:581 ../src/encoder.cs:234
-#: ../src/gui/encoder.cs:811
+#: ../glade/chronojump.glade.h:582 ../src/encoder.cs:234
+#: ../src/gui/encoder.cs:799
 msgid "Eccentric-concentric"
 msgstr "Excéntrico-concéntrico"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:583
 msgid "Together"
 msgstr "Juntas"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:584
 msgid "Separated"
 msgstr "Separadas"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:585
 msgid "<b>Data</b>"
 msgstr "<b>Datos</b>"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:586
 msgid "Power bars"
 msgstr "Barras de potencia"
 
-#: ../glade/chronojump.glade.h:586
-msgid "Load / Power"
-msgstr "Carga / potencia"
-
 #: ../glade/chronojump.glade.h:587
-msgid "Force / Speed"
-msgstr "Fuerza / velocidad"
+#| msgid "<b>Person variables</b>"
+msgid "Cross variables"
+msgstr "Variables de atletas"
 
 #: ../glade/chronojump.glade.h:588
 msgid "Side compare"
@@ -2618,87 +2621,38 @@ msgid "Curve num."
 msgstr "Número de curva"
 
 #: ../glade/chronojump.glade.h:592
-msgid "Mean power"
-msgstr "Potencia media"
-
-#. Josep Ma Padullés test
-#. translate (take off?)
-#. translate (take off?)
-#. OLD, check this
-#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
-#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
-#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
-#.
-#. see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
-#. Estimation of human power output from maximal vertical jump and body mass
-#. 1988
-#. Everett A. Harman, Michael T. Rosenstein, Peter N.
-#. Frykman, Richard M. Rosenstein and William J.
-#. Kraemer
-#. The Lewis formula, and nomogram based on the formula, have
-#. become widely used among coaches, physical educators, and researchers to
-#. estimate power output during the vertical jump-and-reach test (1,8).
-#. According to the formula,
-#. POWERkg.. = SQRT(4.9) .WEIGHTkg.SQRT(JUMP-REACH SCOREm), (1)
-#. The formula and nomogram appear to have been first published in
-#. 1974 in a book on interval training by Fox and Mathews (4). The only
-#. reference provided for the formula was a note stating "Courtesy, Office of
-#. Naval Research". The formula and nomogram were popularized in the
-#. 1976 and 1981 editions of the widely used exercise physiology textbook by
-#. Fox and Mathews (3,7), and have been more recently published in a book
-#. on tests and measurements for physical educators (5).
-#. A phone conversation with Dr. Mathews revealed that he developed
-#. the formula and nomogram in conjunction with his student, Mr. Lewis.
-#. Development of the nomogram was funded in part by the Office of Naval
-#. Research.
-#. An obvious problem with the formula is that it does not use
-#. standard units. Power should be measured in watts, which are
-#. newton-meters per second. Kilograms are units of mass, not weight or
-#. force. The following adjusted version of the formula includes the multiplier
-#. 9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
-#. newtons, yielding power in watts (N.m/s).
-#. POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
-#: ../glade/chronojump.glade.h:593 ../src/constants.cs:179
-#: ../src/constants.cs:213 ../src/constants.cs:218 ../src/constants.cs:223
-#: ../src/constants.cs:228 ../src/constants.cs:233 ../src/constants.cs:246
-#: ../src/constants.cs:253 ../src/constants.cs:260 ../src/constants.cs:267
-#: ../src/constants.cs:269 ../src/constants.cs:274 ../src/constants.cs:276
-msgid "Peak power"
-msgstr "Pico de potencia"
-
-#: ../glade/chronojump.glade.h:594
 msgid "Mean values"
 msgstr "Valores medios"
 
-#: ../glade/chronojump.glade.h:595
+#: ../glade/chronojump.glade.h:593
 msgid "Max values"
 msgstr "Valores máximos"
 
-#: ../glade/chronojump.glade.h:596
+#: ../glade/chronojump.glade.h:594
 msgid "Analyze"
 msgstr "Analizar"
 
-#: ../glade/chronojump.glade.h:597
+#: ../glade/chronojump.glade.h:595
 msgid "Linear encoder"
 msgstr "Codificador lineal"
 
-#: ../glade/chronojump.glade.h:598
+#: ../glade/chronojump.glade.h:596
 msgid "Chronopic window"
 msgstr "Ventana de Chronopic"
 
-#: ../glade/chronojump.glade.h:599
+#: ../glade/chronojump.glade.h:597
 msgid "Connect"
 msgstr "Conectar"
 
-#: ../glade/chronojump.glade.h:600
+#: ../glade/chronojump.glade.h:598
 msgid "<b>Main Chronopic</b> (used on all tests)"
 msgstr "<b>Chronopic principal</b> (usado en todas las pruebas)"
 
-#: ../glade/chronojump.glade.h:601
+#: ../glade/chronojump.glade.h:599
 msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr "<b>Adicionales</b> (pueden ser usados en MultiChronopic)"
 
-#: ../glade/chronojump.glade.h:602
+#: ../glade/chronojump.glade.h:600
 msgid "<b>Chronopic is on one of these ports</b>"
 msgstr "<b>Chronopic se encuentra en uno de los siguientes puertos</b>"
 
@@ -3224,6 +3178,51 @@ msgstr ""
 "O quizás no esté conectado a Internet, o su Firewall esté restringiendo "
 "conexiones"
 
+#. Josep Ma Padullés test
+#. translate (take off?)
+#. translate (take off?)
+#. OLD, check this
+#. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
+#. "(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")*9.81*" +
+#. "SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
+#.
+#. see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
+#. Estimation of human power output from maximal vertical jump and body mass
+#. 1988
+#. Everett A. Harman, Michael T. Rosenstein, Peter N.
+#. Frykman, Richard M. Rosenstein and William J.
+#. Kraemer
+#. The Lewis formula, and nomogram based on the formula, have
+#. become widely used among coaches, physical educators, and researchers to
+#. estimate power output during the vertical jump-and-reach test (1,8).
+#. According to the formula,
+#. POWERkg.. = SQRT(4.9) .WEIGHTkg.SQRT(JUMP-REACH SCOREm), (1)
+#. The formula and nomogram appear to have been first published in
+#. 1974 in a book on interval training by Fox and Mathews (4). The only
+#. reference provided for the formula was a note stating "Courtesy, Office of
+#. Naval Research". The formula and nomogram were popularized in the
+#. 1976 and 1981 editions of the widely used exercise physiology textbook by
+#. Fox and Mathews (3,7), and have been more recently published in a book
+#. on tests and measurements for physical educators (5).
+#. A phone conversation with Dr. Mathews revealed that he developed
+#. the formula and nomogram in conjunction with his student, Mr. Lewis.
+#. Development of the nomogram was funded in part by the Office of Naval
+#. Research.
+#. An obvious problem with the formula is that it does not use
+#. standard units. Power should be measured in watts, which are
+#. newton-meters per second. Kilograms are units of mass, not weight or
+#. force. The following adjusted version of the formula includes the multiplier
+#. 9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
+#. newtons, yielding power in watts (N.m/s).
+#. POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
+#: ../src/constants.cs:179 ../src/constants.cs:213 ../src/constants.cs:218
+#: ../src/constants.cs:223 ../src/constants.cs:228 ../src/constants.cs:233
+#: ../src/constants.cs:246 ../src/constants.cs:253 ../src/constants.cs:260
+#: ../src/constants.cs:267 ../src/constants.cs:269 ../src/constants.cs:274
+#: ../src/constants.cs:276
+msgid "Peak power"
+msgstr "Pico de potencia"
+
 #: ../src/constants.cs:180
 msgid "adapted (added g to have Watts)"
 msgstr "adaptado (añadido g para tener watios)"
@@ -3487,7 +3486,7 @@ msgstr "Comienza carrera con velocidad inicial."
 msgid "Standing start. Started without initial speed."
 msgstr "Comienza carrera sin velocidad inicial."
 
-#: ../src/encoder.cs:232 ../src/gui/encoder.cs:811
+#: ../src/encoder.cs:232 ../src/gui/encoder.cs:799
 msgid "Concentric"
 msgstr "Concéntrico"
 
@@ -3667,7 +3666,7 @@ msgid "SessionID"
 msgstr "ID de sesión"
 
 #: ../src/exportSession.cs:231 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:310 ../src/gui/encoder.cs:344
+#: ../src/gui/encoder.cs:309 ../src/gui/encoder.cs:343
 #: ../src/gui/person.cs:117
 msgid "ID"
 msgstr "ID"
@@ -4392,143 +4391,163 @@ msgstr ""
 "Nuevo peso\n"
 "opción 2"
 
-#: ../src/gui/encoder.cs:238
+#: ../src/gui/encoder.cs:237
 msgid "Missing data."
 msgstr "Faltan datos."
 
-#: ../src/gui/encoder.cs:311 ../src/gui/encoder.cs:976
+#: ../src/gui/encoder.cs:310 ../src/gui/encoder.cs:985
 msgid "Curve"
 msgstr "Curva"
 
-#: ../src/gui/encoder.cs:312 ../src/gui/encoder.cs:346
+#: ../src/gui/encoder.cs:311 ../src/gui/encoder.cs:345
 msgid "Exercise"
 msgstr "Ejercicio"
 
-#: ../src/gui/encoder.cs:313 ../src/gui/encoder.cs:347
+#: ../src/gui/encoder.cs:312 ../src/gui/encoder.cs:346
 msgid "Contraction"
 msgstr "Contracción"
 
-#: ../src/gui/encoder.cs:316 ../src/gui/encoder.cs:350
+#: ../src/gui/encoder.cs:315 ../src/gui/encoder.cs:349
 #: ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../src/gui/encoder.cs:320
+#: ../src/gui/encoder.cs:319
 #, csharp-format
 msgid "Saved curves of athlete {0} on this session."
 msgstr "Curvas guardadas del atleta {0} en esta sesión."
 
-#: ../src/gui/encoder.cs:331 ../src/gui/encoder.cs:894
+#: ../src/gui/encoder.cs:330 ../src/gui/encoder.cs:903
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/gui/encoder.cs:345
+#: ../src/gui/encoder.cs:344
 msgid "Signal"
 msgstr "Señal"
 
-#: ../src/gui/encoder.cs:354
+#: ../src/gui/encoder.cs:353
 #, csharp-format
 msgid "Select signal of athlete {0} on this session."
 msgstr "Seleccionar las señales del atleta {0} en esta sesión."
 
-#: ../src/gui/encoder.cs:394
-#| msgid "Are you sure you want to delete this test type?"
+#: ../src/gui/encoder.cs:393
 msgid "Are you sure you want to delete this signal?"
 msgstr "¿Seguro que desea borrar esta señal?"
 
-#: ../src/gui/encoder.cs:409
-#| msgid "Signal updated"
+#: ../src/gui/encoder.cs:408
 msgid "Signal deleted"
 msgstr "Señal eliminada"
 
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:478
+#: ../src/gui/encoder.cs:477
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Curva {0} guardada"
 
-#: ../src/gui/encoder.cs:481
+#: ../src/gui/encoder.cs:480
 msgid "All curves saved"
 msgstr "Se han guardado todas las curvas"
 
-#: ../src/gui/encoder.cs:545
+#: ../src/gui/encoder.cs:546
 msgid "Signal saved"
 msgstr "Señal guardada"
 
 #. only signal is updated
 #. Adding on SQL
-#: ../src/gui/encoder.cs:551
+#: ../src/gui/encoder.cs:552
 msgid "Signal updated"
 msgstr "Señal actualizada"
 
-#: ../src/gui/encoder.cs:824
+#: ../src/gui/encoder.cs:812
 msgid "Both"
 msgstr "Ambas"
 
-#: ../src/gui/encoder.cs:888
+#: ../src/gui/encoder.cs:826
+msgid "Speed / Load"
+msgstr "Velocidad / carga"
+
+#: ../src/gui/encoder.cs:826
+#| msgid "Force / Speed"
+msgid "Force / Load"
+msgstr "Fuerza / carga"
+
+#: ../src/gui/encoder.cs:827
+#| msgid "Power bars"
+msgid "Power / Load"
+msgstr "Fuerza / carga"
+
+#: ../src/gui/encoder.cs:827
+msgid "Force / Speed"
+msgstr "Fuerza / velocidad"
+
+#: ../src/gui/encoder.cs:828
+#| msgid "Force / Speed"
+msgid "Power / Speed"
+msgstr "Fuerza / velocidad"
+
+#: ../src/gui/encoder.cs:897
 msgid "Encoder exercise name:"
 msgstr "Nombre del ejercicio del codificador:"
 
-#: ../src/gui/encoder.cs:889 ../src/gui/encoder.cs:921
+#: ../src/gui/encoder.cs:898 ../src/gui/encoder.cs:930
 msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:891 ../src/gui/encoder.cs:923
+#: ../src/gui/encoder.cs:900 ../src/gui/encoder.cs:932
 msgid "Ressitance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:920
+#: ../src/gui/encoder.cs:929
 msgid "Write the name of the encoder exercise:"
 msgstr "Escriba el nombre del codificador del ejercicio:"
 
-#: ../src/gui/encoder.cs:925
+#: ../src/gui/encoder.cs:934
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:938
+#: ../src/gui/encoder.cs:947
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:941
+#: ../src/gui/encoder.cs:950
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/encoder.cs:978
+#: ../src/gui/encoder.cs:987
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoder.cs:980
+#: ../src/gui/encoder.cs:989
 msgid "MeanSpeed"
 msgstr "Velocidad media"
 
-#: ../src/gui/encoder.cs:981
+#: ../src/gui/encoder.cs:990
 msgid "MaxSpeed"
 msgstr "Velocidad máxima"
 
-#: ../src/gui/encoder.cs:982
+#: ../src/gui/encoder.cs:991
 msgid "MeanPower"
 msgstr "Potencia media"
 
-#: ../src/gui/encoder.cs:983
+#: ../src/gui/encoder.cs:992
 msgid "PeakPower"
 msgstr "Pico de potencia"
 
-#: ../src/gui/encoder.cs:984
+#: ../src/gui/encoder.cs:993
 msgid "PeakPowerTime"
 msgstr "Instante del pico de potencia"
 
-#: ../src/gui/encoder.cs:985
+#: ../src/gui/encoder.cs:994
 msgid "PeakPower/PPT"
 msgstr "Pico de potencia/Instante"
 
-#: ../src/gui/encoder.cs:1445 ../src/gui/encoder.cs:1457
+#: ../src/gui/encoder.cs:1454 ../src/gui/encoder.cs:1466
 msgid "Please, wait."
 msgstr "Espere."
 
-#: ../src/gui/encoder.cs:1529 ../src/gui/encoder.cs:1547
-#| msgid "Cancelled."
+#: ../src/gui/encoder.cs:1538 ../src/gui/encoder.cs:1556
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -5491,16 +5510,16 @@ msgid ""
 "A. The stopwatch is started on the first movement of the athlete and stops "
 "the watch when the athlete’s torso crosses the center line."
 msgstr ""
-"Sitúe tres conos en una línea recta, separadas cinco yardas exactamente - "
-"los conos B, A(centro) y C. [PENDIENTE DE TRADUCIR] At each cone place a "
-"line across using marking tape. The timer is positioned at the level of the "
-"center A cone, facing the athlete. The athlete straddles the center cone A "
-"with feet an equal distance apart and parallel to the line of cones. When "
-"ready, the athlete runs to cone B (touching the line with either foot), "
-"turns and accelerates to cone C (touching the line), and finishes by "
-"accelerating through the line at cone A. The stopwatch is started on the "
-"first movement of the athlete and stops the watch when the athlete’s torso "
-"crosses the center line."
+"Sitúe tres conos en una línea recta, separados cinco yardas exactamente - "
+"los conos B, A (centro) y C. Coloque en cada cono una línea usando cinta de "
+"marcar. El temporizador se posiciona en el nivel del centro de un cono, "
+"frente al atleta. El atleta extiende a ambos lados del cono centro A con los "
+"pies una distancia igual y paralela a la línea de conos. Cuando esté listo, "
+"el atleta corre al cono B (tocar la línea con cualquiera de los pies), se da "
+"vuelta y acelera hasta el cono C (que toca la línea), y termina la "
+"aceleración a través de la línea en el cono A. El cronómetro se inicia en el "
+"primer movimiento de el atleta y se detiene cuando el torso del atleta cruza "
+"la línea central."
 
 #: ../src/runType.cs:194 ../src/runType.cs:272
 msgid "Scoring"
@@ -5704,7 +5723,7 @@ msgstr ""
 "Esta prueba requiere que las personas corran atrás y adelante entre dos "
 "líneas paralelas lo mas rápidamente posible. Establezca dos líneas de conos "
 "distanciadas 30 pies o use líneas marcadas y ponga dos bloques de madera o "
-"un objeto similar detrás de una de laslíneas. Empezando por la línea "
+"un objeto similar detrás de una de las líneas. Empezando por la línea "
 "enfrente de los bloques. en la señal «¿Listo? ¡Adelante!» los participantes "
 "correrán hacia la otra línea, levantarán un bloque y volverán para colocarlo "
 "detrás del comienzo de la línea, después volverán para levantar el segundo "
@@ -7453,6 +7472,15 @@ msgstr "Diferencia"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Corredor"
+
+#~ msgid "<b>Options</b>"
+#~ msgstr "<b>Opciones</b>"
+
+#~ msgid "Load / Power"
+#~ msgstr "Carga / potencia"
+
+#~ msgid "Mean power"
+#~ msgstr "Potencia media"
 
 #~ msgid "Superpose"
 #~ msgstr "Superponer"

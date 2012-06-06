@@ -2602,7 +2602,7 @@ msgstr "Barras de potencia"
 #: ../glade/chronojump.glade.h:587
 #| msgid "<b>Person variables</b>"
 msgid "Cross variables"
-msgstr "Variables de atletas"
+msgstr "Cruzar variables"
 
 #: ../glade/chronojump.glade.h:588
 msgid "Side compare"

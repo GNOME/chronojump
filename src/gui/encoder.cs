@@ -140,6 +140,8 @@ public partial class ChronoJumpWindow
 	//TODO: on session load, show encoder stuff
 	//
 	//TODO: capture also with webcam an attach it to signal or curve
+	//
+	//TODO: peak power in eccentric in absolute values
 
 	
 	private void encoderInitializeStuff() {

@@ -412,8 +412,6 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 
 #see paf for more info
 findPosInPaf <- function(var, option) {
-print("fPIP option")
-print(option)
 	pos = 0
 	if(var == "Speed")
 		pos = 1
@@ -430,8 +428,6 @@ print(option)
 
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option) {
-print("pCV option")
-print(option)
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -445,14 +441,14 @@ print(option)
 		nums=as.character(1:length(x))
 	} else if (suboption == "side") {
 		cexBalls = 1.8
-		cexNums = .8
+		cexNums = 1
 		adjHor = 0
 		nums=paste("  ",as.character(1:length(x)))
 	}
 
 	plot(x,y, xlab=varX, ylab=varY, pch=21,col="blue",bg="lightblue",cex=cexBalls)
 	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
-	lines(smooth.spline(x,y),col="darkblue")
+	lines(smooth.spline(x,y,spar=.5),col="darkblue")
 }
 			
 find.mfrow <- function(n) {
@@ -520,7 +516,7 @@ if(length(args) < 3) {
 	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
 	mass=as.numeric(args[7])
 	eccon=args[8]
-	analysis=args[9]	#in cross comes as "cross.force.speed"
+	analysis=args[9]	#in cross comes as "cross.Force.Speed.mean"
 	smoothingOne=args[10]
 	jump=args[11]
 	width=as.numeric(args[12])
@@ -728,11 +724,9 @@ if(length(args) < 3) {
 		#print(knRanges)
 	}
 
-	print(analysis)
 	#analysis in cross variables comes as:
 	#"cross.Speed.Force.mean" 	#2nd is X, 3d is X. "mean" can also be "max"
 	analysisCross = unlist(strsplit(analysis, "\\."))
-	print(analysisCross)
 	if(
 			analysis == "powerBars" || analysisCross[1] == "cross" || analysis == "curves") 
 	{

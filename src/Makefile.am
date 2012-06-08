@@ -85,6 +85,7 @@ FILES = \
  	gui/preferences.cs\
  	gui/session.cs\
  	gui/stats.cs\
+ 	gui/presentation.cs\
 	gui/report.cs\
 	gui/about.cs\
 	gui/helpPorts.cs\
@@ -342,6 +343,7 @@ REFERENCES =  \
 	$(GTK_SHARP_20_LIBS) \
 	$(GLIB_SHARP_20_LIBS) \
 	$(GLADE_SHARP_20_LIBS) \
+	$(WEBKIT_SHARP_10_LIBS) \
 	System\
 	System.Data\
 	System.Drawing\

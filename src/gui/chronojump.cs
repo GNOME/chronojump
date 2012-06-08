@@ -30,11 +30,13 @@ using System.Collections; //ArrayList
 using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
-
+using WebKit;
 
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.Window app1;
+	[Widget] Gtk.MenuBar main_menu;
+	[Widget] Gtk.Notebook notebook_sup;
 
 	//gui for small screens
 	[Widget] Gtk.Viewport viewport_mode_small;
@@ -59,7 +61,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_mode_reaction_times_small;
 	[Widget] Gtk.Label label_mode_pulses_small;
 	[Widget] Gtk.Label label_mode_multi_chronopic_small;
-
 
 	[Widget] Gtk.Image image_persons_new_1;
 	[Widget] Gtk.Image image_persons_new_plus;
@@ -499,6 +500,8 @@ public partial class ChronoJumpWindow
 		//stats_win_initializeSession();
 
 		encoderInitializeStuff();	
+
+		presentationInit();
 	}
 	
 
@@ -2246,9 +2249,9 @@ public partial class ChronoJumpWindow
 		//update report
 		report.SessionID = currentSession.UniqueID;
 		report.StatisticsRemove();
-		try {
+
+		if(reportWin != null)
 			reportWin.FillTreeView();
-		} catch {} //reportWin is still not created, not need to Fill again
 	}
 	
 	

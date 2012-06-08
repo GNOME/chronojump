@@ -68,7 +68,9 @@ public class Report : ExportSession
 
 		StatisticsData = new ArrayList(1);
 		
+Log.WriteLine("r1");
 		mySession = SqliteSession.Select(sessionID.ToString());
+Log.WriteLine("r2");
 	}
 
 /*	
@@ -274,8 +276,10 @@ public class Report : ExportSession
 		ArrayList sendSelectedSessions = new ArrayList(1);
 		string [] sessionsStrFull = sessionsString.Split(new char[] {':'});
 		for (int j=0; j < sessionsStrFull.Length ; j++) {
+Log.WriteLine("r3");
 			Session tempSession = SqliteSession.Select(sessionsStrFull[j]);
 			sendSelectedSessions.Add(tempSession.UniqueID + ":" + tempSession.Name + ":" + tempSession.DateShort);
+Log.WriteLine("r4");
 		}
 		return sendSelectedSessions;
 	}
@@ -421,7 +425,9 @@ public class Report : ExportSession
 	public int SessionID {
 		set { 
 			sessionID = value;
+Log.WriteLine("r5");
 			mySession = SqliteSession.Select(sessionID.ToString());
+Log.WriteLine("r6");
 		}
 	}
 

@@ -142,6 +142,10 @@ public partial class ChronoJumpWindow
 	//TODO: capture also with webcam an attach it to signal or curve
 	//
 	//TODO: peak power in eccentric in absolute values
+	//
+	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
+	//TODO: put also the Load as Load(mass) or viceversa, and put the units on the xlab, ylab
+	//TODO: put a save graph and a html report
 
 	
 	private void encoderInitializeStuff() {
@@ -1351,6 +1355,7 @@ public partial class ChronoJumpWindow
 			
 	//called when a person changes
 	private void encoderPersonChanged() {
+Log.WriteLine("A");
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
 		label_encoder_user_curves_num.Text = data.Count.ToString();
 		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
@@ -1359,6 +1364,7 @@ public partial class ChronoJumpWindow
 		treeviewEncoderRemoveColumns();
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
+Log.WriteLine("B");
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {

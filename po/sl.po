@@ -2752,18 +2752,16 @@ msgid "Delete signal"
 msgstr "Izbriši signal"
 
 #: ../glade/chronojump.glade.h:579
-#, fuzzy
 msgid "<b>Signal</b>"
-msgstr "Signal:"
+msgstr "<b>Signal</b>"
 
 #: ../glade/chronojump.glade.h:580
 msgid "Capture"
 msgstr "Zajemanje"
 
 #: ../glade/chronojump.glade.h:581
-#, fuzzy
 msgid "Current signal"
-msgstr "Signalna dejanja"
+msgstr "Trenutni signal"
 
 #: ../glade/chronojump.glade.h:582
 msgid "User curves"
@@ -2800,9 +2798,8 @@ msgid "Power bars"
 msgstr "Stolpci moči"
 
 #: ../glade/chronojump.glade.h:590
-#, fuzzy
 msgid "Cross variables"
-msgstr "Okoljske spremenljivke:"
+msgstr "Križne spremenljivke"
 
 #: ../glade/chronojump.glade.h:591
 msgid "Side compare"
@@ -2817,9 +2814,8 @@ msgid "<b>Mode</b>"
 msgstr "<b>Način</b>"
 
 #: ../glade/chronojump.glade.h:594
-#, fuzzy
 msgid "Curve num."
-msgstr "Num lock"
+msgstr "Št. krivulje"
 
 #: ../glade/chronojump.glade.h:595
 msgid "Mean values"
@@ -4631,9 +4627,8 @@ msgstr "Vaja"
 
 #: ../src/gui/encoder.cs:318
 #: ../src/gui/encoder.cs:352
-#, fuzzy
 msgid "Contraction"
-msgstr "_Razpredelnica skrčenih zapisov"
+msgstr "Krčenje"
 
 #: ../src/gui/encoder.cs:321
 #: ../src/gui/encoder.cs:355
@@ -4642,9 +4637,9 @@ msgid "Comment"
 msgstr "Razlaga"
 
 #: ../src/gui/encoder.cs:325
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Saved curves of athlete {0} on this session."
-msgstr "Izbrisan je {0} iz te seje"
+msgstr "Shranjene krivulje testiranca {0} iz te seje."
 
 #: ../src/gui/encoder.cs:336
 #: ../src/gui/encoder.cs:909
@@ -4665,80 +4660,70 @@ msgid "Are you sure you want to delete this signal?"
 msgstr "Ali ste prepričani, da želite izbrisati ta signal?"
 
 #: ../src/gui/encoder.cs:414
-#, fuzzy
 msgid "Signal deleted"
-msgstr "_Povrnjeno"
+msgstr "Signal je izbrisan"
 
 #. 1,1,2,2,...
 #: ../src/gui/encoder.cs:483
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Curve {0} saved"
-msgstr "Sporočilo je shranjeno."
+msgstr "Krivulja {0} je shranjena"
 
 #: ../src/gui/encoder.cs:486
-#, fuzzy
 msgid "All curves saved"
-msgstr "Glade projekt '%s' shranjen"
+msgstr "Vse krivulje so shranjene"
 
 #: ../src/gui/encoder.cs:552
-#, fuzzy
 msgid "Signal saved"
-msgstr "Sporočilo je shranjeno."
+msgstr "Signal je shranjen"
 
 #. only signal is updated
 #. Adding on SQL
 #: ../src/gui/encoder.cs:558
-#, fuzzy
 msgid "Signal updated"
-msgstr "Zunanje posodobljeno: %s"
+msgstr "Signal je posodobljen"
 
 #: ../src/gui/encoder.cs:818
-#, fuzzy
 msgid "Both"
-msgstr "Oba"
+msgstr "Oboje"
 
 #: ../src/gui/encoder.cs:832
-#, fuzzy
 msgid "Speed / Load"
-msgstr "Naloži / Shrani"
+msgstr "Hitrost / Breme"
 
 #: ../src/gui/encoder.cs:832
-#, fuzzy
 msgid "Force / Load"
-msgstr "Naloži / Shrani"
+msgstr "Sila / Breme"
 
 #: ../src/gui/encoder.cs:833
-#, fuzzy
 msgid "Power / Load"
-msgstr "Naloži / Shrani"
+msgstr "Moč / Breme"
 
 #: ../src/gui/encoder.cs:833
-#, fuzzy
 msgid "Force / Speed"
-msgstr "Največja hitrost"
+msgstr "Sila / hitrost"
 
 #: ../src/gui/encoder.cs:834
-#, fuzzy
 msgid "Power / Speed"
-msgstr "Največja hitrost"
+msgstr "Moč / hitrost"
 
 #: ../src/gui/encoder.cs:903
 #, fuzzy
 msgid "Encoder exercise name:"
-msgstr "Ime datoteke s temo"
+msgstr "Ime vaje kodirnika:"
 
 #: ../src/gui/encoder.cs:904
 #: ../src/gui/encoder.cs:936
 #, fuzzy
 msgid "Displaced body weight"
-msgstr "<b>Teža novega skakalca</b>"
+msgstr "Teža razmeščenega telesa"
 
 #. done this because IsEditable does not affect the cursors
 #: ../src/gui/encoder.cs:906
 #: ../src/gui/encoder.cs:938
 #, fuzzy
 msgid "Ressitance"
-msgstr "Razdalja"
+msgstr "Upor"
 
 #: ../src/gui/encoder.cs:935
 msgid "Write the name of the encoder exercise:"
@@ -7580,36 +7565,3 @@ msgstr "Razlika"
 #: ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Tekač"
-
-#~ msgid "pulse extra data"
-#~ msgstr "dodatni podatki ritma"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "Weight bar"
-#~ msgstr "Stolpec teže"
-
-#~ msgid "<b>Options</b>"
-#~ msgstr "<b>Možnosti</b>"
-
-#~ msgid "Recalculate"
-#~ msgstr "Ponovno izračunaj"
-
-#~ msgid "Superpose"
-#~ msgstr "Superpozicija"
-
-#~ msgid "Ecc-conc phases"
-#~ msgstr "Ekc.-Konc. faze"
-
-#~ msgid "Add an optional description"
-#~ msgstr "Splošni opis."
-
-#~ msgid "Save"
-#~ msgstr "Shrani"
-
-#~ msgid "Saved."
-#~ msgstr "Shranjeno."
-
-#~ msgid "<b>Power</b> (W)"
-#~ msgstr "<b>Moč</b> (W)"

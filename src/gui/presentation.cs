@@ -37,35 +37,21 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ScrolledWindow scrolledwindow_presentation;
 	[Widget] Gtk.Button button_presentation_fullscreen;
 	[Widget] Gtk.Button button_presentation_restore_screen;
-//	[Widget] Gtk.Button button_presentation_first;
-//	[Widget] Gtk.Button button_presentation_previous;
-//	[Widget] Gtk.Button button_presentation_next;
-//	[Widget] Gtk.Button button_presentation_stop;
-	[Widget] Gtk.Label label_presentation_num;
 
 	static WebKit.WebView presentation;
 	Thread presentationThread;
-	bool presentationCancel;
-	string presentationURL;
 
  
 	private void presentationInit() {
 		button_presentation_restore_screen.Sensitive = false;
-//		button_presentation_stop.Sensitive = false;	
 
 		presentation = new WebKit.WebView();
 		scrolledwindow_presentation.Add(presentation);
 		
-		//presentation.Open("file:///home/xavier/informatica/progs_meus/mono/navegador-gtk-html/prova.html");
-		presentationOpenStatic("http://www.chronojump.org");
-		
+		loadInitialPresentation();
+
 		presentation.ShowAll();
 	}
-
-	private static void presentationOpenStatic(string url) {
-		presentation.Open(url);
-	}
-	
 	void on_button_presentation_screen_clicked (object o, EventArgs args) {
 		Gtk.Button button = (Gtk.Button) o;
 		main_menu.Visible =	( button != button_presentation_fullscreen);
@@ -75,22 +61,22 @@ public partial class ChronoJumpWindow
 		button_presentation_restore_screen.Sensitive =	( button == button_presentation_fullscreen);
 	}
 
-	void on_button_presentation_first_clicked (object o, EventArgs args) {
+	void on_button_presentation_reload_clicked (object o, EventArgs args) {
 	//	presentationOpenPre("http://www.chronojump.org");
+		loadInitialPresentation();
 	}
 
-	void on_button_presentation_previous_clicked (object o, EventArgs args) {
-	//	presentationOpenPre("http://www.xckd.org");
+	private void loadInitialPresentation(){
+		//guais:
+		//presentationOpenStatic("http://goessner.net/articles/slideous/slideous.html"); //aquest funciona perfecte i es lliure, llastima que te js
+		//presentationOpenStatic("http://paulrouget.com/dzslides/"); //definitiu!!! DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE https://github.com/paulrouget/dzslides
+		//presentationOpenStatic("http://slidifier.com"); //guai guai pero imatges? sembla que tampoc va punt per punt
+		presentationOpenStatic("file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/shells/embedder_meu.html#file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/tesi_chronojump.html");
 	}
 
-	void on_button_presentation_next_clicked (object o, EventArgs args) {
-	//	presentationOpenPre("http://www.gnome.org");
+	private static void presentationOpenStatic(string url) {
+		presentation.Open(url);
 	}
 	
-	void on_button_presentation_stop_clicked (object o, EventArgs args) {
-	//	presentationCancel = true;
-		//presentation.Destroy();
-	}
-
 }
 

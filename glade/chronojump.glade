@@ -25567,16 +25567,16 @@ Evaluator can use real name or nickname.</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkButton" id="button_presentation_first">
+                                      <widget class="GtkButton" id="button_presentation_reload">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">True</property>
                                         <property name="tooltip">First slide</property>
-                                        <signal name="clicked" handler="on_button_presentation_first_clicked"/>
+                                        <signal name="clicked" handler="on_button_presentation_reload_clicked"/>
                                         <child>
                                           <widget class="GtkImage" id="image28">
                                             <property name="visible">True</property>
-                                            <property name="stock">gtk-goto-first</property>
+                                            <property name="stock">gtk-refresh</property>
                                           </widget>
                                         </child>
                                       </widget>
@@ -25584,76 +25584,6 @@ Evaluator can use real name or nickname.</property>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
                                         <property name="position">3</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_presentation_previous">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="tooltip">Previous slide</property>
-                                        <signal name="clicked" handler="on_button_presentation_previous_clicked"/>
-                                        <child>
-                                          <widget class="GtkImage" id="image29">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-go-back</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">4</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_presentation_next">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="tooltip">Next slide</property>
-                                        <signal name="clicked" handler="on_button_presentation_next_clicked"/>
-                                        <child>
-                                          <widget class="GtkImage" id="image30">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-go-forward</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">5</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkLabel" id="label_presentation_num">
-                                        <property name="visible">True</property>
-                                        <property name="label" translatable="yes">1</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">6</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkButton" id="button_presentation_stop">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="on_button_presentation_stop_clicked"/>
-                                        <child>
-                                          <widget class="GtkImage" id="image31">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-stop</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">7</property>
                                       </packing>
                                     </child>
                                   </widget>

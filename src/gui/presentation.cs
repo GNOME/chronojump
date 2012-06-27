@@ -28,9 +28,6 @@ using System.Threading;
 using Mono.Unix;
 
 
-///http://archive09.linux.com/feature/154784
-
-
 public partial class ChronoJumpWindow 
 {
 	//presentation
@@ -62,16 +59,11 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_button_presentation_reload_clicked (object o, EventArgs args) {
-	//	presentationOpenPre("http://www.chronojump.org");
 		loadInitialPresentation();
 	}
 
 	private void loadInitialPresentation(){
-		//guais:
-		//presentationOpenStatic("http://goessner.net/articles/slideous/slideous.html"); //aquest funciona perfecte i es lliure, llastima que te js
-		//presentationOpenStatic("http://paulrouget.com/dzslides/"); //definitiu!!! DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE https://github.com/paulrouget/dzslides
-		//presentationOpenStatic("http://slidifier.com"); //guai guai pero imatges? sembla que tampoc va punt per punt
-		presentationOpenStatic("file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/shells/embedder_meu.html#file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/tesi_chronojump.html");
+		//presentationOpenStatic("file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/shells/embedder_meu.html#file:///home/xavier/Documents/academic/investigacio/tesi_chronojump/presentacio_tesi_defensa_blanquerna/tesi_chronojump.html");
 	}
 
 	private static void presentationOpenStatic(string url) {

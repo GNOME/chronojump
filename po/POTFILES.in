@@ -27,6 +27,7 @@ src/gui/encoder.cs
 src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs
+src/gui/genericWindow.cs
 src/gui/helpPorts.cs
 src/gui/jump.cs
 src/gui/jumpType.cs

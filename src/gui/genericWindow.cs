@@ -25,6 +25,7 @@ using Glade;
 using GLib; //for Value
 //using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using Mono.Unix;
 
 
 public class GenericWindow
@@ -42,6 +43,9 @@ public class GenericWindow
 
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
+	[Widget] Gtk.Box hbox_all_none_selected;
+	[Widget] Gtk.Box hbox_combo_all_none_selected;
+	[Widget] Gtk.ComboBox combo_all_none_selected;
 	[Widget] Gtk.SpinButton spin_feet;
 	[Widget] Gtk.SpinButton spin_inches;
 	[Widget] Gtk.ScrolledWindow scrolled_window_textview;
@@ -126,6 +130,7 @@ public class GenericWindow
 		hbox_spin_int.Hide();
 		spin_double.Hide();
 		hbox_height_metric.Hide();
+		hbox_combo_all_none_selected.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
 	}
@@ -160,6 +165,14 @@ public class GenericWindow
 		}
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC) {
 			hbox_height_metric.Show();
+		}
+		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
+			createComboAllNoneSelected();
+			combo_all_none_selected.Active = 
+				UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("All"));
+			//markSelected(Catalog.GetString("All"));
+			//on_combo_all_none_selected_changed(new object(), new EventArgs());
+			hbox_combo_all_none_selected.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW) {
 			scrolled_window_textview.Show();
@@ -203,6 +216,57 @@ public class GenericWindow
 		spin_int.SetRange(min, max);
 	}
 	
+	protected static string [] comboAllNoneSelectedOptions = {
+		Catalog.GetString("All"),
+		Catalog.GetString("None"),
+		Catalog.GetString("Selected"),
+	};
+
+	protected void createComboAllNoneSelected() {
+		combo_all_none_selected = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_all_none_selected, comboAllNoneSelectedOptions, "");
+		
+		//combo_all_none_selected.DisableActivate ();
+		combo_all_none_selected.Changed += new EventHandler (on_combo_all_none_selected_changed);
+
+		hbox_combo_all_none_selected.PackStart(combo_all_none_selected, true, true, 0);
+		hbox_combo_all_none_selected.ShowAll();
+		combo_all_none_selected.Sensitive = true;
+	}
+	
+	protected void on_combo_all_none_selected_changed(object o, EventArgs args) {
+		string myText = UtilGtk.ComboGetActive(combo_all_none_selected);
+			
+		if (myText != "" & myText != Catalog.GetString("Selected")) {
+			try {
+				markSelected(myText);
+			} catch {
+				Log.WriteLine("Do later!!");
+			}
+		}
+	}
+	
+	protected void markSelected(string selected) {
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			if(selected == Catalog.GetString("All")) {
+				do {
+					store.SetValue (iter, 0, true);
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("None")) {
+				do {
+					store.SetValue (iter, 0, false);
+				} while ( store.IterNext(ref iter) );
+			}
+		}
+			
+		//check if there are rows checked for having sensitive or not in recuperate button
+		//buttonRecuperateChangeSensitiveness();
+	}
+	
+	
+	
 	public void SetTextview(string str) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = str;
@@ -210,35 +274,45 @@ public class GenericWindow
 	}
 	
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
-	public void SetTreeview(string [] columnsString, ArrayList data) 
+	public void SetTreeview(string [] columnsString, bool addCheckbox, ArrayList data) 
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
 		scrolled_window_treeview.WidthRequest = 550;
 		scrolled_window_treeview.HeightRequest = 250;
 
-		store = getStore(columnsString.Length); 
+		store = getStore(columnsString.Length, addCheckbox); 
 		treeview.Model = store;
-		prepareHeaders(columnsString);
+		prepareHeaders(columnsString, addCheckbox);
 		
+		if(addCheckbox)
+			createCheckboxes(treeview);
+
 		foreach (string [] line in data) 
 			store.AppendValues (line);
 		
 		treeview.CursorChanged += on_treeview_cursor_changed; 
 	}
 	
-	private TreeStore getStore (int columns)
+	private TreeStore getStore (int columns, bool addCheckbox)
 	{
+		if(addCheckbox)
+			columns++;
+
 		//prepares the TreeStore for required columns
 		Type [] types = new Type [columns];
+
 		for (int i=0; i < columns; i++) {
-			types[i] = typeof (string);
+			if(addCheckbox && i == 0)
+				types[0] = typeof (bool);
+			else
+				types[i] = typeof (string);
 		}
 		TreeStore myStore = new TreeStore(types);
 		return myStore;
 	}
 	
-	private void prepareHeaders(string [] columnsString) 
+	private void prepareHeaders(string [] columnsString, bool addCheckbox) 
 	{
 		treeviewRemoveColumns();
 		treeview.HeadersVisible=true;
@@ -277,6 +351,39 @@ public class GenericWindow
 		else
 			return 0;
 	}
+	
+	protected void createCheckboxes(TreeView tv) 
+	{
+		CellRendererToggle crt = new CellRendererToggle();
+		crt.Visible = true;
+		crt.Activatable = true;
+		crt.Active = true;
+		crt.Toggled += ItemToggled;
+
+		TreeViewColumn column = new TreeViewColumn ("", crt, "active", 0);
+		column.Clickable = true;
+		tv.InsertColumn (column, 0);
+	}
+
+	protected void ItemToggled(object o, ToggledArgs args) {
+		//Log.WriteLine("Toggled");
+
+		int column = 0;
+		TreeIter iter;
+		if (store.GetIter (out iter, new TreePath(args.Path))) 
+		{
+			bool val = (bool) store.GetValue (iter, column);
+			//Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
+
+			store.SetValue (iter, column, !val);
+		
+			combo_all_none_selected.Active = UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+
+			//check if there are rows checked for having sensitive or not
+			//buttonRecuperateChangeSensitiveness();
+		}
+	}
+
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;

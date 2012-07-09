@@ -321,11 +321,22 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Comment")
 		};
 
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
+		bigArray.Add(a1);
+		
+		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+		
 		genericWin = GenericWindow.Show(
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
-					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
+					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, dataPrint);
+		genericWin.SetTreeview(columnsString, true, dataPrint);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
 
@@ -359,7 +370,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
-		genericWin.SetTreeview(columnsString, dataPrint);
+		genericWin.SetTreeview(columnsString, false, dataPrint);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);

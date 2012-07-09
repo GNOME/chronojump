@@ -531,9 +531,9 @@ public class Constants
 	//public static string LowerOrEqualThanCode = "<=";
 	public static string HigherOrEqualThanCode = ">=";
 
-	//height mentric contains 2 spins
+	//heightmetric contains 2 spins
 	public enum GenericWindowShow {
-		ENTRY, ENTRY2, ENTRY3, SPININT, SPINDOUBLE, HEIGHTMETRIC, TEXTVIEW, TREEVIEW
+		ENTRY, ENTRY2, ENTRY3, SPININT, SPINDOUBLE, HEIGHTMETRIC, COMBOALLNONESELECTED, TEXTVIEW, TREEVIEW
 	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";

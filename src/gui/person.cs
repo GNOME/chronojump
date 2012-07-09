@@ -455,7 +455,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		buttonRecuperateChangeSensitiveness();
 	}
 	
-	
+
 	protected void createCheckboxes(TreeView tv) 
 	{
 		CellRendererToggle crt = new CellRendererToggle();

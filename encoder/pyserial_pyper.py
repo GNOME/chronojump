@@ -37,7 +37,7 @@ import pygame
 #from pygame.locals import * #mouse and key definitions
 
 
-print(sys.argv)
+#print(sys.argv)
 
 FALSE = 0
 TRUE = 1

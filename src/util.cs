@@ -1016,7 +1016,7 @@ public class Util
 
 		string outputFileCheck = "";
 		if(useTerminal) {
-			pinfo.Arguments = "-hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
+			pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
 				pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
 			outputFileCheck = es.OutputData1;
 		} else {

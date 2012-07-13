@@ -200,6 +200,9 @@ public class UtilGtk
 	public static int CountRows(Gtk.ListStore ls) {
 		return(ls.IterNChildren());
 	}
+	public static int CountRows(Gtk.TreeStore ts) {
+		return(ts.IterNChildren());
+	}
 
 	public static int IdColumnCompare (TreeModel model, TreeIter iter1, TreeIter iter2)     {
 		int val1 = 0;

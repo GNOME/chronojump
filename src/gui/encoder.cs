@@ -66,7 +66,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
 	[Widget] Gtk.Box hbox_encoder_user_curves_num;
-	[Widget] Gtk.Label label_encoder_user_curves_num;
+	[Widget] Gtk.Label label_encoder_user_curves_active_num;
+	[Widget] Gtk.Label label_encoder_user_curves_all_num;
 	[Widget] Gtk.Button button_encoder_analyze_data_show_user_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
@@ -116,21 +117,17 @@ public partial class ChronoJumpWindow
 	//TODO: solve the problem of connecting two different chronopics
 	//
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
-	//TODO: treeview on analyze
+	//TODO: treeview on analyze (doing in separated window)
 	
 	//to analyze: user has to select: session, athlete, exercise, 
 	//TODO: single curve, and side, checkbox to show1 param, 2 or three
 	//TODO: powerbars with checkbox to show1 param, 2 or three
 	//TODO: on capture (quasi-realtime), show powerbars or curves or both
 	//
-	//TODO: Alert if signal captured is not saved. alert when:
-	//	- Change person, load another session, doing another capture, load another signal, closing the software.
-	//
 	//TODO: if a signal is loaded, exercise has to be updated on combo. (use exerciseID in database)
 	//
 	//TODO: do the graphical capturing with pygame
 	//
-	//TODO: allow gui/generic.cs to select rows on treeview. return an array of selected uniqueIDs or curveID
 	//TODO: allow gui/generic.cs to select rows on treeview to be deleted
 	//
 	//TODO: calling to R should give feedback during the process
@@ -146,6 +143,9 @@ public partial class ChronoJumpWindow
 	//TODO: on cross, spline and force speed and power speed should have a spar value higher, like 0.7. On the other hand, the other cross graphs, haveload(mass) in the X lot more discrete, there is good to put 0.5
 	//TODO: put also the Load as Load(mass) or viceversa, and put the units on the xlab, ylab
 	//TODO: put a save graph and a html report
+	
+	//TODO: graphs should use only active curves (except single curve)
+		
 
 	
 	private void encoderInitializeStuff() {
@@ -307,10 +307,14 @@ public partial class ChronoJumpWindow
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
 		ArrayList dataPrint = new ArrayList();
-		int count = 1;
-		foreach(EncoderSQL es in data) 
-			dataPrint.Add(es.ToStringArray(count++));
-		
+		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
+		int count = 0;
+		foreach(EncoderSQL es in data) {
+			checkboxes[count++] = es.future1;
+			Log.WriteLine(checkboxes[count-1]);
+			dataPrint.Add(es.ToStringArray(count));
+		}
+	
 		string [] columnsString = {
 			Catalog.GetString("ID"),
 			Catalog.GetString("Curve"),
@@ -332,20 +336,52 @@ public partial class ChronoJumpWindow
 		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
 		
-		genericWin = GenericWindow.Show(
+		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
 					currentPerson.Name), bigArray);
 
 		genericWin.SetTreeview(columnsString, true, dataPrint);
+		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
+		//manage selected, unselected curves
+		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
-		genericWin.DestroyOnAccept=true;
+		//genericWin.DestroyOnAccept=true;
+		//here is comented because we are going to read the checkboxes
 
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
+		genericWin.ShowNow();
 	}
+	
+	protected void on_encoder_show_curves_done (object o, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_show_curves_done);
+
+		//get selected/deselected rows
+		string [] checkboxes = genericWin.GetCheckboxesStatus();
+		Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
+
+		ArrayList data = SqliteEncoder.Select(false, -1, 
+				currentPerson.UniqueID, currentSession.UniqueID, "curve");
+
+		//update on database the curves that have been selected/deselected
+		int count = 0;
+		foreach(EncoderSQL es in data) {
+			if(es.future1 != checkboxes[count]) {
+				es.future1 = checkboxes[count];
+				SqliteEncoder.Update(false, es);
+			}
+			count ++;
+		}
+			
+		label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+
+		genericWin.HideAndNull();
+	}
+
 		
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
@@ -471,9 +507,19 @@ public partial class ChronoJumpWindow
 
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
-			label_encoder_user_curves_num.Text = data.Count.ToString();
+			label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+			label_encoder_user_curves_all_num.Text = data.Count.ToString();
 			spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 		}
+	}
+
+	private int getActiveCurvesNum(ArrayList curvesArray) {
+		int countActiveCurves = 0;
+		foreach(EncoderSQL es in curvesArray) 
+			if(es.future1 == "active")
+				countActiveCurves ++;
+		
+		return countActiveCurves;
 	}
 
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
@@ -693,11 +739,11 @@ public partial class ChronoJumpWindow
 		spin_encoder_analyze_curve_num.SetRange(1, rows);
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
-		button_encoder_analyze.Sensitive = (currentPerson != null && Convert.ToInt32(label_encoder_user_curves_num.Text) >0);
+		button_encoder_analyze.Sensitive = (currentPerson != null && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0);
 		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
 		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
 		
-		spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_num.Text));
+		spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_all_num.Text));
 	}
 
 
@@ -911,13 +957,14 @@ public partial class ChronoJumpWindow
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(false); a4.Add(ex.description);
 		bigArray.Add(a4);
 		
-		genericWin = GenericWindow.Show(Catalog.GetString("Encoder exercise name:"), bigArray);
+		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
 		genericWin.LabelEntry2 = Catalog.GetString("Ressitance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
+		genericWin.ShowNow();
 	}
 
 	void on_button_encoder_exercise_add_clicked (object o, EventArgs args) 
@@ -942,7 +989,7 @@ public partial class ChronoJumpWindow
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
 		bigArray.Add(a4);
 		
-		genericWin = GenericWindow.Show(
+		genericWin = GenericWindow.Show(false,	//don't show now
 				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
@@ -953,6 +1000,7 @@ public partial class ChronoJumpWindow
 		genericWin.HideOnAccept = false;
 
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_add_accepted);
+		genericWin.ShowNow();
 	}
 	
 	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) 
@@ -1366,16 +1414,15 @@ public partial class ChronoJumpWindow
 			
 	//called when a person changes
 	private void encoderPersonChanged() {
-Log.WriteLine("A");
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
-		label_encoder_user_curves_num.Text = data.Count.ToString();
+		label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		treeviewEncoderRemoveColumns();
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
-Log.WriteLine("B");
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
@@ -1450,7 +1497,7 @@ Log.WriteLine("B");
 		button_encoder_analyze.Sensitive = 
 			(Util.IntToBool(table[5]) && 
 			 (signal && UtilGtk.CountRows(encoderListStore) > 0 ||
-			  (! signal && Convert.ToInt32(label_encoder_user_curves_num.Text) >0)));
+			  (! signal && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)));
 
 		button_encoder_analyze_data_show_user_curves.Sensitive = 
 			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);

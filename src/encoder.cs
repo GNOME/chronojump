@@ -250,7 +250,7 @@ public class EncoderSQL
 	}
 
 	public string [] ToStringArray (int count) {
-		string [] str = new String [7];
+		string [] str = new String [8];
 		str[0] = uniqueID;
 		str[1] = count.ToString();
 		str[2] = exerciseName;

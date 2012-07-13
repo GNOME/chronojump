@@ -74,6 +74,11 @@ public class GenericWindow
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
 	
+	//if someone use delete_event should be considered as an accept?
+	//useful when there's only a close button and after some stuff is processed, 
+	//but user clicked on delete_event instead of close button
+	public bool DeleteMeansAccept = false;
+
 	public GenericWindow ()
 	{
 		Glade.XML gladeXML;
@@ -85,7 +90,7 @@ public class GenericWindow
 	}
 
 	//for some widgets
-	static public GenericWindow Show (string textHeader, ArrayList array)
+	static public GenericWindow Show (bool showNow, string textHeader, ArrayList array)
 	{
 		if (GenericWindowBox == null) {
 			GenericWindowBox = new GenericWindow();
@@ -97,13 +102,16 @@ public class GenericWindow
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
 		GenericWindowBox.label_header.Text = textHeader;
-		GenericWindowBox.generic_window.Show ();
+		//maybe more things have to be done before showing
+		if(showNow)
+			GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;
+		GenericWindowBox.DeleteMeansAccept = true;
 		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
 	}
-	
+			
 	//for only one widget
 	static public GenericWindow Show (string textHeader, Constants.GenericWindowShow stuff)
 	{
@@ -121,6 +129,11 @@ public class GenericWindow
 		
 		return GenericWindowBox;
 	}
+	
+	public void ShowNow() {
+		generic_window.Show ();
+	}
+	
 	
 	void hideWidgets() {
 		hbox_error.Hide();
@@ -169,9 +182,7 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
 			createComboAllNoneSelected();
 			combo_all_none_selected.Active = 
-				UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("All"));
-			//markSelected(Catalog.GetString("All"));
-			//on_combo_all_none_selected_changed(new object(), new EventArgs());
+				UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
 			hbox_combo_all_none_selected.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW) {
@@ -180,6 +191,7 @@ public class GenericWindow
 		else { //if(stuff == Constants.GenericWindowShow.TREEVIEW)
 			scrolled_window_treeview.Show();
 		}
+		
 	}
 
 	void showWidget(Constants.GenericWindowShow stuff) {
@@ -290,8 +302,21 @@ public class GenericWindow
 
 		foreach (string [] line in data) 
 			store.AppendValues (line);
-		
+
 		treeview.CursorChanged += on_treeview_cursor_changed; 
+	}
+	
+	public void MarkActiveCurves(string [] checkboxes) 
+	{
+		int count = 0;
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				if(checkboxes[count++] == "active")
+					store.SetValue (iter, 0, true);
+			} while ( store.IterNext(ref iter) );
+		}
 	}
 	
 	private TreeStore getStore (int columns, bool addCheckbox)
@@ -364,6 +389,24 @@ public class GenericWindow
 		column.Clickable = true;
 		tv.InsertColumn (column, 0);
 	}
+	
+	public string [] GetCheckboxesStatus() {
+		string [] checkboxes = new string[UtilGtk.CountRows(store)]; //to store active or inactive status of curves
+		
+		int count = 0;
+		Gtk.TreeIter iter;
+		bool okIter = store.GetIterFirst(out iter);
+		if(okIter) {
+			do {
+				if((bool) store.GetValue (iter, 0))
+					checkboxes[count++] = "active";
+				else
+					checkboxes[count++] = "inactive";
+				
+			} while ( store.IterNext(ref iter) );
+		}
+		return checkboxes;
+	}
 
 	protected void ItemToggled(object o, ToggledArgs args) {
 		//Log.WriteLine("Toggled");
@@ -383,7 +426,7 @@ public class GenericWindow
 			//buttonRecuperateChangeSensitiveness();
 		}
 	}
-
+	
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
@@ -405,8 +448,13 @@ public class GenericWindow
 	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
-		GenericWindowBox.generic_window.Hide();
-		GenericWindowBox = null;
+		if(DeleteMeansAccept) {
+			button_accept.Click();
+		}
+		else {
+			GenericWindowBox.generic_window.Hide();
+			GenericWindowBox = null;
+		}
 	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)

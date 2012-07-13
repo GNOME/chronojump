@@ -12169,6 +12169,7 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="visible">True</property>
                                                             <property name="sensitive">False</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkLabel" id="label76">
                                                             <property name="visible">True</property>
@@ -12182,15 +12183,43 @@ Evaluator can use real name or nickname.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_encoder_user_curves_num">
+                                                            <widget class="GtkLabel" id="label_encoder_user_curves_active_num">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Active</property>
                                                             <property name="label" translatable="yes">0</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label98">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">/</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_encoder_user_curves_all_num">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">All</property>
+                                                            <property name="label" translatable="yes">0</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -12202,7 +12231,7 @@ Evaluator can use real name or nickname.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

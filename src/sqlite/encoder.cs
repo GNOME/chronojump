@@ -54,7 +54,7 @@ class SqliteEncoder : Sqlite
 			"minHeight INT, " +
 			"smooth FLOAT, " +  
 			"description TEXT, " +
-			"future1 TEXT, " +
+			"future1 TEXT, " +	//works as status: "active", "inactive"
 			"future2 TEXT, " +
 			"future3 TEXT )";
 		dbcmd.ExecuteNonQuery();
@@ -80,7 +80,7 @@ class SqliteEncoder : Sqlite
 				es.laterality + "', '" + es.extraWeight + "', '" +
 				es.signalOrCurve + "', '" + es.filename + "', '" +
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
-				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', '', '', '')" ;
+				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "'active'', '', '')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

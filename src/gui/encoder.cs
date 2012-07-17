@@ -104,6 +104,8 @@ public partial class ChronoJumpWindow
 	enum encoderModes { CAPTURE, RECALCULATE_OR_LOAD, ANALYZE } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
+	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSING
+ 
 	private static bool encoderProcessCancel;
 
 	
@@ -364,18 +366,20 @@ public partial class ChronoJumpWindow
 		string [] checkboxes = genericWin.GetCheckboxesStatus();
 		Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
 
-		ArrayList data = SqliteEncoder.Select(false, -1, 
-				currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
 		//update on database the curves that have been selected/deselected
 		int count = 0;
+
+		Sqlite.Open();
 		foreach(EncoderSQL es in data) {
 			if(es.future1 != checkboxes[count]) {
 				es.future1 = checkboxes[count];
-				SqliteEncoder.Update(false, es);
+				SqliteEncoder.Update(true, es);
 			}
 			count ++;
 		}
+		Sqlite.Close();
 			
 		label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
 
@@ -623,6 +627,7 @@ public partial class ChronoJumpWindow
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
 		//if userCurves and no data, return
+		//TODO: fix this, because curves should be active except in the single curve mode
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
@@ -688,14 +693,15 @@ public partial class ChronoJumpWindow
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
 
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
+			writer.WriteLine("status,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 			foreach(EncoderSQL eSQL in data) {
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
 				EncoderExercise ex = (EncoderExercise) 
 					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
-				writer.WriteLine(ex.name + "," + Util.ConvertToPoint(mass).ToString() + "," + 
+				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
+						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						eSQL.GetFullURL() + "," +
 						eSQL.eccon	//this is the eccon of every curve
@@ -1443,6 +1449,9 @@ public partial class ChronoJumpWindow
 		//	(signal && treeviewEncoder has rows) || 
 		//	(! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
 		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
+
+		if(option != encoderSensEnum.PROCESSING)
+			encoderSensEnumStored = option;
 		
 		//columns		 0  1  2  3  4  5  6  7
 		int [] noSession = 	{0, 0, 0, 0, 0, 0, 0, 0};
@@ -1530,7 +1539,7 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
-
+		
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 		}
@@ -1616,7 +1625,7 @@ public partial class ChronoJumpWindow
 
 			encoder_pulsebar_capture.Fraction = 1;
 
-		} else {
+		} else { //ANALYZE
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
@@ -1629,8 +1638,8 @@ public partial class ChronoJumpWindow
 			}
 
 			encoder_pulsebar_analyze.Fraction = 1;
-			
-			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+		
+			encoderButtonsSensitive(encoderSensEnumStored);
 		}
 
 		treeview_encoder_curves.Sensitive = true;

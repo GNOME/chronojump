@@ -386,17 +386,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 paintPowerPeakPowerBars <- function(paf, myEccons) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
-	myNums = 1:length(paf[,1])
+	myNums = rownames(paf)
 	if(eccon=="ecS") {
-		if(! singleFile) {
-			j=0
-			for(i in 1:length(myEccons)) {
-				myNums[i] = paste(i-j,myEccons[i],sep="")
-				if(myEccons[i] == "e")
-					j=j+1
-			}
-		} else {
+		if(singleFile) {
 			myEc=c("c","e")
+			myNums = as.numeric(rownames(paf))
 			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
 		}
 	}
@@ -438,12 +432,12 @@ paintCrossVariables <- function (paf, varX, varY, option) {
 		cexBalls = 3
 		cexNums = 1
 		adjHor = 0.5
-		nums=as.character(1:length(x))
+		nums=rownames(paf)
 	} else if (suboption == "side") {
 		cexBalls = 1.8
 		cexNums = 1
 		adjHor = 0
-		nums=paste("  ",as.character(1:length(x)))
+		nums=paste("  ", rownames(paf))
 	}
 
 	plot(x,y, xlab=varX, ylab=varY, pch=21,col="blue",bg="lightblue",cex=cexBalls)
@@ -551,16 +545,25 @@ if(length(args) < 3) {
 		#maybe all are concentric (there's no returning to 0 phase)
 
 		#this version of curves has added specific data cols:
-		#exerciseName, mass, smoothingOne, dateTime, myEccon
+		#status, exerciseName, mass, smoothingOne, dateTime, myEccon
 
 		inputMultiData=read.csv(file=file,sep=",",stringsAsFactors=F)
 
 		rawdata = NULL
 		count = 1
 		start = NULL; end = NULL; startH = NULL
-		exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL; myEccon = NULL
-		newLines=0; 
+		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL; myEccon = NULL
+		newLines=0;
+		countLines=1; #useful to know the correct ids of active curves
 		for(i in 1:length(inputMultiData[,1])) { 
+			#plot only active curves
+			status = as.vector(inputMultiData$status[i])
+			if(status != "active") {
+				newLines=newLines-1; 
+				countLines=countLines+1;
+				next;
+			}
+
 			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -584,6 +587,7 @@ if(length(args) < 3) {
 					}
 				}
 				rawdata = c(rawdata, dataTempPhase)
+				id[(i+newLines)] = countLines
 				start[(i+newLines)] = count
 				end[(i+newLines)] = length(dataTempPhase) + count -1
 				startH[(i+newLines)] = 0
@@ -593,22 +597,34 @@ if(length(args) < 3) {
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
 				if(processTimes == 2) {
-					if(j == 1) 
+					if(j == 1) {
 						myEccon[(i+newLines)] = "e"
-					else
+						id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+					} else {
 						myEccon[(i+newLines)] = "c"
+						id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+						countLines = countLines + 1
+					}
 				} else {
 					if(inputMultiData$eccon[i] == "c")
 						myEccon[(i+newLines)] = "c"
 					else
 						myEccon[(i+newLines)] = "ec"
+					countLines = countLines + 1
 				}
 
 				count = count + length(dataTempPhase)
 			}
 		}		
-		curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F)
-		rownames(curves)=1:length(rownames(curves))
+		curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
+
+#--------------------------------------------------------
+#TODO: rownames are ok now. now do that cross, powerbars, side and single manage them
+#also check what happens when singleFile and when signal
+#
+#progress: cross and powerbars works
+#--------------------------------------------------------
+		#rownames(curves)=1:length(rownames(curves))
 		print(curves)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, outputData1)
@@ -693,7 +709,7 @@ if(length(args) < 3) {
 				myEccon = curves[i,8]
 			}
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-				1,curves[i,3],mySmoothingOne,myMass,paste(titleType,i),TRUE,FALSE,TRUE,FALSE)
+				1,curves[i,3],mySmoothingOne,myMass,paste(titleType,rownames(curves)[i]),TRUE,FALSE,TRUE,FALSE)
 		}
 		par(mfrow=c(1,1))
 	}
@@ -743,6 +759,8 @@ if(length(args) < 3) {
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], myMass, mySmoothingOne, g))))
 		}
 		#print(paf)
+		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
+		print(paf)
 
 		if(analysis == "powerBars") 
 			paintPowerPeakPowerBars(paf, curves[,8])	#myEccon

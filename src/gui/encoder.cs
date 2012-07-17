@@ -742,6 +742,8 @@ public partial class ChronoJumpWindow
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 		hbox_encoder_user_curves_num.Sensitive = false;
 
+		if(ecconLast != "c")
+			rows = rows / 2;
 		spin_encoder_analyze_curve_num.SetRange(1, rows);
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {

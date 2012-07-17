@@ -617,14 +617,6 @@ if(length(args) < 3) {
 			}
 		}		
 		curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
-
-#--------------------------------------------------------
-#TODO: rownames are ok now. now do that cross, powerbars, side and single manage them
-#also check what happens when singleFile and when signal
-#
-#progress: cross and powerbars works
-#--------------------------------------------------------
-		#rownames(curves)=1:length(rownames(curves))
 		print(curves)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, outputData1)

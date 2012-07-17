@@ -146,8 +146,6 @@ public partial class ChronoJumpWindow
 	//TODO: put also the Load as Load(mass) or viceversa, and put the units on the xlab, ylab
 	//TODO: put a save graph and a html report
 	
-	//TODO: graphs should use only active curves (except single curve)
-		
 
 	
 	private void encoderInitializeStuff() {

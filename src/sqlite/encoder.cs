@@ -80,7 +80,7 @@ class SqliteEncoder : Sqlite
 				es.laterality + "', '" + es.extraWeight + "', '" +
 				es.signalOrCurve + "', '" + es.filename + "', '" +
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
-				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "'active'', '', '')" ;
+				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', '', '')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -151,8 +151,7 @@ class SqliteEncoder : Sqlite
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
 			" WHERE " + selectStr +
-			" AND " + Constants.EncoderTable + ".exerciseID = " + 
-			Constants.EncoderExerciseTable + ".uniqueID ";
+			" AND " + Constants.EncoderTable + ".exerciseID = " + Constants.EncoderExerciseTable + ".uniqueID ";
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		

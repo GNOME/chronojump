@@ -87,7 +87,8 @@ previous_frame_change = 0
 
 lag=20
 
-
+mode = "graph"
+#mode = "text"
 
 #https://wiki.archlinux.org/index.php/Color_Bash_Prompt#Prompt_escapes
 
@@ -140,7 +141,7 @@ def assignColor(found, conditionHigher, conditionLower):
 	else:
 		return BLACK
 
-
+meanPowerList = list()
 def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minHeight, isJump):
 	if (len(top_values)>0 and len(bottom_values)>0):
 		if direction_now == 1:
@@ -225,7 +226,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		colorPeakPower = assignColor(peakPower, peakPowerHigherCondition, peakPowerLowerCondition)
 
 		play = False
-		#if only one param is bad, will sound bad
+		#if only one param is bad, will play soundFileBad
 		if colorHeight == RED or colorMeanSpeed == RED or colorMaxSpeed == RED or colorMeanPower == RED or colorPeakPower == RED:
 			play = True
 			soundFile = soundFileBad
@@ -239,8 +240,12 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
 				if play:
 					playsound(soundFile)
+
+				meanPowerList.append(meanPower)
+				update_graph(meanPowerList)
 			else:
 				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
+
 
 
 def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
@@ -255,7 +260,44 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 #		print(text,rmax-rmin)
 		return(rmax-rmin)
 
-#def update_graph(xmin, xmax):
+def update_graph(meanPowerList):
+	s=pygame.Surface((surface_width,surface_height))
+	
+	horiz_margin = 10
+	vert_margin = 10
+
+	max_power = max(meanPowerList)
+	if powerLowerCondition > max_power:
+		max_power = powerLowerCondition
+	if powerHigherCondition > max_power:
+		max_power = powerHigherCondition
+
+	power_lower_height = surface_height - ((surface_height * powerLowerCondition / max_power) - 2*vert_margin)
+	power_higher_height = surface_height - ((surface_height * powerHigherCondition / max_power) - 2*vert_margin)
+
+	s.fill((30,30,30)) #color the surface
+
+	sep=4
+	count = 0
+	for meanPower in meanPowerList:
+		bar_height = surface_height - ((surface_height * meanPower / max_power) - 2*vert_margin)
+		width = (surface_width - 2*horiz_margin) / len(meanPowerList)
+		left = horiz_margin + width*count
+		pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 2)
+		count = count +1
+
+	pygame.draw.line(s, (0,255,0), (horiz_margin, power_higher_height), (surface_width-horiz_margin-sep, power_higher_height), 2)
+	pygame.draw.line(s, (255,0,0), (horiz_margin, power_lower_height), (surface_width-horiz_margin-sep, power_lower_height), 2)
+
+	s_rect=s.get_rect() #get the rectangle bounds for the surface
+	        
+	screen.fill((0,0,0)) #make redraw background black
+        screen.blit(s,s_rect) #render the surface into the rectangle
+	pygame.display.flip() #update the screen
+
+
+
+#def update_graph_old(xmin, xmax):
 #	subprocess.Popen([r"Rscript","graph.R",str(xmin),str(xmax)]).wait()
 #	picture = pygame.image.load("graph.png")
 #	pygame.display.set_mode(picture.get_size())
@@ -304,6 +346,13 @@ if __name__ == '__main__':
 	print("START!\n")
 	playsound(soundFileStart)
 	print("phase, range, meanSpeed, MaxSpeed, meanPower, PeakPower, PeakPowerT")#, PPower/PPT")
+
+
+	screen = pygame.display.set_mode((640,480)) #make window
+	surface_width=600
+	surface_height=440
+	
+
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()
@@ -383,6 +432,7 @@ if __name__ == '__main__':
 	file.write(''+','.join([str(i) for i in temp[previous_frame_change:len(temp)]])+'')
 	file.flush()
 	file.close()
+
 
 #	print "creating graph..."
 #	update_graph(0,record_time)

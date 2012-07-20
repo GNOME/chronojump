@@ -264,7 +264,7 @@ def update_graph(meanPowerList):
 	s=pygame.Surface((surface_width,surface_height))
 	
 	horiz_margin = 10
-	vert_margin = 10
+	vert_margin = 20
 
 	max_power = max(meanPowerList)
 	if powerLowerCondition > max_power:
@@ -276,14 +276,25 @@ def update_graph(meanPowerList):
 	power_higher_height = surface_height - ((surface_height * powerHigherCondition / max_power) - 2*vert_margin)
 
 	s.fill((30,30,30)) #color the surface
+	screen.fill((0,0,0)) #make redraw background black
 
 	sep=4
 	count = 0
+	font = pygame.font.Font(None, 22)
 	for meanPower in meanPowerList:
 		bar_height = surface_height - ((surface_height * meanPower / max_power) - 2*vert_margin)
-		width = (surface_width - 2*horiz_margin) / len(meanPowerList)
+		if len(meanPowerList) == 1:
+			width = (surface_width - 2*horiz_margin) / 2 #do not fill all the screen with only one bar
+		else:
+			width = (surface_width - 2*horiz_margin) / len(meanPowerList)
 		left = horiz_margin + width*count
 		pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 2)
+		
+		string = "%.2f" % meanPower
+		text = font.render(string,1,(255,255,255))
+		textpos = text.get_rect(centerx=left+width/2, centery=bar_height-vert_margin)
+	       	s.blit(text,textpos)
+
 		count = count +1
 
 	pygame.draw.line(s, (0,255,0), (horiz_margin, power_higher_height), (surface_width-horiz_margin-sep, power_higher_height), 2)
@@ -291,8 +302,7 @@ def update_graph(meanPowerList):
 
 	s_rect=s.get_rect() #get the rectangle bounds for the surface
 	        
-	screen.fill((0,0,0)) #make redraw background black
-        screen.blit(s,s_rect) #render the surface into the rectangle
+        screen.blit(s,(0,40)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
 
@@ -348,8 +358,10 @@ if __name__ == '__main__':
 	print("phase, range, meanSpeed, MaxSpeed, meanPower, PeakPower, PeakPowerT")#, PPower/PPT")
 
 
+	pygame.font.init
+	pygame.init()
 	screen = pygame.display.set_mode((640,480)) #make window
-	surface_width=600
+	surface_width=640
 	surface_height=440
 	
 

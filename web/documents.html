@@ -1,294 +1,631 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8" />
+	<title>Chronojump-Boscosystem</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+	<meta name="author" content="" />
 
-			  <head>
-			  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>ChronoJump - measurement, management and statistics of sport short-time tests. </title>
-		<style type="text/css">
-			@import url(style.css);
-		</style>
-		<style type="text/css">
-			a#slide_chronojump {
-				display: block; width: 92; height: 69; background: transparent url(images/documents_blank-chronojump.png) no-repeat; 
-			}
-			a#slide_chronojump:hover { background-position: -92px 0; } 
-			a#slide_hardware {
-				display: block; width: 92; height: 69; background: transparent url(images/documents_blank-hardware.png) no-repeat; 
-			}
-			a#slide_hardware:hover { background-position: -92px 0; } 
-			a#slide_training {
-				display: block; width: 92; height: 69; background: transparent url(images/documents_blank-training.png) no-repeat; 
-			}
-			a#slide_training:hover { background-position: -92px 0; } 
-			a#slide_other {
-				display: block; width: 92; height: 69; background: transparent url(images/documents_blank-other.png) no-repeat; 
-			}
-			a#slide_other:hover { background-position: -92px 0; } 
-			
-			a .alt { display: none; }
-		</style>
-		</head>
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
 
-	<body id="page-main" class="with-sidebar">
-		<div id="gallery">
-		<div id="dalt">
-			<table cellpadding="0" cellspacing="0" width="800" border="0" align="center">
-				<tr>
-					<td rowspan="2" valign="bottom" align="left">
-						<div align="left"><a href="http://chronojump.org/"><img src="images/chronojump-boscosystem.png" alt="Chronojump main site" height="76" width="198" border="0"></a></div>
-					</td>
-					<td valign="center" align="center" width="100%">
-						<center>
-							<table border ="0" width = "410" height="81" cellpadding="0" cellspacing="0">
-								<tr valign="bottom" align="center">
-									<td width="20%"><a href="software.html"><img src="images/nuvola-media-optical.png" alt="Software" border="0"></a></td>
-									<td width="20%"><a href="hardware_store.html"><img src="images/nuvola-emblem-package.png" alt="Hardware store" border="0"></a></td>
-									<td width="20%" bgcolor="#6c77ab"><img src="images/nuvola-folder.png" alt="Documents" border="0"></td>
-									<td width="20%"><a href="http://forum.chronojump.org"><img src="images/nuvola-gaim_send-im.png" alt="Forum" border="0"></a></td>
-									<td width="20%"><a href="server.html"><img src="images/nuvola-applications-internet.png" alt="Server" border="0"></a></td>
-								</tr>
-								<tr valign="top" align="center">
-									<td><font size="2">Software</font></td>
-									<td><font size="2">Store</font></td>
-									<td bgcolor="#6c77ab"><font size="2" color="white">Documents</font></td>
-									<td><font size="2">Forum</font></td>
-									<td><font size="2">Server</font></td>
-								</tr>
-							</table>
-						</center>
-					</td>
-					<td valign="bottom"><font size="2"><a href="documents_es.html">Español</a></font></td>
-				</tr>
-				<tr height="1px"><td colspan="2" bgcolor="#6c77ab" height="1px"></td></tr>
-			</table>
-		</div> <!--dalt-->
+	<!-- CSS
+  ================================================== -->
+  	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="styles/skeleton.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/inner.css" />
+    <link rel="stylesheet" href="styles/color.css" />
+	<link rel="stylesheet" href="styles/layout.css" />
+    
 
-		<br>
-			<div id="slides">
-				<div id="slide1">
-					<ul>
-						<li><a id="slide_chronojump" href="#chronojump"><span class="alt">Chronojump</span></a></li>
-						<li><a id="slide_hardware" href="#hardware"><span class="alt">Hardware</span></a></li>
-						<li><a id="slide_training" href="#training"><span class="alt">Training</span></a></li>
-						<li><a id="slide_other" href="#other"><span class="alt">Other</span></a></li>
-					</ul>
-				</div>
-			</div>
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
-			<div id="fullsize">
-				<div id="chronojump">
-					<table id="chronojump" border="0">
-						<tr><th colspan="4"><h3><font color="#888A85">Chronojump project</font></h3></th></tr>
-						<tr><td colspan="4" bgcolor="#888A85" height="1px"></td></tr>
-						<tr valign="top">
-							<td id="presentation" width="40%">
-								<ul id="space">
-									<li><b>Chronojump Project</b></li>
-								</ul>
-								<br><br>
-							</td>
-							<td width="10%">
-								<ul id="lang">
-									<li id="lang"><a href="http://projects.gnome.org/chronojump/slides-en-fr/1.html">en-fr</a><br><a href="http://projects.gnome.org/chronojump/slides-es-ca/1.html">es-ca</a></li>
-								</ul>
-							</td>
-							<td id="video" rowspan="3" width="42%">
-								<ul id="space">
-									<li>Projecte Chronojump</li>
-									<li>Compartir dades en la recerca. Servidor Chronojump</li>
-								</ul>
-								<ul id="nospace">
-									<li>Instal·lació, construcció, adquisició</li>
-									<li>Utilització de Chronojump</li>
-									<li>Knee angle computer vision detection</li>
-								</ul>
-							</td>
-							<td rowspan="2" width="8%">
-								<ul id="lang">
-									<li id="lang"><a href="http://www.vimeo.com/1198489" title="X. De Blas, 2008 (Flash video)">ca</a></li>
-									<li id="lang">&nbsp;</li>
-									<li id="lang"><a href="http://omploader.org/vMjA4Ng" title="X. De Blas, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">ca</a></li>
-									<li id="lang"><a href="http://www.vimeo.com/1231058" title="X. De Blas, 2008 (Flash video)">ca</a></li>
-									<li id="lang"><a href="http://www.vimeo.com/1274340" title="R. Bescós, J.M. Padullés, 2008 (Flash video)">ca</a></li>
-									<li id="lang"><a href="http://omploader.org/vMXozaQ" title="X. De Blas, 2008 (OpenVideo, use Firefox 3.5 or other free browsers)">noaudio</a></li>
-								</ul>
-							</td>
-						</tr>
-						<tr valign="top">
-							<td id="documents">
-								<ul id="space">
-									<li><b>Chronojump Manual</b></li>
-									<li>Chronojump Wikipedia</li>
-								</ul>
-								<ul id="nospace">
-									<li>Software FAQ</li>
-									<li>Chronojump project (poster)</li>
-									<li>Authors, license, award</li>
-									<li>Chronojump source code</li>
-									<li>Glossary for translators</li>
-								</ul>
-							</td>
-							<td>
-								<ul id="lang">
-									<li id="lang"><a href="docs/chronojump_manual_en.pdf">en</a>, <a href="docs/chronojump_manual_es.pdf">es</a></li>
-									<li id="lang"><a href="http://es.wikipedia.org/wiki/Chronojump_Boscosystem">es</a></li>
-									<li id="lang"><a href="faq_software.html">en</a>, <a href="faq_software_es.html">es</a></li>
-									<li id="lang"><a href="posters.html#06-08">en</a></li>
-									<li id="lang"><a href="software_more.html">en</a>, <a href="software_more_es.html">es</a></li>
-									<li id="lang"><a href="http://git.gnome.org/cgit/chronojump/">en</a></li>
-									<li id="lang"><a href="http://svn.gnome.org/svn/chronojump/trunk/glossary/chronojump_glossary_for_translators.html">en</a></li>
-								</ul>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div id="hardware">
-					<table id="hardware" border="0">
-						<tr><th colspan="4"><h3><font color="#CC3636">Hardware</font></h3></th></tr>
-						<tr><td colspan="4" bgcolor="#CC3636" height="1px"></td></tr>
-						<tr valign="top">
-										<td id="documents" width="50%">
-														<ul id="space">
-																		<li>Hardware FAQ</li>
-																		<li>Chronopic 3 validation (poster)</li>
-														</ul>
-														<ul id="nospace">
-																		<li>Connect Photocells to Chronopic</li>
-																		<li>Build your contact platform:
-																		<br>&nbsp;&nbsp;&nbsp;Modular printed circuit (recommended) (+video)
-																		<br>&nbsp;&nbsp;&nbsp;Steel rods</li>
-																		<li>Construction of a push button</li>
-																		<li>Chronopic build</li>
-																		<li>Adapting Chronopic 3 to encoder</li>
-																		<li>Weight bar velocity using Chronojump (poster)</li>
-																		<li>Weight bar velocity using Chronojump (article)</li>
-														</ul>
-							</td>
-							<td>
-											<ul id="lang">
-															<li id="lang"><a href="faq_hardware.html">en</a>, <a href="faq_hardware_es.html">es</a></li>
-															<li id="lang"><a href="posters.html#seattle_09">en</a></a></li>
-															<li id="lang"><a href="photocells_velleman.html">en</a>, <a href="photocells_velleman_es.html">es</a></li>
-															<li id="lang">&nbsp;</li>
-															<li id="lang"><a href="construction_modular_circuit_platform.html">en</a>, <a href="construction_modular_circuit_platform_es.html">es</a></li>
-															<li id="lang"><a href="construction_contact_platform.html">en</a>, <a href="construction_contact_platform_es.html">es</a></li>
-															<li id="lang"><a href="construction_push_button.html">en</a>, <a href="construction_push_button_es.html">es</a></li>
-															<li id="lang"><a href="chronopic_build.html">en</a>, <a href="chronopic_build_es.html">es</a></li>
-															<li id="lang"><a href="converting-chronopic3-to-encoder.html">en</a></li>
-															<li id="lang"><a href="posters.html#06-08">en</a></li>
-															<li id="lang"><a href="http://www.efdeportes.com/efd141/nuevo-dispositivo-para-medir-la-velocidad.htm">es</a></li>
-											</ul>
-							</td>
-							<td id="video" width="35%">
-											<ul id="space">
-															<li>Construcció de dispositius de mesura I</li>
-											</ul>
-											<ul id="nospace">
-															<li>Construcció de dispositius de mesura II</li>
-											</ul>
-							</td>
-							<td>
-											<ul id="lang">
-															<li id="lang">&nbsp;</li>
-															<li id="lang"><a href="http://www.vimeo.com/1205809" title="B. Buscà, X. Peña, 2008 (Flash video)">ca</a></li>
-															<li id="lang">&nbsp;</li>
-															<li id="lang"><a href="http://omploader.org/vMXo1MA" title="J.M. Padullés, 2009 (OpenVideo, usad Firefox 3.5 u otros navegadores libres)">ca</a></li>
-											</ul>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div id="training">
-					<table id="training" border="0">
-						<tr><th colspan="2"><h3><font color="#8CB241">Training</font></h3></th></tr>
-						<tr><td colspan="2" bgcolor="#8CB241" height="1px"></td></tr>
-						<tr valign="top">
-										<td id="video" width="70%">
-														<ul id="space">
-																		<li>Fonaments teòrics</li>
-																		<li>Fonaments teòrics II</li>
-														</ul>
-														<ul id="nospace">
-																		<li>Test d'anàlisi de la cursa (28'...)</li>
-																		<li>Evaluación del rendimiento deportivo en el atletismo</li>
-																		<li>Repeated-Sprint Ability Team-Sport</li>
-																		<li>Experiències del Test de Bosco en l'atletisme</li>
-																		<li>Mesa redonda de la Jornada Esport Blanquerna 2009</li>
-														</ul>
-							</td>
-							<td>
-											<ul id="lang">
-															<li id="lang"><a href="http://www.vimeo.com/1230686" title="J.M. Padullés, 2008 (Flash video)">ca</a></li>
-															<li id="lang"><a href="http://www.vimeo.com/1230340" title="R. Bescós, M. Vélez, 2008 (Flash video)">ca</a></li>
-															<li id="lang"><a href="http://omploader.org/vMXo1MA" title="J.M. Padullés, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">ca</a></li>
-															<li id="lang"><a href="http://omploader.org/vMjA5ZA" title="M. Vélez, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">es</a></li>
-															<li id="lang"><a href="http://omploader.org/vMXp2MQ" title="J. Jorge, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">es</a></li>
-															<li id="lang"><a href="http://omploader.org/vMjBvYg" title="J.L. López, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">ca</a></li>
-															<li id="lang"><a href="http://omploader.org/vMjBwMQ" title="(OpenVideo, use Firefox 3.5 or other free browsers)">ca-es</a></li>
-											</ul>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div id="other">
-					<table id="other" border="0">
-						<tr><th colspan="2"><h3><font color="#3771C8">Other</font></h3></th></tr>
-						<tr><td colspan="2" bgcolor="#3771C8" height="1px"></td></tr>
-						<tr valign="top">
-										<td id="video" width="70%">
-														<ul id="space">
-																		<li>Homenatge a Carmelo Bosco</li>
-																		<li>Biomecànica esportiva. Del Rendiment a l'escola</li>
-														</ul>
-														<ul id="nospace">
-																		<li>MTGUG</li>
-																		<li>Integración de R en software libre de análisis del rendimiento deportivo multiplataforma y en entorno cliente-servidor</li>
-														</ul>
-							</td>
-							<td>
-											<ul id="lang">
-															<li id="lang"><a href="http://www.vimeo.com/1230152" title="J.M. Padullés, 2008 (Flash video)">ca</a></li>
-															<li id="lang"><a href="http://omploader.org/vMjBocA" title="X. Aguado, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">ca</a></li>
-															<li id="lang"><a href="http://omploader.org/vMXo0OQ" title="M. Giné, 2009 (OpenVideo, use Firefox 3.5 or other free browsers)">ca</a></li>
-															<li id="lang">&nbsp;</li>
-															<li id="lang"><a href="http://tv.um.es/video/index/id/751" title="X. De Blas, 2009 (Flash video)">es</a></li>
-											</ul>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<div id="note">
-				<font size="2">
-					<table align="left" border="0" cellspacing="0" cellpadding="0" width="800">
-						<tr>
-							<th colspan=4 align="left" width="48%">Languages</th>
-							<th align="left" width="52%">Comments</th>
-						</tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr valign="top">
-							<td align="left" width="12%">
-								ca:&nbsp;Catalan
-							</td>
-							<td align="left" width="12%">
-								es:&nbsp;Spanish
-							</td>
-							<td align="left" width="12%">
-								en:&nbsp;English
-							</td>
-							<td align="left" width="12%">
-								fr:&nbsp;French
-							</td>
-							<td align="left" width="52%">
-							       On videos point to links to see author and format.
-							</td>
-						</tr>
-					</table>
-				</font>
-			</div>
-		</div>
-	</body>
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+   
+
+<style type="text/css">
+			a#hoverImage:hover { border: 2px solid #0f2452;}
+</style>
+ 
+    
+</head>
+
+
+<body>
+<div id="bodychild">
+	<div id="outercontainer">
+    
+        <!-- HEADER -->
+        <div id="outerheader">
+            <div id="outertheheader">
+                
+                <header id="top">
+                    <div class="container">
+                        <div class="twelve columns">
+                            <div id="logo"  class="three columns alpha"><a href="index.html"><img src="images/logo.png" alt=""></a></div>
+                            <section id="navigation">
+                                <nav id="nav-wrap">
+                                    <ul id="topnav" class="sf-menu">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="tests.html">Tests</a></li>
+                                        <li><a href="products.html">Products</a></li>
+                                        <li><a href="pricing.html">Pricing</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+<!--                                        <li><a href="documentation.html">Documentation</a></li>-->
+					<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                            		<li><a href="index_es.html" class="button small">Español</a></li>
+<!--
+                                        <li class="current"><a href="index.html">English</a></li> <li>/</li> <li><a href="index_es.html">Español</a></li>
+-->
+                                    </ul><!-- topnav -->
+                                </nav><!-- nav -->	
+                                <div class="clear"></div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </header>
+                
+                <div id="pagetitlecontainer">
+                    <div class="container">
+                    	<div class="twelve columns">
+                        	<h1 class="pagetitle">Documents</h1>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>    
+        </div>
+        <!-- END HEADER -->
+        
+        
+        <!-- MAIN CONTENT -->
+        <div id="outermain">
+        	<div class="container">
+        	<section id="maincontent" class="twelve columns">
+		
+		<ul id="filter" class="controlnav">
+                    <li><a href="#chronojump_project" data-value="all">Chronojump project</a></li>
+                    <li><a href="#hardware" data-value="all">Hardware</a></li>
+                    <li><a href="#training" data-value="all">Training</a></li>
+                    <li><a href="#education" data-value="all">Education</a></li>
+                    <li><a href="#other" data-value="all">Other</a></li>
+		</ul>
+	
+			<div id="chronojump_project">
+			<h3 style="text-align:center">Chronojump project</h3>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th><span class="highlight1">Document</span></th>
+                        <th><span class="highlight1">Type</span></th>
+                        <th><span class="highlight1">Date</span></th>
+                        <th><span class="highlight2">Catalan</span></th>
+                        <th><span class="highlight2">English</span></th>
+                        <th><span class="highlight2">French</span></th>
+                        <th><span class="highlight2">Spanish</span></th>
+                        </tr>
+                        <tr>
+                        <th>Chronojump PhD thesis<br>(creation and validation of tools)</th>
+                        <td>PDF</td>
+                        <td>2012</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://www.tdx.cat/handle/10803/83302"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <th>Chronojump Manual</th>
+                        <td>PDF</td>
+                        <td>2004-11</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/docs/chronojump_manual_en.pdf"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/docs/chronojump_manual_es.pdf"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Chronojump project (presentation)</td>
+                        <td>HTML</td>
+                        <td>2007-08</td>
+                        <td><a id="hoverImage" href="http://projects.gnome.org/chronojump/slides-es-ca/1.html"><img src="images/checklist.png" alt="yes"></a></a></td>
+                        <td><a id="hoverImage" href="http://projects.gnome.org/chronojump/slides-en-fr/1.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td><a id="hoverImage" href="http://projects.gnome.org/chronojump/slides-en-fr/1.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td><a id="hoverImage" href="http://projects.gnome.org/chronojump/slides-es-ca/1.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Chronojump project (poster)</td>
+                        <td>HTML</td>
+                        <td>2006</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/posters.html#06-08"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Chronojump project (talk)</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1198489"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Chronojump at Wikipedia</td>
+                        <td>PDF</td>
+                        <td>2010-12</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://es.wikipedia.org/wiki/Chronojump_Boscosystem"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Authors, license, award</td>
+                        <td>HTML</td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/software_more.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/software_more_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Software FAQ</td>
+                        <td>HTML</td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/faq_software.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/faq_software_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Chronojump source code</td>
+                        <td>HTML</td>
+                        <td>2003-12</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://git.gnome.org/cgit/chronojump/"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Glossary for translators</td>
+                        <td>HTML</td>
+                        <td>2007</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Share data in research. Chronojump server</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjA4Ng"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Installation, construction, buying</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1231058"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Using Chronojump</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1274340"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Knee angle computer vision detection</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXozaQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXozaQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXozaQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXozaQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        </tbody>
+                        </table>
+			</div> <!--chronojump_project-->
+                        
+			<div class="separator shadow small"></div>
+
+			<div id="hardware">
+			<h3 style="text-align:center">Hardware</h3>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th><span class="highlight1">Document</span></th>
+                        <th><span class="highlight1">Type</span></th>
+                        <th><span class="highlight1">Date</span></th>
+                        <th><span class="highlight2">Catalan</span></th>
+                        <th><span class="highlight2">English</span></th>
+                        <th><span class="highlight2">French</span></th>
+                        <th><span class="highlight2">Spanish</span></th>
+                        </tr>
+                        <tr>
+                        <td>Hardware FAQ</td>
+                        <td>HTML</td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/faq_hardware.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/faq_hardware_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Chronopic 3 validation (poster)</td>
+                        <td>HTML</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/posters.html#seattle_09"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Connect Photocells to Chronopic</td>
+                        <td>HTML</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/photocells_velleman.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/photocells_velleman_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <th>Build your contact platform<br>Modular printed circuit (recommended) (+video)</th>
+                        <td>HTML</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_modular_circuit_platform.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_modular_circuit_platform_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Build your contact platform<br>(Steel rods)</td>
+                        <td>HTML</td>
+                        <td>2004</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_contact_platform.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_contact_platform_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Construction of a push button</td>
+                        <td>HTML</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_push_button.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/construction_push_button_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Chronopic build</td>
+                        <td>HTML</td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/chronopic_build.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/chronopic_build_es.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Adapting Chronopic 3 to encoder</td>
+                        <td>HTML</td>
+                        <td>2012</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/converting-chronopic3-to-encoder.html"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Weight bar velocity using Chronojump (poster)</td>
+                        <td>HTML</td>
+                        <td>2008</td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://chronojump.org/posters.html#06-08"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Weight bar velocity using Chronojump (article)</td>
+                        <td>HTML</td>
+                        <td>2010</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://www.efdeportes.com/efd141/nuevo-dispositivo-para-medir-la-velocidad.htm"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Construction of measurement systems I</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1205809"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Construction of measurement systems II</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXo1MA"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        </tbody>
+                        </table>
+			</div> <!--hardware-->
+
+			<div class="separator shadow small"></div>
+
+			<div id="training">
+			<h3 style="text-align:center">Training</h3>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th><span class="highlight1">Document</span></th>
+                        <th><span class="highlight1">Type</span></th>
+                        <th><span class="highlight1">Date</span></th>
+                        <th><span class="highlight2">Catalan</span></th>
+                        <th><span class="highlight2">English</span></th>
+                        <th><span class="highlight2">French</span></th>
+                        <th><span class="highlight2">Spanish</span></th>
+                        </tr>
+                        <tr>
+                        <td>Theoretical I</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1230686"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Theoretical II</td>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1230340"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Run analysis test (28'...)</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXo1MA"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Performance evaluation on athletics</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjA5ZA"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Repeated-Sprint Ability Team-Sport</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXp2MQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        <tr>
+                        <td>Experiences using Bosco Test on athletics</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjBvYg"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Jornada Esport Blanquerna 2009 Round table</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjBwMQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjBwMQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        </tbody>
+                        </table>
+			</div> <!--training-->
+
+			<div class="separator shadow small"></div>
+
+			<div id="education">
+			<h3 style="text-align:center">Education</h3>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th><span class="highlight1">Document</span></th>
+                        <th><span class="highlight1">Type</span></th>
+                        <th><span class="highlight1">Date</span></th>
+                        <th><span class="highlight2">Catalan</span></th>
+                        <th><span class="highlight2">English</span></th>
+                        <th><span class="highlight2">French</span></th>
+                        <th><span class="highlight2">Spanish</span></th>
+                        </tr>
+                        <tr>
+                        <th>Practices on Chronojump-Boscosystem to learn measurement of strength</th>
+                        <td>PDF</td>
+                        <td>2012</td>
+                        <td><a id="hoverImage" href="docs/practiques_chronojump_boscosystem.pdf"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <th>Sport Biomechanics. From sports perfomance to school</th>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMjBocA"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        </tbody>
+                        </table>
+			</div> <!--education-->
+
+			<div class="separator shadow small"></div>
+
+			<div id="other">
+			<h3 style="text-align:center">Other</h3>
+                        <table>
+                        <tbody>
+                        <tr>
+                        <th><span class="highlight1">Document</span></th>
+                        <th><span class="highlight1">Type</span></th>
+                        <th><span class="highlight1">Date</span></th>
+                        <th><span class="highlight2">Catalan</span></th>
+                        <th><span class="highlight2">English</span></th>
+                        <th><span class="highlight2">French</span></th>
+                        <th><span class="highlight2">Spanish</span></th>
+                        </tr>
+                        <tr>
+                        <th>Homage to Carmelo Bosco</th>
+                        <td>Video</td>
+                        <td>2008</td>
+                        <td><a id="hoverImage" href="http://www.vimeo.com/1230152"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>MTGUG Modified Time Get Up and Go</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td><a id="hoverImage" href="http://omploader.org/vMXo0OQ"><img src="images/checklist.png" alt="yes"></a></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        </tr>
+                        <tr>
+                        <td>Integration of R in free software on analysis of sports perfomance multiplatform and with client-server aproach</td>
+                        <td>Video</td>
+                        <td>2009</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a id="hoverImage" href="http://tv.um.es/video/index/id/751"><img src="images/checklist.png" alt="yes"></a></td>
+                        </tr>
+                        </tbody>
+                        </table>
+			</div> <!--other-->
+
+
+                <div class="clear"></div><!-- clear float --> 
+            </section>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+        
+        <div id="footerstrip"><div></div></div>
+        
+        <!-- FOOTER SIDEBAR -->
+        <div id="outerfootersidebar">
+        	<div class="container">
+                <div id="footersidebarcontainer" class="twelve columns"> 
+                    
+                    <footer id="footersidebar">
+                    <div id="footcol1"  class="four columns alpha">
+                    <ul>
+                        <li class="widget-container"><p><img src="images/logo.png" alt=""></p></li>
+                    </ul>
+                    </div>
+                    <div id="footcol2"  class="six columns">
+                        <ul>
+                            <li class="widget-container">
+                                <h2 class="widget-title">Relevant documentation</h2>
+                                <ul>
+                                    <li><a href="http://www.tdx.cat/handle/10803/83302">Chronojump PhD thesis: creation and validation of tools (spanish)</a></li>
+                                    <li><a href="http://chronojump.org/docs/chronojump_manual_en.pdf">Software manual</a></li>
+                                    <li><a href="documents.html">(See all documents)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="footcol3"  class="two columns omega">
+                        <ul>
+                          <li class="widget-container">
+                                <h2 class="widget-title">Social</h2>
+                                <ul>
+                                    <li><a href="http://forum.chronojump.org">Forum</a></li>
+                                    <li><a href="https://twitter.com/boscosystem">Twitter</a></li>
+                                    <li><a href="photos.html">Photos</a></li>
+                                    <li><a href="server.html">Server (share data)</a></li>
+                                </ul>
+                          </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
+        <!-- END FOOTER SIDEBAR -->
+        
+        <!-- FOOTER -->
+        <div id="outerfooter">
+        	<div class="container">
+        	<div id="footercontainer" class="twelve columns">
+            	<footer id="footer">CHRONOJUMP-BOSCOSYSTEM - free software - open hardware - reliable - affordable</footer>
+                <div id="toTop">^ Back to Top</div>
+            </div>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+        
+	</div><!-- end outercontainer -->
+</div><!-- end bodychild -->
+
+<!-- ////////////////////////////////// -->
+<!-- //      Javascript Files        // -->
+<!-- ////////////////////////////////// -->
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+
+<!-- jQuery Superfish -->
+<script type="text/javascript" src="js/hoverIntent.js"></script> 
+<script type="text/javascript" src="js/superfish.js"></script> 
+<script type="text/javascript" src="js/supersubs.js"></script>
+
+<!-- jQuery Dropdown Mobile -->
+<script type="text/javascript" src="js/tinynav.min.js"></script>
+
+<!-- Custom Script -->
+<script type="text/javascript" src="js/custom.js"></script>
+</body>
 </html>

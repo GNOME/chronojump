@@ -401,7 +401,7 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
 	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)
 	axis(4)
-	mtext("Time at peak power (s)", side=4, line=-1)
+	mtext("Time at peak power (ms)", side=4, line=-1)
 }
 
 #see paf for more info

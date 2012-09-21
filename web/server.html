@@ -1,268 +1,386 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="es   ">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Chronojump - measurement, management and statistics of sport short-time tests. </title>
-		<style type="text/css">
-			@import url(style.css);
-		</style>
-	</head>
-	<body id="page-main" class="with-sidebar">
-		<div id="gallery">
-		<div id="dalt">
-			<table cellpadding="0" cellspacing="0" width="800" border="0" align="center">
-				<tr>
-					<td rowspan="2" valign="bottom" align="left">
-						<div align="left"><a href="http://chronojump.org/"><img src="images/chronojump-boscosystem.png" alt="Chronojump main site" height="76" width="198" border="0"></a></div>
-					</td>
-					<td valign="center" align="center" width="100%">
-						<center>
-							<table border ="0" width = "410" height="81" cellpadding="0" cellspacing="0">
-								<tr valign="bottom" align="center">
-									<td width="20%"><a href="software.html"><img src="images/nuvola-media-optical.png" alt="Software" border="0"></a></td>
-									<td width="20%"><a href="hardware_store.html"><img src="images/nuvola-emblem-package.png" alt="Hardware store" border="0"></a></td>
-									<td width="20%"><a href="documents.html"><img src="images/nuvola-folder.png" alt="Documents" border="0"></a></td>
-									<td width="20%"><a href="http://forum.chronojump.org"><img src="images/nuvola-gaim_send-im.png" alt="Forum" border="0"></a></td>
-									<td width="20%" bgcolor="#6c77ab"><img src="images/nuvola-applications-internet.png" alt="Server" border="0"></td>
-								</tr>
-								<tr valign="top" align="center">
-									<td><font size="2">Software</font></td>
-									<td><font size="2">Store</font></td>
-									<td><font size="2">Documents</font></td>
-									<td><font size="2">Forum</font></td>
-									<td bgcolor="#6c77ab"><font color="white" size="2">Server</font></td>
-								</tr>
-							</table>
-						</center>
-					</td>
-					<td valign="bottom"><font size="2"><a href="server_es.html">Español</a></font></td>
-				</tr>
-				<tr height="1px"><td colspan="2" bgcolor="#6c77ab" height="1px"></td></tr>
-			</table>
-		</div> <!--dalt-->
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8" />
+	<title>Chronojump-Boscosystem</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+	<meta name="author" content="" />
 
-		<br>
-			<div id="slides">
-				<div id="slide1">
-					<ul>
-						<li><a href="#evaluators"><img src="images/server-stats-types-evaluators.png"></a></li>
-						<li><a href="#persons"><img src="images/server-stats-types-persons.png"></a></li>
-						<li><a href="#tests"><img src="images/server-stats-types-tests.png"></a></li>
-					</ul>
-				</div>
-			</div>
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    
 
-			<div id="fullsize">
-				<div id="evaluators">
-					<table id="server" border="0">
-						<tr><th colspan="2"><h3>Chronojump Server - Evaluators stats</h3></th></tr>
-						<tr><td colspan="2" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr valign="top"><td rowspan="2">
-								<img src="server/images/small/evaluators.png" alt="Chronojump Server">
-								</td><td width="100%">
-								In this graph you can see the different contributors that have uploaded data in the server.<br><br>You can see a more complete report in the <a href="http://chronojump.org/server/chronojump_server_log.html">Chronojump server log</a>.
-								</td></tr>
-								<tr><td valign="bottom">
-										<a href="server/images/evaluators.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="persons">
-					<table id="server" border="0">
-						<tr><th colspan="2"><h3>Chronojump Server - Persons stats</h3></th></tr>
-						<tr><td colspan="2" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr valign="top"><td rowspan="2">
-								<img src="server/images/small/persons.png" alt="Chronojump Server">
-								</td><td width="100%">
-								Here you can see a graph of the persons (athletes) that are in server. This graph shows:
-								<ul>
-									<li>Sport
-									<li>Country
-									<li>Age
-									<li>Gender
-									<li>Level (of practice)
-								</ul>
-								</td></tr>
-								<tr><td valign="bottom">
-										<a href="server/images/persons.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests">
-					<table id="server" border="0">
-						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
-							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/tf_by_jumps_boxplot.png" width="140" height="140">
-						</td><td colspan="3" width="100%">
-								<b>Flight times by jumps</b>
-								<br>This image shows a graph for males and another for females. Each graph plots boxplots of different simple jumps (only on flight time) that are on server.
-								<br><br>Each boxplot shows quantiles and rare values (if any).
-								<br>Also <i>n</i> value is shown.
-								</td></tr>
-								<tr><td colspan="3" valign="bottom">
-										<a href="server/images/tf_by_jumps_boxplot.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests2">
-					<table id="server" border="0">
-						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
-							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
-							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/tf_by_level_sex_jumptype.png" width="140" height="140">
-						</td><td colspan="3" width="100%">
-								<b>Flight time by level, sex, jump type</b>
-								This is a four variable graph:
-								<ul>
-									<li>Flight time
-									<li>Practice level
-									<li>Jump type
-									<li>Sex
-								</ul>
-								</td></tr>
-								<tr><td colspan="3" valign="bottom">
-										<a href="server/images/tf_by_level_sex_jumptype.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests3">
-					<table id="server" border="0">
-						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
-							<td><img src="server/images/small/ieiub.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
-							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/ieiub.png" width="140" height="140">
-						</td><td colspan="3" width="100%">
-								<b>IE IUB</b>
-								<br>This is an indexes graph:
-								<ul>
-									<li>IE (relationship between CMJ and SJ)
-									<li>IUB (relationship between ABK and CMJ)
-								</ul>
-								</td></tr>
-								<tr><td colspan="3" valign="bottom">
-										<a href="server/images/ieiub.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests4">
-					<table id="server" border="0">
-						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
-							<td><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
-							<td width="100%"><a href="#tests5"><img src="server/images/small/tf_by_age.png" width="60" height="60"></a></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/tf_by_extra_weight.png" width="140" height="140">
-						</td><td colspan="3" width="100%">
-								<b>Correlations extra weight - flight time</b>
-								<br>This image shows correlation between jumps flight time and extra weight.
-								</td></tr>
-								<tr><td colspan="3" valign="bottom">
-										<a href="server/images/tf_by_extra_weight.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="tests5">
-					<table id="server" border="0">
-						<tr><th colspan="5"><h3>Chronojump Server - Tests stats</h3></th></tr>
-						<tr><td colspan="5" bgcolor="#6c77ab" height="1px"></td></tr>
-						<tr>
-							<td><a href="#tests"><img src="server/images/small/tf_by_jumps_boxplot.png" width="60" height="60"></a></td>
-							<td><a href="#tests2"><img src="server/images/small/tf_by_level_sex_jumptype.png" width="60" height="60"></a></td>
-							<td><a href="#tests3"><img src="server/images/small/ieiub.png" width="60" height="60"></a></td>
-							<td><a href="#tests4"><img src="server/images/small/tf_by_extra_weight.png" width="60" height="60"></a></td>
-							<td width="100%"><img src="server/images/small/tf_by_age.png" width="60" height="60" style="border-width: 1px;border-color: orange;"></td>
-						</tr>
-						<tr valign="top"><td colspan="2" rowspan="2">
-								<img src="server/images/small/tf_by_age.png" width="140" height="140">
-						</td><td colspan="3" width="100%">
-								<b>Correlations age - flight time</b>
-								<br>This image shows correlation between jumps flight time and age of persons at session date.
-								</td></tr>
-								<tr><td colspan="3" valign="bottom">
-										<a href="server/images/tf_by_age.png"><img src="images/zoom.png" alt="Zoom image" border="0"></a>
-							</td>
-					</tr></table>
-				</div>
-				<div id="reliability">
-					<table id="all_vert_space">
-						<tr><th colspan="2"><h3>Reliability on the server. Two levels:</h3></th></tr>
-						<tr><td colspan="2" bgcolor="#6c77ab" height="1px"></td></tr>
+	<!-- CSS
+  ================================================== -->
+  	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="styles/skeleton.css" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="styles/inner.css" />
+    <link rel="stylesheet" href="styles/color.css" />
+    <link rel="stylesheet" href="styles/prettyPhoto.css"  media="screen" />
+	<link rel="stylesheet" href="styles/layout.css" />
+    
 
-						<tr valign="top"><td colspan="2">
-<b>1)<span style="background-color: yellow">General data</b></span> Uploaded by anyone with the technology.
-<br><b>2)<span style="background-color: #ccff00">Reliable data</b></span> Accredited by SAFE research group (Universitat Ramon Llull).
-								</td></tr>
-<tr valign="top"><td width="50%">
-<span style="background-color: #ccff00"><b>Reliable data</b></span>. Profile <b>Evaluator-trainer</b>
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+    
+    
+</head>
+
+
+<body>
+<div id="bodychild">
+	<div id="outercontainer">
+    
+        <!-- HEADER -->
+        <div id="outerheader">
+            <div id="outertheheader">
+                
+                <header id="top">
+                    <div class="container">
+                        <div class="twelve columns">
+                            <div id="logo"  class="three columns alpha"><a href="index.html"><img src="images/logo.png" alt=""></a></div>
+                            <section id="navigation">
+                                <nav id="nav-wrap">
+                                    <ul id="topnav" class="sf-menu">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="tests.html">Tests</a></li>
+                                        <li><a href="products.html">Products</a></li>
+                                        <li><a href="pricing.html">Pricing</a></li>
+                                        <li><a href="contact.html">Contact</a></li>
+<!--                                        <li><a href="documentation.html">Documentation</a></li>-->
+					<li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                            		<li><a href="index_es.html" class="button small">Español</a></li>
+<!--
+                                        <li class="current"><a href="index.html">English</a></li> <li>/</li> <li><a href="index_es.html">Español</a></li>
+-->
+                                    </ul><!-- topnav -->
+                                </nav><!-- nav -->	
+                                <div class="clear"></div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </header>
+                
+                <div id="pagetitlecontainer">
+                    <div class="container">
+                    	<div class="twelve columns">
+                        	<h1 class="pagetitle">Chronojump server. share data!</h1>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>    
+        </div>
+        <!-- END HEADER -->
+        
+ 
+        
+        <!-- MAIN CONTENT -->
+        <div id="outermain">
+        	<div class="container">
+        	<section id="maincontent" class="twelve columns">
+               
+		<p>Chronojump has a server in order to share data between users.
+		<br>Server started to collect and show data (thanks to users contribution).
+		</p>
+                
+                <div id="ts-display-portfolio">
+               
+<!--
+                <ul id="filter" class="controlnav">
+                    <li class="segment-1 selected-1"><a href="#" data-value="all">All Categories</a></li>
+                    <li class="segment-1"><a href="#" data-value="tech">Technology</a></li>
+                    <li class="segment-1"><a href="#" data-value="people">People</a></li>
+                </ul>
+-->
+                
+                <ul id="ts-display-pf-filterable" class="ts-display-pf-col-4 image-grid">
+                        <li data-id="id-1" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/evaluators.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/evaluators.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Evaluators stats</h2>
+                                <span>In this graph you can see the different contributors that have uploaded data in the server. You can see a more complete report in the <a href="http://chronojump.org/server/chronojump_server_log.html">Chronojump server log</a>.</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-2" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/persons.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/persons.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Persons</h2>
+                                <span>Here you can see a graph of the persons (athletes) that are in server. This graph shows: sport, country, age, gender, level (of practice).</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-3" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/tf_by_jumps_boxplot.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/tf_by_jumps_boxplot.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Flight times by jumps</h2>
+                                <span>This image shows a graph for males and another for females. Each graph plots boxplots of different simple jumps (only on flight time) that are on server.<br>
+Each boxplot shows quantiles and rare values (if any). Also 'n' value is shown.</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-4" class="nomargin">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/tf_by_level_sex_jumptype.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/tf_by_level_sex_jumptype.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Flight time by level, sex, jump type</h2>
+                                <span>This is a four variable graph: flight time, practice level, jump type, sex.</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-5" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/ieiub.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/ieiub.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>IE, IUB</h2>
+                                <span>This is an indexes graph:<br>-IE (relationship between CMJ and SJ)<br>-IUB (relationship between ABK and CMJ).</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-6" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/tf_by_extra_weight.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/tf_by_extra_weight.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Correlations extra weight - flight time</h2>
+                                <span>This image shows correlation between jumps flight time and extra weight.</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                        <li data-id="id-7" class="">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="server/images/tf_by_age.png">
+                                <span class="rollover"></span>
+                                <img src="server/images/small/tf_by_age.png" alt=""/>
+                                </a>							
+                            </div>
+                            <div class="ts-display-pf-text">
+                                <h2>Correlations age - flight time </h2>
+                                <span>This image shows correlation between jumps flight time and age of persons at session date.</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                </ul>
+                
+                <div class="clear"></div>
+                
+                </div><!-- end #ts-display-portfolio -->
+                        
+		<div class="separator shadow small"></div>
+               
+		<h2>Reliability of the server</h2>
+		<p>There are two levels of reliability:
+
+		<ul>
+<li><span class="highlight2">General data</span> Uploaded by anyone with the technology.</li>
+<li><span class="highlight1">Reliable data</span> Uploaded by anyone with the technology and accredited by SAFE research group (Universitat Ramon Llull) using the following directions:</li>
+</ul></p>
+                    
+		<div class="one_half firstcols">
+
+<p><span class="highlight1">Reliable data</span> Profile Evaluator-trainer</p>
 <ul id="nospace">
-  <li>National trainer.
-  <li>Current work: club, institution, category.
-  <li>Years as elite trainer.
-  <li>Historical on trained sports and specialties.
-  <li>Experience on using measurement equipment.
-  <li>Career (100 words)
+  <li>National trainer</li>
+  <li>Current work: club, institution, category</li>
+  <li>Years as elite trainer</li>
+  <li>Historical on trained sports and specialties</li>
+  <li>Experience on using measurement equipment</li>
+  <li>Career (100 words)</li>
 </ul>
-</td><td>
-<span style="background-color: #ccff00"><b>Reliable data</b></span>. Profile <b>Evaluator-researcher</b>
+                    </div>
+
+                    <div class="one_half lastcols">
+<p><span class="highlight1">Reliable data</span> Profile Evaluator-researcher</p>
 <ul id="nospace">
-  <li>Maximum reached degree.
-  <li>Teacher at University?
-  <li>Sport science researches using measure.
-  <li>Other researches. Years as researcher.
-  <li>University research groups.
-  <li>Received grants.
-  <li>Career (100 words)
+  <li>Maximum reached degree</li>
+  <li>Teacher at University?</li>
+  <li>Sport science researches using measure</li>
+  <li>Other researches. Years as researcher</li>
+  <li>University research groups</li>
+  <li>Received grants</li>
+  <li>Career (100 words)</li>
 </ul>
-								</td></tr>
-						<tr valign="top"><td colspan="2">
-<span style="background-color: #ccff00"><b>Reliable data</b></span>. Criteria <b>by session</b>: 
-Informed consent -
-Warming up -
-Protocol variations (if any) -
-New tests protocols and validations (if any) -
-Data has been published? Where? -
-Justification of the research (100 words).
-								</td></tr>
-					</tr></table>
-				</div>
-			</div>
-			<div id="note">
-				<font size="2">
-					<br>Chronojump has a server in order to share data between users.
-					<br>Server started to collect and show data (thanks to users contribution).
-					<br><br><a href="server.html#reliability">Realiability on the server</a>.
-				</font>
-			</div>
-		</div>
-	</body>
+                    </div>
+
+		<div class="one_half firstcols">
+<p><span class="highlight1">Reliable data</span> Criteria by session</p>
+<ul>
+<li>Informed consent</li>
+<li>Warming up</li>
+<li>Protocol variations (if any)</li>
+<li>New tests protocols and validations (if any)</li>
+<li>Data has been published? Where?</li>
+<li>Justification of the research (100 words)</li>
+</ul>
+
+<p><span class="highlight1">Reliable data</span> Criteria by persons</p>
+<ul>
+<li>Incomplete data of the persons</li>
+<li>Person's height so low: &lt; 0.5 m</li>
+<li>Person's height so tall: &gt; 2.1 m</li>
+<li>Weight so low: &lt; 30 Kg</li>
+<li>Weight so high: &gt; 200 Kg</li>
+<!--• Dudas en cuanto al deporte de los practicantes.-->
+</ul>
+                    </div>
+		<div class="one_half lastcols">
+<p><span class="highlight1">Reliable data</span> Criteria by jumps</p>
+<ul>
+<li>Flight time too low for jumps without extra weight: &lt; 0.3 s</li>
+<li>Flight time too high: &gt; 0.8 s</li>
+<li>Contact time too low: &lt; 0.15 s</li>
+<li>Contact time too high for jumps without extra weight: &gt; 0.4 s</li>
+<li>Squat or Rocket higher than CMJ on the same persons</li>
+<li>CMJ values higher that ABK on the same persons</li>
+<li>Repeated values on jumps</li>
+<li>Women results better than man results</li>
+</ul>
+                    </div>
+                <div class="clear"></div><!-- clear float --> 
+<p>All this items can be refined in the future.<br>
+If the evaluator has a mixed profile, it will need to answer both profiles.<br>
+Currently all the data is marked as <span class="highlight2">General data</span>. In the future, when there's more data, reliability checks will apply.</p>
+                  
+            </section>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+        
+        <div id="footerstrip"><div></div></div>
+        
+        <!-- FOOTER SIDEBAR -->
+        <div id="outerfootersidebar">
+        	<div class="container">
+                <div id="footersidebarcontainer" class="twelve columns"> 
+                    
+                    <footer id="footersidebar">
+                    <div id="footcol1"  class="four columns alpha">
+                    <ul>
+                        <li class="widget-container"><p><img src="images/logo.png" alt=""></p></li>
+                    </ul>
+                    </div>
+                    <div id="footcol2"  class="six columns">
+                        <ul>
+                            <li class="widget-container">
+                                <h2 class="widget-title">Relevant documentation</h2>
+                                <ul>
+                                    <li><a href="http://www.tdx.cat/handle/10803/83302">Chronojump PhD thesis: creation and validation of tools (spanish)</a></li>
+                                    <li><a href="http://chronojump.org/docs/chronojump_manual_en.pdf">Software manual</a></li>
+                                    <li><a href="documents.html">(See all documents)</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="footcol3"  class="two columns omega">
+                        <ul>
+                          <li class="widget-container">
+                                <h2 class="widget-title">Social</h2>
+                                <ul>
+                                    <li><a href="http://forum.chronojump.org">Forum</a></li>
+                                    <li><a href="https://twitter.com/boscosystem">Twitter</a></li>
+                                    <li><a href="photos.html">Photos</a></li>
+                                    <li><a href="server.html">Server (share data)</a></li>
+                                </ul>
+                          </li>
+                        </ul>
+                    </div>
+                    <div class="clear"></div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
+        <!-- END FOOTER SIDEBAR -->
+        
+        <!-- FOOTER -->
+        <div id="outerfooter">
+        	<div class="container">
+        	<div id="footercontainer" class="twelve columns">
+            	<footer id="footer">CHRONOJUMP-BOSCOSYSTEM - free software - open hardware - reliable - affordable</footer>
+                <div id="toTop">^ Back to Top</div>
+            </div>
+            </div>
+        </div>
+        <!-- END FOOTER -->
+        
+	</div><!-- end outercontainer -->
+</div><!-- end bodychild -->
+
+<!-- ////////////////////////////////// -->
+<!-- //      Javascript Files        // -->
+<!-- ////////////////////////////////// -->
+<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+
+<!-- jQuery Superfish -->
+<script type="text/javascript" src="js/hoverIntent.js"></script> 
+<script type="text/javascript" src="js/superfish.js"></script> 
+<script type="text/javascript" src="js/supersubs.js"></script>
+
+<!-- jQuery Easing -->
+
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+
+
+<!-- jQuery PrettyPhoto -->
+<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+
+<!-- jQuery Fade -->
+<script type="text/javascript" src="js/fade.js"></script>
+
+<!-- jQuery Filterable -->
+<script type="text/javascript" src="js/quicksand.js"></script>
+<script type="text/javascript" src="js/quicksand_config.js"></script>
+
+<!-- jQuery Dropdown Mobile -->
+<script type="text/javascript" src="js/tinynav.min.js"></script>
+
+<!-- Custom Script -->
+<script type="text/javascript" src="js/custom.js"></script>
+</body>
 </html>

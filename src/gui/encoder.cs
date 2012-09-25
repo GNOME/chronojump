@@ -1626,6 +1626,7 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Fraction = 1;
 
 		} else { //ANALYZE
+			bool analyzedCurvesOk = false;
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
@@ -1635,11 +1636,15 @@ public partial class ChronoJumpWindow
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_analyze.Pixbuf = pixbuf;
 				encoder_pulsebar_analyze.Text = "";
+				if(radiobutton_encoder_analyze_data_user_curves.Active)
+					analyzedCurvesOk = true;
 			}
 
 			encoder_pulsebar_analyze.Fraction = 1;
 		
 			encoderButtonsSensitive(encoderSensEnumStored);
+			if(analyzedCurvesOk)
+				image_encoder_analyze.Sensitive = true;
 		}
 
 		treeview_encoder_curves.Sensitive = true;

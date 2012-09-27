@@ -243,7 +243,7 @@ class SqliteEncoder : Sqlite
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(false, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3]);
+			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3]);
 		}
 	}
 

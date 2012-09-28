@@ -50,6 +50,28 @@ else
 	AC_SUBST(MSGFMT,[msgfmt])
 fi
 
+AC_MSG_CHECKING([for the OS type])
+ostype=""
+
+case "$host" in
+  *-*-mingw*|*-*-cygwin*)
+    ostype=Windows
+    AC_DEFINE(OSTYPE_WINDOWS)
+    ;;
+  *-*-darwin*)
+    AC_DEFINE(OSTYPE_OS_X)
+    ostype=OS_X
+    ;;
+  *-*-linux*)
+    AC_DEFINE(OSTYPE_LINUX)
+    ostype=Linux
+    ;;
+esac
+AM_CONDITIONAL(OSTYPE_WINDOWS, test x$ostype = xWindows)
+AM_CONDITIONAL(OSTYPE_OS_X, test x$ostype = xOS_X)
+AM_CONDITIONAL(OSTYPE_LINUX, test x$ostype = xLinux)
+AC_MSG_RESULT($ostype)
+
 
 AC_ARG_ENABLE(debug,
 	AC_HELP_STRING([--enable-debug],

@@ -58,7 +58,11 @@ int chronopic_open(char *disp)
   fd = open(disp,O_RDWR | O_NOCTTY); /* Abrir puerto serie */
 
   /* Modificar los atributos */
-  newtermios.c_cflag= CBAUD | CS8 | CLOCAL | CREAD;
+  newtermios.c_cflag= CS8 | CLOCAL | CREAD;
+  /* CBAUD is a Linux extension to the POSIX Terminal I/O definitions. */
+#ifdef CBAUD
+  newtermios.c_cflag |= CBAUD
+#endif
   newtermios.c_iflag=IGNPAR;
   newtermios.c_oflag=0;
   newtermios.c_lflag=0;

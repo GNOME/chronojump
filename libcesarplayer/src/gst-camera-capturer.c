@@ -34,22 +34,32 @@
 #include "gstscreenshot.h"
 
 /*Default video source*/
-#ifdef WIN32
+#if defined(OSTYPE_WINDOWS)
 #define DVVIDEOSRC "dshowvideosrc"
 #define RAWVIDEOSRC "dshowvideosrc"
 #define AUDIOSRC "dshowaudiosrc"
-#else
+#elif defined(OSTYPE_OS_X)
+#define DVVIDEOSRC "osxvideosrc"
+#define RAWVIDEOSRC "osxvideosrc"
+#define AUDIOSRC "osxaudiosrc"
+#elif defined(OSTYPE_LINUX)
 #define DVVIDEOSRC "dv1394src"
-#define RAWVIDEOSRC "gconfvideosrc"
-#define AUDIOSRC "gconfaudiosrc"
+#define RAWVIDEOSRC "gsettingsvideosrc"
+#define AUDIOSRC "gsettingsaudiosrc"
+#define RAWVIDEOSRC_GCONF "gconfvideosrc"
+#define AUDIOSRC_GCONF "gconfaudiosrc"
 #endif
 
 /* gtk+/gnome */
-#ifdef WIN32
-#include <gdk/gdkwin32.h>
-#else
+#include <gdk/gdk.h>
+#if defined (GDK_WINDOWING_X11)
 #include <gdk/gdkx.h>
+#elif defined (GDK_WINDOWING_WIN32)
+#include <gdk/gdkwin32.h>
+#elif defined (GDK_WINDOWING_QUARTZ)
+#include <gdk/gdkquartz.h>
 #endif
+#include <gtk/gtk.h>
 
 #ifdef WIN32
 #define DEFAULT_SOURCE_TYPE  GST_CAMERA_CAPTURE_SOURCE_TYPE_DSHOW
@@ -651,13 +661,7 @@ gst_camera_capturer_expose_event (GtkWidget * widget, GdkEventExpose * event)
 
   if (xoverlay != NULL && GST_IS_X_OVERLAY (xoverlay)) {
     gdk_window_show (gcc->priv->video_window);
-#ifdef WIN32
-    gst_x_overlay_set_xwindow_id (gcc->priv->xoverlay,
-        GDK_WINDOW_HWND (gcc->priv->video_window));
-#else
-    gst_x_overlay_set_xwindow_id (gcc->priv->xoverlay,
-        GDK_WINDOW_XID (gcc->priv->video_window));
-#endif
+    gst_set_window_handle (gcc->priv->xoverlay,gcc->priv->video_window);
   }
 
   /* Start with a nice black canvas */
@@ -1063,9 +1067,19 @@ gst_camera_capturer_set_source (GstCameraCapturer * gcc,
     case GST_CAMERA_CAPTURE_SOURCE_TYPE_RAW:
     default:
     {
+      gchar *videosrc = RAWVIDEOSRC;
+
+#if defined(OSTYPE_WINDOWS)
+      GstElementFactory *fact = gst_element_factory_find(RAWVIDEOSRC);
+      if (fact == NULL)
+        videosrc = RAWVIDEOSRC_GCONF;
+      else
+        gst_object_unref (fact);
+#endif
+
       gchar *bin =
           g_strdup_printf ("%s name=device_source ! videorate ! "
-          "ffmpegcolorspace ! videoscale", RAWVIDEOSRC);
+          "ffmpegcolorspace ! videoscale", videosrc);
       gcc->priv->videosrc = gst_parse_bin_from_description (bin, TRUE, err);
       gcc->priv->device_source =
           gst_bin_get_by_name (GST_BIN (gcc->priv->videosrc), "device_source");
@@ -1246,7 +1260,8 @@ gst_camera_capturer_set_video_encoder (GstCameraCapturer * gcc,
     case VIDEO_ENCODER_H264:
       gcc->priv->videoenc =
           gst_element_factory_make ("x264enc", "video-encoder");
-      g_object_set (gcc->priv->videoenc, "key-int-max", 25, "pass", 17, NULL);
+      g_object_set (gcc->priv->videoenc, "key-int-max", 25, "pass", 17,
+          "speed-preset", 3, NULL);
       name = "X264 video encoder";
       break;
 
@@ -1262,7 +1277,7 @@ gst_camera_capturer_set_video_encoder (GstCameraCapturer * gcc,
     default:
       gcc->priv->videoenc =
           gst_element_factory_make ("vp8enc", "video-encoder");
-      g_object_set (gcc->priv->videoenc, "speed", 2,
+      g_object_set (gcc->priv->videoenc, "speed", 2, "threads", 8,
           "max-keyframe-distance", 25, NULL);
       name = "VP8 video encoder";
       break;
@@ -1551,13 +1566,7 @@ gcc_element_msg_sync (GstBus * bus, GstMessage * msg, gpointer data)
     g_return_if_fail (gcc->priv->xoverlay != NULL);
     g_return_if_fail (gcc->priv->video_window != NULL);
 
-#ifdef WIN32
-    gst_x_overlay_set_xwindow_id (gcc->priv->xoverlay,
-        GDK_WINDOW_HWND (gcc->priv->video_window));
-#else
-    gst_x_overlay_set_xwindow_id (gcc->priv->xoverlay,
-        GDK_WINDOW_XID (gcc->priv->video_window));
-#endif
+    gst_set_window_handle (gcc->priv->xoverlay,gcc->priv->video_window);
   }
 }
 
@@ -1677,7 +1686,7 @@ destroy_pixbuf (guchar * pix, gpointer data)
 void
 gst_camera_capturer_unref_pixbuf (GdkPixbuf * pixbuf)
 {
-  gdk_pixbuf_unref (pixbuf);
+  g_object_unref (pixbuf);
 }
 
 GdkPixbuf *

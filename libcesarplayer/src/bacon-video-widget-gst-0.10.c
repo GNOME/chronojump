@@ -59,14 +59,27 @@
 #include <math.h>
 
 /* gtk+/gnome */
-#ifdef WIN32
-#include <gdk/gdkwin32.h>
-#define DEFAULT_VIDEO_SINK "autovideosink"
-#else
+#include <gdk/gdk.h>
+#if defined (GDK_WINDOWING_X11)
 #include <gdk/gdkx.h>
-#define DEFAULT_VIDEO_SINK "gconfvideosink"
+#elif defined (GDK_WINDOWING_WIN32)
+#include <gdk/gdkwin32.h>
+#elif defined (GDK_WINDOWING_QUARTZ)
+#include <gdk/gdkquartz.h>
 #endif
 #include <gtk/gtk.h>
+
+
+#if defined(OSTYPE_WINDOWS)
+#define DEFAULT_VIDEO_SINK "autovideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#elif defined(OSTYPE_OS_X)
+#define DEFAULT_VIDEO_SINK "autovideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#elif defined(OSTYPE_LINUX)
+#define DEFAULT_VIDEO_SINK "gsettingsvideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#endif
 #include <gio/gio.h>
 #include <glib/gi18n.h>
 
@@ -142,6 +155,7 @@ struct BaconVideoWidgetPrivate
   char *mrl;
 
   GstElement *play;
+  GstElement *video_sink;
   GstXOverlay *xoverlay;        /* protect with lock */
   GstColorBalance *balance;     /* protect with lock */
   GstNavigation *navigation;    /* protect with lock */
@@ -530,6 +544,7 @@ bacon_video_widget_realize (GtkWidget * widget)
   bvw->priv->video_window = gdk_window_new (window,
       &attributes, attributes_mask);
   gdk_window_set_user_data (bvw->priv->video_window, widget);
+  gdk_window_ensure_native(bvw->priv->video_window);
 
   gdk_color_parse ("black", &colour);
   gdk_colormap_alloc_color (gtk_widget_get_colormap (widget),
@@ -651,13 +666,7 @@ bacon_video_widget_expose_event (GtkWidget * widget, GdkEventExpose * event)
 
 
   if (xoverlay != NULL && GST_IS_X_OVERLAY (xoverlay)) {
-#ifdef WIN32
-    gst_x_overlay_set_xwindow_id (bvw->priv->xoverlay,
-        GDK_WINDOW_HWND (bvw->priv->video_window));
-#else
-    gst_x_overlay_set_xwindow_id (bvw->priv->xoverlay,
-        GDK_WINDOW_XID (bvw->priv->video_window));
-#endif
+    gst_set_window_handle(xoverlay, bvw->priv->video_window);
   }
 
   /* Start with a nice black canvas */
@@ -3245,7 +3254,7 @@ bacon_video_widget_seek_to_next_frame (BaconVideoWidget * bvw, gfloat rate,
   g_return_val_if_fail (BACON_IS_VIDEO_WIDGET (bvw), FALSE);
   g_return_val_if_fail (GST_IS_ELEMENT (bvw->priv->play), FALSE);
 
-  gst_element_send_event(bvw->priv->play,
+  gst_element_send_event(bvw->priv->video_sink,
       gst_event_new_step (GST_FORMAT_BUFFERS, 1, 1.0, TRUE, FALSE));
 
   pos = bacon_video_widget_get_accurate_current_time (bvw);
@@ -4389,7 +4398,8 @@ static struct _metadata_map_info
   BVW_INFO_AUDIO_BITRATE, "audio-bitrate"}, {
   BVW_INFO_AUDIO_CODEC, "audio-codec"}, {
   BVW_INFO_AUDIO_SAMPLE_RATE, "samplerate"}, {
-  BVW_INFO_AUDIO_CHANNELS, "channels"}
+  BVW_INFO_AUDIO_CHANNELS, "channels"}, {
+  BVW_INFO_PAR, "pixel-aspect-ratio"}
 };
 
 static const gchar *
@@ -4622,6 +4632,37 @@ bacon_video_widget_get_metadata_string (BaconVideoWidget * bvw,
     g_value_set_string (value, NULL);
     g_free (string);
   }
+
+  return;
+}
+
+static void
+bacon_video_widget_get_metadata_double (BaconVideoWidget * bvw,
+    BvwMetadataType type, GValue * value)
+{
+  gdouble metadata_double = 0;
+
+  g_value_init (value, G_TYPE_DOUBLE);
+
+  if (bvw->priv->play == NULL) {
+    g_value_set_double (value, 0);
+    return;
+  }
+
+  switch (type) {
+    case BVW_INFO_PAR:
+    {
+      int movie_par_n = gst_value_get_fraction_numerator (bvw->priv->movie_par);
+      int movie_par_d = gst_value_get_fraction_denominator (bvw->priv->movie_par);
+      metadata_double = (gdouble) movie_par_n / (gdouble) movie_par_d;
+      break;
+    }
+    default:
+      g_assert_not_reached();
+  }
+
+  g_value_set_double (value, metadata_double);
+  GST_DEBUG ("%s = %f", get_metadata_type_name (type), metadata_double);
 
   return;
 }
@@ -4919,6 +4960,8 @@ bacon_video_widget_get_metadata (BaconVideoWidget * bvw,
           g_value_take_object (value, pixbuf);
       }
     }
+    case BVW_INFO_PAR:
+      bacon_video_widget_get_metadata_double (bvw, type, value);
       break;
     default:
       g_return_if_reached ();
@@ -5188,7 +5231,6 @@ bvw_update_interface_implementations (BaconVideoWidget * bvw)
   GstXOverlay *old_xoverlay = bvw->priv->xoverlay;
   GstElement *video_sink = NULL;
   GstElement *element = NULL;
-  GstIteratorResult ires;
   GstIterator *iter;
 
   if (g_thread_self () != gui_thread) {
@@ -5260,7 +5302,7 @@ bvw_update_interface_implementations (BaconVideoWidget * bvw)
       GST_TYPE_COLOR_BALANCE);
   /* naively assume no resync */
   element = NULL;
-  ires = gst_iterator_fold (iter, (GstIteratorFoldFunction)
+  gst_iterator_fold (iter, (GstIteratorFoldFunction)
       find_colorbalance_element, NULL, &element);
   gst_iterator_free (iter);
 
@@ -5317,13 +5359,7 @@ bvw_element_msg_sync (GstBus * bus, GstMessage * msg, gpointer data)
     g_return_if_fail (bvw->priv->xoverlay != NULL);
     g_return_if_fail (bvw->priv->video_window != NULL);
 
-#ifdef WIN32
-    gst_x_overlay_set_xwindow_id (bvw->priv->xoverlay,
-        GDK_WINDOW_HWND (bvw->priv->video_window));
-#else
-    gst_x_overlay_set_xwindow_id (bvw->priv->xoverlay,
-        GDK_WINDOW_XID (bvw->priv->video_window));
-#endif
+  gst_set_window_handle(bvw->priv->xoverlay, bvw->priv->video_window);
 
   }
 }
@@ -5454,7 +5490,7 @@ bacon_video_widget_new (int width, int height, BvwUseType type, GError ** err)
       gst_element_set_state (video_sink, GST_STATE_NULL);
       gst_object_unref (video_sink);
       /* Try again with autovideosink */
-      video_sink = gst_element_factory_make ("autovideosink", "video-sink");
+      video_sink = gst_element_factory_make (BACKUP_VIDEO_SINK, "video-sink");
       gst_element_set_bus (video_sink, bvw->priv->bus);
       ret = gst_element_set_state (video_sink, GST_STATE_READY);
       if (ret == GST_STATE_CHANGE_FAILURE) {
@@ -5474,6 +5510,8 @@ bacon_video_widget_new (int width, int height, BvwUseType type, GError ** err)
         }
         goto sink_error;
       }
+    } else {
+      bvw->priv->video_sink = video_sink;
     }
   } else {
     g_set_error (err, BVW_ERROR, GST_ERROR_VIDEO_PLUGIN,
@@ -5608,7 +5646,7 @@ bacon_video_widget_new (int width, int height, BvwUseType type, GError ** err)
       G_CALLBACK (bvw_element_msg_sync), bvw);
 
   if (GST_IS_BIN (video_sink)) {
-    /* video sink bins like gconfvideosink might remove their children and
+    /* video sink bins like gsettingsvideosink might remove their children and
      * create new ones when set to NULL state, and they are currently set
      * to NULL state whenever playbin re-creates its internal video bin
      * (it sets all elements to NULL state before gst_bin_remove()ing them) */

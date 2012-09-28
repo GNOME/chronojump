@@ -6,6 +6,11 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
 	$(CESARPLAYER_CFLAGS)
 
+if OSTYPE_OS_X
+AM_CPPFLAGS += \
+	-x objective-c
+endif
+
 AM_CFLAGS =\
 	 -Wall\
 	 -g

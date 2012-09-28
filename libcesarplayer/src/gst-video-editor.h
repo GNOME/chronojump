@@ -32,6 +32,7 @@
 
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 
 #include "common.h"
 
@@ -62,24 +63,24 @@ struct _GstVideoEditor
   GstVideoEditorPrivate *priv;
 };
 
-EXPORT GType
-gst_video_editor_get_type (void)
-    G_GNUC_CONST;
+EXPORT GType gst_video_editor_get_type (void) G_GNUC_CONST;
 
-     EXPORT void gst_video_editor_init_backend (int *argc, char ***argv);
-     EXPORT GstVideoEditor *gst_video_editor_new (GError ** err);
-     EXPORT void gst_video_editor_start (GstVideoEditor * gve);
-     EXPORT void gst_video_editor_cancel (GstVideoEditor * gve);
-     EXPORT void gst_video_editor_set_video_encoder (GstVideoEditor * gve,
+
+EXPORT void gst_video_editor_init_backend (int *argc, char ***argv);
+EXPORT GstVideoEditor *gst_video_editor_new (GError ** err);
+EXPORT void gst_video_editor_start (GstVideoEditor * gve);
+EXPORT void gst_video_editor_cancel (GstVideoEditor * gve);
+EXPORT void gst_video_editor_set_video_encoder (GstVideoEditor * gve,
     gchar ** err, VideoEncoderType codec);
-     EXPORT void gst_video_editor_set_audio_encoder (GstVideoEditor * gve,
+EXPORT void gst_video_editor_set_audio_encoder (GstVideoEditor * gve,
     gchar ** err, AudioEncoderType codec);
-     EXPORT void gst_video_editor_set_video_muxer (GstVideoEditor * gve,
+EXPORT void gst_video_editor_set_video_muxer (GstVideoEditor * gve,
     gchar ** err, VideoMuxerType codec);
-     EXPORT void gst_video_editor_clear_segments_list (GstVideoEditor * gve);
-     EXPORT void gst_video_editor_add_segment (GstVideoEditor * gve,
+EXPORT void gst_video_editor_clear_segments_list (GstVideoEditor * gve);
+EXPORT void gst_video_editor_add_segment (GstVideoEditor * gve,
     gchar * file, gint64 start,
     gint64 duration, gdouble rate, gchar * title, gboolean hasAudio);
-
+EXPORT void gst_video_editor_add_image_segment (GstVideoEditor * gve, gchar * file,
+    guint64 start, gint64 duration, gchar * title);
 G_END_DECLS
 #endif /* _GST_VIDEO_EDITOR_H_ */

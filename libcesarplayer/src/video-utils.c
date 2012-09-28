@@ -5,7 +5,7 @@
 #include <glib/gi18n.h>
 #include <libintl.h>
 
-#include <gdk/gdk.h>
+#include <gst/gst.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
@@ -233,4 +233,26 @@ totem_ratio_fits_screen (GdkWindow * video_window, int video_width,
   }
 
   return TRUE;
+}
+
+void
+gst_set_window_handle(GstXOverlay *xoverlay, GdkWindow *window)
+{
+  guintptr window_handle;
+
+  /* Retrieve window handler from GDK */
+#if defined (GDK_WINDOWING_WIN32)
+  window_handle = (guintptr)GDK_WINDOW_HWND (window);
+#elif defined (GDK_WINDOWING_QUARTZ)
+  window_handle = gdk_quartz_window_get_nsview (window);
+#elif defined (GDK_WINDOWING_X11)
+  window_handle = GDK_WINDOW_XID (window);
+#endif
+  gst_x_overlay_set_window_handle (xoverlay, window_handle);
+}
+
+void
+init_backend (int argc, char **argv)
+{
+  gst_init(&argc, &argv);
 }

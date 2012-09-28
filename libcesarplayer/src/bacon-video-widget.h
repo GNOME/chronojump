@@ -247,7 +247,9 @@ bacon_video_widget_error_quark (void)
        BVW_INFO_AUDIO_BITRATE,
        BVW_INFO_AUDIO_CODEC,
        BVW_INFO_AUDIO_SAMPLE_RATE,
-       BVW_INFO_AUDIO_CHANNELS
+       BVW_INFO_AUDIO_CHANNELS,
+       /* Added later */
+       BVW_INFO_PAR,
      } BvwMetadataType;
 
      EXPORT void bacon_video_widget_get_metadata (BaconVideoWidget * bvw,

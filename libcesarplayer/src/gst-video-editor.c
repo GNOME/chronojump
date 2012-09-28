@@ -56,7 +56,8 @@ enum
   PROP_AUDIO_BITRATE,
   PROP_HEIGHT,
   PROP_WIDTH,
-  PROP_OUTPUT_FILE
+  PROP_OUTPUT_FILE,
+  PROP_TITLE_SIZE
 };
 
 struct GstVideoEditorPrivate
@@ -77,6 +78,7 @@ struct GstVideoEditorPrivate
   gint video_bitrate;
   gint width;
   gint height;
+  gint title_size;
 
   /* Bins */
   GstElement *main_pipeline;
@@ -129,6 +131,7 @@ static void gst_video_editor_set_property (GObject * object,
     guint property_id, const GValue * value, GParamSpec * pspec);
 static gboolean gve_query_timeout (GstVideoEditor * gve);
 static void gve_apply_new_caps (GstVideoEditor * gve);
+static void gve_apply_title_size (GstVideoEditor * gve);
 static void gve_rewrite_headers (GstVideoEditor * gve);
 G_DEFINE_TYPE (GstVideoEditor, gst_video_editor, G_TYPE_OBJECT);
 
@@ -154,6 +157,7 @@ gst_video_editor_init (GstVideoEditor * object)
   priv->video_bitrate = 5000;
   priv->height = 540;
   priv->width = 720;
+  priv->title_size = 20;
   priv->title_enabled = TRUE;
   priv->audio_enabled = TRUE;
 
@@ -238,6 +242,10 @@ gst_video_editor_class_init (GstVideoEditorClass * klass)
   g_object_class_install_property (object_class, PROP_WIDTH,
       g_param_spec_int ("width", NULL, NULL, 320,
           1920, 720, G_PARAM_READWRITE));
+
+  g_object_class_install_property (object_class, PROP_TITLE_SIZE,
+      g_param_spec_int ("title-size", NULL, NULL,
+          10, 100, 20, G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class, PROP_OUTPUT_FILE,
       g_param_spec_string ("output_file", NULL, NULL, "", G_PARAM_READWRITE));
@@ -324,7 +332,7 @@ gst_video_editor_set_video_bit_rate (GstVideoEditor * gve, gint bitrate)
       g_object_set (gve->priv->video_encoder, "bitrate", bitrate, NULL);
     else
       g_object_set (gve->priv->video_encoder, "bitrate", bitrate * 1000, NULL);
-    GST_INFO ("Encoding video bitrate changed to :%d (kbps)\n", bitrate);
+    GST_INFO_OBJECT (gve, "Encoding video bitrate changed to :%d (kbps)\n", bitrate);
   }
 }
 
@@ -337,7 +345,7 @@ gst_video_editor_set_audio_bit_rate (GstVideoEditor * gve, gint bitrate)
   gst_element_get_state (gve->priv->audioencoder, &cur_state, NULL, 0);
   if (cur_state <= GST_STATE_READY) {
     g_object_set (gve->priv->audioencoder, "bitrate", bitrate, NULL);
-    GST_INFO ("Encoding audio bitrate changed to :%d (bps)\n", bitrate);
+    GST_INFO_OBJECT (gve, "Encoding audio bitrate changed to :%d (bps)\n", bitrate);
   }
 }
 
@@ -356,6 +364,13 @@ gst_video_editor_set_height (GstVideoEditor * gve, gint height)
 }
 
 static void
+gst_video_editor_set_title_size (GstVideoEditor * gve, gint size)
+{
+  gve->priv->title_size = size;
+  gve_apply_title_size (gve);
+}
+
+static void
 gst_video_editor_set_output_file (GstVideoEditor * gve, const char *output_file)
 {
   GstState cur_state;
@@ -366,7 +381,7 @@ gst_video_editor_set_output_file (GstVideoEditor * gve, const char *output_file)
     gst_element_set_state (gve->priv->file_sink, GST_STATE_NULL);
     g_object_set (gve->priv->file_sink, "location", gve->priv->output_file,
         NULL);
-    GST_INFO ("Ouput File changed to :%s\n", gve->priv->output_file);
+    GST_INFO_OBJECT (gve, "Ouput File changed to :%s\n", gve->priv->output_file);
   }
 }
 
@@ -396,6 +411,9 @@ gst_video_editor_set_property (GObject * object, guint property_id,
       break;
     case PROP_HEIGHT:
       gst_video_editor_set_height (gve, g_value_get_int (value));
+      break;
+    case PROP_TITLE_SIZE:
+      gst_video_editor_set_title_size (gve, g_value_get_int (value));
       break;
     case PROP_OUTPUT_FILE:
       gst_video_editor_set_output_file (gve, g_value_get_string (value));
@@ -471,7 +489,6 @@ static void
 gve_apply_new_caps (GstVideoEditor * gve)
 {
   GstCaps *caps;
-  gchar *font;
 
   caps = gst_caps_new_simple ("video/x-raw-yuv",
       "width", G_TYPE_INT, gve->priv->width,
@@ -479,13 +496,19 @@ gve_apply_new_caps (GstVideoEditor * gve)
       "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
       "framerate", GST_TYPE_FRACTION, 25, 1, NULL);
 
+  GST_INFO_OBJECT(gve, "Changed caps: %s", gst_caps_to_string(caps));
   g_object_set (G_OBJECT (gve->priv->capsfilter), "caps", caps, NULL);
-  font =
-      g_strdup_printf ("sans bold %d",
-      (int) (gve->priv->height * FONT_SIZE_FACTOR));
+  gst_caps_unref (caps);
+}
+
+static void
+gve_apply_title_size (GstVideoEditor * gve)
+{
+  gchar *font;
+
+  font = g_strdup_printf ("sans bold %d", gve->priv->title_size);
   g_object_set (G_OBJECT (gve->priv->textoverlay), "font-desc", font, NULL);
   g_free (font);
-  gst_caps_unref (caps);
 }
 
 static void
@@ -833,15 +856,17 @@ gst_video_editor_add_segment (GstVideoEditor * gve, gchar * file,
     return;
   }
 
-  final_duration = GST_MSECOND * duration / rate;
+  start = GST_MSECOND * start;
+  duration = GST_MSECOND * duration;
+  final_duration = duration / rate;
 
   /* Video */
   filter = gst_caps_from_string ("video/x-raw-rgb;video/x-raw-yuv");
   element_name = g_strdup_printf ("gnlvideofilesource%d", gve->priv->segments);
   gnl_filesource = gst_element_factory_make ("gnlfilesource", element_name);
   g_object_set (G_OBJECT (gnl_filesource), "location", file,
-      "media-start", GST_MSECOND * start,
-      "media-duration", GST_MSECOND * duration,
+      "media-start", start,
+      "media-duration", duration,
       "start", gve->priv->duration,
       "duration", final_duration, "caps", filter, NULL);
   if (gve->priv->segments == 0) {
@@ -870,13 +895,17 @@ gst_video_editor_add_segment (GstVideoEditor * gve, gchar * file,
   }
   filter = gst_caps_from_string ("audio/x-raw-float;audio/x-raw-int");
   g_object_set (G_OBJECT (gnl_filesource),
-      "media-start", GST_MSECOND * start,
-      "media-duration", GST_MSECOND * duration,
+      "media-start", start,
+      "media-duration", duration,
       "start", gve->priv->duration,
       "duration", final_duration, "caps", filter, NULL);
   gst_bin_add (GST_BIN (gve->priv->gnl_audio_composition), gnl_filesource);
   gve->priv->gnl_audio_filesources =
       g_list_append (gve->priv->gnl_audio_filesources, gnl_filesource);
+
+  GST_INFO ("New segment: start={%" GST_TIME_FORMAT "} duration={%"
+      GST_TIME_FORMAT "} ", GST_TIME_ARGS (gve->priv->duration),
+      GST_TIME_ARGS (final_duration));
 
   gve->priv->duration += final_duration;
   gve->priv->segments++;
@@ -884,10 +913,87 @@ gst_video_editor_add_segment (GstVideoEditor * gve, gchar * file,
   gve->priv->titles = g_list_append (gve->priv->titles, title);
   gve->priv->stop_times[gve->priv->segments - 1] = gve->priv->duration;
 
-  GST_INFO ("New segment: start={%" GST_TIME_FORMAT "} duration={%"
-      GST_TIME_FORMAT "} ", GST_TIME_ARGS (start * GST_MSECOND),
-      GST_TIME_ARGS (duration * GST_MSECOND));
   g_free (element_name);
+}
+
+
+void
+gst_video_editor_add_image_segment (GstVideoEditor * gve, gchar * file,
+    guint64 start, gint64 duration, gchar * title)
+{
+  GstState cur_state;
+  GstElement *gnl_filesource = NULL;
+  GstElement *imagesourcebin = NULL;
+  GstElement *filesource = NULL;
+  GstElement *decoder = NULL;
+  GstElement *colorspace = NULL;
+  GstElement *imagefreeze = NULL;
+  GstElement *audiotestsrc = NULL;
+  GstCaps *filter = NULL;
+  gchar *element_name = NULL;
+  gchar *desc = NULL;
+
+  g_return_if_fail (GST_IS_VIDEO_EDITOR (gve));
+
+  gst_element_get_state (gve->priv->main_pipeline, &cur_state, NULL, 0);
+  if (cur_state > GST_STATE_READY) {
+    GST_WARNING ("Segments can only be added for a state <= GST_STATE_READY");
+    return;
+  }
+
+  duration = duration * GST_MSECOND;
+  start = start * GST_MSECOND;
+
+  /* Video */
+  /* gnlsource */
+  filter = gst_caps_from_string ("video/x-raw-rgb;video/x-raw-yuv");
+  element_name = g_strdup_printf ("gnlvideofilesource%d", gve->priv->segments);
+  gnl_filesource = gst_element_factory_make ("gnlsource", element_name);
+  g_object_set (G_OBJECT (gnl_filesource),
+      "media-start", start,
+      "media-duration", duration,
+      "start", gve->priv->duration,
+      "duration", duration, "caps", filter, NULL);
+  g_free(element_name);
+  /* filesrc ! pngdec ! ffmpegcolorspace ! imagefreeze */
+  desc = g_strdup_printf("filesrc location=%s ! pngdec ! videoscale ! ffmpegcolorspace ! video/x-raw-rgb, pixel-aspect-ratio=1/1 ! imagefreeze  ", file);
+  imagesourcebin = gst_parse_bin_from_description(desc, TRUE, NULL);
+  g_free(desc);
+  gst_bin_add (GST_BIN (gnl_filesource), imagesourcebin);
+  gst_bin_add (GST_BIN (gve->priv->gnl_video_composition), gnl_filesource);
+  gve->priv->gnl_video_filesources =
+      g_list_append (gve->priv->gnl_video_filesources, gnl_filesource);
+
+  /* Audio */
+  element_name =
+      g_strdup_printf ("gnlaudiofakesource%d", gve->priv->segments);
+  gnl_filesource = gst_element_factory_make ("gnlsource", element_name);
+  g_free (element_name);
+  element_name = g_strdup_printf ("audiotestsource%d", gve->priv->segments);
+  audiotestsrc = gst_element_factory_make ("audiotestsrc", element_name);
+  g_free (element_name);
+  g_object_set (G_OBJECT (audiotestsrc), "volume", (double) 0, NULL);
+  gst_bin_add (GST_BIN (gnl_filesource), audiotestsrc);
+  filter = gst_caps_from_string ("audio/x-raw-float;audio/x-raw-int");
+  g_object_set (G_OBJECT (gnl_filesource),
+      "media-start", start,
+      "media-duration", duration,
+      "start", gve->priv->duration,
+      "duration", duration, "caps", filter, NULL);
+  gst_bin_add (GST_BIN (gve->priv->gnl_audio_composition), gnl_filesource);
+  gve->priv->gnl_audio_filesources =
+      g_list_append (gve->priv->gnl_audio_filesources, gnl_filesource);
+
+  GST_INFO ("New segment: start={%" GST_TIME_FORMAT "} duration={%"
+      GST_TIME_FORMAT "} ", GST_TIME_ARGS (gve->priv->duration),
+      GST_TIME_ARGS (duration));
+
+  gve->priv->duration += duration;
+  gve->priv->segments++;
+
+  gve->priv->titles = g_list_append (gve->priv->titles, title);
+  gve->priv->stop_times[gve->priv->segments - 1] = gve->priv->duration;
+
 }
 
 void
@@ -896,6 +1002,8 @@ gst_video_editor_clear_segments_list (GstVideoEditor * gve)
   GList *tmp = NULL;
 
   g_return_if_fail (GST_IS_VIDEO_EDITOR (gve));
+
+  GST_INFO_OBJECT (gve, "Clearing list of segments");
 
   gst_video_editor_cancel (gve);
 
@@ -955,7 +1063,8 @@ gst_video_editor_set_video_encoder (GstVideoEditor * gve, gchar ** err,
     case VIDEO_ENCODER_H264:
       encoder_name = "x264enc";
       encoder = gst_element_factory_make (encoder_name, encoder_name);
-      g_object_set (G_OBJECT (encoder), "pass", 17, NULL);      //Variable Bitrate-Pass 1
+      g_object_set (G_OBJECT (encoder), "pass", 17, NULL);       //Variable Bitrate-Pass 1
+      g_object_set (G_OBJECT (encoder), "speed-preset", 4, NULL);//"Faster" preset
       break;
     case VIDEO_ENCODER_MPEG4:
       encoder_name = "xvidenc";
@@ -980,11 +1089,15 @@ gst_video_editor_set_video_encoder (GstVideoEditor * gve, gchar ** err,
     case VIDEO_ENCODER_VP8:
       encoder_name = "vp8enc";
       encoder = gst_element_factory_make (encoder_name, encoder_name);
+      g_object_set (G_OBJECT (encoder), "speed", 1, NULL);
+      g_object_set (G_OBJECT (encoder), "threads", 4, NULL);
       break;
   }
 
   if (!encoder)
     goto no_encoder;
+
+  GST_INFO_OBJECT(gve, "Changing video encoder: %s", encoder_name);
 
   if (!g_strcmp0
       (gst_element_get_name (gve->priv->video_encoder), encoder_name))
@@ -1095,6 +1208,8 @@ gst_video_editor_set_audio_encoder (GstVideoEditor * gve, gchar ** err,
   if (!encoder)
     goto no_encoder;
 
+  GST_INFO_OBJECT(gve, "Changing audio encoder: %s", encoder_name);
+
   if (!g_strcmp0 (gst_element_get_name (gve->priv->audioencoder), encoder_name))
     goto same_encoder;
 
@@ -1204,6 +1319,8 @@ gst_video_editor_set_video_muxer (GstVideoEditor * gve, gchar ** err,
   if (!muxer)
     goto no_muxer;
 
+  GST_INFO_OBJECT(gve, "Changing muxer: %s", muxer_name);
+
   if (!g_strcmp0 (gst_element_get_name (gve->priv->muxer), muxer_name))
     goto same_muxer;
 
@@ -1253,6 +1370,7 @@ gst_video_editor_start (GstVideoEditor * gve)
 {
   g_return_if_fail (GST_IS_VIDEO_EDITOR (gve));
 
+  GST_INFO_OBJECT(gve, "Starting");
   gst_element_set_state (gve->priv->main_pipeline, GST_STATE_PLAYING);
   g_signal_emit (gve, gve_signals[SIGNAL_PERCENT_COMPLETED], 0, (gfloat) 0);
 }
@@ -1262,6 +1380,7 @@ gst_video_editor_cancel (GstVideoEditor * gve)
 {
   g_return_if_fail (GST_IS_VIDEO_EDITOR (gve));
 
+  GST_INFO_OBJECT(gve, "Cancelling");
   if (gve->priv->update_id > 0) {
     g_source_remove (gve->priv->update_id);
     gve->priv->update_id = 0;

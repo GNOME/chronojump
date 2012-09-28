@@ -18,6 +18,7 @@
  * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
  */
 
+/*
 using System;
 using System.IO; 
 using Gtk;
@@ -71,4 +72,4 @@ public partial class ChronoJumpWindow
 	}
 	
 }
-
+*/

@@ -501,7 +501,7 @@ public partial class ChronoJumpWindow
 
 		encoderInitializeStuff();	
 
-		presentationInit();
+		//presentationInit();
 	}
 	
 

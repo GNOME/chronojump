@@ -12844,7 +12844,6 @@ Evaluator can use real name or nickname.</property>
                                         <property name="receives_default">True</property>
                                         <property name="tooltip">Maximize view</property>
                                         <property name="use_action_appearance">False</property>
-                                        <signal name="clicked" handler="on_button_presentation_screen_clicked" swapped="no"/>
                                         <child>
                                           <widget class="GtkImage" id="image25">
                                             <property name="visible">True</property>
@@ -12867,7 +12866,6 @@ Evaluator can use real name or nickname.</property>
                                         <property name="receives_default">True</property>
                                         <property name="tooltip">Restore view</property>
                                         <property name="use_action_appearance">False</property>
-                                        <signal name="clicked" handler="on_button_presentation_screen_clicked" swapped="no"/>
                                         <child>
                                           <widget class="GtkImage" id="image27">
                                             <property name="visible">True</property>
@@ -12900,7 +12898,6 @@ Evaluator can use real name or nickname.</property>
                                         <property name="receives_default">True</property>
                                         <property name="tooltip">First slide</property>
                                         <property name="use_action_appearance">False</property>
-                                        <signal name="clicked" handler="on_button_presentation_reload_clicked" swapped="no"/>
                                         <child>
                                           <widget class="GtkImage" id="image28">
                                             <property name="visible">True</property>

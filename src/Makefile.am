@@ -214,6 +214,7 @@ FILES = \
 CHRONOJUMP_MINI_FILES=\
 	chronojump_mini.cs\
 	chronopic.cs\
+	encoder.cs\
 	util.cs\
 	utilDate.cs\
 	log.cs\
@@ -391,5 +392,5 @@ $(ASSEMBLY) $(ASSEMBLY_MDB): $(build_sources) $(build_resources) $(build_datafil
 
 
 $(CHRONOJUMP_MINI_EXE):
-	$(ASSEMBLY_COMPILER_COMMAND) $(ASSEMBLY_COMPILER_FLAGS) $(CHRONOJUMP_MINI_FILES) -out:$(CHRONOJUMP_MINI_EXE) -target:$(COMPILE_TARGET) -r:Mono.Posix -r:System
+	$(ASSEMBLY_COMPILER_COMMAND) $(ASSEMBLY_COMPILER_FLAGS) $(CHRONOJUMP_MINI_FILES) -out:$(CHRONOJUMP_MINI_EXE) -target:$(COMPILE_TARGET) -r:Mono.Posix -r:System -r:System.Data
 

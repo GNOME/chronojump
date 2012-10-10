@@ -884,7 +884,7 @@ public partial class ChronoJumpWindow
 			encoderLateralityTranslation[j] = 
 				comboLateralityOptions[j] + ":" + comboLateralityOptionsTranslated[j];
 		combo_encoder_laterality = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptions, "");
+		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptionsTranslated, "");
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
 		
@@ -900,7 +900,7 @@ public partial class ChronoJumpWindow
 			encoderAnalyzeCrossTranslation[j] = 
 				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		combo_encoder_analyze_cross = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptions, "");
+		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
 				Catalog.GetString(comboAnalyzeCrossOptions[0]));
 		

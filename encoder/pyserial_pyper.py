@@ -288,7 +288,8 @@ def update_graph(meanPowerList):
 		else:
 			width = (surface_width - 2*horiz_margin) / len(meanPowerList)
 		left = horiz_margin + width*count
-		pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 2)
+		#pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 2)
+		pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 0) #0: filled
 		
 		string = "%.2f" % meanPower
 		text = font.render(string,1,(255,255,255))
@@ -480,6 +481,11 @@ if __name__ == '__main__':
 
 
 	print "\nDone! Please, close this window."
+	while 1:
+		pygame.time.delay(30)
+		pygame.display.flip() #update the screen
+		
+
 
 #except:
 #	print "aarrgggggh!!"

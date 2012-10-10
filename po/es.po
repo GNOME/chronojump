@@ -4501,7 +4501,7 @@ msgstr "Fuerza / carga"
 
 #: ../src/gui/encoder.cs:890
 msgid "Power / Load"
-msgstr "Fuerza / carga"
+msgstr "Potencia / carga"
 
 #: ../src/gui/encoder.cs:890
 msgid "Force / Speed"
@@ -4509,7 +4509,7 @@ msgstr "Fuerza / velocidad"
 
 #: ../src/gui/encoder.cs:891
 msgid "Power / Speed"
-msgstr "Fuerza / velocidad"
+msgstr "Potencia / velocidad"
 
 #: ../src/gui/encoder.cs:960
 msgid "Encoder exercise name:"

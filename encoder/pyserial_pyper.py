@@ -484,6 +484,7 @@ if __name__ == '__main__':
 	while 1:
 		pygame.time.delay(30)
 		pygame.display.flip() #update the screen
+		#TODO: http://stackoverflow.com/questions/10466590/hiding-pygame-display
 		
 
 

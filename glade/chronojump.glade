@@ -13173,6 +13173,7 @@ Evaluator can use real name or nickname.</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Chronopic window</property>
+    <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child>
@@ -13707,14 +13708,22 @@ Evaluator can use real name or nickname.</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">12</property>
                     <child>
-                      <widget class="GtkTextView" id="textview_ports_found">
+                      <widget class="GtkScrolledWindow" id="scrolledwindow1">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="editable">False</property>
-                        <property name="left_margin">4</property>
-                        <property name="right_margin">4</property>
-                        <property name="cursor_visible">False</property>
-                        <property name="accepts_tab">False</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <child>
+                          <widget class="GtkTextView" id="textview_ports_found">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="editable">False</property>
+                            <property name="left_margin">4</property>
+                            <property name="right_margin">4</property>
+                            <property name="cursor_visible">False</property>
+                            <property name="accepts_tab">False</property>
+                          </widget>
+                        </child>
                       </widget>
                       <packing>
                         <property name="expand">True</property>

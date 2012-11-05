@@ -19,6 +19,7 @@
 # 
 
 library("EMD")
+#library("sfsmisc")
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
 findCurves <- function(rawdata, eccon, min_height, draw) {
@@ -131,7 +132,9 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 kinematicsF <- function(a, mass, smoothingOne, g) {
 	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
 	accel <- predict( speed, deriv=1 )
-	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
+	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+	accel$y <- accel$y * 1000 
+
 #	force <- mass*accel$y
 #	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
@@ -190,6 +193,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	a=cumsum(rawdata)
 	a=a+startH
 
+	#all in meters
+	#a=a/1000
+
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
 		par(mar=c(5, 4, 4, 8))
@@ -214,8 +220,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		colNormal="black"
 		if(superpose)
 			colNormal="gray30"
-		if(highlight==FALSE)
-			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=1,axes=F)
+		if(highlight==FALSE) {
+			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
+			par(new=T)
+			plot(startX:length(a),a[startX:length(a)],type="h",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
+		}
 		else
 			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 		abline(h=0,lty=3,col="black")
@@ -237,7 +246,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 		if(axesAndTitle) {
-			axis(4, col=cols[1], lty=lty[1], line=0)
+			axis(4, col=cols[1], lty=lty[1], line=0, padj=-.5)
 			abline(h=0,lty=3,col="black")
 		}
 	}
@@ -286,11 +295,54 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 
 	accel <- predict( speed, deriv=1 )
-	accel$y <- accel$y * 1000 #input data is in mm, conversion to m
+	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+	accel$y <- accel$y * 1000
+
+	#print(accel$y)
+	#alternative R method (same result)
+	#accel2 <- D1ss( 1:length(speed$y), speed$y )
+	#accel2 <- accel2 * 1000
+	#print(accel2)
+
+	if(draw) {
+		#propulsive phase ends when accel is -9.8
+		if(eccon == "c") {
+			propulsiveEnds = min(which(accel$y<=-g))
+			#mean speed propulsive
+			meanSpeedPropulsive = mean(speed$y[concentric[1]:propulsiveEnds])
+			arrows(x0=min(concentric),y0=meanSpeedPropulsive,x1=propulsiveEnds,y1=meanSpeedPropulsive,col=cols[1],code=3)
+			text(x=mean(concentric[1]:propulsiveEnds), y=meanSpeedPropulsive, labels=paste("mean speed P:",round(meanSpeedPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[1])
+		}
+
+		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
+		#if(knRanges[1] != "undefined")
+		#	ylim = knRanges$force
+		par(new=T)
+		if(highlight==FALSE)
+			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="yellowgreen",lty=lty[2],lwd=1,axes=F)
+		else
+			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+			
+		#propulsive stuff
+		if(eccon == "c") {
+			abline(h=-g,lty=3,col="yellowgreen")
+			abline(v=propulsiveEnds,lty=3,col="yellowgreen") 
+			points(propulsiveEnds, -g, col="yellowgreen")
+			
+		}
+		
+		if(axesAndTitle)
+			axis(4, col="yellowgreen", lty=lty[1], line=2, padj=-.5)
+	}
+
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
 #	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
+
+print("MAXFORCE!!!!!")
+print(max(force))
+
 	if(draw) {
 		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
 		if(knRanges[1] != "undefined")
@@ -301,7 +353,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		if(axesAndTitle)
-			axis(4, col=cols[2], lty=lty[2], line=2.8)
+			axis(4, col=cols[2], lty=lty[2], line=4, padj=-.5)
 	}
 
 	
@@ -347,7 +399,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 		if(axesAndTitle) 
-			axis(4, col=cols[3], lty=lty[3], line=5.6, lwd=2)
+			axis(4, col=cols[3], lty=lty[3], line=6, lwd=2, padj=-.5)
 	}
 
 	#time to arrive to peak power
@@ -367,20 +419,34 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw & !superpose) {
 		if(eccon != "c") {
 			arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power C:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
 		}
 		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
-		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power C:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
 	}
+		
+	#propulsive phase ends when accel is -9.8
+	if(draw) {
+		if(eccon == "c") {
+			#mean power propulsive
+			meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
+			arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
+			text(x=mean(concentric[1]:propulsiveEnds), y=meanPowerPropulsive, labels=paste("mean power P:",round(meanPowerPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		}
+	}
+
+	#legend, axes and title
 	if(draw) {
 		if(legend & axesAndTitle) {
 			legendPos = "bottom"
 			par(xpd=T)
-			legend(legendPos, xjust=1, legend=c("Distance","Speed","Force","Power"), lty=c(1,lty[1],lty[2],lty[3]), 
-					lwd=c(1,1,1,2), col=c("black",cols[1],cols[2],cols[3]), cex=1, bg="white", ncol=4, inset=-.2)
+			legend(legendPos, xjust=1, legend=c("Distance","","Speed","Accel.","Force","Power"), lty=c(1,0,1,1,1,1), 
+					lwd=1, col=c("black","black",cols[1],"yellowgreen",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
 			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}
+		mtext("time (ms) ",side=1,adj=1,line=-1)
+		mtext("height (mm) ",side=2,adj=1,line=-1)
 	}
 }
 

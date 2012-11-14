@@ -151,7 +151,9 @@ class SqliteEncoder : Sqlite
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
 			" WHERE " + selectStr +
-			" AND " + Constants.EncoderTable + ".exerciseID = " + Constants.EncoderExerciseTable + ".uniqueID ";
+			" AND " + Constants.EncoderTable + ".exerciseID = " + 
+				Constants.EncoderExerciseTable + ".uniqueID " +
+			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		

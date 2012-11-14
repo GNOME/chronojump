@@ -306,13 +306,14 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
-		if(eccon == "c") {
-			propulsiveEnds = min(which(accel$y<=-g))
-			#mean speed propulsive
-			meanSpeedPropulsive = mean(speed$y[concentric[1]:propulsiveEnds])
-			arrows(x0=min(concentric),y0=meanSpeedPropulsive,x1=propulsiveEnds,y1=meanSpeedPropulsive,col=cols[1],code=3)
-			text(x=mean(concentric[1]:propulsiveEnds), y=meanSpeedPropulsive, labels=paste("mean speed P:",round(meanSpeedPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[1])
+		propulsiveEnds = min(which(accel$y[concentric]<=-g))
+		if(eccon != "c") {
+			propulsiveEnds = propulsiveEnds + length(eccentric)
 		}
+		#mean speed propulsive in concentric
+		meanSpeedPropulsive = mean(speed$y[concentric[1]:propulsiveEnds])
+		arrows(x0=min(concentric),y0=meanSpeedPropulsive,x1=propulsiveEnds,y1=meanSpeedPropulsive,col=cols[1],code=3)
+		text(x=mean(concentric[1]:propulsiveEnds), y=meanSpeedPropulsive, labels=paste("mean speed P:",round(meanSpeedPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[1])
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 		#if(knRanges[1] != "undefined")
@@ -324,12 +325,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 			
 		#propulsive stuff
-		if(eccon == "c") {
+#		if(eccon == "c") {
 			abline(h=-g,lty=3,col="yellowgreen")
 			abline(v=propulsiveEnds,lty=3,col="yellowgreen") 
 			points(propulsiveEnds, -g, col="yellowgreen")
 			
-		}
+#		}
 		
 		if(axesAndTitle)
 			axis(4, col="yellowgreen", lty=lty[1], line=2, padj=-.5)
@@ -340,8 +341,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 #	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
 
-print("MAXFORCE!!!!!")
-print(max(force))
+#print("MAXFORCE!!!!!")
+#print(max(force))
 
 	if(draw) {
 		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
@@ -427,12 +428,10 @@ print(max(force))
 		
 	#propulsive phase ends when accel is -9.8
 	if(draw) {
-		if(eccon == "c") {
-			#mean power propulsive
-			meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
-			arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
-			text(x=mean(concentric[1]:propulsiveEnds), y=meanPowerPropulsive, labels=paste("mean power P:",round(meanPowerPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[3])
-		}
+		#mean power propulsive in concentric
+		meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
+		arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
+		text(x=mean(concentric[1]:propulsiveEnds), y=meanPowerPropulsive, labels=paste("mean power P:",round(meanPowerPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[3])
 	}
 
 	#legend, axes and title
@@ -453,6 +452,7 @@ print(max(force))
 paintPowerPeakPowerBars <- function(paf, myEccons) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
+	
 	if(eccon=="ecS") {
 		if(singleFile) {
 			myEc=c("c","e")
@@ -460,9 +460,14 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
 		}
 	}
-
-	bp <- barplot(rbind(paf[,3],paf[,4]),beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=myNums,xlim=c(1,n*3+.5),xlab="",ylab="Power (W)")
+	
+	powerData=rbind(paf[,3], paf[,4])
+	lowerY=min(powerData)-100
+	if(lowerY < 0)
+		lowerY = 0
+	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
+			names.arg=paste(myNums,"\n(",paf[,7],")",sep=""),xlim=c(1,n*3+.5),xlab="",ylab="Power (W)", 
+			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	par(new=T, xpd=T)
 	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
 	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)

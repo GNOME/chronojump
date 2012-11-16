@@ -37,16 +37,6 @@ DIE=0
         DIE=1
 }
 
-(grep "^AM_PROG_LIBTOOL" $CONFIGURE >/dev/null) && {
-  ($LIBTOOL --version) < /dev/null > /dev/null 2>&1 || {
-    echo
-    echo "**Error**: You must have \`libtool' installed to compile $PROJECT."
-    echo "Get ftp://ftp.gnu.org/pub/gnu/libtool-1.2d.tar.gz"
-    echo "(or a newer version if it is available)"
-    DIE=1
-  }
-}
-
 if test "$DIE" -eq 1; then
         exit 1
 fi

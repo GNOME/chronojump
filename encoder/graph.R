@@ -306,7 +306,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
-		propulsiveEnds = min(which(accel$y[concentric]<=-g))
+		if(length(which(accel$y[concentric]<=-g)) > 0) {
+			propulsiveEnds = min(which(accel$y[concentric]<=-g))
+		} else {
+			propulsiveEnds=length(concentric)
+		}
+
 		if(eccon != "c") {
 			propulsiveEnds = propulsiveEnds + length(eccentric)
 		}
@@ -320,20 +325,17 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#	ylim = knRanges$force
 		par(new=T)
 		if(highlight==FALSE)
-			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="yellowgreen",lty=lty[2],lwd=1,axes=F)
+			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
 		else
 			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 			
 		#propulsive stuff
-#		if(eccon == "c") {
-			abline(h=-g,lty=3,col="yellowgreen")
-			abline(v=propulsiveEnds,lty=3,col="yellowgreen") 
-			points(propulsiveEnds, -g, col="yellowgreen")
-			
-#		}
+		abline(h=-g,lty=3,col="magenta")
+		abline(v=propulsiveEnds,lty=3,col="magenta") 
+		points(propulsiveEnds, -g, col="magenta")
 		
 		if(axesAndTitle)
-			axis(4, col="yellowgreen", lty=lty[1], line=2, padj=-.5)
+			axis(4, col="magenta", lty=lty[1], line=2, padj=-.5)
 	}
 
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
@@ -440,7 +442,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			legendPos = "bottom"
 			par(xpd=T)
 			legend(legendPos, xjust=1, legend=c("Distance","","Speed","Accel.","Force","Power"), lty=c(1,0,1,1,1,1), 
-					lwd=1, col=c("black","black",cols[1],"yellowgreen",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
+					lwd=1, col=c("black","black",cols[1],"magenta",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
 			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}

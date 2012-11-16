@@ -61,7 +61,7 @@ int chronopic_open(char *disp)
   newtermios.c_cflag= CS8 | CLOCAL | CREAD;
   /* CBAUD is a Linux extension to the POSIX Terminal I/O definitions. */
 #ifdef CBAUD
-  newtermios.c_cflag |= CBAUD
+  newtermios.c_cflag |= CBAUD;
 #endif
   newtermios.c_iflag=IGNPAR;
   newtermios.c_oflag=0;

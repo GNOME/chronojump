@@ -189,7 +189,13 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
+print("rawdata1:")
+#print(rawdata)
+print(xmin)
+print(xmax)
+print("rawdata2:")
 	rawdata=rawdata[xmin:xmax]
+#print(rawdata)
 	a=cumsum(rawdata)
 	a=a+startH
 
@@ -235,7 +241,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#speed
 	#scan file again (raw data: mm displaced every ms, no cumulative sum)
 	a=rawdata
+print("aaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+print("bbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	if(draw) {
 		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
 		if(knRanges[1] != "undefined")
@@ -689,8 +697,20 @@ if(length(args) < 3) {
 				count = count + length(dataTempPhase)
 			}
 		}		
-		curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
-		print(curves)
+		
+		#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
+		#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
+		#"If row names are supplied of length one and the data frame has a
+     		#single row, the ‘row.names’ is taken to specify the row names and
+     		#not a column (by name or number)."
+		#then a column id is created when there's only on row, but it is not created there's more than one.
+		#solution:
+		if(length(id)==1) {
+			curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=id)
+		} else {
+			curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
+		}
+
 		n=length(curves[,1])
 		quitIfNoData(n, curves, outputData1)
 	} else {
@@ -733,21 +753,21 @@ if(length(args) < 3) {
 						col="blue",code=3,length=0.1)
 			}
 		}
-
-		print(curves)
 	}
-
+		
 	if(analysis=="single") {
 		if(jump>0) {
 			myMass = mass
 			mySmoothingOne = smoothingOne
 			myEccon = eccon
+			myStart = curves[jump,1]
+			myEnd = curves[jump,2]
 			if(! singleFile) {
 				myMass = curves[jump,5]
 				mySmoothingOne = curves[jump,6]
 				myEccon = curves[jump,8]
 			}
-			paint(rawdata, myEccon, curves[jump,1],curves[jump,2],"undefined","undefined",FALSE,FALSE,
+			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 					1,curves[jump,3],mySmoothingOne,myMass,
 					paste(analysis, " ", myEccon, " ", titleType, " ", jump," (smoothing: ",mySmoothingOne,")",sep=""),
 					TRUE,FALSE,TRUE,TRUE)

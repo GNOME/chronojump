@@ -189,13 +189,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
-print("rawdata1:")
-#print(rawdata)
-print(xmin)
-print(xmax)
-print("rawdata2:")
+	
 	rawdata=rawdata[xmin:xmax]
-#print(rawdata)
 	a=cumsum(rawdata)
 	a=a+startH
 
@@ -241,9 +236,7 @@ print("rawdata2:")
 	#speed
 	#scan file again (raw data: mm displaced every ms, no cumulative sum)
 	a=rawdata
-print("aaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
-print("bbbbbbbbbbbbbbbbbbbbbbbbbbb")
 	if(draw) {
 		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
 		if(knRanges[1] != "undefined")

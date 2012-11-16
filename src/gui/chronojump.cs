@@ -30,7 +30,6 @@ using System.Collections; //ArrayList
 using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
-using WebKit;
 
 public partial class ChronoJumpWindow 
 {

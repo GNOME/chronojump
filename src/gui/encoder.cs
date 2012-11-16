@@ -78,6 +78,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
+	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
+	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
 	
 	[Widget] Gtk.Box hbox_encoder_analyze_mean_or_max;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_mean;
@@ -756,6 +758,7 @@ public partial class ChronoJumpWindow
 	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="single";
@@ -903,6 +906,12 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
 				Catalog.GetString(comboAnalyzeCrossOptions[0]));
+
+		//create combo analyze curve num combo
+		//is not an spinbutton because can be separated values
+		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, Util.StringToStringArray(""), "");
+		
 		
 		//pack combos
 
@@ -922,6 +931,11 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_cross.ShowAll(); 
 		combo_encoder_analyze_cross.Sensitive = true;
 		hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
+		
+		hbox_combo_encoder_analyze_curve_num_combo.PackStart(combo_encoder_analyze_curve_num_combo, true, true, 0);
+		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
+		combo_encoder_analyze_curve_num_combo.Sensitive = true;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
 	}
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 

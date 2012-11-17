@@ -260,6 +260,14 @@ public partial class ChronoJumpWindow
 						encoderEcconTranslation) != "Concentric") 
 					curvesNum = curvesNum / 2;
 				spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
+			
+				string [] activeCurvesList = new String[curvesNum];
+				for(int i=0; i < curvesNum; i++)
+					activeCurvesList[i] = (i+1).ToString();
+				UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+				combo_encoder_analyze_curve_num_combo.Active = 
+					UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+				
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 			}
 		}
@@ -380,8 +388,14 @@ public partial class ChronoJumpWindow
 			count ++;
 		}
 		Sqlite.Close();
-			
-		label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+
+		int activeCurvesNum = getActiveCurvesNum(data);
+		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
+
+		string [] activeCurvesList = getActiveCurvesList(checkboxes, activeCurvesNum);
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+		combo_encoder_analyze_curve_num_combo.Active = 
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
 
 		genericWin.HideAndNull();
 	}
@@ -511,9 +525,11 @@ public partial class ChronoJumpWindow
 
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
-			label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+			int activeCurvesNum = getActiveCurvesNum(data);
+			label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 			label_encoder_user_curves_all_num.Text = data.Count.ToString();
 			spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
 	}
 
@@ -525,6 +541,34 @@ public partial class ChronoJumpWindow
 		
 		return countActiveCurves;
 	}
+	
+	private string [] getActiveCurvesList(string [] checkboxes, int activeCurvesNum) {
+		if(activeCurvesNum == 0)
+			return Util.StringToStringArray("");
+
+		string [] activeCurvesList = new String[activeCurvesNum];
+		int i=0;
+		int j=0;
+		foreach(string cb in checkboxes) {
+			if(cb == "active")
+				activeCurvesList[j++] = (i+1).ToString();
+			i++;
+		}
+		return activeCurvesList;
+	}
+	
+	private void updateComboEncoderAnalyzeCurveNum (ArrayList data, int activeCurvesNum) {
+		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
+		int count = 0;
+		foreach(EncoderSQL es in data) {
+			checkboxes[count++] = es.future1;
+		}
+		string [] activeCurvesList = getActiveCurvesList(checkboxes, activeCurvesNum);
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+		combo_encoder_analyze_curve_num_combo.Active = 
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+	}
+
 
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
 	{
@@ -744,14 +788,37 @@ public partial class ChronoJumpWindow
 
 		if(ecconLast != "c")
 			rows = rows / 2;
-		spin_encoder_analyze_curve_num.SetRange(1, rows);
+
+//		spin_encoder_analyze_curve_num.SetRange(1, rows);
+	
+		string [] activeCurvesList;
+		if(rows == 0)
+ 			activeCurvesList = Util.StringToStringArray("");
+		else {
+			activeCurvesList = new String[rows];
+			for(int i=0; i < rows; i++)
+				activeCurvesList[i] = (i+1).ToString();
+		}
+	
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+		combo_encoder_analyze_curve_num_combo.Active = 
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
-		button_encoder_analyze.Sensitive = (currentPerson != null && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0);
+		button_encoder_analyze.Sensitive = (currentPerson != null && 
+			UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+
 		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
 		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
-		
-		spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_all_num.Text));
+
+		if(currentPerson != null) {
+			spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_all_num.Text));
+
+			ArrayList data = SqliteEncoder.Select(false, -1, 
+					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			int activeCurvesNum = getActiveCurvesNum(data);
+			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+		}
 	}
 
 
@@ -770,6 +837,7 @@ public partial class ChronoJumpWindow
 	/*
 	private void on_radiobutton_encoder_analyze_superpose_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="superpose";
@@ -781,6 +849,7 @@ public partial class ChronoJumpWindow
 	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="side";
@@ -791,6 +860,7 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="powerBars";
@@ -800,6 +870,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=true;
 		hbox_encoder_analyze_mean_or_max.Visible=true;
 		encoderAnalysis="cross";
@@ -908,7 +979,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString(comboAnalyzeCrossOptions[0]));
 
 		//create combo analyze curve num combo
-		//is not an spinbutton because can be separated values
+		//is not an spinbutton because values can be separated: "3,4,7,21"
 		combo_encoder_analyze_curve_num_combo = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, Util.StringToStringArray(""), "");
 		
@@ -1435,10 +1506,33 @@ public partial class ChronoJumpWindow
 	//called when a person changes
 	private void encoderPersonChanged() {
 		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
-		label_encoder_user_curves_active_num.Text = getActiveCurvesNum(data).ToString();
+		
+		int activeCurvesNum = getActiveCurvesNum(data);
+		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
+		
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
-		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
-
+//		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
+	
+		if(radiobutton_encoder_analyze_data_current_signal.Active) {
+			int rows = UtilGtk.CountRows(encoderListStore);
+			if(ecconLast != "c")
+				rows = rows / 2;
+			string [] activeCurvesList;
+			if(rows == 0)
+ 				activeCurvesList = Util.StringToStringArray("");
+			else {
+				activeCurvesList = new String[rows];
+				for(int i=0; i < rows; i++)
+					activeCurvesList[i] = (i+1).ToString();
+			}
+	
+			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+			combo_encoder_analyze_curve_num_combo.Active = 
+				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+		} else {
+			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+		}
+	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		treeviewEncoderRemoveColumns();
 		image_encoder_capture.Sensitive = false;

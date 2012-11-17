@@ -931,7 +931,7 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_cross.ShowAll(); 
 		combo_encoder_analyze_cross.Sensitive = true;
 		hbox_combo_encoder_analyze_cross.Visible = false; //do not show hbox at start
-		
+	
 		hbox_combo_encoder_analyze_curve_num_combo.PackStart(combo_encoder_analyze_curve_num_combo, true, true, 0);
 		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
 		combo_encoder_analyze_curve_num_combo.Sensitive = true;

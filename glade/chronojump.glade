@@ -12530,7 +12530,7 @@ Evaluator can use real name or nickname.</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox_encoder_analyze_curve_num_combo">
+                                                  <widget class="GtkHBox" id="hbox_combo_encoder_analyze_curve_num_combo">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>

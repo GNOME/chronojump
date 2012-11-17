@@ -1,7 +1,5 @@
 <configuration>
-        <dllmap dll="libcesarplayer.dll" target="libcesarplayer.0.dylib"/>
         <dllmap os="windows" dll="libcesarplayer.dll" target="libcesarplayer-0.dll"/>
-        <dllmap dll="libgstreamer-0.10.dll" target="libgstreamer-0.10.0.dylib"/>
         <dllmap os="linux" dll="libgstreamer-0.10.dll" target="libgstreamer-0.10.so.0"/>
         <dllmap os="windows" dll="libgstreamer-0.10.dll" target="libgstreamer-0.10-0.dll"/>
 </configuration>

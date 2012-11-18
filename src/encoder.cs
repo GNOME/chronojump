@@ -33,6 +33,7 @@ public class EncoderParams
 	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
 	private string eccon;
 	private string analysis;
+	private string analysisOptions;		//p: propulsive
 	private string smooth; //to pass always as "." to R
 	private int curve;
 	private int width;
@@ -52,6 +53,7 @@ public class EncoderParams
 	{
 	}
 
+	//to encoder capture (pyserial_pyper.py)
 	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, string smooth, string eccon,
 			double heightHigherCondition, double heightLowerCondition, 
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
@@ -90,14 +92,16 @@ public class EncoderParams
 			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString();
 	}
 	
+	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string smooth, int curve, int width, int height)
+			string analysis, string analysisOptions, string smooth, int curve, int width, int height)
 	{
 		this.minHeight = minHeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
 		this.mass = mass;
 		this.eccon = eccon;
 		this.analysis = analysis;
+		this.analysisOptions = analysisOptions;
 		this.smooth = smooth;
 		this.curve = curve;
 		this.width = width;
@@ -106,8 +110,8 @@ public class EncoderParams
 	
 	public string ToString2 () 
 	{
-		return minHeight + " " + exercisePercentBodyWeight + " " + mass + " " + eccon + " " + analysis + " " + 
-			smooth + " " + curve + " " + width + " " + height;
+		return minHeight + " " + exercisePercentBodyWeight + " " + mass + " " + eccon + " " + 
+			analysis + " " + analysisOptions + " " + smooth + " " + curve + " " + width + " " + height;
 	}
 	
 	public string Analysis {

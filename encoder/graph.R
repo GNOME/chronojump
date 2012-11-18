@@ -230,7 +230,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 		abline(h=0,lty=3,col="black")
 
-		abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
+		#abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
 	}
 
 	#speed
@@ -313,13 +313,21 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			propulsiveEnds=length(concentric)
 		}
 
-		if(eccon != "c") {
-			propulsiveEnds = propulsiveEnds + length(eccentric)
-		}
 		#mean speed propulsive in concentric
-		meanSpeedPropulsive = mean(speed$y[concentric[1]:propulsiveEnds])
-		arrows(x0=min(concentric),y0=meanSpeedPropulsive,x1=propulsiveEnds,y1=meanSpeedPropulsive,col=cols[1],code=3)
-		text(x=mean(concentric[1]:propulsiveEnds), y=meanSpeedPropulsive, labels=paste("mean speed P:",round(meanSpeedPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[1])
+		myMeanSpeed = mean(speed$y[concentric[1]:length(concentric)])
+		myMeanSpeedRight = length(concentric)
+		
+		if(eccon != "c") {
+			propulsiveEnds = propulsiveEnds + concentric[1]
+			myMeanSpeedRight = length(eccentric) + length(concentric)
+		}
+
+		if(analysisOptions == "p") {
+			myMeanSpeed = mean(speed$y[concentric[1]:propulsiveEnds])
+			myMeanSpeedRight = propulsiveEnds
+		}
+		arrows(x0=min(concentric),y0=myMeanSpeed,x1=myMeanSpeedRight,y1=myMeanSpeed,col=cols[1],code=3)
+		mtext(paste("mean speed:",round(myMeanSpeed,3)),side=2,at=myMeanSpeed,line=-1.8,col=cols[1],cex=.8,padj=0)
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 		#if(knRanges[1] != "undefined")
@@ -399,7 +407,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			ylim = knRanges$power
 		par(new=T);
 		if(highlight==FALSE)
-			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=1,axes=F)
+			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 		if(axesAndTitle) 
@@ -410,8 +418,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	peakPowerT=which(power == max(power))
 	if(draw & !superpose) {
 		abline(v=peakPowerT, col=cols[3])
-		#points(peakPowerT, max(power),col=cols[3])
-		text(x=peakPowerT,y=max(power),labels=round(max(power),3), adj=c(0.5,0),cex=.8,col=cols[3])
+		points(peakPowerT, max(power),col=cols[3])
+		mtext(text=paste("peak power:",round(max(power),3)),side=3,at=peakPowerT,cex=.8,col=cols[3])
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
 	}
 	#average power
@@ -420,21 +428,25 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(eccon != "c") 
 		meanPowerE = mean(abs(power[eccentric]))
 	meanPowerC = mean(abs(power[concentric]))
-	if(draw & !superpose) {
+	if(draw & !superpose & analysisOptions != "p") {
 		if(eccon != "c") {
 			arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power C:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+			#text(x=min(eccentric), y=meanPowerE, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
+			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+			#mtext(paste("mean power:",round(meanPowerE,3)),side=4,at=meanPowerE,line=-2,col=cols[3],cex=.8)
 		}
 		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
-		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power C:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		#text(x=min(concentric), y=meanPowerC, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
+		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		#mtext(paste("mean power:",round(meanPowerC,3)),side=4,at=meanPowerC,line=-2,col=cols[3],cex=.8)
 	}
 		
 	#propulsive phase ends when accel is -9.8
-	if(draw) {
+	if(draw & analysisOptions == "p") {
 		#mean power propulsive in concentric
 		meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
 		arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
-		text(x=mean(concentric[1]:propulsiveEnds), y=meanPowerPropulsive, labels=paste("mean power P:",round(meanPowerPropulsive,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		mtext(paste("mean power:",round(meanPowerPropulsive,3)),side=4,at=meanPowerPropulsive,line=-2,col=cols[3],cex=.8)
 	}
 
 	#legend, axes and title
@@ -443,7 +455,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			legendPos = "bottom"
 			par(xpd=T)
 			legend(legendPos, xjust=1, legend=c("Distance","","Speed","Accel.","Force","Power"), lty=c(1,0,1,1,1,1), 
-					lwd=1, col=c("black","black",cols[1],"magenta",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
+					lwd=c(1,1,1,1,1,2), col=c("black","black",cols[1],"magenta",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
 			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}
@@ -585,11 +597,14 @@ if(length(args) < 3) {
 	mass=as.numeric(args[7])
 	eccon=args[8]
 	analysis=args[9]	#in cross comes as "cross.Force.Speed.mean"
-	smoothingOne=args[10]
-	jump=args[11]
-	width=as.numeric(args[12])
-	height=as.numeric(args[13])
+	analysisOptions=args[10]	#p: propulsive
+	smoothingOne=args[11]
+	jump=args[12]
+	width=as.numeric(args[13])
+	height=as.numeric(args[14])
 
+print("++++++++++++++++++++++++++++++");
+print(paste("width",width));
 	png(outputGraph, width=width, height=height)
 	
 

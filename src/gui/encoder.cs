@@ -32,6 +32,8 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
+	
+	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_bells;
@@ -285,6 +287,10 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void encoderCreateCurvesGraphR() 
 	{
+		string analysisOptions = "-";
+		if(checkbutton_encoder_propulsive.Active)
+			analysisOptions = "p";
+
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
 				Convert.ToInt32(
@@ -293,6 +299,7 @@ public partial class ChronoJumpWindow
 				findMass(true),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				"curves",
+				analysisOptions,
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height); 
@@ -694,6 +701,10 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams();
 		string dataFileName = "";
 		
+		string analysisOptions = "-";
+		if(checkbutton_encoder_propulsive.Active)
+			analysisOptions = "p";
+
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
 		string sendAnalysis = encoderAnalysis;
@@ -727,6 +738,7 @@ public partial class ChronoJumpWindow
 					"-1",			//mass
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
+					analysisOptions,
 					"-1",
 					myCurveNum,
 					image_encoder_width, 
@@ -765,6 +777,7 @@ public partial class ChronoJumpWindow
 					findMass(true),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
+					analysisOptions,
 					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,

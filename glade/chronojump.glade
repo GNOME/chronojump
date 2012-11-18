@@ -11548,53 +11548,16 @@ Evaluator can use real name or nickname.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_encoder_bells">
+                                                          <widget class="GtkCheckButton" id="checkbutton_encoder_propulsive">
+                                                            <property name="label" translatable="yes">Propulsive</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
+                                                            <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Bells</property>
+                                                            <property name="tooltip" translatable="yes">On concentric evaluate only propulsive phase</property>
                                                             <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_button_encoder_bells_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkAlignment" id="alignment21">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xscale">0</property>
-                                                            <property name="yscale">0</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox90">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">2</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_encoder_bell">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="icon-size">2</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label86">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>
@@ -11653,6 +11616,61 @@ Evaluator can use real name or nickname.</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">10</property>
                                                         <child>
+                                                          <widget class="GtkButton" id="button_encoder_bells">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Bells</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <signal name="clicked" handler="on_button_encoder_bells_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment21">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xscale">0</property>
+                                                            <property name="yscale">0</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox90">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_bell">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label86">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
                                                           <widget class="GtkButton" id="button_encoder_capture">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -11692,58 +11710,6 @@ Evaluator can use real name or nickname.</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox82">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkProgressBar" id="encoder_pulsebar_capture">
-                                                            <property name="width_request">150</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="activity_mode">True</property>
-                                                            <property name="show_text">True</property>
-                                                            <property name="pulse_step">0.10000000149</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_encoder_capture_cancel">
-                                                            <property name="visible">True</property>
-                                                            <property name="sensitive">False</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="can_default">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="tooltip" translatable="yes">Cancel process</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <property name="use_underline">True</property>
-                                                            <signal name="clicked" handler="on_button_encoder_cancel_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image8">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-cancel</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -11884,6 +11850,58 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">4</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox82">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkProgressBar" id="encoder_pulsebar_capture">
+                                                            <property name="width_request">150</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="activity_mode">True</property>
+                                                            <property name="show_text">True</property>
+                                                            <property name="pulse_step">0.10000000149</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_capture_cancel">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="can_default">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="tooltip" translatable="yes">Cancel process</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <signal name="clicked" handler="on_button_encoder_cancel_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image8">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-cancel</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">5</property>
                                                           </packing>
                                                         </child>
                                                       </widget>

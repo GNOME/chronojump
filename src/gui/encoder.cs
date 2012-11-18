@@ -585,8 +585,14 @@ public partial class ChronoJumpWindow
 		} else if(mode == "allCurves") {
 			signalOrCurve = "curve";
 			feedback = Catalog.GetString("All curves saved");
-		} else 	//mode == "signal"
+		} else 	{	//mode == "signal"
 			signalOrCurve = "signal";
+		
+			//check if data is ok (maybe encoder was not connected, then don't save this signal)
+			EncoderCurve curve = treeviewEncoderCurvesGetCurve(1, false);
+			if(curve.N == null)
+				return "";
+		}
 		
 		string desc = "";
 		if(mode == "curve" || mode == "allCurves") {

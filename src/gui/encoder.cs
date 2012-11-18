@@ -34,6 +34,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 
 	[Widget] Gtk.Button button_encoder_capture;
+	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
@@ -1538,7 +1539,7 @@ public partial class ChronoJumpWindow
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
-		//c0 button_encoder_capture
+		//c0 button_encoder_capture, button_encoder_bells
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves , button_encoder_update_signal, 
@@ -1593,6 +1594,7 @@ public partial class ChronoJumpWindow
 		}
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
+		button_encoder_bells.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		

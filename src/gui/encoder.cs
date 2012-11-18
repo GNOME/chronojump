@@ -77,7 +77,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_both;
 	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
-	[Widget] Gtk.SpinButton spin_encoder_analyze_curve_num;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
 	
@@ -161,7 +160,6 @@ public partial class ChronoJumpWindow
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		createEncoderCombos();
-		spin_encoder_analyze_curve_num.SetRange(0,0);
 	}
 
 	//TODO: garantir path windows	
@@ -259,7 +257,6 @@ public partial class ChronoJumpWindow
 				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 						encoderEcconTranslation) != "Concentric") 
 					curvesNum = curvesNum / 2;
-				spin_encoder_analyze_curve_num.SetRange(1,curvesNum);
 			
 				string [] activeCurvesList = new String[curvesNum];
 				for(int i=0; i < curvesNum; i++)
@@ -528,7 +525,6 @@ public partial class ChronoJumpWindow
 			int activeCurvesNum = getActiveCurvesNum(data);
 			label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 			label_encoder_user_curves_all_num.Text = data.Count.ToString();
-			spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
 	}
@@ -713,7 +709,7 @@ public partial class ChronoJumpWindow
 				myEccon = "ecS";
 			int myCurveNum = -1;
 			if(sendAnalysis == "single")
-				myCurveNum = (int) spin_encoder_analyze_curve_num.Value;
+				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
 
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
@@ -763,7 +759,7 @@ public partial class ChronoJumpWindow
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
-					(int) spin_encoder_analyze_curve_num.Value, 
+					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
 					image_encoder_height); 
 			
@@ -789,8 +785,6 @@ public partial class ChronoJumpWindow
 		if(ecconLast != "c")
 			rows = rows / 2;
 
-//		spin_encoder_analyze_curve_num.SetRange(1, rows);
-	
 		string [] activeCurvesList;
 		if(rows == 0)
  			activeCurvesList = Util.StringToStringArray("");
@@ -805,20 +799,18 @@ public partial class ChronoJumpWindow
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
-		button_encoder_analyze.Sensitive = (currentPerson != null && 
-			UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
-
-		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
-		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
-
 		if(currentPerson != null) {
-			spin_encoder_analyze_curve_num.SetRange(1, Convert.ToInt32(label_encoder_user_curves_all_num.Text));
-
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
 			int activeCurvesNum = getActiveCurvesNum(data);
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
+		
+		button_encoder_analyze.Sensitive = (currentPerson != null && 
+			UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+
+		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
+		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
 	}
 
 
@@ -1511,7 +1503,6 @@ public partial class ChronoJumpWindow
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 		
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
-//		spin_encoder_analyze_curve_num.SetRange(1, data.Count);
 	
 		if(radiobutton_encoder_analyze_data_current_signal.Active) {
 			int rows = UtilGtk.CountRows(encoderListStore);

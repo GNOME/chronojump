@@ -19470,7 +19470,7 @@ comments</property>
                   <widget class="GtkLabel" id="label_spin_int">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">label</property>
+                    <property name="label">label</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -19635,7 +19635,7 @@ comments</property>
                   <widget class="GtkLabel" id="label_entry2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">label</property>
+                    <property name="label">label</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -19675,7 +19675,7 @@ comments</property>
                   <widget class="GtkLabel" id="label_entry3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">label</property>
+                    <property name="label">label</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

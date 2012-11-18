@@ -1051,7 +1051,7 @@ public partial class ChronoJumpWindow
 		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
-		genericWin.LabelEntry2 = Catalog.GetString("Ressitance");
+		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));

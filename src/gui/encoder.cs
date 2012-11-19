@@ -758,7 +758,7 @@ public partial class ChronoJumpWindow
 			foreach(EncoderSQL eSQL in data) {
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
 				EncoderExercise ex = (EncoderExercise) 
-					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,true)[0];
+					SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
 				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
@@ -932,7 +932,7 @@ public partial class ChronoJumpWindow
 	protected void createEncoderCombos() {
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1, false);
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
@@ -1041,7 +1041,7 @@ public partial class ChronoJumpWindow
 		int exerciseID = Convert.ToInt32(
 				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 				encoderExercisesTranslationAndBodyPWeight) );	//exerciseID
-		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(exerciseID,false)[0];
+		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(false,exerciseID,false)[0];
 
 		ArrayList bigArray = new ArrayList();
 
@@ -1123,7 +1123,7 @@ public partial class ChronoJumpWindow
 			SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
 					genericWin.Entry2Selected, genericWin.Entry3Selected);
 
-			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(-1, false);
+			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
 			encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
 			string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 			int i =0;

@@ -753,10 +753,12 @@ public partial class ChronoJumpWindow
 
 			TextWriter writer = File.CreateText(dataFileName);
 			writer.WriteLine("status,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
+		
+			Sqlite.Open();	
 			foreach(EncoderSQL eSQL in data) {
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
 				EncoderExercise ex = (EncoderExercise) 
-					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,false)[0];
+					SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID,true)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
 				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
@@ -768,6 +770,7 @@ public partial class ChronoJumpWindow
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
+			Sqlite.Close();	
 		} else {
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 

@@ -464,9 +464,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
-paintPowerPeakPowerBars <- function(paf, myEccons) {
+paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
+	height = height/10
 	
 	if(eccon=="ecS") {
 		if(singleFile) {
@@ -477,17 +478,27 @@ paintPowerPeakPowerBars <- function(paf, myEccons) {
 	}
 	
 	powerData=rbind(paf[,3], paf[,4])
-	lowerY=min(powerData)-100
-	if(lowerY < 0)
-		lowerY = 0
+
+	#put lowerY on power, but definetively, leave it at 0
+	#lowerY=min(powerData)-100
+	#if(lowerY < 0)
+	#	lowerY = 0
+	lowerY = 0
+	
+	par(mar=c(5, 4, 4, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums,"\n(",paf[,7],")",sep=""),xlim=c(1,n*3+.5),xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	par(new=T, xpd=T)
-	plot(bp[2,],paf[,5],type="o",lwd=2,xlim=c(1,n*3+.5),axes=F,xlab="",ylab="",col=pafColors[3])
-	legend("bottom",col=pafColors, lty=c(0,0,1), lwd=c(1,1,2), pch=c(15,15,NA), legend=c("Power","Peak Power", "Time at Peak Power"), ncol=3, inset=-.2)
-	axis(4)
+	plot(bp[2,],paf[,5],type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col=pafColors[3])
+	axis(4, col=pafColors[3], line=0,padj=-.5)
 	mtext("Time at peak power (ms)", side=4, line=-1)
+	
+	par(new=T, xpd=T)
+	plot(bp[2,],height,type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
+	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time at Peak Power    ", "Height"), ncol=4, inset=-.2)
+	axis(4, col="green", line=3, padj=-.5)
+	mtext("Height (cm)", side=4, line=2)
 }
 
 #see paf for more info
@@ -642,6 +653,7 @@ print(paste("width",width));
 		count = 1
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL; myEccon = NULL
+		curvesHeight = NULL
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
 		for(i in 1:length(inputMultiData[,1])) { 
@@ -685,6 +697,8 @@ print(paste("width",width));
 				smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
+				curvesHeight[(i+newLines)] = sum(dataTempPhase)
+
 				if(processTimes == 2) {
 					if(j == 1) {
 						myEccon[(i+newLines)] = "e"
@@ -706,6 +720,8 @@ print(paste("width",width));
 			}
 		}		
 		
+		#rawdata.cumsum=cumsum(rawdata)
+
 		#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
 		#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
 		#"If row names are supplied of length one and the data frame has a
@@ -855,8 +871,14 @@ print(paste("width",width));
 		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
 		print(paf)
 
-		if(analysis == "powerBars") 
-			paintPowerPeakPowerBars(paf, curves[,8])	#myEccon
+		if(analysis == "powerBars") {
+			if(! singleFile) 
+				paintPowerPeakPowerBars(paf, curves[,8], 		#myEccon
+						curvesHeight)				#height
+			else 
+				paintPowerPeakPowerBars(paf, curves[,8], 		#myEccon
+						rawdata.cumsum[curves[,2]]-curves[,3])	#height
+		}
 		else if(analysisCross[1] == "cross")
 			paintCrossVariables(paf, analysisCross[3], analysisCross[2], analysisCross[4])
 		else if(analysis == "curves") {

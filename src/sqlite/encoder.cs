@@ -251,9 +251,10 @@ class SqliteEncoder : Sqlite
 
 	//if submited a -1, returns an especific EncoderExercise that can be read like this	
 	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
-	public static ArrayList SelectEncoderExercises(int uniqueID, bool onlyNames) 
+	public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 
 	{
-		dbcon.Open();
+		if(! dbconOpened)
+			dbcon.Open();
 
 		string uniqueIDStr = "";
 		if(uniqueID != -1)
@@ -292,7 +293,8 @@ class SqliteEncoder : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		if(! dbconOpened)
+			dbcon.Close();
 
 		return array;
 	}

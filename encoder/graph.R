@@ -464,8 +464,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}
-		mtext("time (ms) ",side=1,adj=1,line=-1)
-		mtext("height (mm) ",side=2,adj=1,line=-1)
+		mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
+		mtext("height (mm) ",side=2,adj=1,line=-1,cex=.9)
 	}
 }
 

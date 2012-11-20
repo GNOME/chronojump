@@ -189,7 +189,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
-	
+
+#xmin=xmin-500
+
 	rawdata=rawdata[xmin:xmax]
 	a=cumsum(rawdata)
 	a=a+startH
@@ -217,6 +219,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			axis(1) 	#can be added xmin
 			axis(2)
 		}
+		
 		par(new=T)
 		colNormal="black"
 		if(superpose)
@@ -250,6 +253,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			axis(4, col=cols[1], lty=lty[1], line=0, padj=-.5)
 			abline(h=0,lty=3,col="black")
 		}
+		#mtext(text=paste("max speed:",round(max(speed$y),3)),side=3,at=which(speed$y == max(speed$y)),cex=.8,col=cols[1])
 	}
 
 	#show extrema values in speed
@@ -290,15 +294,15 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			abline(v=max(crossDownToUp),col=cols[1])
 			mtext(text=min(crossDownToUp),side=1,at=min(crossDownToUp),cex=.8,col=cols[1])
 			mtext(text=max(crossDownToUp),side=1,at=max(crossDownToUp),cex=.8,col=cols[1])
-			mtext(text="eccentric ",side=3,at=min(crossDownToUp),cex=.8,adj=1,col=cols[1])
-			mtext(text=" concentric ",side=3,at=max(crossDownToUp),cex=.8,adj=0,col=cols[1])
+			mtext(text="eccentric ",side=3,at=min(crossDownToUp),cex=.8,adj=1,col=cols[1],line=.5)
+			mtext(text=" concentric ",side=3,at=max(crossDownToUp),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
 
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000
-
+	
 	#print(accel$y)
 	#alternative R method (same result)
 	#accel2 <- D1ss( 1:length(speed$y), speed$y )
@@ -345,6 +349,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		
 		if(axesAndTitle)
 			axis(4, col="magenta", lty=lty[1], line=2, padj=-.5)
+		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
@@ -497,6 +502,9 @@ paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	par(new=T, xpd=T)
 	plot(bp[2,],height,type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
 	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time at Peak Power    ", "Height"), ncol=4, inset=-.2)
+	abline(h=max(height),lty=2, col="green")
+	abline(h=min(height),lty=2, col="green")
+#	text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
 	axis(4, col="green", line=3, padj=-.5)
 	mtext("Height (cm)", side=4, line=2)
 }

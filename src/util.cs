@@ -995,7 +995,7 @@ public class Util
 	}
 	
 	//python program
-	public static void RunPythonEncoder(string pythonScript, EncoderStruct es, bool useTerminal) {
+	public static void RunPythonEncoder(string pythonScript, EncoderStruct es, bool capture) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1004,9 +1004,11 @@ public class Util
 		//in which we may haven't got permissions
 		
 		string pBin="python";
-		if(useTerminal) {
+
+		//currently we are not using useTerminal. It was originally to encoder capture with text and graph
+		useTerminal = false;
+		if(useTerminal)
 			pBin="xterm";
-		}
 
 //		if (IsWindows())
 //			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/python.exe");
@@ -1015,9 +1017,14 @@ public class Util
 		pinfo.FileName=pBin;
 
 		string outputFileCheck = "";
-		if(useTerminal) {
-			pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
+		if(capture) {
+			if(useTerminal) {
+				//currentl we are not using this
+				pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
 				pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
+			} else 
+				pinfo.Arguments = pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1();
+
 			outputFileCheck = es.OutputData1;
 		} else {
 			pinfo.Arguments = pythonScript + " " + es.InputData + " " + 

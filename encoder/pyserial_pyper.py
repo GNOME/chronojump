@@ -141,6 +141,7 @@ def assignColor(found, conditionHigher, conditionLower):
 	else:
 		return BLACK
 
+rangeList = list()
 meanPowerList = list()
 def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minHeight, isJump):
 	if (len(top_values)>0 and len(bottom_values)>0):
@@ -241,8 +242,9 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 				if play:
 					playsound(soundFile)
 
+				rangeList.append(height)
 				meanPowerList.append(meanPower)
-				update_graph(meanPowerList)
+				update_graph(rangeList,meanPowerList)
 			else:
 				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
 
@@ -260,11 +262,14 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 #		print(text,rmax-rmin)
 		return(rmax-rmin)
 
-def update_graph(meanPowerList):
+#range: Range of movement (height in some parts of the code)
+def update_graph(rangeList, meanPowerList):
 	s=pygame.Surface((surface_width,surface_height))
 	
 	horiz_margin = 10
 	vert_margin = 20
+
+	max_range = max(rangeList)
 
 	max_power = max(meanPowerList)
 	if powerLowerCondition > max_power:
@@ -278,22 +283,38 @@ def update_graph(meanPowerList):
 	s.fill((30,30,30)) #color the surface
 	screen.fill((0,0,0)) #make redraw background black
 
-	sep=4
+	sep=20		#between reps
+	sep_small=2	#between bars
 	count = 0
-	font = pygame.font.Font(None, 22)
+	fontBig = pygame.font.Font(None, 22)
+	fontSmall = pygame.font.Font(None, 18)
+	colorRange = (200,200,200)
+	colorPower = (255,255,255)
 	for meanPower in meanPowerList:
-		bar_height = surface_height - ((surface_height * meanPower / max_power) - 2*vert_margin)
+		if count > 10:
+			sep = 10
+		range_height = surface_height - ((surface_height * (rangeList[count]) / max_range ) - 2*vert_margin)
+		power_height = surface_height - ((surface_height * meanPower / max_power) - 2*vert_margin)
 		if len(meanPowerList) == 1:
 			width = (surface_width - 2*horiz_margin) / 2 #do not fill all the screen with only one bar
 		else:
 			width = (surface_width - 2*horiz_margin) / len(meanPowerList)
 		left = horiz_margin + width*count
-		#pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 2)
-		pygame.draw.rect(s, (255,255,255), (left, bar_height, width-sep, surface_height-bar_height), 0) #0: filled
+		range_width = width/4
+		#pygame.draw.rect(s, (255,255,255), (left, power_height, width-sep, surface_height-power_height), 2)
+		pygame.draw.rect(s, colorRange, (left, range_height, range_width, surface_height-range_height), 0) #0: filled
+		power_width = width - range_width - sep_small - sep
+		pygame.draw.rect(s, colorPower, (left+range_width+sep_small, power_height, power_width, surface_height-power_height), 0) #0: filled
 		
-		string = "%.2f" % meanPower
-		text = font.render(string,1,(255,255,255))
-		textpos = text.get_rect(centerx=left+width/2, centery=bar_height-vert_margin)
+		string = "%.0f" % rangeList[count]
+		text = fontSmall.render(string,1,colorRange)
+		textpos = text.get_rect(centerx=left+(range_width/2), centery=range_height-vert_margin)
+	       	s.blit(text,textpos)
+
+		#string = "%.2f" % meanPower
+		string = "%.0f" % meanPower
+		text = fontBig.render(string,1,colorPower)
+		textpos = text.get_rect(centerx=left+range_width+sep_small+(power_width/2), centery=power_height-vert_margin)
 	       	s.blit(text,textpos)
 
 		count = count +1
@@ -361,9 +382,12 @@ if __name__ == '__main__':
 
 	pygame.font.init
 	pygame.init()
-	screen = pygame.display.set_mode((640,480)) #make window
-	surface_width=640
-	surface_height=440
+	#screen = pygame.display.set_mode((640,480)) #make window
+	#surface_width=640
+	#surface_height=440
+	screen = pygame.display.set_mode((800,600)) #make window
+	surface_width=800
+	surface_height=540
 	
 
 	for i in xrange(record_time):
@@ -482,6 +506,9 @@ if __name__ == '__main__':
 
 	print "\nDone! Please, close this window."
 	while 1:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT: sys.exit()
+
 		pygame.time.delay(30)
 		pygame.display.flip() #update the screen
 		#TODO: http://stackoverflow.com/questions/10466590/hiding-pygame-display

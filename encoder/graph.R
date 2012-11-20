@@ -497,16 +497,16 @@ paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	par(new=T, xpd=T)
 	plot(bp[2,],paf[,5],type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col=pafColors[3])
 	axis(4, col=pafColors[3], line=0,padj=-.5)
-	mtext("Time at peak power (ms)", side=4, line=-1)
+	mtext("Time to peak power (ms)", side=4, line=-1)
 	
 	par(new=T, xpd=T)
 	plot(bp[2,],height,type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
-	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time at Peak Power    ", "Height"), ncol=4, inset=-.2)
+	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, inset=-.2)
 	abline(h=max(height),lty=2, col="green")
 	abline(h=min(height),lty=2, col="green")
 #	text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
 	axis(4, col="green", line=3, padj=-.5)
-	mtext("Height (cm)", side=4, line=2)
+	mtext("Range (cm)", side=4, line=2)
 }
 
 #see paf for more info

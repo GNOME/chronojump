@@ -1156,7 +1156,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Curve") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
 			Catalog.GetString("Duration") + "\n (s)",
-			Catalog.GetString("Height") + "\n (cm)",
+			Catalog.GetString("Range") + "\n (cm)",
 			Catalog.GetString("MeanSpeed") + "\n (m/s)",
 			Catalog.GetString("MaxSpeed") + "\n (m/s)",
 			Catalog.GetString("MeanPower") + "\n (W)",

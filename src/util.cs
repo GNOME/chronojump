@@ -1006,7 +1006,7 @@ public class Util
 		string pBin="python";
 
 		//currently we are not using useTerminal. It was originally to encoder capture with text and graph
-		useTerminal = false;
+		bool useTerminal = false;
 		if(useTerminal)
 			pBin="xterm";
 

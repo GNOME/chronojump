@@ -305,6 +305,13 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	public static string ChangeSpaceForUnderscore(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace(" ", "_");
+		return myStringBuilder.ToString();
+	}
+
 	public static string GetHeightInCentimeters (string time) {
 		// s = 4.9 * (tv/2)^2
 		double timeAsDouble = Convert.ToDouble(time);

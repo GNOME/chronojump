@@ -244,7 +244,7 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 					playsound(soundFile)
 
 				#screen.fill((0,0,0)) #make redraw background black
-				printTitle("running")
+				printHeader("running")
 
 				rangeList.append(height)
 				meanPowerList.append(meanPower)
@@ -348,7 +348,7 @@ def update_graph(paramName, paramList, lowCondition, highCondition,
         screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
-def printTitle(option):
+def printHeader(option):
 	s=pygame.Surface((792,32))
 	s.fill(ColorBackground) #color the surface
 	
@@ -429,7 +429,7 @@ if __name__ == '__main__':
 	#print title
 	title = title.replace('_',' ')
 	title = title.replace('-',' ')
-	printTitle("start")
+	printHeader("start")
 
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux
@@ -546,7 +546,7 @@ if __name__ == '__main__':
 
 
 	print "\nDone! Please, close this window."
-	printTitle("end")
+	printHeader("end")
 	
 	
 	while 1:

@@ -203,12 +203,13 @@ public partial class ChronoJumpWindow
 		if(repetitiveConditionsWin.EncoderPeakPowerLower)		
 			peakPowerLowerCondition = repetitiveConditionsWin.EncoderPeakPowerLowerValue;
 
+		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
 		//capture data
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
 				Convert.ToInt32(
-					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					Util.FindOnArray(':', 2, 3, exerciseNameShown, 
 					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
 				findMass(true),
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
@@ -225,7 +226,11 @@ public partial class ChronoJumpWindow
 				"",					//no graph ouptut
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
-		Util.RunPythonEncoder(Constants.EncoderScriptCapture, "my_title___without_spaces", es, true);
+		//title to sen to python software has to be without spaces
+		Util.RunPythonEncoder(Constants.EncoderScriptCapture, 
+				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
+				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+				es, true);
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database

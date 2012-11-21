@@ -244,16 +244,18 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 					playsound(soundFile)
 
 				#screen.fill((0,0,0)) #make redraw background black
+				printTitle("running")
 
 				rangeList.append(height)
 				meanPowerList.append(meanPower)
 				
 				graphsWidth = 792 #800-4-4
-				update_graph("Range", rangeList, heightLowerCondition, heightHigherCondition, 
-						graphsWidth, 112, (200,200,200), 4, 40)
+				update_graph("Range (cm)", rangeList, heightLowerCondition, heightHigherCondition, 
+						graphsWidth, 112, (222,222,222), 4, 40)
 				#vertical_height: 112, position it at 40 pixels vert
-				update_graph("Mean Power", meanPowerList, powerLowerCondition, powerHigherCondition, 
-						graphsWidth, 440, (255,255,255), 4, 156)
+
+				update_graph("Mean Power (W)", meanPowerList, powerLowerCondition, powerHigherCondition, 
+						graphsWidth, 440, (222,222,222), 4, 156)
 				#position it at 40+112+4 pixels vert: 156
 				#vertical_height: 600 -4 (lower sep) - 156 : 440
 
@@ -346,6 +348,29 @@ def update_graph(paramName, paramList, lowCondition, highCondition,
         screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
+def printTitle(option):
+	s=pygame.Surface((792,32))
+	s.fill(ColorBackground) #color the surface
+	
+	string = "%s" % title
+	text = FontBig.render(string,1, (255,255,255))
+	textpos = text.get_rect(left=10,centery=14)
+	s.blit(text,textpos)
+
+	if option == "start":
+		string = "Start!"
+		text = FontBig.render(string,1, (255,91,0))
+		textpos = text.get_rect(right=792-10,centery=14)
+		s.blit(text,textpos)
+	elif option == "end":
+		string = "Done! Please close this window."
+		text = FontBig.render(string,1, (255,91,0))
+		textpos = text.get_rect(right=792-10,centery=14)
+		s.blit(text,textpos)
+
+        screen.blit(s,(4,4)) #render the surface into the rectangle
+	pygame.display.flip() #update the screen
+
 
 # ================
 # = Main Problem =
@@ -402,15 +427,9 @@ if __name__ == '__main__':
 	ColorGood = (0,255,0)
 
 	#print title
-	s=pygame.Surface((792,32))
-	s.fill(ColorBackground) #color the surface
-	string = "%s" % title
-	text = FontBig.render(string,1, (255,255,255))
-	textpos = text.get_rect(left=10,centery=14)
-	s.blit(text,textpos)
-        screen.blit(s,(4,4)) #render the surface into the rectangle
-	pygame.display.flip() #update the screen
-	
+	title = title.replace('_',' ')
+	title = title.replace('-',' ')
+	printTitle("start")
 
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux
@@ -527,6 +546,9 @@ if __name__ == '__main__':
 
 
 	print "\nDone! Please, close this window."
+	printTitle("end")
+	
+	
 	while 1:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()

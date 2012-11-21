@@ -995,7 +995,7 @@ public class Util
 	}
 	
 	//python program
-	public static void RunPythonEncoder(string pythonScript, EncoderStruct es, bool capture) {
+	public static void RunPythonEncoder(string pythonScript, string title, EncoderStruct es, bool capture) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1023,7 +1023,7 @@ public class Util
 				pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
 				pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
 			} else 
-				pinfo.Arguments = pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1();
+				pinfo.Arguments = pythonScript + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1();
 
 			outputFileCheck = es.OutputData1;
 		} else {

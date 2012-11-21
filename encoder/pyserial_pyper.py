@@ -45,23 +45,24 @@ TRUE = 1
 # ============
 # = Variable =
 # ============
-outputFile = sys.argv[1]
-record_time = int(sys.argv[2])*1000		#from s to ms
-minHeight = int(sys.argv[3])			#all is stored, but only display when vertical range is >= minHeight
-isJump = sys.argv[4]
-mass = float(sys.argv[5])
-smoothingOne = float(sys.argv[6])
-eccon = sys.argv[7]				#contraction "ec" or "c"
-heightHigherCondition = int(sys.argv[8])
-heightLowerCondition = int(sys.argv[9])
-meanSpeedHigherCondition = float(sys.argv[10])
-meanSpeedLowerCondition = float(sys.argv[11])
-maxSpeedHigherCondition = float(sys.argv[12])
-maxSpeedLowerCondition = float(sys.argv[13])
-powerHigherCondition = int(sys.argv[14])
-powerLowerCondition = int(sys.argv[15])
-peakPowerHigherCondition = int(sys.argv[16])
-peakPowerLowerCondition = int(sys.argv[17])
+title = sys.argv[1]
+outputFile = sys.argv[2]
+record_time = int(sys.argv[3])*1000		#from s to ms
+minHeight = int(sys.argv[4])			#all is stored, but only display when vertical range is >= minHeight
+isJump = sys.argv[5]
+mass = float(sys.argv[6])
+smoothingOne = float(sys.argv[7])
+eccon = sys.argv[8]				#contraction "ec" or "c"
+heightHigherCondition = int(sys.argv[9])
+heightLowerCondition = int(sys.argv[10])
+meanSpeedHigherCondition = float(sys.argv[11])
+meanSpeedLowerCondition = float(sys.argv[12])
+maxSpeedHigherCondition = float(sys.argv[13])
+maxSpeedLowerCondition = float(sys.argv[14])
+powerHigherCondition = int(sys.argv[15])
+powerLowerCondition = int(sys.argv[16])
+peakPowerHigherCondition = int(sys.argv[17])
+peakPowerLowerCondition = int(sys.argv[18])
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -242,9 +243,20 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 				if play:
 					playsound(soundFile)
 
+				#screen.fill((0,0,0)) #make redraw background black
+
 				rangeList.append(height)
 				meanPowerList.append(meanPower)
-				update_graph(rangeList,meanPowerList)
+				
+				graphsWidth = 792 #800-4-4
+				update_graph("Range", rangeList, heightLowerCondition, heightHigherCondition, 
+						graphsWidth, 112, (200,200,200), 4, 40)
+				#vertical_height: 112, position it at 40 pixels vert
+				update_graph("Mean Power", meanPowerList, powerLowerCondition, powerHigherCondition, 
+						graphsWidth, 440, (255,255,255), 4, 156)
+				#position it at 40+112+4 pixels vert: 156
+				#vertical_height: 600 -4 (lower sep) - 156 : 440
+
 			else:
 				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
 
@@ -262,80 +274,77 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 #		print(text,rmax-rmin)
 		return(rmax-rmin)
 
-#range: Range of movement (height in some parts of the code)
-def update_graph(rangeList, meanPowerList):
-	s=pygame.Surface((surface_width,surface_height))
-	
-	horiz_margin = 10
-	vert_margin = 20
 
-	max_range = max(rangeList)
 
-	max_power = max(meanPowerList)
-	if powerLowerCondition > max_power:
-		max_power = powerLowerCondition
-	if powerHigherCondition > max_power:
-		max_power = powerHigherCondition
+def update_graph(paramName, paramList, lowCondition, highCondition, 
+		my_surface_width, my_surface_height, color, horizPosToCopy, vertPosToCopy):
+	s=pygame.Surface((my_surface_width,my_surface_height))
 
-	power_lower_height = surface_height - ((surface_height * powerLowerCondition / max_power) - 2*vert_margin)
-	power_higher_height = surface_height - ((surface_height * powerHigherCondition / max_power) - 2*vert_margin)
+	s.fill(ColorBackground) #color the surface
 
-	s.fill((30,30,30)) #color the surface
-	screen.fill((0,0,0)) #make redraw background black
-
+	left_margin = 10
+	right_margin = 40
+	vert_margin = 40
 	sep=20		#between reps
 	sep_small=2	#between bars
 	count = 0
-	fontBig = pygame.font.Font(None, 22)
-	fontSmall = pygame.font.Font(None, 18)
-	colorRange = (200,200,200)
-	colorPower = (255,255,255)
-	for meanPower in meanPowerList:
+
+	paramMax = max(paramList)
+	if lowCondition > paramMax:
+		paramMax = lowCondition
+	if highCondition > paramMax:
+		paramMax = highCondition
+
+	param_low_height = my_surface_height - ((my_surface_height -vert_margin ) * lowCondition / paramMax)
+	param_high_height = my_surface_height - ((my_surface_height -vert_margin ) * highCondition / paramMax)
+	pygame.draw.line(s, (255,0,0), (left_margin, param_low_height), (my_surface_width-right_margin, param_low_height), 2)
+	pygame.draw.line(s, (0,255,0), (left_margin, param_high_height), (my_surface_width-right_margin, param_high_height), 2)
+	if lowCondition > 0:
+		string = "%s" % lowCondition
+		text = FontSmall.render(string,1, ColorBad, ColorBackground)
+		textpos = text.get_rect(right=my_surface_width-10,centery=param_low_height)
+		s.blit(text,textpos)
+	if highCondition > 0:
+		string = "%s" % highCondition
+		text = FontSmall.render(string,1, ColorGood, ColorBackground)
+		textpos = text.get_rect(right=my_surface_width-10,centery=param_high_height)
+		s.blit(text,textpos)
+
+	for param in paramList:
 		if count > 10:
 			sep = 10
-		range_height = surface_height - ((surface_height * (rangeList[count]) / max_range ) - 2*vert_margin)
-		power_height = surface_height - ((surface_height * meanPower / max_power) - 2*vert_margin)
-		if len(meanPowerList) == 1:
-			width = (surface_width - 2*horiz_margin) / 2 #do not fill all the screen with only one bar
-		else:
-			width = (surface_width - 2*horiz_margin) / len(meanPowerList)
-		left = horiz_margin + width*count
-		range_width = width/4
-		#pygame.draw.rect(s, (255,255,255), (left, power_height, width-sep, surface_height-power_height), 2)
-		pygame.draw.rect(s, colorRange, (left, range_height, range_width, surface_height-range_height), 0) #0: filled
-		power_width = width - range_width - sep_small - sep
-		pygame.draw.rect(s, colorPower, (left+range_width+sep_small, power_height, power_width, surface_height-power_height), 0) #0: filled
 		
-		string = "%.0f" % rangeList[count]
-		text = fontSmall.render(string,1,colorRange)
-		textpos = text.get_rect(centerx=left+(range_width/2), centery=range_height-vert_margin)
+		param_height = ( my_surface_height - vert_margin ) * param / paramMax 
+		if len(paramList) == 1:
+			width = (my_surface_width - left_margin - right_margin) / 2 #do not fill all the screen with only one bar
+		else:
+			width = (my_surface_width - left_margin - right_margin) / len(paramList)
+		
+		colorNow = color
+		if param < lowCondition:
+			colorNow = ColorBad
+		elif highCondition > 0 and param > highCondition:
+			colorNow = ColorGood
+			
+		left = left_margin + width*count
+		param_width = width - sep
+		pygame.draw.rect(s, colorNow, (left, my_surface_height, param_width, -param_height), 0) #0: filled
+		
+		string = "%i" % param
+		text = FontBig.render(string,1,color, ColorBackground)
+		textpos = text.get_rect(centerx=left+(param_width/2), centery=my_surface_height-param_height-vert_margin/2)
 	       	s.blit(text,textpos)
-
-		#string = "%.2f" % meanPower
-		string = "%.0f" % meanPower
-		text = fontBig.render(string,1,colorPower)
-		textpos = text.get_rect(centerx=left+range_width+sep_small+(power_width/2), centery=power_height-vert_margin)
-	       	s.blit(text,textpos)
-
+		
 		count = count +1
-
-	pygame.draw.line(s, (0,255,0), (horiz_margin, power_higher_height), (surface_width-horiz_margin-sep, power_higher_height), 2)
-	pygame.draw.line(s, (255,0,0), (horiz_margin, power_lower_height), (surface_width-horiz_margin-sep, power_lower_height), 2)
+	
+	string = "%s" % paramName
+	text = FontBig.render(string,1, color, ColorBackground)
+	textpos = text.get_rect(left=10,centery=10)
+	s.blit(text,textpos)
 
 	s_rect=s.get_rect() #get the rectangle bounds for the surface
-	        
-        screen.blit(s,(0,40)) #render the surface into the rectangle
+        screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
-
-
-
-#def update_graph_old(xmin, xmax):
-#	subprocess.Popen([r"Rscript","graph.R",str(xmin),str(xmax)]).wait()
-#	picture = pygame.image.load("graph.png")
-#	pygame.display.set_mode(picture.get_size())
-#	main_surface= pygame.display.get_surface()
-#	main_surface.blit(picture, (0,0))
-#	pygame.display.update()
 
 
 # ================
@@ -382,12 +391,25 @@ if __name__ == '__main__':
 
 	pygame.font.init
 	pygame.init()
-	#screen = pygame.display.set_mode((640,480)) #make window
-	#surface_width=640
-	#surface_height=440
 	screen = pygame.display.set_mode((800,600)) #make window
-	surface_width=800
-	surface_height=540
+	pygame.display.set_caption("Chronojump encoder")
+	
+	FontBig = pygame.font.Font(None, 22)
+	FontSmall = pygame.font.Font(None, 18)
+	
+	ColorBackground = (30,30,30)
+	ColorBad = (255,0,0)
+	ColorGood = (0,255,0)
+
+	#print title
+	s=pygame.Surface((792,32))
+	s.fill(ColorBackground) #color the surface
+	string = "%s" % title
+	text = FontBig.render(string,1, (255,255,255))
+	textpos = text.get_rect(left=10,centery=14)
+	s.blit(text,textpos)
+        screen.blit(s,(4,4)) #render the surface into the rectangle
+	pygame.display.flip() #update the screen
 	
 
 	for i in xrange(record_time):

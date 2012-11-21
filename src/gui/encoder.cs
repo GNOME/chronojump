@@ -225,7 +225,7 @@ public partial class ChronoJumpWindow
 				"",					//no graph ouptut
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
-		Util.RunPythonEncoder(Constants.EncoderScriptCapture, es, true);
+		Util.RunPythonEncoder(Constants.EncoderScriptCapture, "my_title___without_spaces", es, true);
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
@@ -310,7 +310,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderCurvesTempFileName(), 
 				"NULL", ep);
 		
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, es,false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", es,false);
 
 		//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
 		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
@@ -794,7 +794,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				"NULL", "NULL", ep);		//no data ouptut
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, encoderStruct, false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", encoderStruct, false);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

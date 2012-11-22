@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-18 21:01+0000\n"
-"PO-Revision-Date: 2012-11-19 13:38+0100\n"
+"POT-Creation-Date: 2012-11-21 16:54+0000\n"
+"PO-Revision-Date: 2012-11-22 14:45+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -625,8 +625,8 @@ msgstr "Skupna razdalja"
 #: ../src/exportSession.cs:285 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:495 ../src/exportSession.cs:550
 #: ../src/exportSession.cs:641 ../src/exportSession.cs:682
-#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1067
-#: ../src/gui/encoder.cs:1100 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
+#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1075
+#: ../src/gui/encoder.cs:1108 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
 #: ../src/gui/person.cs:121 ../src/gui/run.cs:1307 ../src/gui/run.cs:1478
 #: ../src/runType.cs:191 ../src/runType.cs:227 ../src/runType.cs:268
 #: ../src/runType.cs:297 ../src/treeViewEvent.cs:39
@@ -700,16 +700,15 @@ msgid "Width"
 msgstr "Širina"
 
 #: ../glade/chronojump.glade.h:148 ../src/exportSession.cs:234
-#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:1156
-#: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
-#: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
-#: ../src/stats/graphs/djQ.cs:70 ../src/stats/graphs/djQ.cs:86
-#: ../src/stats/graphs/fv.cs:83 ../src/stats/graphs/fv.cs:84
-#: ../src/stats/graphs/global.cs:68 ../src/stats/graphs/global.cs:77
-#: ../src/stats/graphs/global.cs:88 ../src/stats/graphs/potency.cs:74
-#: ../src/stats/graphs/potency.cs:85 ../src/stats/graphs/sjCmjAbk.cs:65
-#: ../src/stats/graphs/sjCmjAbk.cs:71 ../src/stats/graphs/sjCmjAbk.cs:78
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:73
+#: ../src/exportSession.cs:282 ../src/stats/djIndex.cs:33
+#: ../src/stats/djQ.cs:33 ../src/stats/graphs/djIndex.cs:70
+#: ../src/stats/graphs/djIndex.cs:86 ../src/stats/graphs/djQ.cs:70
+#: ../src/stats/graphs/djQ.cs:86 ../src/stats/graphs/fv.cs:83
+#: ../src/stats/graphs/fv.cs:84 ../src/stats/graphs/global.cs:68
+#: ../src/stats/graphs/global.cs:77 ../src/stats/graphs/global.cs:88
+#: ../src/stats/graphs/potency.cs:74 ../src/stats/graphs/potency.cs:85
+#: ../src/stats/graphs/sjCmjAbk.cs:65 ../src/stats/graphs/sjCmjAbk.cs:71
+#: ../src/stats/graphs/sjCmjAbk.cs:78 ../src/stats/graphs/sjCmjAbkPlus.cs:73
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:82
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:90 ../src/stats/potency.cs:63
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
@@ -1064,7 +1063,7 @@ msgstr "Razmerje"
 msgid "Bottom"
 msgstr "Spodaj"
 
-#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:967
+#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:975
 msgid "Left"
 msgstr "Levo"
 
@@ -1072,7 +1071,7 @@ msgstr "Levo"
 msgid "Top"
 msgstr "Zgoraj"
 
-#: ../glade/chronojump.glade.h:217 ../src/gui/encoder.cs:967
+#: ../glade/chronojump.glade.h:217 ../src/gui/encoder.cs:975
 msgid "Right"
 msgstr "Desno"
 
@@ -1226,8 +1225,8 @@ msgstr "Pokaži opis vaje"
 msgid "Add new exercise"
 msgstr "Dodaj novo vajo"
 
-#: ../glade/chronojump.glade.h:257 ../src/gui/encoder.cs:338
-#: ../src/gui/encoder.cs:423 ../src/gui/jump.cs:1290 ../src/gui/jump.cs:1489
+#: ../glade/chronojump.glade.h:257 ../src/gui/encoder.cs:343
+#: ../src/gui/encoder.cs:428 ../src/gui/jump.cs:1290 ../src/gui/jump.cs:1489
 msgid "Extra weight"
 msgstr "Dodatna obtežitev"
 
@@ -1332,7 +1331,7 @@ msgid "Separated"
 msgstr "Ločeno"
 
 #: ../glade/chronojump.glade.h:283 ../src/encoder.cs:238
-#: ../src/gui/encoder.cs:954
+#: ../src/gui/encoder.cs:962
 msgid "Eccentric-concentric"
 msgstr "Ekscentrično-koncentrično"
 
@@ -1633,7 +1632,7 @@ msgstr "stopinje"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:353 ../src/gui/encoder.cs:1154
+#: ../glade/chronojump.glade.h:353 ../src/gui/encoder.cs:1162
 msgid "Start"
 msgstr "Start"
 
@@ -2078,7 +2077,7 @@ msgstr "Preveri"
 msgid "Search filter"
 msgstr "Filter iskanja"
 
-#: ../glade/chronojump.glade.h:455 ../src/gui/encoder.cs:433
+#: ../glade/chronojump.glade.h:455 ../src/gui/encoder.cs:438
 msgid "Load"
 msgstr "Naloži"
 
@@ -2598,7 +2597,7 @@ msgid "Place"
 msgstr "Mesto"
 
 #: ../glade/chronojump.glade.h:584 ../src/exportSession.cs:219
-#: ../src/gui/encoder.cs:339 ../src/gui/encoder.cs:424
+#: ../src/gui/encoder.cs:344 ../src/gui/encoder.cs:429
 #: ../src/gui/session.cs:689 ../src/gui/session.cs:858 ../src/report.cs:242
 msgid "Date"
 msgstr "Datum"
@@ -3516,7 +3515,7 @@ msgstr "Start v teku. Začetek teka z začetno hitrostjo."
 msgid "Standing start. Started without initial speed."
 msgstr "Stoječi start. Začetek teka brez začetne hitrosti."
 
-#: ../src/encoder.cs:236 ../src/gui/encoder.cs:954
+#: ../src/encoder.cs:236 ../src/gui/encoder.cs:962
 msgid "Concentric"
 msgstr "Koncentrično"
 
@@ -3702,7 +3701,7 @@ msgid "SessionID"
 msgstr "ID Seje"
 
 #: ../src/exportSession.cs:231 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:334 ../src/gui/encoder.cs:419
+#: ../src/gui/encoder.cs:339 ../src/gui/encoder.cs:424
 #: ../src/gui/person.cs:117
 msgid "ID"
 msgstr "ID"
@@ -4425,29 +4424,29 @@ msgstr ""
 "Nova teža\n"
 "možnost 2"
 
-#: ../src/gui/encoder.cs:246
+#: ../src/gui/encoder.cs:251
 msgid "Missing data."
 msgstr "Manjkajo podatki."
 
-#: ../src/gui/encoder.cs:335 ../src/gui/encoder.cs:1153
+#: ../src/gui/encoder.cs:340 ../src/gui/encoder.cs:1161
 msgid "Curve"
 msgstr "Krivulja"
 
-#: ../src/gui/encoder.cs:336 ../src/gui/encoder.cs:421
+#: ../src/gui/encoder.cs:341 ../src/gui/encoder.cs:426
 msgid "Exercise"
 msgstr "Vaja"
 
-#: ../src/gui/encoder.cs:337 ../src/gui/encoder.cs:422
+#: ../src/gui/encoder.cs:342 ../src/gui/encoder.cs:427
 msgid "Contraction"
 msgstr "Krčenje"
 
-#: ../src/gui/encoder.cs:340 ../src/gui/encoder.cs:425
+#: ../src/gui/encoder.cs:345 ../src/gui/encoder.cs:430
 #: ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Razlaga"
 
 #. don't show now
-#: ../src/gui/encoder.cs:355
+#: ../src/gui/encoder.cs:360
 #, csharp-format
 msgid "Saved curves of athlete {0} on this session."
 msgstr "Shranjene krivulje testiranca {0} iz te seje."
@@ -4456,139 +4455,143 @@ msgstr "Shranjene krivulje testiranca {0} iz te seje."
 #. and we want to ensure next window will be created at needed size
 #. genericWin.DestroyOnAccept=true;
 #. here is comented because we are going to read the checkboxes
-#: ../src/gui/encoder.cs:370 ../src/gui/encoder.cs:1069
+#: ../src/gui/encoder.cs:375 ../src/gui/encoder.cs:1077
 msgid "Close"
 msgstr "Zapri"
 
-#: ../src/gui/encoder.cs:420
+#: ../src/gui/encoder.cs:425
 msgid "Signal"
 msgstr "Signal"
 
-#: ../src/gui/encoder.cs:429
+#: ../src/gui/encoder.cs:434
 #, csharp-format
 msgid "Select signal of athlete {0} on this session."
 msgstr "Izbor signala testiranca {0} za to sejo."
 
-#: ../src/gui/encoder.cs:469
+#: ../src/gui/encoder.cs:474
 msgid "Are you sure you want to delete this signal?"
 msgstr "Ali ste prepričani, da želite izbrisati ta signal?"
 
-#: ../src/gui/encoder.cs:484
+#: ../src/gui/encoder.cs:489
 msgid "Signal deleted"
 msgstr "Signal je izbrisan"
 
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:592
+#: ../src/gui/encoder.cs:597
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Krivulja {0} je shranjena"
 
-#: ../src/gui/encoder.cs:595
+#: ../src/gui/encoder.cs:600
 msgid "All curves saved"
 msgstr "Vse krivulje so shranjene"
 
-#: ../src/gui/encoder.cs:667
+#: ../src/gui/encoder.cs:672
 msgid "Signal saved"
 msgstr "Signal je shranjen"
 
 #. only signal is updated
 #. Adding on SQL
-#: ../src/gui/encoder.cs:673
+#: ../src/gui/encoder.cs:678
 msgid "Signal updated"
 msgstr "Signal je posodobljen"
 
-#: ../src/gui/encoder.cs:967
+#: ../src/gui/encoder.cs:975
 msgid "Both"
 msgstr "Oboje"
 
-#: ../src/gui/encoder.cs:981
+#: ../src/gui/encoder.cs:989
 msgid "Speed / Load"
 msgstr "Hitrost / Breme"
 
-#: ../src/gui/encoder.cs:981
+#: ../src/gui/encoder.cs:989
 msgid "Force / Load"
 msgstr "Sila / Breme"
 
-#: ../src/gui/encoder.cs:982
+#: ../src/gui/encoder.cs:990
 msgid "Power / Load"
 msgstr "Moč / Breme"
 
-#: ../src/gui/encoder.cs:982
+#: ../src/gui/encoder.cs:990
 msgid "Force / Speed"
 msgstr "Sila / hitrost"
 
-#: ../src/gui/encoder.cs:983
+#: ../src/gui/encoder.cs:991
 msgid "Power / Speed"
 msgstr "Moč / hitrost"
 
-#: ../src/gui/encoder.cs:1063
+#: ../src/gui/encoder.cs:1071
 msgid "Encoder exercise name:"
 msgstr "Ime vaje kodirnika:"
 
-#: ../src/gui/encoder.cs:1064 ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1072 ../src/gui/encoder.cs:1105
 msgid "Displaced body weight"
 msgstr "Izpodrinjena teža telesa"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:1066
+#: ../src/gui/encoder.cs:1074
 msgid "Resistance"
 msgstr "Odpor"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1096
+#: ../src/gui/encoder.cs:1104
 msgid "Write the name of the encoder exercise:"
 msgstr "Ime kodirane vaje:"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1107
 msgid "Ressitance"
 msgstr "Odpor"
 
-#: ../src/gui/encoder.cs:1101
+#: ../src/gui/encoder.cs:1109
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../src/gui/encoder.cs:1115
+#: ../src/gui/encoder.cs:1123
 msgid "Error: Missing name of exercise."
 msgstr "Napaka: manjka ime vaje."
 
-#: ../src/gui/encoder.cs:1118
+#: ../src/gui/encoder.cs:1126
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
-#: ../src/gui/encoder.cs:1155
+#: ../src/gui/encoder.cs:1163
 msgid "Duration"
 msgstr "Trajanje"
 
-#: ../src/gui/encoder.cs:1157
+#: ../src/gui/encoder.cs:1164
+msgid "Range"
+msgstr "Območje"
+
+#: ../src/gui/encoder.cs:1165
 msgid "MeanSpeed"
 msgstr "Povprečna hitrost"
 
-#: ../src/gui/encoder.cs:1158
+#: ../src/gui/encoder.cs:1166
 msgid "MaxSpeed"
 msgstr "Največja hitrost"
 
-#: ../src/gui/encoder.cs:1159
+#: ../src/gui/encoder.cs:1167
 msgid "MeanPower"
 msgstr "Povprečna moč"
 
-#: ../src/gui/encoder.cs:1160
+#: ../src/gui/encoder.cs:1168
 msgid "PeakPower"
 msgstr "Končna moč"
 
-#: ../src/gui/encoder.cs:1161
+#: ../src/gui/encoder.cs:1169
 msgid "PeakPowerTime"
 msgstr "Čas končne moči"
 
-#: ../src/gui/encoder.cs:1162
+#: ../src/gui/encoder.cs:1170
 msgid "PeakPower/PPT"
 msgstr "Končna moč/PPT"
 
-#: ../src/gui/encoder.cs:1649 ../src/gui/encoder.cs:1661
+#: ../src/gui/encoder.cs:1657 ../src/gui/encoder.cs:1669
 msgid "Please, wait."
 msgstr "Počakajte."
 
-#: ../src/gui/encoder.cs:1733 ../src/gui/encoder.cs:1752
+#: ../src/gui/encoder.cs:1741 ../src/gui/encoder.cs:1760
 msgid "Cancelled"
 msgstr "Preklicano"
 

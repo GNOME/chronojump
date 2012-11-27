@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-11-18 21:01+0000\n"
-"PO-Revision-Date: 2012-11-19 13:39+0100\n"
+"POT-Creation-Date: 2012-11-20 20:04+0000\n"
+"PO-Revision-Date: 2012-11-27 17:47+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -616,8 +616,8 @@ msgstr "Distancia total"
 #: ../src/exportSession.cs:285 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:495 ../src/exportSession.cs:550
 #: ../src/exportSession.cs:641 ../src/exportSession.cs:682
-#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1067
-#: ../src/gui/encoder.cs:1100 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
+#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1070
+#: ../src/gui/encoder.cs:1103 ../src/gui/jump.cs:1291 ../src/gui/jump.cs:1490
 #: ../src/gui/person.cs:121 ../src/gui/run.cs:1307 ../src/gui/run.cs:1478
 #: ../src/runType.cs:191 ../src/runType.cs:227 ../src/runType.cs:268
 #: ../src/runType.cs:297 ../src/treeViewEvent.cs:39
@@ -691,16 +691,15 @@ msgid "Width"
 msgstr "Anchura"
 
 #: ../glade/chronojump.glade.h:148 ../src/exportSession.cs:234
-#: ../src/exportSession.cs:282 ../src/gui/encoder.cs:1156
-#: ../src/stats/djIndex.cs:33 ../src/stats/djQ.cs:33
-#: ../src/stats/graphs/djIndex.cs:70 ../src/stats/graphs/djIndex.cs:86
-#: ../src/stats/graphs/djQ.cs:70 ../src/stats/graphs/djQ.cs:86
-#: ../src/stats/graphs/fv.cs:83 ../src/stats/graphs/fv.cs:84
-#: ../src/stats/graphs/global.cs:68 ../src/stats/graphs/global.cs:77
-#: ../src/stats/graphs/global.cs:88 ../src/stats/graphs/potency.cs:74
-#: ../src/stats/graphs/potency.cs:85 ../src/stats/graphs/sjCmjAbk.cs:65
-#: ../src/stats/graphs/sjCmjAbk.cs:71 ../src/stats/graphs/sjCmjAbk.cs:78
-#: ../src/stats/graphs/sjCmjAbkPlus.cs:73
+#: ../src/exportSession.cs:282 ../src/stats/djIndex.cs:33
+#: ../src/stats/djQ.cs:33 ../src/stats/graphs/djIndex.cs:70
+#: ../src/stats/graphs/djIndex.cs:86 ../src/stats/graphs/djQ.cs:70
+#: ../src/stats/graphs/djQ.cs:86 ../src/stats/graphs/fv.cs:83
+#: ../src/stats/graphs/fv.cs:84 ../src/stats/graphs/global.cs:68
+#: ../src/stats/graphs/global.cs:77 ../src/stats/graphs/global.cs:88
+#: ../src/stats/graphs/potency.cs:74 ../src/stats/graphs/potency.cs:85
+#: ../src/stats/graphs/sjCmjAbk.cs:65 ../src/stats/graphs/sjCmjAbk.cs:71
+#: ../src/stats/graphs/sjCmjAbk.cs:78 ../src/stats/graphs/sjCmjAbkPlus.cs:73
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:82
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:90 ../src/stats/potency.cs:63
 #: ../src/stats/sjCmjAbk.cs:53 ../src/stats/sjCmjAbkPlus.cs:63
@@ -1052,7 +1051,7 @@ msgstr "Aspecto"
 msgid "Bottom"
 msgstr "Abajo"
 
-#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:967
+#: ../glade/chronojump.glade.h:215 ../src/gui/encoder.cs:970
 msgid "Left"
 msgstr "Izquierda"
 
@@ -1060,7 +1059,7 @@ msgstr "Izquierda"
 msgid "Top"
 msgstr "Arriba"
 
-#: ../glade/chronojump.glade.h:217 ../src/gui/encoder.cs:967
+#: ../glade/chronojump.glade.h:217 ../src/gui/encoder.cs:970
 msgid "Right"
 msgstr "Derecha"
 
@@ -1238,7 +1237,6 @@ msgid "Smoothing"
 msgstr "Suavizado"
 
 #: ../glade/chronojump.glade.h:262
-#| msgid "pulse"
 msgid "Propulsive"
 msgstr "Propulsivo"
 
@@ -1323,7 +1321,7 @@ msgid "Separated"
 msgstr "Separadas"
 
 #: ../glade/chronojump.glade.h:283 ../src/encoder.cs:238
-#: ../src/gui/encoder.cs:954
+#: ../src/gui/encoder.cs:957
 msgid "Eccentric-concentric"
 msgstr "Excéntrico-concéntrico"
 
@@ -1622,7 +1620,7 @@ msgstr "grados"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:353 ../src/gui/encoder.cs:1154
+#: ../glade/chronojump.glade.h:353 ../src/gui/encoder.cs:1157
 msgid "Start"
 msgstr "Salida"
 
@@ -3497,7 +3495,7 @@ msgstr "Comienza carrera con velocidad inicial."
 msgid "Standing start. Started without initial speed."
 msgstr "Comienza carrera sin velocidad inicial."
 
-#: ../src/encoder.cs:236 ../src/gui/encoder.cs:954
+#: ../src/encoder.cs:236 ../src/gui/encoder.cs:957
 msgid "Concentric"
 msgstr "Concéntrico"
 
@@ -4410,7 +4408,7 @@ msgstr ""
 msgid "Missing data."
 msgstr "Faltan datos."
 
-#: ../src/gui/encoder.cs:335 ../src/gui/encoder.cs:1153
+#: ../src/gui/encoder.cs:335 ../src/gui/encoder.cs:1156
 msgid "Curve"
 msgstr "Curva"
 
@@ -4437,7 +4435,7 @@ msgstr "Curvas guardadas del atleta {0} en esta sesión."
 #. and we want to ensure next window will be created at needed size
 #. genericWin.DestroyOnAccept=true;
 #. here is comented because we are going to read the checkboxes
-#: ../src/gui/encoder.cs:370 ../src/gui/encoder.cs:1069
+#: ../src/gui/encoder.cs:370 ../src/gui/encoder.cs:1072
 msgid "Close"
 msgstr "Cerrar"
 
@@ -4478,99 +4476,103 @@ msgstr "Señal guardada"
 msgid "Signal updated"
 msgstr "Señal actualizada"
 
-#: ../src/gui/encoder.cs:967
+#: ../src/gui/encoder.cs:970
 msgid "Both"
 msgstr "Ambas"
 
-#: ../src/gui/encoder.cs:981
+#: ../src/gui/encoder.cs:984
 msgid "Speed / Load"
 msgstr "Velocidad / carga"
 
-#: ../src/gui/encoder.cs:981
+#: ../src/gui/encoder.cs:984
 msgid "Force / Load"
 msgstr "Fuerza / carga"
 
-#: ../src/gui/encoder.cs:982
+#: ../src/gui/encoder.cs:985
 msgid "Power / Load"
 msgstr "Potencia / carga"
 
-#: ../src/gui/encoder.cs:982
+#: ../src/gui/encoder.cs:985
 msgid "Force / Speed"
 msgstr "Fuerza / velocidad"
 
-#: ../src/gui/encoder.cs:983
+#: ../src/gui/encoder.cs:986
 msgid "Power / Speed"
 msgstr "Potencia / velocidad"
 
-#: ../src/gui/encoder.cs:1063
+#: ../src/gui/encoder.cs:1066
 msgid "Encoder exercise name:"
 msgstr "Nombre del ejercicio del codificador:"
 
-#: ../src/gui/encoder.cs:1064 ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1067 ../src/gui/encoder.cs:1100
 msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:1066
-#| msgid "Ressitance"
+#: ../src/gui/encoder.cs:1069
 msgid "Resistance"
 msgstr "Resistencia"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1096
+#: ../src/gui/encoder.cs:1099
 msgid "Write the name of the encoder exercise:"
 msgstr "Escriba el nombre del codificador del ejercicio:"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1102
 msgid "Ressitance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:1101
+#: ../src/gui/encoder.cs:1104
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:1115
+#: ../src/gui/encoder.cs:1118
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:1118
+#: ../src/gui/encoder.cs:1121
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/encoder.cs:1155
+#: ../src/gui/encoder.cs:1158
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoder.cs:1157
+#: ../src/gui/encoder.cs:1159
+#| msgid "change"
+msgid "Range"
+msgstr "Rango"
+
+#: ../src/gui/encoder.cs:1160
 msgid "MeanSpeed"
 msgstr "Velocidad media"
 
-#: ../src/gui/encoder.cs:1158
+#: ../src/gui/encoder.cs:1161
 msgid "MaxSpeed"
 msgstr "Velocidad máxima"
 
-#: ../src/gui/encoder.cs:1159
+#: ../src/gui/encoder.cs:1162
 msgid "MeanPower"
 msgstr "Potencia media"
 
-#: ../src/gui/encoder.cs:1160
+#: ../src/gui/encoder.cs:1163
 msgid "PeakPower"
 msgstr "Pico de potencia"
 
-#: ../src/gui/encoder.cs:1161
+#: ../src/gui/encoder.cs:1164
 msgid "PeakPowerTime"
 msgstr "Instante del pico de potencia"
 
-#: ../src/gui/encoder.cs:1162
+#: ../src/gui/encoder.cs:1165
 msgid "PeakPower/PPT"
 msgstr "Pico de potencia/Instante"
 
-#: ../src/gui/encoder.cs:1649 ../src/gui/encoder.cs:1661
+#: ../src/gui/encoder.cs:1652 ../src/gui/encoder.cs:1664
 msgid "Please, wait."
 msgstr "Espere."
 
-#: ../src/gui/encoder.cs:1733 ../src/gui/encoder.cs:1752
+#: ../src/gui/encoder.cs:1736 ../src/gui/encoder.cs:1755
 msgid "Cancelled"
 msgstr "Cancelado"
 

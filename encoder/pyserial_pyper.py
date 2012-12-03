@@ -21,7 +21,7 @@
 #
 # This program is for reading data from Chronopic.
 
-
+#TODO: show seconds count (according to Chronopic data?)
 
 import serial
 import sys

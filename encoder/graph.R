@@ -214,7 +214,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		if(ylim[1]=="undefined") { ylim=NULL }
 		if(!axesAndTitle)
 			title=""
-		plot(a,type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F, main=title)
+		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F, main=title)
 		if(axesAndTitle) {
 			axis(1) 	#can be added xmin
 			axis(2)
@@ -224,13 +224,14 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		colNormal="black"
 		if(superpose)
 			colNormal="gray30"
+		yValues = a[startX:length(a)]-min(a[startX:length(a)])
 		if(highlight==FALSE) {
-			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
+			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
 			par(new=T)
-			plot(startX:length(a),a[startX:length(a)],type="h",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
+			plot(startX:length(a),yValues,type="h",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
 		}
 		else
-			plot(startX:length(a),a[startX:length(a)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 		abline(h=0,lty=3,col="black")
 
 		#abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")

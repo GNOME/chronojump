@@ -21,8 +21,6 @@
 #
 # This program is for reading data from Chronopic.
 
-#TODO: show seconds count (according to Chronopic data?)
-
 import serial
 import sys
 from datetime import datetime
@@ -243,9 +241,6 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 				if play:
 					playsound(soundFile)
 
-				#screen.fill((0,0,0)) #make redraw background black
-				printHeader("running")
-
 				rangeList.append(height)
 				meanPowerList.append(meanPower)
 				
@@ -348,6 +343,8 @@ def update_graph(paramName, paramList, lowCondition, highCondition,
         screen.blit(s,(horizPosToCopy,vertPosToCopy)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
 
+#option can be "start", "end",
+#or time left: "5s", "4s", ..
 def printHeader(option):
 	s=pygame.Surface((792,32))
 	s.fill(ColorBackground) #color the surface
@@ -360,13 +357,15 @@ def printHeader(option):
 	if option == "start":
 		string = "Start!"
 		text = FontBig.render(string,1, (255,91,0))
-		textpos = text.get_rect(right=792-10,centery=14)
-		s.blit(text,textpos)
 	elif option == "end":
 		string = "Done! Please close this window."
 		text = FontBig.render(string,1, (255,91,0))
-		textpos = text.get_rect(right=792-10,centery=14)
-		s.blit(text,textpos)
+	else:
+		string = option
+		text = FontBig.render(string,1, (255,91,0))
+
+	textpos = text.get_rect(right=792-10,centery=14)
+	s.blit(text,textpos)
 
         screen.blit(s,(4,4)) #render the surface into the rectangle
 	pygame.display.flip() #update the screen
@@ -431,6 +430,9 @@ if __name__ == '__main__':
 	title = title.replace('-',' ')
 	printHeader("start")
 
+	secondsLeft = int(record_time / 1000)
+	msCount = 0
+
 	for i in xrange(record_time):
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()
@@ -444,6 +446,12 @@ if __name__ == '__main__':
 			temp_speed.append(1.0*(temp_cumsum[i]-temp_cumsum[i-lag])/lag)
 		else:
 			temp_speed.append(0)
+
+		msCount = msCount +1
+		if msCount == 1000 :
+			secondsLeft = secondsLeft -1
+			printHeader(`secondsLeft` + " s")
+			msCount = 1
 
 		# Judging if direction has changed
 		if signedChar_data != 0:

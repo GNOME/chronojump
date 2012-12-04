@@ -40,7 +40,7 @@ public class JumpType : EventType
 	public override bool FindIfIsPredefined() {
 		string [] predefinedTests = {
 			"Free", "SJ", "CMJ", "ABK", "Rocket",
-			"SJl", "CMJl", "ABKl", "DJa", "DJna",
+			"SJl", "CMJl", "slCMJ", "ABKl", "DJa", "DJna",
 			"RJ(j)", "RJ(t)", "RJ(unlimited)",
 			"RJ(hexagon)", "triple jump"
 		};
@@ -64,7 +64,8 @@ public class JumpType : EventType
 		imageFileName = "";
 		
 		//if this changes, sqlite/jumpType.cs initialize tables should change
-		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "ABK" || name == "Rocket") {
+		if(name == "Free" || name == "SJ" || name == "CMJ" || name == "slCMJ" || 
+				name == "ABK" || name == "Rocket") {
 			startIn 	= true;
 			hasWeight 	= false;
 			isRepetitive 	= false;
@@ -89,6 +90,11 @@ public class JumpType : EventType
 					"http://people.brunel.ac.uk/~spstnpl/" + "BiomechanicsAthletics/VerticalJumping.htm" + "\n" +
 					"Hands are on the hips";
 
+			} 
+			else if (name == "slCMJ") {
+				//imageFileName = "jump_cmj.png";
+				description	= Catalog.GetString("Single-leg CounterMovement Jump");
+				longDescription	= "";
 			} 
 			else if (name == "ABK") {
 				description	= Catalog.GetString("Abalakov Jump");

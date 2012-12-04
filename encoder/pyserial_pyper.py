@@ -245,11 +245,19 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 				meanPowerList.append(meanPower)
 				
 				graphsWidth = 792 #800-4-4
-				update_graph("Range (cm)", rangeList, heightLowerCondition, heightHigherCondition, 
+				hasRightMargin = True
+				if (	heightLowerCondition == -1 and heightHigherCondition == -1 and
+					powerLowerCondition == -1 and powerHigherCondition == -1
+				   ):
+					hasRightMargin = False
+
+				update_graph("Range (cm)", rangeList, 
+						heightLowerCondition, heightHigherCondition, hasRightMargin,
 						graphsWidth, 112, (222,222,222), 4, 40)
 				#vertical_height: 112, position it at 40 pixels vert
 
-				update_graph("Mean Power (W)", meanPowerList, powerLowerCondition, powerHigherCondition, 
+				update_graph("Mean Power (W)", meanPowerList, 
+						powerLowerCondition, powerHigherCondition, hasRightMargin,
 						graphsWidth, 440, (222,222,222), 4, 156)
 				#position it at 40+112+4 pixels vert: 156
 				#vertical_height: 600 -4 (lower sep) - 156 : 440
@@ -273,14 +281,17 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 
 
 
-def update_graph(paramName, paramList, lowCondition, highCondition, 
+def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMargin,
 		my_surface_width, my_surface_height, color, horizPosToCopy, vertPosToCopy):
 	s=pygame.Surface((my_surface_width,my_surface_height))
 
 	s.fill(ColorBackground) #color the surface
 
 	left_margin = 10
-	right_margin = 40
+	right_margin = 0
+	if hasRightMargin:
+		right_margin = 40
+
 	vert_margin = 40
 	sep=20		#between reps
 	sep_small=2	#between bars
@@ -308,7 +319,7 @@ def update_graph(paramName, paramList, lowCondition, highCondition,
 		s.blit(text,textpos)
 
 	for param in paramList:
-		if count > 10:
+		if len(paramList) >= 10:
 			sep = 10
 		
 		param_height = ( my_surface_height - vert_margin ) * param / paramMax 
@@ -326,9 +337,12 @@ def update_graph(paramName, paramList, lowCondition, highCondition,
 		left = left_margin + width*count
 		param_width = width - sep
 		pygame.draw.rect(s, colorNow, (left, my_surface_height, param_width, -param_height), 0) #0: filled
-		
+
 		string = "%i" % param
 		text = FontBig.render(string,1,color, ColorBackground)
+		if len(paramList) > 20:
+			text = FontSmall.render(string,1,color, ColorBackground)
+
 		textpos = text.get_rect(centerx=left+(param_width/2), centery=my_surface_height-param_height-vert_margin/2)
 	       	s.blit(text,textpos)
 		

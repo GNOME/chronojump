@@ -358,7 +358,7 @@ def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMarg
 	pygame.display.flip() #update the screen
 
 #option can be "start", "end",
-#or time left: "5s", "4s", ..
+#or time left: "5 s", "4 s", ..
 def printHeader(option):
 	s=pygame.Surface((792,32))
 	s.fill(ColorBackground) #color the surface

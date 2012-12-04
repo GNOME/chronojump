@@ -50,7 +50,7 @@ public class JumpExecute : EventExecute
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd 
+			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
 		this.personID = personID;
@@ -68,6 +68,7 @@ public class JumpExecute : EventExecute
 		this.volumeOn = volumeOn;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.description = description;
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -392,11 +393,11 @@ public class JumpExecute : EventExecute
 
 		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
-				weight, "", angle, Util.BoolToNegativeInt(simulated)); //weight, description, simulated
+				weight, description, angle, Util.BoolToNegativeInt(simulated));
 
 		//define the created object
 		eventDone = new Jump(uniqueID, personID, sessionID, type, tv, tc, fall, 
-				weight, "", angle, Util.BoolToNegativeInt(simulated)); 
+				weight, description, angle, Util.BoolToNegativeInt(simulated)); 
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();

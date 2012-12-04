@@ -808,6 +808,16 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 	[Widget] Gtk.Label extra_window_label_jumps_no_options;
 	
+	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_lateral;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_right;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_left;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_this_limb;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_opposite;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_unknown;
+	
 	//options jumps_rj
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
 	[Widget] Gtk.SpinButton extra_window_jumps_rj_spinbutton_limit;
@@ -827,6 +837,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_jump_sjl;
 	[Widget] Gtk.Label label_extra_window_radio_jump_cmj;
 	[Widget] Gtk.Label label_extra_window_radio_jump_cmjl;
+	[Widget] Gtk.Label label_extra_window_radio_jump_slcmj;
 	[Widget] Gtk.Label label_extra_window_radio_jump_abk;
 	[Widget] Gtk.Label label_extra_window_radio_jump_dj;
 	[Widget] Gtk.Label label_extra_window_radio_jump_rocket;
@@ -839,6 +850,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_jump_sjl;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_cmj;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_cmjl;
+	[Widget] Gtk.RadioButton extra_window_radio_jump_slcmj;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_abk;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_dj;
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rocket;
@@ -888,6 +900,7 @@ partial class ChronoJumpWindow
 		else if(extra_window_radio_jump_sjl.Active) currentJumpType = new JumpType("SJl");
 		else if(extra_window_radio_jump_cmj.Active) currentJumpType = new JumpType("CMJ");
 		else if(extra_window_radio_jump_cmjl.Active) currentJumpType = new JumpType("CMJl");
+		else if(extra_window_radio_jump_slcmj.Active) currentJumpType = new JumpType("slCMJ");
 		else if(extra_window_radio_jump_abk.Active) currentJumpType = new JumpType("ABK");
 		else if(extra_window_radio_jump_dj.Active) currentJumpType = new JumpType("DJ");
 		else if(extra_window_radio_jump_rocket.Active) currentJumpType = new JumpType("Rocket");
@@ -979,6 +992,10 @@ partial class ChronoJumpWindow
 		} else {
 			extra_window_jumps_radiobutton_weight.Active = true;
 		}
+
+		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJ");
+		if(myJumpType.Name == "slCMJ")
+			hasOptions = true;
 
 		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
@@ -1130,6 +1147,7 @@ partial class ChronoJumpWindow
 		else if(type.Name == "SJl") extra_window_radio_jump_sjl.Active = true;
 		else if(type.Name == "CMJ") extra_window_radio_jump_cmj.Active = true;
 		else if(type.Name == "CMJl") extra_window_radio_jump_cmjl.Active = true;
+		else if(type.Name == "slCMJ") extra_window_radio_jump_slcmj.Active = true;
 		else if(type.Name == "ABK") extra_window_radio_jump_abk.Active = true;
 //		else if(type.Name == "DJ") extra_window_radio_jump_dj.Active = true;
 		else if(type.Name == "Rocket") extra_window_radio_jump_rocket.Active = true;
@@ -1197,6 +1215,9 @@ partial class ChronoJumpWindow
 		extra_window_jumps_rj_label_limit_units.Visible = show;
 	}
 	
+	private void extra_window_showSingleLegStuff(bool show) {
+		vbox_extra_window_jumps_single_leg.Visible = show;
+	}
 			
 	private void extra_window_jumps_showNoOptions(JumpType myJumpType, bool hasOptions) {
 		if(myJumpType.IsRepetitive) 
@@ -1234,6 +1255,23 @@ partial class ChronoJumpWindow
 			return extra_window_jumps_rj_limited.ToString() + "J";
 		else 
 			return extra_window_jumps_rj_limited.ToString() + "T";
+	}
+	
+	private string slCMJString()
+	{
+		string str = "";
+		if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active) str = "V";		//Vertical
+		else if(extra_window_jumps_radiobutton_single_leg_mode_horizontal.Active) str = "H";	//Horizontal
+		else str = "L"; 									//Lateral
+		
+		if(extra_window_jumps_radiobutton_single_leg_right.Active) str += " R";			//Right
+		else str += " L"; 									//Left
+		
+		if(extra_window_jumps_radiobutton_single_leg_this_limb.Active) str += " T";		//This limb
+		else if(extra_window_jumps_radiobutton_single_leg_opposite.Active) str += " O";		//Opposite
+		else str += " U"; 									//Unknown
+
+		return str;
 	}
 
 }

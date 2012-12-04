@@ -587,6 +587,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_sjl);
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmj);
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_slcmj);
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_abk);
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_dj);
 		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rocket);
@@ -598,6 +599,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(extra_window_radio_jump_sjl);
 		UtilGtk.ColorsRadio(extra_window_radio_jump_cmj);
 		UtilGtk.ColorsRadio(extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsRadio(extra_window_radio_jump_slcmj);
 		UtilGtk.ColorsRadio(extra_window_radio_jump_abk);
 		UtilGtk.ColorsRadio(extra_window_radio_jump_dj);
 		UtilGtk.ColorsRadio(extra_window_radio_jump_rocket);
@@ -3058,7 +3060,11 @@ Console.WriteLine("X");
 		else if( ! currentJumpType.StartIn) {
 			myFall = extra_window_jumps_fall;
 		}
-		
+
+		string description = "";
+		if(currentJumpType.Name == "slCMJ") {
+			description = slCMJString(); 
+		}
 			
 		//used by cancel and finish
 		//currentEventType = new JumpType();
@@ -3097,7 +3103,7 @@ Console.WriteLine("X");
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
-				progressbarLimit, egd);
+				progressbarLimit, egd, description);
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);

@@ -34,6 +34,19 @@ using Mono.Unix;
 
 public class EditJumpWindow : EditEventWindow
 {
+	[Widget] private Gtk.Box jumps_single_leg;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_right;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_left;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_this_limb;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_opposite;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_unknown;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_this_limb;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_opposite;
+	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_both;
+
 	static EditJumpWindow EditJumpWindowBox;
 	protected double personWeight;
 	protected int sessionID; //for know weight specific to this session
@@ -74,6 +87,8 @@ public class EditJumpWindow : EditEventWindow
 		EditJumpWindowBox.initializeValues();
 
 		EditJumpWindowBox.fillDialog (myEvent);
+		
+		EditJumpWindowBox.fillSpecialData (myEvent);
 		
 		EditJumpWindowBox.edit_event.Show ();
 
@@ -175,6 +190,37 @@ public class EditJumpWindow : EditEventWindow
 		} else {
 			entryAngle = myJump.Angle.ToString();
 			entry_angle_value.Text = entryAngle;
+		}
+	}
+
+	private void fillSpecialData(Event myEvent) {
+		Jump myJump = (Jump) myEvent;
+		//singleLeg
+		if(myJump.Type == "slCMJ") {
+			jumps_single_leg.Show();
+			entry_description.Sensitive = false;
+
+			string [] d = myJump.Description.Split(new char[] {' '});
+		
+			switch(d[0]) {
+				case "Vertical": jumps_radiobutton_single_leg_mode_vertical.Active = true; break;
+				case "Horizontal": jumps_radiobutton_single_leg_mode_horizontal.Active = true; break;
+				case "Lateral": jumps_radiobutton_single_leg_mode_lateral.Active = true; break;
+			}
+			switch(d[1]) {
+				case "Right": jumps_radiobutton_single_leg_right.Active = true; break;
+				case "Left": jumps_radiobutton_single_leg_left.Active = true; break;
+			}
+			switch(d[2]) {
+				case "This": jumps_radiobutton_single_leg_dominance_this_limb.Active = true; break;
+				case "Opposite": jumps_radiobutton_single_leg_dominance_opposite.Active = true; break;
+				case "Unknown": jumps_radiobutton_single_leg_dominance_unknown.Active = true; break;
+			}
+			switch(d[3]) {
+				case "This": jumps_radiobutton_single_leg_fall_this_limb.Active = true; break;
+				case "Opposite": jumps_radiobutton_single_leg_fall_opposite.Active = true; break;
+				case "Both": jumps_radiobutton_single_leg_fall_both.Active = true; break;
+			}
 		}
 	}
 
@@ -814,9 +860,12 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_lateral;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_right;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_left;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_this_limb;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_opposite;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_unknown;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_opposite;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_unknown;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_this_limb;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_opposite;
+	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_both;
 	
 	//options jumps_rj
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
@@ -1257,19 +1306,24 @@ partial class ChronoJumpWindow
 			return extra_window_jumps_rj_limited.ToString() + "T";
 	}
 	
+	//do not translate this
 	private string slCMJString()
 	{
 		string str = "";
-		if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active) str = "V";		//Vertical
-		else if(extra_window_jumps_radiobutton_single_leg_mode_horizontal.Active) str = "H";	//Horizontal
-		else str = "L"; 									//Lateral
+		if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active) str = "Vertical";
+		else if(extra_window_jumps_radiobutton_single_leg_mode_horizontal.Active) str = "Horizontal";
+		else str = "Lateral";
 		
-		if(extra_window_jumps_radiobutton_single_leg_right.Active) str += " R";			//Right
-		else str += " L"; 									//Left
+		if(extra_window_jumps_radiobutton_single_leg_right.Active) str += " Right";
+		else str += " Left";
 		
-		if(extra_window_jumps_radiobutton_single_leg_this_limb.Active) str += " T";		//This limb
-		else if(extra_window_jumps_radiobutton_single_leg_opposite.Active) str += " O";		//Opposite
-		else str += " U"; 									//Unknown
+		if(extra_window_jumps_radiobutton_single_leg_dominance_this_limb.Active) str += " This";
+		else if(extra_window_jumps_radiobutton_single_leg_dominance_opposite.Active) str += " Opposite";
+		else str += " Unknown";
+
+		if(extra_window_jumps_radiobutton_single_leg_fall_this_limb.Active) str += " This";
+		else if(extra_window_jumps_radiobutton_single_leg_fall_opposite.Active) str += " Opposite";
+		else str += " Both";
 
 		return str;
 	}

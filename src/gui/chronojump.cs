@@ -3117,16 +3117,40 @@ Console.WriteLine("X");
 		currentEventExecute.FakeButtonUpdateGraph.Clicked += 
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
-		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
-	}	
 
+		//if jump is slCMJ and is not vertical, user has to input the length of jumpin cm
+		if(currentJumpType.Name == "slCMJ" && ! extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
+			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished_ask_data);
+		else
+			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
+	}	
 	
+	private void on_jump_finished_ask_data (object o, EventArgs args)
+	{
+		genericWin = GenericWindow.Show(Catalog.GetString("Input length oj jump in centimeters")
+				, Constants.GenericWindowShow.SPININT);
+
+		genericWin.LabelSpinInt = "";
+		genericWin.SetSpinRange(1.0, 200.0);
+		genericWin.Button_accept.Clicked += new EventHandler(on_jump_finished);
+	}
+
 	private void on_jump_finished (object o, EventArgs args)
 	{
+		//genericWin.Button_accept.Clicked -= new EventHandler(on_jump_finished);
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 		
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
+		
+			if(currentJumpType.Name == "slCMJ") {
+				if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
+					currentJump.Description += " 0";
+				else
+					currentJump.Description += " " + genericWin.SpinIntSelected.ToString();
+				SqliteJump.UpdateDescription(Constants.JumpTable, 
+						currentJump.UniqueID, currentJump.Description);
+			}
 
 			//move video file if exists
 			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID);

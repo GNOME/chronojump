@@ -34,7 +34,7 @@ using Mono.Unix;
 
 public class EditJumpWindow : EditEventWindow
 {
-	[Widget] private Gtk.Box jumps_single_leg;
+	[Widget] private Gtk.Frame frame_jumps_single_leg;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
@@ -199,7 +199,7 @@ public class EditJumpWindow : EditEventWindow
 	private bool toggleRaisesSignal = true;
 
 	private void fillSingleLeg(string description) {
-		jumps_single_leg.Show();
+		frame_jumps_single_leg.Show();
 		entry_description.Sensitive = false;
 
 		string [] d = description.Split(new char[] {' '});
@@ -346,7 +346,7 @@ public class EditJumpWindow : EditEventWindow
 			entry_weight_value.Sensitive = false;
 		}
 		
-		jumps_single_leg.Visible = myJumpType.Name == "slCMJ";
+		frame_jumps_single_leg.Visible = myJumpType.Name == "slCMJ";
 	}
 
 

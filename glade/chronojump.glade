@@ -18133,13 +18133,13 @@ comments</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkFrame" id="frame1">
-            <property name="visible">True</property>
+          <widget class="GtkFrame" id="frame_jumps_single_leg">
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
             <property name="shadow_type">out</property>
             <child>
               <widget class="GtkVBox" id="jumps_single_leg">
+                <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
                 <child>

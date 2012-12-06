@@ -515,7 +515,7 @@ public class EditEventWindow
 	protected virtual void on_radio_mtgug_4_toggled(object o, EventArgs args) { }
 	protected virtual void on_radio_mtgug_5_toggled(object o, EventArgs args) { }
 	protected virtual void on_radio_mtgug_6_toggled(object o, EventArgs args) { }
-
+	
 	protected virtual void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EditEventWindowBox.edit_event.Hide();

@@ -143,6 +143,7 @@ public class GenericWindow
 		hbox_spin_int.Hide();
 		spin_double.Hide();
 		hbox_height_metric.Hide();
+		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		scrolled_window_textview.Hide();
 		scrolled_window_treeview.Hide();
@@ -184,6 +185,7 @@ public class GenericWindow
 			combo_all_none_selected.Active = 
 				UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
 			hbox_combo_all_none_selected.Show();
+			hbox_all_none_selected.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW) {
 			scrolled_window_textview.Show();

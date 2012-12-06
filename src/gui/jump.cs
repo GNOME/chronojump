@@ -46,6 +46,7 @@ public class EditJumpWindow : EditEventWindow
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_this_limb;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_opposite;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_both;
+	[Widget] private Gtk.SpinButton jumps_spinbutton_single_leg_distance;
 
 	static EditJumpWindow EditJumpWindowBox;
 	protected double personWeight;
@@ -88,7 +89,8 @@ public class EditJumpWindow : EditEventWindow
 
 		EditJumpWindowBox.fillDialog (myEvent);
 		
-		EditJumpWindowBox.fillSpecialData (myEvent);
+		if(myEvent.Type == "slCMJ")
+			EditJumpWindowBox.fillSingleLeg (myEvent.Description);
 		
 		EditJumpWindowBox.edit_event.Show ();
 
@@ -192,37 +194,124 @@ public class EditJumpWindow : EditEventWindow
 			entry_angle_value.Text = entryAngle;
 		}
 	}
+	
+	//this disallows loops on radio actions	
+	private bool toggleRaisesSignal = true;
 
-	private void fillSpecialData(Event myEvent) {
-		Jump myJump = (Jump) myEvent;
-		//singleLeg
-		if(myJump.Type == "slCMJ") {
-			jumps_single_leg.Show();
-			entry_description.Sensitive = false;
+	private void fillSingleLeg(string description) {
+		jumps_single_leg.Show();
+		entry_description.Sensitive = false;
 
-			string [] d = myJump.Description.Split(new char[] {' '});
+		string [] d = description.Split(new char[] {' '});
+
+		toggleRaisesSignal = false;
 		
-			switch(d[0]) {
-				case "Vertical": jumps_radiobutton_single_leg_mode_vertical.Active = true; break;
-				case "Horizontal": jumps_radiobutton_single_leg_mode_horizontal.Active = true; break;
-				case "Lateral": jumps_radiobutton_single_leg_mode_lateral.Active = true; break;
+		switch(d[0]) {
+			case "Vertical": 
+					jumps_radiobutton_single_leg_mode_vertical.Active = true; 
+					jumps_spinbutton_single_leg_distance.Sensitive = false;
+					jumps_spinbutton_single_leg_distance.Value = 0;
+					break;
+			case "Horizontal": 
+					jumps_radiobutton_single_leg_mode_horizontal.Active = true; 
+					jumps_spinbutton_single_leg_distance.Sensitive = true;
+					jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
+					break;
+			case "Lateral": 
+					jumps_radiobutton_single_leg_mode_lateral.Active = true; 
+					jumps_spinbutton_single_leg_distance.Sensitive = true;
+					jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
+					break;
+		}
+		switch(d[1]) {
+			case "Right": jumps_radiobutton_single_leg_right.Active = true; break;
+			case "Left": jumps_radiobutton_single_leg_left.Active = true; break;
+		}
+		switch(d[2]) {
+			case "This": jumps_radiobutton_single_leg_dominance_this_limb.Active = true; break;
+			case "Opposite": jumps_radiobutton_single_leg_dominance_opposite.Active = true; break;
+			case "Unknown": jumps_radiobutton_single_leg_dominance_unknown.Active = true; break;
+		}
+		switch(d[3]) {
+			case "This": jumps_radiobutton_single_leg_fall_this_limb.Active = true; break;
+			case "Opposite": jumps_radiobutton_single_leg_fall_opposite.Active = true; break;
+			case "Both": jumps_radiobutton_single_leg_fall_both.Active = true; break;
+		}
+			
+		toggleRaisesSignal = true;
+	}
+	
+	private void on_radio_single_leg_1_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(jumps_radiobutton_single_leg_mode_vertical.Active) {
+				d[0] = "Vertical";	
+				d[4] = "0";	
 			}
-			switch(d[1]) {
-				case "Right": jumps_radiobutton_single_leg_right.Active = true; break;
-				case "Left": jumps_radiobutton_single_leg_left.Active = true; break;
-			}
-			switch(d[2]) {
-				case "This": jumps_radiobutton_single_leg_dominance_this_limb.Active = true; break;
-				case "Opposite": jumps_radiobutton_single_leg_dominance_opposite.Active = true; break;
-				case "Unknown": jumps_radiobutton_single_leg_dominance_unknown.Active = true; break;
-			}
-			switch(d[3]) {
-				case "This": jumps_radiobutton_single_leg_fall_this_limb.Active = true; break;
-				case "Opposite": jumps_radiobutton_single_leg_fall_opposite.Active = true; break;
-				case "Both": jumps_radiobutton_single_leg_fall_both.Active = true; break;
-			}
+			else if(jumps_radiobutton_single_leg_mode_horizontal.Active)
+				d[0] = "Horizontal";
+			else
+				d[0] = "Lateral";
+			
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			fillSingleLeg(entry_description.Text);
 		}
 	}
+
+	private void on_radio_single_leg_2_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(jumps_radiobutton_single_leg_right.Active)
+				d[1] = "Right";	
+			else
+				d[1] = "Left";
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			fillSingleLeg(entry_description.Text);
+		}
+	}
+
+	private void on_radio_single_leg_3_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(jumps_radiobutton_single_leg_dominance_this_limb.Active)
+				d[2] = "This";	
+			else if(jumps_radiobutton_single_leg_dominance_opposite.Active)
+				d[2] = "Opposite";
+			else
+				d[2] = "Unknown";
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			fillSingleLeg(entry_description.Text);
+		}
+	}
+
+	private void on_radio_single_leg_4_toggled(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+			if(jumps_radiobutton_single_leg_fall_this_limb.Active)
+				d[3] = "This";	
+			else if(jumps_radiobutton_single_leg_fall_opposite.Active)
+				d[3] = "Opposite";
+			else
+				d[3] = "Both";
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			fillSingleLeg(entry_description.Text);
+		}
+	}
+
+	private void on_spin_single_leg_changed(object o, EventArgs args) {
+		if(toggleRaisesSignal) {
+			string [] d = entry_description.Text.Split(new char[] {' '});
+
+			d[4] = jumps_spinbutton_single_leg_distance.Value.ToString();
+
+			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			fillSingleLeg(entry_description.Text);
+		}
+	}
+
 
 	
 	protected override void createSignal() {
@@ -256,6 +345,8 @@ public class EditJumpWindow : EditEventWindow
 			entry_weight_value.Text = "0";
 			entry_weight_value.Sensitive = false;
 		}
+		
+		jumps_single_leg.Visible = myJumpType.Name == "slCMJ";
 	}
 
 

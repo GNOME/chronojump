@@ -225,6 +225,16 @@ class SqliteJump : Sqlite
 		dbcon.Close();
 	}
 
+	public static void UpdateDescription(string tableName, int uniqueID, string description)
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "UPDATE " + tableName + " SET description = '" + description + 
+			"' WHERE uniqueID == " + uniqueID ;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		dbcon.Close();
+	}
+
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...
 	public static void ChangeWeightToL()
 	{

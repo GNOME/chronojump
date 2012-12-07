@@ -46,7 +46,7 @@ TRUE = 1
 title = sys.argv[1]
 outputFile = sys.argv[2]
 record_time = int(sys.argv[3])*1000		#from s to ms
-minHeight = int(sys.argv[4])			#all is stored, but only display when vertical range is >= minHeight
+minRange = int(sys.argv[4])			#all is stored, but only display when vertical range is >= minRange
 isJump = sys.argv[5]
 mass = float(sys.argv[6])
 smoothingOne = float(sys.argv[7])
@@ -61,6 +61,7 @@ powerHigherCondition = int(sys.argv[15])
 powerLowerCondition = int(sys.argv[16])
 peakPowerHigherCondition = int(sys.argv[17])
 peakPowerLowerCondition = int(sys.argv[18])
+mainVariable = sys.argv[19]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -141,8 +142,11 @@ def assignColor(found, conditionHigher, conditionLower):
 		return BLACK
 
 rangeList = list()
+meanSpeedList = list()
+maxSpeedList = list()
 meanPowerList = list()
-def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minHeight, isJump):
+peakPowerList = list()
+def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minRange, isJump):
 	if (len(top_values)>0 and len(bottom_values)>0):
 		if direction_now == 1:
 			start=top_values[len(top_values)-1]
@@ -235,14 +239,17 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 			soundFile = soundFileGood
 
 		if eccon == "ec" or direction_now == -1:
-			if height >= minHeight:
+			if height >= minRange:
 				#print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT  + "%10.2f" % pp_ppt 
 				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
 				if play:
 					playsound(soundFile)
 
 				rangeList.append(height)
+				meanSpeedList.append(meanSpeed)
+				maxSpeedList.append(maxSpeed)
 				meanPowerList.append(meanPower)
+				peakPowerList.append(peakPower)
 				
 				graphsWidth = 792 #800-4-4
 				hasRightMargin = True
@@ -253,14 +260,27 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 
 				update_graph("Range (cm)", rangeList, 
 						heightLowerCondition, heightHigherCondition, hasRightMargin,
-						graphsWidth, 112, (222,222,222), 4, 40)
+						graphsWidth, 112, (222,222,222), 4, 40, False)
 				#vertical_height: 112, position it at 40 pixels vert
 
-				update_graph("Mean Power (W)", meanPowerList, 
-						powerLowerCondition, powerHigherCondition, hasRightMargin,
-						graphsWidth, 440, (222,222,222), 4, 156)
 				#position it at 40+112+4 pixels vert: 156
 				#vertical_height: 600 -4 (lower sep) - 156 : 440
+				if mainVariable == "meanSpeed":
+					update_graph("Mean Speed (m/s)", meanSpeedList, 
+							meanSpeedLowerCondition, meanSpeedHigherCondition, hasRightMargin,
+							graphsWidth, 440, (222,222,222), 4, 156, True)
+				elif mainVariable == "maxSpeed":
+					update_graph("Max Speed (m/s)", maxSpeedList, 
+							maxSpeedLowerCondition, maxSpeedHigherCondition, hasRightMargin,
+							graphsWidth, 440, (222,222,222), 4, 156, True)
+				elif mainVariable == "meanPower":
+					update_graph("Mean Power (W)", meanPowerList, 
+							powerLowerCondition, powerHigherCondition, hasRightMargin,
+							graphsWidth, 440, (222,222,222), 4, 156, False)
+				else: #mainVariable == "peakPower"
+					update_graph("Peak Power (W)", peakPowerList, 
+							peakPowerLowerCondition, peakPowerHigherCondition, hasRightMargin,
+							graphsWidth, 440, (222,222,222), 4, 156, False)
 
 			else:
 				print chr(27) + "[0;47m" + phase + "%6i," % height + " " + "Discarded" + chr(27)+"[0m"
@@ -282,7 +302,7 @@ def calculate_range(temp_cumsum, top_values, bottom_values, direction_now):
 
 
 def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMargin,
-		my_surface_width, my_surface_height, color, horizPosToCopy, vertPosToCopy):
+		my_surface_width, my_surface_height, color, horizPosToCopy, vertPosToCopy, hasDecimals):
 	s=pygame.Surface((my_surface_width,my_surface_height))
 
 	s.fill(ColorBackground) #color the surface
@@ -338,7 +358,11 @@ def update_graph(paramName, paramList, lowCondition, highCondition, hasRightMarg
 		param_width = width - sep
 		pygame.draw.rect(s, colorNow, (left, my_surface_height, param_width, -param_height), 0) #0: filled
 
-		string = "%i" % param
+		if hasDecimals:
+			string = "%.2f" % param
+		else:
+			string = "%i" % param
+
 		text = FontBig.render(string,1,color, ColorBackground)
 		if len(paramList) > 20:
 			text = FontSmall.render(string,1,color, ColorBackground)
@@ -407,21 +431,6 @@ if __name__ == '__main__':
 	myR.run('weight=mass*9.81')
 	myR.assign('k',2)
 
-	file = open(outputFile, 'w')
-
-	ser = serial.Serial(w_serial_port)
-	ser.baudrate = w_baudrate
-	temp = list()		#raw values
-	temp_cumsum = list()	#cumulative sums of raw values
-	temp_cumsum.append(0)
-	temp_speed = list()
-	w_time = datetime.now().second
-	#print "start read data"
-	# Detecting if serial port is available and Recording the data from Chronopic.
-	for i in xrange(delete_initial_time):
-		#if ser.readable(): #commented because don't work on linux
-		ser.read()
-
 	print("START!\n")
 	playsound(soundFileStart)
 	print("phase, range, meanSpeed, MaxSpeed, meanPower, PeakPower, PeakPowerT")#, PPower/PPT")
@@ -438,6 +447,21 @@ if __name__ == '__main__':
 	ColorBackground = (30,30,30)
 	ColorBad = (255,0,0)
 	ColorGood = (0,255,0)
+
+	#start capture	
+	file = open(outputFile, 'w')
+	ser = serial.Serial(w_serial_port)
+	ser.baudrate = w_baudrate
+	temp = list()		#raw values
+	temp_cumsum = list()	#cumulative sums of raw values
+	temp_cumsum.append(0)
+	temp_speed = list()
+	w_time = datetime.now().second
+	#print "start read data"
+	# Detecting if serial port is available and Recording the data from Chronopic.
+	for i in xrange(delete_initial_time):
+		#if ser.readable(): #commented because don't work on linux
+		ser.read()
 
 	#print title
 	title = title.replace('_',' ')
@@ -507,7 +531,7 @@ if __name__ == '__main__':
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 
-							direction_now, smoothingOne, eccon, minHeight, isJump)
+							direction_now, smoothingOne, eccon, minRange, isJump)
 					
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change

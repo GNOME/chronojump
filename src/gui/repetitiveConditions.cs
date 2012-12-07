@@ -64,6 +64,11 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.SpinButton spinbutton_time_lower;
 
 	/* encoder */
+	[Widget] Gtk.Frame frame_encoder_capture_variables;
+	[Widget] Gtk.RadioButton radio_mean_speed;
+	[Widget] Gtk.RadioButton radio_max_speed;
+	[Widget] Gtk.RadioButton radio_mean_power;
+	[Widget] Gtk.RadioButton radio_peak_power;
 	[Widget] Gtk.Box hbox_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
@@ -142,6 +147,7 @@ public class RepetitiveConditionsWindow
 		FakeButtonClose = new Gtk.Button();
 		
 		putNonStandardIcons();
+		assignDefaultActionsEncoder();
 	}
 
 	static public RepetitiveConditionsWindow Create ()
@@ -174,6 +180,7 @@ public class RepetitiveConditionsWindow
 		hbox_run_best_worst.Hide();
 		hbox_jump_conditions.Hide();
 		hbox_run_conditions.Hide();
+		frame_encoder_capture_variables.Hide();
 		hbox_encoder_conditions.Hide();
 
 		if(bellMode == Constants.BellModes.JUMPS) {
@@ -185,6 +192,7 @@ public class RepetitiveConditionsWindow
 			hbox_run_best_worst.Show();
 			hbox_run_conditions.Show();
 		} else { //encoder
+			frame_encoder_capture_variables.Show();
 			hbox_encoder_conditions.Show();
 		}
 	}
@@ -219,6 +227,10 @@ public class RepetitiveConditionsWindow
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
 	}
+	
+	void assignDefaultActionsEncoder() {
+		radio_mean_power.Active = true;
+	}
 
 	void on_button_test_clicked (object o, EventArgs args)
 	{
@@ -241,8 +253,11 @@ public class RepetitiveConditionsWindow
 
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
-		RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
-		RepetitiveConditionsWindowBox = null;
+		//RepetitiveConditionsWindowBox.repetitive_conditions.Hide();
+		//RepetitiveConditionsWindowBox = null;
+		
+		button_close.Click();
+		args.RetVal = true;
 	}
 
 	public bool VolumeOn {
@@ -391,6 +406,15 @@ public class RepetitiveConditionsWindow
 	}
 
 	/* ENCODER */
+	public string EncoderMainVariable {
+		get { 
+			if(radio_mean_speed.Active) return "meanSpeed"; 
+			else if(radio_max_speed.Active) return "maxSpeed"; 
+			else if(radio_mean_power.Active) return "meanPower"; 
+			else return "peakPower"; 
+		}
+	}
+
 	public bool EncoderHeightHigher {
 		get { return checkbutton_encoder_height_higher.Active; }
 	}

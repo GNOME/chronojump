@@ -218,7 +218,8 @@ public partial class ChronoJumpWindow
 				meanSpeedHigherCondition, meanSpeedLowerCondition,
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
 				powerHigherCondition, powerLowerCondition,
-				peakPowerHigherCondition, peakPowerLowerCondition
+				peakPowerHigherCondition, peakPowerLowerCondition,
+				repetitiveConditionsWin.EncoderMainVariable
 				); 
 
 		EncoderStruct es = new EncoderStruct(

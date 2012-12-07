@@ -15959,7 +15959,7 @@ by you</property>
           <widget class="GtkTable" id="table42">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_rows">17</property>
+            <property name="n_rows">16</property>
             <property name="n_columns">3</property>
             <property name="column_spacing">4</property>
             <property name="row_spacing">2</property>
@@ -16329,43 +16329,6 @@ by you</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkEntry" id="entry_description">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <property name="can_default">True</property>
-                <property name="has_default">True</property>
-                <property name="invisible_char">●</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
-                <property name="primary_icon_sensitive">True</property>
-                <property name="secondary_icon_sensitive">True</property>
-                <signal name="changed" handler="on_entry_description_changed" swapped="no"/>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">16</property>
-                <property name="bottom_attach">17</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label462">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Description /
-comments</property>
-              </widget>
-              <packing>
-                <property name="top_attach">16</property>
-                <property name="bottom_attach">17</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
               <widget class="GtkLabel" id="label_angle_title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -16711,14 +16674,57 @@ comments</property>
             <child>
               <placeholder/>
             </child>
-            <child>
-              <placeholder/>
-            </child>
           </widget>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="GtkHBox" id="hbox4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="spacing">10</property>
+            <child>
+              <widget class="GtkLabel" id="label462">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Description /
+comments</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkEntry" id="entry_description">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
+                <property name="invisible_char">●</property>
+                <property name="invisible_char_set">True</property>
+                <property name="primary_icon_activatable">False</property>
+                <property name="secondary_icon_activatable">False</property>
+                <property name="primary_icon_sensitive">True</property>
+                <property name="secondary_icon_sensitive">True</property>
+                <signal name="changed" handler="on_entry_description_changed" swapped="no"/>
+              </widget>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -18080,8 +18086,11 @@ comments</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <widget class="GtkHButtonBox" id="hbuttonbox37">
@@ -18129,7 +18138,7 @@ comments</property>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="pack_type">end</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -18579,7 +18588,7 @@ comments</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>

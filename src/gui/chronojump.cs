@@ -473,6 +473,9 @@ public partial class ChronoJumpWindow
 		on_extra_window_jumps_test_changed(new object(), new EventArgs());
 		//changeTestImage("", "", "LOGO");
 
+		//don't know why Glade is not doing this
+		spinbutton_runs_prevent_double_contact.Value=1000;
+
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
 		definedSession = false;
@@ -3334,6 +3337,15 @@ Console.WriteLine("X");
 	 * ----------------  RUNS EXECUTION (no interval) ----------
 	 *  --------------------------------------------------------
 	 */
+
+	private Constants.DoubleContact getDoubleContactModes() {
+		if(radio_runs_prevent_double_contact_first.Active)
+			return Constants.DoubleContact.FIRST;
+		else if(radio_runs_prevent_double_contact_average.Active)
+			return Constants.DoubleContact.AVERAGE;
+		else
+			return Constants.DoubleContact.LAST;
+	}
 	
 	//suitable for all runs not repetitive
 	private void on_normal_run_activate (object o, EventArgs args) 
@@ -3383,7 +3395,11 @@ Console.WriteLine("X");
 		currentEventExecute = new RunExecute(currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
 				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
-				progressbarLimit, egd);
+				progressbarLimit, egd,
+				checkbutton_runs_prevent_double_contact.Active, 
+				(int) spinbutton_runs_prevent_double_contact.Value,
+				getDoubleContactModes()
+				);
 		
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);

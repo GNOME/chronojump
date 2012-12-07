@@ -43,14 +43,20 @@ public class RunExecute : EventExecute
 	}
 	protected runPhases runPhase;
 		
+	private bool checkDoubleContact;
+	private int checkDoubleContactTime;
+	private Constants.DoubleContact checkDoubleContactMode;
+		
 	
 	public RunExecute() {
 	}
 
 	//run execution
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd 
+			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, 
+			int pDN, bool metersSecondsPreferred, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd,
+			bool checkDoubleContact, int checkDoubleContactTime, Constants.DoubleContact checkDoubleContactMode
 			)
 	{
 		this.personID = personID;
@@ -67,6 +73,9 @@ public class RunExecute : EventExecute
 		this.volumeOn = volumeOn;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.checkDoubleContact = checkDoubleContact;
+		this.checkDoubleContactTime = checkDoubleContactTime;
+		this.checkDoubleContactMode = checkDoubleContactMode;
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
@@ -174,8 +183,12 @@ Log.WriteLine("MANAGE(3)!!!!");
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
+
+		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
+		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
+		double timestampDCN = 0; //number of flight times
+
 		bool success = false;
-		
 		bool ok;
 
 		do {
@@ -186,6 +199,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 			
 			//if (ok) {
 			if (ok && !cancel) {
+//Log.WriteLine("timestamp:" + timestamp);
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -206,44 +220,91 @@ Log.WriteLine("MANAGE(3)!!!!");
 						
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
-						
-						time = timestamp / 1000.0;
-						write();
 
-						success = true;
+						//prevent double contact stuff
+						if(checkDoubleContact) {
+							if(timestamp <= checkDoubleContactTime) {
+								/*
+								   when checking double contact
+								   first time that timestamp < checkDoubleContactTime
+								   and we arrived (it's a flight time)
+								   record this time as timestampDCFlightTimes
+								 */
+								timestampDCN ++;
+								timestampDCFlightTimes += timestamp;
+							}
+							else {
+								if(timestampDCN > 0) {
+									if(checkDoubleContactMode == 
+											Constants.DoubleContact.FIRST) {
+										/* user want first flight time,
+										   then add all DC times*/
+										timestamp += timestampDCFlightTimes + 
+											timestampDCContactTimes;
+									}
+									else if(checkDoubleContactMode == 
+											Constants.DoubleContact.LAST) {
+										//user want last flight time, take that
+										timestamp = timestamp;
+									}
+									else {	/* do the avg of all flights and contacts
+										   then add to last timestamp */
+										timestamp += 
+											(timestampDCFlightTimes + 
+											 timestampDCContactTimes) 
+											/ timestampDCN;
+									}
+								}
+								success = true;
+							}
+						}
 						
-						updateProgressBar = new UpdateProgressBar (
-								true, //isEvent
-								true, //percentageMode
-								//percentageToPass
-								3
-								);  
-						needUpdateEventProgressBar = true;
-						
-						runPhase = runPhases.PLATFORM_END;
+						if(! checkDoubleContact)
+							success = true;
+
+						if(success) {
+							time = timestamp / 1000.0;
+							write();
+
+							//success = true;
+
+							updateProgressBar = new UpdateProgressBar (
+									true, //isEvent
+									true, //percentageMode
+									//percentageToPass
+									3
+									);  
+							needUpdateEventProgressBar = true;
+
+							runPhase = runPhases.PLATFORM_END;
+						}
 					}
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
 					//don't record time
 						
-					initializeTimer();
-						
-					//update event progressbar
-					updateProgressBar = new UpdateProgressBar (
-							true, //isEvent
-							true, //percentageMode
-							2 //normal run, phase 2/3
-							);  
-					needUpdateEventProgressBar = true;
-				
-					feedbackMessage = "";
-					needShowFeedbackMessage = true; 
-					
 					//change the automata state
 					loggedState = States.OFF;
-						
-					runPhase = runPhases.RUNNING;
+
+					if(checkDoubleContact && timestampDCN > 0)
+						timestampDCContactTimes += timestamp;
+					else {
+						initializeTimer();
+
+						//update event progressbar
+						updateProgressBar = new UpdateProgressBar (
+								true, //isEvent
+								true, //percentageMode
+								2 //normal run, phase 2/3
+								);  
+						needUpdateEventProgressBar = true;
+
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
+
+						runPhase = runPhases.RUNNING;
+					}
 				}
 			}
 		} while ( ! success && ! cancel );

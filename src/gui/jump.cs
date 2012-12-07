@@ -198,12 +198,38 @@ public class EditJumpWindow : EditEventWindow
 	//this disallows loops on radio actions	
 	private bool toggleRaisesSignal = true;
 
+	private bool slCMJDescriptionIsValid(string description) {
+		string [] d = description.Split(new char[] {' '});
+		if(d.Length != 5)
+			return false;
+		if(! Util.IsNumber(d[4], false))
+			return false;
+		if(d[0] != "Vertical" && d[0] != "Horizontal" && d[0] != "Lateral")
+			return false;
+		if(d[1] != "Right" && d[1] != "Left")
+			return false;
+		if(d[2] != "This" && d[2] != "Opposite" && d[2] != "Unknown")
+			return false;
+		if(d[3] != "This" && d[3] != "Opposite" && d[3] != "Both")
+			return false;
+
+		return true;
+	}
+	private string slCMJDescriptionDefault() {
+		string descDefault = "Vertical Right This This 0";
+		entry_description.Text = descDefault;
+		return descDefault;
+	}
+
 	private void fillSingleLeg(string description) {
 		frame_jumps_single_leg.Show();
 		entry_description.Sensitive = false;
+		
+		if(! slCMJDescriptionIsValid(description))
+			description = slCMJDescriptionDefault();
 
 		string [] d = description.Split(new char[] {' '});
-
+			
 		toggleRaisesSignal = false;
 		
 		switch(d[0]) {
@@ -243,7 +269,11 @@ public class EditJumpWindow : EditEventWindow
 	
 	private void on_radio_single_leg_1_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
-			string [] d = entry_description.Text.Split(new char[] {' '});
+			string description = entry_description.Text;
+			if(! slCMJDescriptionIsValid(description))
+				description = slCMJDescriptionDefault();
+			string [] d = description.Split(new char[] {' '});
+
 			if(jumps_radiobutton_single_leg_mode_vertical.Active) {
 				d[0] = "Vertical";	
 				d[4] = "0";	
@@ -260,7 +290,11 @@ public class EditJumpWindow : EditEventWindow
 
 	private void on_radio_single_leg_2_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
-			string [] d = entry_description.Text.Split(new char[] {' '});
+			string description = entry_description.Text;
+			if(! slCMJDescriptionIsValid(description))
+				description = slCMJDescriptionDefault();
+			string [] d = description.Split(new char[] {' '});
+
 			if(jumps_radiobutton_single_leg_right.Active)
 				d[1] = "Right";	
 			else
@@ -273,7 +307,11 @@ public class EditJumpWindow : EditEventWindow
 
 	private void on_radio_single_leg_3_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
-			string [] d = entry_description.Text.Split(new char[] {' '});
+			string description = entry_description.Text;
+			if(! slCMJDescriptionIsValid(description))
+				description = slCMJDescriptionDefault();
+			string [] d = description.Split(new char[] {' '});
+
 			if(jumps_radiobutton_single_leg_dominance_this_limb.Active)
 				d[2] = "This";	
 			else if(jumps_radiobutton_single_leg_dominance_opposite.Active)
@@ -288,7 +326,11 @@ public class EditJumpWindow : EditEventWindow
 
 	private void on_radio_single_leg_4_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
-			string [] d = entry_description.Text.Split(new char[] {' '});
+			string description = entry_description.Text;
+			if(! slCMJDescriptionIsValid(description))
+				description = slCMJDescriptionDefault();
+			string [] d = description.Split(new char[] {' '});
+
 			if(jumps_radiobutton_single_leg_fall_this_limb.Active)
 				d[3] = "This";	
 			else if(jumps_radiobutton_single_leg_fall_opposite.Active)
@@ -303,7 +345,10 @@ public class EditJumpWindow : EditEventWindow
 
 	private void on_spin_single_leg_changed(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
-			string [] d = entry_description.Text.Split(new char[] {' '});
+			string description = entry_description.Text;
+			if(! slCMJDescriptionIsValid(description))
+				description = slCMJDescriptionDefault();
+			string [] d = description.Split(new char[] {' '});
 
 			d[4] = jumps_spinbutton_single_leg_distance.Value.ToString();
 
@@ -347,6 +392,10 @@ public class EditJumpWindow : EditEventWindow
 		}
 		
 		frame_jumps_single_leg.Visible = myJumpType.Name == "slCMJ";
+		entry_description.Sensitive = myJumpType.Name != "slCMJ";
+		if(myJumpType.Name == "slCMJ") {
+			fillSingleLeg(entry_description.Text);
+		}
 	}
 
 

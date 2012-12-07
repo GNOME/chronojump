@@ -48,6 +48,7 @@ public class EncoderParams
 	private int powerLowerCondition;
 	private int peakPowerHigherCondition;
 	private int peakPowerLowerCondition;
+	private string mainVariable;
 
 	public EncoderParams()
 	{
@@ -59,7 +60,8 @@ public class EncoderParams
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
 			int powerHigherCondition, int powerLowerCondition, 
-			int peakPowerHigherCondition, int peakPowerLowerCondition)
+			int peakPowerHigherCondition, int peakPowerLowerCondition,
+			string mainVariable)
 	{
 		this.time = time;
 		this.minHeight = minHeight;
@@ -77,6 +79,7 @@ public class EncoderParams
 		this.powerLowerCondition = powerLowerCondition;
 		this.peakPowerHigherCondition = peakPowerHigherCondition;
 		this.peakPowerLowerCondition = peakPowerLowerCondition;
+		this.mainVariable = mainVariable;
 	}
 	
 	public string ToString1 () 
@@ -89,7 +92,8 @@ public class EncoderParams
 			" " + Util.ConvertToPoint(maxSpeedHigherCondition.ToString()) + 	
 			" " + Util.ConvertToPoint(maxSpeedLowerCondition.ToString()) +
 			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
-			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString();
+			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString() +
+			" " + mainVariable;
 	}
 	
 	//to graph.R	

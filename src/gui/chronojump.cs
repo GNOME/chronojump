@@ -147,9 +147,9 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Box hbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
-	[Widget] Gtk.Label label_connected_chronopics;
-	[Widget] Gtk.TextView textview_message_connected_chronopics;
-	[Widget] Gtk.Image image_connected_chronopics;
+	//[Widget] Gtk.Label label_connected_chronopics;
+	//[Widget] Gtk.TextView textview_message_connected_chronopics;
+	//[Widget] Gtk.Image image_connected_chronopics;
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -203,7 +203,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_image_test_zoom;
 	[Widget] Gtk.Image image_test_zoom;
 	[Widget] Gtk.Label label_image_test;
-	[Widget] Gtk.Box hbox_this_test_buttons;
+	[Widget] Gtk.Box vbox_this_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
 		
 	[Widget] Gtk.Button button_upload_session;
@@ -514,6 +514,7 @@ public partial class ChronoJumpWindow
 	}
 */
 
+/*
 	private bool normalGUIOld = true; //to know if we changed state. Start as true
 	private void on_app1_size_allocate(object obj, SizeAllocatedArgs args) {
 		int width;
@@ -541,6 +542,7 @@ public partial class ChronoJumpWindow
 			label_current_person_title.Text=Catalog.GetString("Current");
 		}
 	}
+*/
 
 	private void putNonStandardIcons() {
 		Pixbuf pixbuf;
@@ -3851,6 +3853,7 @@ Console.WriteLine("X");
 	}
 
 	private void chronopicLabels(int cps) {
+		/*
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 
 		
@@ -3865,6 +3868,7 @@ Console.WriteLine("X");
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = myMessage;
 		textview_message_connected_chronopics.Buffer = tb;
+		*/
 
 		/*
 		 * hidden to save space
@@ -4525,7 +4529,7 @@ Console.WriteLine("X");
 	}
 
 	private void deleted_last_test_update_widgets() {
-		hbox_this_test_buttons.Sensitive = false;
+		vbox_this_test_buttons.Sensitive = false;
 		event_execute_clearDrawingArea();
 		notebook_results_data.CurrentPage = 7; //shows "deleted test"
 	}
@@ -5166,7 +5170,7 @@ Console.WriteLine("X");
 		vbox_stats.Sensitive = false;
 		frame_share_data.Sensitive = false;
 		
-		hbox_this_test_buttons.Sensitive = false;
+		vbox_this_test_buttons.Sensitive = false;
 		hbox_execute_test.Sensitive = false;
 		button_execute_test.Sensitive = false;
 
@@ -5254,7 +5258,7 @@ Console.WriteLine("X");
 		table_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
 		hbox_pulses.Sensitive = false;
-		hbox_this_test_buttons.Sensitive = false;
+		vbox_this_test_buttons.Sensitive = false;
 		
 		button_upload_session.Sensitive = false;
 		button_activate_chronopics.Sensitive = false;
@@ -5281,7 +5285,7 @@ Console.WriteLine("X");
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
-		hbox_this_test_buttons.Sensitive = true;
+		vbox_this_test_buttons.Sensitive = true;
 		
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;

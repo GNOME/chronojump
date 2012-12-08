@@ -1034,7 +1034,7 @@ partial class ChronoJumpWindow
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 		bool hasOptions = false;
 
-		extra_window_runs_label_distance.Text = Catalog.GetString("Track distance\n(between platforms)");
+		extra_window_runs_label_distance.Text = Catalog.GetString("Track distance (between platforms)");
 		extra_window_runs_label_distance_units.Text = Catalog.GetString("meters");
 
 		if(myRunType.Distance > 0) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <glade-interface>
-  <!-- interface-requires gtk+ 2.6 -->
+  <!-- interface-requires gtk+ 3.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="app1">
     <property name="visible">True</property>
@@ -298,8 +298,10 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xpad">5</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Chronopics&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Chronopics</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -312,11 +314,13 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;0&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">0</property>
                                     <property name="use_underline">True</property>
                                     <property name="ellipsize">end</property>
                                     <property name="max_width_chars">25</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -753,8 +757,10 @@
                               <widget class="GtkLabel" id="label197">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">&lt;b&gt;Persons&lt;/b&gt;</property>
-                                <property name="use_markup">True</property>
+                                <property name="label" translatable="yes">Persons</property>
+                                <attributes>
+                                 <attribute name="weight" value="bold"/>
+                                </attributes>
                               </widget>
                               <packing>
                                 <property name="type">label_item</property>
@@ -1626,8 +1632,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label13">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -1998,8 +2006,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label34">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2500,8 +2510,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label32">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2889,8 +2901,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label27">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2987,8 +3001,10 @@ Chronopic</property>
                                                             <widget class="GtkLabel" id="extra_window_reaction_times_label_selected">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">&lt;b&gt;Execute reaction time&lt;/b&gt;</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="label" translatable="yes">Execute reaction time</property>
+                                                            <attributes>
+                                                             <attribute name="weight" value="bold"/>
+                                                            </attributes>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -3011,8 +3027,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label59">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -3155,8 +3173,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label29">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -3298,8 +3318,10 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label31">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Select test</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -4905,8 +4927,10 @@ happen in less than</property>
                                                             <widget class="GtkLabel" id="label212">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">&lt;b&gt;pulse step&lt;/b&gt;</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="label" translatable="yes">pulse step</property>
+                                                            <attributes>
+                                                             <attribute name="weight" value="bold"/>
+                                                            </attributes>
                                                             </widget>
                                                             <packing>
                                                             <property name="type">label_item</property>
@@ -5329,8 +5353,10 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkLabel" id="label8">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Test options&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Test options</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -5728,8 +5754,10 @@ Second Chronopic to platforms.</property>
                                                       <widget class="GtkLabel" id="label35">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Chronopic connection&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
+                                                        <property name="label" translatable="yes">Chronopic connection</property>
+                                                        <attributes>
+                                                         <attribute name="weight" value="bold"/>
+                                                        </attributes>
                                                       </widget>
                                                       <packing>
                                                         <property name="type">label_item</property>
@@ -7776,8 +7804,10 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkLabel" id="label16">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Results&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Results</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -11163,8 +11193,10 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkLabel" id="label772">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Graph and report&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Graph and report</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -11464,8 +11496,10 @@ Anyone can check server stats and graphs and easily make querys to the server.</
                                                             <widget class="GtkLabel" id="label57">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">&lt;b&gt;Check data&lt;/b&gt;</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="label" translatable="yes">Check data</property>
+                                                            <attributes>
+                                                             <attribute name="weight" value="bold"/>
+                                                            </attributes>
                                                             </widget>
                                                             <packing>
                                                             <property name="type">label_item</property>
@@ -11572,8 +11606,10 @@ Evaluator can use real name or nickname.</property>
                                                             <widget class="GtkLabel" id="label53">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">&lt;b&gt;Share data!&lt;/b&gt;</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="label" translatable="yes">Share data!</property>
+                                                            <attributes>
+                                                             <attribute name="weight" value="bold"/>
+                                                            </attributes>
                                                             </widget>
                                                             <packing>
                                                             <property name="type">label_item</property>
@@ -12169,8 +12205,10 @@ Evaluator can use real name or nickname.</property>
                                               <widget class="GtkLabel" id="label84">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Exercise&lt;/b&gt;</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="label" translatable="yes">Exercise</property>
+                                                <attributes>
+                                                 <attribute name="weight" value="bold"/>
+                                                </attributes>
                                               </widget>
                                               <packing>
                                                 <property name="type">label_item</property>
@@ -12508,8 +12546,10 @@ Evaluator can use real name or nickname.</property>
                                               <widget class="GtkLabel" id="label75">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Signal&lt;/b&gt;</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="label" translatable="yes">Signal</property>
+                                                <attributes>
+                                                 <attribute name="weight" value="bold"/>
+                                                </attributes>
                                               </widget>
                                               <packing>
                                                 <property name="type">label_item</property>
@@ -12958,8 +12998,10 @@ Evaluator can use real name or nickname.</property>
                                               <widget class="GtkLabel" id="label72">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Data&lt;/b&gt;</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="label" translatable="yes">Data</property>
+                                                <attributes>
+                                                 <attribute name="weight" value="bold"/>
+                                                </attributes>
                                               </widget>
                                               <packing>
                                                 <property name="type">label_item</property>
@@ -13068,8 +13110,10 @@ Evaluator can use real name or nickname.</property>
                                               <widget class="GtkLabel" id="label87">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">&lt;b&gt;Mode&lt;/b&gt;</property>
-                                                <property name="use_markup">True</property>
+                                                <property name="label" translatable="yes">Mode</property>
+                                                <attributes>
+                                                 <attribute name="weight" value="bold"/>
+                                                </attributes>
                                               </widget>
                                               <packing>
                                                 <property name="type">label_item</property>
@@ -14379,8 +14423,10 @@ Evaluator can use real name or nickname.</property>
               <widget class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Chronopic is on one of these ports&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Chronopic is on one of these ports</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -14598,8 +14644,10 @@ Evaluator can use real name or nickname.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Old jumper weight&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Old jumper weight</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -14611,8 +14659,10 @@ Evaluator can use real name or nickname.</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;New jumper weight&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">New jumper weight</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
@@ -14787,8 +14837,10 @@ Evaluator can use real name or nickname.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Chronojump&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Chronojump</property>
+                        <attributes>
+                         <attribute name="weight" value="bold"/>
+                        </attributes>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -15067,8 +15119,10 @@ Evaluator can use real name or nickname.</property>
                   <widget class="GtkLabel" id="label514">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Info&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Info</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -15104,8 +15158,10 @@ Evaluator can use real name or nickname.</property>
                   <widget class="GtkLabel" id="label_detection">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Detection&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Detection</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -15198,8 +15254,10 @@ Evaluator can use real name or nickname.</property>
                   <widget class="GtkLabel" id="label508">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Help&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Help</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -15712,8 +15770,10 @@ by you</property>
                   <widget class="GtkLabel" id="label555">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;General data&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">General data</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -16105,8 +16165,10 @@ by you</property>
                   <widget class="GtkLabel" id="label556">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Tests&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Tests</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -16509,8 +16571,10 @@ by you</property>
                 <child>
                   <widget class="GtkLabel" id="label_simulated">
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Simulated&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Simulated</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -16939,8 +17003,10 @@ comments</property>
                   <widget class="GtkLabel" id="label575">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Sit to stand&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Sit to stand</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -17161,8 +17227,10 @@ comments</property>
                   <widget class="GtkLabel" id="label584">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Kick ball&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Kick ball</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -17387,8 +17455,10 @@ comments</property>
                   <widget class="GtkLabel" id="label593">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Walk whilst counting backwards from 15 to 0&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Walk whilst counting backwards from 15 to 0</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -17613,8 +17683,10 @@ comments</property>
                   <widget class="GtkLabel" id="label629">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Go around back of cone&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Go around back of cone</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -17839,8 +17911,10 @@ comments</property>
                   <widget class="GtkLabel" id="label611">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Step into circles&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Step into circles</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18065,8 +18139,10 @@ comments</property>
                   <widget class="GtkLabel" id="label620">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Sit back down&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Sit back down</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18774,8 +18850,10 @@ comments</property>
               <widget class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;slCMJ&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">slCMJ</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+               </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20138,8 +20216,10 @@ comments</property>
               <widget class="GtkLabel" id="label274">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Vertical Axe&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Vertical Axe</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20254,8 +20334,10 @@ comments</property>
               <widget class="GtkLabel" id="label270">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Guides&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Guides</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20385,8 +20467,10 @@ comments</property>
               <widget class="GtkLabel" id="label318">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Other&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Other</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20929,8 +21013,10 @@ comments</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Name</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -22304,8 +22390,10 @@ options</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Full name&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Full name</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -22347,8 +22435,10 @@ options</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Sex&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Sex</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -22364,8 +22454,10 @@ options</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Date of Birth&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">Date of Birth</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -22706,8 +22798,10 @@ options</property>
                   <widget class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Data of person&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Data of person</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -22744,8 +22838,10 @@ options</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Weight&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Weight</property>
+                            <attributes>
+                             <attribute name="weight" value="bold"/>
+                            </attributes>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -22761,8 +22857,10 @@ options</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Sport&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Sport</property>
+                            <attributes>
+                             <attribute name="weight" value="bold"/>
+                            </attributes>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -22778,8 +22876,10 @@ options</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Speciallity&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Speciallity</property>
+                            <attributes>
+                             <attribute name="weight" value="bold"/>
+                            </attributes>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -22795,8 +22895,10 @@ options</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Level&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Level</property>
+                            <attributes>
+                             <attribute name="weight" value="bold"/>
+                            </attributes>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -23149,8 +23251,10 @@ options</property>
                   <widget class="GtkLabel" id="label2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Data of person in this session&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Data of person in this session</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -23300,8 +23404,10 @@ options</property>
                         <child>
                           <widget class="GtkLabel" id="label531">
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">&lt;b&gt;Logs directory&lt;/b&gt;</property>
-                            <property name="use_markup">True</property>
+                            <property name="label" translatable="yes">Logs directory</property>
+                            <attributes>
+                             <attribute name="weight" value="bold"/>
+                            </attributes>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -24228,8 +24334,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label746">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Test variables&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Test variables</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -24681,8 +24789,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label756">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Person variables&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Person variables</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -24753,8 +24863,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Evaluator&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Evaluator</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -24943,8 +25055,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label757">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Execute query&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Execute query</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25617,8 +25731,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label371">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Best and worst values&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Best and worst values</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25750,8 +25866,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label27">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Display variables on encoder capture&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Display variables on encoder capture</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+               </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25860,8 +25978,10 @@ show elevation as:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;TF&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">TF</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -25920,8 +26040,10 @@ show elevation as:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;TC&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">TC</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -26034,8 +26156,10 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;TF&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">TF</property>
+                                        <attributes>
+                                         <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -26059,8 +26183,10 @@ show elevation as:</property>
                                       <widget class="GtkLabel" id="label408">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;TC&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">TC</property>
+                                        <attributes>
+                                         <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -26255,8 +26381,10 @@ show elevation as:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;TF&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">TF</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -26315,8 +26443,10 @@ show elevation as:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;TC&lt;/b&gt;</property>
-                                    <property name="use_markup">True</property>
+                                    <property name="label" translatable="yes">TC</property>
+                                    <attributes>
+                                     <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -26428,8 +26558,10 @@ show elevation as:</property>
                                       <widget class="GtkLabel" id="label410">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;TF&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">TF</property>
+                                        <attributes>
+                                         <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -26453,8 +26585,10 @@ show elevation as:</property>
                                       <widget class="GtkLabel" id="label412">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="label" translatable="yes">&lt;b&gt;TC&lt;/b&gt;</property>
-                                        <property name="use_markup">True</property>
+                                        <property name="label" translatable="yes">TC</property>
+                                        <attributes>
+                                         <attribute name="weight" value="bold"/>
+                                        </attributes>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -27829,8 +27963,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label_other_conditions">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;Conditions&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Conditions</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -27966,8 +28102,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label373">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;test bells&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">test bells</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -28334,8 +28472,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label173">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;general data&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">general data</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -28687,8 +28827,10 @@ show elevation as:</property>
               <widget class="GtkLabel" id="label174">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">&lt;b&gt;statistics data&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">statistics data</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -28826,8 +28968,10 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Name</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -29510,8 +29654,10 @@ suitable for agility tests)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Name&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="label" translatable="yes">Name</property>
+                <attributes>
+                 <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -30394,8 +30540,10 @@ times</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;b&gt;Persons&lt;/b&gt;</property>
-                        <property name="use_markup">True</property>
+                        <property name="label" translatable="yes">Persons</property>
+                        <attributes>
+                         <attribute name="weight" value="bold"/>
+                        </attributes>
                       </widget>
                       <packing>
                         <property name="x_options">GTK_FILL</property>

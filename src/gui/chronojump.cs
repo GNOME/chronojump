@@ -3127,24 +3127,34 @@ Console.WriteLine("X");
 		if(currentJumpType.Name == "slCMJ" && ! extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
 			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished_ask_data);
 		else
-			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
+			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished_no_ask_data);
 	}	
 	
 	private void on_jump_finished_ask_data (object o, EventArgs args)
 	{
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_ask_data);
 		genericWin = GenericWindow.Show(Catalog.GetString("Input length oj jump in centimeters")
 				, Constants.GenericWindowShow.SPININT);
 
 		genericWin.LabelSpinInt = "";
 		genericWin.SetSpinRange(1.0, 200.0);
-		genericWin.Button_accept.Clicked += new EventHandler(on_jump_finished);
+		genericWin.Button_accept.Clicked += new EventHandler(on_jump_finished_ask_data_2);
+	}
+	
+	private void on_jump_finished_ask_data_2 (object o, EventArgs args)
+	{
+		genericWin.Button_accept.Clicked -= new EventHandler(on_jump_finished_ask_data_2);
+		on_jump_finished(o, args);
+	}
+
+	private void on_jump_finished_no_ask_data (object o, EventArgs args)
+	{
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_no_ask_data);
+		on_jump_finished(o, args);
 	}
 
 	private void on_jump_finished (object o, EventArgs args)
 	{
-		//genericWin.Button_accept.Clicked -= new EventHandler(on_jump_finished);
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
-		
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
 		

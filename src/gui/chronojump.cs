@@ -3132,6 +3132,7 @@ Console.WriteLine("X");
 	
 	private void on_jump_finished_ask_data (object o, EventArgs args)
 	{
+Log.WriteLine("AAA");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_ask_data);
 		genericWin = GenericWindow.Show(Catalog.GetString("Input length oj jump in centimeters")
 				, Constants.GenericWindowShow.SPININT);
@@ -3139,22 +3140,28 @@ Console.WriteLine("X");
 		genericWin.LabelSpinInt = "";
 		genericWin.SetSpinRange(1.0, 200.0);
 		genericWin.Button_accept.Clicked += new EventHandler(on_jump_finished_ask_data_2);
+Log.WriteLine("AAA 2");
 	}
 	
 	private void on_jump_finished_ask_data_2 (object o, EventArgs args)
 	{
+Log.WriteLine("BBB");
 		genericWin.Button_accept.Clicked -= new EventHandler(on_jump_finished_ask_data_2);
-		on_jump_finished(o, args);
+		on_jump_finished();
+Log.WriteLine("BBB 2");
 	}
 
 	private void on_jump_finished_no_ask_data (object o, EventArgs args)
 	{
+Log.WriteLine("CCC");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_no_ask_data);
-		on_jump_finished(o, args);
+		on_jump_finished();
+Log.WriteLine("CCC 2");
 	}
 
-	private void on_jump_finished (object o, EventArgs args)
+	private void on_jump_finished ()
 	{
+Log.WriteLine("DDD");
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
 		
@@ -3198,6 +3205,7 @@ Console.WriteLine("X");
 		
 		//unhide buttons that allow jumping
 		sensitiveGuiEventDone();
+Log.WriteLine("DDD 2");
 	}
 
 

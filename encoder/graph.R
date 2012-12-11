@@ -473,7 +473,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
-	height = height/10
+	height = abs(height/10)
 	
 	if(eccon=="ecS") {
 		if(singleFile) {
@@ -493,15 +493,25 @@ paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	
 	par(mar=c(5, 4, 4, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=paste(myNums,"\n(",paf[,7],")",sep=""),xlim=c(1,n*3+.5),xlab="",ylab="Power (W)", 
+			names.arg=paste(myNums,"\n",paf[,7],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
+			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
+	mtext("Curve\nLoad",side=1,at=0,adj=1,line=1,cex=.9)
 	par(new=T, xpd=T)
-	plot(bp[2,],paf[,5],type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col=pafColors[3])
+	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
+	if(eccon=="ecS")
+		plot(bp[2,],paf[,5],type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
+	else
+		plot(bp[2,],paf[,5],type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col=pafColors[3])
+	
 	axis(4, col=pafColors[3], line=0,padj=-.5)
 	mtext("Time to peak power (ms)", side=4, line=-1)
 	
 	par(new=T, xpd=T)
-	plot(bp[2,],height,type="l",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
+	plot(bp[2,],height,type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
+
+print(height)
+
 	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, inset=-.2)
 	abline(h=max(height),lty=2, col="green")
 	abline(h=min(height),lty=2, col="green")

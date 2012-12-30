@@ -148,8 +148,8 @@ powerBars <- function(kinematics) {
 	meanSpeed <- mean(abs(kinematics$speedy))
 	maxSpeed <- max(abs(kinematics$speedy))
 	meanPower <- mean(abs(kinematics$power))
-	peakPower <- max(kinematics$power)
-	peakPowerT <- min(which(kinematics$power == peakPower))
+	peakPower <- max(abs(kinematics$power))
+	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
 	meanForce <- mean(abs(kinematics$force))
 	maxForce <- max(abs(kinematics$force))
@@ -888,6 +888,7 @@ print(paste("width",width));
 		}
 		#print(paf)
 		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
+print("----------------------------")
 		print(paf)
 
 		if(analysis == "powerBars") {

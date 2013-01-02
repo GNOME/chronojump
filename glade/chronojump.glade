@@ -299,7 +299,7 @@
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">Chronopics</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -318,7 +318,7 @@
                                     <property name="ellipsize">end</property>
                                     <property name="max_width_chars">25</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -758,7 +758,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="label" translatable="yes">Persons</property>
                                 <attributes>
-                                 <attribute name="weight" value="bold"/>
+                                  <attribute name="weight" value="bold"/>
                                 </attributes>
                               </widget>
                               <packing>
@@ -1177,7 +1177,6 @@ Chronopic</property>
                                           <widget class="GtkNotebook" id="notebook_execute">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="show_tabs">False</property>
                                             <property name="show_border">False</property>
                                             <child>
                                               <widget class="GtkFrame" id="frame2">
@@ -1633,7 +1632,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -2007,7 +2006,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -2511,7 +2510,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -2902,7 +2901,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -3002,7 +3001,7 @@ Chronopic</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Execute reaction time</property>
                                                             <attributes>
-                                                             <attribute name="weight" value="bold"/>
+                                                            <attribute name="weight" value="bold"/>
                                                             </attributes>
                                                             </widget>
                                                             <packing>
@@ -3028,7 +3027,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -3174,7 +3173,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -3319,7 +3318,7 @@ Chronopic</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Select test</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -3339,6 +3338,21 @@ Chronopic</property>
                                               </widget>
                                               <packing>
                                                 <property name="position">6</property>
+                                                <property name="tab_fill">False</property>
+                                                <property name="type">tab</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <placeholder/>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label16">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label">sequence</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="position">7</property>
                                                 <property name="tab_fill">False</property>
                                                 <property name="type">tab</property>
                                               </packing>
@@ -4932,7 +4946,7 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">pulse step</property>
                                                             <attributes>
-                                                             <attribute name="weight" value="bold"/>
+                                                            <attribute name="weight" value="bold"/>
                                                             </attributes>
                                                             </widget>
                                                             <packing>
@@ -5364,7 +5378,7 @@ Second Chronopic to platforms.</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Test options</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -11056,7 +11070,7 @@ Second Chronopic to platforms.</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Graph and report</property>
                                                     <attributes>
-                                                     <attribute name="weight" value="bold"/>
+                                                      <attribute name="weight" value="bold"/>
                                                     </attributes>
                                                   </widget>
                                                   <packing>
@@ -11359,7 +11373,7 @@ Anyone can check server stats and graphs and easily make querys to the server.</
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Check data</property>
                                                             <attributes>
-                                                             <attribute name="weight" value="bold"/>
+                                                            <attribute name="weight" value="bold"/>
                                                             </attributes>
                                                             </widget>
                                                             <packing>
@@ -11469,7 +11483,7 @@ Evaluator can use real name or nickname.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Share data!</property>
                                                             <attributes>
-                                                             <attribute name="weight" value="bold"/>
+                                                            <attribute name="weight" value="bold"/>
                                                             </attributes>
                                                             </widget>
                                                             <packing>
@@ -12068,7 +12082,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Exercise</property>
                                                 <attributes>
-                                                 <attribute name="weight" value="bold"/>
+                                                  <attribute name="weight" value="bold"/>
                                                 </attributes>
                                               </widget>
                                               <packing>
@@ -12409,7 +12423,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Signal</property>
                                                 <attributes>
-                                                 <attribute name="weight" value="bold"/>
+                                                  <attribute name="weight" value="bold"/>
                                                 </attributes>
                                               </widget>
                                               <packing>
@@ -12861,7 +12875,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Data</property>
                                                 <attributes>
-                                                 <attribute name="weight" value="bold"/>
+                                                  <attribute name="weight" value="bold"/>
                                                 </attributes>
                                               </widget>
                                               <packing>
@@ -12973,7 +12987,7 @@ Evaluator can use real name or nickname.</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="label" translatable="yes">Mode</property>
                                                 <attributes>
-                                                 <attribute name="weight" value="bold"/>
+                                                  <attribute name="weight" value="bold"/>
                                                 </attributes>
                                               </widget>
                                               <packing>
@@ -14286,7 +14300,7 @@ Evaluator can use real name or nickname.</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Chronopic is on one of these ports</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -14507,7 +14521,7 @@ Evaluator can use real name or nickname.</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Old jumper weight</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -14522,7 +14536,7 @@ Evaluator can use real name or nickname.</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">New jumper weight</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -14700,7 +14714,7 @@ Evaluator can use real name or nickname.</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Chronojump</property>
                         <attributes>
-                         <attribute name="weight" value="bold"/>
+                          <attribute name="weight" value="bold"/>
                         </attributes>
                       </widget>
                       <packing>
@@ -14982,7 +14996,7 @@ Evaluator can use real name or nickname.</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Info</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -15021,7 +15035,7 @@ Evaluator can use real name or nickname.</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Detection</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -15117,7 +15131,7 @@ Evaluator can use real name or nickname.</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Help</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -15633,7 +15647,7 @@ by you</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">General data</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -16028,7 +16042,7 @@ by you</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Tests</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -16434,7 +16448,7 @@ by you</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Simulated</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -16866,7 +16880,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit to stand</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -17090,7 +17104,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Kick ball</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -17318,7 +17332,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Walk whilst counting backwards from 15 to 0</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -17546,7 +17560,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Go around back of cone</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -17774,7 +17788,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Step into circles</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -18002,7 +18016,7 @@ comments</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit back down</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -18713,8 +18727,8 @@ comments</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">slCMJ</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
-               </attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20079,7 +20093,7 @@ comments</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Vertical Axe</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -20197,7 +20211,7 @@ comments</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Guides</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -20330,7 +20344,7 @@ comments</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Other</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -20876,7 +20890,7 @@ comments</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -22253,7 +22267,7 @@ options</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Full name</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -22298,7 +22312,7 @@ options</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Sex</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -22317,7 +22331,7 @@ options</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Date of Birth</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -22661,7 +22675,7 @@ options</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Data of person</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -22701,7 +22715,7 @@ options</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Weight</property>
                             <attributes>
-                             <attribute name="weight" value="bold"/>
+                              <attribute name="weight" value="bold"/>
                             </attributes>
                           </widget>
                           <packing>
@@ -22720,7 +22734,7 @@ options</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Sport</property>
                             <attributes>
-                             <attribute name="weight" value="bold"/>
+                              <attribute name="weight" value="bold"/>
                             </attributes>
                           </widget>
                           <packing>
@@ -22739,7 +22753,7 @@ options</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Speciallity</property>
                             <attributes>
-                             <attribute name="weight" value="bold"/>
+                              <attribute name="weight" value="bold"/>
                             </attributes>
                           </widget>
                           <packing>
@@ -22758,7 +22772,7 @@ options</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Level</property>
                             <attributes>
-                             <attribute name="weight" value="bold"/>
+                              <attribute name="weight" value="bold"/>
                             </attributes>
                           </widget>
                           <packing>
@@ -23114,7 +23128,7 @@ options</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Data of person in this session</property>
                     <attributes>
-                     <attribute name="weight" value="bold"/>
+                      <attribute name="weight" value="bold"/>
                     </attributes>
                   </widget>
                   <packing>
@@ -23267,7 +23281,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">Logs directory</property>
                             <attributes>
-                             <attribute name="weight" value="bold"/>
+                              <attribute name="weight" value="bold"/>
                             </attributes>
                           </widget>
                           <packing>
@@ -24197,7 +24211,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Test variables</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -24652,7 +24666,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Person variables</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -24726,7 +24740,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Evaluator</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -24918,7 +24932,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Execute query</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -25594,7 +25608,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Best and worst values</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -25729,8 +25743,8 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Display variables on encoder capture</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
-               </attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25841,7 +25855,7 @@ show elevation as:</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TF</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -25903,7 +25917,7 @@ show elevation as:</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TC</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -26019,7 +26033,7 @@ show elevation as:</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">TF</property>
                                         <attributes>
-                                         <attribute name="weight" value="bold"/>
+                                          <attribute name="weight" value="bold"/>
                                         </attributes>
                                       </widget>
                                       <packing>
@@ -26046,7 +26060,7 @@ show elevation as:</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TC</property>
                                         <attributes>
-                                         <attribute name="weight" value="bold"/>
+                                          <attribute name="weight" value="bold"/>
                                         </attributes>
                                       </widget>
                                       <packing>
@@ -26244,7 +26258,7 @@ show elevation as:</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TF</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -26306,7 +26320,7 @@ show elevation as:</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TC</property>
                                     <attributes>
-                                     <attribute name="weight" value="bold"/>
+                                      <attribute name="weight" value="bold"/>
                                     </attributes>
                                   </widget>
                                   <packing>
@@ -26421,7 +26435,7 @@ show elevation as:</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TF</property>
                                         <attributes>
-                                         <attribute name="weight" value="bold"/>
+                                          <attribute name="weight" value="bold"/>
                                         </attributes>
                                       </widget>
                                       <packing>
@@ -26448,7 +26462,7 @@ show elevation as:</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TC</property>
                                         <attributes>
-                                         <attribute name="weight" value="bold"/>
+                                          <attribute name="weight" value="bold"/>
                                         </attributes>
                                       </widget>
                                       <packing>
@@ -27826,7 +27840,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Conditions</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -27965,7 +27979,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">test bells</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -28335,7 +28349,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">general data</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -28690,7 +28704,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">statistics data</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -28831,7 +28845,7 @@ show elevation as:</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -29517,7 +29531,7 @@ suitable for agility tests)</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
                 <attributes>
-                 <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="bold"/>
                 </attributes>
               </widget>
               <packing>
@@ -30403,7 +30417,7 @@ times</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Persons</property>
                         <attributes>
-                         <attribute name="weight" value="bold"/>
+                          <attribute name="weight" value="bold"/>
                         </attributes>
                       </widget>
                       <packing>

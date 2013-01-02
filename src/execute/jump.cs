@@ -50,7 +50,8 @@ public class JumpExecute : EventExecute
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd, string description
+			double progressbarLimit, ExecutingGraphData egd, string description,
+			Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -69,6 +70,9 @@ public class JumpExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
+		
+		this.image_simulated_warning = image_simulated_warning;	
+
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -84,8 +88,7 @@ public class JumpExecute : EventExecute
 			
 		needUpdateEventProgressBar = false;
 		needUpdateGraph = false;
-		
-
+	
 		//initialize eventDone as a Jump		
 		eventDone = new Jump();
 	}

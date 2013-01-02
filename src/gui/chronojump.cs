@@ -148,6 +148,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
 	[Widget] Gtk.Label label_connected_chronopics;
+	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
 
@@ -3109,7 +3110,7 @@ Console.WriteLine("X");
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
 				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
-				progressbarLimit, egd, description);
+				progressbarLimit, egd, description, image_simulated_warning);
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);

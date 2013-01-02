@@ -663,7 +663,8 @@
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
                                                 <property name="has_tooltip">True</property>
-                                                <property name="tooltip" translatable="yes">Edit selected person (p)</property>
+                                                <property name="tooltip" translatable="yes">Edit selected person
+&lt;Control&gt;p</property>
                                                 <property name="use_action_appearance">False</property>
                                                 <signal name="clicked" handler="on_edit_current_person_clicked" swapped="no"/>
                                                 <accelerator key="p" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
@@ -5825,13 +5826,37 @@ Second Chronopic to platforms.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkTextView" id="event_execute_textview_message">
+                                                      <widget class="GtkHBox" id="hbox105">
                                                         <property name="visible">True</property>
-                                                        <property name="sensitive">False</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="editable">False</property>
-                                                        <property name="wrap_mode">word</property>
-                                                        <property name="cursor_visible">False</property>
+                                                        <property name="spacing">4</property>
+                                                        <child>
+                                                          <widget class="GtkTextView" id="event_execute_textview_message">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="editable">False</property>
+                                                            <property name="wrap_mode">word</property>
+                                                            <property name="cursor_visible">False</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image_simulated_warning">
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-dialog-warning</property>
+                                                            <property name="icon-size">2</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>

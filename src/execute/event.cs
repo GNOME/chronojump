@@ -44,6 +44,8 @@ public class EventExecute
 		OFF
 	}
 
+	protected Gtk.Image image_simulated_warning;
+
 	//don't make the waitEvent update the progressBars, just flag this variable
 	//and make the PulseGTK do it
 	protected bool needUpdateEventProgressBar;
@@ -323,6 +325,7 @@ public class EventExecute
 		{
 			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
 			needShowFeedbackMessage = false;
+			image_simulated_warning.Visible = (feedbackMessage == Constants.SimulatedMessage);
 		}
 		
 		

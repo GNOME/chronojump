@@ -558,7 +558,8 @@ paintCrossVariables <- function (paf, varX, varY, option) {
 
 	plot(x,y, xlab=varX, ylab=varY, pch=21,col="blue",bg="lightblue",cex=cexBalls)
 	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
-	lines(smooth.spline(x,y,spar=.5),col="darkblue")
+	#lines(smooth.spline(x,y,spar=.5),col="darkblue")
+	lines(smooth.spline(x,y,df=4),col="darkblue")
 }
 			
 find.mfrow <- function(n) {

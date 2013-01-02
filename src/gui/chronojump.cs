@@ -147,7 +147,7 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Box hbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
-	//[Widget] Gtk.Label label_connected_chronopics;
+	[Widget] Gtk.Label label_connected_chronopics;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
 
@@ -475,6 +475,7 @@ public partial class ChronoJumpWindow
 
 		//don't know why Glade is not doing this
 		spinbutton_runs_prevent_double_contact.Value=1000;
+		spinbutton_runs_i_prevent_double_contact.Value=1000;
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();
@@ -3358,13 +3359,22 @@ Log.WriteLine("DDD 2");
 	 *  --------------------------------------------------------
 	 */
 
-	private Constants.DoubleContact getDoubleContactModes() {
-		if(radio_runs_prevent_double_contact_first.Active)
-			return Constants.DoubleContact.FIRST;
-		else if(radio_runs_prevent_double_contact_average.Active)
-			return Constants.DoubleContact.AVERAGE;
-		else
-			return Constants.DoubleContact.LAST;
+	private Constants.DoubleContact getDoubleContactModes(bool runSimple) {
+		if(runSimple) {
+			if(radio_runs_prevent_double_contact_first.Active)
+				return Constants.DoubleContact.FIRST;
+			else if(radio_runs_prevent_double_contact_average.Active)
+				return Constants.DoubleContact.AVERAGE;
+			else
+				return Constants.DoubleContact.LAST;
+		} else {	//runInterval
+			if(radio_runs_i_prevent_double_contact_first.Active)
+				return Constants.DoubleContact.FIRST;
+			else if(radio_runs_i_prevent_double_contact_average.Active)
+				return Constants.DoubleContact.AVERAGE;
+			else
+				return Constants.DoubleContact.LAST;
+		}
 	}
 	
 	//suitable for all runs not repetitive
@@ -3412,13 +3422,15 @@ Log.WriteLine("DDD 2");
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 
 
-		currentEventExecute = new RunExecute(currentPerson.UniqueID, currentSession.UniqueID, 
+		currentEventExecute = new RunExecute(
+				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
+				chronopicWin.CP, event_execute_textview_message, app1,
+				prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
 				progressbarLimit, egd,
 				checkbutton_runs_prevent_double_contact.Active, 
 				(int) spinbutton_runs_prevent_double_contact.Value,
-				getDoubleContactModes()
+				getDoubleContactModes(true)	//true: runSimple
 				);
 		
 		if (!chronopicWin.Connected) 
@@ -3531,10 +3543,16 @@ Log.WriteLine("DDD 2");
 		event_execute_ButtonUpdate.Clicked -= new EventHandler(on_update_clicked); //if we don't do this, on_update_clicked it's called 'n' times when 'n' events are done
 		event_execute_ButtonUpdate.Clicked += new EventHandler(on_update_clicked);
 	
-		currentEventExecute = new RunIntervalExecute(currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
+		currentEventExecute = new RunIntervalExecute(
+				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
-				progressbarLimit, egd);
+				chronopicWin.CP, event_execute_textview_message, app1,
+				prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
+				progressbarLimit, egd,
+				checkbutton_runs_i_prevent_double_contact.Active, 
+				(int) spinbutton_runs_i_prevent_double_contact.Value,
+				getDoubleContactModes(false)	//false: not runSimple
+				);
 		
 		
 		//suitable for limited by tracks and time
@@ -3871,10 +3889,10 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void chronopicLabels(int cps) {
-		/*
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 
-		
+	
+		/*	
 		string myMessage = "";
 		if(cps == 0) 
 			myMessage = Constants.SimulatedMessage;

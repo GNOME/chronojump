@@ -43,9 +43,9 @@ public class RunExecute : EventExecute
 	}
 	protected runPhases runPhase;
 		
-	private bool checkDoubleContact;
-	private int checkDoubleContactTime;
-	private Constants.DoubleContact checkDoubleContactMode;
+	protected bool checkDoubleContact;
+	protected int checkDoubleContactTime;
+	protected Constants.DoubleContact checkDoubleContactMode;
 		
 	
 	public RunExecute() {
@@ -186,7 +186,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 
 		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
 		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
-		double timestampDCN = 0; //number of flight times
+		double timestampDCn = 0; //number of flight times
 
 		bool success = false;
 		bool ok;
@@ -230,11 +230,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 								   and we arrived (it's a flight time)
 								   record this time as timestampDCFlightTimes
 								 */
-								timestampDCN ++;
+								timestampDCn ++;
 								timestampDCFlightTimes += timestamp;
 							}
 							else {
-								if(timestampDCN > 0) {
+								if(timestampDCn > 0) {
 									if(checkDoubleContactMode == 
 											Constants.DoubleContact.FIRST) {
 										/* user want first flight time,
@@ -252,7 +252,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 										timestamp += 
 											(timestampDCFlightTimes + 
 											 timestampDCContactTimes) 
-											/ timestampDCN;
+											/ timestampDCn;
 									}
 								}
 								success = true;
@@ -287,7 +287,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 					//change the automata state
 					loggedState = States.OFF;
 
-					if(checkDoubleContact && timestampDCN > 0)
+					if(checkDoubleContact && timestampDCn > 0)
 						timestampDCContactTimes += timestamp;
 					else {
 						initializeTimer();
@@ -444,7 +444,8 @@ public class RunIntervalExecute : RunExecute
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
-			double progressbarLimit, ExecutingGraphData egd 
+			double progressbarLimit, ExecutingGraphData egd ,
+			bool checkDoubleContact, int checkDoubleContactTime, Constants.DoubleContact checkDoubleContactMode
 			)
 	{
 		this.personID = personID;
@@ -479,6 +480,9 @@ public class RunIntervalExecute : RunExecute
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.checkDoubleContact = checkDoubleContact;
+		this.checkDoubleContactTime = checkDoubleContactTime;
+		this.checkDoubleContactMode = checkDoubleContactMode;
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
@@ -502,20 +506,14 @@ public class RunIntervalExecute : RunExecute
 		bool success = false;
 		string equal = "";
 		
-		
 		//initialize variables
 		intervalTimesString = "";
 		tracks = 0;
-		
 		bool ok;
-
 		timerCount = 0;
 		//bool initialized = false;
-		
 		int countForSavingTempTable = 0;
-	
 		lastTc = 0;
-					
 		distanceIntervalFixed = distanceInterval;
 		
 		do {
@@ -554,7 +552,7 @@ public class RunIntervalExecute : RunExecute
 					
 					
 						if(limitAsDouble == -1) {
-							
+							//has arrived, unlimited
 							if(simulated)
 								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 							
@@ -645,6 +643,9 @@ public class RunIntervalExecute : RunExecute
 									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 								
 								double myRaceTime = lastTc + timestamp/1000.0;
+
+								/*
+								success is never true here
 								if(success) {
 									//write();
 									//write only if there's a run at minimum
@@ -658,19 +659,19 @@ public class RunIntervalExecute : RunExecute
 									runPhase = runPhases.PLATFORM_END;
 								}
 								else {
-									if(intervalTimesString.Length > 0) { equal = "="; }
-									intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
-									updateTimerCountWithChronopicData(intervalTimesString);
-									tracks ++;	
-								
-									//save temp table if needed
-									countForSavingTempTable ++;
-									if(countForSavingTempTable == timesForSavingRepetitive) {
-										writeRunInterval(true); //tempTable
-										countForSavingTempTable = 0;
-									}
+								*/
+								if(intervalTimesString.Length > 0) { equal = "="; }
+								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+								updateTimerCountWithChronopicData(intervalTimesString);
+								tracks ++;	
 
+								//save temp table if needed
+								countForSavingTempTable ++;
+								if(countForSavingTempTable == timesForSavingRepetitive) {
+									writeRunInterval(true); //tempTable
+									countForSavingTempTable = 0;
 								}
+								//}
 								
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent

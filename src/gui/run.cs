@@ -954,12 +954,18 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_distance;
 	[Widget] Gtk.Label extra_window_runs_interval_label_distance_units;
-
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit;
 	[Widget] Gtk.SpinButton extra_window_runs_interval_spinbutton_limit;
 	[Widget] Gtk.Label extra_window_runs_interval_label_limit_units;
-
 	[Widget] Gtk.Label extra_window_label_runs_interval_no_options;
+	
+	[Widget] Gtk.Box vbox_runs_i_prevent_double_contact;
+	[Widget] Gtk.CheckButton checkbutton_runs_i_prevent_double_contact;
+	[Widget] Gtk.SpinButton spinbutton_runs_i_prevent_double_contact;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_first;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_average;
+	[Widget] Gtk.RadioButton radio_runs_i_prevent_double_contact_last;
+	
 
 	//selected test labels	
 	[Widget] Gtk.Label extra_window_runs_label_selected;
@@ -1261,6 +1267,9 @@ partial class ChronoJumpWindow
 
 	protected void on_checkbutton_runs_prevent_double_contact_toggled (object o, EventArgs args) {
 		vbox_runs_prevent_double_contact.Visible = checkbutton_runs_prevent_double_contact.Active;
+	}
+	protected void on_checkbutton_runs_i_prevent_double_contact_toggled (object o, EventArgs args) {
+		vbox_runs_i_prevent_double_contact.Visible = checkbutton_runs_i_prevent_double_contact.Active;
 	}
 
 }

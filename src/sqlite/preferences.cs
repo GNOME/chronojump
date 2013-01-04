@@ -59,7 +59,7 @@ class SqlitePreferences : Sqlite
 		Insert ("language", "es-ES"); 
 		Insert ("allowFinishRjAfterTime", "True"); 
 		Insert ("volumeOn", "True"); 
-		Insert ("videoOn", "False"); 
+		Insert ("videoOn", "True"); 
 		Insert ("evaluatorServerID", "-1");
 		Insert ("versionAvailable", "");
 		

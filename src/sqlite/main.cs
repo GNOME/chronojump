@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.85";
+	static string lastChronojumpDatabaseVersion = "0.86";
 
 	public Sqlite() {
 	}
@@ -1163,6 +1163,16 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.85";
 			}
+			if(currentVersion == "0.85") {
+				dbcon.Open();
+				Log.WriteLine("Converted DB to 0.86 videoOn: TRUE"); 
+
+				SqlitePreferences.Update("videoOn", "True", true);
+				SqlitePreferences.Update ("databaseVersion", "0.86", true); 
+				
+				dbcon.Close();
+				currentVersion = "0.86";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1301,6 +1311,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.85 - 0.86 Converted DB to 0.86 videoOn: TRUE
 		//0.84 - 0.85 Converted DB to 0.85 Added slCMJ jump 
 		//0.83 - 0.84 Converted DB to 0.84 Added first RSA test 
 		//0.82 - 0.83 Converted DB to 0.83 Created encoder table

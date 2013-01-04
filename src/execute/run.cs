@@ -326,14 +326,14 @@ Log.WriteLine("MANAGE(3)!!!!");
 	
 	protected override void updateTimeProgressBar() {
 		/* 4 situations:
-		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label
-			case runPhases.PRE_RUNNING:
-		 *   2-  if we are on the platform, it should be a pulse with no time value on label
-			case runPhases.PLATFORM_INI:
-		 *   3- if we leave the platform, it should be a pulse with timerCount on label
-			case runPhases.RUNNING:
-		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label
-			case runPhases.PLATFORM_END:
+		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
+				case runPhases.PRE_RUNNING
+		 *   2-  if we are on the platform, it should be a pulse with no time value on label:
+				case runPhases.PLATFORM_INI
+		 *   3- if we leave the platform, it should be a pulse with timerCount on label:
+				case runPhases.RUNNING
+		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label:
+				case runPhases.PLATFORM_END
 		 */
 		
 		double myTimeValue = 0;
@@ -448,7 +448,9 @@ public class RunIntervalExecute : RunExecute
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
-			bool checkDoubleContact, int checkDoubleContactTime, Constants.DoubleContact checkDoubleContactMode
+			bool checkDoubleContact, int checkDoubleContactTime, 
+			Constants.DoubleContact checkDoubleContactMode,
+			Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -486,6 +488,7 @@ public class RunIntervalExecute : RunExecute
 		this.checkDoubleContact = checkDoubleContact;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
@@ -502,8 +505,8 @@ public class RunIntervalExecute : RunExecute
 		eventDone = new RunInterval();
 	}
 
-	
-	protected override void waitEvent ()
+/*	
+	protected override void waitEventPreDoubleContacts ()
 	{
 		double timestamp = 0;
 		bool success = false;
@@ -647,22 +650,6 @@ public class RunIntervalExecute : RunExecute
 								
 								double myRaceTime = lastTc + timestamp/1000.0;
 
-								/*
-								success is never true here
-								if(success) {
-									//write();
-									//write only if there's a run at minimum
-									if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
-										writeRunInterval(false); //tempTable = false
-									} else {
-										//cancel a run if clicked finish before any events done, or ended by time without events
-										cancel = true;
-									}
-
-									runPhase = runPhases.PLATFORM_END;
-								}
-								else {
-								*/
 								if(intervalTimesString.Length > 0) { equal = "="; }
 								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
 								updateTimerCountWithChronopicData(intervalTimesString);
@@ -674,7 +661,247 @@ public class RunIntervalExecute : RunExecute
 									writeRunInterval(true); //tempTable
 									countForSavingTempTable = 0;
 								}
-								//}
+								
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										false, //timeLimited: activity mode
+										tracks
+										);  
+								needUpdateEventProgressBar = true;
+								
+								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+							
+								//update graph
+								PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
+										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
+								needUpdateGraphType = eventType.RUNINTERVAL;
+								needUpdateGraph = true;
+
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
+							}
+						}
+					}
+				}
+				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
+					//it's out, was inside (= has abandoned platform)
+							
+					if(runPhase == runPhases.PLATFORM_INI) {
+						//run starts
+						initializeTimer();
+						lastTc = 0;
+
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
+					} else {
+						lastTc = timestamp/1000.0;
+						
+						//RSA
+						double RSAseconds = Util.GetRunIVariableDistancesThisRowIsRSA(
+								distancesString, Convert.ToInt32(tracks));
+						if(RSAseconds > 0) {
+							RSABellDone = false;
+							needShowCountDown = true;
+						} else {
+							needShowCountDown = false;
+							feedbackMessage = "";
+							needShowFeedbackMessage = true;
+						}
+					}
+
+						
+					runPhase = runPhases.RUNNING;
+
+					//change the automata state
+					loggedState = States.OFF;
+				}
+			}
+		} while ( ! success && ! cancel && ! finish );
+
+		if (finish) {
+			//write();
+			//write only if there's a run at minimum
+			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
+				writeRunInterval(false); //tempTable = false
+			
+				totallyFinished = true;
+			} else {
+				//cancel a run if clicked finish before any events done, or ended by time without events
+				cancel = true;
+			}
+
+			runPhase = runPhases.PLATFORM_END;
+		}
+		if(cancel || finish) {
+			//event will be raised, and managed in chronojump.cs
+			fakeButtonFinished.Click();
+			
+			totallyCancelled = true;
+		}
+	}
+*/
+
+	protected override void waitEvent ()
+	{
+		double timestamp = 0;
+		bool success = false;
+		string equal = "";
+		
+		//initialize variables
+		intervalTimesString = "";
+		tracks = 0;
+		bool ok;
+		timerCount = 0;
+		//bool initialized = false;
+		int countForSavingTempTable = 0;
+		lastTc = 0;
+		distanceIntervalFixed = distanceInterval;
+
+		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
+		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
+		double timestampDCn = 0; //number of flight times
+		
+		do {
+			if(simulated) 
+				ok = true;
+			else 
+				ok = cp.Read_event(out timestamp, out platformState);
+		
+	
+			if (ok && !cancel && !finish) {
+				if(distanceInterval == -1)
+					distanceIntervalFixed = Util.GetRunIVariableDistancesStringRow(distancesString, (int) tracks);
+
+				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
+					//has arrived
+					loggedState = States.ON;
+					
+					//show RSA count down only on air		
+					needShowCountDown = false;
+					
+					//if we start out, and we arrive to the platform for the first time, don't record nothing
+					if(runPhase == runPhases.PRE_RUNNING) {
+						runPhase = runPhases.RUNNING;
+						//run starts
+						initializeTimer();
+					
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
+					}
+					else {
+						runPhase = runPhases.RUNNING;
+						//has arrived and not in the "running previous"
+						
+						//if interval run is "unlimited" not limited by tracks, nor time, 
+						//then play with the progress bar until finish button is pressed
+					
+					
+						if(limitAsDouble == -1) {
+							//has arrived, unlimited
+							if(simulated)
+								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+							
+							double myRaceTime = lastTc + timestamp/1000.0;
+							
+							if(intervalTimesString.Length > 0) { equal = "="; }
+							intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+							updateTimerCountWithChronopicData(intervalTimesString);
+							tracks ++;	
+								
+							updateProgressBar= new UpdateProgressBar (
+									true, //isEvent
+									true, //unlimited: activity mode
+									tracks
+									);  
+							needUpdateEventProgressBar = true;
+							
+							distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+
+							//update graph
+							PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
+									distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
+							needUpdateGraphType = eventType.RUNINTERVAL;
+							needUpdateGraph = true;
+							
+							
+							//put button_finish as sensitive when first jump is done (there's something recordable)
+							if(tracks == 1)
+								needSensitiveButtonFinish = true;
+						}
+						else {
+							//has arrived, limited
+							if (tracksLimited) {
+								//has arrived, limited by tracks
+								tracks ++;	
+
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+
+								double myRaceTime = lastTc + timestamp/1000.0;
+								if(intervalTimesString.Length > 0) { equal = "="; }
+								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+								updateTimerCountWithChronopicData(intervalTimesString);
+
+
+								//save temp table if needed
+								countForSavingTempTable ++;
+								if(countForSavingTempTable == timesForSavingRepetitive) {
+									writeRunInterval(true); //tempTable
+									countForSavingTempTable = 0;
+								}
+
+	
+								if(tracks >= limitAsDouble) 
+								{
+									//finished
+									writeRunInterval(false); //tempTable = false
+									success = true;
+									runPhase = runPhases.PLATFORM_END;
+								}
+								
+								//progressBarEventOrTimePreExecution(
+								updateProgressBar= new UpdateProgressBar (
+										true, //isEvent
+										true, //tracksLimited: percentageMode
+										tracks
+										);  
+								needUpdateEventProgressBar = true;
+							
+								distanceTotal = Util.GetRunITotalDistance(distanceInterval, distancesString, tracks);
+							
+								//update graph
+								PrepareEventGraphRunIntervalObject = new PrepareEventGraphRunInterval(
+										distanceIntervalFixed, myRaceTime, intervalTimesString, distanceTotal, distancesString);
+
+								needUpdateGraphType = eventType.RUNINTERVAL;
+								needUpdateGraph = true;
+
+								//put button_finish as sensitive when first jump is done (there's something recordable)
+								if(tracks == 1)
+									needSensitiveButtonFinish = true;
+							} else {
+								//has arrived, limited by time
+								runPhase = runPhases.RUNNING;
+								
+								if(simulated)
+									timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+								
+								double myRaceTime = lastTc + timestamp/1000.0;
+
+								if(intervalTimesString.Length > 0) { equal = "="; }
+								intervalTimesString = intervalTimesString + equal + myRaceTime.ToString();
+								updateTimerCountWithChronopicData(intervalTimesString);
+								tracks ++;	
+
+								//save temp table if needed
+								countForSavingTempTable ++;
+								if(countForSavingTempTable == timesForSavingRepetitive) {
+									writeRunInterval(true); //tempTable
+									countForSavingTempTable = 0;
+								}
 								
 								updateProgressBar= new UpdateProgressBar (
 										true, //isEvent
@@ -793,14 +1020,14 @@ public class RunIntervalExecute : RunExecute
 
 	protected override void updateTimeProgressBar() {
 		/* 4 situations:
-		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label 
-		 *   	case runPhases.PRE_RUNNING:
-		 *   2- we started in, and we haven't leaved the platform, a pulse but with no time value on label
-		 *   	case runPhases.PLATFORM_INI:
-		 *   3- we are in the platform or outside at any time except 1,2 and 4. timerCount have to be shown, and progress should be Fraction or Pulse depending on if ot's time limited or not
-		 *   	case runPhases.RUNNING:
-		 *  4.- we have arrived (or jump finished at any time)
-		 *   	case runPhases.PLATFORM_END:
+		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
+		 *   		case runPhases.PRE_RUNNING
+		 *   2- we started in, and we haven't leaved the platform, a pulse but with no time value on label:
+		 *   		case runPhases.PLATFORM_INI
+		 *   3- we are in the platform or outside at any time except 1,2 and 4. timerCount have to be shown, and progress should be Fraction or Pulse depending on if it's time limited or not:
+		 *   		case runPhases.RUNNING
+		 *  4.- we have arrived (or jump finished at any time):
+		 *   		case runPhases.PLATFORM_END
 		 */
 		
 		double myTimeValue = 0;
@@ -999,11 +1226,10 @@ public class RunIntervalExecute : RunExecute
 	public override double Speed
 	{
 		get { 
-			//if(metersSecondsPreferred) {
+			//if(metersSecondsPreferred) 
 				return distanceTotal / timeTotal ; 
-			// else {
+			// else 
 			//	return (distanceTotal / timeTotal) * 3.6 ; 
-			//}
 		}
 	}
 */

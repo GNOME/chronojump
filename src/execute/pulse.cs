@@ -56,7 +56,7 @@ public class PulseExecute : EventExecute
 	public PulseExecute(int personID, string personName, int sessionID, string type, double fixedPulse, int totalPulsesNum,  
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
 			//double progressbarLimit, 
-			ExecutingGraphData egd 
+			ExecutingGraphData egd, Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -75,6 +75,7 @@ public class PulseExecute : EventExecute
 		this.volumeOn = volumeOn;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();

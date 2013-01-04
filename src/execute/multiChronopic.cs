@@ -78,7 +78,7 @@ public class MultiChronopicExecute : EventExecute
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
 			//double progressbarLimit, 
-			ExecutingGraphData egd 
+			ExecutingGraphData egd, Gtk.Image image_simulated_warning
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -93,6 +93,7 @@ public class MultiChronopicExecute : EventExecute
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		chronopics = 1; 
 		initValues();	
@@ -101,7 +102,7 @@ public class MultiChronopicExecute : EventExecute
 	public MultiChronopicExecute(int personID, string personName, int sessionID, string type, 
 			Chronopic cp, Chronopic cp2, bool syncFirst, bool deleteFirst, string vars, Gtk.Window app,
 			//double progressbarLimit, 
-			ExecutingGraphData egd 
+			ExecutingGraphData egd, Gtk.Image image_simulated_warning
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -117,6 +118,7 @@ public class MultiChronopicExecute : EventExecute
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		chronopics = 2; 
 		initValues();	
@@ -126,7 +128,8 @@ public class MultiChronopicExecute : EventExecute
 			Chronopic cp, Chronopic cp2, Chronopic cp3, bool syncFirst, bool deleteFirst, string vars, 
 			Gtk.Window app,
 			//double progressbarLimit, 
-			ExecutingGraphData egd 
+			ExecutingGraphData egd, Gtk.Image image_simulated_warning
+ 
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -143,6 +146,7 @@ public class MultiChronopicExecute : EventExecute
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		chronopics = 3; 
 		initValues();	
@@ -152,7 +156,8 @@ public class MultiChronopicExecute : EventExecute
 			Chronopic cp, Chronopic cp2, Chronopic cp3, Chronopic cp4, bool syncFirst, bool deleteFirst, string vars, 
 			Gtk.Window app,
 			//double progressbarLimit, 
-			ExecutingGraphData egd 
+			ExecutingGraphData egd, Gtk.Image image_simulated_warning
+
 			) {
 		this.personID = personID;
 		this.personName = personName;
@@ -170,6 +175,7 @@ public class MultiChronopicExecute : EventExecute
 		this.app = app;
 //		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		chronopics = 4; 
 		initValues();	

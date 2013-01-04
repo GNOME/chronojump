@@ -70,7 +70,6 @@ public class JumpExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
-		
 		this.image_simulated_warning = image_simulated_warning;	
 
 	
@@ -241,7 +240,7 @@ public class JumpExecute : EventExecute
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
 			
-			//if (ok) {
+			//if (ok) 
 			if (ok && !cancel) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
@@ -307,7 +306,7 @@ public class JumpExecute : EventExecute
 						tc = timestamp / 1000.0;
 						
 						//takeOff jump (only one TC)
-						//if(fixedValue == 0.5) {
+						//if(fixedValue == 0.5) 
 						if(type == Constants.TakeOffName || type == Constants.TakeOffWeightName) {
 							tv = 0;
 							write ();
@@ -472,7 +471,8 @@ public class JumpRjExecute : JumpExecute
 			double limitAsDouble, bool jumpsLimited, 
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
-			double progressbarLimit, ExecutingGraphData egd 
+			double progressbarLimit, ExecutingGraphData egd, 
+			Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -500,6 +500,7 @@ public class JumpRjExecute : JumpExecute
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
+		this.image_simulated_warning = image_simulated_warning;	
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }
@@ -752,7 +753,7 @@ public class JumpRjExecute : JumpExecute
 
 /*
 				EndingConditionsJumpRj conditions = new EndingConditionsJumpRj();
-				if(! conditionsOk(tv,tc)) {
+				if(! conditionsOk(tv,tc)) 
 					finish = true;
 					posar MARCA de que les conditions no estan be i després mostrar quines
 */
@@ -777,7 +778,7 @@ public class JumpRjExecute : JumpExecute
 				cancel = true;
 			}
 		}
-		//if(cancel || finish) {
+		//if(cancel || finish) 
 		if(cancel) {
 			//event will be raised, and managed in chronojump.cs
 			fakeButtonFinished.Click();

@@ -1019,6 +1019,7 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_rj_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_cm;
 	[Widget] Gtk.Label extra_window_label_jumps_rj_no_options;
+	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 
 	//labels notebook_execute	
 	[Widget] Gtk.Label label_extra_window_radio_jump_free;
@@ -1196,6 +1197,7 @@ partial class ChronoJumpWindow
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
 		bool hasOptions = false;
+		checkbutton_allow_finish_rj_after_time.Visible = false;
 	
 		if(myJumpType.FixedValue >= 0) {
 			hasOptions = true;
@@ -1207,6 +1209,7 @@ partial class ChronoJumpWindow
 			} else {
 				extra_window_jumps_rj_jumpsLimited = false;
 				extra_window_jumps_rj_label_limit_units.Text = secondsName;
+				checkbutton_allow_finish_rj_after_time.Visible = true;
 			}
 			if(myJumpType.FixedValue > 0) {
 				extra_window_jumps_rj_spinbutton_limit.Sensitive = false;
@@ -1255,6 +1258,10 @@ partial class ChronoJumpWindow
 		changeTestImage(EventType.Types.JUMP.ToString(), j.Name, j.ImageFileName);
 	}
 
+	private void on_extra_window_checkbutton_allow_finish_rj_after_time_toggled(object o, EventArgs args)
+	{
+		SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
+	}
 
 	private void on_more_jumps_draw_image_test (object o, EventArgs args) {
 		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);

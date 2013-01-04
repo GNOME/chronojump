@@ -1677,22 +1677,22 @@ Chronopic</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_hexagon">
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_j">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">CounterMovement Jump</property>
+                                                            <property name="tooltip" translatable="yes">Simple jump with no special technique</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="relief">none</property>
+                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
-                                                            <property name="group">extra_window_radio_jump_rj_j</property>
                                                             <signal name="toggled" handler="on_extra_window_jumps_rj_test_changed" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_hexagon">
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_j">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Hexagon</property>
+                                                            <property name="label" translatable="yes">RJ(j)</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -1755,22 +1755,22 @@ Chronopic</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_j">
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_jump_rj_hexagon">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Simple jump with no special technique</property>
+                                                            <property name="tooltip" translatable="yes">CounterMovement Jump</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="relief">none</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_jump_rj_j</property>
                                                             <signal name="toggled" handler="on_extra_window_jumps_rj_test_changed" swapped="no"/>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_j">
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_hexagon">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">RJ(j)</property>
+                                                            <property name="label" translatable="yes">Hexagon</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -4281,6 +4281,24 @@ weight</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_allow_finish_rj_after_time">
+                                                            <property name="label" translatable="yes">Allow finish after time</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">If a reactive jump is limited by time, and time has running out, allow finish jump</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="use_underline">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_extra_window_checkbutton_allow_finish_rj_after_time_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -24158,23 +24176,6 @@ show elevation as:</property>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkCheckButton" id="checkbutton_allow_finish_rj_after_time">
-                    <property name="label" translatable="yes">Allow RJ's finish after time</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">If a reactive jump is limited by time, and time has running out, allow finish jump</property>
-                    <property name="use_action_appearance">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </widget>

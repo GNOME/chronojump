@@ -43,7 +43,6 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	
-	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
@@ -101,7 +100,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool allowFinishRjAfterTime, bool volumeOn, bool videoOn)
+			string language, bool volumeOn, bool videoOn)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -116,12 +115,6 @@ public class PreferencesWindow {
 		string [] decs = {"1", "2", "3"};
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(decs, digitsNumber.ToString());
 
-		if(allowFinishRjAfterTime)
-			PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active = true; 
-		else
-			PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active = false; 
-			
-		
 		if(showHeight) 
 			PreferencesWindowBox.checkbutton_height.Active = true; 
 		else 
@@ -402,7 +395,6 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
 		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
 		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
-		SqlitePreferences.Update("allowFinishRjAfterTime", PreferencesWindowBox.checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
 			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), false);

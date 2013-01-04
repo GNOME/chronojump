@@ -1,0 +1,17 @@
+execute:
+
+mono --runtime=v4.0 /usr/local/lib/chronojump/Chronojump.exe
+
+#https://bugs.launchpad.net/ubuntu/+source/mono/+bug/882501
+
+but runs slowly, I think because it's compiled for runtime 2.0. Continue reading...
+
+compile like this:
+
+./autogen.sh MCS=/usr/bin/mono-dmcs
+make
+sudo make install
+
+now it runs fast
+
+(with csc didn't worked)

@@ -421,6 +421,18 @@ public class EditEventWindow
 	protected virtual void fillAngle(Event myEvent) {
 	}
 		
+	protected virtual void on_radio_single_leg_1_toggled(object o, EventArgs args) {
+	}
+	protected virtual void on_radio_single_leg_2_toggled(object o, EventArgs args) {
+	}
+	protected virtual void on_radio_single_leg_3_toggled(object o, EventArgs args) {
+	}
+	protected virtual void on_radio_single_leg_4_toggled(object o, EventArgs args) {
+	}
+	protected virtual void on_spin_single_leg_changed(object o, EventArgs args) {
+	}
+
+
 	private void on_entry_tv_value_changed (object o, EventArgs args) {
 		if(Util.IsNumber(entry_tv_value.Text.ToString(), true)){
 			entryTv = entry_tv_value.Text.ToString();

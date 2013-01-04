@@ -267,7 +267,7 @@ public class EditJumpWindow : EditEventWindow
 		toggleRaisesSignal = true;
 	}
 	
-	private void on_radio_single_leg_1_toggled(object o, EventArgs args) {
+	protected override void on_radio_single_leg_1_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string description = entry_description.Text;
 			if(! slCMJDescriptionIsValid(description))
@@ -288,7 +288,7 @@ public class EditJumpWindow : EditEventWindow
 		}
 	}
 
-	private void on_radio_single_leg_2_toggled(object o, EventArgs args) {
+	protected override void on_radio_single_leg_2_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string description = entry_description.Text;
 			if(! slCMJDescriptionIsValid(description))
@@ -305,7 +305,7 @@ public class EditJumpWindow : EditEventWindow
 		}
 	}
 
-	private void on_radio_single_leg_3_toggled(object o, EventArgs args) {
+	protected override void on_radio_single_leg_3_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string description = entry_description.Text;
 			if(! slCMJDescriptionIsValid(description))
@@ -324,7 +324,7 @@ public class EditJumpWindow : EditEventWindow
 		}
 	}
 
-	private void on_radio_single_leg_4_toggled(object o, EventArgs args) {
+	protected override void on_radio_single_leg_4_toggled(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string description = entry_description.Text;
 			if(! slCMJDescriptionIsValid(description))
@@ -343,7 +343,7 @@ public class EditJumpWindow : EditEventWindow
 		}
 	}
 
-	private void on_spin_single_leg_changed(object o, EventArgs args) {
+	protected override void on_spin_single_leg_changed(object o, EventArgs args) {
 		if(toggleRaisesSignal) {
 			string description = entry_description.Text;
 			if(! slCMJDescriptionIsValid(description))

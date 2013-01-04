@@ -56,7 +56,9 @@ public class RunExecute : EventExecute
 			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, 
 			int pDN, bool metersSecondsPreferred, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd,
-			bool checkDoubleContact, int checkDoubleContactTime, Constants.DoubleContact checkDoubleContactMode
+			bool checkDoubleContact, int checkDoubleContactTime, 
+			Constants.DoubleContact checkDoubleContactMode,
+			Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -76,6 +78,7 @@ public class RunExecute : EventExecute
 		this.checkDoubleContact = checkDoubleContact;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.image_simulated_warning = image_simulated_warning;	
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();

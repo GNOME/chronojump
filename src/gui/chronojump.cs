@@ -3431,7 +3431,8 @@ Log.WriteLine("DDD 2");
 				progressbarLimit, egd,
 				checkbutton_runs_prevent_double_contact.Active, 
 				(int) spinbutton_runs_prevent_double_contact.Value,
-				getDoubleContactModes(true)	//true: runSimple
+				getDoubleContactModes(true),	//true: runSimple
+				image_simulated_warning
 				);
 		
 		if (!chronopicWin.Connected) 

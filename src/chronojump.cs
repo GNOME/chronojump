@@ -341,7 +341,7 @@ Log.WriteLine("doing backup");
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else {
 				messageToShowOnBoot += messageChrashedBefore;
-				SqlitePreferences.Update("videoOn", "False", false);
+				//SqlitePreferences.Update("videoOn", "False", false);
 			}
 		}
 		
@@ -597,7 +597,7 @@ Console.WriteLine("--6--");
 			Catalog.GetString("Your help is needed.") + "\n";
 
 	
-		messageChrashedBefore += "\n" + Catalog.GetString("Experimental webcam record has been disabled.") + "\n";
+		//messageChrashedBefore += "\n" + Catalog.GetString("Experimental webcam record has been disabled.") + "\n";
 
 
 		/*

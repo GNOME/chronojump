@@ -289,7 +289,6 @@ public partial class ChronoJumpWindow
 	private static bool weightPercentPreferred;
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
-	private static bool allowFinishRjAfterTime;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -752,12 +751,7 @@ public partial class ChronoJumpWindow
 		
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
 
-	
-		if ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" ) 
-			allowFinishRjAfterTime = true;
-		 else 
-			allowFinishRjAfterTime = false;
-		
+		checkbutton_allow_finish_rj_after_time.Active = ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" );
 			
 		if ( SqlitePreferences.Select("showHeight") == "True" ) 
 			showHeight = true;
@@ -2545,8 +2539,7 @@ public partial class ChronoJumpWindow
 				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-				SqlitePreferences.Select("language"),
-				allowFinishRjAfterTime, volumeOn, videoOn);
+				SqlitePreferences.Select("language"), volumeOn, videoOn);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -2627,12 +2620,6 @@ public partial class ChronoJumpWindow
 			metersSecondsPreferred = false;
 		
 
-		//update allowFinish...
-		if ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" ) 
-			allowFinishRjAfterTime = true;
-		else 
-			allowFinishRjAfterTime = false;
-		
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows()) 
 		//	languageChange();
@@ -3275,7 +3262,7 @@ Log.WriteLine("DDD 2");
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
 				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber,
-				allowFinishRjAfterTime, volumeOn, repetitiveConditionsWin, progressbarLimit,
+				checkbutton_allow_finish_rj_after_time.Active, volumeOn, repetitiveConditionsWin, progressbarLimit,
 				egd, image_simulated_warning);
 		
 		

@@ -1458,7 +1458,9 @@ public class Util
 			foreach(string myPort in usbSerial)
 				detected += midStr + myPort;
 			detected += endStr;
-		} else {
+		} 
+		/*
+		   else {
 			detected += Constants.NotFoundUSBSerialPortsString + "\n";
 			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
 			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n" + startStr;
@@ -1466,6 +1468,7 @@ public class Util
 				detected += midStr + myPort;
 			detected += endStr;
 		}
+		*/
 		return detected;
 	}
 

@@ -336,10 +336,11 @@ Log.WriteLine("bbb");
 
 	private void createComboLinux() {
 		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
-		string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-		string [] all = Util.AddArrayString(usbSerial, serial);
+		//string [] serial = Directory.GetFiles("/dev/", "ttyS*");
+		//string [] all = Util.AddArrayString(usbSerial, serial);
 		string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortLinux);
-		string [] allWithDef = Util.AddArrayString(def, all);
+		//string [] allWithDef = Util.AddArrayString(def, all);
+		string [] allWithDef = Util.AddArrayString(def, usbSerial);
 
 		UtilGtk.ComboUpdate(combo_linux1, allWithDef, Constants.ChronopicDefaultPortLinux);
 		UtilGtk.ComboUpdate(combo_linux2, allWithDef, Constants.ChronopicDefaultPortLinux);
@@ -407,8 +408,13 @@ Log.WriteLine("bbb");
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
 				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 - COM4'.");
 
-		textview_ports_found.Buffer = UtilGtk.TextViewPrint(
-				Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
+		if(Util.IsWindows())
+			textview_ports_found.Buffer = UtilGtk.TextViewPrint(
+					Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
+		else
+			textview_ports_found.Buffer = UtilGtk.TextViewPrint(
+					Util.DetectPortsLinux(false));
+		
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
 				Catalog.GetString("These are USB devices like Chronopic but also pendrives, USB printers...") + "\n" + 
 				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") +

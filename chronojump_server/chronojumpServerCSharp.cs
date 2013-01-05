@@ -34,7 +34,7 @@ using System.Net; //getIP stuff
 //[WebService(Namespace="http://80.32.81.197:8080/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT
 //[WebService(Namespace="http://server.chronojump.org:8080/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT (important: needed the last '/')
 //[WebService(Namespace="http://server.chronojump.org/", //works to connect with pinux xen from client (from browser don't works) WORKS FROM CLIENT (important: needed the last '/')
-[WebService(Namespace="http://server.chronojump.org:8080/", //trying on lucianxen
+[WebService(Namespace="http://server.chronojump.org:8080/", //2013 server
 	Description="ChronojumpServer")]
 [Serializable]
 public class ChronojumpServer {

@@ -1,0 +1,33 @@
+1.- compile bin/*.dll file
+
+gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services -r:Mono.Posix  chronojumpServerCSharp.cs ../src/sqlite/*.cs ../src/util.cs ../src/person.cs ../src/event.cs ../src/jump.cs ../src/run.cs ../src/pulse.cs ../src/reactionTime.cs ../src/session.cs ../src/eventType.cs ../src/jumpType.cs ../src/runType.cs ../src/pulseType.cs ../src/constants.cs ../src/sport.cs ../src/personSession.cs ../src/serverPing.cs ../src/serverEvaluator.cs ../src/multiChronopic.cs ../src/encoder.cs ../src/log.cs ../src/utilDate.cs BCrypt.cs ../src/oldCodeNeedToDBConvert/*.cs ../src/oldCodeNeedToDBConvert/sqlite/*
+
+upload to server
+
+2.- navigate to the page
+
+firefox http://server.chronojump.org:8080/chronojumpServer.asmx
+
+3.- generate wsdl proxy file
+
+from console it doesnt' work, then do:
+a) go to 'client proxy'
+b) generate in C#
+c) download
+d) open in gedit (this way the ^M are removed automatically)
+e) save as ChronojumpServer.cs
+
+4.- delete all the partial classes in ChronojumpServer.cs (search 'partial') except this classes:
+
+ChronojumpServer
+
+and all the EventArgs like:
+ConnectDatabaseCompletedEventArgs
+DisConnectDatabaseCompletedEventArgs
+CanINewCompletedEventArgs
+...
+
+
+5.- compile client
+
+make

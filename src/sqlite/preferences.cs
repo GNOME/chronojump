@@ -62,6 +62,8 @@ class SqlitePreferences : Sqlite
 		Insert ("videoOn", "True"); 
 		Insert ("evaluatorServerID", "-1");
 		Insert ("versionAvailable", "");
+		Insert ("runSpeedStartArrival", "True");
+		Insert ("runISpeedStartArrival", "True");
 		
 		Random rnd = new Random();
 		string machineID = rnd.Next().ToString();

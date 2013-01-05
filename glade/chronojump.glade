@@ -4407,6 +4407,80 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkVBox" id="vbox_run_speed_start">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label104">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">"Speed start" means when athlete does not start with "contact" on the first platform or photocell.
+It starts before and arrives there with some speed.</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">What to do on speed start?</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox71">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_runs_speed_start_arrival">
+                                                            <property name="label" translatable="yes">Time starts on arrival at first device</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_runs_speed_start_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_runs_speed_start_leaving">
+                                                            <property name="label" translatable="yes">Time starts on leaving first device</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">radio_runs_speed_start_arrival</property>
+                                                            <signal name="toggled" handler="on_radio_runs_speed_start_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkHSeparator" id="hseparator4">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4414,7 +4488,7 @@ weight</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -4587,7 +4661,7 @@ weight</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -4776,6 +4850,79 @@ weight</property>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox_run_i_speed_start">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label106">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">"Speed start" means when athlete does not start with "contact" on the first platform or photocell.
+It starts before and arrives there with some speed.</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">What to do on speed start?</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox25">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_runs_i_speed_start_arrival">
+                                                            <property name="label" translatable="yes">Time starts on arrival at first device</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="toggled" handler="on_radio_runs_i_speed_start_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="radio_runs_i_speed_start_leaving">
+                                                            <property name="label" translatable="yes">Time starts on leaving first device	</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <property name="group">radio_runs_i_speed_start_arrival</property>
+                                                            <signal name="toggled" handler="on_radio_runs_i_speed_start_toggled" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

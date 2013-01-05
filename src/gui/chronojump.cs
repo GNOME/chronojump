@@ -745,104 +745,122 @@ public partial class ChronoJumpWindow
 	private void loadPreferences () 
 	{
 		Log.WriteLine (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
-				SqlitePreferences.Select("databaseVersion") ));
-		
+					SqlitePreferences.Select("databaseVersion") ));
+
 		//chronopicPort = SqlitePreferences.Select("chronopicPort");
-		
+
 		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
 
 		checkbutton_allow_finish_rj_after_time.Active = ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" );
-			
+
 		if ( SqlitePreferences.Select("showHeight") == "True" ) 
 			showHeight = true;
-		 else 
+		else 
 			showHeight = false;
-		
+
 		if ( SqlitePreferences.Select("showPower") == "True" ) 
 			showPower = true;
-		 else 
+		else 
 			showPower = false;
-			
+
 		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
 			showInitialSpeed = true;
-		 else 
+		else 
 			showInitialSpeed = false;
-		
+
 		if ( SqlitePreferences.Select("showAngle") == "True" ) 
 			showAngle = true;
-		 else 
+		else 
 			showAngle = false;
-		
-		
+
+
 		//only one of showQIndex or showDjIndex can be true. Also none of them
 		if ( SqlitePreferences.Select("showQIndex") == "True" ) 
 			showQIndex = true;
-		 else 
+		else 
 			showQIndex = false;
-		
-			
+
+
 		if ( SqlitePreferences.Select("showDjIndex") == "True" ) 
 			showDjIndex = true;
-		 else 
+		else 
 			showDjIndex = false;
-		
-			
-		
+
+
+
 		if ( SqlitePreferences.Select("simulated") == "True" ) {
-//			simulated = true;
+			//			simulated = true;
 			//menuitem_simulated.Active = true;
 
-//			cpRunning = false;
+			//			cpRunning = false;
 		} else {
-//			simulated = false;
-			
-//			cpRunning = true;
+			//			simulated = false;
+
+			//			cpRunning = true;
 		}
-		
+
 		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
 			askDeletion = true;
-		 else 
+		else 
 			askDeletion = false;
-		
+
 
 		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
 			weightPercentPreferred = true;
-		 else 
+		else 
 			weightPercentPreferred = false;
-		
-		
+
+
 		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
 			heightPreferred = true;
-		 else 
+		else 
 			heightPreferred = false;
-		
-		
+
+
 		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) 
 			metersSecondsPreferred = true;
-		 else 
+		else 
 			metersSecondsPreferred = false;
-		
+
 		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
 			volumeOn = true;
-		 else 
+		else 
 			volumeOn = false;
-		
-		 if ( SqlitePreferences.Select("videoOn") == "True" ) 
+
+		if ( SqlitePreferences.Select("videoOn") == "True" ) 
 			videoOn = true;
-		 else 
+		else 
 			videoOn = false;
-	
+
+
+		//load preferences, update radios, but not update database
+		update_sqlite_at_runs_speed_radios = false;
+
+		if ( SqlitePreferences.Select("runSpeedStartArrival") == "True" ) 
+			radio_runs_speed_start_arrival.Active = true;
+		else
+			radio_runs_speed_start_leaving.Active = true;
+
+		if ( SqlitePreferences.Select("runISpeedStartArrival") == "True" ) 
+			radio_runs_i_speed_start_arrival.Active = true;
+		else
+			radio_runs_i_speed_start_leaving.Active = true;
+		
+		update_sqlite_at_runs_speed_radios = true;
+
+
+
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows())
 		//	languageChange();
-			
+
 		//pass to report
 		report.PrefsDigitsNumber = prefsDigitsNumber;
 		report.HeightPreferred = heightPreferred;
 		report.WeightStatsPercent = weightPercentPreferred;
 		report.Progversion = progVersion;
-		
-		
+
+
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}
 
@@ -3421,7 +3439,7 @@ Log.WriteLine("DDD 2");
 				checkbutton_runs_prevent_double_contact.Active, 
 				(int) spinbutton_runs_prevent_double_contact.Value,
 				getDoubleContactModes(true),	//true: runSimple
-				image_simulated_warning
+				radio_runs_speed_start_arrival.Active, image_simulated_warning
 				);
 		
 		if (!chronopicWin.Connected) 
@@ -3543,7 +3561,7 @@ Log.WriteLine("DDD 2");
 				checkbutton_runs_i_prevent_double_contact.Active, 
 				(int) spinbutton_runs_i_prevent_double_contact.Value,
 				getDoubleContactModes(false),	//false: not runSimple
-				image_simulated_warning
+				radio_runs_i_speed_start_arrival.Active, image_simulated_warning
 				);
 		
 		

@@ -4406,6 +4406,17 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHSeparator" id="hseparator6">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkVBox" id="vbox_run_speed_start">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4476,7 +4487,7 @@ It starts before and arrives there with some speed.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -4487,7 +4498,7 @@ It starts before and arrives there with some speed.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -4660,7 +4671,7 @@ It starts before and arrives there with some speed.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">4</property>
+                                                            <property name="position">5</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
@@ -4852,6 +4863,17 @@ It starts before and arrives there with some speed.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
+                                                            <widget class="GtkHSeparator" id="hseparator7">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
                                                             <widget class="GtkVBox" id="vbox_run_i_speed_start">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -4922,7 +4944,7 @@ It starts before and arrives there with some speed.</property>
                                                             <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">3</property>
                                                             </packing>
                                                             </child>
                                                             </widget>

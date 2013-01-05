@@ -360,15 +360,6 @@ public class JumpExecute : EventExecute
 		return false; //this kind of events (simple or Dj jumps) cannot be finished by time
 	}
 	
-	protected override void updateTimeProgressBar() {
-		//has no finished, but move progressbar time
-		progressBarEventOrTimePreExecution(
-				false, //isEvent false: time
-				false, //activity mode
-				-1	//don't want to show info on label
-				); 
-	}
-
 	protected override void write()
 	{
 		string tcString = "";
@@ -818,12 +809,14 @@ public class JumpRjExecute : JumpExecute
 	}
 	
 	protected override void updateProgressBarForFinish() {
+		/*
 		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
 				true, //percentageMode: it has finished, show bar at 100%
 				//limitAsDouble
 				Util.GetTotalTime(tcString, tvString)
 				);  
+				*/
 	}
 
 	protected override void updateTimeProgressBar() {
@@ -838,11 +831,12 @@ public class JumpRjExecute : JumpExecute
 					); 
 		else
 			//after show a progressBar with time value
-			progressBarEventOrTimePreExecution(
-					false, //isEvent false: time
-					!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
-					timerCount
-					); 
+			if(! finish) 
+				progressBarEventOrTimePreExecution(
+						false, //isEvent false: time
+						!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction
+						timerCount
+						); 
 	}
 
 

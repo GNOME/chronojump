@@ -39,14 +39,15 @@ public class RunExecute : EventExecute
 	//changes a bit on runSimple and runInterval
 	//explained at each of the updateTimeProgressBar() 
 	protected enum runPhases {
-		PRE_RUNNING, PLATFORM_INI, RUNNING, PLATFORM_END
+		PRE_RUNNING, PLATFORM_INI_YES_TIME, PLATFORM_INI_NO_TIME, RUNNING, PLATFORM_END
 	}
 	protected runPhases runPhase;
 		
 	protected bool checkDoubleContact;
 	protected int checkDoubleContactTime;
 	protected Constants.DoubleContact checkDoubleContactMode;
-		
+	
+	protected bool speedStartArrival;	
 	
 	public RunExecute() {
 	}
@@ -58,7 +59,7 @@ public class RunExecute : EventExecute
 			double progressbarLimit, ExecutingGraphData egd,
 			bool checkDoubleContact, int checkDoubleContactTime, 
 			Constants.DoubleContact checkDoubleContactMode,
-			Gtk.Image image_simulated_warning
+			bool speedStartArrival, Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -78,6 +79,7 @@ public class RunExecute : EventExecute
 		this.checkDoubleContact = checkDoubleContact;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.speedStartArrival = speedStartArrival;	
 		this.image_simulated_warning = image_simulated_warning;	
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
@@ -132,7 +134,7 @@ Log.WriteLine("MANAGE(b)!!!!");
 
 			loggedState = States.ON;
 			startIn = true;
-			runPhase = runPhases.PLATFORM_INI;
+			runPhase = runPhases.PLATFORM_INI_NO_TIME;
 		} else if (platformState==Chronopic.Plataforma.OFF) {
 			feedbackMessage = Catalog.GetString("You are OUT, RUN when prepared!");
 			needShowFeedbackMessage = true; 
@@ -186,6 +188,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 	protected override void waitEvent ()
 	{
 		double timestamp = 0;
+		double timestampFirstContact = 0; //used when runPhase == runPhases.PLATFORM_INI_YES_TIME;
 
 		double timestampDCFlightTimes = -1; //sum of the flight times that happen in small time
 		double timestampDCContactTimes = -1;//sum of the contact times that happen in small time
@@ -208,7 +211,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 					loggedState = States.ON;
 					
 					if(runPhase == runPhases.PRE_RUNNING) {
-						runPhase = runPhases.PLATFORM_INI;
+						if(speedStartArrival) {
+							runPhase = runPhases.PLATFORM_INI_YES_TIME;
+							initializeTimer(); //timerCount = 0
+						} else
+							runPhase = runPhases.PLATFORM_INI_NO_TIME;
 						
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
@@ -266,6 +273,10 @@ Log.WriteLine("MANAGE(3)!!!!");
 							success = true;
 
 						if(success) {
+							//add the first contact time if PLATFORM_INI_YES_TIME
+							if(timestampFirstContact > 0)
+								timestamp += timestampFirstContact;
+
 							time = timestamp / 1000.0;
 							write();
 
@@ -293,7 +304,10 @@ Log.WriteLine("MANAGE(3)!!!!");
 					if(checkDoubleContact && timestampDCn > 0)
 						timestampDCContactTimes += timestamp;
 					else {
-						initializeTimer();
+						if(runPhase == runPhases.PLATFORM_INI_YES_TIME)
+							timestampFirstContact = timestamp;
+						else if(runPhase == runPhases.PLATFORM_INI_NO_TIME)
+							initializeTimer(); //timerCount = 0
 
 						//update event progressbar
 						updateProgressBar = new UpdateProgressBar (
@@ -325,15 +339,20 @@ Log.WriteLine("MANAGE(3)!!!!");
 	}
 	
 	protected override void updateTimeProgressBar() {
-		/* 4 situations:
+		/* 5 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
-				case runPhases.PRE_RUNNING
-		 *   2-  if we are on the platform, it should be a pulse with no time value on label:
-				case runPhases.PLATFORM_INI
+		 *		case runPhases.PRE_RUNNING
+		 *   2-  if we are on the platform, it should be a pulse
+		 *   		a) if speedStartArrival (time starts at arriving at platform) 
+		 *   		then time starts and have to be time value on label:
+		 *			case runPhases.PLATFORM_INI_YES_TIME
+		 *   		b) if ! speedStartArrival (time starts at leaving platform)
+		 *   		then time starts and do not have to be time value on label:
+		 *			case runPhases.PLATFORM_INI_NO_TIME
 		 *   3- if we leave the platform, it should be a pulse with timerCount on label:
-				case runPhases.RUNNING
+		 *		case runPhases.RUNNING
 		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label:
-				case runPhases.PLATFORM_END
+		 *		case runPhases.PLATFORM_END
 		 */
 		
 		double myTimeValue = 0;
@@ -341,8 +360,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 			case runPhases.PRE_RUNNING:
 				myTimeValue = -1; //don't show nothing on label_timer 
 				break;
-			case runPhases.PLATFORM_INI:
+			case runPhases.PLATFORM_INI_NO_TIME:
 				myTimeValue = -1;
+				break;
+			case runPhases.PLATFORM_INI_YES_TIME:
+				myTimeValue = timerCount; //show time from the timerCount
 				break;
 			case runPhases.RUNNING:
 				myTimeValue = timerCount; //show time from the timerCount
@@ -450,7 +472,7 @@ public class RunIntervalExecute : RunExecute
 			double progressbarLimit, ExecutingGraphData egd ,
 			bool checkDoubleContact, int checkDoubleContactTime, 
 			Constants.DoubleContact checkDoubleContactMode,
-			Gtk.Image image_simulated_warning
+			bool speedStartArrival, Gtk.Image image_simulated_warning
 			)
 	{
 		this.personID = personID;
@@ -488,6 +510,7 @@ public class RunIntervalExecute : RunExecute
 		this.checkDoubleContact = checkDoubleContact;
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
+		this.speedStartArrival = speedStartArrival;	
 		this.image_simulated_warning = image_simulated_warning;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
@@ -781,12 +804,16 @@ public class RunIntervalExecute : RunExecute
 					//show RSA count down only on air		
 					needShowCountDown = false;
 					
-					//if we start out, and we arrive to the platform for the first time, don't record nothing
+					//if we start out, and we arrive to the platform for the first time,
+					//don't record nothing
 					if(runPhase == runPhases.PRE_RUNNING) {
-						runPhase = runPhases.RUNNING;
-						//run starts
-						initializeTimer();
-					
+						if(speedStartArrival) {
+							runPhase = runPhases.PLATFORM_INI_YES_TIME;
+							//run starts
+							initializeTimer(); //timerCount = 0
+						} else
+							runPhase = runPhases.PLATFORM_INI_NO_TIME;
+
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					}
@@ -929,11 +956,16 @@ public class RunIntervalExecute : RunExecute
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) {
 					//it's out, was inside (= has abandoned platform)
 							
-					if(runPhase == runPhases.PLATFORM_INI) {
+					if(runPhase == runPhases.PLATFORM_INI_NO_TIME) {
 						//run starts
 						initializeTimer();
 						lastTc = 0;
 
+						feedbackMessage = "";
+						needShowFeedbackMessage = true; 
+					} else if(runPhase == runPhases.PLATFORM_INI_YES_TIME) {
+						lastTc = timestamp/1000.0;
+					
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
 					} else {
@@ -1004,7 +1036,10 @@ public class RunIntervalExecute : RunExecute
 		//check that the run started
 		//if( ! tracksLimited && limitAsDouble != -1 && timerCount > limitAsDouble 
 		if( ! tracksLimited && limitAsDouble != -1 && Util.GetTotalTime(intervalTimesString) > limitAsDouble 
-				&& !(runPhase == runPhases.PRE_RUNNING) && !(runPhase == runPhases.PLATFORM_INI)) 
+				&& !(runPhase == runPhases.PRE_RUNNING) 
+				&& !(runPhase == runPhases.PLATFORM_INI_NO_TIME)
+				&& !(runPhase == runPhases.PLATFORM_INI_YES_TIME)
+				) 
 			return true;
 		else
 			return false;
@@ -1019,15 +1054,20 @@ public class RunIntervalExecute : RunExecute
 	}
 
 	protected override void updateTimeProgressBar() {
-		/* 4 situations:
+		/* 5 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
-		 *   		case runPhases.PRE_RUNNING
-		 *   2- we started in, and we haven't leaved the platform, a pulse but with no time value on label:
-		 *   		case runPhases.PLATFORM_INI
+		 *		case runPhases.PRE_RUNNING
+		 *   2-  if we are on the platform, it should be a pulse
+		 *   		a) if speedStartArrival (time starts at arriving at platform) 
+		 *   		then time starts and have to be time value on label:
+		 *			case runPhases.PLATFORM_INI_YES_TIME
+		 *   		b) if ! speedStartArrival (time starts at leaving platform)
+		 *   		then time starts and do not have to be time value on label:
+		 *			case runPhases.PLATFORM_INI_NO_TIME
 		 *   3- we are in the platform or outside at any time except 1,2 and 4. timerCount have to be shown, and progress should be Fraction or Pulse depending on if it's time limited or not:
-		 *   		case runPhases.RUNNING
-		 *  4.- we have arrived (or jump finished at any time):
-		 *   		case runPhases.PLATFORM_END
+		 *		case runPhases.RUNNING
+		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label:
+		 *		case runPhases.PLATFORM_END
 		 */
 		
 		double myTimeValue = 0;
@@ -1037,9 +1077,13 @@ public class RunIntervalExecute : RunExecute
 				percentageMode = false;
 				myTimeValue = -1; //don't show nothing on label_timer 
 				break;
-			case runPhases.PLATFORM_INI:
+			case runPhases.PLATFORM_INI_NO_TIME:
 				percentageMode = false;
 				myTimeValue = -1;
+				break;
+			case runPhases.PLATFORM_INI_YES_TIME:
+				percentageMode = !tracksLimited;
+				myTimeValue = timerCount; //show time from the timerCount
 				break;
 			case runPhases.RUNNING:
 				percentageMode = !tracksLimited;

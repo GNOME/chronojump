@@ -1,12 +1,16 @@
-1.- compile bin/*.dll file
+Since 2013, server has changed location.
+At this host cannot access with port 8080, has to be port 80 and then is redirected.
+For this reason there's a little mess with the ports.
+
+1.- compile bin/*.dll file (note that chronojumpServerCSharp.cs points to 8080)
 
 gmcs -t:library -out:bin/chronojumpServer.dll -r:System.Data -r:Mono.Data.Sqlite -r:System.Web.Services -r:Mono.Posix  chronojumpServerCSharp.cs ../src/sqlite/*.cs ../src/util.cs ../src/person.cs ../src/event.cs ../src/jump.cs ../src/run.cs ../src/pulse.cs ../src/reactionTime.cs ../src/session.cs ../src/eventType.cs ../src/jumpType.cs ../src/runType.cs ../src/pulseType.cs ../src/constants.cs ../src/sport.cs ../src/personSession.cs ../src/serverPing.cs ../src/serverEvaluator.cs ../src/multiChronopic.cs ../src/encoder.cs ../src/log.cs ../src/utilDate.cs BCrypt.cs ../src/oldCodeNeedToDBConvert/*.cs ../src/oldCodeNeedToDBConvert/sqlite/*
 
 upload to server
 
-2.- navigate to the page
+2.- navigate to this page with a browser:
 
-firefox http://server.chronojump.org:8080/chronojumpServer.asmx
+http://server.chronojump.org:80/chronojumpServer.asmx
 
 3.- generate wsdl proxy file
 
@@ -27,7 +31,17 @@ DisConnectDatabaseCompletedEventArgs
 CanINewCompletedEventArgs
 ...
 
+change all the 80 to 8080 except:
+
+[System.Web.Services.WebServiceBinding(Name="ChronojumpServerSoap", Namespace="http://server.chronojump.org:80/")]
+
+public ChronojumpServer should be:
+
+    public ChronojumpServer() {
+        this.Url = "http://server.chronojump.org:80/chronojumpServer.asmx";
+    }
+
 
 5.- compile client
 
-make
+make, sudo make install

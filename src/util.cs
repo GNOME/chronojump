@@ -993,12 +993,16 @@ public class Util
 		pinfo.Arguments ="CMD BATCH --no-save " + rScript +" " + outputFile;
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
-		
+	
+		try {	
 		r = new Process();
 		r.StartInfo = pinfo;
 		r.Start();
 		r.WaitForExit();
 		while ( ! ( File.Exists(outputFile) || CancelRScript) );
+		} catch {
+			//maybe R is not installed
+		}
 	}
 	
 	//python program

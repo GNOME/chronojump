@@ -354,6 +354,19 @@ public class RunTypeAddWindow
 		}
 		hbox_distance_variable.ShowAll();
 	}
+	
+	private void on_button_help_rsa_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.HELP, 
+				Catalog.GetString("On RSA tests, rest time counts as a \"track\".") + 
+				"\n" + 	Catalog.GetString("You should write the time in seconds after a capital 'R' (meaning \"Rest\").") + 
+				"\n\n" + 	Catalog.GetString("Eg. A test that repeats 5 times the following sequence:") + 
+				"\n\n\t" + Catalog.GetString("Run 10 meters, run 8 meters, rest 4 seconds.") + 
+				"\n\n" + Catalog.GetString("Will be limited by tracks with a fixed value of 15") + 
+				"\n" + Catalog.GetString("(3 different tracks x 5 times)") + 
+				"\n\n" + Catalog.GetString("And the 'distance' of each track will be:") + 
+				"\n\n\t10, 8, R4"
+				);
+	}
 
 	private string getEntriesString () {
 		string str = "";
@@ -379,12 +392,28 @@ public class RunTypeAddWindow
 
 		if(radiobutton_dist_different.Active) {
 			string ddString = getEntriesString();
-			string [] s = ddString.Split(new char[] {'-'});
-			foreach (string myS in s)
-				if( ! Util.IsNumber(myS, true)) {
-					button_accept.Sensitive = false;
-					return;
+			string [] ddSplitted = ddString.Split(new char[] {'-'});
+			bool distancesAreOk = true;
+			foreach (string s in ddSplitted) {
+				string s2 = s;
+
+				if( s2.Length == 0) {
+					distancesAreOk = false;
+					break;
 				}
+
+				if( s2.Length > 1 && s2[0] == 'R')
+					s2 = s2.Substring(1);
+
+				if( ! Util.IsNumber(s2, true)) {
+					distancesAreOk = false;
+					break;
+				}
+			}
+			if(! distancesAreOk) {
+				button_accept.Sensitive = false;
+				return;
+			}
 		}
 			
 		button_accept.Sensitive = true;

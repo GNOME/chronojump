@@ -489,6 +489,7 @@ public class RunIntervalExecute : RunExecute
 			distancesString = runType.DistancesString;
 		}
 
+
 		if(tracksLimited) {
 			this.limited = limitAsDouble.ToString() + "R"; //'R'uns (don't put 'T'racks for not confusing with 'T'ime)
 		} else {
@@ -765,16 +766,20 @@ public class RunIntervalExecute : RunExecute
 		double waitSeconds = Util.GetRunIVariableDistancesThisRowIsRSA(distancesString, Convert.ToInt32(tracks))
 			 - (timerCount - Util.GetTotalTime(intervalTimesString) - lastTc);
 
-		if (waitSeconds < 0 && ! RSABellDone) {
-			Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-			RSABellDone = true;
+		if (waitSeconds < 0) {
+		       	if(! RSABellDone) {
+				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				RSABellDone = true;
+			}
+			return Catalog.GetString("Go!");
+		} else {
+			return string.Format(Catalog.GetPluralString(
+						"Wait 1 second.",
+						"Wait {0} seconds.",
+						Convert.ToInt32(Math.Ceiling(waitSeconds))),
+					Math.Ceiling(waitSeconds));
 		}
 
-		return string.Format(Catalog.GetPluralString(
-					"Wait 1 second.",
-					"Wait {0} seconds.",
-					Convert.ToInt32(waitSeconds)),
-				Util.TrimDecimals(waitSeconds, 1));
 	}
 
 	protected override bool shouldFinishByTime() {

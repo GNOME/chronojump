@@ -35,6 +35,7 @@ public class RunType : EventType
 					//	eg: "7-5-9" for a runInterval with three tracks of 7, 5 and 9 meters each
 					//	this is nice for agility tests
 	 				//	and RSA: distancesString 8-4-R3-5   means: 8m, 4m, rest 3 seconds, 5m
+					//		we know it's an RSA because there's an R in this variable
 
 	public RunType() {
 		type = Types.RUN;
@@ -496,6 +497,10 @@ public class RunType : EventType
 	public string DistancesString {
 		get { return distancesString; }
 		set { distancesString = value; }
+	}
+
+	public bool IsRSA {
+		get { return distancesString.LastIndexOf("R") != -1; }
 	}
 }
 

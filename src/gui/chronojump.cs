@@ -4113,7 +4113,7 @@ Console.WriteLine("X");
 						if(distanceInterval == -1) //variable distances
 							distanceInterval = Util.GetRunIVariableDistancesStringRow(
 									runType.DistancesString, (int) currentRunInterval.Tracks -1);
-
+						
 						PrepareRunIntervalGraph(distanceInterval, 
 								Util.GetLast(currentRunInterval.IntervalTimesString), 
 								currentRunInterval.IntervalTimesString, 

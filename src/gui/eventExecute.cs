@@ -1809,13 +1809,18 @@ Log.WriteLine("Preparing reactive A");
 							currentEventExecute.PrepareEventGraphRunSimpleObject.time,
 							currentEventExecute.PrepareEventGraphRunSimpleObject.speed);
 				} else {
+					bool volumeOnHere = true;
+					//do not play good or bad sounds at RSA because we need to hear the GO sound
+					if(currentRunIntervalType.IsRSA)
+						volumeOnHere = false;
+
 					PrepareRunIntervalGraph(
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distance, 
 							currentEventExecute.PrepareEventGraphRunIntervalObject.lastTime,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.timesString,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distanceTotal,
 							currentEventExecute.PrepareEventGraphRunIntervalObject.distancesString,
-							volumeOn, repetitiveConditionsWin);
+							volumeOnHere, repetitiveConditionsWin);
 				}
 				break;
 			case EventType.Types.REACTIONTIME:

@@ -1465,7 +1465,10 @@ public class Stat
 
 		if(show) {
 			if(! File.Exists(fileName) || File.GetLastWriteTime(fileName) < File.GetLastWriteTime(rScript))
-				new DialogMessage(Constants.MessageTypes.WARNING, "Sorry. Error doing graph");
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Sorry. Error doing graph.") + 
+						"\n" + Catalog.GetString("Maybe R is not installed.") + 
+						"\n\nhttp://www.r-project.org/");
 			else
 				new DialogImageTest(Catalog.GetString("Chronojump Graph"), fileName);
 		}

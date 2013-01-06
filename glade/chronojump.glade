@@ -11554,469 +11554,11 @@ on current Chronojump version.</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkVBox" id="vbox45">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">2</property>
-                                        <child>
-                                          <widget class="GtkLabel" id="label18">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Chronojump has a server in order to share data between users.
-Data is collected by users contributions and server generates statistics and graphs.
-Anyone can check server stats and graphs and easily make querys to the server.</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="padding">4</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkAlignment" id="alignment16">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="top_padding">10</property>
-                                            <child>
-                                              <widget class="GtkFrame" id="frame1">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label_xalign">0</property>
-                                                <property name="shadow_type">in</property>
-                                                <child>
-                                                  <widget class="GtkVBox" id="vbox46">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="border_width">7</property>
-                                                    <property name="spacing">4</property>
-                                                    <child>
-                                                      <widget class="GtkHButtonBox" id="hbuttonbox2">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkButton" id="button_server_check_connection">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="border_width">10</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_server_ping" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox59">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image20">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-network</property>
-                                                            <property name="icon-size">5</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label55">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Check connection</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkVBox" id="vbox50">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">8</property>
-                                                        <child>
-                                                          <widget class="GtkFrame" id="frame10">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label_xalign">0</property>
-                                                            <property name="shadow_type">out</property>
-                                                            <child>
-                                                            <widget class="GtkHButtonBox" id="hbuttonbox7">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
-                                                            <property name="layout_style">center</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_server_query">
-                                                            <property name="height_request">50</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="border_width">10</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_menuitem_server_query" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox62">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image14">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-find</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label54">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Query to the server</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_server_stats">
-                                                            <property name="height_request">50</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="border_width">10</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_menuitem_server_stats" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox64">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image_stats_win_graph2">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label56">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Check basic stats</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label57">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Check data</property>
-                                                            <attributes>
-                                                            <attribute name="weight" value="bold"/>
-                                                            </attributes>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="type">label_item</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="padding">8</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkFrame" id="frame_share_data">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label_xalign">0</property>
-                                                            <property name="shadow_type">out</property>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox52">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label61">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="ypad">8</property>
-                                                            <property name="label" translatable="yes">Privacy is respected:
-- Names, comments, photos and videos are not uploaded.
-- Dates of birth are hidden.
-
-Simulated tests will be discarded.
-Evaluator can use real name or nickname.</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="padding">8</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkHButtonBox" id="hbuttonbox8">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkButton" id="button_upload_session">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_server_upload_session_pre" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkVBox" id="vbox54">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image7">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-go-up</property>
-                                                            <property name="icon-size">5</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label58">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Upload (or update) session to server</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label53">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Share data!</property>
-                                                            <attributes>
-                                                            <attribute name="weight" value="bold"/>
-                                                            </attributes>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="type">label_item</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="padding">7</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">True</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="padding">8</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHButtonBox" id="hbuttonbox6">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <child>
-                                                          <widget class="GtkButton" id="button_server_website">
-                                                            <property name="height_request">50</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">True</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <signal name="clicked" handler="on_menuitem_goto_server_website" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox65">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkImage" id="image21">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-jump-to</property>
-                                                            <property name="icon-size">5</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label70">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Open server website (on browser)</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                  </widget>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label11">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Server actions</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="type">label_item</property>
-                                                  </packing>
-                                                </child>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="position">3</property>
-                                      </packing>
+                                      <placeholder/>
                                     </child>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox_menu_server">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">False</property>
-                                        <property name="spacing">4</property>
-                                        <child>
-                                          <widget class="GtkImage" id="image2">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="stock">gtk-connect</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label_server1">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label">Server</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
+                                      <placeholder/>
                                       <packing>
-                                        <property name="position">3</property>
-                                        <property name="tab_fill">False</property>
                                         <property name="type">tab</property>
                                       </packing>
                                     </child>
@@ -13861,6 +13403,473 @@ Evaluator can use real name or nickname.</property>
                               </widget>
                               <packing>
                                 <property name="position">2</property>
+                                <property name="tab_fill">False</property>
+                                <property name="type">tab</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkVBox" id="vbox45">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">2</property>
+                                <child>
+                                  <widget class="GtkLabel" id="label18">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Chronojump has a server in order to share data between users.
+Data is collected by users contributions and server generates statistics and graphs.
+Anyone can check server stats and graphs and easily make querys to the server.</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="padding">4</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkAlignment" id="alignment16">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="top_padding">10</property>
+                                    <child>
+                                      <widget class="GtkFrame" id="frame1">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="label_xalign">0</property>
+                                        <property name="shadow_type">in</property>
+                                        <child>
+                                          <widget class="GtkVBox" id="vbox46">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="border_width">7</property>
+                                            <property name="spacing">4</property>
+                                            <child>
+                                              <widget class="GtkHButtonBox" id="hbuttonbox2">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_server_check_connection">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="border_width">10</property>
+                                                    <property name="use_action_appearance">False</property>
+                                                    <signal name="clicked" handler="on_server_ping" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox59">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image20">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-network</property>
+                                                            <property name="icon-size">5</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label55">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Check connection</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkVBox" id="vbox50">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">8</property>
+                                                <child>
+                                                  <widget class="GtkFrame" id="frame10">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label_xalign">0</property>
+                                                    <property name="shadow_type">out</property>
+                                                    <child>
+                                                      <widget class="GtkHButtonBox" id="hbuttonbox7">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">12</property>
+                                                        <property name="layout_style">center</property>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_server_query">
+                                                            <property name="height_request">50</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="border_width">10</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <signal name="clicked" handler="on_menuitem_server_query" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox62">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image14">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-find</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label54">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Query to the server</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_server_stats">
+                                                            <property name="height_request">50</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="border_width">10</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <signal name="clicked" handler="on_menuitem_server_stats" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox64">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_stats_win_graph2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label56">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Check basic stats</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label57">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">Check data</property>
+                                                        <attributes>
+                                                          <attribute name="weight" value="bold"/>
+                                                        </attributes>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="type">label_item</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="padding">8</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkFrame" id="frame_share_data">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label_xalign">0</property>
+                                                    <property name="shadow_type">out</property>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox52">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">4</property>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label61">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="ypad">8</property>
+                                                            <property name="label" translatable="yes">Privacy is respected:
+- Names, comments, photos and videos are not uploaded.
+- Dates of birth are hidden.
+
+Simulated tests will be discarded.
+Evaluator can use real name or nickname.</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="padding">8</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHButtonBox" id="hbuttonbox8">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_upload_session">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <signal name="clicked" handler="on_server_upload_session_pre" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox54">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image7">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-go-up</property>
+                                                            <property name="icon-size">5</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label58">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Upload (or update) session to server</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label53">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">Share data!</property>
+                                                        <attributes>
+                                                          <attribute name="weight" value="bold"/>
+                                                        </attributes>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="type">label_item</property>
+                                                      </packing>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="padding">7</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">True</property>
+                                                <property name="fill">True</property>
+                                                <property name="padding">8</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkHButtonBox" id="hbuttonbox6">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_server_website">
+                                                    <property name="height_request">50</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <property name="use_action_appearance">False</property>
+                                                    <signal name="clicked" handler="on_menuitem_goto_server_website" swapped="no"/>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox65">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">6</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image21">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-jump-to</property>
+                                                            <property name="icon-size">5</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label70">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label" translatable="yes">Open server website (on browser)</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="pack_type">end</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                          </widget>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label11">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Server actions</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="type">label_item</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHBox" id="hbox_menu_server">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="spacing">4</property>
+                                <child>
+                                  <widget class="GtkImage" id="image2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="stock">gtk-connect</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label_server1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label">Server</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="position">3</property>
                                 <property name="tab_fill">False</property>
                                 <property name="type">tab</property>
                               </packing>

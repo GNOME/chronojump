@@ -27,10 +27,21 @@ using Gdk;
 //only Gtk related methods (not used bu the server) this is the differnece with Util
 public class UtilGtk
 {
+	/* howto find nice colors
+	 * open R
+	 * > colors()
+	 * if you like lightblue2 and red2 then:
+	 * > col2rgb(colors()[401])
+	 * > col2rgb(colors()[554])
+	 */
 	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
 	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
+	
+	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
+	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
+	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
 	
 	public static void ResizeIfNeeded(Gtk.Window win) {
 		int winX, winY;

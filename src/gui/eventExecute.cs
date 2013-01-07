@@ -252,15 +252,15 @@ public partial class ChronoJumpWindow
 		clearProgressBars();
 
 	
-		event_execute_eventbox_jump_simple_tc.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
-		event_execute_eventbox_jump_simple_tf.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
-		event_execute_eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
-		event_execute_eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
-		event_execute_eventbox_run_simple_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
-		event_execute_eventbox_run_simple_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
-		event_execute_eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 255, 0, 0));
-		event_execute_eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255));
-		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, new Gdk.Color( 0, 0, 255)); //only one serie in pulse, leave blue
+		event_execute_eventbox_jump_simple_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
+		event_execute_eventbox_jump_simple_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
+		event_execute_eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
+		event_execute_eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
+		event_execute_eventbox_run_simple_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
+		event_execute_eventbox_run_simple_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
+		event_execute_eventbox_run_interval_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
+		event_execute_eventbox_run_interval_speed.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
+		event_execute_eventbox_pulse_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS); //only one serie in pulse, leave blue
 		
 		layout = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
@@ -830,7 +830,7 @@ Log.WriteLine("Preparing reactive A");
 		if(paintTime)
 			paintRunSimple (event_execute_drawingarea, pen_rojo, runs, time, timePersonAVG, timeSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 		else						//paint speed
-			paintRunSimple (event_execute_drawingarea, pen_azul, runs, speed, speedPersonAVG, speedSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+			paintRunSimple (event_execute_drawingarea, pen_azul_claro, runs, speed, speedPersonAVG, speedSessionAVG, maxValue, minValue, topMargin, bottomMargin);
 		
 		//printLabels
 		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, speedPersonAVG, speedSessionAVG);
@@ -1104,6 +1104,16 @@ Log.WriteLine("Preparing reactive A");
 			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 			int barDesplLeft = Convert.ToInt32(.5*barWidth);
 
+			//paint first the average horizontal guides in order to be behind the bars
+			if(tcNow > 0) {
+				drawGuideOrAVG(pen_rojo, tcPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_rojo_discont, tcSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			}
+			if(tvNow > 0) {
+				drawGuideOrAVG(pen_azul_claro, tvPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_azul_claro_discont, tvSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			}
+
 			//red for TC
 			if(tcNow > 0) {
 				int count = 0;
@@ -1116,12 +1126,9 @@ Log.WriteLine("Preparing reactive A");
 							barWidth, alto
 							);
 					event_execute_pixmap.DrawRectangle(pen_rojo, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
 					count ++;
 				}
-				
-				//red tc average line	
-				drawGuideOrAVG(pen_rojo, 	tcPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_rojo_discont, tcSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 			}
 		
 			//blue for TF
@@ -1137,13 +1144,10 @@ Log.WriteLine("Preparing reactive A");
 								topMargin, bottomMargin),
 							barWidth, alto
 							);
-					event_execute_pixmap.DrawRectangle(pen_azul, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
 					count ++;
 				}
-				
-				//blue tf average discountinuos line	
-				drawGuideOrAVG(pen_azul, 	tvPerson, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_azul_discont, tvSession, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		
 				//write "last" to show last jump
 				layout.SetMarkup(Catalog.GetString("Last"));
@@ -1175,9 +1179,17 @@ Log.WriteLine("Preparing reactive A");
 					Convert.ToInt32((ancho-event_execute_rightMargin)*(0+.5)/runs.Length);
 			int barWidth = Convert.ToInt32(.3*distanceBetweenCols);
 			int barDesplLeft = Convert.ToInt32(.5*barWidth);
+			
+			//paint reference guide black and green if needed
+			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			//blue for TF
 			if(now > 0) {
+				//blue tf average discountinuos line	
+				drawGuideOrAVG(pen_azul_claro, 	person, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+				drawGuideOrAVG(pen_azul_claro_discont, session, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
+		
 				int count = 0;
 				foreach(string myStr in runs) {
 					string [] run = myStr.Split(new char[] {':'});
@@ -1188,24 +1200,17 @@ Log.WriteLine("Preparing reactive A");
 							barWidth, alto
 							);
 					//TODO: do speed related
-					event_execute_pixmap.DrawRectangle(pen_azul, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_azul_claro, true, rect);
+					event_execute_pixmap.DrawRectangle(pen_negro, false, rect);
 					count ++;
 				}
 				
-				//blue tf average discountinuos line	
-				drawGuideOrAVG(pen_azul, 	person, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-				drawGuideOrAVG(pen_azul_discont, session, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-		
 				//write "last" to show last jump
 				layout.SetMarkup(Catalog.GetString("Last"));
 				event_execute_pixmap.DrawLayout (pen_gris, 
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/runs.Length)-barDesplLeft, 
 						0, layout);
 			}
-			
-			//paint reference guide black and green if needed
-			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
-			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		}
 	}
 
@@ -1754,7 +1759,7 @@ Log.WriteLine("Preparing reactive A");
 		else {
 			event_execute_pixmap.DrawLine(myPen, 
 					0, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin),
-					ancho - event_execute_rightMargin, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin));
+					ancho - event_execute_rightMargin-2, calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin));
 			//write textual data
 			layout.SetMarkup((Math.Round(guideHeight,3)).ToString());
 			event_execute_pixmap.DrawLayout (pen_gris, ancho -event_execute_rightMargin, (int)calculatePaintHeight(guideHeight, alto, maxValue, minValue, topMargin, bottomMargin) -7, layout); //-7 for aligning with Courier 7 font baseline
@@ -1902,9 +1907,12 @@ Log.WriteLine("Preparing reactive A");
 	//projecte cubevirtual de juan gonzalez
 	
 	Gdk.GC pen_rojo; //tc, also time; jump avg personTc
-	Gdk.GC pen_azul; //tf, also speed and pulse; jump avg personTv
+	Gdk.GC pen_azul_claro; //tf, also speed and pulse; jump avg personTv. This for bars
+	Gdk.GC pen_azul; //tf, also speed and pulse; jump avg personTv. This for lines
 	Gdk.GC pen_rojo_discont; //avg tc in reactive; jump avg sessionTc 
+	Gdk.GC pen_azul_claro_discont; //avg tf in reactive; jump avg sessionTv
 	Gdk.GC pen_azul_discont; //avg tf in reactive; jump avg sessionTv
+	Gdk.GC pen_negro; //borders of rectangle
 	Gdk.GC pen_negro_discont; //guide
 	Gdk.GC pen_green_discont; //guide
 	Gdk.GC pen_gris; //textual data
@@ -1916,8 +1924,10 @@ Log.WriteLine("Preparing reactive A");
 
 	void event_execute_configureColors()
 	{
-		Gdk.Color rojo = new Gdk.Color(0xff,0,0);
-		Gdk.Color azul  = new Gdk.Color(0,0,0xff);
+		//Gdk.Color rojo = new Gdk.Color(0xff,0,0);
+		//Gdk.Color azul  = new Gdk.Color(0,0,0xff);
+		//Gdk.Color rojo = new Gdk.Color(238,0,0);
+		//Gdk.Color azul  = new Gdk.Color(178,223,238);
 		Gdk.Color negro = new Gdk.Color(0,0,0); 
 		Gdk.Color green = new Gdk.Color(0,0xff,0);
 		Gdk.Color gris = new Gdk.Color(0x66,0x66,0x66);
@@ -1927,8 +1937,9 @@ Log.WriteLine("Preparing reactive A");
 		//Gdk.Color blanco = new Gdk.Color(0xff,0xff,0xff);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
-		colormap.AllocColor (ref rojo, true, true);
-		colormap.AllocColor (ref azul,true,true);
+		colormap.AllocColor (ref UtilGtk.RED_PLOTS, true, true);
+		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.LIGHT_BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref negro,true,true);
 		colormap.AllocColor (ref green,true,true);
 		colormap.AllocColor (ref gris,true,true);
@@ -1939,11 +1950,14 @@ Log.WriteLine("Preparing reactive A");
 
 		//-- Configurar los contextos graficos (pinceles)
 		pen_rojo = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_azul_claro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_rojo_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_azul_claro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_azul_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		//pen_negro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		//pen_blanco= new Gdk.GC(event_execute_drawingarea.GdkWindow);
+		pen_negro = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_negro_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_green_discont = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 		pen_gris = new Gdk.GC(event_execute_drawingarea.GdkWindow);
@@ -1952,14 +1966,19 @@ Log.WriteLine("Preparing reactive A");
 		pen_violet_bold = new Gdk.GC(event_execute_drawingarea.GdkWindow);
 
 		
-		pen_rojo.Foreground = rojo;
-		pen_azul.Foreground = azul;
+		pen_rojo.Foreground = UtilGtk.RED_PLOTS;
+		pen_azul_claro.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
 		
-		pen_rojo_discont.Foreground = rojo;
-		pen_azul_discont.Foreground = azul;
+		pen_rojo_discont.Foreground = UtilGtk.RED_PLOTS;
+		pen_azul_claro_discont.Foreground = UtilGtk.LIGHT_BLUE_PLOTS;
+		pen_azul_discont.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_rojo_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
+		pen_azul_claro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_azul_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		
+		pen_negro.Foreground = negro;
+
 		pen_negro_discont.Foreground = negro;
 		pen_negro_discont.SetLineAttributes(1, Gdk.LineStyle.OnOffDash, Gdk.CapStyle.Butt, Gdk.JoinStyle.Round);
 		pen_green_discont.Foreground = green;

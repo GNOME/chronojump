@@ -6568,8 +6568,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label253">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Person average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Person AVG</property>
+                                                            <property name="label" translatable="yes">Person</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -6582,8 +6583,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label254">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Session average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Session AVG</property>
+                                                            <property name="label" translatable="yes">Session</property>
                                                             <property name="use_markup">True</property>
                                                             <property name="justify">center</property>
                                                             </widget>
@@ -7104,8 +7106,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label280">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Person average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Person AVG</property>
+                                                            <property name="label" translatable="yes">Person</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -7118,8 +7121,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label281">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Session average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Session AVG</property>
+                                                            <property name="label" translatable="yes">Session</property>
                                                             <property name="use_markup">True</property>
                                                             <property name="justify">center</property>
                                                             </widget>
@@ -7671,8 +7675,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label452">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Person average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Person AVG</property>
+                                                            <property name="label" translatable="yes">Person</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
@@ -7685,8 +7690,9 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkLabel" id="label453">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Session average on this test</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Session AVG</property>
+                                                            <property name="label" translatable="yes">Session</property>
                                                             <property name="use_markup">True</property>
                                                             <property name="justify">center</property>
                                                             </widget>

@@ -177,7 +177,7 @@ public class Constants
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 */
 	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + " (Lewis, 1974) " +
-		" " + Catalog.GetString("adapted (added g to have Watts)");
+		"\n" + Catalog.GetString("adapted (added g to have Watts)");
 	public static string PotencyLewisFormula = PotencyLewisFormulaShort + "\n" +
 		"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
 	//see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf

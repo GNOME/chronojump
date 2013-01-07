@@ -462,7 +462,7 @@ public class Constants
 	};
 	
 	public static int Simulated = -1; 
-	public static string SimulatedMessage = Catalog.GetString("Tests are SIMULATED until Chronopic is connected.");
+	public static string SimulatedMessage = Catalog.GetString("Tests are <b>simulated</b> until Chronopic is connected.");
 	public static string SimulatedTreeview = " (" + Catalog.GetString("Simulated") + ")"; 
 	
 	public static string ChronopicOne = Catalog.GetString("All tests available except MultiChronopic.");

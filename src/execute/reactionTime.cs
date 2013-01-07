@@ -41,8 +41,8 @@ public class ReactionTimeExecute : EventExecute
 
 	//reactionTime execution
 	public ReactionTimeExecute(int personID, string personName, int sessionID,   
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd, Gtk.Image image_simulated_warning
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd
 			)
 	{
 		this.personID = personID;
@@ -50,14 +50,13 @@ public class ReactionTimeExecute : EventExecute
 		this.sessionID = sessionID;
 		
 		this.cp = cp;
-		this.event_execute_textview_message = event_execute_textview_message;
+		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
 		this.volumeOn = volumeOn;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
-		this.image_simulated_warning = image_simulated_warning;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();

@@ -147,6 +147,9 @@ public partial class ChronoJumpWindow
 
 	[Widget] Gtk.Box hbox_execute_test;
 	[Widget] Gtk.Button button_execute_test;
+	[Widget] Gtk.Viewport viewport_chronopics;
+	[Widget] Gtk.Box hbox_chronopics;
+	[Widget] Gtk.Label label_chronopics;
 	[Widget] Gtk.Label label_connected_chronopics;
 	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
@@ -3115,8 +3118,12 @@ Console.WriteLine("X");
 
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
-				progressbarLimit, egd, description, image_simulated_warning);
+				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber, volumeOn,
+				progressbarLimit, egd, description);
+
+
+		UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, chronopicWin.Connected);
+
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -3288,9 +3295,10 @@ Log.WriteLine("DDD 2");
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber,
-				checkbutton_allow_finish_rj_after_time.Active, volumeOn, repetitiveConditionsWin, progressbarLimit,
-				egd, image_simulated_warning);
+				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber,
+				checkbutton_allow_finish_rj_after_time.Active, volumeOn, 
+				repetitiveConditionsWin, progressbarLimit, egd
+				);
 		
 		
 		//suitable for limited by jump and time
@@ -3442,13 +3450,13 @@ Log.WriteLine("DDD 2");
 		currentEventExecute = new RunExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
-				chronopicWin.CP, event_execute_textview_message, app1,
+				chronopicWin.CP, event_execute_label_message, app1,
 				prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
 				progressbarLimit, egd,
 				checkbutton_runs_prevent_double_contact.Active, 
 				(int) spinbutton_runs_prevent_double_contact.Value,
 				getDoubleContactModes(true),	//true: runSimple
-				radio_runs_speed_start_arrival.Active, image_simulated_warning
+				radio_runs_speed_start_arrival.Active
 				);
 		
 		if (!chronopicWin.Connected) 
@@ -3564,13 +3572,13 @@ Log.WriteLine("DDD 2");
 		currentEventExecute = new RunIntervalExecute(
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
-				chronopicWin.CP, event_execute_textview_message, app1,
+				chronopicWin.CP, event_execute_label_message, app1,
 				prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd,
 				checkbutton_runs_i_prevent_double_contact.Active, 
 				(int) spinbutton_runs_i_prevent_double_contact.Value,
 				getDoubleContactModes(false),	//false: not runSimple
-				radio_runs_i_speed_start_arrival.Active, image_simulated_warning
+				radio_runs_i_speed_start_arrival.Active
 				);
 		
 		
@@ -3682,8 +3690,9 @@ Log.WriteLine("DDD 2");
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn,
-				progressbarLimit, egd, image_simulated_warning);
+				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber, volumeOn,
+				progressbarLimit, egd
+				);
 
 		if (!chronopicWin.Connected) 
 			currentEventExecute.SimulateInitValues(rand);
@@ -3786,8 +3795,9 @@ Log.WriteLine("DDD 2");
 
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
-				chronopicWin.CP, event_execute_textview_message, app1, prefsDigitsNumber, volumeOn, 
-				egd, image_simulated_warning);
+				chronopicWin.CP, event_execute_label_message, 
+				app1, prefsDigitsNumber, volumeOn, egd
+				);
 		
 		if(!chronopicWin.Connected)	
 			currentEventExecute.SimulateInitValues(rand);
@@ -3865,7 +3875,7 @@ Log.WriteLine("DDD 2");
 
 		chronopicWin = ChronopicWindow.Create(cpd, recreate, volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
-		chronopicLabels(0);
+		chronopicLabels(0, recreate);
 	}
 
 	private void on_chronopic_clicked (object o, EventArgs args) {
@@ -3904,12 +3914,16 @@ Log.WriteLine("DDD 2");
 		if(radio_mode_multi_chronopic_small.Active)	
 			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		
-		chronopicLabels(cps);
+		chronopicLabels(cps, true);
 	}
 
-	private void chronopicLabels(int cps) {
+	private void chronopicLabels(int cps, bool colorize) {
 		label_connected_chronopics.Text = "<b>" + cps.ToString() + "</b>";
 		label_connected_chronopics.UseMarkup = true; 
+		
+		if(colorize)
+			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, 
+					label_connected_chronopics, chronopicWin.Connected);
 	
 		/*	
 		string myMessage = "";
@@ -3986,7 +4000,8 @@ Log.WriteLine("DDD 2");
 					chronopicWin.CP, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd, image_simulated_warning);
+					app1, egd
+					);
 		else if(numConnected == 2)
 			currentEventExecute = new MultiChronopicExecute(
 					currentPerson.UniqueID, currentPerson.Name, 
@@ -3994,7 +4009,8 @@ Log.WriteLine("DDD 2");
 					chronopicWin.CP, chronopicWin.CP2, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd, image_simulated_warning);
+					app1, egd
+					);
 		else if(numConnected == 3)
 			currentEventExecute = new MultiChronopicExecute(
 					currentPerson.UniqueID, currentPerson.Name, 
@@ -4002,7 +4018,8 @@ Log.WriteLine("DDD 2");
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, 
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd, image_simulated_warning);
+					app1, egd
+					);
 		else if(numConnected == 4)
 			currentEventExecute = new MultiChronopicExecute(
 					currentPerson.UniqueID, currentPerson.Name, 
@@ -4010,7 +4027,8 @@ Log.WriteLine("DDD 2");
 					chronopicWin.CP, chronopicWin.CP2, chronopicWin.CP3, chronopicWin.CP4,
 					syncAvailable, extra_window_check_multichronopic_delete_first.Active, 
 					extra_window_spin_run_analysis_distance.Value.ToString(),
-					app1, egd, image_simulated_warning);
+					app1, egd
+					);
 
 		//if(!chronopicWin.Connected)	
 		//	currentEventExecute.SimulateInitValues(rand);

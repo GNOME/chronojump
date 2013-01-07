@@ -31,7 +31,6 @@ public class UtilGtk
 	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
-	public static Gdk.Color GREEN = new Gdk.Color(0xa8,0xaf,0xd0);
 	
 	public static void ResizeIfNeeded(Gtk.Window win) {
 		int winX, winY;
@@ -219,13 +218,14 @@ public class UtilGtk
 		combo.Sensitive = true;
 	}
 	
+
 	public static void ColorsMenuLabel(Gtk.Label l) {
-		l.ModifyFg(StateType.Active, UtilGtk.WHITE);
-		l.ModifyFg(StateType.Normal, UtilGtk.BLACK);
+		l.ModifyFg(StateType.Active, WHITE);
+		l.ModifyFg(StateType.Normal, BLACK);
 	}
 	
 	public static void ColorsTestLabel(Gtk.Label l) {
-		l.ModifyFg(StateType.Active, UtilGtk.WHITE);
+		l.ModifyFg(StateType.Active, WHITE);
 	}
 	
 	public static void ColorsRadio(Gtk.RadioButton r) {
@@ -241,6 +241,28 @@ public class UtilGtk
 	}
 
 
+	private static Gdk.Color chronopicViewportDefaultBg;
+	private static Gdk.Color chronopicLabelsDefaultFg;
+
+	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
+		if(! v.Style.Background(StateType.Normal).Equal(BLUE))
+			chronopicViewportDefaultBg = v.Style.Background(StateType.Normal);
+		if(! l1.Style.Foreground(StateType.Normal).Equal(WHITE))
+			chronopicLabelsDefaultFg = l1.Style.Foreground(StateType.Normal);
+
+		if(connected) {
+			v.ModifyBg(StateType.Normal, chronopicViewportDefaultBg);
+			l1.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
+			l2.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
+		} else {
+			v.ModifyBg(StateType.Normal, BLUE);
+			l1.ModifyFg(StateType.Normal, WHITE);
+			l2.ModifyFg(StateType.Normal, WHITE);
+		}
+	}
+
+
+	
 	public static TextBuffer TextViewPrint(string message) {
 		TextBuffer tb = new TextBuffer (new TextTagTable());
 		tb.Text = message;
@@ -272,5 +294,10 @@ public class UtilGtk
 		return "{0," + (start + inc).ToString() + ":0" + decS;
 	}
 
+	public static void PrintLabelWithTooltip (Gtk.Label l, string s) {
+		l.Text = s;
+		l.UseMarkup = true; 
+		l.TooltipText = Util.RemoveMarkup(s);
+	}
 
 }

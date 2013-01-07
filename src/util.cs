@@ -228,7 +228,7 @@ public class Util
 			return 90;
 		else
 			return Convert.ToInt32(System.Math.Atan(height / (distance * 1.0)) 
-				* 180 / System.Math.PI);;
+				* 180 / System.Math.PI);
 	}
 	
 	//useful for jumpType and jumpRjType, because the third value is the same
@@ -304,6 +304,20 @@ public class Util
 			return "";
 		else
 			return myString;
+	}
+	
+	public static string RemoveMarkup(string s) 
+	{
+		bool done = false;
+		while(! done) {
+			int tagStart = s.IndexOf('<');
+			int tagEnd = s.IndexOf('>');
+			if(tagStart != -1 && tagEnd != -1 && tagEnd > tagStart) 
+				s = s.Remove(tagStart, tagEnd-tagStart+1);
+			else
+				done = true;
+		}
+		return s;
 	}
 
 	public static string ChangeEqualForColon(string myString) 

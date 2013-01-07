@@ -44,7 +44,7 @@ public partial class ChronoJumpWindow
 //	[Widget] Gtk.Label event_execute_label_person;
 //	[Widget] Gtk.Label event_execute_label_event_type;
 	[Widget] Gtk.Label event_execute_label_phases_name;
-	[Widget] Gtk.TextView event_execute_textview_message;
+	[Widget] Gtk.Label event_execute_label_message;
 	[Widget] Gtk.Label event_graph_label_graph_person;
 	[Widget] Gtk.Label event_graph_label_graph_test;
 	
@@ -100,6 +100,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_execute_label_jump_simple_tf_now;
 	[Widget] Gtk.Label event_execute_label_jump_simple_tf_person;
 	[Widget] Gtk.Label event_execute_label_jump_simple_tf_session;
+	[Widget] Gtk.Label event_execute_label_jump_simple_height_now;
+	[Widget] Gtk.Label event_execute_label_jump_simple_height_person;
+	[Widget] Gtk.Label event_execute_label_jump_simple_height_session;
 
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_now;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_avg;
@@ -215,7 +218,8 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_person.Text = personName;
 		event_graph_label_graph_test.Text = event_execute_eventType;
 				
-		event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
+		//event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
+		event_execute_label_message.Text = "";
 
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
 		this.event_execute_label_phases_name.Text = phasesName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 
@@ -269,7 +273,7 @@ public partial class ChronoJumpWindow
 		
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 
-				event_execute_textview_message,  
+				event_execute_label_message,  
 				event_execute_label_event_value,  event_execute_label_time_value,
 				event_execute_progressbar_event,  event_execute_progressbar_time);
 		return executingGraphData;
@@ -343,6 +347,9 @@ public partial class ChronoJumpWindow
 		event_execute_label_jump_simple_tf_now.Text = "";
 		event_execute_label_jump_simple_tf_person.Text = "";
 		event_execute_label_jump_simple_tf_session.Text = "";
+		event_execute_label_jump_simple_height_now.Text = "";
+		event_execute_label_jump_simple_height_person.Text = "";
+		event_execute_label_jump_simple_height_session.Text = "";
 
 		notebook_results_data.CurrentPage = 0;
 	}
@@ -1050,6 +1057,13 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_label_jump_simple_tf_now.Text = Util.TrimDecimals(tvNow.ToString(), prefsDigitsNumber);
 		event_execute_label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), prefsDigitsNumber);
 		event_execute_label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), prefsDigitsNumber);
+		
+		event_execute_label_jump_simple_height_now.Text = Util.TrimDecimals(
+				Util.GetHeightInCentimeters(tvNow.ToString()) , prefsDigitsNumber);
+		event_execute_label_jump_simple_height_person.Text = Util.TrimDecimals(
+				Util.GetHeightInCentimeters(tvPerson.ToString()) , prefsDigitsNumber);
+		event_execute_label_jump_simple_height_session.Text = Util.TrimDecimals(
+				Util.GetHeightInCentimeters(tvSession.ToString()) , prefsDigitsNumber);
 	}
 	
 	private void printLabelsRunSimple (double timeNow, double timePerson, double timeSession, double speedNow, double speedPerson, double speedSession) {

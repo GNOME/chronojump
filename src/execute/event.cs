@@ -44,8 +44,6 @@ public class EventExecute
 		OFF
 	}
 
-	protected Gtk.Image image_simulated_warning;
-
 	//don't make the waitEvent update the progressBars, just flag this variable
 	//and make the PulseGTK do it
 	protected bool needUpdateEventProgressBar;
@@ -111,7 +109,7 @@ public class EventExecute
 	
 	protected States loggedState;		//log of last state
 	//protected Gtk.ProgressBar progressBar;
-	protected Gtk.TextView event_execute_textview_message;
+	protected Gtk.Label event_execute_label_message;
 	protected Gtk.Window app;
 	protected int pDN;
 	
@@ -319,13 +317,23 @@ public class EventExecute
 		if(needShowCountDown) 
 		{
 			feedbackMessage = countDownMessage();
-			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
+			//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
+			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
+			/*
+			egd.Label_message.Text = feedbackMessage;
+			egd.Label_message.UseMarkup = true; 
+			egd.Label_message.TooltipText = feedbackMessage;
+			*/
 		} 
 		else if(needShowFeedbackMessage) 
 		{
-			egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
+			//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
+			/*
+			egd.Label_message.Text = feedbackMessage;
+			egd.Label_message.TooltipText = feedbackMessage;
+			*/
+			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 			needShowFeedbackMessage = false;
-			image_simulated_warning.Visible = (feedbackMessage == Constants.SimulatedMessage);
 		}
 		
 		
@@ -338,12 +346,18 @@ public class EventExecute
 	
 	private void runATouchPlatform() {
 		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.");
-		egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
+		//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
+//		egd.Label_message.Text = message;
+//		egd.Label_message.TooltipText = feedbackMessage;
+		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 
 	public void RunANoStrides() {
 		string message = Catalog.GetString("This Run Analysis is not valid because there are no strides.");
-		egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
+		//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
+//		egd.Label_message.Text = message;
+//		egd.Label_message.TooltipText = feedbackMessage;
+		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 	
 	protected void progressBarEventOrTimePreExecution (bool isEvent, bool percentageMode, double events) 

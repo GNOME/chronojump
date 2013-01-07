@@ -218,7 +218,6 @@ public partial class ChronoJumpWindow
 		event_graph_label_graph_person.Text = personName;
 		event_graph_label_graph_test.Text = event_execute_eventType;
 				
-		//event_execute_textview_message.Buffer = UtilGtk.TextViewPrint("");
 		event_execute_label_message.Text = "";
 
 		//this.event_execute_personName.Text = event_execute_personName; 	//"Jumps" (rjInterval), "Runs" (runInterval), "Ticks" (pulses), 

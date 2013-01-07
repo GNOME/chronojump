@@ -586,6 +586,9 @@ public class RunIntervalExecute : RunExecute
 						//if interval run is "unlimited" not limited by tracks, nor time, 
 						//then play with the progress bar until finish button is pressed
 						
+						if(simulated)
+							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+
 						if(checkDoubleContact) {
 							if(timestamp <= checkDoubleContactTime) {
 								/*
@@ -622,10 +625,6 @@ public class RunIntervalExecute : RunExecute
 								}
 							}
 						}
-				
-
-						if(simulated)
-								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
 						double myRaceTime = lastTc + timestamp/1000.0;
 

@@ -222,6 +222,14 @@ public class Util
 			return -1;
 		}
 	}
+
+	public static int CalculateJumpAngle(double height, int distance) {
+		if(distance == 0)
+			return 90;
+		else
+			return Convert.ToInt32(System.Math.Atan(height / (distance * 1.0)) 
+				* 180 / System.Math.PI);;
+	}
 	
 	//useful for jumpType and jumpRjType, because the third value is the same
 	public static bool HasWeight(string [] jumpTypes, string myType) {

@@ -1997,6 +1997,13 @@ Log.WriteLine("Preparing reactive A");
 	void on_event_execute_button_cancel_clicked (object o, EventArgs args)
 	{
 		hideButtons();
+		
+		if(videoOn) {
+			capturer.Stop();
+			capturer.Close();
+			capturer.Dispose();
+			//it will lbe recorded on temp, but chronojump will not move it to chronojump/multimedia folders
+		}
 	}
 	
 	//when event finishes, we should put in the label_time, the correct totalTime, that comes from chronopic

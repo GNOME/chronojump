@@ -47,6 +47,7 @@ public class EditJumpWindow : EditEventWindow
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_opposite;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_fall_both;
 	[Widget] private Gtk.SpinButton jumps_spinbutton_single_leg_distance;
+	[Widget] private Gtk.SpinButton jumps_spinbutton_single_leg_jump_angle;
 
 	static EditJumpWindow EditJumpWindowBox;
 	protected double personWeight;
@@ -200,7 +201,7 @@ public class EditJumpWindow : EditEventWindow
 
 	private bool slCMJDescriptionIsValid(string description) {
 		string [] d = description.Split(new char[] {' '});
-		if(d.Length != 5)
+		if(d.Length != 6)
 			return false;
 		if(! Util.IsNumber(d[4], false))
 			return false;
@@ -216,7 +217,7 @@ public class EditJumpWindow : EditEventWindow
 		return true;
 	}
 	private string slCMJDescriptionDefault() {
-		string descDefault = "Vertical Right This This 0";
+		string descDefault = "Vertical Right This This 0 90";
 		entry_description.Text = descDefault;
 		return descDefault;
 	}
@@ -233,21 +234,24 @@ public class EditJumpWindow : EditEventWindow
 		toggleRaisesSignal = false;
 		
 		switch(d[0]) {
-			case "Vertical": 
-					jumps_radiobutton_single_leg_mode_vertical.Active = true; 
-					jumps_spinbutton_single_leg_distance.Sensitive = false;
-					jumps_spinbutton_single_leg_distance.Value = 0;
-					break;
-			case "Horizontal": 
-					jumps_radiobutton_single_leg_mode_horizontal.Active = true; 
-					jumps_spinbutton_single_leg_distance.Sensitive = true;
-					jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
-					break;
-			case "Lateral": 
-					jumps_radiobutton_single_leg_mode_lateral.Active = true; 
-					jumps_spinbutton_single_leg_distance.Sensitive = true;
-					jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
-					break;
+			case "Vertical":
+				jumps_radiobutton_single_leg_mode_vertical.Active = true;
+				jumps_spinbutton_single_leg_distance.Sensitive = false;
+				jumps_spinbutton_single_leg_distance.Value = 0;
+				jumps_spinbutton_single_leg_jump_angle.Value = 90;
+				break;
+			case "Horizontal":
+				jumps_radiobutton_single_leg_mode_horizontal.Active = true;
+				jumps_spinbutton_single_leg_distance.Sensitive = true;
+				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
+				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[5]);
+				break;
+			case "Lateral":
+				jumps_radiobutton_single_leg_mode_lateral.Active = true;
+				jumps_spinbutton_single_leg_distance.Sensitive = true;
+				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
+				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[5]);
+				break;
 		}
 		switch(d[1]) {
 			case "Right": jumps_radiobutton_single_leg_right.Active = true; break;
@@ -263,7 +267,7 @@ public class EditJumpWindow : EditEventWindow
 			case "Opposite": jumps_radiobutton_single_leg_fall_opposite.Active = true; break;
 			case "Both": jumps_radiobutton_single_leg_fall_both.Active = true; break;
 		}
-			
+
 		toggleRaisesSignal = true;
 	}
 	
@@ -283,7 +287,8 @@ public class EditJumpWindow : EditEventWindow
 			else
 				d[0] = "Lateral";
 			
-			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			entry_description.Text = 
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -300,7 +305,8 @@ public class EditJumpWindow : EditEventWindow
 			else
 				d[1] = "Left";
 
-			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			entry_description.Text = 
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -319,7 +325,8 @@ public class EditJumpWindow : EditEventWindow
 			else
 				d[2] = "Unknown";
 
-			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			entry_description.Text = 
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -338,7 +345,8 @@ public class EditJumpWindow : EditEventWindow
 			else
 				d[3] = "Both";
 
-			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			entry_description.Text = 
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -350,9 +358,15 @@ public class EditJumpWindow : EditEventWindow
 				description = slCMJDescriptionDefault();
 			string [] d = description.Split(new char[] {' '});
 
-			d[4] = jumps_spinbutton_single_leg_distance.Value.ToString();
+			int distance = Convert.ToInt32(jumps_spinbutton_single_leg_distance.Value);
+			d[4] = distance.ToString();
+			
+			d[5] = Util.CalculateJumpAngle(
+					Convert.ToDouble(Util.GetHeightInCentimeters(entryTv)), 
+					distance ).ToString();
 
-			entry_description.Text = d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
+			entry_description.Text = 
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
 			fillSingleLeg(entry_description.Text);
 		}
 	}

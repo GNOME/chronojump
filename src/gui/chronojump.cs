@@ -3175,9 +3175,17 @@ Log.WriteLine("DDD");
 		
 			if(currentJumpType.Name == "slCMJ") {
 				if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
-					currentJump.Description += " 0";
-				else
-					currentJump.Description += " " + genericWin.SpinIntSelected.ToString();
+					currentJump.Description += " 0 90";
+				else {
+					int distance = Convert.ToInt32(genericWin.SpinIntSelected);
+					currentJump.Description += 
+						" " + distance.ToString() +
+						" " + Util.CalculateJumpAngle(
+								Convert.ToDouble(
+									Util.GetHeightInCentimeters(
+										currentJump.Tv.ToString()))
+								, distance ).ToString();
+				}
 				SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);
 			}

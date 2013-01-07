@@ -54,12 +54,12 @@ public class RunExecute : EventExecute
 
 	//run execution
 	public RunExecute(int personID, int sessionID, string type, double distance,   
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, 
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, 
 			int pDN, bool metersSecondsPreferred, bool volumeOn,
 			double progressbarLimit, ExecutingGraphData egd,
 			bool checkDoubleContact, int checkDoubleContactTime, 
 			Constants.DoubleContact checkDoubleContactMode,
-			bool speedStartArrival, Gtk.Image image_simulated_warning
+			bool speedStartArrival
 			)
 	{
 		this.personID = personID;
@@ -68,7 +68,7 @@ public class RunExecute : EventExecute
 		this.distance = distance;
 		
 		this.cp = cp;
-		this.event_execute_textview_message = event_execute_textview_message;
+		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -80,7 +80,6 @@ public class RunExecute : EventExecute
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
 		this.speedStartArrival = speedStartArrival;	
-		this.image_simulated_warning = image_simulated_warning;	
 		
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();
@@ -467,12 +466,12 @@ public class RunIntervalExecute : RunExecute
 
 	//run execution
 	public RunIntervalExecute(int personID, int sessionID, string type, double distanceInterval, double limitAsDouble, bool tracksLimited,  
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool metersSecondsPreferred, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
 			double progressbarLimit, ExecutingGraphData egd ,
 			bool checkDoubleContact, int checkDoubleContactTime, 
 			Constants.DoubleContact checkDoubleContactMode,
-			bool speedStartArrival, Gtk.Image image_simulated_warning
+			bool speedStartArrival
 			)
 	{
 		this.personID = personID;
@@ -499,7 +498,7 @@ public class RunIntervalExecute : RunExecute
 		
 		
 		this.cp = cp;
-		this.event_execute_textview_message = event_execute_textview_message;
+		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.metersSecondsPreferred = metersSecondsPreferred;
@@ -512,7 +511,6 @@ public class RunIntervalExecute : RunExecute
 		this.checkDoubleContactTime = checkDoubleContactTime;
 		this.checkDoubleContactMode = checkDoubleContactMode;
 		this.speedStartArrival = speedStartArrival;	
-		this.image_simulated_warning = image_simulated_warning;	
 	
 		fakeButtonUpdateGraph = new Gtk.Button();
 		fakeButtonEventEnded = new Gtk.Button();

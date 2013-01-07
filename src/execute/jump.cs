@@ -49,9 +49,8 @@ public class JumpExecute : EventExecute
 
 	//jump execution
 	public JumpExecute(int personID, string personName, int sessionID, string type, double fall, double weight,  
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool volumeOn,
-			double progressbarLimit, ExecutingGraphData egd, string description,
-			Gtk.Image image_simulated_warning
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool volumeOn,
+			double progressbarLimit, ExecutingGraphData egd, string description
 			)
 	{
 		this.personID = personID;
@@ -62,7 +61,7 @@ public class JumpExecute : EventExecute
 		this.weight = weight;
 		
 		this.cp = cp;
-		this.event_execute_textview_message = event_execute_textview_message;
+		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -70,8 +69,6 @@ public class JumpExecute : EventExecute
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
 		this.description = description;
-		this.image_simulated_warning = image_simulated_warning;	
-
 	
 		if(TypeHasFall) {
 			hasFall = true;
@@ -460,10 +457,9 @@ public class JumpRjExecute : JumpExecute
 	public JumpRjExecute(int personID, string personName, 
 			int sessionID, string type, double fall, double weight, 
 			double limitAsDouble, bool jumpsLimited, 
-			Chronopic cp, Gtk.TextView event_execute_textview_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
+			Chronopic cp, Gtk.Label event_execute_label_message, Gtk.Window app, int pDN, bool allowFinishAfterTime, 
 			bool volumeOn, RepetitiveConditionsWindow repetitiveConditionsWin,
-			double progressbarLimit, ExecutingGraphData egd, 
-			Gtk.Image image_simulated_warning
+			double progressbarLimit, ExecutingGraphData egd
 			)
 	{
 		this.personID = personID;
@@ -482,7 +478,7 @@ public class JumpRjExecute : JumpExecute
 		}
 		
 		this.cp = cp;
-		this.event_execute_textview_message = event_execute_textview_message;
+		this.event_execute_label_message = event_execute_label_message;
 		this.app = app;
 
 		this.pDN = pDN;
@@ -491,7 +487,6 @@ public class JumpRjExecute : JumpExecute
 		this.repetitiveConditionsWin = repetitiveConditionsWin;
 		this.progressbarLimit = progressbarLimit;
 		this.egd = egd;
-		this.image_simulated_warning = image_simulated_warning;	
 	
 		if(TypeHasFall) { hasFall = true; } 
 		else { hasFall = false; }

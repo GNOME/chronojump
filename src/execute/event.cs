@@ -317,21 +317,10 @@ public class EventExecute
 		if(needShowCountDown) 
 		{
 			feedbackMessage = countDownMessage();
-			//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
 			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
-			/*
-			egd.Label_message.Text = feedbackMessage;
-			egd.Label_message.UseMarkup = true; 
-			egd.Label_message.TooltipText = feedbackMessage;
-			*/
 		} 
 		else if(needShowFeedbackMessage) 
 		{
-			//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(feedbackMessage);
-			/*
-			egd.Label_message.Text = feedbackMessage;
-			egd.Label_message.TooltipText = feedbackMessage;
-			*/
 			UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 			needShowFeedbackMessage = false;
 		}
@@ -346,17 +335,11 @@ public class EventExecute
 	
 	private void runATouchPlatform() {
 		string message = Catalog.GetString("Always remember to touch platform at ending. If you don't do it, Chronojump will crash at next execution.");
-		//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
-//		egd.Label_message.Text = message;
-//		egd.Label_message.TooltipText = feedbackMessage;
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 
 	public void RunANoStrides() {
 		string message = Catalog.GetString("This Run Analysis is not valid because there are no strides.");
-		//egd.Textview_message.Buffer = UtilGtk.TextViewPrint(message);
-//		egd.Label_message.Text = message;
-//		egd.Label_message.TooltipText = feedbackMessage;
 		UtilGtk.PrintLabelWithTooltip(egd.Label_message, feedbackMessage);
 	}
 	

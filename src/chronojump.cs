@@ -134,7 +134,7 @@ public class ChronoJump
 
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
-//		if(crashedBefore) {
+		if(crashedBefore) {
 			if(chronojumpIsExecutingNTimes()) {
 				quitNow = true;
 				Application.Quit();
@@ -142,7 +142,7 @@ public class ChronoJump
 			}
 			else
 				chronojumpCrashedBefore();
-//		}
+		}
 
 		//print version of chronojump
 		progVersion = readVersion();

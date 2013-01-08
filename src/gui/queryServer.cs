@@ -62,6 +62,10 @@ public class QueryServerWindow
 	[Widget] Gtk.SpinButton spin_ages1;
 	[Widget] Gtk.SpinButton spin_ages2;
 	[Widget] Gtk.Label label_speciallity;
+	
+	[Widget] Gtk.CheckButton check_show_query;
+	[Widget] Gtk.ScrolledWindow scrolledwindow_query;
+
 	[Widget] Gtk.Label label_results_num;
 	[Widget] Gtk.Label label_results_avg;
 	[Widget] Gtk.Label label_results_num_units;
@@ -752,7 +756,7 @@ public class QueryServerWindow
 					label_results_avg.Text = "-";
 				else 
 					label_results_avg.Text = Util.TrimDecimals(
-						Util.ConvertToPointIfNeeded(resultFull[1]), pDN);
+						Util.ChangeDecimalSeparator(resultFull[1]), pDN);
 			}
 
 			return sqlString;
@@ -796,6 +800,12 @@ public class QueryServerWindow
 		
 		on_entries_required_changed(new object(), new EventArgs());
 	}
+
+	private void on_check_show_query_toggled(object o, EventArgs args)
+	{
+		scrolledwindow_query.Visible = check_show_query.Active;
+	}
+
 
 	protected void on_button_search_clicked (object o, EventArgs args)
 	{

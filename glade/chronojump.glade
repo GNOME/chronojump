@@ -891,7 +891,7 @@
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Jumps
-reactive</property>
+multiples</property>
                                                     <property name="justify">center</property>
                                                   </widget>
                                                   <packing>
@@ -1821,7 +1821,7 @@ Chronopic</property>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_jump_rj_more">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">All reactive Jumps</property>
+                                                            <property name="label" translatable="yes">All multiple Jumps</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -4296,7 +4296,7 @@ weight</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">If a reactive jump is limited by time, and time has running out, allow finish jump</property>
+                                                            <property name="tooltip" translatable="yes">If a multiple jump is limited by time, and time has running out, allow finish jump</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="use_underline">True</property>
                                                             <property name="draw_indicator">True</property>
@@ -8693,7 +8693,7 @@ Second Chronopic to platforms.</property>
                                           <widget class="GtkLabel" id="label92">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">Jump Reactive</property>
+                                            <property name="label" translatable="yes">Jump multiple</property>
                                           </widget>
                                           <packing>
                                             <property name="position">1</property>

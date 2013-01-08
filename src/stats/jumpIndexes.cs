@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class StatIeIub : Stat
+public class StatJumpIndexes : Stat
 {
 	protected string indexType;
 	protected string jump1;
@@ -33,25 +33,30 @@ public class StatIeIub : Stat
 	protected string [] columnsString = new String[4];
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes
-	public StatIeIub () 
+	public StatJumpIndexes () 
 	{
 		this.showSex = false;
 		this.statsJumpsType = 0;
 		this.limit = 0;
 	}
 
-	public StatIeIub (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, string indexType)
+	public StatJumpIndexes (StatTypeStruct myStatTypeStruct, Gtk.TreeView treeview, string indexType)
 	{
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
-		this.indexType = indexType; //"IE" or "IUB" or "FV"
-
+		this.indexType = indexType; //"IE", "IUB", "IRna", "IRa"
 		if(indexType == "IE") {
 			jump1="CMJ";
 			jump2="SJ";
-		} else { //IUB
+		} else if(indexType == "IUB") {
 			jump1="ABK";
+			jump2="CMJ";
+		} else if(indexType == "IRna") { //reactivity no arms
+			jump1="DJna";
+			jump2="CMJ";
+		} else { //IRa //reactivity no arms
+			jump1="DJa";
 			jump2="CMJ";
 		}
 		
@@ -85,11 +90,11 @@ public class StatIeIub : Stat
 		if(statsJumpsType == 3) { //avg of each jumper
 			if(multisession) {
 				processDataMultiSession ( 
-						SqliteStat.IeIub(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+						SqliteStat.JumpIndexes(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 						true, sessions.Count);
 			} else {
 				processDataSimpleSession ( cleanDontWanted (
-							SqliteStat.IeIub(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
+							SqliteStat.JumpIndexes(sessionString, multisession, "AVG(", ")", jump1, jump2, showSex), 
 							statsJumpsType, limit),
 						true, dataColumns);
 			}
@@ -97,10 +102,10 @@ public class StatIeIub : Stat
 			//if more than on session, show only the avg or max of each jump/jumper
 			//some of this options are never called becase we don't allow radiobutton all and limit (only avg and best)
 			if(multisession) {
-				processDataMultiSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
+				processDataMultiSession ( SqliteStat.JumpIndexes(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex),  
 						true, sessions.Count);
 			} else {
-				processDataSimpleSession ( SqliteStat.IeIub(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
+				processDataSimpleSession ( SqliteStat.JumpIndexes(sessionString, multisession, "MAX(", ")", jump1, jump2, showSex), 
 						true, dataColumns);
 			}
 		}
@@ -133,6 +138,10 @@ public class StatIeIub : Stat
 		string indexString = "IE [(cmj-sj)/sj * 100]";
 		if(indexType == "IUB") {
 			indexString = "IUB [(abk-cmj)/cmj * 100]";
+		} else if(indexType == "IRna") {
+			indexString = "IRna [(djna-cmj)/cmj * 100]";
+		} else if(indexType == "IRa") {
+			indexString = "IRa [(dja-cmj)/cmj * 100]";
 		}
 		return string.Format(Catalog.GetString("{0} in index {1} on {2}"), selectedValuesString, indexString, mySessionString);
 	}

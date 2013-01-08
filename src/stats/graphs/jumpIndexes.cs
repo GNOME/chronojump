@@ -27,7 +27,7 @@ using System.Drawing.Imaging;
 using Mono.Unix;
 
 
-public class GraphIeIub : StatIeIub
+public class GraphJumpIndexes : StatJumpIndexes
 {
 	protected string operation;
 
@@ -36,20 +36,27 @@ public class GraphIeIub : StatIeIub
 	GraphSerie serieJump1;
 	GraphSerie serieJump2;
 
-	public GraphIeIub  (StatTypeStruct myStatTypeStruct, string indexType)
+	public GraphJumpIndexes  (StatTypeStruct myStatTypeStruct, string indexType)
 	{
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 3; //for Simplesession (index, jump1, jump2)
 		
-		this.indexType = indexType; //"IE" or "IUB"
+		this.indexType = indexType; //"IE" or "IUB" or "IR"
 		if(indexType == "IE") {
 			jump1="CMJ";
 			jump2="SJ";
-		} else { //IUB
+		} else if(indexType == "IUB") {
 			jump1="ABK";
 			jump2="CMJ";
+		} else if(indexType == "IRna") { //reactivity DJna
+			jump1="DJna";
+			jump2="CMJ";
+		} else { //IRa //reactivity
+			jump1="DJa";
+			jump2="CMJ";
 		}
+		
 		
 		columnsString[0] = "Jumper";
 		columnsString[1] = indexType;
@@ -70,8 +77,12 @@ public class GraphIeIub : StatIeIub
 			//CurrentGraphData.GraphTitle = this.ToString();
 			if(indexType == "IE")
 				CurrentGraphData.GraphTitle = Constants.IeIndexFormula;
-			else
+			else if(indexType == "IUB") 
 				CurrentGraphData.GraphTitle = Constants.IubIndexFormula;
+			else if(indexType == "IRna") 
+				CurrentGraphData.GraphTitle = Constants.IRnaIndexFormula;
+			else // indexType == "IRa"
+				CurrentGraphData.GraphTitle = Constants.IRaIndexFormula;
 		}
 		
 		

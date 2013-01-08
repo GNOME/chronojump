@@ -25,7 +25,7 @@ using System.Collections; //ArrayList
 using Mono.Unix;
 
 
-public class StatFv : StatIeIub
+public class StatFv : StatJumpIndexes
 {
 	public StatFv () {
 	}

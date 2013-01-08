@@ -240,6 +240,10 @@ public class StatType {
 					indexType = "IE";
 				else if(statisticSubType == Constants.IubIndexFormula) 
 					indexType = "IUB";
+				else if(statisticSubType == Constants.IRnaIndexFormula) 
+					indexType = "IRna";
+				else if(statisticSubType == Constants.IRaIndexFormula) 
+					indexType = "IRa";
 				else if(statisticSubType == Constants.FvIndexFormula) 
 					indexType = "F/V";
 				else if(
@@ -264,11 +268,12 @@ public class StatType {
 						myStat = new GraphJumpSimpleSubtraction(myStatTypeStruct); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
-				} else if(indexType == "IE" || indexType == "IUB") {
+				} else if(indexType == "IE" || indexType == "IUB" || 
+						indexType == "IRna" || indexType == "IRa") {
 					if(graph) 
-						myStat = new GraphIeIub (myStatTypeStruct, indexType);
+						myStat = new GraphJumpIndexes (myStatTypeStruct, indexType);
 					else 
-						myStat = new StatIeIub(myStatTypeStruct, treeview_stats, indexType); 
+						myStat = new StatJumpIndexes(myStatTypeStruct, treeview_stats, indexType); 
 				} else if(indexType == "F/V") {
 					if(graph) 
 						myStat = new GraphFv (myStatTypeStruct, indexType);

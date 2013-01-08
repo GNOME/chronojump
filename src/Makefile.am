@@ -114,7 +114,7 @@ FILES = \
  	stats/rjIndex.cs\
  	stats/rjPotencyBosco.cs\
  	stats/rjEvolution.cs\
- 	stats/ieIub.cs\
+ 	stats/jumpIndexes.cs\
  	stats/fv.cs\
  	stats/potency.cs\
  	stats/rjAVGSD.cs\
@@ -131,7 +131,7 @@ FILES = \
  	stats/graphs/rjIndex.cs\
  	stats/graphs/rjPotencyBosco.cs\
  	stats/graphs/rjEvolution.cs\
- 	stats/graphs/ieIub.cs\
+ 	stats/graphs/jumpIndexes.cs\
  	stats/graphs/fv.cs\
  	stats/graphs/potency.cs\
 	stats/graphs/rjAVGSD.cs\

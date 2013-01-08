@@ -55,7 +55,7 @@ public class StatJumpIndexes : Stat
 		} else if(indexType == "IRna") { //reactivity no arms
 			jump1="DJna";
 			jump2="CMJ";
-		} else { //IRa //reactivity no arms
+		} else { //IRa //reactivity with arms
 			jump1="DJa";
 			jump2="CMJ";
 		}

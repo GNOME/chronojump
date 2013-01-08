@@ -537,7 +537,7 @@ findPosInPaf <- function(var, option) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -555,11 +555,37 @@ paintCrossVariables <- function (paf, varX, varY, option) {
 		adjHor = 0
 		nums=paste("  ", rownames(paf))
 	}
+	
+	colBalls="blue"
+	bgBalls="lightBlue"
+	if(isAlone == "RIGHT") {
+		colBalls="red"
+		bgBalls="pink"
+	}
 
-	plot(x,y, xlab=varX, ylab=varY, pch=21,col="blue",bg="lightblue",cex=cexBalls)
+	plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
+
 	#lines(smooth.spline(x,y,spar=.5),col="darkblue")
-	lines(smooth.spline(x,y,df=4),col="darkblue")
+	
+	#x vector should contain at least 4 different values
+	if(length(unique(x)) >= 4)
+		lines(smooth.spline(x,y,df=4),col=colBalls)
+
+	if(isAlone == "ALONE") {
+		axis(1)
+		axis(2)
+		mtext(varY, side=2, line=3)
+		#box()
+	} else if(isAlone == "LEFT") {
+		axis(1)
+		axis(2,col=colBalls)
+		mtext(varY, side=2, line=3, col=colBalls)
+		#box()
+	} else { #"RIGHT"
+		axis(4,col=colBalls)
+		mtext(varY, side=4, line=3, col=colBalls)
+	}
 }
 			
 find.mfrow <- function(n) {
@@ -870,7 +896,9 @@ print(paste("width",width));
 	}
 
 	#analysis in cross variables comes as:
-	#"cross.Speed.Force.mean" 	#2nd is X, 3d is X. "mean" can also be "max"
+	#"cross.Speed.Force.mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
+	#there's a double XY plot:
+	#"cross.Speed,Power.Load.mean" 	#Speed,power are Y (left and right), 3d: Load is X.
 	analysisCross = unlist(strsplit(analysis, "\\."))
 	if(
 			analysis == "powerBars" || analysisCross[1] == "cross" || analysis == "curves") 
@@ -900,8 +928,19 @@ print("----------------------------")
 				paintPowerPeakPowerBars(paf, curves[,8], 		#myEccon
 						rawdata.cumsum[curves[,2]]-curves[,3])	#height
 		}
-		else if(analysisCross[1] == "cross")
-			paintCrossVariables(paf, analysisCross[3], analysisCross[2], analysisCross[4])
+		else if(analysisCross[1] == "cross") {
+			if(analysisCross[2] == "Speed,Power") {
+				par(mar=c(5,4,4,5))
+				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
+				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
+						    analysisCross[4], "LEFT")
+				par(new=T)
+				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
+						    analysisCross[4], "RIGHT")
+			} else
+				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
+						    analysisCross[4], "ALONE")
+		}
 		else if(analysis == "curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",

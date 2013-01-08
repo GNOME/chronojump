@@ -985,13 +985,13 @@ public partial class ChronoJumpWindow
 		
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
-			"Speed / Load", "Force / Load", "Power / Load", "Force / Speed", "Power / Speed" };
+			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed" };
 		string [] comboAnalyzeCrossOptionsTranslated = { 
 			Catalog.GetString("Speed / Load"), Catalog.GetString("Force / Load"), 
-			Catalog.GetString("Power / Load"), Catalog.GetString("Force / Speed"),
-			Catalog.GetString("Power / Speed") };
+			Catalog.GetString("Power / Load"), Catalog.GetString("Speed,Power / Load"), 
+			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed") };
 		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
-		for(int j=0; j < 5 ; j++)
+		for(int j=0; j < 6 ; j++)
 			encoderAnalyzeCrossTranslation[j] = 
 				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		combo_encoder_analyze_cross = ComboBox.NewText ();

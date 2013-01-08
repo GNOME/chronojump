@@ -1,3 +1,20 @@
+Full info
+english:
+http://forum.chronojump.org/showthread.php?tid=977&pid=1329#pid1329
+
+spanish:
+http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
+
+Encoder:
+
+- From command line:
+sudo apt-get install python-pip
+sudo pip install pypeR
+sudo apt-get install python-pygame
+R
+>install.packages("EMD")
+(when done, 'CTRL D' and say 'n')
+
 execute:
 
 mono --runtime=v4.0 /usr/local/lib/chronojump/Chronojump.exe

@@ -848,7 +848,7 @@ Log.WriteLine(intervalSpeeds);
 		return myArray;
 	}
 
-	public static ArrayList IeIub (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	public static ArrayList JumpIndexes (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
 	{
 		string tp = Constants.PersonTable;
 

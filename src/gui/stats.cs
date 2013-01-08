@@ -190,6 +190,8 @@ public partial class ChronoJumpWindow {
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.IubIndexFormula,
+		Constants.IRnaIndexFormula,
+		Constants.IRaIndexFormula,
 		Catalog.GetString(Constants.SubtractionBetweenTests),
 		Constants.PotencyLewisFormulaShort,
 		Constants.PotencyHarmanFormulaShort,
@@ -660,6 +662,14 @@ public partial class ChronoJumpWindow {
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IubIndexFormula) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "ABK, CMJ");
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IRnaIndexFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "DJna, CMJ");
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = false;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IRaIndexFormula) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "DJa, CMJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.FvIndexFormula) {

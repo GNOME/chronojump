@@ -1,8 +1,13 @@
 execute:
 
 mono --runtime=v4.0 /usr/local/lib/chronojump/Chronojump.exe
-
 #https://bugs.launchpad.net/ubuntu/+source/mono/+bug/882501
+
+in fact, now that there's the libglade swapped warning, better execute like this:
+
+mono --runtime=v4.0 /usr/local/lib/chronojump/Chronojump.exe 2>/tmp/err
+
+
 
 but runs slowly, I think because it's compiled for runtime 2.0. Continue reading...
 

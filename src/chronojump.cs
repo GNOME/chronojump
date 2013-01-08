@@ -134,7 +134,7 @@ public class ChronoJump
 
 	protected void sqliteThings () {
 		bool crashedBefore = checkIfChronojumpExitAbnormally();
-		if(crashedBefore) {
+//		if(crashedBefore) {
 			if(chronojumpIsExecutingNTimes()) {
 				quitNow = true;
 				Application.Quit();
@@ -142,7 +142,7 @@ public class ChronoJump
 			}
 			else
 				chronojumpCrashedBefore();
-		}
+//		}
 
 		//print version of chronojump
 		progVersion = readVersion();
@@ -672,8 +672,10 @@ Console.WriteLine("--6--");
 
 			//delete the '\n' that ReaderToEnd() has put
 			pid = pid.TrimEnd(new char[1] {'\n'});
-
-			Process [] pids = Process.GetProcessesByName("Chronojump");
+			
+			//Process [] pids = Process.GetProcessesByName("Chronojump");
+			Process [] pids = Process.GetProcessesByName("mono");
+			
 			foreach (Process myPid in pids)
 				if (myPid.Id == Convert.ToInt32(pid))
 					return true;

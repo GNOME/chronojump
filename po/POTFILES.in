@@ -66,7 +66,7 @@ src/stats/graphs/djIndex.cs
 src/stats/graphs/djQ.cs
 src/stats/graphs/fv.cs
 src/stats/graphs/global.cs
-src/stats/graphs/ieIub.cs
+src/stats/graphs/jumpIndexes.cs
 src/stats/graphs/jumpSimpleSubtraction.cs
 src/stats/graphs/potency.cs
 src/stats/graphs/rjAVGSD.cs
@@ -77,7 +77,7 @@ src/stats/graphs/runIntervallic.cs
 src/stats/graphs/runSimple.cs
 src/stats/graphs/sjCmjAbk.cs
 src/stats/graphs/sjCmjAbkPlus.cs
-src/stats/ieIub.cs
+src/stats/jumpIndexes.cs
 src/stats/jumpSimpleSubtraction.cs
 src/stats/main.cs
 src/stats/potency.cs

@@ -960,9 +960,13 @@ print("----------------------------")
 	#	dev.off()
 	}
 	if(analysis=="exportCSV") {
-		export=cumsum(rawdata)
-		file="export.csv" #TODO change this, for not deleting last record
-		#TODO....
+		print("Starting export...")
+		file=outputData1;
+		col1=rawdata
+		col2=rawdata.cumsum
+		df=data.frame(cbind(col1,col2))
+		write.csv2(df, file=file, row.names=F)
+		print("Export done.")
 	}
 	dev.off()
 }

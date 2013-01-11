@@ -1065,7 +1065,7 @@ public class Util
 
 			//curves does first graph and then csv curves. 
 			//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
-			if(es.Ep.Analysis == "curves")
+			if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")
 				outputFileCheck = es.OutputData1; 
 			else
 				outputFileCheck = es.OutputGraph;
@@ -1078,7 +1078,7 @@ public class Util
 		Console.WriteLine(outputFileCheck);
 		if (File.Exists(outputFileCheck))
 			File.Delete(outputFileCheck);
- 
+
 		p = new Process();
 		p.StartInfo = pinfo;
 		p.Start();

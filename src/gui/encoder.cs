@@ -469,6 +469,37 @@ public partial class ChronoJumpWindow
 		on_button_encoder_recalculate_clicked (o, args); 
 	}
 	
+	void on_button_encoder_export_signal_clicked (object o, EventArgs args) 
+	{
+		string analysisOptions = "-";
+		if(checkbutton_encoder_propulsive.Active)
+			analysisOptions = "p";
+
+		EncoderParams ep = new EncoderParams(
+				(int) spin_encoder_capture_min_height.Value, 
+				Convert.ToInt32(
+					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+						encoderExercisesTranslationAndBodyPWeight) ),
+				findMass(true),
+				findEccon(false),		//do not force ecS (ecc-conc separated)
+				"exportCSV",
+				analysisOptions,
+				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+				Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
+				image_encoder_width,
+				image_encoder_height); 
+
+		string dataFileName = Util.GetEncoderDataTempFileName();
+
+		EncoderStruct encoderStruct = new EncoderStruct(
+				dataFileName, 
+				Util.GetEncoderGraphTempFileName(),
+				"/tmp/export.csv", "NULL", ep);
+
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", encoderStruct, false);
+
+	}
+	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
 	{
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(

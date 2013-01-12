@@ -5785,7 +5785,124 @@ Second Chronopic to platforms.</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">8</property>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_execute_test">
+                                                          <widget class="GtkVBox" id="vbox33">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox105">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_volume">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Play sound (on / off)</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_checkbutton_volume_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkAlignment" id="alignment68">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xscale">0</property>
+                                                            <property name="yscale">0</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox144">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_volume">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="yalign">0.49000000953674316</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_video">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Record video (on / off)</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <signal name="clicked" handler="on_checkbutton_video_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox106">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_yes">
+                                                            <property name="width_request">24</property>
+                                                            <property name="height_request">24</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-media-record</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_no">
+                                                            <property name="width_request">24</property>
+                                                            <property name="height_request">24</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_execute_test">
                                                             <property name="height_request">60</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -5796,7 +5913,7 @@ Second Chronopic to platforms.</property>
                                                             <signal name="clicked" handler="on_button_execute_test_clicked" swapped="no"/>
                                                             <accelerator key="space" signal="clicked"/>
                                                             <child>
-                                                            <widget class="GtkVBox" id="vbox33">
+                                                            <widget class="GtkVBox" id="vbox72">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -5825,6 +5942,13 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">True</property>
@@ -5836,6 +5960,7 @@ Second Chronopic to platforms.</property>
                                                           <widget class="GtkVBox" id="vbox88">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox18">
                                                             <property name="visible">True</property>
@@ -6008,8 +6133,8 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">2</property>
                                                           </packing>
                                                         </child>
@@ -23915,219 +24040,6 @@ options</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="vbox1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="border_width">7</property>
-                <property name="spacing">12</property>
-                <child>
-                  <widget class="GtkHBox" id="hbox1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">10</property>
-                    <child>
-                      <widget class="GtkCheckButton" id="checkbutton_volume">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="relief">none</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">False</property>
-                        <signal name="clicked" handler="on_checkbutton_volume_clicked" swapped="no"/>
-                        <child>
-                          <widget class="GtkAlignment" id="alignment68">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xscale">0</property>
-                            <property name="yscale">0</property>
-                            <child>
-                              <widget class="GtkHBox" id="hbox144">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">2</property>
-                                <child>
-                                  <widget class="GtkImage" id="image_volume">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label332">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="use_underline">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label_volume">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkHBox" id="hbox2">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">10</property>
-                    <child>
-                      <widget class="GtkCheckButton" id="checkbutton_video">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="relief">none</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">False</property>
-                        <signal name="clicked" handler="on_checkbutton_video_clicked" swapped="no"/>
-                        <child>
-                          <widget class="GtkAlignment" id="alignment2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xscale">0</property>
-                            <property name="yscale">0</property>
-                            <child>
-                              <widget class="GtkHBox" id="hbox3">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="spacing">2</property>
-                                <child>
-                                  <widget class="GtkImage" id="image_video_yes">
-                                    <property name="width_request">24</property>
-                                    <property name="height_request">24</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="stock">gtk-media-record</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkImage" id="image_video_no">
-                                    <property name="width_request">24</property>
-                                    <property name="height_request">24</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="stock">gtk-no</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vbox2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="spacing">6</property>
-                        <child>
-                          <widget class="GtkLabel" id="label_video">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label_video_experimental">
-                            <property name="can_focus">False</property>
-                            <property name="xalign">0</property>
-                            <property name="label">EXPERIMENTAL, Chronojump may crash.</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Multimedia</property>
-              </widget>
-              <packing>
-                <property name="position">1</property>
-                <property name="tab_fill">False</property>
-                <property name="type">tab</property>
-              </packing>
-            </child>
-            <child>
               <widget class="GtkVBox" id="vbox122">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -24461,7 +24373,7 @@ show elevation as:</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -24471,7 +24383,7 @@ show elevation as:</property>
                 <property name="label" translatable="yes">Show</property>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">1</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>
@@ -24541,7 +24453,7 @@ show elevation as:</property>
                 </child>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -24551,7 +24463,7 @@ show elevation as:</property>
                 <property name="label" translatable="yes">Other</property>
               </widget>
               <packing>
-                <property name="position">3</property>
+                <property name="position">2</property>
                 <property name="tab_fill">False</property>
                 <property name="type">tab</property>
               </packing>

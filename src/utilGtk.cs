@@ -251,6 +251,12 @@ public class UtilGtk
 		c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
 	}
 
+	public static void ColorsCheckOnlyPrelight(Gtk.CheckButton c) {
+		c.ModifyBg(StateType.Normal, WHITE);
+		c.ModifyBg(StateType.Active, WHITE);
+		c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
+	}
+
 
 	private static Gdk.Color chronopicViewportDefaultBg;
 	private static Gdk.Color chronopicLabelsDefaultFg;

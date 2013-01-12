@@ -964,8 +964,27 @@ print("----------------------------")
 		file=outputData1;
 		col1=rawdata
 		col2=rawdata.cumsum
-		df=data.frame(cbind(col1,col2))
+		#kn = kinematicsF (rawdata, mass, smoothingOne, g) #filter smoothingOne not good for all signal
+		knC1 = kinematicsF (rawdata[(curves[1,1]-500):curves[1,2]], mass, smoothingOne, g) #here filtering is good
+
+		#TODO: fer les altres curves
+		df=data.frame(cbind(
+				    col1[(curves[1,1]-500):curves[1,2]],col2[(curves[1,1]-500):curves[1,2]],
+				    #kn$speedy,kn$accely,kn$force,kn$power,
+				    knC1$speedy,knC1$accely,knC1$force,knC1$power))
+
+
+#TODO: bug, last 4 columns are shorter
+#TODO: tenir en compte el startH
+
+#		colnames(df)=c("Dist.", "Dist. +", 
+#			       "Speed", "Accel.", "Force", "Power",
+#			       "SpeedC1", "Accel.C1", "ForceC1", "PowerC1")
+
+#		print(head(df))
+
 		write.csv2(df, file=file, row.names=F)
+		#write.csv2(df, file=file, quotes=F)
 		print("Export done.")
 	}
 	dev.off()

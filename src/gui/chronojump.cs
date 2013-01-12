@@ -154,6 +154,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
+	
+	[Widget] Gtk.CheckButton checkbutton_volume;
+	[Widget] Gtk.Image image_volume;
+	[Widget] Gtk.CheckButton checkbutton_video;
+	[Widget] Gtk.Label label_video;
+	[Widget] Gtk.Image image_video_yes;
+	[Widget] Gtk.Image image_video_no;
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -830,11 +837,17 @@ public partial class ChronoJumpWindow
 			volumeOn = true;
 		else 
 			volumeOn = false;
+		
+		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
+		changeVolumeButton(volumeOn);
 
 		if ( SqlitePreferences.Select("videoOn") == "True" ) 
 			videoOn = true;
 		else 
 			videoOn = false;
+
+		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video);
+		changeVideoButton(videoOn);
 
 
 		//load preferences, update radios, but not update database
@@ -2561,7 +2574,9 @@ public partial class ChronoJumpWindow
 				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-				SqlitePreferences.Select("language"), volumeOn, videoOn);
+				SqlitePreferences.Select("language")
+				//, volumeOn, videoOn
+				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
@@ -2646,16 +2661,6 @@ public partial class ChronoJumpWindow
 		//if(Util.IsWindows()) 
 		//	languageChange();
 		
-		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
-			volumeOn = true;
-		 else 
-			volumeOn = false;
-		
-		 if ( SqlitePreferences.Select("videoOn") == "True" ) 
-			videoOn = true;
-		 else 
-			videoOn = false;
-
 
 		if(repetitiveConditionsWin != null)
 			repetitiveConditionsWin.VolumeOn = volumeOn;
@@ -2702,6 +2707,45 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	private void changeVolumeButton(bool myVolume) {
+		Pixbuf pixbuf;
+		if(myVolume) 
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
+		else 
+			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
+		
+		image_volume.Pixbuf = pixbuf;
+	}
+	
+	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
+		if(checkbutton_volume.Active) {
+			volumeOn = true;
+			SqlitePreferences.Update("volumeOn", "True", false);
+		} else {
+			volumeOn = false;
+			SqlitePreferences.Update("volumeOn", "False", false);
+		}
+		changeVolumeButton(checkbutton_volume.Active);
+	}
+
+	
+	private void changeVideoButton(bool myVideo) {
+		image_video_yes.Visible = myVideo;
+		image_video_no.Visible = ! myVideo;
+	}
+	
+	private void on_checkbutton_video_clicked(object o, EventArgs args) {
+		if(checkbutton_video.Active) {
+			videoOn = true;
+			SqlitePreferences.Update("videoOn", "True", false);
+		} else {
+			videoOn = false;
+			SqlitePreferences.Update("videoOn", "False", false);
+		}
+		changeVideoButton(checkbutton_video.Active);
+	}
+	
+
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
 		Console.WriteLine("cancel clicked one");

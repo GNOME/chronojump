@@ -58,15 +58,6 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_weight_kg;
 	[Widget] Gtk.TextView textview_power;
 
-	[Widget] Gtk.CheckButton checkbutton_volume;
-	[Widget] Gtk.CheckButton checkbutton_video;
-	[Widget] Gtk.Image image_volume;
-	[Widget] Gtk.Label label_volume;
-	[Widget] Gtk.Image image_video_yes;
-	[Widget] Gtk.Image image_video_no;
-	[Widget] Gtk.Label label_video;
-//	[Widget] Gtk.Label label_video_experimental;
-
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
 //	[Widget] Gtk.ComboBox combo_language;
@@ -100,7 +91,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool volumeOn, bool videoOn)
+			string language)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -177,66 +168,10 @@ public class PreferencesWindow {
 		else 
 			PreferencesWindowBox.radio_speed_km.Active = true; 
 		
-		UtilGtk.ColorsCheck(PreferencesWindowBox.checkbutton_volume);
-		PreferencesWindowBox.checkbutton_volume.Active = volumeOn;
-		PreferencesWindowBox.on_checkbutton_volume_clicked(new object(), new EventArgs());
-		
-		UtilGtk.ColorsCheck(PreferencesWindowBox.checkbutton_video);
-		PreferencesWindowBox.checkbutton_video.Active = videoOn;
-		PreferencesWindowBox.on_checkbutton_video_clicked(new object(), new EventArgs());
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;
 	}
-	
-	private void changeVolumeButton(bool myVolume) {
-		Pixbuf pixbuf;
-		if(myVolume) {
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
-			label_volume.Text = Catalog.GetString("Sound activated.");
-		} else {
-			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
-			label_volume.Text = Catalog.GetString("No Sound.");
-		}
-		image_volume.Pixbuf = pixbuf;
-	}
-	
-	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
-		if(checkbutton_volume.Active) {
-			SqlitePreferences.Update("volumeOn", "True", false);
-			label_volume.Text = Catalog.GetString("Sound activated.");
-		} else {
-			SqlitePreferences.Update("volumeOn", "False", false);
-			label_volume.Text = Catalog.GetString("No Sound.");
-		}
-		changeVolumeButton(checkbutton_volume.Active);
-	}
-
-	private void changeVideoButton(bool myVideo) {
-		image_video_yes.Visible = myVideo;
-		image_video_no.Visible = ! myVideo;
-		
-		if(myVideo) {	
-			label_video.Text = Catalog.GetString("Enabled test video recording and person's snapshots.");
-			//label_video_experimental.Visible = true;
-		}
-		else {
-			label_video.Text = Catalog.GetString("Disabled video and snapshots.");
-			//label_video_experimental.Visible = false;
-		}
-	}
-	
-	private void on_checkbutton_video_clicked(object o, EventArgs args) {
-		if(checkbutton_video.Active) {
-			SqlitePreferences.Update("videoOn", "True", false);
-			label_video.Text = Catalog.GetString("Enabled test video recording and person's snapshots.");
-		} else {
-			SqlitePreferences.Update("videoOn", "False", false);
-			label_video.Text = Catalog.GetString("Disabled video and snapshots.");
-		}
-		changeVideoButton(checkbutton_video.Active);
-	}
-
 	
 	private void createComboLanguage(string myLanguageCode) {
 		/*

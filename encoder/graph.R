@@ -22,7 +22,7 @@ library("EMD")
 #library("sfsmisc")
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
-findCurves <- function(rawdata, eccon, min_height, draw) {
+findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	a=cumsum(rawdata)
 	b=extrema(a)
 	
@@ -94,6 +94,7 @@ findCurves <- function(rawdata, eccon, min_height, draw) {
 	}
 	if(draw) {
 		plot(a/10,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T) #/10 mm -> cm
+		title(title, cex.main=1, font.main=1)
 		mtext("time (ms) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
 		abline(v=b$maxindex,lty=3); abline(v=b$minindex,lty=3)
@@ -470,7 +471,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
-paintPowerPeakPowerBars <- function(paf, myEccons, height) {
+paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
@@ -494,7 +495,7 @@ paintPowerPeakPowerBars <- function(paf, myEccons, height) {
 	par(mar=c(5, 4, 4, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums,"\n",paf[,7],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
-			xlab="",ylab="Power (W)", 
+			xlab="",ylab="Power (W)", main=title,
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	mtext("Curve\nLoad",side=1,at=0,adj=1,line=1,cex=.9)
 	par(new=T, xpd=T)
@@ -537,7 +538,7 @@ findPosInPaf <- function(var, option) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -564,6 +565,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone) {
 	}
 
 	plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+	title(title, cex.main=1, font.main=1)
 	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
 
 	#lines(smooth.spline(x,y,spar=.5),col="darkblue")
@@ -626,6 +628,9 @@ quitIfNoData <- function(n, curves, outputData1) {
 	}
 }
 
+#TODO: capitalize first letter on all global variables names
+
+
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
@@ -659,11 +664,13 @@ if(length(args) < 3) {
 	jump=args[12]
 	width=as.numeric(args[13])
 	height=as.numeric(args[14])
+	Title=args[15]
 
-print("++++++++++++++++++++++++++++++");
-print(paste("width",width));
-	png(outputGraph, width=width, height=height)
-	
+	if(analysis != "exportCSV") {
+		png(outputGraph, width=width, height=height)
+		Title=gsub('_',' ',Title)
+		Title=gsub('-','    ',Title)
+	}
 
 	titleType = "execution"
 	#if(isJump)
@@ -672,7 +679,7 @@ print(paste("width",width));
 	curvesPlot = FALSE
 	if(analysis=="curves") {
 		curvesPlot = TRUE
-		par(mar=c(2,2.5,1,1))
+		par(mar=c(2,2.5,2,1))
 	}
 
 	singleFile = TRUE
@@ -796,7 +803,7 @@ print(paste("width",width));
 
 		rawdata.cumsum=cumsum(rawdata)
 	
-		curves=findCurves(rawdata, eccon, minHeight, curvesPlot)
+		curves=findCurves(rawdata, eccon, minHeight, curvesPlot, Title)
 		print(curves)
 		n=length(curves[,1])
 		quitIfNoData(n, curves, outputData1)
@@ -839,7 +846,7 @@ print(paste("width",width));
 			}
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 					1,curves[jump,3],mySmoothingOne,myMass,
-					paste(analysis, " ", myEccon, " ", titleType, " ", jump," (smoothing: ",mySmoothingOne,")",sep=""),
+					paste(Title, " ", analysis, " ", myEccon, " ", titleType, " ", jump," (smoothing: ",mySmoothingOne,")",sep=""),
 					TRUE,FALSE,TRUE,TRUE)
 		}
 	}
@@ -864,7 +871,7 @@ print(paste("width",width));
 				myEccon = curves[i,8]
 			}
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-				1,curves[i,3],mySmoothingOne,myMass,paste(titleType,rownames(curves)[i]),TRUE,FALSE,TRUE,FALSE)
+				1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),TRUE,FALSE,TRUE,FALSE)
 		}
 		par(mfrow=c(1,1))
 	}
@@ -922,10 +929,10 @@ print("----------------------------")
 
 		if(analysis == "powerBars") {
 			if(! singleFile) 
-				paintPowerPeakPowerBars(paf, curves[,8], 		#myEccon
+				paintPowerPeakPowerBars(Title, paf, curves[,8], 		#myEccon
 						curvesHeight)				#height
 			else 
-				paintPowerPeakPowerBars(paf, curves[,8], 		#myEccon
+				paintPowerPeakPowerBars(Title, paf, curves[,8], 		#myEccon
 						rawdata.cumsum[curves[,2]]-curves[,3])	#height
 		}
 		else if(analysisCross[1] == "cross") {
@@ -933,13 +940,13 @@ print("----------------------------")
 				par(mar=c(5,4,4,5))
 				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
-						    analysisCross[4], "LEFT")
+						    analysisCross[4], "LEFT", Title)
 				par(new=T)
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
-						    analysisCross[4], "RIGHT")
+						    analysisCross[4], "RIGHT", "")
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
-						    analysisCross[4], "ALONE")
+						    analysisCross[4], "ALONE", Title)
 		}
 		else if(analysis == "curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
@@ -947,17 +954,6 @@ print("----------------------------")
 				"meanPower","peakPower","peakPowerT","pp_ppt")
 			write.csv(paf, outputData1, quote=FALSE)
 		}
-	}
-	if(analysis=="others") {
-		#revisar amb ec
-		i=2; eccon="ec"
-		curves=findCurves(rawdata, eccon, minHeight, TRUE)
-		paint(rawdata, eccon, curves[i,1],curves[i,2],"undefined","undefined",FALSE,FALSE,
-			1,curves[i,3],smoothingOne,mass,paste(titleType,jump),TRUE,TRUE,TRUE,TRUE)
-	
-	#	png("graph.png", width=1020, height=732)
-		g(file, 1,5000, smoothingOne, mass, "Xavi peña performance")
-	#	dev.off()
 	}
 	if(analysis=="exportCSV") {
 		print("Starting export...")
@@ -1035,13 +1031,17 @@ print("----------------------------")
 		#TODO: time
 		#TODO: tenir en compte el startH
 		
-		colnames(df)=c("Person's name",rep(" ",(curvesNum*curveCols-1)))
+		Title=gsub('_',' ',Title)
+		print(Title)
+		titleColumns=unlist(strsplit(Title,'-'))
+		colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
 
 		write.csv2(df, file=file, row.names=F, na="")
 		#write.csv2(df, file=file, quotes=F)
 		print("Export done.")
 	}
-	dev.off()
+	if(analysis != "exportCSV")
+		dev.off()
 }
 
 warnings()

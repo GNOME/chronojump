@@ -52,6 +52,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_all_curves;
+	[Widget] Gtk.Button button_encoder_export_all_curves;
 	[Widget] Gtk.Button button_encoder_update_signal;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
@@ -316,7 +317,11 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderCurvesTempFileName(), 
 				"NULL", ep);
 		
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", es,false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
+				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
+				"-(" + findMass(true) + "Kg)",
+				es,false);
 
 		//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
 		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
@@ -496,8 +501,13 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				"/tmp/export.csv", "NULL", ep);
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", encoderStruct, false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
+				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
+					"-(" + findMass(true) + "Kg)",
+				encoderStruct, false);
 
+		encoder_pulsebar_capture.Text = "Exported to /tmp/export.csv";
 	}
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
@@ -770,8 +780,9 @@ public partial class ChronoJumpWindow
 			ep = new EncoderParams(
 					-1, 
 					Convert.ToInt32(
-						Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-						encoderExercisesTranslationAndBodyPWeight) ),
+						Util.FindOnArray(':', 2, 3, 
+							UtilGtk.ComboGetActive(combo_encoder_exercise), 
+							encoderExercisesTranslationAndBodyPWeight) ),
 					"-1",			//mass
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
@@ -812,8 +823,9 @@ public partial class ChronoJumpWindow
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 
 					Convert.ToInt32(
-						Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-						encoderExercisesTranslationAndBodyPWeight) ),
+						Util.FindOnArray(':', 2, 3, 
+							UtilGtk.ComboGetActive(combo_encoder_exercise), 
+							encoderExercisesTranslationAndBodyPWeight) ),
 					findMass(true),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
@@ -831,7 +843,11 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				"NULL", "NULL", ep);		//no data ouptut
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, "", encoderStruct, false);
+		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
+				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
+				"-(" + findMass(true) + "Kg)",
+				encoderStruct, false);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
@@ -1595,7 +1611,8 @@ public partial class ChronoJumpWindow
 		//c0 button_encoder_capture, button_encoder_bells
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 button_encoder_save_all_curves , button_encoder_update_signal, 
+		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
+		//	button_encoder_update_signal, 
 		//	button_encoder_delete_signal, entry_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
@@ -1652,6 +1669,7 @@ public partial class ChronoJumpWindow
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
 		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
+		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_update_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		entry_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);

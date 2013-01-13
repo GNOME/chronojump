@@ -19,7 +19,8 @@ subprocess.Popen([
 	sys.argv[11],			#ep.curve
 	sys.argv[12],			#ep.analysisOptions
 	sys.argv[13],			#ep.width
-	sys.argv[14]			#ep.height
+	sys.argv[14],			#ep.height
+	sys.argv[15]			#title
 	]).wait()
 
 

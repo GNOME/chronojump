@@ -469,7 +469,7 @@ public partial class ChronoJumpWindow
 		on_button_encoder_recalculate_clicked (o, args); 
 	}
 	
-	void on_button_encoder_export_signal_clicked (object o, EventArgs args) 
+	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
 		string analysisOptions = "-";
 		if(checkbutton_encoder_propulsive.Active)

@@ -962,34 +962,88 @@ print("----------------------------")
 	if(analysis=="exportCSV") {
 		print("Starting export...")
 		file=outputData1;
-		col1=rawdata
-		col2=rawdata.cumsum
-		#kn = kinematicsF (rawdata, mass, smoothingOne, g) #filter smoothingOne not good for all signal
-		knC1 = kinematicsF (rawdata[(curves[1,1]-500):curves[1,2]], mass, smoothingOne, g) #here filtering is good
+		curvesNum = length(curves[,1])
+		
+		maxLength = 0
+		for(i in 1:curvesNum) { 
+			myLength = curves[i,2]-curves[i,1]
+			if(myLength > maxLength)
+				maxLength=myLength
+		}
 
-		#TODO: fer les altres curves
-		df=data.frame(cbind(
-				    col1[(curves[1,1]-500):curves[1,2]],col2[(curves[1,1]-500):curves[1,2]],
-				    #kn$speedy,kn$accely,kn$force,kn$power,
-				    knC1$speedy,knC1$accely,knC1$force,knC1$power))
+		curveCols = 6	#change this value if there are more colums
+		names=c("Dist.", "Dist. +", "Speed", "Accel.", "Force", "Power")
+		nums=1:curvesNum
+		nums=rep(nums,each=curveCols)		
+		namesNums=paste(names, nums)
+		
+		for(i in 1:curvesNum) { 
+			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], mass, smoothingOne, g)
+			
+			#fill with NAs in order to have the same length
+			col1 = rawdata[curves[i,1]:curves[i,2]]
+			col2 = rawdata.cumsum[curves[i,1]:curves[i,2]]
+			
+			#add mean and max
+			col1=append(col1,
+				    c(NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
+				    after=0)
+			col2=append(col2,
+				    c(NA,"mean (ABS):","max:",namesNums[((i-1)*curveCols)+2]),
+				    after=0)
+			kn$speedy=append(kn$speedy,
+					 c(
+					   namesNums[((i-1)*curveCols)+3],
+					   mean(abs(kn$speedy)),max(kn$speedy),
+					   namesNums[((i-1)*curveCols)+3]),
+					 after=0)
+			kn$accely=append(kn$accely,
+					 c(
+					   namesNums[((i-1)*curveCols)+4],
+					   mean(abs(kn$accely)),max(kn$accely),
+					   namesNums[((i-1)*curveCols)+4]),
+					 after=0)
+			kn$force=append(kn$force,
+					c(
+					  namesNums[((i-1)*curveCols)+5],
+					  mean(abs(kn$force)),max(kn$force),
+					  namesNums[((i-1)*curveCols)+5]),
+					after=0)
+			kn$power=append(kn$power,
+					c(
+					  namesNums[((i-1)*curveCols)+6],
+					  mean(abs(kn$power)),max(kn$power),
+					  namesNums[((i-1)*curveCols)+6]),
+					after=0)
+			
+			extraRows=4
+			length(col1)=maxLength+extraRows
+			length(col2)=maxLength+extraRows
+			length(kn$speedy)=maxLength+extraRows
+			length(kn$accely)=maxLength+extraRows
+			length(kn$force)=maxLength+extraRows
+			length(kn$power)=maxLength+extraRows
 
+			if(i==1)
+				df=data.frame(cbind(col1, col2,
+						    kn$speedy, kn$accely, kn$force, kn$power))
+			else
+				df=data.frame(cbind(df, col1, col2,
+						    kn$speedy, kn$accely, kn$force, kn$power))
+		}
+	
+		#TODO: time
+		#TODO: tenir en compte el startH
+		
+		colnames(df)=c("Person's name",rep(" ",(curvesNum*curveCols-1)))
 
-#TODO: bug, last 4 columns are shorter
-#TODO: tenir en compte el startH
-
-#		colnames(df)=c("Dist.", "Dist. +", 
-#			       "Speed", "Accel.", "Force", "Power",
-#			       "SpeedC1", "Accel.C1", "ForceC1", "PowerC1")
-
-#		print(head(df))
-
-		write.csv2(df, file=file, row.names=F)
+		write.csv2(df, file=file, row.names=F, na="")
 		#write.csv2(df, file=file, quotes=F)
 		print("Export done.")
 	}
 	dev.off()
 }
 
-#warnings()
+warnings()
 
 

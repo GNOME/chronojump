@@ -1061,7 +1061,8 @@ public class Util
 			outputFileCheck = es.OutputData1;
 		} else {
 			pinfo.Arguments = pythonScript + " " + es.InputData + " " + 
-				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + es.Ep.ToString2();
+				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
+				es.Ep.ToString2() + " " + title;
 
 			//curves does first graph and then csv curves. 
 			//Wait until this to update encoder gui (if don't wait then treeview will be outdated)

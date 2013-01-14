@@ -898,7 +898,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="single";
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 
@@ -911,7 +911,7 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="superpose";
 		
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 	*/
@@ -923,7 +923,7 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="side";
 		
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
@@ -933,7 +933,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="powerBars";
 		
-		hbox_encoder_analyze_eccon.Sensitive=true;
+		hbox_encoder_analyze_eccon.Visible=true;
 	}
 	
 	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
@@ -943,7 +943,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=true;
 		encoderAnalysis="cross";
 		
-		hbox_encoder_analyze_eccon.Sensitive=false;
+		hbox_encoder_analyze_eccon.Visible=false;
 	}
 	
 

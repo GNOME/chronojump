@@ -656,7 +656,7 @@ if(length(args) < 3) {
 	outputData2=args[4]
 	minHeight=as.numeric(args[5])*10 #from cm to mm
 	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
-	mass=as.numeric(args[7])
+	Mass=as.numeric(args[7])
 	eccon=args[8]
 	analysis=args[9]	#in cross comes as "cross.Force.Speed.mean"
 	analysisOptions=args[10]	#p: propulsive
@@ -834,7 +834,7 @@ if(length(args) < 3) {
 		
 	if(analysis=="single") {
 		if(jump>0) {
-			myMass = mass
+			myMass = Mass
 			mySmoothingOne = smoothingOne
 			myEccon = eccon
 			myStart = curves[jump,1]
@@ -859,10 +859,10 @@ if(length(args) < 3) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata, curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,mass,smoothingOne,g)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,smoothingOne,g)
 
 		for(i in 1:n) {
-			myMass = mass
+			myMass = Mass
 			mySmoothingOne = smoothingOne
 			myEccon = eccon
 			if(! singleFile) {
@@ -886,7 +886,7 @@ if(length(args) < 3) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata,curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,mass,smoothingOne,g)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,smoothingOne,g)
 		for(i in 1:n) {
 			#in superpose all jumps end at max height
 			#start can change, some are longer than other
@@ -895,7 +895,7 @@ if(length(args) < 3) {
 			#this is controled by startX
 			startX = curves[i,1]-(curves[i,2]-wide)+1;
 			paint(rawdata, eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==jump),
-				startX,curves[i,3],smoothingOne,mass,paste(titleType,jump),TRUE,FALSE,(i==1),TRUE)
+				startX,curves[i,3],smoothingOne,Mass,paste(titleType,jump),TRUE,FALSE,(i==1),TRUE)
 			par(new=T)
 		}
 		par(new=F)
@@ -912,7 +912,7 @@ if(length(args) < 3) {
 	{
 		paf = data.frame()
 		for(i in 1:n) { 
-			myMass = mass
+			myMass = Mass
 			mySmoothingOne = smoothingOne
 			myEccon = eccon
 			if(! singleFile) {
@@ -974,7 +974,7 @@ print("----------------------------")
 		namesNums=paste(names, nums)
 		
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], mass, smoothingOne, g)
+			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, smoothingOne, g)
 			
 			#fill with NAs in order to have the same length
 			col1 = rawdata[curves[i,1]:curves[i,2]]

@@ -845,11 +845,15 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				"NULL", "NULL", ep);		//no data ouptut
 
+		//show mass in title except if it's curves because then can be different mass
+		string massString = "-(" + findMass(true) + "Kg)";
+		if(radiobutton_encoder_analyze_data_user_curves.Active)
+			massString = "";
+
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
-				"-(" + findMass(true) + "Kg)",
-				encoderStruct, false);
+				massString, encoderStruct, false);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

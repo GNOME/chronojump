@@ -1707,8 +1707,8 @@ public partial class ChronoJumpWindow
 	private void encoderThreadStart(encoderModes mode) {
 		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-3; 
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-3;
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
 			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
@@ -1719,8 +1719,8 @@ public partial class ChronoJumpWindow
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
 		} else { //encoderModes.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-3; 
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-3;
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 		

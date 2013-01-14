@@ -471,7 +471,9 @@ public partial class ChronoJumpWindow
 		}
 	
 		//force a recalculate
-		on_button_encoder_recalculate_clicked (o, args); 
+		on_button_encoder_recalculate_clicked (o, args);
+		
+		radiobutton_encoder_analyze_data_current_signal.Active = true;
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 

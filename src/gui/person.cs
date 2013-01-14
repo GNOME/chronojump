@@ -61,7 +61,6 @@ public class PersonRecuperateWindow {
 	protected int columnId = 0;
 	protected int firstColumn = 0;
 	protected int pDN;
-	protected bool videoOn;
 	
 	public Gtk.Button fakeButtonDone;
 
@@ -98,13 +97,12 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN, bool videoOn)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN)
 	{
 		if (PersonRecuperateWindowBox == null) {
 			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession);
 		}
 		PersonRecuperateWindowBox.pDN = pDN;
-		PersonRecuperateWindowBox.videoOn = videoOn;
 
 		PersonRecuperateWindowBox.person_recuperate.Show ();
 		
@@ -252,7 +250,7 @@ public class PersonRecuperateWindow {
 			Person person = SqlitePerson.Select(Convert.ToInt32(selected));
 
 			personAddModifyWin = PersonAddModifyWindow.Show(
-					parent, currentSession, person, pDN, true, videoOn); //comes from recuperate window
+					parent, currentSession, person, pDN, true); //comes from recuperate window
 			personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 		}
 	}
@@ -366,14 +364,13 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, Session currentSession, bool videoOn)
+	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, Session currentSession)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
 				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession);
 		}
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
-		PersonsRecuperateFromOtherSessionWindowBox.videoOn = videoOn;
 		
 		return PersonsRecuperateFromOtherSessionWindowBox;
 	}
@@ -574,7 +571,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					Person person = SqlitePerson.Select(
 							Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
 					personAddModifyWin = PersonAddModifyWindow.Show(
-							parent, currentSession, person, pDN, true, videoOn); //comes from recuperate window
+							parent, currentSession, person, pDN, true); //comes from recuperate window
 					PersonAddModifyWindow.MakeVisible();
 					personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 					personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler(on_edit_current_person_cancelled);
@@ -858,7 +855,6 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.Button button_zoom;
 	[Widget] Gtk.Image image_photo_mini;
 	[Widget] Gtk.Image image_zoom;
-	[Widget] Gtk.Button button_take_photo;
 
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
@@ -1123,7 +1119,7 @@ public class PersonAddModifyWindow
 	}
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
-			Session mySession, Person currentPerson, int pDN, bool comesFromRecuperateWin, bool videoOn)
+			Session mySession, Person currentPerson, int pDN, bool comesFromRecuperateWin)
 	{
 		if (comesFromRecuperateWin) 
 			PersonAddModifyWindowBox = null;
@@ -1134,8 +1130,6 @@ public class PersonAddModifyWindow
 
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.comesFromRecuperateWin = comesFromRecuperateWin;
-
-		PersonAddModifyWindowBox.button_take_photo.Sensitive = videoOn;
 
 		//No more hide cancel button.
 		//Better to show it and allow to not recuperate if user changes his mind

@@ -1,22 +1,11 @@
-Full info compile...
+Full info compile, execute:
+
 english:
 http://forum.chronojump.org/showthread.php?tid=977&pid=1329#pid1329
 
 spanish:
 http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
 
-Also, encoder:
-
-- From command line:
-sudo apt-get install python-pip
-sudo pip install pypeR
-sudo apt-get install python-pygame
-R
->install.packages("EMD")
-(when done, 'CTRL D' and say 'n')
-
-
-if there are problems compiling libcesarplayer, just remove it's .o, .la, .lo
 
 ---------------
 execute:

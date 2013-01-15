@@ -315,7 +315,8 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderDataTempFileName(), 
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderCurvesTempFileName(), 
-				"NULL", ep);
+				Util.GetEncoderStatusTempFileName(),
+				ep);
 		
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
@@ -1712,7 +1713,7 @@ public partial class ChronoJumpWindow
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
-			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
+//			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
 			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			if(mode == encoderModes.CAPTURE)
@@ -1786,13 +1787,16 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void updatePulsebar (encoderModes mode) {
-		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) 
+		string contents = Catalog.GetString("Please, wait.");
+		if(Util.FileExists(Util.GetEncoderStatusTempFileName()))
+			contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
+
+		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			encoder_pulsebar_capture.Pulse();
-		else {
+			encoder_pulsebar_capture.Text = contents;
+		} else {
 			encoder_pulsebar_analyze.Pulse();
-			string contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
-			if(contents != "")
-				encoder_pulsebar_analyze.Text = contents;
+			encoder_pulsebar_analyze.Text = contents;
 		}
 	}
 	
@@ -1836,11 +1840,10 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnumStored);
 			if(analyzedCurvesOk)
 				image_encoder_analyze.Sensitive = true;
-			
-			Util.FileDelete(Util.GetEncoderStatusTempFileName());
 		}
 
 		treeview_encoder_curves.Sensitive = true;
+		Util.FileDelete(Util.GetEncoderStatusTempFileName());
 	}
 	
 	/* end of thread stuff */

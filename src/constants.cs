@@ -581,6 +581,7 @@ public class Constants
 	public static string EncoderDataTemp = "chronojump-last-encoder-data.txt";
 	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
 	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";
+	public static string EncoderStatusTemp = "chronojump-encoder-status.txt";
 
 	//note next has 40 chars, and its used also in encoder/graph.R to detect how a file will be treated
 	//if this name changes, change it in encoder/graph.R

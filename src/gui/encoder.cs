@@ -255,7 +255,7 @@ public partial class ChronoJumpWindow
 	
 	private void encoderUpdateTreeView()
 	{
-		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName());
+		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
 		if (contents == null || contents == "") {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
@@ -843,7 +843,9 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				"NULL", "NULL", ep);		//no data ouptut
+				"NULL", //no data ouptut
+				Util.GetEncoderStatusTempFileName(),
+				ep);
 
 		//show mass in title except if it's curves because then can be different mass
 		string massString = "-(" + findMass(true) + "Kg)";
@@ -1723,6 +1725,7 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
+
 		
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
@@ -1785,8 +1788,12 @@ public partial class ChronoJumpWindow
 	private void updatePulsebar (encoderModes mode) {
 		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) 
 			encoder_pulsebar_capture.Pulse();
-		else
+		else {
 			encoder_pulsebar_analyze.Pulse();
+			string contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
+			if(contents != "")
+				encoder_pulsebar_analyze.Text = contents;
+		}
 	}
 	
 	private void finishPulsebar(encoderModes mode) {
@@ -1829,6 +1836,8 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnumStored);
 			if(analyzedCurvesOk)
 				image_encoder_analyze.Sensitive = true;
+			
+			Util.FileDelete(Util.GetEncoderStatusTempFileName());
 		}
 
 		treeview_encoder_curves.Sensitive = true;

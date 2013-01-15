@@ -18,8 +18,6 @@
 #   Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
 # 
 
-library("EMD")
-#library("sfsmisc")
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
 findCurves <- function(rawdata, eccon, min_height, draw, title) {
@@ -653,7 +651,7 @@ if(length(args) < 3) {
 	file=args[1]
 	outputGraph=args[2]
 	outputData1=args[3]
-	outputData2=args[4]
+	outputData2=args[4] #currently used to display status
 	minHeight=as.numeric(args[5])*10 #from cm to mm
 	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
 	Mass=as.numeric(args[7])
@@ -665,6 +663,13 @@ if(length(args) < 3) {
 	width=as.numeric(args[13])
 	height=as.numeric(args[14])
 	Title=args[15]
+
+	write("(1/4) Starting R", outputData2)
+
+	library("EMD")
+	#library("sfsmisc")
+
+	write("(2/4) Starting process", outputData2)
 
 	if(analysis != "exportCSV") {
 		png(outputGraph, width=width, height=height)
@@ -831,6 +836,8 @@ if(length(args) < 3) {
 			}
 		}
 	}
+	
+	write("(3/4) Curves processed", outputData2)
 		
 	if(analysis=="single") {
 		if(jump>0) {
@@ -1042,6 +1049,8 @@ print("----------------------------")
 	}
 	if(analysis != "exportCSV")
 		dev.off()
+
+	write("(4/4) R tasks done", outputData2)
 }
 
 warnings()

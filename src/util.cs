@@ -887,6 +887,9 @@ public class Util
 	public static string GetEncoderGraphInputMulti() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphInputMulti);
 	}
+	public static string GetEncoderStatusTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderStatusTemp);
+	}
 
 
 //	public static void MoveTempToEncoderData(int sessionID, int uniqueID) {
@@ -981,12 +984,17 @@ public class Util
 		return false;
 	}
 
-	public static string ReadFile(string fileName)
+	public static string ReadFile(string fileName, bool removeEOL)
 	{
 		try {
 			StreamReader reader = File.OpenText(fileName);
 			string contents = reader.ReadToEnd ();
 			reader.Close();
+			
+			//delete the '\n' that ReaderToEnd() has put
+			if(removeEOL)
+				contents = contents.TrimEnd(new char[1] {'\n'});
+			
 			return contents;
 		} catch {
 			return null;
@@ -1079,7 +1087,7 @@ public class Util
 		Console.WriteLine(outputFileCheck);
 		if (File.Exists(outputFileCheck))
 			File.Delete(outputFileCheck);
-
+		
 		p = new Process();
 		p.StartInfo = pinfo;
 		p.Start();
@@ -1128,7 +1136,7 @@ public class Util
 	}
 
 	public static void EncoderDeleteCurveFromSignal(string fileName, int start, int duration) {
-		string contents = ReadFile(fileName);
+		string contents = ReadFile(fileName, false);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
 		StringBuilder myStringBuilder = new StringBuilder(contents);
@@ -1146,7 +1154,7 @@ public class Util
 	public static string EncoderSaveCurve(string fileNameSignal, int start, int duration, 
 			int sessionID, int uniqueID, string personName, string timeStamp, int curveIDMax) 
 	{
-		string contents = ReadFile(fileNameSignal);
+		string contents = ReadFile(fileNameSignal, false);
 		string [] startAndDuration = encoderFindPos(contents, start, duration);
 
 		contents = contents.Substring(

@@ -983,6 +983,10 @@ public class Util
 		} catch {}
 		return false;
 	}
+	
+	public static bool FileExists(string fileName){
+		return File.Exists(fileName);
+	}
 
 	public static string ReadFile(string fileName, bool removeEOL)
 	{

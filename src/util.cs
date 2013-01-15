@@ -890,6 +890,9 @@ public class Util
 	public static string GetEncoderStatusTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderStatusTemp);
 	}
+	public static string GetEncoderExportTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderExportTemp);
+	}
 
 
 //	public static void MoveTempToEncoderData(int sessionID, int uniqueID) {

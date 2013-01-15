@@ -502,7 +502,7 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				"/tmp/export.csv", "NULL", ep);
+				Util.GetEncoderExportTempFileName(), "NULL", ep);
 
 		Util.RunPythonEncoder(Constants.EncoderScriptGraphCall, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
@@ -510,7 +510,8 @@ public partial class ChronoJumpWindow
 					"-(" + findMass(true) + "Kg)",
 				encoderStruct, false);
 
-		encoder_pulsebar_capture.Text = "Exported to /tmp/export.csv";
+		encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
+					"Exported to {0}."), Util.GetEncoderExportTempFileName());
 	}
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 

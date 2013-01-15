@@ -83,6 +83,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
+	[Widget] Gtk.Label label_encoder_analyze_side_max;
 	
 	[Widget] Gtk.Box hbox_encoder_analyze_mean_or_max;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_mean;
@@ -415,6 +416,8 @@ public partial class ChronoJumpWindow
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
 
 		genericWin.HideAndNull();
+		
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 
 		
@@ -475,6 +478,8 @@ public partial class ChronoJumpWindow
 		on_button_encoder_recalculate_clicked (o, args);
 		
 		radiobutton_encoder_analyze_data_current_signal.Active = true;
+		
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
@@ -864,7 +869,14 @@ public partial class ChronoJumpWindow
 		int rows = UtilGtk.CountRows(encoderListStore);
 
 		//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
-		button_encoder_analyze.Sensitive = (rows > 0);
+
+		bool analyze_sensitive = (rows > 0);
+		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+			analyze_sensitive = curvesNumOkToSideCompare();
+			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+		}
+		button_encoder_analyze.Sensitive = analyze_sensitive;
+		
 		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 		hbox_encoder_user_curves_num.Sensitive = false;
 
@@ -892,8 +904,14 @@ public partial class ChronoJumpWindow
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
 		
-		button_encoder_analyze.Sensitive = (currentPerson != null && 
+		bool analyze_sensitive = (currentPerson != null && 
 			UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+			analyze_sensitive = curvesNumOkToSideCompare();
+			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+		}
+		button_encoder_analyze.Sensitive = analyze_sensitive;
+		
 
 		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
 		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
@@ -910,6 +928,9 @@ public partial class ChronoJumpWindow
 		//together, mandatory
 		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
+		label_encoder_analyze_side_max.Visible = false;
+
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 
 	/*
@@ -923,6 +944,8 @@ public partial class ChronoJumpWindow
 		//together, mandatory
 		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
+		
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
@@ -935,6 +958,8 @@ public partial class ChronoJumpWindow
 		//together, mandatory
 		hbox_encoder_analyze_eccon.Visible=false;
 		radiobutton_encoder_eccon_together.Active = true;
+
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
@@ -944,6 +969,9 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="powerBars";
 		
 		hbox_encoder_analyze_eccon.Visible=true;
+		label_encoder_analyze_side_max.Visible = false;
+
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
 	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
@@ -954,9 +982,22 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="cross";
 		
 		hbox_encoder_analyze_eccon.Visible=false;
+		label_encoder_analyze_side_max.Visible = false;
+
+		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
 
+	private bool curvesNumOkToSideCompare() {
+		if(radiobutton_encoder_analyze_data_current_signal.Active &&
+			UtilGtk.CountRows(encoderListStore) <= 12)
+			return true;
+		else if(radiobutton_encoder_analyze_data_user_curves.Active &&
+				Convert.ToInt32(label_encoder_user_curves_active_num.Text) <= 12)
+			return true;
+
+		return false;
+	}
 
 	private string findMass(bool includePerson) {
 		double mass = spin_encoder_extra_weight.Value;
@@ -1624,7 +1665,7 @@ public partial class ChronoJumpWindow
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
 		//	button_encoder_update_signal, 
 		//	button_encoder_delete_signal, entry_encoder_signal_comment,
-		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive
+		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_show_user_curves
@@ -1683,18 +1724,25 @@ public partial class ChronoJumpWindow
 		button_encoder_update_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		entry_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
-		image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
-		image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
+		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
+		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
 		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
 		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[3]);
 
 		bool signal = radiobutton_encoder_analyze_data_current_signal.Active;
-		button_encoder_analyze.Sensitive = 
+
+		bool analyze_sensitive = 
 			(Util.IntToBool(table[5]) && 
 			 (signal && UtilGtk.CountRows(encoderListStore) > 0 ||
 			  (! signal && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)));
+		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+			analyze_sensitive = curvesNumOkToSideCompare();
+			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+		} else
+			label_encoder_analyze_side_max.Visible = false;
+		button_encoder_analyze.Sensitive = analyze_sensitive;
 
 		button_encoder_analyze_data_show_user_curves.Sensitive = 
 			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
@@ -1811,6 +1859,7 @@ public partial class ChronoJumpWindow
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
 				encoderUpdateTreeView();
+				image_encoder_capture.Sensitive = true;
 		
 				//autosave signal (but not in recalculate or load)
 				if(mode == encoderModes.CAPTURE)

@@ -184,12 +184,10 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 }
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
-	startX, startH, smoothing, mass, title, draw, labels, axesAndTitle, legend) {
+	startX, startH, smoothing, mass, title, draw, showLabels, marShrink, showAxes, legend) {
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
-
-#xmin=xmin-500
 
 	rawdata=rawdata[xmin:xmax]
 	a=cumsum(rawdata)
@@ -201,20 +199,20 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
 		par(mar=c(5, 4, 4, 8))
+			if(marShrink) #used on "side" compare
+				par(mar=c(1, 1, 4, 1))
 	
 		#plot distance
 		#plot(a,type="h",xlim=c(xmin,xmax),xlab="time (ms)",ylab="Left: distance (mm); Right: speed (m/s), accelration (m/s^2)",col="gray", axes=F) #this shows background on distance (nice when plotting distance and speed, but confusing when there are more variables)
 		xlab="";ylab="";
-		if(labels) {
+		if(showLabels) {
 			xlab="time (ms)"
 			ylab="Left: distance (mm); Right: speed (m/s), force (N), power (W)"
 		}
 		ylim=yrange
 		if(ylim[1]=="undefined") { ylim=NULL }
-		if(!axesAndTitle)
-			title=""
 		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F, main=title)
-		if(axesAndTitle) {
+		if(showAxes) {
 			axis(1) 	#can be added xmin
 			axis(2)
 		}
@@ -249,7 +247,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
 		else
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
-		if(axesAndTitle) {
+		if(showAxes) {
 			axis(4, col=cols[1], lty=lty[1], line=0, padj=-.5)
 			abline(h=0,lty=3,col="black")
 		}
@@ -347,7 +345,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		abline(v=propulsiveEnds,lty=3,col="magenta") 
 		points(propulsiveEnds, -g, col="magenta")
 		
-		if(axesAndTitle)
+		if(showAxes)
 			axis(4, col="magenta", lty=lty[1], line=2, padj=-.5)
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
@@ -369,7 +367,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
 		else
 			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
-		if(axesAndTitle)
+		if(showAxes)
 			axis(4, col=cols[2], lty=lty[2], line=4, padj=-.5)
 	}
 
@@ -415,7 +413,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
-		if(axesAndTitle) 
+		if(showAxes) 
 			axis(4, col=cols[3], lty=lty[3], line=6, lwd=2, padj=-.5)
 	}
 
@@ -456,7 +454,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	#legend, axes and title
 	if(draw) {
-		if(legend & axesAndTitle) {
+		if(legend & showAxes) {
 			legendPos = "bottom"
 			par(xpd=T)
 			legend(legendPos, xjust=1, legend=c("Distance","","Speed","Accel.","Force","Power"), lty=c(1,0,1,1,1,1), 
@@ -464,8 +462,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			par(xpd=F)
 			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
 		}
-		mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
-		mtext("height (mm) ",side=2,adj=1,line=-1,cex=.9)
+		if(showLabels) {
+			mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
+			mtext("height (mm) ",side=2,adj=1,line=-1,cex=.9)
+		}
 	}
 }
 
@@ -590,7 +590,6 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
 			
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))
-	else if(n<=6) return(c(2,ceiling(n/2)))
 	else if(n<=8) return(c(2,ceiling(n/2)))
 	else return(c(3, ceiling(n/3)))
 }
@@ -598,7 +597,13 @@ find.mfrow <- function(n) {
 find.yrange <- function(singleFile, rawdata, curves) {
 	if(singleFile) {
 		a=cumsum(rawdata)
-		return (c(min(a),max(a)))
+		y.max = max(a)
+		y.min = min(a)
+		if(y.min < 0) {
+			y.max = y.max + -1*y.min
+			y.min = 0
+		}
+		return (c(y.min,y.max))
 	} else {
 		n=length(curves[,1])
 		y.max = 0
@@ -609,7 +614,6 @@ find.yrange <- function(singleFile, rawdata, curves) {
 				y.max = max(y.current)
 			if(min(y.current) < y.min)
 				y.min = min(y.current)
-			
 		}
 		return (c(y.min,y.max))
 	}
@@ -677,7 +681,7 @@ if(length(args) < 3) {
 		Title=gsub('-','    ',Title)
 	}
 
-	titleType = "execution"
+	titleType = "n"
 	#if(isJump)
 	#	titleType="jump"
 	
@@ -853,8 +857,14 @@ if(length(args) < 3) {
 			}
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 					1,curves[jump,3],mySmoothingOne,myMass,
-					paste(Title, " ", analysis, " ", myEccon, " ", titleType, " ", jump," (smoothing: ",mySmoothingOne,")",sep=""),
-					TRUE,FALSE,TRUE,TRUE)
+					paste(Title, " ", analysis, " ", myEccon, " ", titleType, " ", jump,
+					      " (smoothing: ",mySmoothingOne,")",sep=""),
+					TRUE,	#draw
+					TRUE,	#showLabels
+					FALSE,	#marShrink
+					TRUE,	#showAxes
+					TRUE	#legend
+					)	
 		}
 	}
 
@@ -878,7 +888,13 @@ if(length(args) < 3) {
 				myEccon = curves[i,8]
 			}
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-				1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),TRUE,FALSE,TRUE,FALSE)
+				1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),
+				TRUE,	#draw
+				FALSE,	#showLabels
+				TRUE,	#marShrink
+				FALSE,	#showAxes
+				FALSE	#legend
+				)
 		}
 		par(mfrow=c(1,1))
 	}
@@ -901,8 +917,18 @@ if(length(args) < 3) {
 			#but line maybe don't start on the absolute left
 			#this is controled by startX
 			startX = curves[i,1]-(curves[i,2]-wide)+1;
+			myTitle = "";
+			if(i==1)
+				myTitle = paste(titleType,jump);
+
 			paint(rawdata, eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==jump),
-				startX,curves[i,3],smoothingOne,Mass,paste(titleType,jump),TRUE,FALSE,(i==1),TRUE)
+				startX,curves[i,3],smoothingOne,Mass,myTitle,
+				TRUE,	#draw
+				TRUE,	#showLabels
+				FALSE,	#marShrink
+				(i==1),	#showAxes
+				TRUE	#legend
+				)
 			par(new=T)
 		}
 		par(new=F)

@@ -1041,7 +1041,8 @@ public class Util
 			//maybe R is not installed
 		}
 	}
-	
+
+	/*	
 	//python program
 	public static void RunPythonEncoder(string pythonScript, string title, EncoderStruct es, bool capture) {
 		CancelRScript = false;
@@ -1101,7 +1102,102 @@ public class Util
 		p.WaitForExit();
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
+	*/
 	
+	//python program
+	//script can be:
+	//python script to capture
+	//or 
+	//R script to make graph
+	public static void RunPythonEncoder(string script, string title, EncoderStruct es, bool capture) {
+		CancelRScript = false;
+
+		ProcessStartInfo pinfo;
+	        Process p;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+		
+		string pBin="";
+		pinfo = new ProcessStartInfo();
+
+		string outputFileCheck = "";
+		if(capture) {
+			pBin="python";
+
+			//currently we are not using useTerminal. It was originally to encoder capture with text and graph
+			/*
+			bool useTerminal = false;
+			if(useTerminal)
+				pBin="xterm";
+			*/
+
+			if (IsWindows())
+				pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/python.exe");
+
+			/*
+			if(useTerminal) {
+				//currentl we are not using this
+				pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
+				script + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
+			} else 
+			*/
+			pinfo.Arguments = script + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1();
+
+			outputFileCheck = es.OutputData1;
+		} else {
+			pBin="Rscript";
+			if (IsWindows())
+				pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+
+			/*
+			//--- way A. passing options to a file
+			string scriptOptions = es.InputData + "\n" + 
+				es.OutputGraph + "\n" + es.OutputData1 + "\n" + es.OutputData2 + "\n" + 
+				es.Ep.ToString2("\n") + "\n" + title + "\n";
+
+			TextWriter writer = File.CreateText("/tmp/Roptions.txt");
+			writer.Write(scriptOptions);
+			writer.Flush();
+			((IDisposable)writer).Dispose();
+
+			pinfo.Arguments = script + " " + "/tmp/Roptions.txt";
+			//pinfo.Arguments ="CMD BATCH --no-save '--args=/tmp/Roptions.txt' " + script + " " + "/tmp/error.txt";
+			*/
+			//--- way B. put options as arguments
+			string argumentOptions = es.InputData + " " + 
+				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
+				es.Ep.ToString2(" ") + " " + title;
+			pinfo.Arguments = script + " " + argumentOptions;
+
+			//curves does first graph and then csv curves. 
+			//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
+			if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")
+				outputFileCheck = es.OutputData1; 
+			else
+				outputFileCheck = es.OutputGraph;
+		}
+
+		pinfo.FileName=pBin;
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+
+		/*
+		Console.WriteLine("-------------------");
+		Console.WriteLine(pBin);
+		Console.WriteLine(pinfo.Arguments);
+		*/
+
+		Console.WriteLine(outputFileCheck);
+		if (File.Exists(outputFileCheck))
+			File.Delete(outputFileCheck);
+	
+		p = new Process();
+		p.StartInfo = pinfo;
+		p.Start();
+		p.WaitForExit();
+		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+	}
 	private static string [] encoderFindPos(string contents, int start, int duration) {
 		int startPos = 0;
 		int durationPos = 0;

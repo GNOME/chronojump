@@ -647,26 +647,34 @@ colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
 
 #--- user commands ---
-args <- commandArgs(TRUE)
-print(args)
-if(length(args) < 3) {
+
+#way A. passing options to a file
+#args <- commandArgs(TRUE)
+#optionsCon <- file(args[1], 'r')
+#options=readLines(optionsCon,n=15)
+
+#way B. put options as arguments
+options <- commandArgs(TRUE)
+
+print(options)
+if(length(options) < 3) {
 #	print("USAGE:\nRscript graph.R c superpose graph.png\neccons:curves, single, side, superpose, powerBars \nsingle and superpose needs a param at end (the jump):\nRscript graph.R c single graph.png 2\n")
 } else {
-	file=args[1]
-	outputGraph=args[2]
-	outputData1=args[3]
-	outputData2=args[4] #currently used to display status
-	minHeight=as.numeric(args[5])*10 #from cm to mm
-	exercisePercentBodyWeight=as.numeric(args[6])	#was isJump=as.logical(args[6])
-	Mass=as.numeric(args[7])
-	eccon=args[8]
-	analysis=args[9]	#in cross comes as "cross.Force.Speed.mean"
-	analysisOptions=args[10]	#p: propulsive
-	smoothingOne=args[11]
-	jump=args[12]
-	width=as.numeric(args[13])
-	height=as.numeric(args[14])
-	Title=args[15]
+	file=options[1]
+	outputGraph=options[2]
+	outputData1=options[3]
+	outputData2=options[4] #currently used to display status
+	minHeight=as.numeric(options[5])*10 #from cm to mm
+	exercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
+	Mass=as.numeric(options[7])
+	eccon=options[8]
+	analysis=options[9]	#in cross comes as "cross.Force.Speed.mean"
+	analysisOptions=options[10]	#p: propulsive
+	smoothingOne=options[11]
+	jump=options[12]
+	width=as.numeric(options[13])
+	height=as.numeric(options[14])
+	Title=options[15]
 
 	write("(1/4) Starting R", outputData2)
 

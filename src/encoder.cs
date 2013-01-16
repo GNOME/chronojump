@@ -112,10 +112,10 @@ public class EncoderParams
 		this.height = height;
 	}
 	
-	public string ToString2 () 
+	public string ToString2 (string sep) 
 	{
-		return minHeight + " " + exercisePercentBodyWeight + " " + mass + " " + eccon + " " + 
-			analysis + " " + analysisOptions + " " + smooth + " " + curve + " " + width + " " + height;
+		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + sep + 
+			analysis + sep + analysisOptions + sep + smooth + sep + curve + sep + width + sep + height;
 	}
 	
 	public string Analysis {

@@ -812,10 +812,19 @@ public partial class ChronoJumpWindow
 			writer.WriteLine("status,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 		
 			Sqlite.Open();	
+			ArrayList eeArray = 
+					SqliteEncoder.SelectEncoderExercises(true, -1, false);
+			Sqlite.Close();	
+			EncoderExercise ex = new EncoderExercise();
+
 			foreach(EncoderSQL eSQL in data) {
+				foreach(EncoderExercise eeSearch in eeArray)
+					if(eSQL.exerciseID == eeSearch.uniqueID)
+						ex = eeSearch;
+
 				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
-				EncoderExercise ex = (EncoderExercise) 
-					SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
+				//EncoderExercise ex = (EncoderExercise) 
+				//	SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
 				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
@@ -827,7 +836,7 @@ public partial class ChronoJumpWindow
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
-			Sqlite.Close();	
+			//Sqlite.Close();	
 		} else {
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 

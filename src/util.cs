@@ -1042,74 +1042,13 @@ public class Util
 		}
 	}
 
-	/*	
-	//python program
-	public static void RunPythonEncoder(string pythonScript, string title, EncoderStruct es, bool capture) {
-		CancelRScript = false;
-
-		ProcessStartInfo pinfo;
-	        Process p;
-		//If output file is not given, R will try to write in the running folder
-		//in which we may haven't got permissions
-		
-		string pBin="python";
-
-		//currently we are not using useTerminal. It was originally to encoder capture with text and graph
-		bool useTerminal = false;
-		if(useTerminal)
-			pBin="xterm";
-
-//		if (IsWindows())
-//			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/python.exe");
-
-		pinfo = new ProcessStartInfo();
-		pinfo.FileName=pBin;
-
-		string outputFileCheck = "";
-		if(capture) {
-			if(useTerminal) {
-				//currentl we are not using this
-				pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
-				pythonScript + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
-			} else 
-				pinfo.Arguments = pythonScript + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1();
-
-			outputFileCheck = es.OutputData1;
-		} else {
-			pinfo.Arguments = pythonScript + " " + es.InputData + " " + 
-				es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
-				es.Ep.ToString2() + " " + title;
-
-			//curves does first graph and then csv curves. 
-			//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
-			if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")
-				outputFileCheck = es.OutputData1; 
-			else
-				outputFileCheck = es.OutputGraph;
-		}
-
-		pinfo.CreateNoWindow = true;
-		pinfo.UseShellExecute = false;
-
-		Console.WriteLine("-------------------");
-		Console.WriteLine(outputFileCheck);
-		if (File.Exists(outputFileCheck))
-			File.Delete(outputFileCheck);
-		
-		p = new Process();
-		p.StartInfo = pinfo;
-		p.Start();
-		p.WaitForExit();
-		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
-	}
-	*/
 	
 	//python program
 	//script can be:
 	//python script to capture
 	//or 
 	//R script to make graph
-	public static void RunPythonEncoder(string script, string title, EncoderStruct es, bool capture) {
+	public static void RunEncoder(string script, string title, EncoderStruct es, bool capture) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;

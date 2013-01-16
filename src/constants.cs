@@ -576,8 +576,14 @@ public class Constants
 	 * chronojump / encoder / sessionID / graphs
 	 */
 	
-	public static string EncoderScriptCapture = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/pyserial_pyper.py";
-	public static string EncoderScriptGraphCall = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";
+	public static string EncoderScriptCapture = 
+		"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/pyserial_pyper.py";
+	public static string EncoderScriptGraph = 
+		"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/graph.R";
+	//no longer used:
+	//public static string EncoderScriptGraphCall = 
+		//"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";
+
 	public static string EncoderDataTemp = "chronojump-last-encoder-data.txt";
 	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
 	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";

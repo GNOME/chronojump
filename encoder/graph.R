@@ -66,7 +66,7 @@ width=as.numeric(options[13])
 height=as.numeric(options[14])
 Title=options[15]
 
-write("(1/4) Starting R", outputData2)
+write("(1/5) Starting R", outputData2)
 
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
@@ -680,12 +680,12 @@ quitIfNoData <- function(n, curves, outputData1) {
 	}
 }
 
-write("(1/4) Calling EMD", outputData2)
+write("(2/5) Calling EMD", outputData2)
 
 library("EMD")
 #library("sfsmisc")
 
-write("(2/4) Starting process", outputData2)
+write("(3/5) Starting process", outputData2)
 
 if(analysis != "exportCSV") {
 	png(outputGraph, width=width, height=height)
@@ -853,7 +853,7 @@ if(! singleFile) {
 	}
 }
 
-write("(3/4) Curves processed", outputData2)
+write("(4/5) Curves processed", outputData2)
 
 if(analysis=="single") {
 	if(jump>0) {
@@ -1088,7 +1088,7 @@ if(analysis=="exportCSV") {
 if(analysis != "exportCSV")
 	dev.off()
 
-write("(4/4) R tasks done", outputData2)
+write("(5/5) R tasks done", outputData2)
 
 warnings()
 

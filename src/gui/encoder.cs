@@ -230,7 +230,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
 		//title to sen to python software has to be without spaces
-		Util.RunPythonEncoder(Constants.EncoderScriptCapture, 
+		Util.RunEncoder(Constants.EncoderScriptCapture, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
 				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 				es, true);
@@ -319,7 +319,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderStatusTempFileName(),
 				ep);
 		
-		Util.RunPythonEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoder(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + findMass(true) + "Kg)",
@@ -509,7 +509,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderExportTempFileName(), "NULL", ep);
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoder(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 					"-(" + findMass(true) + "Kg)",
@@ -859,7 +859,7 @@ public partial class ChronoJumpWindow
 		if(radiobutton_encoder_analyze_data_user_curves.Active)
 			massString = "";
 
-		Util.RunPythonEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoder(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				massString, encoderStruct, false);

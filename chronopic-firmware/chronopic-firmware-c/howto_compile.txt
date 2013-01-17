@@ -1,4 +1,5 @@
 sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-4MHz.c
+sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-20MHz.c
 
 then record with chronopic-firmwarecord
 

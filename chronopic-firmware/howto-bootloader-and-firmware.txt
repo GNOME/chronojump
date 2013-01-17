@@ -1,0 +1,292 @@
+Pending to translate (sorry)
+
+------------------------
+2013 gen 17
+GUIA QUE HO FA TOT, no cal mirar a l'any passat
+------------------------
+
+A Linux Mint 14 tornem a començar. 
+
+1.- Compilar, instalar coses
+------------------------
+
+hi ha python2.7
+
+sudo apt-get install python-wxgtk2.8
+
+cd ~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware
+sudo dpkg -i python-libstargate_1.2-1_i386-ubuntu-10.04.deb
+
+compilar libiris per python2.7
+http://www.iearobotics.com/wiki/index.php?title=LibIris
+http://www.iearobotics.com/wiki/images/2/21/Libiris-1.2.zip
+
+cd ~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware/Libiris/libiris-1.2
+sudo python setup.py install
+
+2.A encoder 20MHz grabar bootloader:
+------------------------------------
+
+cd ~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware/pyburn-wx-1.0
+python pyburn-wx.py
+
+Mètode dels 2 skypics.
+- grabador: alimentador corrent
+- cable blau entre dos skypics
+- cable tlf (amb cable serial-USB) a roseta que posa PC a sota
+
+Als skypic no s'encenen els leds, cap problema
+seleccionar port:
+si els botons de firmware, test1 i test2 no estan sensitive potser pq no arriba corrent a grabador, tocar cable corrent, tancar i encendre
+
+gravar
+PIC16_bootloader_1.2.hex
+(esta en aquesta carpeta)
+
+sembla que es grava amb 3F32
+
+2.A encoder 20MHz grabar firmware:
+----------------------------------
+
+per 20MHz cal el pydownloader-wx,pero no va pq necessita python 2.6
+anem a agafar el pydownloader de la web (sense wx) i compilar-lo
+http://svn.iearobotics.com/pydownloader/pydownloader/pydownloader-1.0/
+
+cd ~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware/pydownloader-per-20MHz
+
+gravar firmware prova:
+python pydownloader.py ledp1 /dev/ttyUSB1
+s'ha de donar al reset depressa
+
+gravar firmware encoder:
+python pydownloader.py ~/informatica/progs_meus/chronojump/chronojump/chronopic-firmware/chronopic-firmware-c/chronopic-firmware-20MHz.hex /dev/ttyUSB1
+
+la gravacio de firmware funciona fins i tot tenint-hi el encoder connectat
+
+
+3.A chronopics 4MHz grabar bootloader:
+--------------------------------------
+
+3.B chronopics 4MHz grabar firmwre:
+-----------------------------------
+
+
+
+
+
+
+
+
+-------------------------
+2012 jul 20
+-------------------------
+
+al final he compilat pythonwx
+/usr/local/src/wxPython-src-2.9.3.1/wxPython $ python build-wxpython.py --build_dir=../bld
+
+ha funcionat be compilar amb python2.7 tot i que a la web ho indica amb python2.6
+
+#necessari (potser es aixo el que fallava i no hagues calgut compilar wxpython)
+export PYTHONPATH=/usr/local/src/wxPython-src-2.9.3.1/wxPython
+export LD_LIBRARY_PATH=/usr/local/src/wxPython-src-2.9.3.1/bld/lib
+
+pyburn-wx.py
+
+als skypic no s'encenen els leds, cap problema
+si els botons de firmware, test1 i test2 no estan sensitive potser pq no arriba corrent a grabador, tocar cable corrent
+seleccionar port:
+NO clicar a bootloader (pq grava el de 20MHz (PIC16_bootloader_1.2.hex))
+SI: clicar cerca, i anar a:
+/home/xavier/informatica/progs_meus/chronojump/chronopic-3.0/bootloader/chronopic_bootloader.hex
+gravar i després gravar: paraula 3F39
+-firmware
+penso que per chronopic3 (4MHz),calgravar el firmware amb chronopic-firmwarecord o amb:
+~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware/PIC_downloader_1.2_chronopic $ ./PIC_downloader ledp.hex -P/dev/ttyUSB0
+en canvi per chronopic a 20MHz cal el pydownloader-wx que diu a sota 
+
+
+
+
+
+-------------------------
+2012 jul 19 nit
+-------------------------
+status:
+
+xavier@xavier-ThinkPad-X60s ~ $ python prova.py 
+Traceback (most recent call last):
+  File "prova.py", line 1, in <module>
+    import wx
+ImportError: No module named w
+
+sembla que s'ha liat un paquet tonto que es diu wx amb el wxPython
+
+pip freeze|grep wx
+Warning: cannot find svn location for distribute==0.6.24dev-r0
+wxBanker==0.8.2
+wxPython-common==2.8.12.1
+
+suposo que cal instalar wxpython. tot i que tinc aquests paquets:
+dpkg -l|grep wx
+rc  libwxbase2.6-0                                              2.6.3.2.2-5ubuntu4                      wxBase library (runtime) - non-GUI support classes of wxWidgets toolkit
+ii  libwxbase2.8-0                                              2.8.12.1-6ubuntu2                       wxBase library (runtime) - non-GUI support classes of wxWidgets toolkit
+ii  libwxbase2.8-dev                                            2.8.12.1-6ubuntu2                       wxBase library (development) - non-GUI support classes of wxWidgets toolkit
+rc  libwxgtk2.6-0                                               2.6.3.2.2-5ubuntu4                      wxWidgets Cross-platform C++ GUI toolkit (GTK+ runtime)
+ii  libwxgtk2.8-0                                               2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (GTK+ runtime)
+ii  libwxgtk2.8-dev                                             2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (GTK+ development)
+rc  python-wxglade                                              0.6.4-2                                 GUI designer written in Python with wxPython
+ii  python-wxgtk2.8                                             2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (wxPython binding)
+ii  python-wxtools                                              2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (wxPython common files)
+ii  python-wxversion                                            2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (wxPython version selector)
+ii  wx-common                                                   2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (common support files)
+ii  wx2.6-examples                                              2.6.3.2.2-5ubuntu4                      wxWidgets Cross-platform C++ GUI toolkit (examples)
+ii  wx2.8-examples                                              2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (examples)
+ii  wx2.8-headers                                               2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (header files)
+ii  wx2.8-i18n                                                  2.8.12.1-6ubuntu2                       wxWidgets Cross-platform C++ GUI toolkit (i18n support)
+ii  wxbanker                                                    0.8.2-0ubuntu2                          simple personal finance
+
+aixo dona fallos:
+
+sudo pip install wxPython
+Downloading/unpacking wxPython
+  Downloading wxPython2.8-win64-devel-2.8.12.1-msvc9x64.tar.bz2 (7.2Mb): 7.2Mb downloaded
+  Running setup.py egg_info for package wxPython
+    Traceback (most recent call last):
+      File "<string>", line 14, in <module>
+    IOError: [Errno 2] No such file or directory: '/home/xavier/build/wxPython/build/wxPython/setup.py'
+    Complete output from command python setup.py egg_info:
+    Traceback (most recent call last):
+
+  File "<string>", line 14, in <module>
+
+IOError: [Errno 2] No such file or directory: '/home/xavier/build/wxPython/build/wxPython/setup.py'
+
+******************
+aqui diu que cal compilar wxPython:
+http://superuser.com/questions/196197/installing-wxpython-via-pip-or-easy-install
+******************
+
+provant:
+sudo easy_install wxPython
+res:
+error: Couldn't find a setup script in /tmp/easy_install-nJNbl2/wxPython-src-2.9.3.1.tar.bz2
+
+-------------------------
+2012 jul 19 mati
+-------------------------
+
+a linux mint 13 == ubuntu precise pangolin no hi ha python 2.6 (que cal pel pyburn)
+
+instalar python2.6 (tb he instalat 2.5):
+http://ubuntuguide.net/install-python-2-6-ubuntu-12-04-precise-pong
+
+baixar-se d'aqui:
+http://www.iearobotics.com/downloads/packages/
+http://www.iearobotics.com/downloads/packages/pyburn-wx_1.0-1_i386-ubuntu-9-04.deb
+http://www.iearobotics.com/downloads/packages/python-libiris_1.2-5_i386-ubuntu-10.04.deb
+http://www.iearobotics.com/downloads/packages/python-libstargate_1.2-1_i386-ubuntu-10.04.deb
+
+
+sudo dpkg -i python-libstargate_1.2-1_i386-ubuntu-10.04.deb
+sudo dpkg -i python-libiris_1.2-5_i386-ubuntu-10.04.deb
+sudo dpkg -i pyburn-wx_1.0-1_i386-ubuntu-9-04.deb
+
+problemes pq no hi ha wx, he fet:
+
+sudo pip install wx (que instala per 2.7), llavors:
+
+/usr/local/lib/python2.5 $ sudo cp -r ../python2.7/dist-packages/wx* dist-packges/.
+sembla que ha d'anar al site-packages
+sudo cp -r dist-packges/* site-packages/.
+
+ara falla el serial, fer:...
+
+sudo apt-get install python-distribute-deadsnakes
+
+tinc problemes amb aixo
+
+vaig a intentar compilar pyburn per python 2.7
+http://www.iearobotics.com/wiki/index.php?title=Pyburn#Otras_distribuciones_de_Linux.2FFreeBSD
+sudo apt-get install subversion
+svn co http://svn.iearobotics.com/pyburn/pyburn-wx/pyburn-wx-1.0/
+pyburn-wx-1.0 $ sudo python setup.py install
+
+a l'executar em dona problemes de wx que podria ser per tenir diverses versions instalades
+
+he desintalat lo de 2.5 i 2.6
+he compilat libiris per 2.7
+http://www.iearobotics.com/wiki/index.php?title=LibIris
+http://www.iearobotics.com/wiki/images/2/21/Libiris-1.2.zip
+sudo python setup.py install
+
+
+
+
+-------------------------
+2012 feb 15
+gravant bootloader 4MHz per reparacio de chronopics3:
+-------------------------
+conectar cables 2 skypics: 
+- grabador: alimentador corrent
+- cable blau entre dos skypics
+- cable tlf (amb cable serial-USB) a roseta que posa PC a sota
+
+-bootloader
+executar pyburn-wx:
+si els botons de firmware, test1 i test2 no estan sensitive potser pq no arriba corrent a grabador, tocar cable corrent
+seleccionar port:
+NO clicar a bootloader (pq grava el de 20MHz (PIC16_bootloader_1.2.hex))
+SI: clicar cerca, i anar a:
+/home/xavier/informatica/progs_meus/chronojump/chronopic-3.0/bootloader/chronopic_bootloader.hex
+gravar i després gravar: paraula 3F39
+-firmware
+penso que per chronopic3 (4MHz),calgravar el firmware amb chronopic-firmwarecord o amb:
+~/informatica/progs_meus/chronojump/chronopic-3.0/grabar_cronopic_firmware/PIC_downloader_1.2_chronopic $ ./PIC_downloader ledp.hex -P/dev/ttyUSB0
+en canvi per chronopic a 20MHz cal el pydownloader-wx que diu a sota 
+
+
+-------------------------
+set 2011 encoder
+mail juan:
+-------------------------
+
+Pasos que te recomiendo:
+
+1) Instala el pydownloader en una Ubuntu
+2) Graba el nuevo bootloader de la misma manera que lo hacías antes (con la otra Skypic)
+3) Pon el pic grabado en la nueva chronopic (la que va a 20Mhz)
+4) Arranca el pydownloader y descarga un programa de pruebas (en vez de proporcionar un fichero .hex usa los botones test1 y test2 que directamente descargan el programa del ledp funcionando a diferentes frecuencias).
+5) Ahora prueba a grabar el nuevo firmware (.hex) del enconder
+
+pel pas 2 cal pyburn
+per a pyburn instalar:
+
+python-libiris_1.2-5_i386-ubuntu-10.04.deb  (no 9.4)
+python-libstargate_1.2-1_i386-ubuntu-9-04.deb
+Pyburn-wx-1.0.tar.gz
+
+aquest és el que cal gravar (bootloader per a 20MHz)
+PIC16_bootloader_1.2.hex
+
+per a gravar el firmware despres cal el pydownloader (20MHz):
+executar: pydownloader-wx
+http://www.iearobotics.com/wiki/index.php?title=Skypic:Software_Linux
+http://www.iearobotics.com/downloads/packages/pydownloader-wx_1.0-2_i386-ubuntu-10.04.deb
+que es diferent del PIC_downloader_1.2_chronopic que feia anar per chronopic 4MHz
+
+
+--- old ---
+
+Ejecutar Pyburn
+Seleccionar el firwamre de Chronopics
+Grabar
+En la pestaña: "Avanzado" seleccionar 3F39 y hacer click en gragar
+
+iearobotics
+pyburn
+pillar hex
+grabar
+luego grabar 3F39
+
+al meter el pic en la skypic, desconectar el cable de esta.
+al sacarlo tambien

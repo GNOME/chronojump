@@ -18,7 +18,7 @@ History:
 */
 
 //-- this PIC is going to be used:
-#include <pic16f876A.h>
+#include <pic16f876a.h>
 
 
 //*****************************************

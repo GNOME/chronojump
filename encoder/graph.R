@@ -248,20 +248,21 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
-		par(mar=c(5, 4, 4, 8))
-			if(marShrink) #used on "side" compare
-				par(mar=c(1, 1, 4, 1))
+		par(mar=c(4, 3.5, 5, 8.5))
+		if(marShrink) #used on "side" compare
+			par(mar=c(1, 1, 4, 1))
 	
 		#plot distance
 		#plot(a,type="h",xlim=c(xmin,xmax),xlab="time (ms)",ylab="Left: distance (mm); Right: speed (m/s), accelration (m/s^2)",col="gray", axes=F) #this shows background on distance (nice when plotting distance and speed, but confusing when there are more variables)
 		xlab="";ylab="";
-		if(showLabels) {
-			xlab="time (ms)"
-			ylab="Left: distance (mm); Right: speed (m/s), force (N), power (W)"
-		}
+		#if(showLabels) {
+		#	xlab="time (ms)"
+		#	ylab="Left: distance (mm); Right: speed (m/s), force (N), power (W)"
+		#}
 		ylim=yrange
 		if(ylim[1]=="undefined") { ylim=NULL }
-		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F, main=title)
+		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
+		title(main=title,line=-2,outer=T)
 		if(showAxes) {
 			axis(1) 	#can be added xmin
 			axis(2)
@@ -298,7 +299,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 		if(showAxes) {
-			axis(4, col=cols[1], lty=lty[1], line=0, padj=-.5)
+			axis(4, col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
 			abline(h=0,lty=3,col="black")
 		}
 		#mtext(text=paste("max speed:",round(max(speed$y),3)),side=3,at=which(speed$y == max(speed$y)),cex=.8,col=cols[1])
@@ -396,7 +397,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		points(propulsiveEnds, -g, col="magenta")
 		
 		if(showAxes)
-			axis(4, col="magenta", lty=lty[1], line=2, padj=-.5)
+			axis(4, col="magenta", lty=lty[1], line=2, lwd=1, padj=-.5)
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
@@ -418,7 +419,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		if(showAxes)
-			axis(4, col=cols[2], lty=lty[2], line=4, padj=-.5)
+			axis(4, col=cols[2], lty=lty[2], line=4, lwd=1, padj=-.5)
 	}
 
 	
@@ -464,7 +465,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 		if(showAxes) 
-			axis(4, col=cols[3], lty=lty[3], line=6, lwd=2, padj=-.5)
+			axis(4, col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
 	}
 
 	#time to arrive to peak power
@@ -505,12 +506,19 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#legend, axes and title
 	if(draw) {
 		if(legend & showAxes) {
-			legendPos = "bottom"
-			par(xpd=T)
-			legend(legendPos, xjust=1, legend=c("Distance","","Speed","Accel.","Force","Power"), lty=c(1,0,1,1,1,1), 
-					lwd=c(1,1,1,1,1,2), col=c("black","black",cols[1],"magenta",cols[2],cols[3]), cex=1, bg="white", ncol=6, inset=-.2)
-			par(xpd=F)
-			#mtext(text="[ESC: Quit; mouse left: Zoom in; mouse right: Zoom out]",side=3)
+			#plot legend on top exactly out
+			#http://stackoverflow.com/a/7322792
+			rng=par("usr")
+			lg = legend(0,rng[2], 
+				    legend=c("Distance","Speed","Accel.","Force","Power"), 
+				    lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
+				    col=c("black",cols[1],"magenta",cols[2],cols[3]), 
+				    cex=1, bg="white", ncol=6, bty="n", plot=F)
+			legend(0,rng[4]+1.25*lg$rect$h, 
+			       legend=c("Distance","Speed","Accel.","Force","Power"), 
+			       lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
+			       col=c("black",cols[1],"magenta",cols[2],cols[3]), 
+			       cex=1, bg="white", ncol=6, bty="n", plot=T, xpd=NA)
 		}
 		if(showLabels) {
 			mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
@@ -540,11 +548,12 @@ paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
 	#	lowerY = 0
 	lowerY = 0
 	
-	par(mar=c(5, 4, 4, 5))
+	par(mar=c(2.5, 4, 5, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums,"\n",paf[,7],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
-			xlab="",ylab="Power (W)", main=title,
+			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
+	title(main=title,line=-2,outer=T)
 	mtext("Curve\nLoad",side=1,at=0,adj=1,line=1,cex=.9)
 	par(new=T, xpd=T)
 	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
@@ -556,12 +565,19 @@ paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
 	axis(4, col=pafColors[3], line=0,padj=-.5)
 	mtext("Time to peak power (ms)", side=4, line=-1)
 	
-	par(new=T, xpd=T)
+	par(new=T)
 	plot(bp[2,],height,type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
 
-print(height)
-
-	legend("bottom",col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, inset=-.2)
+	#plot legend on top exactly out
+	#http://stackoverflow.com/a/7322792
+	rng=par("usr")
+	lg = legend(rng[1], rng[2],
+		    col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
+		    legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=F)
+	legend(rng[1], rng[4]+1.25*lg$rect$h,
+	       col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
+	       legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=T, xpd=NA)
+	
 	abline(h=max(height),lty=2, col="green")
 	abline(h=min(height),lty=2, col="green")
 #	text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)

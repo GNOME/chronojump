@@ -797,15 +797,19 @@ public class Util
 			return Constants.ExtensionPhoto;
 	}
 			
-	public static void MoveTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
-		if(File.Exists(GetVideoTempFileName())) {
+	public static bool MoveTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
+		string origin = GetVideoTempFileName();
+		string destination = GetVideoFileName(sessionID, type, uniqueID);
+		if(File.Exists(origin) && ! File.Exists(destination)) {
 			CreateVideoSessionDirIfNeeded(sessionID);
 			try {
-				File.Move(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+				File.Move(origin, destination);
 			} catch {
-				File.Copy(GetVideoTempFileName(), GetVideoFileName(sessionID, type, uniqueID));
+				File.Copy(origin, destination);
 			}
-		}
+			return true;
+		} else
+			return false;
 	}
 	
 	public static void DeleteVideo(int sessionID, Constants.TestTypes type, int uniqueID) {

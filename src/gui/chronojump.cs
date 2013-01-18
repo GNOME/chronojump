@@ -3241,7 +3241,8 @@ Log.WriteLine("DDD");
 			}
 
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID);
+			if (! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			if(weightPercentPreferred)
 				myTreeViewJumps.Add(currentPerson.Name, currentJump);
@@ -3368,7 +3369,8 @@ Log.WriteLine("DDD 2");
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
@@ -3522,7 +3524,8 @@ Log.WriteLine("DDD 2");
 			currentRun = (Run) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN, currentRun.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN, currentRun.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 			
 			currentRun.MetersSecondsPreferred = metersSecondsPreferred;
 
@@ -3647,7 +3650,8 @@ Log.WriteLine("DDD 2");
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
 
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, currentRunInterval.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, currentRunInterval.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			currentRunInterval.MetersSecondsPreferred = metersSecondsPreferred;
 
@@ -3759,7 +3763,8 @@ Log.WriteLine("DDD 2");
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RT, currentReactionTime.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.RT, currentReactionTime.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 			
 			myTreeViewReactionTimes.Add(currentPerson.Name, currentReactionTime);
 			
@@ -3877,7 +3882,8 @@ Log.WriteLine("DDD 2");
 			currentPulse = (Pulse) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, currentPulse.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, currentPulse.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			myTreeViewPulses.Add(currentPerson.Name, currentPulse);
 			
@@ -4120,8 +4126,9 @@ Console.WriteLine("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 Console.WriteLine("W");
 			//move video file if exists
-			Util.MoveTempVideo(currentSession.UniqueID, 
-					Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID);
+			if(! Util.MoveTempVideo(currentSession.UniqueID, 
+					Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID))
+				new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
 			//this produces also a crash:
 			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");

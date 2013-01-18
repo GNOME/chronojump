@@ -18,8 +18,6 @@
 #   Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
 # 
 
-#TODO: capitalize first letter on all global variables names
-
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
@@ -28,45 +26,37 @@ eccons=c("c","ec","ec-rep","ecS")
 
 g = 9.81
 smoothingAll= 0.1
-#file="data_falla.txt"; isJump=FALSE #TODO em sembla que falla perque no hi ha cap curve, pq totes son mes petites que minHeight
 
 colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 #colSpeed="black"; colForce="black"; colPower="black"		#black & white
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
 
-#--- user commands ---
 
+#--- user commands ---
 #way A. passing options to a file
-#args <- commandArgs(TRUE)
-#optionsCon <- file(args[1], 'r')
-#options=readLines(optionsCon,n=15)
+getOptionsFromFile <- function() {
+	args <- commandArgs(TRUE)
+	optionsCon <- file(args[1], 'r')
+	options=readLines(optionsCon,n=15)
+	return (options)
+}
 
 #way B. put options as arguments
 options <- commandArgs(TRUE)
 
+OutputData2=options[4] #currently used to display status
+
+#options=getOtionsFromFile();
+
 print(options)
+
 if(length(options) < 3) {
 #	print("USAGE:\nRscript graph.R c superpose graph.png\neccons:curves, single, side, superpose, powerBars \nsingle and superpose needs a param at end (the jump):\nRscript graph.R c single graph.png 2\n")
 	quit()
 }
 
-file=options[1]
-outputGraph=options[2]
-outputData1=options[3]
-outputData2=options[4] #currently used to display status
-minHeight=as.numeric(options[5])*10 #from cm to mm
-exercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
-Mass=as.numeric(options[7])
-eccon=options[8]
-analysis=options[9]	#in cross comes as "cross.Force.Speed.mean"
-analysisOptions=options[10]	#p: propulsive
-smoothingOne=options[11]
-jump=options[12]
-width=as.numeric(options[13])
-height=as.numeric(options[14])
-Title=options[15]
 
-write("(1/5) Starting R", outputData2)
+write("(1/5) Starting R", OutputData2)
 
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
@@ -206,7 +196,8 @@ powerBars <- function(kinematics) {
 	#here paf is generated
 	#mass is not used by powerBars, but used by Kg/W (loadVSPower)
 	#meanForce and maxForce are not used by powerBars, but used by F/S (forceVSSpeed)
-	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt, kinematics$mass,meanForce,maxForce))
+	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt,
+			  kinematics$mass,meanForce,maxForce))
 }
 
 kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
@@ -234,7 +225,9 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 }
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
-	startX, startH, smoothing, mass, title, draw, showLabels, marShrink, showAxes, legend) {
+	startX, startH, smoothing, mass, title, draw, showLabels, marShrink, showAxes, legend,
+	AnalysisOptions, ExercisePercentBodyWeight 
+	) {
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
@@ -274,9 +267,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			colNormal="gray30"
 		yValues = a[startX:length(a)]-min(a[startX:length(a)])
 		if(highlight==FALSE) {
-			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
+			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,
+			     xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
 			par(new=T)
-			plot(startX:length(a),yValues,type="h",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
+			plot(startX:length(a),yValues,type="h",xlim=c(1,length(a)),ylim=ylim,
+			     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
 		}
 		else
 			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
@@ -295,9 +290,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			ylim = knRanges$speedy
 		par(new=T)
 		if(highlight==FALSE)
-			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
+			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
 		else
-			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 		if(showAxes) {
 			axis(4, col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
 			abline(h=0,lty=3,col="black")
@@ -375,21 +372,24 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			myMeanSpeedRight = length(eccentric) + length(concentric)
 		}
 
-		if(analysisOptions == "p") {
+		if(AnalysisOptions == "p") {
 			myMeanSpeed = mean(speed$y[concentric[1]:propulsiveEnds])
 			myMeanSpeedRight = propulsiveEnds
 		}
 		arrows(x0=min(concentric),y0=myMeanSpeed,x1=myMeanSpeedRight,y1=myMeanSpeed,col=cols[1],code=3)
-		mtext(paste("mean speed:",round(myMeanSpeed,3)),side=2,at=myMeanSpeed,line=-1.8,col=cols[1],cex=.8,padj=0)
+		mtext(paste("mean speed:",round(myMeanSpeed,3)),side=2,
+		      at=myMeanSpeed,line=-1.8,col=cols[1],cex=.8,padj=0)
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 		#if(knRanges[1] != "undefined")
 		#	ylim = knRanges$force
 		par(new=T)
 		if(highlight==FALSE)
-			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
+			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
 		else
-			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 			
 		#propulsive stuff
 		abline(h=-g,lty=3,col="magenta")
@@ -415,9 +415,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			ylim = knRanges$force
 		par(new=T)
 		if(highlight==FALSE)
-			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
+			plot(startX:length(force),force[startX:length(force)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
 		else
-			plot(startX:length(force),force[startX:length(force)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+			plot(startX:length(force),force[startX:length(force)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		if(showAxes)
 			axis(4, col=cols[2], lty=lty[2], line=4, lwd=1, padj=-.5)
 	}
@@ -427,7 +429,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
 	#if(draw & (!superpose || (superpose & highlight)) & isJump) {
-	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
+	if(draw & (!superpose || (superpose & highlight)) & ExercisePercentBodyWeight == 100) {
 		weight=mass*9.81
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
 		takeoff = max(which(force>=weight))
@@ -461,9 +463,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			ylim = knRanges$power
 		par(new=T);
 		if(highlight==FALSE)
-			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
+			plot(startX:length(power),power[startX:length(power)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
 		else
-			plot(startX:length(power),power[startX:length(power)],type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+			plot(startX:length(power),power[startX:length(power)],type="l",
+			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 		if(showAxes) 
 			axis(4, col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
 	}
@@ -482,21 +486,23 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(eccon != "c") 
 		meanPowerE = mean(abs(power[eccentric]))
 	meanPowerC = mean(abs(power[concentric]))
-	if(draw & !superpose & analysisOptions != "p") {
+	if(draw & !superpose & AnalysisOptions != "p") {
 		if(eccon != "c") {
 			arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
 			#text(x=min(eccentric), y=meanPowerE, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
-			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)),
+			     adj=c(0.5,0),cex=.8,col=cols[3])
 			#mtext(paste("mean power:",round(meanPowerE,3)),side=4,at=meanPowerE,line=-2,col=cols[3],cex=.8)
 		}
 		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
 		#text(x=min(concentric), y=meanPowerC, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
-		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)), adj=c(0.5,0),cex=.8,col=cols[3])
+		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)),
+		     adj=c(0.5,0),cex=.8,col=cols[3])
 		#mtext(paste("mean power:",round(meanPowerC,3)),side=4,at=meanPowerC,line=-2,col=cols[3],cex=.8)
 	}
 		
 	#propulsive phase ends when accel is -9.8
-	if(draw & analysisOptions == "p") {
+	if(draw & AnalysisOptions == "p") {
 		#mean power propulsive in concentric
 		meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
 		arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
@@ -527,12 +533,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
-paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
+paintPowerPeakPowerBars <- function(title, paf, myEccons, Eccon, height, n) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
 	
-	if(eccon=="ecS") {
+	if(Eccon=="ecS") {
 		if(singleFile) {
 			myEc=c("c","e")
 			myNums = as.numeric(rownames(paf))
@@ -557,10 +563,12 @@ paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
 	mtext("Curve\nLoad",side=1,at=0,adj=1,line=1,cex=.9)
 	par(new=T, xpd=T)
 	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
-	if(eccon=="ecS")
-		plot(bp[2,],paf[,5],type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
+	if(Eccon=="ecS")
+		plot(bp[2,],paf[,5],type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),
+		     axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
 	else
-		plot(bp[2,],paf[,5],type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),axes=F,xlab="",ylab="",col=pafColors[3])
+		plot(bp[2,],paf[,5],type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),
+		     axes=F,xlab="",ylab="",col=pafColors[3])
 	
 	axis(4, col=pafColors[3], line=0,padj=-.5)
 	mtext("Time to peak power (ms)", side=4, line=-1)
@@ -580,7 +588,7 @@ paintPowerPeakPowerBars <- function(title, paf, myEccons, height) {
 	
 	abline(h=max(height),lty=2, col="green")
 	abline(h=min(height),lty=2, col="green")
-#	text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
+	#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
 	axis(4, col="green", line=3, padj=-.5)
 	mtext("Range (cm)", side=4, line=2)
 }
@@ -696,416 +704,456 @@ quitIfNoData <- function(n, curves, outputData1) {
 	}
 }
 
-write("(2/5) Calling EMD", outputData2)
-
-library("EMD")
-#library("sfsmisc")
-
-write("(3/5) Starting process", outputData2)
-
-if(analysis != "exportCSV") {
-	png(outputGraph, width=width, height=height)
-	Title=gsub('_',' ',Title)
-	Title=gsub('-','    ',Title)
+loadLibraries <- function() {
+	library("EMD")
+	#library("sfsmisc")
 }
 
-titleType = "n"
-#if(isJump)
-#	titleType="jump"
+doProcess <- function(options) {
 
-curvesPlot = FALSE
-if(analysis=="curves") {
-	curvesPlot = TRUE
-	par(mar=c(2,2.5,2,1))
-}
+	File=options[1]
+	OutputGraph=options[2]
+	OutputData1=options[3]
+	OutputData2=options[4] #currently used to display status
+	MinHeight=as.numeric(options[5])*10 #from cm to mm
+	ExercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
+	Mass=as.numeric(options[7])
+	Eccon=options[8]
+	Analysis=options[9]	#in cross comes as "cross.Force.Speed.mean"
+	AnalysisOptions=options[10]	#p: propulsive
+	SmoothingOne=options[11]
+	Jump=options[12]
+	Width=as.numeric(options[13])
+	Height=as.numeric(options[14])
+	Title=options[15]
 
-singleFile = TRUE
-if(nchar(file) >= 40) {
-	#file="/tmp...../chronojump-encoder-graph-input-multi.csv"
-	#substr(file, nchar(file)-39, nchar(file))
-	#[1] "chronojump-encoder-graph-input-multi.csv"
-	if(substr(file, nchar(file)-39, nchar(file)) == "chronojump-encoder-graph-input-multi.csv") {
-		singleFile = FALSE
+	print(File)
+	print(OutputGraph)
+	print(OutputData1)
+	print(OutputData2)
+	
+	if(Analysis != "exportCSV") {
+		png(OutputGraph, width=Width, height=Height)
+		Title=gsub('_',' ',Title)
+		Title=gsub('-','    ',Title)
 	}
-}
 
-if(! singleFile) {
-	#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
-	#this are separated movements
-	#maybe all are concentric (there's no returning to 0 phase)
+	titleType = "n"
+	#if(isJump)
+	#	titleType="jump"
 
-	#this version of curves has added specific data cols:
-	#status, exerciseName, mass, smoothingOne, dateTime, myEccon
+	curvesPlot = FALSE
+	if(Analysis=="curves") {
+		curvesPlot = TRUE
+		par(mar=c(2,2.5,2,1))
+	}
 
-	inputMultiData=read.csv(file=file,sep=",",stringsAsFactors=F)
-
-	rawdata = NULL
-	count = 1
-	start = NULL; end = NULL; startH = NULL
-	status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL; dateTime = NULL; myEccon = NULL
-	curvesHeight = NULL
-	newLines=0;
-	countLines=1; #useful to know the correct ids of active curves
-	for(i in 1:length(inputMultiData[,1])) { 
-		#plot only active curves
-		status = as.vector(inputMultiData$status[i])
-		if(status != "active") {
-			newLines=newLines-1; 
-			countLines=countLines+1;
-			next;
+	singleFile = TRUE
+	if(nchar(File) >= 40) {
+		#file="/tmp...../chronojump-encoder-graph-input-multi.csv"
+		#substr(file, nchar(file)-39, nchar(file))
+		#[1] "chronojump-encoder-graph-input-multi.csv"
+		if(substr(File, nchar(File)-39, nchar(File)) == "chronojump-encoder-graph-input-multi.csv") {
+			singleFile = FALSE
 		}
+	}
 
-		dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
-		dataTempPhase=dataTempFile
-		processTimes = 1
-		changePos = 0
-		#if this curve is ecc-con and we want separated, divide the curve in two
-		if(as.vector(inputMultiData$eccon[i]) != "c" & eccon =="ecS") {
-			changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
-			processTimes = 2
-		}
-		for(j in 1:processTimes) {
-			if(processTimes == 2) {
-				if(j == 1) {
-					dataTempPhase=dataTempFile[1:changePos]
-				} else {
-					#IMP: 
-					#note that following line without the parentheses on changePos+1
-					#gives different data.
-					#never forget parentheses to operate inside the brackets
-					dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
-					newLines=newLines+1
-				}
+	if(! singleFile) {
+		#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
+		#this are separated movements
+		#maybe all are concentric (there's no returning to 0 phase)
+
+		#this version of curves has added specific data cols:
+		#status, exerciseName, mass, smoothingOne, dateTime, myEccon
+
+		inputMultiData=read.csv(file=File,sep=",",stringsAsFactors=F)
+
+		rawdata = NULL
+		count = 1
+		start = NULL; end = NULL; startH = NULL
+		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL
+		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
+
+		newLines=0;
+		countLines=1; #useful to know the correct ids of active curves
+		for(i in 1:length(inputMultiData[,1])) { 
+			#plot only active curves
+			status = as.vector(inputMultiData$status[i])
+			if(status != "active") {
+				newLines=newLines-1; 
+				countLines=countLines+1;
+				next;
 			}
-			rawdata = c(rawdata, dataTempPhase)
-			id[(i+newLines)] = countLines
-			start[(i+newLines)] = count
-			end[(i+newLines)] = length(dataTempPhase) + count -1
-			startH[(i+newLines)] = 0
-			exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
-			mass[(i+newLines)] = inputMultiData$mass[i]
-			smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
-			dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
-			curvesHeight[(i+newLines)] = sum(dataTempPhase)
+			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
+			dataTempPhase=dataTempFile
+			processTimes = 1
+			changePos = 0
+			#if this curve is ecc-con and we want separated, divide the curve in two
+			if(as.vector(inputMultiData$eccon[i]) != "c" & Eccon =="ecS") {
+				changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
+				processTimes = 2
+			}
+			for(j in 1:processTimes) {
+				if(processTimes == 2) {
+					if(j == 1) {
+						dataTempPhase=dataTempFile[1:changePos]
+					} else {
+						#IMP: 
+						#note that following line without the parentheses on changePos+1
+						#gives different data.
+						#never forget parentheses to operate inside the brackets
+						dataTempPhase=dataTempFile[(changePos+1):length(dataTempFile)]
+						newLines=newLines+1
+					}
+				}
+				rawdata = c(rawdata, dataTempPhase)
+				id[(i+newLines)] = countLines
+				start[(i+newLines)] = count
+				end[(i+newLines)] = length(dataTempPhase) + count -1
+				startH[(i+newLines)] = 0
+				exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
+				mass[(i+newLines)] = inputMultiData$mass[i]
+				smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
+				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
-			if(processTimes == 2) {
-				if(j == 1) {
-					myEccon[(i+newLines)] = "e"
-					id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+				curvesHeight[(i+newLines)] = sum(dataTempPhase)
+
+				if(processTimes == 2) {
+					if(j == 1) {
+						myEccon[(i+newLines)] = "e"
+						id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+					} else {
+						myEccon[(i+newLines)] = "c"
+						id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+						countLines = countLines + 1
+					}
 				} else {
-					myEccon[(i+newLines)] = "c"
-					id[(i+newLines)] = paste(countLines, myEccon[(i+newLines)], sep="")
+					if(inputMultiData$eccon[i] == "c")
+						myEccon[(i+newLines)] = "c"
+					else
+						myEccon[(i+newLines)] = "ec"
 					countLines = countLines + 1
 				}
-			} else {
-				if(inputMultiData$eccon[i] == "c")
-					myEccon[(i+newLines)] = "c"
-				else
-					myEccon[(i+newLines)] = "ec"
-				countLines = countLines + 1
+
+				count = count + length(dataTempPhase)
 			}
+		}		
 
-			count = count + length(dataTempPhase)
+		#rawdata.cumsum=cumsum(rawdata)
+
+		#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
+		#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
+		#"If row names are supplied of length one and the data frame has a
+		#single row, the ‘row.names’ is taken to specify the row names and
+		#not a column (by name or number)."
+		#then a column id is created when there's only on row, but it is not created there's more than one.
+		#solution:
+		if(length(id)==1) {
+			curves = data.frame(start,end,startH,exerciseName,mass,smooth,
+					    dateTime,myEccon,stringsAsFactors=F,row.names=id)
+		} else {
+			curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,
+					    dateTime,myEccon,stringsAsFactors=F,row.names=1)
 		}
-	}		
 
-	#rawdata.cumsum=cumsum(rawdata)
-
-	#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
-	#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
-	#"If row names are supplied of length one and the data frame has a
-	#single row, the ‘row.names’ is taken to specify the row names and
-	#not a column (by name or number)."
-	#then a column id is created when there's only on row, but it is not created there's more than one.
-	#solution:
-	if(length(id)==1) {
-		curves = data.frame(start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=id)
+		n=length(curves[,1])
+		quitIfNoData(n, curves, OutputData1)
 	} else {
-		curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
-	}
+		rawdata=scan(file=File,sep=",")
 
-	n=length(curves[,1])
-	quitIfNoData(n, curves, outputData1)
-} else {
-	rawdata=scan(file=file,sep=",")
+		if(length(rawdata)==0) {
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0,y=0,"Encoder is not connected.",cex=1.5)
+			dev.off()
+			write("", OutputData1)
+			quit()
+		}
 
-	if(length(rawdata)==0) {
-		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Encoder is not connected.",cex=1.5)
-		dev.off()
-		write("", outputData1)
-		quit()
-	}
+		rawdata.cumsum=cumsum(rawdata)
 
-	rawdata.cumsum=cumsum(rawdata)
+		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
+		print(curves)
+		n=length(curves[,1])
+		quitIfNoData(n, curves, OutputData1)
 
-	curves=findCurves(rawdata, eccon, minHeight, curvesPlot, Title)
-	print(curves)
-	n=length(curves[,1])
-	quitIfNoData(n, curves, outputData1)
-
-	for(i in 1:n) { 
-		curves[i,1]=reduceCurveBySpeed(eccon, i, curves[i,1],rawdata[curves[i,1]:curves[i,2]], smoothingOne)
-	}
-	if(curvesPlot) {
-		#/10 mm -> cm
-		for(i in 1:length(curves[,1])) { 
-			myLabel = i
-			myY = min(rawdata.cumsum)/10
-			adjVert = 0
-			if(eccon=="ecS") {
-				myEc=c("c","e")
-				myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
-				myY = rawdata.cumsum[curves[i,1]]/10
-				if(i%%2 == 1) {
-					adjVert = 1
+		for(i in 1:n) { 
+			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1],
+						       rawdata[curves[i,1]:curves[i,2]], SmoothingOne)
+		}
+		if(curvesPlot) {
+			#/10 mm -> cm
+			for(i in 1:length(curves[,1])) { 
+				myLabel = i
+				myY = min(rawdata.cumsum)/10
+				adjVert = 0
+				if(Eccon=="ecS") {
+					myEc=c("c","e")
+					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
+					myY = rawdata.cumsum[curves[i,1]]/10
+					if(i%%2 == 1) {
+						adjVert = 1
+					}
 				}
+				text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
+				arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
+				       col="blue",code=3,length=0.1)
 			}
-			text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
-			arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
-			       col="blue",code=3,length=0.1)
 		}
 	}
-}
 
-write("(4/5) Curves processed", outputData2)
+	write("(4/5) Curves processed", OutputData2)
 
-if(analysis=="single") {
-	if(jump>0) {
-		myMass = Mass
-		mySmoothingOne = smoothingOne
-		myEccon = eccon
-		myStart = curves[jump,1]
-		myEnd = curves[jump,2]
-		if(! singleFile) {
-			myMass = curves[jump,5]
-			mySmoothingOne = curves[jump,6]
-			myEccon = curves[jump,8]
+	if(Analysis=="single") {
+		if(Jump>0) {
+			myMass = Mass
+			mySmoothingOne = SmoothingOne
+			myEccon = Eccon
+			myStart = curves[Jump,1]
+			myEnd = curves[Jump,2]
+			if(! singleFile) {
+				myMass = curves[Jump,5]
+				mySmoothingOne = curves[Jump,6]
+				myEccon = curves[Jump,8]
+			}
+			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
+			      1,curves[Jump,3],mySmoothingOne,myMass,
+			      paste(Title, " ", Analysis, " ", myEccon, " ", titleType, " ", Jump,
+				    " (smoothing: ",mySmoothingOne,")",sep=""),
+			      TRUE,	#draw
+			      TRUE,	#showLabels
+			      FALSE,	#marShrink
+			      TRUE,	#showAxes
+			      TRUE,	#legend
+			      AnalysisOptions, ExercisePercentBodyWeight 
+			      )	
 		}
-		paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-		      1,curves[jump,3],mySmoothingOne,myMass,
-		      paste(Title, " ", analysis, " ", myEccon, " ", titleType, " ", jump,
-			    " (smoothing: ",mySmoothingOne,")",sep=""),
-		      TRUE,	#draw
-		      TRUE,	#showLabels
-		      FALSE,	#marShrink
-		      TRUE,	#showAxes
-		      TRUE	#legend
-		      )	
 	}
-}
 
-if(analysis=="side") {
-	#comparar 6 salts, falta que xlim i ylim sigui el mateix
-	par(mfrow=find.mfrow(n))
+	if(Analysis=="side") {
+		#comparar 6 salts, falta que xlim i ylim sigui el mateix
+		par(mfrow=find.mfrow(n))
 
-	#a=cumsum(rawdata)
-	#yrange=c(min(a),max(a))
-	yrange=find.yrange(singleFile, rawdata, curves)
+		#a=cumsum(rawdata)
+		#yrange=c(min(a),max(a))
+		yrange=find.yrange(singleFile, rawdata, curves)
 
-	knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,smoothingOne,g)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g)
 
-	for(i in 1:n) {
-		myMass = Mass
-		mySmoothingOne = smoothingOne
-		myEccon = eccon
-		if(! singleFile) {
-			myMass = curves[i,5]
-			mySmoothingOne = curves[i,6]
-			myEccon = curves[i,8]
+		for(i in 1:n) {
+			myMass = Mass
+			mySmoothingOne = SmoothingOne
+			myEccon = Eccon
+			if(! singleFile) {
+				myMass = curves[i,5]
+				mySmoothingOne = curves[i,6]
+				myEccon = curves[i,8]
+			}
+			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+			      1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),
+			      TRUE,	#draw
+			      FALSE,	#showLabels
+			      TRUE,	#marShrink
+			      FALSE,	#showAxes
+			      FALSE,	#legend
+			      AnalysisOptions, ExercisePercentBodyWeight 
+			      )
 		}
-		paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-		      1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),
-		      TRUE,	#draw
-		      FALSE,	#showLabels
-		      TRUE,	#marShrink
-		      FALSE,	#showAxes
-		      FALSE	#legend
-		      )
+		par(mfrow=c(1,1))
 	}
-	par(mfrow=c(1,1))
-}
-if(analysis=="superpose") {	#TODO: fix on ec startH
-	#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
-	#fer que acabin al mateix punt encara que no iniciin en el mateix
-	#arreglar que els eixos de l'esq han de seguir un ylim,pero els de la dreta un altre, basat en el que es vol observar
-	#fer que es pugui enviar colors que es vol per cada curva, o linetypes
-	wide=max(curves$end-curves$start)
+	if(Analysis=="superpose") {	#TODO: fix on ec startH
+		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
+		#fer que acabin al mateix punt encara que no iniciin en el mateix
+		#arreglar que els eixos de l'esq han de seguir un ylim,
+		#pero els de la dreta un altre, basat en el que es vol observar
+		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
+		wide=max(curves$end-curves$start)
 
-	#a=cumsum(rawdata)
-	#yrange=c(min(a),max(a))
-	yrange=find.yrange(singleFile, rawdata,curves)
+		#a=cumsum(rawdata)
+		#yrange=c(min(a),max(a))
+		yrange=find.yrange(singleFile, rawdata,curves)
 
-	knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,smoothingOne,g)
-	for(i in 1:n) {
-		#in superpose all jumps end at max height
-		#start can change, some are longer than other
-		#xmin and xmax should be the same for all in terms of X concordance
-		#but line maybe don't start on the absolute left
-		#this is controled by startX
-		startX = curves[i,1]-(curves[i,2]-wide)+1;
-		myTitle = "";
-		if(i==1)
-			myTitle = paste(titleType,jump);
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g)
+		for(i in 1:n) {
+			#in superpose all jumps end at max height
+			#start can change, some are longer than other
+			#xmin and xmax should be the same for all in terms of X concordance
+			#but line maybe don't start on the absolute left
+			#this is controled by startX
+			startX = curves[i,1]-(curves[i,2]-wide)+1;
+			myTitle = "";
+			if(i==1)
+				myTitle = paste(titleType,Jump);
 
-		paint(rawdata, eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==jump),
-		      startX,curves[i,3],smoothingOne,Mass,myTitle,
-		      TRUE,	#draw
-		      TRUE,	#showLabels
-		      FALSE,	#marShrink
-		      (i==1),	#showAxes
-		      TRUE	#legend
-		      )
-		par(new=T)
-	}
-	par(new=F)
-	#print(knRanges)
-}
-
-#analysis in cross variables comes as:
-#"cross.Speed.Force.mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
-#there's a double XY plot:
-#"cross.Speed,Power.Load.mean" 	#Speed,power are Y (left and right), 3d: Load is X.
-analysisCross = unlist(strsplit(analysis, "\\."))
-if(
-   analysis == "powerBars" || analysisCross[1] == "cross" || analysis == "curves") 
-{
-	paf = data.frame()
-	for(i in 1:n) { 
-		myMass = Mass
-		mySmoothingOne = smoothingOne
-		myEccon = eccon
-		if(! singleFile) {
-			myMass = curves[i,5]
-			mySmoothingOne = curves[i,6]
-			myEccon = curves[i,8]
-		}
-		paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], myMass, mySmoothingOne, g))))
-	}
-	#print(paf)
-	rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
-	print("----------------------------")
-	print(paf)
-
-	if(analysis == "powerBars") {
-		if(! singleFile) 
-			paintPowerPeakPowerBars(Title, paf, curves[,8], 		#myEccon
-						curvesHeight)				#height
-		else 
-			paintPowerPeakPowerBars(Title, paf, curves[,8], 		#myEccon
-						rawdata.cumsum[curves[,2]]-curves[,3])	#height
-	}
-	else if(analysisCross[1] == "cross") {
-		if(analysisCross[2] == "Speed,Power") {
-			par(mar=c(5,4,4,5))
-			analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
-			paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
-					    analysisCross[4], "LEFT", Title)
+			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
+			      startX,curves[i,3],SmoothingOne,Mass,myTitle,
+			      TRUE,	#draw
+			      TRUE,	#showLabels
+			      FALSE,	#marShrink
+			      (i==1),	#showAxes
+			      TRUE,	#legend
+			      AnalysisOptions, ExercisePercentBodyWeight 
+			      )
 			par(new=T)
-			paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
-					    analysisCross[4], "RIGHT", "")
-		} else
-			paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
-					    analysisCross[4], "ALONE", Title)
+		}
+		par(new=F)
+		#print(knRanges)
 	}
-	else if(analysis == "curves") {
-		paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
-		colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
-				"meanPower","peakPower","peakPowerT","pp_ppt")
-		write.csv(paf, outputData1, quote=FALSE)
+
+	#Analysis in cross variables comes as:
+	#"cross.Speed.Force.mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
+	#there's a double XY plot:
+	#"cross.Speed,Power.Load.mean" 	#Speed,power are Y (left and right), 3d: Load is X.
+	analysisCross = unlist(strsplit(Analysis, "\\."))
+	if(
+	   Analysis == "powerBars" || analysisCross[1] == "cross" || Analysis == "curves") 
+	{
+		paf = data.frame()
+		for(i in 1:n) { 
+			myMass = Mass
+			mySmoothingOne = SmoothingOne
+			myEccon = Eccon
+			if(! singleFile) {
+				myMass = curves[i,5]
+				mySmoothingOne = curves[i,6]
+				myEccon = curves[i,8]
+			}
+			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
+							     myMass, mySmoothingOne, g))))
+		}
+		#print(paf)
+		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
+		print("----------------------------")
+		print(paf)
+
+		if(Analysis == "powerBars") {
+			if(! singleFile) 
+				paintPowerPeakPowerBars(Title, paf, 
+							curves[,8], Eccon,	 	#myEccon, Eccon
+							curvesHeight, n)			#height
+			else 
+				paintPowerPeakPowerBars(Title, paf, 
+							curves[,8], Eccon,		#myEccon, Eccon
+							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
+		}
+		else if(analysisCross[1] == "cross") {
+			if(analysisCross[2] == "Speed,Power") {
+				par(mar=c(5,4,4,5))
+				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
+				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
+						    analysisCross[4], "LEFT", Title)
+				par(new=T)
+				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
+						    analysisCross[4], "RIGHT", "")
+			} else
+				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
+						    analysisCross[4], "ALONE", Title)
+		}
+		else if(Analysis == "curves") {
+			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
+					"meanPower","peakPower","peakPowerT","pp_ppt")
+			write.csv(paf, OutputData1, quote=FALSE)
+		}
 	}
+	if(Analysis=="exportCSV") {
+		print("Starting export...")
+		file=OutputData1;
+		curvesNum = length(curves[,1])
+
+		maxLength = 0
+		for(i in 1:curvesNum) { 
+			myLength = curves[i,2]-curves[i,1]
+			if(myLength > maxLength)
+				maxLength=myLength
+		}
+
+		curveCols = 6	#change this value if there are more colums
+		names=c("Dist.", "Dist. +", "Speed", "Accel.", "Force", "Power")
+		nums=1:curvesNum
+		nums=rep(nums,each=curveCols)		
+		namesNums=paste(names, nums)
+
+		for(i in 1:curvesNum) { 
+			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, SmoothingOne, g)
+
+			#fill with NAs in order to have the same length
+			col1 = rawdata[curves[i,1]:curves[i,2]]
+			col2 = rawdata.cumsum[curves[i,1]:curves[i,2]]
+
+			#add mean and max
+			col1=append(col1,
+				    c(NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
+				    after=0)
+			col2=append(col2,
+				    c(NA,"mean (ABS):","max:",namesNums[((i-1)*curveCols)+2]),
+				    after=0)
+			kn$speedy=append(kn$speedy,
+					 c(
+					   namesNums[((i-1)*curveCols)+3],
+					   mean(abs(kn$speedy)),max(kn$speedy),
+					   namesNums[((i-1)*curveCols)+3]),
+					 after=0)
+			kn$accely=append(kn$accely,
+					 c(
+					   namesNums[((i-1)*curveCols)+4],
+					   mean(abs(kn$accely)),max(kn$accely),
+					   namesNums[((i-1)*curveCols)+4]),
+					 after=0)
+			kn$force=append(kn$force,
+					c(
+					  namesNums[((i-1)*curveCols)+5],
+					  mean(abs(kn$force)),max(kn$force),
+					  namesNums[((i-1)*curveCols)+5]),
+					after=0)
+			kn$power=append(kn$power,
+					c(
+					  namesNums[((i-1)*curveCols)+6],
+					  mean(abs(kn$power)),max(kn$power),
+					  namesNums[((i-1)*curveCols)+6]),
+					after=0)
+
+			extraRows=4
+			length(col1)=maxLength+extraRows
+			length(col2)=maxLength+extraRows
+			length(kn$speedy)=maxLength+extraRows
+			length(kn$accely)=maxLength+extraRows
+			length(kn$force)=maxLength+extraRows
+			length(kn$power)=maxLength+extraRows
+
+			if(i==1)
+				df=data.frame(cbind(col1, col2,
+						    kn$speedy, kn$accely, kn$force, kn$power))
+			else
+				df=data.frame(cbind(df, col1, col2,
+						    kn$speedy, kn$accely, kn$force, kn$power))
+		}
+
+		#TODO: time
+		#TODO: tenir en compte el startH
+
+		Title=gsub('_',' ',Title)
+		print(Title)
+		titleColumns=unlist(strsplit(Title,'-'))
+		colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
+
+		write.csv2(df, file=File, row.names=F, na="")
+		#write.csv2(df, file=File, quotes=F)
+		print("Export done.")
+	}
+	if(Analysis != "exportCSV")
+		dev.off()
+
+	write("(5/5) R tasks done", OutputData2)
+
+	warnings()
 }
-if(analysis=="exportCSV") {
-	print("Starting export...")
-	file=outputData1;
-	curvesNum = length(curves[,1])
 
-	maxLength = 0
-	for(i in 1:curvesNum) { 
-		myLength = curves[i,2]-curves[i,1]
-		if(myLength > maxLength)
-			maxLength=myLength
-	}
+write("(2/5) Calling EMD", OutputData2)
 
-	curveCols = 6	#change this value if there are more colums
-	names=c("Dist.", "Dist. +", "Speed", "Accel.", "Force", "Power")
-	nums=1:curvesNum
-	nums=rep(nums,each=curveCols)		
-	namesNums=paste(names, nums)
+loadLibraries()
+	
+write("(3/5) Starting process", OutputData2)
 
-	for(i in 1:curvesNum) { 
-		kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, smoothingOne, g)
-
-		#fill with NAs in order to have the same length
-		col1 = rawdata[curves[i,1]:curves[i,2]]
-		col2 = rawdata.cumsum[curves[i,1]:curves[i,2]]
-
-		#add mean and max
-		col1=append(col1,
-			    c(NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
-			    after=0)
-		col2=append(col2,
-			    c(NA,"mean (ABS):","max:",namesNums[((i-1)*curveCols)+2]),
-			    after=0)
-		kn$speedy=append(kn$speedy,
-				 c(
-				   namesNums[((i-1)*curveCols)+3],
-				   mean(abs(kn$speedy)),max(kn$speedy),
-				   namesNums[((i-1)*curveCols)+3]),
-				 after=0)
-		kn$accely=append(kn$accely,
-				 c(
-				   namesNums[((i-1)*curveCols)+4],
-				   mean(abs(kn$accely)),max(kn$accely),
-				   namesNums[((i-1)*curveCols)+4]),
-				 after=0)
-		kn$force=append(kn$force,
-				c(
-				  namesNums[((i-1)*curveCols)+5],
-				  mean(abs(kn$force)),max(kn$force),
-				  namesNums[((i-1)*curveCols)+5]),
-				after=0)
-		kn$power=append(kn$power,
-				c(
-				  namesNums[((i-1)*curveCols)+6],
-				  mean(abs(kn$power)),max(kn$power),
-				  namesNums[((i-1)*curveCols)+6]),
-				after=0)
-
-		extraRows=4
-		length(col1)=maxLength+extraRows
-		length(col2)=maxLength+extraRows
-		length(kn$speedy)=maxLength+extraRows
-		length(kn$accely)=maxLength+extraRows
-		length(kn$force)=maxLength+extraRows
-		length(kn$power)=maxLength+extraRows
-
-		if(i==1)
-			df=data.frame(cbind(col1, col2,
-					    kn$speedy, kn$accely, kn$force, kn$power))
-		else
-			df=data.frame(cbind(df, col1, col2,
-					    kn$speedy, kn$accely, kn$force, kn$power))
-	}
-
-	#TODO: time
-	#TODO: tenir en compte el startH
-
-	Title=gsub('_',' ',Title)
-	print(Title)
-	titleColumns=unlist(strsplit(Title,'-'))
-	colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
-
-	write.csv2(df, file=file, row.names=F, na="")
-	#write.csv2(df, file=file, quotes=F)
-	print("Export done.")
-}
-if(analysis != "exportCSV")
-	dev.off()
-
-write("(5/5) R tasks done", outputData2)
-
-warnings()
-
+doProcess(options)
 

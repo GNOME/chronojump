@@ -225,8 +225,8 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 }
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
-	startX, startH, smoothing, mass, title, draw, showLabels, marShrink, showAxes, legend,
-	AnalysisOptions, ExercisePercentBodyWeight 
+	startX, startH, smoothing, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
+	Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 	) {
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
@@ -241,7 +241,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
-		par(mar=c(4, 3.5, 5, 8.5))
+		par(mar=c(3, 3.5, 5, 8.5))
 		if(marShrink) #used on "side" compare
 			par(mar=c(1, 1, 4, 1))
 	
@@ -255,7 +255,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		ylim=yrange
 		if(ylim[1]=="undefined") { ylim=NULL }
 		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
+
 		title(main=title,line=-2,outer=T)
+		mtext(subtitle,side=1,adj=0,cex=.8)
+		
 		if(showAxes) {
 			axis(1) 	#can be added xmin
 			axis(2)
@@ -637,7 +640,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
 	}
 
 	plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-	title(title, cex.main=1, font.main=1)
+	title(title, cex.main=1, font.main=2)
 	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
 
 	#lines(smooth.spline(x,y,spar=.5),col="darkblue")
@@ -738,7 +741,7 @@ doProcess <- function(options) {
 		Title=gsub('-','    ',Title)
 	}
 
-	titleType = "n"
+	titleType = "c"
 	#if(isJump)
 	#	titleType="jump"
 
@@ -916,16 +919,18 @@ doProcess <- function(options) {
 				mySmoothingOne = curves[Jump,6]
 				myEccon = curves[Jump,8]
 			}
+			myCurveStr = paste("c=", Jump, ", ", myMass, "Kg", sep="")
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],mySmoothingOne,myMass,
-			      paste(Title, " ", Analysis, " ", myEccon, " ", titleType, " ", Jump,
+			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr,
 				    " (smoothing: ",mySmoothingOne,")",sep=""),
+			      "", #subtitle
 			      TRUE,	#draw
 			      TRUE,	#showLabels
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      AnalysisOptions, ExercisePercentBodyWeight 
+			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 			      )	
 		}
 	}
@@ -949,14 +954,21 @@ doProcess <- function(options) {
 				mySmoothingOne = curves[i,6]
 				myEccon = curves[i,8]
 			}
+
+			myTitle = ""
+			if(i == 1)
+				myTitle = paste(Title)
+			
+			mySubtitle = paste("c=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
+
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],mySmoothingOne,myMass,paste(Title, " ", titleType,rownames(curves)[i]),
+			      1,curves[i,3],mySmoothingOne,myMass,myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      AnalysisOptions, ExercisePercentBodyWeight 
+			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 			      )
 		}
 		par(mfrow=c(1,1))
@@ -986,13 +998,13 @@ doProcess <- function(options) {
 				myTitle = paste(titleType,Jump);
 
 			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
-			      startX,curves[i,3],SmoothingOne,Mass,myTitle,
+			      startX,curves[i,3],SmoothingOne,Mass,myTitle,"",
 			      TRUE,	#draw
 			      TRUE,	#showLabels
 			      FALSE,	#marShrink
 			      (i==1),	#showAxes
 			      TRUE,	#legend
-			      AnalysisOptions, ExercisePercentBodyWeight 
+			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 			      )
 			par(new=T)
 		}

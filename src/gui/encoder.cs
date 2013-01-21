@@ -864,14 +864,13 @@ public partial class ChronoJumpWindow
 				ep);
 
 		//show mass in title except if it's curves because then can be different mass
-		string massString = "-(" + findMass(true) + "Kg)";
-		if(radiobutton_encoder_analyze_data_user_curves.Active)
-			massString = "";
+		//string massString = "-(" + findMass(true) + "Kg)";
+		//if(radiobutton_encoder_analyze_data_user_curves.Active)
+		//	massString = "";
 
 		Util.RunEncoder(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
-				massString, encoderStruct, false);
+				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct, false);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

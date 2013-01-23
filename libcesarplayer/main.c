@@ -17,13 +17,14 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
+/* Compile with:
+ * gcc -o test main.c gst-camera-capturer.c video-utils.c gstscreenshot.c `pkg-config --cflags --libs gstreamer-0.10 gstreamer-interfaces-0.10 gstreamer-video-0.10 gtk+-2.0` -DOSTYPE_LINUX -O0
+ */
 
 #include <gtk/gtk.h>
-#include "gst-video-capturer.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include "gst-camera-capturer.h"
 
 
 static int i = 0;
@@ -34,20 +35,22 @@ window_state_event (GtkWidget * widget, GdkEventWindowState * event,
   i++;
   g_print ("%d\n", i);
   if (i == 3) {
-    gst_video_capturer_rec (GST_VIDEO_CAPTURER (gvc));
+    gst_camera_capturer_start (GST_CAMERA_CAPTURER (gvc));
 
   }
   if (i == 5)
-    gst_video_capturer_stop (GST_VIDEO_CAPTURER (gvc));
+    gst_camera_capturer_toggle_pause (GST_CAMERA_CAPTURER (gvc));
+  if (i == 7)
+    gst_camera_capturer_toggle_pause (GST_CAMERA_CAPTURER (gvc));
+  if (i == 9)
+    gst_camera_capturer_stop (GST_CAMERA_CAPTURER (gvc));
   return TRUE;
 }
 
 GtkWidget *
-create_window (GstVideoCapturer * gvc)
+create_window (GstCameraCapturer * gvc)
 {
   GtkWidget *window;
-
-
 
 
   /* Create a new window */
@@ -66,19 +69,21 @@ int
 main (int argc, char *argv[])
 {
   GtkWidget *window;
-  GstVideoCapturer *gvc;
+  GstCameraCapturer *gvc;
   GError *error = NULL;
 
 
   gtk_init (&argc, &argv);
 
   /*Create GstVideoCapturer */
-  gst_video_capturer_init_backend (&argc, &argv);
-  gvc = gst_video_capturer_new (GVC_USE_TYPE_DEVICE_CAPTURE, &error);
-  //gvc = gst_video_capturer_new (GVC_USE_TYPE_VIDEO_TRANSCODE, &error );
-  //g_object_set(gvc,"input_file","/home/andoni/Escritorio/RC Polo vs CD Complutense.avi",NULL);
+  gst_camera_capturer_init_backend (&argc, &argv);
+  gvc = gst_camera_capturer_new ("test", &error);
+
+  gst_camera_capturer_set_source (gvc, CAPTURE_SOURCE_TYPE_SYSTEM);
+  gst_camera_capturer_set_video_encoder (gvc, VIDEO_ENCODER_H264);
+  gst_camera_capturer_set_audio_encoder (gvc, AUDIO_ENCODER_AAC);
+  gst_camera_capturer_set_video_muxer (gvc, VIDEO_MUXER_MP4);
   g_object_set (gvc, "output_file", "/home/andoni/jander.avi", NULL);
-  //gvc = gst_video_capturer_new (GVC_USE_TYPE_TEST, &error );
 
   window = create_window (gvc);
 
@@ -86,9 +91,7 @@ main (int argc, char *argv[])
   gtk_widget_show (GTK_WIDGET (gvc));
   gtk_widget_show (window);
 
-
-
-
+  gst_camera_capturer_run(gvc);
   gtk_main ();
 
   return 0;

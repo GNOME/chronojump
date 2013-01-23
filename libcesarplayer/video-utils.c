@@ -1,4 +1,31 @@
-
+/* 
+ * Copyright (C) 2003-2007 the GStreamer project
+ *      Julien Moutte <julien@moutte.net>
+ *      Ronald Bultje <rbultje@ronald.bitfreak.net>
+ * Copyright (C) 2005-2008 Tim-Philipp Müller <tim centricular net>
+ * Copyright (C) 2009 Sebastian Dröge <sebastian.droege@collabora.co.uk>
+ * Copyright (C) 2009  Andoni Morales Alastruey <ylatuya@gmail.com> 
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ * The Totem project hereby grant permission for non-gpl compatible GStreamer
+ * plugins to be used and distributed together with GStreamer and Totem. This
+ * permission is above and beyond the permissions granted by the GPL license
+ * Totem is covered by.
+ *
+ */
 
 #include "video-utils.h"
 
@@ -235,8 +262,8 @@ totem_ratio_fits_screen (GdkWindow * video_window, int video_width,
   return TRUE;
 }
 
-void
-gst_set_window_handle(GstXOverlay *xoverlay, GdkWindow *window)
+guintptr
+gst_get_window_handle(GdkWindow *window)
 {
   guintptr window_handle;
 
@@ -248,6 +275,13 @@ gst_set_window_handle(GstXOverlay *xoverlay, GdkWindow *window)
 #elif defined (GDK_WINDOWING_X11)
   window_handle = GDK_WINDOW_XID (window);
 #endif
+
+  return window_handle;
+}
+
+void
+gst_set_window_handle(GstXOverlay *xoverlay, guintptr window_handle)
+{
   gst_x_overlay_set_window_handle (xoverlay, window_handle);
 }
 

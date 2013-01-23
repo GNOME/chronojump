@@ -29,7 +29,6 @@
 #define DEFAULT_VIDEO_ENCODER "vp8enc"
 #define DEFAULT_AUDIO_ENCODER "vorbisenc"
 #define DEFAULT_VIDEO_MUXER "matroskamux"
-#define FONT_SIZE_FACTOR 0.05
 #define LAME_CAPS "audio/x-raw-int, rate=44100, channels=2, endianness=1234, signed=true, width=16, depth=16"
 #define VORBIS_CAPS "audio/x-raw-float, rate=44100, channels=2, endianness=1234, signed=true, width=32, depth=32"
 #define FAAC_CAPS "audio/x-raw-int, rate=44100, channels=2, endianness=1234, signed=true, width=16, depth=16"
@@ -131,7 +130,7 @@ static void gst_video_editor_set_property (GObject * object,
     guint property_id, const GValue * value, GParamSpec * pspec);
 static gboolean gve_query_timeout (GstVideoEditor * gve);
 static void gve_apply_new_caps (GstVideoEditor * gve);
-static void gve_apply_title_size (GstVideoEditor * gve);
+static void gve_apply_title_size (GstVideoEditor * gve, gint size);
 static void gve_rewrite_headers (GstVideoEditor * gve);
 G_DEFINE_TYPE (GstVideoEditor, gst_video_editor, G_TYPE_OBJECT);
 
@@ -245,7 +244,7 @@ gst_video_editor_class_init (GstVideoEditorClass * klass)
 
   g_object_class_install_property (object_class, PROP_TITLE_SIZE,
       g_param_spec_int ("title-size", NULL, NULL,
-          10, 100, 20, G_PARAM_READWRITE));
+          1, 100, 20, G_PARAM_READWRITE));
 
   g_object_class_install_property (object_class, PROP_OUTPUT_FILE,
       g_param_spec_string ("output_file", NULL, NULL, "", G_PARAM_READWRITE));
@@ -367,7 +366,7 @@ static void
 gst_video_editor_set_title_size (GstVideoEditor * gve, gint size)
 {
   gve->priv->title_size = size;
-  gve_apply_title_size (gve);
+  gve_apply_title_size (gve, size);
 }
 
 static void
@@ -502,13 +501,32 @@ gve_apply_new_caps (GstVideoEditor * gve)
 }
 
 static void
-gve_apply_title_size (GstVideoEditor * gve)
+gve_apply_title_size (GstVideoEditor * gve, gint size)
 {
   gchar *font;
 
-  font = g_strdup_printf ("sans bold %d", gve->priv->title_size);
-  g_object_set (G_OBJECT (gve->priv->textoverlay), "font-desc", font, NULL);
+  font = g_strdup_printf ("sans bold %d", size);
+  g_object_set (G_OBJECT (gve->priv->textoverlay), "font-desc", font,
+        "auto-resize", TRUE, "wrap-mode", 0, NULL);
   g_free (font);
+}
+
+static void
+gve_set_overlay_title (GstVideoEditor *gve, gchar *title)
+{
+  glong length;
+
+  if (title == NULL)
+    return;
+
+  g_object_set (G_OBJECT (gve->priv->textoverlay), "text", title, NULL);
+
+  length = g_utf8_strlen (title, -1);
+  if (length * gve->priv->title_size > gve->priv->width) {
+    gve_apply_title_size (gve, gve->priv->width / length - 1);
+  } else {
+    gve_apply_title_size (gve, gve->priv->title_size);
+  }
 }
 
 static void
@@ -535,8 +553,7 @@ gve_create_video_encode_bin (GstVideoEditor * gve)
 
   g_object_set (G_OBJECT (gve->priv->identity), "single-segment", TRUE, NULL);
   g_object_set (G_OBJECT (gve->priv->textoverlay), "font-desc",
-      "sans bold 20", "shaded-background", TRUE, "valignment", 2,
-      "halignment", 2, NULL);
+      "sans bold 20", "valignment", 2, "halignment", 2, NULL);
   g_object_set (G_OBJECT (gve->priv->videoscale), "add-borders", TRUE, NULL);
   g_object_set (G_OBJECT (gve->priv->video_encoder), "bitrate",
       gve->priv->video_bitrate, NULL);
@@ -818,11 +835,12 @@ gve_query_timeout (GstVideoEditor * gve)
 
   if (gst_element_query_position (gve->priv->video_encoder, &fmt, &pos)) {
     if (stop_time - pos <= 0) {
+
       gve->priv->active_segment++;
       title =
           (gchar *) g_list_nth_data (gve->priv->titles,
           gve->priv->active_segment);
-      g_object_set (G_OBJECT (gve->priv->textoverlay), "text", title, NULL);
+      gve_set_overlay_title (gve, title);
     }
   }
 
@@ -870,7 +888,7 @@ gst_video_editor_add_segment (GstVideoEditor * gve, gchar * file,
       "start", gve->priv->duration,
       "duration", final_duration, "caps", filter, NULL);
   if (gve->priv->segments == 0) {
-    g_object_set (G_OBJECT (gve->priv->textoverlay), "text", title, NULL);
+    gve_set_overlay_title (gve, title);
   }
   gst_bin_add (GST_BIN (gve->priv->gnl_video_composition), gnl_filesource);
   gve->priv->gnl_video_filesources =
@@ -1066,12 +1084,12 @@ gst_video_editor_set_video_encoder (GstVideoEditor * gve, gchar ** err,
       g_object_set (G_OBJECT (encoder), "pass", 17, NULL);       //Variable Bitrate-Pass 1
       g_object_set (G_OBJECT (encoder), "speed-preset", 4, NULL);//"Faster" preset
       break;
-    case VIDEO_ENCODER_MPEG4:
+    case VIDEO_ENCODER_XVID:
       encoder_name = "xvidenc";
       encoder = gst_element_factory_make (encoder_name, encoder_name);
       g_object_set (G_OBJECT (encoder), "pass", 1, NULL);       //Variable Bitrate-Pass 1
       break;
-    case VIDEO_ENCODER_XVID:
+    case VIDEO_ENCODER_MPEG4:
       encoder_name = "ffenc_mpeg4";
       encoder = gst_element_factory_make (encoder_name, encoder_name);
       g_object_set (G_OBJECT (encoder), "pass", 512, NULL);     //Variable Bitrate-Pass 1
@@ -1303,6 +1321,7 @@ gst_video_editor_set_video_muxer (GstVideoEditor * gve, gchar ** err,
     case VIDEO_MUXER_MP4:
       muxer_name = "qtmux";
       muxer = gst_element_factory_make ("qtmux", muxer_name);
+      g_object_set (muxer, "faststart", TRUE, NULL);
       break;
     case VIDEO_MUXER_MPEG_PS:
       muxer_name = "ffmux_dvd";

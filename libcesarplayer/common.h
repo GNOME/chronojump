@@ -17,6 +17,35 @@
  *
  */
 
+#ifndef __LIBCESARPLAYER_COMMON_H__
+#define __LIBCESARPLAYER_COMMON_H__
+
+/* Default video/audio sinks */
+#if defined(OSTYPE_WINDOWS)
+#define DEFAULT_VIDEO_SINK "d3dvideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#elif defined(OSTYPE_OS_X)
+#define DEFAULT_VIDEO_SINK "osxvideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#elif defined(OSTYPE_LINUX)
+#define DEFAULT_VIDEO_SINK "gsettingsvideosink"
+#define BACKUP_VIDEO_SINK "autovideosink"
+#endif
+
+/*Default video/audio source*/
+#if defined(OSTYPE_WINDOWS)
+#define DVVIDEOSRC "dshowvideosrc"
+#define SYSVIDEOSRC "dshowvideosrc"
+#define AUDIOSRC "dshowaudiosrc"
+#elif defined(OSTYPE_OS_X)
+#define DVVIDEOSRC "osxvideosrc"
+#define SYSVIDEOSRC "osxvideosrc"
+#define AUDIOSRC "osxaudiosrc"
+#elif defined(OSTYPE_LINUX)
+#define DVVIDEOSRC "dv1394src"
+#define SYSVIDEOSRC "gsettingsvideosrc"
+#define AUDIOSRC "gsettingsaudiosrc"
+#endif
 
 /**
  * Error:
@@ -104,3 +133,12 @@ typedef enum
   VIDEO_MUXER_MPEG_PS,
   VIDEO_MUXER_WEBM
 } VideoMuxerType;
+
+typedef enum
+{
+  CAPTURE_SOURCE_TYPE_NONE = 0,
+  CAPTURE_SOURCE_TYPE_DV = 1,
+  CAPTURE_SOURCE_TYPE_SYSTEM = 2,
+} CaptureSourceType;
+
+#endif

@@ -3,7 +3,7 @@ EXTRA_DIST =  chronojump_mini.cs ../images/report_web_style.css angle/*
 
 
 if ENABLE_DEBUG
-ASSEMBLY_COMPILER_COMMAND = $(GMCS)
+ASSEMBLY_COMPILER_COMMAND = $(MCS)
 ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -nowarn:169,649 -optimize+ -debug -define:DEBUG 
 ASSEMBLY = bin/Debug/Chronojump.exe
 ASSEMBLY_MDB = $(ASSEMBLY).mdb
@@ -20,7 +20,7 @@ CESARPLAYER_DLL_MDB=$(BUILD_DIR)/CesarPlayer.dll.mdb
 endif
 
 if ENABLE_RELEASE
-ASSEMBLY_COMPILER_COMMAND = $(GMCS)
+ASSEMBLY_COMPILER_COMMAND = $(MCS)
 ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -nowarn:169,649 -optimize+ 
 ASSEMBLY = bin/Release/Chronojump.exe
 ASSEMBLY_MDB = 

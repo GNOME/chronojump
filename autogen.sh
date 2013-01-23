@@ -8,6 +8,7 @@ CONFIGURE=configure.ac
 : ${AUTOHEADER=autoheader}
 : ${AUTOMAKE=automake}
 : ${LIBTOOLIZE=libtoolize}
+: ${INTLTOOLIZE=intltoolize}
 : ${ACLOCAL=aclocal}
 : ${LIBTOOL=libtool}
 
@@ -17,30 +18,9 @@ test -z "$srcdir" && srcdir=.
 ORIGDIR=`pwd`
 cd $srcdir
 TEST_TYPE=-f
-aclocalinclude="-I . $ACLOCAL_FLAGS"
+aclocalinclude="-I m4/shamrock -I m4/shave $ACLOCAL_FLAGS"
+conf_flags="--enable-maintainer-mode"
 
-DIE=0
-
-($AUTOCONF --version) < /dev/null > /dev/null 2>&1 || {
-        echo
-        echo "You must have autoconf installed to compile $PROJECT."
-        echo "Download the appropriate package for your distribution,"
-        echo "or get the source tarball at ftp://ftp.gnu.org/pub/gnu/"
-        DIE=1
-}
-
-($AUTOMAKE --version) < /dev/null > /dev/null 2>&1 || {
-        echo
-        echo "You must have automake installed to compile $PROJECT."
-        echo "Get ftp://sourceware.cygnus.com/pub/automake/automake-1.4.tar.gz"
-        echo "(or a newer version if it is available)"
-        DIE=1
-}
-
-if test "$DIE" -eq 1; then
-        exit 1
-fi
-                                                                                
 #test $TEST_TYPE $FILE || {
 #        echo "You must run this script in the top-level $PROJECT directory"
 #        exit 1
@@ -57,7 +37,12 @@ esac
 
 (grep "^AM_PROG_LIBTOOL" $CONFIGURE >/dev/null) && {
     echo "Running $LIBTOOLIZE ..."
-    $LIBTOOLIZE --force --copy
+    $LIBTOOLIZE --force --copy --automake
+}
+
+(grep "^IT_PROG_INTLTOOL" $CONFIGURE >/dev/null) && {
+    echo "Running $INTLTOOLIZE ..."
+    $INTLTOOLIZE --force --copy --automake
 }
 
 echo "Running $ACLOCAL $aclocalinclude ..."

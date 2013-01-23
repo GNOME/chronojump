@@ -3,8 +3,10 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT([chronojump], [1.0.0])
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE
 
 AC_CONFIG_MACRO_DIR([m4])
+AC_SUBST([ACLOCAL_AMFLAGS], ["-I m4/shamrock -I m4/shave \${ACLOCAL_FLAGS}"])
 
 AM_PROG_LIBTOOL
 
@@ -23,24 +25,27 @@ SHAMROCK_EXPAND_DATADIR
 
 AC_PROG_INSTALL
 
-dnl Check for C# compiler
-AC_PATH_PROG(CSC, csc, no)
-if test "x$CSC" = "xno"; then
-	AC_PATH_PROG(MCS, gmcs, no)
-	if test "x$MCS" = "xno"; then
-       		AC_PATH_PROG(MCS2, gmcs2,no)
-		if test "x$MCS2" = "xno"; then
-			AC_MSG_ERROR([You need to install a C-sharp compiler])
-		else 
-			AC_SUBST(GMCS,[gmcs2])	
-		fi
-	
-	else 
-		AC_SUBST(GMCS,[gmcs])
-	fi
-else 
-	AC_SUBST(GMCS,[csc])
-fi
+dnl Mono and C# compiler
+dnl Check first for a 4.0 compiler or than fallback to 2.0
+SHAMROCK_CHECK_MONO_MODULE(2.4.0)
+PKG_CHECK_EXISTS([mono >= 2.8],
+		[SHAMROCK_FIND_MONO_4_0_COMPILER
+		SHAMROCK_CHECK_MONO_4_0_GAC_ASSEMBLIES([
+			System.Data
+			Mono.Cairo
+			Mono.Posix
+			Mono.Data.Sqlite
+		])]
+,
+		[SHAMROCK_FIND_MONO_2_0_COMPILER
+		SHAMROCK_CHECK_MONO_2_0_GAC_ASSEMBLIES([
+			System.Data
+			Mono.Cairo
+			Mono.Posix
+			Mono.Data.Sqlite
+		])])
+AC_SUBST(MCS, ["$MCS"])
+SHAMROCK_FIND_MONO_RUNTIME
 
 dnl Check for gettext utils
 AC_PATH_PROG(MSGFMT, msgfmt, no)
@@ -104,18 +109,6 @@ PKG_CHECK_MODULES(CESARPLAYER, [gtk+-2.0 >= 2.8 gdk-2.0 gio-2.0 glib-2.0 gstream
 AC_SUBST(CESARPLAYER_CFLAGS)
 AC_SUBST(CESARPLAYER_LIBS)
 
-dnl Check for Mono assemblies that we need
-needed_dlls="Mono.Data.Sqlite Mono.Posix"
-for i in $needed_dlls; do
-  AC_MSG_CHECKING([for $i.dll])
-  if test ! \( -e `$PKG_CONFIG --variable=prefix mono`/lib/mono/2.0/$i.dll -o -e `$PKG_CONFIG --variable=prefix mono`/lib64/mono/2.0//$i.dll \); then
-    AC_MSG_ERROR([missing required mono 2.0 DLL: $i.dll])
-  else
-    AC_MSG_RESULT([found])
-  fi
-done
-
-
 AC_CONFIG_FILES([
 Makefile
 chronopic-firmware/Makefile
@@ -132,7 +125,6 @@ src/chronojump
 src/chronojump_mini
 src/chronojump.desktop
 libcesarplayer/Makefile
-libcesarplayer/src/Makefile
 CesarPlayer/Makefile
 CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config

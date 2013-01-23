@@ -2,13 +2,11 @@ EXTRA_DIST = m4 expansions.m4
 
 ACLOCAL_AMFLAGS = -I m4
 
-if ENABLE_DEBUG
- SUBDIRS = chronopic-firmware chronojump_server chronopic-tests \
- 	src po manual chronopic-firmware libcesarplayer CesarPlayer
-endif
-if ENABLE_RELEASE
- SUBDIRS = chronopic-firmware chronojump_server chronopic-tests \
- 	libcesarplayer CesarPlayer src po manual
+SUBDIRS = chronopic-firmware \
+	libcesarplayer CesarPlayer src po manual
+
+if OSTYPE_LINUX
+ SUBDIRS += chronopic-tests chronojump_server
 endif
 
 # Build ChangeLog from GIT history

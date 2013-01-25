@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-17 20:51+0000\n"
-"PO-Revision-Date: 2013-01-18 10:28+0100\n"
+"POT-Creation-Date: 2013-01-24 17:47+0000\n"
+"PO-Revision-Date: 2013-01-25 18:07+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -189,7 +189,7 @@ msgstr "Atletas"
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:33 ../src/exportSession.cs:384
-#: ../src/gui/chronojump.cs:3325 ../src/gui/jump.cs:1771
+#: ../src/gui/chronojump.cs:3326 ../src/gui/jump.cs:1771
 #: ../src/gui/jump.cs:1821 ../src/gui/jump.cs:1869
 #: ../src/sqlite/speciallity.cs:160 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
@@ -228,7 +228,7 @@ msgstr ""
 "reacción"
 
 #: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:198
-#: ../src/gui/chronojump.cs:3826 ../src/gui/person.cs:2131
+#: ../src/gui/chronojump.cs:3831 ../src/gui/person.cs:2131
 #: ../src/gui/session.cs:699 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Pulsos"
@@ -558,11 +558,11 @@ msgstr "Lateral"
 msgid "Limb"
 msgstr "Miembro"
 
-#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:1082
 msgid "Right"
 msgstr "Derecha"
 
-#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:1082
 msgid "Left"
 msgstr "Izquierda"
 
@@ -594,7 +594,7 @@ msgstr "Desconocida"
 msgid "Fall"
 msgstr "Caída"
 
-#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:1082
 msgid "Both"
 msgstr "Ambas"
 
@@ -621,10 +621,13 @@ msgid ""
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
+"«Inicio de velocidad» el atleta no comienza con el «contacto» en la primera "
+"plataforma o fotocélula.\n"
+"Comienza antes y llega con algo de velocidad."
 
 #: ../glade/chronojump.glade.h:135
 msgid "What to do on speed start?"
-msgstr ""
+msgstr "¿Que hacer en el inicio de velocidad?"
 
 #: ../glade/chronojump.glade.h:136
 msgid "Time starts on arrival at first device"
@@ -672,7 +675,7 @@ msgstr "m"
 
 #: ../glade/chronojump.glade.h:147
 msgid "Time starts on leaving first device\t"
-msgstr ""
+msgstr "El tiempo comienza al dejar el primer dispositivo\t"
 
 #. update the totaltime label
 #: ../glade/chronojump.glade.h:148 ../src/gui/jump.cs:653
@@ -744,8 +747,8 @@ msgstr "Distancia total"
 #: ../src/exportSession.cs:285 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:495 ../src/exportSession.cs:550
 #: ../src/exportSession.cs:641 ../src/exportSession.cs:682
-#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1183
-#: ../src/gui/encoder.cs:1216 ../src/gui/jump.cs:1544 ../src/gui/jump.cs:1743
+#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1182
+#: ../src/gui/encoder.cs:1215 ../src/gui/jump.cs:1544 ../src/gui/jump.cs:1743
 #: ../src/gui/person.cs:119 ../src/gui/run.cs:1347 ../src/gui/run.cs:1518
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -770,12 +773,12 @@ msgstr "Reproducir sonido (encendido / apagado)"
 msgid "Or press 'space'"
 msgstr "O pulse 'spacio'"
 
-#: ../glade/chronojump.glade.h:167 ../src/gui/chronojump.cs:5196
+#: ../glade/chronojump.glade.h:167 ../src/gui/chronojump.cs:5203
 msgid "Execute test"
 msgstr "Ejecutar prueba"
 
 #: ../glade/chronojump.glade.h:168 ../src/gui/chronojump.cs:3149
-#: ../src/gui/chronojump.cs:3478 ../src/gui/chronojump.cs:3721
+#: ../src/gui/chronojump.cs:3480 ../src/gui/chronojump.cs:3725
 msgid "Phases"
 msgstr "Fases"
 
@@ -1330,10 +1333,8 @@ msgid "Capture"
 msgstr "Capturar"
 
 #: ../glade/chronojump.glade.h:279
-#, fuzzy
-#| msgid "Data"
 msgid "Data:"
-msgstr "Datos"
+msgstr "Datos:"
 
 #: ../glade/chronojump.glade.h:280
 msgid "Current signal"
@@ -1368,10 +1369,8 @@ msgid "Show"
 msgstr "Mostrar"
 
 #: ../glade/chronojump.glade.h:288
-#, fuzzy
-#| msgid "Mode"
 msgid "Mode:"
-msgstr "Modo"
+msgstr "Modo:"
 
 #: ../glade/chronojump.glade.h:289
 msgid "Power bars"
@@ -1402,7 +1401,7 @@ msgid "Max values"
 msgstr "Valores máximos"
 
 #: ../glade/chronojump.glade.h:296 ../src/encoder.cs:242
-#: ../src/gui/encoder.cs:1070
+#: ../src/gui/encoder.cs:1069
 msgid "Eccentric-concentric"
 msgstr "Excéntrico-concéntrico"
 
@@ -1416,7 +1415,7 @@ msgstr "Separadas"
 
 #: ../glade/chronojump.glade.h:299
 msgid "Side compare allows a maximum of 12 graphs."
-msgstr ""
+msgstr "La comparativa lateral permite un máximo de 12 gráficos."
 
 #: ../glade/chronojump.glade.h:300
 msgid "Analyze"
@@ -1682,10 +1681,8 @@ msgid "Simulated"
 msgstr "Simulado"
 
 #: ../glade/chronojump.glade.h:364
-#, fuzzy
-#| msgid "Show angle"
 msgid "Knee angle"
-msgstr "Mostrar ángulo"
+msgstr "Ángulo de la rodilla"
 
 #: ../glade/chronojump.glade.h:365
 msgid "Mistakes"
@@ -1721,7 +1718,7 @@ msgstr "grados"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:372 ../src/gui/encoder.cs:1270
+#: ../glade/chronojump.glade.h:372 ../src/gui/encoder.cs:1269
 msgid "Start"
 msgstr "Salida"
 
@@ -2329,10 +2326,8 @@ msgid "Show initial speed"
 msgstr "Mostrar la velocidad inicial"
 
 #: ../glade/chronojump.glade.h:514
-#, fuzzy
-#| msgid "Show angle"
 msgid "Show knee angle"
-msgstr "Mostrar ángulo"
+msgstr "Mostrar ángulo de la rodilla"
 
 #: ../glade/chronojump.glade.h:515
 msgid "Show indexes between TF and TC"
@@ -2423,10 +2418,8 @@ msgid "Evaluator"
 msgstr "Evaluador"
 
 #: ../glade/chronojump.glade.h:537
-#, fuzzy
-#| msgid "Show power"
 msgid "Show query"
-msgstr "Mostrar potencia"
+msgstr "Mostrar consulta"
 
 #: ../glade/chronojump.glade.h:538
 msgid "Results:"
@@ -2708,10 +2701,8 @@ msgstr ""
 "ideal para pruebas de agilidad)"
 
 #: ../glade/chronojump.glade.h:597
-#, fuzzy
-#| msgid "Number of tracks"
 msgid "Number of different tracks"
-msgstr "Número de pistas "
+msgstr "Número de pistas diferentes"
 
 #: ../glade/chronojump.glade.h:598
 msgid "Help RSA"
@@ -2837,7 +2828,7 @@ msgstr "todos"
 msgid "none"
 msgstr "ninguno"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2578
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2118
 msgid ""
 "The requested audio output was not found. Please select another audio output "
 "in the Multimedia Systems Selector."
@@ -2845,17 +2836,17 @@ msgstr ""
 "No se encontró la salida de sonido solicitada. Seleccione otra salida de "
 "sonido en el Selector de sistemas multimedia."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2584
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2124
 msgid "Location not found."
 msgstr "Ubicación no encontrada."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2588
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2128
 msgid ""
 "Could not open location; you might not have permission to open the file."
 msgstr ""
 "No se pudo abrir la ubicación; quizá no tiene permiso para abrir el archivo."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2600
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2140
 msgid ""
 "The video output is in use by another application. Please close other video "
 "applications, or select another video output in the Multimedia Systems "
@@ -2865,7 +2856,7 @@ msgstr ""
 "aplicaciones de vídeo o seleccione otra salida de vídeo en el Selector de "
 "sistemas multimedia."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2607
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2147
 msgid ""
 "The audio output is in use by another application. Please select another "
 "audio output in the Multimedia Systems Selector. You may want to consider "
@@ -2875,15 +2866,15 @@ msgstr ""
 "de sonido en el Selector de sistemas multimedia. Quizá deba considerar usar "
 "un servidor de sonido."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2626
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2632
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2166
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2172
 #, c-format
 msgid "The playback of this movie requires a %s plugin which is not installed."
 msgstr ""
 "La reproducción de esta película requiere un complemento %s que no está "
 "instalado."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2634
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2174
 #, c-format
 msgid ""
 "The playback of this movie requires the following decoders which are not "
@@ -2896,42 +2887,42 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2660
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2200
 msgid ""
 "Cannot play this file over the network. Try downloading it to disk first."
 msgstr ""
 "No se puede reproducir este archivo a través de la red. Intente descargarlo "
 "primero."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2735
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2275
 msgid "Media file could not be played."
 msgstr "No se pudo reproducir el archivo."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2877
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2417
 msgid "Failed to retrieve working directory"
 msgstr "Falló al obtener la carpeta de trabajo"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4607
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3930
 msgid "Surround"
 msgstr "Envolvente"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4609
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3932
 msgid "Mono"
 msgstr "Mono"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4611
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3934
 msgid "Stereo"
 msgstr "Estéreo"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4999
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4322
 msgid "Too old version of GStreamer installed."
 msgstr "Versión de GStreamer instalada muy antigua."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5006
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4329
 msgid "Media contains no supported video streams."
 msgstr "El soporte no contiene ningún flujo de vídeo soportado."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5430
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4596
 #, c-format
 msgid ""
 "Failed to create a GStreamer play object. Please check your GStreamer "
@@ -2940,8 +2931,8 @@ msgstr ""
 "Falló al crear el objeto de reproducción GStreamer. Compruebe su instalación "
 "de GStreamer."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5504
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5633
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4669
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4798
 #, c-format
 msgid ""
 "Failed to open video output. It may not be available. Please select another "
@@ -2950,7 +2941,7 @@ msgstr ""
 "Falló al abrir la salida de vídeo. Puede que no esté disponible. Seleccione "
 "otra salida de vídeo en el Selector de sistemas multimedia"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5518
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4683
 #, c-format
 msgid ""
 "Could not find the video output. You may need to install additional "
@@ -2961,7 +2952,7 @@ msgstr ""
 "complementos adicionales de GStreamer, o seleccionar otra salida de vídeo en "
 "el Selector de sistemas multimedia."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5554
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4719
 #, c-format
 msgid ""
 "Failed to open audio output. You may not have permission to open the sound "
@@ -2972,7 +2963,7 @@ msgstr ""
 "dispositivo de sonido, o el servidor de sonido quizá no esté funcionando. "
 "Seleccione otra salida de sonido en el Selector de sistemas multimedia."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5574
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4739
 #, c-format
 msgid ""
 "Could not find the audio output. You may need to install additional "
@@ -2989,8 +2980,7 @@ msgstr ""
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../libcesarplayer/src/video-utils.c:92
-#: ../libcesarplayer/src/video-utils.c:111
+#: ../libcesarplayer/video-utils.c:119 ../libcesarplayer/video-utils.c:138
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -3002,27 +2992,27 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../libcesarplayer/src/video-utils.c:102
+#: ../libcesarplayer/video-utils.c:129
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../libcesarplayer/src/video-utils.c:142
+#: ../libcesarplayer/video-utils.c:169
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] "%d hora"
 msgstr[1] "%d horas"
 
-#: ../libcesarplayer/src/video-utils.c:144
+#: ../libcesarplayer/video-utils.c:171
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d minuto"
 msgstr[1] "%d minutos"
 
-#: ../libcesarplayer/src/video-utils.c:146
+#: ../libcesarplayer/video-utils.c:173
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -3030,25 +3020,25 @@ msgstr[0] "%d segundo"
 msgstr[1] "%d segundos"
 
 #. hour:minutes:seconds
-#: ../libcesarplayer/src/video-utils.c:150
+#: ../libcesarplayer/video-utils.c:177
 #, c-format
 msgid "%s %s %s"
 msgstr "%s %s %s"
 
 #. minutes:seconds
-#: ../libcesarplayer/src/video-utils.c:153
+#: ../libcesarplayer/video-utils.c:180
 #, c-format
 msgid "%s %s"
 msgstr "%s %s"
 
 #. seconds
-#: ../libcesarplayer/src/video-utils.c:156
+#: ../libcesarplayer/video-utils.c:183
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #. 0 seconds
-#: ../libcesarplayer/src/video-utils.c:159
+#: ../libcesarplayer/video-utils.c:186
 msgid "0 seconds"
 msgstr "0 seconds"
 
@@ -3331,8 +3321,7 @@ msgstr "El servidor está conectado."
 
 #: ../src/constants.cs:137
 msgid "Sorry, server is currently offline. Try later."
-msgstr ""
-"Lo sentimos, el servidor está fuera de línea. Por favor, Pruebe más tarde."
+msgstr "Lo sentimos, el servidor está fuera de línea. Inténtelo más tarde."
 
 #: ../src/constants.cs:138
 msgid ""
@@ -3516,10 +3505,8 @@ msgid "South America"
 msgstr "Sudamérica"
 
 #: ../src/constants.cs:468
-#, fuzzy
-#| msgid "Tests are SIMULATED until Chronopic is connected."
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
-msgstr "Las pruebas son SIMULADAS hasta que se conecte Chronopic."
+msgstr "Las pruebas son <b>simuladas</b> hasta que se conecte Chronopic."
 
 #: ../src/constants.cs:471
 msgid "All tests available except MultiChronopic."
@@ -3599,7 +3586,7 @@ msgstr "Comienza carrera con velocidad inicial."
 msgid "Standing start. Started without initial speed."
 msgstr "Comienza carrera sin velocidad inicial."
 
-#: ../src/encoder.cs:240 ../src/gui/encoder.cs:1070
+#: ../src/encoder.cs:240 ../src/gui/encoder.cs:1069
 msgid "Concentric"
 msgstr "Concéntrico"
 
@@ -3723,7 +3710,7 @@ msgid "Run will not be recorded, 1st track is out of time"
 msgstr "La carrera no se grabará, la primera pista está fuera de tiempo"
 
 #: ../src/execute/run.cs:940 ../src/exportSession.cs:548
-#: ../src/gui/chronojump.cs:3602 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
+#: ../src/gui/chronojump.cs:3605 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
 #: ../src/gui/run.cs:1657
 msgid "Tracks"
 msgstr "Tramos"
@@ -4260,124 +4247,131 @@ msgstr "Pulsar este botón:\n"
 msgid "Input length oj jump in centimeters"
 msgstr "Longitud de la entrada o del salto en centímetros"
 
-#: ../src/gui/chronojump.cs:4017
+#: ../src/gui/chronojump.cs:3245 ../src/gui/chronojump.cs:3373
+#: ../src/gui/chronojump.cs:3528 ../src/gui/chronojump.cs:3654
+#: ../src/gui/chronojump.cs:3767 ../src/gui/chronojump.cs:3886
+#: ../src/gui/chronojump.cs:4131
+msgid "Sorry, video cannot be stored."
+msgstr "Lo sentimo, el video no puede ser guardado."
+
+#: ../src/gui/chronojump.cs:4023
 msgid "Changes"
 msgstr "Cambios"
 
-#: ../src/gui/chronojump.cs:4219
+#: ../src/gui/chronojump.cs:4226
 msgid "Cannot update. Probably this test was deleted."
 msgstr "No se puede actualizar. Probablemente esta prueba se borró."
 
-#: ../src/gui/chronojump.cs:4658 ../src/gui/chronojump.cs:4674
+#: ../src/gui/chronojump.cs:4665 ../src/gui/chronojump.cs:4681
 msgid "Do you want to delete this jump?"
 msgstr "¿Desea borrar este salto?"
 
-#: ../src/gui/chronojump.cs:4675
+#: ../src/gui/chronojump.cs:4682
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Atención: Borrar un subsalto reactivo borrará todo el salto completo"
 
-#: ../src/gui/chronojump.cs:4740 ../src/gui/chronojump.cs:4757
+#: ../src/gui/chronojump.cs:4747 ../src/gui/chronojump.cs:4764
 msgid "Do you want to delete this run?"
 msgstr "¿Desea borrar esta carrera?"
 
-#: ../src/gui/chronojump.cs:4758
+#: ../src/gui/chronojump.cs:4765
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Atención: Borrar un tramo de la carrera borrará toda la carrera"
 
-#: ../src/gui/chronojump.cs:4892
+#: ../src/gui/chronojump.cs:4899
 msgid "Do you want to delete this test?"
 msgstr "¿Desea borrar esta prueba?"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4946
+#: ../src/gui/chronojump.cs:4953
 msgid "Added simple jump."
 msgstr "Añadido salto simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4949
+#: ../src/gui/chronojump.cs:4956
 msgid "Added reactive jump."
 msgstr "Añadido salto reactivo."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4974
+#: ../src/gui/chronojump.cs:4981
 msgid "Added simple run."
 msgstr "Añadida carrera simple."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:4977
+#: ../src/gui/chronojump.cs:4984
 msgid "Added intervallic run."
 msgstr "Añadida carrera con tramos."
 
-#: ../src/gui/chronojump.cs:5189
+#: ../src/gui/chronojump.cs:5196
 msgid "Accelerators help"
 msgstr "Ayuda de acceleradores"
 
-#: ../src/gui/chronojump.cs:5191
+#: ../src/gui/chronojump.cs:5198
 msgid "Use these keys in order to work faster."
 msgstr "Use las siguientes teclas para trabajar más rápido."
 
-#: ../src/gui/chronojump.cs:5192
+#: ../src/gui/chronojump.cs:5199
 msgid "On execute test tab:"
 msgstr "En la pestaña de Ejecutar prueba:"
 
-#: ../src/gui/chronojump.cs:5193
+#: ../src/gui/chronojump.cs:5200
 msgid "Edit selected person"
 msgstr "Editar atleta seleccionado"
 
-#: ../src/gui/chronojump.cs:5194
+#: ../src/gui/chronojump.cs:5201
 msgid "CURSOR_UP"
 msgstr "CURSOR_ARRIBA"
 
-#: ../src/gui/chronojump.cs:5194
+#: ../src/gui/chronojump.cs:5201
 msgid "Select previous person"
 msgstr "Seleccionar el atleta anterior"
 
-#: ../src/gui/chronojump.cs:5195
+#: ../src/gui/chronojump.cs:5202
 msgid "CURSOR_DOWN"
 msgstr "CURSOR_ABAJO"
 
-#: ../src/gui/chronojump.cs:5195
+#: ../src/gui/chronojump.cs:5202
 msgid "Select next person"
 msgstr "Seleccionar el atleta siguiente"
 
-#: ../src/gui/chronojump.cs:5197
+#: ../src/gui/chronojump.cs:5204
 msgid "Play video of this test"
 msgstr "Reproducir vídeo de esta prueba"
 
-#: ../src/gui/chronojump.cs:5197 ../src/gui/chronojump.cs:5201
-#: ../src/gui/chronojump.cs:5204
+#: ../src/gui/chronojump.cs:5204 ../src/gui/chronojump.cs:5208
+#: ../src/gui/chronojump.cs:5211
 msgid "(if available)"
 msgstr "(si se encuentra disponible)"
 
-#: ../src/gui/chronojump.cs:5198
+#: ../src/gui/chronojump.cs:5205
 msgid "Delete this test"
 msgstr "Borrar esta prueba"
 
-#: ../src/gui/chronojump.cs:5199
+#: ../src/gui/chronojump.cs:5206
 msgid "On results tab:"
 msgstr "El la pestaña de Resultados:"
 
-#: ../src/gui/chronojump.cs:5200
+#: ../src/gui/chronojump.cs:5207
 msgid "Zoom change"
 msgstr "cambiar Zoom"
 
-#: ../src/gui/chronojump.cs:5201
+#: ../src/gui/chronojump.cs:5208
 msgid "Play video of selected test"
 msgstr "Reproducir vídeo de la prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5202
+#: ../src/gui/chronojump.cs:5209
 msgid "Edit selected test"
 msgstr "Editar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5203
+#: ../src/gui/chronojump.cs:5210
 msgid "Delete selected test"
 msgstr "Borrar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5204
+#: ../src/gui/chronojump.cs:5211
 msgid "Repair selected test"
 msgstr "Reparar prueba seleccionada"
 
-#: ../src/gui/chronojump.cs:5209
+#: ../src/gui/chronojump.cs:5216
 msgid "translator-credits"
 msgstr ""
 "Jorge González <jorge.gonzalez.gonzalez@hispalinux.es>, 2007-2009\n"
@@ -4386,7 +4380,7 @@ msgstr ""
 "QA: Francisco Javier F. Serrador <serrador@openshine.com>, 2006\n"
 "QA: Jorge González <jorgegonz@svn.gnome.org>, 2007-2008"
 
-#: ../src/gui/chronojump.cs:5553
+#: ../src/gui/chronojump.cs:5560
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr ""
 "Programado para realizar pruebas de desarrollo. Chronojump fallará y se "
@@ -4500,7 +4494,7 @@ msgstr ""
 msgid "Missing data."
 msgstr "Faltan datos."
 
-#: ../src/gui/encoder.cs:348 ../src/gui/encoder.cs:1269
+#: ../src/gui/encoder.cs:348 ../src/gui/encoder.cs:1268
 msgid "Curve"
 msgstr "Curva"
 
@@ -4523,7 +4517,7 @@ msgstr "Curvas guardadas del atleta {0} en esta sesión."
 #. and we want to ensure next window will be created at needed size
 #. genericWin.DestroyOnAccept=true;
 #. here is comented because we are going to read the checkboxes
-#: ../src/gui/encoder.cs:383 ../src/gui/encoder.cs:1185
+#: ../src/gui/encoder.cs:383 ../src/gui/encoder.cs:1184
 msgid "Close"
 msgstr "Cerrar"
 
@@ -4533,10 +4527,9 @@ msgid "Select signal of athlete {0} on this session."
 msgstr "Seleccionar las señales del atleta {0} en esta sesión."
 
 #: ../src/gui/encoder.cs:519
-#, fuzzy, csharp-format
-#| msgid "Exported to file: "
+#, csharp-format
 msgid "Exported to {0}."
-msgstr "Exportado al archivo: "
+msgstr "Exportado a {0}."
 
 #: ../src/gui/encoder.cs:525
 msgid "Are you sure you want to delete this signal?"
@@ -4566,102 +4559,102 @@ msgstr "Señal guardada"
 msgid "Signal updated"
 msgstr "Señal actualizada"
 
-#: ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1096
 msgid "Speed / Load"
 msgstr "Velocidad / carga"
 
-#: ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1096
 msgid "Force / Load"
 msgstr "Fuerza / carga"
 
-#: ../src/gui/encoder.cs:1098
+#: ../src/gui/encoder.cs:1097
 msgid "Power / Load"
 msgstr "Potencia / carga"
 
-#: ../src/gui/encoder.cs:1098
+#: ../src/gui/encoder.cs:1097
 msgid "Speed,Power / Load"
 msgstr "Velocidad, potencia / carga"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1098
 msgid "Force / Speed"
 msgstr "Fuerza / velocidad"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1098
 msgid "Power / Speed"
 msgstr "Potencia / velocidad"
 
-#: ../src/gui/encoder.cs:1179
+#: ../src/gui/encoder.cs:1178
 msgid "Encoder exercise name:"
 msgstr "Nombre del ejercicio del codificador:"
 
-#: ../src/gui/encoder.cs:1180 ../src/gui/encoder.cs:1213
+#: ../src/gui/encoder.cs:1179 ../src/gui/encoder.cs:1212
 msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:1182
+#: ../src/gui/encoder.cs:1181
 msgid "Resistance"
 msgstr "Resistencia"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1212
+#: ../src/gui/encoder.cs:1211
 msgid "Write the name of the encoder exercise:"
 msgstr "Escriba el nombre del codificador del ejercicio:"
 
-#: ../src/gui/encoder.cs:1215
+#: ../src/gui/encoder.cs:1214
 msgid "Ressitance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:1217
+#: ../src/gui/encoder.cs:1216
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:1231
+#: ../src/gui/encoder.cs:1230
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:1234
+#: ../src/gui/encoder.cs:1233
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/encoder.cs:1271
+#: ../src/gui/encoder.cs:1270
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoder.cs:1272
+#: ../src/gui/encoder.cs:1271
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/gui/encoder.cs:1273
+#: ../src/gui/encoder.cs:1272
 msgid "MeanSpeed"
 msgstr "Velocidad media"
 
-#: ../src/gui/encoder.cs:1274
+#: ../src/gui/encoder.cs:1273
 msgid "MaxSpeed"
 msgstr "Velocidad máxima"
 
-#: ../src/gui/encoder.cs:1275
+#: ../src/gui/encoder.cs:1274
 msgid "MeanPower"
 msgstr "Potencia media"
 
-#: ../src/gui/encoder.cs:1276
+#: ../src/gui/encoder.cs:1275
 msgid "PeakPower"
 msgstr "Pico de potencia"
 
-#: ../src/gui/encoder.cs:1277
+#: ../src/gui/encoder.cs:1276
 msgid "PeakPowerTime"
 msgstr "Instante del pico de potencia"
 
-#: ../src/gui/encoder.cs:1278
+#: ../src/gui/encoder.cs:1277
 msgid "PeakPower/PPT"
 msgstr "Pico de potencia/Instante"
 
-#: ../src/gui/encoder.cs:1786 ../src/gui/encoder.cs:1848
+#: ../src/gui/encoder.cs:1785 ../src/gui/encoder.cs:1847
 msgid "Please, wait."
 msgstr "Espere."
 
-#: ../src/gui/encoder.cs:1866 ../src/gui/encoder.cs:1885
+#: ../src/gui/encoder.cs:1865 ../src/gui/encoder.cs:1884
 msgid "Cancelled"
 msgstr "Cancelado"
 
@@ -5198,32 +5191,34 @@ msgstr "Indefinido"
 #: ../src/gui/runType.cs:175
 #, csharp-format
 msgid "Run type: '{0}' exists. Please, use another name"
-msgstr "El tipo de carrera: '{0}' ya existe. Por favor use otro nombre"
+msgstr "El tipo de carrera: «{0}» ya existe. Use otro nombre"
 
 #: ../src/gui/runType.cs:360
 msgid "On RSA tests, rest time counts as a \"track\"."
-msgstr ""
+msgstr "En los tests RSA, el tiempo restante cuenta como una «pista»."
 
 #: ../src/gui/runType.cs:361
 msgid ""
 "You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
 msgstr ""
+"Debe escribir el tiempo en segundos después de la letra mayúscula «R» (que "
+"significa «Descanso»)"
 
 #: ../src/gui/runType.cs:362
 msgid "Eg. A test that repeats 5 times the following sequence:"
-msgstr ""
+msgstr "Ej: una prueba que se repite 5 veces la siguiente secuencia:"
 
 #: ../src/gui/runType.cs:363
 msgid "Run 10 meters, run 8 meters, rest 4 seconds."
-msgstr ""
+msgstr "Correr 10 metros, correr 8 metros, descansa 4 segundos."
 
 #: ../src/gui/runType.cs:364
 msgid "Will be limited by tracks with a fixed value of 15"
-msgstr ""
+msgstr "Estará limitado por pistas, con un valor fijo de 15"
 
 #: ../src/gui/runType.cs:365
 msgid "(3 different tracks x 5 times)"
-msgstr ""
+msgstr "( 3 pistas diferentes x 5 veces)"
 
 #: ../src/gui/runType.cs:366
 msgid "And the 'distance' of each track will be:"

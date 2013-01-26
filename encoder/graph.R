@@ -536,7 +536,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
+<<<<<<< HEAD
 paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, height, n) {
+=======
+paintPowerPeakPowerBars <- function(title, paf, singleFile, myEccons, Eccon, height, n) {
+>>>>>>> Fixed bug encoder powerbars separated
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
@@ -1040,11 +1044,19 @@ doProcess <- function(options) {
 
 		if(Analysis == "powerBars") {
 			if(! singleFile) 
+<<<<<<< HEAD
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
 							curves[,8], Eccon,	 	#myEccon, Eccon
 							curvesHeight, n)			#height
 			else 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
+=======
+				paintPowerPeakPowerBars(Title, paf, singleFile,  
+							curves[,8], Eccon,	 	#myEccon, Eccon
+							curvesHeight, n)			#height
+			else 
+				paintPowerPeakPowerBars(Title, paf, singleFile,
+>>>>>>> Fixed bug encoder powerbars separated
 							curves[,8], Eccon,		#myEccon, Eccon
 							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
 		}

@@ -11,7 +11,7 @@ endif
 
 if OSTYPE_WINDOWS
 win32-installer:
-	make -C win32 bundle
+	make -C win32 installer
 endif
 
 # Build ChangeLog from GIT history

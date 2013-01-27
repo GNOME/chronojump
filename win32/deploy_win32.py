@@ -108,7 +108,7 @@ class Deploy():
         self.deploy_gstreamer()
         self.deploy_mono()
         self.deploy_msys()
-        #self.deploy_themes()
+        self.deploy_themes()
         self.close()
 
     def close(self, message=None):
@@ -180,15 +180,14 @@ class Deploy():
 
     def deploy_themes(self):
         print 'Deploying theming support'
-        deps_engines_dir = os.path.join(self.deps_dir, 'engines')
-        for filename in os.listdir(deps_engines_dir):
-            shutil.copy(os.path.join(deps_engines_dir, filename),
+        engines_dir = os.path.join(self.prefix, 'lib', 'gtk-2.0', '2.10.0', 'engines')
+        for filename in os.listdir(engines_dir):
+            shutil.copy(os.path.join(engines_dir, filename),
                         os.path.join(self.lib_dir, 'gtk-2.0', '2.10.0', 'engines'))
-        shutil.copytree(os.path.join(self.deps_dir, 'themes'),
+        shutil.copytree(os.path.join(self.prefix, 'share', 'themes'),
                         os.path.join(self.share_dir, 'themes'))
-        shutil.copy(os.path.join(self.deps_dir, 'gtkrc'),
+        shutil.copy(os.path.join(self.prefix, 'etc', 'gtk-2.0', 'gtkrc'),
                     os.path.join(self.etc_dir, 'gtk-2.0'))
-        shutil.copy(os.path.join(self.deps_dir, 'ThemeSelector.exe'), self.bin_dir)
 
     def deploy_glib(self):
         print 'Deploying GLib dependencies'

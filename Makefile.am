@@ -10,7 +10,7 @@ if OSTYPE_LINUX
 endif
 
 if OSTYPE_WINDOWS
-win32-bundle:
+win32-installer:
 	make -C win32 bundle
 endif
 

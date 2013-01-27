@@ -9,6 +9,11 @@ if OSTYPE_LINUX
  SUBDIRS += chronopic-tests chronojump_server
 endif
 
+if OSTYPE_WINDOWS
+win32-bundle:
+	make -C win32 bundle
+endif
+
 # Build ChangeLog from GIT history
 ChangeLog:
 	@if test -f $(top_srcdir)/.git/HEAD; then \

@@ -3192,7 +3192,7 @@ Console.WriteLine("X");
 	{
 Log.WriteLine("AAA");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_ask_data);
-		genericWin = GenericWindow.Show(Catalog.GetString("Input length oj jump in centimeters")
+		genericWin = GenericWindow.Show(Catalog.GetString("Input length of jump in centimeters")
 				, Constants.GenericWindowShow.SPININT);
 
 		genericWin.LabelSpinInt = "";

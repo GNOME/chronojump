@@ -1555,7 +1555,7 @@ public class Util
 		string detected = "";
 		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
 		if(usbSerial.Length > 0) {
-			detected += "\n" + Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n" + startStr;
+			detected += Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n" + startStr;
 			foreach(string myPort in usbSerial)
 				detected += midStr + myPort;
 			detected += endStr;

@@ -69,6 +69,8 @@ public class ChronopicWindow
 	[Widget] Gtk.ComboBox combo_linux2;
 	[Widget] Gtk.ComboBox combo_linux3;
 	[Widget] Gtk.ComboBox combo_linux4;
+	[Widget] Gtk.ComboBox combo_windows_encoder;
+	[Widget] Gtk.ComboBox combo_linux_encoder;
 	
 	[Widget] Gtk.Button button_connect_cp1;
 	[Widget] Gtk.Button button_connect_cp2;
@@ -211,6 +213,7 @@ Log.WriteLine("bbb");
 			combo_linux2.Hide();
 			combo_linux3.Hide();
 			combo_linux4.Hide();
+			combo_linux_encoder.Hide();
 				
 			combo_windows2.Sensitive = false;
 			combo_windows3.Sensitive = false;
@@ -220,6 +223,7 @@ Log.WriteLine("bbb");
 			combo_windows2.Hide();
 			combo_windows3.Hide();
 			combo_windows4.Hide();
+			combo_windows_encoder.Hide();
 				
 			combo_linux2.Sensitive = false;
 			combo_linux3.Sensitive = false;
@@ -306,6 +310,8 @@ Log.WriteLine("bbb");
 		UtilGtk.ComboUpdate(combo_windows2, allWithDef, Constants.ChronopicDefaultPortWindows);
 		UtilGtk.ComboUpdate(combo_windows3, allWithDef, Constants.ChronopicDefaultPortWindows);
 		UtilGtk.ComboUpdate(combo_windows4, allWithDef, Constants.ChronopicDefaultPortWindows);
+		
+		UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, comboWindowsOptions[0]);
 				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {
@@ -347,6 +353,8 @@ Log.WriteLine("bbb");
 		UtilGtk.ComboUpdate(combo_linux2, allWithDef, Constants.ChronopicDefaultPortLinux);
 		UtilGtk.ComboUpdate(combo_linux3, allWithDef, Constants.ChronopicDefaultPortLinux);
 		UtilGtk.ComboUpdate(combo_linux4, allWithDef, Constants.ChronopicDefaultPortLinux);
+		
+		UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, Constants.ChronopicDefaultPortLinux);
 				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {

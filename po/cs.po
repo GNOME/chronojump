@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-18 11:28+0000\n"
-"PO-Revision-Date: 2013-01-28 10:29+0100\n"
+"POT-Creation-Date: 2013-01-28 17:36+0000\n"
+"PO-Revision-Date: 2013-01-28 18:40+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -554,11 +554,11 @@ msgstr "Do strany"
 msgid "Limb"
 msgstr "Končetina"
 
-#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:1082
 msgid "Right"
 msgstr "Pravý"
 
-#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:1082
 msgid "Left"
 msgstr "Levý"
 
@@ -590,7 +590,7 @@ msgstr "Není známo"
 msgid "Fall"
 msgstr "Dopad"
 
-#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:1083
+#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:1082
 msgid "Both"
 msgstr "Obě"
 
@@ -743,8 +743,8 @@ msgstr "Celková vzdálenost"
 #: ../src/exportSession.cs:285 ../src/exportSession.cs:387
 #: ../src/exportSession.cs:495 ../src/exportSession.cs:550
 #: ../src/exportSession.cs:641 ../src/exportSession.cs:682
-#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1183
-#: ../src/gui/encoder.cs:1216 ../src/gui/jump.cs:1544 ../src/gui/jump.cs:1743
+#: ../src/exportSession.cs:741 ../src/gui/encoder.cs:1182
+#: ../src/gui/encoder.cs:1215 ../src/gui/jump.cs:1544 ../src/gui/jump.cs:1743
 #: ../src/gui/person.cs:119 ../src/gui/run.cs:1347 ../src/gui/run.cs:1518
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -1394,7 +1394,7 @@ msgid "Max values"
 msgstr "Max. hodnoty"
 
 #: ../glade/chronojump.glade.h:296 ../src/encoder.cs:242
-#: ../src/gui/encoder.cs:1070
+#: ../src/gui/encoder.cs:1069
 msgid "Eccentric-concentric"
 msgstr "Excentrická-koncentrická"
 
@@ -1713,7 +1713,7 @@ msgstr "stupně"
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:372 ../src/gui/encoder.cs:1270
+#: ../glade/chronojump.glade.h:372 ../src/gui/encoder.cs:1269
 msgid "Start"
 msgstr "Start"
 
@@ -2815,7 +2815,7 @@ msgstr "vše"
 msgid "none"
 msgstr "nic"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2578
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2118
 msgid ""
 "The requested audio output was not found. Please select another audio output "
 "in the Multimedia Systems Selector."
@@ -2823,16 +2823,16 @@ msgstr ""
 "Požadovaný zvukový výstup nebyl nalezen. Vyberte prosím jiný zvukový výstup "
 "ve Výběru systému multimédií."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2584
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2124
 msgid "Location not found."
 msgstr "Umístění nenalezeno."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2588
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2128
 msgid ""
 "Could not open location; you might not have permission to open the file."
 msgstr "Nelze otevřít umístění. Možná nemáte k otevření souboru oprávnění."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2600
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2140
 msgid ""
 "The video output is in use by another application. Please close other video "
 "applications, or select another video output in the Multimedia Systems "
@@ -2841,7 +2841,7 @@ msgstr ""
 "Videovýstup je používán jinou aplikací. Zavřete prosím tuto videoaplikaci "
 "nebo vyberte jiný videovýstup ve Výběru systému multimédií."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2607
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2147
 msgid ""
 "The audio output is in use by another application. Please select another "
 "audio output in the Multimedia Systems Selector. You may want to consider "
@@ -2851,15 +2851,15 @@ msgstr ""
 "výstup ve Výběru systému multimédií. Možná byste měli zvážit použití "
 "zvukového serveru."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2626
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2632
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2166
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2172
 #, c-format
 msgid "The playback of this movie requires a %s plugin which is not installed."
 msgstr ""
 "K přehrání tohoto videa je zapotřebí zásuvný modul %s, který není "
 "nainstalován."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2634
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2174
 #, c-format
 msgid ""
 "The playback of this movie requires the following decoders which are not "
@@ -2872,41 +2872,41 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2660
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2200
 msgid ""
 "Cannot play this file over the network. Try downloading it to disk first."
 msgstr ""
 "Tento soubor nelze přehrávat přes síť. Zkuste jej nejprve stáhnout na disk."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2735
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2275
 msgid "Media file could not be played."
 msgstr "Mediální soubor nelze přehrát."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:2877
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:2417
 msgid "Failed to retrieve working directory"
 msgstr "Nelze získat pracovní složku"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4607
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3930
 msgid "Surround"
 msgstr "Surround"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4609
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3932
 msgid "Mono"
 msgstr "Mono"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4611
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:3934
 msgid "Stereo"
 msgstr "Stereo"
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:4999
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4322
 msgid "Too old version of GStreamer installed."
 msgstr "Je nainstalována příliš stará verze systému GStreamer."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5006
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4329
 msgid "Media contains no supported video streams."
 msgstr "Toto médium obsahuje nepodporovaný proud videa."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5430
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4596
 #, c-format
 msgid ""
 "Failed to create a GStreamer play object. Please check your GStreamer "
@@ -2915,8 +2915,8 @@ msgstr ""
 "Selhalo vytvoření přehrávacího objektu GStreamer. Zkontrolujte prosím svoji "
 "instalaci systému GStreamer."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5504
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5633
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4669
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4798
 #, c-format
 msgid ""
 "Failed to open video output. It may not be available. Please select another "
@@ -2925,7 +2925,7 @@ msgstr ""
 "Selhalo otevření videovýstupu. Možná není dostupný. Vyberte prosím jiný "
 "videovýstup ve Výběru systému médií."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5518
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4683
 #, c-format
 msgid ""
 "Could not find the video output. You may need to install additional "
@@ -2936,7 +2936,7 @@ msgstr ""
 "moduly systému GStreamer nebo vyberte jiný videovýstup ve Výběru systému "
 "multimédií."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5554
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4719
 #, c-format
 msgid ""
 "Failed to open audio output. You may not have permission to open the sound "
@@ -2947,7 +2947,7 @@ msgstr ""
 "zařízení nebo neběží zvukový server. Vyberte prosím jiný zvukový vystup ve "
 "Výběru systému médií."
 
-#: ../libcesarplayer/src/bacon-video-widget-gst-0.10.c:5574
+#: ../libcesarplayer/bacon-video-widget-gst-0.10.c:4739
 #, c-format
 msgid ""
 "Could not find the audio output. You may need to install additional "
@@ -2964,8 +2964,7 @@ msgstr ""
 #. * the separator that your locale uses or use "%Id" instead
 #. * of "%d" if your locale uses localized digits.
 #.
-#: ../libcesarplayer/src/video-utils.c:92
-#: ../libcesarplayer/src/video-utils.c:111
+#: ../libcesarplayer/video-utils.c:119 ../libcesarplayer/video-utils.c:138
 #, c-format
 msgctxt "long time format"
 msgid "%d:%02d:%02d"
@@ -2977,13 +2976,13 @@ msgstr "%d:%02d:%02d"
 #. * separator that your locale uses or use "%Id" instead of
 #. * "%d" if your locale uses localized digits.
 #.
-#: ../libcesarplayer/src/video-utils.c:102
+#: ../libcesarplayer/video-utils.c:129
 #, c-format
 msgctxt "short time format"
 msgid "%d:%02d"
 msgstr "%d:%02d"
 
-#: ../libcesarplayer/src/video-utils.c:142
+#: ../libcesarplayer/video-utils.c:169
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -2991,7 +2990,7 @@ msgstr[0] "%d hodina"
 msgstr[1] "%d hodiny"
 msgstr[2] "%d hodin"
 
-#: ../libcesarplayer/src/video-utils.c:144
+#: ../libcesarplayer/video-utils.c:171
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -2999,7 +2998,7 @@ msgstr[0] "%d minuta"
 msgstr[1] "%d minuty"
 msgstr[2] "%d minut"
 
-#: ../libcesarplayer/src/video-utils.c:146
+#: ../libcesarplayer/video-utils.c:173
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -3008,25 +3007,25 @@ msgstr[1] "%d sekundy"
 msgstr[2] "%d sekund"
 
 #. hour:minutes:seconds
-#: ../libcesarplayer/src/video-utils.c:150
+#: ../libcesarplayer/video-utils.c:177
 #, c-format
 msgid "%s %s %s"
 msgstr "%s %s %s"
 
 #. minutes:seconds
-#: ../libcesarplayer/src/video-utils.c:153
+#: ../libcesarplayer/video-utils.c:180
 #, c-format
 msgid "%s %s"
 msgstr "%s %s"
 
 #. seconds
-#: ../libcesarplayer/src/video-utils.c:156
+#: ../libcesarplayer/video-utils.c:183
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #. 0 seconds
-#: ../libcesarplayer/src/video-utils.c:159
+#: ../libcesarplayer/video-utils.c:186
 msgid "0 seconds"
 msgstr "0 sekund"
 
@@ -3573,7 +3572,7 @@ msgstr "Start z běhu. Odstartováno s počáteční rychlostí."
 msgid "Standing start. Started without initial speed."
 msgstr "Start ze stoje. Odstartováno bez počáteční rychlosti."
 
-#: ../src/encoder.cs:240 ../src/gui/encoder.cs:1070
+#: ../src/encoder.cs:240 ../src/gui/encoder.cs:1069
 msgid "Concentric"
 msgstr "Koncentrická"
 
@@ -4230,7 +4229,7 @@ msgid "Then press this button:\n"
 msgstr "Potom zmáčkněte toto tlačítko:\n"
 
 #: ../src/gui/chronojump.cs:3195
-msgid "Input length oj jump in centimeters"
+msgid "Input length of jump in centimeters"
 msgstr "Zadejte délku skoku v centimetrech"
 
 #: ../src/gui/chronojump.cs:3245 ../src/gui/chronojump.cs:3373
@@ -4473,7 +4472,7 @@ msgstr ""
 msgid "Missing data."
 msgstr "Schází data."
 
-#: ../src/gui/encoder.cs:348 ../src/gui/encoder.cs:1269
+#: ../src/gui/encoder.cs:348 ../src/gui/encoder.cs:1268
 msgid "Curve"
 msgstr "Křivka"
 
@@ -4496,7 +4495,7 @@ msgstr "Uložené křivky atleta {0} z této série cvičení"
 #. and we want to ensure next window will be created at needed size
 #. genericWin.DestroyOnAccept=true;
 #. here is comented because we are going to read the checkboxes
-#: ../src/gui/encoder.cs:383 ../src/gui/encoder.cs:1185
+#: ../src/gui/encoder.cs:383 ../src/gui/encoder.cs:1184
 msgid "Close"
 msgstr "Zavřít"
 
@@ -4538,102 +4537,102 @@ msgstr "Signál uložen"
 msgid "Signal updated"
 msgstr "Signál aktualizován"
 
-#: ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1096
 msgid "Speed / Load"
 msgstr "Rychlost / zátěž"
 
-#: ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:1096
 msgid "Force / Load"
 msgstr "Síla / zátěž"
 
-#: ../src/gui/encoder.cs:1098
+#: ../src/gui/encoder.cs:1097
 msgid "Power / Load"
 msgstr "Výkon / zátěž"
 
-#: ../src/gui/encoder.cs:1098
+#: ../src/gui/encoder.cs:1097
 msgid "Speed,Power / Load"
 msgstr "Rychlost, výkon / zátěž"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1098
 msgid "Force / Speed"
 msgstr "Síla / rychlost"
 
-#: ../src/gui/encoder.cs:1099
+#: ../src/gui/encoder.cs:1098
 msgid "Power / Speed"
 msgstr "Výkon / rychlost"
 
-#: ../src/gui/encoder.cs:1179
+#: ../src/gui/encoder.cs:1178
 msgid "Encoder exercise name:"
 msgstr "Název cvičení se snímačem:"
 
-#: ../src/gui/encoder.cs:1180 ../src/gui/encoder.cs:1213
+#: ../src/gui/encoder.cs:1179 ../src/gui/encoder.cs:1212
 msgid "Displaced body weight"
 msgstr "Úbytek tělesné hmotnosti"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:1182
+#: ../src/gui/encoder.cs:1181
 msgid "Resistance"
 msgstr "Odolnost"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1212
+#: ../src/gui/encoder.cs:1211
 msgid "Write the name of the encoder exercise:"
 msgstr "Zapište název cvičení se snímačem:"
 
-#: ../src/gui/encoder.cs:1215
+#: ../src/gui/encoder.cs:1214
 msgid "Ressitance"
 msgstr "Odolnost"
 
-#: ../src/gui/encoder.cs:1217
+#: ../src/gui/encoder.cs:1216
 msgid "Add"
 msgstr "Přidat"
 
-#: ../src/gui/encoder.cs:1231
+#: ../src/gui/encoder.cs:1230
 msgid "Error: Missing name of exercise."
 msgstr "Chyba: Schází název cvičení."
 
-#: ../src/gui/encoder.cs:1234
+#: ../src/gui/encoder.cs:1233
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Chyba: Název cvičení „{0}“ již existuje."
 
-#: ../src/gui/encoder.cs:1271
+#: ../src/gui/encoder.cs:1270
 msgid "Duration"
 msgstr "Doba"
 
-#: ../src/gui/encoder.cs:1272
+#: ../src/gui/encoder.cs:1271
 msgid "Range"
 msgstr "Rozsah"
 
-#: ../src/gui/encoder.cs:1273
+#: ../src/gui/encoder.cs:1272
 msgid "MeanSpeed"
 msgstr "StředníRychlost"
 
-#: ../src/gui/encoder.cs:1274
+#: ../src/gui/encoder.cs:1273
 msgid "MaxSpeed"
 msgstr "MaxRychlost"
 
-#: ../src/gui/encoder.cs:1275
+#: ../src/gui/encoder.cs:1274
 msgid "MeanPower"
 msgstr "StředníVýkon"
 
-#: ../src/gui/encoder.cs:1276
+#: ../src/gui/encoder.cs:1275
 msgid "PeakPower"
 msgstr "ŠpičkovýVýkon"
 
-#: ../src/gui/encoder.cs:1277
+#: ../src/gui/encoder.cs:1276
 msgid "PeakPowerTime"
 msgstr "ČasŠpičkovéhoVýkonu"
 
-#: ../src/gui/encoder.cs:1278
+#: ../src/gui/encoder.cs:1277
 msgid "PeakPower/PPT"
 msgstr "ŠpičkovýVýkon/čas"
 
-#: ../src/gui/encoder.cs:1786 ../src/gui/encoder.cs:1848
+#: ../src/gui/encoder.cs:1785 ../src/gui/encoder.cs:1847
 msgid "Please, wait."
 msgstr "Čekejte prosím."
 
-#: ../src/gui/encoder.cs:1866 ../src/gui/encoder.cs:1885
+#: ../src/gui/encoder.cs:1865 ../src/gui/encoder.cs:1884
 msgid "Cancelled"
 msgstr "Zrušeno"
 

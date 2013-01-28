@@ -107,6 +107,7 @@ public class ChronopicWindow
 	bool connected;
 	bool volumeOn;
 	int currentCp; //1 to 4
+	bool cancelledByUser;
 
 	//cp1	
 	Chronopic cp;
@@ -502,7 +503,7 @@ Log.WriteLine("bbb");
 					Log.WriteLine("chronopicInit-5");		
 					ok=myCp.Read_platform(out myPS);
 					Log.WriteLine("chronopicInit-6");		
-				} while(!ok);
+				} while(! ok && ! cancelledByUser);
 				Log.WriteLine("chronopicInit-7");		
 				if (!ok) {
 					//-- Si hay error terminar
@@ -600,6 +601,7 @@ Log.WriteLine("bbb");
 		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
 
 		needUpdateChronopicWin = false;
+		cancelledByUser = false;
 		thread = new Thread(new ThreadStart(waitChronopicStart));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
@@ -757,6 +759,7 @@ Log.WriteLine("bbb");
 		//fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
 		
 		cpDoing.AbortFlush = true;
+		cancelledByUser = true;
 
 		//kill the chronopicInit function that is waiting event 
 		//thread.Abort();

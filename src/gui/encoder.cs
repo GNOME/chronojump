@@ -230,10 +230,10 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
 		//title to sen to python software has to be without spaces
-		Util.RunEncoder(Constants.EncoderScriptCapture, 
+		Util.RunEncoderCapture(Constants.EncoderScriptCapture, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
 				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
-				es, true);
+				es);
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
@@ -319,11 +319,11 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderStatusTempFileName(),
 				ep);
 		
-		Util.RunEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + findMass(true) + "Kg)",
-				es,false);
+				es);
 
 		//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
 		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
@@ -509,11 +509,11 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderExportTempFileName(), "NULL", ep);
 
-		Util.RunEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 					"-(" + findMass(true) + "Kg)",
-				encoderStruct, false);
+				encoderStruct);
 
 		encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
 					"Exported to {0}."), Util.GetEncoderExportTempFileName());
@@ -868,9 +868,9 @@ public partial class ChronoJumpWindow
 		//if(radiobutton_encoder_analyze_data_user_curves.Active)
 		//	massString = "";
 
-		Util.RunEncoder(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct, false);
+				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

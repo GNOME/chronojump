@@ -1,0 +1,220 @@
+useDynLib(spam)
+
+importFrom("graphics",image)
+importFrom("graphics",plot)           
+
+# Next two paragraphs are from Matrix....
+# Currently, group generics need to be explicitly imported (Bug?):
+importFrom("methods", #Arith,Compare,
+           Math, Math2, Summary#, Complex
+           )
+
+# Generic functions
+export("dcheck",
+       "icheck",
+
+       "todo",
+       "spam.history",
+       "spam.options",
+       "spam.getOption",
+       "is.spam",
+
+       "spam.version",
+       "spam.Version",
+	
+       "validspamobject",
+
+       "nearest.dist",
+
+       "as.spam.matrix",
+       "as.spam.numeric",
+       "as.spam.spam",
+       "as.spam.dist",
+       "as.spam.chol.NgPeyton",
+       "as.spam.list",
+       "as.matrix.spam",
+       "spam.list",
+       "spam.numeric",
+       
+       "diag.of.spam",
+       "diag.spam",
+       "diag<-.spam",
+       "diag.spam<-",
+       "rbind.spam",
+       "cbind.spam",
+       "upper.tri.spam",
+       "lower.tri.spam",
+       "t.spam",
+
+       "dim<-.spam",
+
+       "isSymmetric.spam",
+       "all.equal.spam",
+
+       "kronecker.default",
+       "kronecker.spam",
+
+       "diff.spam",
+
+       "circulant.spam",
+       "toeplitz.spam",
+
+       "make.prec",
+       
+       "determinant.spam",
+       "determinant.spam.chol.NgPeyton",
+       "chol.spam",
+       "solve.spam",
+       "forwardsolve.spam",
+       "backsolve.spam",
+       "update.spam.chol.NgPeyton",
+       
+       "norm.spam",
+
+       "plot.spam",
+       "display.spam",
+       "image.spam",
+       
+       "print.spam",
+       "summary.spam",
+       "print.spam.chol.NgPeyton",
+       "summary.spam.chol.NgPeyton",
+
+       "apply.spam",
+       
+       "rmvnorm.spam",
+       "rmvnorm.canonical",
+       "rmvnorm.prec",
+       "rmvnorm.const",
+       "rmvnorm.canonical.const",
+       "rmvnorm.prec.const",
+
+       "precmat.RW1",
+       "precmat.RW2",
+       "precmat.season",
+       "precmat.IGMRFreglat",
+       "precmat.IGMRFirreglat",
+       
+       "rowSums.spam",
+       "colSums.spam",
+       "rowMeans.spam",
+       "colMeans.spam",
+
+       "head.spam",
+       "tail.spam",
+
+       "chol2inv.spam",
+       
+       "mle.spam",
+       "mle.nomean.spam",
+       "neg2loglikelihood.spam",
+       "mle",
+       "mle.nomean",
+       "neg2loglikelihood",
+       
+       "bdiag.spam",
+
+       "bandwidth",
+       
+#       ".spam.matmul.mat",
+#       ".spam.matmul",
+#       "solve.spam.mat",
+#       "solve.spam.dummy",
+
+       "subset.spam",
+       "subset.rows.spam",
+       
+       "triplet",
+       "as.spam.matrix.csr",
+       "as.matrix.csr.spam",
+       "as.dgRMatrix.spam",
+       "as.dgCMatrix.spam",
+       "as.spam.dgRMatrix",
+       "as.spam.dgCMatrix",
+
+       "read.MM",
+       "read.HB",
+
+       "powerboost",
+
+       "permutation.spam",
+       
+       "map.landkreis",
+       "adjacency.landkreis",
+
+       "cleanup",
+       "backsolve"
+       )
+
+
+# export the two classes
+exportClasses("spam",
+              "spam.chol.NgPeyton")
+
+exportMethods(
+              "Math",
+              "Math2",
+              "Summary",
+
+              "show",
+              "print",
+              "image",
+              "display",
+
+              "spam",
+              "as.spam",
+
+              "isSymmetric",
+              "all.equal",
+              
+              "summary",
+              "length",
+              "length<-",
+              "c",
+              "dim",
+              "dim<-",
+              "rbind",
+              "cbind",
+              "as.spam",
+              "spam",
+              "as.matrix",
+              "determinant",
+              "t",
+              "diag",
+              "diag<-",
+              "diag<-",
+              "upper.tri",
+              "lower.tri",
+              
+              "norm",
+              "rowSums",
+              "rowMeans",
+              "colSums",
+              "colMeans",
+
+              "head",
+              "tail",
+              
+              "chol",
+              "ordering",
+              "forwardsolve",
+              "backsolve",
+              "solve",
+              "chol2inv",
+
+              "kronecker",
+
+              "permutation",
+              
+              "[",
+              "[<-",
+
+              "%*%",
+              "%d*%",
+              "%d+%",
+              "-",
+              "+",
+              "*",
+              "/",
+              "&",
+              "|")

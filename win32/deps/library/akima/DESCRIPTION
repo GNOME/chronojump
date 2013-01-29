@@ -1,0 +1,19 @@
+Package: akima
+Version: 0.5-9
+Date: 2013-01-19
+Title: Interpolation of irregularly spaced data
+Author: Fortran code by H. Akima R port by Albrecht Gebhardt
+        <albrecht.gebhardt@uni-klu.ac.at> aspline function by Thomas
+        Petzoldt <thomas.petzoldt@tu-dresden.de> interp2xyz,
+        enhancements and corrections by Martin Maechler
+        <maechler@stat.math.ethz.ch>
+Maintainer: Albrecht Gebhardt <albrecht.gebhardt@uni-klu.ac.at>
+Description: Linear or cubic spline interpolation for irregular gridded
+        data
+License: file LICENSE
+Depends: R (>= 2.0.0)
+Packaged: 2013-01-19 23:16:18 UTC; alge
+Repository: CRAN
+Date/Publication: 2013-01-20 07:18:55
+Built: R 2.15.2; x86_64-w64-mingw32; 2013-01-21 02:20:11 UTC; windows
+Archs: i386, x64

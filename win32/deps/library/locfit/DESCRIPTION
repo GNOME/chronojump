@@ -1,0 +1,16 @@
+Package: locfit
+Version: 1.5-8
+Title: Local Regression, Likelihood and Density Estimation.
+Date: 2012-04-25
+Author: Catherine Loader
+Maintainer: Andy Liaw <andy_liaw@merck.com>
+Description: Local regression, likelihood and density estimation.
+Depends: R (>= 2.0.1)
+Imports: akima, lattice
+Suggests: gam
+License: GPL (>= 2)
+Packaged: 2012-04-25 13:50:03 UTC; liawand
+Repository: CRAN
+Date/Publication: 2012-04-25 14:08:56
+Built: R 2.15.2; x86_64-w64-mingw32; 2013-01-24 20:10:30 UTC; windows
+Archs: i386, x64

@@ -997,6 +997,7 @@ public class PersonAddModifyWindow
  		capturerWindow = new Gtk.Window("Capturer");
 		capturerWindow.Add(capturer);
 		capturerWindow.Modal=true;
+		capturerWindow.SetDefaultSize(400,400);
 
 		person_win.Hide();
 

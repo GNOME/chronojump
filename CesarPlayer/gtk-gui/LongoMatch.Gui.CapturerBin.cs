@@ -44,7 +44,7 @@ namespace LongoMatch.Gui
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.logodrawingarea = new global::Gtk.DrawingArea ();
 			this.logodrawingarea.Name = "logodrawingarea";
-			this.vbox1.Add (this.logodrawingarea);
+			//this.vbox1.Add (this.logodrawingarea);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.logodrawingarea]));
 			w2.Position = 1;
 			// Container child vbox1.Gtk.Box+BoxChild

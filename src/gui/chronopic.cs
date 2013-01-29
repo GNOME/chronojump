@@ -306,7 +306,7 @@ Log.WriteLine("bbb");
 		comboWindowsOptions = new string[32];
 		//for (int i=1; i <= 32; i ++)
 			//comboWindowsOptions[i-1] = "COM" + i;
-		comboWindowsOptions = Util.StringArrayToString(SerialPort.GetPortNames(),"\n");
+		comboWindowsOptions = SerialPort.GetPortNames();
 
 		string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortWindows);
 		string [] allWithDef = Util.AddArrayString(def, comboWindowsOptions);

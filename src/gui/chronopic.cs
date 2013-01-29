@@ -824,6 +824,21 @@ Log.WriteLine("bbb");
 		return count;
 	}
 
+	public string GetEncoderPort() {
+		if(Util.IsWindows()) {
+			string fullName = UtilGtk.ComboGetActive(combo_windows_encoder);
+			if(fullName.Length < 3)
+				return "0";
+			else {
+				//COM5
+				int number = Convert.ToInt32(fullName.Substring(3));
+				return (number -1).ToString(); //returns a "4", because eg: COM1 is port 0
+			}
+		}
+		else
+			return UtilGtk.ComboGetActive(combo_linux_encoder);
+	}
+
 
 	public Chronopic CP {
 		get { return cp; }
@@ -849,7 +864,7 @@ Log.WriteLine("bbb");
 	public Button FakeWindowDone {
 		get { return fakeWindowDone; }
 	}
-
+	
 	/*	
 	public Button FakeWindowReload
 	{

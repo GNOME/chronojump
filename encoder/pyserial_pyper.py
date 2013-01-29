@@ -62,12 +62,13 @@ powerLowerCondition = int(sys.argv[16])
 peakPowerHigherCondition = int(sys.argv[17])
 peakPowerLowerCondition = int(sys.argv[18])
 mainVariable = sys.argv[19]
+w_serial_port = sys.argv[20]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
 w_baudrate = 115200                           # Setting the baudrate of Chronopic(115200)
 #w_serial_port = 4                           # Setting the serial port (Windows), windows's device number need minus 1
-w_serial_port = "/dev/ttyUSB0"             # Setting the serial port (Linux)
+#w_serial_port = "/dev/ttyUSB0"             # Setting the serial port (Linux)
 direction_change_period = 25                # how long to recognize as change direction. (I am not sure if this describe correctly.)
 direction_change_count = 0
 direction_pull_to_push = 'pull_to_push'     # if people change the motion for pull to push, record this value.

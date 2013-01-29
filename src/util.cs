@@ -1046,7 +1046,7 @@ public class Util
 		}
 	}
 
-	public static void RunEncoderCapture(string script, string title, EncoderStruct es) {
+	public static void RunEncoderCapture(string script, string title, EncoderStruct es, string port) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1079,7 +1079,7 @@ public class Util
 		script + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
 		} else 
 		*/
-		pinfo.Arguments = script + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1();
+		pinfo.Arguments = script + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
 
 		outputFileCheck = es.OutputData1;
 

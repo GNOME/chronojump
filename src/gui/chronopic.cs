@@ -100,6 +100,7 @@ public class ChronopicWindow
 
 	//ArrayList of ChronopicPortData
 	static ArrayList cpd;
+	static string encoderPort;
 	
 	//platform state variables
 	enum States {
@@ -163,7 +164,7 @@ public class ChronopicWindow
 	
 	//recreate is used when a Chronopic was disconnected
 	//port names com from gui/chronojump.cs to this method (myCpd)
-	static public ChronopicWindow Create (ArrayList myCpd, bool recreate, bool volumeOn)
+	static public ChronopicWindow Create (ArrayList myCpd, string myEncoderPort, bool recreate, bool volumeOn)
 	{
 		if (ChronopicWindowBox != null && recreate) {
 			ChronopicWindowBox.chronopic_window.Hide();
@@ -176,6 +177,7 @@ public class ChronopicWindow
 		//ChronopicWindowBox.chronopic_window.Show ();
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
+		encoderPort = myEncoderPort;
 
 		ChronopicWindowBox.fakeWindowDone = new Gtk.Button();
 		//ChronopicWindowBox.fakeWindowReload = new Gtk.Button();
@@ -241,6 +243,7 @@ Log.WriteLine("bbb");
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
 		
+		//encoderPort = "";
 		//fakeButtonCancelled = new Gtk.Button();
 	}
 	
@@ -282,7 +285,7 @@ Log.WriteLine("bbb");
 					ChronopicPortData b = new ChronopicPortData(i,"",false);
 					myCPD.Add(b);
 				}
-				Create (myCPD, true, volumeOn);
+				Create (myCPD, encoderPort, true, volumeOn);
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("One or more Chronopics have been disconnected.") + "\n" + 
 						Catalog.GetString("Please connect again, and configure on Chronopic window."));
@@ -311,8 +314,6 @@ Log.WriteLine("bbb");
 		UtilGtk.ComboUpdate(combo_windows3, allWithDef, Constants.ChronopicDefaultPortWindows);
 		UtilGtk.ComboUpdate(combo_windows4, allWithDef, Constants.ChronopicDefaultPortWindows);
 		
-		UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, comboWindowsOptions[0]);
-				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {
 				combo_windows1.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, a.Port);
@@ -339,6 +340,20 @@ Log.WriteLine("bbb");
 				combo_windows4.Changed += new EventHandler (on_combo_changed);
 			}
 		}
+		
+		//encoder
+		//this reduces the callbacks of combo change
+		combo_windows_encoder.Sensitive = false;
+
+		if(encoderPort == "") {
+			UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, comboWindowsOptions[0]);
+			combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
+		} else {
+			UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, encoderPort);
+			combo_windows_encoder.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, encoderPort);
+		}
+
+		combo_windows_encoder.Sensitive = true;
 	}
 
 	private void createComboLinux() {
@@ -354,8 +369,6 @@ Log.WriteLine("bbb");
 		UtilGtk.ComboUpdate(combo_linux3, allWithDef, Constants.ChronopicDefaultPortLinux);
 		UtilGtk.ComboUpdate(combo_linux4, allWithDef, Constants.ChronopicDefaultPortLinux);
 		
-		UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, Constants.ChronopicDefaultPortLinux);
-				
 		foreach(ChronopicPortData a in cpd) {
 			if(a.Num == 1) {
 				combo_linux1.Active = UtilGtk.ComboMakeActive(combo_linux1, a.Port);
@@ -382,6 +395,20 @@ Log.WriteLine("bbb");
 				combo_linux4.Changed += new EventHandler (on_combo_changed);
 			}
 		}
+		
+		//encoder
+		//this reduces the callbacks of combo change
+		combo_linux_encoder.Sensitive = false;
+
+		if(encoderPort == "") {
+			UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, Constants.ChronopicDefaultPortLinux);
+			combo_linux_encoder.Changed += new EventHandler (on_combo_changed);
+		} else {
+			UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, encoderPort);
+			combo_linux_encoder.Active = UtilGtk.ComboMakeActive(usbSerial, encoderPort);
+		}
+
+		combo_linux_encoder.Sensitive = true;
 	}
 	
 	private void on_combo_changed(object o, EventArgs args) {
@@ -390,7 +417,8 @@ Log.WriteLine("bbb");
 			return;
 
 		//combo is not sensitive when it has been connected
-		//this helps to have button_connect with correct sensitiveness after close window	
+		//this helps to have button_connect with correct sensitiveness after close window
+		//also help to not have lots of callbacks coming here about encoder combos
 		if(! combo.Sensitive)
 			return;
 
@@ -407,6 +435,8 @@ Log.WriteLine("bbb");
 			button_connect_cp3.Sensitive = portOk;
 		else if (o == combo_linux4 || o == combo_windows4) 
 			button_connect_cp4.Sensitive = portOk;
+		else if (o == combo_windows_encoder || o == combo_linux_encoder) 
+			encoderPort = UtilGtk.ComboGetActive(combo);
 	}
 	
 	private void findPorts() {

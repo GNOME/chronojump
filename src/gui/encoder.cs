@@ -170,6 +170,13 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
+		if(chronopicWin.GetEncoderPort() == "") {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("Chronopic port is not configured."));
+			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, false);
+			return;
+		}
+
 		double heightHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderHeightHigher)		
 			heightHigherCondition = repetitiveConditionsWin.EncoderHeightHigherValue;

@@ -233,7 +233,7 @@ public partial class ChronoJumpWindow
 		Util.RunEncoderCapture(Constants.EncoderScriptCapture, 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
 				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
-				es);
+				es, chronopicWin.GetEncoderPort());
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database

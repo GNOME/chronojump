@@ -237,7 +237,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
 		//title to sen to python software has to be without spaces
-		Util.RunEncoderCapture(Constants.EncoderScriptCapture, 
+		Util.RunEncoderCapture( 
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
 				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 				es, chronopicWin.GetEncoderPort());

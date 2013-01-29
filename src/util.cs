@@ -1046,7 +1046,7 @@ public class Util
 		}
 	}
 
-	public static void RunEncoderCapture(string script, string title, EncoderStruct es, string port) {
+	public static void RunEncoderCapture(string title, EncoderStruct es, string port) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1059,27 +1059,16 @@ public class Util
 		pinfo = new ProcessStartInfo();
 
 		string outputFileCheck = "";
-			
-		pBin="python";
+		
 
-		//currently we are not using useTerminal. It was originally to encoder capture with text and graph
-		/*
-		   bool useTerminal = false;
-		   if(useTerminal)
-		   pBin="xterm";
-		   */
-
-		if (IsWindows())
-			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/python.exe");
-
-		/*
-		   if(useTerminal) {
-		//currentl we are not using this
-		pinfo.Arguments = "-bg white -fg black -hold -geometry 72x34+100+40 -fn *-fixed-*-*-*-20-* -e \"python " + 
-		script + " " + es.OutputData1 + " " + es.Ep.ToString1() + "\"";
-		} else 
-		*/
-		pinfo.Arguments = script + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
+		if (IsWindows()) {
+			pBin=Constants.EncoderScriptCaptureWindows;
+			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
+		}
+		else {
+			pBin="python";
+			pinfo.Arguments = Constants.EncoderScriptCaptureLinux + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
+		}
 
 		outputFileCheck = es.OutputData1;
 

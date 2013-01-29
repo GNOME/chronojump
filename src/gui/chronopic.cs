@@ -858,11 +858,14 @@ Log.WriteLine("bbb");
 		if(Util.IsWindows()) {
 			string fullName = UtilGtk.ComboGetActive(combo_windows_encoder);
 			if(fullName.Length < 3)
-				return "0";
+				return "COM1";
 			else {
 				//COM5
-				int number = Convert.ToInt32(fullName.Substring(3));
-				return (number -1).ToString(); //returns a "4", because eg: COM1 is port 0
+				//int number = Convert.ToInt32(fullName.Substring(3));
+				//return (number -1).ToString(); //returns a "4", because eg: COM1 is port 0
+				
+				//with py2exe integration of serial, we need the portname
+				return fullName;
 			}
 		}
 		else

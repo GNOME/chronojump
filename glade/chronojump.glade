@@ -5803,7 +5803,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="spacing">2</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="checkbutton_video">
-                                                            <property name="visible">True</property>
+                                                            <property name="visible">False</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="tooltip" translatable="yes">Record video (on / off)</property>

@@ -1,0 +1,11 @@
+from MinGW shell:
+
+python setup-pyserial_pyper_windows.py install
+python setup-pyserial_pyper_windows.py py2exe
+
+from any terminal:
+
+cd c:\MinGW\msys\1.0\home\windblows\chronojump\encoder\dist
+pyserial_pyper_windows.exe graphtitle output.txt 10 30 FALSE 70 0.7 c -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 meanPower COM4
+
+need to copy the wavs into dist directory

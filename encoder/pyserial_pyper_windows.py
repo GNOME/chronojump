@@ -426,7 +426,9 @@ if __name__ == '__main__':
 		print >>sys.stderr, "Could not initialize sound system: %s" % exc
 	
 	#print "connecting with R"
-	myR = R()
+	#myR = R()
+	myR = R(RCMD="C:\\Program Files\\R\\R-2.15.2\\bin\\R")
+
 	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
 	myR.assign('mass',mass)
 	myR.run('weight=mass*9.81')
@@ -441,10 +443,10 @@ if __name__ == '__main__':
 	pygame.init()
 	screen = pygame.display.set_mode((800,600)) #make window
 	pygame.display.set_caption("Chronojump encoder")
-	
-	FontBig = pygame.font.Font(None, 22)
-	FontSmall = pygame.font.Font(None, 18)
-	
+	#FontBig = pygame.font.Font(None, 22)
+	#FontSmall = pygame.font.Font(None, 18)
+	FontBig = pygame.font.Font(pygame.font.match_font('bitstreamverasans'), 22)
+	FontSmall = pygame.font.Font(pygame.font.match_font('bitstreamverasans'), 18)
 	ColorBackground = (30,30,30)
 	ColorBad = (255,0,0)
 	ColorGood = (0,255,0)

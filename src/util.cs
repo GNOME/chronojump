@@ -928,21 +928,18 @@ public class Util
 	}
 	
 	
-	private static string getEncoderScriptsDir(){
-		return System.IO.Path.Combine(getDataDir(),"encoder");
-	}
-	
 	private static string getEncoderScriptCapture() {
 		if(IsWindows())
-			return System.IO.Path.Combine(
-					getEncoderScriptsDir(), Constants.EncoderScriptCaptureWindows);
+			return System.IO.Path.Combine(GetPrefixDir(), 
+				"bin" + Path.DirectorySeparatorChar + "encoder", Constants.EncoderScriptCaptureWindows);
 		else
 			return System.IO.Path.Combine(
-					getEncoderScriptsDir(), Constants.EncoderScriptCaptureLinux);
+					getDataDir(), "encoder", Constants.EncoderScriptCaptureLinux);
 	}
 	
 	private static string getEncoderScriptGraph() {
-		return System.IO.Path.Combine(getEncoderScriptsDir(), Constants.EncoderScriptGraph);
+		return System.IO.Path.Combine(
+				getDataDir(), "encoder", Constants.EncoderScriptGraph);
 	}
 
 	
@@ -953,19 +950,22 @@ public class Util
 		//lib/chronojump/ (Unix) or bin/ (win32)
 		//we have to go to
 		//share/doc/chronojump
-		return System.IO.Path.Combine(Util.GetPrefixDir(),"share/doc/chronojump");
+		return System.IO.Path.Combine(Util.GetPrefixDir(),
+			"share" + Path.DirectorySeparatorChar + "doc" + Path.DirectorySeparatorChar + "chronojump");
 	}
 
 	public static string GetPrefixDir(){
 		string runningFolder = System.AppDomain.CurrentDomain.BaseDirectory;
 		if (Environment.OSVersion.Platform == PlatformID.Win32NT)	
-			return System.IO.Path.Combine(runningFolder,"../");
+			return System.IO.Path.Combine(runningFolder, ".." + Path.DirectorySeparatorChar);
 		else 
-			return System.IO.Path.Combine(runningFolder,"../../");
+			return System.IO.Path.Combine(runningFolder,
+				".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar);
 	}
 
 	private static string getDataDir(){
-		return System.IO.Path.Combine(GetPrefixDir(),"share/chronojump");
+		return System.IO.Path.Combine(GetPrefixDir(),
+			"share" + Path.DirectorySeparatorChar + "chronojump");
 	}
 
 	public static string GetImagesDir(){
@@ -986,7 +986,7 @@ public class Util
 
 	public static void BackupDatabase () {
 		string homeDir = GetDatabaseDir();
-		string backupDir = homeDir + "/backup";
+		string backupDir = homeDir + Path.DirectorySeparatorChar + "backup";
 		
 		string dateParsed = UtilDate.ToFile(DateTime.Now);
 
@@ -1121,30 +1121,45 @@ public class Util
 
 		string outputFileCheck = "";
 			
-		pBin="Rscript";
+		//pBin="Rscript";
+		pBin="R";
 		if (IsWindows())
-			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
+			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R.exe");
 
-		/*
+		
 		//--- way A. passing options to a file
 		string scriptOptions = es.InputData + "\n" + 
 		es.OutputGraph + "\n" + es.OutputData1 + "\n" + es.OutputData2 + "\n" + 
 		es.Ep.ToString2("\n") + "\n" + title + "\n";
 
-		TextWriter writer = File.CreateText("/tmp/Roptions.txt");
+		string optionsFile = Path.GetTempPath() + "Roptions.txt";
+		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 
-		pinfo.Arguments = script + " " + "/tmp/Roptions.txt";
-		//pinfo.Arguments ="CMD BATCH --no-save '--args=/tmp/Roptions.txt' " + script + " " + "/tmp/error.txt";
-		*/
+		//pinfo.Arguments = script + " " + optionsFile;
+		pinfo.Arguments = "CMD BATCH --no-save '--args=" + optionsFile + "' " + 
+			getEncoderScriptGraph() + " " + 
+			Path.GetTempPath() + "error.txt";
+		
 		//--- way B. put options as arguments
+		/*
 		string argumentOptions = es.InputData + " " + 
 			es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
 			es.Ep.ToString2(" ") + " " + title;
+		
 		pinfo.Arguments = getEncoderScriptGraph() + " " + argumentOptions;
+		*/
 
+		Log.WriteLine("------------- 1 ---");
+		Log.WriteLine(optionsFile.ToString());
+		Log.WriteLine("------------- 2 ---");
+		Log.WriteLine(scriptOptions.ToString());
+		Log.WriteLine("------------- 3 ---");
+		Log.WriteLine(pinfo.Arguments.ToString());
+		Log.WriteLine("------------- 4 ---");
+		
 		//curves does first graph and then csv curves. 
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
 		if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")

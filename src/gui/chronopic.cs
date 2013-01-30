@@ -347,13 +347,12 @@ Log.WriteLine("bbb");
 		//this reduces the callbacks of combo change
 		combo_windows_encoder.Sensitive = false;
 
-		if(encoderPort == Util.GetDefaultPort()) {
-			UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, Constants.ChronopicDefaultPortWindows);
+		UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, encoderPort);
+
+		if(encoderPort == Util.GetDefaultPort()) 
 			combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
-		} else {
-			UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, encoderPort);
-			combo_windows_encoder.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, encoderPort);
-		}
+			
+		combo_windows_encoder.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, encoderPort);
 
 		combo_windows_encoder.Sensitive = true;
 	}

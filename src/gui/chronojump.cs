@@ -3936,7 +3936,6 @@ Log.WriteLine("DDD 2");
 
 		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
-Log.WriteLine("jjjjjjjjjjjjjjjjjjjjjjjjjjj");
 		chronopicLabels(0, recreate);
 	}
 
@@ -3980,7 +3979,6 @@ Log.WriteLine("jjjjjjjjjjjjjjjjjjjjjjjjjjj");
 	}
 
 	private void chronopicLabels(int cps, bool colorize) {
-Log.WriteLine("kkkkkkkkkkkkkkkkkkkkkkkkkkk");
 		string text = "<b>" + cps.ToString() + "</b>";
 		
 		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
@@ -3992,28 +3990,6 @@ Log.WriteLine("kkkkkkkkkkkkkkkkkkkkkkkkkkk");
 		if(colorize)
 			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, 
 					(chronopicWin.Connected || chronopicWin.GetEncoderPort() != "") );
-	
-		/*	
-		string myMessage = "";
-		if(cps == 0) 
-			myMessage = Constants.SimulatedMessage;
-		else if(cps == 1) 
-			myMessage = Constants.ChronopicOne;
-		else 
-			myMessage = Constants.ChronopicMore;
-			
-		TextBuffer tb = new TextBuffer (new TextTagTable());
-		tb.Text = myMessage;
-		textview_message_connected_chronopics.Buffer = tb;
-		*/
-
-		/*
-		 * hidden to save space
-		if(cps > 0)
-			image_connected_chronopics.Hide();
-		else
-			image_connected_chronopics.Show();
-		*/
 	}
 
 

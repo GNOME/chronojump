@@ -1562,6 +1562,13 @@ public class Util
 		return detected;
 	}
 
+	public static string GetDefaultPort() {
+		if(Util.IsWindows())
+			return Constants.ChronopicDefaultPortWindows;
+		else
+			return Constants.ChronopicDefaultPortLinux;
+	}
+
 	/*
 	  tests:
 	  -1 simulated

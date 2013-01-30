@@ -347,11 +347,11 @@ Log.WriteLine("bbb");
 		//this reduces the callbacks of combo change
 		combo_windows_encoder.Sensitive = false;
 
-		if(encoderPort == "") {
-			UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, comboWindowsOptions[0]);
+		if(encoderPort == Util.GetDefaultPort()) {
+			UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, Constants.ChronopicDefaultPortWindows);
 			combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
 		} else {
-			UtilGtk.ComboUpdate(combo_windows_encoder, comboWindowsOptions, encoderPort);
+			UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, encoderPort);
 			combo_windows_encoder.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, encoderPort);
 		}
 
@@ -402,13 +402,12 @@ Log.WriteLine("bbb");
 		//this reduces the callbacks of combo change
 		combo_linux_encoder.Sensitive = false;
 
-		if(encoderPort == "") {
-			UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, Constants.ChronopicDefaultPortLinux);
+		UtilGtk.ComboUpdate(combo_linux_encoder, allWithDef, encoderPort);
+
+		if(encoderPort == Util.GetDefaultPort())
 			combo_linux_encoder.Changed += new EventHandler (on_combo_changed);
-		} else {
-			UtilGtk.ComboUpdate(combo_linux_encoder, usbSerial, encoderPort);
-			combo_linux_encoder.Active = UtilGtk.ComboMakeActive(usbSerial, encoderPort);
-		}
+
+		combo_linux_encoder.Active = UtilGtk.ComboMakeActive(usbSerial, encoderPort);
 
 		combo_linux_encoder.Sensitive = true;
 	}
@@ -857,21 +856,7 @@ Log.WriteLine("bbb");
 	}
 
 	public string GetEncoderPort() {
-		if(Util.IsWindows()) {
-			string fullName = UtilGtk.ComboGetActive(combo_windows_encoder);
-			if(fullName.Length < 3)
-				return "COM1";
-			else {
-				//COM5
-				//int number = Convert.ToInt32(fullName.Substring(3));
-				//return (number -1).ToString(); //returns a "4", because eg: COM1 is port 0
-				
-				//with py2exe integration of serial, we need the portname
-				return fullName;
-			}
-		}
-		else
-			return UtilGtk.ComboGetActive(combo_linux_encoder);
+		return encoderPort;
 	}
 
 

@@ -119,6 +119,7 @@ chronopic-tests/Makefile
 src/Makefile
 po/Makefile
 chronojump_server/Makefile
+encoder/Makefile
 manual/Makefile
 src/AssemblyInfo.cs
 src/chronojump

@@ -1,33 +1,25 @@
 Package: fields
-Version: 6.7
-Date: October 13, 2012
+Version: 6.01
+Date: September 4, 2009
 Title: Tools for spatial data
 Author: Reinhard Furrer, Douglas Nychka and Stephen Sain
 Maintainer: Doug Nychka <nychka@ucar.edu>
 Description: Fields is for curve, surface and function fitting with an
         emphasis on splines, spatial data and spatial statistics. The
         major methods include cubic, robust, and thin plate splines,
-        and Kriging for large data sets. The splines and Kriging
-        methods are supporting by functions that can determine the
-        smoothing parameter (nugget and sill variance) by cross
-        validation and also by restricted maximum likelihood.  A major
-        feature is that any covariance function implemented in R with
-        the fields interface can be used for spatial prediction. Some
-        tailored optimization functions are supplied for find the MLEs
-        for the Matern family of covariances.  There are also many
-        useful functions for plotting and working with spatial data as
-        images. This package also contains an implementation of a
-        sparse matrix methods for large data sets and currently
-        requires the sparse matrix (spam) package for testing (but not
-        for the standard spatial functions.) Use help(fields) to get
-        started and for an overview.  The fields source code is heavily
-        commented and should provide useful explanation of numerical
-        details in addition to the manual pages.
+        multivariate Kriging and Kriging for large data sets. A major
+        feature is that any covariance function implemented in R can be
+        used for spatial prediction. There are also many useful
+        functions for plotting and working with spatial data as images.
+        This package also contains an implementation of a sparse matrix
+        methods for large data sets and currently requires the sparse
+        matrix (spam) package for testing (but not for the standard
+        spatial functions.) Use help(fields) to get started and for an
+        overview.
 License: GPL (>= 2)
 URL: http://www.image.ucar.edu/Software/Fields
-Depends: R (>= 2.13), methods, spam
-Packaged: 2012-10-16 17:40:42 UTC; nychka
+Depends: methods, spam
+Packaged: 2009-09-22 19:37:06 UTC; nychka
 Repository: CRAN
-Date/Publication: 2012-10-16 18:52:38
-Built: R 2.15.2; x86_64-w64-mingw32; 2013-01-24 20:19:29 UTC; windows
-Archs: i386, x64
+Date/Publication: 2009-09-22 20:23:49
+Built: R 2.9.2; i386-pc-mingw32; 2010-01-13 23:29:00 UTC; windows

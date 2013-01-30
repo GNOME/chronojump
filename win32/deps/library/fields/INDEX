@@ -1,3 +1,5 @@
+%d*%-methods            Multiplying diagonal matrices in Package
+                        'fields'
 BD                      Data frame of the effect of buffer compositions
                         on DNA strand displacement amplification. A 4-d
                         regression data set with with replication. This
@@ -17,22 +19,25 @@ Krig.engine.default     Basic linear algebra utilities and other
                         computations supporting the Krig function.
 Krig.null.function      Default function to create fixed matrix part of
                         spatial process model.
-NorthAmericanRainfall   Observed North American summer precipitation
-                        from the historical climate network.
 RCMexample              3-hour precipitation fields from a regional
                         climate model
-REML.test               Maximum Likelihood estimates for some Matern
-                        covariance parameters.
 RMprecip                Monthly total precipitation (mm) for August
                         1963 in the Rocky Mountain Region and some
                         gridded 4km elevation data sets.
 Tps                     Thin plate spline regression
 US                      Plot of the US with state boundaries
 US.dat                  Outline of coterminous US and states.
+W.info                  Gives indexing imfomration for a wavelet
+                        decompostion
 Wendland                Wendland family of covariance functions and
                         supporting numerical functions
-WorldBankCO2            Carbon emissions and demographic covariables by
-                        country for 1999.
+Wimage.cov              Functions for W-transform based covariance
+                        models
+Wimage.info             Finds key indices related to a 2-d
+                        multiresolution
+Wimage.info.plot        Plot to check 2-d multiresolution indexing
+Wtransform              Quadratic W wavelet transform for 1-d vectors
+                        or rectangular or cylindrical images
 add.image               Adds an image to an existing plot.
 arrow.plot              Adds arrows to a plot
 as.image                Creates image from irregular x,y,z
@@ -45,7 +50,7 @@ cover.design            Computes Space-Filling "Coverage" designs using
 drape.plot              Perspective plot draped with colors in the
                         facets.
 fields                  fields - tools for spatial data
-fields.diagonalize2     Fields supporting functions
+fields.diagonalize      Fields supporting functions
 fields.hints            fields - graphics hints
 fields.tests            Testing fields functions
 flame                   Response surface experiment ionizing a reagent
@@ -60,15 +65,12 @@ image.plot              Draws image plot with a legend strip for the
 image.smooth            Kernel smoother for irregular 2-d data
 image2lz                Some simple functions for subsetting images
 interp.surface          Fast bilinear interpolator from a grid.
+krig.image              Spatial process estimate for large irregular
+                        2-d dats sets.
 lennon                  Gray image of John Lennon.
 mKrig                   "micro Krig" Spatial process estimate of a
                         curve or surface, "kriging" with a known
                         covariance function.
-mKrig.MLE               maximizes likelihood for the process marginal
-                        variance (rho) and nugget standard deviation
-                        (sigma) parameters (e.g. lambda) over a list of
-                        covariance models or a grid of covariance
-                        parameter values.
 mKrig.grid              Using MKrig for predicting on a grid.
 minitri                 Mini triathlon results
 ozone                   Data set of ozone measurements at 20 Chicago
@@ -77,11 +79,12 @@ ozone2                  Daily 8-hour ozone averages for sites in the
                         Midwest
 plot.Krig               Diagnostic and summary plots of a Kriging or
                         spline object
+plot.Wimage             Plots 2-d wavelet coefficents by level and type
 plot.surface            Plots a surface
+poisson.cov             Poisson spherical covariance function
 poly.image              Image plot for cells that are irregular
                         quadrilaterals.
 predict.Krig            Evaluation of Krig spatial process estimate.
-predict.derivative      Predicted derivatives
 predict.se              Standard errors of predictions
 predict.se.Krig         Standard errors of predictions for Krig spatial
                         process estimate
@@ -89,6 +92,7 @@ predict.surface         Evaluates a fitted function or its standard
                         errors as a surface object
 print.Krig              Print kriging fit results.
 pushpin                 Adds a "push pin" to an existing 3-d plot
+qsreg                   Quantile or Robust spline regression
 quilt.plot              Image plot for irregular spatial data.
 rat.diet                Experiment studying an appetite supressant in
                         rats.
@@ -111,8 +115,7 @@ stats.bin               Bins data and finds some summary statistics.
 summary.Krig            Summary for Krig spatial process estimate
 summary.ncdf            Summarizes a netCDF file handle
 surface.Krig            Plots a surface and contours
-tim.colors              Some useful color tables for images and tools
-                        to handle them.
+tim.colors              Some useful color tables for images.
 transformx              Linear transformation
 vgram                   Finds a traditional or robust variogram for
                         spatial data.

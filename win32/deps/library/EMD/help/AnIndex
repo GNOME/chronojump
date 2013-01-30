@@ -1,5 +1,4 @@
 beryllium	solar
-cvimpute.by.mean	cvimpute.by.mean
 cvtype	cvtype
 emd	emd
 EMD-internal	EMD-internal
@@ -10,7 +9,6 @@ extractimf	extractimf
 extractimf2d	extractimf2d
 extrema	extrema
 extrema2dC	extrema2dC
-extrema2dVC	EMD-internal
 hilbert	EMD-internal
 hilbertspec	hilbertspec
 image.plot.ts	EMD-internal
@@ -18,7 +16,6 @@ imageEMD	imageEMD
 kospi200	kospi200
 lena	lena
 lennon	lennon
-semd	semd
 solar irradiance	solar
 solar.hs	solar
 solar.lean	solar

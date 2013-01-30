@@ -1,4 +1,4 @@
-# This is file ../spam0.29-2/demo/article-jss-example1.R
+# This is file ../spam0.20-3/demo/article-jss-example1.R
 # This file is part of the spam package, 
 #      http://www.math.uzh.ch/furrer/software/spam/
 # written and maintained by Reinhard Furrer.
@@ -6,22 +6,9 @@
 
 
 
-# This demo contains the R code of the example in Section 5.1 of the
-# JSS article:
-#     "spam: A Sparse Matrix R Package with Emphasis on
-#            MCMC Methods for Gaussian Markov Random Fields"
-#
-# Compared to the R code given in the article, here we give:
-# - improved formatting
-# - more comments
-# - the R code to construct the figures
+library(spam)
 
-
-
-# SETUP:
-library("spam")
-
-data("UKDriverDeaths")
+data(UKDriverDeaths)
 
 y <- sqrt(c(UKDriverDeaths))       # square root counts
 
@@ -30,7 +17,7 @@ m <- 12                            # We want to predict for one season.
 nm <- n+m                          # Total length of s and t
 
 
-priorshape <-  c(4, 1, 1)          # alpha's, as in Rue & Held (2005)
+priorshape <-  c(4,1,1)            # alpha's, as in Rue & Held (2005)
 priorinvscale <- c(4, 0.1, 0.0005) # beta's 
 
 # Construct the individual block precisions
@@ -38,19 +25,19 @@ priorinvscale <- c(4, 0.1, 0.0005) # beta's
 
 # Qsy, Qty are trivial:
 Qsy <- diag.spam(n)
-dim(Qsy) <- c(n+m, n)
+dim(Qsy) <- c(n+m,n)
 
 Qty <- Qsy
 
-Qst <- spam(0, nm, nm)
-Qst[cbind(1:n, 1:n)] <- rep(1, n)
+Qst <- spam(0,nm,nm)
+Qst[cbind(1:n,1:n)] <- rep(1,n)
 
 
 # The form of Qss is given by (Rue and Held equation 3.59).
 # Qss can be constructed with a loop:
-Qss <- spam(0, nm, nm)
+Qss <- spam(0,nm,nm)
 for (i in 0:(nm-m)) {
-    Qss[i+1:m,i+1:m] <- Qss[i+1:m, i+1:m]+1
+    Qss[i+1:m,i+1:m] <- Qss[i+1:m,i+1:m]+1
 }
 
 # Note that for the final version we need:
@@ -78,16 +65,12 @@ Qst_yk <- rbind(cbind(k[2]*Qss + k[1]*diag.spam(nm), k[1]*Qst),
                 
 struct <- chol(Qst_yk)
 
-
-# Figure 6:
-display(Qst_yk)           
-display(struct)           
-
 # Note that we do not provide the exactly the same ordering 
 # algorithms. Hence, the following is sightly different than
 # Figure RH4.2.
-cholQst_yk <- chol(Qst_yk,pivot="RCM")
+cholQst_yk <- chol(Qst_yk,pivot='RCM')
 P <- ordering(cholQst_yk)
+display(Qst_yk)
 display(Qst_yk[P,P])
 
 
@@ -96,10 +79,9 @@ display(Qst_yk[P,P])
 # k=( kappa_y, kappa_s, kappa_t)'
 
 # Gibbs sampler
-ngibbs <- 500   # Is very fast!
+ngibbs <- 100   # In the original version is 500!
 burnin <- 10    # > 0
 totalg <- ngibbs+burnin
-set.seed(14)
 
 # Initialize parameters:
 spost <- tpost <- array(0, c(totalg, nm))
@@ -112,7 +94,7 @@ tpost[1,] <- 40
 # calculation of a few variables:
 postshape <- priorshape + c(	n/2, (n+1)/2, (n+m-2)/2) 
 
-# GIBBS' ITERATIONS:
+
 timing <- system.time({
 for (ig in 2:totalg) {
     
@@ -142,7 +124,7 @@ for (ig in 2:totalg) {
 
   kpost[ig,] <- rgamma(3, postshape, postinvscale)	
 
-  if( (ig%%10)==0) cat(".")
+  if( (ig%%10)==0) cat('.')
 
 }
 
@@ -150,7 +132,7 @@ for (ig in 2:totalg) {
 
 
 # POSTPROCESSING:
-cat("\nTotal time:",timing[1],"per iteration:",timing[1]/totalg,"\n")
+cat('\nTotal time:',timing[1],'per iteration:',timing[1]/totalg,'\n')
 
 
 # Eliminate burn-in:
@@ -158,15 +140,11 @@ kpost <- kpost[-c(1:burnin),]
 spost <- spost[-c(1:burnin),]
 tpost <- tpost[-c(1:burnin),]
 
-print(summary(kpost))
-
 postquant <- apply(spost+tpost, 2, quantile,c(.025,.975))
 postmean  <- apply(spost+tpost, 2, mean)
 postmedi  <- apply(spost+tpost, 2, median)
 
 
-######################################################################
-# Figure 7:
 par(mfcol=c(1,1),mai=c(.6,.8,.01,.01))
 
 plot( y^2, ylim=c(800,2900),xlim=c(0,nm),ylab="Counts")
@@ -176,7 +154,7 @@ matlines( t(postquant)^2, col=4,lty=1)
 
 legend("topright",legend=c("Posterior median", "Quantiles of posterior sample",
                     "Quantiles of predictive distribution"),
-       bty="n",col=c(2,4,3),lty=1)
+       bty='n',col=c(2,4,3),lty=1)
 
 
 
@@ -187,13 +165,13 @@ dim(ypred) <- c(ngibbs,nm)
 postpredquant <- apply(ypred, 2, quantile,c(.025,.975))
 matlines( t(postpredquant)^2, col=3,lty=1)
 points(y^2)
-
+dev.off() 
 
 kpostmedian <- apply(kpost,2,median)
 
 par(mfcol=c(1,3),mai=c(.65,.65,.01,.01),cex=.85,mgp=c(2.6,1,0))
 
-matplot( log( kpost), lty=1, type="l",xlab="Index")
+matplot( log( kpost), lty=1, type='l',xlab='Index')
 abline(h=log(kpostmedian),col=3)
 acf( kpost[,3],ylab=expression(kappa[t]))
 plot(kpost[,2:3],ylab=expression(kappa[t]),xlab=expression(kappa[s]),cex=.8)
@@ -204,11 +182,20 @@ allkappas <- rbind(apply(kpost,2,mean),
                    apply(kpost,2,median),
                    apply(1/kpost,2,mean),
                    apply(1/kpost,2,median))
-colnames(allkappas) <- c("kappa_y", "kappa_s", "kappa_t")
-rownames(allkappas) <- c("Prec (mean)", "Prec (median)",
-                         "Var (mean)", "Var (median) ")
+colnames(allkappas) <- c('kappa_y', 'kappa_s', 'kappa_t')
+rownames(allkappas) <- c('Prec (mean)', 'Prec (median)',
+                         'Var (mean)', 'Var (median) ')
 print(allkappas,4)
 
+png("example1_m1.png",width=300,height=300)
+par(mai=c(.5,.5,.05,.05))
+display(Qst_yk)
+dev.off()
+
+png("example1_m2.png",width=300,height=300)
+par(mai=c(.5,.5,.05,.05))
+display(struct)
 
 
+summary(kpost)
 

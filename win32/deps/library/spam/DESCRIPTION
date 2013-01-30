@@ -1,11 +1,11 @@
 Package: spam
-Version: 0.29-2
-Date: 2012-08-17
+Version: 0.20-3
+Date: 2010-01-13
 Author: Reinhard Furrer
 Maintainer: Reinhard Furrer <reinhard.furrer@math.uzh.ch>
-Depends: R (>= 2.11), methods
+Depends: R (>= 2.4), methods
 Suggests: fields, SparseM (>= 0.72), Matrix
-Description: Set of function for sparse matrix algebra.  Differences
+Description: Set of function for sparse matrix algebra. Differences
         with SparseM/Matrix are: (1) we only support (essentially) one
         sparse matrix format, (2) based on transparent and simple
         structure(s), (3) tailored for MCMC calculations within GMRF.
@@ -15,8 +15,7 @@ LazyData: Yes
 License: GPL | file LICENSE
 Title: SPArse Matrix
 URL: http://www.math.uzh.ch/furrer/software/spam/
-Packaged: 2012-08-17 09:43:09 UTC; furrer
+Packaged: 2010-01-13 08:59:46 UTC; furrer
 Repository: CRAN
-Date/Publication: 2012-08-17 11:09:49
-Built: R 2.15.2; x86_64-w64-mingw32; 2013-01-24 20:10:10 UTC; windows
-Archs: i386, x64
+Date/Publication: 2010-01-13 11:29:37
+Built: R 2.9.2; i386-pc-mingw32; 2010-01-13 23:20:15 UTC; windows

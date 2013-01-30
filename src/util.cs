@@ -928,6 +928,23 @@ public class Util
 	}
 	
 	
+	private static string getEncoderScriptsDir(){
+		return System.IO.Path.Combine(getDataDir(),"encoder");
+	}
+	
+	private static string getEncoderScriptCapture() {
+		if(IsWindows())
+			return System.IO.Path.Combine(
+					getEncoderScriptsDir(), Constants.EncoderScriptCaptureWindows);
+		else
+			return System.IO.Path.Combine(
+					getEncoderScriptsDir(), Constants.EncoderScriptCaptureLinux);
+	}
+	
+	private static string getEncoderScriptGraph() {
+		return System.IO.Path.Combine(getEncoderScriptsDir(), Constants.EncoderScriptGraph);
+	}
+
 	
 	/********** end of encoder paths ************/
 
@@ -1062,12 +1079,13 @@ public class Util
 		
 
 		if (IsWindows()) {
-			pBin=Constants.EncoderScriptCaptureWindows;
+			pBin=getEncoderScriptCapture();
 			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
 		}
 		else {
 			pBin="python";
-			pinfo.Arguments = Constants.EncoderScriptCaptureLinux + " " + title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
+			pinfo.Arguments = getEncoderScriptCapture() + " " + title + " " + 
+				es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
 		}
 
 		outputFileCheck = es.OutputData1;
@@ -1090,7 +1108,7 @@ public class Util
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	
-	public static void RunEncoderGraph(string script, string title, EncoderStruct es) {
+	public static void RunEncoderGraph(string title, EncoderStruct es) {
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1125,7 +1143,7 @@ public class Util
 		string argumentOptions = es.InputData + " " + 
 			es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
 			es.Ep.ToString2(" ") + " " + title;
-		pinfo.Arguments = script + " " + argumentOptions;
+		pinfo.Arguments = getEncoderScriptGraph() + " " + argumentOptions;
 
 		//curves does first graph and then csv curves. 
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)

@@ -326,7 +326,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderStatusTempFileName(),
 				ep);
 		
-		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + findMass(true) + "Kg)",
@@ -516,7 +516,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderExportTempFileName(), "NULL", ep);
 
-		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 					"-(" + findMass(true) + "Kg)",
@@ -875,7 +875,7 @@ public partial class ChronoJumpWindow
 		//if(radiobutton_encoder_analyze_data_user_curves.Active)
 		//	massString = "";
 
-		Util.RunEncoderGraph(Constants.EncoderScriptGraph, 
+		Util.RunEncoderGraph(
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct);
 	}

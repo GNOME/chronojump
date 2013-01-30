@@ -3934,8 +3934,9 @@ Log.WriteLine("DDD 2");
 			cpd.Add(a);
 		}
 
-		chronopicWin = ChronopicWindow.Create(cpd, "", recreate, volumeOn);
+		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
+Log.WriteLine("jjjjjjjjjjjjjjjjjjjjjjjjjjj");
 		chronopicLabels(0, recreate);
 	}
 
@@ -3979,9 +3980,10 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void chronopicLabels(int cps, bool colorize) {
+Log.WriteLine("kkkkkkkkkkkkkkkkkkkkkkkkkkk");
 		string text = "<b>" + cps.ToString() + "</b>";
 		
-		if(chronopicWin.GetEncoderPort() != "") 
+		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
 			text += ", <b>enc</b>";
 			
 		label_connected_chronopics.Text = text;

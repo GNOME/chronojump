@@ -170,7 +170,7 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
-		if(chronopicWin.GetEncoderPort() == "") {
+		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
 			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, false);

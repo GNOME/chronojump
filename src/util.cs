@@ -1139,9 +1139,9 @@ public class Util
 		((IDisposable)writer).Dispose();
 
 		//pinfo.Arguments = script + " " + optionsFile;
-		pinfo.Arguments = "CMD BATCH --no-save '--args=" + optionsFile + "' " + 
-			getEncoderScriptGraph() + " " + 
-			Path.GetTempPath() + "error.txt";
+		pinfo.Arguments = "CMD BATCH --no-save '--args optionsFile=\"" + optionsFile + "\"' \"" + 
+			getEncoderScriptGraph() + "\" \"" + 
+			Path.GetTempPath() + "error.txt\"";
 		
 		//--- way B. put options as arguments
 		/*

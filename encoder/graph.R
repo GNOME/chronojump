@@ -34,27 +34,28 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 
 #--- user commands ---
 #way A. passing options to a file
-getOptionsFromFile <- function() {
-	args <- commandArgs(TRUE)
-	optionsCon <- file(args[1], 'r')
+getOptionsFromFile <- function(optionsFile) {
+	optionsCon <- file(optionsFile, 'r')
 	options=readLines(optionsCon,n=15)
+	close(optionsCon)
 	return (options)
 }
 
 #way B. put options as arguments
-options <- commandArgs(TRUE)
+#unused because maybe command line gets too long
+#options <- commandArgs(TRUE)
 
-OutputData2=options[4] #currently used to display status
 
-#options=getOtionsFromFile();
+args <- commandArgs(TRUE)
+eval(parse(text=args[[1]])) #optionsFile is assigned in R CMD BATCH:  '--args optionsFile="/tmp/Roptions.txt"' 
+
+print(optionsFile)
+
+options=getOptionsFromFile(optionsFile);
 
 print(options)
 
-if(length(options) < 3) {
-#	print("USAGE:\nRscript graph.R c superpose graph.png\neccons:curves, single, side, superpose, powerBars \nsingle and superpose needs a param at end (the jump):\nRscript graph.R c single graph.png 2\n")
-	quit()
-}
-
+OutputData2=options[4] #currently used to display status
 
 write("(1/5) Starting R", OutputData2)
 

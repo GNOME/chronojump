@@ -63,6 +63,7 @@ peakPowerHigherCondition = int(sys.argv[17])
 peakPowerLowerCondition = int(sys.argv[18])
 mainVariable = sys.argv[19]
 w_serial_port = sys.argv[20]
+r_path = sys.argv[21]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -416,6 +417,7 @@ def printHeader(option):
 
 #try:
 if __name__ == '__main__':
+	print(sys.path[0])
 	print("Please, wait...\n")
 	# initialize pygame.mixer module
 	# if these setting do not work with your audio system
@@ -425,9 +427,11 @@ if __name__ == '__main__':
 	except pygame.error, exc:
 		print >>sys.stderr, "Could not initialize sound system: %s" % exc
 	
+	
+	
 	#print "connecting with R"
 	#myR = R()
-	myR = R(RCMD="C:\\Program Files\\R\\R-2.15.2\\bin\\R")
+	myR = R(RCMD=r_path)
 
 	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)
 	myR.assign('mass',mass)

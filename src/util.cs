@@ -1078,9 +1078,15 @@ public class Util
 		string outputFileCheck = "";
 		
 
+		/*
+		on Windows (py2exe) we execute a exe with the py file that contains python
+		on linux we execute python and call to the py file
+		also on windows we need the full path to find R
+		*/
 		if (IsWindows()) {
 			pBin=getEncoderScriptCapture();
-			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
+			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port 
+				+ " " + System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R");
 		}
 		else {
 			pBin="python";
@@ -1121,11 +1127,17 @@ public class Util
 
 		string outputFileCheck = "";
 			
-		//pBin="Rscript";
-		pBin="R";
-		if (IsWindows())
+		pBin="Rscript";
+		//pBin="R";
+		if (IsWindows()) {
 			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R.exe");
 
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			es.OutputGraph = es.OutputGraph.Replace("\\","/");
+			es.OutputData1 = es.OutputData1.Replace("\\","/");
+			es.OutputData2 = es.OutputData2.Replace("\\","/");
+		}
 		
 		//--- way A. passing options to a file
 		string scriptOptions = es.InputData + "\n" + 
@@ -1137,11 +1149,19 @@ public class Util
 		writer.Write(scriptOptions);
 		writer.Flush();
 		((IDisposable)writer).Dispose();
+		
+		if (IsWindows()) {
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			optionsFile = optionsFile.Replace("\\","/");
+		}
 
-		//pinfo.Arguments = script + " " + optionsFile;
+		pinfo.Arguments = getEncoderScriptGraph() + " " + optionsFile;
+		/*
 		pinfo.Arguments = "CMD BATCH --no-save '--args optionsFile=\"" + optionsFile + "\"' \"" + 
 			getEncoderScriptGraph() + "\" \"" + 
 			Path.GetTempPath() + "error.txt\"";
+			*/
 		
 		//--- way B. put options as arguments
 		/*

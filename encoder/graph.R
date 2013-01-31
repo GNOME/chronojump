@@ -47,7 +47,7 @@ getOptionsFromFile <- function(optionsFile) {
 
 
 args <- commandArgs(TRUE)
-eval(parse(text=args[[1]])) #optionsFile is assigned in R CMD BATCH:  '--args optionsFile="/tmp/Roptions.txt"' 
+optionsFile =args[1]
 
 print(optionsFile)
 

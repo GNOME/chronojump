@@ -1130,10 +1130,11 @@ public class Util
 		pBin="Rscript";
 		//pBin="R";
 		if (IsWindows()) {
-			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R.exe");
+			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe");
 
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
+			es.InputData = es.InputData.Replace("\\","/");
 			es.OutputGraph = es.OutputGraph.Replace("\\","/");
 			es.OutputData1 = es.OutputData1.Replace("\\","/");
 			es.OutputData2 = es.OutputData2.Replace("\\","/");

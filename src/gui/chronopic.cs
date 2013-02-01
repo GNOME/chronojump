@@ -352,7 +352,7 @@ Log.WriteLine("bbb");
 		if(encoderPort == Util.GetDefaultPort()) 
 			combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
 			
-		combo_windows_encoder.Active = UtilGtk.ComboMakeActive(comboWindowsOptions, encoderPort);
+		combo_windows_encoder.Active = UtilGtk.ComboMakeActive(allWithDef, encoderPort);
 
 		combo_windows_encoder.Sensitive = true;
 	}
@@ -406,7 +406,7 @@ Log.WriteLine("bbb");
 		if(encoderPort == Util.GetDefaultPort())
 			combo_linux_encoder.Changed += new EventHandler (on_combo_changed);
 
-		combo_linux_encoder.Active = UtilGtk.ComboMakeActive(usbSerial, encoderPort);
+		combo_linux_encoder.Active = UtilGtk.ComboMakeActive(allWithDef, encoderPort);
 
 		combo_linux_encoder.Sensitive = true;
 	}
@@ -435,8 +435,13 @@ Log.WriteLine("bbb");
 			button_connect_cp3.Sensitive = portOk;
 		else if (o == combo_linux4 || o == combo_windows4) 
 			button_connect_cp4.Sensitive = portOk;
-		else if (o == combo_windows_encoder || o == combo_linux_encoder) 
+		else if (o == combo_windows_encoder) {
+			combo_windows_encoder.Changed -= new EventHandler (on_combo_changed);
 			encoderPort = UtilGtk.ComboGetActive(combo);
+		} else if (o == combo_linux_encoder) {
+			combo_linux_encoder.Changed -= new EventHandler (on_combo_changed);
+			encoderPort = UtilGtk.ComboGetActive(combo);
+		}
 	}
 	
 	private void findPorts() {

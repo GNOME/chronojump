@@ -359,12 +359,13 @@ public class RunTypeAddWindow
 		new DialogMessage(Constants.MessageTypes.HELP, 
 				Catalog.GetString("On RSA tests, rest time counts as a \"track\".") + 
 				"\n" + 	Catalog.GetString("You should write the time in seconds after a capital 'R' (meaning \"Rest\").") + 
-				"\n\n" + 	Catalog.GetString("Eg. A test that repeats 5 times the following sequence:") + 
-				"\n\n\t" + Catalog.GetString("Run 10 meters, run 8 meters, rest 4 seconds.") + 
-				"\n\n" + Catalog.GetString("Will be limited by tracks with a fixed value of 15") + 
-				"\n" + Catalog.GetString("(3 different tracks x 5 times)") + 
-				"\n\n" + Catalog.GetString("And the 'distance' of each track will be:") + 
-				"\n\n\t10, 8, R4"
+				"\n\n" + 	Catalog.GetString("Eg. Aziz et al. (2000) test repeats 8 times the following sequence:") + 
+				"\n\n\t" + Catalog.GetString("Run 40 meters, rest 30 seconds.") + 
+				"\n\n" + Catalog.GetString("Will be limited by tracks with a fixed value of 16") + 
+				"\n" + Catalog.GetString("because there are 16 tracks:") + 
+				"\n" + Catalog.GetString("2 different tracks: ('Run' and 'rest') x 8 times") + 
+				"\n\n" + Catalog.GetString("And the 'distance' of each different track will be:") + 
+				"\n\n\t40, R30"
 				);
 	}
 

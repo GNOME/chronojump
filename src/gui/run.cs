@@ -1019,7 +1019,7 @@ partial class ChronoJumpWindow
 		else if(extra_window_radio_run_interval_by_time.Active) currentRunIntervalType = new RunType("byTime");
 		else if(extra_window_radio_run_interval_unlimited.Active) currentRunIntervalType = new RunType("unlimited");
 		else if(extra_window_radio_run_interval_mtgug.Active) currentRunIntervalType = new RunType("MTGUG");
-		else if(extra_window_radio_run_interval_rsa_test_1.Active) currentRunIntervalType = new RunType("RSA 8-4-R3-5");
+		//else if(extra_window_radio_run_interval_rsa_test_1.Active) currentRunIntervalType = new RunType("RSA 8-4-R3-5");
 
 		extra_window_runs_interval_initialize(currentRunIntervalType);
 	}
@@ -1222,7 +1222,7 @@ partial class ChronoJumpWindow
 		else if(type.Name == "byTime") extra_window_radio_run_interval_by_time.Active = true;
 		else if(type.Name == "unlimited") extra_window_radio_run_interval_unlimited.Active = true;
 		else if(type.Name == "MTGUG") extra_window_radio_run_interval_mtgug.Active = true;
-		else if(type.Name == "RSA 8-4-R3-5") extra_window_radio_run_interval_rsa_test_1.Active = true;
+		//else if(type.Name == "RSA 8-4-R3-5") extra_window_radio_run_interval_rsa_test_1.Active = true;
 		else {
 			//don't do this:
 			//extra_window_radio_run_interval_more.Active = true;

@@ -2663,31 +2663,6 @@ Chronopic</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_radio_run_interval_rsa_test_1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <property name="relief">none</property>
-                                                            <property name="draw_indicator">False</property>
-                                                            <property name="group">extra_window_radio_run_interval_by_laps</property>
-                                                            <signal name="toggled" handler="on_extra_window_runs_interval_test_changed" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_extra_window_radio_run_interval_rsa_test_1">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">RSA test 1</property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">4</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkRadioButton" id="extra_window_radio_run_interval_more">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
@@ -2718,7 +2693,7 @@ Chronopic</property>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_run_interval_more">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">All intervallic runs</property>
+                                                            <property name="label" translatable="yes">All intervallic runs (including RSA)</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">True</property>
@@ -2733,7 +2708,7 @@ Chronopic</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="padding">8</property>
-                                                            <property name="position">5</property>
+                                                            <property name="position">4</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -29611,7 +29586,8 @@ options</property>
                   <widget class="GtkLabel" id="label139">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Limited by</property>
+                    <property name="label" translatable="yes">Limited by
+(how it finishes)</property>
                   </widget>
                   <packing>
                     <property name="left_attach">1</property>
@@ -29923,7 +29899,7 @@ options</property>
                     <child>
                       <widget class="GtkRadioButton" id="radiobutton_dist_different">
                         <property name="label" translatable="yes">Different (each track have different distance
-suitable for agility tests)</property>
+suitable for agility tests and RSA)</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

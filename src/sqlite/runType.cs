@@ -317,8 +317,7 @@ class SqliteRunIntervalType : SqliteRunType
 			"20m10times:20:1:10:0:Run 10 times a 20m distance:",	//only in more runs
 			"7m30seconds:7:0:30:0:Make max laps in 30 seconds:",	//only in more runs
 			"20m endurance:20:0:0:1:Continue running in 20m distance:",	//only in more runs
-			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19",
-			"RSA 8-4-R3-5:-1:1:4:0:RSA testing:8-4-R3-5"
+			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19"
 		};
 		foreach(string myString in iniRunTypes) {
 			//RunIntervalTypeInsert(myString, true);
@@ -334,8 +333,43 @@ class SqliteRunIntervalType : SqliteRunType
 			Insert(type, Constants.RunIntervalTypeTable, true);
 		}
 		
-		AddGraphLinksRunInterval();	
+		AddGraphLinksRunInterval();
+
+		addRSA();
 	}
+
+	protected internal static void addRSA()
+	{
+		string [] iniRunTypes = {
+			//name:distance:tracksLimited:fixedValue:unlimited:description
+			"RSA Aziz 2000 40, R30 x 8:-1:1:16:0:RSA Aziz et al. 2000:40-R30",
+			"RSA Balsom 15, R30 x 40:-1:1:80:0:RSA Balsom et al. 1992:15-R30",
+			"RSA Balsom 30, R30 x 20:-1:1:40:0:RSA Balsom et al. 1992:30-R30",
+			"RSA Balsom 40, R30 x 15:-1:1:30:0:RSA Balsom et al. 1992:40-R30",
+			"RSA Dawson 40, R24 x 6:-1:1:12:0:RSA Dawson et al. 1998:40-R24",
+			"RSA Fitzsimons 40, R24 x 6:-1:1:12:0:RSA Fitzsimons et al. 1993:40-R24",
+			"RSA Gaitanos 6, R30 x 10:-1:1:20:0:RSA Gaitanos et al. 1991:6-R30",
+			"RSA Hamilton 6, R30 x 10:-1:1:20:0:RSA Hamilton et al. 1991:6-R30",
+			"RSA Mujica 15, R24 x 6:-1:1:12:0:RSA Mujica et al. 2000:15-R24",
+			"RSA Wadley 20, R17 x 12:-1:1:24:0:RSA Wadley and Le Rossignol 1998:20-R17",
+			"RSA Wragg 34.2, R25 x 7:-1:1:14:0:RSA Wragg et al. 2000:34.2-R25"
+		};
+		foreach(string myString in iniRunTypes) {
+			//RunIntervalTypeInsert(myString, true);
+			string [] s = myString.Split(new char[] {':'});
+			RunType type = new RunType();
+			type.Name = s[0];
+			type.Distance = Convert.ToDouble(Util.ChangeDecimalSeparator(s[1]));
+			type.TracksLimited = Util.IntToBool(Convert.ToInt32(s[2]));
+			type.FixedValue = Convert.ToInt32(s[3]);
+			type.Unlimited = Util.IntToBool(Convert.ToInt32(s[4]));
+			type.Description = s[5];
+			type.DistancesString = s[6];
+			Insert(type, Constants.RunIntervalTypeTable, true);
+		}
+	}
+
+
 
 	//public static void RunIntervalTypeInsert(string myRun, bool dbconOpened)
 	public static new int Insert(RunType t, string tableName, bool dbconOpened)

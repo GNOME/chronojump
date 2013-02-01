@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.87";
+	static string lastChronojumpDatabaseVersion = "0.88";
 
 	public Sqlite() {
 	}
@@ -1184,6 +1184,27 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "0.87";
 			}
+			if(currentVersion == "0.87") {
+				//delete runInterval type
+				SqliteRunIntervalType.Delete("RSA 8-4-R3-5");
+
+				//delete all it's runs
+				dbcon.Open();
+				dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
+					" WHERE type == 'RSA 8-4-R3-5'";
+				Log.WriteLine(dbcmd.CommandText.ToString());
+				dbcmd.ExecuteNonQuery();
+				
+				//add know RSAs
+				SqliteRunIntervalType.addRSA();
+
+				Log.WriteLine("Deleted fake RSA test and added known RSA tests.");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.88", true); 
+				dbcon.Close();
+
+				currentVersion = "0.88";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1322,6 +1343,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.87 - 0.88 Converted DB to 0.88 Deleted fake RSA test and added known RSA tests
 		//0.86 - 0.87 Converted DB to 0.87 Added run speed start preferences on sqlite
 		//0.85 - 0.86 Converted DB to 0.86 videoOn: TRUE
 		//0.84 - 0.85 Converted DB to 0.85 Added slCMJ jump 

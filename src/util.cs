@@ -333,6 +333,13 @@ public class Util
 		myStringBuilder.Replace(" ", "_");
 		return myStringBuilder.ToString();
 	}
+	
+	private static string changeSpaceToSpaceMark(string myString) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace(" ", "WINDOWSSPACEMARK");
+		return myStringBuilder.ToString();
+	}
 
 	public static string GetHeightInCentimeters (string time) {
 		// s = 4.9 * (tv/2)^2
@@ -1086,7 +1093,8 @@ public class Util
 		if (IsWindows()) {
 			pBin=getEncoderScriptCapture();
 			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port 
-				+ " " + System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R");
+				+ " " + changeSpaceToSpaceMark(
+					System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R.exe"));
 		}
 		else {
 			pBin="python";
@@ -1130,7 +1138,9 @@ public class Util
 		pBin="Rscript";
 		//pBin="R";
 		if (IsWindows()) {
-			pBin=System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe");
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			Log.WriteLine("pBin:" + pBin);
 
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
@@ -1156,8 +1166,12 @@ public class Util
 			//a file path uses Unix-like path separator '/'		
 			optionsFile = optionsFile.Replace("\\","/");
 		}
-
-		pinfo.Arguments = getEncoderScriptGraph() + " " + optionsFile;
+		
+		//on Windows we need the \"str\" to call without problems in path with spaces
+		pinfo.Arguments = "\"" + getEncoderScriptGraph() + "\" " + optionsFile;
+	
+		Log.WriteLine("Arguments:" + pinfo.Arguments);
+		
 		/*
 		pinfo.Arguments = "CMD BATCH --no-save '--args optionsFile=\"" + optionsFile + "\"' \"" + 
 			getEncoderScriptGraph() + "\" \"" + 

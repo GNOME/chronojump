@@ -429,8 +429,11 @@ if __name__ == '__main__':
 	
 	
 	
-	#print "connecting with R"
+	print "connecting with R"
 	#myR = R()
+	print r_path
+	r_path = r_path.replace("WINDOWSSPACEMARK"," ")
+	print r_path
 	myR = R(RCMD=r_path)
 
 	myR.run('library("EMD")') #needed on reducing curve by speed (extrema)

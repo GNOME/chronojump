@@ -255,7 +255,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_signal_delete;
 
 	Random rand;
-	bool volumeOn;
+	bool volumeOn; //TODO: always true now because it's hidden from GUI until videoOn is working
 	bool videoOn; //TODO: now always false because it crashes on windows
 
 	//persons
@@ -833,10 +833,13 @@ public partial class ChronoJumpWindow
 		else 
 			metersSecondsPreferred = false;
 
+		/*
 		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
 			volumeOn = true;
 		else 
 			volumeOn = false;
+		*/
+		volumeOn = true;
 		
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
 		changeVolumeButton(volumeOn);

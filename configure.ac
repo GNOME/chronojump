@@ -1,7 +1,7 @@
 dnl Warning: This is an automatically generated file, do not edit!
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT([chronojump], [1.0.0])
+AC_INIT([chronojump], [1.3.0])
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 

@@ -1514,7 +1514,15 @@ public class Util
 		return array;
 	}
 
-
+	public static string AddCsvIfNeeded(string myFile)
+	{
+		int posOfDot = myFile.LastIndexOf('.');
+		if (posOfDot == -1) 
+			myFile += ".csv";
+		
+		return myFile;
+	}
+	
 
 	public static bool IntToBool (int myInt) {
 		if(myInt == 1)

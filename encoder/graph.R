@@ -1071,7 +1071,7 @@ doProcess <- function(options) {
 	}
 	if(Analysis=="exportCSV") {
 		print("Starting export...")
-		file=OutputData1;
+		File=OutputData1;
 		curvesNum = length(curves[,1])
 
 		maxLength = 0

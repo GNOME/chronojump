@@ -491,6 +491,11 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
+		checkFile();
+	}
+	
+	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
+	{
 		string analysisOptions = "-";
 		if(checkbutton_encoder_propulsive.Active)
 			analysisOptions = "p";
@@ -514,7 +519,7 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				Util.GetEncoderExportTempFileName(), "NULL", ep);
+				selectedFileName, "NULL", ep);
 
 		Util.RunEncoderGraph(
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
@@ -522,8 +527,74 @@ public partial class ChronoJumpWindow
 					"-(" + findMass(true) + "Kg)",
 				encoderStruct);
 
-		encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
-					"Exported to {0}."), Util.GetEncoderExportTempFileName());
+		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
+		//			"Exported to {0}."), Util.GetEncoderExportTempFileName());
+	}
+
+	string exportFileName;	
+	protected void checkFile ()
+	{
+		string exportString = Catalog.GetString ("Export session in format CSV");
+		
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(exportString,
+					app1,
+					FileChooserAction.Save,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Export"),ResponseType.Accept
+					);
+
+		if (fc.Run() == (int)ResponseType.Accept) 
+		{
+			exportFileName = fc.Filename;
+			//add ".csv" if needed
+			exportFileName = Util.AddCsvIfNeeded(exportFileName);
+			try {
+				if (File.Exists(exportFileName)) {
+					Log.WriteLine(string.Format(
+								"File {0} exists with attributes {1}, created at {2}", 
+								exportFileName, 
+								File.GetAttributes(exportFileName), 
+								File.GetCreationTime(exportFileName)));
+					Log.WriteLine("Overwrite...");
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+								"Are you sure you want to overwrite file: "), "", 
+							exportFileName);
+					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
+				} else {
+					on_button_encoder_export_all_curves_file_selected (exportFileName);
+
+					string myString = string.Format(Catalog.GetString("Exported to {0}"), 
+							exportFileName) + Constants.SpreadsheetString;
+					new DialogMessage(Constants.MessageTypes.INFO, myString);
+				}
+			} 
+			catch {
+				string myString = string.Format(
+						Catalog.GetString("Cannot export to file {0} "), exportFileName);
+				new DialogMessage(Constants.MessageTypes.WARNING, myString);
+			}
+		}
+		else {
+			Log.WriteLine("cancelled");
+			//report does not currently send the appBar reference
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
+			fc.Hide ();
+			return ;
+		}
+		
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+		
+		return;
+	}
+	private void on_overwrite_file_accepted(object o, EventArgs args)
+	{
+		on_button_encoder_export_all_curves_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Exported to {0}"), 
+				exportFileName) + Constants.SpreadsheetString;
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 

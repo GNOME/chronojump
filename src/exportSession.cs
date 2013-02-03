@@ -86,7 +86,7 @@ public class ExportSession
 				fileName = addHtmlIfNeeded(fileName);
 			} else {
 				//add ".csv" if needed
-				fileName = addCsvIfNeeded(fileName);
+				fileName = Util.AddCsvIfNeeded(fileName);
 			}
 			try {
 				if (File.Exists(fileName)) {
@@ -146,15 +146,6 @@ public class ExportSession
 			else
 				myFile += ".html";
 		}
-		return myFile;
-	}
-	
-	private string addCsvIfNeeded(string myFile)
-	{
-		int posOfDot = myFile.LastIndexOf('.');
-		if (posOfDot == -1) 
-			myFile += ".csv";
-		
 		return myFile;
 	}
 	
@@ -873,7 +864,7 @@ public class ExportSessionCSV : ExportSession
 		this.mySession = mySession;
 		this.prefsDigitsNumber = prefsDigitsNumber;
 	
-		spreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>");
+		spreadsheetString = Constants.SpreadsheetString;
 
 		checkFile("CSV");
 	}
@@ -907,8 +898,10 @@ public class ExportSessionCSV : ExportSession
 	protected override void printFooter()
 	{
 		Log.WriteLine( "Correctly exported" );
+		/*
 		string myString = Catalog.GetString ("Exported to file: ") + fileName;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
+		*/
 	}
 	
 	~ExportSessionCSV() {}

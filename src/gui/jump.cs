@@ -1007,8 +1007,11 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_jumps_label_dj_arms;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
 	[Widget] Gtk.Label extra_window_label_jumps_no_options;
-	
+
+	//slCMJ	
 	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg;
+	[Widget] Gtk.Box vbox_extra_window_jumps_single_leg_radios;
+	[Widget] Gtk.Frame frame_extra_window_jumps_single_leg_input;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_lateral;
@@ -1020,6 +1023,8 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_this_limb;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_opposite;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_fall_both;
+	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_distance;
+	[Widget] Gtk.SpinButton extra_window_jumps_spin_single_leg_angle;
 	
 	//options jumps_rj
 	[Widget] Gtk.Label extra_window_jumps_rj_label_limit;
@@ -1198,8 +1203,12 @@ partial class ChronoJumpWindow
 		}
 
 		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJ");
-		if(myJumpType.Name == "slCMJ")
+		if(myJumpType.Name == "slCMJ") {
 			hasOptions = true;
+			frame_extra_window_jumps_single_leg_input.Sensitive = false;
+			extra_window_jumps_spin_single_leg_distance.Value = 0;
+			extra_window_jumps_spin_single_leg_angle.Value = 90;
+		}
 
 		extra_window_jumps_showNoOptions(myJumpType, hasOptions);
 	}
@@ -1487,6 +1496,31 @@ partial class ChronoJumpWindow
 		else str += " Both";
 
 		return str;
+	}
+
+	private void on_spin_single_leg_changed(object o, EventArgs args) {
+		int distance = Convert.ToInt32(extra_window_jumps_spin_single_leg_distance.Value);
+		extra_window_jumps_spin_single_leg_angle.Value =
+			Util.CalculateJumpAngle(
+					Convert.ToDouble(Util.GetHeightInCentimeters(currentJump.Tv.ToString())), 
+					distance );
+	}
+
+	private void on_extra_window_jumps_button_single_leg_apply_clicked (object o, EventArgs args) {
+		string description = slCMJString();
+		int distance = Convert.ToInt32(extra_window_jumps_spin_single_leg_distance.Value);
+		int angle = Convert.ToInt32(extra_window_jumps_spin_single_leg_angle.Value);
+		currentJump.Description = description + 
+			" " + distance.ToString() +
+			" " + angle.ToString();
+		
+		SqliteJump.UpdateDescription(Constants.JumpTable, 
+			currentJump.UniqueID, currentJump.Description);
+		
+		myTreeViewJumps.Update(currentJump);
+		
+		//sensitive slCMJ options 
+		vbox_extra_window_jumps_single_leg_radios.Sensitive = true;
 	}
 
 }

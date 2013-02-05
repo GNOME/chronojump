@@ -3132,6 +3132,10 @@ Console.WriteLine("X");
 		string description = "";
 		if(currentJumpType.Name == "slCMJ") {
 			description = slCMJString(); 
+
+			frame_extra_window_jumps_single_leg_input.Sensitive = false;
+			extra_window_jumps_spin_single_leg_distance.Value = 0;
+			extra_window_jumps_spin_single_leg_angle.Value = 90;
 		}
 			
 		//used by cancel and finish
@@ -3190,45 +3194,16 @@ Console.WriteLine("X");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 
-		//if jump is slCMJ and is not vertical, user has to input the length of jumpin cm
-		if(currentJumpType.Name == "slCMJ" && ! extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
-			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished_ask_data);
-		else
-			currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished_no_ask_data);
+		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
 	}	
 	
-	private void on_jump_finished_ask_data (object o, EventArgs args)
-	{
-Log.WriteLine("AAA");
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_ask_data);
-		genericWin = GenericWindow.Show(Catalog.GetString("Input length of jump in centimeters")
-				, Constants.GenericWindowShow.SPININT);
 
-		genericWin.LabelSpinInt = "";
-		genericWin.SetSpinRange(1.0, 200.0);
-		genericWin.Button_accept.Clicked += new EventHandler(on_jump_finished_ask_data_2);
-Log.WriteLine("AAA 2");
-	}
-	
-	private void on_jump_finished_ask_data_2 (object o, EventArgs args)
-	{
-Log.WriteLine("BBB");
-		genericWin.Button_accept.Clicked -= new EventHandler(on_jump_finished_ask_data_2);
-		on_jump_finished();
-Log.WriteLine("BBB 2");
-	}
-
-	private void on_jump_finished_no_ask_data (object o, EventArgs args)
-	{
-Log.WriteLine("CCC");
-		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished_no_ask_data);
-		on_jump_finished();
-Log.WriteLine("CCC 2");
-	}
-
-	private void on_jump_finished ()
+	private void on_jump_finished (object o, EventArgs args)
 	{
 Log.WriteLine("DDD");
+		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
+Log.WriteLine("DDD 1");
+
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
 		
@@ -3236,14 +3211,12 @@ Log.WriteLine("DDD");
 				if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
 					currentJump.Description += " 0 90";
 				else {
-					int distance = Convert.ToInt32(genericWin.SpinIntSelected);
-					currentJump.Description += 
-						" " + distance.ToString() +
-						" " + Util.CalculateJumpAngle(
-								Convert.ToDouble(
-									Util.GetHeightInCentimeters(
-										currentJump.Tv.ToString()))
-								, distance ).ToString();
+					currentJump.Description += " 0 90";
+					
+					//unsensitive slCMJ options 
+					vbox_extra_window_jumps_single_leg_radios.Sensitive = false;
+					//but sensitive the input cm
+					frame_extra_window_jumps_single_leg_input.Sensitive = true;
 				}
 				SqliteJump.UpdateDescription(Constants.JumpTable, 
 						currentJump.UniqueID, currentJump.Description);
@@ -3284,6 +3257,7 @@ Log.WriteLine("DDD");
 		sensitiveGuiEventDone();
 Log.WriteLine("DDD 2");
 	}
+
 
 
 	/* ---------------------------------------------------------

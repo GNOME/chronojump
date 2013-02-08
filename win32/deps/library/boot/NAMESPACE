@@ -10,6 +10,7 @@ export(abc.ci, boot, boot.array, boot.ci, censboot, control, corr,
 # export(lines.saddle.distn, plot.boot, print.boot, print.bootci, print.simplex)
 importFrom(graphics, lines, plot)
 
+S3method(c, boot)
 S3method(lines, saddle.distn)
 S3method(plot, boot)
 S3method(print, boot)

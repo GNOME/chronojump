@@ -5,8 +5,8 @@
 # Chapter 11   Exploratory Multivariate Analysis
 
 library(MASS)
-postscript(file="ch11.ps", width=8, height=6, pointsize=9)
-options(echo=T, width=65, digits=5)
+pdf(file="ch11.pdf", width=8, height=6, pointsize=9)
+options(width=65, digits=5)
 
 
 # 11.1  Visualization methods
@@ -14,7 +14,7 @@ options(echo=T, width=65, digits=5)
 # ir <- rbind(iris[,,1], iris[,,2], iris[,,3])
 ir <- rbind(iris3[,,1], iris3[,,2], iris3[,,3])
 ir.species <- factor(c(rep("s", 50), rep("c", 50), rep("v", 50)))
-(ir.pca <- princomp(log(ir), cor = T))
+(ir.pca <- princomp(log(ir), cor = TRUE))
 summary(ir.pca)
 plot(ir.pca)
 ir.pc <- predict(ir.pca)
@@ -31,14 +31,22 @@ loadings(lcrabs.pca)
 lcrabs.pc <- predict(lcrabs.pca)
 dimnames(lcrabs.pc) <- list(NULL, paste("PC", 1:5, sep = ""))
 
-if(F) { # needs interaction with XGobi
+if(FALSE) { # needs interaction with XGobi, or, better, rggobi
 library(xgobi)
 xgobi(lcrabs, colors = c("SkyBlue", "SlateBlue", "Orange",
      "Red")[rep(1:4, each = 50)])
 xgobi(lcrabs, glyphs = 12 + 5*rep(0:3, each = 50, 4))
+
+library(rggobi)
+g <- ggobi(lcrabs)
+d <- displays(g)[[1]]
+pmode(d) <- "2D Tour"
+crabs.grp <- factor(c("B", "b", "O", "o")[rep(1:4, each = 50)])
+glyph_colour(g$lcrabs) <- crabs.grp
+colorscheme(g) <- "Paired 4"
 }
 
-ir.scal <- cmdscale(dist(ir), k = 2, eig = T)
+ir.scal <- cmdscale(dist(ir), k = 2, eig = TRUE)
 ir.scal$points[, 2] <- -ir.scal$points[, 2]
 eqscplot(ir.scal$points, type = "n")
 text(ir.scal$points, labels = as.character(ir.species),
@@ -69,7 +77,7 @@ eqscplot(lcrabs.sam$points, type = "n", xlab = "", ylab = "")
 text(lcrabs.sam$points, labels = as.character(crabs.grp))
 
 fgl.iso <- isoMDS(dist(as.matrix(fgl[-40, -10])))
-eqscplot(fgl.iso$points, type = "n", xlab = "", ylab = "", axes = F)
+eqscplot(fgl.iso$points, type = "n", xlab = "", ylab = "", axes = FALSE)
 # either
 # for(i in seq(along = levels(fgl$type))) {
 #   set <- fgl$type[-40] == levels(fgl$type)[i]
@@ -93,14 +101,14 @@ plot(crabs.som)
 bins <- as.numeric(knn1(crabs.som$code, lcrabs, 0:47))
 plot(crabs.som$grid, type = "n")
 symbols(crabs.som$grid$pts[, 1], crabs.som$grid$pts[, 2],
-        circles = rep(0.4, 48), inches = F, add = T)
+        circles = rep(0.4, 48), inches = FALSE, add = TRUE)
 text(crabs.som$grid$pts[bins, ] + rnorm(400, 0, 0.1),
      as.character(crabs.grp))
 
 crabs.som2 <- SOM(lcrabs, gr); plot(crabs.som2)
 
 state <- state.x77[, 2:7]; row.names(state) <- state.abb
-biplot(princomp(state, cor = T), pc.biplot = T, cex = 0.7,
+biplot(princomp(state, cor = TRUE), pc.biplot = TRUE, cex = 0.7,
        expand = 0.8)
 
 library(fastICA)
@@ -112,7 +120,7 @@ for(i in 1:nICA) boxplot(Z[, i] ~ crabs.grp)
 par(mfrow = c(1, 1))
 
 
-# S: stars(state.x77[, c(7, 4, 6, 2, 5, 3)], byrow = T)
+# S: stars(state.x77[, c(7, 4, 6, 2, 5, 3)], byrow = TRUE)
 stars(state.x77[, c(7, 4, 6, 2, 5, 3)])
 
 parcoord(state.x77[, c(7, 4, 6, 2, 5, 3)])
@@ -165,25 +173,9 @@ fanny(swiss.px, 3)
 ##   use, and the code given in the first printing does not work in R's
 ##   mclust-2.x.'
 ##
-## And now mclust has been given a more restrictive licence, so
-## this code is not run by default.
-if(FALSE) {
-library(mclust) # 2.x equivalent commands
-h <- hc(modelName = "VVV", swiss.x)
-print(mh <- as.vector(hclass(h, 3)))
-z <- me(modelName = "VVV", swiss.x,  z = 0.5*(unmap(mh)+1/3))
-eqscplot(swiss.px[, 1:2], type = "n",
-         xlab = "first principal component",
-         ylab = "second principal component")
-text(swiss.px[, 1:2], labels = max.col(z$z))
 
-vals <- EMclust(swiss.x) # all possible models, 0:9 clusters.
-print(sm <- summary(vals, swiss.x))
-eqscplot(swiss.px[, 1:2], type = "n",
-         xlab = "first principal component",
-         ylab = "second principal component")
-text(swiss.px[, 1:2], labels = sm$classification)
-}
+## And later mclust was given a restrictive licence, so this example
+## has been removed.
 
 
 # 11.3 Factor analysis
@@ -194,16 +186,16 @@ ability.FA
 #summary(ability.FA)
 round(loadings(ability.FA) %*% t(loadings(ability.FA)) +
            diag(ability.FA$uniq), 3)
-# loadings(rotate(ability.FA, rotation = "oblimin"))
 
-if(FALSE) {
-par(pty = "s")
-L <- loadings(ability.FA)
-eqscplot(L, xlim = c(0,1), ylim = c(0,1))
-if(interactive()) identify(L, dimnames(L)[[1]])
-oblirot <- rotate(loadings(ability.FA), rotation = "oblimin")
-naxes <- solve(oblirot$tmat)
-arrows(rep(0, 2), rep(0, 2), naxes[,1], naxes[,2])
+if(require("GPArotation")) {
+# loadings(rotate(ability.FA, rotation = "oblimin"))
+    L <- loadings(ability.FA)
+    print(oblirot <- oblimin(L))
+    par(pty = "s")
+    eqscplot(L, xlim = c(0,1), ylim = c(0,1))
+    if(interactive()) identify(L, dimnames(L)[[1]])
+    naxes <- oblirot$Th
+    arrows(rep(0, 2), rep(0, 2), naxes[,1], naxes[,2])
 }
 
 
@@ -211,9 +203,9 @@ arrows(rep(0, 2), rep(0, 2), naxes[,1], naxes[,2])
 
 caith <- as.matrix(caith)
 names(dimnames(caith)) <- c("eyes", "hair")
-mosaicplot(caith, color = T)
+mosaicplot(caith, color = TRUE)
 House <- xtabs(Freq ~ Type + Infl + Cont + Sat, housing)
-mosaicplot(House, color = T)
+mosaicplot(House, color = TRUE)
 
 corresp(caith)
 
@@ -225,7 +217,7 @@ plot(corresp(caith2, nf = 2), type = "rows"); title("rows")
 plot(corresp(caith2, nf = 2), type = "col"); title("columns")
 par(mfrow = c(1, 1))
 
-farms.mca <- mca(farms, abbrev = T)  # Use levels as names
+farms.mca <- mca(farms, abbrev = TRUE)  # Use levels as names
 plot(farms.mca, cex = rep(0.7, 2))
 
 # End of ch11

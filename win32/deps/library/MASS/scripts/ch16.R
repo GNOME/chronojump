@@ -5,8 +5,8 @@
 # Chapter 16   Optimization and Mazimum Likelihood Estimation
 
 library(MASS)
-postscript(file="ch16.ps", width=8, height=8, pointsize=9)
-options(echo = T, width=65, digits=5)
+pdf(file="ch16.pdf", width=8, height=8, pointsize=9)
+options(width=65, digits=5)
 
 # 16.3 General optimization
 
@@ -47,7 +47,7 @@ mix.gr <- function(p, x) {
 optim(p0, mix.obj, mix.gr, x = waiting, method = "BFGS",
      control = list(parscale= c(0.1, rep(1, 4))))$par
 
-mix.nl0 <- optim(p0, mix.obj, mix.gr, method = "L-BFGS-B", hessian = T,
+mix.nl0 <- optim(p0, mix.obj, mix.gr, method = "L-BFGS-B", hessian = TRUE,
                 lower = c(0, -Inf, 0, -Inf, 0),
                 upper = c(1, rep(Inf, 4)), x = waiting)
 rbind(est = mix.nl0$par, se = sqrt(diag(solve(mix.nl0$hessian))))
@@ -93,7 +93,7 @@ p1 <- mix.nl0$par; tmp <- as.vector(p1[1])
 p2 <- c(a = log(tmp/(1-tmp)), b = 0, p1[-1])
 mix.nl1 <- optim(p2, mix1.obj, method = "L-BFGS-B",
                 lower = c(-Inf, -Inf, -Inf, 0, -Inf, 0),
-                upper = rep(Inf, 6), hessian = T,
+                upper = rep(Inf, 6), hessian = TRUE,
                 x = waiting[-1], y = duration[-299])
 rbind(est = mix.nl1$par, se = sqrt(diag(solve(mix.nl1$hessian))))
 
@@ -109,7 +109,7 @@ if(!exists("bwt")) {
 }
 
 logitreg <- function(x, y, wt = rep(1, length(y)),
-               intercept = T, start = rep(0, p), ...)
+               intercept = TRUE, start = rep(0, p), ...)
 {
   fmin <- function(beta, X, y, w) {
       p <- plogis(X %*% beta)

@@ -1,4 +1,4 @@
-Axis                    Generic function to add an Axis to a Plot
+Axis                    Generic Function to Add an Axis to a Plot
 abline                  Add Straight Lines to a Plot
 arrows                  Add Arrows to a Plot
 assocplot               Association Plots
@@ -16,7 +16,7 @@ clip                    Set Clipping Region
 contour                 Display Contours
 coplot                  Conditioning Plots
 curve                   Draw Function Plots
-dotchart                Cleveland Dot Plots
+dotchart                Cleveland's Dot Plots
 filled.contour          Level (Contour) Plots
 fourfoldplot            Fourfold Plots
 frame                   Create / Start a New Plot Frame
@@ -42,7 +42,7 @@ pie                     Pie Charts
 plot                    Generic X-Y Plotting
 plot.data.frame         Plot Method for Data Frames
 plot.default            The Default Scatterplot Function
-plot.design             Plot Univariate Effects of a 'Design' or Model
+plot.design             Plot Univariate Effects of a Design or Model
 plot.factor             Plotting Factor Variables
 plot.formula            Formula Notation for Scatterplots
 plot.histogram          Plot Histograms
@@ -51,6 +51,8 @@ plot.window             Set up World Coordinates for Graphics Window
 plot.xy                 Basic Internal Plot Function
 points                  Add Points to a Plot
 polygon                 Polygon Drawing
+polypath                Path Drawing
+rasterImage             Draw One or More Raster Images
 rect                    Draw One or More Rectangles
 rug                     Add a Rug to a Plot
 screen                  Creating and Controlling Multiple Screens on a
@@ -66,7 +68,7 @@ strwidth                Plotting Dimensions of Character Strings and
                         Math Expressions
 sunflowerplot           Produce a Sunflower Scatter Plot
 symbols                 Draw Symbols (Circles, Squares, Stars,
-                        Thermometers, Boxplots) on a Plot
+                        Thermometers, Boxplots)
 text                    Add Text to a Plot
 title                   Plot Annotation
 xinch                   Graphical Units

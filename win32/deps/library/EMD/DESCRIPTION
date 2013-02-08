@@ -1,14 +1,19 @@
 Package: EMD
+Version: 1.5.2
+Date: 2013-01-18
 Title: Empirical Mode Decomposition and Hilbert Spectral Analysis
-Version: 1.2.0
-Date: 2008-11-08
-Author: Donghoh Kim <donghoh.kim@gmail.com>, Hee-Seok Oh
-        <heeseok@stats.snu.ac.kr>
+Author: Donghoh Kim and Hee-Seok Oh
 Maintainer: Donghoh Kim <donghoh.kim@gmail.com>
-Depends: R (>= 2.6), fields (>= 4.1)
-Description: This package carries out empirical mode decompostion and
-        Hilbert spectral analysis.
-License: GPL version 2 or newer
+Depends: R (>= 2.11), fields (>= 6.3), locfit (>= 1.5-8)
+Description: This package carries out empirical mode decomposition and
+        Hilbert spectral analysis. For usage of EMD, see Kim and Oh,
+        2009 (Kim, D and Oh, H.-S. (2009) EMD: A Package for Empirical
+        Mode Decomposition and Hilbert Spectrum, The R Journal, 1,
+        40-46).
+License: GPL (>= 2)
 URL: http://dasan.sejong.ac.kr/~dhkim/software_emd.html
-Packaged: Fri Nov 28 13:13:50 2008; Administrator
-Built: R 2.9.2; i386-pc-mingw32; 2010-01-13 23:31:11 UTC; windows
+Packaged: 2013-01-18 01:48:24 UTC; donghohkim
+Repository: CRAN
+Date/Publication: 2013-01-18 06:42:37
+Built: R 2.15.2; x86_64-w64-mingw32; 2013-02-07 02:53:10 UTC; windows
+Archs: i386, x64

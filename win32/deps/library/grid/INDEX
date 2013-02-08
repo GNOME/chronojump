@@ -1,6 +1,7 @@
 Grid                    Grid Graphics
 absolute.size           Absolute Size of a Grob
 arrow                   Describe arrows to add to a line.
+calcStringMetric        Calculate Metric Information for Text
 convertNative           Convert a Unit Object to Native units
 current.viewport        Get the Current Grid Viewport (Tree)
 dataViewport            Create a Viewport with Scales based on Data
@@ -11,8 +12,11 @@ gPath                   Concatenate Grob Names
 getNames                List the names of grobs on the display list
 gpar                    Handling Grid Graphical Parameters
 grid-package            The Grid Graphics Package
+grid.DLapply            Modify the Grid Display List
 grid.add                Add a Grid Graphical Object
 grid.arrows             Draw Arrows
+grid.bezier             Draw a Bezier Curve
+grid.cap                Capture a raster image
 grid.circle             Draw a Circle
 grid.clip               Set the Clipping Region
 grid.collection         Create a Coherent Group of Grid Graphical
@@ -25,6 +29,7 @@ grid.display.list       Control the Grid Display List
 grid.draw               Draw a grid grob
 grid.edit               Edit the Description of a Grid Graphical Object
 grid.frame              Create a Frame for Packing Objects
+grid.function           Draw a curve representing a function
 grid.get                Get a Grid Graphical Object
 grid.grab               Grab the current grid output
 grid.grill              Draw a Grill
@@ -37,12 +42,14 @@ grid.move.to            Move or Draw to a Specified Position
 grid.newpage            Move to a New Page on a Grid Device
 grid.null               Null Graphical Object
 grid.pack               Pack an Object within a Frame
+grid.path               Draw a Path
 grid.place              Place an Object within a Frame
 grid.plot.and.legend    A Simple Plot and Legend Demo
 grid.points             Draw Data Symbols
 grid.polygon            Draw a Polygon
 grid.pretty             Generate a Sensible Set of Breakpoints
 grid.prompt             Prompt before New Page
+grid.raster             Render a raster object
 grid.record             Encapsulate calculations and drawing
 grid.rect               Draw rectangles
 grid.refresh            Refresh the current grid scene
@@ -65,7 +72,10 @@ push.viewport           Push a Viewport onto the Grid Viewport Stack
 pushViewport            Maintaining and Navigating the Grid Viewport
                         Tree
 roundrect               Draw a rectangle with rounded corners
-stringWidth             Create a Unit Describing the Width of a String
+showGrob                Label grid grobs.
+showViewport            Display grid viewports.
+stringWidth             Create a Unit Describing the Width and Height
+                        of a String or Math Expression
 unit                    Function to Create a Unit Object
 unit.c                  Combine Unit Objects
 unit.length             Length of a Unit Object
@@ -77,3 +87,5 @@ viewport                Create a Grid Viewport
 vpPath                  Concatenate Viewport Names
 widthDetails            Width and Height of a grid grob
 xDetails                Boundary of a grid grob
+xsplinePoints           Return the points that would be used to draw an
+                        Xspline (or a Bezier curve).

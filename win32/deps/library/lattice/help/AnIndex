@@ -108,11 +108,12 @@ panel.identify	interaction
 panel.identify.cloud	interaction
 panel.identify.qqmath	interaction
 panel.levelplot	panel.levelplot
+panel.levelplot.raster	panel.levelplot
 panel.linejoin	panel.functions
 panel.lines	llines
 panel.link.splom	interaction
 panel.lmline	panel.functions
-panel.loess	panel.functions
+panel.loess	panel.loess
 panel.mathdensity	panel.functions
 panel.number	panel.number
 panel.pairs	panel.pairs
@@ -127,10 +128,12 @@ panel.refline	panel.functions
 panel.rug	panel.functions
 panel.segments	llines
 panel.smoothScatter	panel.smoothScatter
+panel.spline	panel.spline
 panel.splom	panel.xyplot
 panel.stripplot	panel.stripplot
 panel.superpose	panel.superpose
 panel.superpose.2	panel.superpose
+panel.superpose.plain	panel.superpose
 panel.text	llines
 panel.tmd.default	tmd
 panel.tmd.qqmath	tmd
@@ -138,9 +141,10 @@ panel.violin	panel.violin
 panel.wireframe	panel.cloud
 panel.xyplot	panel.xyplot
 parallel	splom
-parallel.data.frame	splom
-parallel.formula	splom
-parallel.matrix	splom
+parallelplot	splom
+parallelplot.data.frame	splom
+parallelplot.formula	splom
+parallelplot.matrix	splom
 plot.shingle	shingles
 plot.trellis	print.trellis
 prepanel.default.bwplot	prepanel.default
@@ -156,6 +160,7 @@ prepanel.default.xyplot	prepanel.default
 prepanel.lmline	prepanel.functions
 prepanel.loess	prepanel.functions
 prepanel.qqmathline	prepanel.functions
+prepanel.spline	prepanel.functions
 prepanel.tmd.default	tmd
 prepanel.tmd.qqmath	tmd
 print.shingle	shingles
@@ -210,6 +215,7 @@ wireframe.matrix	cloud
 xscale.components.default	axis.default
 xyplot	xyplot
 xyplot.formula	xyplot
+xyplot.ts	xyplot.ts
 yscale.components.default	axis.default
 [.shingle	shingles
 [.trellis	update.trellis

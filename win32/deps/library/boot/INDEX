@@ -1,12 +1,27 @@
-Bootstrap S-Plus Functions  (Version 1.2; March 2001)
-===========================================================
+Bootstrap R Functions
+=====================
+
+Version 1.3; May 2011:
+
+The main change is support for parallel computation in functions
+boot(), censboot() and tsboot().
+
+Many of the examples have been tidied up.
+
+
+Version 1.2; March 2001:
 
 This version corrects some minor errors in Version 1.0 of the code
 distributed with the first printing of Davison and Hinkley (1997).
 The author would like to thank those users who pointed out errors or
 possible improvements to the code.  Any further errors found should be
-reported to the author at the address below for correction in the
-next version.
+reported to the author (Angelo Canty) for correction in the next
+version.
+
+Version 1.3; May 2011:
+
+Added parallel support, some code cleanup for efficiency.
+
 
 The package contains the following functions, all of which
 have online help available.
@@ -59,17 +74,3 @@ cd4.nested	A nested bootstrap referred to in Practical 5.5
 corr.nested	The statistic used in cd4.nested
 EL.profile, EEF.profile, and lik.CI 
 	functions defined for use in the practicals of chapter 10.
-
-
-
-Angelo J. Canty
-Department of Mathematics and Statistics
-Concordia University
-1455 Blvd de Maisonneuve, Ouest
-Montreal, 
-Quebec H3G 1M8
-Canada
-
-Tel : 1-514-848-3244
-Fax : 1-514-848-4511
-email : canty@cicma.concordia.ca

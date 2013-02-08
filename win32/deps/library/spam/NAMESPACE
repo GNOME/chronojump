@@ -3,37 +3,11 @@ useDynLib(spam)
 importFrom("graphics",image)
 importFrom("graphics",plot)           
 
-
 # Next two paragraphs are from Matrix....
 # Currently, group generics need to be explicitly imported (Bug?):
 importFrom("methods", #Arith,Compare,
            Math, Math2, Summary#, Complex
            )
-
-if(paste(R.version$major, R.version$minor, sep=".") < "2.6") 
-{
-## workaround S4-Group(generic|method) quirk: R/AllGeneric.R
-## needs setGeneric(*, group=) and this for all non-Primitives :
-export(
-       ## "Math"
-       "log",
-       "gamma",
-       "lgamma",
-
-       ## "Math2"
-       "round",
-       "signif",
-
-       ## "Summary"
-       "max",
-       "min",
-       "range",
-       "prod",
-       "sum",
-       "any",
-       "all"
-)
-}
 
 # Generic functions
 export("dcheck",
@@ -79,6 +53,13 @@ export("dcheck",
 
        "kronecker.default",
        "kronecker.spam",
+
+       "diff.spam",
+
+       "circulant.spam",
+       "toeplitz.spam",
+
+       "make.prec",
        
        "determinant.spam",
        "determinant.spam.chol.NgPeyton",
@@ -104,12 +85,45 @@ export("dcheck",
        "rmvnorm.spam",
        "rmvnorm.canonical",
        "rmvnorm.prec",
+       "rmvnorm.const",
+       "rmvnorm.canonical.const",
+       "rmvnorm.prec.const",
 
-       "adiag.spam",
+       "precmat.RW1",
+       "precmat.RW2",
+       "precmat.season",
+       "precmat.IGMRFreglat",
+       "precmat.IGMRFirreglat",
+       
+       "rowSums.spam",
+       "colSums.spam",
+       "rowMeans.spam",
+       "colMeans.spam",
+
+       "head.spam",
+       "tail.spam",
+
+       "chol2inv.spam",
+       
+       "mle.spam",
+       "mle.nomean.spam",
+       "neg2loglikelihood.spam",
+       "mle",
+       "mle.nomean",
+       "neg2loglikelihood",
+       
+       "bdiag.spam",
+
+       "bandwidth",
        
 #       ".spam.matmul.mat",
 #       ".spam.matmul",
+#       "solve.spam.mat",
+#       "solve.spam.dummy",
 
+       "subset.spam",
+       "subset.rows.spam",
+       
        "triplet",
        "as.spam.matrix.csr",
        "as.matrix.csr.spam",
@@ -121,8 +135,15 @@ export("dcheck",
        "read.MM",
        "read.HB",
 
+       "powerboost",
+
+       "permutation.spam",
+       
        "map.landkreis",
-       "adjacency.landkreis"
+       "adjacency.landkreis",
+
+       "cleanup",
+       "backsolve"
        )
 
 
@@ -166,14 +187,24 @@ exportMethods(
               "lower.tri",
               
               "norm",
+              "rowSums",
+              "rowMeans",
+              "colSums",
+              "colMeans",
 
+              "head",
+              "tail",
+              
               "chol",
               "ordering",
               "forwardsolve",
               "backsolve",
               "solve",
+              "chol2inv",
 
               "kronecker",
+
+              "permutation",
               
               "[",
               "[<-",

@@ -30,7 +30,6 @@ Cars93	Cars93
 cats	cats
 cement	cement
 chem	chem
-coef.fitdistr	fitdistr
 coef.lda	lda
 con2tr	con2tr
 confint.glm	confint
@@ -112,7 +111,6 @@ lm.gls	lm.gls
 lm.ridge	lm.ridge
 lmsreg	lqs
 lmwork	stdres
-logLik.fitdistr	fitdistr
 logLik.negbin	glm.nb
 loglm	loglm
 loglm1	loglm1
@@ -172,7 +170,6 @@ predict.lqs	predict.lqs
 predict.mca	predict.mca
 predict.qda	predict.qda
 predict.rlm	rlm
-print.fitdistr	fitdistr
 print.fractions	fractions
 print.gamma.shape	gamma.shape.glm
 print.glm.dose	dose.p

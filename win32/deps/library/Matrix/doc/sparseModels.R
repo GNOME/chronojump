@@ -1,11 +1,13 @@
+### R code from vignette source 'sparseModels.Rnw'
+
 ###################################################
-### chunk number 1: preliminaries
+### code chunk number 1: preliminaries
 ###################################################
 options(width=75)
 
 
 ###################################################
-### chunk number 2: ex1
+### code chunk number 2: ex1
 ###################################################
  (ff <- factor(strsplit("statistics_is_a_task", "")[[1]], levels=c("_",letters)))
  factor(ff)      # drops the levels that do not occur
@@ -13,7 +15,7 @@ options(width=75)
 
 
 ###################################################
-### chunk number 3: ex1.2
+### code chunk number 3: ex1.2
 ###################################################
  levels(f1)[match(c("c","k"), levels(f1))] <- "ck"
  library(Matrix)
@@ -25,37 +27,35 @@ options(width=75)
 
 
 ###################################################
-### chunk number 4: as_factor_sparse
+### code chunk number 4: as_factor_sparse
 ###################################################
 as(f1, "sparseMatrix")
 
 
 ###################################################
-### chunk number 5: contrasts_sub
+### code chunk number 5: contrasts_sub
 ###################################################
 printSpMatrix( t( Matrix(contrasts(f1))[as.character(f1) ,] ),
               col.names=TRUE)
 
 
 ###################################################
-### chunk number 6: ex1-model.matrix
+### code chunk number 6: ex1-model.matrix
 ###################################################
 t( Matrix(model.matrix(~ 0+ f1))) # model with*OUT* intercept
 
 
 ###################################################
-### chunk number 7: chickwts-ex
+### code chunk number 7: chickwts-ex
 ###################################################
 str(chickwts)# a standard R data set,  71 x 2
 x.feed <- as(chickwts$feed, "sparseMatrix")
 x.feed[ , (1:72)[c(TRUE,FALSE,FALSE)]] ## every  3rd  column:
 
-## Provisional (hence unexported) sparse lm.fit():
-Matrix:::lm.fit.sparse(x = t(x.feed), y = chickwts[,1])
 
 
 ###################################################
-### chunk number 8: warpbreaks-data
+### code chunk number 8: warpbreaks-data
 ###################################################
 data(warpbreaks)# a standard R data set
 str(warpbreaks) # 2 x 3 (x 9) balanced two-way with 9 replicates:
@@ -63,7 +63,7 @@ xtabs(~ wool + tension, data = warpbreaks)
 
 
 ###################################################
-### chunk number 9: modMat-warpbreaks
+### code chunk number 9: modMat-warpbreaks
 ###################################################
 tmm <- with(warpbreaks,
             rBind(as(tension, "sparseMatrix"),
@@ -72,7 +72,7 @@ print(  image(tmm)  ) # print(.) the lattice object
 
 
 ###################################################
-### chunk number 10: morley-data
+### code chunk number 10: morley-data
 ###################################################
 data(morley) # a standard R data set
 morley$Expt <- factor(morley$Expt)
@@ -85,7 +85,7 @@ print(  image(t.mm)  ) # print(.) the lattice object
 
 
 ###################################################
-### chunk number 11: npk_ex
+### code chunk number 11: npk_ex
 ###################################################
 data(npk, package="MASS")
 
@@ -99,7 +99,7 @@ t(M.npk) # easier to display, column names readably displayed as row.names(t(.))
 
 
 ###################################################
-### chunk number 12: aov-large-ex
+### code chunk number 12: aov-large-ex
 ###################################################
 id <- factor(1:20)
 a <- factor(1:2)
@@ -111,7 +111,7 @@ dim(aDat) # 120'000 x 5  (120'000 = 2*2*1500 * 20 = 6000 * 20)
 
 
 ###################################################
-### chunk number 13: aov-ex-X-sparse
+### code chunk number 13: aov-ex-X-sparse
 ###################################################
 d2 <- factor(1:150) # 10 times smaller
 tmp2 <- expand.grid(id=id, a=a, b=b, d=d2)
@@ -124,13 +124,24 @@ round(object.size(mm) / object.size(smm), 1)
 
 
 ###################################################
-### chunk number 14: X-sparse-image
+### code chunk number 14: X-sparse-image (eval = FALSE)
 ###################################################
-print( image(t(smm), aspect=1/3, col.regions= "red") ) # print(<lattice>)
+## image(t(smm), aspect = 1/3, lwd=0, col.regions = "red")
 
 
 ###################################################
-### chunk number 15: X-sparse-mult
+### code chunk number 15: X-sparse-image-fake
+###################################################
+png("sparseModels-X-sparse-image.png", width=6, height=3,
+    units='in', res=150)
+print(
+image(t(smm), aspect = 1/3, lwd=0, col.regions = "red")
+      )
+dev.off()
+
+
+###################################################
+### code chunk number 16: X-sparse-mult
 ###################################################
 x <- 1:600
 system.time(y <- smm %*% x) ## sparse is much faster
@@ -139,7 +150,7 @@ identical(as.matrix(y), y.) ## TRUE
 
 
 ###################################################
-### chunk number 16: sessionInfo
+### code chunk number 17: sessionInfo
 ###################################################
 toLatex(sessionInfo())
 

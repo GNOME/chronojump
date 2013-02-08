@@ -24,14 +24,14 @@ perm.t.test <- function(d) {
     x <- d * 2 * (binary.v(1:n, digits) - 0.5)
     mx <- matrix(1/digits, 1, digits) %*% x
     s <- matrix(1/(digits - 1), 1, digits)
-    vx <- s %*% (x - matrix(mx, digits, n, byrow=T))^2
+    vx <- s %*% (x - matrix(mx, digits, n, byrow=TRUE))^2
     as.vector(mx/sqrt(vx/digits))
 }
 
 library(MASS)
-options(echo = T,width=65, digits=5, height=9999)
+options(width=65, digits=5, height=9999)
 library(lattice)
-trellis.device(postscript, file="ch05.ps", width=8, height=6, pointsize=9)
+pdf(file="ch05.pdf", width=8, height=6, pointsize=9)
 
 rm(A, B) # precautionary clear-out
 attach(shoes)
@@ -106,15 +106,15 @@ wilcox.test(A, mu = 10)
 
 var.test(A, B)
 
-t.test(A, B, var.equal = T)
+t.test(A, B, var.equal = TRUE)
 
-t.test(A, B, var.equal = F)
+t.test(A, B, var.equal = FALSE)
 
 wilcox.test(A, B)
 
-t.test(A, B, paired = T)
+t.test(A, B, paired = TRUE)
 
-wilcox.test(A, B, paired = T)
+wilcox.test(A, B, paired = TRUE)
 detach()
 
 par(mfrow = c(1, 2))
@@ -230,7 +230,7 @@ density(gal, n = 1, from = 20.833, to = 20.834, width = "SJ")$y
 set.seed(101)
 m <- 1000
 res <- numeric(m)
-for (i in 1:m) res[i] <- median(sample(gal, replace = T))
+for (i in 1:m) res[i] <- median(sample(gal, replace = TRUE))
 mean(res - median(gal))
 sqrt(var(res))
 
@@ -249,7 +249,7 @@ boot.ci(gal.boot, conf = c(0.90, 0.95),
          type = c("norm","basic","perc","bca"))
 plot(gal.boot)
 
-if(F){ # bootstrap() is an S-PLUS function
+if(FALSE) { # bootstrap() is an S-PLUS function
 gal.bt <- bootstrap(gal, median, seed = 101, B = 1000)
 summary(gal.bt)
 plot(gal.bt)
@@ -261,7 +261,7 @@ limits.bca(gal.bt)
 
 sim.gen  <- function(data, mle) {
  n <- length(data)
- data[sample(n, replace = T)]  + mle*rnorm(n)
+ data[sample(n, replace = TRUE)]  + mle*rnorm(n)
 }
 gal.boot2 <- boot(gal, median, R = 1000,
  sim = "parametric", ran.gen = sim.gen, mle = 0.5)

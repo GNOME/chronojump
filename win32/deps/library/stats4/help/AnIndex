@@ -1,9 +1,4 @@
 stats4-package	stats4-package
-AIC,ANY-method	AIC-methods
-AIC-methods	AIC-methods
-BIC	BIC
-BIC,ANY-method	BIC
-BIC,logLik-method	BIC
 coef,ANY-method	coef-methods
 coef,mle-method	coef-methods
 coef,summary.mle-method	coef-methods
@@ -17,6 +12,7 @@ logLik,mle-method	logLik-methods
 logLik-methods	logLik-methods
 mle	mle
 mle-class	mle-class
+nobs,mle-method	mle-class
 plot,ANY,ANY-method	plot-methods
 plot,profile.mle,missing-method	plot-methods
 plot-methods	plot-methods

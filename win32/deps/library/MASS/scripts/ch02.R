@@ -5,7 +5,7 @@
 # Chapter 2   Data Manipulation
 
 library(MASS)
-options(echo = T, width=65, digits=5, height=9999)
+options(width=65, digits=5, height=9999)
 
 -2:2
 
@@ -105,7 +105,7 @@ names(longitude) <- state.name
 longitude[c("Hawaii", "Alaska")]
 
 myarr[1, 2:4, ]
-myarr[1, 2:4, , drop = F]
+myarr[1, 2:4, , drop = FALSE]
 
 attach(painters)
 painters[Colour >= 17, ]
@@ -138,7 +138,7 @@ lcrabs[, 4:8] <- log(crabs[, 4:8])
 scrabs <- crabs  # make a copy
 scrabs[, 4:8] <- lapply(scrabs[, 4:8], scale)
 ## or to just centre the variables
-scrabs[, 4:8] <- lapply(scrabs[, 4:8], scale, scale = F)
+scrabs[, 4:8] <- lapply(scrabs[, 4:8], scale, scale = FALSE)
 
 scrabs <- crabs  # make a copy
 scrabs[ ] <- lapply(scrabs,

@@ -9,6 +9,7 @@ Box.test                Box-Pierce and Ljung-Box Tests
 C                       Sets Contrasts for a Factor
 Cauchy                  The Cauchy Distribution
 Chisquare               The (non-central) Chi-Squared Distribution
+Distributions           Distributions in the stats package
 Exponential             The Exponential Distribution
 FDist                   The F Distribution
 GammaDist               The Gamma Distribution
@@ -30,16 +31,18 @@ PP.test                 Phillips-Perron Test for Unit Roots
 Poisson                 The Poisson Distribution
 SSD                     SSD Matrix and Estimated Variance Matrix in
                         Multivariate Models
-SSasymp                 Asymptotic Regression Model
-SSasympOff              Asymptotic Regression Model with an Offset
-SSasympOrig             Asymptotic Regression Model through the Origin
-SSbiexp                 Biexponential model
-SSfol                   First-order Compartment Model
-SSfpl                   Four-parameter Logistic Model
-SSgompertz              Gompertz Growth Model
-SSlogis                 Logistic Model
-SSmicmen                Michaelis-Menten Model
-SSweibull               Weibull growth curve model
+SSasymp                 Self-Starting Nls Asymptotic Regression Model
+SSasympOff              Self-Starting Nls Asymptotic Regression Model
+                        with an Offset
+SSasympOrig             Self-Starting Nls Asymptotic Regression Model
+                        through the Origin
+SSbiexp                 Self-Starting Nls Biexponential model
+SSfol                   Self-Starting Nls First-order Compartment Model
+SSfpl                   Self-Starting Nls Four-Parameter Logistic Model
+SSgompertz              Self-Starting Nls Gompertz Growth Model
+SSlogis                 Self-Starting Nls Logistic Model
+SSmicmen                Self-Starting Nls Michaelis-Menten Model
+SSweibull               Self-Starting Nls Weibull Growth Curve Model
 SignRank                Distribution of the Wilcoxon Signed Rank
                         Statistic
 StructTS                Fit Structural Time Series
@@ -70,7 +73,7 @@ ar                      Fit Autoregressive Models to Time Series
 ar.ols                  Fit Autoregressive Models to Time Series by OLS
 arima                   ARIMA Modelling of Time Series
 arima.sim               Simulate from an ARIMA Model
-arima0                  ARIMA Modelling of Time Series -- Preliminary
+arima0                  ARIMA Modelling of Time Series - Preliminary
                         Version
 as.hclust               Convert Objects to Class hclust
 asOneSidedFormula       Convert to One-Sided Formula
@@ -85,15 +88,14 @@ bw.nrd0                 Bandwidth Selectors for Kernel Density
 cancor                  Canonical Correlations
 case.names              Case and Variable Names of Fitted Models
 chisq.test              Pearson's Chi-squared Test for Count Data
-clearNames              Remove the Names from an Object
 cmdscale                Classical (Metric) Multidimensional Scaling
 coef                    Extract Model Coefficients
 complete.cases          Find Complete Cases
 confint                 Confidence Intervals for Model Parameters
-constrOptim             Linearly constrained optimisation
-contr.helmert           Contrast Matrices
+constrOptim             Linearly Constrained Optimization
+contr.helmert           (Possibly Sparse) Contrast Matrices
 contrasts               Get and Set Contrast Matrices
-convolve                Fast Convolution
+convolve                Convolution of Sequences via FFT
 cophenetic              Cophenetic Distances for a Hierarchical
                         Clustering
 cor                     Correlation, Variance and Covariance (Matrices)
@@ -101,7 +103,7 @@ cor.test                Test for Association/Correlation Between Paired
                         Samples
 cov.wt                  Weighted Covariance Matrices
 cpgram                  Plot Cumulative Periodogram
-cutree                  Cut a tree into groups of data
+cutree                  Cut a Tree into Groups of Data
 decompose               Classical Seasonal Decomposition by Moving
                         Averages
 delete.response         Modify Terms Objects
@@ -150,7 +152,7 @@ identify.hclust         Identify Clusters in a Dendrogram
 influence.measures      Regression Deletion Diagnostics
 integrate               Integration of One-Dimensional Functions
 interaction.plot        Two-way Interaction Plot
-is.empty.model          Check if a Model is Empty
+is.empty.model          Test if a Model's Formula is Empty
 isoreg                  Isotonic / Monotone Regression
 kernapply               Apply Smoothing Kernel
 kernel                  Smoothing Kernel Objects
@@ -186,7 +188,8 @@ mcnemar.test            McNemar's Chi-squared Test for Count Data
 median                  Median Value
 medpolish               Median Polish of a Matrix
 model.extract           Extract Components from a Model Frame
-model.frame             Extracting the "Environment" of a Model Formula
+model.frame             Extracting the Model Frame from a Formula or
+                        Fit
 model.matrix            Construct Design Matrices
 model.tables            Compute Tables of Results from an Aov Model Fit
 monthplot               Plot a Seasonal or other Subseries from a Time
@@ -202,7 +205,8 @@ nlm                     Non-Linear Minimization
 nlminb                  Optimization using PORT routines
 nls                     Nonlinear Least Squares
 nls.control             Control the Iterations in nls
-numericDeriv            Evaluate derivatives numerically
+nobs                    Extract the Number of Observations from a Fit.
+numericDeriv            Evaluate Derivatives Numerically
 offset                  Include an Offset in a Model Formula
 oneway.test             Test for Equal Means in a One-Way Layout
 optim                   General-purpose Optimization
@@ -213,7 +217,7 @@ p.adjust                Adjust P-values for Multiple Comparisons
 pairwise.prop.test      Pairwise comparisons for proportions
 pairwise.t.test         Pairwise t tests
 pairwise.table          Tabulate p values for pairwise comparisons
-pairwise.wilcox.test    Pairwise Wilcoxon rank sum tests
+pairwise.wilcox.test    Pairwise Wilcoxon Rank Sum Tests
 plot.HoltWinters        Plot function for HoltWinters objects
 plot.acf                Plot Autocovariance and Autocorrelation
                         Functions
@@ -230,10 +234,10 @@ plot.ts                 Plotting Time-Series Objects
 poisson.test            Exact Poisson tests
 poly                    Compute Orthogonal Polynomials
 power                   Create a Power Link Object
-power.anova.test        Power calculations for balanced one-way
-                        analysis of variance tests
-power.prop.test         Power calculations two sample test for
-                        proportions
+power.anova.test        Power Calculations for Balanced One-Way
+                        Analysis of Variance Tests
+power.prop.test         Power Calculations for Two-Sample Test for
+                        Proportions
 power.t.test            Power calculations for one and two sample t
                         tests
 ppoints                 Ordinates for Probability Plotting
@@ -241,14 +245,14 @@ ppr                     Projection Pursuit Regression
 prcomp                  Principal Components Analysis
 predict                 Model Predictions
 predict.Arima           Forecast from ARIMA fits
-predict.HoltWinters     prediction function for fitted Holt-Winters
-                        models
+predict.HoltWinters     Prediction Function for Fitted Holt-Winters
+                        Models
 predict.glm             Predict Method for GLM Fits
 predict.lm              Predict method for Linear Model Fits
 predict.loess           Predict Loess Curve or Surface
 predict.nls             Predicting from Nonlinear Least Squares Fits
 predict.smooth.spline   Predict from Smoothing Spline Fit
-preplot                 Pre-computations for a Plotting Objeect
+preplot                 Pre-computations for a Plotting Object
 princomp                Principal Components Analysis
 print.power.htest       Print method for power calculation object
 print.ts                Printing Time-Series Objects
@@ -263,16 +267,16 @@ qqnorm                  Quantile-Quantile Plots
 quade.test              Quade Test
 quantile                Sample Quantiles
 r2dtable                Random 2-way Tables with Given Marginals
+rWishart                Random Wishart Distributed Matrices
 read.ftable             Manipulate Flat Contingency Tables
 rect.hclust             Draw Rectangles Around Hierarchical Clusters
 relevel                 Reorder Levels of Factor
+reorder.default         Reorder Levels of a Factor
 reorder.dendrogram      Reorder a Dendrogram
-reorder.factor          Reorder Levels of a Factor
 replications            Number of Replications of Terms
 reshape                 Reshape Grouped Data
 residuals               Extract Model Residuals
-runmed                  Running Medians -- Robust Scatter Plot
-                        Smoothing
+runmed                  Running Medians - Robust Scatter Plot Smoothing
 scatter.smooth          Scatter Plot with Smooth Curve Fitted by Loess
 screeplot               Screeplots
 sd                      Standard Deviation
@@ -284,7 +288,7 @@ simulate                Simulate Responses
 smooth                  Tukey's (Running Median) Smoothing
 smooth.spline           Fit a Smoothing Spline
 smoothEnds              End Points Smoothing (for Running Medians)
-sortedXyData            Create a sortedXyData object
+sortedXyData            Create a 'sortedXyData' Object
 spec.ar                 Estimate Spectral Density of a Time Series from
                         AR Fit
 spec.pgram              Estimate Spectral Density of a Time Series by a
@@ -294,7 +298,7 @@ spectrum                Spectral Density Estimation
 splinefun               Interpolating Splines
 start                   Encode the Terminal Times of Time Series
 stat.anova              GLM Anova Statistics
-stats-deprecated        Deprecated Functions in Stats package
+stats-deprecated        Deprecated Functions in Package 'stats'
 stats-package           The R Stats Package
 step                    Choose a model by AIC in a Stepwise Algorithm
 stepfun                 Step Function Class
@@ -310,7 +314,7 @@ summary.princomp        Summary method for Principal Components
 supsmu                  Friedman's SuperSmoother
 symnum                  Symbolic Number Coding
 t.test                  Student's t-Test
-termplot                Plot regression terms
+termplot                Plot Regression Terms
 terms                   Model Terms
 terms.formula           Construct a terms Object from a Formula
 terms.object            Description of Terms Objects
@@ -331,6 +335,7 @@ vcov                    Calculate Variance-Covariance Matrix for a
                         Fitted Model Object
 weighted.mean           Weighted Arithmetic Mean
 weighted.residuals      Compute Weighted Residuals
+weights                 Extract Model Weights
 wilcox.test             Wilcoxon Rank Sum and Signed Rank Tests
 window                  Time Windows
 xtabs                   Cross Tabulation

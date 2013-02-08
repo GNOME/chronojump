@@ -1,12 +1,14 @@
+.Call                   Modern Interfaces to C/C++ code
 .Device                 Lists of Open/Active Graphics Devices
 .Internal               Call an Internal Function
 .Last.value             Value of Last Evaluated Expression
 .Library                Search Paths for Packages
 .Machine                Numerical Characteristics of the Machine
 .Platform               Platform Specific Variables
-.Primitive              Call a "Primitive" Internal Function
+.Primitive              Look Up a Primitive Function
+.bincode                Bin a Numeric Vector
 .deparseOpts            Options for Expression Deparsing
-.onLoad                 Hooks for Name Space events
+.onLoad                 Hooks for Namespace Events
 .packages               Listing of Packages
 .standard_regexps       Miscellaneous Internal/Programming Utilities
 :                       Colon Operator
@@ -16,6 +18,7 @@ Arithmetic              Arithmetic Operators
 AsIs                    Inhibit Interpretation/Conversion of Objects
 Bessel                  Bessel Functions
 Comparison              Relational Operators
+Constants               Built-in Constants
 Control                 Control Flow
 Cstack_info             Report Information on C Stack Size and Usage
 DateTimeClasses         Date-Time Classes
@@ -28,12 +31,13 @@ Extract                 Extract or Replace Parts of an Object
 Filter                  Common Higher-Order Functions in Functional
                         Programming Languages
 Foreign                 Foreign Function Interface
+ISOdatetime             Date-time Conversion Functions from Numeric
+                        Representations
 InternalMethods         Internal Generic Functions
-LETTERS                 Built-in Constants
 Logic                   Logical Operators
 Memory                  Memory Available for Data Storage
 Memory-limits           Memory Limits in R
-NA                      Not Available / "Missing" Values
+NA                      'Not Available' / Missing Values
 NULL                    The Null Object
 NotYetImplemented       Not Yet Implemented Functions and Unused
                         Arguments
@@ -43,12 +47,11 @@ Paren                   Parentheses and Braces
 Quotes                  Quotes
 R.Version               Version Information
 R.home                  Return the R Home Directory
-RNG                     Random Number Generation
+Random                  Random Number Generation
 Random.user             User-supplied Random Number Generation
 Rdconv                  Utilities for Processing Rd Files
 Recall                  Recursive Calling
 Reserved                Reserved Words in R
-S3groupGeneric          S3 Group Generic Functions
 Special                 Special Functions of Mathematics
 Startup                 Initialization at Start of an R Session
 Syntax                  Operator Syntax and Precedence
@@ -56,18 +59,23 @@ Sys.getenv              Get Environment Variables
 Sys.getpid              Get the Process ID of the R Session
 Sys.glob                Wildcard Expansion on File Paths
 Sys.info                Extract System and User Information
+Sys.localeconv          Find Details of the Numerical and Monetary
+                        Representations in the Current Locale
+Sys.readlink            Read File Symbolic Links
+Sys.setFileTime         Set File Time
 Sys.setenv              Set or Unset Environment Variables
 Sys.sleep               Suspend Execution for a Time Interval
 Sys.time                Get Current Date and Time
 Sys.timezone            Time Zones
-Sys.which               Find Full Paths of Executables
+Sys.which               Find Full Paths to Executables
 Trig                    Trigonometric Functions
 UseMethod               Class Methods
+Vectorize               Vectorize a Scalar Function
 [.data.frame            Extract or Replace Parts of a Data Frame
 [.factor                Extract or Replace Parts of a Factor
 abbreviate              Abbreviate Strings
 abs                     Miscellaneous Mathematical Functions
-addTaskCallback         Add or remove a top-level task callback
+addTaskCallback         Add or Remove a Top-Level Task Callback
 agrep                   Approximate String Matching (Fuzzy Matching)
 all                     Are All Values True?
 all.equal               Test if Two Objects are (Nearly) Equal
@@ -78,6 +86,7 @@ append                  Vector Merging
 apply                   Apply Functions Over Array Margins
 args                    Argument List of a Function
 array                   Multi-way Arrays
+as.Date                 Date Conversion Functions to and from Character
 as.POSIXct              Date-time Conversion Functions
 as.data.frame           Coerce to a Data Frame
 as.environment          Coerce to an Environment Object
@@ -85,12 +94,11 @@ as.function             Convert Object to Function
 assign                  Assign a Value to a Name
 assignOps               Assignment Operators
 attach                  Attach Set of R Objects to Search Path
-attachNamespace         Loading and Unloading Name Spaces
+attachNamespace         Loading and Unloading Namespaces
 attr                    Object Attributes
 attributes              Object Attribute Lists
 autoload                On-demand Loading of Packages
 backsolve               Solve an Upper or Lower Triangular System
-base-deprecated         Deprecated Functions in Base package
 base-package            The R Base Package
 basename                Manipulate File Paths
 bindenv                 Binding and Environment Adjustments
@@ -98,8 +106,10 @@ body                    Access to and Manipulation of the Body of a
                         Function
 bquote                  Partial substitution in expressions
 browser                 Environment Browser
+browserText             Functions to Retrieve Values Supplied by Calls
+                        to the Browser
 builtins                Returns the Names of All Built-in Objects
-by                      Apply a Function to a Data Frame split by
+by                      Apply a Function to a Data Frame Split by
                         Factors
 c                       Combine Values into a Vector or List
 call                    Function Calls
@@ -119,7 +129,7 @@ class                   Object Classes
 col                     Column Indexes
 colSums                 Form Row and Column Sums and Means
 commandArgs             Extract Command Line Arguments
-comment                 Query or Set a 'Comment' Attribute
+comment                 Query or Set a '"comment"' Attribute
 complex                 Complex Vectors
 conditions              Condition Handling and Recovery
 conflicts               Search for Masked Objects on the Search Path
@@ -145,15 +155,16 @@ diff                    Lagged Differences
 difftime                Time Intervals
 dim                     Dimensions of an Object
 dimnames                Dimnames of an Object
-dir.create              Manipulaton of Directories and file Permissions
+dir.create              Manipulaton of Directories and File Permissions
 do.call                 Execute a Function Call
 double                  Double-Precision Vectors
 dput                    Write an Object to a File or Recreate it
 drop                    Drop Redundant Extent Information
+droplevels              droplevels
 dump                    Text Representations of R Objects
 duplicated              Determine Duplicate Elements
 dyn.load                Foreign Function Interface
-eapply                  Apply a Function over values in an environment
+eapply                  Apply a Function Over Values in an Environment
 eigen                   Spectral Decomposition of a Matrix
 encodeString            Encode Character Vector as for Printing
 environment             Environment Access
@@ -170,12 +181,12 @@ file.info               Extract File Information
 file.path               Construct Path to File
 file.show               Display One or More Files
 files                   File Manipulation
+find.package            Find Packages
 findInterval            Find Interval Numbers or Indices
 force                   Force Evaluation of an Argument
 formals                 Access to and Manipulation of the Formal
                         Arguments
 format                  Encode in a Common Format
-format.Date             Date Conversion Functions to and from Character
 format.info             format(.) Information
 format.pval             Format P Values
 formatC                 Formatting Using C-style Formats
@@ -194,18 +205,20 @@ getLoadedDLLs           Get DLLs Loaded in Current Session
 getNativeSymbolInfo     Obtain a Description of one or more Native
                         (C/Fortran) Symbols
 getNumCConverters       Management of .C argument conversion list
-getTaskCallbackNames    Query the names of the current internal
-                        top-level task callbacks
+getTaskCallbackNames    Query the Names of the Current Internal
+                        Top-Level Task Callbacks
 gettext                 Translate Text Messages
 getwd                   Get or Set Working Directory
 gl                      Generate Factor Levels
 grep                    Pattern Matching and Replacement
+grepRaw                 Pattern Matching for Raw Vectors
+groupGeneric            S3 Group Generic Functions
 gzcon                   (De)compress I/O Through Connections
 hexmode                 Display Numbers in Hexadecimal
 iconv                   Convert Character Vector between Encodings
 icuSetCollate           Setup Collation by ICU
 identical               Test Objects for Exact Equality
-identity                Identity function
+identity                Identity Function
 ifelse                  Conditional Element Selection
 integer                 Integer Vectors
 interaction             Compute Factor Interactions
@@ -215,16 +228,16 @@ is.R                    Are we using R, rather than S?
 is.finite               Finite, Infinite and NaN Numbers
 is.function             Is an Object of Type (Primitive) Function?
 is.language             Is an Object a Language Object?
-is.object               Is an Object "internally classed"?
+is.object               Is an Object 'internally classed'?
 is.recursive            Is an Object Atomic or Recursive?
 is.single               Is an Object of Single Precision Type?
 is.unsorted             Test if an Object is Not Sorted
 isS4                    Test for an S4 object
 isSymmetric             Test if a Matrix or other Object is Symmetric
-jitter                  Add 'Jitter' (Noise) to Numbers
+jitter                  'Jitter' (Add Noise) to Numbers
 kappa                   Compute or Estimate the Condition Number of a
                         Matrix
-kronecker               Kronecker products on arrays
+kronecker               Kronecker Products on Arrays
 l10n_info               Localization Information
 labels                  Find Labels from Object
 lapply                  Apply a Function over a List or Vector
@@ -233,11 +246,10 @@ levels                  Levels Attributes
 library                 Loading and Listing of Packages
 library.dynam           Loading DLLs from Packages
 license                 The R License Terms
-list                    Lists -- Generic and Dotted Pairs
+list                    Lists - Generic and Dotted Pairs
 list.files              List the Files in a Directory/Folder
+list2env                From A List, Build or Add To an Environment
 load                    Reload Saved Datasets
-localeconv              Find Details of the Numerical and Monetary
-                        Representations in the Current Locale
 locales                 Query or Set Aspects of the Locale
 log                     Logarithms and Exponentials
 logical                 Logical Vectors
@@ -245,19 +257,20 @@ lower.tri               Lower and Upper Triangular Part of a Matrix
 ls                      List Objects
 make.names              Make Syntactically Valid Names
 make.unique             Make Character Strings Unique
-mapply                  Apply a function to multiple list or vector
-                        arguments
+mapply                  Apply a Function to Multiple List or Vector
+                        Arguments
 margin.table            Compute table margin
 mat.or.vec              Create a Matrix or a Vector
 match                   Value Matching
 match.arg               Argument Verification Using Partial Matching
 match.call              Argument Matching
-match.fun               Function Verification for "Function Variables"
+match.fun               Extract a Function Specified by Name
 matmult                 Matrix Multiplication
 matrix                  Matrices
 max                     Maxima and Minima
 max.col                 Find Maximum Position in Matrix
 mean                    Arithmetic Mean
+memCompress             In-memory Compression and Decompression
 memory.profile          Profile the Usage of Cons Cells
 merge                   Merge Two Data Frames
 message                 Diagnostic Messages
@@ -269,8 +282,10 @@ nargs                   The Number of Arguments to a Function
 nchar                   Count the Number of Characters (or Bytes or
                         Width)
 nlevels                 The Number of Levels of a Factor
-noquote                 Class for "no quote" Printing of Character
+noquote                 Class for 'no quote' Printing of Character
                         Strings
+norm                    Compute the Norm of a Matrix
+normalizePath           Express File Paths in Canonical Form
 nrow                    The Number of Rows/Columns of an Array
 numeric                 Numeric Vectors
 numeric_version         Numeric Versions
@@ -310,10 +325,13 @@ readBin                 Transfer Binary Data To and From Connections
 readChar                Transfer Character Strings To and From
                         Connections
 readLines               Read Text Lines from a Connection
+readRDS                 Serialization Interface for Single Objects
+readRenviron            Set Environment Variables from a File
 readline                Read a Line from the Terminal
 real                    Real Vectors
 reg.finalizer           Finalization of Objects
 regex                   Regular Expressions as used in R
+regmatches              Extract or Replace Matched Substrings
 remove                  Remove Objects from a Specified Environment
 rep                     Replicate Elements of Vectors and Lists
 replace                 Replace Values in a Vector
@@ -323,8 +341,8 @@ round.POSIXt            Round / Truncate Data-Time Objects
 row                     Row Indexes
 row.names               Get and Set Row Names for Data Frames
 rownames                Row and Column Names
-rowsum                  Give column sums of a matrix or data frame,
-                        based on a grouping variable
+rowsum                  Give Column Sums of a Matrix or Data Frame,
+                        Based on a Grouping Variable
 sQuote                  Quote Text
 sample                  Random Samples and Permutations
 save                    Save R Objects
@@ -334,7 +352,7 @@ search                  Give Search Path for R Objects
 seek                    Functions to Reposition Connections
 seq                     Sequence Generation
 seq.Date                Generate Regular Sequences of Dates
-seq.POSIXt              Generate Regular Sequences of Dates
+seq.POSIXt              Generate Regular Sequences of Times
 sequence                Create A Vector of Sequences
 serialize               Simple Serialization Interface
 setTimeLimit            Set CPU and/or Elapsed Time Limits
@@ -354,11 +372,13 @@ split                   Divide into Groups and Reassemble
 sprintf                 Use C-style String Formatting Commands
 srcfile                 References to source files
 stop                    Stop Function Execution
-stopifnot               Ensure the 'Truth' of R Expressions
+stopifnot               Ensure the Truth of R Expressions
 strptime                Date-time Conversion Functions to and from
                         Character
 strsplit                Split the Elements of a Character Vector
-strtrim                 Trim Character Strings to Specified Widths
+strtoi                  Convert Strings to Integers
+strtrim                 Trim Character Strings to Specified Display
+                        Widths
 structure               Attribute Specification
 strwrap                 Wrap Character Strings to Format Paragraphs
 subset                  Subsetting Vectors, Matrices and Data Frames
@@ -374,11 +394,12 @@ sys.source              Parse and Evaluate Expressions from a File
 system                  Invoke a System Command
 system.file             Find Names of R System Files
 system.time             CPU Time Used
+system2                 Invoke a System Command
 t                       Matrix Transpose
 table                   Cross Tabulation and Table Creation
 tabulate                Tabulation for Vectors
-tapply                  Apply a Function Over a "Ragged" Array
-taskCallbackManager     Create an R-level task callback manager
+tapply                  Apply a Function Over a Ragged Array
+taskCallbackManager     Create an R-level Task Callback Manager
 tempfile                Create Names for Temporary Files
 textConnection          Text Connections
 tilde                   Tilde Operator
@@ -409,3 +430,4 @@ withVisible             Return both a value and its visibility
 write                   Write Data to a File
 writeLines              Write Lines to a Connection
 xtfrm                   Auxiliary Function for Sorting and Ranking
+zapsmall                Rounding of Numbers

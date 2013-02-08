@@ -9,13 +9,15 @@ MethodDefinition-class
                         Classes to Represent Method Definitions
 MethodWithNext-class    Class MethodWithNext
 Methods                 General Information on Methods
-MethodsList-class       Class MethodsList, Representation of Methods
-                        for a Generic Function
+MethodsList-class       Class MethodsList, Deprecated Representation of
+                        Methods
 ObjectsWithPackage-class
                         A Vector of Object Names, with associated
                         Package Names
+ReferenceClasses        Objects With Fields Treated by Reference
+                        (OOP-style)
 S3Part                  S3-style Objects and S4-class Objects
-S4groupGeneric          Group Generic Functions
+S4groupGeneric          S4 Group Generic Functions
 SClassExtension-class   Class to Represent Inheritance (Extension)
                         Relations
 as                      Force an Object to Belong to a Class
@@ -24,14 +26,18 @@ callNextMethod          Call an Inherited Method
 canCoerce               Can an Object be Coerced to a Certain S4 Class?
 cbind2                  Combine two Objects by Columns or Rows
 character-class         Classes Corresponding to Basic Data Types
+className               Class names including the corresponding package
 classRepresentation-class
                         Class Objects
 classesToAM             Compute an Adjacency Matrix for Superclasses of
-                        one or more Class Definitions
-dotsMethods             The Use of "..." in Method Signatures
-environment-class       Class "environment"
+                        Class Definitions
+dotsMethods             The Use of '...' in Method Signatures
+envRefClass-class       Class '"envRefClass"'
+environment-class       Class '"environment"'
+evalSource              Use Function Definitions from a Source File
+                        without Reinstalling a Package
 findClass               Computations with Classes
-findMethods             Descriptions of the Methods Defined for a
+findMethods             Description of the Methods Defined for a
                         Generic Function
 fixPre1.8               Fix Objects Saved from R Versions Previous to
                         1.8
@@ -41,8 +47,9 @@ getMethod               Get or Test for the Definition of a Method
 getPackageName          The Name associated with a Given Package
 hasArg                  Look for an Argument in the Call
 implicitGeneric         Manage Implicit Versions of Generic Functions
+inheritedSlotNames      Names of Slots Inherited From a Super Class
 initialize-methods      Methods to Initialize New Objects from a Class
-is                      Is an Object from a Class
+is                      Is an Object from a Class?
 isSealedMethod          Check for a Sealed Method or Class
 language-class          Classes to Represent Unevaluated Language
                         Objects
@@ -62,12 +69,13 @@ selectSuperClasses      Super Classes (of Specific Kinds) of a Class
 setClass                Create a Class Definition
 setClassUnion           Classes Defined as the Union of Other Classes
 setGeneric              Define a New Generic Function
+setLoadActions          Set Actions For Package Loading
 setMethod               Create and Save a Method
 setOldClass             Register Old-Style (S3) Classes and Inheritance
 show                    Show an Object
 showMethods             Show all the methods for the specified
                         function(s)
-signature-class         Class "signature" For Method Definitions
+signature-class         Class '"signature"' For Method Definitions
 slot                    The Slots in an Object from a Formal Class
 structure-class         Classes Corresponding to Basic Structures
 testInheritedMethods    Test for and Report about Selection of

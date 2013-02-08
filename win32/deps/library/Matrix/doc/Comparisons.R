@@ -1,11 +1,13 @@
+### R code from vignette source 'Comparisons.Rnw'
+
 ###################################################
-### chunk number 1: preliminaries
+### code chunk number 1: preliminaries
 ###################################################
 options(width=75)
 
 
 ###################################################
-### chunk number 2: modelMatrix
+### code chunk number 2: modelMatrix
 ###################################################
 data(Formaldehyde)
 str(Formaldehyde)
@@ -14,26 +16,26 @@ str(Formaldehyde)
 
 
 ###################################################
-### chunk number 3: naiveCalc
+### code chunk number 3: naiveCalc
 ###################################################
 solve(t(m) %*% m) %*% t(m) %*% yo
 
 
 ###################################################
-### chunk number 4: timedNaive
+### code chunk number 4: timedNaive
 ###################################################
 system.time(solve(t(m) %*% m) %*% t(m) %*% yo)
 
 
 ###################################################
-### chunk number 5: catNaive
+### code chunk number 5: catNaive
 ###################################################
 dput(c(solve(t(m) %*% m) %*% t(m) %*% yo))
 dput(unname(lm.fit(m, yo)$coefficients))
 
 
 ###################################################
-### chunk number 6: KoenNg
+### code chunk number 6: KoenNg
 ###################################################
 library(Matrix)
 data(KNex, package = "Matrix")
@@ -44,20 +46,20 @@ system.time(naive.sol <- solve(t(mm) %*% mm) %*% t(mm) %*% y)
 
 
 ###################################################
-### chunk number 7: crossKoenNg
+### code chunk number 7: crossKoenNg
 ###################################################
 system.time(cpod.sol <- solve(crossprod(mm), crossprod(mm,y)))
 all.equal(naive.sol, cpod.sol)
 
 
 ###################################################
-### chunk number 8: xpxKoenNg
+### code chunk number 8: xpxKoenNg
 ###################################################
 system.time(t(mm) %*% mm)
 
 
 ###################################################
-### chunk number 9: fullMatrix_crossprod
+### code chunk number 9: fullMatrix_crossprod
 ###################################################
 fm <- mm
 set.seed(11)
@@ -68,7 +70,7 @@ stopifnot(all.equal(c1, c2, tol = 1e-12))
 
 
 ###################################################
-### chunk number 10: naiveChol
+### code chunk number 10: naiveChol
 ###################################################
 system.time(ch <- chol(crossprod(mm)))
 system.time(chol.sol <-
@@ -78,7 +80,7 @@ stopifnot(all.equal(chol.sol, naive.sol))
 
 
 ###################################################
-### chunk number 11: MatrixKoenNg
+### code chunk number 11: MatrixKoenNg
 ###################################################
 mm <- as(KNex$mm, "dgeMatrix")
 class(crossprod(mm))
@@ -87,7 +89,7 @@ stopifnot(all.equal(naive.sol, unname(as(Mat.sol,"matrix"))))
 
 
 ###################################################
-### chunk number 12: saveFactor
+### code chunk number 12: saveFactor
 ###################################################
 xpx <- crossprod(mm)
 xpy <- crossprod(mm, y)
@@ -96,7 +98,7 @@ system.time(solve(xpx, xpy)) # reusing factorization
 
 
 ###################################################
-### chunk number 13: SparseKoenNg
+### code chunk number 13: SparseKoenNg
 ###################################################
 mm <- KNex$mm
 class(mm)
@@ -105,7 +107,7 @@ stopifnot(all.equal(naive.sol, unname(as(sparse.sol, "matrix"))))
 
 
 ###################################################
-### chunk number 14: SparseSaveFactor
+### code chunk number 14: SparseSaveFactor
 ###################################################
 xpx <- crossprod(mm)
 xpy <- crossprod(mm, y)
@@ -114,13 +116,13 @@ system.time(solve(xpx, xpy))
 
 
 ###################################################
-### chunk number 15: sessionInfo
+### code chunk number 15: sessionInfo
 ###################################################
 toLatex(sessionInfo())
 
 
 ###################################################
-### chunk number 16: from_pkg_sfsmisc
+### code chunk number 16: from_pkg_sfsmisc
 ###################################################
 
 if(identical(1L, grep("linux", R.version[["os"]]))) { ##----- Linux - only ----
@@ -141,7 +143,7 @@ Smem <- Sys.procinfo("/proc/meminfo")
 
 
 ###################################################
-### chunk number 17: Sys_proc_fake eval=FALSE
+### code chunk number 17: Sys_proc_fake (eval = FALSE)
 ###################################################
 ## if(identical(1L, grep("linux", R.version[["os"]]))) { ## Linux - only ---
 ##  Scpu <- sfsmisc::Sys.procinfo("/proc/cpuinfo")
@@ -152,7 +154,7 @@ Smem <- Sys.procinfo("/proc/meminfo")
 
 
 ###################################################
-### chunk number 18: Sys_proc_out
+### code chunk number 18: Sys_proc_out
 ###################################################
 if(identical(1L, grep("linux", R.version[["os"]]))) { ## Linux - only ---
  print(Scpu[c("model name", "cpu MHz", "cache size", "bogomips")])

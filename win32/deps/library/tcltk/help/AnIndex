@@ -17,6 +17,8 @@ as.character.tclObj	TclInterface
 as.character.tclVar	TclInterface
 as.double.tclObj	TclInterface
 as.integer.tclObj	TclInterface
+as.logical.tclObj	TclInterface
+as.raw.tclObj	TclInterface
 as.tclObj	TclInterface
 close.tkProgressBar	tkProgressBar
 getTkProgressBar	tkProgressBar

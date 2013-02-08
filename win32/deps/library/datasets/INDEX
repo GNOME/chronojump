@@ -1,7 +1,7 @@
 AirPassengers           Monthly Airline Passenger Numbers 1949-1960
 BJsales                 Sales Data with Leading Indicator
 BOD                     Biochemical Oxygen Demand
-CO2                     Carbon Dioxide uptake in grass plants
+CO2                     Carbon Dioxide Uptake in Grass Plants
 ChickWeight             Weight versus age of chicks on different diets
 DNase                   Elisa assay of DNase
 EuStockMarkets          Daily Closing Prices of Major European Stock
@@ -10,7 +10,7 @@ Formaldehyde            Determination of Formaldehyde
 HairEyeColor            Hair and Eye Color of Statistics Students
 Harman23.cor            Harman Example 2.3
 Harman74.cor            Harman Example 7.4
-Indometh                Pharmacokinetics of Indomethicin
+Indometh                Pharmacokinetics of Indomethacin
 InsectSprays            Effectiveness of Insect Sprays
 JohnsonJohnson          Quarterly Earnings per Johnson & Johnson Share
 LakeHuron               Level of Lake Huron 1875-1972
@@ -20,8 +20,8 @@ Nile                    Flow of the River Nile
 Orange                  Growth of Orange Trees
 OrchardSprays           Potency of Orchard Sprays
 PlantGrowth             Results from an Experiment on Plant Growth
-Puromycin               Reaction velocity of an enzymatic reaction
-Theoph                  Pharmacokinetics of theophylline
+Puromycin               Reaction Velocity of an Enzymatic Reaction
+Theoph                  Pharmacokinetics of Theophylline
 Titanic                 Survival of passengers on the Titanic
 ToothGrowth             The Effect of Vitamin C on Tooth Growth in
                         Guinea Pigs
@@ -41,7 +41,7 @@ ability.cov             Ability and Intelligence Tests
 airmiles                Passenger Miles on Commercial US Airlines,
                         1937-1960
 airquality              New York Air Quality Measurements
-anscombe                Anscombe's Quartet of "Identical" Simple Linear
+anscombe                Anscombe's Quartet of 'Identical' Simple Linear
                         Regressions
 attenu                  The Joyner-Boore Attenuation Data
 attitude                The Chatterjee-Price Attitude Data
@@ -66,7 +66,7 @@ islands                 Areas of the World's Major Landmasses
 lh                      Luteinizing Hormone in Blood Samples
 longley                 Longley's Economic Regression Data
 lynx                    Annual Canadian Lynx trappings 1821-1934
-morley                  Michaelson-Morley Speed of Light Data
+morley                  Michelson Speed of Light Data
 mtcars                  Motor Trend Car Road Tests
 nhtemp                  Average Yearly Temperatures in New Haven
 nottem                  Average Monthly Temperatures at Nottingham,

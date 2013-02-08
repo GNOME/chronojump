@@ -55,6 +55,7 @@ kidney	kidney
 labels.survreg	survreg
 leukemia	aml
 lines.survfit	lines.survfit
+logan	logan
 lung	lung
 match.ratetable	survival-internal
 Math.ratetable	is.ratetable
@@ -62,9 +63,9 @@ Math.Surv	Surv
 mgus	mgus
 mgus1	mgus
 mgus2	mgus
-model.frame.coxph	coxph
+model.frame.coxph	model.frame.coxph
 model.frame.survreg	survreg
-model.newframe	survival-internal
+model.matrix.coxph	model.matrix.coxph
 nwtco	nwtco
 Ops.ratetable	is.ratetable
 Ops.Surv	Surv
@@ -86,6 +87,7 @@ print.coxph.null	coxph
 print.coxph.penal	coxph
 print.ratetable	ratetable
 print.summary.coxph	print.summary.coxph
+print.summary.survexp	print.summary.survexp
 print.summary.survfit	print.summary.survfit
 print.summary.survreg	survreg
 print.Surv	Surv
@@ -95,10 +97,13 @@ print.survfit	print.survfit
 print.survreg	survreg.object
 print.survreg.penal	survreg
 pspline	pspline
+psplineinverse	pspline
 psurvreg	dsurvreg
 pyears	pyears
 qsurvreg	dsurvreg
+quantile.survfit	quantile.survfit
 ratetable	ratetable
+ratetableDate	ratetableDate
 rats	rats
 residuals.coxph	residuals.coxph
 residuals.coxph.null	residuals.coxph
@@ -113,6 +118,7 @@ summary.coxph	summary.coxph
 summary.coxph.penal	coxph
 summary.ratetable	ratetable
 Summary.Surv	Surv
+summary.survexp	summary.survexp
 summary.survfit	summary.survfit
 summary.survreg	survreg.object
 Surv	Surv
@@ -132,8 +138,11 @@ survexp.usr	survexp.us
 survexp.wnc	survexp.us
 survfit	survfit
 survfit.coxph	survfit.coxph
-survfit.formula	survfit
+survfit.formula	survfit.formula
 survfit.object	survfit.object
+survfitCI	survival-internal
+survfitcoxph.fit	survfitcoxph.fit
+survfitKM	survival-internal
 survival-internal	survival-internal
 survobrien	survobrien
 survpenal.fit	survival-internal
@@ -147,6 +156,7 @@ survregDtest	survregDtest
 survSplit	survSplit
 tcut	tcut
 tobin	tobin
+tt	tt
 untangle.specials	untangle.specials
 vcov.coxph	coxph
 vcov.survreg	survreg
@@ -156,5 +166,5 @@ veteran	veteran
 [.ratetable	ratetable
 [.ratetable2	ratetable
 [.Surv	Surv
-[.survfit	survfit
+[.survfit	survfit.formula
 [.tcut	tcut

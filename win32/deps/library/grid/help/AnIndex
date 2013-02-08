@@ -6,6 +6,10 @@ applyEdits	gEdit
 arcCurvature	grid.curve
 arrow	arrow
 arrowsGrob	grid.arrows
+ascentDetails	widthDetails
+bezierGrob	grid.bezier
+bezierPoints	xsplinePoints
+calcStringMetric	calcStringMetric
 childNames	grid.grob
 circleGrob	grid.circle
 clipGrob	grid.clip
@@ -21,6 +25,7 @@ current.vpPath	current.viewport
 current.vpTree	current.viewport
 curveGrob	grid.curve
 dataViewport	dataViewport
+descentDetails	widthDetails
 downViewport	viewports
 draw.details	drawDetails
 drawDetails	drawDetails
@@ -28,6 +33,7 @@ editDetails	editDetails
 editGrob	grid.edit
 engine.display.list	grid.display.list
 frameGrob	grid.frame
+functionGrob	grid.function
 gEdit	gEdit
 gEditList	gEdit
 get.gpar	gpar
@@ -37,8 +43,11 @@ gList	grid.grob
 gpar	gpar
 gPath	gPath
 Grid	Grid
+grid.abline	grid.function
 grid.add	grid.add
 grid.arrows	grid.arrows
+grid.bezier	grid.bezier
+grid.cap	grid.cap
 grid.circle	grid.circle
 grid.clip	grid.clip
 grid.collection	grid.collection
@@ -50,9 +59,11 @@ grid.convertY	grid.convert
 grid.copy	grid.copy
 grid.curve	grid.curve
 grid.display.list	grid.display.list
+grid.DLapply	grid.DLapply
 grid.draw	grid.draw
 grid.edit	grid.edit
 grid.frame	grid.frame
+grid.function	grid.function
 grid.gedit	grid.edit
 grid.get	grid.get
 grid.gget	grid.get
@@ -73,6 +84,7 @@ grid.newpage	grid.newpage
 grid.null	grid.null
 grid.pack	grid.pack
 grid.panel	grid-internal
+grid.path	grid.path
 grid.place	grid.place
 grid.plot.and.legend	grid.plot.and.legend
 grid.points	grid.points
@@ -80,6 +92,7 @@ grid.polygon	grid.polygon
 grid.polyline	grid.lines
 grid.pretty	grid.pretty
 grid.prompt	grid.prompt
+grid.raster	grid.raster
 grid.record	grid.record
 grid.rect	grid.rect
 grid.refresh	grid.refresh
@@ -95,6 +108,8 @@ grid.xaxis	grid.xaxis
 grid.xspline	grid.xspline
 grid.yaxis	grid.yaxis
 grob	grid.grob
+grobAscent	grobWidth
+grobDescent	grobWidth
 grobHeight	grobWidth
 grobName	grobName
 grobPathListing	grid.ls
@@ -116,6 +131,7 @@ moveToGrob	grid.move.to
 nestedListing	grid.ls
 nullGrob	grid.null
 packGrob	grid.pack
+pathGrob	grid.path
 pathListing	grid.ls
 placeGrob	grid.place
 plotViewport	plotViewport
@@ -128,6 +144,7 @@ postDrawDetails	drawDetails
 preDrawDetails	drawDetails
 push.viewport	push.viewport
 pushViewport	viewports
+rasterGrob	grid.raster
 recordGrob	grid.record
 rectGrob	grid.rect
 removeGrob	grid.remove
@@ -137,6 +154,10 @@ seekViewport	viewports
 segmentsGrob	grid.segments
 setChildren	grid.add
 setGrob	grid.set
+showGrob	showGrob
+showViewport	showViewport
+stringAscent	stringWidth
+stringDescent	stringWidth
 stringHeight	stringWidth
 stringWidth	stringWidth
 textGrob	grid.text
@@ -160,5 +181,6 @@ widthDetails	widthDetails
 xaxisGrob	grid.xaxis
 xDetails	xDetails
 xsplineGrob	grid.xspline
+xsplinePoints	xsplinePoints
 yaxisGrob	grid.yaxis
 yDetails	xDetails

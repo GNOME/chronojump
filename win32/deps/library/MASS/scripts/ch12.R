@@ -5,8 +5,8 @@
 # Chapter 12   Classification
 
 library(MASS)
-postscript(file="ch12.ps", width=8, height=6, pointsize=9)
-options(echo=T, width=65, digits=5)
+pdf(file="ch12.pdf", width=8, height=6, pointsize=9)
+options(width=65, digits=5)
 library(class)
 library(nnet)
 
@@ -46,7 +46,6 @@ perp <- function(x, y) {
    abline(c(m[2] - s*m[1], s))
    invisible()
 }
-# For R replace @means by $means
 cr.m <- lda(cr.t, crabs$sex)$means
 points(cr.m, pch = 3, mkh = 0.3)
 perp(cr.m[1, ], cr.m[2, ])
@@ -58,7 +57,7 @@ Xcon <- matrix(c(rep(x,length(y)),
               rep(y, rep(length(x), length(y)))),,2)
 cr.pr <- predict(cr.lda, Xcon)$post[, c("B", "O")] %*% c(1,1)
 contour(x, y, matrix(cr.pr, length(x), length(y)),
-       levels = 0.5, labex = 0, add = T, lty=  3)
+       levels = 0.5, labex = 0, add = TRUE, lty=  3)
 
 for(i in c("O", "o",  "B", "b"))
  print(var(lcrabs[crabs.grp == i, ]))
@@ -104,10 +103,10 @@ predplot <- function(object, main="", len = 100, ...)
     Z <- predict(object, cushT, ...); zp <- as.numeric(Z$class)
     zp <- Z$post[,3] - pmax(Z$post[,2], Z$post[,1])
     contour(exp(xp), exp(yp), matrix(zp, len),
-            add = T, levels = 0, labex = 0)
+            add = TRUE, levels = 0, labex = 0)
     zp <- Z$post[,1] - pmax(Z$post[,2], Z$post[,3])
     contour(exp(xp), exp(yp), matrix(zp, len),
-            add = T, levels = 0, labex = 0)
+            add = TRUE, levels = 0, labex = 0)
     invisible()
 }
 
@@ -121,15 +120,15 @@ cushplot <- function(xp, yp, Z)
              labels = as.character(Cushings$Type[set]), col = 2 + il) }
     zp <- Z[, 3] - pmax(Z[, 2], Z[, 1])
     contour(exp(xp), exp(yp), matrix(zp, np),
-            add = T, levels = 0, labex = 0)
+            add = TRUE, levels = 0, labex = 0)
     zp <- Z[, 1] - pmax(Z[, 2], Z[, 3])
     contour(exp(xp), exp(yp), matrix(zp, np),
-            add = T, levels = 0, labex = 0)
+            add = TRUE, levels = 0, labex = 0)
     invisible()
 }
 
 cush <- log(as.matrix(Cushings[, -3]))
-tp <- Cushings$Type[1:21, drop = T]
+tp <- Cushings$Type[1:21, drop = TRUE]
 cush.lda <- lda(cush[1:21,], tp); predplot(cush.lda, "LDA")
 cush.qda <- qda(cush[1:21,], tp); predplot(cush.qda, "QDA")
 predplot(cush.qda, "QDA (predictive)", method = "predictive")
@@ -155,16 +154,16 @@ for(il in 1:4) {
  set <- Cushings$Type==levels(Cushings$Type)[il]
  text(cush[set, 1], cush[set, 2],
       labels = as.character(Cushings$Type[set]), col = 2 + il) }
-par(cex = 1.5); partition.tree(cush.tr, add = T); par(cex = 1)
+par(cex = 1.5); partition.tree(cush.tr, add = TRUE); par(cex = 1)
 
 
 # 12.3  Non-parametric rules
 
-Z <- knn(scale(cush[1:21, ], F, c(3.4, 5.7)),
-        scale(cushT, F, c(3.4, 5.7)), tp)
+Z <- knn(scale(cush[1:21, ], FALSE, c(3.4, 5.7)),
+        scale(cushT, FALSE, c(3.4, 5.7)), tp)
 cushplot(xp, yp, class.ind(Z))
-Z <- knn(scale(cush[1:21, ], F, c(3.4, 5.7)),
-        scale(cushT, F, c(3.4, 5.7)), tp, k = 3)
+Z <- knn(scale(cush[1:21, ], FALSE, c(3.4, 5.7)),
+        scale(cushT, FALSE, c(3.4, 5.7)), tp, k = 3)
 cushplot(xp, yp, class.ind(Z))
 
 
@@ -181,7 +180,7 @@ pltnn <- function(main, ...) {
 
 plt.bndry <- function(size=0, decay=0, ...)
 {
-   cush.nn <- nnet(cush, tpi, skip=T, softmax=T, size=size,
+   cush.nn <- nnet(cush, tpi, skip=TRUE, softmax=TRUE, size=size,
       decay=decay, maxit=1000)
    invisible(b1(predict(cush.nn, cushT), ...))
 }
@@ -190,10 +189,10 @@ b1 <- function(Z, ...)
 {
    zp <- Z[,3] - pmax(Z[,2], Z[,1])
    contour(exp(xp), exp(yp), matrix(zp, np),
-      add=T, levels=0, labex=0, ...)
+      add=TRUE, levels=0, labex=0, ...)
    zp <- Z[,1] - pmax(Z[,3], Z[,2])
    contour(exp(xp), exp(yp), matrix(zp, np),
-      add=T, levels=0, labex=0, ...)
+      add=TRUE, levels=0, labex=0, ...)
 }
 
 cush <- cush[1:21,]; tpi <- class.ind(tp)
@@ -221,10 +220,9 @@ pltnn("Many local maxima")
 Z <- matrix(0, nrow(cushT), ncol(tpi))
 for(iter in 1:20) {
    set.seed(iter)
-   cush.nn <- nnet(cush, tpi, skip = T, softmax = T, size = 3,
-       decay = 0.01, maxit = 1000, trace = F)
+   cush.nn <- nnet(cush, tpi, skip = TRUE, softmax = TRUE, size = 3,
+       decay = 0.01, maxit = 1000, trace = FALSE)
    Z <- Z + predict(cush.nn, cushT)
-# In R replace @ by $ in next line.
    cat("final value", format(round(cush.nn$value,3)), "\n")
    b1(predict(cush.nn, cushT), col = 2, lwd = 0.5)
 }
@@ -278,7 +276,7 @@ CVtest <- function(fitfn, predfn, ...)
 res.multinom <- CVtest(
   function(x, ...) multinom(type ~ ., fgl[x, ], ...),
   function(obj, x) predict(obj, fgl[x, ], type = "class"),
-  maxit = 1000, trace = F )
+  maxit = 1000, trace = FALSE)
 
 con(true = fgl$type, predicted = res.multinom)
 
@@ -298,7 +296,7 @@ fgl0 <- fgl[ , -10] # drop type
   res } -> res.knn1
 con(true = fgl$type, predicted = res.knn1)
 
-res.lb <- knn(fgl0, fgl0, fgl$type, k = 3, prob = T, use.all = F)
+res.lb <- knn(fgl0, fgl0, fgl$type, k = 3, prob = TRUE, use.all = FALSE)
 table(attr(res.lb, "prob"))
 
 library(rpart)
@@ -334,7 +332,7 @@ CVnn2 <- function(formula, data,
         for (i in sort(unique(ri))) {
             if(verbose > 20) cat(" ", i,  sep="")
             for(rep in 1:nreps) {
-                learn <- nnet(formula, data[ri !=i,], trace = F, ...)
+                learn <- nnet(formula, data[ri !=i,], trace = FALSE, ...)
                 res[ri == i,] <- res[ri == i,] +
                     predict(learn, data[ri == i,])
             }
@@ -347,7 +345,7 @@ CVnn2 <- function(formula, data,
     choice <- numeric(length(lambda))
     for (i in sort(unique(rand))) {
         if(verbose > 0) cat("fold ", i,"\n", sep="")
-        ri <- sample(nifold, sum(rand!=i), replace=T)
+        ri <- sample(nifold, sum(rand!=i), replace=TRUE)
         for(j in seq(along=lambda)) {
             if(verbose > 10)
                 cat("  size =", size[j], "decay =", lambda[j], "\n")
@@ -361,7 +359,7 @@ CVnn2 <- function(formula, data,
         if(verbose > 1) cat("chosen size = ", csize,
                             " decay = ", decay, "\n", sep="")
         for(rep in 1:nreps) {
-            learn <- nnet(formula, data[rand != i,], trace=F,
+            learn <- nnet(formula, data[rand != i,], trace=FALSE,
                           size=csize, decay=decay, ...)
             res[rand == i,] <- res[rand == i,] +
                 predict(learn, data[rand == i,])
@@ -370,8 +368,8 @@ CVnn2 <- function(formula, data,
     factor(levels(truth)[max.col(res/nreps)], levels = levels(truth))
 }
 
-if(F) { # only run this if you have time to wait
-res.nn2 <- CVnn2(type ~ ., fgl1, skip = T, maxit = 500, nreps = 10)
+if(FALSE) { # only run this if you have time to wait
+res.nn2 <- CVnn2(type ~ ., fgl1, skip = TRUE, maxit = 500, nreps = 10)
 con(true = fgl$type, predicted = res.nn2)
 }
 
@@ -420,7 +418,7 @@ CVprobs <- function(fitfn, predfn, ...)
 probs.multinom <- CVprobs(
   function(x, ...) multinom(type ~ ., fgl[x, ], ...),
   function(obj, x) predict(obj, fgl[x, ], type = "probs"),
-  maxit = 1000, trace = F )
+  maxit = 1000, trace = FALSE)
 
 probs.yes <- as.vector(class.ind(fgl$type))
 probs <- as.vector(probs.multinom)

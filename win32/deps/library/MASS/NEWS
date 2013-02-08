@@ -153,9 +153,37 @@ This file documents software changes since the third edition.
 - removed unused argument 'nseg' to plot.profile.
 - 'alpha' in the "glm" and "polr" methods for profile() is now interpreted
   as two-tailed univariate for consistency with other profile methods.
-- 'mammals': corrected typos in names, some thanks to Arni Magnusson
+- 'mammals': corrected typos in names, some thanks to Arni Magnusson.
 - profile.glm() now works for binomial glm specified with a matrix response
   and a cmpletely zero row.
 - there is a "negbin" method for simulate()
 - the use of package mclust has been removed from the ch11.R script
   because of the change of licence conditions for that package.
+- change ch13.R script for change in package 'survival' 2.35-x.
+- glmmPQL looks up variables in its 'correlation' argument (if a formula)
+  in the usual scope (wish of Ben Bolker: such arguments are unsupported).
+- added a simulate() method for unweighted polr() fits.
+- kde2d() allows a length-2 argument 'n'.
+- the default for truehist(col=) is now set to a colour, not a colour number.
+- the returned fitted values and (undocumented) linear predictor for
+  polr() did not take any offset into account (reported by Ioannis Kosmides).
+- the vcov() method for polr() now returns on the zeta scale (suggested by
+  Achim Zeileis).
+- fitdistr() gains a vcov() method (suggested by Achim Zeileis).
+- ch06.R has R alternatives to fac.design.
+- ch11.R has R alternatives for ggobi and factor rotation.
+- hubers() copes in extreme cases when middle 50% of data is constant.
+- tests/ now includes dataset for polr.R, so checking depends only on
+  base packages and lattice.
+- The "glm" method for profile() failed when given a binomial model
+  with a two-column response.
+- fitdistr() works harder to rescale the problem when fitting a gamma.
+- cov.trob() handles zero weights without giving a warning (reported by
+  John Fox).
+- boxcox() works better when 'y' is very badly scaled, e.g. around 1e-16
+  (patch by Martin Maechler).
+- mvrnorm() no longer defaults to the deprecated EISPACK=TRUE (and
+  hence changes the results).  It gains an argument 'EISPACK' for
+  back-compatibility.
+- the "polr" method for profile() could lose dimensions in its return object
+  (reported by Joris Meys)

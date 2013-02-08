@@ -1,0 +1,12 @@
+exportPattern("^[^\\.]")
+
+S3method(print, Krig)
+S3method(print, mKrig)
+S3method(summary, Krig)
+S3method(summary, mKrig)
+
+useDynLib(fields,evlpoly, evlpoly2, multeb, dmaket, ddfind, inpoly, igpoly, 
+           rcss, radbas, multrb, css)
+
+import("spam")
+

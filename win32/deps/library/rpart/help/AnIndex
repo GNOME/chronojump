@@ -21,7 +21,6 @@ rpart	rpart
 rpart.control	rpart.control
 rpart.matrix	rpart-internal
 rpart.object	rpart.object
-rpartcallback	rpart
 rpconvert	rpconvert
 rsq.rpart	rsq.rpart
 snip.rpart	snip.rpart

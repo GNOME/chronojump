@@ -1,4 +1,5 @@
 graphics-package	graphics-package
+.filled.contour	filled.contour
 .Pars	par
 abline	abline
 arrows	arrows
@@ -33,6 +34,8 @@ erase.screen	screen
 filled.contour	filled.contour
 fourfoldplot	fourfoldplot
 frame	frame
+graphical parameter	par
+graphical parameters	par
 graphics	graphics-package
 graphics-defunct	graphics-defunct
 grconvertX	convertXY
@@ -52,8 +55,9 @@ lcm	layout
 legend	legend
 lines	lines
 lines.default	lines
-lines.formula	plotformula
+lines.formula	plot.formula
 lines.histogram	plothistogram
+lines.table	plot.table
 locator	locator
 matlines	matplot
 matplot	matplot
@@ -74,28 +78,28 @@ pie	pie
 piechart	graphics-defunct
 plot	plot
 plot.data.frame	plot.dataframe
-plot.Date	axis.POSIXct
-plot.default	plotdefault
+plot.default	plot.default
 plot.design	plot.design
-plot.factor	plotfactor
-plot.formula	plotformula
+plot.factor	plot.factor
+plot.formula	plot.formula
 plot.function	curve
 plot.histogram	plothistogram
 plot.new	frame
-plot.POSIXct	axis.POSIXct
-plot.POSIXlt	axis.POSIXct
 plot.table	plot.table
 plot.window	plot.window
 plot.xy	plot.xy
 points	points
 points.default	points
-points.formula	plotformula
+points.formula	plot.formula
+points.table	plot.table
 polygon	polygon
+polypath	polypath
+rasterImage	rasterImage
 rect	rect
 rug	rug
 screen	screen
 segments	segments
-smoothScatter	smoothscatter
+smoothScatter	smoothScatter
 spineplot	spineplot
 spineplot.default	spineplot
 spineplot.formula	spineplot
@@ -109,9 +113,12 @@ stripchart.formula	stripchart
 stripplot	graphics-defunct
 strwidth	strwidth
 sunflowerplot	sunflowerplot
+sunflowerplot.default	sunflowerplot
+sunflowerplot.formula	sunflowerplot
 symbols	symbols
 text	text
 text.default	text
+text.formula	plot.formula
 title	title
 xinch	units
 xlim	plot.window

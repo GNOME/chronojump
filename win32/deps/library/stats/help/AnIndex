@@ -13,6 +13,7 @@ addmargins	addmargins
 aggregate	aggregate
 aggregate.data.frame	aggregate
 aggregate.default	aggregate
+aggregate.formula	aggregate
 aggregate.ts	aggregate
 AIC	AIC
 alias	alias
@@ -55,6 +56,7 @@ as.dist.default	dist
 as.formula	formula
 as.hclust	as.hclust
 as.hclust.default	as.hclust
+as.hclust.dendrogram	dendrogram
 as.hclust.twins	as.hclust
 as.matrix.dist	dist
 as.stepfun	stepfun
@@ -67,6 +69,7 @@ bartlett.test	bartlett.test
 bartlett.test.default	bartlett.test
 bartlett.test.formula	bartlett.test
 Beta	Beta
+BIC	AIC
 binom.test	binom.test
 Binomial	Binomial
 binomial	family
@@ -89,7 +92,7 @@ cbind.ts	ts
 ccf	acf
 chisq.test	chisq.test
 Chisquare	Chisquare
-clearNames	clearNames
+clearNames	stats-defunct
 cmdscale	cmdscale
 coef	coef
 coefficients	coef
@@ -159,6 +162,9 @@ diffinv	diffinv
 diffinv.default	diffinv
 diffinv.ts	diffinv
 dist	dist
+distribution	Distributions
+Distributions	Distributions
+distributions	Distributions
 dlnorm	Lognormal
 dlogis	Logistic
 dmultinom	Multinom
@@ -203,6 +209,7 @@ filter	filter
 fisher.test	fisher.test
 fitted	fitted.values
 fitted.default	fitted.values
+fitted.kmeans	kmeans
 fitted.values	fitted.values
 fivenum	fivenum
 fligner.test	fligner.test
@@ -228,6 +235,8 @@ Gamma	family
 GammaDist	GammaDist
 gaussian	family
 Geometric	Geometric
+getCall	update
+getCall.default	update
 getInitial	getInitial
 getInitial.default	getInitial
 getInitial.formula	getInitial
@@ -325,6 +334,7 @@ mcnemar.test	mcnemar.test
 median	median
 median.default	median
 medpolish	medpolish
+merge.dendrogram	dendrogram
 model.extract	model.extract
 model.frame	model.frame
 model.frame.aovlist	model.frame
@@ -388,12 +398,15 @@ NLSstLfAsymptote	NLSstLfAsymptote
 NLSstLfAsymptote.sortedXyData	NLSstLfAsymptote
 NLSstRtAsymptote	NLSstRtAsymptote
 NLSstRtAsymptote.sortedXyData	NLSstRtAsymptote
+nobs	nobs
+nobs.default	nobs
 Normal	Normal
 numericDeriv	numericDeriv
 offset	offset
 oneway.test	oneway.test
 Ops.ts	ts
 optim	optim
+optimHess	optim
 optimise	optimize
 optimize	optimize
 order.dendrogram	order.dendrogram
@@ -566,6 +579,7 @@ quade.test.default	quade.test
 quade.test.formula	quade.test
 quantile	quantile
 quantile.default	quantile
+quantile.ecdf	ecdf
 quasi	family
 quasibinomial	family
 quasipoisson	family
@@ -585,9 +599,8 @@ relevel.default	relevel
 relevel.factor	relevel
 relevel.ordered	relevel
 reorder	reorder.factor
-reorder.character	reorder.factor
+reorder.default	reorder.factor
 reorder.dendrogram	reorder.dendrogram
-reorder.factor	reorder.factor
 replications	replications
 reshape	reshape
 reshapeLong	stats-defunct
@@ -624,6 +637,7 @@ runif	Uniform
 runmed	runmed
 rweibull	Weibull
 rwilcox	Wilcoxon
+rWishart	rWishart
 SafePrediction	makepredictcall
 scatter.smooth	scatter.smooth
 screeplot	screeplot
@@ -735,11 +749,14 @@ vcov.glm	vcov
 vcov.gls	vcov
 vcov.lm	vcov
 vcov.lme	vcov
+vcov.summary.glm	vcov
+vcov.summary.lm	vcov
 Weibull	Weibull
 weighted.mean	weighted.mean
+weighted.mean.default	weighted.mean
 weighted.residuals	weighted.residuals
-weights	lm.summaries
-weights.default	lm.summaries
+weights	weights
+weights.default	weights
 weights.glm	glm
 wilcox.test	wilcox.test
 wilcox.test.default	wilcox.test

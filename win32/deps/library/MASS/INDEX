@@ -9,7 +9,7 @@ bandwidth.nrd           Bandwidth for density() via Normal Reference
                           Distribution
 bcv                     Biased Cross-Validation for Bandwidth Selection
 boxcox                  Box-Cox Transformations for Linear Models
-con2tr                  Convert Lists to Data Frames for use by Trellis
+con2tr                  Convert Lists to Data Frames for use by lattice
 confint-MASS            Confidence Intervals for Model Parameters
 contr.sdif              Successive Differences Contrast Coding
 corresp                 Simple Correspondence Analysis
@@ -56,9 +56,10 @@ plot.mca                Plot Method for Objects of Class 'mca'
 polr                    Proportional Odds Logistic Regression
 predict.lda             Classify Multivariate Observations by Linear
                           Discrimination
-predict.lqs  		Predict from an lqs Fit
+predict.lqs             Predict from an lqs Fit
 predict.mca             Predict Method for Class 'mca'
 predict.qda             Classify from Quadratic Discriminant Analysis
+profile.glm             Method for Profiling glm Objects
 qda                     Quadratic Discriminant Analysis
 rational                Rational Approximation
 renumerate              Convert a Formula Transformed by 'denumerate'
@@ -72,7 +73,6 @@ studres                 Extract Studentized Residuals from a Linear Model
 summary.loglm           Summary Method Function for Objects of Class 'loglm'
 summary.negbin          Summary Method Function for Objects of Class 'negbin'
 summary.rlm             Summary Method for Robust Linear Models
-synth.tr                Synthetic Classification Problem
 theta.md                Estimate theta of the Negative Binomial by Deviance
 theta.ml                Estimate theta of the Negative Binomial by Maximum
 			  Likelihood
@@ -88,7 +88,6 @@ Datasets:
 
 Aids2                   Australian AIDS Survival Data
 Animals                 Brain and Body Weights for 28 Species
-Belgian-phones          Belgium Phone Calls 1950-1973
 Boston                  Housing Values in Suburbs of Boston
 Cars93                  Data from 93 Cars on Sale in the USA in 1993
 Cushings                Diagnostic Tests on Patients with Cushing's Syndrome
@@ -124,6 +123,7 @@ chem                    Copper in Wholemeal Flour
 coop                    Co-operative Trial in Analytical Chemistry
 cpus                    Performance of Computer CPUs
 crabs                   Morphological Measurements on Leptograpsus Crabs
+deaths                  Monthly Deaths from Lung Diseases in the UK
 drivers                 Deaths of Car Drivers in Great Britain 1969-84
 eagles                  Foraging Ecology of Bald Eagles
 epil                    Seizure Counts for Epileptics
@@ -143,18 +143,20 @@ leuk                    Survival Times and White Blood Counts for
                           Leukaemia Patients
 mammals                 Brain and Body Weights for 62 Species of Land Mammals
 mcycle                  Data from a Simulated Motorcycle Accident
-menarche                Age of Menarche data
+menarche                Age of Menarche in Warsaw
 michelson               Michelson's Speed of Light Data
 minn38                  Minnesota High School Graduates of 1938
 motors                  Accelerated Life Testing of Motorettes
 muscle                  Effect of Calcium Chloride on Muscle Contraction
 			  in Rat Hearts
+newcomb                 Newcomb's Measurements of the Passage Time of Light
 nlschools               Eighth-Grade Pupils in the Netherlands
 npk                     Classical N, P, K Factorial Experiment
 npr1                    US Naval Petroleum Reserve No. 1 data
 oats                    Data from an Oats Field Trial
 painters                The Painter's Data of de Piles
 petrol                  N. L. Prater's Petrol Refinery Data
+phones                  Belgium Phone Calls 1950-1973
 quine                   Absenteeism from School in Rural New South Wales
 road                    Road Accident Deaths in US States
 rotifer                 Numbers of Rotifers by Fluid Density
@@ -166,6 +168,7 @@ snails                  Snail Mortality Data
 steam                   The Saturated Steam Pressure Data
 stormer                 The Stormer Viscometer Data
 survey                  Student Survey Data
+synth.tr                Synthetic Classification Problem
 topo                    Spatial Topographic Data
 waders                  Counts of Waders at 15 Sites in South Africa
 whiteside               House Insulation: Whiteside's Data

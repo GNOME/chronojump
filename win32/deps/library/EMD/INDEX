@@ -1,18 +1,22 @@
+cvimpute.by.mean        Imputation by the mean of the two adjacent
+                        values
 cvtype                  Generating test dataset index for
                         cross-validation
 emd                     Empirical Mode Decomposition
 emd.pred                Prediction by EMD and VAR model
-emd2d                   Two dimensional Empirical Mode Decomposition
-emddenoise              Denoising by EMD and Cross-Validation
+emd2d                   Bidimenasional Empirical Mode Decomposition
+emddenoise              Denoising by EMD and Thresholding
 extractimf              Intrinsic Mode Function
-extractimf2d            Two dimensional Intrinsic Mode Function
+extractimf2d            Bidimensional Intrinsic Mode Function
 extrema                 Finding Local Extrema and Zero-crossings
 extrema2dC              Finding Local Extrema
 hilbertspec             Hilbert Transform and Instantaneous Frequency
-imageEMD                Plot of Two Dimensional Decomposition Result
+imageEMD                Plot of Bidimenasional Empirical Mode
+                        Decomposition Result
 kospi200                Korea Stock Price Index 200
 lena                    Gray Lena image
 lennon                  Gray John Lennon image
+semd                    Statistical Empirical Mode Decomposition
 solar irradiance        Solar Irradiance Proxy Data
 spectrogram             Spectrogram
 sunspot                 Sunspot Data

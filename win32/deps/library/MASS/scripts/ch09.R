@@ -5,8 +5,8 @@
 # Chapter 9   Tree-based Methods
 
 library(MASS)
-postscript(file="ch09.ps", width=8, height=6, pointsize=9)
-options(echo = TRUE, digits=5)
+pdf(file="ch09.pdf", width=8, height=6, pointsize=9)
+options(digits=5)
 
 library(rpart)
 

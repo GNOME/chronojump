@@ -6,8 +6,8 @@
 
 library(MASS)
 library(lattice)
-trellis.device(postscript, file="ch10.ps", width=8, height=6, pointsize=9)
-options(echo=T, width=65, digits=5)
+pdf(file="ch10.pdf", width=8, height=6, pointsize=9)
+options(width=65, digits=5)
 library(nlme)
 
 # 10.1  Linear models
@@ -23,9 +23,9 @@ xyplot(Y ~ EP | No, data = petrol,
 
 Petrol <- petrol
 names(Petrol)
-Petrol[, 2:5] <- scale(Petrol[, 2:5], scale = F)
+Petrol[, 2:5] <- scale(Petrol[, 2:5], scale = FALSE)
 pet1.lm <- lm(Y ~ No/EP - 1, Petrol)
-matrix(round(coef(pet1.lm), 2), 2, 10, byrow = T,
+matrix(round(coef(pet1.lm), 2), 2, 10, byrow = TRUE,
        dimnames = list(c("b0", "b1"), levels(Petrol$No)))
 
 pet2.lm <- lm(Y ~ No - 1 + EP, Petrol)
@@ -57,20 +57,19 @@ classMeans <- tapply(IQ, class, mean)
 nl1$IQave <- classMeans[as.character(class)]
 detach()
 cen <- c("IQ", "IQave", "SES")
-nl1[cen] <- scale(nl1[cen], center = T, scale = F)
+nl1[cen] <- scale(nl1[cen], center = TRUE, scale = FALSE)
 
 options(contrasts = c("contr.treatment", "contr.poly"))
 nl.lme <- lme(lang ~ IQ*COMB + IQave + SES,
               random = ~ IQ | class, data = nl1)
 summary(nl.lme)
 
-summary(lm(lang ~ IQ*COMB + SES + class, data = nl1,
-           singular.ok = T), cor = F)
+## singular.ok = TRUE is the default in R
+summary(lm(lang ~ IQ*COMB + SES + class, data = nl1, singular.ok = TRUE))
 
 nl2 <- cbind(aggregate(nl1[c(1,7)], list(class = nl1$class), mean),
              unique(nl1[c("class", "COMB", "GS")]))
-summary(lm(lang ~ IQave + COMB, data = nl2, weights = GS),
-        cor = F)
+summary(lm(lang ~ IQave + COMB, data = nl2, weights = GS))
 
 sitka.lme <- lme(size ~ treat*ordered(Time),
    random = ~1 | tree, data = Sitka, method = "ML")
@@ -84,13 +83,13 @@ anova(sitka.lme, sitka.lme2)
 
 # fitted curves
 matrix(fitted(sitka.lme2, level = 0)[c(301:305, 1:5)],
-       2, 5, byrow = T,
+       2, 5, byrow = TRUE,
        dimnames = list(c("control", "ozone"), unique(Sitka$Time)))
 
 
 # 10.2  Classic nested designs
 
-if(F) {
+if(FALSE) {
 summary(raov(Conc ~ Lab/Bat, data = coop, subset = Spc=="S1"))
 
 is.random(coop) <- T
@@ -106,7 +105,7 @@ varcomp(Conc ~ Lab/Bat, data = coop, subset = Spc=="S1",
 #oats <- oats  # make a local copy: needed in S-PLUS
 oats$Nf <- ordered(oats$N, levels = sort(levels(oats$N)))
 
-oats.aov <- aov(Y ~ Nf*V + Error(B/V), data = oats, qr = T)
+oats.aov <- aov(Y ~ Nf*V + Error(B/V), data = oats, qr = TRUE)
 summary(oats.aov)
 summary(oats.aov, split = list(Nf = list(L = 1, Dev = 2:3)))
 
@@ -116,8 +115,8 @@ oats.pr <- proj(oats.aov)
 qqnorm(oats.pr[[4]][,"Residuals"], ylab = "Stratum 4 residuals")
 qqline(oats.pr[[4]][,"Residuals"])
 
-oats.aov <- aov(Y ~ N + V + Error(B/V), data = oats, qr = T)
-model.tables(oats.aov, type = "means", se = T)
+oats.aov <- aov(Y ~ N + V + Error(B/V), data = oats, qr = TRUE)
+model.tables(oats.aov, type = "means", se = TRUE)
 # we can get the unimplemented standard errors from
 se.contrast(oats.aov, list(N == "0.0cwt", N == "0.2cwt"), data=oats)
 se.contrast(oats.aov, list(V == "Golden.rain", V == "Victory"), data=oats)
@@ -139,7 +138,7 @@ options(contrasts = c("contr.treatment", "contr.poly"))
 sitka.nlme <- nlme(size ~ A + B * (1 - exp(-(Time-100)/C)),
     fixed = list(A ~ treat, B ~ treat, C ~ 1),
     random = A + B ~ 1 | tree, data = Sitka,
-    start  = list(fixed = c(2, 0, 4, 0, 100)), verbose = T)
+    start  = list(fixed = c(2, 0, 4, 0, 100)), verbose = TRUE)
 
 summary(sitka.nlme)
 
@@ -185,7 +184,7 @@ summary(R.nlme2)
 xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit,
     xlab = "log(Dose) of Phenylbiguanide",
     ylab = "Change in blood pressure (mm Hg)",
-    subscripts = T, aspect = "xy", panel =
+    subscripts = TRUE, aspect = "xy", panel =
        function(x, y, subscripts) {
           panel.grid()
           panel.xyplot(x, y)
@@ -196,18 +195,13 @@ xyplot(BPchange ~ log(Dose) | Animal * Treatment, Rabbit,
 
 # 10.4 Generalized linear mixed models
 
-# bacteria <- bacteria # needed in S-PLUS
 contrasts(bacteria$trt) <- structure(contr.sdif(3),
     dimnames = list(NULL, c("drug", "encourage")))
-summary(glm(y ~ trt * week, binomial, data = bacteria),
-        cor = F)
-summary(glm(y ~ trt + week, binomial, data = bacteria),
-        cor = F)
+summary(glm(y ~ trt * week, binomial, data = bacteria))
+summary(glm(y ~ trt + week, binomial, data = bacteria))
 
-summary(glm(y ~ lbase*trt + lage + V4, family = poisson,
-            data = epil), cor = F)
+summary(glm(y ~ lbase*trt + lage + V4, family = poisson, data = epil))
 
-# epil <- epil # needed in S-PLUS
 epil2 <- epil[epil$period == 1, ]
 epil2["period"] <- rep(0, 59); epil2["y"] <- epil2["base"]
 epil["time"] <- 1; epil2["time"] <- 4
@@ -221,7 +215,7 @@ epil3$pred <- factor(epil3$pred, labels = c("base", "placebo", "drug"))
 contrasts(epil3$pred) <- structure(contr.sdif(3),
     dimnames = list(NULL, c("placebo-base", "drug-placebo")))
 summary(glm(y ~ pred + factor(subject) + offset(log(time)),
-            family = poisson, data = epil3), cor = F)
+            family = poisson, data = epil3))
 
 glm(y ~ factor(subject), family = poisson, data = epil)
 
@@ -235,10 +229,10 @@ coxph(Surv(Time, unclass(y)) ~ I(week > 2) + strata(ID),
       data = bacteria, method = "exact")
 
 fit <- glm(y ~ trt + I(week> 2), binomial, data = bacteria)
-summary(fit, cor = F)
+summary(fit)
 sum(residuals(fit, type = "pearson")^2)
 
-if(F) { # very slow
+if(FALSE) { # very slow
 library(GLMMGibbs)
 # declare a random intercept for each subject
 epil$subject <- Ra(data = factor(epil$subject))
@@ -262,6 +256,7 @@ summary(glmmPQL(y ~ pred, random = ~1 | subject,
 
 # 10.5  GEE models
 
+if(FALSE) {
 ## modified for YAGS 3.21-3
 library(yags)
 attach(bacteria)
@@ -273,6 +268,7 @@ attach(epil)
 yags(y ~ lbase*trt + lage + V4, family = poisson, alphainit=0,
      id = subject, corstr = "exchangeable")
 detach("epil")
+}
 
 options(contrasts = c("contr.sum", "contr.poly"))
 library(gee)

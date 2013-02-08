@@ -5,8 +5,8 @@
 # Chapter 14   Time Series
 
 library(MASS)
-postscript(file="ch14.ps", width=8, height=6, pointsize=9)
-options(width=65, digits=5, echo = T)
+pdf(file="ch14.pdf", width=8, height=6, pointsize=9)
+options(width=65, digits=5)
 
 lh
 deaths
@@ -60,7 +60,7 @@ par(mfrow = c(1, 1))
 acf(lh, type = "partial")
 acf(deaths, type = "partial")
 
-lh.ar1 <- ar(lh, F, 1)
+lh.ar1 <- ar(lh, FALSE, 1)
 cpgram(lh.ar1$resid, main = "AR(1) fit to lh")
 lh.ar <- ar(lh, order.max = 9)
 lh.ar$order
@@ -241,18 +241,18 @@ plot(density(SP500, width = "sj", n = 256), type = "l", xlab = "", ylab = "")
 par(pty = "s")
 qqnorm(SP500)
 qqline(SP500)
-if(F) {
-module(garch)
-summary(garch(SP500 ~ 1, ~garch(1,1)))
+if(FALSE) {
+    module(garch)
+    summary(garch(SP500 ~ 1, ~garch(1,1)))
 
-fit <- garch(SP500 ~ 1, ~garch(1,1), cond.dist = "t")
-summary(fit)
-plot(fit)
+    fit <- garch(SP500 ~ 1, ~garch(1,1), cond.dist = "t")
+    summary(fit)
+    plot(fit)
 
-summary(garch(SP500 ~ 1, ~egarch(1,1), cond.dist = "t", leverage = T))
+    summary(garch(SP500 ~ 1, ~egarch(1,1), cond.dist = "t", leverage = TRUE))
 }
 
-library(tseries)
-summary(garch(x = SP500 - median(SP500), order = c(1, 1)))
+if(require(tseries))
+    print(summary(garch(x = SP500 - median(SP500), order = c(1, 1))))
 
 # End of ch14

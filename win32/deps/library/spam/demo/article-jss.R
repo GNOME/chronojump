@@ -1,4 +1,4 @@
-# This is file ../spam0.20-3/demo/article-jss.R
+# This is file ../spam0.29-2/demo/article-jss.R
 # This file is part of the spam package, 
 #      http://www.math.uzh.ch/furrer/software/spam/
 # written and maintained by Reinhard Furrer.
@@ -12,22 +12,21 @@
 
 
 # This demo contains the R code to construct the figures and the table of the
-# article:
+# JSS article:
 #     "spam: A Sparse Matrix R Package with Emphasis on
 #            MCMC Methods for Gaussian Markov Random Fields"
-# submitted to JSS.
 
 
 # The code presented here differs in the following points form the actually used
 # one:
 # - Very large grid sizes or very high order neighbor structures are not included
 #   here;
-# - Instead of (100+1) factorizations only (10+1) are performed here;
-# - The ratios in Fig 3 and 4 are not included here.
+# - Instead of (100+1) factorizations only (50+1) are performed here;
 # - No figure fine-tuning is done here.
 # - We had a few additional gc(), just to be sure.  
 
 
+######################################################################
 # Figure 1:
 i <- c( 2,4,4,5,5)
 j <- c( 1,1,2,1,3)
@@ -58,6 +57,7 @@ display( as.spam(R))
 abline( h=-U@supernodes+.5,col=3,lty=2)
 
 
+######################################################################
 # Figure 2:
 theta1 <- .1
 theta2 <- .01
@@ -81,19 +81,23 @@ display( as.spam(U))
 text(400,-2200,"no permutation\nz=689615\nw=96463\ns=711",adj=0)
 
 
-# general parameters for the following
-N <- 25         # would be 100 in the article 
+
+
+######################################################################
+# Figure 3:
+
+# general parameters for the following figures
+N <- 50         # would be 100 in the article 
 stsel <- 1      # user.self
 rPsx <- 1       # for function "system.time"
 rPsy <- 3       # memory usage 
 rPint <- .0001  # small interval
 
 
-# Figure 3:
-theta1 <- .1
+theta1 <- .1    
 theta2 <- .05
 
-xseq <- ceiling(4 + exp(seq(0,to=5,by=1))/2)  # would be seq(0.5,to=6,by=.5) in the article
+xseq <- ceiling(4 + exp(seq(0.5,to=5.5,by=.5))/2)  # would be seq(0,to=6,by=.5) in the article
 xseql <- length(xseq)
 
 table <- array(NA,c(xseql,4))
@@ -126,18 +130,30 @@ for (ix in 1:xseql) {
 table <- pmax(table, 0.0001)
 
 par(mfcol=c(1,2))
-plot(xseq, table[,1], type='l', log='xy', ylim=range(table[,c(1,3)]),
+plot(xseq, table[,1], type="l", log="xy", ylim=range(table[,c(1,3)]),
      xlab="L (log scale)", ylab="seconds (log scale)")
 lines(xseq, table[,3], lty=2)
+lines(xseq,table[,1]/table[,3],col=4,lty=3)
 
-plot(xseq, table[,2], type='l', log='xy', ylim=range(table[,c(2,4)]+0.01),
+plot(xseq, table[,2], type="l", log="xy", ylim=range(table[,c(2,4)]+0.01),
      xlab="L (log scale)", ylab="Mbytes (log scale)")
 lines(xseq, table[,4], lty=2)
+lines(xseq,table[,2]/table[,4],col=4,lty=3)
 
 
+
+
+######################################################################
 # Figure 4:
 
-x <- 30     # was 50 in article
+# general parameters for the following figures
+N <- 50         # would be 100 in the article 
+stsel <- 1      # user.self
+rPsx <- 1       # for function "system.time"
+rPsy <- 3       # memory usage 
+rPint <- .0001  # small interval
+
+x <- 50     # was 50 in article
 maxnn <- 6  # was 6 in article
 
 egdx <- expand.grid( 1:(maxnn+1), 1:(maxnn+1))
@@ -173,20 +189,45 @@ for (id in 1:dvall) {
 
 }
 
-# Since we have a small N, elements in table might be zero.
+# If we have a small N, elements in table might be zero.
 table <- pmax(table, 0.0001)
 
 par(mfcol=c(1,2))
-plot( dval, table[,1], type='l', log='xy',ylim=range(table[,c(1,3)]),
+plot( dval, table[,1], type="l", log="xy",ylim=range(table[,c(1,3)]),
      xlab="distance (log scale)", ylab="seconds (log scale)")
 lines( dval, table[,3],lty=2)
+lines( dval, table[,1]/table[,3],col=4,lty=3)
 
-plot( dval, table[,2], type='l', log='xy',ylim=range(table[,c(2,4)]),
+plot( dval, table[,2], type="l", log="xy",ylim=range(table[,c(2,4)]),
      xlab="distance (log scale)", ylab="Mbytes (log scale)")
 lines( dval, table[,4],lty=2)
+lines( dval, table[,2]/table[,4],col=4,lty=3)
 
 
+######################################################################
+# Figure 5
+In <- diag.spam(nrow(UScounties.storder))
+struct <- chol(In + .2 * UScounties.storder + .1 * UScounties.ndorder)
 
+len.1 <- 90 # in the article, is set to 180
+len.2 <- 50 # in the article, is set to 100
+theta.1 <- seq(-.225, to=.515, len=len.1)
+theta.2 <- seq(-.09, to=.235, len=len.2)
+
+grid <- array(NA, c(len.1, len.2))
+spam.options("cholupdatesingular"="null")
+
+for (i in 1:len.1)
+  for(j in 1:len.2) 
+    grid[i,j] <- !is.null(update(struct, In + theta.1[i]*UScounties.storder
+                       + theta.2[j]* UScounties.ndorder))
+
+image(theta.1, theta.2, grid, xlab=expression(theta[1]), ylab=expression(theta[2]),
+      xlim=c(-.3,.6),ylim=c(-.1,.25),col=c(0,"gray"))
+abline(v=0,h=0, lty=2)
+
+
+######################################################################
 # Table 1:
 table <- array(NA,c(9,4))
 

@@ -1,21 +1,7 @@
 
 require(grid)
-
-## branch for compatibility with older R
-
-old.prompt <-
-    if (exists("devAskNewPage", mode = "function",
-               where = getNamespace("grDevices"),
-               inherits = FALSE)) {
-        devAskNewPage(TRUE)
-    } else {
-        grid.prompt(TRUE)
-    }
-    
-
-
+old.prompt <- devAskNewPage(TRUE)
 ## store current settings, to be restored later
-
 old.settings <- trellis.par.get()
 
 ## changing settings to new 'theme'
@@ -52,7 +38,7 @@ states <- data.frame(state.x77,
 xyplot(Murder ~ Population | state.region, data = states, 
        groups = state.name,
        panel = function(x, y, subscripts, groups)  
-       ltext(x = x, y = y, label = groups[subscripts],
+       ltext(x = x, y = y, labels = groups[subscripts],
              cex=.9, fontfamily = "HersheySans", fontface = "italic"),
        par.strip.text = list(cex = 1.3, font = 4, col = "brown"),
        xlab = list("Estimated Population, July 1, 1975", font = 2),
@@ -70,7 +56,7 @@ levels(states$state.region) <-
 xyplot(Murder  ~ Population | state.region, data = states,
        groups = as.character(state.name),
        panel = function(x, y, subscripts, groups)
-       ltext(x = x, y = y, label = groups[subscripts], srt = -50, col = "blue",
+       ltext(x = x, y = y, labels = groups[subscripts], srt = -50, col = "blue",
              cex=.9, fontfamily = "HersheySans"),
        par.strip.text = list(cex = 1.3, font = 4, col = "brown", lines = 2),
        xlab = "Estimated Population\nJuly 1, 1975", 
@@ -93,14 +79,14 @@ wireframe(volcano, shade = TRUE,
           aspect = c(61/87, 0.4),
           screen = list(z = -120, x = -45),
           light.source = c(0,0,10), distance = .2,
-          shade.colors = function(irr, ref, height, w = .5)
+          shade.colors.palette = function(irr, ref, height, w = .5)
           grey(w * irr + (1 - w) * (1 - (1-ref)^.4)))
 
 ## 3-D surface parametrized on a 2-D grid
 
 n <- 50
-tx <- matrix(seq(-pi, pi, len = 2*n), 2*n, n)
-ty <- matrix(seq(-pi, pi, len = n) / 2, 2*n, n, byrow = T)
+tx <- matrix(seq(-pi, pi, length.out = 2*n), 2*n, n)
+ty <- matrix(seq(-pi, pi, length.out = n) / 2, 2*n, n, byrow = T)
 xx <- cos(tx) * cos(ty)
 yy <- sin(tx) * cos(ty)
 zz <- sin(ty)
@@ -141,23 +127,29 @@ barchart(variety ~ yield | year * site, barley, origin = 0,
                   bg = trellis.par.get("strip.background")$col[which.given],
                   ...) {
              axis.line <- trellis.par.get("axis.line")
-             pushViewport(viewport(clip = trellis.par.get("clip")$strip))
+             pushViewport(viewport(clip = trellis.par.get("clip")$strip,
+                                   name = trellis.vpname("strip")))
              if (which.given == 1)
              {
                  grid.rect(x = .26, just = "right",
+                           name = trellis.grobname("fill", type="strip"),
                            gp = gpar(fill = bg, col = "transparent"))
                  ltext(factor.levels[which.panel[which.given]],
-                       x = .24, y = .5, adj = 1)
+                       x = .24, y = .5, adj = 1,
+                       name.type = "strip")
              }
              if (which.given == 2)
              {
                  grid.rect(x = .26, just = "left",
+                           name = trellis.grobname("fill", type="strip"),
                            gp = gpar(fill = bg, col = "transparent"))
                  ltext(factor.levels[which.panel[which.given]],
-                       x = .28, y = .5, adj = 0)
+                       x = .28, y = .5, adj = 0,
+                       name.type = "strip")
              }
              upViewport()
-             grid.rect(gp =
+             grid.rect(name = trellis.grobname("border", type="strip"),
+                       gp =
                        gpar(col = axis.line$col,
                             lty = axis.line$lty,
                             lwd = axis.line$lwd,
@@ -166,14 +158,7 @@ barchart(variety ~ yield | year * site, barley, origin = 0,
          }, par.strip.text = list(lines = 0.4))
 
 
-trellis.par.set(theme = old.settings)
-
-if (exists("devAskNewPage", mode = "function",
-           where = getNamespace("grDevices"),
-           inherits = FALSE)) {
-    devAskNewPage(old.prompt)
-} else {
-    grid.prompt(old.prompt)
-}
+trellis.par.set(theme = old.settings, strict = 2)
+devAskNewPage(old.prompt)
 
 

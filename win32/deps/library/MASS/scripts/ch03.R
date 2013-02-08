@@ -5,7 +5,7 @@
 # Chapter 3   S Language
 
 library(MASS)
-options(echo = T, width=65, digits=5, height=9999)
+options(width=65, digits=5, height=9999)
 
 # from Chapter 2
 
@@ -112,7 +112,7 @@ paste(c("X", "Y"), 1:4, sep = "", collapse = " + ")
 substring(state.name[44:50], 1, 4)
 
 as.vector(abbreviate(state.name[44:50]))
-as.vector(abbreviate(state.name[44:50], use.classes = F))
+as.vector(abbreviate(state.name[44:50], use.classes = FALSE))
 
 grep("na$", state.name)
 regexpr("na$", state.name)

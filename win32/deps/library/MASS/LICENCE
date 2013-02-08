@@ -21,10 +21,7 @@ File MASS/R/profiles.R copyright (C) 1996 D. M. Bates and W. N. Venables.
 
 Our understanding is that the dataset files MASS/data/*.rda are not copyright.
 
-Files spatial/data/*.dat were generated or digitized by B. D. Ripley: no
-copyright is asserted.
-
-All other files are copyright (C) 1994-2007  W. N. Venables and
+All other files are copyright (C) 1994-2009  W. N. Venables and
 B. D. Ripley. Those parts which were distributed with the first
 edition are also copyright (C) 1994 Springer-Verlag New York Inc, with
 all rights assigned to W. N. Venables and B. D. Ripley.

@@ -6,11 +6,13 @@ bannerplot	bannerplot
 chorSub	chorSub
 clara	clara
 clara.object	clara.object
-clusplot	clusplot
+clusGap	clusGap
+clusplot	clusplot.partition
 clusplot.default	clusplot.default
 clusplot.partition	clusplot.partition
 coef.hclust	coef.hclust
 coef.twins	coef.hclust
+coefHier	coef.hclust
 daisy	daisy
 diana	diana
 diana.object	diana
@@ -21,6 +23,7 @@ fanny	fanny
 fanny.object	fanny.object
 flower	flower
 lower.to.upper.tri.inds	lower.to.upper.tri.inds
+maxSE	clusGap
 meanabsdev	cluster-internal
 mona	mona
 mona.object	mona.object
@@ -30,6 +33,7 @@ partition	partition.object
 partition.object	partition.object
 plantTraits	plantTraits
 plot.agnes	plot.agnes
+plot.clusGap	clusGap
 plot.diana	plot.diana
 plot.mona	plot.mona
 plot.partition	plot.partition
@@ -40,6 +44,7 @@ pluton	pluton
 predict.ellipsoid	predict.ellipsoid
 print.agnes	print.agnes
 print.clara	print.clara
+print.clusGap	clusGap
 print.diana	print.diana
 print.dissimilarity	print.dissimilarity
 print.ellipsoid	ellipsoidhull

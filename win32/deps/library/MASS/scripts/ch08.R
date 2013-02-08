@@ -6,8 +6,8 @@
 
 library(MASS)
 library(lattice)
-options(echo = T, width=65, digits=5, height=9999)
-trellis.device(postscript, file="ch08.ps", width=8, height=6, pointsize=9)
+options(width=65, digits=5, height=9999)
+pdf(file="ch08.pdf", width=8, height=6, pointsize=9)
 
 
 # From Chapter 6, for comparisons
@@ -25,10 +25,10 @@ cpus1 <- cpus
 attach(cpus)
 for(v in names(cpus)[2:7])
   cpus1[[v]] <- cut(cpus[[v]], unique(quantile(cpus[[v]])),
-                    include.lowest = T)
+                    include.lowest = TRUE)
 detach()
 cpus.lm <- lm(log10(perf) ~ ., data=cpus1[cpus.samp, 2:8])
-cpus.lm2 <- stepAIC(cpus.lm, trace=F)
+cpus.lm2 <- stepAIC(cpus.lm, trace=FALSE)
 res2 <- log10(cpus1[-cpus.samp, "perf"]) -
               predict(cpus.lm2, cpus1[-cpus.samp,])
 cpus2 <- cpus[, 2:8]  # excludes names, authors' predictions
@@ -55,7 +55,7 @@ detach()
 
 wtloss.st <- c(b0 = 90, b1 = 95, th = 120)
 wtloss.fm <- nls(Weight ~ b0 + b1*2^(-Days/th),
-   data = wtloss, start = wtloss.st, trace = T)
+   data = wtloss, start = wtloss.st, trace = TRUE)
 wtloss.fm
 
 expn <- function(b0, b1, th, x) {
@@ -68,7 +68,7 @@ expn <- function(b0, b1, th, x) {
 }
 
 wtloss.gr <- nls(Weight ~ expn(b0, b1, th, Days),
-   data = wtloss, start = wtloss.st, trace = T)
+   data = wtloss, start = wtloss.st, trace = TRUE)
 
 expn1 <- deriv(y ~ b0 + b1 * 2^(-x/th), c("b0", "b1", "th"),
                function(b0, b1, th, x) {})
@@ -79,7 +79,7 @@ negexp <- selfStart(model = ~ b0 + b1*exp(-x/th),
    template = function(x, b0, b1, th) {})
 
 wtloss.ss <- nls(Weight ~ negexp(Days, B0, B1, theta),
-                 data = wtloss, trace = T)
+                 data = wtloss, trace = TRUE)
 
 
 # 8.3  Non-linear fitted model objects and method functions
@@ -109,7 +109,7 @@ detach()
 
 xyplot(Yhat ~ Conc | Strip, Muscle, as.table = TRUE,
   ylim = range(c(Muscle$Yhat, Muscle$logLength), na.rm = TRUE),
-  subscripts = T, xlab = "Calcium Chloride concentration (mM)",
+  subscripts = TRUE, xlab = "Calcium Chloride concentration (mM)",
   ylab = "log(Length in mm)", panel =
   function(x, y, subscripts, ...) {
      lines(spline(x, y))
@@ -143,7 +143,7 @@ b0 <- coef(fm0)
 names(b0) <- c("b1", "b2")
 b0
 storm.fm <- nls(Time ~ b1*Viscosity/(Wt-b2), data = stormer,
-                start = b0, trace = T)
+                start = b0, trace = TRUE)
 
 bc <- coef(storm.fm)
 se <- sqrt(diag(vcov(storm.fm)))
@@ -169,8 +169,8 @@ qf(0.95, 2, 21)
 
 plot(b1, b2, type = "n")
 lev <- c(1, 2, 5, 7, 10, 15, 20)
-contour(b1, b2, fstat, levels = lev, labex = 0.75, lty = 2, add = T)
-contour(b1, b2, fstat, levels = qf(0.95,2,21), add = T, labex = 0)
+contour(b1, b2, fstat, levels = lev, labex = 0.75, lty = 2, add = TRUE)
+contour(b1, b2, fstat, levels = qf(0.95,2,21), add = TRUE, labex = 0)
 text(31.6, 0.3, labels = "95% CR", adj = 0, cex = 0.75)
 points(bc[1], bc[2], pch = 3, mkh = 0.1)
 detach()
@@ -283,7 +283,7 @@ cpus.bruto$type
 cpus.bruto$df
 # examine the fitted functions
 par(mfrow = c(3, 2))
-Xp <- matrix(sapply(cpus2[cpus.samp, 1:6], mean), 100, 6, byrow = T)
+Xp <- matrix(sapply(cpus2[cpus.samp, 1:6], mean), 100, 6, byrow = TRUE)
 for(i in 1:6) {
  xr <- sapply(cpus2, range)
  Xp1 <- Xp; Xp1[, i] <- seq(xr[1, i], xr[2, i], len = 100)
@@ -301,7 +301,7 @@ showcuts <- function(obj)
 showcuts(cpus.mars)
 test2(cpus.mars)
 # examine the fitted functions
-Xp <- matrix(sapply(cpus2[cpus.samp, 1:6], mean), 100, 6, byrow = T)
+Xp <- matrix(sapply(cpus2[cpus.samp, 1:6], mean), 100, 6, byrow = TRUE)
 for(i in 1:6) {
  xr <- sapply(cpus2, range)
  Xp1 <- Xp; Xp1[, i] <- seq(xr[1, i], xr[2, i], len = 100)
@@ -373,7 +373,7 @@ cpus.ppr2 <- ppr(log10(perf) ~ ., data = cpus2[cpus.samp,],
 test.cpus(cpus.ppr2)
 res3 <- log10(cpus2[-cpus.samp, "perf"]) -
              predict(cpus.ppr, cpus2[-cpus.samp,])
-wilcox.test(res2^2, res3^2, paired = T, alternative = "greater")
+wilcox.test(res2^2, res3^2, paired = TRUE, alternative = "greater")
 
 
 # 8.10  Neural networks
@@ -383,11 +383,11 @@ attach(rock)
 area1 <- area/10000; peri1 <- peri/10000
 rock1 <- data.frame(perm, area = area1, peri = peri1, shape)
 rock.nn <- nnet(log(perm) ~ area + peri + shape, rock1,
-    size = 3, decay = 1e-3, linout = T, skip = T,
-    maxit = 1000, Hess = T)
+    size = 3, decay = 1e-3, linout = TRUE, skip = TRUE,
+    maxit = 1000, Hess = TRUE)
 sum((log(perm) - predict(rock.nn))^2)
 detach()
-eigen(rock.nn$Hessian, T)$values    # rock.nn$Hessian in R
+eigen(rock.nn$Hessian, TRUE)$values    # rock.nn$Hessian in R
 
 Xp <- expand.grid(area = seq(0.1, 1.2, 0.05),
                  peri = seq(0, 0.5, 0.02), shape = 0.2)
@@ -408,17 +408,17 @@ test.cpus <- function(fit)
  sqrt(sum((log10(cpus3[-cpus.samp, "perf"]) -
           predict(fit, cpus3[-cpus.samp,]))^2)/109)
 cpus.nn1 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,],
-                linout = T, skip = T, size = 0)
+                linout = TRUE, skip = TRUE, size = 0)
 test.cpus(cpus.nn1)
 
-cpus.nn2 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = T,
-                 skip = T, size = 4, decay = 0.01, maxit = 1000)
+cpus.nn2 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = TRUE,
+                 skip = TRUE, size = 4, decay = 0.01, maxit = 1000)
 test.cpus(cpus.nn2)
-cpus.nn3 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = T,
-                 skip = T, size = 10, decay = 0.01, maxit = 1000)
+cpus.nn3 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = TRUE,
+                 skip = TRUE, size = 10, decay = 0.01, maxit = 1000)
 test.cpus(cpus.nn3)
-cpus.nn4 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = T,
-                skip = T, size = 25, decay = 0.01, maxit = 1000)
+cpus.nn4 <- nnet(log10(perf) ~ ., cpus3[cpus.samp,], linout = TRUE,
+                skip = TRUE, size = 25, decay = 0.01, maxit = 1000)
 test.cpus(cpus.nn4)
 
 CVnn.cpus <- function(formula, data = cpus3[cpus.samp, ],
@@ -434,7 +434,7 @@ CVnn.cpus <- function(formula, data = cpus3[cpus.samp, ],
     for (i in sort(unique(ri))) {
       cat(" ", i,  sep="")
       for(rep in 1:nreps) {
-        learn <- nnet(formula, data[ri !=i,], trace=F, ...)
+        learn <- nnet(formula, data[ri !=i,], trace=FALSE, ...)
         res[ri == i] <- res[ri == i] +
                         predict(learn, data[ri == i,])
       }
@@ -452,6 +452,6 @@ CVnn.cpus <- function(formula, data = cpus3[cpus.samp, ],
   cbind(size=size, decay=lambda, fit=sqrt(choice/100))
 }
 CVnn.cpus(log10(perf) ~ ., data = cpus3[cpus.samp,],
-         linout = T, skip = T, maxit = 1000)
+         linout = TRUE, skip = TRUE, maxit = 1000)
 
 # End of ch08

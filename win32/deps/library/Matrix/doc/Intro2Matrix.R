@@ -1,11 +1,13 @@
+### R code from vignette source 'Intro2Matrix.Rnw'
+
 ###################################################
-### chunk number 1: preliminaries
+### code chunk number 1: preliminaries
 ###################################################
 options(width=75)
 
 
 ###################################################
-### chunk number 2: ex1
+### code chunk number 2: ex1
 ###################################################
 library(Matrix)
 
@@ -15,7 +17,7 @@ tM <- t(M)
 
 
 ###################################################
-### chunk number 3: ex2
+### code chunk number 3: ex2
 ###################################################
 (M2 <- cBind(-1, M))
 M[2, 1]
@@ -23,7 +25,7 @@ M[4, ]
 
 
 ###################################################
-### chunk number 4: set0
+### code chunk number 4: set0
 ###################################################
 M2[, c(2,4:6)] <- 0
 M2[2, ] <- 0
@@ -32,7 +34,7 @@ M2[1:2,2] <- M2[3,4:5] <- NA
 
 
 ###################################################
-### chunk number 5: asSparse
+### code chunk number 5: asSparse
 ###################################################
 sM <- as(M2, "sparseMatrix")
 10 * sM
@@ -41,41 +43,41 @@ is(sM / 10  +  M2 %/% 2, "sparseMatrix")
 
 
 ###################################################
-### chunk number 6: add1
+### code chunk number 6: add1
 ###################################################
 sM + 10
 
 
 ###################################################
-### chunk number 7: Comp1
+### code chunk number 7: Comp1
 ###################################################
 Mg2 <- (sM > 2)
 Mg2
 
 
 ###################################################
-### chunk number 8: str_mat
+### code chunk number 8: str_mat
 ###################################################
 str(Mg2)
 summary(Mg2)
 
 
 ###################################################
-### chunk number 9: drop0
+### code chunk number 9: drop0
 ###################################################
 Mg2 <- drop0(Mg2)
 str(Mg2@x) # length 13, was 16
 
 
 ###################################################
-### chunk number 10: image
+### code chunk number 10: image
 ###################################################
 data(CAex)
 print(image(CAex, main = "image(CAex)")) # print(.) needed for Sweave
 
 
 ###################################################
-### chunk number 11: sub_logi
+### code chunk number 11: sub_logi
 ###################################################
 sM[sM > 2]
 sml <- sM[sM <= 2]
@@ -83,14 +85,14 @@ sml
 
 
 ###################################################
-### chunk number 12: Tsparse-class
+### code chunk number 12: Tsparse-class
 ###################################################
 getClass("TsparseMatrix") # (i,j, Dim, Dimnames) slots are common to all
 getClass("dgTMatrix")
 
 
 ###################################################
-### chunk number 13: sessionInfo
+### code chunk number 13: sessionInfo
 ###################################################
 toLatex(sessionInfo())
 

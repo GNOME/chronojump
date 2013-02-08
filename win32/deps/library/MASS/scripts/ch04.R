@@ -6,9 +6,8 @@
 
 library(MASS)
 library(lattice)
-trellis.device(postscript, file="ch04.ps", width=8, height=6,
-               pointsize=9)
-options(echo=T, width=65, digits=5)
+pdf(file="ch04.pdf", width=8, height=6, pointsize=9)
+options(width=65, digits=5)
 
 
 # 4.2  Basic plotting functions
@@ -21,7 +20,7 @@ if(interactive())
 loc <- barplot(t(lung.deaths), names = dimnames(lung.deaths)[[1]],
                angle = c(45, 135), density = 10, col = 1)
 total <- rowSums(lung.deaths)
-text(loc, total + par("cxy")[2], total, cex = 0.7, xpd = T)
+text(loc, total + par("cxy")[2], total, cex = 0.7, xpd = TRUE)
 
 # S: if(interactive()) brush(hills)
 
@@ -82,7 +81,7 @@ qqline(Infant.Mortality)
 samp <- cbind(Infant.Mortality, matrix(rnorm(47*19), 47, 19))
 samp <- apply(scale(samp), 2, sort)
 rs <- samp[, 1]
-xs <- qqnorm(rs, plot = F)$x
+xs <- qqnorm(rs, plot = FALSE)$x
 env <- t(apply(samp[, -1], 1, range))
 
 matplot(xs, cbind(rs, env), type = "pnn",
@@ -187,11 +186,11 @@ bwplot(Age ~ Days | Sex*Lrn*Eth, data = Quine, layout = c(4, 2),
       strip = function(...) strip.default(..., style = 1))
 
 stripplot(Age ~ Days | Sex*Lrn*Eth, data = Quine,
-         jitter = T, layout = c(4, 2))
+         jitter = TRUE, layout = c(4, 2))
 
 stripplot(Age ~ Days | Eth*Sex, data = Quine,
    groups = Lrn, jitter = TRUE,
-   panel = function(x, y, subscripts, jitter.data = F, ...) {
+   panel = function(x, y, subscripts, jitter.data = FALSE, ...) {
        if(jitter.data)  y <- jitter(as.numeric(y))
        panel.superpose(x, y, subscripts, ...)
    },
@@ -212,11 +211,11 @@ stripplot(type ~ y | meas, data = fgl.df,
   scales = list(x = "free"), xlab = "", cex = 0.5,
   strip = function(...) strip.default(style = 1, ...))
 
-if(F) { # no data supplied
+if(FALSE) { # no data supplied
 xyplot(ratio ~ scant | subject, data = A5,
       xlab = "scan interval (years)",
       ylab = "ventricle/brain volume normalized to 1 at start",
-      subscripts = T, ID = A5$ID,
+      subscripts = TRUE, ID = A5$ID,
       strip = function(factor, ...)
          strip.default(..., factor.levels = labs, style = 1),
       layout = c(8, 5, 1),

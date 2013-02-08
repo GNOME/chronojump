@@ -6,8 +6,8 @@
 
 library(MASS)
 library(lattice)
-options(echo = T,width=65, digits=5, height=9999)
-trellis.device(postscript, file="ch06.ps", width=8, height=6, pointsize=9)
+options(width=65, digits=5, height=9999)
+pdf(file="ch06.pdf", width=8, height=6, pointsize=9)
 options(contrasts = c("contr.helmert", "contr.poly"))
 
 
@@ -137,18 +137,17 @@ abline(lqs(calls ~ year, phones), lty =3, col = 3)
 # legend(locator(1), lty = 1:3, col = 1:3,
 #        legend = c("least squares", "M-estimate", "LTS"))
 
-summary(lm(calls ~ year, data = phones), cor = F)
-summary(rlm(calls ~ year, maxit = 50, data = phones), cor = F)
-summary(rlm(calls ~ year, scale.est = "proposal 2",
-             data = phones), cor = F)
-summary(rlm(calls ~ year, data = phones, psi = psi.bisquare),
-         cor = F)
+## cor = FALSE is the default in R
+summary(lm(calls ~ year, data = phones))
+summary(rlm(calls ~ year, maxit = 50, data = phones))
+summary(rlm(calls ~ year, scale.est = "proposal 2", data = phones))
+summary(rlm(calls ~ year, data = phones, psi = psi.bisquare))
 
 lqs(calls ~ year, data = phones)
 lqs(calls ~ year, data = phones, method = "lms")
 lqs(calls ~ year, data = phones, method = "S")
 
-summary(rlm(calls ~ year, data = phones, method = "MM"), cor = F)
+summary(rlm(calls ~ year, data = phones, method = "MM"))
 
 # library(robust) # S-PLUS only
 # phones.lmr <- lmRob(calls ~ year, data = phones)
@@ -159,11 +158,11 @@ hills.lm
 hills1.lm # omitting Knock Hill
 rlm(time ~ dist + climb, data = hills)
 summary(rlm(time ~ dist + climb, data = hills,
-             weights = 1/dist^2, method = "MM"), cor = F)
+             weights = 1/dist^2, method = "MM"))
 lqs(time ~ dist + climb, data = hills, nsamp = "exact")
 summary(hills2.lm) # omitting Knock Hill
-summary(rlm(ispeed ~ grad, data = hills), cor = F)
-summary(rlm(ispeed ~ grad, data = hills, method="MM"), cor=F)
+summary(rlm(ispeed ~ grad, data = hills))
+summary(rlm(ispeed ~ grad, data = hills, method="MM"))
 # summary(lmRob(ispeed ~ grad, data = hills))
 
 lqs(ispeed ~ grad, data = hills)
@@ -199,12 +198,12 @@ options(contrasts=c("contr.treatment", "contr.poly"))
 npk.aov1 <- aov(yield ~ block + N + K, data = npk)
 summary.lm(npk.aov1)
 se.contrast(npk.aov1, list(N == "0", N == "1"), data = npk)
-model.tables(npk.aov1, type = "means", se = T)
+model.tables(npk.aov1, type = "means", se = TRUE)
 
 mp <- c("-", "+")
 (NPK <- expand.grid(N = mp, P = mp, K = mp))
 
-if(F) {
+if(FALSE) { ## fac.design is part of S-PLUS.
 blocks13 <- fac.design(levels = c(2, 2, 2),
     factor= list(N=mp, P=mp, K=mp), rep = 3, fraction = 1/2)
 
@@ -223,6 +222,16 @@ factors <- list(S=mp, D=mp, H=mp, G=mp, R=mp, B=mp, P=mp)
 replications(~ .^2, data=Bike)
 }
 
+if(require("FrF2")) {
+NPK <- FrF2(8, factor.names = c("N", "P", "K"), default.levels = 0:1,
+            blocks = 2, replications = 3)
+print(NPK)
+print(as.data.frame(NPK))
+
+print(Bike <- FrF2(factor.names = c("S", "D", "H", "G", "R", "B", "P"),
+                   default.levels = c("+", "-"), resolution = 3))
+print(replications(~ .^2, data=Bike))
+}
 
 # 6.8  An unbalanced four-way layout
 
@@ -237,11 +246,12 @@ plot(Means, Vars, xlab = "Cell Means", ylab = "Cell Variances")
 plot(Means, SD, xlab = "Cell Means", ylab = "Cell Std Devn.")
 detach()
 
-boxcox(Days+1 ~ Eth*Sex*Age*Lrn, data = quine, singular.ok = T,
+## singular.ok = TRUE is the default in R
+boxcox(Days+1 ~ Eth*Sex*Age*Lrn, data = quine, singular.ok = TRUE,
   lambda = seq(-0.05, 0.45, len = 20))
 
 logtrans(Days ~ Age*Sex*Eth*Lrn, data = quine,
-    alpha = seq(0.75, 6.5, len = 20), singular.ok = T)
+    alpha = seq(0.75, 6.5, len = 20), singular.ok = TRUE)
 
 quine.hi <- aov(log(Days + 2.5) ~ .^4, quine)
 quine.nxt <- update(quine.hi, . ~ . - Eth:Sex:Age:Lrn)
@@ -252,7 +262,7 @@ addterm(quine.lo, quine.hi, test = "F")
 
 quine.stp <- stepAIC(quine.nxt,
    scope = list(upper = ~Eth*Sex*Age*Lrn, lower = ~1),
-   trace = F)
+   trace = FALSE)
 quine.stp$anova
 
 dropterm(quine.stp, test = "F")
@@ -273,7 +283,7 @@ cpus1 <- cpus
 attach(cpus)
 for(v in names(cpus)[2:7])
   cpus1[[v]] <- cut(cpus[[v]], unique(quantile(cpus[[v]])),
-                    include.lowest = T)
+                    include.lowest = TRUE)
 detach()
 boxcox(perf ~ syct + mmin + mmax + cach + chmin + chmax,
        data = cpus1, lambda = seq(-0.25, 1, 0.1))
@@ -297,7 +307,7 @@ test.cpus <- function(fit)
    sqrt(sum((log10(cpus2[-cpus.samp, "perf"]) -
              predict(fit, cpus2[-cpus.samp,]))^2)/109)
 test.cpus(cpus.lm)
-cpus.lm2 <- stepAIC(cpus.lm, trace=F)
+cpus.lm2 <- stepAIC(cpus.lm, trace=FALSE)
 cpus.lm2$anova
 test.cpus(cpus.lm2)
 
@@ -307,10 +317,10 @@ test.cpus(cpus.lm2)
 immer.aov <- aov((Y1 + Y2)/2 ~ Var + Loc, data = immer)
 summary(immer.aov)
 
-model.tables(immer.aov, type = "means", se = T, cterms = "Var")
+model.tables(immer.aov, type = "means", se = TRUE, cterms = "Var")
 
-if(F) {
-multicomp(immer.aov, plot = T)
+if(FALSE) {
+multicomp(immer.aov, plot = TRUE)
 
 oats1 <- aov(Y ~ N + V + B, data = oats)
 summary(oats1)

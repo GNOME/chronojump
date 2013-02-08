@@ -12,4 +12,4 @@ splineDesign            Design Matrix for B-splines
 splineKnots             Knot Vector from a Spline
 splineOrder             Determine the Order of a Spline
 splines-package         Regression Spline Functions and Classes
-xyVector                Construct an xyVector Object
+xyVector                Construct an 'xyVector' Object

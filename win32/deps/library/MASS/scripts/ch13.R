@@ -5,9 +5,9 @@
 # Chapter 13   Survival Analysis
 
 library(MASS)
-options(echo=T, width=65, digits=5, height=9999)
+options(width=65, digits=5, height=9999)
 options(contrasts=c("contr.treatment", "contr.poly"))
-postscript("ch13.ps", width=8, height=6, pointsize=9)
+pdf("ch13.pdf", width=8, height=6, pointsize=9)
 
 library(survival)
 
@@ -23,7 +23,7 @@ plot(log(time) ~ pair)
 gehan.surv <- survfit(Surv(time, cens) ~ treat, data = gehan,
                       conf.type = "log-log")
 summary(gehan.surv)
-plot(gehan.surv, conf.int = T, lty = 3:2, log = T,
+plot(gehan.surv, conf.int = TRUE, lty = 3:2, log = TRUE,
      xlab = "time of remission (weeks)", ylab = "survival")
 lines(gehan.surv, lty = 3:2, lwd = 2, cex = 2)
 legend(25, 0.1 , c("control", "6-MP"), lty = 2:3, lwd = 2)
@@ -43,32 +43,31 @@ survreg(Surv(time) ~ ag*log(wbc), leuk, dist = "exponential")
 summary(survreg(Surv(time) ~ ag + log(wbc), leuk, dist = "exponential"))
 summary(survreg(Surv(time) ~ ag + log(wbc), leuk)) # Weibull
 summary(survreg(Surv(time) ~ ag + log(wbc), leuk,
-                 dist="loglogistic"))
+                dist="loglogistic"))
 anova(survreg(Surv(time) ~ log(wbc), data = leuk),
    survreg(Surv(time) ~ ag + log(wbc), data = leuk))
 summary(survreg(Surv(time) ~ strata(ag) + log(wbc), data=leuk))
 leuk.wei <- survreg(Surv(time) ~ ag + log(wbc), leuk)
 ntimes <- leuk$time * exp(-leuk.wei$linear.predictors)
-plot(survfit(Surv(ntimes) ~ 1), log = T)
+plot(survfit(Surv(ntimes) ~ 1), log = TRUE)
 
 survreg(Surv(time, cens) ~ factor(pair) + treat, gehan,
-          dist = "exponential")
+        dist = "exponential")
 summary(survreg(Surv(time, cens) ~ treat, gehan, dist = "exponential"))
 summary(survreg(Surv(time, cens) ~ treat, gehan))
 
-plot(survfit(Surv(time, cens) ~ factor(temp), motors),
-      conf.int = F)
+plot(survfit(Surv(time, cens) ~ factor(temp), motors), conf.int = FALSE)
 motor.wei <- survreg(Surv(time, cens) ~ temp, motors)
 summary(motor.wei)
-unlist(predict(motor.wei, data.frame(temp=130), se.fit = T))
+unlist(predict(motor.wei, data.frame(temp=130), se.fit = TRUE))
 
 predict(motor.wei, data.frame(temp=130), type = "quantile",
         p = c(0.5, 0.1))
 t1 <-  predict(motor.wei, data.frame(temp=130),
-               type = "uquantile", p = 0.5, se = T)
+               type = "uquantile", p = 0.5, se = TRUE)
 exp(c(LL=t1$fit - 2*t1$se, UL=t1$fit + 2*t1$se))
 t1 <-  predict(motor.wei, data.frame(temp=130),
-               type = "uquantile", p = 0.1, se = T)
+               type = "uquantile", p = 0.1, se = TRUE)
 exp(c(LL=t1$fit - 2*t1$se, UL=t1$fit + 2*t1$se))
 
 # summary(censorReg(censor(time, cens) ~ treat, gehan))
@@ -83,7 +82,7 @@ update(leuk.cox, ~ . -ag)
 (leuk.coxs <- coxph(Surv(time) ~ strata(ag) + log(wbc), data = leuk))
 
 (leuk.coxs1 <- update(leuk.coxs, . ~ . + ag:log(wbc)))
-plot(survfit(Surv(time) ~ ag), lty = 2:3, log = T)
+plot(survfit(Surv(time) ~ ag), lty = 2:3, log = TRUE)
 lines(survfit(leuk.coxs), lty = 2:3, lwd = 3)
 legend(80, 0.8, c("ag absent", "ag present"), lty = 2:3)
 leuk.cox <- coxph(Surv(time) ~ ag, leuk)
@@ -121,7 +120,7 @@ summary( survfit(motor.cox, newdata = data.frame(temp=130)) )
      diag.time + strata(cell) + prior, data = VA))
 
 par(mfrow=c(1,2), pty="s")
-plot(survfit(VA.coxs), log = T, lty = 1:4, col = 2:5)
+plot(survfit(VA.coxs), log = TRUE, lty = 1:4, col = 2:5)
 #legend(locator(1), c("squamous", "small", "adeno", "large"), lty = 1:4, col = 2:5)
 plot(survfit(VA.coxs), fun = "cloglog", lty = 1:4, col = 2:5)
 cKarn <- factor(cut(VA$Karn, 5))
@@ -132,11 +131,11 @@ scatter.smooth(VA$Karn, residuals(VA.cox2))
 
 VA.wei <- survreg(Surv(stime, status) ~ treat + age + Karn +
                   diag.time + cell + prior, data = VA)
-summary(VA.wei, cor = F)
+summary(VA.wei, cor = FALSE)
 
 VA.exp <- survreg(Surv(stime, status) ~ Karn + cell,
                   data = VA, dist = "exponential")
-summary(VA.exp, cor = F)
+summary(VA.exp, cor = FALSE)
 
 cox.zph(VA.coxs)
 
@@ -166,7 +165,7 @@ coxph(Surv(start, stop, event) ~ transplant*
 stan1 <- coxph(Surv(start, stop, event) ~ strata(transplant) +
     year + year:transplant + age + surgery, heart)
 par(mfrow=c(1,2), pty="s")
-plot(survfit(stan1), conf.int = T, log = T, lty = c(1, 3), col = 2:3)
+plot(survfit(stan1), conf.int = TRUE, log = TRUE, lty = c(1, 3), col = 2:3)
 #legend(locator(1), c("before", "after"), lty = c(1, 3), col= 2:3)
 
 attach(heart)
@@ -184,16 +183,15 @@ summary(survfit(stan))
 #  follow-up for two years
 stan2 <- data.frame(start = c(0, 183), stop= c(183, 2*365),
     event = c(0, 0), year = c(4, 4), age = c(50, 50) - 48,
-    surgery = c(1, 1), transplant = c(0, 1))
-summary(survfit(stan, stan2, individual = T,
-                 conf.type = "log-log"))
+    surgery = c(1, 1), transplant = as.factor(c(0, 1)))
+summary(survfit(stan, stan2, individual = TRUE, conf.type = "log-log"))
 
 # Aids analysis
 time.depend.covar <- function(data) {
   id <- row.names(data); n <- length(id)
   events <- c(0, 10043, 11139, 12053) # julian days
-  crit1 <- matrix(events[1:3], n, 3 ,byrow = T)
-  crit2 <- matrix(events[2:4], n, 3, byrow = T)
+  crit1 <- matrix(events[1:3], n, 3 ,byrow = TRUE)
+  crit2 <- matrix(events[2:4], n, 3, byrow = TRUE)
   diag <- matrix(data$diag,n,3); death <- matrix(data$death,n,3)
   incid <- (diag < crit2) & (death >= crit1); incid <- t(incid)
   indr <- col(incid)[incid]; indc <- row(incid)[incid]
@@ -222,7 +220,7 @@ summary(aids.cox)
 aids1.cox <- coxph(Surv(start, stop, status)
   ~ zid + strata(state) + T.categ + age, data = Aids3)
 (aids1.surv <- survfit(aids1.cox))
-plot(aids1.surv, mark.time = F, lty = 1:4, col = 2:5,
+plot(aids1.surv, mark.time = FALSE, lty = 1:4, col = 2:5,
      xscale = 365.25/12, xlab = "months since diagnosis")
 #legend(locator(1), levels(state), lty = 1:4, col = 2:5)
 
@@ -231,11 +229,11 @@ aids2.cox <- coxph(Surv(start, stop, status)
 (aids2.surv <- survfit(aids2.cox))
 
 par(mfrow = c(1, 2), pty="s")
-plot(aids2.surv[1:4], mark.time = F, lty = 1:4, col = 2:5,
+plot(aids2.surv[1:4], mark.time = FALSE, lty = 1:4, col = 2:5,
   xscale=365.25/12, xlab="months since diagnosis")
 #legend(locator(1), levels(T.categ)[1:4], lty = 1:4, col = 2:5)
 
-plot(aids2.surv[c(1, 5, 6, 8)], mark.time = F, lty = 1:4, col = 2:5,
+plot(aids2.surv[c(1, 5, 6, 8)], mark.time = FALSE, lty = 1:4, col = 2:5,
   xscale=365.25/12, xlab="months since diagnosis")
 #legend(locator(1), levels(T.categ)[c(1, 5, 6, 8)], lty = 1:4, col = 2:5)
 par(mfrow=c(1,1), pty="m")
@@ -267,7 +265,7 @@ make.aidsp <- function(){
 Aidsp <- make.aidsp()
 aids.wei <- survreg(Surv(survtime + 0.9, status) ~  state
     + T.categ + sex + age, data = Aidsp)
-summary(aids.wei, cor = F)
+summary(aids.wei, cor = FALSE)
 
 survreg(Surv(survtime + 0.9, status) ~ state + T.categ
   + age, data = Aidsp)

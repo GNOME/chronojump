@@ -1,5 +1,7 @@
 ### This is the system Rprofile file. It is always run on startup.
 ### Additional commands can be placed in site or user Rprofile files
+#
+#  Copyright (C) 1995-2012 The R Core Team
 ### (see ?Rprofile).
 
 ### Notice that it is a bad idea to use this file as a template for
@@ -37,7 +39,7 @@ options(stringsAsFactors = TRUE)
 if(!interactive() && is.null(getOption("showErrorCalls")))
     options(showErrorCalls = TRUE)
 
-local({dp <- as.vector(Sys.getenv("R_DEFAULT_PACKAGES"))
+local({dp <- Sys.getenv("R_DEFAULT_PACKAGES")
        if(identical(dp, "")) # marginally faster to do methods last
            dp <- c("datasets", "utils", "grDevices", "graphics",
                    "stats", "methods")
@@ -57,10 +59,10 @@ Sys.setenv(R_LIBS_USER =
 {
     for(pkg in getOption("defaultPackages")) {
         res <- require(pkg, quietly = TRUE, warn.conflicts = FALSE,
-                       character.only = TRUE, save = FALSE)
+                       character.only = TRUE)
         if(!res)
-            warning("package ", pkg,
-                    ' in options("defaultPackages") was not found', call.=FALSE)
+            warning(gettextf('package %s in options("defaultPackages") was not found', sQuote(pkg)),
+                    call.=FALSE, domain = NA)
     }
 }
 
@@ -68,14 +70,13 @@ Sys.setenv(R_LIBS_USER =
 {
       if("methods" %in% getOption("defaultPackages")) {
         res <- require("methods", quietly = TRUE, warn.conflicts = FALSE,
-                       character.only = TRUE, save = FALSE)
+                       character.only = TRUE)
         if(!res)
-            warning("package \"methods\"",
-                    ' in options("defaultPackages") was not found', call.=FALSE)
+            warning('package "methods" in options("defaultPackages") was not found', call.=FALSE)
     }
 }
 
-if(Sys.getenv("R_BATCH") != "") {
+if(nzchar(Sys.getenv("R_BATCH"))) {
     .Last.sys <- function()
     {
         cat("> proc.time()\n")
@@ -107,24 +108,23 @@ invisible(.libPaths(c(unlist(strsplit(Sys.getenv("R_LIBS"), ";")),
                       )))
 
 if(nzchar(Sys.getenv("R_PAPERSIZE"))) {
-    options(papersize = as.vector(Sys.getenv("R_PAPERSIZE")))
+    options(papersize = Sys.getenv("R_PAPERSIZE"))
 } else {
-    if(length(grep("united.states", Sys.getlocale("LC_MONETARY"), TRUE)) ||
-       length(grep("canada", Sys.getlocale("LC_MONETARY"), TRUE)))
-        options(papersize = "letter")
+    if(grepl("(canada|united.states)", Sys.getlocale("LC_MONETARY"),
+             ignore.case = TRUE)) options(papersize = "letter")
     else options(papersize = "a4")
 }
 
-options(pager = if(length(grep("--ess", commandArgs()))) "console" else "internal")
-options(useFancyQuotes = (.Platform$GUI == "Rgui"))
-options(pdfviewer = file.path(R.home(), "bin", "open.exe"))
+options(pager = if(length(grep("--ess", commandArgs()))) "console" else "internal",
+        useFancyQuotes = (.Platform$GUI == "Rgui"),
+        pdfviewer = Sys.getenv("R_PDFVIEWER", file.path(R.home("bin"), "open.exe")))
 
-if(.Platform$GUI == "Rgui") {
-    Sys.setenv(GFORTRAN_STDOUT_UNIT= "-1")
-    Sys.setenv(GFORTRAN_STDERR_UNIT= "-1")
-}
+if(.Platform$GUI == "Rgui")
+    Sys.setenv(GFORTRAN_STDOUT_UNIT = "-1", GFORTRAN_STDERR_UNIT = "-1")
 
 local({
+    br <- Sys.getenv("R_BROWSER", NA_character_)
+    if(!is.na(br)) options(browser = br)
     tests_startup <- Sys.getenv("R_TESTS")
     if(nzchar(tests_startup)) source(tests_startup)
 })

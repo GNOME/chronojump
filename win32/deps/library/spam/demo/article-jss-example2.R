@@ -1,12 +1,26 @@
-# This is file ../spam0.20-3/demo/article-jss-example2.R
+# This is file ../spam0.29-2/demo/article-jss-example2.R
 # This file is part of the spam package, 
 #      http://www.math.uzh.ch/furrer/software/spam/
 # written and maintained by Reinhard Furrer.
      
 
 
+# This demo contains the R code of the example in Section 5.2 of the
+# JSS article:
+#     "spam: A Sparse Matrix R Package with Emphasis on
+#            MCMC Methods for Gaussian Markov Random Fields"
+
+
+# Compared to the R code in the article, here we give:
+# - improved formatting
+# - more comments, e.g. how to run the code using regular matrices 
+# - the code to construct the figures
+
+cat("\nThis demo contains the R code of the second example\nin the JSS article. As pointed out by Steve Geinitz\nand Andrea Riebler, the Gibbs sampler is not correct\nand contains several bugs. \n\nI'll post an updated sampler in a future release.\n\n") 
+
+
 # INITALIZE AND FUNCTIONS:
-require( fields, warn.conflict=FALSE)
+require("fields", warn.conflict=FALSE)
 
 
 # READ DATA:
@@ -71,8 +85,8 @@ postshape <- ahyper + c(n-1,n)/2
 
 accept <- numeric(totalg)
 
-struct <- chol(Q1 + Q2,
-               memory=list(nnzcolindices=6467))
+struct <- chol(Q1 + Q2 + diag.spam(2*n),
+               memory=list(nnzcolindices=5500))
 
 # struct <- NULL        # If no update steps are wanted
 
@@ -99,8 +113,7 @@ for (ig in 2:totalg) {
                              b,
                              # Precision matrix
                              Q,
-                             Rstruct=struct,
-                             memory=list(nnzcolindices=6467))
+                             Rstruct=struct)
   
 
   ustar <- xstar[1:n]
@@ -135,7 +148,7 @@ for (ig in 2:totalg) {
     kpost[ig,] <- kpost[ig-1,]    
   }
                    
-  if( (ig%%10)==0) cat('.')
+  if( (ig%%10)==0) cat(".")
 
 }
 
@@ -144,10 +157,10 @@ for (ig in 2:totalg) {
 
 
 # POSTPROCESSING:
-cat('\nTotal time:',timing[1],'per iteration:',timing[1]/totalg)
+cat("\nTotal time:",timing[1],"per iteration:",timing[1]/totalg)
 
 accept <- accept[-c(1:burnin)]
-cat('\nAcceptance rate:',mean(accept),'\n')
+cat("\nAcceptance rate:",mean(accept),"\n")
 
 kpost <- kpost[-c(1:burnin),]
 upost <- upost[-c(1:burnin),]
@@ -171,30 +184,32 @@ vpostmedian <- apply(vpost,2,median)
 
 
 ######################################################################
-# Figures 
+# Figure 8:
+
 par(mfcol=c(1,3),mai=rep(0,4))
 map.landkreis(log(Y))
 map.landkreis(Y/E,zlim=c(.1,2.4))
 map.landkreis(exp(upostmedian),zlim=c(.1,2.4))
 
 
+# Figure 9:
 par(mfcol=c(2,4),mai=c(.5,.5,.05,.1),mgp=c(2.3,.8,0))
-hist(kpost[,1],main='',xlab=expression(kappa[u]),prob=T)
+hist(kpost[,1],main="",xlab=expression(kappa[u]),prob=TRUE)
 lines(density(kpost[,1]),col=2)
 tmp <- seq(0,to=max(kpost[,1]),l=500)
 lines(tmp,dgamma(tmp,ahyper[1],bhyper[1]),col=4)
 abline(v=kpostmedian[1],col=3)
 
-hist(kpost[,2],main='',xlab=expression(kappa[y]),prob=T)
+hist(kpost[,2],main="",xlab=expression(kappa[y]),prob=TRUE)
 lines(density(kpost[,2]),col=2)
 tmp <- seq(0,to=max(kpost[,2]),l=500)
 lines(tmp,dgamma(tmp,ahyper[2],bhyper[2]),col=4)
 abline(v=kpostmedian[2],col=3)
 
 # Trace plots:
-plot(kpost[,1],ylab=expression(kappa[u]),type='l')
+plot(kpost[,1],ylab=expression(kappa[u]),type="l")
 abline(h=kpostmedian[1],col=3)
-plot(kpost[,2],ylab=expression(kappa[y]),type='l')
+plot(kpost[,2],ylab=expression(kappa[y]),type="l")
 abline(h=kpostmedian[2],col=3)
 
 # ACF:
@@ -208,9 +223,9 @@ plot(kpost[,1],kpost[,2],xlab=expression(kappa[u]),ylab=expression(kappa[y]))
 abline(v=kpostmedian[1],h=kpostmedian[2],col=3)
 
 
-plot(accept+rnorm(ngibbs,sd=.05),pch='.',ylim=c(-1,2),yaxt='n',ylab='')
-text(ngibbs/2,1/2,paste('Acceptance rate:',round(mean(accept),3)))
-axis(2,at=c(0,1),label=c('Reject','Accept'))
+plot(accept+rnorm(ngibbs,sd=.05),pch=".",ylim=c(-1,2),yaxt="n",ylab="")
+text(ngibbs/2,1/2,paste("Acceptance rate:",round(mean(accept),3)))
+axis(2,at=c(0,1),label=c("Reject","Accept"))
 
 detach(Oral)
 ######################################################################

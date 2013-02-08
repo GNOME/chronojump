@@ -1,4 +1,4 @@
-citHeader("To cite the VR bundle (MASS, class, nnet, spatial) in publications use:")
+citHeader("To cite the class package in publications use:")
 
 citEntry(entry="Book",
          title = "Modern Applied Statistics with S",

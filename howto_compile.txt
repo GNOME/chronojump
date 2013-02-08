@@ -1,0 +1,69 @@
+LINUX
+-------------------------------------------------------------------
+
+See:
+
+english:
+http://forum.chronojump.org/showthread.php?tid=977&pid=1329#pid1329
+
+spanish:
+http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
+
+
+WINDOWS
+-------------------------------------------------------------------
+
+a) Prepare stuff
+
+Install cerbero:
+http://docs.gstreamer.com/display/GstSDK/Building+from+source+using+Cerbero
+
+.cerbero/cerbero.cbc in a 64 bits machine is:
+
+from cerbero.config import Architecture
+arch=Architecture.X86
+target_arch=Architecture.X86
+prefix='/c/gstreamer-sdk/0.10/x86/'
+
+Execute bootstrap
+alias don't worked, from MinGW shell do this:
+
+cerbero/cerbero-uninstalled bootstrap
+
+
+Download this tarball:
+http://people.gnome.org/~amorales/gstreamer-sdk.7z
+extract here:
+c:\gstreamer-sdk\0.10\x86\...
+
+Install all the Python stuff for encoder capture:
+py2exe and pygame will not run fine in a XP if compiled on a 64 bits machine.
+Install 32 bits stuff:
+
+python 32 bits
+py2exe win 32
+pygame: http://pygame.org/ftp/pygame-1.9.2a0.win32-py2.7.msi
+pyper: http://sourceforge.net/projects/rinpy/files/  download: PypeR-1.1.1.zip
+pyserial
+
+if the python packages have not installation executable, put them at Lib/site-packages and the install like this:
+
+c:\Python27-32\python.exe setup.py install
+
+b) Compile
+
+if python 32 bits is at "c:\Python27-32" do:
+
+Windows command line window at chronojump\win32
+c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py install
+c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py py2exe -d "deps/bin/encoder"
+
+from MinGW:
+cerbero/cerbero-uninstalled shell
+
+at new shell:
+
+sh autogen.sh --prefix /home/windblows/chronojump/win32/dist
+make
+make install
+make win32-installer

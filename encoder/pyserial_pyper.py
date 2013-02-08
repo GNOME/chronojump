@@ -32,7 +32,7 @@ from pyper import *
 #import pygame.image
 #import pygame.display
 import pygame
-#from pygame.locals import * #mouse and key definitions
+from pygame.locals import * #mouse and key definitions
 
 
 print(sys.argv)
@@ -472,7 +472,16 @@ if __name__ == '__main__':
 	secondsLeft = int(record_time / 1000)
 	msCount = 0
 
+	userStops = FALSE
 	for i in xrange(record_time):
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+				userStops = TRUE
+		
+		if userStops:
+			print "USER BREAKS"
+			break
+
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()
 		# conver HEX to INT value
@@ -598,7 +607,8 @@ if __name__ == '__main__':
 	
 	while 1:
 		for event in pygame.event.get():
-			if event.type == pygame.QUIT: sys.exit()
+			if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+				sys.exit()
 
 		pygame.time.delay(30)
 		pygame.display.flip() #update the screen

@@ -82,7 +82,6 @@ public class ChronopicWindow
 	//[Widget] Gtk.Button button_reload;
 	
 	[Widget] Gtk.Image chronopic_image;
-	[Widget] Gtk.TextView textview_ports_found;
 	[Widget] Gtk.TextView textview_ports_found_explanation;
 
 	//chronopic connection thread
@@ -448,19 +447,11 @@ Log.WriteLine("bbb");
 		string saferPorts = "";
 		if(Util.IsWindows())
 			saferPorts =
-				"\n\n" + Catalog.GetString("COM3 use to be the correct port (if available).") + "\n" + 
+				"\n\n" + Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the driver installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n" + 
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
 				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 - COM4'.");
 
-		if(Util.IsWindows())
-			textview_ports_found.Buffer = UtilGtk.TextViewPrint(
-					Util.StringArrayToString(SerialPort.GetPortNames(),"\n"));
-		else
-			textview_ports_found.Buffer = UtilGtk.TextViewPrint(
-					Util.DetectPortsLinux(false));
-		
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
-				Catalog.GetString("These are USB devices like Chronopic but also pendrives, USB printers...") + "\n" + 
 				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") +
 				saferPorts
 				);

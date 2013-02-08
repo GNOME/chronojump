@@ -1,9 +1,9 @@
 deploy:
 	python deploy_win32.py
 	cp -r deps/* dist/
-	python ../encoder/setup-pyserial_pyper_windows.py install
-	python ../encoder/setup-pyserial_pyper_windows.py py2exe -d "dist/bin/encoder"
-	cp ../encoder/*.wav dist/bin/encoder
+#	python ../encoder/setup-pyserial_pyper_windows.py install
+#	python ../encoder/setup-pyserial_pyper_windows.py py2exe -d "dist/bin/encoder"
+#	cp ../encoder/*.wav dist/bin/encoder
 	make install -C ../
 	mv dist/lib/bin/libcesarplayer-0.dll dist/bin
 

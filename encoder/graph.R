@@ -665,6 +665,59 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
 		mtext(varY, side=4, line=3, col=colBalls)
 	}
 }
+
+#propulsive!!!!
+paint1RMBadillo2010 <- function (paf, title) {
+	curvesLoad = (paf[,7]) 					#mass: X
+	curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
+
+	par(mar=c(5,6,3,4))
+
+	loadPercent <- seq(30,100, by=5)
+
+	#msp: mean speed propulsive
+	msp <- c(1.33, 1.235, 1.145, 1.055, 0.965, 0.88, 0.795,
+		                          0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
+	#variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
+
+	#example of meanSpeedPropulsive of some curves:
+	#curvesSpeed <- c(0.60, 0.40, 1.5)
+	#curvesLoad <- c(80, 93, 25)
+
+	maxy=max(c(msp,curvesSpeed))
+	miny=min(c(msp,curvesSpeed))
+
+	loadPercentCalc=8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
+	loadCalc= 100 * curvesLoad / loadPercentCalc
+
+	par(mar=c(5,5,3,4))
+
+	plot(curvesLoad,curvesSpeed, type="p",
+	     main=paste(title, "1RM prediction"),
+	     sub="Adapted from Gonzalez-Badillo, Sanchez-Medina (2010)",
+	     xlim=c(min(curvesLoad),max(loadCalc)),
+	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
+
+	mtext(side=1,line=2,"Kg")
+	mtext(side=2,line=3,"Mean speed in propulsive phase (m/s)")
+	mtext(side=4,line=2,"1RM (%)")
+
+	abline(h=msp, lty=2, col="gray")
+	mtext(side=4,at=msp, paste(" ",loadPercent), las=2)
+
+	#arrows(curvesLoad,curvesSpeed,loadCalc,0.185,code=2,col=heat.colors(100)[(100-loadPercentCalc)])
+	colors=c(rep(NA,29),rev(heat.colors(100)[0:71]))
+	arrows(curvesLoad,curvesSpeed,loadCalc,0.185,code=2,col=colors[loadPercentCalc])
+
+	closerValues = which(curvesLoad == max(curvesLoad))
+	segments(loadCalc[closerValues],0.185,loadCalc[closerValues],0,lty=3)
+
+	predicted1RM = mean(loadCalc[closerValues])
+
+	segments(predicted1RM,0.185,predicted1RM,0,lty=1)
+	mtext(side=1, at=predicted1RM, round(predicted1RM,2), cex=.8)
+}
+
 			
 find.mfrow <- function(n) {
 	if(n<=3) return(c(1,n))
@@ -1019,7 +1072,8 @@ doProcess <- function(options) {
 	#"cross.Speed,Power.Load.mean" 	#Speed,power are Y (left and right), 3d: Load is X.
 	analysisCross = unlist(strsplit(Analysis, "\\."))
 	if(
-	   Analysis == "powerBars" || analysisCross[1] == "cross" || Analysis == "curves") 
+	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
+	   Analysis == "1RMBadillo2010" || Analysis == "curves") 
 	{
 		paf = data.frame()
 		for(i in 1:n) { 
@@ -1061,6 +1115,9 @@ doProcess <- function(options) {
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
 						    analysisCross[4], "ALONE", Title)
+		}
+		else if(Analysis == "1RMBadillo2010") {
+			paint1RMBadillo2010(paf, Title)
 		}
 		else if(Analysis == "curves") {
 			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)

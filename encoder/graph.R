@@ -36,7 +36,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=15)
+	options=readLines(optionsCon,n=16)
 	close(optionsCon)
 	return (options)
 }
@@ -56,6 +56,7 @@ options=getOptionsFromFile(optionsFile);
 print(options)
 
 OutputData2=options[4] #currently used to display status
+OperatingSystem=options[16]
 
 write("(1/5) Starting R", OutputData2)
 
@@ -756,9 +757,11 @@ quitIfNoData <- function(n, curves, outputData1) {
 	}
 }
 
-loadLibraries <- function() {
+loadLibraries <- function(os) {
 	library("EMD")
 	#library("sfsmisc")
+	if(os=="Windows")
+		library("Cairo")
 }
 
 doProcess <- function(options) {
@@ -778,6 +781,7 @@ doProcess <- function(options) {
 	Width=as.numeric(options[13])
 	Height=as.numeric(options[14])
 	Title=options[15]
+	OperatingSystem=options[16]
 
 	print(File)
 	print(OutputGraph)
@@ -785,7 +789,11 @@ doProcess <- function(options) {
 	print(OutputData2)
 	
 	if(Analysis != "exportCSV") {
-		png(OutputGraph, width=Width, height=Height)
+		if(OperatingSystem=="Windows")
+			Cairo(Width, Height, file=OutputGraph, type="png", bg="white")
+		else
+			png(OutputGraph, width=Width, height=Height)
+
 		Title=gsub('_',' ',Title)
 		Title=gsub('-','    ',Title)
 	}
@@ -1214,9 +1222,9 @@ doProcess <- function(options) {
 	warnings()
 }
 
-write("(2/5) Calling EMD", OutputData2)
+write("(2/5) Loading libraries", OutputData2)
 
-loadLibraries()
+loadLibraries(OperatingSystem)
 	
 write("(3/5) Starting process", OutputData2)
 

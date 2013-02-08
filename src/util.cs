@@ -1134,6 +1134,7 @@ public class Util
 		pinfo = new ProcessStartInfo();
 
 		string outputFileCheck = "";
+		string operatingSystem = "Linux";
 			
 		pBin="Rscript";
 		//pBin="R";
@@ -1148,12 +1149,13 @@ public class Util
 			es.OutputGraph = es.OutputGraph.Replace("\\","/");
 			es.OutputData1 = es.OutputData1.Replace("\\","/");
 			es.OutputData2 = es.OutputData2.Replace("\\","/");
+			operatingSystem = "Windows";
 		}
 		
 		//--- way A. passing options to a file
 		string scriptOptions = es.InputData + "\n" + 
 		es.OutputGraph + "\n" + es.OutputData1 + "\n" + es.OutputData2 + "\n" + 
-		es.Ep.ToString2("\n") + "\n" + title + "\n";
+		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n";
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

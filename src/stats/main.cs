@@ -1391,10 +1391,18 @@ public class Stat
 		if(gRO.Type == Constants.GraphTypeBarplot || gRO.Type == Constants.GraphTypeLines) 
 			cexAxisString = ", cex.axis=" + Util.ConvertToPoint(gRO.XAxisFontSize);
 		
-		string rString = "png(filename = '" + fileName + "'\n" + 
-			" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
-			" , pointsize = 12, bg = 'white', res = NA)\n";
-		rString += "par(mar=c(" + gRO.MarginBottom + "," + gRO.MarginLeft + "," + gRO.MarginTop + "," + gRO.MarginRight + ")" + cexAxisString + ")\n";
+		string rString = "";
+		if(Util.IsWindows()) 
+			rString = "library(\"Cairo\")\n" + 
+				"Cairo(" + gRO.Width + ", " + gRO.Height + 
+				", file = '" + fileName + "', type=\"png\", bg=\"white\")\n";
+		else
+			rString = "png(filename = '" + fileName + "'\n" + 
+				" , width = " + gRO.Width + ", height = " + gRO.Height + ", units = 'px'\n" +
+				" , pointsize = 12, bg = 'white', res = NA)\n";
+
+		rString += "par(mar=c(" + gRO.MarginBottom + "," + gRO.MarginLeft + "," + 
+			gRO.MarginTop + "," + gRO.MarginRight + ")" + cexAxisString + ")\n";
 
 		if(gRO.Type == Constants.GraphTypeBoxplot) {
 			if(hasTwoAxis()) {

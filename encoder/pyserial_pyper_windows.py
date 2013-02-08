@@ -32,7 +32,9 @@ from pyper import *
 #import pygame.image
 #import pygame.display
 import pygame
-#from pygame.locals import * #mouse and key definitions
+import pygame._view
+#import pygame.font
+from pygame.locals import * #mouse and key definitions
 
 
 print(sys.argv)
@@ -105,12 +107,12 @@ BITSIZE = -16  # unsigned 16 bit
 CHANNELS = 1   # 1 == mono, 2 == stereo
 BUFFER = 1024  # audio buffer size in no. of samples
 FRAMERATE = 30 # how often to check if playback has finished
-def playsound(soundfile):
-    sound = pygame.mixer.Sound(soundfile)
-    clock = pygame.time.Clock()
-    sound.play()
-    while pygame.mixer.get_busy():
-        clock.tick(FRAMERATE)
+#def playsound(soundfile):
+#    sound = pygame.mixer.Sound(soundfile)
+#    clock = pygame.time.Clock()
+#    sound.play()
+#    while pygame.mixer.get_busy():
+#        clock.tick(FRAMERATE)
 
 soundFileStart = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Question.wav"
 soundFileGood = "/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/Asterisk.wav"
@@ -244,8 +246,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 			if height >= minRange:
 				#print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT  + "%10.2f" % pp_ppt 
 				print phaseCol + colorize(heightF,colorHeight,colorHeight!=BLACK) + colorize(meanSpeedF,colorMeanSpeed,colorMeanSpeed!=BLACK) + colorize(maxSpeedF,colorMaxSpeed,colorMaxSpeed!=BLACK) + colorize(meanPowerF,colorMeanPower,colorMeanPower!=BLACK) + colorize(peakPowerF,colorPeakPower,colorPeakPower!=BLACK) + "%10.2f" % peakPowerT
-				if play:
-					playsound(soundFile)
+				#if play:
+				#	playsound(soundFile)
 
 				rangeList.append(height)
 				meanSpeedList.append(meanSpeed)
@@ -422,10 +424,10 @@ if __name__ == '__main__':
 	# initialize pygame.mixer module
 	# if these setting do not work with your audio system
 	# change the global constants accordingly
-	try:
-		pygame.mixer.init(FREQ, BITSIZE, CHANNELS, BUFFER)
-	except pygame.error, exc:
-		print >>sys.stderr, "Could not initialize sound system: %s" % exc
+	#try:
+	#	pygame.mixer.init(FREQ, BITSIZE, CHANNELS, BUFFER)
+	#except pygame.error, exc:
+	#	print >>sys.stderr, "Could not initialize sound system: %s" % exc
 	
 	
 	
@@ -442,7 +444,7 @@ if __name__ == '__main__':
 	myR.assign('k',2)
 
 	print("START!\n")
-	playsound(soundFileStart)
+	#playsound(soundFileStart)
 	print("phase, range, meanSpeed, MaxSpeed, meanPower, PeakPower, PeakPowerT")#, PPower/PPT")
 
 
@@ -467,7 +469,7 @@ if __name__ == '__main__':
 	temp_cumsum.append(0)
 	temp_speed = list()
 	w_time = datetime.now().second
-	#print "start read data"
+	print "start read data"
 	# Detecting if serial port is available and Recording the data from Chronopic.
 	for i in xrange(delete_initial_time):
 		#if ser.readable(): #commented because don't work on linux
@@ -481,12 +483,23 @@ if __name__ == '__main__':
 	secondsLeft = int(record_time / 1000)
 	msCount = 0
 
+	userStops = FALSE
 	for i in xrange(record_time):
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+				userStops = TRUE
+			
+		if userStops:
+			print "USER BREAKS"
+			break
+
+
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()
+
 		# conver HEX to INT value
 		signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
-    
+
 		temp.append(signedChar_data)
 		if(i>0):
 			temp_cumsum.append(temp_cumsum[i-1]+signedChar_data)
@@ -607,7 +620,8 @@ if __name__ == '__main__':
 	
 	while 1:
 		for event in pygame.event.get():
-			if event.type == pygame.QUIT: sys.exit()
+			if event.type == pygame.QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
+				sys.exit()
 
 		pygame.time.delay(30)
 		pygame.display.flip() #update the screen

@@ -680,10 +680,6 @@ paint1RMBadillo2010 <- function (paf, title) {
 		                          0.715, 0.635, 0.555, 0.475, 0.405, 0.325, 0.255, 0.185)
 	#variation <- c(0.08, 0.07, 0.06, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.04, 0.04, 0.04, 0.04, 0.03, 0.04)
 
-	#example of meanSpeedPropulsive of some curves:
-	#curvesSpeed <- c(0.60, 0.40, 1.5)
-	#curvesLoad <- c(80, 93, 25)
-
 	maxy=max(c(msp,curvesSpeed))
 	miny=min(c(msp,curvesSpeed))
 
@@ -705,7 +701,6 @@ paint1RMBadillo2010 <- function (paf, title) {
 	abline(h=msp, lty=2, col="gray")
 	mtext(side=4,at=msp, paste(" ",loadPercent), las=2)
 
-	#arrows(curvesLoad,curvesSpeed,loadCalc,0.185,code=2,col=heat.colors(100)[(100-loadPercentCalc)])
 	colors=c(rep(NA,29),rev(heat.colors(100)[0:71]))
 	arrows(curvesLoad,curvesSpeed,loadCalc,0.185,code=2,col=colors[loadPercentCalc])
 

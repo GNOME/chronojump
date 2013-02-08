@@ -846,13 +846,19 @@ public partial class ChronoJumpWindow
 		if(sendAnalysis == "cross") {
 			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
-			//convert: "Force / Speed" in: "cross.Force.Speed.mean"
-			string [] crossNameFull = crossName.Split(new char[] {' '});
-			sendAnalysis += "." + crossNameFull[0] + "." + crossNameFull[2]; //[1]=="/"
-			if(radiobutton_encoder_analyze_mean.Active)
-				sendAnalysis += ".mean";
-			else
-				sendAnalysis += ".max";
+
+			if(crossName == "1RM Prediction") {
+				sendAnalysis = "1RMBadillo2010";
+				analysisOptions = "p";
+			} else {
+				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
+				string [] crossNameFull = crossName.Split(new char[] {' '});
+				sendAnalysis += "." + crossNameFull[0] + "." + crossNameFull[2]; //[1]=="/"
+				if(radiobutton_encoder_analyze_mean.Active)
+					sendAnalysis += ".mean";
+				else
+					sendAnalysis += ".max";
+			}
 		}
 			
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
@@ -1169,13 +1175,15 @@ public partial class ChronoJumpWindow
 		
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
-			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed" };
+			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", "1RM Prediction"};
 		string [] comboAnalyzeCrossOptionsTranslated = { 
 			Catalog.GetString("Speed / Load"), Catalog.GetString("Force / Load"), 
 			Catalog.GetString("Power / Load"), Catalog.GetString("Speed,Power / Load"), 
-			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed") };
+			Catalog.GetString("Force / Speed"), Catalog.GetString("Power / Speed") , 
+			Catalog.GetString("1RM Prediction")
+		};
 		encoderAnalyzeCrossTranslation = new String [comboAnalyzeCrossOptions.Length];
-		for(int j=0; j < 6 ; j++)
+		for(int j=0; j < 7 ; j++)
 			encoderAnalyzeCrossTranslation[j] = 
 				comboAnalyzeCrossOptions[j] + ":" + comboAnalyzeCrossOptionsTranslated[j];
 		combo_encoder_analyze_cross = ComboBox.NewText ();

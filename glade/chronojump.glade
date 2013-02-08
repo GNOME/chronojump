@@ -12473,7 +12473,7 @@ on current Chronojump version.</property>
                                                           <widget class="GtkHBox" id="hbox76">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">12</property>
+                                                            <property name="spacing">20</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox77">
                                                             <property name="visible">True</property>
@@ -12624,6 +12624,8 @@ on current Chronojump version.</property>
                                                             <property name="width_request">125</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Add a comment</property>
                                                             <property name="invisible_char">●</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
@@ -12913,6 +12915,8 @@ on current Chronojump version.</property>
                                                         <property name="width_request">125</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">True</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">Add a comment</property>
                                                         <property name="invisible_char">●</property>
                                                         <property name="invisible_char_set">True</property>
                                                         <property name="primary_icon_activatable">False</property>
@@ -12957,6 +12961,17 @@ on current Chronojump version.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
+                                                      <widget class="GtkVSeparator" id="vseparator1">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">3</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkButton" id="button_encoder_export_all_curves">
                                                         <property name="label">Export all curves</property>
                                                         <property name="visible">True</property>
@@ -12968,7 +12983,7 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">3</property>
+                                                        <property name="position">4</property>
                                                       </packing>
                                                     </child>
                                                   </widget>

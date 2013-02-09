@@ -17,12 +17,7 @@ ftpadmin install chronojump-0.9.3.tar.gz
 
 windows stuff
 ------------
-copy glade, src, images, ... to virtualbox folder
-make -f Makefile.win32 clean
-make -f Makefile.win32 
-make -f Makefile.win32 install
-open Innosetup and compile
-upload the tarball
+See: howto_compile.txt
 
 scp Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org

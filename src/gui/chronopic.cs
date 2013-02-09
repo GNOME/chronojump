@@ -348,8 +348,7 @@ Log.WriteLine("bbb");
 
 		UtilGtk.ComboUpdate(combo_windows_encoder, allWithDef, encoderPort);
 
-		if(encoderPort == Util.GetDefaultPort()) 
-			combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
+		combo_windows_encoder.Changed += new EventHandler (on_combo_changed);
 			
 		combo_windows_encoder.Active = UtilGtk.ComboMakeActive(allWithDef, encoderPort);
 
@@ -402,8 +401,7 @@ Log.WriteLine("bbb");
 
 		UtilGtk.ComboUpdate(combo_linux_encoder, allWithDef, encoderPort);
 
-		if(encoderPort == Util.GetDefaultPort())
-			combo_linux_encoder.Changed += new EventHandler (on_combo_changed);
+		combo_linux_encoder.Changed += new EventHandler (on_combo_changed);
 
 		combo_linux_encoder.Active = UtilGtk.ComboMakeActive(allWithDef, encoderPort);
 

@@ -1190,6 +1190,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_analyze_cross, comboAnalyzeCrossOptionsTranslated, "");
 		combo_encoder_analyze_cross.Active = UtilGtk.ComboMakeActive(combo_encoder_analyze_cross, 
 				Catalog.GetString(comboAnalyzeCrossOptions[0]));
+		combo_encoder_analyze_cross.Changed += new EventHandler (on_combo_encoder_analyze_cross_changed);
 
 		//create combo analyze curve num combo
 		//is not an spinbutton because values can be separated: "3,4,7,21"
@@ -1232,6 +1233,16 @@ public partial class ChronoJumpWindow
 			hbox_encoder_analyze_eccon.Sensitive=true;
 		}
 		*/
+	}
+
+	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
+	{
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+					encoderAnalyzeCrossTranslation) == "1RM Prediction") {
+			radiobutton_encoder_analyze_mean.Active = true;
+			radiobutton_encoder_analyze_max.Sensitive = false;
+		} else
+			radiobutton_encoder_analyze_max.Sensitive = true;
 	}
 
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 

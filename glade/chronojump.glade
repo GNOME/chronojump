@@ -303,10 +303,8 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="xpad">5</property>
-                                        <property name="label" translatable="yes">Chronopics</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
+                                        <property name="label" translatable="yes">&lt;b&gt;Chronopics&lt;/b&gt;</property>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -762,10 +760,8 @@
                               <widget class="GtkLabel" id="label197">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Persons</property>
-                                <attributes>
-                                  <attribute name="weight" value="bold"/>
-                                </attributes>
+                                <property name="label" translatable="yes">&lt;b&gt;Persons&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
                               </widget>
                               <packing>
                                 <property name="type">label_item</property>
@@ -1637,10 +1633,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label13">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2011,10 +2005,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label34">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2515,10 +2507,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label32">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2881,10 +2871,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label27">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -2981,10 +2969,8 @@ Chronopic</property>
                                                             <widget class="GtkLabel" id="extra_window_reaction_times_label_selected">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="label" translatable="yes">Execute reaction time</property>
-                                                            <attributes>
-                                                            <attribute name="weight" value="bold"/>
-                                                            </attributes>
+                                                            <property name="label" translatable="yes">&lt;b&gt;Execute reaction time&lt;/b&gt;</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -3007,10 +2993,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label59">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -3153,10 +3137,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label29">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -3298,10 +3280,8 @@ Chronopic</property>
                                                   <widget class="GtkLabel" id="label31">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Select test</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Select test&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -4863,6 +4843,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">3</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -5486,9 +5467,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">pulse step</property>
-                                                            <attributes>
-                                                            <attribute name="weight" value="bold"/>
-                                                            </attributes>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="type">label_item</property>
@@ -5917,10 +5896,8 @@ Second Chronopic to platforms.</property>
                                                       <widget class="GtkLabel" id="label8">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Test options</property>
-                                                        <attributes>
-                                                          <attribute name="weight" value="bold"/>
-                                                        </attributes>
+                                                        <property name="label" translatable="yes">&lt;b&gt;Test options&lt;/b&gt;</property>
+                                                        <property name="use_markup">True</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="type">label_item</property>
@@ -11870,10 +11847,8 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkLabel" id="label772">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Graph and report</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="label" translatable="yes">&lt;b&gt;Graph and report&lt;/b&gt;</property>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -12119,6 +12094,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">s</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -12213,6 +12189,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Extra weight</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="x_options">GTK_FILL</property>
@@ -12224,6 +12201,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Minimal height</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="top_attach">1</property>
@@ -12260,6 +12238,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">cm</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="left_attach">2</property>
@@ -12295,6 +12274,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">Kg</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="left_attach">2</property>
@@ -12339,6 +12319,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Smoothing</property>
+                                                            <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -12435,9 +12416,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Exercise</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -12796,9 +12775,7 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="label" translatable="yes">Signal</property>
-                                                    <attributes>
-                                                      <attribute name="weight" value="bold"/>
-                                                    </attributes>
+                                                    <property name="use_markup">True</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -14037,9 +14014,7 @@ Anyone can check server stats and graphs and easily make querys to the server.</
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="label" translatable="yes">Check data</property>
-                                                        <attributes>
-                                                          <attribute name="weight" value="bold"/>
-                                                        </attributes>
+                                                        <property name="use_markup">True</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="type">label_item</property>
@@ -14147,9 +14122,7 @@ Evaluator can use real name or nickname.</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="label" translatable="yes">Share data!</property>
-                                                        <attributes>
-                                                          <attribute name="weight" value="bold"/>
-                                                        </attributes>
+                                                        <property name="use_markup">True</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="type">label_item</property>
@@ -15385,7 +15358,7 @@ Just select and then close this window.</property>
       <widget class="GtkVBox" id="vbox113">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">8</property>
+        <property name="spacing">12</property>
         <child>
           <widget class="GtkLabel" id="label494">
             <property name="width_request">580</property>
@@ -15416,9 +15389,7 @@ Just select and then close this window.</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Old jumper weight</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -15431,9 +15402,7 @@ Just select and then close this window.</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">New jumper weight</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="left_attach">1</property>
@@ -15608,10 +15577,8 @@ Just select and then close this window.</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Chronojump</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                        </attributes>
+                        <property name="label">&lt;b&gt;Chronojump&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -15891,9 +15858,7 @@ Just select and then close this window.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Info</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -15930,9 +15895,7 @@ Just select and then close this window.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Detection</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -16026,9 +15989,7 @@ Just select and then close this window.</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Help</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -16542,9 +16503,7 @@ by you</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">General data</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -16937,9 +16896,7 @@ by you</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Tests</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -17342,10 +17299,8 @@ by you</property>
                 <child>
                   <widget class="GtkLabel" id="label_simulated">
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Simulated</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="label" translatable="yes">&lt;b&gt;Simulated&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">True</property>
@@ -17775,9 +17730,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit to stand</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -17999,9 +17952,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Kick ball</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18227,9 +18178,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Walk whilst counting backwards from 15 to 0</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18455,9 +18404,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Go around back of cone</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18683,9 +18630,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Step into circles</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -18911,9 +18856,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Sit back down</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -19698,9 +19641,7 @@ comments</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">slCMJ</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -20925,7 +20866,7 @@ comments</property>
             <property name="can_focus">False</property>
             <property name="border_width">8</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment61">
                 <property name="visible">True</property>
@@ -21064,9 +21005,7 @@ comments</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Vertical Axe</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -21085,7 +21024,7 @@ comments</property>
             <property name="can_focus">False</property>
             <property name="border_width">8</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment60">
                 <property name="visible">True</property>
@@ -21182,9 +21121,7 @@ comments</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Guides</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -21203,7 +21140,7 @@ comments</property>
             <property name="can_focus">False</property>
             <property name="border_width">8</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment63">
                 <property name="visible">True</property>
@@ -21315,9 +21252,7 @@ comments</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Other</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -21861,9 +21796,7 @@ comments</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -23238,9 +23171,7 @@ options</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Full name</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -23283,9 +23214,7 @@ options</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Sex</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -23302,9 +23231,7 @@ options</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Date of Birth</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -23646,9 +23573,7 @@ options</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Data of person</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -23686,9 +23611,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Weight</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -23705,9 +23628,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Sport</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -23724,9 +23645,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Speciallity</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -23743,9 +23662,7 @@ options</property>
                             <property name="can_focus">False</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Level</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -24099,9 +24016,7 @@ options</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Data of person in this session</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
+                    <property name="use_markup">True</property>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>
@@ -24251,10 +24166,8 @@ options</property>
                         <child>
                           <widget class="GtkLabel" id="label531">
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">Logs directory</property>
-                            <attributes>
-                              <attribute name="weight" value="bold"/>
-                            </attributes>
+                            <property name="label">Logs directory</property>
+                            <property name="use_markup">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -24819,7 +24732,7 @@ show elevation as:</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment142">
                 <property name="visible">True</property>
@@ -24952,9 +24865,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Test variables</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -24972,7 +24883,7 @@ show elevation as:</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment143">
                 <property name="visible">True</property>
@@ -25407,9 +25318,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Person variables</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25427,7 +25336,7 @@ show elevation as:</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
@@ -25481,9 +25390,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Evaluator</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -25501,7 +25408,7 @@ show elevation as:</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label_xalign">0</property>
-            <property name="shadow_type">none</property>
+            <property name="shadow_type">in</property>
             <child>
               <widget class="GtkAlignment" id="alignment144">
                 <property name="visible">True</property>
@@ -25700,9 +25607,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Query</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -26376,9 +26281,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Best and worst values</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -26511,9 +26414,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Display variables on encoder capture</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -26623,9 +26524,7 @@ show elevation as:</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TF</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -26685,9 +26584,7 @@ show elevation as:</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TC</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -26801,9 +26698,7 @@ show elevation as:</property>
                                         <property name="can_focus">False</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">TF</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -26816,6 +26711,7 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label">/</property>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -26828,9 +26724,7 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TC</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -27026,9 +26920,7 @@ show elevation as:</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TF</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -27088,9 +26980,7 @@ show elevation as:</property>
                                     <property name="can_focus">False</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">TC</property>
-                                    <attributes>
-                                      <attribute name="weight" value="bold"/>
-                                    </attributes>
+                                    <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -27203,9 +27093,7 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TF</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -27218,6 +27106,7 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label">/</property>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -27230,9 +27119,7 @@ show elevation as:</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="label" translatable="yes">TC</property>
-                                        <attributes>
-                                          <attribute name="weight" value="bold"/>
-                                        </attributes>
+                                        <property name="use_markup">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -28608,9 +28495,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Conditions</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -28747,9 +28632,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">test bells</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -29117,9 +29000,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">general data</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -29472,9 +29353,7 @@ show elevation as:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">statistics data</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="type">label_item</property>
@@ -29613,9 +29492,7 @@ show elevation as:</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -30316,9 +30193,7 @@ suitable for agility tests and RSA)</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Name</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
+                <property name="use_markup">True</property>
               </widget>
               <packing>
                 <property name="x_options">GTK_FILL</property>
@@ -31202,9 +31077,7 @@ times</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Persons</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                        </attributes>
+                        <property name="use_markup">True</property>
                       </widget>
                       <packing>
                         <property name="x_options">GTK_FILL</property>

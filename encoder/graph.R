@@ -309,6 +309,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	#show extrema values in speed
 	b=extrema(speed$y)
+
+
 	#if(draw & !superpose) 
 	#	segments(x0=b$maxindex,y0=0,x1=b$maxindex,y1=speed$y[b$maxindex],col=cols[1])
 
@@ -318,35 +320,34 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(eccon=="c") {
 		concentric=1:length(a)
 	} else {	#"ec", "ec-rep"
-		crossSpeedInMiddle = b$cross[,1]
-		crossDownToUp=0
-		count=1
+		print("EXTREMA")
+		#abline(v=b$maxindex,lty=3,col="yellow");
+		#abline(v=b$minindex,lty=3,col="magenta")
+		print(b)
 
-		#the -2 is to know if speed goes from down to up or vicerversa
-		#we use -2 to know the 2ms before
-		#maybe data has not started, then look what happens 2 ms later
-		for(i in crossSpeedInMiddle) {
-			if(i>2) {
-				if(speed$y[(i-2)]<0) {
-					crossDownToUp[count]=i
-					count=count+1
-				}
-			} else {
-				if(speed$y[(i+2)]>0) {
-					crossDownToUp[count]=i
-					count=count+1
-				}
-			}
-		}
-		eccentric=1:min(crossDownToUp)
-		concentric=max(crossDownToUp):length(a)
+		#In all the extrema minindex values, search which range (row) has the min values,
+		#and in this range search last value
+		print("searchMinSpeedEnd")
+		searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
+		#In all the extrema maxindex values, search which range (row) has the max values,
+		#and in this range search first value
+		print("searchMaxSpeedIni")
+		searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
+		#find the cross between both
+		print("searchMinCross")
+		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+
+		eccentric=1:b$cross[crossMinRow,1]
+		concentric=b$cross[crossMinRow,2]:length(a)
+		isometric=c(b$cross[crossMinRow,1],b$cross[crossMinRow,2])
 		if(draw) {
-			abline(v=min(crossDownToUp),col=cols[1])
-			abline(v=max(crossDownToUp),col=cols[1])
-			mtext(text=min(crossDownToUp),side=1,at=min(crossDownToUp),cex=.8,col=cols[1])
-			mtext(text=max(crossDownToUp),side=1,at=max(crossDownToUp),cex=.8,col=cols[1])
-			mtext(text="eccentric ",side=3,at=min(crossDownToUp),cex=.8,adj=1,col=cols[1],line=.5)
-			mtext(text=" concentric ",side=3,at=max(crossDownToUp),cex=.8,adj=0,col=cols[1],line=.5)
+			abline(v=max(eccentric),col=cols[1])
+			abline(v=min(concentric),col=cols[1])
+			#mtext(text=paste(max(eccentric)," ",sep=""),side=1,at=max(eccentric),adj=1,cex=.8,col=cols[1])
+			#mtext(text=paste(" ",min(concentric),sep=""),side=1,at=min(concentric),adj=0,cex=.8,col=cols[1])
+			mtext(text=mean(isometric),side=1,at=mean(isometric),adj=0.5,cex=.8,col=cols[1])
+			mtext(text="eccentric ",side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
+			mtext(text=" concentric ",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
 

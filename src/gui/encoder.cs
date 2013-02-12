@@ -470,9 +470,9 @@ public partial class ChronoJumpWindow
 
 		foreach(EncoderSQL es in data) {	//it will run only one time
 			Util.CopyEncoderDataToTemp(es.url, es.filename);
-			UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
-			UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
-			UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
+			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
+			combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
+			combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
 			spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
 
 			spin_encoder_capture_min_height.Value = es.minHeight;

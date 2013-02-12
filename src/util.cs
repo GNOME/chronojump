@@ -668,6 +668,13 @@ public class Util
 		return true;
 	}
 
+	public static bool IsEven(string myString) {
+		return IsEven(Convert.ToInt32(myString));
+	}
+	public static bool IsEven(int myInt) {
+		return (myInt % 2 == 0); //check if it's even (in spanish "par")
+	}
+
 	//Adapted from Mono. A developer's notebook. p 244
 	
 	//this is used in chronojump for working with the ports,

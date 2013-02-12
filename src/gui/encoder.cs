@@ -300,6 +300,7 @@ public partial class ChronoJumpWindow
 
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
+	//called on capture, recalculate and load
 	private void encoderCreateCurvesGraphR() 
 	{
 		string analysisOptions = "-";
@@ -660,7 +661,8 @@ public partial class ChronoJumpWindow
 				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
 			} else if(button == button_encoder_save_all_curves) 
 				for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
-					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
+					if(! Util.IsEven(i)) //use only uneven (spanish: "impar") values
+						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
 			ArrayList data = SqliteEncoder.Select(false, -1, 
 					currentPerson.UniqueID, currentSession.UniqueID, "curve");
@@ -1496,7 +1498,7 @@ public partial class ChronoJumpWindow
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
 		else {
 			string phase = "e";
-			bool isEven = (Convert.ToInt32(curve.N) % 2 == 0); //check if it's even (in spanish "par")
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)
 				phase = "c";
 				

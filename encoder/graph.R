@@ -722,28 +722,21 @@ find.mfrow <- function(n) {
 }
 
 find.yrange <- function(singleFile, rawdata, curves) {
-	if(singleFile) {
-		a=cumsum(rawdata)
-		y.max = max(a)
-		y.min = min(a)
-		if(y.min < 0) {
-			y.max = y.max + -1*y.min
-			y.min = 0
-		}
-		return (c(y.min,y.max))
-	} else {
-		n=length(curves[,1])
-		y.max = 0
-		y.min = 10000
-		for(i in 1:n) { 
-			y.current = cumsum(rawdata[curves[i,1]:curves[i,2]])
-			if(max(y.current) > y.max)
-				y.max = max(y.current)
-			if(min(y.current) < y.min)
-				y.min = min(y.current)
-		}
-		return (c(y.min,y.max))
+	n=length(curves[,1])
+	y.max = 0
+	y.min = 10000
+	for(i in 1:n) { 
+		y.current = cumsum(rawdata[curves[i,1]:curves[i,2]])
+		if(max(y.current) > y.max)
+			y.max = max(y.current)
+		if(min(y.current) < y.min)
+			y.min = min(y.current)
 	}
+	if(y.min < 0) {
+		y.max = y.max + -1*y.min
+		y.min = 0
+	}
+	return (c(y.min,y.max))
 }
 
 quitIfNoData <- function(n, curves, outputData1) {

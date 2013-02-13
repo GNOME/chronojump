@@ -226,10 +226,25 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 		power=c(-maxPower,maxPower)))
 }
 
+#only min and max value of axis is shown, and also one string,
+#then this string is not masked by mid values
+axisLabelsWithOneString <- function (ticks,str) {
+	return(c(min(ticks),rep(NA,(length(ticks)-2)),max(ticks),str))
+}
+axisLabelsWithTwoStrings <- function (ticks,str1, str2) {
+	return(c(min(ticks),rep(NA,(length(ticks)-2)),max(ticks),str1,str2))
+}
+
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothing, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
 	Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 	) {
+
+	meanSpeedE = 0
+	meanSpeedC = 0
+	meanPowerE = 0
+	meanPowerC = 0
+
 	#eccons ec and ec-rep is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
@@ -300,11 +315,6 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
-		if(showAxes) {
-			axis(4, col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
-			abline(h=0,lty=3,col="black")
-		}
-		#mtext(text=paste("max speed:",round(max(speed$y),3)),side=3,at=which(speed$y == max(speed$y)),cex=.8,col=cols[1])
 	}
 
 	#show extrema values in speed
@@ -366,29 +376,40 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		if(length(which(accel$y[concentric]<=-g)) > 0) {
 			propulsiveEnds = min(which(accel$y[concentric]<=-g))
 		} else {
-			propulsiveEnds=length(concentric)
+			propulsiveEnds=max(concentric)
 		}
-
-		#mean speed propulsive in concentric
-		myMeanSpeed = mean(speed$y[concentric[1]:length(concentric)])
-		myMeanSpeedRight = length(concentric)
-		
-		if(eccon != "c") {
-			propulsiveEnds = propulsiveEnds + concentric[1]
-			myMeanSpeedRight = length(eccentric) + length(concentric)
-		}
-
-		if(AnalysisOptions == "p") {
-			myMeanSpeed = mean(speed$y[concentric[1]:propulsiveEnds])
-			myMeanSpeedRight = propulsiveEnds
-		}
-		arrows(x0=min(concentric),y0=myMeanSpeed,x1=myMeanSpeedRight,y1=myMeanSpeed,col=cols[1],code=3)
-		mtext(paste("mean speed:",round(myMeanSpeed,3)),side=2,
-		      at=myMeanSpeed,line=-1.8,col=cols[1],cex=.8,padj=0)
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
-		#if(knRanges[1] != "undefined")
-		#	ylim = knRanges$force
+
+		meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
+		if(AnalysisOptions == "p") {
+			meanSpeedC = mean(speed$y[min(concentric):propulsiveEnds])
+		}
+
+		if(eccon == "c") {
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=max(concentric),y1=meanSpeedC,col=cols[1],code=3)
+		} else {
+			meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
+			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=max(concentric),y1=meanSpeedC,col=cols[1],code=3)
+		}
+
+		
+		#plot the speed axis
+		if(showAxes) {
+			abline(h=0,lty=3,col="black")
+			if(eccon == "c") 
+				axis(4, at=c(axTicks(4),meanSpeedC),
+				     labels=axisLabelsWithOneString(axTicks(4),paste("xc=",round(meanSpeedC,1),sep="")),
+				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
+			else
+				axis(4, at=c(axTicks(4),meanSpeedE, meanSpeedC),
+				     labels=axisLabelsWithTwoStrings(axTicks(4),
+								     paste("xe=",round(meanSpeedE,1),sep=""),
+								     paste("xc=",round(meanSpeedC,1),sep="")),
+				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
+		}
+
 		par(new=T)
 		if(highlight==FALSE)
 			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
@@ -488,7 +509,6 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 	#average power
 
-	meanPowerE = 0
 	if(eccon != "c") 
 		meanPowerE = mean(abs(power[eccentric]))
 	meanPowerC = mean(abs(power[concentric]))

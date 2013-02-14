@@ -226,14 +226,6 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
 		power=c(-maxPower,maxPower)))
 }
 
-#only min and max value of axis is shown, and also one string,
-#then this string is not masked by mid values
-axisLabelsWithOneString <- function (ticks,str) {
-	return(c(min(ticks),rep(NA,(length(ticks)-2)),max(ticks),str))
-}
-axisLabelsWithTwoStrings <- function (ticks,str1, str2) {
-	return(c(min(ticks),rep(NA,(length(ticks)-2)),max(ticks),str1,str2))
-}
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothing, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
@@ -274,7 +266,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
 
 		title(main=title,line=-2,outer=T)
-		mtext(subtitle,side=3,adj=0,cex=.8)
+		mtext(subtitle,side=1,adj=0,cex=.8)
 		
 		if(showAxes) {
 			axis(1) 	#can be added xmin
@@ -387,11 +379,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		}
 
 		if(eccon == "c") {
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=max(concentric),y1=meanSpeedC,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnds,y1=meanSpeedC,col=cols[1],code=3)
 		} else {
 			meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
 			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=max(concentric),y1=meanSpeedC,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnds,y1=meanSpeedC,col=cols[1],code=3)
 		}
 
 		
@@ -399,14 +391,15 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		if(showAxes) {
 			abline(h=0,lty=3,col="black")
 			if(eccon == "c") 
-				axis(4, at=c(axTicks(4),meanSpeedC),
-				     labels=axisLabelsWithOneString(axTicks(4),paste("xc=",round(meanSpeedC,1),sep="")),
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      parse(text=paste("paste(bar(x),'c=',",round(meanSpeedC,1),")"))),
 				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
 			else
-				axis(4, at=c(axTicks(4),meanSpeedE, meanSpeedC),
-				     labels=axisLabelsWithTwoStrings(axTicks(4),
-								     paste("xe=",round(meanSpeedE,1),sep=""),
-								     paste("xc=",round(meanSpeedC,1),sep="")),
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      parse(text=paste("paste(bar(x),'e=',",round(meanSpeedE,1),")")),
+					      parse(text=paste("paste(bar(x),'c=',",round(meanSpeedC,1),")"))),
 				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
 		}
 
@@ -495,8 +488,34 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
-		if(showAxes) 
-			axis(4, col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
+
+
+		meanPowerC = mean(power[min(concentric):max(concentric)])
+		if(AnalysisOptions == "p") {
+			meanPowerC = mean(power[min(concentric):propulsiveEnds])
+		}
+
+		if(eccon == "c") {
+			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnds,y1=meanPowerC,col=cols[3],code=3)
+		} else {
+			meanPowerE = mean(power[min(eccentric):max(eccentric)])
+			arrows(x0=min(eccentric),y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnds,y1=meanPowerC,col=cols[3],code=3)
+		}
+
+		if(showAxes) {
+			if(eccon == "c") 
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      parse(text=paste("paste(bar(x),'c=',",round(meanPowerC,1),")"))),
+				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
+			else
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE, meanPowerC),
+				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
+					      parse(text=paste("paste(bar(x),'e=',",round(meanPowerE,1),")")),
+					      parse(text=paste("paste(bar(x),'c=',",round(meanPowerC,1),")"))),
+				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
+		}
 	}
 
 	#time to arrive to peak power
@@ -506,33 +525,6 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		points(peakPowerT, max(power),col=cols[3])
 		mtext(text=paste("peak power:",round(max(power),3)),side=3,at=peakPowerT,cex=.8,col=cols[3])
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
-	}
-	#average power
-
-	if(eccon != "c") 
-		meanPowerE = mean(abs(power[eccentric]))
-	meanPowerC = mean(abs(power[concentric]))
-	if(draw & !superpose & AnalysisOptions != "p") {
-		if(eccon != "c") {
-			arrows(x0=1,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-			#text(x=min(eccentric), y=meanPowerE, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
-			text(x=mean(eccentric), y=meanPowerE, labels=paste("mean power:",round(meanPowerE,3)),
-			     adj=c(0.5,0),cex=.8,col=cols[3])
-			#mtext(paste("mean power:",round(meanPowerE,3)),side=4,at=meanPowerE,line=-2,col=cols[3],cex=.8)
-		}
-		arrows(x0=min(concentric),y0=meanPowerC,x1=max(concentric),y1=meanPowerC,col=cols[3],code=3)
-		#text(x=min(concentric), y=meanPowerC, labels=expression(bar(x)), adj=c(1,0),cex=.8,col=cols[3])
-		text(x=mean(concentric), y=meanPowerC, labels=paste("mean power:",round(meanPowerC,3)),
-		     adj=c(0.5,0),cex=.8,col=cols[3])
-		#mtext(paste("mean power:",round(meanPowerC,3)),side=4,at=meanPowerC,line=-2,col=cols[3],cex=.8)
-	}
-		
-	#propulsive phase ends when accel is -9.8
-	if(draw & AnalysisOptions == "p") {
-		#mean power propulsive in concentric
-		meanPowerPropulsive = mean(power[concentric[1]:propulsiveEnds])
-		arrows(x0=min(concentric),y0=meanPowerPropulsive,x1=propulsiveEnds,y1=meanPowerPropulsive,col=cols[3],code=3)
-		mtext(paste("mean power:",round(meanPowerPropulsive,3)),side=4,at=meanPowerPropulsive,line=-2,col=cols[3],cex=.8)
 	}
 
 	#legend, axes and title

@@ -191,7 +191,11 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 		myR.run('power <- force*speed$y')
 		myR.run('meanPower <- mean(abs(power))')
 		myR.run('peakPower <- max(power)')
-		myR.run('peakPowerT=which(power == peakPower)')
+		
+		#without the 'min', if there's more than one value it returns a list and this make crash later in
+		#this code:  pp_ppt = peakPower / peakPowerT
+		myR.run('peakPowerT=min(which(power == peakPower))') 
+		
 		meanSpeed = myR.get('mean(abs(speed$y))')
 		if direction_now == 1:
 			maxSpeed = myR.get('min(speed$y)')

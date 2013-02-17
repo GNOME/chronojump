@@ -3,7 +3,7 @@ EXTRA_DIST =
 
 ##########chronojumpServer.dll##########
 
-ASSEMBLY_COMPILER_COMMAND = $(GMCS)
+ASSEMBLY_COMPILER_COMMAND = $(MCS)
 ASSEMBLY_COMPILER_FLAGS =  -noconfig -unsafe -codepage:utf8 -warn:4 -optimize+
 ASSEMBLY = bin/chronojumpServer.dll
 ASSEMBLY_MDB = $(ASSEMBLY).mdb

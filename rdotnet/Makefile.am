@@ -1,0 +1,13 @@
+R_NET_BIN_FOLDER = R.NET/bin/Debug
+R_NET_ASSEMBLY = $(R_NET_BIN_FOLDER)/RDotNet.dll
+R_NET_NATIVE_ASSEMBLY = $(R_NET_BIN_FOLDER)/RDotNet.NativeLibrary.dll
+
+$(R_NET_ASSEMBLY) $(R_NET_NATIVE_ASSEMBLY):
+	xbuild R.NET/RDotNet.csproj
+
+all: $(R_NET_ASSEMBLY) $(R_NET_NATIVE_ASSEMBLY)
+
+chronojump_pkglibdir = $(pkglibdir)
+chronojump_pkglib_SCRIPTS = $(R_NET_ASSEMBLY) $(R_NET_NATIVE_ASSEMBLY)
+
+CLEANFILES = $(R_NET_ASSEMBLY) $(R_NET_NATIVE_ASSEMBLY)

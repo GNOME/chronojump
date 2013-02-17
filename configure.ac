@@ -130,6 +130,7 @@ CesarPlayer/Makefile
 CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
+rdotnet/Makefile
 ])
 
 AC_OUTPUT

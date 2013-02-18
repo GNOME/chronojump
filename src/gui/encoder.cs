@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 
 	[Widget] Gtk.Button button_encoder_capture;
+	[Widget] Gtk.Button button_encoder_capture_csharp;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_recalculate;
@@ -105,9 +106,10 @@ public partial class ChronoJumpWindow
 	private string ecconLast;
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
-	
-	//difference between CAPTURE and RECALCULATE_OR_LOAD is: CAPTURE does a autosave at end
-	enum encoderModes { CAPTURE, RECALCULATE_OR_LOAD, ANALYZE } 
+
+	//CAPTURE is the capture from csharp (not from external python)	
+	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
+	enum encoderModes { CAPTURE, CALCULECURVES, RECALCULATE_OR_LOAD, ANALYZE } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSING
@@ -127,15 +129,6 @@ public partial class ChronoJumpWindow
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
 	
-	//to analyze: user has to select: session, athlete, exercise, 
-	//TODO: single curve, and side, checkbox to show1 param, 2 or three
-	//TODO: powerbars with checkbox to show1 param, 2 or three
-	//TODO: on capture (quasi-realtime), show powerbars or curves or both
-	//
-	//TODO: if a signal is loaded, exercise has to be updated on combo. (use exerciseID in database)
-	//
-	//TODO: do the graphical capturing with pygame
-	//
 	//TODO: allow gui/generic.cs to select rows on treeview to be deleted
 	//
 	//TODO: calling to R should give feedback during the process
@@ -166,8 +159,7 @@ public partial class ChronoJumpWindow
 		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
 		createEncoderCombos();
 	}
-
-	//TODO: garantir path windows	
+	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
 		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
@@ -236,16 +228,23 @@ public partial class ChronoJumpWindow
 				"",					//no graph ouptut
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
-		//title to sen to python software has to be without spaces
-		Util.RunEncoderCapture( 
-				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
-				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
-				es, chronopicWin.GetEncoderPort());
+		if (o == (object) button_encoder_capture) {
+			//title to sen to python software has to be without spaces
+			Util.RunEncoderCapturePython( 
+					Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
+					Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+					es, chronopicWin.GetEncoderPort());
+		} else if (o == (object) button_encoder_capture_csharp) {
+			Util.RunEncoderCaptureCsharp( 
+					Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
+					Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+					es, chronopicWin.GetEncoderPort());
+		}
 
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
-		encoderThreadStart(encoderModes.CAPTURE);
+		encoderThreadStart(encoderModes.CALCULECURVES);
 	}
 		
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
@@ -300,7 +299,7 @@ public partial class ChronoJumpWindow
 
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
-	//called on capture, recalculate and load
+	//called on calculatecurves, recalculate and load
 	private void encoderCreateCurvesGraphR() 
 	{
 		string analysisOptions = "-";
@@ -1766,7 +1765,7 @@ public partial class ChronoJumpWindow
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
-		//c0 button_encoder_capture, button_encoder_bells
+		//c0 button_encoder_capture, button_encoder_capture_csharp, button_encoder_bells
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
@@ -1822,6 +1821,7 @@ public partial class ChronoJumpWindow
 		}
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
+		button_encoder_capture_csharp.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_bells.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
@@ -1864,7 +1864,7 @@ public partial class ChronoJumpWindow
 	/* thread stuff */
 
 	private void encoderThreadStart(encoderModes mode) {
-		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
@@ -1872,7 +1872,7 @@ public partial class ChronoJumpWindow
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
 			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
-			if(mode == encoderModes.CAPTURE)
+			if(mode == encoderModes.CALCULECURVES)
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 			else // mode == encoderModes.RECALCULATE_OR_LOAD
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
@@ -1898,11 +1898,11 @@ public partial class ChronoJumpWindow
 				Util.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.CAPTURE);
+			finishPulsebar(encoderModes.CALCULECURVES);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write(encoderThread.ThreadState.ToString());
 		return true;
@@ -1919,7 +1919,7 @@ public partial class ChronoJumpWindow
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write(encoderThread.ThreadState.ToString());
 		return true;
@@ -1947,7 +1947,7 @@ public partial class ChronoJumpWindow
 		if(Util.FileExists(Util.GetEncoderStatusTempFileName()))
 			contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
 
-		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			encoder_pulsebar_capture.Pulse();
 			encoder_pulsebar_capture.Text = contents;
 		} else {
@@ -1957,7 +1957,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void finishPulsebar(encoderModes mode) {
-		if(mode == encoderModes.CAPTURE || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
@@ -1969,7 +1969,7 @@ public partial class ChronoJumpWindow
 				image_encoder_capture.Sensitive = true;
 		
 				//autosave signal (but not in recalculate or load)
-				if(mode == encoderModes.CAPTURE)
+				if(mode == encoderModes.CALCULECURVES)
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 				else
 					encoder_pulsebar_capture.Text = "";

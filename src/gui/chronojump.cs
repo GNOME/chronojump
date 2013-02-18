@@ -5136,7 +5136,6 @@ Console.WriteLine("X");
 				extra_window_multichronopic_can_do(false);
 		} else {
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
-			//button_encoder_capture.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
 		stats_win_change_test_type(notebook_execute.CurrentPage);

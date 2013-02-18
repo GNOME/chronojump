@@ -24,6 +24,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
+using System.IO.Ports;
 
 //this class tries to be a space for methods that are used in different classes
 public class Util
@@ -1076,8 +1077,48 @@ public class Util
 			//maybe R is not installed
 		}
 	}
+	
+	public static void RunEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
+	{
+		Log.WriteLine("00a");
+		SerialPort sp = new SerialPort(port);
+		Log.WriteLine("00b");
+		sp.BaudRate = 115200;
+		Log.WriteLine("00c");
+		sp.Open();
+		Log.WriteLine("00d");
+		int recordingTime = es.Ep.Time * 1000;
+		int i=-20; //delete first records because there's encoder bug
+		int b;
+		int sum = 0;
+		string dataString = "";
+		string sep = "";
+		do {
+			b = sp.ReadByte();
+			if(b>200)
+				b=b-256;
+			i=i+1;
+			if(i >= 0) {
+				Log.Write(sep + b.ToString());
+				dataString += sep + b.ToString();
+				//sum += b;
+				sep = ", ";
+			}
+		} while (i < recordingTime);
+		//Log.WriteLine(sum.ToString());
 
-	public static void RunEncoderCapture(string title, EncoderStruct es, string port) {
+		Log.WriteLine("00e");
+		sp.Close();
+		Log.WriteLine("00f");
+		
+		TextWriter writer = File.CreateText(es.OutputData1);
+		writer.Write(dataString);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+	}
+
+	public static void RunEncoderCapturePython(string title, EncoderStruct es, string port) 
+	{
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;
@@ -1129,7 +1170,8 @@ public class Util
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	
-	public static void RunEncoderGraph(string title, EncoderStruct es) {
+	public static void RunEncoderGraph(string title, EncoderStruct es) 
+	{
 		CancelRScript = false;
 
 		ProcessStartInfo pinfo;

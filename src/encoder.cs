@@ -122,6 +122,9 @@ public class EncoderParams
 		get { return analysis; }
 	}
 	
+	public int Time {
+		get { return time; }
+	}
 
 	~EncoderParams() {}
 }

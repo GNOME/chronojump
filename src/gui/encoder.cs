@@ -2076,15 +2076,36 @@ public partial class ChronoJumpWindow
 		}
 
 		string contents = Catalog.GetString("Please, wait.");
-		if(Util.FileExists(Util.GetEncoderStatusTempFileName()))
+		double fraction = -1;
+		if(Util.FileExists(Util.GetEncoderStatusTempFileName())) {
 			contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
+			//contents is:
+			//(1/5) Starting R
+			//(5/5) R tasks done
+			
+			//-48: ascii 0 char
+			if(System.Char.IsDigit(contents[1]) && System.Char.IsDigit(contents[3]))
+			       fraction = Util.DivideSafeFraction(
+					Convert.ToInt32(contents[1]-48), Convert.ToInt32(contents[3]-48) );
+		}
 
 		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
-			encoder_pulsebar_capture.Pulse();
-			encoder_pulsebar_capture.Text = contents;
+			if(fraction == -1) {
+				encoder_pulsebar_capture.Pulse();
+				encoder_pulsebar_capture.Text = contents;
+			} else {
+				encoder_pulsebar_capture.Fraction = fraction;
+				encoder_pulsebar_capture.Text = contents.Substring(6);
+			}
 		} else {
-			encoder_pulsebar_analyze.Pulse();
-			encoder_pulsebar_analyze.Text = contents;
+			if(fraction == -1) {
+				encoder_pulsebar_analyze.Pulse();
+				encoder_pulsebar_analyze.Text = contents;
+			} else {
+				encoder_pulsebar_analyze.Fraction = fraction;
+				encoder_pulsebar_analyze.Text = contents.Substring(6);
+			}
+			
 		}
 	}
 	

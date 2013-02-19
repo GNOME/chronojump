@@ -609,7 +609,7 @@ public partial class ChronoJumpWindow
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
 				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "")[0];
 		//remove the file
-		bool deletedOk = Util.FileDelete(eSQL.GetFullURL());
+		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk) {
 			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
 			encoderSignalUniqueID = "-1";
@@ -915,7 +915,7 @@ public partial class ChronoJumpWindow
 				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
 						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
-						eSQL.GetFullURL() + "," +
+						eSQL.GetFullURL(true) + "," +	//convertPathToR
 						eSQL.eccon	//this is the eccon of every curve
 						);
 			}

@@ -256,8 +256,17 @@ public class EncoderSQL
 		return date;
 	}
 
-	public string GetFullURL() {
-		return url + Path.DirectorySeparatorChar + filename;
+	public string GetFullURL(bool convertPathToR) {
+		string str = url + Path.DirectorySeparatorChar + filename;
+		/*	
+			in Linux is separated by '/'
+			in windows is separated by '\'
+			but R needs always '/', then do the conversion
+		 */
+		if(convertPathToR && Util.IsWindows())
+			str = str.Replace("\\","/");
+
+		return str;
 	}
 
 	public string [] ToStringArray (int count) {

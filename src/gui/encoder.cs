@@ -20,6 +20,7 @@
 
 using System;
 using System.IO; 
+using System.IO.Ports;
 using Gtk;
 using Gdk;
 using Glade;
@@ -107,6 +108,9 @@ public partial class ChronoJumpWindow
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 
+	private static int encoderCaptureCountdown;
+	private static bool encoderProcessCancel;
+
 	//CAPTURE is the capture from csharp (not from external python)	
 	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
 	enum encoderModes { CAPTURE, CALCULECURVES, RECALCULATE_OR_LOAD, ANALYZE } 
@@ -114,26 +118,9 @@ public partial class ChronoJumpWindow
 		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSING
  
-	private static bool encoderProcessCancel;
 
-	
-	//TODO: auto close capturing window
-
-	//TODO: Put person name in graph (at title,with small separation, or inside graph at topright) (if we click on another person on treeview person, we need to know wich person was last generated graph). Put also exercise name and weight 
-	//TODO: laterality have to be shown on treeviews: signal and curve. also check that is correct in database
-	//TODO: the load (Kg) in graphs has to account the exercice body percent and the extra
-
-	//TODO: put chronopic detection in a generic place. Done But:
-	//TODO: solve the problem of connecting two different chronopics
-	//
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
-	
-	//TODO: allow gui/generic.cs to select rows on treeview to be deleted
-	//
-	//TODO: calling to R should give feedback during the process
-	//
-	//TODO: fix problem that on saving maybe dirs are not created
 	//
 	//TODO: on session load, show encoder stuff
 	//
@@ -234,13 +221,24 @@ public partial class ChronoJumpWindow
 					Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
 					Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 					es, chronopicWin.GetEncoderPort());
-		} else if (o == (object) button_encoder_capture_csharp) {
-			Util.RunEncoderCaptureCsharp( 
-					Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
-					Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
-					es, chronopicWin.GetEncoderPort());
-		}
 
+			calculeCurves();
+		}
+		else if (o == (object) button_encoder_capture_csharp) {
+			encoderProcessCancel = false;
+			Log.WriteLine("AAAAAAAAAAAAAAA");
+			encoderThreadStart(encoderModes.CAPTURE);
+
+			Log.WriteLine("BBBBBBBBBBBBBBB");
+			//wait until finish
+			//while(encoderThread.IsAlive && ! encoderProcessCancel)
+			//	;
+			//then we can start the thread CALCULECURVES below
+			Log.WriteLine("ZZZZZZZZZZZZZZZ");
+		}
+	}
+
+	void calculeCurves() {
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
@@ -856,6 +854,89 @@ public partial class ChronoJumpWindow
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
 	
+	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
+	private void captureCsharp () 
+	{
+		Log.WriteLine("EEEEEEEEEEEEEEE");
+		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
+		bool capturedOk = runEncoderCaptureCsharp( 
+				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
+				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+				//es, 
+				(int) spin_encoder_capture_time.Value, 
+				Util.GetEncoderDataTempFileName(),
+				chronopicWin.GetEncoderPort());
+		Log.WriteLine("FFFFFFFFFFFFFFF");
+	
+		//wait to ensure capture thread has ended
+		Thread.Sleep(500);	
+
+		//will start calcule curves thread
+		if(capturedOk)
+			calculeCurves();
+
+		Log.WriteLine("F22222222222222");
+	}
+	
+	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
+	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
+	{
+		Log.WriteLine("00a");
+		SerialPort sp = new SerialPort(port);
+		Log.WriteLine("00b");
+		sp.BaudRate = 115200;
+		Log.WriteLine("00c");
+		sp.Open();
+		Log.WriteLine("00d");
+		
+		encoderCaptureCountdown = time;
+		//int recordingTime = es.Ep.Time * 1000;
+		int recordingTime = time * 1000;
+		
+		int b;
+		int sum = 0;
+		string dataString = "";
+		string sep = "";
+		
+		int i =-20; //delete first records because there's encoder bug
+		int msCount = 0;
+		do {
+			b = sp.ReadByte();
+			if(b > 128)
+				b = b-256;
+			i=i+1;
+			if(i >= 0) {
+				Log.Write(sep + b.ToString());
+				dataString += sep + b.ToString();
+				//sum += b;
+				sep = ", ";
+			
+				msCount ++;
+				if(msCount >= 1000) {
+					encoderCaptureCountdown --;
+					msCount = 1;
+				}
+			}
+		} while (i < recordingTime && ! encoderProcessCancel);
+		//Log.WriteLine(sum.ToString());
+
+		Log.WriteLine("00e");
+		sp.Close();
+		Log.WriteLine("00f");
+
+		if(encoderProcessCancel)
+			return false;
+		
+		//TextWriter writer = File.CreateText(es.OutputData1);
+		TextWriter writer = File.CreateText(outputData1);
+		writer.Write(dataString);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+
+		return true;
+	}
+
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
 	private void analyze () 
@@ -1791,7 +1872,8 @@ public partial class ChronoJumpWindow
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
-		//c0 button_encoder_capture, button_encoder_capture_csharp, button_encoder_bells
+		//c0 button_encoder_capture, button_encoder_capture_csharp, 
+		//	button_encoder_bells, spin_encoder_capture_time
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
@@ -1849,6 +1931,8 @@ public partial class ChronoJumpWindow
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_capture_csharp.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_bells.Sensitive = Util.IntToBool(table[0]);
+		spin_encoder_capture_time.Sensitive = Util.IntToBool(table[0]);
+
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
@@ -1890,7 +1974,13 @@ public partial class ChronoJumpWindow
 	/* thread stuff */
 
 	private void encoderThreadStart(encoderModes mode) {
-		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		if(mode == encoderModes.CAPTURE) {
+			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
+			Log.WriteLine("CCCCCCCCCCCCCCC");
+			encoderThread = new Thread(new ThreadStart(captureCsharp));
+			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+			Log.WriteLine("DDDDDDDDDDDDDDD");
+		} else if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
@@ -1899,7 +1989,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_curves.Sensitive = false;
 			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			if(mode == encoderModes.CALCULECURVES)
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalculeCurves));
 			else // mode == encoderModes.RECALCULATE_OR_LOAD
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
 		} else { //encoderModes.ANALYZE
@@ -1908,7 +1998,6 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
-
 		
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
@@ -1918,6 +2007,26 @@ public partial class ChronoJumpWindow
 	}
 	
 	private bool pulseGTKEncoderCapture ()
+	{
+		Log.WriteLine("PPPPPPPPP");
+		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			/*
+			if(encoderProcessCancel){
+				Util.CancelRScript = true;
+			}
+			*/
+
+			finishPulsebar(encoderModes.CAPTURE);
+			Log.Write("dying");
+			return false;
+		}
+		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		Thread.Sleep (50);
+		Log.Write(encoderThread.ThreadState.ToString());
+		return true;
+	}
+	
+	private bool pulseGTKEncoderCalculeCurves ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
@@ -1969,6 +2078,14 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void updatePulsebar (encoderModes mode) {
+		if(mode == encoderModes.CAPTURE) {
+			int selectedTime = (int) spin_encoder_capture_time.Value;
+			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
+					(selectedTime - encoderCaptureCountdown), selectedTime);
+			encoder_pulsebar_capture.Text = encoderCaptureCountdown + " s";
+			return;
+		}
+
 		string contents = Catalog.GetString("Please, wait.");
 		if(Util.FileExists(Util.GetEncoderStatusTempFileName()))
 			contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
@@ -1983,7 +2100,11 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void finishPulsebar(encoderModes mode) {
-		if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		if(
+				mode == encoderModes.CAPTURE || 
+				mode == encoderModes.CALCULECURVES || 
+				mode == encoderModes.RECALCULATE_OR_LOAD )
+		{
 			if(encoderProcessCancel) {
 				encoderProcessCancel = false;
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);

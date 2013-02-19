@@ -74,11 +74,6 @@ public class GenericWindow
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
 	
-	//if someone use delete_event should be considered as an accept?
-	//useful when there's only a close button and after some stuff is processed, 
-	//but user clicked on delete_event instead of close button
-	public bool DeleteMeansAccept = false;
-
 	public GenericWindow ()
 	{
 		Glade.XML gladeXML;
@@ -106,7 +101,6 @@ public class GenericWindow
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;
-		GenericWindowBox.DeleteMeansAccept = true;
 		GenericWindowBox.DestroyOnAccept = false;
 		
 		return GenericWindowBox;
@@ -450,13 +444,10 @@ public class GenericWindow
 	
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
-		if(DeleteMeansAccept) {
-			button_accept.Click();
-		}
-		else {
-			GenericWindowBox.generic_window.Hide();
-			GenericWindowBox = null;
-		}
+		args.RetVal = true;
+			
+		GenericWindowBox.generic_window.Hide();
+		GenericWindowBox = null;
 	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)

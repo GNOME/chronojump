@@ -387,7 +387,6 @@ public partial class ChronoJumpWindow
 		//genericWin.DestroyOnAccept=true;
 		//here is comented because we are going to read the checkboxes
 
-		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
 		genericWin.ShowNow();
 	}
 	
@@ -452,6 +451,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint);
+		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
@@ -1279,7 +1279,6 @@ public partial class ChronoJumpWindow
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		genericWin.ShowButtonCancel(false);
-		genericWin.SetButtonAcceptLabel(Catalog.GetString("Close"));
 		genericWin.ShowNow();
 	}
 

@@ -225,15 +225,9 @@ public partial class ChronoJumpWindow
 			calculeCurves();
 		}
 		else if (o == (object) button_encoder_capture_csharp) {
-			encoderProcessCancel = false;
 			Log.WriteLine("AAAAAAAAAAAAAAA");
 			encoderThreadStart(encoderModes.CAPTURE);
 
-			Log.WriteLine("BBBBBBBBBBBBBBB");
-			//wait until finish
-			//while(encoderThread.IsAlive && ! encoderProcessCancel)
-			//	;
-			//then we can start the thread CALCULECURVES below
 			Log.WriteLine("ZZZZZZZZZZZZZZZ");
 		}
 	}
@@ -1974,6 +1968,7 @@ public partial class ChronoJumpWindow
 	/* thread stuff */
 
 	private void encoderThreadStart(encoderModes mode) {
+		encoderProcessCancel = false;
 		if(mode == encoderModes.CAPTURE) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
@@ -2010,12 +2005,6 @@ public partial class ChronoJumpWindow
 	{
 		Log.WriteLine("PPPPPPPPP");
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
-			/*
-			if(encoderProcessCancel){
-				Util.CancelRScript = true;
-			}
-			*/
-
 			finishPulsebar(encoderModes.CAPTURE);
 			Log.Write("dying");
 			return false;
@@ -2106,7 +2095,6 @@ public partial class ChronoJumpWindow
 				mode == encoderModes.RECALCULATE_OR_LOAD )
 		{
 			if(encoderProcessCancel) {
-				encoderProcessCancel = false;
 				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 			} else {
@@ -2126,7 +2114,6 @@ public partial class ChronoJumpWindow
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
-				encoderProcessCancel = false;
 				encoder_pulsebar_analyze.Text = Catalog.GetString("Cancelled");
 			} else {
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),

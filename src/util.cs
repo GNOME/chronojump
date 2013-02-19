@@ -1088,15 +1088,15 @@ public class Util
 		sp.Open();
 		Log.WriteLine("00d");
 		int recordingTime = es.Ep.Time * 1000;
-		int i=-20; //delete first records because there's encoder bug
+		int i =-20; //delete first records because there's encoder bug
 		int b;
 		int sum = 0;
 		string dataString = "";
 		string sep = "";
 		do {
 			b = sp.ReadByte();
-			if(b>200)
-				b=b-256;
+			if(b > 128)
+				b = b-256;
 			i=i+1;
 			if(i >= 0) {
 				Log.Write(sep + b.ToString());

@@ -59,6 +59,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_update_signal;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
+	[Widget] Gtk.DrawingArea encoder_capture_drawingarea;
+	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_encoder_exercise;
 	[Widget] Gtk.Box hbox_combo_encoder_eccon;
@@ -100,6 +102,8 @@ public partial class ChronoJumpWindow
         Gtk.ListStore encoderListStore;
 
 	Thread encoderThread;
+	
+	Gdk.Pixmap encoder_capture_pixmap = null;
 
 	int image_encoder_width;
 	int image_encoder_height;
@@ -110,6 +114,7 @@ public partial class ChronoJumpWindow
 	private string encoderSignalUniqueID;
 
 	private static int encoderCaptureCountdown;
+	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessFinish;
 
@@ -883,6 +888,10 @@ public partial class ChronoJumpWindow
 	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
+		int width=encoder_capture_drawingarea.Allocation.Width;
+		int height=encoder_capture_drawingarea.Allocation.Height;
+		int yrange = height;
+		
 		Log.WriteLine("00a");
 		SerialPort sp = new SerialPort(port);
 		Log.WriteLine("00b");
@@ -890,7 +899,7 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("00c");
 		sp.Open();
 		Log.WriteLine("00d");
-		
+			
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
 		int recordingTime = time * 1000;
@@ -902,15 +911,34 @@ public partial class ChronoJumpWindow
 		
 		int i =-20; //delete first records because there's encoder bug
 		int msCount = 0;
+		int maxy = 1;
+		int miny = 1;
+		encoderCapturePoints = new Gdk.Point[recordingTime];
 		do {
 			b = sp.ReadByte();
 			if(b > 128)
 				b = b-256;
 			i=i+1;
 			if(i >= 0) {
-				Log.Write(sep + b.ToString());
+				//Log.Write(sep + b.ToString());
+
+				sum += b;
+
+				/*
+				if(sum > maxy)
+					maxy = sum;
+				if(sum < miny)
+					miny = sum;
+				yrange = maxy + System.Math.Abs(miny);
+				encoderCapturePointsRange = yrange;
+				*/
+
+				encoderCapturePoints[i] = new Gdk.Point(
+						Convert.ToInt32(width*i/recordingTime),
+						Convert.ToInt32( (height/2) - ( sum * height / 2000) ) //2m detection
+						);
+
 				dataString += sep + b.ToString();
-				//sum += b;
 				sep = ", ";
 			
 				msCount ++;
@@ -919,7 +947,7 @@ public partial class ChronoJumpWindow
 					msCount = 1;
 				}
 			}
-		} while (i < recordingTime && ! encoderProcessCancel && ! encoderProcessFinish);
+		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
 		//Log.WriteLine(sum.ToString());
 
 		Log.WriteLine("00e");
@@ -1977,7 +2005,94 @@ public partial class ChronoJumpWindow
 	}
 
 	/* end of sensitivity stuff */	
+	
+	/* update capture graph */	
+	
+	private void updateEncoderCaptureGraph() {
+		if(encoderCapturePoints != null) {
+Log.WriteLine("RRR");	
+			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
+Log.WriteLine("RRR2");	
+		
+			pen_azul = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
+			pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
+					
+Log.WriteLine("RRR3");	
+
+/*
+			int height=encoder_capture_drawingarea.Allocation.Height;
+			for(int i=0; i < encoderCapturePoints.Length ; i ++)
+				encoderCapturePoints[i].Y = Convert.ToInt32(
+						encoderCapturePoints[i].Y * height / encoderCapturePointsRange);
+*/
+
+
+			//also can be optimized to do not erase window every time and only add points since last time
+			encoder_capture_pixmap.DrawPoints(pen_azul, encoderCapturePoints);
+
+			/*
+			Gdk.Point [] myPoints = new Gdk.Point[3];
+			myPoints[0] = new Gdk.Point(20,20);
+			myPoints[1] = new Gdk.Point(40,20);
+			myPoints[2] = new Gdk.Point(100,20);
+			encoder_capture_pixmap.DrawPoints(pen_azul, myPoints);
+			*/
+Log.WriteLine("RRR4");	
+		}
+	}
+	
+	int encoder_capture_allocationXOld;
+	bool encoder_capture_sizeChanged;
+	public void on_encoder_capture_drawingarea_configure_event(object o, ConfigureEventArgs args)
+	{
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+
+		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
+		
+		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
+				allocation.Width != encoder_capture_allocationXOld) {
+			encoder_capture_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+		
+			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
 			
+			encoder_capture_sizeChanged = false;
+		}
+
+		encoder_capture_allocationXOld = allocation.Width;
+	}
+	
+	public void on_encoder_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
+	{
+		/* in some mono installations, configure_event is not called, but expose_event yes. 
+		 * Do here the initialization
+		 */
+		
+		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
+		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
+				allocation.Width != encoder_capture_allocationXOld) {
+			encoder_capture_pixmap = new Gdk.Pixmap (encoder_capture_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
+			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
+
+			encoder_capture_sizeChanged = false;
+		}
+
+		Gdk.Rectangle area = args.Event.Area;
+
+		//sometimes this is called when pait is finished
+		//don't let this erase win
+		if(encoder_capture_pixmap != null) {
+			args.Event.Window.DrawDrawable(encoder_capture_drawingarea.Style.WhiteGC, encoder_capture_pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+		
+		encoder_capture_allocationXOld = allocation.Width;
+	}
+
+
+	/* end of update capture graph */	
 	
 	/* thread stuff */
 
@@ -2028,6 +2143,8 @@ public partial class ChronoJumpWindow
 			return false;
 		}
 		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		updateEncoderCaptureGraph();
+
 		Thread.Sleep (50);
 		Log.Write(encoderThread.ThreadState.ToString());
 		return true;
@@ -2181,4 +2298,3 @@ public partial class ChronoJumpWindow
 	/* end of thread stuff */
 	
 }	
-

@@ -4622,7 +4622,7 @@ Console.WriteLine("X");
 
 	private void deleted_last_test_update_widgets() {
 		vbox_this_test_buttons.Sensitive = false;
-		event_execute_clearDrawingArea();
+		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
 		notebook_results_data.CurrentPage = 7; //shows "deleted test"
 	}
 	
@@ -5360,29 +5360,38 @@ Console.WriteLine("X");
 	}
    
 	private void sensitiveGuiEventDone () {
+Log.WriteLine("1");
 		session_menuitem.Sensitive = true;
 		help_menuitem.Sensitive = true;
+Log.WriteLine("2");
 		viewport_mode_small.Sensitive = true;
 		frame_persons.Sensitive = true;
+Log.WriteLine("3");
 
 		button_execute_test.Sensitive = true;
+Log.WriteLine("4");
 		
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 
+Log.WriteLine("5");
 		//hbox
 		hbox_jumps.Sensitive = true;
 		hbox_jumps_rj.Sensitive = true;
 		table_runs.Sensitive = true;
+Log.WriteLine("6");
 		hbox_runs_interval.Sensitive = true;
 		hbox_pulses.Sensitive = true;
 		//hbox_multi_chronopic_buttons.Sensitive = true;
 		vbox_this_test_buttons.Sensitive = true;
+Log.WriteLine("7");
 		
 		button_upload_session.Sensitive = true;
 		button_activate_chronopics.Sensitive = true;
+Log.WriteLine("8");
 		notebook_options.Sensitive = true;
 		event_execute_button_update.Sensitive = true;
 
+Log.WriteLine("9");
 		//allow repeat last jump or run (check also if it wasn't cancelled)
 		if(! currentEventExecute.Cancel) {
 			switch (currentEventType.Type) {
@@ -5400,6 +5409,7 @@ Console.WriteLine("X");
 					break;
 			}
 		}
+Log.WriteLine("10");
 	}
 
 	private void showHideActionEventButtons(bool show, string type) {

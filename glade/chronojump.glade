@@ -12707,7 +12707,7 @@ on current Chronojump version.</property>
                                                             <widget class="GtkHBox" id="hbox87">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_load_signal">
                                                             <property name="visible">True</property>
@@ -12865,16 +12865,75 @@ on current Chronojump version.</property>
                                                 <property name="spacing">4</property>
                                                 <property name="homogeneous">True</property>
                                                 <child>
-                                                  <widget class="GtkViewport" id="viewport_image_encoder_capture">
+                                                  <widget class="GtkNotebook" id="notebook3">
                                                     <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="resize_mode">queue</property>
+                                                    <property name="can_focus">True</property>
                                                     <child>
-                                                      <widget class="GtkImage" id="image_encoder_capture">
+                                                      <widget class="GtkFrame" id="frame7">
+                                                        <property name="visible">True</property>
+                                                        <property name="sensitive">False</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label_xalign">0</property>
+                                                        <property name="shadow_type">out</property>
+                                                        <child>
+                                                          <widget class="GtkDrawingArea" id="encoder_capture_drawingarea">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">False</property>
+                                                            <signal name="configure_event" handler="on_encoder_capture_drawingarea_configure_event" swapped="no"/>
+                                                            <signal name="expose_event" handler="on_encoder_capture_drawingarea_expose_event" swapped="no"/>
+                                                          </widget>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkLabel" id="label_encoder_capture_title">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="type">label_item</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label114">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="stock">gtk-missing-image</property>
+                                                        <property name="label" translatable="yes">page 1</property>
                                                       </widget>
+                                                      <packing>
+                                                        <property name="tab_fill">False</property>
+                                                        <property name="type">tab</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkViewport" id="viewport_image_encoder_capture">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="resize_mode">queue</property>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image_encoder_capture">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">1</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label115">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="label" translatable="yes">page 2</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="position">1</property>
+                                                        <property name="tab_fill">False</property>
+                                                        <property name="type">tab</property>
+                                                      </packing>
                                                     </child>
                                                   </widget>
                                                   <packing>

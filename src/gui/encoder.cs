@@ -46,6 +46,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] Gtk.SpinButton spin_encoder_capture_height;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.TreeView treeview_encoder_curves;
@@ -59,6 +60,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_update_signal;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
+	[Widget] Gtk.Notebook notebook_encoder_capture;
 	[Widget] Gtk.DrawingArea encoder_capture_drawingarea;
 	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise;
@@ -232,6 +234,9 @@ public partial class ChronoJumpWindow
 			calculeCurves();
 		}
 		else if (o == (object) button_encoder_capture_csharp) {
+			if(notebook_encoder_capture.CurrentPage == 1)
+				notebook_encoder_capture.PrevPage();
+
 			Log.WriteLine("AAAAAAAAAAAAAAA");
 			encoderThreadStart(encoderModes.CAPTURE);
 
@@ -255,7 +260,7 @@ public partial class ChronoJumpWindow
 				"  Disavantages: Open new window is slow and there are problems on some computers\n\n" +
 				"- <b>Safe</b>: Capture happens in this window\n" +
 				"  Advantages: Fast and without problems\n" + 
-				"  Disavantages: Currently It doesn't plot graphs or calculates power at realtime\n\n" +
+				"  Disavantages: Currently at realtime only plots a simple graph\n\n" +
 				"Conclusion: In next versions 'Safe' mode will be the only one\n" +
 				"Now it lacks features like realtime statistics and graphs\n" +
 				"<b>After</b> capturing, both methods show the same results" +
@@ -266,7 +271,7 @@ public partial class ChronoJumpWindow
 				"  Desventajas: Abrir una nueva ventana es lento y da problemas en algunos equipos\n\n" +
 				"- <b>Safe (seguro)</b>: Se captura en esta ventana\n" +
 				"  Ventajas: Rápido y no da problemas\n" + 
-				"  Desventajas: Actualmente no calcula estadíticos ni pinta gráficos en tiempo real\n\n" +
+				"  Desventajas: Actualmente en tiempo real sólo muestra un gráfico sencillo\n\n" +
 				"Conclusión: En las siguientes versiones el modo 'Seguro' será el único\n" +
 				"En este momento carece de las ventajas del modo externo\n" +
 				"<b>Después</b> de la captura, ambos métodos muestran los mismos resultados"
@@ -890,7 +895,8 @@ public partial class ChronoJumpWindow
 	{
 		int width=encoder_capture_drawingarea.Allocation.Width;
 		int height=encoder_capture_drawingarea.Allocation.Height;
-		int yrange = height;
+		//int yrange = height;
+		double realHeight = 1000 * 2 * spin_encoder_capture_height.Value;
 		
 		Log.WriteLine("00a");
 		SerialPort sp = new SerialPort(port);
@@ -911,8 +917,8 @@ public partial class ChronoJumpWindow
 		
 		int i =-20; //delete first records because there's encoder bug
 		int msCount = 0;
-		int maxy = 1;
-		int miny = 1;
+		//int maxy = 1;
+		//int miny = 1;
 		encoderCapturePoints = new Gdk.Point[recordingTime];
 		do {
 			b = sp.ReadByte();
@@ -935,7 +941,8 @@ public partial class ChronoJumpWindow
 
 				encoderCapturePoints[i] = new Gdk.Point(
 						Convert.ToInt32(width*i/recordingTime),
-						Convert.ToInt32( (height/2) - ( sum * height / 2000) ) //2m detection
+						//Convert.ToInt32( (height/2) - ( sum * height / 2000) ) //2m detection
+						Convert.ToInt32( (height/2) - ( sum * height / realHeight) )
 						);
 
 				dataString += sep + b.ToString();
@@ -1902,7 +1909,7 @@ public partial class ChronoJumpWindow
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
 		//c0 button_encoder_capture, button_encoder_capture_csharp, 
-		//	button_encoder_bells, spin_encoder_capture_time
+		//	button_encoder_bells, spin_encoder_capture_time, spin_encoder_capture_height
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
@@ -1966,6 +1973,7 @@ public partial class ChronoJumpWindow
 		button_encoder_capture_csharp.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_bells.Sensitive = Util.IntToBool(table[0]);
 		spin_encoder_capture_time.Sensitive = Util.IntToBool(table[0]);
+		spin_encoder_capture_height.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
@@ -2255,7 +2263,16 @@ Log.WriteLine("RRR4");
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+				if(notebook_encoder_capture.CurrentPage == 0 )
+					notebook_encoder_capture.NextPage();
 			}
+
+			if(
+				( mode == encoderModes.CALCULECURVES || 
+				  mode == encoderModes.RECALCULATE_OR_LOAD ) &&
+				notebook_encoder_capture.CurrentPage == 0 )
+					notebook_encoder_capture.NextPage();
+
 			if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);

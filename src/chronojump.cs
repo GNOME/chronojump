@@ -673,8 +673,11 @@ Console.WriteLine("--6--");
 			//delete the '\n' that ReaderToEnd() has put
 			pid = pid.TrimEnd(new char[1] {'\n'});
 			
-			//Process [] pids = Process.GetProcessesByName("Chronojump");
-			Process [] pids = Process.GetProcessesByName("mono");
+			string searchName = "mono";
+			if(Util.IsWindows())
+				searchName = "Chronojump";
+						
+			Process [] pids = Process.GetProcessesByName(searchName);
 			
 			foreach (Process myPid in pids)
 				if (myPid.Id == Convert.ToInt32(pid))

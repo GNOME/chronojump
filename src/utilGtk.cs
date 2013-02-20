@@ -317,4 +317,25 @@ public class UtilGtk
 		l.TooltipText = Util.RemoveMarkup(s);
 	}
 
+	// -- drawingarea stuff
+	
+	public static void ErasePaint(Gtk.DrawingArea da, Gdk.Pixmap px) {
+		px.DrawRectangle (da.Style.WhiteGC, true, 0, 0, da.Allocation.Width, da.Allocation.Height);
+		da.QueueDraw(); // -- refresh
+	}
+	
+	//called for cleaning the graph of a event done before than the current
+	public static void ClearDrawingArea(Gtk.DrawingArea da, Gdk.Pixmap px) 
+	{
+		if(px == null) 
+			px = new Gdk.Pixmap (da.GdkWindow, da.Allocation.Width, da.Allocation.Height, -1);
+		
+		UtilGtk.ErasePaint(da, px);
+	}
+	
+
+
+
+
+	// -- end of drawingarea stuff
 }

@@ -248,7 +248,8 @@ public partial class ChronoJumpWindow
 
 		event_execute_button_cancel.Sensitive = true;
 
-		event_execute_clearDrawingArea();
+		UtilGtk.ClearDrawingArea(event_execute_drawingarea, event_execute_pixmap);
+
 		clearProgressBars();
 
 	
@@ -461,15 +462,6 @@ public partial class ChronoJumpWindow
 	}
 	*/
 	
-	//called for cleaning the graph of a event done before than the current
-	private void event_execute_clearDrawingArea() 
-	{
-		if(event_execute_pixmap == null) 
-			event_execute_pixmap = new Gdk.Pixmap (event_execute_drawingarea.GdkWindow, event_execute_drawingarea.Allocation.Width, event_execute_drawingarea.Allocation.Height, -1);
-		
-		event_execute_erasePaint(event_execute_drawingarea);
-	}
-	
 	//reactive, interval, pulse events, put flag needSensitiveButtonFinish to true when started
 	//event.cs (Pulse.GTK) calls this method:
 	//public void ButtonFinishMakeSensitive() {
@@ -506,7 +498,7 @@ public partial class ChronoJumpWindow
 		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
 			event_execute_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
-			event_execute_erasePaint(event_execute_drawingarea);
+			UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 			
 			sizeChanged = false;
 		}
@@ -523,7 +515,7 @@ public partial class ChronoJumpWindow
 		Gdk.Rectangle allocation = event_execute_drawingarea.Allocation;
 		if(event_execute_pixmap == null || sizeChanged || allocation.Width != allocationXOld) {
 			event_execute_pixmap = new Gdk.Pixmap (event_execute_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			event_execute_erasePaint(event_execute_drawingarea);
+			UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 
 			sizeChanged = false;
 		}
@@ -542,14 +534,6 @@ public partial class ChronoJumpWindow
 		allocationXOld = allocation.Width;
 	}
 
-
-	private void event_execute_erasePaint(Gtk.DrawingArea drawingarea) {
-		event_execute_pixmap.DrawRectangle (drawingarea.Style.WhiteGC, true, 0, 0,
-				drawingarea.Allocation.Width, drawingarea.Allocation.Height);
-		
-		// -- refresh
-		drawingarea.QueueDraw();
-	}
 
 	CapturerBin capturer;
 	//Gtk.Window capturerWindow;
@@ -1090,7 +1074,7 @@ Log.WriteLine("Preparing reactive A");
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
@@ -1169,7 +1153,7 @@ Log.WriteLine("Preparing reactive A");
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 		
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		writeMarginsText(maxValue, minValue, alto);
 		
 		//check now here that we will have not division by zero problems
@@ -1225,7 +1209,7 @@ Log.WriteLine("Preparing reactive A");
 		int alto=drawingarea.Allocation.Height;
 
 		
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
 		writeMarginsText(maxValue, minValue, alto);
 		
@@ -1388,7 +1372,7 @@ Log.WriteLine("Preparing reactive A");
 		int alto=drawingarea.Allocation.Height;
 		
 		
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
 		writeMarginsText(maxValue, minValue, alto);
 		
@@ -1496,7 +1480,7 @@ Log.WriteLine("Preparing reactive A");
 		int alto=drawingarea.Allocation.Height;
 		
 		
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
 		writeMarginsText(maxValue, minValue, alto);
 		
@@ -1599,7 +1583,7 @@ Log.WriteLine("Preparing reactive A");
 
 		int ancho=drawingarea.Allocation.Width;
 
-		event_execute_erasePaint(drawingarea);
+		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 
 		//writeMarginsText(maxValue, minValue, alto);
 		writeCpNames();

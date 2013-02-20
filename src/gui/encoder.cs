@@ -555,7 +555,9 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				selectedFileName, "NULL", ep);
+				selectedFileName, 
+				Util.GetEncoderStatusTempFileName(),
+				ep);
 
 		Util.RunEncoderGraph(
 				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 

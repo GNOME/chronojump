@@ -1,0 +1,2 @@
+#!/bin/sh
+exec mono $MONO_OPTIONS $CERBERO_PREFIX/lib/mono/4.0/xbuild.exe "$@"

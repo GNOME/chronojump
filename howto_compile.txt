@@ -36,6 +36,10 @@ http://people.gnome.org/~amorales/gstreamer-sdk.7z
 extract here:
 c:\gstreamer-sdk\0.10\x86\...
 
+at win32/xbuild_files
+Copy xbuild to /c/gstreamer-sdk/0.10/x86/bin
+Copy xbuild.exe to /c/gstreamer-sdk/0.10/x86/lib/mono/4.0
+
 Install all the Python stuff for encoder capture:
 py2exe and pygame will not run fine in a XP if compiled on a 64 bits machine.
 Install 32 bits stuff:

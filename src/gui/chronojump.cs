@@ -5341,7 +5341,7 @@ Console.WriteLine("X");
 		
 		button_execute_test.Sensitive = false;
 
-		encoderButtonsSensitive(encoderSensEnum.PROCESSING);
+		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		
 		//hbox
 		hbox_jumps.Sensitive = false;

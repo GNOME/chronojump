@@ -40,6 +40,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_csharp;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
+	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
@@ -110,13 +111,14 @@ public partial class ChronoJumpWindow
 
 	private static int encoderCaptureCountdown;
 	private static bool encoderProcessCancel;
+	private static bool encoderProcessFinish;
 
 	//CAPTURE is the capture from csharp (not from external python)	
 	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
 	enum encoderModes { CAPTURE, CALCULECURVES, RECALCULATE_OR_LOAD, ANALYZE } 
 	enum encoderSensEnum { 
-		NOSESSION, NOPERSON, YESPERSON, PROCESSING, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
-	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSING
+		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
+	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
  
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
@@ -269,6 +271,11 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
 	{
 		encoderProcessCancel = true;
+	}
+
+	void on_button_encoder_capture_finish_clicked (object o, EventArgs args) 
+	{
+		encoderProcessFinish = true;
 	}
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
@@ -912,7 +919,7 @@ public partial class ChronoJumpWindow
 					msCount = 1;
 				}
 			}
-		} while (i < recordingTime && ! encoderProcessCancel);
+		} while (i < recordingTime && ! encoderProcessCancel && ! encoderProcessFinish);
 		//Log.WriteLine(sum.ToString());
 
 		Log.WriteLine("00e");
@@ -1877,7 +1884,8 @@ public partial class ChronoJumpWindow
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 button_encoder_analyze_data_show_user_curves
-		//c7 button_cancel (on capture and analyze)
+		//c7 button_encoder_capture_cancel (on capture and analyze)
+		//c8 button_encoder_capture_finish (only on capture)
 
 		//other dependencies
 		//c5 True needs 
@@ -1885,17 +1893,18 @@ public partial class ChronoJumpWindow
 		//	(! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
 		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
 
-		if(option != encoderSensEnum.PROCESSING)
+		if(option != encoderSensEnum.PROCESSINGCAPTURE && option != encoderSensEnum.PROCESSINGR)
 			encoderSensEnumStored = option;
 		
-		//columns		 0  1  2  3  4  5  6  7
-		int [] noSession = 	{0, 0, 0, 0, 0, 0, 0, 0};
-		int [] noPerson = 	{0, 0, 0, 0, 0, 0, 0, 0};
-		int [] yesPerson = 	{1, 0, 1, 0, 0, 1, 1, 0};
-		int [] processing = 	{0, 0, 0, 0, 0, 0, 0, 1};
-		int [] doneNoSignal = 	{1, 0, 1, 0, 0, 1, 1, 0};
-		int [] doneYesSignal = 	{1, 1, 1, 1, 0, 1, 1, 0};
-		int [] selectedCurve = 	{1, 1, 1, 1, 1, 1, 1, 0};
+		//columns		 	 0  1  2  3  4  5  6  7  8
+		int [] noSession = 		{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		int [] noPerson = 		{0, 0, 0, 0, 0, 0, 0, 0, 0};
+		int [] yesPerson = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
+		int [] processingCapture = 	{0, 0, 0, 0, 0, 0, 0, 1, 1};
+		int [] processingR = 		{0, 0, 0, 0, 0, 0, 0, 1, 0};
+		int [] doneNoSignal = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
+		int [] doneYesSignal = 		{1, 1, 1, 1, 0, 1, 1, 0, 0};
+		int [] selectedCurve = 		{1, 1, 1, 1, 1, 1, 1, 0, 0};
 		int [] table = new int[7];
 
 		switch(option) {
@@ -1908,8 +1917,11 @@ public partial class ChronoJumpWindow
 			case encoderSensEnum.YESPERSON:
 				table = yesPerson;
 				break;
-			case encoderSensEnum.PROCESSING:
-				table = processing;
+			case encoderSensEnum.PROCESSINGCAPTURE:
+				table = processingCapture;
+				break;
+			case encoderSensEnum.PROCESSINGR:
+				table = processingR;
 				break;
 			case encoderSensEnum.DONENOSIGNAL:
 				table = doneNoSignal;
@@ -1960,6 +1972,8 @@ public partial class ChronoJumpWindow
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
 		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);
+		
+		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
 	}
 
 	/* end of sensitivity stuff */	
@@ -1969,12 +1983,14 @@ public partial class ChronoJumpWindow
 
 	private void encoderThreadStart(encoderModes mode) {
 		encoderProcessCancel = false;
+		encoderProcessFinish = false;
 		if(mode == encoderModes.CAPTURE) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			encoderThread = new Thread(new ThreadStart(captureCsharp));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 			Log.WriteLine("DDDDDDDDDDDDDDD");
+			encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
 		} else if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
@@ -1987,6 +2003,7 @@ public partial class ChronoJumpWindow
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalculeCurves));
 			else // mode == encoderModes.RECALCULATE_OR_LOAD
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
+			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		} else { //encoderModes.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
@@ -1996,15 +2013,16 @@ public partial class ChronoJumpWindow
 		
 			encoderThread = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
+			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		}
-		encoderButtonsSensitive(encoderSensEnum.PROCESSING);
 		encoderThread.Start(); 
 	}
-	
+
+	//this is the only who was finish	
 	private bool pulseGTKEncoderCapture ()
 	{
 		Log.WriteLine("PPPPPPPPP");
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+		if(! encoderThread.IsAlive || encoderProcessCancel || encoderProcessFinish) {
 			finishPulsebar(encoderModes.CAPTURE);
 			Log.Write("dying");
 			return false;
@@ -2115,9 +2133,16 @@ public partial class ChronoJumpWindow
 				mode == encoderModes.CALCULECURVES || 
 				mode == encoderModes.RECALCULATE_OR_LOAD )
 		{
+			Log.WriteLine("ffffffinishPulsebarrrrr");
 			if(encoderProcessCancel) {
-				encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+			}
+			if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
+				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+				encoderButtonsSensitive(encoderSensEnumStored);
+				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} else {
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;

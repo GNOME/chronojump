@@ -83,7 +83,8 @@ public class HelpPorts
 				Catalog.GetString("If you want a safer port, press:") + "\n" +
 				Catalog.GetString("Force Chronopic to port <b>COM1 - COM4</b>'.");
 			label_help_info.UseMarkup = true;
-		}
+		} else
+			label_help_info.Visible = false;
 
 		label_help_manual.Text = 
 			Catalog.GetString("More information on <b>Chronojump Manual</b>") + "\n" +

@@ -67,8 +67,8 @@ public class HelpPorts
 		} else {
 			messageInfo = Constants.PortNamesLinux;
 			messageDetected = Util.DetectPortsLinux(true); //formatting
-//			button_check_port.Hide();
-//			button_force_port.Hide();
+			button_check_port.Hide();
+			button_force_port.Hide();
 		}
 		
 		label_info.Text = messageInfo;
@@ -76,13 +76,14 @@ public class HelpPorts
 		label_detected.Text = messageDetected;
 		label_detected.UseMarkup = true;
 	
-//		if(Util.IsWindows())
-		label_help_info.Text = 
-			Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n\n" + 
-			Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
-			Catalog.GetString("If you want a safer port, press:") + "\n" +
-			Catalog.GetString("Force Chronopic to port <b>COM1 - COM4</b>'.");
-		label_help_info.UseMarkup = true;
+		if(Util.IsWindows()) {
+			label_help_info.Text = 
+				Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n\n" + 
+				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
+				Catalog.GetString("If you want a safer port, press:") + "\n" +
+				Catalog.GetString("Force Chronopic to port <b>COM1 - COM4</b>'.");
+			label_help_info.UseMarkup = true;
+		}
 
 		label_help_manual.Text = 
 			Catalog.GetString("More information on <b>Chronojump Manual</b>") + "\n" +

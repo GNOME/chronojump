@@ -33,7 +33,8 @@ public class HelpPorts
 	[Widget] Gtk.Label label_info;
 	[Widget] Gtk.Label label_detection;
 	[Widget] Gtk.Label label_detected;
-	[Widget] Gtk.Label label_manual;
+	[Widget] Gtk.Label label_help_info;
+	[Widget] Gtk.Label label_help_manual;
 	[Widget] Gtk.Button button_check_port;
 	[Widget] Gtk.Button button_force_port;
 
@@ -66,22 +67,29 @@ public class HelpPorts
 		} else {
 			messageInfo = Constants.PortNamesLinux;
 			messageDetected = Util.DetectPortsLinux(true); //formatting
-			button_check_port.Hide();
-			button_force_port.Hide();
+//			button_check_port.Hide();
+//			button_force_port.Hide();
 		}
 		
 		label_info.Text = messageInfo;
 		label_info.UseMarkup = true;
 		label_detected.Text = messageDetected;
 		label_detected.UseMarkup = true;
-		
-		label_manual.Text = 
+	
+//		if(Util.IsWindows())
+		label_help_info.Text = 
+			Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n\n" + 
+			Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
+			Catalog.GetString("If you want a safer port, press:") + "\n" +
+			Catalog.GetString("Force Chronopic to port <b>COM1 - COM4</b>'.");
+		label_help_info.UseMarkup = true;
+
+		label_help_manual.Text = 
 			Catalog.GetString("More information on <b>Chronojump Manual</b>") + "\n" +
 			"<i>" + Path.GetFullPath(Util.GetManualDir()) + "</i>\n\n" + 
 			Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 			"<i>http://chronojump.org/documents.html</i>";
-		label_manual.UseMarkup = true;
-		
+		label_help_manual.UseMarkup = true;
 	}
 	
 	private void on_button_check_port_clicked (object o, EventArgs args)

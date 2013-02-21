@@ -48,6 +48,11 @@ public class ChronopicWindow
 	static ChronopicWindow ChronopicWindowBox;
 	ChronopicConnection chronopicConnectionWin;
 
+	[Widget] Gtk.Notebook notebook_main;
+	[Widget] Gtk.RadioButton radio_contacts;
+	[Widget] Gtk.RadioButton radio_encoder;
+	//[Widget] Gtk.Image image_contact_modular;
+	//[Widget] Gtk.Image image_infrared;
 
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
@@ -148,8 +153,15 @@ public class ChronopicWindow
 
 		setDefaultValues();		
 		
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_128.png");
-		chronopic_image.Pixbuf = pixbuf;
+		//Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_128.png");
+		//chronopic_image.Pixbuf = pixbuf;
+		/*
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameContactPlatformModular);
+		image_contact_modular.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(true) + Constants.FileNameInfrared);
+		image_infrared.Pixbuf = pixbuf;
+		*/
 
 		/*
 		if(chronopicPort1 != Constants.ChronopicDefaultPortWindows && 
@@ -194,9 +206,8 @@ public class ChronopicWindow
 		ChronopicWindowBox.checkChronopicDisconnected();
 		ChronopicWindowBox.createCombos();
 
-		//findPorts only puts info on textview
 		//ports info comes from gui/chronojump.cs to Create mehod
-		ChronopicWindowBox.findPorts();
+		ChronopicWindowBox.info();
 
 		ChronopicWindowBox.chronopic_window.Show();
 		ChronopicWindowBox.chronopic_window.Present();
@@ -244,6 +255,15 @@ Log.WriteLine("bbb");
 		
 		//encoderPort = "";
 		//fakeButtonCancelled = new Gtk.Button();
+	}
+	
+	private void on_radio_contacts_toggled(object o, EventArgs args) {
+		if(radio_contacts.Active && notebook_main.CurrentPage == 1)
+			notebook_main.PrevPage();
+	}
+	private void on_radio_encoder_toggled(object o, EventArgs args) {
+		if(radio_encoder.Active && notebook_main.CurrentPage == 0)
+			notebook_main.NextPage();
 	}
 	
 	//check if user has disconnected chronopic or port has changed
@@ -441,17 +461,20 @@ Log.WriteLine("bbb");
 		}
 	}
 	
-	private void findPorts() {
-		string saferPorts = "";
-		if(Util.IsWindows())
+	private void info() {
+//		string saferPorts = "";
+//		if(Util.IsWindows())
+		/*
 			saferPorts =
-				"\n\n" + Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the driver installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n" + 
+				"\n" + Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the driver installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n" + 
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
 				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 - COM4'.");
+				*/
 
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
-				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") +
-				saferPorts
+				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") + "\n" + 
+				Catalog.GetString("If you have problems connecting with Chronopic, press help button.")  
+				//saferPorts
 				);
 	}
 

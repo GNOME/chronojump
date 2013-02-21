@@ -14628,12 +14628,44 @@ Evaluator can use real name or nickname.</property>
       <widget class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="spacing">8</property>
+        <property name="spacing">12</property>
         <child>
-          <widget class="GtkImage" id="chronopic_image">
+          <widget class="GtkTable" id="table1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="stock">gtk-missing-image</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">2</property>
+            <property name="row_spacing">2</property>
+            <child>
+              <widget class="GtkRadioButton" id="radio_contacts">
+                <property name="label" translatable="yes">Contacts
+(platform or photocell)</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_radio_contacts_toggled" swapped="no"/>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkRadioButton" id="radio_encoder">
+                <property name="label" translatable="yes">Linear encoder</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">radio_contacts</property>
+                <signal name="toggled" handler="on_radio_encoder_toggled" swapped="no"/>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="expand">True</property>
@@ -14642,11 +14674,13 @@ Evaluator can use real name or nickname.</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkNotebook" id="notebook1">
+          <widget class="GtkNotebook" id="notebook_main">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="show_tabs">False</property>
             <property name="tab_border">4</property>
-            <property name="tab_hborder">12</property>
+            <property name="tab_hborder">8</property>
+            <property name="tab_vborder">0</property>
             <child>
               <widget class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
@@ -15368,7 +15402,6 @@ Just select and then close this window.</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="padding">4</property>
             <property name="position">3</property>
           </packing>
         </child>
@@ -15968,11 +16001,10 @@ Just select and then close this window.</property>
           <widget class="GtkVBox" id="vbox71">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="spacing">10</property>
             <child>
               <widget class="GtkLabel" id="label205">
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">This dialog explains which ports are suitable to be connected with Chronopic</property>
+                <property name="label">This dialog explains which ports are suitable to be connected with Chronopic</property>
                 <property name="wrap">True</property>
               </widget>
               <packing>
@@ -16004,7 +16036,7 @@ Just select and then close this window.</property>
                   <widget class="GtkLabel" id="label514">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Info</property>
+                    <property name="label">Info</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -16041,7 +16073,7 @@ Just select and then close this window.</property>
                   <widget class="GtkLabel" id="label_detection">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Detection</property>
+                    <property name="label">Detection</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -16070,9 +16102,23 @@ Just select and then close this window.</property>
                       <widget class="GtkVBox" id="vbox121">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="spacing">8</property>
+                        <property name="spacing">12</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox268">
+                          <widget class="GtkLabel" id="label_help_info">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="xalign">0</property>
+                            <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkVBox" id="vbox1">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">8</property>
@@ -16081,7 +16127,7 @@ Just select and then close this window.</property>
                                 <property name="label" translatable="yes">Check Chronopic port</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="receives_default">True</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <signal name="clicked" handler="on_button_check_port_clicked" swapped="no"/>
@@ -16097,7 +16143,7 @@ Just select and then close this window.</property>
                                 <property name="label" translatable="yes">Force Chronopic port to COM1 - COM4</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
+                                <property name="receives_default">True</property>
                                 <property name="use_action_appearance">False</property>
                                 <property name="use_underline">True</property>
                                 <signal name="clicked" handler="on_button_force_port_clicked" swapped="no"/>
@@ -16112,19 +16158,21 @@ Just select and then close this window.</property>
                           <packing>
                             <property name="expand">True</property>
                             <property name="fill">True</property>
-                            <property name="position">0</property>
+                            <property name="position">1</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label_manual">
+                          <widget class="GtkLabel" id="label_help_manual">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="xalign">0</property>
                             <property name="use_markup">True</property>
+                            <property name="wrap">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                       </widget>
@@ -16133,9 +16181,8 @@ Just select and then close this window.</property>
                 </child>
                 <child>
                   <widget class="GtkLabel" id="label508">
-                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Help</property>
+                    <property name="label">&lt;b&gt;Help&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
                   <packing>
@@ -16153,6 +16200,7 @@ Just select and then close this window.</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">10</property>
             <property name="position">2</property>
           </packing>
         </child>

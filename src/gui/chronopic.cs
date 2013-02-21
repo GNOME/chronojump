@@ -462,15 +462,6 @@ Log.WriteLine("bbb");
 	}
 	
 	private void info() {
-//		string saferPorts = "";
-//		if(Util.IsWindows())
-		/*
-			saferPorts =
-				"\n" + Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the driver installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n" + 
-				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 
-				Catalog.GetString("If you want a safer port, press help button and press 'Force Chronopic to port COM1 - COM4'.");
-				*/
-
 		textview_ports_found_explanation.Buffer = UtilGtk.TextViewPrint(
 				Catalog.GetString("If you just plugged Chronopic cable and expected port is not listed, close and open again this window.") + "\n" + 
 				Catalog.GetString("If you have problems connecting with Chronopic, press help button.")  
@@ -522,8 +513,6 @@ Log.WriteLine("bbb");
 	private void chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
 		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
-		//if(isWindows)
-		//	Log.WriteLine ( Catalog.GetString ("If you have previously used the modem via a serial port (in a GNU/Linux session, and you selected serial port), Chronojump will crash.") );
 
 		success = true;
 		

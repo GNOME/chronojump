@@ -103,7 +103,8 @@ public partial class ChronoJumpWindow
 	ArrayList encoderCurves;
         Gtk.ListStore encoderListStore;
 
-	Thread encoderThread;
+	Thread encoderThreadCapture;
+	Thread encoderThreadR;
 	
 	Gdk.Pixmap encoder_capture_pixmap = null;
 
@@ -2129,10 +2130,11 @@ Log.WriteLine("RRR4");
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
-				encoderThread = new Thread(new ThreadStart(captureCsharp));
+				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 				Log.WriteLine("DDDDDDDDDDDDDDD");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
+				encoderThreadCapture.Start(); 
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
@@ -2145,12 +2147,13 @@ Log.WriteLine("RRR4");
 
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_curves.Sensitive = false;
-			encoderThread = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
+			encoderThreadR = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			if(mode == encoderModes.CALCULECURVES)
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalculeCurves));
 			else // mode == encoderModes.RECALCULATE_OR_LOAD
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
+			encoderThreadR.Start(); 
 		} else { //encoderModes.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
@@ -2158,18 +2161,18 @@ Log.WriteLine("RRR4");
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
 		
-			encoderThread = new Thread(new ThreadStart(analyze));
+			encoderThreadR = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
+			encoderThreadR.Start(); 
 		}
-		encoderThread.Start(); 
 	}
 
 	//this is the only who was finish	
 	private bool pulseGTKEncoderCapture ()
 	{
 		Log.WriteLine("PPPPPPPPP");
-		if(! encoderThread.IsAlive || encoderProcessCancel || encoderProcessFinish) {
+		if(! encoderThreadCapture.IsAlive || encoderProcessCancel || encoderProcessFinish) {
 			finishPulsebar(encoderModes.CAPTURE);
 			Log.Write("dying");
 			return false;
@@ -2178,13 +2181,13 @@ Log.WriteLine("RRR4");
 		updateEncoderCaptureGraph();
 
 		Thread.Sleep (50);
-		Log.Write(encoderThread.ThreadState.ToString());
+		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());
 		return true;
 	}
 	
 	private bool pulseGTKEncoderCalculeCurves ()
 	{
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
 				Util.CancelRScript = true;
 			}
@@ -2195,13 +2198,13 @@ Log.WriteLine("RRR4");
 		}
 		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(encoderThread.ThreadState.ToString());
+		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
 	}
 	
 	private bool pulseGTKEncoderRecalculateOrLoad ()
 	{
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
 				Util.CancelRScript = true;
 			}
@@ -2212,13 +2215,13 @@ Log.WriteLine("RRR4");
 		}
 		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(encoderThread.ThreadState.ToString());
+		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
 	}
 	
 	private bool pulseGTKEncoderAnalyze ()
 	{
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
 				Util.CancelRScript = true;
 			}
@@ -2229,7 +2232,7 @@ Log.WriteLine("RRR4");
 		}
 		updatePulsebar(encoderModes.ANALYZE); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(encoderThread.ThreadState.ToString());
+		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
 	}
 	

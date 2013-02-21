@@ -892,6 +892,22 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("F22222222222222");
 	}
 	
+	private bool runEncoderCaptureCsharpCheckPort(string port) {
+		Log.WriteLine("00a 1");
+		SerialPort sp = new SerialPort(port);
+		Log.WriteLine("00b 1");
+		sp.BaudRate = 115200;
+		Log.WriteLine("00c 1");
+		try {
+			sp.Open();
+			sp.Close();
+		} catch {
+			return false;
+		}
+		Log.WriteLine("00d 1");
+		return true;
+	}
+
 	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
@@ -900,13 +916,13 @@ public partial class ChronoJumpWindow
 		//int yrange = height;
 		double realHeight = 1000 * 2 * spin_encoder_capture_height.Value;
 		
-		Log.WriteLine("00a");
+		Log.WriteLine("00a 2");
 		SerialPort sp = new SerialPort(port);
-		Log.WriteLine("00b");
+		Log.WriteLine("00b 2");
 		sp.BaudRate = 115200;
-		Log.WriteLine("00c");
+		Log.WriteLine("00c 2");
 		sp.Open();
-		Log.WriteLine("00d");
+		Log.WriteLine("00d 2");
 			
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
@@ -2112,10 +2128,16 @@ Log.WriteLine("RRR4");
 		if(mode == encoderModes.CAPTURE) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
-			encoderThread = new Thread(new ThreadStart(captureCsharp));
-			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
-			Log.WriteLine("DDDDDDDDDDDDDDD");
-			encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
+			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
+				encoderThread = new Thread(new ThreadStart(captureCsharp));
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+				Log.WriteLine("DDDDDDDDDDDDDDD");
+				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
+			} else {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("Chronopic port is not configured."));
+				return;
+			}
 		} else if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 

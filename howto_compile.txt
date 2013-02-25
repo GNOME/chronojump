@@ -71,3 +71,7 @@ sh autogen.sh --prefix /home/windblows/chronojump/win32/dist
 make
 make install
 make win32-installer
+
+Note: currently on windows rdotnet is not ok and make crashes:
+- remove 'rdotnet' in chronojump/Makefile SUBDIRS and DIST_SUBIDRS
+- comment "DLL_REFERENCES = \" and "../rdotnet/R.NET/bin/Debug/RDotNet.dll" in chronojump/src/Makefile

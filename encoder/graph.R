@@ -365,7 +365,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
-		if(length(which(accel$y[concentric]<=-g)) > 0) {
+		if(length(which(accel$y[concentric]<=-g)) > 0 & AnalysisOptions == "p") {
 			propulsiveEnds = min(which(accel$y[concentric]<=-g))
 		} else {
 			propulsiveEnds=max(concentric)

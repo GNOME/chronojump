@@ -2286,25 +2286,26 @@ Log.WriteLine("RRR4");
 				mode == encoderModes.RECALCULATE_OR_LOAD )
 		{
 			Log.WriteLine("ffffffinishPulsebarrrrr");
+			
 			if(encoderProcessCancel) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 				if(notebook_encoder_capture.CurrentPage == 0 )
 					notebook_encoder_capture.NextPage();
+				encoder_pulsebar_capture.Fraction = 1;
 			}
-
-			if(
-				( mode == encoderModes.CALCULECURVES || 
-				  mode == encoderModes.RECALCULATE_OR_LOAD ) &&
-				notebook_encoder_capture.CurrentPage == 0 )
-					notebook_encoder_capture.NextPage();
-
-			if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
+			else if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
-			} else {
+			} 
+			else if(mode == encoderModes.CALCULECURVES || 
+					mode == encoderModes.RECALCULATE_OR_LOAD) {
+
+				if(notebook_encoder_capture.CurrentPage == 0)
+					notebook_encoder_capture.NextPage();
+
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
 				encoderUpdateTreeView();

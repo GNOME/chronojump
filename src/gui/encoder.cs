@@ -2129,18 +2129,6 @@ public partial class ChronoJumpWindow
 		encoder_capture_allocationXOld = allocation.Width;
 	}
 	
-	public void on_encoder_capture_drawingarea_expose_event_call(int x, int y, int width, int height) {
-		if(encoder_capture_pixmap != null) {
-			Log.WriteLine("EXPOSECALL");
-			encoder_capture_drawingarea.GdkWindow.DrawDrawable(
-					encoder_capture_drawingarea.Style.WhiteGC, 
-					encoder_capture_pixmap,
-					x, y,
-					x, y,
-					width, height);
-		}
-	}
-	
 	public void on_encoder_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 

@@ -5896,8 +5896,10 @@ Second Chronopic to platforms.</property>
                                                       <widget class="GtkLabel" id="label8">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Test options&lt;/b&gt;</property>
-                                                        <property name="use_markup">True</property>
+                                                        <property name="label" translatable="yes">Test options</property>
+                                                        <attributes>
+                                                         <attribute name="weight" value="bold"/>
+                                                        </attributes>
                                                       </widget>
                                                       <packing>
                                                         <property name="type">label_item</property>
@@ -11847,8 +11849,10 @@ Second Chronopic to platforms.</property>
                                                   <widget class="GtkLabel" id="label772">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">&lt;b&gt;Graph and report&lt;/b&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="label" translatable="yes">Graph and report</property>
+                                                    <attributes>
+                                                     <attribute name="weight" value="bold"/>
+                                                    </attributes>
                                                   </widget>
                                                   <packing>
                                                     <property name="type">label_item</property>
@@ -14695,8 +14699,10 @@ Evaluator can use real name or nickname.</property>
                   <widget class="GtkLabel" id="label4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">&lt;b&gt;Select your connection&lt;/b&gt;</property>
-                    <property name="use_markup">True</property>
+                    <property name="label" translatable="yes">Select your connection</property>
+                    <attributes>
+                     <attribute name="weight" value="bold"/>
+                    </attributes>
                   </widget>
                   <packing>
                     <property name="type">label_item</property>

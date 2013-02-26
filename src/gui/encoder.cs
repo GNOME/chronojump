@@ -118,6 +118,8 @@ public partial class ChronoJumpWindow
 
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
+	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
+	private static int encoderCapturePointsPainted;			//stored to be realtime displayed
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessFinish;
 
@@ -914,7 +916,6 @@ public partial class ChronoJumpWindow
 	{
 		int width=encoder_capture_drawingarea.Allocation.Width;
 		int height=encoder_capture_drawingarea.Allocation.Height;
-		//int yrange = height;
 		double realHeight = 1000 * 2 * spin_encoder_capture_height.Value;
 		
 		Log.WriteLine("00a 2");
@@ -929,43 +930,40 @@ public partial class ChronoJumpWindow
 		//int recordingTime = es.Ep.Time * 1000;
 		int recordingTime = time * 1000;
 		
-		int b;
+		int byteReaded;
+		int [] bytesReaded = new int[recordingTime];
+
 		int sum = 0;
 		string dataString = "";
 		string sep = "";
 		
 		int i =-20; //delete first records because there's encoder bug
 		int msCount = 0;
-		//int maxy = 1;
-		//int miny = 1;
 		encoderCapturePoints = new Gdk.Point[recordingTime];
+		encoderCapturePointsCaptured = 0;
+		encoderCapturePointsPainted = 0;
 		do {
-			b = sp.ReadByte();
-			if(b > 128)
-				b = b-256;
+			byteReaded = sp.ReadByte();
+			if(byteReaded > 128)
+				byteReaded = byteReaded - 256;
 			i=i+1;
 			if(i >= 0) {
-				//Log.Write(sep + b.ToString());
-
-				sum += b;
-
-				/*
-				if(sum > maxy)
-					maxy = sum;
-				if(sum < miny)
-					miny = sum;
-				yrange = maxy + System.Math.Abs(miny);
-				encoderCapturePointsRange = yrange;
-				*/
+				sum += byteReaded;
+				bytesReaded[i] = byteReaded;
 
 				encoderCapturePoints[i] = new Gdk.Point(
 						Convert.ToInt32(width*i/recordingTime),
-						//Convert.ToInt32( (height/2) - ( sum * height / 2000) ) //2m detection
 						Convert.ToInt32( (height/2) - ( sum * height / realHeight) )
 						);
+				encoderCapturePointsCaptured = i;
 
+				//this slows the process
+				//Do not create a large string
+				//At end write the data without creating big string
+				/*
 				dataString += sep + b.ToString();
 				sep = ", ";
+				*/
 			
 				msCount ++;
 				if(msCount >= 1000) {
@@ -974,7 +972,6 @@ public partial class ChronoJumpWindow
 				}
 			}
 		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
-		//Log.WriteLine(sum.ToString());
 
 		Log.WriteLine("00e");
 		sp.Close();
@@ -983,9 +980,13 @@ public partial class ChronoJumpWindow
 		if(encoderProcessCancel)
 			return false;
 		
-		//TextWriter writer = File.CreateText(es.OutputData1);
 		TextWriter writer = File.CreateText(outputData1);
-		writer.Write(dataString);
+
+		for(int j=0; j < i ; j ++) {
+			writer.Write(sep + bytesReaded[j]);
+			sep = ", ";
+		}
+
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 
@@ -2035,36 +2036,75 @@ public partial class ChronoJumpWindow
 	
 	/* update capture graph */	
 	
-	private void updateEncoderCaptureGraph() {
-		if(encoderCapturePoints != null) {
-Log.WriteLine("RRR");	
-			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
-Log.WriteLine("RRR2");	
-		
+	private void updateEncoderCaptureGraph() 
+	{
+		bool refreshAreaOnly = false;
+
+		if(encoderCapturePoints != null) 
+		{
 			pen_azul = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
 			pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
 					
-Log.WriteLine("RRR3");	
-
-/*
-			int height=encoder_capture_drawingarea.Allocation.Height;
-			for(int i=0; i < encoderCapturePoints.Length ; i ++)
-				encoderCapturePoints[i].Y = Convert.ToInt32(
-						encoderCapturePoints[i].Y * height / encoderCapturePointsRange);
-*/
-
-
 			//also can be optimized to do not erase window every time and only add points since last time
-			encoder_capture_pixmap.DrawPoints(pen_azul, encoderCapturePoints);
+			int last = encoderCapturePointsCaptured;
+			int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
 
-			/*
-			Gdk.Point [] myPoints = new Gdk.Point[3];
-			myPoints[0] = new Gdk.Point(20,20);
-			myPoints[1] = new Gdk.Point(40,20);
-			myPoints[2] = new Gdk.Point(100,20);
-			encoder_capture_pixmap.DrawPoints(pen_azul, myPoints);
-			*/
-Log.WriteLine("RRR4");	
+			//Log.WriteLine("last - toDraw:" + last + " - " + toDraw);	
+
+			//fixes crash at the end
+			if(toDraw == 0)
+				return;
+
+			int maxY=-1;
+			int minY=10000;
+			Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
+			for(int j=0, i=encoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
+			{
+				paintPoints[j] = encoderCapturePoints[i];
+
+				if(refreshAreaOnly) {
+					if(encoderCapturePoints[i].Y > maxY)
+						maxY = encoderCapturePoints[i].Y;
+					if(encoderCapturePoints[i].Y < minY)
+						minY = encoderCapturePoints[i].Y;
+				}
+
+			}
+
+			encoder_capture_pixmap.DrawPoints(pen_azul, paintPoints);
+
+			if(refreshAreaOnly) {
+				/*			
+				Log.WriteLine("pp X-TD-W: " + 
+				paintPoints[0].X.ToString() + " - " + 
+				paintPoints[toDraw-1].X.ToString() + " - " + 
+				(paintPoints[toDraw-1].X-paintPoints[0].X).ToString());
+				*/
+
+				int startX = paintPoints[0].X;
+				/*
+				 * this helps to ensure that no white points are drawed
+				 * caused by this int when encoderCapturePoints are assigned:
+				 * Convert.ToInt32(width*i/recordingTime)
+				 */
+				int exposeMargin = 4;
+				if(startX -exposeMargin > 0)
+					startX -= exposeMargin;	
+
+
+				encoder_capture_drawingarea.QueueDrawArea( 			// -- refresh
+						startX,
+						//0,
+						minY,
+						(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
+						//encoder_capture_drawingarea.Allocation.Height
+						maxY-minY
+						);
+				Log.WriteLine("minY - maxY " + minY + " - " + maxY);
+			} else
+				encoder_capture_drawingarea.QueueDraw(); 			// -- refresh
+
+			encoderCapturePointsPainted = encoderCapturePointsCaptured;
 		}
 	}
 	
@@ -2089,11 +2129,24 @@ Log.WriteLine("RRR4");
 		encoder_capture_allocationXOld = allocation.Width;
 	}
 	
+	public void on_encoder_capture_drawingarea_expose_event_call(int x, int y, int width, int height) {
+		if(encoder_capture_pixmap != null) {
+			Log.WriteLine("EXPOSECALL");
+			encoder_capture_drawingarea.GdkWindow.DrawDrawable(
+					encoder_capture_drawingarea.Style.WhiteGC, 
+					encoder_capture_pixmap,
+					x, y,
+					x, y,
+					width, height);
+		}
+	}
+	
 	public void on_encoder_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
+		Log.WriteLine("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
 		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
@@ -2130,6 +2183,7 @@ Log.WriteLine("RRR4");
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
+				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 				Log.WriteLine("DDDDDDDDDDDDDDD");

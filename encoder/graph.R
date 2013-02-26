@@ -519,7 +519,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 
 	#time to arrive to peak power
-	peakPowerT=which(power == max(power))
+	peakPowerT=min(which(power == max(power)))
 	if(draw & !superpose) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
@@ -1160,39 +1160,47 @@ doProcess <- function(options) {
 			col1 = rawdata[curves[i,1]:curves[i,2]]
 			col2 = rawdata.cumsum[curves[i,1]:curves[i,2]]
 
-			#add mean and max
+			#add mean, max, and time to max
 			col1=append(col1,
-				    c(NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
+				    c(NA,NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
 				    after=0)
 			col2=append(col2,
-				    c(NA,"mean (ABS):","max:",namesNums[((i-1)*curveCols)+2]),
+				    c(NA,"mean (ABS):","max:","time to max:",namesNums[((i-1)*curveCols)+2]),
 				    after=0)
 			kn$speedy=append(kn$speedy,
 					 c(
 					   namesNums[((i-1)*curveCols)+3],
-					   mean(abs(kn$speedy)),max(kn$speedy),
+					   mean(abs(kn$speedy)),
+					   max(kn$speedy),
+					   (min(which(kn$speedy == max(kn$speedy)))/1000),
 					   namesNums[((i-1)*curveCols)+3]),
 					 after=0)
 			kn$accely=append(kn$accely,
 					 c(
 					   namesNums[((i-1)*curveCols)+4],
-					   mean(abs(kn$accely)),max(kn$accely),
+					   mean(abs(kn$accely)),
+					   max(kn$accely),
+					   NA,
 					   namesNums[((i-1)*curveCols)+4]),
 					 after=0)
 			kn$force=append(kn$force,
 					c(
 					  namesNums[((i-1)*curveCols)+5],
-					  mean(abs(kn$force)),max(kn$force),
+					  mean(abs(kn$force)),
+					  max(kn$force),
+					  NA,
 					  namesNums[((i-1)*curveCols)+5]),
 					after=0)
 			kn$power=append(kn$power,
 					c(
 					  namesNums[((i-1)*curveCols)+6],
-					  mean(abs(kn$power)),max(kn$power),
+					  mean(abs(kn$power)),
+					  max(kn$power),
+					  (min(which(kn$power == max(kn$power)))/1000),
 					  namesNums[((i-1)*curveCols)+6]),
 					after=0)
 
-			extraRows=4
+			extraRows=5
 			length(col1)=maxLength+extraRows
 			length(col2)=maxLength+extraRows
 			length(kn$speedy)=maxLength+extraRows

@@ -327,10 +327,11 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
-	public static string ChangeSpaceForUnderscore(string myString) 
+	public static string ChangeSpaceAndMinusForUnderscore(string myString) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
 		myStringBuilder.Replace(" ", "_");
+		myStringBuilder.Replace("-", "_");
 		return myStringBuilder.ToString();
 	}
 	

@@ -230,8 +230,8 @@ public partial class ChronoJumpWindow
 		if (o == (object) button_encoder_capture) {
 			//title to sen to python software has to be without spaces
 			Util.RunEncoderCapturePython( 
-					Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
-					Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
+					Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 					es, chronopicWin.GetEncoderPort());
 
 			calculeCurves();
@@ -366,8 +366,8 @@ public partial class ChronoJumpWindow
 				ep);
 		
 		Util.RunEncoderGraph(
-				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
+				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + findMass(true) + "Kg)",
 				es);
 
@@ -563,8 +563,8 @@ public partial class ChronoJumpWindow
 				ep);
 
 		Util.RunEncoderGraph(
-				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
+				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 					"-(" + findMass(true) + "Kg)",
 				encoderStruct);
 
@@ -877,8 +877,8 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("EEEEEEEEEEEEEEE");
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
 		bool capturedOk = runEncoderCaptureCsharp( 
-				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "----" + 
-				Util.ChangeSpaceForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
+				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
+				Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 				//es, 
 				(int) spin_encoder_capture_time.Value, 
 				Util.GetEncoderDataTempFileName(),
@@ -1118,8 +1118,8 @@ public partial class ChronoJumpWindow
 		//	massString = "";
 
 		Util.RunEncoderGraph(
-				Util.ChangeSpaceForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct);
+				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
+				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

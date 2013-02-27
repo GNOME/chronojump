@@ -104,8 +104,7 @@ public partial class ChronoJumpWindow
 
 	ArrayList encoderCaptureCurves;
         Gtk.ListStore encoderCaptureListStore;
-	ArrayList encoderAnalyzeCurves;
-        Gtk.ListStore encoderAnalyzeListStore;
+	Gtk.ListStore encoderAnalyzeListStore;
 
 	Thread encoderThreadCapture;
 	Thread encoderThreadR;
@@ -310,7 +309,7 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
 			treeviewEncoderCaptureRemoveColumns();
-			int curvesNum = createTreeViewEncoder(true, contents); //capture
+			int curvesNum = createTreeViewEncoderCapture(contents);
 			if(curvesNum == 0) 
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			else {
@@ -393,7 +392,8 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_analyze_data_show_user_curves_clicked (object o, EventArgs args) 
 	{
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		ArrayList data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 
 		ArrayList dataPrint = new ArrayList();
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
@@ -452,7 +452,8 @@ public partial class ChronoJumpWindow
 		string [] checkboxes = genericWin.GetCheckboxesStatus();
 		Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
 
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		ArrayList data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 
 		//update on database the curves that have been selected/deselected
 		int count = 0;
@@ -483,7 +484,8 @@ public partial class ChronoJumpWindow
 		
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal");
+		ArrayList data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -519,8 +521,8 @@ public partial class ChronoJumpWindow
 		
 		genericWin.HideAndNull();
 
-		ArrayList data = SqliteEncoder.Select(false, uniqueID, 
-				currentPerson.UniqueID, currentSession.UniqueID, "signal");
+		ArrayList data = SqliteEncoder.Select(
+				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
 
 		foreach(EncoderSQL es in data) {	//it will run only one time
 			Util.CopyEncoderDataToTemp(es.url, es.filename);
@@ -665,7 +667,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "")[0];
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk) {
@@ -721,8 +723,8 @@ public partial class ChronoJumpWindow
 					if(! Util.IsEven(i)) //use only uneven (spanish: "impar") values
 						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
-			ArrayList data = SqliteEncoder.Select(false, -1, 
-					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			ArrayList data = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 			int activeCurvesNum = getActiveCurvesNum(data);
 			label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 			label_encoder_user_curves_all_num.Text = data.Count.ToString();
@@ -876,8 +878,8 @@ public partial class ChronoJumpWindow
 		//if userCurves and no data, return
 		//TODO: fix this, because curves should be active except in the single curve mode
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
-			ArrayList data = SqliteEncoder.Select(false, -1, 
-					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			ArrayList data = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 			if(data.Count == 0)
 				return;
 			//TODO: in the future plot a "no curves" message,
@@ -1073,8 +1075,8 @@ public partial class ChronoJumpWindow
 
 			//create dataFileName
 			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
-			ArrayList data = SqliteEncoder.Select(false, -1, 
-					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			ArrayList data = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve",false);
 
 			TextWriter writer = File.CreateText(dataFileName);
 			writer.WriteLine("status,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
@@ -1176,8 +1178,8 @@ public partial class ChronoJumpWindow
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		if(currentPerson != null) {
-			ArrayList data = SqliteEncoder.Select(false, -1, 
-					currentPerson.UniqueID, currentSession.UniqueID, "curve");
+			ArrayList data = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 			int activeCurvesNum = getActiveCurvesNum(data);
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
@@ -1547,6 +1549,7 @@ public partial class ChronoJumpWindow
 	//returns curves num
 	//bool captureOrAnalyze means capture when true, and analyze when false
 	//capture has single and multiple selection in order to save curves... Analyze only shows data.
+	/*
 	private int createTreeViewEncoder(bool captureOrAnalyze, string contents) {
 		string [] columnsString = {
 			Catalog.GetString("Curve") + "\n",
@@ -1677,7 +1680,235 @@ public partial class ChronoJumpWindow
 		}
 		return curvesCount;
 	}
+	*/
 
+	private int createTreeViewEncoderCapture(string contents) {
+		string [] columnsString = {
+			Catalog.GetString("Curve") + "\n",
+			Catalog.GetString("Start") + "\n (s)",
+			Catalog.GetString("Duration") + "\n (s)",
+			Catalog.GetString("Range") + "\n (cm)",
+			Catalog.GetString("MeanSpeed") + "\n (m/s)",
+			Catalog.GetString("MaxSpeed") + "\n (m/s)",
+			Catalog.GetString("MeanPower") + "\n (W)",
+			Catalog.GetString("PeakPower") + "\n (W)",
+			Catalog.GetString("PeakPowerTime") + "\n (s)",
+			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
+		};
+
+		encoderCaptureCurves = new ArrayList ();
+
+		string line;
+		int curvesCount = 0;
+		using (StringReader reader = new StringReader (contents)) {
+			line = reader.ReadLine ();	//headers
+			Log.WriteLine(line);
+			do {
+				line = reader.ReadLine ();
+				Log.WriteLine(line);
+				if (line == null)
+					break;
+
+				curvesCount ++;
+
+				string [] cells = line.Split(new char[] {','});
+				cells = fixDecimals(cells);
+
+				encoderCaptureCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
+							cells[3], cells[4], cells[5], cells[6], 
+							cells[7], cells[8], cells[9]));
+
+			} while(true);
+		}
+
+		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		foreach (EncoderCurve curve in encoderCaptureCurves) 
+			encoderCaptureListStore.AppendValues (curve);
+
+		treeview_encoder_capture_curves.Model = encoderCaptureListStore;
+
+		if(ecconLast == "c")
+			treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Single;
+		else
+			treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Multiple;
+
+		treeview_encoder_capture_curves.HeadersVisible=true;
+
+		int i=0;
+		foreach(string myCol in columnsString) {
+			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
+			CellRendererText aCell = new CellRendererText();
+			aColumn.Title=myCol;
+			aColumn.PackStart (aCell, true);
+
+			//crt1.Foreground = "red";
+			//crt1.Background = "blue";
+		
+			switch(i){	
+				case 0:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderN));
+					break;
+				case 1:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					break;
+				case 2:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					break;
+				case 3:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					break;
+				case 4:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					break;
+				case 5:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					break;
+				case 6:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					break;
+				case 7:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					break;
+				case 8:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 9:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					break;
+			}
+			treeview_encoder_capture_curves.AppendColumn (aColumn);
+			i++;
+		}
+		return curvesCount;
+	}
+	
+	private int createTreeViewEncoderAnalyze(string contents) {
+		string [] columnsString = {
+			Catalog.GetString("Curve") + "\n",
+			Catalog.GetString("Exercise") + "\n",
+			Catalog.GetString("Extra weight") + "\n (Kg)",
+			Catalog.GetString("Start") + "\n (s)",
+			Catalog.GetString("Duration") + "\n (s)",
+			Catalog.GetString("Range") + "\n (cm)",
+			Catalog.GetString("MeanSpeed") + "\n (m/s)",
+			Catalog.GetString("MaxSpeed") + "\n (m/s)",
+			Catalog.GetString("MeanPower") + "\n (W)",
+			Catalog.GetString("PeakPower") + "\n (W)",
+			Catalog.GetString("PeakPowerTime") + "\n (s)",
+			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
+		};
+
+		ArrayList encoderAnalyzeCurves = new ArrayList ();
+
+		//write exercise and extra weight data
+		ArrayList curvesData = new ArrayList();
+		string exerciseName = "";
+		string mass = ""; 
+		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+			curvesData = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
+		} else {
+			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
+			mass = findMass(false);
+		}
+
+		string line;
+		int curvesCount = 0;
+		using (StringReader reader = new StringReader (contents)) {
+			line = reader.ReadLine ();	//headers
+			Log.WriteLine(line);
+			do {
+				line = reader.ReadLine ();
+				Log.WriteLine(line);
+				if (line == null)
+					break;
+
+				if(radiobutton_encoder_analyze_data_user_curves.Active) {
+					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
+					exerciseName = eSQL.exerciseName;
+					mass = eSQL.extraWeight;
+				}
+
+				curvesCount ++;
+
+				string [] cells = line.Split(new char[] {','});
+				cells = fixDecimals(cells);
+
+				encoderAnalyzeCurves.Add (new EncoderCurve (
+							cells[0], exerciseName, Convert.ToDouble(mass),
+							cells[1], cells[2], cells[3], 
+							cells[4], cells[5], cells[6], 
+							cells[7], cells[8], cells[9]));
+
+			} while(true);
+		}
+
+		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		foreach (EncoderCurve curve in encoderAnalyzeCurves) 
+			encoderAnalyzeListStore.AppendValues (curve);
+
+		treeview_encoder_analyze_curves.Model = encoderAnalyzeListStore;
+
+		treeview_encoder_analyze_curves.Selection.Mode = SelectionMode.None;
+
+		treeview_encoder_analyze_curves.HeadersVisible=true;
+
+
+		int i=0;
+		foreach(string myCol in columnsString) {
+			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
+			CellRendererText aCell = new CellRendererText();
+			aColumn.Title=myCol;
+			aColumn.PackStart (aCell, true);
+
+			//crt1.Foreground = "red";
+			//crt1.Background = "blue";
+		
+		
+			switch(i){	
+				case 0:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderNAnalyze));
+					break;
+				case 1:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExercise));
+					break;
+				case 2:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
+					break;
+				case 3:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					break;
+				case 4:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					break;
+				case 5:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					break;
+				case 6:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					break;
+				case 7:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					break;
+				case 8:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					break;
+				case 9:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					break;
+				case 10:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 11:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					break;
+			}
+			
+			treeview_encoder_analyze_curves.AppendColumn (aColumn);
+			i++;
+		}
+		return curvesCount;
+	}
 
 	/* rendering columns */
 	private string assignColor(double found, bool higherActive, bool lowerActive, double higherValue, double lowerValue) 
@@ -1726,6 +1957,20 @@ public partial class ChronoJumpWindow
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
 	}
+
+	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.Exercise;
+	}
+
+	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+	}
+
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -1733,6 +1978,7 @@ public partial class ChronoJumpWindow
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(myStart.ToString(),6,3),myStart); 
 	}
+	
 	private void RenderDuration (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -1740,6 +1986,7 @@ public partial class ChronoJumpWindow
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(myDuration.ToString(),5,3),myDuration); 
 	}
+	
 	private void RenderHeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -1951,7 +2198,8 @@ public partial class ChronoJumpWindow
 			
 	//called when a person changes
 	private void encoderPersonChanged() {
-		ArrayList data = SqliteEncoder.Select(false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve");
+		ArrayList data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 		
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
@@ -1982,6 +2230,7 @@ public partial class ChronoJumpWindow
 		treeviewEncoderCaptureRemoveColumns();
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
+		treeview_encoder_analyze_curves.Sensitive = false;
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
@@ -2433,13 +2682,14 @@ public partial class ChronoJumpWindow
 				string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
 				if (contents != null && contents != "") {
 					treeviewEncoderAnalyzeRemoveColumns();
-					createTreeViewEncoder(false, contents); //analyze
+					createTreeViewEncoderAnalyze(contents);
 				}
 			}
 
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoderButtonsSensitive(encoderSensEnumStored);
 			image_encoder_analyze.Sensitive = true;
+			treeview_encoder_analyze_curves.Sensitive = true;
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;

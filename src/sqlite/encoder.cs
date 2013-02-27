@@ -135,7 +135,7 @@ class SqliteEncoder : Sqlite
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	public static ArrayList Select (bool dbconOpened, 
-			int uniqueID, int personID, int sessionID, string signalOrCurve)
+			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -147,12 +147,17 @@ class SqliteEncoder : Sqlite
 			selectStr = "personID = " + personID + " AND sessionID = " + sessionID + 
 			" AND signalOrCurve = '" + signalOrCurve + "'";
 
+		string onlyActiveString = "";
+		if(onlyActive)
+			onlyActiveString = " AND " + Constants.EncoderTable + ".future1 = 'active' ";
+
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
 			" WHERE " + selectStr +
 			" AND " + Constants.EncoderTable + ".exerciseID = " + 
 				Constants.EncoderExerciseTable + ".uniqueID " +
+				onlyActiveString +
 			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
 
 		Log.WriteLine(dbcmd.CommandText.ToString());

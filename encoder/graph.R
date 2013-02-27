@@ -186,13 +186,13 @@ kinematicsF <- function(a, mass, smoothingOne, g) {
 }
 
 powerBars <- function(kinematics) {
-	meanSpeed <- mean(abs(kinematics$speedy))
+	meanSpeed <- mean(kinematics$speedy)
 	maxSpeed <- max(abs(kinematics$speedy))
-	meanPower <- mean(abs(kinematics$power))
+	meanPower <- mean(kinematics$power)
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
-	meanForce <- mean(abs(kinematics$force))
+	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
 
 	#here paf is generated
@@ -815,6 +815,7 @@ doProcess <- function(options) {
 		par(mar=c(2,2.5,2,1))
 	}
 
+	#when a csv is used (it links to lot of files) then singleFile = false
 	singleFile = TRUE
 	if(nchar(File) >= 40) {
 		#file="/tmp...../chronojump-encoder-graph-input-multi.csv"

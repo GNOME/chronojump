@@ -49,6 +49,7 @@ public class EncoderParams
 	private int peakPowerHigherCondition;
 	private int peakPowerLowerCondition;
 	private string mainVariable;
+	private string decimalSeparator;	//used in export data from R to csv
 
 	public EncoderParams()
 	{
@@ -98,7 +99,8 @@ public class EncoderParams
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string analysisOptions, string smooth, int curve, int width, int height)
+			string analysis, string analysisOptions, string smooth, int curve, int width, int height,
+			string decimalSeparator)
 	{
 		this.minHeight = minHeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
@@ -110,12 +112,14 @@ public class EncoderParams
 		this.curve = curve;
 		this.width = width;
 		this.height = height;
+		this.decimalSeparator = decimalSeparator;
 	}
 	
 	public string ToString2 (string sep) 
 	{
-		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + sep + 
-			analysis + sep + analysisOptions + sep + smooth + sep + curve + sep + width + sep + height;
+		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
+			sep + analysis + sep + analysisOptions + sep + smooth + sep + curve + 
+			sep + width + sep + height + sep + decimalSeparator;
 	}
 	
 	public string Analysis {

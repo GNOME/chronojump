@@ -61,6 +61,18 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
+	//used to send to R and export csv there
+	public static string GetDecimalSeparator() {
+		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
+		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
+
+		if(localeInfo.NumberDecimalSeparator == ".")
+			return("POINT");
+		else if(localeInfo.NumberDecimalSeparator == ",")
+			return("COMMA");
+		else 
+			return("OTHER");
+	}
 	
 	//used for load from the database all numbers with correct decimal separator (locale defined)
 	//used also for the tvString, tcString, and runIntervalTimesString

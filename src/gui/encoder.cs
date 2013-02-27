@@ -356,7 +356,9 @@ public partial class ChronoJumpWindow
 				analysisOptions,
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 			       	0, 			//curve is not used here
-				image_encoder_width, image_encoder_height); 
+				image_encoder_width, image_encoder_height,
+				Util.GetDecimalSeparator()
+				); 
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
@@ -551,7 +553,9 @@ public partial class ChronoJumpWindow
 				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 				image_encoder_width,
-				image_encoder_height); 
+				image_encoder_height,
+				Util.GetDecimalSeparator()
+				);
 
 		string dataFileName = Util.GetEncoderDataTempFileName();
 
@@ -1048,7 +1052,9 @@ public partial class ChronoJumpWindow
 					"-1",
 					myCurveNum,
 					image_encoder_width, 
-					image_encoder_height); 
+					image_encoder_height,
+					Util.GetDecimalSeparator()
+					);
 			
 			dataFileName = Util.GetEncoderGraphInputMulti();
 
@@ -1100,7 +1106,9 @@ public partial class ChronoJumpWindow
 					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
-					image_encoder_height); 
+					image_encoder_height,
+					Util.GetDecimalSeparator()
+					);
 			
 			dataFileName = Util.GetEncoderDataTempFileName();
 		}

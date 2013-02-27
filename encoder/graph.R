@@ -170,11 +170,41 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 }
 
 #go here with every single jump
-kinematicsF <- function(a, mass, smoothingOne, g) {
+kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
+
+	#search propulsiveEnds
+	if(eccon=="c") {
+		concentric=1:length(a)
+	} else {	#"ec", "ec-rep"
+		b=extrema(speed$y)
+		#In all the extrema minindex values, search which range (row) has the min values,
+		#and in this range search last value
+		print("searchMinSpeedEnd")
+		searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
+		#In all the extrema maxindex values, search which range (row) has the max values,
+		#and in this range search first value
+		print("searchMaxSpeedIni")
+		searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
+		#find the cross between both
+		print("searchMinCross")
+		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+
+		eccentric=1:b$cross[crossMinRow,1]
+		concentric=b$cross[crossMinRow,2]:length(a)
+	}
+
+	#propulsive phase ends when accel is -9.8
+	if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
+		propulsiveEnds = min(which(accel$y[concentric]<=-g))
+	} else {
+		propulsiveEnds=max(concentric)
+	}
+	#end of search propulsiveEnds
+
 
 #	force <- mass*accel$y
 #	if(isJump)
@@ -182,7 +212,11 @@ kinematicsF <- function(a, mass, smoothingOne, g) {
 
 	power <- force*speed$y
 
-	return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
+	if(analysisOptions == "p")
+		return(list(speedy=speed$y[1:propulsiveEnds], accely=accel$y[1:propulsiveEnds], 
+			    force=force[1:propulsiveEnds], power=power[1:propulsiveEnds], mass=mass))
+	else
+		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
 powerBars <- function(kinematics) {
@@ -202,17 +236,19 @@ powerBars <- function(kinematics) {
 			  kinematics$mass,meanForce,maxForce))
 }
 
-kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g) {
+kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g,eccon,analysisOptions) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
+	myEccon = eccon
 	for(i in 1:n) { 
 		myMass = mass
 		mySmoothingOne = smoothingOne
 		if(! singleFile) {
 			myMass = curves[i,5]
 			mySmoothingOne = curves[i,6]
+			myEccon = curves[i,8]
 		}
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,mySmoothingOne,g)
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,mySmoothingOne,g,myEccon,analysisOptions)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -1008,7 +1044,7 @@ doProcess <- function(options) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata, curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g,Eccon,AnalysisOptions)
 
 		for(i in 1:n) {
 			myMass = Mass
@@ -1050,7 +1086,7 @@ doProcess <- function(options) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata,curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g,Eccon,AnalysisOptions)
 		for(i in 1:n) {
 			#in superpose all jumps end at max height
 			#start can change, some are longer than other
@@ -1102,7 +1138,7 @@ doProcess <- function(options) {
 				myEccon = curves[i,8]
 			}
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
-							     myMass, mySmoothingOne, g))))
+							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
 		}
 		#print(paf)
 		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
@@ -1169,7 +1205,7 @@ doProcess <- function(options) {
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, SmoothingOne, g)
+			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, SmoothingOne, g, Eccon, AnalysisOptions)
 
 			#fill with NAs in order to have the same length
 			col1 = rawdata[curves[i,1]:curves[i,2]]

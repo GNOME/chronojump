@@ -36,7 +36,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=16)
+	options=readLines(optionsCon,n=17)
 	close(optionsCon)
 	return (options)
 }
@@ -56,7 +56,7 @@ options=getOptionsFromFile(optionsFile);
 print(options)
 
 OutputData2=options[4] #currently used to display status
-OperatingSystem=options[16]
+OperatingSystem=options[17]
 
 write("(1/5) Starting R", OutputData2)
 
@@ -786,8 +786,9 @@ doProcess <- function(options) {
 	Jump=options[12]
 	Width=as.numeric(options[13])
 	Height=as.numeric(options[14])
-	Title=options[15]
-	OperatingSystem=options[16]
+	DecimalSeparator=options[15]
+	Title=options[16]
+	OperatingSystem=options[17]
 
 	print(File)
 	print(OutputGraph)
@@ -1148,10 +1149,12 @@ doProcess <- function(options) {
 		}
 
 		curveCols = 6	#change this value if there are more colums
-		names=c("Dist.", "Dist. +", "Speed", "Accel.", "Force", "Power")
+		names=c("DIST.", "DIST. +", "SPEED", "ACCEL.", "FORCE", "POWER")
 		nums=1:curvesNum
 		nums=rep(nums,each=curveCols)		
 		namesNums=paste(names, nums)
+		units=c("\n(mm)", "\n(mm)", "\n(m/s)", "\n(m/s^2)", "\n(N)", "\n(W)")
+		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
 			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, SmoothingOne, g)
@@ -1162,45 +1165,41 @@ doProcess <- function(options) {
 
 			#add mean, max, and time to max
 			col1=append(col1,
-				    c(NA,NA,NA,NA,namesNums[((i-1)*curveCols)+1]),
+				    c(NA,NA,NA,NA),
 				    after=0)
 			col2=append(col2,
-				    c(NA,"mean (ABS):","max:","time to max:",namesNums[((i-1)*curveCols)+2]),
+				    c(NA,NA,NA,range(col2)[2]-range(col2)[1]),
 				    after=0)
 			kn$speedy=append(kn$speedy,
 					 c(
-					   namesNums[((i-1)*curveCols)+3],
 					   mean(abs(kn$speedy)),
 					   max(kn$speedy),
 					   (min(which(kn$speedy == max(kn$speedy)))/1000),
-					   namesNums[((i-1)*curveCols)+3]),
+					   NA),
 					 after=0)
 			kn$accely=append(kn$accely,
 					 c(
-					   namesNums[((i-1)*curveCols)+4],
 					   mean(abs(kn$accely)),
 					   max(kn$accely),
 					   NA,
-					   namesNums[((i-1)*curveCols)+4]),
+					   NA),
 					 after=0)
 			kn$force=append(kn$force,
 					c(
-					  namesNums[((i-1)*curveCols)+5],
 					  mean(abs(kn$force)),
 					  max(kn$force),
 					  NA,
-					  namesNums[((i-1)*curveCols)+5]),
+					  NA),
 					after=0)
 			kn$power=append(kn$power,
 					c(
-					  namesNums[((i-1)*curveCols)+6],
 					  mean(abs(kn$power)),
 					  max(kn$power),
 					  (min(which(kn$power == max(kn$power)))/1000),
-					  namesNums[((i-1)*curveCols)+6]),
+					  NA),
 					after=0)
 
-			extraRows=5
+			extraRows=4
 			length(col1)=maxLength+extraRows
 			length(col2)=maxLength+extraRows
 			length(kn$speedy)=maxLength+extraRows
@@ -1216,16 +1215,22 @@ doProcess <- function(options) {
 						    kn$speedy, kn$accely, kn$force, kn$power))
 		}
 
+		rownames(df) = c("MEAN (ABS)", "MAX", "TIME TO MAX", "RANGE", 1:maxLength)
+		colnames(df) = namesNums
+
 		#TODO: time
 		#TODO: tenir en compte el startH
 
-		Title=gsub('_',' ',Title)
-		print(Title)
-		titleColumns=unlist(strsplit(Title,'-'))
-		colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
+		#Title=gsub('_',' ',Title)
+		#print(Title)
+		#titleColumns=unlist(strsplit(Title,'-'))
+		#colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
 
-		write.csv2(df, file=File, row.names=F, na="")
-		#write.csv2(df, file=File, quotes=F)
+		if(DecimalSeparator == "COMMA")
+			write.csv2(df, file=File, row.names=T, na="")
+		else
+			write.csv(df, file=File, row.names=T, na="")
+
 		print("Export done.")
 	}
 	if(Analysis != "exportCSV")

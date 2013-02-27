@@ -49,7 +49,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_height;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.Image image_encoder_capture;
-	[Widget] Gtk.TreeView treeview_encoder_curves;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.Entry entry_encoder_signal_comment;
 	[Widget] Gtk.Entry entry_encoder_curve_comment;
@@ -99,9 +98,14 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_analyze;
+	
+	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
+	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
 
-	ArrayList encoderCurves;
-        Gtk.ListStore encoderListStore;
+	ArrayList encoderCaptureCurves;
+        Gtk.ListStore encoderCaptureListStore;
+	ArrayList encoderAnalyzeCurves;
+        Gtk.ListStore encoderAnalyzeListStore;
 
 	Thread encoderThreadCapture;
 	Thread encoderThreadR;
@@ -152,10 +156,10 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 		
-		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
-		treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
+		treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
 		createEncoderCombos();
 	}
 	
@@ -299,14 +303,14 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
 	}
 	
-	private void encoderUpdateTreeView()
+	private void encoderUpdateTreeViewCapture()
 	{
 		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
 		if (contents == null || contents == "") {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
-			treeviewEncoderRemoveColumns();
-			int curvesNum = createTreeViewEncoder(contents);
+			treeviewEncoderCaptureRemoveColumns();
+			int curvesNum = createTreeViewEncoder(true, contents); //capture
 			if(curvesNum == 0) 
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			else {
@@ -326,13 +330,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	private void treeviewEncoderRemoveColumns() {
-		Gtk.TreeViewColumn [] myColumns = treeview_encoder_curves.Columns;
+	private void treeviewEncoderCaptureRemoveColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview_encoder_capture_curves.Columns;
 		foreach (Gtk.TreeViewColumn column in myColumns) 
-			treeview_encoder_curves.RemoveColumn (column);
+			treeview_encoder_capture_curves.RemoveColumn (column);
 
-		//blank the encoderListStore
-		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		//blank the encoderCaptureListStore
+		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
+	}
+
+	private void treeviewEncoderAnalyzeRemoveColumns() {
+		Gtk.TreeViewColumn [] myColumns = treeview_encoder_analyze_curves.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) 
+			treeview_encoder_analyze_curves.RemoveColumn (column);
+
+		//blank the encoderAnalyzeListStore
+		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
 
@@ -658,7 +671,7 @@ public partial class ChronoJumpWindow
 		if(deletedOk) {
 			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
 			encoderSignalUniqueID = "-1";
-			treeviewEncoderRemoveColumns();
+			treeviewEncoderCaptureRemoveColumns();
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
 		}
@@ -666,20 +679,20 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_delete_curve_clicked (object o, EventArgs args) 
 	{
-		int selectedID = treeviewEncoderCurvesEventSelectedID();
-		EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID, true);
+		int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
+		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID, true);
 
 		//some start at ,5 because of the spline filtering
 		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
 		int duration;
-		if( (ecconLast == "c" && selectedID == encoderCurves.Count) ||
-				(ecconLast != "c" && selectedID+1 == encoderCurves.Count) )
+		if( (ecconLast == "c" && selectedID == encoderCaptureCurves.Count) ||
+				(ecconLast != "c" && selectedID+1 == encoderCaptureCurves.Count) )
 			duration = -1; //until the end
 		else {
-			EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1, false);
+			EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1, false);
 			if(ecconLast != "c")
-				curveNext = treeviewEncoderCurvesGetCurve(selectedID+2, false);
+				curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+2, false);
 
 			int curveNextStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
 			duration = curveNextStart - curveStart;
@@ -701,10 +714,10 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 		else {
 			if(button == button_encoder_save_curve) {
-				int selectedID = treeviewEncoderCurvesEventSelectedID();
+				int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
 				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
 			} else if(button == button_encoder_save_all_curves) 
-				for(int i=1; i <= UtilGtk.CountRows(encoderListStore); i++)
+				for(int i=1; i <= UtilGtk.CountRows(encoderCaptureListStore); i++)
 					if(! Util.IsEven(i)) //use only uneven (spanish: "impar") values
 						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
@@ -766,7 +779,7 @@ public partial class ChronoJumpWindow
 
 		if(mode == "curve") {
 			signalOrCurve = "curve";
-			decimal curveNum = (decimal) treeviewEncoderCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
+			decimal curveNum = (decimal) treeviewEncoderCaptureCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
 			if(ecconLast != "c")
 				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
 			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
@@ -777,21 +790,21 @@ public partial class ChronoJumpWindow
 			signalOrCurve = "signal";
 		
 			//check if data is ok (maybe encoder was not connected, then don't save this signal)
-			EncoderCurve curve = treeviewEncoderCurvesGetCurve(1, false);
+			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
 			if(curve.N == null)
 				return "";
 		}
 		
 		string desc = "";
 		if(mode == "curve" || mode == "allCurves") {
-			EncoderCurve curve = treeviewEncoderCurvesGetCurve(selectedID,true);
+			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
 
 			//some start at ,5 because of the spline filtering
 			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
 			if(ecconLast != "c") {
-				EncoderCurve curveNext = treeviewEncoderCurvesGetCurve(selectedID+1,false);
+				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
 				duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
 			}
 		
@@ -873,7 +886,7 @@ public partial class ChronoJumpWindow
 	
 		encoderThreadStart(encoderModes.ANALYZE);
 	}
-	
+
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
 	private void captureCsharp () 
@@ -1116,7 +1129,7 @@ public partial class ChronoJumpWindow
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				"NULL", //no data ouptut
+				Util.GetEncoderCurvesTempFileName(),	//since 1.3.6 all the analysis write curves table
 				Util.GetEncoderStatusTempFileName(),
 				ep);
 
@@ -1131,7 +1144,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
-		int rows = UtilGtk.CountRows(encoderListStore);
+		int rows = UtilGtk.CountRows(encoderCaptureListStore);
 
 		//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 
@@ -1255,7 +1268,7 @@ public partial class ChronoJumpWindow
 
 	private bool curvesNumOkToSideCompare() {
 		if(radiobutton_encoder_analyze_data_current_signal.Active &&
-			UtilGtk.CountRows(encoderListStore) <= 12)
+			UtilGtk.CountRows(encoderCaptureListStore) <= 12)
 			return true;
 		else if(radiobutton_encoder_analyze_data_user_curves.Active &&
 				Convert.ToInt32(label_encoder_user_curves_active_num.Text) <= 12)
@@ -1532,7 +1545,9 @@ public partial class ChronoJumpWindow
 	/* TreeView stuff */	
 
 	//returns curves num
-	private int createTreeViewEncoder(string contents) {
+	//bool captureOrAnalyze means capture when true, and analyze when false
+	//capture has single and multiple selection in order to save curves... Analyze only shows data.
+	private int createTreeViewEncoder(bool captureOrAnalyze, string contents) {
 		string [] columnsString = {
 			Catalog.GetString("Curve") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
@@ -1546,7 +1561,10 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
 		};
 
-		encoderCurves = new ArrayList ();
+		if(captureOrAnalyze)
+			encoderCaptureCurves = new ArrayList ();
+		else
+			encoderAnalyzeCurves = new ArrayList ();
 
 		string line;
 		int curvesCount = 0;
@@ -1564,26 +1582,42 @@ public partial class ChronoJumpWindow
 				string [] cells = line.Split(new char[] {','});
 				cells = fixDecimals(cells);
 
-				encoderCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
-							cells[3], cells[4], cells[5], cells[6], 
-							cells[7], cells[8], cells[9]));
+				if(captureOrAnalyze)
+					encoderCaptureCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
+								cells[3], cells[4], cells[5], cells[6], 
+								cells[7], cells[8], cells[9]));
+				else
+					encoderAnalyzeCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
+								cells[3], cells[4], cells[5], cells[6], 
+								cells[7], cells[8], cells[9]));
 
 			} while(true);
 		}
 
-		encoderListStore = new Gtk.ListStore (typeof (EncoderCurve));
-		foreach (EncoderCurve curve in encoderCurves) {
-			encoderListStore.AppendValues (curve);
+		if(captureOrAnalyze) {
+			encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
+			foreach (EncoderCurve curve in encoderCaptureCurves) 
+				encoderCaptureListStore.AppendValues (curve);
+
+			treeview_encoder_capture_curves.Model = encoderCaptureListStore;
+
+			if(ecconLast == "c")
+				treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Single;
+			else
+				treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Multiple;
+
+			treeview_encoder_capture_curves.HeadersVisible=true;
+		} else {
+			encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
+			foreach (EncoderCurve curve in encoderAnalyzeCurves) 
+				encoderAnalyzeListStore.AppendValues (curve);
+
+			treeview_encoder_analyze_curves.Model = encoderAnalyzeListStore;
+
+			treeview_encoder_analyze_curves.Selection.Mode = SelectionMode.None;
+
+			treeview_encoder_analyze_curves.HeadersVisible=true;
 		}
-
-		treeview_encoder_curves.Model = encoderListStore;
-
-		if(ecconLast == "c")
-			treeview_encoder_curves.Selection.Mode = SelectionMode.Single;
-		else
-			treeview_encoder_curves.Selection.Mode = SelectionMode.Multiple;
-				
-		treeview_encoder_curves.HeadersVisible=true;
 
 		int i=0;
 		foreach(string myCol in columnsString) {
@@ -1597,7 +1631,12 @@ public partial class ChronoJumpWindow
 		
 			switch(i){	
 				case 0:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderN));
+					if(captureOrAnalyze)
+						aColumn.SetCellDataFunc (
+								aCell, new Gtk.TreeCellDataFunc (RenderN));
+					else
+						aColumn.SetCellDataFunc (
+								aCell, new Gtk.TreeCellDataFunc (RenderNAnalyze));
 					break;
 				case 1:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
@@ -1629,7 +1668,11 @@ public partial class ChronoJumpWindow
 			}
 			
 
-			treeview_encoder_curves.AppendColumn (aColumn);
+			if(captureOrAnalyze)
+				treeview_encoder_capture_curves.AppendColumn (aColumn);
+			else
+				treeview_encoder_analyze_curves.AppendColumn (aColumn);
+
 			i++;
 		}
 		return curvesCount;
@@ -1675,6 +1718,13 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
+	}
+	//from analyze, don't checks ecconLast
+	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
 	}
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
@@ -1813,7 +1863,7 @@ public partial class ChronoJumpWindow
 	//the bool is for ecc-concentric
 	//there two rows are selected
 	//if user clicks on 2n row, and bool is true, first row is the returned curve
-	private EncoderCurve treeviewEncoderCurvesGetCurve(int row, bool onEccConTakeFirst) 
+	private EncoderCurve treeviewEncoderCaptureCurvesGetCurve(int row, bool onEccConTakeFirst) 
 	{
 		if(onEccConTakeFirst && ecconLast != "c") {
 			bool isEven = (row % 2 == 0); //check if it's even (in spanish "par")
@@ -1822,40 +1872,40 @@ public partial class ChronoJumpWindow
 		}
 
 		TreeIter iter = new TreeIter();
-		bool iterOk = encoderListStore.GetIterFirst(out iter);
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		if(iterOk) {
 			int count=1;
 			do {
 				if(count==row) 
-					return (EncoderCurve) treeview_encoder_curves.Model.GetValue (iter, 0);
+					return (EncoderCurve) treeview_encoder_capture_curves.Model.GetValue (iter, 0);
 				count ++;
-			} while (encoderListStore.IterNext (ref iter));
+			} while (encoderCaptureListStore.IterNext (ref iter));
 		}
 		EncoderCurve curve = new EncoderCurve();
 		return curve;
 	}
 
-	private int treeviewEncoderCurvesEventSelectedID() {
+	private int treeviewEncoderCaptureCurvesEventSelectedID() {
 		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview_encoder_curves.Model;
+		TreeModel myModel = treeview_encoder_capture_curves.Model;
 		
 		if(ecconLast == "c") {
-			if (treeview_encoder_curves.Selection.GetSelected (out myModel, out iter)) 
-				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N); //this return an int, also in ec
+			if (treeview_encoder_capture_curves.Selection.GetSelected (out myModel, out iter)) 
+				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_capture_curves.Model.GetValue (iter, 0))).N); //this return an int, also in ec
 		} else {
-			int selectedLength = treeview_encoder_curves.Selection.GetSelectedRows().Length;
+			int selectedLength = treeview_encoder_capture_curves.Selection.GetSelectedRows().Length;
 			if(selectedLength == 1 || selectedLength == 2) { 
-				TreePath path = treeview_encoder_curves.Selection.GetSelectedRows()[0];
+				TreePath path = treeview_encoder_capture_curves.Selection.GetSelectedRows()[0];
 				myModel.GetIter(out iter, path);
-				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_curves.Model.GetValue (iter, 0))).N);
+				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_capture_curves.Model.GetValue (iter, 0))).N);
 			}
 		}
 		return 0;
 	}
 	
-	private void on_treeview_encoder_curves_cursor_changed (object o, EventArgs args) 
+	private void on_treeview_encoder_capture_curves_cursor_changed (object o, EventArgs args) 
 	{
-		int lineNum = treeviewEncoderCurvesEventSelectedID();
+		int lineNum = treeviewEncoderCaptureCurvesEventSelectedID();
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		
 		//on ecc-con select both lines
@@ -1865,15 +1915,15 @@ public partial class ChronoJumpWindow
 		} else {
 			TreeIter iter = new TreeIter();
 
-			treeview_encoder_curves.CursorChanged -= on_treeview_encoder_curves_cursor_changed; 
+			treeview_encoder_capture_curves.CursorChanged -= on_treeview_encoder_capture_curves_cursor_changed; 
 
-			if (treeview_encoder_curves.Selection.GetSelectedRows().Length == 1) 
+			if (treeview_encoder_capture_curves.Selection.GetSelectedRows().Length == 1) 
 			{
-				treeview_encoder_curves.Selection.UnselectAll();
+				treeview_encoder_capture_curves.Selection.UnselectAll();
 
 				//on even, select also previous row
 				//on odd, select also next row
-				treeview_encoder_curves.Model.GetIterFirst ( out iter ) ;
+				treeview_encoder_capture_curves.Model.GetIterFirst ( out iter ) ;
 				bool isEven = (lineNum % 2 == 0); //check if it's even (in spanish "par")
 				int start = lineNum;
 				if(isEven) 
@@ -1881,17 +1931,17 @@ public partial class ChronoJumpWindow
 
 				//select 1st row
 				for(int i=1; i < start; i++)
-					treeview_encoder_curves.Model.IterNext (ref iter);
-				treeview_encoder_curves.Selection.SelectIter(iter);
+					treeview_encoder_capture_curves.Model.IterNext (ref iter);
+				treeview_encoder_capture_curves.Selection.SelectIter(iter);
 
 				//select 2nd row
-				treeview_encoder_curves.Model.IterNext (ref iter);
-				treeview_encoder_curves.Selection.SelectIter(iter);
+				treeview_encoder_capture_curves.Model.IterNext (ref iter);
+				treeview_encoder_capture_curves.Selection.SelectIter(iter);
 				
-				if (treeview_encoder_curves.Selection.GetSelectedRows().Length == 2) 
+				if (treeview_encoder_capture_curves.Selection.GetSelectedRows().Length == 2) 
 					encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
 			}
-			treeview_encoder_curves.CursorChanged += on_treeview_encoder_curves_cursor_changed; 
+			treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
 		}
 	}
 	
@@ -1909,7 +1959,7 @@ public partial class ChronoJumpWindow
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 	
 		if(radiobutton_encoder_analyze_data_current_signal.Active) {
-			int rows = UtilGtk.CountRows(encoderListStore);
+			int rows = UtilGtk.CountRows(encoderCaptureListStore);
 			if(ecconLast != "c")
 				rows = rows / 2;
 			string [] activeCurvesList;
@@ -1929,7 +1979,7 @@ public partial class ChronoJumpWindow
 		}
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
-		treeviewEncoderRemoveColumns();
+		treeviewEncoderCaptureRemoveColumns();
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 	}
@@ -2022,7 +2072,7 @@ public partial class ChronoJumpWindow
 
 		bool analyze_sensitive = 
 			(Util.IntToBool(table[5]) && 
-			 (signal && UtilGtk.CountRows(encoderListStore) > 0 ||
+			 (signal && UtilGtk.CountRows(encoderCaptureListStore) > 0 ||
 			  (! signal && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)));
 		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
 			analyze_sensitive = curvesNumOkToSideCompare();
@@ -2196,7 +2246,7 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
-			treeview_encoder_curves.Sensitive = false;
+			treeview_encoder_capture_curves.Sensitive = false;
 			encoderThreadR = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
 			if(mode == encoderModes.CALCULECURVES)
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalculeCurves));
@@ -2358,7 +2408,7 @@ public partial class ChronoJumpWindow
 
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
-				encoderUpdateTreeView();
+				encoderUpdateTreeViewCapture();
 				image_encoder_capture.Sensitive = true;
 		
 				//autosave signal (but not in recalculate or load)
@@ -2379,6 +2429,12 @@ public partial class ChronoJumpWindow
 				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_analyze.Pixbuf = pixbuf;
 				encoder_pulsebar_analyze.Text = "";
+			
+				string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
+				if (contents != null && contents != "") {
+					treeviewEncoderAnalyzeRemoveColumns();
+					createTreeViewEncoder(false, contents); //analyze
+				}
 			}
 
 			encoder_pulsebar_analyze.Fraction = 1;
@@ -2386,7 +2442,7 @@ public partial class ChronoJumpWindow
 			image_encoder_analyze.Sensitive = true;
 		}
 
-		treeview_encoder_curves.Sensitive = true;
+		treeview_encoder_capture_curves.Sensitive = true;
 		Util.FileDelete(Util.GetEncoderStatusTempFileName());
 	}
 	

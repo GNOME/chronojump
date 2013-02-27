@@ -5209,9 +5209,9 @@ Console.WriteLine("X");
 		//treeview_encoder should be updated (to colorize some cells)
 		//only if there was data
 		//this avoids misbehaviour when bell is pressed and there's no data in treeview
-		EncoderCurve curve = treeviewEncoderCurvesGetCurve(1, false);
+		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
 		if(curve.N != null)
-			encoderUpdateTreeView();
+			encoderUpdateTreeViewCapture();
 	}
 
 

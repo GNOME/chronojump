@@ -1076,6 +1076,10 @@ doProcess <- function(options) {
 		#print(knRanges)
 	}
 
+	#since Chronojump 1.3.6, encoder analyze has a treeview that can show the curves
+	#when an analysis is done, curves file has to be written
+	writeCurves = TRUE
+
 	#Analysis in cross variables comes as:
 	#"cross.Speed.Force.mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
 	#there's a double XY plot:
@@ -1083,7 +1087,8 @@ doProcess <- function(options) {
 	analysisCross = unlist(strsplit(Analysis, "\\."))
 	if(
 	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
-	   Analysis == "1RMBadillo2010" || Analysis == "curves") 
+	   Analysis == "1RMBadillo2010" || Analysis == "curves" ||
+	   writeCurves) 
 	{
 		paf = data.frame()
 		for(i in 1:n) { 
@@ -1129,11 +1134,17 @@ doProcess <- function(options) {
 		else if(Analysis == "1RMBadillo2010") {
 			paint1RMBadillo2010(paf, Title)
 		}
-		else if(Analysis == "curves") {
-			paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+		
+		if(Analysis == "curves" || writeCurves) {
+			if(singleFile)
+				paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+			else
+				paf=cbind(curves[,1],curves[,2]-curves[,1],curvesHeight,paf)
+
 			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
 					"meanPower","peakPower","peakPowerT","pp_ppt")
 			write.csv(paf, OutputData1, quote=FALSE)
+			print("curves written")
 		}
 	}
 	if(Analysis=="exportCSV") {

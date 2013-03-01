@@ -83,9 +83,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
-	[Widget] Gtk.Box hbox_encoder_analyze_eccon;
-	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_both;
-	[Widget] Gtk.RadioButton radiobutton_encoder_eccon_together;
+	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
@@ -677,6 +675,7 @@ public partial class ChronoJumpWindow
 		if(deletedOk) {
 			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
 			encoderSignalUniqueID = "-1";
+			image_encoder_capture.Sensitive = false;
 			treeviewEncoderCaptureRemoveColumns();
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
@@ -1052,7 +1051,7 @@ public partial class ChronoJumpWindow
 			
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
-			if(! radiobutton_encoder_eccon_together.Active)
+			if(! check_encoder_analyze_eccon_together.Active)
 				myEccon = "ecS";
 			int myCurveNum = -1;
 			if(sendAnalysis == "single")
@@ -1211,8 +1210,8 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="single";
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Visible=false;
-		radiobutton_encoder_eccon_together.Active = true;
+		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Active = true;
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1227,8 +1226,8 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="superpose";
 		
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Visible=false;
-		radiobutton_encoder_eccon_together.Active = true;
+		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Active = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -1241,8 +1240,8 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="side";
 		
 		//together, mandatory
-		hbox_encoder_analyze_eccon.Visible=false;
-		radiobutton_encoder_eccon_together.Active = true;
+		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Active = true;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -1253,7 +1252,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="powerBars";
 		
-		hbox_encoder_analyze_eccon.Visible=true;
+		check_encoder_analyze_eccon_together.Visible=true;
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1266,7 +1265,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=true;
 		encoderAnalysis="cross";
 		
-		hbox_encoder_analyze_eccon.Visible=false;
+		check_encoder_analyze_eccon_together.Visible=true;
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1303,7 +1302,7 @@ public partial class ChronoJumpWindow
 					encoderEcconTranslation) == "Concentric") 
 			return "c";
 		else {
-			if(forceEcconSeparated || ! radiobutton_encoder_eccon_together.Active)
+			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ecS";
 			else 
 				return "ec";
@@ -1414,14 +1413,6 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
-		/*
-		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == "Concentric") {
-			hbox_encoder_analyze_eccon.Sensitive=false;
-		} else if(radiobutton_encoder_analyze_powerbars.Active) {
-			hbox_encoder_analyze_eccon.Sensitive=true;
-		}
-		*/
 	}
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)

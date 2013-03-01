@@ -1202,7 +1202,6 @@ public partial class ChronoJumpWindow
 	}
 
 
-	//show curve_num only on simple and superpose
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
@@ -1210,8 +1209,9 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="single";
 		//together, mandatory
-		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
+	
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1226,7 +1226,7 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="superpose";
 		
 		//together, mandatory
-		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1240,7 +1240,7 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="side";
 		
 		//together, mandatory
-		check_encoder_analyze_eccon_together.Visible=false;
+		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1252,7 +1252,8 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=false;
 		encoderAnalysis="powerBars";
 		
-		check_encoder_analyze_eccon_together.Visible=true;
+		check_encoder_analyze_eccon_together.Sensitive=true;
+
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -1265,7 +1266,8 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_mean_or_max.Visible=true;
 		encoderAnalysis="cross";
 		
-		check_encoder_analyze_eccon_together.Visible=true;
+		check_encoder_analyze_eccon_together.Sensitive=true;
+
 		label_encoder_analyze_side_max.Visible = false;
 
 		encoderButtonsSensitive(encoderSensEnumStored);

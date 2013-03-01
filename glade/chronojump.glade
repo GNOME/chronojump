@@ -13546,7 +13546,8 @@ on current Chronojump version.</property>
                                                     <child>
                                                       <widget class="GtkLabel" id="label_encoder_analyze_side_max">
                                                         <property name="can_focus">False</property>
-                                                        <property name="label" translatable="yes">Side compare allows a maximum of 12 graphs.</property>
+                                                        <property name="tooltip" translatable="yes">Side compare allows a maximum of 12 graphs.</property>
+                                                        <property name="label" translatable="yes">Maximum 12 graphs</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>

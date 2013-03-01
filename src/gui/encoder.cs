@@ -1321,11 +1321,7 @@ public partial class ChronoJumpWindow
 		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
 		int i =0;
 		foreach(EncoderExercise ex in encoderExercises) {
-			string nameTranslated = ex.name;
-			//do not translated user created exercises
-			//this names are in SqliteEncoder.initializeTableEncoderExercise()
-			if(ex.name == "Bench press" || ex.name == "Squat" || ex.name == "Jump")
-				nameTranslated = Catalog.GetString(ex.name);
+			string nameTranslated = Catalog.GetString(ex.name);
 			encoderExercisesTranslationAndBodyPWeight[i] = 
 				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
 			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);

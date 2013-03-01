@@ -13340,7 +13340,8 @@ on current Chronojump version.</property>
                                                   <packing>
                                                     <property name="top_attach">1</property>
                                                     <property name="bottom_attach">2</property>
-                                                    <property name="x_options">GTK_FILL</property>
+                                                    <property name="x_options"/>
+                                                    <property name="y_options">GTK_EXPAND</property>
                                                   </packing>
                                                 </child>
                                                 <child>
@@ -13431,6 +13432,23 @@ on current Chronojump version.</property>
                                                     <property name="can_focus">False</property>
                                                     <property name="spacing">12</property>
                                                     <child>
+                                                      <widget class="GtkCheckButton" id="check_encoder_analyze_eccon_together">
+                                                        <property name="label" translatable="yes">EC together</property>
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="tooltip" translatable="yes">Eccentric-concentric together</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">0</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
                                                       <widget class="GtkHBox" id="hbox_encoder_analyze_curve_num">
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">6</property>
@@ -13464,7 +13482,7 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">0</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -13477,19 +13495,20 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
-                                                        <property name="position">1</property>
+                                                        <property name="position">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox_encoder_analyze_mean_or_max">
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
                                                           <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_mean">
-                                                            <property name="label" translatable="yes">Mean values</property>
+                                                            <property name="label" translatable="yes">Mean</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Mean values</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
@@ -13502,10 +13521,11 @@ on current Chronojump version.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkRadioButton" id="radiobutton_encoder_analyze_max">
-                                                            <property name="label" translatable="yes">Max values</property>
+                                                            <property name="label" translatable="yes">Max</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Max values</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radiobutton_encoder_analyze_mean</property>
@@ -13513,75 +13533,6 @@ on current Chronojump version.</property>
                                                           <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkHBox" id="hbox_encoder_analyze_eccon">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label_encoder_analyze_eccon">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Eccentric-concentric</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox_encoder_analyze_eccon_dins">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="radiobutton_encoder_eccon_together">
-                                                            <property name="label" translatable="yes">Together</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkRadioButton" id="radiobutton_encoder_eccon_separated">
-                                                            <property name="label" translatable="yes">Separated</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <property name="group">radiobutton_encoder_eccon_together</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                           </packing>
                                                         </child>

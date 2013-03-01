@@ -175,33 +175,50 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
+	errorSearching = FALSE
 
 	#search propulsiveEnds
-	if(eccon=="c") {
-		concentric=1:length(a)
-	} else {	#"ec", "ec-rep"
-		b=extrema(speed$y)
-		#In all the extrema minindex values, search which range (row) has the min values,
-		#and in this range search last value
-		print("searchMinSpeedEnd")
-		searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
-		#In all the extrema maxindex values, search which range (row) has the max values,
-		#and in this range search first value
-		print("searchMaxSpeedIni")
-		searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
-		#find the cross between both
-		print("searchMinCross")
-		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+	if(analysisOptions == "p") {
+		if(eccon=="c") {
+			concentric=1:length(a)
+		} else {	#"ec", "ec-rep"
+			b=extrema(speed$y)
+			print(b)
+			#In all the extrema minindex values, search which range (row) has the min values,
+			#and in this range search last value
+			print("searchMinSpeedEnd")
+			searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
+			print(searchMinSpeedEnd)
+			#In all the extrema maxindex values, search which range (row) has the max values,
+			#and in this range search first value
+			print("searchMaxSpeedIni")
+			searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
+			print(searchMaxSpeedIni)
+			#find the cross between both
+			print("b-Cross")
+			print(b$cross[,1])
+			print("search min cross: crossMinRow")
+			crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
 
-		eccentric=1:b$cross[crossMinRow,1]
-		concentric=b$cross[crossMinRow,2]:length(a)
-	}
+			if (length(crossMinRow) > 0) {
+				print(crossMinRow)
 
-	#propulsive phase ends when accel is -9.8
-	if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
-		propulsiveEnds = min(which(accel$y[concentric]<=-g))
-	} else {
-		propulsiveEnds=max(concentric)
+				eccentric=1:b$cross[crossMinRow,1]
+				concentric=b$cross[crossMinRow,2]:length(a)
+			} else {
+				propulsiveEnds = length(a)
+				errorSearching = TRUE
+			}
+		}
+
+		if(! errorSearching) {
+			#propulsive phase ends when accel is -9.8
+			if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
+				propulsiveEnds = min(which(accel$y[concentric]<=-g))
+			} else {
+				propulsiveEnds = max(concentric)
+			}
+		}
 	}
 	#end of search propulsiveEnds
 
@@ -372,7 +389,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		print("searchMaxSpeedIni")
 		searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
 		#find the cross between both
-		print("searchMinCross")
+		print("search min cross: crossMinRow")
 		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
 
 		eccentric=1:b$cross[crossMinRow,1]
@@ -1137,6 +1154,8 @@ doProcess <- function(options) {
 				mySmoothingOne = curves[i,6]
 				myEccon = curves[i,8]
 			}
+print("i:")
+print(i)
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
 		}

@@ -65,6 +65,8 @@ write("(1/5) Starting R", OutputData2)
 findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	a=cumsum(rawdata)
 	b=extrema(a)
+	print("at findCurves")
+	print(b)
 	
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
@@ -100,6 +102,12 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			end[2]   =length(a)
 			startH[2]=a[start[2]]
 		}
+
+		#if a person starts stand up and goes down, extrema maxindex don't find the initial position
+		#if this person does 3 squats, only 2 will be found
+		#add first value of all the serie (1ms time) to maxindex to help to detect this first curve
+		b$maxindex = rbind(c(1,1),b$maxindex)
+
 		while(j <= length(b$maxindex[,1])) {
 			tempStart = mean(c(b$maxindex[i,1],b$maxindex[i,2]))
 			tempEnd   = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
@@ -1154,8 +1162,8 @@ doProcess <- function(options) {
 				mySmoothingOne = curves[i,6]
 				myEccon = curves[i,8]
 			}
-print("i:")
-print(i)
+			print("i:")
+			print(i)
 			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
 		}

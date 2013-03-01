@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.88";
+	static string lastChronojumpDatabaseVersion = "0.89";
 
 	public Sqlite() {
 	}
@@ -1205,6 +1205,17 @@ class Sqlite
 
 				currentVersion = "0.88";
 			}
+			if(currentVersion == "0.88") {
+				dbcon.Open();
+	
+				SqliteEncoder.InsertExercise(true, "Free", 0, "", "");
+				Log.WriteLine("Added encoder exercise: Free");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.89", true); 
+				dbcon.Close();
+
+				currentVersion = "0.89";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1343,6 +1354,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.88 - 0.89 Converted DB to 0.89 Added encoder exercise: Free
 		//0.87 - 0.88 Converted DB to 0.88 Deleted fake RSA test and added known RSA tests
 		//0.86 - 0.87 Converted DB to 0.87 Added run speed start preferences on sqlite
 		//0.85 - 0.86 Converted DB to 0.86 videoOn: TRUE

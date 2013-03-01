@@ -245,7 +245,8 @@ class SqliteEncoder : Sqlite
 			//name:percentBodyWeight:ressistance:description
 			"Bench press:0:weight bar:", 
 			"Squat:75:weight bar:", 
-			"Jump:100:none:"
+			"Jump:100:none:",
+			"Free:0::"	
 		};
 		
 		foreach(string line in iniEncoderExercises) {

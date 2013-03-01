@@ -236,7 +236,8 @@ public partial class ChronoJumpWindow
 					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
 					Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + findMass(true) + "Kg)",
 					es, chronopicWin.GetEncoderPort());
-
+			
+			entry_encoder_signal_comment.Text = "";
 			calculeCurves();
 		}
 		else if (o == (object) button_encoder_capture_csharp) {
@@ -245,6 +246,8 @@ public partial class ChronoJumpWindow
 
 			Log.WriteLine("AAAAAAAAAAAAAAA");
 			encoderThreadStart(encoderModes.CAPTURE);
+			
+			entry_encoder_signal_comment.Text = "";
 
 			Log.WriteLine("ZZZZZZZZZZZZZZZ");
 		}
@@ -533,6 +536,7 @@ public partial class ChronoJumpWindow
 
 			spin_encoder_capture_min_height.Value = es.minHeight;
 			spin_encoder_smooth.Value = es.smooth;
+			entry_encoder_signal_comment.Text = es.description;
 			encoderTimeStamp = es.GetDate(false); 
 			encoderSignalUniqueID = es.uniqueID;
 		}
@@ -541,7 +545,7 @@ public partial class ChronoJumpWindow
 		on_button_encoder_recalculate_clicked (o, args);
 		
 		radiobutton_encoder_analyze_data_current_signal.Active = true;
-		
+
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
@@ -676,6 +680,7 @@ public partial class ChronoJumpWindow
 			treeviewEncoderCaptureRemoveColumns();
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
+			entry_encoder_signal_comment.Text = "";
 		}
 	}
 

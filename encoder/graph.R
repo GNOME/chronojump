@@ -141,11 +141,15 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		}
 	}
 	if(draw) {
-		plot(a/10,type="l",xlim=c(1,length(a)),xlab="",ylab="",axes=T) #/10 mm -> cm
+		plot((1:length(a))/1000			#ms -> s
+		     ,a/10,				#mm -> cm
+		     type="l",
+		     xlim=c(1,length(a))/1000,		#ms -> s
+		     xlab="",ylab="",axes=T) 
 		title(title, cex.main=1, font.main=1)
-		mtext("time (ms) ",side=1,adj=1,line=-1)
+		mtext("time (s) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
-		abline(v=b$maxindex,lty=3); abline(v=b$minindex,lty=3)
+		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }

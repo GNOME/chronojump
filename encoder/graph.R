@@ -192,6 +192,8 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	accel$y <- accel$y * 1000 
 	errorSearching = FALSE
 
+	eccentric = 0
+
 	#search propulsiveEnds
 	if(analysisOptions == "p") {
 		if(eccon=="c") {
@@ -229,7 +231,7 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 		if(! errorSearching) {
 			#propulsive phase ends when accel is -9.8
 			if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
-				propulsiveEnds = min(which(accel$y[concentric]<=-g))
+				propulsiveEnds = max(eccentric) + min(which(accel$y[concentric]<=-g))
 			} else {
 				propulsiveEnds = max(concentric)
 			}
@@ -434,9 +436,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
 		if(length(which(accel$y[concentric]<=-g)) > 0 & AnalysisOptions == "p") {
-			propulsiveEnds = min(which(accel$y[concentric]<=-g))
+			propulsiveEnds = max(eccentric) + min(which(accel$y[concentric]<=-g))
 		} else {
-			propulsiveEnds=max(concentric)
+			propulsiveEnds = max(concentric)
 		}
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle

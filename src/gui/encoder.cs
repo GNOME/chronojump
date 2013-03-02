@@ -1580,9 +1580,14 @@ public partial class ChronoJumpWindow
 				string [] cells = line.Split(new char[] {','});
 				cells = fixDecimals(cells);
 
-				encoderCaptureCurves.Add (new EncoderCurve (cells[0], cells[1], cells[2], 
-							cells[3], cells[4], cells[5], cells[6], 
-							cells[7], cells[8], cells[9]));
+				encoderCaptureCurves.Add (new EncoderCurve (
+							cells[0],	//id 
+							//cells[1], 	//exerciseName
+							//cells[2], 	//mass
+							cells[3], cells[4], cells[5], 
+							cells[6], cells[7], cells[8], 
+							cells[9], cells[10], cells[11]
+							));
 
 			} while(true);
 		}
@@ -1680,34 +1685,51 @@ public partial class ChronoJumpWindow
 
 		string line;
 		int curvesCount = 0;
+Log.WriteLine("a");
 		using (StringReader reader = new StringReader (contents)) {
+Log.WriteLine("b");
 			line = reader.ReadLine ();	//headers
 			Log.WriteLine(line);
+Log.WriteLine("c");
 			do {
+Log.WriteLine("d");
 				line = reader.ReadLine ();
 				Log.WriteLine(line);
 				if (line == null)
 					break;
 
-				if(radiobutton_encoder_analyze_data_user_curves.Active) {
-					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
-					exerciseName = eSQL.exerciseName;
-					mass = eSQL.extraWeight;
-				}
+Log.WriteLine("e");
 
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
 				cells = fixDecimals(cells);
+				
+				
+				if(radiobutton_encoder_analyze_data_user_curves.Active) {
+					/*
+					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
+					exerciseName = eSQL.exerciseName;
+					mass = eSQL.extraWeight;
+					*/
+					exerciseName = cells[1];
+					mass = cells[2];
+				}
 
+Log.WriteLine("f");
 				encoderAnalyzeCurves.Add (new EncoderCurve (
-							cells[0], exerciseName, Convert.ToDouble(mass),
-							cells[1], cells[2], cells[3], 
-							cells[4], cells[5], cells[6], 
-							cells[7], cells[8], cells[9]));
+							cells[0], 
+							exerciseName, 
+							Convert.ToDouble(mass),
+							cells[3], cells[4], cells[5], 
+							cells[6], cells[7], cells[8], 
+							cells[9], cells[10], cells[11]));
 
+Log.WriteLine("g");
 			} while(true);
+Log.WriteLine("h");
 		}
+Log.WriteLine("i");
 
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		foreach (EncoderCurve curve in encoderAnalyzeCurves) 
@@ -1720,6 +1742,7 @@ public partial class ChronoJumpWindow
 		treeview_encoder_analyze_curves.HeadersVisible=true;
 
 
+Log.WriteLine("j");
 		int i=0;
 		foreach(string myCol in columnsString) {
 			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
@@ -1731,6 +1754,7 @@ public partial class ChronoJumpWindow
 			//crt1.Background = "blue";
 		
 		
+Log.WriteLine("k");
 			switch(i){	
 				case 0:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderNAnalyze));
@@ -1774,6 +1798,7 @@ public partial class ChronoJumpWindow
 			i++;
 		}
 		return curvesCount;
+Log.WriteLine("l");
 	}
 
 	/* rendering columns */
@@ -1820,8 +1845,9 @@ public partial class ChronoJumpWindow
 	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
+		//(cell as Gtk.CellRendererText).Text = 
+		//	String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
+		(cell as Gtk.CellRendererText).Text = curve.N;
 	}
 
 	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1965,11 +1991,16 @@ public partial class ChronoJumpWindow
 	
 	
 	private string [] fixDecimals(string [] cells) {
-		for(int i=1; i <= 3; i++)
+		//start, width, height
+		for(int i=3; i <= 5; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
-		for(int i=4; i <= 8; i++)
+		
+		//meanSpeed,maxSpeed,meanPower,peakPower,peakPowerT
+		for(int i=6; i <= 10; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
-		cells[9] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[9])),1); //pp/ppt
+		
+		//pp/ppt
+		cells[11] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[11])),1); 
 		return cells;
 	}
 	

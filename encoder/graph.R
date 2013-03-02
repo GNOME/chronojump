@@ -179,6 +179,9 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 
 #go here with every single jump
 kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
+	print("length unique x in spline")
+	print(length(unique(1:length(a))))
+
 	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
@@ -915,6 +918,11 @@ doProcess <- function(options) {
 			}
 
 			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
+
+			#if curves file ends with comma. Last character will be an NA. remove it
+			#this removes all NAs on a curve
+			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
+
 			dataTempPhase=dataTempFile
 			processTimes = 1
 			changePos = 0

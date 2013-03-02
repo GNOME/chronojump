@@ -1307,7 +1307,13 @@ public class Util
 		contents = contents.Substring(
 				Convert.ToInt32(startAndDuration[0]), 
 				Convert.ToInt32(startAndDuration[1])-1); //-1 is for not ending file with a comma
-			
+		//don't know why but some curves are stored with a "," as last character
+		//this curves also are in the form: "1, 2, 3, 4," instead of "1,2,3,4"
+		//this produces an NA in reading of curves on graph.R
+		//in the meantime this NA in reading in graph.R has been deleted
+		//dataTempFile  = dataTempFile[!is.na(dataTempFile)]
+		
+
 		string fileCurve = uniqueID.ToString() + "-" + personName + "-" + 
 			(++ curveIDMax).ToString() + "-" + timeStamp + ".txt";
 		string fileCurveFull = GetEncoderSessionDataCurveDir(sessionID) + Path.DirectorySeparatorChar + fileCurve;

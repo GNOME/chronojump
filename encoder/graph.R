@@ -1057,7 +1057,7 @@ doProcess <- function(options) {
 				mySmoothingOne = curves[Jump,6]
 				myEccon = curves[Jump,8]
 			}
-			myCurveStr = paste("c=", Jump, ", ", myMass, "Kg", sep="")
+			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],mySmoothingOne,myMass,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr,
@@ -1097,7 +1097,7 @@ doProcess <- function(options) {
 			if(i == 1)
 				myTitle = paste(Title)
 			
-			mySubtitle = paste("c=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
+			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
 
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
 			      1,curves[i,3],mySmoothingOne,myMass,myTitle,mySubtitle,
@@ -1213,11 +1213,20 @@ doProcess <- function(options) {
 		
 		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)
-				paf=cbind(curves[,1],curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+				paf=cbind(
+					  "exerciseName",
+					  Mass,
+					  curves[,1],
+					  curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			else
-				paf=cbind(curves[,1],curves[,2]-curves[,1],curvesHeight,paf)
+				paf=cbind(
+					  exerciseName,
+					  curves[i,5],		#mass
+					  curves[,1],		
+					  curves[,2]-curves[,1],curvesHeight,paf)
 
-			colnames(paf)=c("start","width","height","meanSpeed","maxSpeed",
+			colnames(paf)=c("exercise","mass",
+					"start","width","height","meanSpeed","maxSpeed",
 					"meanPower","peakPower","peakPowerT","pp_ppt")
 			write.csv(paf, OutputData1, quote=FALSE)
 			print("curves written")

@@ -1038,9 +1038,10 @@ doProcess <- function(options) {
 						adjVert = 1
 					}
 				}
-				text(x=(curves[i,1]+curves[i,2])/2,y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
-				arrows(x0=curves[i,1],y0=myY,x1=curves[i,2],y1=myY,
-				       col="blue",code=3,length=0.1)
+				text(x=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
+				     y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
+				arrows(x0=(curves[i,1]/1000),y0=myY,x1=(curves[i,2]/1000),	#/1000 ms -> s
+				       y1=myY, col="blue",code=3,length=0.1)
 			}
 		}
 	}

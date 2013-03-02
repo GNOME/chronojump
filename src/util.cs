@@ -946,12 +946,15 @@ public class Util
 		return fileName;
 	}
 	
-	public static void CopyEncoderDataToTemp(string url, string fileName)
+	public static bool CopyEncoderDataToTemp(string url, string fileName)
 	{
 		string origin = url + Path.DirectorySeparatorChar + fileName;
 		string dest = GetEncoderDataTempFileName();
-		if(File.Exists(origin)) 
+		if(File.Exists(origin)) {
 			File.Copy(origin, dest, true);
+			return true;
+		}
+		return false;
 	}
 	
 	

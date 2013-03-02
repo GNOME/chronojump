@@ -399,6 +399,15 @@ public class JumpExecute : EventExecute
 		needEndEvent = true; //used for hiding some buttons on eventWindow
 	}
 	
+	protected override void updateTimeProgressBar() {
+		//until it has not landed for first time, show a pulse with no values
+		progressBarEventOrTimePreExecution(
+				false, //isEvent false: time
+				false, //activity mode
+				-1	//don't want to show info on label
+				); 
+	}
+	
 /*
 	public Jump JumpDone {
 		get { return jumpDone; }

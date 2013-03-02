@@ -525,26 +525,32 @@ public partial class ChronoJumpWindow
 		ArrayList data = SqliteEncoder.Select(
 				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
 
+		bool success = false;
 		foreach(EncoderSQL es in data) {	//it will run only one time
-			Util.CopyEncoderDataToTemp(es.url, es.filename);
-			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
-			combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
-			combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
-			spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
+			success = Util.CopyEncoderDataToTemp(es.url, es.filename);
+			if(success) {
+				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
+				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
+				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
+				spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
 
-			spin_encoder_capture_min_height.Value = es.minHeight;
-			spin_encoder_smooth.Value = es.smooth;
-			entry_encoder_signal_comment.Text = es.description;
-			encoderTimeStamp = es.GetDate(false); 
-			encoderSignalUniqueID = es.uniqueID;
+				spin_encoder_capture_min_height.Value = es.minHeight;
+				spin_encoder_smooth.Value = es.smooth;
+				entry_encoder_signal_comment.Text = es.description;
+				encoderTimeStamp = es.GetDate(false); 
+				encoderSignalUniqueID = es.uniqueID;
+			}
 		}
-	
-		//force a recalculate
-		on_button_encoder_recalculate_clicked (o, args);
-		
-		radiobutton_encoder_analyze_data_current_signal.Active = true;
 
-		encoderButtonsSensitive(encoderSensEnumStored);
+		if(success) {	
+			//force a recalculate
+			on_button_encoder_recalculate_clicked (o, args);
+		
+			radiobutton_encoder_analyze_data_current_signal.Active = true;
+
+			encoderButtonsSensitive(encoderSensEnumStored);
+		} else 
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, file not found"));
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 

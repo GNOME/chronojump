@@ -743,9 +743,18 @@ findPosInPaf <- function(var, option) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
+
+	myNums = rownames(paf)
+	if(Eccon=="ecS") {
+		if(singleFile) {
+			myEc=c("c","e")
+			myNums = as.numeric(rownames(paf))
+			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
+		}
+	}
 
 	#problem with balls is that two values two close looks bad
 	#suboption="balls"
@@ -754,12 +763,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title) {
 		cexBalls = 3
 		cexNums = 1
 		adjHor = 0.5
-		nums=rownames(paf)
+		nums=myNums
 	} else if (suboption == "side") {
 		cexBalls = 1.8
 		cexNums = 1
 		adjHor = 0
-		nums=paste("  ", rownames(paf))
+		nums=paste("  ", myNums)
 	}
 	
 	colBalls="blue"
@@ -1248,13 +1257,16 @@ doProcess <- function(options) {
 				par(mar=c(5,4,4,5))
 				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
-						    analysisCross[4], "LEFT", Title)
+						    analysisCross[4], "LEFT", Title,
+						    singleFile,Eccon)
 				par(new=T)
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
-						    analysisCross[4], "RIGHT", "")
+						    analysisCross[4], "RIGHT", "",
+						    singleFile,Eccon)
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
-						    analysisCross[4], "ALONE", Title)
+						    analysisCross[4], "ALONE", Title,
+						    singleFile,Eccon)
 		}
 		else if(Analysis == "1RMBadillo2010") {
 			paint1RMBadillo2010(paf, Title)

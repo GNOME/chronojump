@@ -1220,6 +1220,9 @@ public partial class ChronoJumpWindow
 	
 		label_encoder_analyze_side_max.Visible = false;
 
+		//restore 1RM Prediction sensitiveness
+		radiobutton_encoder_analyze_max.Sensitive = true;
+		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 
@@ -1235,7 +1238,10 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 		
-		encoderButtonsSensitive(encoderSensEnumStored);
+		//restore 1RM Prediction sensitiveness
+		radiobutton_encoder_analyze_max.Sensitive = true;
+		
+		on_combo_encoder_analyze_cross_changed (obj, args);
 	}
 	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
@@ -1249,6 +1255,9 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 
+		//restore 1RM Prediction sensitiveness
+		radiobutton_encoder_analyze_max.Sensitive = true;
+		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
@@ -1262,6 +1271,9 @@ public partial class ChronoJumpWindow
 
 		label_encoder_analyze_side_max.Visible = false;
 
+		//restore 1RM Prediction sensitiveness
+		radiobutton_encoder_analyze_max.Sensitive = true;
+		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
@@ -1275,6 +1287,8 @@ public partial class ChronoJumpWindow
 		check_encoder_analyze_eccon_together.Sensitive=true;
 
 		label_encoder_analyze_side_max.Visible = false;
+
+		on_combo_encoder_analyze_cross_changed (obj, args);
 
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -1429,8 +1443,12 @@ public partial class ChronoJumpWindow
 					encoderAnalyzeCrossTranslation) == "1RM Prediction") {
 			radiobutton_encoder_analyze_mean.Active = true;
 			radiobutton_encoder_analyze_max.Sensitive = false;
-		} else
+			check_encoder_analyze_eccon_together.Active = false;
+			check_encoder_analyze_eccon_together.Sensitive = false;
+		} else {
 			radiobutton_encoder_analyze_max.Sensitive = true;
+			check_encoder_analyze_eccon_together.Sensitive = true;
+		}
 	}
 
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 

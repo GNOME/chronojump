@@ -824,16 +824,24 @@ paint1RMBadillo2010 <- function (paf, title) {
 	loadPercentCalc=8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
 	loadCalc= 100 * curvesLoad / loadPercentCalc
 
+	#for calculations take only the curves slower or == than 1.33
+	curvesSpeedInIntervalPos = which(curvesSpeed <= max(msp))
+
+	if(length(curvesSpeedInIntervalPos) == 0) {
+		plot(x=0,xlab="",ylab="",axes=F,type="n")
+		return()
+	}
+
 	par(mar=c(5,5,3,4))
 
 	plot(curvesLoad,curvesSpeed, type="p",
 	     main=paste(title, "1RM prediction"),
 	     sub="Adapted from Gonzalez-Badillo, Sanchez-Medina (2010)",
-	     xlim=c(min(curvesLoad),max(loadCalc)),
+	     xlim=c(min(curvesLoad),max(loadCalc[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
 	mtext(side=1,line=2,"Kg")
-	mtext(side=2,line=3,"Mean speed in propulsive phase (m/s)")
+	mtext(side=2,line=3,"Mean speed in concentric propulsive phase (m/s)")
 	mtext(side=4,line=2,"1RM (%)")
 
 	abline(h=msp, lty=2, col="gray")
@@ -1222,6 +1230,7 @@ doProcess <- function(options) {
 	   writeCurves) 
 	{
 		paf = data.frame()
+		j=1
 		for(i in 1:n) { 
 			myMass = Mass
 			mySmoothingOne = SmoothingOne
@@ -1230,15 +1239,24 @@ doProcess <- function(options) {
 				myMass = curves[i,5]
 				mySmoothingOne = curves[i,6]
 				myEccon = curves[i,8]
+	  
+			        #only use concentric data	
+				if(Analysis == "1RMBadillo2010" & myEccon =="e")
+					next;
+			} else {
+				if(Analysis == "1RMBadillo2010" & Eccon == "ecS" & i%%2 == 1)
+					next;
 			}
+
 			print("i:")
 			print(i)
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
+			#this is to solve the rows mismatch on 1RMBadillo2010 and myEccon="e"
+			rownames(paf)[j]=rownames(curves)[i]
+			j=j+1
 		}
-		#print(paf)
-		rownames(paf)=rownames(curves) #put correct rownames when there are inactive curves
 		print("----------------------------")
 		print(paf)
 

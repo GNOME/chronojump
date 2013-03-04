@@ -832,11 +832,11 @@ paint1RMBadillo2010 <- function (paf, title) {
 		return()
 	}
 
-	par(mar=c(5,5,3,4))
+	par(mar=c(6,5,3,4))
 
 	plot(curvesLoad,curvesSpeed, type="p",
 	     main=paste(title, "1RM prediction"),
-	     sub="Adapted from Gonzalez-Badillo, Sanchez-Medina (2010)",
+	     sub="\nConcentric mean speed on bench press 1RM is 0.185m/s. Estimated percentual load = 8.4326 * speed ^2 - 73.501 * speed + 112.33\nAdapted from Gonzalez-Badillo, Sanchez-Medina (2010)",
 	     xlim=c(min(curvesLoad),max(loadCalc[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
@@ -1230,7 +1230,7 @@ doProcess <- function(options) {
 	   writeCurves) 
 	{
 		paf = data.frame()
-		j=1
+		discardedCurves = NULL
 		for(i in 1:n) { 
 			myMass = Mass
 			mySmoothingOne = SmoothingOne
@@ -1239,13 +1239,17 @@ doProcess <- function(options) {
 				myMass = curves[i,5]
 				mySmoothingOne = curves[i,6]
 				myEccon = curves[i,8]
-	  
-			        #only use concentric data	
-				if(Analysis == "1RMBadillo2010" & myEccon =="e")
+
+				#only use concentric data	
+				if(Analysis == "1RMBadillo2010" & myEccon == "e") {
+					discardedCurves = c(i,discardedCurves)
 					next;
+				}
 			} else {
-				if(Analysis == "1RMBadillo2010" & Eccon == "ecS" & i%%2 == 1)
+				if(Analysis == "1RMBadillo2010" & Eccon == "ecS" & i%%2 == 1) {
+					discardedCurves = c(i,discardedCurves)
 					next;
+				}
 			}
 
 			print("i:")
@@ -1253,10 +1257,13 @@ doProcess <- function(options) {
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
-			#this is to solve the rows mismatch on 1RMBadillo2010 and myEccon="e"
-			rownames(paf)[j]=rownames(curves)[i]
-			j=j+1
 		}
+
+		#on 1RMBadillo discard curves "e", because paf has this curves discarded
+		#and produces error on the cbinds below			
+		curves = curves[-discardedCurves,]
+
+		rownames(paf)=rownames(curves)
 		print("----------------------------")
 		print(paf)
 
@@ -1297,12 +1304,14 @@ doProcess <- function(options) {
 					  Mass,
 					  curves[,1],
 					  curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
-			else
+			else {
+				curvesHeight = curvesHeight[-discardedCurves]
 				paf=cbind(
-					  exerciseName,
-					  curves[i,5],		#mass
+					  curves[,4],		#exerciseName
+					  curves[,5],		#mass
 					  curves[,1],		
 					  curves[,2]-curves[,1],curvesHeight,paf)
+			}
 
 			colnames(paf)=c("exercise","mass",
 					"start","width","height","meanSpeed","maxSpeed",

@@ -216,12 +216,21 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 			print(b$cross[,1])
 			print("search min cross: crossMinRow")
 			crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+			
+			print("AT KINEMATICSF")
+			print(crossMinRow)
 
 			if (length(crossMinRow) > 0) {
 				print(crossMinRow)
 
-				eccentric=1:b$cross[crossMinRow,1]
-				concentric=b$cross[crossMinRow,2]:length(a)
+				isometricUse = TRUE
+				if(isometricUse) {
+					eccentric=1:min(b$cross[crossMinRow,1])
+					concentric=max(b$cross[crossMinRow,2]):length(a)
+				} else {
+					eccentric=1:mean(b$cross[crossMinRow,1])
+					concentric=mean(b$cross[crossMinRow,2]):length(a)
+				}
 			} else {
 				propulsiveEnds = length(a)
 				errorSearching = TRUE
@@ -413,16 +422,33 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#find the cross between both
 		print("search min cross: crossMinRow")
 		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+			
+		print("AT PAINT")
+		print(crossMinRow)
+		#maybe there are some crossMinRow's because speed crosses more than one time
+		#use min and max values of crossMinRow
+		
+		isometricUse = TRUE
+		if(isometricUse) {
+			eccentric=1:min(b$cross[crossMinRow,1])
+			concentric=max(b$cross[crossMinRow,2]):length(a)
+			isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
+		} else {
+			eccentric=1:mean(b$cross[crossMinRow,1])
+			concentric=mean(b$cross[crossMinRow,2]):length(a)
+			isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
+		}
 
-		eccentric=1:b$cross[crossMinRow,1]
-		concentric=b$cross[crossMinRow,2]:length(a)
-		isometric=c(b$cross[crossMinRow,1],b$cross[crossMinRow,2])
 		if(draw) {
 			abline(v=max(eccentric),col=cols[1])
 			abline(v=min(concentric),col=cols[1])
 			#mtext(text=paste(max(eccentric)," ",sep=""),side=1,at=max(eccentric),adj=1,cex=.8,col=cols[1])
 			#mtext(text=paste(" ",min(concentric),sep=""),side=1,at=min(concentric),adj=0,cex=.8,col=cols[1])
-			mtext(text=mean(isometric),side=1,at=mean(isometric),adj=0.5,cex=.8,col=cols[1])
+
+			mtext(text=paste(round(min(isometric),1), " ",sep=""), 
+			      side=1,at=min(isometric),adj=1,cex=.8,col=cols[1])
+			mtext(text=paste(" ", round(max(isometric),1),sep=""), 
+			      side=1,at=max(isometric),adj=0,cex=.8,col=cols[1])
 			mtext(text="eccentric ",side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
 			mtext(text=" concentric ",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}

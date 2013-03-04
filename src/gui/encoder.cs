@@ -1845,9 +1845,18 @@ Log.WriteLine("l");
 	private void RenderNAnalyze (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
-		//(cell as Gtk.CellRendererText).Text = 
-		//	String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
-		(cell as Gtk.CellRendererText).Text = curve.N;
+		
+		if(radiobutton_encoder_analyze_data_current_signal.Active && findEccon(false) == "ecS") 
+		{
+			string phase = "e";
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			if(isEven)
+				phase = "c";
+
+			(cell as Gtk.CellRendererText).Text = 
+				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
+		} else
+			(cell as Gtk.CellRendererText).Text = curve.N;
 	}
 
 	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

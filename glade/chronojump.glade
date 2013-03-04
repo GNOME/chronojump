@@ -3499,7 +3499,7 @@ Chronopic</property>
                                                             <property name="secondary_icon_sensitive">True</property>
                                                             <property name="adjustment">10 0 200 1 10 0</property>
                                                             <property name="climb_rate">1</property>
-                                                            <property name="digits">1</property>
+                                                            <property name="digits">2</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>
@@ -4303,7 +4303,7 @@ weight</property>
                                                             <property name="secondary_icon_sensitive">True</property>
                                                             <property name="adjustment">20 0 200 1 10 0</property>
                                                             <property name="climb_rate">1</property>
-                                                            <property name="digits">1</property>
+                                                            <property name="digits">2</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>

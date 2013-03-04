@@ -22,7 +22,7 @@
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
-eccons=c("c","ec","ec-rep","ecS") 
+eccons=c("c","ec","ecS") 
 
 g = 9.81
 smoothingAll= 0.1
@@ -91,7 +91,7 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			} 
 			i=i+1; j=j+1
 		}
-	} else { #ec, and ec-rep
+	} else { #ec, ecS
 		row=1; i=1; j=2
 		#when saved a row with ec-con, and there's only this curve, extrema doesn't find maxindex
 		if(length(b$maxindex) == 0) {
@@ -198,7 +198,7 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	if(analysisOptions == "p") {
 		if(eccon=="c") {
 			concentric=1:length(a)
-		} else {	#"ec", "ec-rep"
+		} else {	#"ec", "ecS"
 			b=extrema(speed$y)
 			print(b)
 			#In all the extrema minindex values, search which range (row) has the min values,
@@ -253,10 +253,15 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
-powerBars <- function(kinematics) {
+powerBars <- function(eccon, kinematics) {
 	meanSpeed <- mean(kinematics$speedy)
 	maxSpeed <- max(abs(kinematics$speedy))
-	meanPower <- mean(kinematics$power)
+
+	if(eccon == "c")
+		meanPower <- mean(kinematics$power)
+	else
+		meanPower <- mean(abs(kinematics$power))
+
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
@@ -307,7 +312,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	meanPowerE = 0
 	meanPowerC = 0
 
-	#eccons ec and ec-rep is the same here (only show one curve)
+	#eccons ec and ecS is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
 
@@ -391,7 +396,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	eccentric=0
 	if(eccon=="c") {
 		concentric=1:length(a)
-	} else {	#"ec", "ec-rep"
+	} else {	#"ec", "ecS"
 		print("EXTREMA")
 		#abline(v=b$maxindex,lty=3,col="yellow");
 		#abline(v=b$minindex,lty=3,col="magenta")
@@ -636,6 +641,20 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	
 	powerData=rbind(paf[,3], paf[,4])
 
+	#when eccon != c show always ABS power
+	#peakPower is always ABS
+	if(Eccon == "c") {
+		powerName = "Power"
+		peakPowerName = "Peak Power (ABS)"
+	}
+	else {
+		powerName = "Power (ABS)"
+		peakPowerName = "Peak Power (ABS)"
+	}
+
+	print("powerData")
+	print(powerData)
+
 	#put lowerY on power, but definetively, leave it at 0
 	#lowerY=min(powerData)-100
 	#if(lowerY < 0)
@@ -669,10 +688,10 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	rng=par("usr")
 	lg = legend(rng[1], rng[2],
 		    col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
-		    legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=F)
+		    legend=c(powerName, peakPowerName, "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=F)
 	legend(rng[1], rng[4]+1.25*lg$rect$h,
 	       col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
-	       legend=c("Power","Peak Power", "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=T, xpd=NA)
+	       legend=c(powerName, peakPowerName, "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=T, xpd=NA)
 	
 	abline(h=max(height),lty=2, col="green")
 	abline(h=min(height),lty=2, col="green")
@@ -1179,7 +1198,8 @@ doProcess <- function(options) {
 			}
 			print("i:")
 			print(i)
-			paf=rbind(paf,(powerBars(kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
+			paf=rbind(paf,(powerBars(myEccon,
+						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
 		}
 		#print(paf)

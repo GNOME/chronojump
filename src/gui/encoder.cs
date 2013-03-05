@@ -75,11 +75,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_compare_curves;
 	[Widget] Gtk.Box hbox_encoder_user_curves_num;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
-	[Widget] Gtk.Button button_encoder_analyze_data_show_user_curves;
+	[Widget] Gtk.Button button_encoder_analyze_data_select_curves;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
@@ -391,7 +393,7 @@ public partial class ChronoJumpWindow
 		ecconLast = findEccon(false);
 	}
 	
-	void on_button_encoder_analyze_data_show_user_curves_clicked (object o, EventArgs args) 
+	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
@@ -1167,8 +1169,8 @@ public partial class ChronoJumpWindow
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 		
-		button_encoder_analyze_data_show_user_curves.Sensitive = false;
 		hbox_encoder_user_curves_num.Sensitive = false;
+		button_encoder_analyze_data_select_curves.Sensitive = false;
 
 		if(ecconLast != "c")
 			rows = rows / 2;
@@ -1185,6 +1187,10 @@ public partial class ChronoJumpWindow
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+		
+		radiobutton_encoder_analyze_powerbars.Sensitive = true;
+		radiobutton_encoder_analyze_single.Sensitive = true;
+		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		if(currentPerson != null) {
@@ -1202,11 +1208,23 @@ public partial class ChronoJumpWindow
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 		
-
-		button_encoder_analyze_data_show_user_curves.Sensitive = currentPerson != null;
 		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
+		button_encoder_analyze_data_select_curves.Sensitive = currentPerson != null;
+		
+		radiobutton_encoder_analyze_powerbars.Sensitive = true;
+		radiobutton_encoder_analyze_single.Sensitive = true;
+		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
+	private void on_radiobutton_encoder_analyze_data_compare_curves_toggled (object obj, EventArgs args) {
+		hbox_encoder_user_curves_num.Sensitive = false;
+		button_encoder_analyze_data_select_curves.Sensitive = true;
+
+		radiobutton_encoder_analyze_powerbars.Sensitive = false;
+		radiobutton_encoder_analyze_single.Sensitive = false;
+		radiobutton_encoder_analyze_side.Sensitive = false;
+		radiobutton_encoder_analyze_cross.Active = true;
+	}
 
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
@@ -2169,7 +2187,7 @@ Log.WriteLine("l");
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
-		//c6 button_encoder_analyze_data_show_user_curves
+		//c6 button_encoder_analyze_data_select_curves
 		//c7 button_encoder_capture_cancel (on capture and analyze)
 		//c8 button_encoder_capture_finish (only on capture)
 
@@ -2254,7 +2272,7 @@ Log.WriteLine("l");
 			label_encoder_analyze_side_max.Visible = false;
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
-		button_encoder_analyze_data_show_user_curves.Sensitive = 
+		button_encoder_analyze_data_select_curves.Sensitive = 
 			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);

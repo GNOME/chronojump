@@ -491,17 +491,25 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#plot the speed axis
 		if(showAxes) {
 			abline(h=0,lty=3,col="black")
-			if(eccon == "c") 
+			if(eccon == "c") {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      parse(text=paste("paste(bar(x),'c=',",round(meanSpeedC,1),")"))),
+					      round(meanSpeedC,1)),
 				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
-			else
+				axis(4, at=meanSpeedC,
+				     labels="Xc",
+				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-2)
+			}
+			else {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      parse(text=paste("paste(bar(x),'e=',",round(meanSpeedE,1),")")),
-					      parse(text=paste("paste(bar(x),'c=',",round(meanSpeedC,1),")"))),
+					      round(meanSpeedE,1),
+					      round(meanSpeedC,1)),
 				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
+				axis(4, at=c(meanSpeedE,meanSpeedC),
+				     labels=c("Xe","Xc"),
+				     col=cols[1], lty=lty[1], line=0, lwd=0, padj=-2)
+			}
 		}
 
 		par(new=T)
@@ -605,17 +613,25 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		}
 
 		if(showAxes) {
-			if(eccon == "c") 
+			if(eccon == "c") {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      parse(text=paste("paste(bar(x),'c=',",round(meanPowerC,1),")"))),
+					      round(meanPowerC,1)),
 				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
-			else
-				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE, meanPowerC),
+				axis(4, at=meanPowerC,
+				     labels="Xc",
+				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-2)
+			}
+			else {
+				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE,meanPowerC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
-					      parse(text=paste("paste(bar(x),'e=',",round(meanPowerE,1),")")),
-					      parse(text=paste("paste(bar(x),'c=',",round(meanPowerC,1),")"))),
-				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
+					      round(meanPowerE,1),
+					      round(meanPowerC,1)),
+				     col=cols[3], lty=lty[1], line=6, lwd=1, padj=-.5)
+				axis(4, at=c(meanPowerE,meanPowerC),
+				     labels=c("Xe","Xc"),
+				     col=cols[3], lty=lty[1], line=6, lwd=0, padj=-2)
+			}
 		}
 	}
 
@@ -1231,6 +1247,7 @@ doProcess <- function(options) {
 	{
 		paf = data.frame()
 		discardedCurves = NULL
+		discardingCurves = FALSE
 		for(i in 1:n) { 
 			myMass = Mass
 			mySmoothingOne = SmoothingOne
@@ -1243,11 +1260,13 @@ doProcess <- function(options) {
 				#only use concentric data	
 				if(Analysis == "1RMBadillo2010" & myEccon == "e") {
 					discardedCurves = c(i,discardedCurves)
+					discardingCurves = TRUE
 					next;
 				}
 			} else {
 				if(Analysis == "1RMBadillo2010" & Eccon == "ecS" & i%%2 == 1) {
 					discardedCurves = c(i,discardedCurves)
+					discardingCurves = TRUE
 					next;
 				}
 			}
@@ -1261,7 +1280,8 @@ doProcess <- function(options) {
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded
 		#and produces error on the cbinds below			
-		curves = curves[-discardedCurves,]
+		if(discardingCurves)
+			curves = curves[-discardedCurves,]
 
 		rownames(paf)=rownames(curves)
 		print("----------------------------")

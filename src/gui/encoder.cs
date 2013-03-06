@@ -1629,6 +1629,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Range") + "\n (cm)",
 			Catalog.GetString("MeanSpeed") + "\n (m/s)",
 			Catalog.GetString("MaxSpeed") + "\n (m/s)",
+			Catalog.GetString("MaxSpeedTime") + "\n (s)",
 			Catalog.GetString("MeanPower") + "\n (W)",
 			Catalog.GetString("PeakPower") + "\n (W)",
 			Catalog.GetString("PeakPowerTime") + "\n (s)",
@@ -1659,7 +1660,8 @@ public partial class ChronoJumpWindow
 							//cells[2], 	//mass
 							cells[3], cells[4], cells[5], 
 							cells[6], cells[7], cells[8], 
-							cells[9], cells[10], cells[11]
+							cells[9], cells[10], cells[11],
+							cells[12]
 							));
 
 			} while(true);
@@ -1708,15 +1710,18 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 9:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 10:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -1736,6 +1741,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Range") + "\n (cm)",
 			Catalog.GetString("MeanSpeed") + "\n (m/s)",
 			Catalog.GetString("MaxSpeed") + "\n (m/s)",
+			Catalog.GetString("MaxSpeedTime") + "\n (s)",
 			Catalog.GetString("MeanPower") + "\n (W)",
 			Catalog.GetString("PeakPower") + "\n (W)",
 			Catalog.GetString("PeakPowerTime") + "\n (s)",
@@ -1796,7 +1802,9 @@ Log.WriteLine("f");
 							Convert.ToDouble(mass),
 							cells[3], cells[4], cells[5], 
 							cells[6], cells[7], cells[8], 
-							cells[9], cells[10], cells[11]));
+							cells[9], cells[10], cells[11],
+							cells[12]
+							));
 
 Log.WriteLine("g");
 			} while(true);
@@ -1854,15 +1862,18 @@ Log.WriteLine("k");
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 11:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 12:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -2018,6 +2029,14 @@ Log.WriteLine("l");
 			String.Format("{0,10:0.000}",Convert.ToDouble(curve.MaxSpeed));
 	}
 	
+	private void RenderMaxSpeedT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		double time = Convert.ToDouble(curve.MaxSpeedT)/1000; //ms->s
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(time.ToString(),7,3),time);
+	}
+
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
@@ -2066,7 +2085,7 @@ Log.WriteLine("l");
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),curve.PP_PPT);
+			String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),Convert.ToDouble(curve.PP_PPT));
 	}
 
 	/* end of rendering cols */
@@ -2077,12 +2096,12 @@ Log.WriteLine("l");
 		for(int i=3; i <= 5; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		
-		//meanSpeed,maxSpeed,meanPower,peakPower,peakPowerT
-		for(int i=6; i <= 10; i++)
+		//meanSpeed,maxSpeed,maxSpeedT, meanPower,peakPower,peakPowerT
+		for(int i=6; i <= 11; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 		
 		//pp/ppt
-		cells[11] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[11])),1); 
+		cells[12] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[12])),1); 
 		return cells;
 	}
 	

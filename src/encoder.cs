@@ -165,8 +165,10 @@ public class EncoderCurve
 
 	//used on TreeView capture
 	public EncoderCurve (string n, 
-			string start, string duration, string height, string meanSpeed, string maxSpeed, 
-			string meanPower, string peakPower, string peakPowerT, string PP_PPT)
+			string start, string duration, string height, 
+			string meanSpeed, string maxSpeed, string maxSpeedT,
+			string meanPower, string peakPower, string peakPowerT, 
+			string PP_PPT)
 	{
 		this.N = n;
 		this.Start = start;
@@ -174,6 +176,7 @@ public class EncoderCurve
 		this.Height = height;
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed = maxSpeed;
+		this.MaxSpeedT = maxSpeedT;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
@@ -182,8 +185,10 @@ public class EncoderCurve
 
 	//used on TreeView analyze
 	public EncoderCurve (string n, string exercise, double extraWeight,
-			string start, string duration, string height, string meanSpeed, string maxSpeed, 
-			string meanPower, string peakPower, string peakPowerT, string PP_PPT)
+			string start, string duration, string height,
+			string meanSpeed, string maxSpeed, string maxSpeedT,
+			string meanPower, string peakPower, string peakPowerT, 
+			string PP_PPT)
 	{
 		this.N = n;
 		this.Exercise = exercise;
@@ -193,6 +198,7 @@ public class EncoderCurve
 		this.Height = height;
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed = maxSpeed;
+		this.MaxSpeedT = maxSpeedT;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
@@ -207,6 +213,7 @@ public class EncoderCurve
 	public string Height;
 	public string MeanSpeed;
 	public string MaxSpeed;
+	public string MaxSpeedT;
 	public string MeanPower;
 	public string PeakPower;
 	public string PeakPowerT;

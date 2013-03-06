@@ -662,12 +662,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			#http://stackoverflow.com/a/7322792
 			rng=par("usr")
 			lg = legend(0,rng[2], 
-				    legend=c("Distance","Speed","Accel.","Force","Power"), 
+				    legend=c("Distance (mm)","Speed (m/s)","Accel. (m/s²)","Force (N)","Power (W)"), 
 				    lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
 				    col=c("black",cols[1],"magenta",cols[2],cols[3]), 
 				    cex=1, bg="white", ncol=6, bty="n", plot=F)
 			legend(0,rng[4]+1.25*lg$rect$h, 
-			       legend=c("Distance","Speed","Accel.","Force","Power"), 
+			       legend=c("Distance (mm)","Speed (m/s)","Accel. (m/s²)","Force (N)","Power (W)"), 
 			       lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
 			       col=c("black",cols[1],"magenta",cols[2],cols[3]), 
 			       cex=1, bg="white", ncol=6, bty="n", plot=T, xpd=NA)
@@ -1093,6 +1093,10 @@ doProcess <- function(options) {
 		quitIfNoData(n, curves, OutputData1)
 	} else {
 		rawdata=scan(file=File,sep=",")
+			
+		#if data file ends with comma. Last character will be an NA. remove it
+		#this removes all NAs
+		rawdata  = rawdata[!is.na(rawdata)]
 
 		if(length(rawdata)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")

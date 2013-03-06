@@ -397,22 +397,37 @@ public class GenericWindow
 		tv.InsertColumn (column, 0);
 	}
 	
-	public string [] GetCheckboxesStatus() {
-		string [] checkboxes = new string[UtilGtk.CountRows(store)]; //to store active or inactive status of curves
+	//if column == 0 returns checkboxes column. If is 1 returns column 1...
+	public string [] GetCheckboxesStatus(int column, bool onlyActive) 
+	{
+		//to store active or inactive status of curves
+		string [] checkboxes = new string[UtilGtk.CountRows(store)];
 		
 		int count = 0;
 		Gtk.TreeIter iter;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
 			do {
-				if((bool) store.GetValue (iter, 0))
-					checkboxes[count++] = "active";
+				if(column == 0) {
+					if((bool) store.GetValue (iter, 0))
+						checkboxes[count++] = "active";
+					else
+						checkboxes[count++] = "inactive";
+				}
 				else
-					checkboxes[count++] = "inactive";
+					if((bool) store.GetValue (iter, 0) || ! onlyActive)
+						checkboxes[count++] = ((string) store.GetValue (iter, column));
 				
 			} while ( store.IterNext(ref iter) );
 		}
-		return checkboxes;
+		if(column == 0)
+			return checkboxes;
+		else {
+			string [] checkboxesWithoutGaps = new string[count];
+			for(int i=0; i < count; i ++)
+				checkboxesWithoutGaps[i] = checkboxes[i];
+			return checkboxesWithoutGaps;
+		}
 	}
 
 	protected void ItemToggled(object o, ToggledArgs args) {

@@ -1226,8 +1226,14 @@ public class Util
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
 		if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")
 			outputFileCheck = es.OutputData1; 
-		else
-			outputFileCheck = es.OutputGraph;
+		else {
+			//outputFileCheck = es.OutputGraph;
+			//
+			//OutputData1 because since Chronojump 1.3.6, 
+			//encoder analyze has a treeview that can show the curves
+			//when a graph analysis is done, curves file has to be written
+			outputFileCheck = es.OutputData1; 
+		}
 
 		pinfo.FileName=pBin;
 
@@ -1509,7 +1515,6 @@ public class Util
 
 		return false;
 	}
-
 
 	/*
 	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith

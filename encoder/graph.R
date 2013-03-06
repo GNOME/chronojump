@@ -264,7 +264,9 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 
 powerBars <- function(eccon, kinematics) {
 	meanSpeed <- mean(kinematics$speedy)
+	#max speed and max speed time can be at eccentric or concentric
 	maxSpeed <- max(abs(kinematics$speedy))
+	maxSpeedT <- min(which(abs(kinematics$speedy) == maxSpeed))
 
 	if(eccon == "c")
 		meanPower <- mean(kinematics$power)
@@ -280,7 +282,7 @@ powerBars <- function(eccon, kinematics) {
 	#here paf is generated
 	#mass is not used by powerBars, but used by Kg/W (loadVSPower)
 	#meanForce and maxForce are not used by powerBars, but used by F/S (forceVSSpeed)
-	return(data.frame(meanSpeed, maxSpeed, meanPower,peakPower,peakPowerT,pp_ppt,
+	return(data.frame(meanSpeed, maxSpeed, maxSpeedT, meanPower,peakPower,peakPowerT,pp_ppt,
 			  kinematics$mass,meanForce,maxForce))
 }
 
@@ -692,7 +694,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 		}
 	}
 	
-	powerData=rbind(paf[,3], paf[,4])
+	powerData=rbind(paf[,findPosInPaf("Power","mean")], paf[,findPosInPaf("Power","max")])
 
 	#when eccon != c show always ABS power
 	#peakPower is always ABS
@@ -716,7 +718,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	
 	par(mar=c(2.5, 4, 5, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=paste(myNums,"\n",paf[,7],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
+			names.arg=paste(myNums,"\n",paf[,findPosInPaf("Load","")],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
 			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
@@ -724,10 +726,12 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	par(new=T, xpd=T)
 	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
 	if(Eccon=="ecS")
-		plot(bp[2,],paf[,5],type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),
+		plot(bp[2,],paf[,findPosInPaf("Power","time")],type="p",lwd=2,
+		     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
 		     axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
 	else
-		plot(bp[2,],paf[,5],type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(paf[,5])),
+		plot(bp[2,],paf[,findPosInPaf("Power","time")],type="b",lwd=2,
+		     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
 		     axes=F,xlab="",ylab="",col=pafColors[3])
 	
 	axis(4, col=pafColors[3], line=0,padj=-.5)
@@ -759,13 +763,15 @@ findPosInPaf <- function(var, option) {
 	if(var == "Speed")
 		pos = 1
 	else if(var == "Power")
-		pos = 3
+		pos = 4
 	else if(var == "Load") #or Mass
-		pos = 7
-	else if(var == "Force")
 		pos = 8
+	else if(var == "Force")
+		pos = 9
 	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
 		pos=pos+1
+	if( ( var == "Speed" || var == "Power") & option == "time")
+		pos=pos+2
 	return(pos)
 }
 
@@ -833,7 +839,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 #propulsive!!!!
 paint1RMBadillo2010 <- function (paf, title) {
-	curvesLoad = (paf[,7]) 					#mass: X
+	curvesLoad = (paf[,findPosInPaf("Load","")]) 		#mass: X
 	curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
 
 	par(mar=c(5,6,3,4))
@@ -1340,7 +1346,9 @@ doProcess <- function(options) {
 					  curves[,1],
 					  curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
 			else {
-				curvesHeight = curvesHeight[-discardedCurves]
+				if(discardingCurves)
+					curvesHeight = curvesHeight[-discardedCurves]
+
 				paf=cbind(
 					  curves[,4],		#exerciseName
 					  curves[,5],		#mass
@@ -1349,8 +1357,10 @@ doProcess <- function(options) {
 			}
 
 			colnames(paf)=c("exercise","mass",
-					"start","width","height","meanSpeed","maxSpeed",
-					"meanPower","peakPower","peakPowerT","pp_ppt")
+					"start","width","height",
+					"meanSpeed","maxSpeed","maxSpeedT",
+					"meanPower","peakPower","peakPowerT",
+					"pp_ppt")
 			write.csv(paf, OutputData1, quote=FALSE)
 			print("curves written")
 		}

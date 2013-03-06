@@ -75,11 +75,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_compare_curves;
-	[Widget] Gtk.Box hbox_encoder_user_curves_num;
+	[Widget] Gtk.Box hbox_encoder_user_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
-	[Widget] Gtk.Button button_encoder_analyze_data_select_curves;
+	[Widget] Gtk.Box hbox_encoder_analyze_data_compare;
+	[Widget] Gtk.ComboBox combo_encoder_analyze_data_compare;
+	[Widget] Gtk.Button button_encoder_analyze_data_compare;
+
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
@@ -483,8 +485,11 @@ public partial class ChronoJumpWindow
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
+	
+	void on_button_encoder_analyze_data_compare_clicked (object o, EventArgs args) 
+	{
+	}
 
-		
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
@@ -1119,7 +1124,7 @@ public partial class ChronoJumpWindow
 			writer.Flush();
 			((IDisposable)writer).Dispose();
 			//Sqlite.Close();	
-		} else {
+		} else {	//current signal
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 
 					Convert.ToInt32(
@@ -1169,8 +1174,7 @@ public partial class ChronoJumpWindow
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 		
-		hbox_encoder_user_curves_num.Sensitive = false;
-		button_encoder_analyze_data_select_curves.Sensitive = false;
+		hbox_encoder_user_curves.Sensitive = false;
 
 		if(ecconLast != "c")
 			rows = rows / 2;
@@ -1208,23 +1212,13 @@ public partial class ChronoJumpWindow
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 		
-		hbox_encoder_user_curves_num.Sensitive = currentPerson != null;
-		button_encoder_analyze_data_select_curves.Sensitive = currentPerson != null;
+		hbox_encoder_user_curves.Sensitive = currentPerson != null;
 		
 		radiobutton_encoder_analyze_powerbars.Sensitive = true;
 		radiobutton_encoder_analyze_single.Sensitive = true;
 		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
-	private void on_radiobutton_encoder_analyze_data_compare_curves_toggled (object obj, EventArgs args) {
-		hbox_encoder_user_curves_num.Sensitive = false;
-		button_encoder_analyze_data_select_curves.Sensitive = true;
-
-		radiobutton_encoder_analyze_powerbars.Sensitive = false;
-		radiobutton_encoder_analyze_single.Sensitive = false;
-		radiobutton_encoder_analyze_side.Sensitive = false;
-		radiobutton_encoder_analyze_cross.Active = true;
-	}
 
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
@@ -1355,6 +1349,7 @@ public partial class ChronoJumpWindow
 	string [] encoderExercisesTranslationAndBodyPWeight;
 	string [] encoderEcconTranslation;
 	string [] encoderLateralityTranslation;
+	string [] encoderDataCompareTranslation;
 	string [] encoderAnalyzeCrossTranslation;
 
 	protected void createEncoderCombos() {
@@ -1401,6 +1396,27 @@ public partial class ChronoJumpWindow
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
 		
+		//create combo analyze data compare (variables)
+		string [] comboDataCompareOptions = { 
+			"No compare", "Between persons", "Between sessions"};
+		string [] comboDataCompareOptionsTranslated = { 
+			Catalog.GetString("No compare"),
+			Catalog.GetString("Between persons"),
+			Catalog.GetString("Between sessions")
+		};
+		encoderDataCompareTranslation = new String [comboDataCompareOptions.Length];
+		for(int j=0; j < 3 ; j++)
+			encoderDataCompareTranslation[j] = 
+				comboDataCompareOptions[j] + ":" + comboDataCompareOptionsTranslated[j];
+		combo_encoder_analyze_data_compare = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_encoder_analyze_data_compare, comboDataCompareOptionsTranslated, "");
+		combo_encoder_analyze_data_compare.Active = UtilGtk.ComboMakeActive(
+				combo_encoder_analyze_data_compare, 
+				Catalog.GetString(comboDataCompareOptions[0]));
+		combo_encoder_analyze_data_compare.Changed += 
+			new EventHandler(on_combo_encoder_analyze_data_compare_changed );
+
+		
 		//create combo analyze cross (variables)
 		string [] comboAnalyzeCrossOptions = { 
 			"Speed / Load", "Force / Load", "Power / Load", "Speed,Power / Load", "Force / Speed", "Power / Speed", "1RM Prediction"};
@@ -1440,6 +1456,10 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_laterality.ShowAll();
 		combo_encoder_laterality.Sensitive = true;
 		
+		hbox_encoder_analyze_data_compare.PackStart(combo_encoder_analyze_data_compare, true, true, 0);
+		hbox_encoder_analyze_data_compare.ShowAll();
+		combo_encoder_analyze_data_compare.Sensitive = true;
+		
 		hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
 		hbox_combo_encoder_analyze_cross.ShowAll(); 
 		combo_encoder_analyze_cross.Sensitive = true;
@@ -1453,6 +1473,23 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
+	}
+
+	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
+	{
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) == "No compare") {
+			radiobutton_encoder_analyze_powerbars.Sensitive = true;
+			radiobutton_encoder_analyze_single.Sensitive = true;
+			radiobutton_encoder_analyze_side.Sensitive = true;
+			button_encoder_analyze_data_compare.Visible = false;
+		} else {
+			radiobutton_encoder_analyze_powerbars.Sensitive = false;
+			radiobutton_encoder_analyze_single.Sensitive = false;
+			radiobutton_encoder_analyze_side.Sensitive = false;
+			radiobutton_encoder_analyze_cross.Active = true;
+			button_encoder_analyze_data_compare.Visible = true;
+		}
 	}
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
@@ -1714,7 +1751,7 @@ public partial class ChronoJumpWindow
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			curvesData = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
-		} else {
+		} else {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
 			mass = findMass(false);
 		}
@@ -2164,7 +2201,7 @@ Log.WriteLine("l");
 			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 			combo_encoder_analyze_curve_num_combo.Active = 
 				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
-		} else {
+		} else {	//current signal
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
 	
@@ -2187,7 +2224,7 @@ Log.WriteLine("l");
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
-		//c6 button_encoder_analyze_data_select_curves
+		//c6 hbox_encoder_user_curves
 		//c7 button_encoder_capture_cancel (on capture and analyze)
 		//c8 button_encoder_capture_finish (only on capture)
 
@@ -2195,7 +2232,7 @@ Log.WriteLine("l");
 		//c5 True needs 
 		//	(signal && treeviewEncoder has rows) || 
 		//	(! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
-		//c6 True needs ! radiobutton_encoder_analyze_data_current_signal.Active
+		//c6 True needs radiobutton_encoder_analyze_data_user_curves.Active
 
 		if(option != encoderSensEnum.PROCESSINGCAPTURE && option != encoderSensEnum.PROCESSINGR)
 			encoderSensEnumStored = option;
@@ -2259,12 +2296,17 @@ Log.WriteLine("l");
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
 		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[3]);
 
-		bool signal = radiobutton_encoder_analyze_data_current_signal.Active;
-
 		bool analyze_sensitive = 
-			(Util.IntToBool(table[5]) && 
-			 (signal && UtilGtk.CountRows(encoderCaptureListStore) > 0 ||
-			  (! signal && Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)));
+			(
+			 Util.IntToBool(table[5]) && 
+			 (
+			  (radiobutton_encoder_analyze_data_current_signal.Active && 
+			   UtilGtk.CountRows(encoderCaptureListStore) > 0) 
+			  ||
+			  (radiobutton_encoder_analyze_data_user_curves.Active && 
+			   Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)
+			  )
+			 );
 		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
 			analyze_sensitive = curvesNumOkToSideCompare();
 			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
@@ -2272,8 +2314,8 @@ Log.WriteLine("l");
 			label_encoder_analyze_side_max.Visible = false;
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
-		button_encoder_analyze_data_select_curves.Sensitive = 
-			(Util.IntToBool(table[6]) && ! radiobutton_encoder_analyze_data_current_signal.Active);
+		hbox_encoder_user_curves.Sensitive = 
+			(Util.IntToBool(table[6]) && radiobutton_encoder_analyze_data_user_curves.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
 		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);

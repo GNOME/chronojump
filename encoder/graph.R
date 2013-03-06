@@ -392,6 +392,17 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 	}
+	
+	#time to arrive to max speed
+	maxSpeedT=min(which(speed$y == max(speed$y)))
+	if(draw & !superpose) {
+		abline(v=maxSpeedT, col=cols[1])
+		points(maxSpeedT, max(speed$y),col=cols[1])
+		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
+		      at=maxSpeedT,cex=.8,col=cols[1], line=.5)
+		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1])
+	}
+
 
 	#show extrema values in speed
 	b=extrema(speed$y)
@@ -640,7 +651,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw & !superpose) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
-		mtext(text=paste("peak power:",round(max(power),3)),side=3,at=peakPowerT,cex=.8,col=cols[3])
+		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,cex=.8,col=cols[3])
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
 	}
 

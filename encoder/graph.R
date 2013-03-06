@@ -788,51 +788,95 @@ findPosInPaf <- function(var, option) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
-	myNums = rownames(paf)
-	if(Eccon=="ecS") {
-		if(singleFile) {
-			myEc=c("c","e")
-			myNums = as.numeric(rownames(paf))
-			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
+	print("seriesName")
+	print(seriesName)
+
+	colBalls = NULL
+	bgBalls = NULL
+
+	#if only one series
+	if(length(unique(seriesName)) == 1) {
+		myNums = rownames(paf)
+		if(Eccon=="ecS") {
+			if(singleFile) {
+				myEc=c("c","e")
+				myNums = as.numeric(rownames(paf))
+				myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
+			}
 		}
-	}
 
-	#problem with balls is that two values two close looks bad
-	#suboption="balls"
-	suboption="side"
-	if(suboption == "balls") {
-		cexBalls = 3
-		cexNums = 1
-		adjHor = 0.5
-		nums=myNums
-	} else if (suboption == "side") {
-		cexBalls = 1.8
-		cexNums = 1
-		adjHor = 0
-		nums=paste("  ", myNums)
-	}
+		#problem with balls is that two values two close looks bad
+		#suboption="balls"
+		suboption="side"
+		if(suboption == "balls") {
+			cexBalls = 3
+			cexNums = 1
+			adjHor = 0.5
+			nums=myNums
+		} else if (suboption == "side") {
+			cexBalls = 1.8
+			cexNums = 1
+			adjHor = 0
+			nums=paste("  ", myNums)
+		}
+
+		colBalls="blue"
+		bgBalls="lightBlue"
+		if(isAlone == "RIGHT") {
+			colBalls="red"
+			bgBalls="pink"
+		}
+		plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	
-	colBalls="blue"
-	bgBalls="lightBlue"
-	if(isAlone == "RIGHT") {
-		colBalls="red"
-		bgBalls="pink"
-	}
+		#x vector should contain at least 4 different values
+		if(length(unique(x)) >= 4)
+			lines(smooth.spline(x,y,df=4),col=colBalls,lwd=2)
+		
+		title(title, cex.main=1, font.main=2)
+		text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
 
-	plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-	title(title, cex.main=1, font.main=2)
-	text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
+	} else { #more than one series
+		#colBalls = "black"
+		uniqueColors=topo.colors(length(unique(seriesName)))
 
-	#lines(smooth.spline(x,y,spar=.5),col="darkblue")
+		#in x axis move a little every series to right in order to compare
+		seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
+
+		for(i in 1:length(seriesName)) {
+			thisSerie = which(seriesName == unique(seriesName)[i])
+			colBalls[thisSerie] = uniqueColors[i]
+			#in x axis move a little every series to right in order to compare
+			x[thisSerie] = x[thisSerie] + seqX[i]
+		}
+		
+		plot(x,y, xlab=varX, ylab="", pch=19, col=colBalls, cex=1.8, axes=F)
+		
+		for(i in 1:length(seriesName)) {
+			thisSerie = which(seriesName == unique(seriesName)[i])
+			if(length(unique(x[thisSerie])) >= 4)
+				lines(smooth.spline(x[thisSerie],y[thisSerie],df=4),col=uniqueColors[i],lwd=2)
+		}
 	
-	#x vector should contain at least 4 different values
-	if(length(unique(x)) >= 4)
-		lines(smooth.spline(x,y,df=4),col=colBalls)
-
+		#difficult to create a title in series graphs
+		title(paste(varX,"/",varY), cex.main=1, font.main=2)
+			
+		#plot legend on top exactly out
+		#http://stackoverflow.com/a/7322792
+		rng=par("usr")
+		lg = legend(rng[1],rng[2], 
+			    legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
+			    cex=1, bg="white", ncol=length(unique(seriesName)), bty="n",
+			    plot=F)
+		legend(rng[1],rng[4]+1.25*lg$rect$h, 
+		       legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
+		       cex=1, bg="white", ncol=6, bty="n",
+		       plot=T, xpd=NA)
+	}
+		
 	if(isAlone == "ALONE") {
 		axis(1)
 		axis(2)
@@ -847,6 +891,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		axis(4,col=colBalls)
 		mtext(varY, side=4, line=3, col=colBalls)
 	}
+
 }
 
 #propulsive!!!!
@@ -1018,6 +1063,7 @@ doProcess <- function(options) {
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL
 		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
+		seriesName = NULL
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
@@ -1029,7 +1075,7 @@ doProcess <- function(options) {
 				countLines=countLines+1;
 				next;
 			}
-
+			
 			dataTempFile=scan(file=as.vector(inputMultiData$fullURL[i]),sep=",")
 
 			#if curves file ends with comma. Last character will be an NA. remove it
@@ -1085,6 +1131,8 @@ doProcess <- function(options) {
 						myEccon[(i+newLines)] = "ec"
 					countLines = countLines + 1
 				}
+				
+				seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
 
 				count = count + length(dataTempPhase)
 			}
@@ -1101,10 +1149,10 @@ doProcess <- function(options) {
 		#solution:
 		if(length(id)==1) {
 			curves = data.frame(start,end,startH,exerciseName,mass,smooth,
-					    dateTime,myEccon,stringsAsFactors=F,row.names=id)
+					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=id)
 		} else {
 			curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,
-					    dateTime,myEccon,stringsAsFactors=F,row.names=1)
+					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=1)
 		}
 
 		n=length(curves[,1])
@@ -1331,20 +1379,24 @@ doProcess <- function(options) {
 							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
 		}
 		else if(analysisCross[1] == "cross") {
+			mySeries = "1"
+			if(! singleFile)
+				mySeries = curves[,9]
+
 			if(analysisCross[2] == "Speed,Power") {
 				par(mar=c(5,4,4,5))
 				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
 						    analysisCross[4], "LEFT", Title,
-						    singleFile,Eccon)
+						    singleFile,Eccon,mySeries)
 				par(new=T)
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
 						    analysisCross[4], "RIGHT", "",
-						    singleFile,Eccon)
+						    singleFile,Eccon,mySeries)
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
 						    analysisCross[4], "ALONE", Title,
-						    singleFile,Eccon)
+						    singleFile,Eccon,mySeries)
 		}
 		else if(Analysis == "1RMBadillo2010") {
 			paint1RMBadillo2010(paf, Title)
@@ -1353,6 +1405,7 @@ doProcess <- function(options) {
 		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)
 				paf=cbind(
+					  "1",			#seriesName
 					  "exerciseName",
 					  Mass,
 					  curves[,1],
@@ -1362,13 +1415,14 @@ doProcess <- function(options) {
 					curvesHeight = curvesHeight[-discardedCurves]
 
 				paf=cbind(
+					  curves[,9],		#seriesName
 					  curves[,4],		#exerciseName
 					  curves[,5],		#mass
 					  curves[,1],		
 					  curves[,2]-curves[,1],curvesHeight,paf)
 			}
 
-			colnames(paf)=c("exercise","mass",
+			colnames(paf)=c("series","exercise","mass",
 					"start","width","height",
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",

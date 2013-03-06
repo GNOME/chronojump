@@ -121,6 +121,8 @@ public partial class ChronoJumpWindow
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 
+	private ArrayList encoderComparePersons;
+
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
@@ -455,8 +457,8 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_show_curves_done);
 
 		//get selected/deselected rows
-		string [] checkboxes = genericWin.GetCheckboxesStatus();
-		Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
+		string [] checkboxes = genericWin.GetCheckboxesStatus(0, false);
+		//Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
 
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
@@ -477,7 +479,7 @@ public partial class ChronoJumpWindow
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 
-		string [] activeCurvesList = getActiveCurvesList(checkboxes, activeCurvesNum);
+		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
@@ -499,7 +501,7 @@ public partial class ChronoJumpWindow
 			if(p.UniqueID != currentPerson.UniqueID) {
 				ArrayList eSQLarray = SqliteEncoder.Select(
 						false, -1, p.UniqueID, currentSession.UniqueID, "curve", false); 
-				string [] s = { p.UniqueID.ToString(), p.Name,
+				string [] s = { "", p.UniqueID.ToString(), p.Name,
 					getActiveCurvesNum(eSQLarray).ToString(), eSQLarray.Count.ToString()
 			       	};
 				data.Add(s);
@@ -509,10 +511,24 @@ public partial class ChronoJumpWindow
 			}
 			i ++;
 		}
-		
+	
+		//prepare checkboxes to be marked	
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status
+		int count = 0;
+		foreach(string [] sPersons in data) {
+			bool found = false;
+			foreach(string s2 in encoderComparePersons)
+				if(Util.FetchID(s2).ToString() == sPersons[1])
+					found = true;
 
+			if(found)
+				checkboxes[count++] = "active";
+			else
+				checkboxes[count++] = "inactive";
+		}			
+			
 		string [] columnsString = {
+			Catalog.GetString("hiddennothing"),
 			Catalog.GetString("ID"),
 			Catalog.GetString("Name"),
 			Catalog.GetString("Selected\ncurves"),
@@ -536,8 +552,6 @@ public partial class ChronoJumpWindow
 
 		genericWin.CreateComboAllNoneSelected();
 		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows);
-
-
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -554,15 +568,19 @@ public partial class ChronoJumpWindow
 
 	void on_encoder_analyze_data_compare_done (object o, EventArgs args) {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_analyze_data_compare_done);
-		
+	
+		encoderComparePersons = new ArrayList ();
+		string [] selectedID = genericWin.GetCheckboxesStatus(1,true);
+		string [] selectedName = genericWin.GetCheckboxesStatus(2,true);
+
+		for (int i=0 ; i < selectedID.Length ; i ++)
+			encoderComparePersons.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedName[i]);
+		//encoderComparePersons.Add(currentPerson.UniqueID + ":" + currentPerson.Name);
+
 		genericWin.HideAndNull();
 		
 		Log.WriteLine("done");
 	}
-
-
-
-
 
 
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
@@ -833,7 +851,7 @@ public partial class ChronoJumpWindow
 		return countActiveCurves;
 	}
 	
-	private string [] getActiveCurvesList(string [] checkboxes, int activeCurvesNum) {
+	private string [] getActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {
 		if(activeCurvesNum == 0)
 			return Util.StringToStringArray("");
 
@@ -854,7 +872,7 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.future1;
 		}
-		string [] activeCurvesList = getActiveCurvesList(checkboxes, activeCurvesNum);
+		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
 		combo_encoder_analyze_curve_num_combo.Active = 
 			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
@@ -972,10 +990,35 @@ public partial class ChronoJumpWindow
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
-			if(data.Count == 0)
+			if(data.Count == 0) {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Sorry, no curves selected."));
 				return;
-			//TODO: in the future plot a "no curves" message,
-			//or beter done allow to analyze if there's no curves
+			}
+		
+			//check on unsupported graph
+			string crossNameTemp = 
+				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+						encoderAnalyzeCrossTranslation);
+			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+						encoderDataCompareTranslation) != "No compare" && 
+					encoderAnalysis == "cross" &&
+					(
+					 crossNameTemp == "Speed,Power / Load" || 
+					 crossNameTemp == Catalog.GetString("Speed,Power / Load") ||
+					 crossNameTemp == "1RM Prediction" || 
+					 crossNameTemp == Catalog.GetString("1RM Prediction")
+					)) {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Sorry, this graph is not supported yet.") +
+						"\n\nUser curves - compare - cross variables" +
+						"\n- Speed,Power / Load" +
+						"\n- 1RM Prediction"
+						);
+
+				return;
+			}
+
 		}
 	
 		encoderThreadStart(encoderModes.ANALYZE);
@@ -1165,13 +1208,32 @@ public partial class ChronoJumpWindow
 			
 			dataFileName = Util.GetEncoderGraphInputMulti();
 
-			//create dataFileName
-			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
-			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve",false);
 
+			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
+
+			//select curves for this person
+			ArrayList data = new ArrayList();
+
+			data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
+			
+			//if compare, select curves for other persons and add
+			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) != "No compare") {
+				ArrayList dataPre = new ArrayList();
+				for (int i=0 ; i < encoderComparePersons.Count ; i ++) {
+					dataPre = SqliteEncoder.Select(
+						false, -1, Util.FetchID(encoderComparePersons[i].ToString()),
+						currentSession.UniqueID, "curve", true);
+					foreach(EncoderSQL es in dataPre) 
+						data.Add(es);
+				}
+			}
+
+
+			//create dataFileName
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("status,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
+			writer.WriteLine("status,seriesName,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 		
 			Sqlite.Open();	
 			ArrayList eeArray = 
@@ -1189,7 +1251,20 @@ public partial class ChronoJumpWindow
 				//	SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
-				writer.WriteLine(eSQL.future1 + "," + ex.name + "," + 
+				//personName
+				string personName = "";
+				if(Util.FindOnArray(':',1,0,
+							UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+						encoderDataCompareTranslation) != "No compare") 
+				{
+					foreach(string str in encoderComparePersons)
+						if(Util.FetchID(str) == eSQL.personID)
+							personName = Util.FetchName(str);
+				}
+				if(personName == "")
+					personName = currentPerson.Name;
+
+				writer.WriteLine(eSQL.future1 + "," + personName + "," + ex.name + "," + 
 						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						eSQL.GetFullURL(true) + "," +	//convertPathToR
@@ -1564,7 +1639,21 @@ public partial class ChronoJumpWindow
 			radiobutton_encoder_analyze_side.Sensitive = false;
 			radiobutton_encoder_analyze_cross.Active = true;
 			button_encoder_analyze_data_compare.Visible = true;
+
+			//put some data just in case user doesn't click on compare button
+			encoderComparePersonsInitialize();
 		}
+	}
+
+	//put some data just in case user doesn't click on compare button
+	private void encoderComparePersonsInitialize() {
+		if(encoderComparePersons == null)
+			encoderComparePersons = new ArrayList ();
+		/*
+		string myPerson = currentPerson.UniqueID + ":" + currentPerson.Name;
+		if(! Util.FoundInArrayList(encoderComparePersons, myPerson))
+			encoderComparePersons.Add(myPerson);
+			*/
 	}
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
@@ -1731,12 +1820,13 @@ public partial class ChronoJumpWindow
 
 				encoderCaptureCurves.Add (new EncoderCurve (
 							cells[0],	//id 
-							//cells[1], 	//exerciseName
-							//cells[2], 	//mass
-							cells[3], cells[4], cells[5], 
-							cells[6], cells[7], cells[8], 
-							cells[9], cells[10], cells[11],
-							cells[12]
+							//cells[1],	//seriesName
+							//cells[2], 	//exerciseName
+							//cells[3], 	//mass
+							cells[4], cells[5], cells[6], 
+							cells[7], cells[8], cells[9], 
+							cells[10], cells[11], cells[12],
+							cells[13]
 							));
 
 			} while(true);
@@ -1809,6 +1899,7 @@ public partial class ChronoJumpWindow
 	private int createTreeViewEncoderAnalyze(string contents) {
 		string [] columnsString = {
 			Catalog.GetString("Curve") + "\n",
+			Catalog.GetString("Series") + "\n",
 			Catalog.GetString("Exercise") + "\n",
 			Catalog.GetString("Extra weight") + "\n (Kg)",
 			Catalog.GetString("Start") + "\n (s)",
@@ -1839,20 +1930,20 @@ public partial class ChronoJumpWindow
 
 		string line;
 		int curvesCount = 0;
-Log.WriteLine("a");
+Log.Write("a");
 		using (StringReader reader = new StringReader (contents)) {
-Log.WriteLine("b");
+Log.Write("b");
 			line = reader.ReadLine ();	//headers
 			Log.WriteLine(line);
-Log.WriteLine("c");
+Log.Write("c");
 			do {
-Log.WriteLine("d");
+Log.Write("d");
 				line = reader.ReadLine ();
 				Log.WriteLine(line);
 				if (line == null)
 					break;
 
-Log.WriteLine("e");
+Log.Write("e");
 
 				curvesCount ++;
 
@@ -1866,26 +1957,27 @@ Log.WriteLine("e");
 					exerciseName = eSQL.exerciseName;
 					mass = eSQL.extraWeight;
 					*/
-					exerciseName = cells[1];
-					mass = cells[2];
+					exerciseName = cells[2];
+					mass = cells[3];
 				}
 
-Log.WriteLine("f");
+Log.Write("f");
 				encoderAnalyzeCurves.Add (new EncoderCurve (
 							cells[0], 
+							cells[1],	//seriesName 
 							exerciseName, 
 							Convert.ToDouble(mass),
-							cells[3], cells[4], cells[5], 
-							cells[6], cells[7], cells[8], 
-							cells[9], cells[10], cells[11],
-							cells[12]
+							cells[4], cells[5], cells[6], 
+							cells[7], cells[8], cells[9], 
+							cells[10], cells[11], cells[12],
+							cells[13]
 							));
 
-Log.WriteLine("g");
+Log.Write("g");
 			} while(true);
-Log.WriteLine("h");
+Log.Write("h");
 		}
-Log.WriteLine("i");
+Log.Write("i");
 
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		foreach (EncoderCurve curve in encoderAnalyzeCurves) 
@@ -1898,7 +1990,7 @@ Log.WriteLine("i");
 		treeview_encoder_analyze_curves.HeadersVisible=true;
 
 
-Log.WriteLine("j");
+Log.Write("j");
 		int i=0;
 		foreach(string myCol in columnsString) {
 			Gtk.TreeViewColumn aColumn = new Gtk.TreeViewColumn ();
@@ -1910,45 +2002,48 @@ Log.WriteLine("j");
 			//crt1.Background = "blue";
 		
 		
-Log.WriteLine("k");
+Log.Write("k");
 			switch(i){	
 				case 0:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderNAnalyze));
 					break;
 				case 1:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExercise));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderSeries));
 					break;
 				case 2:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExercise));
 					break;
 				case 3:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
 					break;
 				case 4:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 5:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 12:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 13:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -1957,7 +2052,7 @@ Log.WriteLine("k");
 			i++;
 		}
 		return curvesCount;
-Log.WriteLine("l");
+Log.Write("l");
 	}
 
 	/* rendering columns */
@@ -2016,6 +2111,12 @@ Log.WriteLine("l");
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		} else
 			(cell as Gtk.CellRendererText).Text = curve.N;
+	}
+
+	private void RenderSeries (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.Series;
 	}
 
 	private void RenderExercise (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -2168,15 +2269,15 @@ Log.WriteLine("l");
 	
 	private string [] fixDecimals(string [] cells) {
 		//start, width, height
-		for(int i=3; i <= 5; i++)
+		for(int i=4; i <= 6; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		
 		//meanSpeed,maxSpeed,maxSpeedT, meanPower,peakPower,peakPowerT
-		for(int i=6; i <= 11; i++)
+		for(int i=7; i <= 12; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 		
 		//pp/ppt
-		cells[12] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[12])),1); 
+		cells[13] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[13])),1); 
 		return cells;
 	}
 	
@@ -2304,6 +2405,9 @@ Log.WriteLine("l");
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		treeview_encoder_analyze_curves.Sensitive = false;
+
+		//put some data just in case user doesn't click on compare button
+		encoderComparePersonsInitialize();
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {

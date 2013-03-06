@@ -184,13 +184,14 @@ public class EncoderCurve
 	}
 
 	//used on TreeView analyze
-	public EncoderCurve (string n, string exercise, double extraWeight,
+	public EncoderCurve (string n, string series, string exercise, double extraWeight,
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT)
 	{
 		this.N = n;
+		this.Series = series;
 		this.Exercise = exercise;
 		this.ExtraWeight = extraWeight;
 		this.Start = start;
@@ -206,6 +207,7 @@ public class EncoderCurve
 	}
 
 	public string N;
+	public string Series;
 	public string Exercise;
 	public double ExtraWeight;
 	public string Start;

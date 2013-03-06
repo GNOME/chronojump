@@ -685,6 +685,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
+	load = paf[,findPosInPaf("Load","")]
 	
 	if(Eccon=="ecS") {
 		if(singleFile) {
@@ -718,7 +719,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	
 	par(mar=c(2.5, 4, 5, 5))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=paste(myNums,"\n",paf[,findPosInPaf("Load","")],sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
+			names.arg=paste(myNums,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
 			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
@@ -736,10 +737,27 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	
 	axis(4, col=pafColors[3], line=0,padj=-.5)
 	mtext("Time to peak power (ms)", side=4, line=-1)
-	
-	par(new=T)
-	plot(bp[2,],height,type="b",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
 
+	#range	
+	par(new=T)
+	plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
+
+	abline(h=max(height),lty=2, col="green")
+	abline(h=min(height),lty=2, col="green")
+	#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
+	axis(4, col="green", line=3, padj=-.5)
+	mtext("Range (cm)", side=4, line=2)
+	
+	for(i in unique(load)) { 
+		#print(paste("mean",i,mean(height[which(load == i)])))
+		segments(
+			 bp[2,min(which(load == i))],mean(height[which(load == i)]),
+			 bp[2,max(which(load == i))],mean(height[which(load == i)]),
+			 lty=1,col="green")
+		text(x=mean(bp[2,which(load == i)]),y=mean(height[which(load == i)]),
+		     labels=round(mean(height[which(load == i)]),1),adj=c(.5,0),cex=.9)
+	}
+	
 	#plot legend on top exactly out
 	#http://stackoverflow.com/a/7322792
 	rng=par("usr")
@@ -749,12 +767,6 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	legend(rng[1], rng[4]+1.25*lg$rect$h,
 	       col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
 	       legend=c(powerName, peakPowerName, "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=T, xpd=NA)
-	
-	abline(h=max(height),lty=2, col="green")
-	abline(h=min(height),lty=2, col="green")
-	#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
-	axis(4, col="green", line=3, padj=-.5)
-	mtext("Range (cm)", side=4, line=2)
 }
 
 #see paf for more info

@@ -61,6 +61,8 @@ public class GenericWindow
 	[Widget] Gtk.Box hbox_entry3;
 	[Widget] Gtk.Label label_entry3;
 	[Widget] Gtk.Entry entry3;
+	
+	private ArrayList nonSensitiveRows;
 
 	static GenericWindow GenericWindowBox;
 	
@@ -73,7 +75,7 @@ public class GenericWindow
 	//used when we don't need to read data, 
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
-	
+
 	public GenericWindow ()
 	{
 		Glade.XML gladeXML;
@@ -175,9 +177,9 @@ public class GenericWindow
 			hbox_height_metric.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
-			createComboAllNoneSelected();
-			combo_all_none_selected.Active = 
-				UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+			//createComboAllNoneSelected();
+			//combo_all_none_selected.Active = 
+			//	UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
 			hbox_combo_all_none_selected.Show();
 			hbox_all_none_selected.Show();
 		}
@@ -230,7 +232,7 @@ public class GenericWindow
 		Catalog.GetString("Selected"),
 	};
 
-	protected void createComboAllNoneSelected() {
+	public void CreateComboAllNoneSelected() {
 		combo_all_none_selected = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_all_none_selected, comboAllNoneSelectedOptions, "");
 		
@@ -240,6 +242,9 @@ public class GenericWindow
 		hbox_combo_all_none_selected.PackStart(combo_all_none_selected, true, true, 0);
 		hbox_combo_all_none_selected.ShowAll();
 		combo_all_none_selected.Sensitive = true;
+			
+		combo_all_none_selected.Active = 
+			UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
 	}
 	
 	protected void on_combo_all_none_selected_changed(object o, EventArgs args) {
@@ -258,9 +263,12 @@ public class GenericWindow
 		Gtk.TreeIter iter;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
+			int i=0;
 			if(selected == Catalog.GetString("All")) {
 				do {
-					store.SetValue (iter, 0, true);
+					if(! Util.FoundInArrayList(nonSensitiveRows, i))
+						store.SetValue (iter, 0, true);
+					i++;
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("None")) {
 				do {
@@ -282,7 +290,8 @@ public class GenericWindow
 	}
 	
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
-	public void SetTreeview(string [] columnsString, bool addCheckbox, ArrayList data) 
+	public void SetTreeview(string [] columnsString, bool addCheckbox, 
+			ArrayList data, ArrayList myNonSensitiveRows) 
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
@@ -292,6 +301,8 @@ public class GenericWindow
 		store = getStore(columnsString.Length, addCheckbox); 
 		treeview.Model = store;
 		prepareHeaders(columnsString, addCheckbox);
+
+		nonSensitiveRows = myNonSensitiveRows;
 		
 		if(addCheckbox)
 			createCheckboxes(treeview);
@@ -405,21 +416,25 @@ public class GenericWindow
 	}
 
 	protected void ItemToggled(object o, ToggledArgs args) {
-		//Log.WriteLine("Toggled");
-
 		int column = 0;
 		TreeIter iter;
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
 		{
-			bool val = (bool) store.GetValue (iter, column);
-			//Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
+			//Log.WriteLine(args.Path);
+			if(! Util.FoundInArrayList(nonSensitiveRows, 
+						Convert.ToInt32(args.Path))) {
+				bool val = (bool) store.GetValue (iter, column);
+				//Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
 
-			store.SetValue (iter, column, !val);
-		
-			combo_all_none_selected.Active = UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+				store.SetValue (iter, column, !val);
 
-			//check if there are rows checked for having sensitive or not
-			//buttonRecuperateChangeSensitiveness();
+				combo_all_none_selected.Active =
+					UtilGtk.ComboMakeActive(
+							comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+
+				//check if there are rows checked for having sensitive or not
+				//buttonRecuperateChangeSensitiveness();
+			}
 		}
 	}
 	

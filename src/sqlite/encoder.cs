@@ -134,17 +134,22 @@ class SqliteEncoder : Sqlite
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
+	//personID can be -1 to get all on that session
 	public static ArrayList Select (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
+		string personIDStr = "";
+		if(personID != -1)
+			personIDStr = "personID = " + personID + " AND ";
+
 		string selectStr = "";
 		if(uniqueID != -1)
 			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
 		else
-			selectStr = "personID = " + personID + " AND sessionID = " + sessionID + 
+			selectStr = personIDStr + " sessionID = " + sessionID + 
 			" AND signalOrCurve = '" + signalOrCurve + "'";
 
 		string onlyActiveString = "";

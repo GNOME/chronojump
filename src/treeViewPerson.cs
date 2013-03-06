@@ -132,7 +132,6 @@ public class TreeViewPersons
 		return found;
 	}
 
-		
 	public void SelectNextRow(int personID)
 	{
 		SelectRow(FindRow(personID) +1);

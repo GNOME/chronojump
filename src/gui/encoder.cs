@@ -434,7 +434,8 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint);
+		genericWin.CreateComboAllNoneSelected();
+		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList());
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -488,7 +489,81 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_analyze_data_compare_clicked (object o, EventArgs args) 
 	{
+		//find all persons except current person
+		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID); 
+		ArrayList data = new ArrayList();
+		ArrayList nonSensitiveRows = new ArrayList();
+		int i = 0;	//list of persons
+		int j = 0;	//list of added persons
+		foreach(Person p in dataPre) {
+			if(p.UniqueID != currentPerson.UniqueID) {
+				ArrayList eSQLarray = SqliteEncoder.Select(
+						false, -1, p.UniqueID, currentSession.UniqueID, "curve", false); 
+				string [] s = { p.UniqueID.ToString(), p.Name,
+					getActiveCurvesNum(eSQLarray).ToString(), eSQLarray.Count.ToString()
+			       	};
+				data.Add(s);
+				if(getActiveCurvesNum(eSQLarray) == 0)
+					nonSensitiveRows.Add(j);
+				j++;
+			}
+			i ++;
+		}
+		
+		string [] checkboxes = new string[data.Count]; //to store active or inactive status
+
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Name"),
+			Catalog.GetString("Selected\ncurves"),
+			Catalog.GetString("All\ncurves")
+		};
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
+		bigArray.Add(a1);
+		
+		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+		
+		genericWin = GenericWindow.Show(false,	//don't show now
+				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
+					currentPerson.Name), bigArray);
+
+		genericWin.CreateComboAllNoneSelected();
+		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows);
+
+
+		genericWin.MarkActiveCurves(checkboxes);
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptSensitive(true);
+		//manage selected, unselected curves
+		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_analyze_data_compare_done);
+
+		//used when we don't need to read data, 
+		//and we want to ensure next window will be created at needed size
+		//genericWin.DestroyOnAccept=true;
+		//here is comented because we are going to read the checkboxes
+
+		genericWin.ShowNow();
 	}
+
+	void on_encoder_analyze_data_compare_done (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_analyze_data_compare_done);
+		
+		genericWin.HideAndNull();
+		
+		Log.WriteLine("done");
+	}
+
+
+
+
+
 
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
@@ -514,7 +589,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList());
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonAcceptSensitive(false);

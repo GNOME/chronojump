@@ -1494,15 +1494,21 @@ public class Util
 		return myArrayList;
 	}
 
-	public static bool FoundInArrayList(ArrayList myArrayList, string str) {
-	 	bool found = false;
-		foreach (string str2 in myArrayList)
+	public static bool FoundInArrayList(ArrayList a, string str) {
+		foreach (string str2 in a)
 			if(str2 == str)
-				found = true;
+				return true;
 
-		return found;
+		return false;
 	}
 
+	public static bool FoundInArrayList(ArrayList a, int i) {
+		foreach (int j in a)
+			if(i == j)
+				return true;
+
+		return false;
+	}
 
 
 	/*

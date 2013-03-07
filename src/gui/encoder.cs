@@ -1028,7 +1028,18 @@ public partial class ChronoJumpWindow
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
 			if(ecconLast != "c") {
 				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
-				duration += Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
+				
+				//since isometric phase has been implemented (Chronojump 1.3.6)
+				//curveE.start + curveE.duration < curveC.start (because there's isometric between)
+				int curveEccEnd = curveStart + duration;
+				int curveConStart = Convert.ToInt32(
+						decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
+				int curveConDuration = Convert.ToInt32(
+						decimal.Truncate(Convert.ToDecimal(curveNext.Duration)));
+				int isometricDuration = curveConStart - curveEccEnd;
+
+				//duration is duration of ecc + duration of iso + duration of concentric
+				duration += (isometricDuration + curveConDuration);
 			}
 		
 			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());

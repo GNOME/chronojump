@@ -88,6 +88,14 @@ public class UtilGtk
 			myText = (string) myCombo.Model.GetValue (iter, 0);
 		return myText;
 	}
+	
+	//get the position of the active
+	public static int ComboGetActivePos(ComboBox myCombo) {
+		//ComboMakeActive returns the position of a searched value(string)
+		//ComboGetActive gets the value of selected value(string)
+		return ComboMakeActive(myCombo, ComboGetActive(myCombo));
+	}
+
 
 	//this is better than the below method, because this search in current combo values
 	//if we use a predefined set of values (like below method), we can have problems 

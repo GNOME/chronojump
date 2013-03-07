@@ -1297,7 +1297,8 @@ public partial class ChronoJumpWindow
 				myEccon = "ecS";
 			int myCurveNum = -1;
 			if(sendAnalysis == "single")
-				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo));
+				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(
+							combo_encoder_analyze_curve_num_combo));
 
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
@@ -1326,8 +1327,10 @@ public partial class ChronoJumpWindow
 			ArrayList data = new ArrayList();
 
 			//select currentPerson, currentSession curves
+			//onlyActive is false to have all the curves
+			//this is a need for "single" to select on display correct curve
 			data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 			
 			//if compare persons, select curves for other persons and add
 			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),

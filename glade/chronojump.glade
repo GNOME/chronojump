@@ -13336,7 +13336,7 @@ on current Chronojump version.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="button_encoder_analyze_data_compare">
-                                                            <property name="label" translatable="yes">Compare</property>
+                                                            <property name="label" translatable="yes">Compare to</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="use_action_appearance">False</property>

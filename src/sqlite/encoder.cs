@@ -135,6 +135,7 @@ class SqliteEncoder : Sqlite
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	//personID can be -1 to get all on that session
+	//sessionID can be -1 to get all sessions
 	public static ArrayList Select (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
@@ -143,14 +144,18 @@ class SqliteEncoder : Sqlite
 
 		string personIDStr = "";
 		if(personID != -1)
-			personIDStr = "personID = " + personID + " AND ";
+			personIDStr = " personID = " + personID + " AND ";
+
+		string sessionIDStr = "";
+		if(sessionID != -1)
+			sessionIDStr = " sessionID = " + sessionID + " AND ";
 
 		string selectStr = "";
 		if(uniqueID != -1)
 			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
 		else
-			selectStr = personIDStr + " sessionID = " + sessionID + 
-			" AND signalOrCurve = '" + signalOrCurve + "'";
+			selectStr = personIDStr + sessionIDStr + 
+			" signalOrCurve = '" + signalOrCurve + "'";
 
 		string onlyActiveString = "";
 		if(onlyActive)
@@ -203,6 +208,69 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 	
+
+	public static ArrayList SelectCompareIntersession (bool dbconOpened, int personID)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		/* OLD, returns a row for active and a row for inactive at each session	
+		dbcmd.CommandText = 
+			"SELECT count(*), encoder.sessionID, session.name, session.date, encoder.future1 " +
+			" FROM encoder, session, person77 " +
+			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " + 
+			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " + 
+			" GROUP BY encoder.sessionID, encoder.future1 ORDER BY encoder.sessionID, encoder.future1";
+			*/
+
+		//returns a row for each session where there are active or inactive
+		dbcmd.CommandText = 
+			"SELECT encoder.sessionID, session.name, session.date, " +
+			" SUM(CASE WHEN encoder.future1 = 'active' THEN 1 END) as active, " +
+			" SUM(CASE WHEN encoder.future1 = 'inactive' THEN 1 END) as inactive " + 
+			" FROM encoder, session, person77 " +
+			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " +
+			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
+			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.future1";
+	
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		EncoderPersonCurvesInDB encPS = new EncoderPersonCurvesInDB();
+		while(reader.Read()) {
+			int active = 0;
+			string activeStr = reader[3].ToString();
+			if(Util.IsNumber(activeStr, false))
+				active = Convert.ToInt32(activeStr);
+			
+			int inactive = 0;
+			string inactiveStr = reader[4].ToString();
+			if(Util.IsNumber(inactiveStr, false))
+				inactive = Convert.ToInt32(inactiveStr);
+
+
+			encPS = new EncoderPersonCurvesInDB (
+					personID,
+					Convert.ToInt32(reader[0].ToString()),	//sessionID
+					reader[1].ToString(),			//sessionName
+					reader[2].ToString(),			//sessionDate
+					active,					//active
+					active + inactive			//all: active + inactive 
+					);
+			array.Add(encPS);
+		}
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return array;
+	}
+
+	
+
 	/*
 	 * EncoderExercise stuff
 	 */

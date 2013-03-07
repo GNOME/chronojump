@@ -941,7 +941,7 @@ public partial class ChronoJumpWindow
 				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
 			} else if(button == button_encoder_save_all_curves) 
 				for(int i=1; i <= UtilGtk.CountRows(encoderCaptureListStore); i++)
-					if(! Util.IsEven(i)) //use only uneven (spanish: "impar") values
+					if(ecconLast == "c" || ! Util.IsEven(i)) //use only uneven (spanish: "impar") values
 						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
 			ArrayList data = SqliteEncoder.Select(

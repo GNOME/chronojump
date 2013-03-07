@@ -983,6 +983,10 @@ public class PersonAddModifyWindow
 	CapturerBin capturer;
 	void on_button_take_photo_clicked (object o, EventArgs args) 
 	{
+
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Catalog.GetString("Sorry, photos are disabled on this version."));
+		/*
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
@@ -1005,6 +1009,7 @@ public class PersonAddModifyWindow
 		capturerWindow.Present();
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
 		capturer.Run();
+		*/
 	}
 
 	private void on_snapshot_done(Pixbuf pixbuf) {

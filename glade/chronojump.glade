@@ -12867,7 +12867,6 @@ on current Chronojump version.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
                                                 <property name="spacing">4</property>
-                                                <property name="homogeneous">True</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox74">
                                                     <property name="visible">True</property>
@@ -12996,7 +12995,7 @@ on current Chronojump version.</property>
                                                     </child>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">True</property>
+                                                    <property name="expand">False</property>
                                                     <property name="fill">True</property>
                                                     <property name="position">1</property>
                                                   </packing>

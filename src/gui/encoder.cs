@@ -34,7 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.SpinButton spin_encoder_smooth;
 	
-	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
+	[Widget] Gtk.CheckButton checkbutton_encoder_capture_propulsive;
+	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_propulsive;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_capture_csharp;
@@ -362,7 +363,7 @@ public partial class ChronoJumpWindow
 	private void encoderCreateCurvesGraphR() 
 	{
 		string analysisOptions = "-";
-		if(checkbutton_encoder_propulsive.Active)
+		if(checkbutton_encoder_capture_propulsive.Active)
 			analysisOptions = "p";
 
 		EncoderParams ep = new EncoderParams(
@@ -772,7 +773,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{
 		string analysisOptions = "-";
-		if(checkbutton_encoder_propulsive.Active)
+		if(checkbutton_encoder_capture_propulsive.Active)
 			analysisOptions = "p";
 
 		EncoderParams ep = new EncoderParams(
@@ -1277,7 +1278,7 @@ public partial class ChronoJumpWindow
 		string dataFileName = "";
 		
 		string analysisOptions = "-";
-		if(checkbutton_encoder_propulsive.Active)
+		if(checkbutton_encoder_analyze_propulsive.Active)
 			analysisOptions = "p";
 
 		//use this send because we change it to send it to R

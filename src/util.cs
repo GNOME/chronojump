@@ -1158,7 +1158,6 @@ public class Util
 		string pBin="";
 		pinfo = new ProcessStartInfo();
 
-		string outputFileCheck = "";
 		string operatingSystem = "Linux";
 			
 		pBin="Rscript";
@@ -1222,9 +1221,12 @@ public class Util
 		Log.WriteLine(pinfo.Arguments.ToString());
 		Log.WriteLine("------------- 4 ---");
 		
-		//curves does first graph and then csv curves. 
+		string outputFileCheck = "";
+		string outputFileCheck2 = "";
+		
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
-		if(es.Ep.Analysis == "curves" || es.Ep.Analysis == "exportCSV")
+		//exportCSV is the only one that doesn't have graph. all the rest Analysis have graph and data
+		if(es.Ep.Analysis == "exportCSV")
 			outputFileCheck = es.OutputData1; 
 		else {
 			//outputFileCheck = es.OutputGraph;
@@ -1232,7 +1234,9 @@ public class Util
 			//OutputData1 because since Chronojump 1.3.6, 
 			//encoder analyze has a treeview that can show the curves
 			//when a graph analysis is done, curves file has to be written
-			outputFileCheck = es.OutputData1; 
+			outputFileCheck = es.OutputData1;
+		        //check also the otuput graph
+			outputFileCheck2 = es.OutputGraph; 
 		}
 
 		pinfo.FileName=pBin;
@@ -1240,15 +1244,26 @@ public class Util
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
 
-		Console.WriteLine(outputFileCheck);
+		//delete output file check(s)
+		Console.WriteLine("Deleting... " + outputFileCheck);
 		if (File.Exists(outputFileCheck))
 			File.Delete(outputFileCheck);
+
+		if(outputFileCheck2 != "") {
+			Console.WriteLine("Deleting... " + outputFileCheck2);
+			if (File.Exists(outputFileCheck2))
+				File.Delete(outputFileCheck2);
+		}
 	
 		p = new Process();
 		p.StartInfo = pinfo;
 		p.Start();
 		p.WaitForExit();
-		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+
+		if(outputFileCheck2 == "")
+			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+		else
+			while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
 	}
 
 	private static string [] encoderFindPos(string contents, int start, int duration) {

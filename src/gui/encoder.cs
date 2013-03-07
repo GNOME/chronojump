@@ -121,7 +121,8 @@ public partial class ChronoJumpWindow
 	private string encoderTimeStamp;
 	private string encoderSignalUniqueID;
 
-	private ArrayList encoderComparePersons;
+	private ArrayList encoderCompareInterperson;	//personID:personName
+	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
@@ -491,6 +492,16 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_analyze_data_compare_clicked (object o, EventArgs args) 
 	{
+		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) == "Between persons")
+			encoder_analyze_data_compare_interperson();
+		else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) == "Between sessions")
+			encoder_analyze_data_compare_intersession();
+	}
+
+	void encoder_analyze_data_compare_interperson () 
+	{
 		//find all persons except current person
 		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID); 
 		ArrayList data = new ArrayList();
@@ -517,7 +528,7 @@ public partial class ChronoJumpWindow
 		int count = 0;
 		foreach(string [] sPersons in data) {
 			bool found = false;
-			foreach(string s2 in encoderComparePersons)
+			foreach(string s2 in encoderCompareInterperson)
 				if(Util.FetchID(s2).ToString() == sPersons[1])
 					found = true;
 
@@ -529,8 +540,8 @@ public partial class ChronoJumpWindow
 			
 		string [] columnsString = {
 			Catalog.GetString("hiddennothing"),
-			Catalog.GetString("ID"),
-			Catalog.GetString("Name"),
+			Catalog.GetString("Person ID"),
+			Catalog.GetString("Person name"),
 			Catalog.GetString("Selected\ncurves"),
 			Catalog.GetString("All\ncurves")
 		};
@@ -556,7 +567,8 @@ public partial class ChronoJumpWindow
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
 		//manage selected, unselected curves
-		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_analyze_data_compare_done);
+		genericWin.Button_accept.Clicked += new EventHandler(
+				on_encoder_analyze_data_compare_interperson_done);
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
@@ -566,22 +578,121 @@ public partial class ChronoJumpWindow
 		genericWin.ShowNow();
 	}
 
-	void on_encoder_analyze_data_compare_done (object o, EventArgs args) {
-		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_analyze_data_compare_done);
+	void on_encoder_analyze_data_compare_interperson_done (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(
+				on_encoder_analyze_data_compare_interperson_done);
 	
-		encoderComparePersons = new ArrayList ();
+		encoderCompareInterperson = new ArrayList ();
 		string [] selectedID = genericWin.GetCheckboxesStatus(1,true);
 		string [] selectedName = genericWin.GetCheckboxesStatus(2,true);
 
 		for (int i=0 ; i < selectedID.Length ; i ++)
-			encoderComparePersons.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedName[i]);
-		//encoderComparePersons.Add(currentPerson.UniqueID + ":" + currentPerson.Name);
+			encoderCompareInterperson.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedName[i]);
 
 		genericWin.HideAndNull();
 		
 		Log.WriteLine("done");
 	}
+	
+	void encoder_analyze_data_compare_intersession () 
+	{
+		//select all curves of this person on all sessions
+		ArrayList dataPre = SqliteEncoder.SelectCompareIntersession(
+				false, currentPerson.UniqueID); 
+		
+		//..except on current session
+		ArrayList data = new ArrayList();
+		foreach(EncoderPersonCurvesInDB encPS in dataPre)
+			if(encPS.sessionID != currentSession.UniqueID)
+				data.Add(encPS);
+	
+		//prepare unsensitive rows	
+		ArrayList nonSensitiveRows = new ArrayList();
+		int count = 0;
+		foreach(EncoderPersonCurvesInDB encPS in data) {
+			if(encPS.countActive == 0)
+				nonSensitiveRows.Add(count);
+			count ++;
+		}
+		
+		//prepare checkboxes to be marked	
+		string [] checkboxes = new string[data.Count]; //to store active or inactive status
+		count = 0;
+		foreach(EncoderPersonCurvesInDB encPS in data) {
+			bool found = false;
+			foreach(string s2 in encoderCompareIntersession)
+				if(Util.FetchID(s2) == encPS.sessionID)
+					found = true;
 
+			if(found)
+				checkboxes[count++] = "active";
+			else
+				checkboxes[count++] = "inactive";
+		}			
+			
+		string [] columnsString = {
+			Catalog.GetString("hiddennothing"),
+			Catalog.GetString("Session ID"),
+			Catalog.GetString("Session name"),
+			Catalog.GetString("Session date"),
+			Catalog.GetString("Selected\ncurves"),
+			Catalog.GetString("All\ncurves")
+		};
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
+		bigArray.Add(a1);
+		
+		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+		
+		genericWin = GenericWindow.Show(false,	//don't show now
+				string.Format(Catalog.GetString("Compare curves of {0} from this session with the following sessions."), 
+					currentPerson.Name), bigArray);
+
+		//convert data from array of EncoderPersonCurvesInDB to array of strings []
+		ArrayList dataConverted = new ArrayList();
+		foreach(EncoderPersonCurvesInDB encPS in data) {
+			dataConverted.Add(encPS.ToStringArray());
+		}
+
+		genericWin.CreateComboAllNoneSelected();
+		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows);
+		genericWin.MarkActiveCurves(checkboxes);
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptSensitive(true);
+		//manage selected, unselected curves
+		genericWin.Button_accept.Clicked += new EventHandler(
+				on_encoder_analyze_data_compare_intersession_done);
+
+		//used when we don't need to read data, 
+		//and we want to ensure next window will be created at needed size
+		//genericWin.DestroyOnAccept=true;
+		//here is comented because we are going to read the checkboxes
+
+		genericWin.ShowNow();
+	}
+
+	void on_encoder_analyze_data_compare_intersession_done (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(
+				on_encoder_analyze_data_compare_intersession_done);
+	
+		encoderCompareIntersession = new ArrayList ();
+		string [] selectedID = genericWin.GetCheckboxesStatus(1,true);
+		string [] selectedDate = genericWin.GetCheckboxesStatus(3,true);
+
+		for (int i=0 ; i < selectedID.Length ; i ++)
+			encoderCompareIntersession.Add(Convert.ToInt32(selectedID[i]) + ":" + selectedDate[i]);
+
+		genericWin.HideAndNull();
+		
+		Log.WriteLine("done");
+	}
+	
 
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
@@ -1214,17 +1325,34 @@ public partial class ChronoJumpWindow
 			//select curves for this person
 			ArrayList data = new ArrayList();
 
+			//select currentPerson, currentSession curves
 			data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
 			
-			//if compare, select curves for other persons and add
+			//if compare persons, select curves for other persons and add
 			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-					encoderDataCompareTranslation) != "No compare") {
+					encoderDataCompareTranslation) == "Between persons") {
 				ArrayList dataPre = new ArrayList();
-				for (int i=0 ; i < encoderComparePersons.Count ; i ++) {
+				for (int i=0 ; i < encoderCompareInterperson.Count ; i ++) {
 					dataPre = SqliteEncoder.Select(
-						false, -1, Util.FetchID(encoderComparePersons[i].ToString()),
-						currentSession.UniqueID, "curve", true);
+						false, -1, 
+						Util.FetchID(encoderCompareInterperson[i].ToString()),
+						currentSession.UniqueID, 
+						"curve", true);
+					//this curves are added to data, data included currentPerson, currentSession
+					foreach(EncoderSQL es in dataPre) 
+						data.Add(es);
+				}
+			} else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+					encoderDataCompareTranslation) == "Between sessions") {
+				ArrayList dataPre = new ArrayList();
+				for (int i=0 ; i < encoderCompareIntersession.Count ; i ++) {
+					dataPre = SqliteEncoder.Select(
+						false, -1,
+						currentPerson.UniqueID, 
+						Util.FetchID(encoderCompareIntersession[i].ToString()),
+						"curve", true);
+					//this curves are added to data, data included currentPerson, currentSession
 					foreach(EncoderSQL es in dataPre) 
 						data.Add(es);
 				}
@@ -1240,7 +1368,8 @@ public partial class ChronoJumpWindow
 					SqliteEncoder.SelectEncoderExercises(true, -1, false);
 			Sqlite.Close();	
 			EncoderExercise ex = new EncoderExercise();
-
+						
+Log.WriteLine("AT ANALYZE");
 			foreach(EncoderSQL eSQL in data) {
 				foreach(EncoderExercise eeSearch in eeArray)
 					if(eSQL.exerciseID == eeSearch.uniqueID)
@@ -1251,20 +1380,29 @@ public partial class ChronoJumpWindow
 				//	SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
 				mass += bodyMass * ex.percentBodyWeight / 100.0;
 
-				//personName
-				string personName = "";
+				//seriesName
+				string seriesName = "";
 				if(Util.FindOnArray(':',1,0,
 							UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
-						encoderDataCompareTranslation) != "No compare") 
+						encoderDataCompareTranslation) == "Between persons") 
 				{
-					foreach(string str in encoderComparePersons)
+					foreach(string str in encoderCompareInterperson)
 						if(Util.FetchID(str) == eSQL.personID)
-							personName = Util.FetchName(str);
+							seriesName = Util.FetchName(str);
+				} else if(Util.FindOnArray(':',1,0,
+							UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
+						encoderDataCompareTranslation) == "Between sessions") 
+				{
+					foreach(string str in encoderCompareIntersession) {
+Log.WriteLine(str);
+						if(Util.FetchID(str) == eSQL.sessionID)
+							seriesName = Util.FetchName(str);
+					}
 				}
-				if(personName == "")
-					personName = currentPerson.Name;
+				if(seriesName == "")
+					seriesName = currentPerson.Name;
 
-				writer.WriteLine(eSQL.future1 + "," + personName + "," + ex.name + "," + 
+				writer.WriteLine(eSQL.future1 + "," + seriesName + "," + ex.name + "," + 
 						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						eSQL.GetFullURL(true) + "," +	//convertPathToR
@@ -1641,19 +1779,16 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_data_compare.Visible = true;
 
 			//put some data just in case user doesn't click on compare button
-			encoderComparePersonsInitialize();
+			encoderCompareInitialize();
 		}
 	}
 
 	//put some data just in case user doesn't click on compare button
-	private void encoderComparePersonsInitialize() {
-		if(encoderComparePersons == null)
-			encoderComparePersons = new ArrayList ();
-		/*
-		string myPerson = currentPerson.UniqueID + ":" + currentPerson.Name;
-		if(! Util.FoundInArrayList(encoderComparePersons, myPerson))
-			encoderComparePersons.Add(myPerson);
-			*/
+	private void encoderCompareInitialize() {
+		if(encoderCompareInterperson == null)
+			encoderCompareInterperson = new ArrayList ();
+		if(encoderCompareIntersession == null)
+			encoderCompareIntersession = new ArrayList ();
 	}
 
 	void on_combo_encoder_analyze_cross_changed (object o, EventArgs args)
@@ -2407,7 +2542,7 @@ Log.Write("l");
 		treeview_encoder_analyze_curves.Sensitive = false;
 
 		//put some data just in case user doesn't click on compare button
-		encoderComparePersonsInitialize();
+		encoderCompareInitialize();
 	}
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {

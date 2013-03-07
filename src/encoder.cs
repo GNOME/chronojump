@@ -319,6 +319,35 @@ public class EncoderSQL
 
 }
 
+public class EncoderPersonCurvesInDB
+{
+	public int personID;
+	public int sessionID;
+	public string sessionName;
+	public string sessionDate;
+	public int countActive;
+	public int countAll;
+	
+	public EncoderPersonCurvesInDB() {
+	}
+	public EncoderPersonCurvesInDB(int personID, int sessionID, string sessionName, string sessionDate,
+			int countActive, int countAll) {
+		this.personID =		personID;
+		this.sessionID = 	sessionID;
+		this.sessionName = 	sessionName;
+		this.sessionDate = 	sessionDate;
+		this.countActive = 	countActive;
+		this.countAll =		countAll;
+	}
+
+	public string [] ToStringArray() {
+		string [] s = { "", sessionID.ToString(), sessionName, sessionDate,
+			countActive.ToString(), countAll.ToString()
+		};
+		return s;
+	}
+}
+
 public class EncoderExercise
 {
 	public int uniqueID;

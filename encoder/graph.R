@@ -193,6 +193,7 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	errorSearching = FALSE
 
 	eccentric = 0
+	isometric = 0
 
 	#search propulsiveEnds
 	if(analysisOptions == "p") {
@@ -226,9 +227,11 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 				isometricUse = TRUE
 				if(isometricUse) {
 					eccentric=1:min(b$cross[crossMinRow,1])
+					isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
 					concentric=max(b$cross[crossMinRow,2]):length(a)
 				} else {
 					eccentric=1:mean(b$cross[crossMinRow,1])
+					isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
 					concentric=mean(b$cross[crossMinRow,2]):length(a)
 				}
 			} else {
@@ -240,13 +243,21 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 		if(! errorSearching) {
 			#propulsive phase ends when accel is -9.8
 			if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
-				propulsiveEnds = max(eccentric) + min(which(accel$y[concentric]<=-g))
+				propulsiveEnds = min(concentric) + min(which(accel$y[concentric]<=-g))
 			} else {
 				propulsiveEnds = max(concentric)
 			}
 		}
 	}
 	#end of search propulsiveEnds
+print("propulsiveEnds stuff at kinematicsF")
+print(min(eccentric))
+print(max(eccentric))
+print(min(isometric))
+print(max(isometric))
+print(min(concentric))
+print(max(concentric))
+print(propulsiveEnds)
 
 
 #	force <- mass*accel$y
@@ -414,8 +425,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#	segments(x0=b$maxindex,y0=0,x1=b$maxindex,y1=speed$y[b$maxindex],col=cols[1])
 
 	#declare variables:
-	concentric=0
 	eccentric=0
+	isometric=0
+	concentric=0
 	if(eccon=="c") {
 		concentric=1:length(a)
 	} else {	#"ec", "ecS"
@@ -444,12 +456,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		isometricUse = TRUE
 		if(isometricUse) {
 			eccentric=1:min(b$cross[crossMinRow,1])
-			concentric=max(b$cross[crossMinRow,2]):length(a)
 			isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
+			concentric=max(b$cross[crossMinRow,2]):length(a)
 		} else {
 			eccentric=1:mean(b$cross[crossMinRow,1])
-			concentric=mean(b$cross[crossMinRow,2]):length(a)
 			isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
+			concentric=mean(b$cross[crossMinRow,2]):length(a)
 		}
 
 		if(draw) {
@@ -480,10 +492,13 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
 		if(length(which(accel$y[concentric]<=-g)) > 0 & AnalysisOptions == "p") {
-			propulsiveEnds = max(eccentric) + min(which(accel$y[concentric]<=-g))
+			propulsiveEnds = min(concentric) + min(which(accel$y[concentric]<=-g))
 		} else {
 			propulsiveEnds = max(concentric)
 		}
+print("propulsiveEnds stuff")
+print(max(isometric))
+print(propulsiveEnds)
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 
@@ -1365,7 +1380,9 @@ doProcess <- function(options) {
 			curves = curves[-discardedCurves,]
 
 		rownames(paf)=rownames(curves)
-		print("----------------------------")
+		print("--------CURVES--------------")
+		print(curves)
+		print("----------PAF---------------")
 		print(paf)
 
 		if(Analysis == "powerBars") {

@@ -19,7 +19,7 @@ windows stuff
 ------------
 See: howto_compile.txt
 
-scp Chronojump...exe xaviblas@master.gnome.org:.
+scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 chmod +rx Chrono...exe
 mv Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump

@@ -181,7 +181,66 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
 	return(startT+x.ini)
 }
 
-#go here with every single jump
+findECPhases <- function(a,speed) {
+	b=extrema(speed)
+	print(b)
+	#In all the extrema minindex values, search which range (row) has the min values,
+	#and in this range search last value
+	print("searchMinSpeedEnd")
+	searchMinSpeedEnd = max(which(speed == min(speed)))
+	print(searchMinSpeedEnd)
+	#In all the extrema maxindex values, search which range (row) has the max values,
+	#and in this range search first value
+	print("searchMaxSpeedIni")
+	searchMaxSpeedIni = min(which(speed == max(speed)))
+	print(searchMaxSpeedIni)
+	#find the cross between both
+	print("b-Cross")
+	print(b$cross[,1])
+	print("search min cross: crossMinRow")
+	crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+	print(crossMinRow)
+			
+	#if (length(crossMinRow) > 0) {
+	#	print(crossMinRow)
+	#} else {
+	#	propulsiveEnd = length(a)
+	#	errorSearching = TRUE
+	#}
+	
+	eccentric = 0
+	isometric = 0
+	concentric = 0
+				
+	isometricUse = TRUE
+	if(isometricUse) {
+		eccentric=1:min(b$cross[crossMinRow,1])
+		isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
+		concentric=max(b$cross[crossMinRow,2]):length(a)
+	} else {
+		eccentric=1:mean(b$cross[crossMinRow,1])
+		isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
+		concentric=mean(b$cross[crossMinRow,2]):length(a)
+	}
+	return(list(
+		eccentric=eccentric,
+		isometric=isometric,
+		concentric=concentric))
+}
+
+findPropulsiveEnd <- function(accel, concentric) {
+	if(length(which(accel[concentric]<=-g)) > 0) 
+		propulsiveEnd = min(concentric) + min(which(accel[concentric] <= -g))
+	else
+		propulsiveEnd = max(concentric)
+	
+return (propulsiveEnd)
+}
+
+#go here with every single curve
+#eccon="c" one time each curve
+#eccon="ec" one time each curve
+#eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
 kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	print("length unique x in spline")
 	print(length(unique(1:length(a))))
@@ -192,73 +251,29 @@ kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
 	accel$y <- accel$y * 1000 
 	errorSearching = FALSE
 
-	eccentric = 0
-	isometric = 0
+	concentric = 0
+	propulsiveEnd = 0
 
-	#search propulsiveEnds
+print("at kinematicsF eccon==")
+print(eccon)
+
+	#search propulsiveEnd
 	if(analysisOptions == "p") {
 		if(eccon=="c") {
 			concentric=1:length(a)
-		} else {	#"ec", "ecS"
-			b=extrema(speed$y)
-			print(b)
-			#In all the extrema minindex values, search which range (row) has the min values,
-			#and in this range search last value
-			print("searchMinSpeedEnd")
-			searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
-			print(searchMinSpeedEnd)
-			#In all the extrema maxindex values, search which range (row) has the max values,
-			#and in this range search first value
-			print("searchMaxSpeedIni")
-			searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
-			print(searchMaxSpeedIni)
-			#find the cross between both
-			print("b-Cross")
-			print(b$cross[,1])
-			print("search min cross: crossMinRow")
-			crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
-			
-			print("AT KINEMATICSF")
-			print(crossMinRow)
-
-			if (length(crossMinRow) > 0) {
-				print(crossMinRow)
-
-				isometricUse = TRUE
-				if(isometricUse) {
-					eccentric=1:min(b$cross[crossMinRow,1])
-					isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
-					concentric=max(b$cross[crossMinRow,2]):length(a)
-				} else {
-					eccentric=1:mean(b$cross[crossMinRow,1])
-					isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
-					concentric=mean(b$cross[crossMinRow,2]):length(a)
-				}
-			} else {
-				propulsiveEnds = length(a)
-				errorSearching = TRUE
-			}
-		}
-
-		if(! errorSearching) {
-			#propulsive phase ends when accel is -9.8
-			if(length(which(accel$y[concentric]<=-g)) > 0 & analysisOptions == "p") {
-				propulsiveEnds = min(concentric) + min(which(accel$y[concentric]<=-g))
-			} else {
-				propulsiveEnds = max(concentric)
-			}
+			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
+		} else if(eccon=="ec") {
+			phases=findECPhases(a,speed$y)
+			eccentric = phases$eccentric
+			isometric = phases$isometric
+			concentric = phases$concentric
+			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
+		} else if(eccon=="e") {
+			#not eccon="e" because not propulsive calculations on eccentric
+		} else { #ecS
+print("WARNING ECS\n\n\n\n\n")
 		}
 	}
-	#end of search propulsiveEnds
-print("propulsiveEnds stuff at kinematicsF")
-print(min(eccentric))
-print(max(eccentric))
-print(min(isometric))
-print(max(isometric))
-print(min(concentric))
-print(max(concentric))
-print(propulsiveEnds)
-
 
 #	force <- mass*accel$y
 #	if(isJump)
@@ -266,9 +281,9 @@ print(propulsiveEnds)
 
 	power <- force*speed$y
 
-	if(analysisOptions == "p")
-		return(list(speedy=speed$y[1:propulsiveEnds], accely=accel$y[1:propulsiveEnds], 
-			    force=force[1:propulsiveEnds], power=power[1:propulsiveEnds], mass=mass))
+	if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
+		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
+			    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
 	else
 		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
@@ -492,27 +507,24 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
 		if(length(which(accel$y[concentric]<=-g)) > 0 & AnalysisOptions == "p") {
-			propulsiveEnds = min(concentric) + min(which(accel$y[concentric]<=-g))
+			propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
 		} else {
-			propulsiveEnds = max(concentric)
+			propulsiveEnd = max(concentric)
 		}
-print("propulsiveEnds stuff")
-print(max(isometric))
-print(propulsiveEnds)
 
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 
 		meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
 		if(AnalysisOptions == "p") {
-			meanSpeedC = mean(speed$y[min(concentric):propulsiveEnds])
+			meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
 		}
 
 		if(eccon == "c") {
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnds,y1=meanSpeedC,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		} else {
 			meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
 			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnds,y1=meanSpeedC,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 
 		
@@ -550,8 +562,8 @@ print(propulsiveEnds)
 			
 		#propulsive stuff
 		abline(h=-g,lty=3,col="magenta")
-		abline(v=propulsiveEnds,lty=3,col="magenta") 
-		points(propulsiveEnds, -g, col="magenta")
+		abline(v=propulsiveEnd,lty=3,col="magenta") 
+		points(propulsiveEnd, -g, col="magenta")
 		
 		if(showAxes)
 			axis(4, col="magenta", lty=lty[1], line=2, lwd=1, padj=-.5)
@@ -629,15 +641,15 @@ print(propulsiveEnds)
 
 		meanPowerC = mean(power[min(concentric):max(concentric)])
 		if(AnalysisOptions == "p") {
-			meanPowerC = mean(power[min(concentric):propulsiveEnds])
+			meanPowerC = mean(power[min(concentric):propulsiveEnd])
 		}
 
 		if(eccon == "c") {
-			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnds,y1=meanPowerC,col=cols[3],code=3)
+			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		} else {
 			meanPowerE = mean(power[min(eccentric):max(eccentric)])
 			arrows(x0=min(eccentric),y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
-			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnds,y1=meanPowerC,col=cols[3],code=3)
+			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		}
 
 		if(showAxes) {
@@ -1369,9 +1381,18 @@ doProcess <- function(options) {
 
 			print("i:")
 			print(i)
+
+			#if ecS go kinematics first time with "e" and second with "c"
+			myEcconKn = myEccon
+			if(myEccon=="ecS") {
+			       if(i%%2 == 1)
+				       myEcconKn = "e"
+			       else
+				       myEcconKn = "c"
+			}
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
-							     myMass, mySmoothingOne, g, myEccon, AnalysisOptions))))
+							     myMass, mySmoothingOne, g, myEcconKn, AnalysisOptions))))
 		}
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded

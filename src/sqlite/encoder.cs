@@ -52,7 +52,7 @@ class SqliteEncoder : Sqlite
 			"url TEXT, " +
 			"time INT, " +
 			"minHeight INT, " +
-			"smooth FLOAT, " +  
+			"smooth FLOAT, " +  	//unused. since 1.3.7 is on preferences
 			"description TEXT, " +
 			"future1 TEXT, " +	//works as status: "active", "inactive"
 			"future2 TEXT, " +
@@ -116,7 +116,7 @@ class SqliteEncoder : Sqlite
 				"', url = '" + es.url +
 				"', time = " + es.time +
 				", minHeight = " + es.minHeight +
-				", smooth = " + Util.ConvertToPoint(es.smooth) +
+				", smooth = " + Util.ConvertToPoint(es.smooth) +	//unused. in 1.3.7 is on preferences
 				", description = '" + es.description + 
 				"', future1 = '" + es.future1 + 
 				"', future2 = '" + es.future2 + 
@@ -192,7 +192,7 @@ class SqliteEncoder : Sqlite
 					reader[9].ToString(),			//url
 					Convert.ToInt32(reader[10].ToString()),	//time
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[12].ToString())), //smooth
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[12].ToString())), //smooth UNUSED
 					reader[13].ToString(),			//description
 					reader[14].ToString(),			//future1
 					reader[15].ToString(),			//future2

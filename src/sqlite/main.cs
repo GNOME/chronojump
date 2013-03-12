@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.89";
+	static string lastChronojumpDatabaseVersion = "0.90";
 
 	public Sqlite() {
 	}
@@ -1216,6 +1216,19 @@ class Sqlite
 
 				currentVersion = "0.89";
 			}
+			if(currentVersion == "0.89") {
+				dbcon.Open();
+	
+				SqlitePreferences.Insert("encoderPropulsive", "True");
+				SqlitePreferences.Insert("encoderSmoothEccCon", "0.6");
+				SqlitePreferences.Insert("encoderSmoothCon", "0.7");
+				Log.WriteLine("Preferences added propulsive and encoder smooth");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.90", true); 
+				dbcon.Close();
+
+				currentVersion = "0.90";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1354,6 +1367,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.89 - 0.90 Converted DB to 0.90 Preferences added propulsive and encoder smooth
 		//0.88 - 0.89 Converted DB to 0.89 Added encoder exercise: Free
 		//0.87 - 0.88 Converted DB to 0.88 Deleted fake RSA test and added known RSA tests
 		//0.86 - 0.87 Converted DB to 0.87 Added run speed start preferences on sqlite

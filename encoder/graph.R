@@ -36,7 +36,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=17)
+	options=readLines(optionsCon,n=18)
 	close(optionsCon)
 	return (options)
 }
@@ -56,7 +56,7 @@ options=getOptionsFromFile(optionsFile);
 print(options)
 
 OutputData2=options[4] #currently used to display status
-OperatingSystem=options[17]
+OperatingSystem=options[18]
 
 write("(1/5) Starting R", OutputData2)
 
@@ -158,8 +158,13 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 #based on findPics2BySpeed
 #only used in eccon "c"
 #if this changes, change also in python capture file
-reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothing) {
+reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
 	a=rawdata
+
+	smoothing = 0
+	if(eccon == "c")
+		smoothing = smoothingOneC
+
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	b=extrema(speed$y)
 
@@ -241,11 +246,17 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(a, mass, smoothingOne, g, eccon, analysisOptions) {
+kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analysisOptions) {
 	print("length unique x in spline")
 	print(length(unique(1:length(a))))
 
-	speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)
+	smoothing = 0
+	if(eccon == "c")
+		smoothing = smoothingOneC
+	else
+		smoothing = smoothingOneEC
+
+	speed <- smooth.spline( 1:length(a), a, spar=smoothing)
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
@@ -312,19 +323,18 @@ powerBars <- function(eccon, kinematics) {
 			  kinematics$mass,meanForce,maxForce))
 }
 
-kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g,eccon,analysisOptions) {
+kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smoothingOneC,g,eccon,analysisOptions) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
 	myEccon = eccon
 	for(i in 1:n) { 
 		myMass = mass
-		mySmoothingOne = smoothingOne
+		#mySmoothingOne = smoothingOne
 		if(! singleFile) {
 			myMass = curves[i,5]
-			mySmoothingOne = curves[i,6]
-			myEccon = curves[i,8]
+			myEccon = curves[i,7]
 		}
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,mySmoothingOne,g,myEccon,analysisOptions)
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingOneEC,smoothingOneC,g,myEccon,analysisOptions)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -340,7 +350,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOne,g,eccon,
 
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
-	startX, startH, smoothing, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
+	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
 	Analysis, AnalysisOptions, ExercisePercentBodyWeight 
 	) {
 
@@ -348,6 +358,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	meanSpeedC = 0
 	meanPowerE = 0
 	meanPowerC = 0
+	
+	smoothing = 0
+	if(eccon == "c")
+		smoothing = smoothingOneC
+	else
+		smoothing = smoothingOneEC
 
 	#eccons ec and ecS is the same here (only show one curve)
 	#receive data as cumulative sum
@@ -560,10 +576,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 			
-		#propulsive stuff
-		abline(h=-g,lty=3,col="magenta")
-		abline(v=propulsiveEnd,lty=3,col="magenta") 
-		points(propulsiveEnd, -g, col="magenta")
+		if(AnalysisOptions == "p") {
+			#propulsive stuff
+			abline(h=-g,lty=3,col="magenta")
+			abline(v=propulsiveEnd,lty=3,col="magenta") 
+			points(propulsiveEnd, -g, col="magenta")
+		}
 		
 		if(showAxes)
 			axis(4, col="magenta", lty=lty[1], line=2, lwd=1, padj=-.5)
@@ -1031,13 +1049,15 @@ doProcess <- function(options) {
 	Eccon=options[8]
 	Analysis=options[9]	#in cross comes as "cross.Force.Speed.mean"
 	AnalysisOptions=options[10]	#p: propulsive
-	SmoothingOne=options[11]
-	Jump=options[12]
-	Width=as.numeric(options[13])
-	Height=as.numeric(options[14])
-	DecimalSeparator=options[15]
-	Title=options[16]
-	OperatingSystem=options[17]
+	SmoothingOneEC=options[11]
+	SmoothingOneC=options[12]
+	Jump=options[13]
+	Width=as.numeric(options[14])
+	Height=as.numeric(options[15])
+	DecimalSeparator=options[16]
+	Title=options[17]
+	OperatingSystem=options[18]	#if this changes, change it also at start of this R file
+	#important, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
 	print(OutputGraph)
@@ -1137,7 +1157,7 @@ doProcess <- function(options) {
 				startH[(i+newLines)] = 0
 				exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
 				mass[(i+newLines)] = inputMultiData$mass[i]
-				smooth[(i+newLines)] = inputMultiData$smoothingOne[i]
+				#smooth[(i+newLines)] = inputMultiData$smoothingOne[i] #unused since 1.3.7
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
@@ -1175,10 +1195,10 @@ doProcess <- function(options) {
 		#then a column id is created when there's only on row, but it is not created there's more than one.
 		#solution:
 		if(length(id)==1) {
-			curves = data.frame(start,end,startH,exerciseName,mass,smooth,
+			curves = data.frame(start,end,startH,exerciseName,mass,
 					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=id)
 		} else {
-			curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,
+			curves = data.frame(id,start,end,startH,exerciseName,mass,
 					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=1)
 		}
 
@@ -1207,8 +1227,8 @@ doProcess <- function(options) {
 		quitIfNoData(n, curves, OutputData1)
 
 		for(i in 1:n) { 
-			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1],
-						       rawdata[curves[i,1]:curves[i,2]], SmoothingOne)
+			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+						       SmoothingOneEC, SmoothingOneC)
 		}
 		if(curvesPlot) {
 			#/10 mm -> cm
@@ -1237,20 +1257,19 @@ doProcess <- function(options) {
 	if(Analysis=="single") {
 		if(Jump>0) {
 			myMass = Mass
-			mySmoothingOne = SmoothingOne
+			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myStart = curves[Jump,1]
 			myEnd = curves[Jump,2]
 			if(! singleFile) {
 				myMass = curves[Jump,5]
-				mySmoothingOne = curves[Jump,6]
-				myEccon = curves[Jump,8]
+				#mySmoothingOne = curves[Jump,6]
+				myEccon = curves[Jump,7]
 			}
 			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[Jump,3],mySmoothingOne,myMass,
-			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr,
-				    " (smoothing: ",mySmoothingOne,")",sep=""),
+			      1,curves[Jump,3],SmoothingOneEC,SmoothingOneC,myMass,
+			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
 			      TRUE,	#showLabels
@@ -1270,16 +1289,17 @@ doProcess <- function(options) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata, curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g,Eccon,AnalysisOptions)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,
+					 g,Eccon,AnalysisOptions)
 
 		for(i in 1:n) {
 			myMass = Mass
-			mySmoothingOne = SmoothingOne
+			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			if(! singleFile) {
 				myMass = curves[i,5]
-				mySmoothingOne = curves[i,6]
-				myEccon = curves[i,8]
+				#mySmoothingOne = curves[i,6]
+				myEccon = curves[i,7]
 			}
 
 			myTitle = ""
@@ -1289,7 +1309,7 @@ doProcess <- function(options) {
 			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
 
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],mySmoothingOne,myMass,myTitle,mySubtitle,
+			      1,curves[i,3],SmoothingOneEC,SmoothingOneC,myMass,myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
@@ -1312,7 +1332,7 @@ doProcess <- function(options) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata,curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOne,g,Eccon,AnalysisOptions)
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,AnalysisOptions)
 		for(i in 1:n) {
 			#in superpose all jumps end at max height
 			#start can change, some are longer than other
@@ -1325,7 +1345,7 @@ doProcess <- function(options) {
 				myTitle = paste(titleType,Jump);
 
 			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
-			      startX,curves[i,3],SmoothingOne,Mass,myTitle,"",
+			      startX,curves[i,3],SmoothingOneEC,SmoothingOneC,Mass,myTitle,"",
 			      TRUE,	#draw
 			      TRUE,	#showLabels
 			      FALSE,	#marShrink
@@ -1358,12 +1378,12 @@ doProcess <- function(options) {
 		discardingCurves = FALSE
 		for(i in 1:n) { 
 			myMass = Mass
-			mySmoothingOne = SmoothingOne
+			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			if(! singleFile) {
 				myMass = curves[i,5]
-				mySmoothingOne = curves[i,6]
-				myEccon = curves[i,8]
+				#mySmoothingOne = curves[i,6]
+				myEccon = curves[i,7]
 
 				#only use concentric data	
 				if(Analysis == "1RMBadillo2010" & myEccon == "e") {
@@ -1392,7 +1412,8 @@ doProcess <- function(options) {
 			}
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
-							     myMass, mySmoothingOne, g, myEcconKn, AnalysisOptions))))
+							     myMass, SmoothingOneEC,SmoothingOneC, 
+							     g, myEcconKn, AnalysisOptions))))
 		}
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded
@@ -1409,17 +1430,17 @@ doProcess <- function(options) {
 		if(Analysis == "powerBars") {
 			if(! singleFile) 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							curves[,8], Eccon,	 	#myEccon, Eccon
+							curves[,7], Eccon,	 	#myEccon, Eccon
 							curvesHeight, n)			#height
 			else 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							curves[,8], Eccon,		#myEccon, Eccon
+							curves[,7], Eccon,		#myEccon, Eccon
 							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
 		}
 		else if(analysisCross[1] == "cross") {
 			mySeries = "1"
 			if(! singleFile)
-				mySeries = curves[,9]
+				mySeries = curves[,8]
 
 			if(analysisCross[2] == "Speed,Power") {
 				par(mar=c(5,4,4,5))
@@ -1453,7 +1474,7 @@ doProcess <- function(options) {
 					curvesHeight = curvesHeight[-discardedCurves]
 
 				paf=cbind(
-					  curves[,9],		#seriesName
+					  curves[,8],		#seriesName
 					  curves[,4],		#exerciseName
 					  curves[,5],		#mass
 					  curves[,1],		
@@ -1490,7 +1511,8 @@ doProcess <- function(options) {
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, SmoothingOne, g, Eccon, AnalysisOptions)
+			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, 
+					  SmoothingOneEC, SmoothingOneC, g, Eccon, AnalysisOptions)
 
 			#fill with NAs in order to have the same length
 			col1 = rawdata[curves[i,1]:curves[i,2]]

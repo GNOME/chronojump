@@ -43,6 +43,8 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	
+	[Widget] Gtk.Button button_help_power;
+	
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
@@ -56,7 +58,10 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_speed_km;
 	[Widget] Gtk.RadioButton radio_weight_percent;
 	[Widget] Gtk.RadioButton radio_weight_kg;
-	[Widget] Gtk.TextView textview_power;
+	
+	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
+	[Widget] Gtk.SpinButton spin_encoder_smooth_ecc_con;
+	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -113,10 +118,10 @@ public class PreferencesWindow {
 		
 		if(showPower) {
 			PreferencesWindowBox.checkbutton_power.Active = true; 
-			PreferencesWindowBox.textview_power.Show();
+			PreferencesWindowBox.button_help_power.Sensitive = true;
 		} else {
 			PreferencesWindowBox.checkbutton_power.Active = false; 
-			PreferencesWindowBox.textview_power.Hide();
+			PreferencesWindowBox.button_help_power.Sensitive = false;
 		}
 		
 		if(showInitialSpeed)  
@@ -214,10 +219,21 @@ public class PreferencesWindow {
 	}
 		
 	private void on_checkbutton_power_clicked (object o, EventArgs args) {
-		if(checkbutton_power.Active)
-			textview_power.Show();
-		else
-			textview_power.Hide();
+		button_help_power.Sensitive = checkbutton_power.Active;
+	}
+	private void on_button_help_power_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") + 
+				"\n\n" +
+				Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") + 
+				"\n" +
+				Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
+				"\n\n" +
+				Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
+				"\n" +
+				Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
+				"\n\n" +
+				Catalog.GetString("If you want to use other formulas, go to Statistics."));
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
@@ -324,26 +340,36 @@ public class PreferencesWindow {
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		/* the falses are for the dbcon that is not opened */
-		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), false);
-		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), false);
-		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), false);
-		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), false);
-		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), false);
+		Sqlite.Open();
+
+		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
+		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), true);
+		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
+		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
+		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
-			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), false);
-			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), false);
+			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), true);
+			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), true);
 		} else {
-			SqlitePreferences.Update("showQIndex", "False", false);
-			SqlitePreferences.Update("showDjIndex", "False", false);
+			SqlitePreferences.Update("showQIndex", "False", true);
+			SqlitePreferences.Update("showDjIndex", "False", true);
 		}
 		
 		
-		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), false);
-		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), false);
-		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), false);
-		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), false);
+		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
+		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
+		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), true);
+		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
+		
+		SqlitePreferences.Update("encoderPropulsive", 
+				PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
+		SqlitePreferences.Update("encoderSmoothEccCon", Util.ConvertToPoint( 
+				(double) PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value), true);
+		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
+				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
+	
+		Sqlite.Close();
 		
 		/*
 		if(Util.IsWindows()) {

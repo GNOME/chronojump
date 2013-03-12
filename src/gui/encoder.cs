@@ -32,11 +32,7 @@ using Mono.Unix;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
-	[Widget] Gtk.SpinButton spin_encoder_smooth;
 	
-	[Widget] Gtk.CheckButton checkbutton_encoder_capture_propulsive;
-	[Widget] Gtk.CheckButton checkbutton_encoder_analyze_propulsive;
-
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_capture_csharp;
 	[Widget] Gtk.Button button_encoder_bells;
@@ -47,8 +43,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
-	[Widget] Gtk.SpinButton spin_encoder_capture_height;
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
+	[Widget] Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.Entry entry_encoder_signal_comment;
@@ -131,6 +127,11 @@ public partial class ChronoJumpWindow
 	private static int encoderCapturePointsPainted;			//stored to be realtime displayed
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessFinish;
+
+	//smooth preferences on Sqlite since 1.3.7
+	bool encoderPropulsive;
+	double encoderSmoothEccCon; 
+	double encoderSmoothCon;
 
 	//CAPTURE is the capture from csharp (not from external python)	
 	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
@@ -221,7 +222,8 @@ public partial class ChronoJumpWindow
 					Util.FindOnArray(':', 2, 3, exerciseNameShown, 
 					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
 				findMass(true),
-				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
 				heightHigherCondition, heightLowerCondition,
 				meanSpeedHigherCondition, meanSpeedLowerCondition,
@@ -363,7 +365,7 @@ public partial class ChronoJumpWindow
 	private void encoderCreateCurvesGraphR() 
 	{
 		string analysisOptions = "-";
-		if(checkbutton_encoder_capture_propulsive.Active)
+		if(encoderPropulsive)
 			analysisOptions = "p";
 
 		EncoderParams ep = new EncoderParams(
@@ -375,7 +377,8 @@ public partial class ChronoJumpWindow
 				findEccon(true),					//force ecS (ecc-conc separated)
 				"curves",
 				analysisOptions,
-				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
 				Util.GetDecimalSeparator()
@@ -747,7 +750,6 @@ public partial class ChronoJumpWindow
 				spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
 
 				spin_encoder_capture_min_height.Value = es.minHeight;
-				spin_encoder_smooth.Value = es.smooth;
 				entry_encoder_signal_comment.Text = es.description;
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
@@ -773,7 +775,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{
 		string analysisOptions = "-";
-		if(checkbutton_encoder_capture_propulsive.Active)
+		if(encoderPropulsive)
 			analysisOptions = "p";
 
 		EncoderParams ep = new EncoderParams(
@@ -785,7 +787,8 @@ public partial class ChronoJumpWindow
 				findEccon(false),		//do not force ecS (ecc-conc separated)
 				"exportCSV",
 				analysisOptions,
-				Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
+				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 				image_encoder_width,
 				image_encoder_height,
@@ -1077,7 +1080,7 @@ public partial class ChronoJumpWindow
 				path,			//url
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
-				(double) spin_encoder_smooth.Value,
+				-1,			//Since 1.3.7 smooth is not stored in curves
 				desc,
 				"","","",
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
@@ -1193,7 +1196,7 @@ public partial class ChronoJumpWindow
 	{
 		int width=encoder_capture_drawingarea.Allocation.Width;
 		int height=encoder_capture_drawingarea.Allocation.Height;
-		double realHeight = 1000 * 2 * spin_encoder_capture_height.Value;
+		double realHeight = 1000 * 2 * spin_encoder_capture_curves_height_range.Value;
 		
 		Log.WriteLine("00a 2");
 		SerialPort sp = new SerialPort(port);
@@ -1278,7 +1281,7 @@ public partial class ChronoJumpWindow
 		string dataFileName = "";
 		
 		string analysisOptions = "-";
-		if(checkbutton_encoder_analyze_propulsive.Active)
+		if(encoderPropulsive)
 			analysisOptions = "p";
 
 		//use this send because we change it to send it to R
@@ -1323,7 +1326,8 @@ public partial class ChronoJumpWindow
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
 					analysisOptions,
-					"-1",
+					Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
+					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 
 					image_encoder_height,
@@ -1438,7 +1442,8 @@ Log.WriteLine(str);
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					analysisOptions,
-					Util.ConvertToPoint((double) spin_encoder_smooth.Value), //R decimal: '.'
+					Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
+					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
 					image_encoder_height,
@@ -2563,7 +2568,6 @@ Log.Write("l");
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
 		//c0 button_encoder_capture, button_encoder_capture_csharp, 
-		//	button_encoder_bells, spin_encoder_capture_time, spin_encoder_capture_height
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
@@ -2625,9 +2629,6 @@ Log.Write("l");
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
 		button_encoder_capture_csharp.Sensitive = Util.IntToBool(table[0]);
-		button_encoder_bells.Sensitive = Util.IntToBool(table[0]);
-		spin_encoder_capture_time.Sensitive = Util.IntToBool(table[0]);
-		spin_encoder_capture_height.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);

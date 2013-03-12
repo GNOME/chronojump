@@ -70,6 +70,10 @@ class SqlitePreferences : Sqlite
 		Insert ("machineID", machineID);
 		
 		Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
+		
+		Insert ("encoderPropulsive", "True");
+		Insert ("encoderSmoothEccCon", "0.6");
+		Insert ("encoderSmoothCon", "0.7");
 	}
 
 	public static void Insert(string myName, string myValue)

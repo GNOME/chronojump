@@ -51,21 +51,22 @@ record_time = int(sys.argv[3])*1000		#from s to ms
 minRange = int(sys.argv[4])			#all is stored, but only display when vertical range is >= minRange
 isJump = sys.argv[5]
 mass = float(sys.argv[6])
-smoothingOne = float(sys.argv[7])
-eccon = sys.argv[8]				#contraction "ec" or "c"
-heightHigherCondition = int(sys.argv[9])
-heightLowerCondition = int(sys.argv[10])
-meanSpeedHigherCondition = float(sys.argv[11])
-meanSpeedLowerCondition = float(sys.argv[12])
-maxSpeedHigherCondition = float(sys.argv[13])
-maxSpeedLowerCondition = float(sys.argv[14])
-powerHigherCondition = int(sys.argv[15])
-powerLowerCondition = int(sys.argv[16])
-peakPowerHigherCondition = int(sys.argv[17])
-peakPowerLowerCondition = int(sys.argv[18])
-mainVariable = sys.argv[19]
-w_serial_port = sys.argv[20]
-r_path = sys.argv[21]
+smoothingOneEC = float(sys.argv[7])
+smoothingOneC = float(sys.argv[8])
+eccon = sys.argv[9]				#contraction "ec" or "c"
+heightHigherCondition = int(sys.argv[10])
+heightLowerCondition = int(sys.argv[11])
+meanSpeedHigherCondition = float(sys.argv[12])
+meanSpeedLowerCondition = float(sys.argv[13])
+maxSpeedHigherCondition = float(sys.argv[14])
+maxSpeedLowerCondition = float(sys.argv[15])
+powerHigherCondition = int(sys.argv[16])
+powerLowerCondition = int(sys.argv[17])
+peakPowerHigherCondition = int(sys.argv[18])
+peakPowerLowerCondition = int(sys.argv[19])
+mainVariable = sys.argv[20]
+w_serial_port = sys.argv[21]
+r_path = sys.argv[22]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -150,7 +151,8 @@ meanSpeedList = list()
 maxSpeedList = list()
 meanPowerList = list()
 peakPowerList = list()
-def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothingOne, eccon, minRange, isJump):
+def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
+		smoothingOneEC, smoothingOneC, eccon, minRange, isJump):
 	if (len(top_values)>0 and len(bottom_values)>0):
 		if direction_now == 1:
 			start=top_values[len(top_values)-1]
@@ -159,7 +161,11 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now, smoothing
 			start=bottom_values[len(bottom_values)-1]
 			end=top_values[len(top_values)-1]
 		
-		myR.assign('smoothingOne',smoothingOne)
+		if(eccon == "c")
+			myR.assign('smoothingOne',smoothingOneC)
+		else
+			myR.assign('smoothingOne',smoothingOneEC)
+
 		myR.assign('a',temp[start:end])
 		
 		if direction_now == -1:
@@ -558,7 +564,7 @@ if __name__ == '__main__':
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 
-							direction_now, smoothingOne, eccon, minRange, isJump)
+							direction_now, smoothingOneEC, smoothingOneC, eccon, minRange, isJump)
 					
 				file.write(''+','.join([str(i) for i in temp[
 					previous_frame_change:new_frame_change

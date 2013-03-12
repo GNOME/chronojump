@@ -872,6 +872,11 @@ public partial class ChronoJumpWindow
 		
 		update_sqlite_at_runs_speed_radios = true;
 
+		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
+		encoderSmoothEccCon = Convert.ToDouble ( Util.ChangeDecimalSeparator ( 
+					SqlitePreferences.Select("encoderSmoothEccCon") ) );
+		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
+				SqlitePreferences.Select("encoderSmoothCon") ) );
 
 
 		//change language works on windows. On Linux let's change the locale
@@ -2662,6 +2667,11 @@ public partial class ChronoJumpWindow
 		 else 
 			metersSecondsPreferred = false;
 		
+		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
+		encoderSmoothEccCon = Convert.ToDouble ( Util.ChangeDecimalSeparator ( 
+					SqlitePreferences.Select("encoderSmoothEccCon") ) );
+		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
+				SqlitePreferences.Select("encoderSmoothCon") ) );
 
 		//change language works on windows. On Linux let's change the locale
 		//if(Util.IsWindows()) 

@@ -309,15 +309,24 @@ public class EncoderSQL
 		return str;
 	}
 
-	public string [] ToStringArray (int count) {
-		string [] str = new String [7];
-		str[0] = uniqueID;
-		str[1] = count.ToString();
-		str[2] = exerciseName;
-		str[3] = ecconLong;
-		str[4] = extraWeight;
-		str[5] = GetDate(true);
-		str[6] = description;
+	public string [] ToStringArray (int count, bool checkboxes) {
+		int all = 7;
+		if(checkboxes)
+			all = 8;
+
+		string [] str = new String [all];
+		int i=0;
+		str[i++] = uniqueID;
+	
+		if(checkboxes)
+			str[i++] = "";	//checkboxes
+	
+		str[i++] = count.ToString();
+		str[i++] = exerciseName;
+		str[i++] = ecconLong;
+		str[i++] = extraWeight;
+		str[i++] = GetDate(true);
+		str[i++] = description;
 		return str;
 	}
 

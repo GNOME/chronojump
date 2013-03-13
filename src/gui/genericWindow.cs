@@ -229,6 +229,7 @@ public class GenericWindow
 	protected static string [] comboAllNoneSelectedOptions = {
 		Catalog.GetString("All"),
 		Catalog.GetString("None"),
+		Catalog.GetString("Invert"),
 		Catalog.GetString("Selected"),
 	};
 
@@ -268,6 +269,15 @@ public class GenericWindow
 				do {
 					if(! Util.FoundInArrayList(nonSensitiveRows, i))
 						store.SetValue (iter, 0, true);
+					i++;
+				} while ( store.IterNext(ref iter) );
+			} else if(selected == Catalog.GetString("Invert")) {
+				bool val;
+				do {
+					if(! Util.FoundInArrayList(nonSensitiveRows, i)) {
+						val = (bool) store.GetValue (iter, 0);
+						store.SetValue (iter, 0, !val);
+					}
 					i++;
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("None")) {

@@ -413,11 +413,12 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.future1;
 			Log.WriteLine(checkboxes[count-1]);
-			dataPrint.Add(es.ToStringArray(count));
+			dataPrint.Add(es.ToStringArray(count,true));
 		}
 	
 		string [] columnsString = {
 			Catalog.GetString("ID"),
+			"",				//checkboxes
 			Catalog.GetString("Curve"),
 			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
@@ -447,7 +448,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList());
+		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), true);
 		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
@@ -455,6 +456,8 @@ public partial class ChronoJumpWindow
 		genericWin.SetButtonAcceptSensitive(true);
 		//manage selected, unselected curves
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
+		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_show_curves_row_edit);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
@@ -500,6 +503,17 @@ public partial class ChronoJumpWindow
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
+	
+	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
+		Log.WriteLine("row edit at show curves");
+		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+	}
+	
+	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
+		Log.WriteLine("row delete at show curves");
+		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+	}
+	
 	
 	void on_button_encoder_analyze_data_compare_clicked (object o, EventArgs args) 
 	{
@@ -572,7 +586,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows);
+		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows,false);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -671,7 +685,7 @@ public partial class ChronoJumpWindow
 			dataConverted.Add(encPS.ToStringArray());
 		}
 
-		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows);
+		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows,false);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -713,7 +727,7 @@ public partial class ChronoJumpWindow
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(EncoderSQL es in data) 
-			dataPrint.Add(es.ToStringArray(count++));
+			dataPrint.Add(es.ToStringArray(count++,false));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
@@ -729,11 +743,13 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
 					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList());
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), true);
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
+		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_load_signal_row_edit);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
 	}
 	
 	protected void on_encoder_load_signal_accepted (object o, EventArgs args)
@@ -772,6 +788,16 @@ public partial class ChronoJumpWindow
 			encoderButtonsSensitive(encoderSensEnumStored);
 		} else 
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, file not found"));
+	}
+	
+	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
+		Log.WriteLine("row edit at load signal");
+		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+	}
+	
+	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
+		Log.WriteLine("row delete at load signal");
+		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 

@@ -55,6 +55,10 @@ public class GenericWindow
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
 	
+	//treeview fake buttons
+	[Widget] Gtk.Button button_row_edit;
+	[Widget] Gtk.Button button_row_delete;
+	
 	[Widget] Gtk.Box hbox_entry2;
 	[Widget] Gtk.Label label_entry2;
 	[Widget] Gtk.Entry entry2;
@@ -75,6 +79,7 @@ public class GenericWindow
 	//used when we don't need to read data, 
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
+	public int TreeviewSelectedUniqueID;
 
 	public GenericWindow ()
 	{
@@ -275,29 +280,29 @@ public class GenericWindow
 			if(selected == Catalog.GetString("All")) {
 				do {
 					if(! Util.FoundInArrayList(nonSensitiveRows, i))
-						store.SetValue (iter, 0, true);
+						store.SetValue (iter, 1, true);
 					i++;
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("Invert")) {
 				bool val;
 				do {
 					if(! Util.FoundInArrayList(nonSensitiveRows, i)) {
-						val = (bool) store.GetValue (iter, 0);
-						store.SetValue (iter, 0, !val);
+						val = (bool) store.GetValue (iter, 1);
+						store.SetValue (iter, 1, !val);
 					}
 					i++;
 				} while ( store.IterNext(ref iter) );
 			} else if(selected == Catalog.GetString("None")) {
 				do {
-					store.SetValue (iter, 0, false);
+					store.SetValue (iter, 1, false);
 				} while ( store.IterNext(ref iter) );
 			} else {	//encoderExercises
 				do {
 					if(selected == (string) store.GetValue (iter, 2) &&
 							! Util.FoundInArrayList(nonSensitiveRows, i))
-						store.SetValue (iter, 0, true);
+						store.SetValue (iter, 1, true);
 					else
-						store.SetValue (iter, 0, false);
+						store.SetValue (iter, 1, false);
 					i++;
 				} while ( store.IterNext(ref iter) );
 			}
@@ -317,7 +322,7 @@ public class GenericWindow
 	
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
 	public void SetTreeview(string [] columnsString, bool addCheckbox, 
-			ArrayList data, ArrayList myNonSensitiveRows) 
+			ArrayList data, ArrayList myNonSensitiveRows, bool contextMenu) 
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
@@ -330,13 +335,15 @@ public class GenericWindow
 
 		nonSensitiveRows = myNonSensitiveRows;
 		
-		if(addCheckbox)
-			createCheckboxes(treeview);
-
 		foreach (string [] line in data) 
 			store.AppendValues (line);
 
 		treeview.CursorChanged += on_treeview_cursor_changed; 
+		if(contextMenu) {
+			button_row_edit = new Gtk.Button();
+			button_row_delete = new Gtk.Button();
+			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
+		}
 	}
 	
 	public void MarkActiveCurves(string [] checkboxes) 
@@ -347,22 +354,22 @@ public class GenericWindow
 		if(okIter) {
 			do {
 				if(checkboxes[count++] == "active")
-					store.SetValue (iter, 0, true);
+					store.SetValue (iter, 1, true);
 			} while ( store.IterNext(ref iter) );
 		}
 	}
 	
 	private TreeStore getStore (int columns, bool addCheckbox)
 	{
-		if(addCheckbox)
-			columns++;
+		//if(addCheckbox)
+		//	columns++;
 
 		//prepares the TreeStore for required columns
 		Type [] types = new Type [columns];
 
 		for (int i=0; i < columns; i++) {
-			if(addCheckbox && i == 0)
-				types[0] = typeof (bool);
+			if(addCheckbox && i == 1)
+				types[1] = typeof (bool);
 			else
 				types[i] = typeof (string);
 		}
@@ -375,12 +382,17 @@ public class GenericWindow
 		treeviewRemoveColumns();
 		treeview.HeadersVisible=true;
 		int i=0;
-		bool visible = false;
+		//bool visible = false;
+		bool visible = true;
 		foreach(string myCol in columnsString) {
-			UtilGtk.CreateCols(treeview, store, myCol, i++, visible);
-			if(i == 1)	//first columns: ID, is hidden
-				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
+			if(addCheckbox && i == 1)
+				createCheckboxes(treeview);
+			else
+				UtilGtk.CreateCols(treeview, store, myCol, i, visible);
+//			if(i == 1)	//first columns: ID, is hidden
+//				store.SetSortFunc (0, UtilGtk.IdColumnCompare);
 			visible = true;
+			i++;
 		}
 	}
 	
@@ -420,7 +432,8 @@ public class GenericWindow
 
 		TreeViewColumn column = new TreeViewColumn ("", crt, "active", 0);
 		column.Clickable = true;
-		tv.InsertColumn (column, 0);
+		tv.AppendColumn (column);
+		
 	}
 	
 	//if column == 0 returns checkboxes column. If is 1 returns column 1...
@@ -435,18 +448,18 @@ public class GenericWindow
 		if(okIter) {
 			do {
 				if(column == 0) {
-					if((bool) store.GetValue (iter, 0))
+					if((bool) store.GetValue (iter, 1))
 						checkboxes[count++] = "active";
 					else
 						checkboxes[count++] = "inactive";
 				}
 				else
-					if((bool) store.GetValue (iter, 0) || ! onlyActive)
+					if((bool) store.GetValue (iter, 1) || ! onlyActive)
 						checkboxes[count++] = ((string) store.GetValue (iter, column));
 				
 			} while ( store.IterNext(ref iter) );
 		}
-		if(column == 0)
+		if(column == 1)
 			return checkboxes;
 		else {
 			string [] checkboxesWithoutGaps = new string[count];
@@ -457,7 +470,7 @@ public class GenericWindow
 	}
 
 	protected void ItemToggled(object o, ToggledArgs args) {
-		int column = 0;
+		int column = 1;
 		TreeIter iter;
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
 		{
@@ -478,7 +491,55 @@ public class GenericWindow
 			}
 		}
 	}
-	
+
+	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
+		//TreeviewSelectedUniqueID = -1;
+
+                Gdk.EventButton e = args.Event;
+                Gtk.TreeView tv = (Gtk.TreeView) o;
+		TreeModel model = treeview.Model;
+		if (e.Button == 3) {
+			TreeIter iter = new TreeIter();
+			//TreeModel myModel = tv.Model;
+			if (tv.Selection.GetSelected (out model, out iter)) {
+/*
+Log.WriteLine((string) store.GetValue (iter, 0));
+//Log.WriteLine((string) store.GetValue (iter, 1));
+Log.WriteLine((string) store.GetValue (iter, 2));
+Log.WriteLine((string) store.GetValue (iter, 3));
+*/
+				//TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+				TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
+				treeviewContextMenu();
+			}
+		}
+	}
+
+	private void treeviewContextMenu() {
+		Menu myMenu = new Menu ();
+		Gtk.MenuItem myItem;
+
+		myItem = new MenuItem ( Catalog.GetString("Edit selected") );
+		myItem.Activated += on_edit_selected_clicked;
+		myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+
+		myItem = new MenuItem ( Catalog.GetString("Delete selected") );
+		myItem.Activated += on_delete_selected_clicked;
+		myMenu.Attach( myItem, 0, 1, 1, 2 );
+
+		myMenu.Popup();
+		myMenu.ShowAll();
+	}
+
+	private void on_edit_selected_clicked (object o, EventArgs args) {
+		button_row_edit.Click();
+	}
+
+	private void on_delete_selected_clicked (object o, EventArgs args) {
+		button_row_delete.Click();
+	}
+
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
@@ -524,6 +585,16 @@ public class GenericWindow
 	public Button Button_accept {
 		set { button_accept = value; }
 		get { return button_accept; }
+	}
+		
+	public Button Button_row_edit {
+		set { button_row_edit = value; }
+		get { return button_row_edit; }
+	}
+		
+	public Button Button_row_delete {
+		set { button_row_delete = value; }
+		get { return button_row_delete; }
 	}
 		
 	public string EntrySelected {

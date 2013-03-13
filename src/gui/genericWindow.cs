@@ -177,9 +177,9 @@ public class GenericWindow
 			hbox_height_metric.Show();
 		}
 		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
-			//createComboAllNoneSelected();
+			//createComboCheckBoxes();
 			//combo_all_none_selected.Active = 
-			//	UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+			//	UtilGtk.ComboMakeActive(comboCheckBoxesOptions, Catalog.GetString("Selected"));
 			hbox_combo_all_none_selected.Show();
 			hbox_all_none_selected.Show();
 		}
@@ -226,16 +226,23 @@ public class GenericWindow
 		spin_int.SetRange(min, max);
 	}
 	
-	protected static string [] comboAllNoneSelectedOptions = {
+	protected string [] comboCheckBoxesOptions = {
 		Catalog.GetString("All"),
 		Catalog.GetString("None"),
 		Catalog.GetString("Invert"),
 		Catalog.GetString("Selected"),
 	};
+	
+	//this search in first column
+	//private string [] addOptionsToComboCheckBoxesOptions(string [] newOptions) {
+	public void AddOptionsToComboCheckBoxesOptions(ArrayList newOptions) {
+		comboCheckBoxesOptions = Util.AddArrayString( comboCheckBoxesOptions, 
+				Util.ArrayListToString(newOptions) );
+	}
 
-	public void CreateComboAllNoneSelected() {
+	public void CreateComboCheckBoxes() {
 		combo_all_none_selected = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_all_none_selected, comboAllNoneSelectedOptions, "");
+		UtilGtk.ComboUpdate(combo_all_none_selected, comboCheckBoxesOptions, "");
 		
 		//combo_all_none_selected.DisableActivate ();
 		combo_all_none_selected.Changed += new EventHandler (on_combo_all_none_selected_changed);
@@ -245,7 +252,7 @@ public class GenericWindow
 		combo_all_none_selected.Sensitive = true;
 			
 		combo_all_none_selected.Active = 
-			UtilGtk.ComboMakeActive(comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+			UtilGtk.ComboMakeActive(comboCheckBoxesOptions, Catalog.GetString("Selected"));
 	}
 	
 	protected void on_combo_all_none_selected_changed(object o, EventArgs args) {
@@ -283,6 +290,15 @@ public class GenericWindow
 			} else if(selected == Catalog.GetString("None")) {
 				do {
 					store.SetValue (iter, 0, false);
+				} while ( store.IterNext(ref iter) );
+			} else {	//encoderExercises
+				do {
+					if(selected == (string) store.GetValue (iter, 2) &&
+							! Util.FoundInArrayList(nonSensitiveRows, i))
+						store.SetValue (iter, 0, true);
+					else
+						store.SetValue (iter, 0, false);
+					i++;
 				} while ( store.IterNext(ref iter) );
 			}
 		}
@@ -455,7 +471,7 @@ public class GenericWindow
 
 				combo_all_none_selected.Active =
 					UtilGtk.ComboMakeActive(
-							comboAllNoneSelectedOptions, Catalog.GetString("Selected"));
+							comboCheckBoxesOptions, Catalog.GetString("Selected"));
 
 				//check if there are rows checked for having sensitive or not
 				//buttonRecuperateChangeSensitiveness();

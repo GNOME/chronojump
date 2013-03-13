@@ -436,13 +436,20 @@ public partial class ChronoJumpWindow
 		
 		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
+	
+		//add exercises to the combo (only the exercises done, and only unique)
+		ArrayList encoderExercisesNames = new ArrayList();
+		foreach(EncoderSQL es in data) {
+			encoderExercisesNames = Util.AddToArrayListIfNotExist(encoderExercisesNames, es.exerciseName);
+		}
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.CreateComboAllNoneSelected();
 		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList());
+		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
+		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -565,8 +572,8 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.CreateComboAllNoneSelected();
 		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows);
+		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -664,8 +671,8 @@ public partial class ChronoJumpWindow
 			dataConverted.Add(encPS.ToStringArray());
 		}
 
-		genericWin.CreateComboAllNoneSelected();
 		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows);
+		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);

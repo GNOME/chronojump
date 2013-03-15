@@ -334,9 +334,11 @@ public class GenericWindow
 		prepareHeaders(columnsString, addCheckbox);
 
 		nonSensitiveRows = myNonSensitiveRows;
-		
+	
+Log.WriteLine("aaaaaaaaaaaaaaaa1");	
 		foreach (string [] line in data) 
 			store.AppendValues (line);
+Log.WriteLine("aaaaaaaaaaaaaaaa2");	
 
 		treeview.CursorChanged += on_treeview_cursor_changed; 
 		if(contextMenu) {
@@ -361,9 +363,6 @@ public class GenericWindow
 	
 	private TreeStore getStore (int columns, bool addCheckbox)
 	{
-		//if(addCheckbox)
-		//	columns++;
-
 		//prepares the TreeStore for required columns
 		Type [] types = new Type [columns];
 
@@ -383,7 +382,7 @@ public class GenericWindow
 		treeview.HeadersVisible=true;
 		int i=0;
 		//bool visible = false;
-		bool visible = true;
+bool visible = true;
 		foreach(string myCol in columnsString) {
 			if(addCheckbox && i == 1)
 				createCheckboxes(treeview);
@@ -430,7 +429,7 @@ public class GenericWindow
 		crt.Active = true;
 		crt.Toggled += ItemToggled;
 
-		TreeViewColumn column = new TreeViewColumn ("", crt, "active", 0);
+		TreeViewColumn column = new TreeViewColumn ("", crt, "active", 1);
 		column.Clickable = true;
 		tv.AppendColumn (column);
 		

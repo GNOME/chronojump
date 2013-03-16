@@ -298,7 +298,7 @@ public class GenericWindow
 				} while ( store.IterNext(ref iter) );
 			} else {	//encoderExercises
 				do {
-					if(selected == (string) store.GetValue (iter, 2) &&
+					if(selected == (string) store.GetValue (iter, 3) &&
 							! Util.FoundInArrayList(nonSensitiveRows, i))
 						store.SetValue (iter, 1, true);
 					else
@@ -381,8 +381,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		treeviewRemoveColumns();
 		treeview.HeadersVisible=true;
 		int i=0;
-		//bool visible = false;
-bool visible = true;
+		bool visible = false;
 		foreach(string myCol in columnsString) {
 			if(addCheckbox && i == 1)
 				createCheckboxes(treeview);
@@ -435,7 +434,7 @@ bool visible = true;
 		
 	}
 	
-	//if column == 0 returns checkboxes column. If is 1 returns column 1...
+	//if column == 1 returns checkboxes column. If is 2 returns column 2...
 	public string [] GetCheckboxesStatus(int column, bool onlyActive) 
 	{
 		//to store active or inactive status of curves
@@ -446,7 +445,7 @@ bool visible = true;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
 			do {
-				if(column == 0) {
+				if(column == 1) {
 					if((bool) store.GetValue (iter, 1))
 						checkboxes[count++] = "active";
 					else

@@ -354,7 +354,7 @@ public class EncoderPersonCurvesInDB
 	}
 
 	public string [] ToStringArray() {
-		string [] s = { "", sessionID.ToString(), sessionName, sessionDate,
+		string [] s = { sessionID.ToString(), "", sessionName, sessionDate,
 			countActive.ToString(), countAll.ToString()
 		};
 		return s;

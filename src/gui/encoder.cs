@@ -472,8 +472,7 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked -= new EventHandler(on_encoder_show_curves_done);
 
 		//get selected/deselected rows
-		string [] checkboxes = genericWin.GetCheckboxesStatus(0, false);
-		//Log.WriteLine(Util.StringArrayToString(checkboxes,";"));
+		string [] checkboxes = genericWin.GetCheckboxesStatus(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
@@ -537,7 +536,7 @@ public partial class ChronoJumpWindow
 			if(p.UniqueID != currentPerson.UniqueID) {
 				ArrayList eSQLarray = SqliteEncoder.Select(
 						false, -1, p.UniqueID, currentSession.UniqueID, "curve", false); 
-				string [] s = { "", p.UniqueID.ToString(), p.Name,
+				string [] s = { p.UniqueID.ToString(), "", p.Name,
 					getActiveCurvesNum(eSQLarray).ToString(), eSQLarray.Count.ToString()
 			       	};
 				data.Add(s);
@@ -554,7 +553,7 @@ public partial class ChronoJumpWindow
 		foreach(string [] sPersons in data) {
 			bool found = false;
 			foreach(string s2 in encoderCompareInterperson)
-				if(Util.FetchID(s2).ToString() == sPersons[1])
+				if(Util.FetchID(s2).ToString() == sPersons[0])
 					found = true;
 
 			if(found)
@@ -564,8 +563,8 @@ public partial class ChronoJumpWindow
 		}			
 			
 		string [] columnsString = {
-			Catalog.GetString("hiddennothing"),
-			Catalog.GetString("Person ID"),
+			Catalog.GetString("ID"),
+			"",				//checkboxes
 			Catalog.GetString("Person name"),
 			Catalog.GetString("Selected\ncurves"),
 			Catalog.GetString("All\ncurves")
@@ -608,7 +607,7 @@ public partial class ChronoJumpWindow
 				on_encoder_analyze_data_compare_interperson_done);
 	
 		encoderCompareInterperson = new ArrayList ();
-		string [] selectedID = genericWin.GetCheckboxesStatus(1,true);
+		string [] selectedID = genericWin.GetCheckboxesStatus(0,true);
 		string [] selectedName = genericWin.GetCheckboxesStatus(2,true);
 
 		for (int i=0 ; i < selectedID.Length ; i ++)
@@ -656,8 +655,8 @@ public partial class ChronoJumpWindow
 		}			
 			
 		string [] columnsString = {
-			Catalog.GetString("hiddennothing"),
-			Catalog.GetString("Session ID"),
+			Catalog.GetString("ID"),
+			"",				//checkboxes
 			Catalog.GetString("Session name"),
 			Catalog.GetString("Session date"),
 			Catalog.GetString("Selected\ncurves"),
@@ -707,7 +706,7 @@ public partial class ChronoJumpWindow
 				on_encoder_analyze_data_compare_intersession_done);
 	
 		encoderCompareIntersession = new ArrayList ();
-		string [] selectedID = genericWin.GetCheckboxesStatus(1,true);
+		string [] selectedID = genericWin.GetCheckboxesStatus(0,true);
 		string [] selectedDate = genericWin.GetCheckboxesStatus(3,true);
 
 		for (int i=0 ; i < selectedID.Length ; i ++)

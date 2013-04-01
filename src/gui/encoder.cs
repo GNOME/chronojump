@@ -454,6 +454,7 @@ public partial class ChronoJumpWindow
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
+		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		//manage selected, unselected curves
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_show_curves_row_edit);
@@ -510,7 +511,17 @@ public partial class ChronoJumpWindow
 	
 	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
 		Log.WriteLine("row delete at show curves");
-		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+
+		int uniqueID = genericWin.TreeviewSelectedUniqueID;
+		Log.WriteLine(uniqueID.ToString());
+
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false)[0];
+		//remove the file
+		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+		if(deletedOk)  {
+			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(uniqueID));
+			updateUserCurvesLabelsAndCombo();
+		}
 	}
 	
 	
@@ -745,6 +756,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), true);
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
+		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_load_signal_row_edit);
@@ -796,7 +808,23 @@ public partial class ChronoJumpWindow
 	
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
 		Log.WriteLine("row delete at load signal");
-		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+
+		int uniqueID = genericWin.TreeviewSelectedUniqueID;
+		Log.WriteLine(uniqueID.ToString());
+
+		//if it's current signal use the delete signal from the gui interface that updates gui
+		if(uniqueID == Convert.ToInt32(encoderSignalUniqueID))
+			on_button_encoder_delete_signal_accepted (o, args);
+		else {
+			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false)[0];
+			//remove the file
+			bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			if(deletedOk)  
+				Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(uniqueID));
+
+			//genericWin selected row is deleted, unsensitive the "load" button
+			genericWin.SetButtonAcceptSensitive(false);
+		}
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
@@ -980,12 +1008,7 @@ public partial class ChronoJumpWindow
 					if(ecconLast == "c" || ! Util.IsEven(i)) //use only uneven (spanish: "impar") values
 						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
-			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
-			int activeCurvesNum = getActiveCurvesNum(data);
-			label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
-			label_encoder_user_curves_all_num.Text = data.Count.ToString();
-			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+			updateUserCurvesLabelsAndCombo();
 		}
 	}
 
@@ -996,6 +1019,15 @@ public partial class ChronoJumpWindow
 				countActiveCurves ++;
 		
 		return countActiveCurves;
+	}
+
+	private void updateUserCurvesLabelsAndCombo() {
+		ArrayList data = SqliteEncoder.Select(
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+		int activeCurvesNum = getActiveCurvesNum(data);
+		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
+		label_encoder_user_curves_all_num.Text = data.Count.ToString();
+		updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 	}
 	
 	private string [] getActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {

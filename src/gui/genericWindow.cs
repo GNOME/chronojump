@@ -535,6 +535,10 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 	}
 
 	private void on_delete_selected_clicked (object o, EventArgs args) {
+		//remove selected row from treeview
+		store = UtilGtk.RemoveRow(treeview, store);
+
+		//activate button to manage on gui/encoder.cs in order to delete from SQL
 		button_row_delete.Click();
 	}
 
@@ -545,6 +549,10 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 	
 	public void SetButtonAcceptSensitive(bool show) {
 		button_accept.Sensitive=show;
+	}
+	
+	public void SetButtonCancelLabel(string str) {
+		button_cancel.Label=str;
 	}
 	
 	public void ShowButtonCancel(bool show) {

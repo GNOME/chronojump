@@ -465,6 +465,18 @@ public class Util
 				final[count++] = str;
 		return final;
 	}
+
+	public static string [] DeleteStringAtPosition(string [] initial, int pos) {
+		string [] final = new String [initial.Length -1];
+		int count = 0;
+		foreach(string str in initial) {
+			if(count != pos)
+				final[count] = str;
+			count ++;
+		}
+
+		return final;
+	}
 	
 	
 	//called from jumpRj.Write() and from interval

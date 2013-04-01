@@ -832,6 +832,19 @@ findPosInPaf <- function(var, option) {
 	return(pos)
 }
 
+addUnits <- function (var) {
+	if(var == "Speed")
+		return ("Speed (m/s)")
+	else if(var == "Power")
+		return ("Power (W)")
+	else if(var == "Load") #or Mass
+		return ("Load (Kg)")
+	else if(var == "Force")
+		return ("Force (N)")
+
+	return(var)
+}
+
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName) {
 	x = (paf[,findPosInPaf(varX, option)])
@@ -842,6 +855,9 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 	colBalls = NULL
 	bgBalls = NULL
+
+	varX = addUnits(varX)
+	varY = addUnits(varY)
 
 	#if only one series
 	if(length(unique(seriesName)) == 1) {

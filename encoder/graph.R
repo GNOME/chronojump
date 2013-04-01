@@ -726,6 +726,16 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 }
 
+textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
+
+	w=strwidth(text)+xpad*strwidth(text)
+	h=strheight(text)+ypad*strheight(text)
+
+	rect(x-w/2,y-h/2,x+w/2,y+h/2,col=bgCol, border=NA)
+	text(x,y,text,col=frontCol)
+} 
+
+
 paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, height, n) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
@@ -799,8 +809,15 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 			 bp[2,min(which(load == i))],mean(height[which(load == i)]),
 			 bp[2,max(which(load == i))],mean(height[which(load == i)]),
 			 lty=1,col="green")
-		text(x=mean(bp[2,which(load == i)]),y=mean(height[which(load == i)]),
-		     labels=round(mean(height[which(load == i)]),1),adj=c(.5,0),cex=.9)
+
+		myLabel = round(mean(height[which(load == i)]),1)
+
+		text(x=mean(bp[2,which(load == i)]),
+		     y=mean(height[which(load == i)]),
+		     labels=myLabel,adj=c(.5,0),cex=.9,col="darkgreen")
+		#textBox(mean(bp[2,which(load == i)]),
+		#	mean(height[which(load == i)]),
+		#	myLabel, "green", "white", ypad=1)
 	}
 	
 	#plot legend on top exactly out

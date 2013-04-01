@@ -43,6 +43,14 @@ public class GenericWindow
 
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
+
+	//generic combo
+	[Widget] Gtk.Box hbox_combo_full_line;
+	[Widget] Gtk.Label hbox_combo_label;
+	[Widget] Gtk.Box hbox_combo;
+	[Widget] Gtk.ComboBox combo;
+	[Widget] Gtk.Button hbox_combo_button;
+	
 	[Widget] Gtk.Box hbox_all_none_selected;
 	[Widget] Gtk.Box hbox_combo_all_none_selected;
 	[Widget] Gtk.ComboBox combo_all_none_selected;
@@ -144,6 +152,7 @@ public class GenericWindow
 		hbox_spin_int.Hide();
 		spin_double.Hide();
 		hbox_height_metric.Hide();
+		hbox_combo_full_line.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		scrolled_window_textview.Hide();
@@ -181,6 +190,12 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC) {
 			hbox_height_metric.Show();
 		}
+		else if(stuff == Constants.GenericWindowShow.COMBO) {
+			/*
+			hbox_combo.Show();
+			combo.Show();
+			*/
+		}
 		else if(stuff == Constants.GenericWindowShow.COMBOALLNONESELECTED) {
 			//createComboCheckBoxes();
 			//combo_all_none_selected.Active = 
@@ -210,6 +225,13 @@ public class GenericWindow
 			spin_double.Show();
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
 			hbox_height_metric.Show();
+		else if(stuff == Constants.GenericWindowShow.COMBO) {
+			//do later, we need to create them first
+			/*
+			hbox_combo.Show();
+			combo.Show();
+			*/
+		}
 		else if(stuff == Constants.GenericWindowShow.TEXTVIEW)
 			scrolled_window_textview.Show();
 		else //if(stuff == Constants.GenericWindowShow.TREEVIEW)
@@ -230,6 +252,24 @@ public class GenericWindow
 	public void SetSpinRange(double min, double max) {
 		spin_int.SetRange(min, max);
 	}
+	
+	public void SetComboValues(string [] values, string current) {
+		combo = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo, values, "");
+		
+		hbox_combo.PackStart(combo, true, true, 0);
+		hbox_combo.ShowAll();
+		combo.Sensitive = true;
+			
+		combo.Active = UtilGtk.ComboMakeActive(values, current);
+	}
+	public void SetComboLabel(string l) {
+		hbox_combo_label.Text = l;
+	}
+	public void ShowCombo(bool show) {
+		hbox_combo_full_line.Visible = show;
+	}
+
 	
 	protected string [] comboCheckBoxesOptions = {
 		Catalog.GetString("All"),
@@ -409,6 +449,8 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 			SetButtonAcceptSensitive(true);
 		else
 			SetButtonAcceptSensitive(false);
+	
+		ShowCombo(false);
 	}
 	
 	public int TreeviewSelectedRowID() {
@@ -511,6 +553,7 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 				treeviewContextMenu();
 			}
 		}
+		ShowCombo(false);
 	}
 
 	private void treeviewContextMenu() {
@@ -532,6 +575,10 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 
 	private void on_edit_selected_clicked (object o, EventArgs args) {
 		button_row_edit.Click();
+	}
+
+	public void RemoveSelectedRow () {
+		store = UtilGtk.RemoveRow(treeview, store);
 	}
 
 	private void on_delete_selected_clicked (object o, EventArgs args) {
@@ -598,11 +645,16 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 		get { return button_row_edit; }
 	}
 		
+	public Button Button_row_edit_apply {
+		set { hbox_combo_button = value; }
+		get { return hbox_combo_button; }
+	}
+		
 	public Button Button_row_delete {
 		set { button_row_delete = value; }
 		get { return button_row_delete; }
 	}
-		
+	
 	public string EntrySelected {
 		set { entry.Text = value; }
 		get { return entry.Text.ToString(); }
@@ -641,6 +693,10 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 	
 	public string TextviewSelected {
 		get { return Util.RemoveTab(textview.Buffer.Text); }
+	}
+
+	public string GetComboSelected {
+		get { return UtilGtk.ComboGetActive(combo); }
 	}
 	
 

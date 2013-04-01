@@ -430,6 +430,7 @@ public partial class ChronoJumpWindow
 		ArrayList bigArray = new ArrayList();
 		ArrayList a1 = new ArrayList();
 		ArrayList a2 = new ArrayList();
+		ArrayList a3 = new ArrayList();
 		
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.COMBOALLNONESELECTED); a1.Add(true); a1.Add("ALL");
@@ -437,6 +438,9 @@ public partial class ChronoJumpWindow
 		
 		a2.Add(Constants.GenericWindowShow.TREEVIEW); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
+	
+		a3.Add(Constants.GenericWindowShow.COMBO); a3.Add(true); a3.Add("");
+		bigArray.Add(a3);
 	
 		//add exercises to the combo (only the exercises done, and only unique)
 		ArrayList encoderExercisesNames = new ArrayList();
@@ -452,12 +456,25 @@ public partial class ChronoJumpWindow
 		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
+		
+		//find all persons in current session
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		string [] persons = new String[personsPre.Count];
+		count = 0;
+	        foreach	(Person p in personsPre)
+			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected curve") + 
+				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		genericWin.ShowCombo(false);
+		
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		//manage selected, unselected curves
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_show_curves_row_edit);
+		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_encoder_show_curves_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
 
 		//used when we don't need to read data, 
@@ -507,6 +524,23 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
 		Log.WriteLine("row edit at show curves");
 		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+		genericWin.ShowCombo(true);
+	}
+
+	protected void on_encoder_show_curves_row_edit_apply (object o, EventArgs args) {
+		Log.WriteLine("row edit apply at show curves");
+		Log.WriteLine("new person: " + genericWin.GetComboSelected);
+
+		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
+		if(newPersonID != currentPerson.UniqueID) {
+			int curveID = genericWin.TreeviewSelectedUniqueID;
+			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+
+			eSQL.ChangePerson(genericWin.GetComboSelected);
+			genericWin.RemoveSelectedRow();
+		}
+
+		genericWin.ShowCombo(false);
 	}
 	
 	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {

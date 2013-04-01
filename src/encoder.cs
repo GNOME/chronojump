@@ -330,6 +330,37 @@ public class EncoderSQL
 		return str;
 	}
 
+	//uniqueID:name
+	public void ChangePerson(string newIDAndName) {
+		int newPersonID = Util.FetchID(newIDAndName);
+		string newPersonName = Util.FetchName(newIDAndName);
+		string newFilename = filename;
+
+		personID = newPersonID;
+
+		/*
+		 * this can fail because person name can have an "-"
+		string [] filenameParts = filename.Split(new char[] {'-'});
+		filenameParts[0] = newPersonID.ToString();
+		filenameParts[1] = newPersonName;
+		//the rest will be the same: curveID, timestamp, extension 
+		filename = Util.StringArrayToString(filenameParts, "-");
+		*/
+
+		int nameStarts = newFilename.IndexOf("-") + 1;
+		int nameEnds = newFilename.IndexOf("-" + uniqueID, nameStarts);
+		newFilename = newFilename.Remove(0, nameEnds);
+		newFilename = newFilename.Insert(0, newPersonID  + "-" + newPersonName);
+		Log.WriteLine(newFilename);
+
+		bool success = false;
+		success = Util.FileMove(url, filename, newFilename);
+		if(success)
+			filename = newFilename;
+
+		//SqliteUpdate
+		SqliteEncoder.Update(false, this);
+	}
 }
 
 public class EncoderPersonCurvesInDB

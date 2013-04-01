@@ -1050,6 +1050,17 @@ public class Util
 		return false;
 	}
 	
+	public static bool FileMove(string path, string filenameOrigin, string filenameDestination) {
+		try {
+			File.Move(
+					path + Path.DirectorySeparatorChar + filenameOrigin, 
+					path + Path.DirectorySeparatorChar + filenameDestination
+					);
+			return true;
+		} catch {}
+		return false;
+	}
+	
 	public static bool FileExists(string fileName){
 		return File.Exists(fileName);
 	}

@@ -13821,7 +13821,7 @@ on current Chronojump version.</property>
                               <widget class="GtkLabel" id="label67">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Linear encoder</property>
+                                <property name="label" translatable="yes">Encoder</property>
                               </widget>
                               <packing>
                                 <property name="position">1</property>
@@ -14676,7 +14676,7 @@ Evaluator can use real name or nickname.</property>
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="radio_encoder">
-                            <property name="label" translatable="yes">Linear encoder</property>
+                            <property name="label" translatable="yes">Encoder</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
@@ -15355,7 +15355,7 @@ Just select and then close this window.</property>
               <widget class="GtkLabel" id="label9">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Linear encoder</property>
+                <property name="label" translatable="yes">Encoder</property>
               </widget>
               <packing>
                 <property name="position">1</property>

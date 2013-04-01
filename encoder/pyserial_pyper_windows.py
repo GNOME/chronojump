@@ -161,9 +161,9 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			start=bottom_values[len(bottom_values)-1]
 			end=top_values[len(top_values)-1]
 		
-		if(eccon == "c")
+		if eccon == "c":
 			myR.assign('smoothingOne',smoothingOneC)
-		else
+		else:
 			myR.assign('smoothingOne',smoothingOneEC)
 
 		myR.assign('a',temp[start:end])

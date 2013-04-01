@@ -907,14 +907,15 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#in x axis move a little every series to right in order to compare
 		seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
 
+		plot(x,y, xlab=varX, ylab="", type="n", axes=F)
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			colBalls[thisSerie] = uniqueColors[i]
 			#in x axis move a little every series to right in order to compare
-			x[thisSerie] = x[thisSerie] + seqX[i]
+			x[thisSerie] = x[thisSerie] + (seqX[i]/5)
 		}
 		
-		plot(x,y, xlab=varX, ylab="", pch=19, col=colBalls, cex=1.8, axes=F)
+		points(x,y, pch=19, col=colBalls, cex=1.8)
 		
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])

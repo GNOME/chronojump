@@ -27,59 +27,13 @@ using Gdk;
 //only Gtk related methods (not used bu the server) this is the differnece with Util
 public class UtilGtk
 {
-	/* howto find nice colors
-	 * open R
-	 * > colors()
-	 * if you like lightblue2 and red2 then:
-	 * > col2rgb(colors()[401])
-	 * > col2rgb(colors()[554])
+
+	/*
+	 *
+	 * COMBO
+	 *
 	 */
-	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
-	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
-	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
-	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
-	
-	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
-	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
-	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
-	
-	public static void ResizeIfNeeded(Gtk.Window win) {
-		int winX, winY;
-		win.GetSize(out winX, out winY);
-		int maxY = ScreenHeightFitted(true);
-		if(winY > maxY)
-			win.Resize(winX, maxY);
-	}
 
-	//(takes care)? of menu bar
-	public static int ScreenHeightFitted(bool fit) {
-		if(fit)
-			return ScreenHeight() -25;
-		else
-			return ScreenHeight();
-	}
-	
-	private static int ScreenHeight() {
-		//libmono-cairo2.0-cil
-		return Gdk.Display.Default.GetScreen(0).Height;
-	}
-	
-	public static int WidgetWidth(Gtk.Widget w) {
-		return w.Allocation.Width;
-	}
-	public static int WidgetHeight(Gtk.Widget w) {
-		return w.Allocation.Height;
-	}
-
-	public static void IconWindow(Gtk.Window myWindow) {
-		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);
-            	myWindow.Icon = chronojumpIcon;
-	}
-
-	public static void IconWindowGraph(Gtk.Window myWindow) {
-		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIconGraph);
-            	myWindow.Icon = chronojumpIcon;
-	}
 
 	public static string ComboGetActive(ComboBox myCombo) {
 		TreeIter iter;
@@ -184,6 +138,20 @@ public class UtilGtk
 		myCombo.AppendText (myData);
 	}
 
+	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBox combo) {
+		box.PackStart(combo, true, true, 0);
+		box.ShowAll();
+		combo.Sensitive = true;
+	}
+	
+
+	/*
+	 *
+	 * TREEVIEW
+	 *
+	 */
+
+
 	public static void CreateCols (Gtk.TreeView tv, Gtk.TreeStore store, 
 			string name, int verticalPos, bool visible) {
 		Gtk.TreeViewColumn myCol = new Gtk.TreeViewColumn (name, new CellRendererText(), "text", verticalPos);
@@ -230,12 +198,40 @@ public class UtilGtk
 		
 		return (val1-val2);
 	}
+	
+	public static Gtk.TreeStore RemoveRow (Gtk.TreeView tv, Gtk.TreeStore store) {
+		TreeModel model;
+		TreeIter iter1;
 
-	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBox combo) {
-		box.PackStart(combo, true, true, 0);
-		box.ShowAll();
-		combo.Sensitive = true;
+		if (tv.Selection.GetSelected (out model, out iter1)) {
+			store.Remove(ref iter1);
+		}
+		return store;
 	}
+
+
+
+	/*
+	 *
+	 * COLORS
+	 *
+	 */
+
+	/* howto find nice colors
+	 * open R
+	 * > colors()
+	 * if you like lightblue2 and red2 then:
+	 * > col2rgb(colors()[401])
+	 * > col2rgb(colors()[554])
+	 */
+	public static Gdk.Color WHITE = new Gdk.Color(0xff,0xff,0xff);
+	public static Gdk.Color BLACK = new Gdk.Color(0x00,0x00,0x00);
+	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
+	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
+	
+	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
+	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
+	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
 	
 
 	public static void ColorsMenuLabel(Gtk.Label l) {
@@ -286,6 +282,50 @@ public class UtilGtk
 		}
 	}
 
+	/*
+	 *
+	 * PRETTY THINGS
+	 *
+	 */
+
+	public static void ResizeIfNeeded(Gtk.Window win) {
+		int winX, winY;
+		win.GetSize(out winX, out winY);
+		int maxY = ScreenHeightFitted(true);
+		if(winY > maxY)
+			win.Resize(winX, maxY);
+	}
+
+	//(takes care)? of menu bar
+	public static int ScreenHeightFitted(bool fit) {
+		if(fit)
+			return ScreenHeight() -25;
+		else
+			return ScreenHeight();
+	}
+	
+	private static int ScreenHeight() {
+		//libmono-cairo2.0-cil
+		return Gdk.Display.Default.GetScreen(0).Height;
+	}
+	
+	public static int WidgetWidth(Gtk.Widget w) {
+		return w.Allocation.Width;
+	}
+	public static int WidgetHeight(Gtk.Widget w) {
+		return w.Allocation.Height;
+	}
+
+	public static void IconWindow(Gtk.Window myWindow) {
+		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIcon);
+            	myWindow.Icon = chronojumpIcon;
+	}
+
+	public static void IconWindowGraph(Gtk.Window myWindow) {
+		Gdk.Pixbuf chronojumpIcon = new Gdk.Pixbuf (null, Constants.FileNameIconGraph);
+            	myWindow.Icon = chronojumpIcon;
+	}
+
 
 	
 	public static TextBuffer TextViewPrint(string message) {
@@ -325,7 +365,13 @@ public class UtilGtk
 		l.TooltipText = Util.RemoveMarkup(s);
 	}
 
-	// -- drawingarea stuff
+
+	/*
+	 *
+	 * DRAWINGAREA
+	 *
+	 */
+
 	
 	public static void ErasePaint(Gtk.DrawingArea da, Gdk.Pixmap px) {
 		px.DrawRectangle (da.Style.WhiteGC, true, 0, 0, da.Allocation.Width, da.Allocation.Height);
@@ -343,7 +389,4 @@ public class UtilGtk
 	
 
 
-
-
-	// -- end of drawingarea stuff
 }

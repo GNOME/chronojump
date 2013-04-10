@@ -418,7 +418,7 @@ public partial class ChronoJumpWindow
 	
 		string [] columnsString = {
 			Catalog.GetString("ID"),
-			"",				//checkboxes
+			Catalog.GetString("Active"),	//checkboxes
 			Catalog.GetString("Curve"),
 			Catalog.GetString("Exercise"),
 			Catalog.GetString("Contraction"),
@@ -450,7 +450,10 @@ public partial class ChronoJumpWindow
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
-					currentPerson.Name), bigArray);
+					currentPerson.Name) + "\n" + 
+				Catalog.GetString("Activate the curves you want to use clicking on first column.") + "\n" +
+				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
+				bigArray);
 
 		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), true);
 		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
@@ -783,18 +786,44 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Comment")
 		};
 
-		genericWin = GenericWindow.Show(
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+		ArrayList a2 = new ArrayList();
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+	
+		a2.Add(Constants.GenericWindowShow.COMBO); a2.Add(true); a2.Add("");
+		bigArray.Add(a2);
+		
+		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
-					currentPerson.Name), Constants.GenericWindowShow.TREEVIEW);
+					currentPerson.Name) + "\n" + 
+				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), true);
+	
+		//find all persons in current session
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		string [] persons = new String[personsPre.Count];
+		count = 0;
+	        foreach	(Person p in personsPre)
+			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected curve") + 
+				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
+		genericWin.ShowCombo(false);
+	
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
 		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
 		genericWin.SetButtonAcceptSensitive(false);
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_load_signal_row_edit);
+		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_encoder_load_signal_row_edit_apply);
 		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
+
+		genericWin.ShowNow();
 	}
 	
 	protected void on_encoder_load_signal_accepted (object o, EventArgs args)
@@ -838,6 +867,25 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
 		Log.WriteLine("row edit at load signal");
 		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+		genericWin.ShowCombo(true);
+	}
+	
+	protected void on_encoder_load_signal_row_edit_apply (object o, EventArgs args) {
+		Log.WriteLine("row edit apply at load signal");
+		Log.WriteLine("new person: " + genericWin.GetComboSelected);
+
+		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
+		if(newPersonID != currentPerson.UniqueID) {
+			int curveID = genericWin.TreeviewSelectedUniqueID;
+			Log.WriteLine(curveID.ToString());
+
+			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+
+			eSQL.ChangePerson(genericWin.GetComboSelected);
+			genericWin.RemoveSelectedRow();
+		}
+
+		genericWin.ShowCombo(false);
 	}
 	
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {

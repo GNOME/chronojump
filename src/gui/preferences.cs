@@ -96,7 +96,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language)
+			string language, bool encoderPropulsive, double encoderSmoothEccCon, double encoderSmoothCon)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -172,7 +172,11 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_speed_ms.Active = true; 
 		else 
 			PreferencesWindowBox.radio_speed_km.Active = true; 
-		
+	
+		//encoder	
+		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
+		PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value = encoderSmoothEccCon;
+		PreferencesWindowBox.spin_encoder_smooth_con.Value = encoderSmoothCon;
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;

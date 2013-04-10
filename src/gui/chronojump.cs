@@ -2586,7 +2586,8 @@ public partial class ChronoJumpWindow
 				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-				SqlitePreferences.Select("language")
+				SqlitePreferences.Select("language"),
+				encoderPropulsive, encoderSmoothEccCon, encoderSmoothCon
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}

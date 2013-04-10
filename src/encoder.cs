@@ -347,11 +347,30 @@ public class EncoderSQL
 		filename = Util.StringArrayToString(filenameParts, "-");
 		*/
 
-		int nameStarts = newFilename.IndexOf("-") + 1;
-		int nameEnds = newFilename.IndexOf("-" + uniqueID, nameStarts);
-		newFilename = newFilename.Remove(0, nameEnds);
-		newFilename = newFilename.Insert(0, newPersonID  + "-" + newPersonName);
-		Log.WriteLine(newFilename);
+
+		/*
+		 * filename curve has personID-name-uniqueID-fulldate.txt
+		 * filename signal as personID-name-fulldate.txt
+		 * in both cases name can have '-' (fuck)
+		 * eg: filename curve:
+		 * 163-personname-840-2013-04-05_14-11-11.txt
+		 * filename signal
+		 * 163-personname-2013-04-05_14-03-45.txt
+		 *
+		 * then,
+		 * on curve:
+		 * last 23 letters are date and ".txt",
+		 * write newPersonID-newPersonName-uniqueID-last23letters
+		 * 
+		 * on signal:
+		 * last 23 letters are date and ".txt",
+		 * write newPersonID-newPersonName-last23letters
+		 */
+
+		if(signalOrCurve == "curve") 
+			newFilename = newPersonID + "-" + newPersonName + "-" + uniqueID + "-" + GetDate(false) + ".txt";
+		else 
+			newFilename = newPersonID + "-" + newPersonName + "-" + GetDate(false) + ".txt";
 
 		bool success = false;
 		success = Util.FileMove(url, filename, newFilename);

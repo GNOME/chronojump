@@ -488,7 +488,11 @@ class SqliteRunIntervalType : SqliteRunType
 			myRunType.FixedValue = Convert.ToInt32( reader[4].ToString() );
 			myRunType.Unlimited = Util.IntToBool(Convert.ToInt32(reader[5].ToString()));
 			myRunType.Description = reader[6].ToString();
+			
 			myRunType.DistancesString = Util.ChangeDecimalSeparator(reader[7].ToString());
+			//if it has no value sqlite reads it as 0, but should be ""
+			if(myRunType.DistancesString == "0")
+				myRunType.DistancesString = "";
 		}
 
 		myRunType.IsPredefined = myRunType.FindIfIsPredefined();

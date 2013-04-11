@@ -139,7 +139,12 @@ public partial class ChronoJumpWindow
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
+	
+	//for writing text
+	Pango.Layout layout_encoder_capture;
  
+	Gdk.GC pen_black_encoder_capture;
+	Gdk.GC pen_azul_encoder_capture;
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -1300,7 +1305,6 @@ public partial class ChronoJumpWindow
 	//I suppose reading gtk is ok, changing will be the problem
 	private void captureCsharp () 
 	{
-		Log.WriteLine("EEEEEEEEEEEEEEE");
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
 		bool capturedOk = runEncoderCaptureCsharp( 
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
@@ -1309,7 +1313,6 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_time.Value, 
 				Util.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort());
-		Log.WriteLine("FFFFFFFFFFFFFFF");
 	
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
@@ -1317,8 +1320,6 @@ public partial class ChronoJumpWindow
 		//will start calcule curves thread
 		if(capturedOk)
 			calculeCurves();
-
-		Log.WriteLine("F22222222222222");
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
@@ -1344,13 +1345,13 @@ public partial class ChronoJumpWindow
 		int height=encoder_capture_drawingarea.Allocation.Height;
 		double realHeight = 1000 * 2 * spin_encoder_capture_curves_height_range.Value;
 		
-		Log.WriteLine("00a 2");
+		Log.Write(" 00a 2 ");
 		SerialPort sp = new SerialPort(port);
-		Log.WriteLine("00b 2");
+		Log.Write(" 00b 2 ");
 		sp.BaudRate = 115200;
-		Log.WriteLine("00c 2");
+		Log.Write(" 00c 2 ");
 		sp.Open();
-		Log.WriteLine("00d 2");
+		Log.Write(" 00d 2 ");
 			
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
@@ -1399,9 +1400,9 @@ public partial class ChronoJumpWindow
 			}
 		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
 
-		Log.WriteLine("00e");
+		Log.Write(" 00e ");
 		sp.Close();
-		Log.WriteLine("00f");
+		Log.Write(" 00f ");
 
 		if(encoderProcessCancel)
 			return false;
@@ -2828,9 +2829,6 @@ Log.Write("l");
 
 		if(encoderCapturePoints != null) 
 		{
-			pen_azul = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
-			pen_azul.Foreground = UtilGtk.BLUE_PLOTS;
-					
 			//also can be optimized to do not erase window every time and only add points since last time
 			int last = encoderCapturePointsCaptured;
 			int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
@@ -2857,7 +2855,11 @@ Log.Write("l");
 
 			}
 
-			encoder_capture_pixmap.DrawPoints(pen_azul, paintPoints);
+			encoder_capture_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+			
+			layout_encoder_capture.SetMarkup(currentPerson.Name + " (" + 
+					spin_encoder_extra_weight.Value.ToString() + "Kg)");
+			encoder_capture_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture);
 
 			if(refreshAreaOnly) {
 				/*			
@@ -2958,6 +2960,20 @@ Log.Write("l");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
+				layout_encoder_capture = new Pango.Layout (encoder_capture_drawingarea.PangoContext);
+				layout_encoder_capture.FontDescription = 
+					Pango.FontDescription.FromString ("Courier 10");
+
+				pen_black_encoder_capture = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
+				pen_azul_encoder_capture = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
+
+				Gdk.Colormap colormap = Gdk.Colormap.System;
+				colormap.AllocColor (ref UtilGtk.BLACK,true,true);
+				colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+				
+				pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
+				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
+
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 				Log.WriteLine("DDDDDDDDDDDDDDD");

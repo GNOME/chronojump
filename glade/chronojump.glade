@@ -12524,7 +12524,7 @@ on current Chronojump version.</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkProgressBar" id="encoder_pulsebar_capture">
-                                                            <property name="width_request">125</property>
+                                                            <property name="width_request">150</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="activity_mode">True</property>

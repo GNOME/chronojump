@@ -55,7 +55,7 @@ options=getOptionsFromFile(optionsFile);
 
 print(options)
 
-OutputData2=options[4] #currently used to display status
+OutputData2=options[4] #currently used to display processing feedback
 OperatingSystem=options[18]
 
 write("(1/5) Starting R", OutputData2)
@@ -1076,7 +1076,7 @@ doProcess <- function(options) {
 	File=options[1]
 	OutputGraph=options[2]
 	OutputData1=options[3]
-	OutputData2=options[4] #currently used to display status
+	OutputData2=options[4] #currently used to display processing feedback
 	MinHeight=as.numeric(options[5])*10 #from cm to mm
 	ExercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
 	Mass=as.numeric(options[7])

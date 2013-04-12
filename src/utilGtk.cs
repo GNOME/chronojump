@@ -209,6 +209,13 @@ public class UtilGtk
 		return store;
 	}
 
+	public static Gtk.TreeView RemoveColumns(Gtk.TreeView tv) {
+		Gtk.TreeViewColumn [] myColumns = tv.Columns;
+		foreach (Gtk.TreeViewColumn column in myColumns) {
+			tv.RemoveColumn (column);
+		}
+		return tv;
+	}
 
 
 	/*

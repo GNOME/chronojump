@@ -195,6 +195,7 @@ FILES = \
  	treeViewReactionTime.cs\
  	treeViewMultiChronopic.cs\
  	util.cs\
+ 	utilAll.cs\
  	utilDate.cs\
 	utilGtk.cs\
 	constants.cs\
@@ -214,8 +215,7 @@ FILES = \
 CHRONOJUMP_MINI_FILES=\
 	chronojump_mini.cs\
 	chronopic.cs\
-	encoder.cs\
-	util.cs\
+	utilAll.cs\
 	utilDate.cs\
 	log.cs\
 	constants.cs

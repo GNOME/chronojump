@@ -208,7 +208,7 @@ public partial class ChronoJumpWindow
 		eventExecuteHideAllTables();
 		eventExecuteHideImages();
 		
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			event_execute_rightMargin = 50;
 			event_execute_arcSystemCorrection = 1;
 		}

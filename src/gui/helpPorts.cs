@@ -51,7 +51,7 @@ public class HelpPorts
 		string messageDetected = "";
 		
 		
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
 
 			/*
@@ -66,7 +66,7 @@ public class HelpPorts
 			messageDetected = string.Format(Catalog.GetString("Auto-Detection currently disabled"));
 		} else {
 			messageInfo = Constants.PortNamesLinux;
-			messageDetected = Util.DetectPortsLinux(true); //formatting
+			messageDetected = UtilAll.DetectPortsLinux(true); //formatting
 			button_check_port.Hide();
 			button_force_port.Hide();
 		}
@@ -76,7 +76,7 @@ public class HelpPorts
 		label_detected.Text = messageDetected;
 		label_detected.UseMarkup = true;
 	
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			label_help_info.Text = 
 				Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'.") + "\n\n" + 
 				Catalog.GetString("Ports above COM4 may not work.") + "\n" + 

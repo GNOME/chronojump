@@ -103,7 +103,7 @@ public class PreferencesWindow {
 		}
 
 		//PreferencesWindowBox.languageIni = language;
-		//if(Util.IsWindows())
+		//if(UtilAll.IsWindows())
 		//	PreferencesWindowBox.createComboLanguage(language);
 		//else 
 			PreferencesWindowBox.hideLanguageStuff();
@@ -204,7 +204,7 @@ public class PreferencesWindow {
 		if(!found)
 			combo_language.Active = UtilGtk.ComboMakeActive(Constants.Languages, Util.GetLanguageName(Constants.LanguageDefault));
 		
-		//if(Util.IsWindows())
+		//if(UtilAll.IsWindows())
 		//	combo_language.Sensitive = true;
 		//else 
 			combo_language.Sensitive = false;
@@ -376,7 +376,7 @@ public class PreferencesWindow {
 		Sqlite.Close();
 		
 		/*
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			//if language has changed
 			if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
 				string myLanguage = SqlitePreferences.Select("language");

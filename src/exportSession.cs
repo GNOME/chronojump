@@ -141,7 +141,7 @@ public class ExportSession
 	{
 		int posOfDot = myFile.LastIndexOf('.');
 		if (posOfDot == -1) {
-			if(Util.IsWindows())
+			if(UtilAll.IsWindows())
 				myFile += ".htm";
 			else
 				myFile += ".html";

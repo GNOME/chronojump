@@ -303,7 +303,7 @@ public class EncoderSQL
 			in windows is separated by '\'
 			but R needs always '/', then do the conversion
 		 */
-		if(convertPathToR && Util.IsWindows())
+		if(convertPathToR && UtilAll.IsWindows())
 			str = str.Replace("\\","/");
 
 		return str;

@@ -30,20 +30,20 @@ public class UtilDate
 	//we use Year, Month and Day for not having any problem with locale
 	public static string ToSql (DateTime dt)
 	{
-		return Util.DigitsCreate(dt.Year,4) + "-" + 
-			Util.DigitsCreate(dt.Month,2) + "-" + 
-			Util.DigitsCreate(dt.Day,2);
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + 
+			UtilAll.DigitsCreate(dt.Month,2) + "-" + 
+			UtilAll.DigitsCreate(dt.Day,2);
 	}
 	
 	//records date & time, useful to backup database without having strange chars on filename
 	public static string ToFile (DateTime dt)
 	{
-		return Util.DigitsCreate(dt.Year,4) + "-" + 
-			Util.DigitsCreate(dt.Month,2) + "-" + 
-			Util.DigitsCreate(dt.Day,2) + "_" +
-			Util.DigitsCreate(dt.Hour,2) + "-" + 
-			Util.DigitsCreate(dt.Minute,2) + "-" + 
-			Util.DigitsCreate(dt.Second,2);
+		return UtilAll.DigitsCreate(dt.Year,4) + "-" + 
+			UtilAll.DigitsCreate(dt.Month,2) + "-" + 
+			UtilAll.DigitsCreate(dt.Day,2) + "_" +
+			UtilAll.DigitsCreate(dt.Hour,2) + "-" + 
+			UtilAll.DigitsCreate(dt.Minute,2) + "-" + 
+			UtilAll.DigitsCreate(dt.Second,2);
 	}
 
 

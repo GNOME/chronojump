@@ -146,7 +146,7 @@ public class ChronopicWindow
 			
 		UtilGtk.IconWindow(chronopic_window);
 
-		if(Util.IsWindows())
+		if(UtilAll.IsWindows())
 			isWindows = true;
 		else
 			isWindows = false;

@@ -1392,7 +1392,7 @@ public class Stat
 			cexAxisString = ", cex.axis=" + Util.ConvertToPoint(gRO.XAxisFontSize);
 		
 		string rString = "";
-		if(Util.IsWindows()) 
+		if(UtilAll.IsWindows()) 
 			rString = "library(\"Cairo\")\n" + 
 				"Cairo(" + gRO.Width + ", " + gRO.Height + 
 				", file = '" + fileName + "', type=\"png\", bg=\"white\")\n";

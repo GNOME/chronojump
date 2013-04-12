@@ -71,7 +71,7 @@ public class ChronoJump
 */
 
 		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"../../");
-		if(Util.IsWindows())
+		if(UtilAll.IsWindows())
 			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
 
 		//this call has to be done to chronojump.prg
@@ -355,7 +355,7 @@ Log.WriteLine("doing backup");
 		allSQLCallsDoneOnSqliteThingsThread = true;
 		Log.WriteLine("all SQL calls done on sqliteThings thread");
 		
-		Util.IsWindows();	//only as additional info here
+		UtilAll.IsWindows();	//only as additional info here
 		
 		//Application.Init();
 		
@@ -568,7 +568,7 @@ Console.WriteLine("--6--");
 			
 		string crashLogFile = Log.GetLast().Replace(".txt", "-crash.txt");
 		//on vista there's no crash file because redirection is forbidden
-		if(Util.IsWindows() && File.Exists(crashLogFile)) 
+		if(UtilAll.IsWindows() && File.Exists(crashLogFile)) 
 			windowsTextLog = "\n" + crashLogFile;
 			*/
 
@@ -674,7 +674,7 @@ Console.WriteLine("--6--");
 			pid = pid.TrimEnd(new char[1] {'\n'});
 			
 			string searchName = "mono";
-			if(Util.IsWindows())
+			if(UtilAll.IsWindows())
 				searchName = "Chronojump";
 						
 			Process [] pids = Process.GetProcessesByName(searchName);

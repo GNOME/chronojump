@@ -53,7 +53,7 @@ public class LanguageWindow
 		LanguageWindowBox.createComboLanguage();
 
 		/*
-		if(! Util.IsWindows())
+		if(! UtilAll.IsWindows())
 			LanguageWindowBox.label_linux_restart.Text =
 				Catalog.GetString("On GNU/Linux you will need to restart Chronojump");
 		*/
@@ -75,7 +75,7 @@ public class LanguageWindow
 
 		combo_language.Active = UtilGtk.ComboMakeActive(Util.GetLanguagesNames(), Util.GetLanguageName(Constants.LanguageDefault));
 
-		//if(Util.IsWindows())
+		//if(UtilAll.IsWindows())
 			combo_language.Sensitive = true;
 		//else 
 		//	combo_language.Sensitive = false;

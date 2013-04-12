@@ -6,7 +6,8 @@ SUBDIRS = chronopic-firmware \
 	encoder libcesarplayer CesarPlayer rdotnet src po manual
 
 if OSTYPE_LINUX
- SUBDIRS += chronopic-tests chronojump_server
+#SUBDIRS += chronopic-tests chronojump_server
+ SUBDIRS += chronojump_server
 endif
 
 if OSTYPE_WINDOWS

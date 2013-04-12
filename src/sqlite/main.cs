@@ -220,7 +220,7 @@ class Sqlite
 	{
 		Log.WriteLine(connectionString);
 
-		string applicationDataDir = Util.GetApplicationDataDir();
+		string applicationDataDir = UtilAll.GetApplicationDataDir();
 
 		if(!Directory.Exists(applicationDataDir)) {
 			Log.WriteLine("creating dir 1...");
@@ -365,7 +365,7 @@ class Sqlite
 		//string sqlite3Str = "";
 		string extension = "";
 		try {
-			if(Util.IsWindows()) {
+			if(UtilAll.IsWindows()) {
 				myPath = Constants.UtilProgramsWindows;
 				extension = Constants.ExtensionProgramsWindows;
 				sqliteStr = "sqlite.exe";
@@ -1250,7 +1250,7 @@ class Sqlite
 		if(myPort == "0") {
 			//if doesn't exist (for any reason, like old database)
 			dbcon.Open();
-			if(Util.IsWindows() || creatingBlankDatabase)
+			if(UtilAll.IsWindows() || creatingBlankDatabase)
 				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 			else
 				SqlitePreferences.Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);

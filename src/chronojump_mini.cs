@@ -69,7 +69,7 @@ class ChronoJumpMini {
 		Catalog.Init ("chronojump", "./locale");
 
 		//parameters passing only on linux
-		if(! Util.IsWindows()) {
+		if(! UtilAll.IsWindows()) {
 			if(args.Length > 2) 
 				printSyntaxAndQuit();
 
@@ -90,7 +90,7 @@ class ChronoJumpMini {
 		string messageInfo;
 		//string messageDetected ="";
 
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			messageInfo = Constants.PortNamesWindows;
 			/*
 			messageDetected = Catalog.GetString("Detected ports:") + "\n";
@@ -112,8 +112,8 @@ class ChronoJumpMini {
 		Console.WriteLine("---------------------------");
 
 		if(portName == "") {
-			if( ! Util.IsWindows()) {
-				Console.WriteLine(Util.DetectPortsLinux(false)); //formatting
+			if( ! UtilAll.IsWindows()) {
+				Console.WriteLine(UtilAll.DetectPortsLinux(false)); //formatting
 			}
 			Console.WriteLine(Catalog.GetString("Print the port name where chronopic is connected:"));
 			portName=Console.ReadLine();
@@ -244,7 +244,7 @@ class ChronoJumpMini {
 	static void printSyntaxAndQuit() {
 		Console.WriteLine(Catalog.GetString("Invalid args. Use:"));
 
-		if(Util.IsWindows()) {
+		if(UtilAll.IsWindows()) {
 			Console.WriteLine("chronojump_mini.bat [PORT=portName>] [FILE=outputFile]");
 			Console.WriteLine(Catalog.GetString("Examples:"));
 			Console.WriteLine("chronojump_mini.bat");
@@ -290,7 +290,7 @@ class ChronoJumpMini {
 	}
 
 	static string getOutputDir() {
-		return Util.GetApplicationDataDir();
+		return UtilAll.GetApplicationDataDir();
 	}
 
 	static string getFileName() {

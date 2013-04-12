@@ -60,7 +60,7 @@ public class Server
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 			string machineID = SqlitePreferences.Select("machineID");
 
-			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, Util.GetOS(), 
+			ServerPing myPing = new ServerPing(evalSID, progName + " " + progVersion, UtilAll.GetOS(), 
 					//getIP(), DateTime.Now); //evaluator IP, date
 					machineID, DateTime.Now); //evaluator machineID, date
 
@@ -170,7 +170,7 @@ public class Server
 			int state = (int) Constants.ServerSessionStates.UPLOADINGSESSION;
 			//create ServerSession based on Session currentSession
 			ServerSession serverSession = new ServerSession(currentSession, evalSID, progName + " " + progVersion, 
-					Util.GetOS(), DateTime.Now, state); 
+					UtilAll.GetOS(), DateTime.Now, state); 
 
 			//if uploading session for first time
 			if(currentSession.ServerUniqueID == Constants.ServerUndefinedID) 

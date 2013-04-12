@@ -880,7 +880,7 @@ public partial class ChronoJumpWindow
 
 
 		//change language works on windows. On Linux let's change the locale
-		//if(Util.IsWindows())
+		//if(UtilAll.IsWindows())
 		//	languageChange();
 
 		//pass to report
@@ -1246,7 +1246,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_menuitem_goto_server_website (object o, EventArgs args) {
-		if(Util.IsWindows())
+		if(UtilAll.IsWindows())
 			new DialogMessage(Constants.MessageTypes.INFO, 
 					"http://www.chronojump.org/server.html" + "\n" + 
 					"http://www.chronojump.org/server_es.html");
@@ -2152,7 +2152,7 @@ public partial class ChronoJumpWindow
 
 	private void on_quit1_activate (object o, EventArgs args) {
 		/*
-		if(chronopicCancelledTimes > 0 && Util.IsWindows()) {
+		if(chronopicCancelledTimes > 0 && UtilAll.IsWindows()) {
 			confirmWinJumpRun = ConfirmWindowJumpRun.Show( 
 					Catalog.GetString("Attention, current version of Chronojump gets hanged on exit\nif user has cancelled detection of Chronopic."),
 					Catalog.GetString("Sorry, you will have to close Chronojump using CTRL + ALT + DEL."));
@@ -2675,7 +2675,7 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 
 		//change language works on windows. On Linux let's change the locale
-		//if(Util.IsWindows()) 
+		//if(UtilAll.IsWindows()) 
 		//	languageChange();
 		
 

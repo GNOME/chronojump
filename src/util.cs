@@ -103,16 +103,6 @@ public class Util
 			return Math.Round(Convert.ToDouble(time), prefsDigitsNumber).ToString();
 	}
 
-	//if passed (number=1, digits=4)
-	//takes 1 and returns "0001" 
-	public static string DigitsCreate (int number, int digits)
-	{
-		string str = number.ToString();
-		while(str.Length < digits)
-			str = "0" + str;
-		return str;
-	}
-	
 	public static double GetMax (string values)
 	{
 		string [] myStringFull = values.Split(new char[] {'='});
@@ -700,25 +690,6 @@ public class Util
 		return (myInt % 2 == 0); //check if it's even (in spanish "par")
 	}
 
-	//Adapted from Mono. A developer's notebook. p 244
-	
-	//this is used in chronojump for working with the ports,
-	//in chronojump we compile now for Linux with Mono and for Windows with .NET
-	//it should be something like IsDotNet()
-	public static bool IsWindows() {
-		string os = GetOS();
-		if(os.ToUpper().StartsWith("WIN"))
-			return true;
-		else 
-			return false;
-	}
-	
-	public static string GetOS() {
-		OperatingSystem os = Environment.OSVersion;
-		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
-		return osString;
-	}
-	
 	public static string GetReallyOldDatabaseDir() {
 		return Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".chronojump";
 	}
@@ -731,13 +702,7 @@ public class Util
 		
 		return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "database";
 	}
-	
-	public static string GetApplicationDataDir() {
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump");
-	}
-	
+
 	public static string GetDatabaseDir() {
 		//fixing:
 		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
@@ -971,7 +936,7 @@ public class Util
 	
 	
 	private static string getEncoderScriptCapture() {
-		if(IsWindows())
+		if(UtilAll.IsWindows())
 			return System.IO.Path.Combine(GetPrefixDir(), 
 				"bin" + Path.DirectorySeparatorChar + "encoder", Constants.EncoderScriptCaptureWindows);
 		else
@@ -1096,7 +1061,7 @@ public class Util
 		if (File.Exists(outputFile))
 			File.Delete(outputFile);
  
-		if (IsWindows())
+		if (UtilAll.IsWindows())
 			rBin=System.IO.Path.Combine(GetPrefixDir(), "bin/R.exe");
 
 		pinfo = new ProcessStartInfo();
@@ -1137,7 +1102,7 @@ public class Util
 		on linux we execute python and call to the py file
 		also on windows we need the full path to find R
 		*/
-		if (IsWindows()) {
+		if (UtilAll.IsWindows()) {
 			pBin=getEncoderScriptCapture();
 			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port 
 				+ " " + changeSpaceToSpaceMark(
@@ -1185,7 +1150,7 @@ public class Util
 			
 		pBin="Rscript";
 		//pBin="R";
-		if (IsWindows()) {
+		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces
 			pBin = "\"" + System.IO.Path.Combine(GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
 			Log.WriteLine("pBin:" + pBin);
@@ -1210,7 +1175,7 @@ public class Util
 		writer.Flush();
 		((IDisposable)writer).Dispose();
 		
-		if (IsWindows()) {
+		if (UtilAll.IsWindows()) {
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
 			optionsFile = optionsFile.Replace("\\","/");
@@ -1458,7 +1423,7 @@ public class Util
 
 	public static string GetImagePath(bool mini) {
 		string returnString = "";
-		if (Util.IsWindows()) {
+		if (UtilAll.IsWindows()) {
 			if (mini) {
 				returnString = Constants.ImagesMiniWindows;
 			} else {
@@ -1475,7 +1440,7 @@ public class Util
 	}
 		
 	public static string GetGladePath() {
-		if (Util.IsWindows())
+		if (UtilAll.IsWindows())
 			return Constants.GladeWindows;
 		else
 			return Constants.GladeLinux;
@@ -1693,39 +1658,10 @@ public class Util
 		return myString.Trim('-');
 	}
 */
-	
-	public static string DetectPortsLinux(bool formatting) {
-		string startStr = "";
-		string midStr = "\n";
-		string endStr = "";
-		if(formatting) {
-			startStr = "<i>";
-			midStr = "\t";
-			endStr = "</i>";
-		}
-		string detected = "";
-		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
-		if(usbSerial.Length > 0) {
-			detected += Constants.FoundUSBSerialPortsString + " " + usbSerial.Length + "\n" + startStr;
-			foreach(string myPort in usbSerial)
-				detected += midStr + myPort;
-			detected += endStr;
-		} 
-		/*
-		   else {
-			detected += Constants.NotFoundUSBSerialPortsString + "\n";
-			string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-			detected += Constants.FoundSerialPortsString + " " + serial.Length + "\n" + startStr;
-			foreach(string myPort in serial)
-				detected += midStr + myPort;
-			detected += endStr;
-		}
-		*/
-		return detected;
-	}
+
 
 	public static string GetDefaultPort() {
-		if(Util.IsWindows())
+		if(UtilAll.IsWindows())
 			return Constants.ChronopicDefaultPortWindows;
 		else
 			return Constants.ChronopicDefaultPortLinux;

@@ -39,7 +39,7 @@ class SqlitePreferences : Sqlite
 	{
 		Insert ("databaseVersion", databaseVersion); 
 			
-		if(Util.IsWindows() || creatingBlankDatabase)
+		if(UtilAll.IsWindows() || creatingBlankDatabase)
 			Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
 		else
 			Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);

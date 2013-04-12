@@ -23,6 +23,7 @@ FILES = \
 	BCrypt.cs\
 	../src/sqlite/*.cs\
 	../src/util.cs\
+	../src/utilAll.cs\
 	../src/utilDate.cs\
 	../src/encoder.cs\
 	../src/event.cs\

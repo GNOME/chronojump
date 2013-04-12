@@ -372,6 +372,36 @@ class SqliteSession : Sqlite
 		}
 		reader_mcs.Close();
 	
+		//select encoder signal of each session
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
+			" WHERE signalOrCurve == 'signal' GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader_enc_s;
+		reader_enc_s = dbcmd.ExecuteReader();
+		ArrayList myArray_enc_s = new ArrayList(2);
+		
+		while(reader_enc_s.Read()) {
+			myArray_enc_s.Add (reader_enc_s[0].ToString() + ":" + reader_enc_s[1].ToString() + ":" );
+		}
+		reader_enc_s.Close();
+	
+		//select encoder curve of each session
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
+			" WHERE signalOrCurve == 'curve' GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader_enc_c;
+		reader_enc_c = dbcmd.ExecuteReader();
+		ArrayList myArray_enc_c = new ArrayList(2);
+		
+		while(reader_enc_c.Read()) {
+			myArray_enc_c.Add (reader_enc_c[0].ToString() + ":" + reader_enc_c[1].ToString() + ":" );
+		}
+		reader_enc_c.Close();
+	
 		
 		//close database connection
 		dbcon.Close();
@@ -468,6 +498,28 @@ class SqliteSession : Sqlite
 			found = false;
 			foreach (string line_mcs in myArray_mcs) {
 				string [] myStringFull = line_mcs.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+
+			//add encoder signal for each session
+			found = false;
+			foreach (string line_enc_s in myArray_enc_s) {
+				string [] myStringFull = line_enc_s.Split(new char[] {':'});
+				if(myStringFull[0] == mixingSessionID) {
+					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
+					found = true;
+				}
+			}
+			if (!found) { lineNotReadOnly  = lineNotReadOnly + ":0"; }
+
+			//add encoder curve for each session
+			found = false;
+			foreach (string line_enc_c in myArray_enc_c) {
+				string [] myStringFull = line_enc_c.Split(new char[] {':'});
 				if(myStringFull[0] == mixingSessionID) {
 					lineNotReadOnly  = lineNotReadOnly + ":" + myStringFull[1];
 					found = true;

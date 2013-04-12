@@ -641,6 +641,8 @@ public class SessionLoadWindow {
 	private string selected;
 	[Widget] Gtk.TreeView treeview_session_load;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.CheckButton checkbutton_show_data_jump_run;
+	[Widget] Gtk.CheckButton checkbutton_show_data_encoder;
 
 	static SessionLoadWindow SessionLoadWindowBox;
 	Gtk.Window parent;
@@ -656,18 +658,51 @@ public class SessionLoadWindow {
 		//put an icon to window
 		UtilGtk.IconWindow(session_load);
 		
-		createTreeView(treeview_session_load);
-		store = new TreeStore(typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof (string), typeof (string), typeof (string), typeof(string), 
-				typeof (string), typeof (string), typeof (string),
-				typeof (string), typeof (string), typeof (string), typeof(string) );
+		createTreeView(treeview_session_load, false, false);
+		store = getStore(false, false);
 		treeview_session_load.Model = store;
-		fillTreeView(treeview_session_load,store);
+		fillTreeView(treeview_session_load, store, false, false);
 
 		button_accept.Sensitive = false;
 
 		treeview_session_load.Selection.Changed += onSelectionEntry;
 	}
+
+	private TreeStore getStore(bool showContacts, bool showEncoder) {
+		TreeStore s;
+		if(showContacts && showEncoder)
+			s = new TreeStore(
+				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
+				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
+				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
+				typeof (string), typeof (string), 			//encoder s, c
+				typeof (string)						//comments
+			       	);
+		else if(showContacts && ! showEncoder)
+			s = new TreeStore(
+				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
+				typeof (string), typeof (string), typeof (string), typeof(string), //jumps s,r, runs s, i, 
+				typeof (string), typeof (string), typeof (string), 	//rt, pulses, mc
+				typeof (string)						//comments
+			       	);
+		else if(! showContacts && showEncoder)
+			s = new TreeStore(
+				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
+				typeof (string), typeof (string), 			//encoder s, c
+				typeof (string)						//comments
+			       	);
+		else // ! showContacts && ! showEncoder
+			s = new TreeStore(
+				typeof (string), typeof (string), typeof (string), typeof (string), //number, name, place, date
+				typeof (string), typeof (string), typeof (string), typeof (string), //persons, sport, spllity, level
+				typeof (string)						//comments
+			       	);
+		return s;
+	}
+
 	
 	static public SessionLoadWindow Show (Gtk.Window parent)
 	{
@@ -679,7 +714,7 @@ public class SessionLoadWindow {
 		return SessionLoadWindowBox;
 	}
 	
-	private void createTreeView (Gtk.TreeView tv) {
+	private void createTreeView (Gtk.TreeView tv, bool showContacts, bool showEncoder) {
 		tv.HeadersVisible=true;
 		int count = 0;
 		
@@ -691,17 +726,44 @@ public class SessionLoadWindow {
 		tv.AppendColumn ( Catalog.GetString ("Sport"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Speciallity"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Level"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Runs simple"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Runs interval"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
+		if(showContacts) {
+			tv.AppendColumn ( Catalog.GetString ("Jumps simple"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Jumps reactive"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Runs simple"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Runs interval"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Reaction time"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
+		}
+		if(showEncoder) {
+			tv.AppendColumn ( Catalog.GetString ("Encoder signals"), new CellRendererText(), "text", count++);
+			tv.AppendColumn ( Catalog.GetString ("Encoder curves"), new CellRendererText(), "text", count++);
+		}
 		tv.AppendColumn ( Catalog.GetString ("Comments"), new CellRendererText(), "text", count++);
 	}
 	
-	private void fillTreeView (Gtk.TreeView tv, TreeStore store) 
+	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
+		Log.WriteLine("jump run " + checkbutton_show_data_jump_run.Active.ToString());
+		recreateTreeView();	
+	}
+	void on_checkbutton_show_data_encoder_toggled (object o, EventArgs args) {
+		Log.WriteLine("encoder " + checkbutton_show_data_encoder.Active.ToString());
+		recreateTreeView();	
+	}
+
+	void recreateTreeView() {
+		UtilGtk.RemoveColumns(treeview_session_load);
+		
+		createTreeView(treeview_session_load, 
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder.Active);
+		store = getStore(
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder.Active);
+		treeview_session_load.Model = store;
+		fillTreeView(treeview_session_load, store,
+				checkbutton_show_data_jump_run.Active, checkbutton_show_data_encoder.Active);
+	}
+
+	private void fillTreeView (Gtk.TreeView tv, TreeStore store, bool showContacts, bool showEncoder) 
 	{
 		string [] mySessions = SqliteSession.SelectAllSessions(); //returns a string of values separated by ':'
 		foreach (string session in mySessions) {
@@ -720,22 +782,64 @@ public class SessionLoadWindow {
 			if (myStringFull[6] != Catalog.GetString(Constants.LevelUndefined)) 
 				myLevel = Catalog.GetString(myStringFull[6]);
 
-			store.AppendValues (myStringFull[0], myStringFull[1], 
-					myStringFull[2], 
-					myStringFull[3],	//session date
-					myStringFull[8],	//number of jumpers x session
-					mySport,		//personsSport
-					mySpeciallity,		//personsSpeciallity
-					myLevel,		//personsLevel
-					myStringFull[9],	//number of jumps x session
-					myStringFull[10],	//number of jumpsRj x session
-					myStringFull[11], 	//number of runs x session
-					myStringFull[12], 	//number of runsInterval x session
-					myStringFull[13], 	//number of reaction times x session
-					myStringFull[14], 	//number of pulses x session
-					myStringFull[15], 	//number of multiChronopics x session
-					myStringFull[7]		//description of session
-					);
+			if(showContacts && showEncoder)
+				store.AppendValues (myStringFull[0], myStringFull[1], 
+						myStringFull[2], 
+						myStringFull[3],	//session date
+						myStringFull[8],	//number of jumpers x session
+						mySport,		//personsSport
+						mySpeciallity,		//personsSpeciallity
+						myLevel,		//personsLevel
+						myStringFull[9],	//number of jumps x session
+						myStringFull[10],	//number of jumpsRj x session
+						myStringFull[11], 	//number of runs x session
+						myStringFull[12], 	//number of runsInterval x session
+						myStringFull[13], 	//number of reaction times x session
+						myStringFull[14], 	//number of pulses x session
+						myStringFull[15], 	//number of multiChronopics x session
+						myStringFull[16], 	//number of encoder signal x session
+						myStringFull[17], 	//number of encoder curve x session
+						myStringFull[7]		//description of session
+						);
+			else if(showContacts && ! showEncoder)
+				store.AppendValues (myStringFull[0], myStringFull[1], 
+						myStringFull[2], 
+						myStringFull[3],	//session date
+						myStringFull[8],	//number of jumpers x session
+						mySport,		//personsSport
+						mySpeciallity,		//personsSpeciallity
+						myLevel,		//personsLevel
+						myStringFull[9],	//number of jumps x session
+						myStringFull[10],	//number of jumpsRj x session
+						myStringFull[11], 	//number of runs x session
+						myStringFull[12], 	//number of runsInterval x session
+						myStringFull[13], 	//number of reaction times x session
+						myStringFull[14], 	//number of pulses x session
+						myStringFull[15], 	//number of multiChronopics x session
+						myStringFull[7]		//description of session
+						);
+			else if(! showContacts && showEncoder)
+				store.AppendValues (myStringFull[0], myStringFull[1], 
+						myStringFull[2], 
+						myStringFull[3],	//session date
+						myStringFull[8],	//number of jumpers x session
+						mySport,		//personsSport
+						mySpeciallity,		//personsSpeciallity
+						myLevel,		//personsLevel
+						myStringFull[16], 	//number of encoder signal x session
+						myStringFull[17], 	//number of encoder curve x session
+						myStringFull[7]		//description of session
+						);
+			else // ! showContacts && ! showEncoder
+				store.AppendValues (myStringFull[0], myStringFull[1], 
+						myStringFull[2], 
+						myStringFull[3],	//session date
+						myStringFull[8],	//number of jumpers x session
+						mySport,		//personsSport
+						mySpeciallity,		//personsSpeciallity
+						myLevel,		//personsLevel
+						myStringFull[7]		//description of session
+						);
 		}	
 
 	}
@@ -767,7 +871,7 @@ public class SessionLoadWindow {
 			button_accept.Activate();
 		}
 	}
-
+	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(selected != "-1") {

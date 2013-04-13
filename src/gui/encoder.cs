@@ -78,6 +78,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_analyze_data_compare;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_data_compare;
 	[Widget] Gtk.Button button_encoder_analyze_data_compare;
+	
+	[Widget] Gtk.Button button_encoder_analyze_image_save;
 
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
@@ -916,7 +918,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
-		checkFile();
+		checkFile(Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES);
 	}
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
@@ -962,9 +964,19 @@ public partial class ChronoJumpWindow
 	}
 
 	string exportFileName;	
-	protected void checkFile ()
+	protected void checkFile (Constants.EncoderCheckFileOp checkFileOp)
 	{
-		string exportString = Catalog.GetString ("Export session in format CSV");
+		string exportString = ""; 
+		if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+			exportString = Catalog.GetString ("Export session in format CSV");
+		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+			exportString = Catalog.GetString ("Save image");
+		
+		string nameString = ""; 
+		if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+			nameString = "encoder_export.csv";
+		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+			nameString = "encoder_image.png";
 		
 		Gtk.FileChooserDialog fc=
 			new Gtk.FileChooserDialog(exportString,
@@ -973,12 +985,14 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Cancel"),ResponseType.Cancel,
 					Catalog.GetString("Export"),ResponseType.Accept
 					);
+		fc.CurrentName = nameString;
 
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
 			exportFileName = fc.Filename;
 			//add ".csv" if needed
-			exportFileName = Util.AddCsvIfNeeded(exportFileName);
+			if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+				exportFileName = Util.AddCsvIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
 					Log.WriteLine(string.Format(
@@ -990,18 +1004,30 @@ public partial class ChronoJumpWindow
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite file: "), "", 
 							exportFileName);
-					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
-				} else {
-					on_button_encoder_export_all_curves_file_selected (exportFileName);
 
-					string myString = string.Format(Catalog.GetString("Exported to {0}"), 
-							exportFileName) + Constants.SpreadsheetString;
+					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+						confirmWin.Button_accept.Clicked += 
+							new EventHandler(on_overwrite_file_export_all_curves_accepted);
+					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+						confirmWin.Button_accept.Clicked += 
+							new EventHandler(on_overwrite_file_encoder_save_image_accepted);
+
+				} else {
+					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+						on_button_encoder_export_all_curves_file_selected (exportFileName);
+					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
+						on_button_encoder_save_image_file_selected (exportFileName);
+
+					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
+							exportFileName);
+					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+				       		myString += Constants.SpreadsheetString;
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}
 			} 
 			catch {
 				string myString = string.Format(
-						Catalog.GetString("Cannot export to file {0} "), exportFileName);
+						Catalog.GetString("Cannot save file {0} "), exportFileName);
 				new DialogMessage(Constants.MessageTypes.WARNING, myString);
 			}
 		}
@@ -1018,14 +1044,22 @@ public partial class ChronoJumpWindow
 		
 		return;
 	}
-	private void on_overwrite_file_accepted(object o, EventArgs args)
+	private void on_overwrite_file_export_all_curves_accepted(object o, EventArgs args)
 	{
 		on_button_encoder_export_all_curves_file_selected (exportFileName);
 
-		string myString = string.Format(Catalog.GetString("Exported to {0}"), 
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 				exportFileName) + Constants.SpreadsheetString;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
+	private void on_overwrite_file_encoder_save_image_accepted(object o, EventArgs args)
+	{
+		on_button_encoder_save_image_file_selected (exportFileName);
+
+		string myString = string.Format(Catalog.GetString("Saved to {0}"), exportFileName);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+	
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
 	{
@@ -1971,6 +2005,28 @@ Log.WriteLine(str);
 			check_encoder_analyze_eccon_together.Sensitive = true;
 		}
 	}
+	
+	void on_button_encoder_analyze_image_save_clicked (object o, EventArgs args)
+	{
+		/* file is in:
+		 * /tmp/chronojump-last-encoder-graph.png
+		 * but if a capture curves has done, file is named the same
+		 * make unsensitive the capture image after loading or capturing a new signal
+		 * or changing person, loading session, ...
+		 */
+
+		checkFile(Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE);
+	}
+	void on_button_encoder_save_image_file_selected (string destination)
+	{
+		try {
+			File.Copy(Util.GetEncoderGraphTempFileName(), destination, true);
+		} catch {
+			string myString = string.Format(
+					Catalog.GetString("Cannot save file {0} "), destination);
+			new DialogMessage(Constants.MessageTypes.WARNING, myString);
+		}
+	}
 
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 
 	{
@@ -2707,6 +2763,7 @@ Log.Write("l");
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		treeview_encoder_analyze_curves.Sensitive = false;
+		button_encoder_analyze_image_save.Sensitive = false;
 
 		//put some data just in case user doesn't click on compare button
 		encoderCompareInitialize();
@@ -3007,7 +3064,10 @@ Log.Write("l");
 		
 			encoderThreadR = new Thread(new ThreadStart(analyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
+
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
+			button_encoder_analyze_image_save.Sensitive = false;
+
 			encoderThreadR.Start(); 
 		}
 	}
@@ -3168,6 +3228,9 @@ Log.Write("l");
 			}
 
 			encoder_pulsebar_capture.Fraction = 1;
+			//analyze_image_save only has not to be sensitive now because capture graph will be saved
+			image_encoder_analyze.Sensitive = false;
+			button_encoder_analyze_image_save.Sensitive = false;
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
@@ -3189,6 +3252,7 @@ Log.Write("l");
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoderButtonsSensitive(encoderSensEnumStored);
 			image_encoder_analyze.Sensitive = true;
+			button_encoder_analyze_image_save.Sensitive = true;
 			treeview_encoder_analyze_curves.Sensitive = true;
 		}
 

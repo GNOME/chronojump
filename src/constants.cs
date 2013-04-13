@@ -594,6 +594,8 @@ public class Constants
 	//if this name changes, change it in encoder/graph.R
 	public static string EncoderGraphInputMulti = "chronojump-encoder-graph-input-multi.csv"; 
 
+	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE}
+
 	public enum DoubleContact {
 		FIRST, AVERAGE, LAST
 	}

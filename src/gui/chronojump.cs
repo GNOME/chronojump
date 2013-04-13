@@ -250,7 +250,7 @@ public partial class ChronoJumpWindow
 	
 	//encoder
 	[Widget] Gtk.Image image_encoder_capture_zoom;
-	[Widget] Gtk.Image image_encoder_analyze_zoom;
+	//[Widget] Gtk.Image image_encoder_analyze_zoom;
 	[Widget] Gtk.Image image_encoder_analyze_stats;
 	[Widget] Gtk.Image image_encoder_signal_delete;
 
@@ -745,8 +745,8 @@ public partial class ChronoJumpWindow
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		
 		//encoder
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
-		image_encoder_analyze_zoom.Pixbuf = pixbuf;
+		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
+		//image_encoder_analyze_zoom.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");

@@ -34,7 +34,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	
 	[Widget] Gtk.Button button_encoder_capture;
-	[Widget] Gtk.Button button_encoder_capture_csharp;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
@@ -245,7 +246,7 @@ public partial class ChronoJumpWindow
 				"",					//no graph ouptut
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
-		if (o == (object) button_encoder_capture) {
+		if (radiobutton_encoder_capture_external.Active) {
 			//title to sen to python software has to be without spaces
 			Util.RunEncoderCapturePython( 
 					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
@@ -255,7 +256,7 @@ public partial class ChronoJumpWindow
 			entry_encoder_signal_comment.Text = "";
 			calculeCurves();
 		}
-		else if (o == (object) button_encoder_capture_csharp) {
+		else if (radiobutton_encoder_capture_safe.Active) {
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
 
@@ -2771,7 +2772,7 @@ Log.Write("l");
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
-		//c0 button_encoder_capture, button_encoder_capture_csharp, 
+		//c0 button_encoder_capture
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
@@ -2832,7 +2833,6 @@ Log.Write("l");
 		}
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
-		button_encoder_capture_csharp.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);

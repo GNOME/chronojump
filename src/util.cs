@@ -1564,11 +1564,17 @@ public class Util
 		return array;
 	}
 
-	public static string AddCsvIfNeeded(string myFile)
+	public static string AddCsvIfNeeded(string myFile) {
+		return addExtensionIfNeeded(myFile, ".csv");
+	}
+	public static string AddPngIfNeeded(string myFile) {
+		return addExtensionIfNeeded(myFile, ".png");
+	}
+	private static string addExtensionIfNeeded(string myFile, string extension)
 	{
 		int posOfDot = myFile.LastIndexOf('.');
 		if (posOfDot == -1) 
-			myFile += ".csv";
+			myFile += extension;
 		
 		return myFile;
 	}

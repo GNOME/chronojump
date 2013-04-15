@@ -210,7 +210,8 @@ public class ExportSession
 				Catalog.GetString ("Date") + ":" + 
 				Catalog.GetString ("Comments") );
 		myData.Add ( mySession.UniqueID + ":" + mySession.Name + ":" +
-					mySession.Place + ":" + mySession.DateShort + ":" + Util.RemoveNewLine(mySession.Comments) );
+					mySession.Place + ":" + mySession.DateShort + ":" + 
+					Util.RemoveNewLine(mySession.Comments, true) );
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
@@ -235,11 +236,11 @@ public class ExportSession
 			myData.Add(
 					p.UniqueID.ToString() + ":" + p.Name + ":" +
 					p.Sex + ":" + p.DateBorn.ToShortDateString() + ":" +
-					Util.RemoveNewLine(p.Description) + ":" +
+					Util.RemoveNewLine(p.Description, true) + ":" +
 					ps.Height + ":" + ps.Weight + ":" + 
 					sportName + ":" + speciallityName + ":" +
 					Util.FindLevelName(ps.Practice) + ":" +
-					Util.RemoveNewLine(ps.Comments)
+					Util.RemoveNewLine(ps.Comments, true)
 				  );
 		}
 		
@@ -319,7 +320,7 @@ public class ExportSession
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						power + ":" +  
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
-						Util.RemoveNewLine(myStr[9]) + ":" +	//jump.description
+						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
 						
@@ -414,7 +415,7 @@ public class ExportSession
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
-					Util.RemoveNewLine(myStr[9]) + ":" + 	//jumpRj.Description
+					Util.RemoveNewLine(myStr[9], true) + ":" + 	//jumpRj.Description
 					//myStr[17] + ":" + 	//jumpRj.Angle
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[18]))		//simulated
 					);
@@ -499,7 +500,7 @@ public class ExportSession
 						myStr[4] + ":" +  myStr[5] + ":" + 	//run.type, run.distance
 						Util.TrimDecimals(myStr[6], dec) + ":" +  	//run.time
 						speed + ":" + 				//speed in m/s (true)
-						Util.RemoveNewLine(myStr[7]) + ":" + 	//description
+						Util.RemoveNewLine(myStr[7], true) + ":" + 	//description
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[8])) + ":" + //simulated
 						Util.NoYes(Util.StringToBool(myStr[9]))	//initialSpeed
 					   );
@@ -560,7 +561,7 @@ public class ExportSession
 					Util.TrimDecimals(Util.GetSpeed(myStr[5], myStr[6], true), dec) + ":" + 	//speed AVG in m/s(true)
 					myStr[7] + ":" + 	 	//run.distanceInterval
 					myStr[9] + ":" +  Util.GetLimitedRounded(myStr[11], dec) + ":" + 	//tracks, limited
-					Util.RemoveNewLine(myStr[10]) + ":" + 	//description
+					Util.RemoveNewLine(myStr[10], true) + ":" + 	//description
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[12])) + ":" +	//simulated
 					Util.NoYes(Util.StringToBool(myStr[13]))	//initialSpeed
 				   );
@@ -641,7 +642,8 @@ public class ExportSession
 						//myStr[2] + ":" +  myStr[3] + ":" +  	//jump.personID, jump.sessionID
 						//myStr[4] + ":" +  //type
 						Util.TrimDecimals(myStr[5], dec) + ":" + 	//time
-						Util.RemoveNewLine(myStr[6]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[7]))	//description, simulated
+						Util.RemoveNewLine(myStr[6], true) + ":" + 
+						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[7]))	//description, simulated
 					   );
 			}
 			writeData(myData);
@@ -678,7 +680,8 @@ public class ExportSession
 					myStr[2] + ":" +    			//personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, pulse.uniqueID
 					myStr[4] + ":" +  		 	//type
-					Util.RemoveNewLine(myStr[8]) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(myStr[9]))		//description, simulated
+					Util.RemoveNewLine(myStr[8], true) + ":" + 
+					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[9]))		//description, simulated
 				   );
 			
 			writeData(myData);
@@ -761,7 +764,8 @@ public class ExportSession
 					mc.PersonID + ":" +    			
 					myStr[0] + ":" +  mc.UniqueID + ":" +  	//person.name, mc.uniqueID
 					mc.Type + " " + typeExtra  + ":" +  		 	
-					Util.RemoveNewLine(mc.Description) + ":" + Util.SimulatedTestNoYes(Convert.ToInt32(mc.Simulated.ToString()))
+					Util.RemoveNewLine(mc.Description, true) + ":" + 
+					Util.SimulatedTestNoYes(Convert.ToInt32(mc.Simulated.ToString()))
 				   );
 			
 			writeData(myData);

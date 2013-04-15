@@ -173,7 +173,7 @@ public class Constants
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
 
 
-	public static string SpreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon: <b>;</b>");
+	public static string SpreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon <b>;</b>, or comma <b>,</b>.");
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -594,7 +594,7 @@ public class Constants
 	//if this name changes, change it in encoder/graph.R
 	public static string EncoderGraphInputMulti = "chronojump-encoder-graph-input-multi.csv"; 
 
-	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE}
+	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
 
 	public enum DoubleContact {
 		FIRST, AVERAGE, LAST

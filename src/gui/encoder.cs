@@ -1000,6 +1000,8 @@ public partial class ChronoJumpWindow
 			if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES ||
 					checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
+			else
+				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
 					Log.WriteLine(string.Format(

@@ -20,6 +20,7 @@
 
 using System;
 using System.Text; //StringBuilder
+using System.Collections; //ArrayList
 using Gtk;
 using Gdk;
 
@@ -216,6 +217,7 @@ public class UtilGtk
 		}
 		return tv;
 	}
+
 
 
 	/*

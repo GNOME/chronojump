@@ -210,6 +210,16 @@ public class EncoderCurve
 		this.PP_PPT = PP_PPT;	//PeakPower / PeakPowerTime
 	}
 
+	public string ToCSV() {
+		string sep = ";";
+		return 
+			N + sep + Series + sep + Exercise + sep + ExtraWeight + sep + 
+			Start + sep + Duration + sep + Height + sep + 
+			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
+			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
+			PP_PPT;
+	}
+
 	public string N;
 	public string Series;
 	public string Exercise;

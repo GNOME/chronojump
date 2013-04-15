@@ -293,10 +293,13 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
-	public static string RemoveNewLine(string myString) 
+	public static string RemoveNewLine(string myString, bool changeBySpace) 
 	{
 		StringBuilder myStringBuilder = new StringBuilder(myString);
-		myStringBuilder.Replace("\n", " ");
+		if(changeBySpace)
+			myStringBuilder.Replace("\n", " ");
+		else
+			myStringBuilder.Replace("\n", "");
 		return myStringBuilder.ToString();
 	}
 

@@ -261,7 +261,7 @@ public class EditEventWindow
 
 		//also remove new line for old descriptions that used a textview
 		string temp = Util.RemoveTildeAndColonAndDot(myEvent.Description);
-		entry_description.Text = Util.RemoveNewLine(temp);
+		entry_description.Text = Util.RemoveNewLine(temp, true);
 
 		createComboEventType(myEvent);
 		

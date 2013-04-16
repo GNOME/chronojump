@@ -1590,6 +1590,8 @@ public partial class ChronoJumpWindow
 			EncoderExercise ex = new EncoderExercise();
 						
 Log.WriteLine("AT ANALYZE");
+
+			int countSeries = 1;
 			foreach(EncoderSQL eSQL in data) {
 				foreach(EncoderExercise eeSearch in eeArray)
 					if(eSQL.exerciseID == eeSearch.uniqueID)
@@ -1622,12 +1624,31 @@ Log.WriteLine(str);
 				if(seriesName == "")
 					seriesName = currentPerson.Name;
 
+				/*
+				 * to avoid problems on reading files from R and strange character encoding
+				 * (this problem happens in Parallels (MacOSX)
+				 * copy to temp
+				 * and tell the csv file that it's in temp
+				 */
+
+				string safeFullURL = Path.Combine(Path.GetTempPath(),
+						"chronojump_enc_curve_" + countSeries.ToString() + ".txt");
+				string fullURL = safeFullURL; 
+				
+				try {
+					File.Copy(eSQL.GetFullURL(false), safeFullURL, true);
+					fullURL = fullURL.Replace("\\","/");	//R needs this separator path: "/" in all systems 
+				} catch {
+					fullURL = eSQL.GetFullURL(true);	//convertPathToR
+				}
+
 				writer.WriteLine(eSQL.future1 + "," + seriesName + "," + ex.name + "," + 
 						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
-						eSQL.GetFullURL(true) + "," +	//convertPathToR
+						fullURL + "," +	
 						eSQL.eccon	//this is the eccon of every curve
 						);
+				countSeries ++;
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();

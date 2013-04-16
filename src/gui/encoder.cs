@@ -282,13 +282,13 @@ public partial class ChronoJumpWindow
 		new DialogMessage(Constants.MessageTypes.INFO, 
 				"<b>ENGLISH:</b> Since version 1.3.4 there are two methods of capture:\n\n" +
 				"- <b>External</b>: Capture happens in a new window\n" + 
-				"  Advantages: Has realtime graphs and lots of features\n" + 
-				"  Disavantages: Open new window is slow and there are problems on some computers\n\n" +
+				"  Advantages: Has real-time graphs and lots of features\n" + 
+				"  Disadvantages: Open new window is slow and there are problems on some computers\n\n" +
 				"- <b>Safe</b>: Capture happens in this window\n" +
 				"  Advantages: Fast and without problems\n" + 
-				"  Disavantages: Currently at realtime only plots a simple graph\n\n" +
+				"  Disadvantages: Currently at realtime only plots a simple graph\n\n" +
 				"Conclusion: In next versions 'Safe' mode will be the only one\n" +
-				"Now it lacks features like realtime statistics and graphs\n" +
+				"Now it lacks features like real-time statistics and graphs\n" +
 				"<b>After</b> capturing, both methods show the same results" +
 				"\n\n" +
 				"<b>CASTELLANO:</b> A partir de la versión 1.3.4 hay dos métodos de capturar:\n\n" +

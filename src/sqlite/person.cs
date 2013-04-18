@@ -268,6 +268,8 @@ finishForeach:
 		ArrayList arrayRTs = new ArrayList(2);
 		ArrayList arrayPulses = new ArrayList(2);
 		ArrayList arrayMCs = new ArrayList(2);
+		ArrayList arrayEncS = new ArrayList(2);
+		ArrayList arrayEncC = new ArrayList(2);
 		
 		string tps = Constants.PersonSessionTable;
 	
@@ -356,7 +358,7 @@ finishForeach:
 		}
 		reader.Close();
 	
-		//pulses
+		//MC
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM multiChronopic WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -367,7 +369,34 @@ finishForeach:
 		}
 		reader.Close();
 	
+		//EncS (encoder signal)
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
+		       " WHERE personID == " + personID +
+		       " AND signalOrCurve == 'signal' " +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayEncS.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
 	
+		//EncC (encoder curve)
+		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
+		       " WHERE personID == " + personID +
+		       " AND signalOrCurve == 'curve' " +
+			" GROUP BY sessionID ORDER BY sessionID";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		reader = dbcmd.ExecuteReader();
+		while(reader.Read()) {
+			arrayEncC.Add ( reader[0].ToString() + ":" + reader[1].ToString() );
+		}
+		reader.Close();
+	
+
+
 		dbcon.Close();
 		
 	
@@ -379,6 +408,8 @@ finishForeach:
 		string tempRTs;
 		string tempPulses;
 		string tempMCs;
+		string tempEncS;
+		string tempEncC;
 		bool found; 	//using found because a person can be loaded in a session 
 				//but whithout having done any event yet
 
@@ -392,6 +423,8 @@ finishForeach:
 			tempRTs = "";
 			tempPulses = "";
 			tempMCs = "";
+			tempEncS = "";
+			tempEncC = "";
 			found = false;
 			
 			foreach (string myJumps in arrayJumps) {
@@ -457,6 +490,24 @@ finishForeach:
 				}
 			}
 
+			foreach (string myEncS in arrayEncS) {
+				string [] myStr = myEncS.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempEncS = myStr[1];
+					found = true;
+					break;
+				}
+			}
+
+			foreach (string myEncC in arrayEncC) {
+				string [] myStr = myEncC.Split(new char[] {':'});
+				if(myStrSession[0] == myStr[0]) {
+					tempEncC = myStr[1];
+					found = true;
+					break;
+				}
+			}
+
 
 			//if has events, write it's data
 			if (found) {
@@ -464,7 +515,9 @@ finishForeach:
 						myStrSession[3] + ":" + tempJumps + ":" + 	//sessionDate, jumps
 						tempJumpsRj + ":" + tempRuns + ":" + 		//jumpsRj, Runs
 						tempRunsInterval + ":" + tempRTs + ":" + 	//runsInterval, Reaction times
-						tempPulses + ":" + tempMCs);			//pulses, MultiChronopic
+						tempPulses + ":" + tempMCs + ":" +		//pulses, MultiChronopic
+						tempEncS + ":" + tempEncC			//encoder signal, encoder curve
+						);
 			}
 		}
 

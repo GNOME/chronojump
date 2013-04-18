@@ -2059,7 +2059,8 @@ public class PersonShowAllEventsWindow {
 		createComboPersons(sessionID, currentPerson.UniqueID.ToString(), currentPerson.Name);
 		createTreeView(treeview_person_show_all_events);
 		store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string) );
+				typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
+			       	typeof (string), typeof(string));
 		treeview_person_show_all_events.Model = store;
 		fillTreeView(treeview_person_show_all_events,store, currentPerson.UniqueID);
 	}
@@ -2104,7 +2105,8 @@ public class PersonShowAllEventsWindow {
 		string myText = UtilGtk.ComboGetActive(combo_persons);
 		if(myText != "") {
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), 
-					typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string) );
+					typeof (string), typeof(string), typeof(string), typeof(string), typeof(string), typeof(string),
+				       	typeof (string), typeof(string));
 			treeview_person_show_all_events.Model = store;
 			
 			string [] myStringFull = myText.Split(new char[] {':'});
@@ -2136,6 +2138,8 @@ public class PersonShowAllEventsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Reaction\ntime"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Encoder signals"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Encoder curves"), new CellRendererText(), "text", count++);
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {
@@ -2146,7 +2150,7 @@ public class PersonShowAllEventsWindow {
 			string [] myStr = myEvent.Split(new char[] {':'});
 
 			store.AppendValues (myStr[0], myStr[1], myStr[2], myStr[3], myStr[4], myStr[5], 
-					myStr[6], myStr[7], myStr[8], myStr[9]);
+					myStr[6], myStr[7], myStr[8], myStr[9], myStr[10], myStr[11]);
 		}
 	}
 	

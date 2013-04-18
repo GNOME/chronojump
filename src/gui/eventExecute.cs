@@ -156,8 +156,6 @@ public partial class ChronoJumpWindow
 	//static Gdk.Pixmap event_execute_pixmap = null;
 	Gdk.Pixmap event_execute_pixmap = null;
 	
-	//[Widget] Gtk.HBox hbox_capture;
-
 
 	int event_execute_personID;	
 	//int sessionID;
@@ -267,15 +265,19 @@ public partial class ChronoJumpWindow
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 	
 		eventHasEnded = false;
-	
-		if(videoOn)
-			cameraRecordInitiate();
-		
+
+		checkbutton_video.Sensitive = false;
+		if(videoOn) {
+			capturer.ClickRec();
+			label_video_feedback.Text = Catalog.GetString("Recording");
+		}
+
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(
 				event_execute_button_cancel, event_execute_button_finish, 
 				event_execute_label_message,  
 				event_execute_label_event_value,  event_execute_label_time_value,
 				event_execute_progressbar_event,  event_execute_progressbar_time);
+		
 		return executingGraphData;
 	}
 	
@@ -534,36 +536,6 @@ public partial class ChronoJumpWindow
 		allocationXOld = allocation.Width;
 	}
 
-
-	CapturerBin capturer;
-	//Gtk.Window capturerWindow;
-	private void cameraRecordInitiate() 
-	{
-		capturer = new CapturerBin();
-		CapturePropertiesStruct s = new CapturePropertiesStruct();
-
-		s.OutputFile = Util.GetVideoTempFileName();
-
-		s.VideoBitrate =  1000;
-		s.CaptureSourceType = CaptureSourceType.Raw;
-		s.Width = 360;
-		s.Height = 288;
-
-		capturer.CaptureProperties = s;
-		capturer.Type = CapturerType.Live;
-		capturer.Visible=true;
-		
-		//capturerWindow = new Gtk.Window("Capturer");
-		//capturerWindow.Add(capturer);
-		//capturerWindow.ShowAll();
-		//capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose();};
-		//hbox_capture.PackStart(capturer, true, true, 0);
-		//hbox_capture.ShowAll();
-
-		capturer.Run();
-		capturer.ClickRec();
-	}
-	
 	
 
 	// simple and DJ jump	
@@ -1856,11 +1828,12 @@ Log.WriteLine("Preparing reactive A");
 	private void on_event_execute_EventEnded(object o, EventArgs args) {
 		hideButtons();
 		eventHasEnded = true;
-	
+
+		checkbutton_video.Sensitive = true;
 		if(videoOn) {	
-			capturer.Stop();
-			capturer.Close();
-			capturer.Dispose();
+			label_video_feedback.Text = "";
+			capturer.ClickStop();
+			videoCapturePrepare();
 		}
 	}
 	
@@ -1982,11 +1955,12 @@ Log.WriteLine("Preparing reactive A");
 	{
 		hideButtons();
 		
+		checkbutton_video.Sensitive = true;
 		if(videoOn) {
-			capturer.Stop();
-			capturer.Close();
-			capturer.Dispose();
-			//it will lbe recorded on temp, but chronojump will not move it to chronojump/multimedia folders
+			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
+			label_video_feedback.Text = "";
+			capturer.ClickStop();
+			videoCapturePrepare();
 		}
 	}
 	

@@ -33,7 +33,7 @@ namespace LongoMatch.Gui
 			// Container child LongoMatch.Gui.CapturerBin.Gtk.Container+ContainerChild
 			this.vbox1 = new global::Gtk.VBox ();
 			this.vbox1.Name = "vbox1";
-			this.vbox1.Spacing = 6;
+			this.vbox1.Spacing = 0;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.capturerhbox = new global::Gtk.HBox ();
 			this.capturerhbox.Name = "capturerhbox";
@@ -67,7 +67,8 @@ namespace LongoMatch.Gui
 			w4.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w5 = new global::Gtk.Image ();
-			w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-record", global::Gtk.IconSize.Dialog);
+			//w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-record", global::Gtk.IconSize.Dialog);
+			w5.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-record", global::Gtk.IconSize.Button);
 			w4.Add (w5);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w7 = new global::Gtk.Label ();
@@ -115,7 +116,8 @@ namespace LongoMatch.Gui
 			w22.Spacing = 2;
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Image w23 = new global::Gtk.Image ();
-			w23.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-stop", global::Gtk.IconSize.Dialog);
+			//w23.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-stop", global::Gtk.IconSize.Dialog);
+			w23.Pixbuf = global::Stetic.IconLoader.LoadIcon (this, "gtk-media-stop", global::Gtk.IconSize.Button);
 			w22.Add (w23);
 			// Container child GtkHBox.Gtk.Container+ContainerChild
 			global::Gtk.Label w25 = new global::Gtk.Label ();

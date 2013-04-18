@@ -22,7 +22,6 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using Gtk;
-
 using System.Threading;
 using System.IO.Ports;
 using Mono.Unix;
@@ -231,6 +230,7 @@ public class EventExecute
 
 		if ( ! thread.IsAlive || cancel) {
 			Log.Write("dying");
+
 			return false;
 		}
 	
@@ -238,6 +238,7 @@ public class EventExecute
 		//Log.Write(thread.ThreadState.ToString());
 		return true;
 	}
+
 
 	public void StopThread() {
 		/*

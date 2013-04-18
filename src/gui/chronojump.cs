@@ -254,6 +254,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_stats;
 	[Widget] Gtk.Image image_encoder_signal_delete;
 
+	[Widget] Gtk.HBox hbox_video_capture;
+	[Widget] Gtk.Label label_video_feedback;
+
 	Random rand;
 	bool volumeOn; //TODO: always true now because it's hidden from GUI until videoOn is working
 	bool videoOn; //TODO: now always false because it crashes on windows
@@ -516,8 +519,11 @@ public partial class ChronoJumpWindow
 		encoderInitializeStuff();	
 
 		//presentationInit();
+
+		videoCaptureInitialize();	
 	}
 	
+
 
 /*
 	private void chronopicAtStart(object o, EventArgs args) {
@@ -844,16 +850,18 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
 		changeVolumeButton(volumeOn);
 
-		/*
 		if ( SqlitePreferences.Select("videoOn") == "True" ) 
 			videoOn = true;
 		else 
 			videoOn = false;
-			*/
-		videoOn = false;
-
 
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video);
+		
+		//don't raise the signal	
+		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
+		checkbutton_video.Active = videoOn;
+		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
+		
 		changeVideoButton(videoOn);
 
 
@@ -2723,7 +2731,63 @@ public partial class ChronoJumpWindow
 		{
 		}
 	}
+
+	/*
+	 * videoOn and volumeOn
+	 */
+
+	CapturerBin capturer;
+	//Gtk.Window capturerWindow;
+	private void videoCaptureInitialize() 
+	{
+		capturer = new CapturerBin();
 	
+		hbox_video_capture.PackStart(capturer, true, true, 0);
+
+		videoCapturePrepare();
+	}
+	
+
+	private void videoCapturePrepare() {
+		CapturePropertiesStruct s = new CapturePropertiesStruct();
+
+		s.OutputFile = Util.GetVideoTempFileName();
+
+		s.VideoBitrate =  1000;
+		s.AudioBitrate =  128;
+		s.CaptureSourceType = CaptureSourceType.Raw;
+		s.Width = 360;
+		s.Height = 288;
+
+		capturer.CaptureProperties = s;
+		if(checkbutton_video.Active)
+			capturer.Type = CapturerType.Live;
+		else
+			capturer.Type = CapturerType.Fake;
+		capturer.Visible=true;
+	
+		capturer.Run();
+	}
+	
+	private void changeVideoButton(bool myVideo) {
+		image_video_yes.Visible = myVideo;
+		image_video_no.Visible = ! myVideo;
+	}
+	
+	private void on_checkbutton_video_clicked(object o, EventArgs args) {
+		if(checkbutton_video.Active) {
+			videoOn = true;
+			SqlitePreferences.Update("videoOn", "True", false);
+		} else {
+			videoOn = false;
+			SqlitePreferences.Update("videoOn", "False", false);
+		}
+		changeVideoButton(videoOn);
+		
+		videoCapturePrepare();
+	}
+
+
 	private void changeVolumeButton(bool myVolume) {
 		Pixbuf pixbuf;
 		if(myVolume) 
@@ -2745,25 +2809,10 @@ public partial class ChronoJumpWindow
 		changeVolumeButton(checkbutton_volume.Active);
 	}
 
-	
-	private void changeVideoButton(bool myVideo) {
-		image_video_yes.Visible = myVideo;
-		image_video_no.Visible = ! myVideo;
-	}
-	
-	private void on_checkbutton_video_clicked(object o, EventArgs args) {
-		/*
-		if(checkbutton_video.Active) {
-			videoOn = true;
-			SqlitePreferences.Update("videoOn", "True", false);
-		} else {
-			videoOn = false;
-			SqlitePreferences.Update("videoOn", "False", false);
-		}
-		changeVideoButton(checkbutton_video.Active);
-		*/
-	}
-	
+	/*
+	 * cancel and finish
+	 */
+
 
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{

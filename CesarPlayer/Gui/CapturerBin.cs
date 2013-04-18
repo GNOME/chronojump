@@ -132,6 +132,7 @@ namespace LongoMatch.Gui
 				
 			recbutton.Visible = false;
 			pausebutton.Visible = false;
+			//stopbutton.Visible = true;
 			stopbutton.Visible = false;
 			
 			capturer.Start();
@@ -157,6 +158,7 @@ namespace LongoMatch.Gui
 		public void Stop() {
 			if (capturer != null){
 				capturing = false;
+				captureStarted = false;
 				capturer.Stop();
 			}
 		}
@@ -172,7 +174,8 @@ namespace LongoMatch.Gui
 			/* resetting common properties */
 			pausebutton.Visible = false;
 			stopbutton.Visible = false;
-			recbutton.Visible = true;
+			//recbutton.Visible = true;
+			recbutton.Visible = false;
 			captureStarted = false;
 			capturing = false;
 			OnTick(0);
@@ -246,11 +249,13 @@ namespace LongoMatch.Gui
 
 		private void SetButtonsVisibility() {
 			bool snapshot = capturerType == CapturerType.Snapshot;
-			recbutton.Visible = !snapshot;
+			//recbutton.Visible = !snapshot;
+			recbutton.Visible = false;
 			pausebutton.Visible = false;
 			stopbutton.Visible = false;
 			snapshotbutton.Visible = snapshot;
-			timelabel.Visible = !snapshot;
+			//timelabel.Visible = !snapshot;
+			timelabel.Visible = false;
 		}
 
 
@@ -258,14 +263,22 @@ namespace LongoMatch.Gui
 		public void ClickRec () {
 			if (capturer == null)
 				return;
-			
+		
 			recbutton.Visible = false;
 			stopbutton.Visible = true;
 
 			Start();
 		}
 		public void ClickStop () {
-			CaptureFinished(this, new EventArgs());
+			//CaptureFinished(this, new EventArgs());
+			
+			//recbutton.Visible = true;
+			recbutton.Visible = false;
+			pausebutton.Visible = false;
+			stopbutton.Visible = false;
+			
+			Stop();
+			//Run();
 		}
 
 		
@@ -282,7 +295,7 @@ namespace LongoMatch.Gui
 					return;
 				TogglePause();
 			}
-			else
+			else 
 				Start();	
 		}
 
@@ -323,8 +336,13 @@ namespace LongoMatch.Gui
 			recbutton.Visible = true;
 			pausebutton.Visible = false;
 			stopbutton.Visible = false;
-			if (CaptureFinished != null)
+			/*
+			if (CaptureFinished != null) {
+				Console.WriteLine("OnStopbuttonclicked 1");
 				CaptureFinished(this, new EventArgs());
+			}
+			*/
+			Stop();
 		}				
 		
 		protected virtual void OnTick (int ellapsedTime){

@@ -3332,7 +3332,6 @@ Chronopic</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="spacing">10</property>
-                                            <property name="homogeneous">True</property>
                                             <child>
                                               <widget class="GtkAlignment" id="alignment3">
                                                 <property name="visible">True</property>
@@ -5940,7 +5939,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkButton" id="button_execute_test">
-                                                            <property name="height_request">68</property>
+                                                            <property name="height_request">60</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -6059,6 +6058,7 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkVBox" id="vbox33">
+                                                            <property name="width_request">90</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
@@ -6147,6 +6147,7 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox32">
+                                                            <property name="width_request">90</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -6183,8 +6184,8 @@ Second Chronopic to platforms.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkHBox" id="hbox_video_capture">
-                                                            <property name="width_request">135</property>
-                                                            <property name="height_request">108</property>
+                                                            <property name="width_request">125</property>
+                                                            <property name="height_request">100</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
@@ -11986,30 +11987,34 @@ on current Chronojump version.</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">4</property>
                                         <child>
-                                          <widget class="GtkFrame" id="frame18">
+                                          <widget class="GtkHBox" id="hbox58">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label_xalign">0</property>
-                                            <property name="label_yalign">0.69999998807907104</property>
-                                            <property name="shadow_type">out</property>
                                             <child>
-                                              <widget class="GtkAlignment" id="alignment22">
+                                              <widget class="GtkFrame" id="frame18">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="left_padding">6</property>
-                                                <property name="right_padding">6</property>
+                                                <property name="label_xalign">0</property>
+                                                <property name="label_yalign">0.69999998807907104</property>
+                                                <property name="shadow_type">out</property>
                                                 <child>
-                                                  <widget class="GtkHBox" id="hbox58">
+                                                  <widget class="GtkAlignment" id="alignment22">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">22</property>
+                                                    <property name="left_padding">6</property>
+                                                    <property name="right_padding">6</property>
                                                     <child>
-                                                      <widget class="GtkVBox" id="vbox87">
+                                                      <widget class="GtkHBox" id="hbox79">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
+                                                        <property name="spacing">22</property>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox79">
+                                                          <widget class="GtkVBox" id="vbox87">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox86">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -12073,15 +12078,15 @@ on current Chronojump version.</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox86">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox90">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
@@ -12134,32 +12139,13 @@ on current Chronojump version.</property>
                                                             <property name="position">2</property>
                                                             </packing>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">1</property>
-                                                          </packing>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">0</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkVBox" id="vbox2">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox_combo_encoder_eccon">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <placeholder/>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -12169,11 +12155,37 @@ on current Chronojump version.</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkHBox" id="hbox_combo_encoder_laterality">
+                                                          <widget class="GtkVBox" id="vbox2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_encoder_eccon">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
                                                             <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_combo_encoder_laterality">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -12182,37 +12194,30 @@ on current Chronojump version.</property>
                                                             <property name="position">1</property>
                                                           </packing>
                                                         </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkTable" id="table11">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="n_rows">2</property>
-                                                        <property name="n_columns">3</property>
-                                                        <property name="column_spacing">6</property>
-                                                        <property name="row_spacing">6</property>
                                                         <child>
-                                                          <widget class="GtkLabel" id="label78">
+                                                          <widget class="GtkTable" id="table11">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="n_rows">2</property>
+                                                            <property name="n_columns">3</property>
+                                                            <property name="column_spacing">6</property>
+                                                            <property name="row_spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label78">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Minimal height</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkSpinButton" id="spin_encoder_capture_min_height">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_min_height">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
@@ -12225,44 +12230,44 @@ on current Chronojump version.</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label81">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label81">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">cm</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">2</property>
                                                             <property name="right_attach">3</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label82">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label82">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">Recording time</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="x_options">GTK_FILL</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkSpinButton" id="spin_encoder_capture_time">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
@@ -12275,41 +12280,41 @@ on current Chronojump version.</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="x_options">GTK_FILL</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkLabel" id="label71">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label71">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
                                                             <property name="label" translatable="yes">s</property>
                                                             <property name="use_markup">True</property>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="left_attach">2</property>
                                                             <property name="right_attach">3</property>
                                                             <property name="x_options">GTK_FILL</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
                                                           </packing>
                                                         </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
-                                                      <widget class="GtkVBox" id="vbox5">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
                                                         <child>
-                                                          <widget class="GtkButton" id="button_encoder_bells">
+                                                          <widget class="GtkVBox" id="vbox5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">6</property>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_bells">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
@@ -12324,15 +12329,15 @@ on current Chronojump version.</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             </widget>
                                                             </child>
-                                                          </widget>
-                                                          <packing>
+                                                            </widget>
+                                                            <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkButton" id="button_encoder_recalculate">
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_recalculate">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -12349,44 +12354,75 @@ on current Chronojump version.</property>
                                                             <property name="stock">gtk-refresh</property>
                                                             </widget>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="position">1</property>
+                                                            <property name="position">3</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
+                                                    </child>
+                                                  </widget>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label84">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Exercise</property>
+                                                    <property name="use_markup">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="type">label_item</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkVBox" id="vbox18">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <child>
+                                                  <widget class="GtkHBox" id="hbox95">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <widget class="GtkLabel" id="label_video_feedback_encoder">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                      </widget>
                                                       <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">False</property>
-                                                        <property name="position">3</property>
+                                                        <property name="expand">True</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="position">0</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkHBox" id="hbox94">
+                                                      <widget class="GtkCheckButton" id="checkbutton_video_encoder">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="spacing">4</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">False</property>
+                                                        <property name="has_tooltip">True</property>
+                                                        <property name="tooltip" translatable="yes">Record video (on / off)</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <property name="relief">none</property>
+                                                        <property name="active">True</property>
+                                                        <property name="draw_indicator">True</property>
+                                                        <signal name="clicked" handler="on_checkbutton_video_encoder_clicked" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox19">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_video_encoder">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="receives_default">False</property>
-                                                            <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Record video (on / off)</property>
-                                                            <property name="use_action_appearance">False</property>
-                                                            <property name="relief">none</property>
-                                                            <property name="active">True</property>
-                                                            <property name="draw_indicator">True</property>
-                                                            <signal name="clicked" handler="on_checkbutton_video_encoder_clicked" swapped="no"/>
-                                                            <child>
-                                                            <widget class="GtkHBox" id="hbox95">
+                                                          <widget class="GtkHBox" id="hbox94">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">2</property>
@@ -12420,68 +12456,44 @@ on current Chronojump version.</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label_video_feedback_encoder">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
                                                           </widget>
-                                                          <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkHBox" id="hbox_video_capture_encoder">
-                                                            <property name="width_request">75</property>
-                                                            <property name="height_request">60</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">1</property>
-                                                          </packing>
                                                         </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="pack_type">end</property>
-                                                        <property name="position">4</property>
+                                                        <property name="fill">False</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
+                                                  <packing>
+                                                    <property name="expand">False</property>
+                                                    <property name="fill">False</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkHBox" id="hbox_video_capture_encoder">
+                                                    <property name="width_request">75</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
                                               </widget>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label84">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Exercise</property>
-                                                <property name="use_markup">True</property>
-                                              </widget>
                                               <packing>
-                                                <property name="type">label_item</property>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="padding">6</property>
+                                                <property name="pack_type">end</property>
+                                                <property name="position">1</property>
                                               </packing>
                                             </child>
                                           </widget>

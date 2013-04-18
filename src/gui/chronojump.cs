@@ -155,12 +155,20 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
 	
-	[Widget] Gtk.CheckButton checkbutton_volume;
-	[Widget] Gtk.Image image_volume;
+	[Widget] Gtk.HBox hbox_video_capture;
+	[Widget] Gtk.HBox hbox_video_capture_encoder;
+	[Widget] Gtk.Label label_video_feedback;
+	[Widget] Gtk.Label label_video_feedback_encoder;
 	[Widget] Gtk.CheckButton checkbutton_video;
-	[Widget] Gtk.Label label_video;
+	[Widget] Gtk.CheckButton checkbutton_video_encoder;
+	//[Widget] Gtk.Label label_video;
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
+	[Widget] Gtk.Image image_video_yes_encoder;
+	[Widget] Gtk.Image image_video_no_encoder;
+	[Widget] Gtk.CheckButton checkbutton_volume;
+	[Widget] Gtk.Image image_volume;
+
 
 	//multiChronopic	
 	[Widget] Gtk.Button button_edit_selected_multi_chronopic;
@@ -253,9 +261,6 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_encoder_analyze_zoom;
 	[Widget] Gtk.Image image_encoder_analyze_stats;
 	[Widget] Gtk.Image image_encoder_signal_delete;
-
-	[Widget] Gtk.HBox hbox_video_capture;
-	[Widget] Gtk.Label label_video_feedback;
 
 	Random rand;
 	bool volumeOn; //TODO: always true now because it's hidden from GUI until videoOn is working
@@ -856,13 +861,18 @@ public partial class ChronoJumpWindow
 			videoOn = false;
 
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video);
+		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_encoder);
 		
 		//don't raise the signal	
 		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
 		checkbutton_video.Active = videoOn;
 		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
+		//don't raise the signal	
+		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
+		checkbutton_video_encoder.Active = videoOn;
+		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
 		
-		changeVideoButton(videoOn);
+		changeVideoButtons(videoOn);
 
 
 		//load preferences, update radios, but not update database
@@ -2736,18 +2746,51 @@ public partial class ChronoJumpWindow
 	 * videoOn and volumeOn
 	 */
 
+	//at what tab of notebook_sup there's the video_capture
+	private int video_capture_notebook_sup = 0;
+
+	//changed by user clicking on notebook tabs
+	private void on_notebook_sup_switch_page (object o, SwitchPageArgs args) {
+		if( 
+				(notebook_sup.CurrentPage == 0 && video_capture_notebook_sup == 1) ||
+				(notebook_sup.CurrentPage == 1 && video_capture_notebook_sup == 0)) 
+		{
+			//first stop showing video
+			bool wasActive = false;
+			if(checkbutton_video.Active) {
+				wasActive = true;
+				checkbutton_video.Active = false;
+			}
+
+			if(notebook_sup.CurrentPage == 0) {
+				//remove video capture from encoder tab
+				hbox_video_capture_encoder.Remove(capturer);
+				//add in contacts tab
+				hbox_video_capture.PackStart(capturer, true, true, 0);
+			} else {
+				//remove video capture from contacts tab
+				hbox_video_capture.Remove(capturer);
+				//add in encoder tab
+				hbox_video_capture_encoder.PackStart(capturer, true, true, 0);
+			}
+		
+			if(wasActive) 
+				checkbutton_video.Active = true;
+		
+			video_capture_notebook_sup = notebook_sup.CurrentPage;
+		}
+	}
+
 	CapturerBin capturer;
-	//Gtk.Window capturerWindow;
 	private void videoCaptureInitialize() 
 	{
 		capturer = new CapturerBin();
-	
+		
 		hbox_video_capture.PackStart(capturer, true, true, 0);
-
-		videoCapturePrepare();
+		
+		videoCapturePrepare(); 
 	}
 	
-
 	private void videoCapturePrepare() {
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
@@ -2760,18 +2803,22 @@ public partial class ChronoJumpWindow
 		s.Height = 288;
 
 		capturer.CaptureProperties = s;
+
+		//checkbutton_video and checkbutton_video_encoder are synchronized
 		if(checkbutton_video.Active)
 			capturer.Type = CapturerType.Live;
 		else
 			capturer.Type = CapturerType.Fake;
 		capturer.Visible=true;
-	
+
 		capturer.Run();
 	}
 	
-	private void changeVideoButton(bool myVideo) {
+	private void changeVideoButtons(bool myVideo) {
 		image_video_yes.Visible = myVideo;
 		image_video_no.Visible = ! myVideo;
+		image_video_yes_encoder.Visible = myVideo;
+		image_video_no_encoder.Visible = ! myVideo;
 	}
 	
 	private void on_checkbutton_video_clicked(object o, EventArgs args) {
@@ -2782,11 +2829,33 @@ public partial class ChronoJumpWindow
 			videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
 		}
-		changeVideoButton(videoOn);
+		//change encoder checkbox but don't raise the signal	
+		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
+		checkbutton_video_encoder.Active = videoOn;
+		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
+		
+		changeVideoButtons(videoOn);
 		
 		videoCapturePrepare();
 	}
 
+	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args) {
+		if(checkbutton_video_encoder.Active) {
+			videoOn = true;
+			SqlitePreferences.Update("videoOn", "True", false);
+		} else {
+			videoOn = false;
+			SqlitePreferences.Update("videoOn", "False", false);
+		}
+		//change contacts checkbox but don't raise the signal	
+		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
+		checkbutton_video.Active = videoOn;
+		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
+		
+		changeVideoButtons(videoOn);
+		
+		videoCapturePrepare();
+	}
 
 	private void changeVolumeButton(bool myVolume) {
 		Pixbuf pixbuf;

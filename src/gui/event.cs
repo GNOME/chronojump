@@ -315,6 +315,7 @@ public class EditEventWindow
 			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
 			d.Add(player);
 			d.Modal = true;
+			d.SetDefaultSize(500,400);
 			d.ShowAll();
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 

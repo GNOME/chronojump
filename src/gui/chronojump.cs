@@ -4583,35 +4583,22 @@ Console.WriteLine("X");
 	 */
 
 	
-	//not nice but works
 	private void playVideo(string fileName) {
 		if(File.Exists(fileName)) {
 			PlayerBin player = new PlayerBin();
 			player.Open(fileName);
-			player.Play(); 
-		}
-	}
-
-	//nice but crashes sometimes
-	/*
-	private void playVideo(string fileName) {
-		if(File.Exists(fileName)) {
-			Log.WriteLine("Exists and clicked " + fileName);
-
-			PlayerBin player = new PlayerBin();
-			player.Open(fileName);
-
+			
+			//without these lines works also but has less functionalities (speed, go to ms)
 			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
 			d.Add(player);
 			d.Modal = true;
+			d.SetDefaultSize(500,400);
+			d.ShowAll();
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 
-
-			d.ShowAll();
 		}
 	}
-	*/
-	
+
 	private void on_video_play_this_test_clicked (object o, EventArgs args) {
 		Constants.TestTypes type = Constants.TestTypes.JUMP;
 		int id = 0;

@@ -791,6 +791,7 @@
                             <property name="can_focus">True</property>
                             <property name="tab_hborder">18</property>
                             <property name="tab_vborder">4</property>
+                            <signal name="switch_page" handler="on_notebook_sup_switch_page" swapped="no"/>
                             <child>
                               <widget class="GtkVBox" id="vbox44">
                                 <property name="visible">True</property>
@@ -5992,7 +5993,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_cancel">
-                                                            <property name="height_request">34</property>
+                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -6006,6 +6007,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -6017,7 +6019,7 @@ Second Chronopic to platforms.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkButton" id="event_execute_button_finish">
-                                                            <property name="height_request">34</property>
+                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -6032,6 +6034,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-goto-last</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -6061,14 +6064,14 @@ Second Chronopic to platforms.</property>
                                                             <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkProgressBar" id="event_execute_progressbar_event">
-                                                            <property name="height_request">34</property>
+                                                            <property name="height_request">30</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="pulse_step">0.10000000149</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">0</property>
                                                             </packing>
                                                             </child>
@@ -6076,21 +6079,7 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkVBox" id="vbox15">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">3</property>
-                                                            <child>
-                                                            <widget class="GtkProgressBar" id="event_execute_progressbar_time">
-                                                            <property name="height_request">34</property>
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="pulse_step">0.10000000149</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
+                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox14">
                                                             <property name="visible">True</property>
@@ -6124,14 +6113,27 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
-                                                            <property name="pack_type">end</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkProgressBar" id="event_execute_progressbar_time">
+                                                            <property name="height_request">30</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="pulse_step">0.10000000149</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -12359,6 +12361,112 @@ on current Chronojump version.</property>
                                                         <property name="expand">False</property>
                                                         <property name="fill">False</property>
                                                         <property name="position">3</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkHBox" id="hbox94">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">False</property>
+                                                        <property name="spacing">4</property>
+                                                        <child>
+                                                          <widget class="GtkVBox" id="vbox19">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_video_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Record video (on / off)</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="clicked" handler="on_checkbutton_video_encoder_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox95">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">2</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_yes_encoder">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-media-record</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_video_no_encoder">
+                                                            <property name="width_request">16</property>
+                                                            <property name="height_request">16</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-no</property>
+                                                            <property name="icon-size">1</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_video_feedback_encoder">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkHBox" id="hbox_video_capture_encoder">
+                                                            <property name="width_request">75</property>
+                                                            <property name="height_request">60</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
+                                                          </packing>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="pack_type">end</property>
+                                                        <property name="position">4</property>
                                                       </packing>
                                                     </child>
                                                   </widget>

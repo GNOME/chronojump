@@ -61,6 +61,7 @@ public class PersonRecuperateWindow {
 	protected int columnId = 0;
 	protected int firstColumn = 0;
 	protected int pDN;
+	protected Gtk.CheckButton app1_checkbutton_video;
 	
 	public Gtk.Button fakeButtonDone;
 
@@ -97,12 +98,14 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, 
+			int pDN, Gtk.CheckButton app1_checkbutton_video)
 	{
 		if (PersonRecuperateWindowBox == null) {
 			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession);
 		}
 		PersonRecuperateWindowBox.pDN = pDN;
+		PersonRecuperateWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 
 		PersonRecuperateWindowBox.person_recuperate.Show ();
 		
@@ -250,7 +253,7 @@ public class PersonRecuperateWindow {
 			Person person = SqlitePerson.Select(Convert.ToInt32(selected));
 
 			personAddModifyWin = PersonAddModifyWindow.Show(
-					parent, currentSession, person, pDN, true); //comes from recuperate window
+					parent, currentSession, person, pDN, app1_checkbutton_video, true); //comes from recuperate window
 			personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 		}
 	}
@@ -364,12 +367,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 
-	static public new PersonsRecuperateFromOtherSessionWindow Show (Gtk.Window parent, Session currentSession)
+	static public new PersonsRecuperateFromOtherSessionWindow Show (
+			Gtk.Window parent, Session currentSession, Gtk.CheckButton app1_checkbutton_video)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
 				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession);
 		}
+		PersonsRecuperateFromOtherSessionWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		
 		return PersonsRecuperateFromOtherSessionWindowBox;
@@ -571,7 +576,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 					Person person = SqlitePerson.Select(
 							Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
 					personAddModifyWin = PersonAddModifyWindow.Show(
-							parent, currentSession, person, pDN, true); //comes from recuperate window
+							parent, currentSession, person, pDN, app1_checkbutton_video, true); //comes from recuperate window
 					PersonAddModifyWindow.MakeVisible();
 					personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 					personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler(on_edit_current_person_cancelled);
@@ -895,6 +900,7 @@ public class PersonAddModifyWindow
 	private string sex = Constants.M;
 	private double weightIni;
 	int pDN;
+	Gtk.CheckButton app1_checkbutton_video;
 	
 	private int serverUniqueID;
 
@@ -983,10 +989,9 @@ public class PersonAddModifyWindow
 	CapturerBin capturer;
 	void on_button_take_photo_clicked (object o, EventArgs args) 
 	{
+		//deactivate camera to allow camera on edit person. videoOn will have same value to light checkbutton again later
+		app1_checkbutton_video.Active = false;
 
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				Catalog.GetString("Sorry, photos are disabled on this version."));
-		/*
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
@@ -1009,7 +1014,6 @@ public class PersonAddModifyWindow
 		capturerWindow.Present();
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
 		capturer.Run();
-		*/
 	}
 
 	private void on_snapshot_done(Pixbuf pixbuf) {
@@ -1125,7 +1129,9 @@ public class PersonAddModifyWindow
 	}
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
-			Session mySession, Person currentPerson, int pDN, bool comesFromRecuperateWin)
+			Session mySession, Person currentPerson, int pDN, 
+			Gtk.CheckButton app1_checkbutton_video,
+			bool comesFromRecuperateWin)
 	{
 		if (comesFromRecuperateWin) 
 			PersonAddModifyWindowBox = null;
@@ -1135,6 +1141,7 @@ public class PersonAddModifyWindow
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
+		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 		PersonAddModifyWindowBox.comesFromRecuperateWin = comesFromRecuperateWin;
 
 		//No more hide cancel button.

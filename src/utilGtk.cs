@@ -243,39 +243,42 @@ public class UtilGtk
 	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
 	
 
-	public static void ColorsMenuLabel(Gtk.Label l) {
-		l.ModifyFg(StateType.Active, WHITE);
-		l.ModifyFg(StateType.Normal, BLACK);
+	public static void ColorsMenuLabel(Gtk.Viewport v, Gtk.Label l) {
+		l.ModifyFg(StateType.Active, v.Style.Foreground(StateType.Selected));
+		l.ModifyFg(StateType.Prelight, v.Style.Foreground(StateType.Selected));
 	}
 	
-	public static void ColorsTestLabel(Gtk.Label l) {
-		l.ModifyFg(StateType.Active, WHITE);
+	public static void ColorsTestLabel(Gtk.Viewport v, Gtk.Label l) {
+		l.ModifyFg(StateType.Active, v.Style.Foreground(StateType.Selected));
+		l.ModifyFg(StateType.Prelight, v.Style.Foreground(StateType.Selected));
 	}
 	
-	public static void ColorsRadio(Gtk.RadioButton r) {
-		r.ModifyBg(StateType.Normal, WHITE);
-		r.ModifyBg(StateType.Active, BLUE);
-		r.ModifyBg(StateType.Prelight, BLUE_CLEAR);
+	public static void ColorsRadio(Gtk.Viewport v, Gtk.RadioButton r) {
+		r.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
+		r.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
 	}
 	
-	public static void ColorsCheck(Gtk.CheckButton c) {
-		c.ModifyBg(StateType.Normal, WHITE);
-		c.ModifyBg(StateType.Active, BLUE);
-		c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
-	}
-
 	public static void ColorsCheckOnlyPrelight(Gtk.CheckButton c) {
-		c.ModifyBg(StateType.Normal, WHITE);
-		c.ModifyBg(StateType.Active, WHITE);
-		c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
+		//c.ModifyBg(StateType.Normal, WHITE);
+		//c.ModifyBg(StateType.Active, WHITE);
+		//c.ModifyBg(StateType.Prelight, BLUE_CLEAR);
+		
+		//c.ModifyBg(StateType.Active, c.Style.Background(StateType.Selected));
+		//c.ModifyBg(StateType.Prelight, c.Style.Background(StateType.Selected));
 	}
 
+	public static void ColorsTreeView(Gtk.Viewport v, Gtk.TreeView tv) {
+		tv.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
+		tv.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
+	}
+	
 
 	private static Gdk.Color chronopicViewportDefaultBg;
 	private static Gdk.Color chronopicLabelsDefaultFg;
 
 	public static void ChronopicColors(Gtk.Viewport v, Gtk.Label l1, Gtk.Label l2, bool connected) {
-		if(! v.Style.Background(StateType.Normal).Equal(BLUE))
+		//if(! v.Style.Background(StateType.Normal).Equal(BLUE))
+		if(! v.Style.Background(StateType.Normal).Equal(v.Style.Background(StateType.Selected)))
 			chronopicViewportDefaultBg = v.Style.Background(StateType.Normal);
 		if(! l1.Style.Foreground(StateType.Normal).Equal(WHITE))
 			chronopicLabelsDefaultFg = l1.Style.Foreground(StateType.Normal);
@@ -285,7 +288,8 @@ public class UtilGtk
 			l1.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
 			l2.ModifyFg(StateType.Normal, chronopicLabelsDefaultFg);
 		} else {
-			v.ModifyBg(StateType.Normal, BLUE);
+			//v.ModifyBg(StateType.Normal, BLUE);
+			v.ModifyBg(StateType.Normal, v.Style.Background(StateType.Selected));
 			l1.ModifyFg(StateType.Normal, WHITE);
 			l2.ModifyFg(StateType.Normal, WHITE);
 		}

@@ -577,21 +577,21 @@ public partial class ChronoJumpWindow
 		 */
 		//viewport_mode_small.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
-		UtilGtk.ColorsMenuLabel(label_mode_jumps_small);
-		UtilGtk.ColorsMenuLabel(label_mode_jumps_reactive_small);
-		UtilGtk.ColorsMenuLabel(label_mode_runs_small);
-		UtilGtk.ColorsMenuLabel(label_mode_runs_intervallic_small);
-		UtilGtk.ColorsMenuLabel(label_mode_reaction_times_small);
-		UtilGtk.ColorsMenuLabel(label_mode_pulses_small);
-		UtilGtk.ColorsMenuLabel(label_mode_multi_chronopic_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_reactive_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_runs_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_runs_intervallic_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_reaction_times_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_pulses_small);
+		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_multi_chronopic_small);
 
-		UtilGtk.ColorsRadio(radio_mode_jumps_small);
-		UtilGtk.ColorsRadio(radio_mode_jumps_reactive_small);
-		UtilGtk.ColorsRadio(radio_mode_runs_small);
-		UtilGtk.ColorsRadio(radio_mode_runs_intervallic_small);
-		UtilGtk.ColorsRadio(radio_mode_reaction_times_small);
-		UtilGtk.ColorsRadio(radio_mode_pulses_small);
-		UtilGtk.ColorsRadio(radio_mode_multi_chronopic_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_jumps_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_jumps_reactive_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_runs_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_runs_intervallic_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_reaction_times_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_pulses_small);
+		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_multi_chronopic_small);
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
@@ -610,100 +610,100 @@ public partial class ChronoJumpWindow
 		
 		
 		//jumps changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_free);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_sj);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_sjl);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmj);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_cmjl);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_slcmj);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_abk);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_dj);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rocket);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_takeoff);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_more);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_free);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_sj);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_sjl);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_cmj);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_slcmj);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_abk);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_dj);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rocket);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_takeoff);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_more);
 		
-		UtilGtk.ColorsRadio(extra_window_radio_jump_free);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_sj);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_sjl);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_cmj);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_cmjl);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_slcmj);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_abk);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_dj);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rocket);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_takeoff);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_more);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_free);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_sj);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_sjl);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_cmj);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_cmjl);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_slcmj);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_abk);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_dj);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rocket);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_takeoff);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_more);
 
 		//jumpsRj changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_j);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_t);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_unlimited);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_hexagon);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_jump_rj_more);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_j);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_t);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_unlimited);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_hexagon);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_more);
 
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_j);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_t);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_unlimited);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_hexagon);
-		UtilGtk.ColorsRadio(extra_window_radio_jump_rj_more);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_j);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_t);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_unlimited);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_hexagon);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_more);
 
 		//runs changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_custom);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_20m);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_100m);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_200m);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_400m);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_gesell);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_20yard);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_505);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_illinois);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_margaria);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_shuttle);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_zigzag);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_custom);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_20m);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_100m);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_200m);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_400m);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_gesell);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_20yard);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_505);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_illinois);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_margaria);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_shuttle);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_zigzag);
 		
-		UtilGtk.ColorsRadio(extra_window_radio_run_more);
-		UtilGtk.ColorsRadio(extra_window_radio_run_custom);
-		UtilGtk.ColorsRadio(extra_window_radio_run_20m);
-		UtilGtk.ColorsRadio(extra_window_radio_run_100m);
-		UtilGtk.ColorsRadio(extra_window_radio_run_200m);
-		UtilGtk.ColorsRadio(extra_window_radio_run_400m);
-		UtilGtk.ColorsRadio(extra_window_radio_run_gesell);
-		UtilGtk.ColorsRadio(extra_window_radio_run_20yard);
-		UtilGtk.ColorsRadio(extra_window_radio_run_505);
-		UtilGtk.ColorsRadio(extra_window_radio_run_illinois);
-		UtilGtk.ColorsRadio(extra_window_radio_run_margaria);
-		UtilGtk.ColorsRadio(extra_window_radio_run_shuttle);
-		UtilGtk.ColorsRadio(extra_window_radio_run_zigzag);
-		UtilGtk.ColorsRadio(extra_window_radio_run_more);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_more);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_custom);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_20m);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_100m);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_200m);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_400m);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_gesell);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_20yard);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_505);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_illinois);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_margaria);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_shuttle);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_zigzag);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_more);
 
 		//runs intervalchanges
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_by_laps);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_by_time);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_unlimited);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_mtgug);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_run_interval_more);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_interval_by_laps);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_interval_by_time);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_interval_unlimited);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_interval_mtgug);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_interval_more);
 
-		UtilGtk.ColorsRadio(extra_window_radio_run_interval_by_laps);
-		UtilGtk.ColorsRadio(extra_window_radio_run_interval_by_time);
-		UtilGtk.ColorsRadio(extra_window_radio_run_interval_unlimited);
-		UtilGtk.ColorsRadio(extra_window_radio_run_interval_mtgug);
-		UtilGtk.ColorsRadio(extra_window_radio_run_interval_more);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_interval_by_laps);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_interval_by_time);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_interval_unlimited);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_interval_mtgug);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_run_interval_more);
 
 		//reaction times changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_reaction_time);
-		UtilGtk.ColorsRadio(extra_window_radio_reaction_time);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time);
 
 		//pulses changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_pulses_free);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_pulses_custom);
-		UtilGtk.ColorsRadio(extra_window_radio_pulses_free);
-		UtilGtk.ColorsRadio(extra_window_radio_pulses_custom);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_custom);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_free);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_pulses_custom);
 
 		//multichronopic changes
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_multichronopic_start);
-		UtilGtk.ColorsTestLabel(label_extra_window_radio_multichronopic_run_analysis);
-		UtilGtk.ColorsRadio(extra_window_radio_multichronopic_start);
-		UtilGtk.ColorsRadio(extra_window_radio_multichronopic_run_analysis);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_start);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_multichronopic_run_analysis);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_start);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_run_analysis);
 
 
 		//persons buttons

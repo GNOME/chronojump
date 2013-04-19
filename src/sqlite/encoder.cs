@@ -55,7 +55,7 @@ class SqliteEncoder : Sqlite
 			"smooth FLOAT, " +  	//unused. since 1.3.7 is on preferences
 			"description TEXT, " +
 			"future1 TEXT, " +	//works as status: "active", "inactive"
-			"future2 TEXT, " +
+			"future2 TEXT, " +	//URL of video of signals
 			"future3 TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}

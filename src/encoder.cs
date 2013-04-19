@@ -252,8 +252,8 @@ public class EncoderSQL
 	public int minHeight;
 	public double smooth;	//unused on curves, since 1.3.7 it's in database
 	public string description;
-	public string future1;
-	public string future2;
+	public string future1;	//active or inactive curves
+	public string future2;	//URL of video of signals
 	public string future3;
 	public string exerciseName;
 	

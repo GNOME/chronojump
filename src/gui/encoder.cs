@@ -277,33 +277,6 @@ public partial class ChronoJumpWindow
 		encoderThreadStart(encoderModes.CALCULECURVES);
 	}
 	
-	void on_button_encoder_capture_help_clicked (object o, EventArgs args)
-	{
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				"<b>ENGLISH:</b> Since version 1.3.4 there are two methods of capture:\n\n" +
-				"- <b>External</b>: Capture happens in a new window\n" + 
-				"  Advantages: Has real-time graphs and lots of features\n" + 
-				"  Disadvantages: Open new window is slow and there are problems on some computers\n\n" +
-				"- <b>Safe</b>: Capture happens in this window\n" +
-				"  Advantages: Fast and without problems\n" + 
-				"  Disadvantages: Currently at realtime only plots a simple graph\n\n" +
-				"Conclusion: In next versions 'Safe' mode will be the only one\n" +
-				"Now it lacks features like real-time statistics and graphs\n" +
-				"<b>After</b> capturing, both methods show the same results" +
-				"\n\n" +
-				"<b>CASTELLANO:</b> A partir de la versión 1.3.4 hay dos métodos de capturar:\n\n" +
-				"- <b>External (externo)</b>: Se captura en una nueva ventana\n" + 
-				"  Ventajas: Tiene gráficos en tiempo real y muchas posibilidades\n" + 
-				"  Desventajas: Abrir una nueva ventana es lento y da problemas en algunos equipos\n\n" +
-				"- <b>Safe (seguro)</b>: Se captura en esta ventana\n" +
-				"  Ventajas: Rápido y no da problemas\n" + 
-				"  Desventajas: Actualmente en tiempo real sólo muestra un gráfico sencillo\n\n" +
-				"Conclusión: En las siguientes versiones el modo 'Seguro' será el único\n" +
-				"En este momento carece de las ventajas del modo externo\n" +
-				"<b>Después</b> de la captura, ambos métodos muestran los mismos resultados"
-				);
-	}
-		
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
 	{
 		encoderProcessCancel = true;
@@ -3116,6 +3089,7 @@ Log.WriteLine(str);
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
+				createChronopicWindow(true);
 				return;
 			}
 		} else if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {

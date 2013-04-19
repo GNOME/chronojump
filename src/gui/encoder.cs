@@ -1274,6 +1274,22 @@ public partial class ChronoJumpWindow
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Signal saved");
+			
+				//move video	
+				if(videoOn) {
+					if(Util.MoveTempVideo(currentSession.UniqueID, 
+								Constants.TestTypes.ENCODER, 
+								Convert.ToInt32(encoderSignalUniqueID))) {
+						eSQL.future2 = Util.GetVideoFileName(currentSession.UniqueID, 
+								Constants.TestTypes.ENCODER, 
+								Convert.ToInt32(encoderSignalUniqueID));
+						//need assign uniqueID to update and add the URL of video
+						eSQL.uniqueID = encoderSignalUniqueID;
+						SqliteEncoder.Update(false, eSQL);
+					} else
+						new DialogMessage(Constants.MessageTypes.WARNING, 
+								Catalog.GetString("Sorry, video cannot be stored."));
+				}
 			}
 		}
 		else {
@@ -3081,6 +3097,13 @@ Log.WriteLine(str);
 				pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 
+
+				checkbutton_video_encoder.Sensitive = false;
+				if(videoOn) {
+					capturer.ClickRec();
+					label_video_feedback_encoder.Text = "Rec";
+				}
+
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 				Log.WriteLine("DDDDDDDDDDDDDDD");
@@ -3248,6 +3271,17 @@ Log.WriteLine(str);
 				mode == encoderModes.RECALCULATE_OR_LOAD )
 		{
 			Log.WriteLine("ffffffinishPulsebarrrrr");
+		
+			//stop video		
+			if(mode == encoderModes.CAPTURE) {
+				checkbutton_video_encoder.Sensitive = true;
+				if(videoOn) {
+					label_video_feedback_encoder.Text = "";
+					capturer.ClickStop();
+					videoCapturePrepare();
+				}
+			}
+			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
 			if(encoderProcessCancel) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);

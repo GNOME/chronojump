@@ -3357,7 +3357,8 @@ Log.WriteLine("DDD 1");
 			//move video file if exists
 			if(videoOn)
 				if (! Util.MoveTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
-					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
+					new DialogMessage(Constants.MessageTypes.WARNING, 
+							Catalog.GetString("Sorry, video cannot be stored."));
 
 			if(weightPercentPreferred)
 				myTreeViewJumps.Add(currentPerson.Name, currentJump);

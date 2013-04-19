@@ -41,6 +41,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
+	[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.SpinButton spin_encoder_capture_time;
@@ -395,7 +396,7 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.future1;
 			Log.WriteLine(checkboxes[count-1]);
-			dataPrint.Add(es.ToStringArray(count,true));
+			dataPrint.Add(es.ToStringArray(count,true,false));
 		}
 	
 		string [] columnsString = {
@@ -756,7 +757,7 @@ public partial class ChronoJumpWindow
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(EncoderSQL es in data) 
-			dataPrint.Add(es.ToStringArray(count++,false));
+			dataPrint.Add(es.ToStringArray(count++,false,true));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
@@ -765,6 +766,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
 			Catalog.GetString("Date"),
+			Catalog.GetString("Video"),
 			Catalog.GetString("Comment")
 		};
 
@@ -832,6 +834,7 @@ public partial class ChronoJumpWindow
 				entry_encoder_signal_comment.Text = es.description;
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
+				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
 			}
 		}
 
@@ -1275,6 +1278,7 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Signal saved");
 			
+				button_video_play_this_test_encoder.Sensitive = false;
 				//move video	
 				if(videoOn) {
 					if(Util.MoveTempVideo(currentSession.UniqueID, 
@@ -1286,9 +1290,11 @@ public partial class ChronoJumpWindow
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(false, eSQL);
-					} else
+						button_video_play_this_test_encoder.Sensitive = true;
+					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
 								Catalog.GetString("Sorry, video cannot be stored."));
+					}
 				}
 			}
 		}
@@ -2901,6 +2907,7 @@ Log.WriteLine(str);
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
+		
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
 		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
@@ -3103,6 +3110,7 @@ Log.WriteLine(str);
 					capturer.ClickRec();
 					label_video_feedback_encoder.Text = "Rec";
 				}
+				button_video_play_this_test_encoder.Sensitive = false; 
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
@@ -3351,5 +3359,11 @@ Log.WriteLine(str);
 	}
 	
 	/* end of thread stuff */
-	
+
+	void on_video_play_this_test_encoder_clicked (object o, EventArgs args) {
+		if(! playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
+					Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID))))
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("Sorry, file not found"));
+	}
 }	

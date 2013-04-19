@@ -319,10 +319,12 @@ public class EncoderSQL
 		return str;
 	}
 
-	public string [] ToStringArray (int count, bool checkboxes) {
-		int all = 7;
+	public string [] ToStringArray (int count, bool checkboxes, bool video) {
+		int all = 8;
 		if(checkboxes)
-			all = 8;
+			all ++;
+		if(video)
+			all++;
 
 		string [] str = new String [all];
 		int i=0;
@@ -336,6 +338,14 @@ public class EncoderSQL
 		str[i++] = ecconLong;
 		str[i++] = extraWeight;
 		str[i++] = GetDate(true);
+		
+		if(video) {
+			if(future2 != "")
+				str[i++] = Catalog.GetString("Yes");
+			else
+				str[i++] = Catalog.GetString("No");
+		}
+
 		str[i++] = description;
 		return str;
 	}

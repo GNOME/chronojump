@@ -64,7 +64,7 @@ public class Constants
 	public const string SubtractionBetweenTests = "Subtraction between tests";
 
 	//tests types (dont' use character '-' will be used multimedia file names)
-	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC }
+	public enum TestTypes { JUMP, JUMP_RJ, RUN, RUN_I, RT, PULSE, MULTICHRONOPIC, ENCODER }
 	public static string JumpSimpleName = "Jump simple";
 	public static string JumpReactiveName = "Jump reactive";
 	public static string RunSimpleName = "Run simple";

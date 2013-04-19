@@ -4584,11 +4584,11 @@ Console.WriteLine("X");
 	 */
 
 	
-	private void playVideo(string fileName) {
+	private bool playVideo(string fileName) {
 		if(File.Exists(fileName)) {
 			PlayerBin player = new PlayerBin();
 			player.Open(fileName);
-			
+
 			//without these lines works also but has less functionalities (speed, go to ms)
 			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
 			d.Add(player);
@@ -4596,8 +4596,10 @@ Console.WriteLine("X");
 			d.SetDefaultSize(500,400);
 			d.ShowAll();
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
-			player.Play(); 
+			player.Play();
+			return true;	
 		}
+		return false;	
 	}
 
 	private void on_video_play_this_test_clicked (object o, EventArgs args) {

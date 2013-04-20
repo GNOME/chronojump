@@ -50,17 +50,22 @@ pygame: http://pygame.org/ftp/pygame-1.9.2a0.win32-py2.7.msi
 pyper: http://sourceforge.net/projects/rinpy/files/  download: PypeR-1.1.1.zip
 pyserial
 
+chronopic-firmwarecord needs wxpython:
+www.wxpython.org/download.php#stable
+wxPython2.8-win32-unicode-py27
+
+
 if the python packages have not installation executable, put them at Lib/site-packages and the install like this:
 
 c:\Python27-32\python.exe setup.py install
 
 b) Compile
 
-if python 32 bits is at "c:\Python27-32" do:
-
-Windows command line window at chronojump\win32
-c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py install
-c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py py2exe -d "deps/bin/encoder"
+#if python 32 bits is at "c:\Python27-32" do:
+#Windows command line window at chronojump\win32
+#c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py install
+#c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py py2exe -d "deps/bin/encoder"
+#don't do last four because it's done in win32\Makefile automatically when make win32-installer is executed 
 
 from MinGW:
 cerbero/cerbero-uninstalled shell

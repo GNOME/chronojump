@@ -145,7 +145,8 @@ class MyFrame(wx.Frame):
         self.SetTitle("Chronopic Firmware Updater")
         self.frame_1_statusbar.SetStatusWidths([-1])
         # statusbar fields
-        frame_1_statusbar_fields = ["Change / Cambiar Chronopic firmware"]
+        #frame_1_statusbar_fields = ["Change / Cambiar Chronopic firmware"]
+        frame_1_statusbar_fields = ["Firmwares in Chronojump\\share\\Chronojump\\firmware"]
         for i in range(len(frame_1_statusbar_fields)):
             self.frame_1_statusbar.SetStatusText(frame_1_statusbar_fields[i], i)
         self.text_ctrl_2.SetMinSize((250, 27))
@@ -222,7 +223,7 @@ class MyFrame(wx.Frame):
         self.cancelar = True  
        
     def boton_ayuda(self, event): # wxGlade: MyFrame.<event_handler>
-        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
+        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nFirmwares are in Chronojump installation folder, \\share\\Chronojump\\firmware\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nLos firmwares estan en la carpeta de instalacion de Chronojump, \\share\\Chronojump\\firmware\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
 	dlg.ShowModal()
 
     def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>

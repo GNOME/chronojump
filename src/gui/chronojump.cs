@@ -27,9 +27,11 @@ using System.IO.Ports;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
+using LongoMatch.Video.Utils;
 
 public partial class ChronoJumpWindow 
 {
@@ -2799,9 +2801,21 @@ public partial class ChronoJumpWindow
 
 		s.VideoBitrate =  1000;
 		s.AudioBitrate =  128;
-		s.CaptureSourceType = CaptureSourceType.Raw;
+		//s.CaptureSourceType = CaptureSourceType.Raw;
+		//s.CaptureSourceType = CaptureSourceType.DV;
+		s.CaptureSourceType = CaptureSourceType.System;
 		s.Width = 360;
 		s.Height = 288;
+		
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		foreach(LongoMatch.Video.Utils.Device dev in devices){
+			Log.WriteLine(dev.ID.ToString());
+			Log.WriteLine(dev.IDProperty.ToString());
+			Log.WriteLine(dev.DeviceType.ToString());
+		}
+			
+		s.DeviceID = devices[0].ID;
+		
 
 		capturer.CaptureProperties = s;
 

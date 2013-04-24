@@ -457,6 +457,10 @@ public partial class ChronoJumpWindow
 		//i think report it's deactivated until a new session is created or loaded, 
 		//but check what happens if report window is opened
 
+		//put videoOn as false before loading preferences to start always without the camera
+		//this is good if camera produces crash
+		SqlitePreferences.Update("videoOn", "False", false);
+
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
 		loadPreferences ();

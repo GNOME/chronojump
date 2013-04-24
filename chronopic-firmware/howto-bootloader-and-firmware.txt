@@ -67,14 +67,26 @@ la gravacio de firmware funciona fins i tot tenint-hi el encoder connectat
 3.A chronopics 4MHz grabar bootloader:
 --------------------------------------
 
+Com el de 20MHz, pero...
+NO clicar a bootloader (pq grava el de 20MHz (PIC16_bootloader_1.2.hex))
+SI: clicar cerca, i anar a:
+/home/xavier/informatica/progs_meus/chronojump/chronopic-3.0/bootloader/chronopic_bootloader.hex
+gravar i després gravar: paraula 3F39
+-firmware
+
+
 3.B chronopics 4MHz grabar firmwre:
 -----------------------------------
 
+chronopic-firmwarecord
 
 
 
-
-
+-------------------------
+-------------------------
+OLD
+-------------------------
+-------------------------
 
 
 -------------------------

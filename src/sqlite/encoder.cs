@@ -317,7 +317,7 @@ class SqliteEncoder : Sqlite
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description
 			"Bench press:0:weight bar:", 
-			"Squat:75:weight bar:", 
+			"Squat:100:weight bar:", 
 			"Jump:100:none:",
 			"Free:0::"	
 		};
@@ -328,6 +328,25 @@ class SqliteEncoder : Sqlite
 		}
 	}
 
+	public static void UpdateExercise(bool dbconOpened, string name, int percentBodyWeight, 
+			string ressistance, string description)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + " SET " +
+				" percentBodyWeight = " + percentBodyWeight +
+				", ressistance = '" + ressistance +
+				"', description = '" + description +
+				"' WHERE name = '" + name + "'" ;
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
 	//if uniqueID != -1, returns an especific EncoderExercise that can be read like this	
 	//EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(eSQL.exerciseID)[0];
 	public static ArrayList SelectEncoderExercises(bool dbconOpened, int uniqueID, bool onlyNames) 

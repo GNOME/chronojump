@@ -65,7 +65,7 @@ GST_PLUGINS_DEPS = ['libgnl.dll', 'libgsta52dec.dll', 'libgstadder.dll', 'libgst
             'libgstmpegaudioparse.dll', 'libgstmpegdemux.dll',
             'libgstogg.dll', 'libgstplaybin.dll', 'libgstpng.dll',
             'libgstisomp4.dll', 'libgstrsvg.dll', 'libgstschro.dll',
-            'libgsttheora.dll',
+            'libgsttheora.dll', 'libgstapp.dll',
             'libgsttypefindfunctions.dll', 'libgstvideobox.dll',
             'libgstvideocrop.dll', 'libgstvideomixer.dll', 'libgstvideorate.dll',
             'libgstvideoscale.dll', 'libgstvideotestsrc.dll', 'libgstvolume.dll', 'libgstvorbis.dll',
@@ -88,7 +88,7 @@ GST_DLL_DEPS = ['libgstapp-0.10-0.dll', 'libgstaudio-0.10-0.dll',
         'libgstvideo-0.10-0.dll']
 
 GLIB_DEPS = ['libgio-2.0-0.dll', 'libglib-2.0-0.dll', 'libgmodule-2.0-0.dll',
-        'libgobject-2.0-0.dll', 'libgthread-2.0-0.dll', 'libintl-8.dll', 'libffi-5.dll']
+        'libgobject-2.0-0.dll', 'libgthread-2.0-0.dll', 'libintl-8.dll', 'libffi-6.dll']
 
 MSYS_DEPS = ['sh.exe', 'rxvt.exe', 'sh.exe', 'msys-1.0.dll', 'libW11.dll']
 

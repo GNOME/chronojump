@@ -3,7 +3,7 @@ EXTRA_DIST = m4 expansions.m4
 ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = chronopic-firmware \
-	encoder libcesarplayer CesarPlayer rdotnet src po manual chronojump_server
+	encoder libcesarplayer CesarPlayer src po manual chronojump_server #rdotnet 
 
 #if OSTYPE_LINUX
 #SUBDIRS += chronopic-tests chronojump_server

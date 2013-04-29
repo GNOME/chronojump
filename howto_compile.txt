@@ -67,10 +67,15 @@ b) Compile
 #c:\Python27-32\python.exe ..\encoder\setup-pyserial_pyper_windows.py py2exe -d "deps/bin/encoder"
 #don't do last four because it's done in win32\Makefile automatically when make win32-installer is executed 
 
+
+
 from MinGW:
 cerbero/cerbero-uninstalled shell
 
 at new shell:
+
+#Andoni:  hay un problema cuando se lanza la shell esto es para que use las autoconf de cerbero:
+export PATH=~/cerbero/build-tools/bin:$PATH
 
 sh autogen.sh --prefix /home/windblows/chronojump/win32/dist
 make

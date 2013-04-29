@@ -163,8 +163,6 @@ namespace LongoMatch.Video.Common
 	public enum CaptureSourceType {
 		None,
 		DV,
-		//Raw,
-		//DShow
 		System,
 		URI,
 	}

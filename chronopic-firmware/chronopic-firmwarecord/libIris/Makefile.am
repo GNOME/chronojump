@@ -12,3 +12,4 @@ clean-local:
 	rm -rf *.pyc *.pyo
 
 EXTRA_DIST = $(chronojump_PYTHON)
+DESTDIR = $(expanded_bindir)

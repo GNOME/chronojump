@@ -995,6 +995,9 @@ public class PersonAddModifyWindow
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		s.DeviceID = devices[0].ID;
+		
 		s.CaptureSourceType = CaptureSourceType.System;
 
 		capturer.CaptureProperties = s;

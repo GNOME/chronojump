@@ -2828,9 +2828,9 @@ public partial class ChronoJumpWindow
 			capturer.Type = CapturerType.Fake;
 		capturer.Visible=true;
 
-		//try {
-		//	capturer.Stop();
-		//} catch {}
+		try {
+			capturer.Stop();
+		} catch {}
 		capturer.Run();
 	}
 	

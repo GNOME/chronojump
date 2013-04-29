@@ -62,7 +62,6 @@ namespace LongoMatch.Gui
 			captureProps.AudioEncoder = AudioEncoderType.Aac;
 			captureProps.Muxer = VideoMuxerType.Mp4;
 			captureProps.OutputFile = "";
-			//captureProps.CaptureSourceType = CaptureSourceType.Raw;
 			captureProps.CaptureSourceType = CaptureSourceType.System;
 			Type = CapturerType.Fake;
 		}		

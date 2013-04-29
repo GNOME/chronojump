@@ -2805,8 +2805,6 @@ public partial class ChronoJumpWindow
 
 		s.VideoBitrate =  1000;
 		s.AudioBitrate =  128;
-		//s.CaptureSourceType = CaptureSourceType.Raw;
-		//s.CaptureSourceType = CaptureSourceType.DV;
 		s.CaptureSourceType = CaptureSourceType.System;
 		s.Width = 360;
 		s.Height = 288;
@@ -2830,9 +2828,9 @@ public partial class ChronoJumpWindow
 			capturer.Type = CapturerType.Fake;
 		capturer.Visible=true;
 
-		try {
-			capturer.Stop();
-		} catch {}
+		//try {
+		//	capturer.Stop();
+		//} catch {}
 		capturer.Run();
 	}
 	

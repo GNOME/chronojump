@@ -995,7 +995,6 @@ public class PersonAddModifyWindow
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		//s.CaptureSourceType = CaptureSourceType.Raw;
 		s.CaptureSourceType = CaptureSourceType.System;
 
 		capturer.CaptureProperties = s;

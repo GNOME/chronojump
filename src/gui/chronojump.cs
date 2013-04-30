@@ -2797,7 +2797,8 @@ public partial class ChronoJumpWindow
 		
 		videoCapturePrepare(); 
 	}
-	
+
+	int videoSourceNum = 0;	
 	private void videoCapturePrepare() {
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
@@ -2809,6 +2810,7 @@ public partial class ChronoJumpWindow
 		s.Width = 360;
 		s.Height = 288;
 		
+Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		foreach(LongoMatch.Video.Utils.Device dev in devices){
 			Log.WriteLine(dev.ID.ToString());
@@ -2816,7 +2818,7 @@ public partial class ChronoJumpWindow
 			Log.WriteLine(dev.DeviceType.ToString());
 		}
 			
-		s.DeviceID = devices[0].ID;
+		s.DeviceID = devices[videoSourceNum].ID;
 		
 
 		capturer.CaptureProperties = s;
@@ -2833,6 +2835,41 @@ public partial class ChronoJumpWindow
 		} catch {}
 		capturer.Run();
 	}
+	
+	private void on_button_video_source_clicked (object o, EventArgs args) {
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		string [] devicesStr = new String[devices.Count];
+		int count = 0;
+Log.WriteLine("yessssssssssssssssss");
+		foreach(LongoMatch.Video.Utils.Device dev in devices) {
+			devicesStr[count++] = dev.ID.ToString();
+			Log.WriteLine(dev.ID.ToString());
+		}
+		
+		if(count == 0)
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, No cameras found."));
+		else {
+			genericWin = GenericWindow.Show(
+					Catalog.GetString("Select video source"), 
+					Constants.GenericWindowShow.COMBO);
+			genericWin.SetComboValues(devicesStr, devicesStr[0]);
+			genericWin.ShowCombo(true);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_video_source_accepted);
+			genericWin.ShowNow();
+		}
+	}
+
+	private void on_button_video_source_accepted (object o, EventArgs args) {
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		int count = 0;
+		foreach(LongoMatch.Video.Utils.Device dev in devices) {
+			if(dev.ToString() == genericWin.GetComboSelected)
+				videoSourceNum = count;
+			count ++;
+		}
+		genericWin.HideAndNull();
+	}
+
 	
 	private void changeVideoButtons(bool myVideo) {
 		image_video_yes.Visible = myVideo;
@@ -4706,7 +4743,6 @@ Console.WriteLine("X");
 						Constants.TestTypes.MULTICHRONOPIC,
 						myTreeViewMultiChronopic.EventSelectedID));
 	}
-
 
 	/* ---------------------------------------------------------
 	 * ----------------  EVENTS DELETE -------------------------

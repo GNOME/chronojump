@@ -25,6 +25,7 @@ using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List
 using Mono.Unix;
 using System.Threading;
 using System.IO; 

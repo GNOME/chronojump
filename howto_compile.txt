@@ -82,6 +82,13 @@ make
 make install
 make win32-installer
 
+If there are "copy" problems on make win32-installer, just delete the dist folder and execute it again
+
+Alternaively to test gstreamer stuff autogen command can be:
+sh autogen.sh --prefix /c/gstreamer-sdk/0.10/x86
+
+
+OLD -------------------
 Note: currently on windows rdotnet is not ok and make crashes:
 - remove 'rdotnet' in chronojump/Makefile SUBDIRS and DIST_SUBIDRS
 - comment "DLL_REFERENCES = \" and "../rdotnet/R.NET/bin/Debug/RDotNet.dll" in chronojump/src/Makefile

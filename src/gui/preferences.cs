@@ -62,6 +62,8 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_ecc_con;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
+	[Widget] Gtk.Label label_encoder_ecc_con;
+	[Widget] Gtk.Label label_encoder_con;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -183,6 +185,10 @@ public class PreferencesWindow {
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
 		PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value = encoderSmoothEccCon;
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = encoderSmoothCon;
+
+		//done here and not in glade to be shown with the decimal point of user language	
+		PreferencesWindowBox.label_encoder_ecc_con.Text = (0.6).ToString();
+		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;

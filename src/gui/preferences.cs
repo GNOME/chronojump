@@ -67,6 +67,9 @@ public class PreferencesWindow {
 //	[Widget] Gtk.Box hbox_combo_language;
 //	[Widget] Gtk.ComboBox combo_language;
 
+	[Widget] Gtk.Box hbox_combo_camera;
+	[Widget] Gtk.ComboBox combo_camera;
+
 	[Widget] Gtk.Button button_accept;
 	
 	static PreferencesWindow PreferencesWindowBox;
@@ -96,7 +99,8 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool encoderPropulsive, double encoderSmoothEccCon, double encoderSmoothCon)
+			string language, bool encoderPropulsive, double encoderSmoothEccCon, double encoderSmoothCon,
+			string [] videoDevices, int videoDeviceNum)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -107,6 +111,8 @@ public class PreferencesWindow {
 		//	PreferencesWindowBox.createComboLanguage(language);
 		//else 
 			PreferencesWindowBox.hideLanguageStuff();
+
+			PreferencesWindowBox.createComboCamera(videoDevices, videoDeviceNum);
 		
 		string [] decs = {"1", "2", "3"};
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(decs, digitsNumber.ToString());
@@ -182,6 +188,20 @@ public class PreferencesWindow {
 		return PreferencesWindowBox;
 	}
 	
+	private void createComboCamera(string [] devices, int current) {
+		combo_camera = ComboBox.NewText ();
+
+		if(devices.Length == 0) {
+			devices = Util.StringToStringArray(Constants.CameraNotFound);
+			current = 0;
+		}
+		
+		UtilGtk.ComboUpdate(combo_camera, devices, "");
+		hbox_combo_camera.PackStart(combo_camera, true, true, 0);
+		hbox_combo_camera.ShowAll();
+		combo_camera.Active = UtilGtk.ComboMakeActive(devices, devices[current]);
+	}
+
 	private void createComboLanguage(string myLanguageCode) {
 		/*
 		combo_language = ComboBox.NewText ();
@@ -372,6 +392,7 @@ public class PreferencesWindow {
 				(double) PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value), true);
 		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
+		SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
 	
 		Sqlite.Close();
 		

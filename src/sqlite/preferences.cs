@@ -74,6 +74,7 @@ class SqlitePreferences : Sqlite
 		Insert ("encoderPropulsive", "True");
 		Insert ("encoderSmoothEccCon", "0.6");
 		Insert ("encoderSmoothCon", "0.7");
+		Insert ("videoDevice", "0"); //first
 	}
 
 	public static void Insert(string myName, string myValue)

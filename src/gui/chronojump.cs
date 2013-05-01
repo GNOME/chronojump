@@ -2863,7 +2863,7 @@ Log.WriteLine("yessssssssssssssssss");
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		int count = 0;
 		foreach(LongoMatch.Video.Utils.Device dev in devices) {
-			if(dev.ToString() == genericWin.GetComboSelected)
+			if(dev.ID.ToString() == genericWin.GetComboSelected)
 				videoSourceNum = count;
 			count ++;
 		}

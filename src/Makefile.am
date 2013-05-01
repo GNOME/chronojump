@@ -198,6 +198,7 @@ FILES = \
  	utilAll.cs\
  	utilDate.cs\
 	utilGtk.cs\
+ 	utilVideo.cs\
 	constants.cs\
  	report.cs\
  	sport.cs\

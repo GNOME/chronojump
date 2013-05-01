@@ -2606,13 +2606,17 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private void on_preferences_activate (object o, EventArgs args) {
+	private void on_preferences_activate (object o, EventArgs args) 
+	{
+		string [] videoDevices = UtilVideo.GetVideoDevices();
+
 		PreferencesWindow myWin = PreferencesWindow.Show(
 				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
-				encoderPropulsive, encoderSmoothEccCon, encoderSmoothCon
+				encoderPropulsive, encoderSmoothEccCon, encoderSmoothCon,
+				videoDevices, videoDeviceNum 
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2698,6 +2702,11 @@ public partial class ChronoJumpWindow
 					SqlitePreferences.Select("encoderSmoothEccCon") ) );
 		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
 				SqlitePreferences.Select("encoderSmoothCon") ) );
+
+		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
+		if(checkbutton_video.Active) {
+			videoCapturePrepare();
+		}
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows()) 
@@ -2798,7 +2807,7 @@ public partial class ChronoJumpWindow
 		videoCapturePrepare(); 
 	}
 
-	int videoSourceNum = 0;	
+	int videoDeviceNum = 0;	
 	private void videoCapturePrepare() {
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
@@ -2818,7 +2827,7 @@ Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
 			Log.WriteLine(dev.DeviceType.ToString());
 		}
 			
-		s.DeviceID = devices[videoSourceNum].ID;
+		s.DeviceID = devices[videoDeviceNum].ID;
 		
 
 		capturer.CaptureProperties = s;
@@ -2836,40 +2845,6 @@ Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		capturer.Run();
 	}
 	
-	private void on_button_video_source_clicked (object o, EventArgs args) {
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
-		string [] devicesStr = new String[devices.Count];
-		int count = 0;
-Log.WriteLine("yessssssssssssssssss");
-		foreach(LongoMatch.Video.Utils.Device dev in devices) {
-			devicesStr[count++] = dev.ID.ToString();
-			Log.WriteLine(dev.ID.ToString());
-		}
-		
-		if(count == 0)
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, No cameras found."));
-		else {
-			genericWin = GenericWindow.Show(
-					Catalog.GetString("Select video source"), 
-					Constants.GenericWindowShow.COMBO);
-			genericWin.SetComboValues(devicesStr, devicesStr[0]);
-			genericWin.ShowCombo(true);
-			genericWin.Button_accept.Clicked += new EventHandler(on_button_video_source_accepted);
-			genericWin.ShowNow();
-		}
-	}
-
-	private void on_button_video_source_accepted (object o, EventArgs args) {
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
-		int count = 0;
-		foreach(LongoMatch.Video.Utils.Device dev in devices) {
-			if(dev.ID.ToString() == genericWin.GetComboSelected)
-				videoSourceNum = count;
-			count ++;
-		}
-		genericWin.HideAndNull();
-	}
-
 	
 	private void changeVideoButtons(bool myVideo) {
 		image_video_yes.Visible = myVideo;

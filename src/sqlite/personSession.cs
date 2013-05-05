@@ -350,14 +350,20 @@ class SqlitePersonSession : Sqlite
 	{
 		dbcon.Open();
 
+		//1.- first delete in personSession77 at this session
+
 		//delete relations (existance) within persons and sessions in this session
-		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable +" WHERE sessionID == " + sessionID +
+		dbcmd.CommandText = "Delete FROM " + Constants.PersonSessionTable + 
+			" WHERE sessionID == " + sessionID +
 			" AND personID == " + personID;
 		dbcmd.ExecuteNonQuery();
 
+		//2.- Now, it's not in this personSession77 in other sessions, delete if from DB
+
 		//if person is not in other sessions, delete it from DB
-		if(! PersonExistsInPS(Convert.ToInt32(personID))) {
-			Delete(Constants.PersonTable, Convert.ToInt32(personID));
+		if(! PersonExistsInPS(true, Convert.ToInt32(personID))) {
+			//this will open and close DB connection
+			Delete(true, Constants.PersonTable, Convert.ToInt32(personID));
 
 			//delete photos if any
 			if(File.Exists(Util.GetPhotoFileName(false, Convert.ToInt32(personID))))
@@ -365,6 +371,8 @@ class SqlitePersonSession : Sqlite
 			if(File.Exists(Util.GetPhotoFileName(true, Convert.ToInt32(personID))))
 				File.Delete(Util.GetPhotoFileName(true, Convert.ToInt32(personID)));
 		}
+
+		//3.- Delete tests
 				
 		//delete normal jumps
 		dbcmd.CommandText = "Delete FROM jump WHERE sessionID == " + sessionID +
@@ -406,13 +414,46 @@ class SqlitePersonSession : Sqlite
 			" AND personID == " + personID;
 			
 		dbcmd.ExecuteNonQuery();
+	
+		//delete from encoder
+		dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID == " + sessionID +
+			" AND personID == " + personID;
+			
+		dbcmd.ExecuteNonQuery();
 		
+
+		//delete encoder signal and curves (and it's videos)
+		ArrayList encoderArray = SqliteEncoder.Select(true, -1, 
+				Convert.ToInt32(personID), Convert.ToInt32(sessionID), "signal", false);
+		foreach(EncoderSQL eSQL in encoderArray) {
+			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
+			if(eSQL.future2 != "")
+				Util.FileDelete(eSQL.future2);		//video
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+		}
+		encoderArray = SqliteEncoder.Select(true, -1, 
+				Convert.ToInt32(personID), Convert.ToInt32(sessionID), "curve", false);
+		foreach(EncoderSQL eSQL in encoderArray) {
+			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			/* commented: curve has no video
+			if(eSQL.future2 != "")
+				Util.FileDelete(eSQL.future2);
+			*/
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+		}
+				
 		
+		//4.- TODO: delete videos
+
+
 		dbcon.Close();
 	}
 
-	public static bool PersonExistsInPS(int personID)
+	public static bool PersonExistsInPS(bool dbconOpened, int personID)
 	{
+		if( ! dbconOpened)
+			dbcon.Open();
+
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID;
 		//Log.WriteLine(dbcmd.CommandText.ToString());
@@ -429,6 +470,10 @@ class SqlitePersonSession : Sqlite
 		//Log.WriteLine(string.Format("personID exists = {0}", exists.ToString()));
 
 		reader.Close();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
+
 		return exists;
 	}
 

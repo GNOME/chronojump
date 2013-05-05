@@ -58,6 +58,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_update_signal;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
+	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
 	[Widget] Gtk.DrawingArea encoder_capture_drawingarea;
 	
@@ -539,7 +540,7 @@ public partial class ChronoJumpWindow
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk)  {
-			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(uniqueID));
+			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 			updateUserCurvesLabelsAndCombo();
 		}
 	}
@@ -887,7 +888,7 @@ public partial class ChronoJumpWindow
 			//remove the file
 			bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 			if(deletedOk)  
-				Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(uniqueID));
+				Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 
 			//genericWin selected row is deleted, unsensitive the "load" button
 			genericWin.SetButtonAcceptSensitive(false);
@@ -1071,7 +1072,7 @@ public partial class ChronoJumpWindow
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk) {
-			Sqlite.Delete(Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
+			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
 			encoderSignalUniqueID = "-1";
 			image_encoder_capture.Sensitive = false;
 			treeviewEncoderCaptureRemoveColumns();

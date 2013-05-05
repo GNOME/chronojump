@@ -804,16 +804,19 @@ public class Util
 			return Constants.ExtensionPhoto;
 	}
 			
-	public static bool MoveTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
+	public static bool CopyTempVideo(int sessionID, Constants.TestTypes type, int uniqueID) {
 		string origin = GetVideoTempFileName();
 		string destination = GetVideoFileName(sessionID, type, uniqueID);
-		if(File.Exists(origin) && ! File.Exists(destination)) {
+		if(File.Exists(origin)) {
 			CreateVideoSessionDirIfNeeded(sessionID);
+			/*
+			 * no more move it, just copy it, because maybe is still being recorded
 			try {
 				File.Move(origin, destination);
 			} catch {
-				File.Copy(origin, destination);
-			}
+			*/
+				File.Copy(origin, destination, true); //can be overwritten
+			//}
 			return true;
 		} else
 			return false;

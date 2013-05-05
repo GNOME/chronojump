@@ -1282,7 +1282,7 @@ public partial class ChronoJumpWindow
 				button_video_play_this_test_encoder.Sensitive = false;
 				//move video	
 				if(videoOn) {
-					if(Util.MoveTempVideo(currentSession.UniqueID, 
+					if(Util.CopyTempVideo(currentSession.UniqueID, 
 								Constants.TestTypes.ENCODER, 
 								Convert.ToInt32(encoderSignalUniqueID))) {
 						eSQL.future2 = Util.GetVideoFileName(currentSession.UniqueID, 

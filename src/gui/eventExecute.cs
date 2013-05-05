@@ -1833,7 +1833,7 @@ Log.WriteLine("Preparing reactive A");
 		if(videoOn) {	
 			label_video_feedback.Text = "";
 			capturer.ClickStop();
-			videoCapturePrepare();
+			videoCapturePrepare(false); //if error, show message
 		}
 	}
 	
@@ -1960,7 +1960,7 @@ Log.WriteLine("Preparing reactive A");
 			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
 			label_video_feedback.Text = "";
 			capturer.ClickStop();
-			videoCapturePrepare();
+			videoCapturePrepare(false); //if error, show message
 		}
 	}
 	

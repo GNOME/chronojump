@@ -3287,7 +3287,7 @@ Log.WriteLine(str);
 				if(videoOn) {
 					label_video_feedback_encoder.Text = "";
 					capturer.ClickStop();
-					videoCapturePrepare();
+					videoCapturePrepare(false); //if error, show message
 				}
 			}
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known

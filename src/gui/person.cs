@@ -990,15 +990,20 @@ public class PersonAddModifyWindow
 	CapturerBin capturer;
 	void on_button_take_photo_clicked (object o, EventArgs args) 
 	{
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		if(devices.Count == 0) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.CameraNotFound);
+			return;
+		}
+
 		//deactivate camera to allow camera on edit person. videoOn will have same value to light checkbutton again later
 		app1_checkbutton_video.Active = false;
 
 		capturer = new CapturerBin();
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		s.DeviceID = devices[0].ID;
-		
+
 		s.CaptureSourceType = CaptureSourceType.System;
 
 		capturer.CaptureProperties = s;
@@ -1006,8 +1011,8 @@ public class PersonAddModifyWindow
 		capturer.Visible=true;
 		capturer.NewSnapshot += on_snapshot_done;
 		capturer.NewSnapshotMini += on_snapshot_mini_done;
-		
- 		capturerWindow = new Gtk.Window("Capturer");
+
+		capturerWindow = new Gtk.Window("Capturer");
 		capturerWindow.Add(capturer);
 		capturerWindow.Modal=true;
 		capturerWindow.SetDefaultSize(400,400);
@@ -1017,6 +1022,7 @@ public class PersonAddModifyWindow
 		capturerWindow.ShowAll();
 		capturerWindow.Present();
 		capturerWindow.DeleteEvent += delegate(object sender, DeleteEventArgs e) {capturer.Close(); capturer.Dispose(); person_win.Show(); };
+		
 		capturer.Run();
 	}
 

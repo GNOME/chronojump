@@ -2705,7 +2705,7 @@ public partial class ChronoJumpWindow
 
 		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {
-			videoCapturePrepare();
+			videoCapturePrepare(false); //if error, show message
 		}
 
 		//change language works on windows. On Linux let's change the locale
@@ -2804,11 +2804,20 @@ public partial class ChronoJumpWindow
 		
 		hbox_video_capture.PackStart(capturer, true, true, 0);
 		
-		videoCapturePrepare(); 
+		videoCapturePrepare(false); //if error, show message
 	}
 
 	int videoDeviceNum = 0;	
-	private void videoCapturePrepare() {
+	private void videoCapturePrepare(bool showErrorMessage) {
+		Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
+		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
+		if(devices.Count == 0) {
+			if(showErrorMessage)
+				new DialogMessage(Constants.MessageTypes.WARNING, Constants.CameraNotFound);
+			return;
+		}
+
+
 		CapturePropertiesStruct s = new CapturePropertiesStruct();
 
 		s.OutputFile = Util.GetVideoTempFileName();
@@ -2819,8 +2828,6 @@ public partial class ChronoJumpWindow
 		s.Width = 360;
 		s.Height = 288;
 		
-Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
-		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		foreach(LongoMatch.Video.Utils.Device dev in devices){
 			Log.WriteLine(dev.ID.ToString());
 			Log.WriteLine(dev.IDProperty.ToString());
@@ -2868,7 +2875,7 @@ Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		
 		changeVideoButtons(videoOn);
 		
-		videoCapturePrepare();
+		videoCapturePrepare(true); //if error, show message
 	}
 
 	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args) {
@@ -2886,7 +2893,7 @@ Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		
 		changeVideoButtons(videoOn);
 		
-		videoCapturePrepare();
+		videoCapturePrepare(true); //if error, show message
 	}
 
 	private void changeVolumeButton(bool myVolume) {

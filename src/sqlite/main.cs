@@ -1749,8 +1749,8 @@ class Sqlite
 
 		foreach(int personID in myArray) {
 			//if person is not in other sessions, delete it from DB
-			if(! SqlitePersonSession.PersonExistsInPS(personID))
-				Delete(Constants.PersonTable, personID);
+			if(! SqlitePersonSession.PersonExistsInPS(true, personID))
+				Delete(true, Constants.PersonTable, personID);
 		}
 	}
 				
@@ -2150,14 +2150,18 @@ Console.WriteLine("5" + tableName);
 		return myReturn;
 	}
 
-	public static void Delete(string tableName, int uniqueID)
+	public static void Delete(bool dbconOpened, string tableName, int uniqueID)
 	{
-		dbcon.Open();
+		if( ! dbconOpened)
+			dbcon.Open();
+
 		dbcmd.CommandText = "Delete FROM " + tableName +
 			" WHERE uniqueID == " + uniqueID.ToString();
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
 	}
 
 

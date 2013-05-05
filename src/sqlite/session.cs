@@ -618,6 +618,32 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "Delete FROM " + Constants.MultiChronopicTable + " WHERE sessionID == " + uniqueID;
 		dbcmd.ExecuteNonQuery();
 		
+		//delete from encoder
+		dbcmd.CommandText = "Delete FROM " + Constants.EncoderTable + " WHERE sessionID == " + uniqueID;
+			
+		dbcmd.ExecuteNonQuery();
+		
+
+		//delete encoder signal and curves (and it's videos)
+		ArrayList encoderArray = SqliteEncoder.Select(true, -1, -1, 
+				Convert.ToInt32(uniqueID), "signal", false);
+		foreach(EncoderSQL eSQL in encoderArray) {
+			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
+			if(eSQL.future2 != "")
+				Util.FileDelete(eSQL.future2);		//video
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+		}
+		encoderArray = SqliteEncoder.Select(true, -1, -1, 
+				Convert.ToInt32(uniqueID), "curve", false);
+		foreach(EncoderSQL eSQL in encoderArray) {
+			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+			/* commented: curve has no video
+			if(eSQL.future2 != "")
+				Util.FileDelete(eSQL.future2);
+			*/
+			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+		}
+				
 		
 		dbcon.Close();
 	}

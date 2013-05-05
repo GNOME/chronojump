@@ -11975,7 +11975,7 @@ on current Chronojump version.</property>
                                 <property name="can_focus">False</property>
                                 <property name="top_padding">4</property>
                                 <child>
-                                  <widget class="GtkNotebook" id="notebook2">
+                                  <widget class="GtkNotebook" id="notebook_encoder_sup">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="tab_hborder">10</property>

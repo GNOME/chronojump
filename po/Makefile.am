@@ -12,15 +12,20 @@ INSTALL_DIR = $(DESTDIR)$(prefix)/share/locale
 FILES = \
 	ar.po\
 	ca.po\
+	cs.po\
+	de.po\
 	dz.po\
+	el.po\
 	en_GB.po\
 	es.po\
 	fi.po\
 	fr.po\
+	gl.po\
 	nb.po\
 	oc.po\
 	pt.po\
 	pt_BR.po\
+	sl.po\
 	sv.po\
 	vi.po\
 	zh_CN.po

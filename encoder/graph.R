@@ -78,8 +78,19 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		if(b$maxindex[1] < b$minindex[1]) { b$minindex = rbind(c(1,1),b$minindex) } 
 		row=1; i=1; j=1
 		while(max(c(i,j)) <= min(c(length(b$minindex[,1]),length(b$maxindex[,1])))) {
-			tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
-			tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+
+			#tempStart at the mean of minindexs
+			#tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
+			
+			#tempStart at the end of minindexs
+			tempStart = b$minindex[i,2]
+			
+			#end at the mean of maximum values
+			#tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+
+			#end at the first maximum value
+			tempEnd = b$maxindex[j,1]
+			
 			height=a[tempEnd]-a[tempStart]
 #			print(paste(height,i,j))
 			if(height >= min_height) { 
@@ -150,6 +161,14 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		mtext("time (s) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
+	
+		#plot speed	
+		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		abline(h=0,lty=2,col="yellow")
+	        lines((1:length(rawdata))/1000, speed$y*10, col="green")
+		print("SPEEEDYYYY")
+		print(max(speed$y))	
+		print(min(speed$y))	
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -292,10 +311,10 @@ print("WARNING ECS\n\n\n\n\n")
 
 	power <- force*speed$y
 
-	if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
-		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
-			    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
-	else
+	#if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
+	#	return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
+	#		    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
+	#else
 		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
@@ -395,7 +414,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 		title(main=title,line=-2,outer=T)
 		mtext(subtitle,side=1,adj=0,cex=.8)
-		
+	
+
 		if(showAxes) {
 			axis(1) 	#can be added xmin
 			axis(2)
@@ -418,6 +438,15 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		abline(h=0,lty=3,col="black")
 
 		#abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
+
+
+print("ROTARY")		
+print(max(yValues))
+print(max(yValues)/2)
+print(mean(which(yValues == max(yValues)/2)))
+abline(h=round(mean(which(yValues == max(yValues)/2)),0))
+abline(v=round(mean(which(yValues == max(yValues)/2)),0))
+
 	}
 
 	#speed
@@ -1260,10 +1289,10 @@ doProcess <- function(options) {
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 
-		for(i in 1:n) { 
-			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-						       SmoothingOneEC, SmoothingOneC)
-		}
+		#for(i in 1:n) { 
+		#	curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+		#				       SmoothingOneEC, SmoothingOneC)
+		#}
 		if(curvesPlot) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 

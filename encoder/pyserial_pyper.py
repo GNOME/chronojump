@@ -82,9 +82,9 @@ direction_completed = -1		# 1 or -1
 #This will be useful to know the start of movement
 
 frames_pull_top1 = list()
-frames_pull_top2 = list()
+#frames_pull_top2 = list()	#unused
 frames_push_bottom1 = list()
-frames_push_bottom2 = list()
+#frames_push_bottom2 = list()	#unused
 previous_frame_change = 0
 
 lag=20
@@ -466,7 +466,7 @@ if __name__ == '__main__':
 	temp = list()		#raw values
 	temp_cumsum = list()	#cumulative sums of raw values
 	temp_cumsum.append(0)
-	temp_speed = list()
+	#temp_speed = list() 	#unused
 	w_time = datetime.now().second
 	#print "start read data"
 	# Detecting if serial port is available and Recording the data from Chronopic.
@@ -500,10 +500,12 @@ if __name__ == '__main__':
 		temp.append(signedChar_data)
 		if(i>0):
 			temp_cumsum.append(temp_cumsum[i-1]+signedChar_data)
-		if(i>lag):
-			temp_speed.append(1.0*(temp_cumsum[i]-temp_cumsum[i-lag])/lag)
-		else:
-			temp_speed.append(0)
+		
+		#unused
+		#if(i>lag):
+		#	temp_speed.append(1.0*(temp_cumsum[i]-temp_cumsum[i-lag])/lag)
+		#else:
+		#	temp_speed.append(0)
 
 		msCount = msCount +1
 		if msCount == 1000 :
@@ -526,27 +528,31 @@ if __name__ == '__main__':
 				k=list(temp_cumsum[previous_frame_change:i-direction_change_period])
 	
 				phase = 0
-				speed = 0
+				#speed = 0	#unused
 	
 				if direction_now == 1:
-					#we are going up, we passed the ditection_change_count
+					#we are going up, we passed the direction_change_count
 					#then we can record the bottom moment
-					#and print speed on going down
-					new_frame_change = previous_frame_change+k.index(min(k)) 
+					#and print speed on going down (Not done anymore)
+					new_frame_change = previous_frame_change+k.index(min(k))
+					print("NFC 1 1 %i" % new_frame_change) 
 					frames_push_bottom1.append(new_frame_change)
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
-					frames_push_bottom2.append(new_frame_change)
+					print("NFC 1 2 %i" % new_frame_change) 
+					#frames_push_bottom2.append(new_frame_change)	#unused
 					phase = " down"
-					if previous_frame_change != 0 and new_frame_change != 0:
-						speed = min(temp_speed[previous_frame_change:new_frame_change])
+					#if previous_frame_change != 0 and new_frame_change != 0:
+					#	speed = min(temp_speed[previous_frame_change:new_frame_change])
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
+					print("NFC 2 1 %i" % new_frame_change) 
 					frames_pull_top1.append(new_frame_change)
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(max(k))
-					frames_pull_top2.append(new_frame_change)
+					print("NFC 2 2 %i" % new_frame_change) 
+					#frames_pull_top2.append(new_frame_change)	unused
 					phase = "   up"
-					if previous_frame_change != 0 and new_frame_change != 0:
-						speed = max(temp_speed[previous_frame_change:new_frame_change])
+					#if previous_frame_change != 0 and new_frame_change != 0:
+					#	speed = max(temp_speed[previous_frame_change:new_frame_change])
 	
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:

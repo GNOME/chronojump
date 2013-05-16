@@ -250,6 +250,12 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderDataTempFileName(), "", ep);				
 
 		if (radiobutton_encoder_capture_external.Active) {
+			encoderStartVideoRecord();
+		
+			//wait to ensure label "Rec" has been shown
+			//Thread.Sleep(100);	
+			//Does not work. Basically it records, but Rec message is not shown because we would need to open a new thread here
+			
 			//title to sen to python software has to be without spaces
 			Util.RunEncoderCapturePython( 
 					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
@@ -257,6 +263,9 @@ public partial class ChronoJumpWindow
 					es, chronopicWin.GetEncoderPort());
 			
 			entry_encoder_signal_comment.Text = "";
+			
+			encoderStopVideoRecord();
+			
 			calculeCurves();
 		}
 		else if (radiobutton_encoder_capture_safe.Active) {
@@ -1280,7 +1289,7 @@ public partial class ChronoJumpWindow
 				feedback = Catalog.GetString("Signal saved");
 			
 				button_video_play_this_test_encoder.Sensitive = false;
-				//move video	
+				//copy video	
 				if(videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
 								Constants.TestTypes.ENCODER, 
@@ -3105,13 +3114,7 @@ Log.WriteLine(str);
 				pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 
-
-				checkbutton_video_encoder.Sensitive = false;
-				if(videoOn) {
-					capturer.ClickRec();
-					label_video_feedback_encoder.Text = "Rec";
-				}
-				button_video_play_this_test_encoder.Sensitive = false; 
+				encoderStartVideoRecord();
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
@@ -3282,14 +3285,9 @@ Log.WriteLine(str);
 			Log.WriteLine("ffffffinishPulsebarrrrr");
 		
 			//stop video		
-			if(mode == encoderModes.CAPTURE) {
-				checkbutton_video_encoder.Sensitive = true;
-				if(videoOn) {
-					label_video_feedback_encoder.Text = "";
-					capturer.ClickStop();
-					videoCapturePrepare(false); //if error, show message
-				}
-			}
+			if(mode == encoderModes.CAPTURE) 
+				encoderStopVideoRecord();
+			
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
 			if(encoderProcessCancel) {
@@ -3360,6 +3358,28 @@ Log.WriteLine(str);
 	}
 	
 	/* end of thread stuff */
+	
+	/* video stuff */
+	private void encoderStartVideoRecord() {
+		Log.WriteLine("Starting video");
+		checkbutton_video_encoder.Sensitive = false;
+		if(videoOn) {
+			capturer.ClickRec();
+			label_video_feedback_encoder.Text = "Rec";
+		}
+		button_video_play_this_test_encoder.Sensitive = false; 
+	}
+
+	private void encoderStopVideoRecord() {
+		Log.WriteLine("Stopping video");
+		checkbutton_video_encoder.Sensitive = true;
+		if(videoOn) {
+			label_video_feedback_encoder.Text = "";
+			capturer.ClickStop();
+			videoCapturePrepare(false); //if error, show message
+		}
+	}
+
 
 	void on_video_play_this_test_encoder_clicked (object o, EventArgs args) {
 		if(! playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
@@ -3367,4 +3387,6 @@ Log.WriteLine(str);
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Sorry, file not found"));
 	}
+	/* end of video stuff */
+
 }	

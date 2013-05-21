@@ -1289,10 +1289,10 @@ doProcess <- function(options) {
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 
-		#for(i in 1:n) { 
-		#	curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-		#				       SmoothingOneEC, SmoothingOneC)
-		#}
+		for(i in 1:n) { 
+			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+						       SmoothingOneEC, SmoothingOneC)
+		}
 		if(curvesPlot) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 

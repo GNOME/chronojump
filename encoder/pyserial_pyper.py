@@ -165,6 +165,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 
 		myR.assign('a',temp[start:end])
 		
+		print("start:" + str(start) + "; end:" + str(end)) 
+		
 		if direction_now == -1:
 			myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 
@@ -179,11 +181,13 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			if bcrossLen == 1:
 				x_ini = bcrossLen
 			else:
+				x_ini = 0
 				for i in bcross:
 					if i < maxSpeedT:
 						x_ini = i  #left adjust
 			
 			myR.assign('a',temp[start+x_ini:end])
+			print("start reduced:" + str(start + x_ini) + "; end:" + str(end)) 
 	
 		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 		myR.run('a.cumsum <- cumsum(a)')
@@ -195,7 +199,12 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 #		else:
 #			myR.run('force <- mass*accel$y')
 		myR.run('power <- force*speed$y')
-		myR.run('meanPower <- mean(abs(power))')
+
+		if eccon == "c":
+			myR.run('meanPower <- mean(power)')
+		else:
+			myR.run('meanPower <- mean(abs(power))')
+		
 		myR.run('peakPower <- max(power)')
 		
 		#without the 'min', if there's more than one value it returns a list and this make crash later in
@@ -527,30 +536,42 @@ if __name__ == '__main__':
 
 				k=list(temp_cumsum[previous_frame_change:i-direction_change_period])
 	
-				phase = 0
+				#phase = 0	#unused
 				#speed = 0	#unused
 	
 				if direction_now == 1:
 					#we are going up, we passed the direction_change_count
 					#then we can record the bottom moment
 					#and print speed on going down (Not done anymore)
+					
+					#this has (maybe) 0,-1,0,0,0,0,0, .... (and -1 can be selected (min(k)).
+					#Then, do not pass this to frames_push_bottom, pass the next new_frame_change
+					
 					new_frame_change = previous_frame_change+k.index(min(k))
-					print("NFC 1 1 %i" % new_frame_change) 
+					print("NFC 1 1 (start zeros on the bottom) %i" % new_frame_change) 
+					
 					frames_push_bottom1.append(new_frame_change)
+
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
-					print("NFC 1 2 %i" % new_frame_change) 
+					print("NFC 1 2 (end zeros on the bottom) %i" % new_frame_change) 
+					
 					#frames_push_bottom2.append(new_frame_change)	#unused
-					phase = " down"
+					#phase = " down" 				#unused
+					
 					#if previous_frame_change != 0 and new_frame_change != 0:
 					#	speed = min(temp_speed[previous_frame_change:new_frame_change])
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
-					print("NFC 2 1 %i" % new_frame_change) 
+					print("NFC 2 1 (start zeros on the top) %i" % new_frame_change) 
+					
 					frames_pull_top1.append(new_frame_change)
+					
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(max(k))
-					print("NFC 2 2 %i" % new_frame_change) 
-					#frames_pull_top2.append(new_frame_change)	unused
-					phase = "   up"
+					print("NFC 2 2 (end zeros on the top) %i" % new_frame_change) 
+					
+					#frames_pull_top2.append(new_frame_change)	#unused
+					#phase = "   up"				#unused
+					
 					#if previous_frame_change != 0 and new_frame_change != 0:
 					#	speed = max(temp_speed[previous_frame_change:new_frame_change])
 	

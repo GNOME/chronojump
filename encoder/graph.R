@@ -79,11 +79,14 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		row=1; i=1; j=1
 		while(max(c(i,j)) <= min(c(length(b$minindex[,1]),length(b$maxindex[,1])))) {
 
-			#tempStart at the mean of minindexs
-			#tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
-			
 			#tempStart at the end of minindexs
-			tempStart = b$minindex[i,2]
+			#tempStart = b$minindex[i,2]
+			
+			#tempStart at the mean of minindexs
+			#this is better because has more data in order to reduceCurveBySpeed
+			#then we get similar results than pyserial_pyper.py
+			tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
+			
 			
 			#end at the mean of maximum values
 			#tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
@@ -162,13 +165,13 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		mtext("height (cm) ",side=2,adj=1,line=-1)
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
-		#plot speed	
-		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		abline(h=0,lty=2,col="yellow")
-	        lines((1:length(rawdata))/1000, speed$y*10, col="green")
-		print("SPEEEDYYYY")
-		print(max(speed$y))	
-		print(min(speed$y))	
+		#plot speed (currently disabled)	
+		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		#abline(h=0,lty=2,col="yellow")
+	        #lines((1:length(rawdata))/1000, speed$y*10, col="green")
+		#print("SPEEEDYYYY")
+		#print(max(speed$y))	
+		#print(min(speed$y))	
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -180,6 +183,11 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
 	a=rawdata
 
+	#debug
+	#print("startT and aaaaaaaaaaaaaaaaaaaaaaa")
+	#print(startT)
+	#print(a)
+
 	smoothing = 0
 	if(eccon == "c")
 		smoothing = smoothingOneC
@@ -187,9 +195,6 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	b=extrema(speed$y)
 
-	#find the b$cross at left of max speed
-	x.ini=1
-	
 	#from searchValue, go to the left, searchValue is at max speed on going up
 	#but is min speed on going down (this happens when not "concentric" and when phase is odd (impar)
 	searchValue = max(speed$y)
@@ -200,9 +205,28 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 
 	maxSpeedT <- min(which(speed$y == searchValue))
 	
-	for(i in b$cross[,2]) 		{ if(i < maxSpeedT) { x.ini = i } } #left adjust
+	#left adjust
+	#find the b$cross at left of max speed
+		
+	x.ini = 0 #good to declare here
+	bcrossLen = length(b$cross[,2])
+	if(bcrossLen == 0)
+		x.ini = 0
+	else if(bcrossLen == 1)
+		x.ini = b$cross[,2]
+	else 
+		for(i in b$cross[,2]) 
+			if(i < maxSpeedT) 
+				x.ini = i
 
-	return(startT+x.ini)
+	#debug
+	#print(b)
+	print(b$cross[,2])
+	#print(bcrossLen)
+	#print(maxSpeedT)
+	print(x.ini)
+
+	return(startT + x.ini)
 }
 
 findECPhases <- function(a,speed) {

@@ -82,12 +82,8 @@ direction_completed = -1		# 1 or -1
 #This will be useful to know the start of movement
 
 frames_pull_top1 = list()
-#frames_pull_top2 = list()	#unused
 frames_push_bottom1 = list()
-#frames_push_bottom2 = list()	#unused
 previous_frame_change = 0
-
-lag=20
 
 mode = "graph"
 #mode = "text"
@@ -165,10 +161,11 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 
 		myR.assign('a',temp[start:end])
 		
-		print("start:" + str(start) + "; end:" + str(end)) 
+		print("start:" + str(start) + "; end:" + str(end))
 		
 		if direction_now == -1:
 			myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
+
 
 			#reduce curve by speed, the same way as graph.R
 			myR.run('b=extrema(speed$y)')
@@ -176,18 +173,28 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			maxSpeedT = myR.get('maxSpeedT')
 			bcrossLen = myR.get('length(b$cross[,2])')
 			bcross = myR.get('b$cross[,2]')
+			
+			#debug
+			b = myR.get('b')
+			print("printing bbbbbbbbbbbb")
+			print(b)
+			print("printing bbbbbbbbbbbb cross")
+			print(bcross)
+			print("printing bbbbbbbbbbbb maxSpeedT")
+			print(maxSpeedT)
+
 			if bcrossLen == 0:
 				return
 			if bcrossLen == 1:
-				x_ini = bcrossLen
+				x_ini = bcross	#if bcross has only one item, then this fails: 'bcross[0]'. Just do 'bcross'
 			else:
-				x_ini = 0
+				x_ini = bcross[0]
 				for i in bcross:
 					if i < maxSpeedT:
 						x_ini = i  #left adjust
 			
 			myR.assign('a',temp[start+x_ini:end])
-			print("start reduced:" + str(start + x_ini) + "; end:" + str(end)) 
+			print("start reduced (start+x_ini):" + str(start + x_ini) + " (x_ini:" + str(x_ini) + "); end:" + str(end)) 
 	
 		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 		myR.run('a.cumsum <- cumsum(a)')
@@ -475,9 +482,8 @@ if __name__ == '__main__':
 	temp = list()		#raw values
 	temp_cumsum = list()	#cumulative sums of raw values
 	temp_cumsum.append(0)
-	#temp_speed = list() 	#unused
 	w_time = datetime.now().second
-	#print "start read data"
+	print "start read data"
 	# Detecting if serial port is available and Recording the data from Chronopic.
 	for i in xrange(delete_initial_time):
 		#if ser.readable(): #commented because don't work on linux
@@ -505,17 +511,11 @@ if __name__ == '__main__':
 		byte_data = ser.read()
 		# conver HEX to INT value
 		signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
-    
+
 		temp.append(signedChar_data)
 		if(i>0):
 			temp_cumsum.append(temp_cumsum[i-1]+signedChar_data)
 		
-		#unused
-		#if(i>lag):
-		#	temp_speed.append(1.0*(temp_cumsum[i]-temp_cumsum[i-lag])/lag)
-		#else:
-		#	temp_speed.append(0)
-
 		msCount = msCount +1
 		if msCount == 1000 :
 			secondsLeft = secondsLeft -1
@@ -536,9 +536,6 @@ if __name__ == '__main__':
 
 				k=list(temp_cumsum[previous_frame_change:i-direction_change_period])
 	
-				#phase = 0	#unused
-				#speed = 0	#unused
-	
 				if direction_now == 1:
 					#we are going up, we passed the direction_change_count
 					#then we can record the bottom moment
@@ -555,11 +552,6 @@ if __name__ == '__main__':
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(min(k))
 					print("NFC 1 2 (end zeros on the bottom) %i" % new_frame_change) 
 					
-					#frames_push_bottom2.append(new_frame_change)	#unused
-					#phase = " down" 				#unused
-					
-					#if previous_frame_change != 0 and new_frame_change != 0:
-					#	speed = min(temp_speed[previous_frame_change:new_frame_change])
 				else:
 					new_frame_change = previous_frame_change+k.index(max(k))
 					print("NFC 2 1 (start zeros on the top) %i" % new_frame_change) 
@@ -569,12 +561,6 @@ if __name__ == '__main__':
 					new_frame_change = previous_frame_change+len(k)-1-k[::-1].index(max(k))
 					print("NFC 2 2 (end zeros on the top) %i" % new_frame_change) 
 					
-					#frames_pull_top2.append(new_frame_change)	#unused
-					#phase = "   up"				#unused
-					
-					#if previous_frame_change != 0 and new_frame_change != 0:
-					#	speed = max(temp_speed[previous_frame_change:new_frame_change])
-	
 
 				if len(frames_pull_top1)>0 and len(frames_push_bottom1)>0:
 					calculate_all_in_r(temp, frames_pull_top1, frames_push_bottom1, 

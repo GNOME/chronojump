@@ -1697,9 +1697,12 @@ Log.WriteLine(str);
 		//if(radiobutton_encoder_analyze_data_user_curves.Active)
 		//	massString = "";
 
-		Util.RunEncoderGraph(
-				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)), encoderStruct);
+		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
+		//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
+		if( ! radiobutton_encoder_analyze_data_user_curves.Active)
+			titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+
+		Util.RunEncoderGraph(titleStr, encoderStruct);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

@@ -52,18 +52,19 @@ mass = float(sys.argv[6])
 smoothingOneEC = float(sys.argv[7])
 smoothingOneC = float(sys.argv[8])
 eccon = sys.argv[9]				#contraction "ec" or "c"
-heightHigherCondition = int(sys.argv[10])
-heightLowerCondition = int(sys.argv[11])
-meanSpeedHigherCondition = float(sys.argv[12])
-meanSpeedLowerCondition = float(sys.argv[13])
-maxSpeedHigherCondition = float(sys.argv[14])
-maxSpeedLowerCondition = float(sys.argv[15])
-powerHigherCondition = int(sys.argv[16])
-powerLowerCondition = int(sys.argv[17])
-peakPowerHigherCondition = int(sys.argv[18])
-peakPowerLowerCondition = int(sys.argv[19])
-mainVariable = sys.argv[20]
-w_serial_port = sys.argv[21]
+analysisOptions = sys.argv[10]			#["p","none"]: propulsive or none
+heightHigherCondition = int(sys.argv[11])
+heightLowerCondition = int(sys.argv[12])
+meanSpeedHigherCondition = float(sys.argv[13])
+meanSpeedLowerCondition = float(sys.argv[14])
+maxSpeedHigherCondition = float(sys.argv[15])
+maxSpeedLowerCondition = float(sys.argv[16])
+powerHigherCondition = int(sys.argv[17])
+powerLowerCondition = int(sys.argv[18])
+peakPowerHigherCondition = int(sys.argv[19])
+peakPowerLowerCondition = int(sys.argv[20])
+mainVariable = sys.argv[21]
+w_serial_port = sys.argv[22]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -192,7 +193,20 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 				for i in bcross:
 					if i < maxSpeedT:
 						x_ini = i  #left adjust
-			
+		
+			#find propulsive
+			if analysisOptions == "p":
+				myR.run('accel <- predict( speed, deriv=1 )')
+				myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
+				myR.run('propulsiveData <- which(accel$y <= -9.81)') 
+				propulsiveData = myR.get('propulsiveData') 
+				print("propulsiveData:" + str(propulsiveData) + "; end:" + str(end) + 
+						";min(propulsiveData):" + str(min(propulsiveData)))
+				propulsiveDataLength = myR.get('length(propulsiveData)') 
+				if propulsiveDataLength > 0:
+					end = start + min(propulsiveData)
+
+
 			myR.assign('a',temp[start+x_ini:end])
 			print("start reduced (start+x_ini):" + str(start + x_ini) + " (x_ini:" + str(x_ini) + "); end:" + str(end)) 
 	

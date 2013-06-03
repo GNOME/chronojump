@@ -58,7 +58,7 @@ public class EncoderParams
 
 	//to encoder capture (pyserial_pyper.py)
 	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, 
-			string smoothEccCon, string smoothCon, string eccon,
+			string smoothEccCon, string smoothCon, string eccon, string analysisOptions,
 			double heightHigherCondition, double heightLowerCondition, 
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
@@ -73,6 +73,7 @@ public class EncoderParams
 		this.smoothEccCon = smoothEccCon;
 		this.smoothCon = smoothCon;
 		this.eccon = eccon;
+		this.analysisOptions = analysisOptions;
 		this.heightHigherCondition = heightHigherCondition;
 		this.heightLowerCondition = heightLowerCondition;
 		this.meanSpeedHigherCondition = meanSpeedHigherCondition;
@@ -88,8 +89,12 @@ public class EncoderParams
 	
 	public string ToString1 () 
 	{
+		string analysisOptionsPrint = analysisOptions;
+		if(analysisOptionsPrint == "")
+			analysisOptionsPrint = "none";
+
 		return time.ToString() + " " + minHeight.ToString() + " " + exercisePercentBodyWeight.ToString() + 
-			" " + mass.ToString() + " " + smoothEccCon + " " + smoothCon + " " + eccon +
+			" " + mass.ToString() + " " + smoothEccCon + " " + smoothCon + " " + eccon + " " + analysisOptionsPrint +
 			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
 			" " + Util.ConvertToPoint(meanSpeedHigherCondition.ToString()) + 	
 			" " + Util.ConvertToPoint(meanSpeedLowerCondition.ToString()) +

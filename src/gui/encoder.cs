@@ -188,6 +188,10 @@ public partial class ChronoJumpWindow
 			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, false);
 			return;
 		}
+		
+		string analysisOptions = "";
+		if(encoderPropulsive)
+			analysisOptions = "p";
 
 		double heightHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderHeightHigher)		
@@ -236,6 +240,7 @@ public partial class ChronoJumpWindow
 				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
+				analysisOptions,
 				heightHigherCondition, heightLowerCondition,
 				meanSpeedHigherCondition, meanSpeedLowerCondition,
 				maxSpeedHigherCondition, maxSpeedLowerCondition,

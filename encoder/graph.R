@@ -335,10 +335,13 @@ print("WARNING ECS\n\n\n\n\n")
 
 	power <- force*speed$y
 
-	#if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
-	#	return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
-	#		    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
-	#else
+	print("propulsiveEnd")
+	print(propulsiveEnd)
+
+	if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
+		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
+			    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
+	else
 		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
@@ -1509,7 +1512,7 @@ doProcess <- function(options) {
 			curves = curves[-discardedCurves,]
 
 		rownames(paf)=rownames(curves)
-		print("--------CURVES--------------")
+		print("--------CURVES (propulsive is not calculated yet) --------------")
 		print(curves)
 		print("----------PAF---------------")
 		print(paf)

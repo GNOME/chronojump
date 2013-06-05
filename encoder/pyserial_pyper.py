@@ -200,10 +200,10 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 				myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
 				myR.run('propulsiveData <- which(accel$y <= -9.81)') 
 				propulsiveData = myR.get('propulsiveData') 
-				print("propulsiveData:" + str(propulsiveData) + "; end:" + str(end) + 
-						";min(propulsiveData):" + str(min(propulsiveData)))
 				propulsiveDataLength = myR.get('length(propulsiveData)') 
 				if propulsiveDataLength > 0:
+					print("propulsiveData:" + str(propulsiveData) + "; end:" + str(end) + 
+							";min(propulsiveData):" + str(min(propulsiveData)))
 					end = start + min(propulsiveData)
 
 
@@ -523,6 +523,7 @@ if __name__ == '__main__':
 
 		#if ser.readable(): #commented because don't work on linux
 		byte_data = ser.read()
+
 		# conver HEX to INT value
 		signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
 

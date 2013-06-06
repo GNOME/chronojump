@@ -64,7 +64,8 @@ powerLowerCondition = int(sys.argv[18])
 peakPowerHigherCondition = int(sys.argv[19])
 peakPowerLowerCondition = int(sys.argv[20])
 mainVariable = sys.argv[21]
-w_serial_port = sys.argv[22]
+inverted = sys.argv[22]
+w_serial_port = sys.argv[23]
 
 delete_initial_time = 20			#delete first records because there's encoder bug
 #w_baudrate = 9600                           # Setting the baudrate of Chronopic(9600)
@@ -526,6 +527,10 @@ if __name__ == '__main__':
 
 		# conver HEX to INT value
 		signedChar_data = unpack('b' * len(byte_data), byte_data)[0]
+		
+		# invert sign if inverted is selected
+		if inverted == 1:
+			signedChard_data *= -1
 
 		temp.append(signedChar_data)
 		if(i>0):

@@ -36,6 +36,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_external;
+	[Widget] Gtk.CheckButton check_encoder_inverted;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
@@ -138,6 +139,8 @@ public partial class ChronoJumpWindow
 	bool encoderPropulsive;
 	double encoderSmoothEccCon; 
 	double encoderSmoothCon;
+
+	bool lastRecalculateWasInverted;
 
 	//CAPTURE is the capture from csharp (not from external python)	
 	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
@@ -246,13 +249,16 @@ public partial class ChronoJumpWindow
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
-				repetitiveConditionsWin.EncoderMainVariable
+				repetitiveConditionsWin.EncoderMainVariable,
+				check_encoder_inverted.Active
 				); 
 
 		EncoderStruct es = new EncoderStruct(
 				"",					//no data input
 				"",					//no graph ouptut
 				Util.GetEncoderDataTempFileName(), "", ep);				
+				
+		lastRecalculateWasInverted = check_encoder_inverted.Active;
 
 		if (radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
@@ -305,8 +311,16 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
-		if (File.Exists(Util.GetEncoderDataTempFileName()))
+		if (File.Exists(Util.GetEncoderDataTempFileName())) {
+			//change sign on signal file if check_encoder_inverted changed
+	
+			if(lastRecalculateWasInverted != check_encoder_inverted.Active) {
+				Util.ChangeSign(Util.GetEncoderDataTempFileName());
+				lastRecalculateWasInverted = check_encoder_inverted.Active;
+			}
+			
 			encoderThreadStart(encoderModes.RECALCULATE_OR_LOAD);
+		}
 		else
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
 	}
@@ -850,6 +864,8 @@ public partial class ChronoJumpWindow
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
 				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
+				check_encoder_inverted.Active = (es.future3 == "1");
+				lastRecalculateWasInverted = check_encoder_inverted.Active;
 			}
 		}
 
@@ -1259,8 +1275,11 @@ public partial class ChronoJumpWindow
 		}
 
 		string myID = "-1";	
-		if(mode == "signal")
+		string future3 = ""; //unused on curve	
+		if(mode == "signal") {
 			myID = encoderSignalUniqueID;
+			future3 = Util.BoolToInt(check_encoder_inverted.Active).ToString();
+		}
 
 		EncoderSQL eSQL = new EncoderSQL(
 				myID, 
@@ -1278,7 +1297,8 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				-1,			//Since 1.3.7 smooth is not stored in curves
 				desc,
-				"","","",
+				"","",
+				future3,
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
 				);
@@ -1437,6 +1457,11 @@ public partial class ChronoJumpWindow
 			byteReaded = sp.ReadByte();
 			if(byteReaded > 128)
 				byteReaded = byteReaded - 256;
+
+			//invert sign if inverted is selected
+			if(check_encoder_inverted.Active)
+				byteReaded *= -1;
+
 			i=i+1;
 			if(i >= 0) {
 				sum += byteReaded;

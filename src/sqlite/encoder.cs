@@ -56,7 +56,7 @@ class SqliteEncoder : Sqlite
 			"description TEXT, " +
 			"future1 TEXT, " +	//works as status: "active", "inactive"
 			"future2 TEXT, " +	//URL of video of signals
-			"future3 TEXT )";
+			"future3 TEXT )";	//Inverted (encoder is upside down) only on signals
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -80,7 +80,9 @@ class SqliteEncoder : Sqlite
 				es.laterality + "', '" + es.extraWeight + "', '" +
 				es.signalOrCurve + "', '" + es.filename + "', '" +
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
-				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', '', '')" ;
+				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', " + 
+				"''," + 		//future2 url (this is stored later)
+			       	es.future3 + ")" ;	//future3 inverted?
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

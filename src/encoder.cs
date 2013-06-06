@@ -51,6 +51,7 @@ public class EncoderParams
 	private int peakPowerLowerCondition;
 	private string mainVariable;
 	private string decimalSeparator;	//used in export data from R to csv
+	private bool inverted;
 
 	public EncoderParams()
 	{
@@ -64,7 +65,7 @@ public class EncoderParams
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
 			int powerHigherCondition, int powerLowerCondition, 
 			int peakPowerHigherCondition, int peakPowerLowerCondition,
-			string mainVariable)
+			string mainVariable, bool inverted)
 	{
 		this.time = time;
 		this.minHeight = minHeight;
@@ -85,6 +86,7 @@ public class EncoderParams
 		this.peakPowerHigherCondition = peakPowerHigherCondition;
 		this.peakPowerLowerCondition = peakPowerLowerCondition;
 		this.mainVariable = mainVariable;
+		this.inverted = inverted;
 	}
 	
 	public string ToString1 () 
@@ -102,7 +104,7 @@ public class EncoderParams
 			" " + Util.ConvertToPoint(maxSpeedLowerCondition.ToString()) +
 			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
 			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString() +
-			" " + mainVariable;
+			" " + mainVariable + " " + Util.BoolToInt(inverted).ToString();
 	}
 	
 	//to graph.R	
@@ -259,7 +261,7 @@ public class EncoderSQL
 	public string description;
 	public string future1;	//active or inactive curves
 	public string future2;	//URL of video of signals
-	public string future3;
+	public string future3;	//inverted
 	public string exerciseName;
 	
 	public string ecconLong;

@@ -954,7 +954,7 @@ public class Util
 		return System.IO.Path.Combine(
 				getDataDir(), "encoder", Constants.EncoderScriptGraph);
 	}
-
+	
 	
 	/********** end of encoder paths ************/
 
@@ -1343,6 +1343,37 @@ public class Util
 
 		return fileCurve;
 	}
+
+	//used on encoder inverted-noninverted
+	public static void ChangeSign(string fileName) 
+	{
+		string data = ReadFile(fileName, true);
+		if(data != null) {
+			TextWriter writer;
+			try {
+				writer = File.CreateText(fileName);
+			} catch {return;}
+	
+			using (StringReader reader = new StringReader (data)) {
+				do {
+					string line = reader.ReadLine ();
+					if (line == null)
+						break;
+					string [] ints = line.Split(new char[] {','});
+					string sep = "";
+					foreach(string istr in ints) {
+						int i = Convert.ToInt32(istr);
+						i *= -1;
+						writer.Write(sep + i.ToString());
+						sep = ", ";
+					}
+				} while(true);
+			}
+			writer.Flush();
+			((IDisposable)writer).Dispose();
+		}
+	}
+
 
 
 /*

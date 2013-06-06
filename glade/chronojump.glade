@@ -12314,7 +12314,7 @@ on current Chronojump version.</property>
                                                             <property name="spacing">6</property>
                                                             <property name="homogeneous">True</property>
                                                             <child>
-                                                            <widget class="GtkCheckButton" id="checkbutton_encoder_inverted">
+                                                            <widget class="GtkCheckButton" id="check_encoder_inverted">
                                                             <property name="label" translatable="yes">Inverted</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>

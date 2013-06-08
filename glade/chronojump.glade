@@ -12006,12 +12006,12 @@ on current Chronojump version.</property>
                                                       <widget class="GtkHBox" id="hbox79">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">22</property>
+                                                        <property name="spacing">12</property>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox87">
+                                                          <widget class="GtkVBox" id="vbox2">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox86">
                                                             <property name="visible">True</property>
@@ -12085,79 +12085,10 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkHBox" id="hbox90">
+                                                            <widget class="GtkHBox" id="hbox112">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label88">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">1</property>
-                                                            <property name="label" translatable="yes">Extra weight</property>
-                                                            <property name="use_markup">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkSpinButton" id="spin_encoder_extra_weight">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">True</property>
-                                                            <property name="invisible_char">●</property>
-                                                            <property name="invisible_char_set">True</property>
-                                                            <property name="primary_icon_activatable">False</property>
-                                                            <property name="secondary_icon_activatable">False</property>
-                                                            <property name="primary_icon_sensitive">True</property>
-                                                            <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">10 0 300 1 10 0</property>
-                                                            <property name="climb_rate">1</property>
-                                                            <property name="snap_to_ticks">True</property>
-                                                            <property name="numeric">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label89">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Kg</property>
-                                                            <property name="use_markup">True</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">False</property>
-                                                            <property name="position">2</property>
-                                                            </packing>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="expand">True</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="pack_type">end</property>
-                                                            <property name="position">1</property>
-                                                            </packing>
-                                                            </child>
-                                                          </widget>
-                                                          <packing>
-                                                            <property name="expand">False</property>
-                                                            <property name="fill">True</property>
-                                                            <property name="position">0</property>
-                                                          </packing>
-                                                        </child>
-                                                        <child>
-                                                          <widget class="GtkVBox" id="vbox2">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox_combo_encoder_eccon">
                                                             <property name="visible">True</property>
@@ -12186,6 +12117,24 @@ on current Chronojump version.</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkVSeparator" id="vseparator4">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="expand">False</property>
@@ -12199,33 +12148,121 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="n_rows">2</property>
                                                             <property name="n_columns">3</property>
-                                                            <property name="column_spacing">6</property>
-                                                            <property name="row_spacing">6</property>
+                                                            <property name="column_spacing">10</property>
+                                                            <property name="row_spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label88">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip" translatable="yes">Extra weight in Kg</property>
+                                                            <property name="xalign">1</property>
+                                                            <property name="label" translatable="yes">Extra weight</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label78">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Minimal height</property>
+                                                            <property name="tooltip" translatable="yes">Displaced weight in Kg</property>
+                                                            <property name="xalign">1</property>
+                                                            <property name="label" translatable="yes">Displaced</property>
                                                             <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="x_options"/>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_min_height">
+                                                            <widget class="GtkHBox" id="hbox110">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label86">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="tooltip">1 RM (%)</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label">1RM</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkButton" id="button_encoder_1RM_win">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">1RM window</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image31">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-dialog-info</property>
+                                                            <property name="icon-size">2</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="x_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_1RM_percent">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
                                                             <property name="secondary_icon_activatable">False</property>
                                                             <property name="primary_icon_sensitive">True</property>
                                                             <property name="secondary_icon_sensitive">True</property>
-                                                            <property name="adjustment">20 1 300 1 10 0</property>
+                                                            <property name="adjustment">10 0 300 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="snap_to_ticks">True</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">2</property>
+                                                            <property name="right_attach">3</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_displaced_weight">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
+                                                            <property name="invisible_char_set">True</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">10 0 300 1 10 0</property>
                                                             <property name="climb_rate">1</property>
                                                             <property name="snap_to_ticks">True</property>
                                                             <property name="numeric">True</property>
@@ -12239,37 +12276,64 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label81">
+                                                            <widget class="GtkSpinButton" id="spin_encoder_extra_weight">
                                                             <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">1</property>
-                                                            <property name="label" translatable="yes">cm</property>
-                                                            <property name="use_markup">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
+                                                            <property name="invisible_char_set">True</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">10 0 300 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="snap_to_ticks">True</property>
+                                                            <property name="numeric">True</property>
+                                                            <property name="update_policy">if-valid</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
                                                             <property name="top_attach">1</property>
                                                             <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
                                                             </packing>
                                                             </child>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label82">
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkVSeparator" id="vseparator5">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">Recording time</property>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            </packing>
-                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">3</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkVBox" id="vbox19">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox114">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkSpinButton" id="spin_encoder_capture_time">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Recording time</property>
                                                             <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
                                                             <property name="invisible_char_set">True</property>
                                                             <property name="primary_icon_activatable">False</property>
                                                             <property name="secondary_icon_activatable">False</property>
@@ -12281,9 +12345,9 @@ on current Chronojump version.</property>
                                                             <property name="numeric">True</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">1</property>
-                                                            <property name="right_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
                                                             </packing>
                                                             </child>
                                                             <child>
@@ -12295,30 +12359,98 @@ on current Chronojump version.</property>
                                                             <property name="use_markup">True</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="left_attach">2</property>
-                                                            <property name="right_attach">3</property>
-                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox115">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_min_height">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Minimal height</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="width_chars">3</property>
+                                                            <property name="invisible_char_set">True</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">20 1 300 1 10 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="snap_to_ticks">True</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label81">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">1</property>
+                                                            <property name="label" translatable="yes">cm</property>
+                                                            <property name="use_markup">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">2</property>
+                                                            <property name="position">4</property>
                                                           </packing>
                                                         </child>
                                                         <child>
-                                                          <widget class="GtkVBox" id="vbox5">
+                                                          <widget class="GtkVSeparator" id="vseparator6">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">6</property>
-                                                            <property name="homogeneous">True</property>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">5</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkVBox" id="vbox87">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">8</property>
                                                             <child>
                                                             <widget class="GtkCheckButton" id="check_encoder_inverted">
                                                             <property name="label" translatable="yes">Inverted</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Encoder is upside down</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="draw_indicator">True</property>
@@ -12386,16 +12518,16 @@ on current Chronojump version.</property>
                                                             </child>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
-                                                            <property name="position">3</property>
+                                                            <property name="position">6</property>
                                                           </packing>
                                                         </child>
                                                       </widget>
@@ -13884,6 +14016,7 @@ on current Chronojump version.</property>
                                                       <widget class="GtkVBox" id="vbox89">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
+                                                        <property name="spacing">8</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_analyze_image_save">
                                                             <property name="visible">True</property>
@@ -13907,6 +14040,54 @@ on current Chronojump version.</property>
                                                             <property name="fill">True</property>
                                                             <property name="pack_type">end</property>
                                                             <property name="position">0</property>
+                                                          </packing>
+                                                        </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_encoder_analyze_1RM_save">
+                                                            <property name="visible">True</property>
+                                                            <property name="sensitive">False</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Save 1RM value</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <accelerator key="z" signal="clicked"/>
+                                                            <child>
+                                                            <widget class="GtkVBox" id="vbox5">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label82">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">1RM</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze_image_save2">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-save</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">True</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">True</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">1</property>
                                                           </packing>
                                                         </child>
                                                       </widget>

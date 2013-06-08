@@ -166,9 +166,9 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
 		#plot speed (currently disabled)	
-		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		#abline(h=0,lty=2,col="yellow")
-	        #lines((1:length(rawdata))/1000, speed$y*10, col="green")
+		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		abline(h=0,lty=2,col="yellow")
+	        lines((1:length(rawdata))/1000, speed$y*10, col="green")
 		#print("SPEEEDYYYY")
 		#print(max(speed$y))	
 		#print(min(speed$y))	
@@ -964,7 +964,69 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			colBalls="red"
 			bgBalls="pink"
 		}
+		
 		plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+		
+		speed1RM = 0.185
+		#lineal stuff
+		#without weights
+
+		fit = lm(y ~ x)
+		#abline(fit,col="red")
+		c.intercept = coef(fit)[[1]]
+		c.x = coef(fit)[[2]]
+		load1RM = ( speed1RM - c.intercept ) / c.x
+
+		#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+		plot(x,y, xlim=c(min(x),load1RM), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+		abline(fit,col="red")
+		abline(h=speed1RM,col="gray",lty=2)
+		abline(v=load1RM,col="gray",lty=2)
+		mtext("1RM", at=load1RM, side=1, line=2,col="red")
+		mtext(round(load1RM,2), at=load1RM, side=1, line=3,col="red")
+		mtext("1RM", at=speed1RM, side=2, line=2,col="red")
+		mtext(speed1RM, at=speed1RM, side=2, line=3,col="red")
+		points(load1RM,speed1RM,cex=2,col="red")
+		
+		#weights x^2
+		fit = lm(y ~ x, weights=x/max(x)) 
+		print(x/max(x))
+		c.intercept = coef(fit)[[1]]
+		c.x = coef(fit)[[2]]
+		load1RM = ( speed1RM - c.intercept ) / c.x
+
+		abline(fit,col="green")
+		abline(h=speed1RM,col="gray",lty=2)
+		abline(v=load1RM,col="gray",lty=2)
+		mtext("1RM", at=load1RM, side=3, line=2,col="green")
+		mtext(round(load1RM,2), at=load1RM, side=3, line=3,col="green")
+		mtext("1RM", at=speed1RM, side=2, line=2,col="green")
+		mtext(speed1RM, at=speed1RM, side=2, line=3,col="green")
+		points(load1RM,speed1RM,cex=2,col="green")
+
+		#weights x^3 (as higher then more important are the right values) 
+		fit = lm(y ~ x, weights=x^3/max(x^3)) 
+		print(x^3/max(x^3))
+		c.intercept = coef(fit)[[1]]
+		c.x = coef(fit)[[2]]
+		load1RM = ( speed1RM - c.intercept ) / c.x
+
+		abline(fit,col="blue")
+		abline(h=speed1RM,col="gray",lty=2)
+		abline(v=load1RM,col="gray",lty=2)
+		mtext("1RM", at=load1RM, side=3, line=2,col="blue")
+		mtext(round(load1RM,2), at=load1RM, side=3, line=3,col="blue")
+		mtext("1RM", at=speed1RM, side=2, line=2,col="blue")
+		mtext(speed1RM, at=speed1RM, side=2, line=3,col="blue")
+		points(load1RM,speed1RM,cex=2,col="blue")
+
+
+		#quadratic stuff
+		#fit2 = lm(y ~ I(x^2) + x)
+		#fit2line = predict(fit2, data.frame(x = 10:100))
+		#lines(10:100 ,fit2line, col="red") #puts line on plot
+		
+		
 	
 		#x vector should contain at least 4 different values
 		if(length(unique(x)) >= 4)
@@ -972,6 +1034,8 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		
 		title(title, cex.main=1, font.main=2)
 		text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
+
+		
 
 	} else { #more than one series
 		#colBalls = "black"

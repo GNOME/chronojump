@@ -539,7 +539,7 @@ public class Constants
 
 	//heightmetric contains 2 spins
 	public enum GenericWindowShow {
-		ENTRY, ENTRY2, ENTRY3, SPININT, SPINDOUBLE, HEIGHTMETRIC, COMBO, COMBOALLNONESELECTED, TEXTVIEW, TREEVIEW
+		ENTRY, ENTRY2, ENTRY3, SPININT, SPINDOUBLE, HBOXSPINDOUBLE2, HEIGHTMETRIC, COMBO, COMBOALLNONESELECTED, TEXTVIEW, TREEVIEW
 	}
 	
 	public const string PrefVersionAvailable = "versionAvailable";

@@ -73,6 +73,10 @@ public class GenericWindow
 	[Widget] Gtk.Box hbox_entry3;
 	[Widget] Gtk.Label label_entry3;
 	[Widget] Gtk.Entry entry3;
+
+	[Widget] Gtk.Box hbox_spin_double2;
+	[Widget] Gtk.Label label_spin_double2;
+	[Widget] Gtk.SpinButton spin_double2;
 	
 	private ArrayList nonSensitiveRows;
 
@@ -151,6 +155,7 @@ public class GenericWindow
 		hbox_entry3.Hide();
 		hbox_spin_int.Hide();
 		spin_double.Hide();
+		hbox_spin_double2.Hide();
 		hbox_height_metric.Hide();
 		hbox_combo_full_line.Hide();
 		hbox_all_none_selected.Hide();
@@ -186,6 +191,11 @@ public class GenericWindow
 		else if(stuff == Constants.GenericWindowShow.SPINDOUBLE) {
 			spin_double.Show();
 			spin_double.IsEditable = editable;
+		}
+		else if(stuff == Constants.GenericWindowShow.HBOXSPINDOUBLE2) {
+			hbox_spin_double2.Show();
+			spin_double2.IsEditable = editable;
+			spin_double2.Sensitive = editable;
 		}
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC) {
 			hbox_height_metric.Show();
@@ -223,6 +233,8 @@ public class GenericWindow
 			hbox_spin_int.Show();
 		else if(stuff == Constants.GenericWindowShow.SPINDOUBLE)
 			spin_double.Show();
+		else if(stuff == Constants.GenericWindowShow.HBOXSPINDOUBLE2)
+			hbox_spin_double2.Show();
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
 			hbox_height_metric.Show();
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
@@ -251,6 +263,13 @@ public class GenericWindow
 	}
 	public void SetSpinRange(double min, double max) {
 		spin_int.SetRange(min, max);
+	}
+	
+	public void SetSpinDouble2Value(double num) {
+		spin_double2.Value = num;
+	}
+	public void SetSpinDouble2Increments(double min, double max) {
+		spin_double2.SetIncrements(min, max);
 	}
 	
 	public void SetComboValues(string [] values, string current) {
@@ -685,6 +704,13 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 	
 	public double SpinDoubleSelected {
 		get { return (double) spin_double.Value; }
+	}
+
+	public string LabelSpinDouble2 {
+		set { label_spin_double2.Text = value; }
+	}
+	public double SpinDouble2Selected {
+		get { return (double) spin_double2.Value; }
 	}
 	
 	public string TwoSpinSelected {

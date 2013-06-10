@@ -2168,6 +2168,7 @@ Log.WriteLine(str);
 		ArrayList a2 = new ArrayList();
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
+		ArrayList a5 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(ex.name);
@@ -2182,12 +2183,20 @@ Log.WriteLine(str);
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(false); a4.Add(ex.description);
 		bigArray.Add(a4);
 		
+		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");	//alowed to change
+		bigArray.Add(a5);
+		
 		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
+		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
+		genericWin.SetSpinDouble2Value(ex.speed1RM);
+		genericWin.SetSpinDouble2Increments(0.001,0.1);
 		genericWin.ShowButtonCancel(false);
+		
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_info_accepted);
 		genericWin.ShowNow();
 	}
 
@@ -2199,6 +2208,7 @@ Log.WriteLine(str);
 		ArrayList a2 = new ArrayList();
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
+		ArrayList a5 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
@@ -2213,12 +2223,17 @@ Log.WriteLine(str);
 		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add("");
 		bigArray.Add(a4);
 		
+		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");
+		bigArray.Add(a5);
+		
 		genericWin = GenericWindow.Show(false,	//don't show now
 				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
 		genericWin.SetSpinRange(0, 100);
 		genericWin.LabelEntry2 = Catalog.GetString("Ressitance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
+		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
+		genericWin.SetSpinDouble2Increments(0.001,0.1);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
 		
 		genericWin.HideOnAccept = false;
@@ -2227,19 +2242,38 @@ Log.WriteLine(str);
 		genericWin.ShowNow();
 	}
 	
-	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) 
+	void on_button_encoder_exercise_info_accepted (object o, EventArgs args) {
+		encoder_exercise_edit(false);
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_info_accepted);
+	}
+	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) {
+		encoder_exercise_edit(true);
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
+	}
+	
+	void encoder_exercise_edit (bool adding) 
 	{
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
 
-		Log.WriteLine("Trying to insert: " + name);
+		if(adding)
+			Log.WriteLine("Trying to insert: " + name);
+		else
+			Log.WriteLine("Trying to edit: " + name);
+
 		if(name == "")
 			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
-		else if (Sqlite.Exists(Constants.EncoderExerciseTable, name))
+		else if (adding && Sqlite.Exists(Constants.EncoderExerciseTable, name))
 			genericWin.SetLabelError(string.Format(Catalog.GetString(
 							"Error: An exercise named '{0}' already exists."), name));
 		else {
-			SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
-					genericWin.Entry2Selected, genericWin.Entry3Selected);
+			if(adding)
+				SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
+						genericWin.Entry2Selected, genericWin.Entry3Selected,
+						Util.ConvertToPoint(genericWin.SpinDouble2Selected));
+			else
+				SqliteEncoder.UpdateExercise(false, name, genericWin.SpinIntSelected, 
+						genericWin.Entry2Selected, genericWin.Entry3Selected,
+						Util.ConvertToPoint(genericWin.SpinDouble2Selected));
 
 			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
 			encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
@@ -2259,7 +2293,6 @@ Log.WriteLine(str);
 			UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
 			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, name);
 
-			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
 			genericWin.HideAndNull();
 			Log.WriteLine("done");
 		}

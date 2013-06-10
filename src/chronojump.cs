@@ -291,14 +291,21 @@ Log.WriteLine("doing backup");
 		versionAvailable = "";
 		pingStart = false;
 		pingEnd = false;
-			
-		thread = new Thread(new ThreadStart(findVersion));
-		GLib.Idle.Add (new GLib.IdleHandler (PulseGTKPing));
-		thread.Start(); 
-
-		//wait until pinging process start
-		while(! pingStart) {
+		
+		/* disable server connection on start until server is not working on windows again  */
+		bool connectServerAtStart = false;
+		if(connectServerAtStart) {
+			thread = new Thread(new ThreadStart(findVersion));
+			GLib.Idle.Add (new GLib.IdleHandler (PulseGTKPing));
+			thread.Start(); 
+		
+			//wait until pinging process start
+			while(! pingStart) {
+			}
 		}
+		else
+			on_find_version_cancelled(new object(), new EventArgs());
+
 		
 		allSQLCallsDoneOnSqliteThingsThread = false;
 

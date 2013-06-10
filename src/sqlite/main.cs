@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.92";
+	static string lastChronojumpDatabaseVersion = "0.93";
 
 	public Sqlite() {
 	}
@@ -1208,7 +1208,7 @@ class Sqlite
 			if(currentVersion == "0.88") {
 				dbcon.Open();
 	
-				SqliteEncoder.InsertExercise(true, "Free", 0, "", "");
+				SqliteEncoder.InsertExercise(true, "Free", 0, "", "", "");
 				Log.WriteLine("Added encoder exercise: Free");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.89", true); 
@@ -1232,7 +1232,7 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				dbcon.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "");	
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "", "");	
 				Log.WriteLine("Encoder Squat 75% -> 100%");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1250,6 +1250,18 @@ class Sqlite
 				dbcon.Close();
 
 				currentVersion = "0.92";
+			}
+			if(currentVersion == "0.92") {
+				dbcon.Open();
+				
+				SqliteEncoder.UpdateExercise(true, "Bench press", 0, "weight bar", "","0.185");	
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "","0.31");	
+				Log.WriteLine("Added speed1RM on encoder exercise");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.93", true); 
+				dbcon.Close();
+
+				currentVersion = "0.93";
 			}
 		}
 
@@ -1389,6 +1401,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.92 - 0.93 Converted DB to 0.93 Added speed1RM on encoder exercise
 		//0.91 - 0.92 Converted DB to 0.92 Added videoDevice to preferences
 		//0.90 - 0.91 Converted DB to 0.91 Encoder Squat 75% -> 100%
 		//0.89 - 0.90 Converted DB to 0.90 Preferences added propulsive and encoder smooth

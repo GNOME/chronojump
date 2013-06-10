@@ -288,14 +288,14 @@ class SqliteEncoder : Sqlite
 			"percentBodyWeight INT, " +
 			"ressistance TEXT, " +
 			"description TEXT, " +
-			"future1 TEXT, " +
+			"future1 TEXT, " +	//speed1RM: speed in m/s at 1RM with decimal point separator '.' ; 0 means undefined
 			"future2 TEXT, " +
 			"future3 TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
 	public static void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
-			string ressistance, string description)
+			string ressistance, string description, string speed1RM) //speed1RM decimal point = '.'
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -303,7 +303,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
 				" VALUES (NULL, '" + name + "', " + percentBodyWeight + ", '" + 
-				ressistance + "', '" + description + "', '','','')";
+				ressistance + "', '" + description + "', '" + speed1RM + "','','')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -317,21 +317,19 @@ class SqliteEncoder : Sqlite
 	protected internal static void initializeTableEncoderExercise()
 	{
 		string [] iniEncoderExercises = {
-			//name:percentBodyWeight:ressistance:description
-			"Bench press:0:weight bar:", 
-			"Squat:100:weight bar:", 
-			"Jump:100:none:",
-			"Free:0::"	
+			//name:percentBodyWeight:ressistance:description:speed1RM
+			"Bench press:0:weight bar::0.185", //González-Badillo, J. 2010. Movement velocity as a measure of loading intensity in resistance training
+			"Squat:100:weight bar::0.31" //González-Badillo, JJ.2000b http://foro.chronojump.org/showthread.php?tid=1288&page=3 
 		};
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3]);
+			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
 		}
 	}
 
 	public static void UpdateExercise(bool dbconOpened, string name, int percentBodyWeight, 
-			string ressistance, string description)
+			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -340,6 +338,7 @@ class SqliteEncoder : Sqlite
 				" percentBodyWeight = " + percentBodyWeight +
 				", ressistance = '" + ressistance +
 				"', description = '" + description +
+				"', future1 = '" + speed1RM +
 				"' WHERE name = '" + name + "'" ;
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -381,12 +380,17 @@ class SqliteEncoder : Sqlite
 			}
 		} else {
 			while(reader.Read()) {
+				double speed1RM = 0;
+			       	if(reader[5].ToString() != "")
+					speed1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[5].ToString()));
+				
 				ex = new EncoderExercise (
 						Convert.ToInt32(reader[0].ToString()),	//uniqueID
 						reader[1].ToString(),			//name
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
 						reader[3].ToString(),			//ressistance
-						reader[4].ToString()			//description
+						reader[4].ToString(),			//description
+						speed1RM
 						);
 				array.Add(ex);
 			}

@@ -919,7 +919,7 @@ addUnits <- function (var) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -966,75 +966,62 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		}
 		
 		plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-		
-		speed1RM = 0.185
-		#lineal stuff
-		#without weights
-
-		fit = lm(y ~ x)
-		#abline(fit,col="red")
-		c.intercept = coef(fit)[[1]]
-		c.x = coef(fit)[[2]]
-		load1RM = ( speed1RM - c.intercept ) / c.x
-
-		#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-		plot(x,y, xlim=c(min(x),load1RM), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-		abline(fit,col="red")
-		abline(h=speed1RM,col="gray",lty=2)
-		abline(v=load1RM,col="gray",lty=2)
-		mtext("1RM", at=load1RM, side=1, line=2,col="red")
-		mtext(round(load1RM,2), at=load1RM, side=1, line=3,col="red")
-		mtext("1RM", at=speed1RM, side=2, line=2,col="red")
-		mtext(speed1RM, at=speed1RM, side=2, line=3,col="red")
-		points(load1RM,speed1RM,cex=2,col="red")
-		
-		#weights x^2
-		fit = lm(y ~ x, weights=x/max(x)) 
-		print(x/max(x))
-		c.intercept = coef(fit)[[1]]
-		c.x = coef(fit)[[2]]
-		load1RM = ( speed1RM - c.intercept ) / c.x
-
-		abline(fit,col="green")
-		abline(h=speed1RM,col="gray",lty=2)
-		abline(v=load1RM,col="gray",lty=2)
-		mtext("1RM", at=load1RM, side=3, line=2,col="green")
-		mtext(round(load1RM,2), at=load1RM, side=3, line=3,col="green")
-		mtext("1RM", at=speed1RM, side=2, line=2,col="green")
-		mtext(speed1RM, at=speed1RM, side=2, line=3,col="green")
-		points(load1RM,speed1RM,cex=2,col="green")
-
-		#weights x^3 (as higher then more important are the right values) 
-		fit = lm(y ~ x, weights=x^3/max(x^3)) 
-		print(x^3/max(x^3))
-		c.intercept = coef(fit)[[1]]
-		c.x = coef(fit)[[2]]
-		load1RM = ( speed1RM - c.intercept ) / c.x
-
-		abline(fit,col="blue")
-		abline(h=speed1RM,col="gray",lty=2)
-		abline(v=load1RM,col="gray",lty=2)
-		mtext("1RM", at=load1RM, side=3, line=2,col="blue")
-		mtext(round(load1RM,2), at=load1RM, side=3, line=3,col="blue")
-		mtext("1RM", at=speed1RM, side=2, line=2,col="blue")
-		mtext(speed1RM, at=speed1RM, side=2, line=3,col="blue")
-		points(load1RM,speed1RM,cex=2,col="blue")
-
-
-		#quadratic stuff
-		#fit2 = lm(y ~ I(x^2) + x)
-		#fit2line = predict(fit2, data.frame(x = 10:100))
-		#lines(10:100 ,fit2line, col="red") #puts line on plot
-		
-		
 	
-		#x vector should contain at least 4 different values
-		if(length(unique(x)) >= 4)
-			lines(smooth.spline(x,y,df=4),col=colBalls,lwd=2)
+		if(do1RM != FALSE & do1RM != "0") {	
+			speed1RM = as.numeric(do1RM)
+
+			print("speed1RM")
+			print(speed1RM)
+			
+			#lineal stuff
+		
+			if(do1RMMethod == "nonweighted")  {
+				#without weights
+				fit = lm(y ~ x)
+			} else if(do1RMMethod == "weighted")  {
+				#weights x
+				fit = lm(y ~ x, weights=x/max(x)) 
+				print(x/max(x))
+			} else if(do1RMMethod == "weighted2")  {
+				#weights x^2
+				fit = lm(y ~ x, weights=x^2/max(x^2)) 
+				print(x^2/max(x^2))
+			} else if(do1RMMethod == "weighted3")  {
+				#weights x^3 (as higher then more important are the right values) 
+				fit = lm(y ~ x, weights=x^3/max(x^3)) 
+				print(x^3/max(x^3))
+			}
+
+			c.intercept = coef(fit)[[1]]
+			c.x = coef(fit)[[2]]
+			load1RM = ( speed1RM - c.intercept ) / c.x
+
+			#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+			plot(x,y, xlim=c(min(x),load1RM), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+			abline(fit,col="red")
+			abline(h=speed1RM,col="gray",lty=2)
+			abline(v=load1RM,col="gray",lty=2)
+			mtext("1RM", at=load1RM, side=1, line=2,col="red")
+			mtext(round(load1RM,2), at=load1RM, side=1, line=3,col="red")
+			mtext("1RM", at=speed1RM, side=2, line=2,col="red")
+			mtext(speed1RM, at=speed1RM, side=2, line=3,col="red")
+			points(load1RM,speed1RM,cex=2,col="red")
+
+
+
+			#quadratic stuff
+			#fit2 = lm(y ~ I(x^2) + x)
+			#fit2line = predict(fit2, data.frame(x = 10:100))
+			#lines(10:100 ,fit2line, col="red") #puts line on plot
+		}
+		else {
+			#x vector should contain at least 4 different values
+			if(length(unique(x)) >= 4)
+				lines(smooth.spline(x,y,df=4),col=colBalls,lwd=2)
+		}
 		
 		title(title, cex.main=1, font.main=2)
 		text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
-
 		
 
 	} else { #more than one series
@@ -1201,7 +1188,7 @@ doProcess <- function(options) {
 	ExercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
 	Mass=as.numeric(options[7])
 	Eccon=options[8]
-	Analysis=options[9]	#in cross comes as "cross.Force.Speed.mean"
+	Analysis=options[9]	#in cross comes as "cross;Force;Speed;mean"
 	AnalysisOptions=options[10]	#p: propulsive
 	SmoothingOneEC=options[11]
 	SmoothingOneC=options[12]
@@ -1518,14 +1505,15 @@ doProcess <- function(options) {
 	writeCurves = TRUE
 
 	#Analysis in cross variables comes as:
-	#"cross.Speed.Force.mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
+	#"cross;Speed;Force;mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
 	#there's a double XY plot:
-	#"cross.Speed,Power.Load.mean" 	#Speed,power are Y (left and right), 3d: Load is X.
-	analysisCross = unlist(strsplit(Analysis, "\\."))
+	#"cross;Speed,Power;Load;mean" 	#Speed,power are Y (left and right), 3d: Load is X.
+	#in 1RMAnyExercise: "1RMAnyExercise;0.185;method" speed1RM = 0.185m/s
+	analysisCross = unlist(strsplit(Analysis, "\\;"))
 	if(
 	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
-	   Analysis == "1RMBadillo2010" || Analysis == "curves" ||
-	   writeCurves) 
+	   Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise" || 
+	   Analysis == "curves" || writeCurves) 
 	{
 		paf = data.frame()
 		discardedCurves = NULL
@@ -1540,13 +1528,13 @@ doProcess <- function(options) {
 				myEccon = curves[i,7]
 
 				#only use concentric data	
-				if(Analysis == "1RMBadillo2010" & myEccon == "e") {
+				if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & myEccon == "e") {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
 			} else {
-				if(Analysis == "1RMBadillo2010" & Eccon == "ecS" & i%%2 == 1) {
+				if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & Eccon == "ecS" & i%%2 == 1) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
@@ -1601,19 +1589,32 @@ doProcess <- function(options) {
 				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
 						    analysisCross[4], "LEFT", Title,
-						    singleFile,Eccon,mySeries)
+						    singleFile,Eccon,mySeries, 
+						    FALSE, FALSE) 
 				par(new=T)
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
 						    analysisCross[4], "RIGHT", "",
-						    singleFile,Eccon,mySeries)
+						    singleFile,Eccon,mySeries, 
+						    FALSE, FALSE) 
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
 						    analysisCross[4], "ALONE", Title,
-						    singleFile,Eccon,mySeries)
+						    singleFile,Eccon,mySeries, 
+						    FALSE, FALSE) 
+		}
+		else if(analysisCross[1] == "1RMAnyExercise") {
+			mySeries = "1"
+			if(! singleFile)
+				mySeries = curves[,8]
+
+			paintCrossVariables(paf, "Load", "Speed", 
+					    "mean", "ALONE", Title,
+					    singleFile,Eccon,mySeries, 
+					    analysisCross[2], analysisCross[3]) #speed1RM, method
 		}
 		else if(Analysis == "1RMBadillo2010") {
 			paint1RMBadillo2010(paf, Title)
-		}
+		} 
 		
 		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)

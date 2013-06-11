@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.93";
+	static string lastChronojumpDatabaseVersion = "0.94";
 
 	public Sqlite() {
 	}
@@ -1263,6 +1263,17 @@ class Sqlite
 
 				currentVersion = "0.93";
 			}
+			if(currentVersion == "0.93") {
+				dbcon.Open();
+				
+				SqliteEncoder.createTable1RM();
+				Log.WriteLine("Added encoder1RM table");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.94", true); 
+				dbcon.Close();
+
+				currentVersion = "0.94";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1379,6 +1390,7 @@ class Sqlite
 		SqliteEncoder.createTableEncoder();
 		SqliteEncoder.createTableEncoderExercise();
 		SqliteEncoder.initializeTableEncoderExercise();
+		SqliteEncoder.createTable1RM();
 
 		//sports
 		creationRate ++;
@@ -1401,6 +1413,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.93 - 0.94 Converted DB to 0.94 Added encoder1RM table
 		//0.92 - 0.93 Converted DB to 0.93 Added speed1RM on encoder exercise
 		//0.91 - 0.92 Converted DB to 0.92 Added videoDevice to preferences
 		//0.90 - 0.91 Converted DB to 0.91 Encoder Squat 75% -> 100%

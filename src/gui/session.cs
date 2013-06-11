@@ -854,7 +854,6 @@ public class SessionLoadWindow {
 			selected = (string)model.GetValue (iter, 0);
 			button_accept.Sensitive = true;
 		}
-		Log.WriteLine (selected);
 	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

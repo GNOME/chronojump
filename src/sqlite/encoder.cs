@@ -402,5 +402,94 @@ class SqliteEncoder : Sqlite
 
 		return array;
 	}
+	
+	
+	/*
+	 * 1RM stuff
+	 */
+
+	protected internal static void createTable1RM()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.Encoder1RMTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"load1RM FLOAT, " +
+			"future1 TEXT, " +	
+			"future2 TEXT, " +
+			"future3 TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	public static void Insert1RM(bool dbconOpened, int personID, int sessionID, int exerciseID, double load1RM)	
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + Constants.Encoder1RMTable +  
+				" (uniqueID, personID, sessionID, exerciseID, load1RM, future1, future2, future3)" +
+				" VALUES (NULL, " + personID + ", " + sessionID + ", " + 
+				exerciseID + ", " + load1RM + ", '','','')";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
+	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		string whereStr = "";
+		if(personID != -1 || sessionID != -1 || exerciseID != -1) {
+			whereStr = " WHERE ";
+			string andStr = "";
+
+			if(personID != -1) {
+				whereStr += " personID = " + personID;
+				andStr = " AND ";
+			}
+
+			if(sessionID != -1) {
+				whereStr += andStr + " sessionID = " + sessionID;
+				andStr = " AND ";
+			}
+
+			if(exerciseID != -1)
+				whereStr += andStr + " exerciseID = " + exerciseID;
+		}
+
+		dbcmd.CommandText = "SELECT * FROM " + Constants.Encoder1RMTable + whereStr +
+			" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList(1);
+
+		Encoder1RM e1RM = new Encoder1RM();
+		while(reader.Read()) {
+			e1RM = new Encoder1RM (
+					Convert.ToInt32(reader[0].ToString()),	//uniqueID
+					Convert.ToInt32(reader[1].ToString()),	//personID	
+					Convert.ToInt32(reader[2].ToString()),	//sessionID
+					Convert.ToInt32(reader[3].ToString()),	//exerciseID
+					Convert.ToDouble(reader[4].ToString())  //load1RM
+					);
+			array.Add (e1RM);
+		}
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return array;
+	}
+	
 
 }

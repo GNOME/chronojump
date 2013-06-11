@@ -467,3 +467,25 @@ public class EncoderExercise
 	~EncoderExercise() {}
 }
 
+public class Encoder1RM
+{
+	public int uniqueID;
+	public int personID;
+	public int sessionID;
+	public int exerciseID;
+	public double load1RM;
+	
+	public Encoder1RM() {
+	}
+
+	public Encoder1RM(int uniqueID, int personID, int sessionID, int exerciseID, double load1RM)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.load1RM = load1RM;
+	}
+
+	~Encoder1RM() {}
+}

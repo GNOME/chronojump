@@ -1554,10 +1554,11 @@ public partial class ChronoJumpWindow
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
 		string sendAnalysis = encoderAnalysis;
 
+		string crossName = "";
 		if(sendAnalysis == "cross") {
-			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+			crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
-
+			
 			if(crossName == "1RM Bench Press") {
 				sendAnalysis = "1RMBadillo2010";
 				analysisOptions = "p";
@@ -1648,15 +1649,34 @@ public partial class ChronoJumpWindow
 				}
 			}
 
+			//1RM is calculated using curves
+			//cannot be curves of different exercises
+			//because is 1RM of a person on an exercise
+			if(encoderAnalysis == "cross" &&
+					(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") )
+			{
+				ArrayList eeTemp = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+				int count = 0;
+				int exerciseOld = -1;
+				foreach(EncoderSQL es in data) {
+					if(count > 0 && es.exerciseID != exerciseOld) {
+						new DialogMessage(Constants.MessageTypes.WARNING, 
+								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises."));
+						encoderProcessCancel = true;
+						return;	
+					}
+					exerciseOld = es.exerciseID;
+					count ++;
+				}
+			}
+
+
 
 			//create dataFileName
 			TextWriter writer = File.CreateText(dataFileName);
 			writer.WriteLine("status,seriesName,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon");
 		
-			Sqlite.Open();	
-			ArrayList eeArray = 
-					SqliteEncoder.SelectEncoderExercises(true, -1, false);
-			Sqlite.Close();	
+			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
 						
 Log.WriteLine("AT ANALYZE");

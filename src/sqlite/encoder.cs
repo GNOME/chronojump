@@ -81,8 +81,8 @@ class SqliteEncoder : Sqlite
 				es.signalOrCurve + "', '" + es.filename + "', '" +
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
 				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', " + 
-				"''," + 		//future2 url (this is stored later)
-			       	es.future3 + ")" ;	//future3 inverted?
+				"'','" + 		//future2 url (this is stored later)
+			       	es.future3 + "')" ;	//future3 inverted?
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

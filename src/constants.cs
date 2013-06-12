@@ -594,12 +594,14 @@ public class Constants
 	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";
 	public static string EncoderStatusTemp = "chronojump-encoder-status.txt";
 	public static string EncoderExportTemp = "chronojump-export.csv";
+	public static string EncoderSpecialDataTemp = "chronojump-special-data.txt"; //variable;result (eg. "1RM;82.78")
 
 	//note next has 40 chars, and its used also in encoder/graph.R to detect how a file will be treated
 	//if this name changes, change it in encoder/graph.R
 	public static string EncoderGraphInputMulti = "chronojump-encoder-graph-input-multi.csv"; 
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
+	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 
 	public enum DoubleContact {
 		FIRST, AVERAGE, LAST

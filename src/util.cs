@@ -907,6 +907,9 @@ public class Util
 	public static string GetEncoderExportTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderExportTemp);
 	}
+	public static string GetEncoderSpecialDataTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderSpecialDataTemp);
+	}
 
 
 //	public static void MoveTempToEncoderData(int sessionID, int uniqueID) {
@@ -1167,12 +1170,14 @@ public class Util
 			es.OutputGraph = es.OutputGraph.Replace("\\","/");
 			es.OutputData1 = es.OutputData1.Replace("\\","/");
 			es.OutputData2 = es.OutputData2.Replace("\\","/");
+			es.SpecialData = es.SpecialData.Replace("\\","/");
 			operatingSystem = "Windows";
 		}
 		
 		//--- way A. passing options to a file
 		string scriptOptions = es.InputData + "\n" + 
-		es.OutputGraph + "\n" + es.OutputData1 + "\n" + es.OutputData2 + "\n" + 
+		es.OutputGraph + "\n" + es.OutputData1 + "\n" + 
+		es.OutputData2 + "\n" + es.SpecialData + "\n" + 
 		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n";
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
@@ -1248,6 +1253,10 @@ public class Util
 			if (File.Exists(outputFileCheck2))
 				File.Delete(outputFileCheck2);
 		}
+			
+		//delete 1RM data if exists
+		if (File.Exists(es.SpecialData))
+			File.Delete(es.SpecialData);
 	
 		p = new Process();
 		p.StartInfo = pinfo;

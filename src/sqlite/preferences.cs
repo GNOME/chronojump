@@ -75,6 +75,7 @@ class SqlitePreferences : Sqlite
 		Insert ("encoderSmoothEccCon", "0.6");
 		Insert ("encoderSmoothCon", "0.7");
 		Insert ("videoDevice", "0"); //first
+		Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString());
 	}
 
 	public static void Insert(string myName, string myValue)

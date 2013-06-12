@@ -36,7 +36,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=18)
+	options=readLines(optionsCon,n=19)
 	close(optionsCon)
 	return (options)
 }
@@ -55,8 +55,10 @@ options=getOptionsFromFile(optionsFile);
 
 print(options)
 
-OutputData2=options[4] #currently used to display processing feedback
-OperatingSystem=options[18]
+OutputData2 = options[4] #currently used to display processing feedback
+SpecialData = options[5]
+OperatingSystem=options[19]
+
 
 write("(1/5) Starting R", OutputData2)
 
@@ -290,8 +292,8 @@ return (propulsiveEnd)
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
 kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analysisOptions) {
-	print("length unique x in spline")
-	print(length(unique(1:length(a))))
+	#print("length unique x in spline")
+	#print(length(unique(1:length(a))))
 
 	smoothing = 0
 	if(eccon == "c")
@@ -308,8 +310,8 @@ kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analys
 	concentric = 0
 	propulsiveEnd = 0
 
-print("at kinematicsF eccon==")
-print(eccon)
+#print("at kinematicsF eccon==")
+#print(eccon)
 
 	#search propulsiveEnd
 	if(analysisOptions == "p") {
@@ -335,8 +337,8 @@ print("WARNING ECS\n\n\n\n\n")
 
 	power <- force*speed$y
 
-	print("propulsiveEnd")
-	print(propulsiveEnd)
+	#print("propulsiveEnd")
+	#print(propulsiveEnd)
 
 	if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
@@ -974,19 +976,19 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			print(speed1RM)
 			
 			#lineal stuff
-		
-			if(do1RMMethod == "nonweighted")  {
+			fit = lm(y ~ x) #declare
+			if(do1RMMethod == "NONWEIGHTED")  {
 				#without weights
 				fit = lm(y ~ x)
-			} else if(do1RMMethod == "weighted")  {
+			} else if(do1RMMethod == "WEIGHTED")  {
 				#weights x
 				fit = lm(y ~ x, weights=x/max(x)) 
 				print(x/max(x))
-			} else if(do1RMMethod == "weighted2")  {
+			} else if(do1RMMethod == "WEIGHTED2")  {
 				#weights x^2
 				fit = lm(y ~ x, weights=x^2/max(x^2)) 
 				print(x^2/max(x^2))
-			} else if(do1RMMethod == "weighted3")  {
+			} else if(do1RMMethod == "WEIGHTED3")  {
 				#weights x^3 (as higher then more important are the right values) 
 				fit = lm(y ~ x, weights=x^3/max(x^3)) 
 				print(x^3/max(x^3))
@@ -1007,7 +1009,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			mtext(speed1RM, at=speed1RM, side=2, line=3,col="red")
 			points(load1RM,speed1RM,cex=2,col="red")
 
-
+			write(paste("1RM;",round(load1RM,2),sep=""), SpecialData)
 
 			#quadratic stuff
 			#fit2 = lm(y ~ I(x^2) + x)
@@ -1133,6 +1135,8 @@ paint1RMBadillo2010 <- function (paf, title) {
 
 	segments(predicted1RM,0.185,predicted1RM,0,lty=1)
 	mtext(side=1, at=predicted1RM, round(predicted1RM,2), cex=.8)
+			
+	write(paste("1RM;",round(predicted1RM,2),sep=""), SpecialData)
 }
 
 			
@@ -1184,26 +1188,28 @@ doProcess <- function(options) {
 	OutputGraph=options[2]
 	OutputData1=options[3]
 	OutputData2=options[4] #currently used to display processing feedback
-	MinHeight=as.numeric(options[5])*10 #from cm to mm
-	ExercisePercentBodyWeight=as.numeric(options[6])	#was isJump=as.logical(options[6])
-	Mass=as.numeric(options[7])
-	Eccon=options[8]
-	Analysis=options[9]	#in cross comes as "cross;Force;Speed;mean"
-	AnalysisOptions=options[10]	#p: propulsive
-	SmoothingOneEC=options[11]
-	SmoothingOneC=options[12]
-	Jump=options[13]
-	Width=as.numeric(options[14])
-	Height=as.numeric(options[15])
-	DecimalSeparator=options[16]
-	Title=options[17]
-	OperatingSystem=options[18]	#if this changes, change it also at start of this R file
+	SpecialData=options[5] #currently used to write 1RM. variable;result (eg. "1RM;82.78")
+	MinHeight=as.numeric(options[6])*10 #from cm to mm
+	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
+	Mass=as.numeric(options[8])
+	Eccon=options[9]
+	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
+	AnalysisOptions=options[11]	#p: propulsive
+	SmoothingOneEC=options[12]
+	SmoothingOneC=options[13]
+	Jump=options[14]
+	Width=as.numeric(options[15])
+	Height=as.numeric(options[16])
+	DecimalSeparator=options[17]
+	Title=options[18]
+	OperatingSystem=options[19]	#if this changes, change it also at start of this R file
 	#important, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
 	print(OutputGraph)
 	print(OutputData1)
 	print(OutputData2)
+	print(SpecialData)
 	
 	if(Analysis != "exportCSV") {
 		if(OperatingSystem=="Windows")

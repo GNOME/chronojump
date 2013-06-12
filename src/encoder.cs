@@ -153,15 +153,17 @@ public class EncoderStruct
 	public string OutputGraph;
 	public string OutputData1;
 	public string OutputData2;
+	public string SpecialData;
 	public EncoderParams Ep;
 
 	public EncoderStruct(string InputData, string OutputGraph, string OutputData1, string OutputData2,
-		       EncoderParams Ep)
+			string SpecialData, EncoderParams Ep)
 	{
 		this.InputData = InputData;
 		this.OutputGraph = OutputGraph;
 		this.OutputData1 = OutputData1;
 		this.OutputData2 = OutputData2;
+		this.SpecialData = SpecialData;
 		this.Ep = Ep;
 	}
 

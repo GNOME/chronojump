@@ -87,6 +87,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Button button_encoder_analyze_image_save;
 	[Widget] Gtk.Button button_encoder_analyze_table_save;
+	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
 
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
@@ -258,7 +259,10 @@ public partial class ChronoJumpWindow
 		EncoderStruct es = new EncoderStruct(
 				"",					//no data input
 				"",					//no graph ouptut
-				Util.GetEncoderDataTempFileName(), "", ep);				
+				Util.GetEncoderDataTempFileName(), 	//OutputData1
+				"", 					//OutputData2
+				"", 					//SpecialData
+				ep);				
 				
 		lastRecalculateWasInverted = check_encoder_inverted.Active;
 
@@ -308,10 +312,7 @@ public partial class ChronoJumpWindow
 		spin_encoder_displaced_weight.Value = findMass(true);
 
 		//1RM
-		int exerciseID = Convert.ToInt32(
-				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-				encoderExercisesTranslationAndBodyPWeight) );	//exerciseID
-		ArrayList array1RM = SqliteEncoder.Select1RM(false, currentPerson.UniqueID, currentSession.UniqueID, exerciseID); 
+		ArrayList array1RM = SqliteEncoder.Select1RM(false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseID()); 
 		double load1RM = 0;
 		if(array1RM.Count > 0)
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
@@ -429,6 +430,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderCurvesTempFileName(), 
 				Util.GetEncoderStatusTempFileName(),
+				"",	//SpecialData
 				ep);
 		
 		Util.RunEncoderGraph(
@@ -988,6 +990,7 @@ public partial class ChronoJumpWindow
 				Util.GetEncoderGraphTempFileName(),
 				selectedFileName, 
 				Util.GetEncoderStatusTempFileName(),
+				"", 		//SpecialData
 				ep);
 
 		Util.RunEncoderGraph(
@@ -1311,10 +1314,8 @@ public partial class ChronoJumpWindow
 
 		EncoderSQL eSQL = new EncoderSQL(
 				myID, 
-				currentPerson.UniqueID, currentSession.UniqueID, 
-				Convert.ToInt32(
-					Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight) ),	//exerciseID
+				currentPerson.UniqueID, currentSession.UniqueID,
+				getExerciseID(),	
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				UtilGtk.ComboGetActive(combo_encoder_laterality),
 				Util.ConvertToPoint(findMass(false)),	//when save on sql, do not include person weight
@@ -1565,12 +1566,11 @@ public partial class ChronoJumpWindow
 				analysisOptions = "p";
 			} else if(crossName == "1RM Any exercise") {
 				//get speed1RM
-				int exerciseID = Convert.ToInt32(
-						Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-							encoderExercisesTranslationAndBodyPWeight) );	//exerciseID
-				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(false,exerciseID,false)[0];
+				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(false,getExerciseID(),false)[0];
 				
-				sendAnalysis = "1RMAnyExercise;" + Util.ConvertToPoint(ex.speed1RM) + ";weighted2" ; 
+				sendAnalysis = "1RMAnyExercise;" + Util.ConvertToPoint(ex.speed1RM) + ";" +
+					SqlitePreferences.Select("encoder1RMMethod");
+
 				analysisOptions = "p";
 			} else {
 				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
@@ -1756,6 +1756,7 @@ Log.WriteLine(str);
 				Util.GetEncoderGraphTempFileName(),
 				Util.GetEncoderCurvesTempFileName(),	//since 1.3.6 all the analysis write curves table
 				Util.GetEncoderStatusTempFileName(),
+				Util.GetEncoderSpecialDataTempFileName(),
 				ep);
 
 		//show mass in title except if it's curves because then can be different mass
@@ -2186,7 +2187,20 @@ Log.WriteLine(str);
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
 		}
 	}
-	
+
+	void on_button_encoder_analyze_1RM_save_clicked (object o, EventArgs args)
+	{
+		string contents = Util.ReadFile(Util.GetEncoderSpecialDataTempFileName(), true);
+		string [] load1RMStr = contents.Split(new char[] {';'});
+		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
+
+		SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
+				getExerciseID(), load1RM);
+		
+		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Saved"));
+	}
+
+
 	ArrayList getTreeViewCurves(Gtk.ListStore ls) {
 		TreeIter iter = new TreeIter();
 		ls.GetIterFirst ( out iter ) ;
@@ -2199,13 +2213,15 @@ Log.WriteLine(str);
 	}
 
 
+	int getExerciseID () {
+		return Convert.ToInt32(
+				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+				encoderExercisesTranslationAndBodyPWeight) );
+	}
 	
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 
 	{
-		int exerciseID = Convert.ToInt32(
-				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-				encoderExercisesTranslationAndBodyPWeight) );	//exerciseID
-		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(false,exerciseID,false)[0];
+		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(false,getExerciseID(),false)[0];
 
 		ArrayList bigArray = new ArrayList();
 
@@ -2958,6 +2974,7 @@ Log.WriteLine(str);
 		treeview_encoder_analyze_curves.Sensitive = false;
 		button_encoder_analyze_image_save.Sensitive = false;
 		button_encoder_analyze_table_save.Sensitive = false;
+		button_encoder_analyze_1RM_save.Sensitive = false;
 
 		//put some data just in case user doesn't click on compare button
 		encoderCompareInitialize();
@@ -3268,6 +3285,7 @@ Log.WriteLine(str);
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
+			button_encoder_analyze_1RM_save.Sensitive = false;
 
 			encoderThreadR.Start(); 
 		}
@@ -3440,6 +3458,7 @@ Log.WriteLine(str);
 			treeview_encoder_analyze_curves.Sensitive = false;
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
+			button_encoder_analyze_1RM_save.Sensitive = false;
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {
@@ -3462,8 +3481,14 @@ Log.WriteLine(str);
 			encoderButtonsSensitive(encoderSensEnumStored);
 			image_encoder_analyze.Sensitive = true;
 			treeview_encoder_analyze_curves.Sensitive = true;
+			
 			button_encoder_analyze_image_save.Sensitive = true;
 			button_encoder_analyze_table_save.Sensitive = true;
+			
+			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
+						encoderAnalyzeCrossTranslation);
+			button_encoder_analyze_1RM_save.Sensitive = 
+				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise");
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;

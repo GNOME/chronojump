@@ -14027,7 +14027,6 @@ on current Chronojump version.</property>
                                                             <property name="tooltip" translatable="yes">Save image</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_image_save_clicked" swapped="no"/>
-                                                            <accelerator key="z" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_image_save">
                                                             <property name="visible">True</property>
@@ -14052,7 +14051,7 @@ on current Chronojump version.</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Save 1RM value</property>
                                                             <property name="use_action_appearance">False</property>
-                                                            <accelerator key="z" signal="clicked"/>
+                                                            <signal name="clicked" handler="on_button_encoder_analyze_1RM_save_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkVBox" id="vbox5">
                                                             <property name="visible">True</property>
@@ -14153,7 +14152,6 @@ on current Chronojump version.</property>
                                                             <property name="tooltip" translatable="yes">Save table</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <signal name="clicked" handler="on_button_encoder_analyze_table_save_clicked" swapped="no"/>
-                                                            <accelerator key="z" signal="clicked"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image_encoder_analyze_image_save1">
                                                             <property name="visible">True</property>

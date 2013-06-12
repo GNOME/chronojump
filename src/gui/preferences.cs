@@ -64,6 +64,11 @@ public class PreferencesWindow {
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
 	[Widget] Gtk.Label label_encoder_ecc_con;
 	[Widget] Gtk.Label label_encoder_con;
+			
+	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
+	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted;
+	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
+	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -102,7 +107,7 @@ public class PreferencesWindow {
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool encoderPropulsive, double encoderSmoothEccCon, double encoderSmoothCon,
-			string [] videoDevices, int videoDeviceNum)
+			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -185,6 +190,31 @@ public class PreferencesWindow {
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
 		PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value = encoderSmoothEccCon;
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = encoderSmoothCon;
+
+		if(encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED.ToString())
+			PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active = true;
+		else if(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED.ToString())
+			PreferencesWindowBox.radio_encoder_1RM_weighted.Active = true;
+		else if(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED2.ToString())
+			PreferencesWindowBox.radio_encoder_1RM_weighted2.Active = true;
+		else //(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED3.ToString())
+			PreferencesWindowBox.radio_encoder_1RM_weighted3.Active = true;
+		/*
+		switch(encoder1RMMethod) {
+			case Constants.Encoder1RMMethod.NONWEIGHTED.ToString():
+				PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active = true;
+				break;
+			case Constants.Encoder1RMMethod.WEIGHTED.ToString():
+				PreferencesWindowBox.radio_encoder_1RM_weighted.Active = true;
+				break;
+			case Constants.Encoder1RMMethod.WEIGHTED2.ToString():
+				PreferencesWindowBox.radio_encoder_1RM_weighted2.Active = true;
+				break;
+			case Constants.Encoder1RMMethod.WEIGHTED3.ToString():
+				PreferencesWindowBox.radio_encoder_1RM_weighted3.Active = true;
+				break;
+		}
+		*/
 
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_ecc_con.Text = (0.6).ToString();
@@ -399,6 +429,17 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
 		SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
+	
+		string encoder1RMMethod = "";	
+		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED.ToString();
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED.ToString();
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2.ToString();
+		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3.ToString();
+		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod, true);
 	
 		Sqlite.Close();
 		

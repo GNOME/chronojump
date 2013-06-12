@@ -431,7 +431,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.Encoder1RMTable +  
 				" (uniqueID, personID, sessionID, exerciseID, load1RM, future1, future2, future3)" +
 				" VALUES (NULL, " + personID + ", " + sessionID + ", " + 
-				exerciseID + ", " + load1RM + ", '','','')";
+				exerciseID + ", " + Util.ConvertToPoint(load1RM) + ", '','','')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -480,7 +480,7 @@ class SqliteEncoder : Sqlite
 					Convert.ToInt32(reader[1].ToString()),	//personID	
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
 					Convert.ToInt32(reader[3].ToString()),	//exerciseID
-					Convert.ToDouble(reader[4].ToString())  //load1RM
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString()))  //load1RM
 					);
 			array.Add (e1RM);
 		}

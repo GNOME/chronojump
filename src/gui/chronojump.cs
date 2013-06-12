@@ -2616,7 +2616,7 @@ public partial class ChronoJumpWindow
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
 				encoderPropulsive, encoderSmoothEccCon, encoderSmoothCon,
-				videoDevices, videoDeviceNum 
+				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod")
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}

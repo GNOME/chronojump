@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.94";
+	static string lastChronojumpDatabaseVersion = "0.95";
 
 	public Sqlite() {
 	}
@@ -1274,6 +1274,18 @@ class Sqlite
 
 				currentVersion = "0.94";
 			}
+			if(currentVersion == "0.94") {
+				dbcon.Open();
+				
+				SqlitePreferences.Insert ("encoder1RMMethod", 
+						Constants.Encoder1RMMethod.WEIGHTED2.ToString());
+				Log.WriteLine("Added encoder1RMMethod");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.95", true); 
+				dbcon.Close();
+
+				currentVersion = "0.95";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1413,6 +1425,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.94 - 0.95 Converted DB to 0.95 Added encoder1RMMethod
 		//0.93 - 0.94 Converted DB to 0.94 Added encoder1RM table
 		//0.92 - 0.93 Converted DB to 0.93 Added speed1RM on encoder exercise
 		//0.91 - 0.92 Converted DB to 0.92 Added videoDevice to preferences

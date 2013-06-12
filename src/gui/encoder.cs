@@ -239,9 +239,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_time.Value, 
 				(int) spin_encoder_capture_min_height.Value, 
-				Convert.ToInt32(
-					Util.FindOnArray(':', 2, 3, exerciseNameShown, 
-					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
+				getExercisePercentBodyWeight (),
 				Util.ConvertToPoint(findMass(true)),
 				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
@@ -317,7 +315,10 @@ public partial class ChronoJumpWindow
 		if(array1RM.Count > 0)
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
 
-		spin_encoder_1RM_percent.Value = load1RM;
+		if(load1RM == 0 || findMass(false) == 0)
+			spin_encoder_1RM_percent.Value = 0;
+		else
+			spin_encoder_1RM_percent.Value = 100 * findMass(false) / load1RM;
 	}
 
 
@@ -411,9 +412,7 @@ public partial class ChronoJumpWindow
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
-				Convert.ToInt32(
-					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight) ),	//ex.percentBodyWeight 
+				getExercisePercentBodyWeight (),
 				Util.ConvertToPoint(findMass(true)),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				"curves",
@@ -968,9 +967,7 @@ public partial class ChronoJumpWindow
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
-				Convert.ToInt32(
-					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-						encoderExercisesTranslationAndBodyPWeight) ),
+				getExercisePercentBodyWeight (),
 				Util.ConvertToPoint(findMass(true)),
 				findEccon(false),		//do not force ecS (ecc-conc separated)
 				"exportCSV",
@@ -1595,10 +1592,7 @@ public partial class ChronoJumpWindow
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
 					-1, 
-					Convert.ToInt32(
-						Util.FindOnArray(':', 2, 3, 
-							UtilGtk.ComboGetActive(combo_encoder_exercise), 
-							encoderExercisesTranslationAndBodyPWeight) ),
+					getExercisePercentBodyWeight (),
 					"-1",			//mass
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
@@ -1732,10 +1726,7 @@ Log.WriteLine(str);
 		} else {	//current signal
 			ep = new EncoderParams(
 					(int) spin_encoder_capture_min_height.Value, 
-					Convert.ToInt32(
-						Util.FindOnArray(':', 2, 3, 
-							UtilGtk.ComboGetActive(combo_encoder_exercise), 
-							encoderExercisesTranslationAndBodyPWeight) ),
+					getExercisePercentBodyWeight (),
 					Util.ConvertToPoint(findMass(true)),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
@@ -1931,13 +1922,19 @@ Log.WriteLine(str);
 		double mass = spin_encoder_extra_weight.Value;
 		if(includePerson) {
 			//TODO: maybe better have a currentEncoderExercise global variable
-			int exPBodyWeight = Convert.ToInt32(
-					Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight) );
-			mass += currentPersonSession.Weight * exPBodyWeight / 100.0;
+			if(currentPersonSession.Weight > 0 && getExercisePercentBodyWeight() > 0)
+				mass += currentPersonSession.Weight * getExercisePercentBodyWeight() / 100.0;
 		}
 
 		return mass;
+	}
+
+	//this is used in 1RM return to substract the weight of the body (if used on exercise)
+	private double massWithoutPerson(double massTotal) {
+		if(currentPersonSession.Weight == 0 || getExercisePercentBodyWeight() == 0)
+			return massTotal;
+		else
+			return massTotal - (currentPersonSession.Weight * getExercisePercentBodyWeight() / 100.0);
 	}
 
 	//TODO: check all this	
@@ -2193,11 +2190,21 @@ Log.WriteLine(str);
 		string contents = Util.ReadFile(Util.GetEncoderSpecialDataTempFileName(), true);
 		string [] load1RMStr = contents.Split(new char[] {';'});
 		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
+		//save it without the body weight
+		double load1RMWithoutPerson = massWithoutPerson(load1RM);
 
 		SqliteEncoder.Insert1RM(false, currentPerson.UniqueID, currentSession.UniqueID, 
-				getExerciseID(), load1RM);
+				getExerciseID(), load1RMWithoutPerson);
 		
-		new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Saved"));
+		string myString = Catalog.GetString("Saved.");
+		if(load1RM != load1RMWithoutPerson)
+			myString = string.Format(Catalog.GetString("1RM found: {0} Kg."), load1RM) + "\n" + 
+				string.Format(Catalog.GetString("Displaced body weight in this exercise: {0}%."), 
+						getExercisePercentBodyWeight()) + "\n" +
+				string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."), 
+						load1RMWithoutPerson);
+		
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
 
@@ -2216,7 +2223,12 @@ Log.WriteLine(str);
 	int getExerciseID () {
 		return Convert.ToInt32(
 				Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-				encoderExercisesTranslationAndBodyPWeight) );
+					encoderExercisesTranslationAndBodyPWeight) );
+	}
+	int getExercisePercentBodyWeight () {
+		return Convert.ToInt32(
+				Util.FindOnArray(':', 2, 3, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight) );
 	}
 	
 	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 

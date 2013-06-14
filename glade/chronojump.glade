@@ -32524,7 +32524,7 @@ times</property>
   <widget class="GtkWindow" id="splash_window">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Chonojump</property>
+    <property name="title" translatable="no">Chronojump</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">splashscreen</property>

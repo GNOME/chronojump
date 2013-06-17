@@ -311,7 +311,7 @@ public partial class ChronoJumpWindow
 
 		//1RM
 		ArrayList array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo()); 
+				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo(), false); 
 		double load1RM = 0;
 		if(array1RM.Count > 0)
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
@@ -324,15 +324,17 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {
 		ArrayList array1RM = SqliteEncoder.Select1RM(
-				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo()); 
+				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo(), true); 
 		
 		ArrayList dataPrint = new ArrayList();
 		foreach(Encoder1RM e1RM in array1RM) {
-			dataPrint.Add(e1RM.ToStringArray());
+			dataPrint.Add(e1RM.ToStringArray2());
 		}
 
 		string [] columnsString = {
-			Catalog.GetString("ID"),
+			"ID",
+			Catalog.GetString("Person"),
+			Catalog.GetString("Exercise"),
 			Catalog.GetString("Load 1RM")
 		};
 
@@ -346,7 +348,8 @@ public partial class ChronoJumpWindow
 		genericWin = GenericWindow.Show(false,	//don't show now
 				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
-				Catalog.GetString("If you want to delete a row, right click on it.") + "\n",
+				Catalog.GetString("If you want to delete a row, right click on it.") + "\n" + 
+				Catalog.GetString("If there is more than one value for an exercise,\nthe used value is the top one."),
 				bigArray);
 
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE);

@@ -439,7 +439,7 @@ class SqliteEncoder : Sqlite
 			dbcon.Close();
 	}
 	
-	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID)
+	public static ArrayList Select1RM (bool dbconOpened, int personID, int sessionID, int exerciseID, bool returnPersonNameAndExerciseName)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -450,21 +450,36 @@ class SqliteEncoder : Sqlite
 			string andStr = "";
 
 			if(personID != -1) {
-				whereStr += " personID = " + personID;
+				whereStr += " " + Constants.Encoder1RMTable + ".personID = " + personID;
 				andStr = " AND ";
 			}
 
 			if(sessionID != -1) {
-				whereStr += andStr + " sessionID = " + sessionID;
+				whereStr += andStr + " " + Constants.Encoder1RMTable + ".sessionID = " + sessionID;
 				andStr = " AND ";
 			}
 
 			if(exerciseID != -1)
-				whereStr += andStr + " exerciseID = " + exerciseID;
+				whereStr += andStr + " " + Constants.Encoder1RMTable + ".exerciseID = " + exerciseID;
 		}
 
-		dbcmd.CommandText = "SELECT * FROM " + Constants.Encoder1RMTable + whereStr +
-			" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
+		if(returnPersonNameAndExerciseName) {
+			if(whereStr == "")
+				whereStr = " WHERE ";
+			else
+				whereStr += " AND ";
+			whereStr += Constants.Encoder1RMTable + ".personID = person77.uniqueID AND " +
+				Constants.Encoder1RMTable + ".exerciseID = encoderExercise.uniqueID";
+		}
+
+		if(returnPersonNameAndExerciseName)
+			dbcmd.CommandText = "SELECT " + Constants.Encoder1RMTable + ".*, person77.name, encoderExercise.name" + 
+				" FROM " + Constants.Encoder1RMTable + ", person77, encoderExercise " +
+				whereStr +
+				" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
+		else
+			dbcmd.CommandText = "SELECT * FROM " + Constants.Encoder1RMTable + whereStr +
+				" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -475,13 +490,24 @@ class SqliteEncoder : Sqlite
 
 		Encoder1RM e1RM = new Encoder1RM();
 		while(reader.Read()) {
-			e1RM = new Encoder1RM (
-					Convert.ToInt32(reader[0].ToString()),	//uniqueID
-					Convert.ToInt32(reader[1].ToString()),	//personID	
-					Convert.ToInt32(reader[2].ToString()),	//sessionID
-					Convert.ToInt32(reader[3].ToString()),	//exerciseID
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString()))  //load1RM
-					);
+			if(returnPersonNameAndExerciseName)
+				e1RM = new Encoder1RM (
+						Convert.ToInt32(reader[0].ToString()),	//uniqueID
+						Convert.ToInt32(reader[1].ToString()),	//personID	
+						Convert.ToInt32(reader[2].ToString()),	//sessionID
+						Convert.ToInt32(reader[3].ToString()),	//exerciseID
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString())),  //load1RM
+						reader[8].ToString(),	//personName
+						reader[9].ToString()	//exerciseName
+						);
+			else
+				e1RM = new Encoder1RM (
+						Convert.ToInt32(reader[0].ToString()),	//uniqueID
+						Convert.ToInt32(reader[1].ToString()),	//personID	
+						Convert.ToInt32(reader[2].ToString()),	//sessionID
+						Convert.ToInt32(reader[3].ToString()),	//exerciseID
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[4].ToString()))  //load1RM
+						);
 			array.Add (e1RM);
 		}
 		reader.Close();

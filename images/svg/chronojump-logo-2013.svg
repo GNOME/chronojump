@@ -11,10 +11,10 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.3.1 r9886"
+   inkscape:version="0.48.4 r9939"
    width="520.69928"
    height="139.70178"
-   sodipodi:docname="chronojump-logo-proves-2013.svg"
+   sodipodi:docname="chronojump-logo-2013.svg"
    inkscape:export-filename="/home/xavier/Escriptori/logo-gran.png"
    inkscape:export-xdpi="155.56"
    inkscape:export-ydpi="155.56">
@@ -57,15 +57,15 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1027"
+     inkscape:window-width="1366"
+     inkscape:window-height="711"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.36303006"
-     inkscape:cx="817.73461"
-     inkscape:cy="93.493992"
+     inkscape:zoom="0.31340614"
+     inkscape:cx="260.30902"
+     inkscape:cy="-287.92853"
      inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg2"
      showguides="false"
@@ -585,67 +585,122 @@
        y="-439.95874"
        id="tspan4625">width:295px</tspan></text>
   <g
-     id="g4302"
-     transform="translate(0,135.0598)"
-     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-2013.png"
-     inkscape:export-xdpi="28.52"
-     inkscape:export-ydpi="28.52">
+     id="g3687"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump-logo-2013_320.png"
+     inkscape:export-xdpi="55.32"
+     inkscape:export-ydpi="55.32">
     <rect
-       y="233.87538"
+       y="368.93518"
        x="0"
        height="139.72549"
        width="520.61804"
        id="rect3495-5"
        style="fill:#0e1e46;fill-opacity:1;stroke:none" />
     <g
-       id="g3299-9"
-       transform="translate(0,233.88723)">
-      <path
-         inkscape:connector-curvature="0"
-         style="fill:#e7be19;fill-opacity:1;stroke:none"
-         d="m 311.43757,58.410769 c 27.28312,47.057141 80.17551,-37.86989 85.02994,-39.55147 4.46759,-5.61615 23.56511,-12.46533 46.91301,23.73088 3.912,4.98946 15.3034,8.77804 21.1109,-2.8251 -0.9196,1.07867 -8.9747,-7.00962 -14.0739,-11.30043 6.072,2.50833 11.285,0.87789 18.7652,10.17038 5.3824,0.20169 12.0174,1.12217 20.5245,7.34527 6.3992,7.2878 -12.4749,4.8351 -19.9381,6.78025 -14.0739,8.06214 -12.3508,23.25669 -22.8701,19.77574 -6.8639,21.089643 -12.6275,21.584603 -16.4196,17.515653 16.0419,-13.358463 7.5123,-19.725653 0,-19.775733 -10.5086,2.77155 -8.9717,18.204313 -2.3456,38.986441 19.1562,-0.12194 32.4482,6.79307 46.3267,7.34527 -10.8465,7.72196 -17.8727,-2.63675 -49.8452,-0.56501 -7.94885,-30.072668 -25.84334,-56.551551 -51.60436,-54.242011 -48.19924,36.298183 -54.78235,17.94159 -61.57339,-3.39013 z"
-         id="path3623-5-9-4"
-         sodipodi:nodetypes="cccccccccccccccc" />
-      <g
-         id="g7029-0">
-        <text
-           sodipodi:linespacing="125%"
-           id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1"
-           y="87.64048"
-           x="28.452457"
-           style="font-size:56.797966px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
-             y="87.64048"
-             x="28.452457"
-             id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7"
-             sodipodi:role="line">CHRONOJUMP</tspan></text>
-        <text
-           sodipodi:linespacing="125%"
-           id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8"
-           y="85.64006"
-           x="26.452213"
-           style="font-size:56.797966px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-           xml:space="preserve"><tspan
-             style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
-             y="85.64006"
-             x="26.452213"
-             id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4"
-             sodipodi:role="line">CHRONOJUMP</tspan></text>
-      </g>
+       transform="translate(-596.10827,413.71371)"
+       id="g3810-7">
       <text
          xml:space="preserve"
-         style="font-size:32.32158279px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#e7bd19;fill-opacity:1;stroke:none;font-family:Sans"
-         x="76.118568"
-         y="119.38137"
-         id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6"
+         style="font-size:32.32158279px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffcc01;fill-opacity:1;stroke:none;font-family:Sans"
+         x="658.96106"
+         y="76.37812"
+         id="text2985-7-8-9-1-2-1-92-7-0-8-1-7-0-8-7-6-6-2-9-6-4-5-4-8-68-8-2-4-1-0-6-90-3-0-6-8-6-5-9-0-9-4-8-0-7-9-0-1-1-5-7"
          sodipodi:linespacing="125%"
-         transform="scale(1.0008553,0.99914544)"><tspan
+         transform="scale(1.0008553,0.99914544)"
+         inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+         inkscape:export-xdpi="155.58435"
+         inkscape:export-ydpi="155.58435"><tspan
            sodipodi:role="line"
-           id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9"
-           x="76.118568"
-           y="119.38137"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#e7bd19;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu">B o s c o s y s t e m ®</tspan></text>
+           id="tspan2987-7-9-5-5-7-6-2-9-7-0-8-3-2-6-4-4-5-6-6-4-8-3-1-1-40-3-3-4-4-6-6-8-3-3-9-4-8-2-6-6-1-60-3-9-6-1-2-4-1-4-6"
+           x="658.96106"
+           y="76.37812"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffcc01;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu">B o s c o s y s t e m ®</tspan></text>
+      <g
+         transform="translate(-3040.9204,-1654.6614)"
+         id="g8117-6-8-3-5-1"
+         inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+         inkscape:export-xdpi="155"
+         inkscape:export-ydpi="155">
+        <rect
+           inkscape:export-ydpi="155"
+           inkscape:export-xdpi="155"
+           inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+           y="1723.6964"
+           x="4044.4221"
+           height="7.4769397"
+           width="8.7962484"
+           id="rect8047-1-7-1-5-1"
+           style="fill:#ffffff;fill-opacity:1;stroke:none" />
+        <rect
+           inkscape:export-ydpi="155"
+           inkscape:export-xdpi="155"
+           inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+           y="1723.6964"
+           x="4120.3208"
+           height="7.4769397"
+           width="8.7962484"
+           id="rect8047-8-8-9-8-6-0"
+           style="fill:#ffffff;fill-opacity:1;stroke:none" />
+        <rect
+           inkscape:export-ydpi="155"
+           inkscape:export-xdpi="155"
+           inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+           y="1723.6964"
+           x="4069.7217"
+           height="7.4769397"
+           width="8.7962484"
+           id="rect8047-8-5-9-9-1-2-9"
+           style="fill:#ffffff;fill-opacity:1;stroke:none" />
+        <rect
+           inkscape:export-ydpi="155"
+           inkscape:export-xdpi="155"
+           inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-2-ratlles-4-punts.png"
+           y="1725.3699"
+           x="4095.0212"
+           height="5.8034811"
+           width="8.7962484"
+           id="rect8047-8-5-8-9-8-3-5-6"
+           style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      </g>
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#ffcc01;fill-opacity:1;stroke:none"
+         d="m 906.386,11.8439 c 27.2831,47.0572 80.1755,-37.8699 85.0299,-39.5514 4.4676,-5.6162 23.5651,-12.4654 46.913,23.7308 3.912,4.9895 15.3034,8.7781 21.1109,-2.8251 -0.9196,1.0787 -8.9747,-7.0096 -14.0739,-11.3004 6.072,2.5083 11.285,0.8779 18.7652,10.1704 5.3824,0.2017 12.0174,1.1222 20.5245,7.3453 6.3992,7.2878 -12.4749,4.8351 -19.9381,6.7802 -14.0739,8.0622 -12.3508,23.2567 -22.8701,19.7758 -6.8639,21.0896 -12.6275,21.5846 -16.4196,17.5156 16.0419,-13.3585 7.5123,-19.7256 0,-19.7757 -10.5086,2.7715 -8.9717,18.2043 -2.3456,38.9864 19.1562,-0.1219 32.4482,6.7931 46.3267,7.3453 -10.8465,7.7219 -17.8727,-2.6368 -49.8452,-0.565 -7.9488,-30.0727 -25.8433,-56.5516 -51.6043,-54.242 -48.1993,36.2981 -54.7824,17.9416 -61.5734,-3.3902 z"
+         id="path3623-5-9-4-5-5-2-3-0-0-42-7-9-8-1-9-0-6-5-8"
+         sodipodi:nodetypes="cccccccccccccccc"
+         inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+         inkscape:export-xdpi="155.58435"
+         inkscape:export-ydpi="155.58435" />
+      <text
+         xml:space="preserve"
+         style="font-size:56.797966px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="623.40094"
+         y="41.073242"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-9-1-3-1-1-0-5-7-9-3-6-6-9-6-9-7-4-0"
+         sodipodi:linespacing="125%"
+         inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+         inkscape:export-xdpi="155.58435"
+         inkscape:export-ydpi="155.58435"><tspan
+           sodipodi:role="line"
+           id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-3-7-6-5-7-5-4-3-7-5-4-9-8-6-1-8-5-9"
+           x="623.40094"
+           y="41.073242"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#000000;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium">CHRONOJUMP</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:56.797966px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+         x="621.40045"
+         y="39.072998"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-4-5-8-4-3-1-68-9-4-3-0-5-8-5-5-4"
+         sodipodi:linespacing="125%"
+         inkscape:export-filename="/home/xavier/Escriptori/chronojump-logo-2013-wallpaper-prova-4-punts.png"
+         inkscape:export-xdpi="155.58435"
+         inkscape:export-ydpi="155.58435"><tspan
+           sodipodi:role="line"
+           id="tspan2987-7-9-5-8-4-6-0-9-8-0-3-8-7-6-7-8-5-0-4-5-7-6-3-13-9-2-0-3-1-2-2-9-4-4-4-5-6-5-6-0-5-8-8-1-9-1-3-6-2"
+           x="621.40045"
+           y="39.072998"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium">CHRONOJUMP</tspan></text>
     </g>
   </g>
   <text
@@ -658,7 +713,7 @@
        sodipodi:role="line"
        id="tspan3253-8-8"
        x="266.32617"
-       y="290.08469">Same as above but with blue background (no points yet)</tspan></text>
+       y="290.08469">Same as above but with blue background</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#1a1a1a;fill-opacity:1;stroke:none;font-family:Sans"

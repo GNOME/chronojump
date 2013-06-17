@@ -83,6 +83,7 @@ public class GenericWindow
 	static GenericWindow GenericWindowBox;
 	
 	private TreeStore store;
+	private Constants.ContextMenu genericWinContextMenu;
 	
 	//used to read data, see if it's ok, and print an error message.
 	//if all is ok, destroy it with HideAndNull()
@@ -381,7 +382,7 @@ public class GenericWindow
 	
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
 	public void SetTreeview(string [] columnsString, bool addCheckbox, 
-			ArrayList data, ArrayList myNonSensitiveRows, bool contextMenu) 
+			ArrayList data, ArrayList myNonSensitiveRows, Constants.ContextMenu contextMenu) 
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
@@ -395,13 +396,20 @@ public class GenericWindow
 		nonSensitiveRows = myNonSensitiveRows;
 	
 Log.WriteLine("aaaaaaaaaaaaaaaa1");	
-		foreach (string [] line in data) 
+		foreach (string [] line in data) {
 			store.AppendValues (line);
+			Log.WriteLine(Util.StringArrayToString(line,"\n"));
+		}
 Log.WriteLine("aaaaaaaaaaaaaaaa2");	
 
+		genericWinContextMenu = contextMenu;
+
 		treeview.CursorChanged += on_treeview_cursor_changed; 
-		if(contextMenu) {
+		if(contextMenu == Constants.ContextMenu.EDITDELETE) {
 			button_row_edit = new Gtk.Button();
+			button_row_delete = new Gtk.Button();
+			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
+		} else if(contextMenu == Constants.ContextMenu.DELETE) {
 			button_row_delete = new Gtk.Button();
 			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
 		}
@@ -559,15 +567,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		TreeModel model = treeview.Model;
 		if (e.Button == 3) {
 			TreeIter iter = new TreeIter();
-			//TreeModel myModel = tv.Model;
 			if (tv.Selection.GetSelected (out model, out iter)) {
-/*
-Log.WriteLine((string) store.GetValue (iter, 0));
-//Log.WriteLine((string) store.GetValue (iter, 1));
-Log.WriteLine((string) store.GetValue (iter, 2));
-Log.WriteLine((string) store.GetValue (iter, 3));
-*/
-				//TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
 				TreeviewSelectedUniqueID = Convert.ToInt32((string) store.GetValue (iter, 0));
 				treeviewContextMenu();
 			}
@@ -579,14 +579,20 @@ Log.WriteLine((string) store.GetValue (iter, 3));
 		Menu myMenu = new Menu ();
 		Gtk.MenuItem myItem;
 
-		myItem = new MenuItem ( Catalog.GetString("Edit selected") );
-		myItem.Activated += on_edit_selected_clicked;
-		myMenu.Attach( myItem, 0, 1, 0, 1 );
+		if(genericWinContextMenu == Constants.ContextMenu.EDITDELETE) {
+			myItem = new MenuItem ( Catalog.GetString("Edit selected") );
+			myItem.Activated += on_edit_selected_clicked;
+			myMenu.Attach( myItem, 0, 1, 0, 1 );
 
-
-		myItem = new MenuItem ( Catalog.GetString("Delete selected") );
-		myItem.Activated += on_delete_selected_clicked;
-		myMenu.Attach( myItem, 0, 1, 1, 2 );
+			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
+			myItem.Activated += on_delete_selected_clicked;
+			myMenu.Attach( myItem, 0, 1, 1, 2 );
+		}
+		else if(genericWinContextMenu == Constants.ContextMenu.DELETE) {
+			myItem = new MenuItem ( Catalog.GetString("Delete selected") );
+			myItem.Activated += on_delete_selected_clicked;
+			myMenu.Attach( myItem, 0, 1, 0, 1 );
+		}
 
 		myMenu.Popup();
 		myMenu.ShowAll();

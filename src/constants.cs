@@ -602,6 +602,7 @@ public class Constants
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
+	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 
 	public enum DoubleContact {
 		FIRST, AVERAGE, LAST

@@ -477,6 +477,9 @@ public class Encoder1RM
 	public int exerciseID;
 	public double load1RM;
 	
+	public string personName;
+	public string exerciseName;
+	
 	public Encoder1RM() {
 	}
 
@@ -489,10 +492,27 @@ public class Encoder1RM
 		this.load1RM = load1RM;
 	}
 
+	public Encoder1RM(int uniqueID, int personID, int sessionID, int exerciseID, double load1RM, string personName, string exerciseName)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.load1RM = load1RM;
+		this.personName = personName;
+		this.exerciseName = exerciseName;
+	}
+
 	public string [] ToStringArray() {
-		string [] s = { uniqueID.ToString(), load1RM.ToString()	};
+		string [] s = { uniqueID.ToString(), load1RM.ToString() };
 		return s;
 	}
+	
+	public string [] ToStringArray2() {
+		string [] s = { uniqueID.ToString(), personName, exerciseName, load1RM.ToString() };
+		return s;
+	}
+
 
 	~Encoder1RM() {}
 }

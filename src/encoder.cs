@@ -197,7 +197,8 @@ public class EncoderCurve
 	}
 
 	//used on TreeView analyze
-	public EncoderCurve (string n, string series, string exercise, double extraWeight,
+	public EncoderCurve (string n, string series, string exercise, 
+			double extraWeight, double displacedWeight,
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
@@ -207,6 +208,7 @@ public class EncoderCurve
 		this.Series = series;
 		this.Exercise = exercise;
 		this.ExtraWeight = extraWeight;
+		this.DisplacedWeight = displacedWeight;
 		this.Start = start;
 		this.Duration = duration;
 		this.Height = height;
@@ -222,7 +224,8 @@ public class EncoderCurve
 	public string ToCSV() {
 		string sep = ";";
 		return 
-			N + sep + Series + sep + Exercise + sep + ExtraWeight + sep + 
+			N + sep + Series + sep + Exercise + sep + 
+			ExtraWeight + sep + DisplacedWeight + sep + 
 			Start + sep + Duration + sep + Height + sep + 
 			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
 			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
@@ -233,6 +236,7 @@ public class EncoderCurve
 	public string Series;
 	public string Exercise;
 	public double ExtraWeight;
+	public double DisplacedWeight;
 	public string Start;
 	public string Duration;
 	public string Height;

@@ -168,9 +168,9 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
 		#plot speed (currently disabled)	
-		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		abline(h=0,lty=2,col="yellow")
-	        lines((1:length(rawdata))/1000, speed$y*10, col="green")
+		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		#abline(h=0,lty=2,col="yellow")
+	        #lines((1:length(rawdata))/1000, speed$y*10, col="green")
 		#print("SPEEEDYYYY")
 		#print(max(speed$y))	
 		#print(min(speed$y))	

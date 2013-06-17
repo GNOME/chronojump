@@ -399,7 +399,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smooth
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
-	Analysis, AnalysisOptions, ExercisePercentBodyWeight 
+	Analysis, AnalysisOptions, exercisePercentBodyWeight 
 	) {
 
 	meanSpeedE = 0
@@ -674,7 +674,7 @@ abline(v=round(mean(which(yValues == max(yValues)/2)),0))
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
 	#if(draw & (!superpose || (superpose & highlight)) & isJump) {
-	if(draw & (!superpose || (superpose & highlight)) & ExercisePercentBodyWeight == 100) {
+	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*9.81
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
 		takeoff = max(which(force>=weight))
@@ -1257,7 +1257,7 @@ doProcess <- function(options) {
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL
 		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
-		seriesName = NULL
+		seriesName = NULL; percentBodyWeight = NULL;
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
@@ -1306,6 +1306,7 @@ doProcess <- function(options) {
 				mass[(i+newLines)] = inputMultiData$mass[i]
 				#smooth[(i+newLines)] = inputMultiData$smoothingOne[i] #unused since 1.3.7
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
+				percentBodyWeight[(i+newLines)] = as.vector(inputMultiData$percentBodyWeight[i])
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
 
@@ -1343,10 +1344,10 @@ doProcess <- function(options) {
 		#solution:
 		if(length(id)==1) {
 			curves = data.frame(start,end,startH,exerciseName,mass,
-					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=id)
+					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=id,percentBodyWeight)
 		} else {
 			curves = data.frame(id,start,end,startH,exerciseName,mass,
-					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=1)
+					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=1,percentBodyWeight)
 		}
 
 		n=length(curves[,1])
@@ -1408,10 +1409,12 @@ doProcess <- function(options) {
 			myEccon = Eccon
 			myStart = curves[Jump,1]
 			myEnd = curves[Jump,2]
+			myExPercentBodyWeight = ExercisePercentBodyWeight
 			if(! singleFile) {
 				myMass = curves[Jump,5]
 				#mySmoothingOne = curves[Jump,6]
 				myEccon = curves[Jump,7]
+				myExPercentBodyWeight = curves[i,11]
 			}
 			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
@@ -1423,7 +1426,7 @@ doProcess <- function(options) {
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
+			      Analysis, AnalysisOptions, myExPercentBodyWeight 
 			      )	
 		}
 	}
@@ -1443,10 +1446,12 @@ doProcess <- function(options) {
 			myMass = Mass
 			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
+			myExPercentBodyWeight = ExercisePercentBodyWeight
 			if(! singleFile) {
 				myMass = curves[i,5]
 				#mySmoothingOne = curves[i,6]
 				myEccon = curves[i,7]
+				myExPercentBodyWeight = curves[i,11]
 			}
 
 			myTitle = ""
@@ -1462,49 +1467,49 @@ doProcess <- function(options) {
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
+			      Analysis, AnalysisOptions, myExPercentBodyWeight 
 			      )
 		}
 		par(mfrow=c(1,1))
 	}
-	if(Analysis=="superpose") {	#TODO: fix on ec startH
-		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
-		#fer que acabin al mateix punt encara que no iniciin en el mateix
-		#arreglar que els eixos de l'esq han de seguir un ylim,
-		#pero els de la dreta un altre, basat en el que es vol observar
-		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
-		wide=max(curves$end-curves$start)
-
-		#a=cumsum(rawdata)
-		#yrange=c(min(a),max(a))
-		yrange=find.yrange(singleFile, rawdata,curves)
-
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,AnalysisOptions)
-		for(i in 1:n) {
-			#in superpose all jumps end at max height
-			#start can change, some are longer than other
-			#xmin and xmax should be the same for all in terms of X concordance
-			#but line maybe don't start on the absolute left
-			#this is controled by startX
-			startX = curves[i,1]-(curves[i,2]-wide)+1;
-			myTitle = "";
-			if(i==1)
-				myTitle = paste(titleType,Jump);
-
-			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
-			      startX,curves[i,3],SmoothingOneEC,SmoothingOneC,Mass,myTitle,"",
-			      TRUE,	#draw
-			      TRUE,	#showLabels
-			      FALSE,	#marShrink
-			      (i==1),	#showAxes
-			      TRUE,	#legend
-			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
-			      )
-			par(new=T)
-		}
-		par(new=F)
-		#print(knRanges)
-	}
+#	if(Analysis=="superpose") {	#TODO: fix on ec startH
+#		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
+#		#fer que acabin al mateix punt encara que no iniciin en el mateix
+#		#arreglar que els eixos de l'esq han de seguir un ylim,
+#		#pero els de la dreta un altre, basat en el que es vol observar
+#		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
+#		wide=max(curves$end-curves$start)
+#
+#		#a=cumsum(rawdata)
+#		#yrange=c(min(a),max(a))
+#		yrange=find.yrange(singleFile, rawdata,curves)
+#
+#		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,AnalysisOptions)
+#		for(i in 1:n) {
+#			#in superpose all jumps end at max height
+#			#start can change, some are longer than other
+#			#xmin and xmax should be the same for all in terms of X concordance
+#			#but line maybe don't start on the absolute left
+#			#this is controled by startX
+#			startX = curves[i,1]-(curves[i,2]-wide)+1;
+#			myTitle = "";
+#			if(i==1)
+#				myTitle = paste(titleType,Jump);
+#
+#			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
+#			      startX,curves[i,3],SmoothingOneEC,SmoothingOneC,Mass,myTitle,"",
+#			      TRUE,	#draw
+#			      TRUE,	#showLabels
+#			      FALSE,	#marShrink
+#			      (i==1),	#showAxes
+#			      TRUE,	#legend
+#			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
+#			      )
+#			par(new=T)
+#		}
+#		par(new=F)
+#		#print(knRanges)
+#	}
 
 	#since Chronojump 1.3.6, encoder analyze has a treeview that can show the curves
 	#when an analysis is done, curves file has to be written

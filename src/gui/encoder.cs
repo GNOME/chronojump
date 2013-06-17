@@ -2635,6 +2635,7 @@ Log.WriteLine(str);
 			Catalog.GetString("Series") + "\n",
 			Catalog.GetString("Exercise") + "\n",
 			Catalog.GetString("Extra weight") + "\n (Kg)",
+			Catalog.GetString("Displaced weight") + "\n (Kg)",
 			Catalog.GetString("Start") + "\n (s)",
 			Catalog.GetString("Duration") + "\n (s)",
 			Catalog.GetString("Range") + "\n (cm)",
@@ -2655,13 +2656,13 @@ Log.WriteLine(str);
 		//write exercise and extra weight data
 		ArrayList curvesData = new ArrayList();
 		string exerciseName = "";
-		double mass = 0; 
+		double displacedMass = 0; 
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			curvesData = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
 		} else {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
-			mass = findMassFromCombo(false);
+			displacedMass = findMassFromCombo(false);
 		}
 
 		string line;
@@ -2685,17 +2686,18 @@ Log.WriteLine(str);
 					/*
 					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
 					exerciseName = eSQL.exerciseName;
-					mass = eSQL.extraWeight;
+					displacedMass = eSQL.extraWeight;
 					*/
 					exerciseName = cells[2];
-					mass = Convert.ToDouble(cells[3]);
+					displacedMass = Convert.ToDouble(cells[3]);
 				}
 
 				encoderAnalyzeCurves.Add (new EncoderCurve (
 							cells[0], 
 							cells[1],	//seriesName 
-							exerciseName, 
-							mass,
+							exerciseName,
+						       	massWithoutPerson(displacedMass, exerciseName),
+							displacedMass,
 							cells[4], cells[5], cells[6], 
 							cells[7], cells[8], cells[9], 
 							cells[10], cells[11], cells[12],
@@ -2740,33 +2742,36 @@ Log.WriteLine(str);
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
 					break;
 				case 4:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDisplacedWeight));
 					break;
 				case 5:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 13:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 14:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -2852,6 +2857,13 @@ Log.WriteLine(str);
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = 
 			String.Format(UtilGtk.TVNumPrint(curve.ExtraWeight.ToString(),3,0),Convert.ToInt32(curve.ExtraWeight));
+	}
+
+	private void RenderDisplacedWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.DisplacedWeight.ToString(),3,0),Convert.ToInt32(curve.DisplacedWeight));
 	}
 
 	private void RenderStart (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

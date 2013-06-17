@@ -2229,6 +2229,12 @@ Log.WriteLine(str);
 		string contents = Util.ReadFile(Util.GetEncoderSpecialDataTempFileName(), true);
 		string [] load1RMStr = contents.Split(new char[] {';'});
 		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
+
+		if(load1RM == -1) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Not enough data."));
+			return;
+		}
+
 		//save it without the body weight
 		double load1RMWithoutPerson = massWithoutPerson(load1RM,getExerciseNameFromTable());
 

@@ -921,7 +921,7 @@ addUnits <- function (var) {
 }
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod, outputData1) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -996,6 +996,16 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 			c.intercept = coef(fit)[[1]]
 			c.x = coef(fit)[[2]]
+
+			if(is.na(c.x)) {
+				plot(0,0,type="n",axes=F,xlab="",ylab="")
+				text(x=0,y=0,"Not enough data.",cex=1.5)
+				dev.off()
+				write("1RM;-1", SpecialData)
+				write("", outputData1)
+				quit()
+			}
+
 			load1RM = ( speed1RM - c.intercept ) / c.x
 
 			#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
@@ -1083,7 +1093,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 }
 
 #propulsive!!!!
-paint1RMBadillo2010 <- function (paf, title) {
+paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	curvesLoad = (paf[,findPosInPaf("Load","")]) 		#mass: X
 	curvesSpeed = (paf[,findPosInPaf("Speed", "mean")])	#mean speed Y
 
@@ -1106,8 +1116,12 @@ paint1RMBadillo2010 <- function (paf, title) {
 	curvesSpeedInIntervalPos = which(curvesSpeed <= max(msp))
 
 	if(length(curvesSpeedInIntervalPos) == 0) {
-		plot(x=0,xlab="",ylab="",axes=F,type="n")
-		return()
+		plot(0,0,type="n",axes=F,xlab="",ylab="")
+		text(x=0,y=0,"Not enough data.",cex=1.5)
+		dev.off()
+		write("1RM;-1", SpecialData)
+		write("", outputData1)
+		quit()
 	}
 
 	par(mar=c(6,5,3,4))
@@ -1601,17 +1615,17 @@ doProcess <- function(options) {
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
 						    analysisCross[4], "LEFT", Title,
 						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE) 
+						    FALSE, FALSE, OutputData1) 
 				par(new=T)
 				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
 						    analysisCross[4], "RIGHT", "",
 						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE) 
+						    FALSE, FALSE, OutputData1) 
 			} else
 				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
 						    analysisCross[4], "ALONE", Title,
 						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE) 
+						    FALSE, FALSE, OutputData1) 
 		}
 		else if(analysisCross[1] == "1RMAnyExercise") {
 			mySeries = "1"
@@ -1621,10 +1635,11 @@ doProcess <- function(options) {
 			paintCrossVariables(paf, "Load", "Speed", 
 					    "mean", "ALONE", Title,
 					    singleFile,Eccon,mySeries, 
-					    analysisCross[2], analysisCross[3]) #speed1RM, method
+					    analysisCross[2], analysisCross[3], #speed1RM, method
+					    OutputData1) 
 		}
 		else if(Analysis == "1RMBadillo2010") {
-			paint1RMBadillo2010(paf, Title)
+			paint1RMBadillo2010(paf, Title, OutputData1)
 		} 
 		
 		if(Analysis == "curves" || writeCurves) {

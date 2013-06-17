@@ -13996,16 +13996,24 @@ on current Chronojump version.</property>
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
                                                     <child>
-                                                      <widget class="GtkViewport" id="viewport_image_encoder_analyze">
+                                                      <widget class="GtkScrolledWindow" id="scrolledwindow4">
                                                         <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="resize_mode">queue</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="hscrollbar_policy">automatic</property>
+                                                        <property name="vscrollbar_policy">automatic</property>
                                                         <child>
-                                                          <widget class="GtkImage" id="image_encoder_analyze">
+                                                          <widget class="GtkViewport" id="viewport_image_encoder_analyze">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="resize_mode">queue</property>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_analyze">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
                                                             <property name="icon-size">6</property>
+                                                            </widget>
+                                                            </child>
                                                           </widget>
                                                         </child>
                                                       </widget>

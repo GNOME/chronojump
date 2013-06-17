@@ -322,6 +322,67 @@ public partial class ChronoJumpWindow
 			spin_encoder_1RM_percent.Value = 100 * findMassFromCombo(false) / load1RM;
 	}
 
+	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {
+		ArrayList array1RM = SqliteEncoder.Select1RM(
+				false, currentPerson.UniqueID, currentSession.UniqueID, getExerciseIDFromCombo()); 
+		
+		ArrayList dataPrint = new ArrayList();
+		foreach(Encoder1RM e1RM in array1RM) {
+			dataPrint.Add(e1RM.ToStringArray());
+		}
+
+		string [] columnsString = {
+			Catalog.GetString("ID"),
+			Catalog.GetString("Load 1RM")
+		};
+
+		ArrayList bigArray = new ArrayList();
+		ArrayList a1 = new ArrayList();
+
+		//0 is the widgget to show; 1 is the editable; 2 id default value
+		a1.Add(Constants.GenericWindowShow.TREEVIEW); a1.Add(true); a1.Add("");
+		bigArray.Add(a1);
+	
+		genericWin = GenericWindow.Show(false,	//don't show now
+				string.Format(Catalog.GetString("Saved 1RM values of athlete {0} on this session."), 
+					currentPerson.Name) + "\n" + 
+				Catalog.GetString("If you want to delete a row, right click on it.") + "\n",
+				bigArray);
+
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE);
+	
+		//find all persons in current session
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		string [] persons = new String[personsPre.Count];
+		int count = 0;
+	        foreach	(Person p in personsPre)
+			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
+		
+		genericWin.ShowButtonCancel(false);
+		genericWin.SetButtonAcceptSensitive(true);
+		genericWin.SetButtonCancelLabel(Catalog.GetString("Close"));
+		//manage selected, unselected curves
+		genericWin.Button_accept.Clicked += new EventHandler(on_spin_encoder_extra_weight_value_changed);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_1RM_win_row_delete);
+
+		//used when we don't need to read data, 
+		//and we want to ensure next window will be created at needed size
+		//genericWin.DestroyOnAccept=true;
+		//here is comented because we are going to read the checkboxes
+
+		genericWin.ShowNow();
+	}
+
+	protected void on_encoder_1RM_win_row_delete (object o, EventArgs args) {
+		Log.WriteLine("row delete at encoder 1RM");
+
+		int uniqueID = genericWin.TreeviewSelectedUniqueID;
+		Log.WriteLine(uniqueID.ToString());
+
+		Sqlite.Delete(false, Constants.Encoder1RMTable, Convert.ToInt32(uniqueID));
+	}
+	
+
 
 	void calculeCurves() {
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
@@ -497,7 +558,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
 				bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), true);
+		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE);
 		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
@@ -675,7 +736,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows,false);
+		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -774,7 +835,7 @@ public partial class ChronoJumpWindow
 			dataConverted.Add(encPS.ToStringArray());
 		}
 
-		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows,false);
+		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -844,7 +905,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), true);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE);
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
@@ -2249,6 +2310,7 @@ Log.WriteLine(str);
 				string.Format(Catalog.GetString("Saved 1RM without displaced body weight: {0} Kg."), 
 						load1RMWithoutPerson);
 		
+		encoder_change_displaced_weight_and_1RM ();
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 

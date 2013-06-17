@@ -12203,6 +12203,7 @@ on current Chronojump version.</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">1RM window</property>
                                                             <property name="use_action_appearance">False</property>
+                                                            <signal name="clicked" handler="on_button_encoder_1RM_win_clicked" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkImage" id="image31">
                                                             <property name="visible">True</property>
@@ -32524,7 +32525,7 @@ times</property>
   <widget class="GtkWindow" id="splash_window">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="no">Chronojump</property>
+    <property name="title">Chronojump</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">splashscreen</property>

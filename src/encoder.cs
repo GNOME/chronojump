@@ -489,5 +489,10 @@ public class Encoder1RM
 		this.load1RM = load1RM;
 	}
 
+	public string [] ToStringArray() {
+		string [] s = { uniqueID.ToString(), load1RM.ToString()	};
+		return s;
+	}
+
 	~Encoder1RM() {}
 }

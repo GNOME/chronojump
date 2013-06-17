@@ -376,12 +376,14 @@ Log.WriteLine("bbb");
 	}
 
 	private void createComboLinux() {
-		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
 		//string [] serial = Directory.GetFiles("/dev/", "ttyS*");
-		//string [] all = Util.AddArrayString(usbSerial, serial);
+		string [] usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
+		string [] usbSerialMac = Directory.GetFiles("/dev/", "tty.usbserial*");
+		string [] all = Util.AddArrayString(usbSerial, usbSerialMac);
+		
 		string [] def = Util.StringToStringArray(Constants.ChronopicDefaultPortLinux);
-		//string [] allWithDef = Util.AddArrayString(def, all);
-		string [] allWithDef = Util.AddArrayString(def, usbSerial);
+		
+		string [] allWithDef = Util.AddArrayString(def, all);
 
 		UtilGtk.ComboUpdate(combo_linux1, allWithDef, Constants.ChronopicDefaultPortLinux);
 		UtilGtk.ComboUpdate(combo_linux2, allWithDef, Constants.ChronopicDefaultPortLinux);

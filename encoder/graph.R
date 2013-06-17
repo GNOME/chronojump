@@ -469,12 +469,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
 
 
-print("ROTARY")		
-print(max(yValues))
-print(max(yValues)/2)
-print(mean(which(yValues == max(yValues)/2)))
-abline(h=round(mean(which(yValues == max(yValues)/2)),0))
-abline(v=round(mean(which(yValues == max(yValues)/2)),0))
+#print("ROTARY")		
+#print(max(yValues))
+#print(max(yValues)/2)
+#print(mean(which(yValues == max(yValues)/2)))
+#abline(h=round(mean(which(yValues == max(yValues)/2)),0))
+#abline(v=round(mean(which(yValues == max(yValues)/2)),0))
 
 	}
 
@@ -1358,10 +1358,12 @@ doProcess <- function(options) {
 		#solution:
 		if(length(id)==1) {
 			curves = data.frame(start,end,startH,exerciseName,mass,
-					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=id,percentBodyWeight)
+					    dateTime,myEccon,seriesName,percentBodyWeight,
+					    stringsAsFactors=F,row.names=id)
 		} else {
 			curves = data.frame(id,start,end,startH,exerciseName,mass,
-					    dateTime,myEccon,seriesName,stringsAsFactors=F,row.names=1,percentBodyWeight)
+					    dateTime,myEccon,seriesName,percentBodyWeight,
+					    stringsAsFactors=F,row.names=1)
 		}
 
 		n=length(curves[,1])
@@ -1428,8 +1430,9 @@ doProcess <- function(options) {
 				myMass = curves[Jump,5]
 				#mySmoothingOne = curves[Jump,6]
 				myEccon = curves[Jump,7]
-				myExPercentBodyWeight = curves[i,11]
+				myExPercentBodyWeight = curves[Jump,9]
 			}
+			
 			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],SmoothingOneEC,SmoothingOneC,myMass,
@@ -1465,7 +1468,7 @@ doProcess <- function(options) {
 				myMass = curves[i,5]
 				#mySmoothingOne = curves[i,6]
 				myEccon = curves[i,7]
-				myExPercentBodyWeight = curves[i,11]
+				myExPercentBodyWeight = curves[i,9]
 			}
 
 			myTitle = ""

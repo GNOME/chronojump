@@ -319,7 +319,7 @@ public partial class ChronoJumpWindow
 		if(load1RM == 0 || findMassFromCombo(false) == 0)
 			spin_encoder_1RM_percent.Value = 0;
 		else
-			spin_encoder_1RM_percent.Value = 100 * findMassFromCombo(false) / load1RM;
+			spin_encoder_1RM_percent.Value = 100 * findMassFromCombo(false) / ( load1RM * 1.0 );
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {

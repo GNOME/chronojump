@@ -1637,14 +1637,17 @@ public partial class ChronoJumpWindow
 				int count = 0;
 				int exerciseOld = -1;
 				foreach(EncoderSQL es in data) {
-					if(count > 0 && es.exerciseID != exerciseOld) {
-						new DialogMessage(Constants.MessageTypes.WARNING, 
-								Catalog.GetString("Sorry, cannot calculate 1RM of different exercises."));
-						encoderProcessCancel = true;
-						return;	
+					if(es.future1 == "active") {
+						if(count > 0 && es.exerciseID != exerciseOld) {
+							new DialogMessage(Constants.MessageTypes.WARNING, 
+									Catalog.GetString("Sorry, cannot calculate 1RM of different exercises."));
+							encoderProcessCancel = true;
+							return;	
+						}
+
+						exerciseOld = es.exerciseID;
+						count ++;
 					}
-					exerciseOld = es.exerciseID;
-					count ++;
 				}
 				if(crossName == "1RM Any exercise") {
 					//get speed1RM (from exercise of curve on SQL, not from combo)

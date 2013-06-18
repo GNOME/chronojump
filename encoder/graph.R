@@ -1009,7 +1009,10 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			load1RM = ( speed1RM - c.intercept ) / c.x
 
 			#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-			plot(x,y, xlim=c(min(x),load1RM), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+			maxX=max(x)
+			if(load1RM > maxX)
+				maxX=load1RM
+			plot(x,y, xlim=c(min(x),maxX), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 			abline(fit,col="red")
 			abline(h=speed1RM,col="gray",lty=2)
 			abline(v=load1RM,col="gray",lty=2)

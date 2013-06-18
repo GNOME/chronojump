@@ -145,6 +145,18 @@ public partial class ChronoJumpWindow
 
 	bool lastRecalculateWasInverted;
 
+	/* 
+	 * this contains last EncoderSQL captured, recalculated or loaded
+	 * 
+	 * before using this, saving a curve used the combo values on the top,
+	 * but this combo values can be changed by the user, and the he could click on save curve,
+	 * then power values (results of curves on graph.R) can be saved with bad weight, exerciseID, ...
+	 *
+	 * Now, with lastEncoderSQL, saved curves and export curves will take the weight, exerciseID, ...
+	 * last capture, recalculate and load. Better usability
+	 */
+	EncoderSQL lastEncoderSQL;
+
 	//CAPTURE is the capture from csharp (not from external python)	
 	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
 	enum encoderModes { CAPTURE, CALCULECURVES, RECALCULATE_OR_LOAD, ANALYZE } 
@@ -474,6 +486,31 @@ public partial class ChronoJumpWindow
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
+
+		string future3 = Util.BoolToInt(check_encoder_inverted.Active).ToString();
+		
+		//see explanation on the top of this file
+		lastEncoderSQL = new EncoderSQL(
+				"-1",
+				currentPerson.UniqueID,
+				currentSession.UniqueID,
+				getExerciseIDFromCombo(),	
+				findEccon(true), 	//force ecS (ecc-conc separated)
+				UtilGtk.ComboGetActive(combo_encoder_laterality),
+				Util.ConvertToPoint(findMassFromCombo(false)),	//when save on sql, do not include person weight
+				"",	//signalOrCurve,
+				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
+				"",	//path,			//url
+				(int) spin_encoder_capture_time.Value, 
+				(int) spin_encoder_capture_min_height.Value, 
+				-1,	//Since 1.3.7 smooth is not stored in curves
+				"", 	//desc,
+				"","",
+				future3,
+				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
+					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
+				);
+
 
 		EncoderParams ep = new EncoderParams(
 				(int) spin_encoder_capture_min_height.Value, 
@@ -1030,11 +1067,16 @@ public partial class ChronoJumpWindow
 		if(encoderPropulsive)
 			analysisOptions = "p";
 
+		string displacedMass = Util.ConvertToPoint( lastEncoderSQL.extraWeight + (
+					getExercisePercentBodyWeightFromName(lastEncoderSQL.exerciseName) *
+					currentPersonSession.Weight
+					) );	
+
 		EncoderParams ep = new EncoderParams(
-				(int) spin_encoder_capture_min_height.Value, 
-				getExercisePercentBodyWeightFromCombo (),
-				Util.ConvertToPoint(findMassFromCombo(true)),
-				findEccon(false),		//do not force ecS (ecc-conc separated)
+				lastEncoderSQL.minHeight, 
+				getExercisePercentBodyWeightFromName (lastEncoderSQL.exerciseName),
+				displacedMass,
+				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQL because there is (true)
 				"exportCSV",
 				analysisOptions,
 				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
@@ -1057,8 +1099,8 @@ public partial class ChronoJumpWindow
 
 		Util.RunEncoderGraph(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
-					"-(" + Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
+				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQL.exerciseName) + 
+					"-(" + displacedMass + "Kg)",
 				encoderStruct);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
@@ -1374,25 +1416,13 @@ public partial class ChronoJumpWindow
 			future3 = Util.BoolToInt(check_encoder_inverted.Active).ToString();
 		}
 
-		EncoderSQL eSQL = new EncoderSQL(
-				myID, 
-				currentPerson.UniqueID, currentSession.UniqueID,
-				getExerciseIDFromCombo(),	
-				findEccon(true), 	//force ecS (ecc-conc separated)
-				UtilGtk.ComboGetActive(combo_encoder_laterality),
-				Util.ConvertToPoint(findMassFromCombo(false)),	//when save on sql, do not include person weight
-				signalOrCurve,
-				fileSaved,		//to know date do: select substr(name,-23,19) from encoder;
-				path,			//url
-				(int) spin_encoder_capture_time.Value, 
-				(int) spin_encoder_capture_min_height.Value, 
-				-1,			//Since 1.3.7 smooth is not stored in curves
-				desc,
-				"","",
-				future3,
-				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
-					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
-				);
+		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things
+		EncoderSQL eSQL = lastEncoderSQL;
+		eSQL.uniqueID = myID;
+		eSQL.signalOrCurve = signalOrCurve;
+		eSQL.filename = fileSaved;
+		eSQL.url = path;
+		eSQL.description = desc;
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update

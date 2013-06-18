@@ -591,6 +591,7 @@ public class Constants
 
 	public static string EncoderDataTemp = "chronojump-last-encoder-data.txt";
 	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
+	public static string EncoderAnalyzeTableTemp = "chronojump-last-encoder-analyze-table.txt";
 	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";
 	public static string EncoderStatusTemp = "chronojump-encoder-status.txt";
 	public static string EncoderExportTemp = "chronojump-export.csv";

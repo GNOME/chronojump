@@ -1039,7 +1039,7 @@ public partial class ChronoJumpWindow
 				analysisOptions,
 				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
-				Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
+				-1,
 				image_encoder_width,
 				image_encoder_height,
 				Util.GetDecimalSeparator()

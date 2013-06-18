@@ -895,6 +895,9 @@ public class Util
 	public static string GetEncoderCurvesTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderCurvesTemp);
 	}
+	public static string GetEncoderAnalyzeTableTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderAnalyzeTableTemp);
+	}
 	public static string GetEncoderGraphTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphTemp);
 	}

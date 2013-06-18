@@ -1846,7 +1846,7 @@ Log.WriteLine(str);
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
 				Util.GetEncoderGraphTempFileName(),
-				Util.GetEncoderCurvesTempFileName(),	//since 1.3.6 all the analysis write curves table
+				Util.GetEncoderAnalyzeTableTempFileName(),
 				Util.GetEncoderStatusTempFileName(),
 				Util.GetEncoderSpecialDataTempFileName(),
 				ep);
@@ -3637,7 +3637,7 @@ Log.WriteLine(str);
 				image_encoder_analyze.Pixbuf = pixbuf;
 				encoder_pulsebar_analyze.Text = "";
 			
-				string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
+				string contents = Util.ReadFile(Util.GetEncoderAnalyzeTableTempFileName(), false);
 				if (contents != null && contents != "") {
 					treeviewEncoderAnalyzeRemoveColumns();
 					createTreeViewEncoderAnalyze(contents);

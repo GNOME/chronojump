@@ -163,15 +163,24 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 
 		myR.assign('a',temp[start:end])
 		
-		print("start:" + str(start) + "; end:" + str(end))
+		#declare
+		x_ini = 0	
 		
+		#this will have same values than graph.R:
+		#1) first remove at start with reduceCurveBySpeed
+		#2) do speed and accel for curve once reducedCurveBySpeed
+		#3) find propulsive (if appropiate)
+		#4) remove at end with propulsive (if appropiate)
+
+		#1) first remove at start with reduceCurveBySpeed
 		if direction_now == -1:
-			myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
+			#some variables only used for cutting
+			myR.run('speedCut <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
 
 
 			#reduce curve by speed, the same way as graph.R
-			myR.run('b=extrema(speed$y)')
-			myR.run('maxSpeedT <- min(which(speed$y == max(speed$y)))')
+			myR.run('b=extrema(speedCut$y)')
+			myR.run('maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))')
 			maxSpeedT = myR.get('maxSpeedT')
 			bcrossLen = myR.get('length(b$cross[,2])')
 			bcross = myR.get('b$cross[,2]')
@@ -186,35 +195,67 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			print(maxSpeedT)
 
 			if bcrossLen == 0:
-				return
+				x_ini = 0
 			if bcrossLen == 1:
 				x_ini = bcross	#if bcross has only one item, then this fails: 'bcross[0]'. Just do 'bcross'
 			else:
-				x_ini = bcross[0]
+				x_ini = bcross[0]	#not 1, we are in python now
 				for i in bcross:
 					if i < maxSpeedT:
 						x_ini = i  #left adjust
-		
-			#find propulsive
-			if analysisOptions == "p":
-				myR.run('accel <- predict( speed, deriv=1 )')
-				myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
-				myR.run('propulsiveData <- which(accel$y <= -9.81)') 
-				propulsiveData = myR.get('propulsiveData') 
-				propulsiveDataLength = myR.get('length(propulsiveData)') 
-				if propulsiveDataLength > 0:
-					print("propulsiveData:" + str(propulsiveData) + "; end:" + str(end) + 
-							";min(propulsiveData):" + str(min(propulsiveData)))
-					end = start + min(propulsiveData)
+			
+			myR.assign('a',temp[(start+x_ini):end])
+			#parenthesis [( )] were totally needed in this operation!!
+			#eg:
+			#k=seq(1:100)
+			#> kwoParentheses = k[10+10:90]
+			#> length(kwoParentheses)
+			#[1] 81
+			#> fivenum(kwoParentheses)
+			#[1]  20  40  60  80 100
+			
+			#> kwParentheses = k[(10+10):90]
+			#> length(kwParentheses)
+			#[1] 71
+			#> fivenum(kwParentheses)
+			#[1] 20.0 37.5 55.0 72.5 90.0
 
 
-			myR.assign('a',temp[start+x_ini:end])
-			print("start reduced (start+x_ini):" + str(start + x_ini) + " (x_ini:" + str(x_ini) + "); end:" + str(end)) 
-	
+
+		#2) do speed and accel for curve once reducedCurveBySpeed
 		myR.run('speed <- smooth.spline( 1:length(a), a, spar=smoothingOne)')
+		myR.run('accel <- predict( speed, deriv=1 )')
+
+	
 		myR.run('a.cumsum <- cumsum(a)')
 		myR.run('range <- abs(a.cumsum[length(a)]-a.cumsum[1])')
-		myR.run('accel <- predict( speed, deriv=1 )')
+
+
+		#3) find propulsive (if appropiate)
+		if direction_now == -1 and analysisOptions == "p":
+			myR.run('accelCut <- predict( speed, deriv=1 )')
+			myR.run('accelCut$y <- accelCut$y * 1000') #input data is in mm, conversion to m
+			myR.run('propulsiveData <- which(accelCut$y <= -9.81)') 
+			propulsiveData = myR.get('propulsiveData') 
+			propulsiveDataLength = myR.get('length(propulsiveData)') 
+			if propulsiveDataLength > 0:
+				end = min(propulsiveData)
+
+			#myR.assign('x_ini',x_ini)
+			myR.assign('end',end)
+
+			#4) remove at end with propulsive (if appropiate)
+			myR.run('speed$y <- speed$y[1:end]')
+			myR.run('accel$y <- accel$y[1:end]')
+
+		
+		print("new curve")
+		print(start+x_ini)
+		myspeedy=myR.get('speed$y')
+		print(myspeedy)
+
+
+
 		myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
 #		if isJump == "True":
 		myR.run('force <- mass*(accel$y+9.81)')

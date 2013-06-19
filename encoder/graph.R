@@ -162,6 +162,7 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		     type="l",
 		     xlim=c(1,length(a))/1000,		#ms -> s
 		     xlab="",ylab="",axes=T) 
+		
 		title(title, cex.main=1, font.main=1)
 		mtext("time (s) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
@@ -184,7 +185,7 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 #if this changes, change also in python capture file
 reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
 	a=rawdata
-
+	
 	#debug
 	#print("startT and aaaaaaaaaaaaaaaaaaaaaaa")
 	#print(startT)
@@ -292,8 +293,6 @@ return (propulsiveEnd)
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
 kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analysisOptions) {
-	#print("length unique x in spline")
-	#print(length(unique(1:length(a))))
 
 	smoothing = 0
 	if(eccon == "c")
@@ -348,6 +347,9 @@ print("WARNING ECS\n\n\n\n\n")
 }
 
 powerBars <- function(eccon, kinematics) {
+	#print("speed$y")
+	#print(kinematics$speedy)
+
 	meanSpeed <- mean(kinematics$speedy)
 	#max speed and max speed time can be at eccentric or concentric
 	maxSpeed <- max(abs(kinematics$speedy))
@@ -363,6 +365,7 @@ powerBars <- function(eccon, kinematics) {
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
 	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
+
 
 	#here paf is generated
 	#mass is not used by powerBars, but used by Kg/W (loadVSPower)

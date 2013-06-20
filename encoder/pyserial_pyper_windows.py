@@ -36,8 +36,18 @@ import pygame._view
 #import pygame.font
 from pygame.locals import * #mouse and key definitions
 
+#sys.stdout=open("C:\Users\windblows\Desktop\pyserial-out.txt", 'w')
+#sys.stderr=open("C:\Users\windblows\Desktop\pyserial-error.txt", 'w')
 
 print(sys.argv)
+#file2 = open("C:\Users\windblows\Desktop\pyserial-log.txt", 'w')
+#file2.write("printing path:\n")
+#file2.write(sys.path[0])
+#file2.write("printing sysargv, 24:\n")
+#file2.write(sys.argv[1])
+#file2.write(sys.argv[24])
+#file2.flush()
+#file2.close()
 
 FALSE = 0
 TRUE = 1
@@ -252,10 +262,10 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			myR.run('accel$y <- accel$y[1:end]')
 
 		
-		print("new curve")
-		print(start+x_ini)
-		myspeedy=myR.get('speed$y')
-		print(myspeedy)
+		#print("new curve")
+		#print(start+x_ini)
+		#myspeedy=myR.get('speed$y')
+		#print(myspeedy)
 
 
 

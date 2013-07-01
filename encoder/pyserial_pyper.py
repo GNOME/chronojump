@@ -249,12 +249,12 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			myR.run('accel$y <- accel$y[1:end]')
 
 		
-		print("new curve")
-		print(start+x_ini)
-		myspeedy=myR.get('speed$y')
-		print(myspeedy)
-
-
+#		print("new curve")
+#		print(start+x_ini)
+#		myspeedy=myR.get('speed$y')
+#		print(myspeedy)
+#
+#
 
 		myR.run('accel$y <- accel$y * 1000') #input data is in mm, conversion to m
 #		if isJump == "True":

@@ -226,6 +226,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_image_test;
 	[Widget] Gtk.Box vbox_this_test_buttons;
 	[Widget] Gtk.Button button_video_play_this_test;
+	[Widget] Gtk.Button button_delete_this_test;
 		
 	[Widget] Gtk.Button button_upload_session;
 	[Widget] Gtk.Button button_activate_chronopics;
@@ -3371,6 +3372,9 @@ Console.WriteLine("X");
 Log.WriteLine("DDD");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
 Log.WriteLine("DDD 1");
+	
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
@@ -3518,6 +3522,9 @@ Log.WriteLine("DDD 2");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+
 		if ( ! currentEventExecute.Cancel ) {
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
 			
@@ -3674,6 +3681,9 @@ Log.WriteLine("DDD 2");
 	{
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_finished);
 		
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+
 		if ( ! currentEventExecute.Cancel ) {
 			currentRun = (Run) currentEventExecute.EventDone;
 			
@@ -3801,6 +3811,9 @@ Log.WriteLine("DDD 2");
 	{
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_run_interval_finished);
 		
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+
 		if ( ! currentEventExecute.Cancel ) {
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
 
@@ -3914,6 +3927,9 @@ Log.WriteLine("DDD 2");
 	{
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_reaction_time_finished);
 		
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+
 		if ( ! currentEventExecute.Cancel ) {
 
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
@@ -4021,6 +4037,9 @@ Log.WriteLine("DDD 2");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
+
 		if ( ! currentEventExecute.Cancel ) {
 			/*
 			 * CURRENTLY NOT NEEDED... check
@@ -4243,6 +4262,9 @@ Log.WriteLine("DDD 2");
 			multiFinishing = true;
 
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_multi_chronopic_finished);
+
+		//test can be deleted if not cancelled
+		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
 
 		if(currentMultiChronopicType.Name == Constants.RunAnalysisName && ! currentEventExecute.MultiChronopicRunAUsedCP2()) 
 			//new DialogMessage(Constants.MessageTypes.WARNING, 

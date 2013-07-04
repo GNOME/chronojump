@@ -196,6 +196,7 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 		smoothing = smoothingOneC
 
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+	
 	b=extrema(speed$y)
 
 	#from searchValue, go to the left, searchValue is at max speed on going up
@@ -216,7 +217,8 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	if(bcrossLen == 0)
 		x.ini = 0
 	else if(bcrossLen == 1)
-		x.ini = b$cross[,2]
+		if(b$cross[,2] < maxSpeedT) 
+			x.ini = b$cross[,2]
 	else 
 		for(i in b$cross[,2]) 
 			if(i < maxSpeedT) 
@@ -300,8 +302,17 @@ kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analys
 	else
 		smoothing = smoothingOneEC
 
-	speed <- smooth.spline( 1:length(a), a, spar=smoothing)
-	accel <- predict( speed, deriv=1 )
+	#x vector should contain at least 4 different values
+	if(length(a) >= 4)
+		speed <- smooth.spline( 1:length(a), a, spar=smoothing)
+	else
+		speed=list(y=rep(0,length(a)))
+	
+	if(length(a) >= 4)
+		accel <- predict( speed, deriv=1 )
+	else
+		accel=list(y=rep(0,length(a)))
+	
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
 	errorSearching = FALSE

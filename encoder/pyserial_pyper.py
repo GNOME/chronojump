@@ -197,7 +197,8 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 			if bcrossLen == 0:
 				x_ini = 0
 			if bcrossLen == 1:
-				x_ini = bcross	#if bcross has only one item, then this fails: 'bcross[0]'. Just do 'bcross'
+				if bcross < maxSpeedT:
+					x_ini = bcross	#if bcross has only one item, then this fails: 'bcross[0]'. Just do 'bcross'
 			else:
 				x_ini = bcross[0]	#not 1, we are in python now
 				for i in bcross:

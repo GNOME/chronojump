@@ -1,9 +1,11 @@
-library(GDD)
-GDD(file="/var/www/web/server/images/tf_by_jumps_boxplot.png", 
-  width = 670, height= 670, ps = 12, type="png")
+#library(GDD)
+#file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+#GDD(file="/var/www/web/server/images/tf_by_jumps_boxplot.png", 
+#  width = 670, height= 670, ps = 12, type="png")
+png(file="tf_by_jumps_boxplot.png", w=800, h=800) #local PNG
 library(RSQLite)
 drv <- dbDriver("SQLite")
-file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+file = "~/.local/share/Chronojump/database/chronojump_server_2013-07-05.db"
 con <- dbConnect(drv, file)
 
 jumps <- dbGetQuery(con, "SELECT person77.sex, jump.* FROM person77, jump WHERE person77.uniqueID == jump.personID")

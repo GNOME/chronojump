@@ -17,3 +17,7 @@ pic16f876a.h
 pic16f876a.lib
 
 but all the 3.0 and above doesn't have them
+
+trying
+sdcc -mpic14 -p16f876 -Wl-m -Wl-ainhx8m chronopic-firmware-4MHz-16f876.c
+but created hex file is the same than in "a" version

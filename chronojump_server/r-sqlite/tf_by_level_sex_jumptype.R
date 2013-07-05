@@ -1,8 +1,9 @@
-library(GDD)
-GDD(file="/var/www/web/server/images/tf_by_level_sex_jumptype.png", type="png", w=670, h=670)
+#library(GDD)
+#GDD(file="/var/www/web/server/images/tf_by_level_sex_jumptype.png", type="png", w=670, h=670)
+png(file="tf_by_level_sex_jumptype.png", w=800, h=800) #local PNG
 library(RSQLite)
 drv = dbDriver("SQLite")
-file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+file = "~/.local/share/Chronojump/database/chronojump_server_2013-07-05.db"
 con = dbConnect(drv, file)
 
 jumps <- dbGetQuery(con, "SELECT person77.sex AS sex, personSession77.practice AS level, jump.* from person77, personSession77, jump WHERE person77.uniqueID == personSession77.personID AND level>=0 AND simulated>=0 AND person77.uniqueID == jump.personID")

@@ -1,9 +1,10 @@
-library(GDD)
-GDD(file="/var/www/web/server/images/tf_by_extra_weight.png", type="png", w=670, h=670)
+#library(GDD)
+#GDD(file="/var/www/web/server/images/tf_by_extra_weight.png", type="png", w=670, h=670)
+png(file="tf_by_extra_weight.png", w=800, h=800) #local PNG
 
 library(RSQLite)
 drv = dbDriver("SQLite")
-file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+file = "~/.local/share/Chronojump/database/chronojump_server_2013-07-05.db"
 con = dbConnect(drv, file)
 
 def.par <- par(no.readonly = TRUE) # save default, for resetting...

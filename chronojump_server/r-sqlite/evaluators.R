@@ -1,14 +1,14 @@
-#change from local to server ----------------------------
-#server
-library(GDD)
-GDD(file="/var/www/web/server/images/evaluators.png", type="png", w=670, h=670)
-file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+#library(GDD)
+#GDD(file="/var/www/web/server/images/evaluators.png", type="png", w=670, h=670) #server PNG
+#file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+png(file="evaluators.png", w=800, h=800) #local PNG
+file = "~/.local/share/Chronojump/database/chronojump_server_2013-07-05.db"
 title = "Data uploaded by evaluator"
 subtitle=paste(Sys.Date(),"(YYYY-MM-DD)")
 colors=topo.colors(3)
 col.sub="red"
 
-#local
+#local PDF
 #pdf(file="evaluators.pdf", width=7, height=7)
 #file = "/home/xavier/.local/share/Chronojump/database/chronojump_server_2012-03-06.db"
 #title = ""
@@ -104,12 +104,17 @@ par(mar=c(5,4,5.5,2), oma=c(1,7,1,1))
 
 barplot(t(b), horiz=T, las=2, col=colors, cex.names=cex,axes=F)
 axis(3, cex.axis=.8)
-legend("right", colnames(b), pch=15, col=colors, cex=.8)
+
+#plot legend on top exactly out
+#http://stackoverflow.com/a/7322792
+rng=par("usr")
+lg = legend(rng[1],rng[2], ncol=3, colnames(b), pch=15, col=colors, cex=.8)
+legend(rng[2]-lg$rect$w,rng[3]+lg$rect$h, ncol=3, colnames(b), pch=15, col=colors, cex=.8)
 
 title(main=title, sub=subtitle, cex.sub = 0.75, font.sub = 3, col.sub = col.sub)
 
 par(new=TRUE)
-par(mar=c(5.2,12,18.4,2))
+par(mar=c(9,13,18,2))
 
 persons <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(personSession77.uniqueID) AS conta FROM session,personSession77 WHERE personSession77.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY session.uploadedDate;")
 jumps <- dbGetQuery(con, "SELECT session.uploadedDate AS date, count(jump.uniqueID) AS conta FROM session,jump WHERE jump.sessionID == session.UniqueID AND session.uploadedDate != '2007-07-30' GROUP BY session.uploadedDate;")
@@ -119,11 +124,11 @@ minx=min(dates)
 maxx=max(dates)
 maxy=max(c(sum(persons$conta),sum(jumps$conta),sum(jumpsRj$conta)))
 
-plot(as.Date(persons$date), cumsum(persons$conta), type='s', lwd=2, col=colors[1], xlim=c(minx,maxx), ylim=c(0,maxy), ylab="", cex.axis=.8, las=T)
+plot(as.Date(persons$date), cumsum(persons$conta), type='s', lwd=2, col=colors[1], xlim=c(minx,maxx), ylim=c(0,maxy), xlab="", ylab="", cex.axis=.8, las=T)
 abline(v=seq(as.Date("2009/1/1"), as.Date("2020/1/1"), by="3 months"),lty=3)
 par(new=TRUE)
-plot(as.Date(jumps$date), cumsum(jumps$conta), type='s', lwd=2, col=colors[2], xlim=c(minx,maxx), ylim=c(0,maxy), ylab="", axes=F)
+plot(as.Date(jumps$date), cumsum(jumps$conta), type='s', lwd=2, col=colors[2], xlim=c(minx,maxx), ylim=c(0,maxy), xlab="", ylab="", axes=F)
 par(new=TRUE)
-plot(as.Date(jumpsRj$date), cumsum(jumpsRj$conta), type='s', lwd=2, col=colors[3], xlim=c(minx,maxx), ylim=c(0,maxy), ylab="", axes=F)
+plot(as.Date(jumpsRj$date), cumsum(jumpsRj$conta), type='s', lwd=2, col=colors[3], xlim=c(minx,maxx), ylim=c(0,maxy), xlab="", ylab="", axes=F)
 
 dev.off()

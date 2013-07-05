@@ -1,15 +1,15 @@
-#change from local to server ----------------------------
-#server
-library(GDD)
-GDD(file="/var/www/web/server/images/persons.png", type="png", w=670, h=670)
-file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+#library(GDD)
+#GDD(file="/var/www/web/server/images/persons.png", type="png", w=670, h=670)
+#file = "/root/.local/share/Chronojump/database/chronojump_server.db"
+png(file="persons.png", w=800, h=800) #local PNG
+file = "~/.local/share/Chronojump/database/chronojump_server_2013-07-05.db"
 title = "Data uploaded by evaluator"
 subtitle=paste(Sys.Date(),"(YYYY-MM-DD)")
 col.sub="red"
 col.sex=rainbow(2)
 col.level=rainbow(4)
 
-#local
+#local PDF
 #pdf(file="persons.pdf", width=7, height=7)
 #file = "/home/xavier/.local/share/Chronojump/database/chronojump_server_2012-03-07.db"
 #title = ""
@@ -44,12 +44,12 @@ par(new=FALSE, oma=c(1,1,5,0))
 nf <- layout(matrix(c(1,1,2,3,4,5), 3, 2, byrow=FALSE), widths=c(2,1), heights=c(10,10,13), respect=FALSE)
 #layout.show(nf)
 
-dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=strtrim(levels(persons$sportF),15)[order (table(persons$sportF))], main="Sport",cex=.6)
+dotchart(table(persons$sportF)[order (table(persons$sportF))], labels=strtrim(levels(persons$sportF),15)[order (table(persons$sportF))], main="Sport",cex=.8)
 abline(v=seq(from=0,to=max(table(persons$sportF)),by=10),col = "lightgray", lty=3)
 #dotchart(table(persons$speciallityF), labels=levels(persons$speciallityF), main="athletics speciallities")
 #SPECIALLITIES fer amb un altre select i nomes d'atletisme
 
-dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=strtrim(levels(persons$countryF),15)[order (table(persons$countryF))], main="Country",cex=.6)
+dotchart(table(persons$countryF)[order (table(persons$countryF))], labels=strtrim(levels(persons$countryF),15)[order (table(persons$countryF))], main="Country",cex=.8)
 abline(v=seq(from=0,to=max(table(persons$countryF)),by=25),col = "lightgray", lty=3)
 
 pie(table(persons$sexF), labels=levels(persons$sexF), main="Gender", col=col.sex)
@@ -64,7 +64,7 @@ hist(ages$years, breaks=10, main="Age", xlab="Years (at session day)")
 
 par(new=TRUE)
 plot(-1,type="n",axes=F,xlab='',ylab='')
-title(main=title, sub=subtitle, cex.sub = 0.75, font.sub = 3, col.sub = col.sub)
+title(main=title, sub=subtitle, cex.sub = 0.8, font.sub = 3, col.sub = col.sub)
 
 dev.off()
 

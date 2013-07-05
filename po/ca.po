@@ -4166,7 +4166,7 @@ msgstr "La sessió pujarà al servidor."
 #: ../src/gui/chronojump.cs:1353
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr ""
-"Els noms, dates de naixement i descripcions de les persones seran oscultats."
+"Els noms, dates de naixement i descripcions de les persones seran ocultats."
 
 #: ../src/gui/chronojump.cs:1354
 msgid "You can upload again this session if you add more data or persons."

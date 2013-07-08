@@ -19,6 +19,26 @@
 # 
 
 
+
+#----------------------------------
+#Explanation of the code. Workflow:
+#----------------------------------
+#Define some variables, read options file and define more variables
+#at end of file: call to loadLibraries(OperatingSystem)
+#at end of file: call to doProcess(options)
+#doProcess:
+  #assign variables reading options
+  #process curves:
+    #if(! singleFile) reads "chronojump-encoder-graph-input-multi.csv", then read each file and define curves using files
+    #if(singleFile) define curves using findCurves function
+  #if analysis is single: paint 
+  #if analysis is side: kinematicRanges will call kinematicsF to know common axes (max and mins) and the call to paint 
+  #using curves and powerBars, paf table will be created. This will be used always, because writeCurves (on a file) is always true
+  #if(Analysis=="exportCSV") data will be exported to CSV file
+#----------------------------------
+
+
+
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases

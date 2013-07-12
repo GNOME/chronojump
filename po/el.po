@@ -1,16 +1,14 @@
 # Greek translation for chronojump.
 # Copyright (C) 2013 chronojump's COPYRIGHT HOLDER
 # This file is distributed under the same license as the chronojump package.
-# Dimitris Spingos <dmtrs32@gmail.com>, 2013.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013.
-# keratea <dmtrs32@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=chrono"
 "jump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-03 15:59+0000\n"
-"PO-Revision-Date: 2013-05-10 20:59+0300\n"
+"POT-Creation-Date: 2013-06-17 17:35+0000\n"
+"PO-Revision-Date: 2013-07-12 09:39+0300\n"
 "Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
 "Language-Team: team@gnome.gr\n"
 "Language: el\n"
@@ -184,7 +182,7 @@ msgstr "<b>Άτομα</b>"
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:33 ../src/exportSession.cs:376
-#: ../src/gui/chronojump.cs:3472 ../src/gui/jump.cs:1805
+#: ../src/gui/chronojump.cs:3479 ../src/gui/jump.cs:1805
 #: ../src/gui/jump.cs:1855 ../src/gui/jump.cs:1903
 #: ../src/sqlite/speciallity.cs:160 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
@@ -223,7 +221,7 @@ msgstr ""
 "αντίδρασης"
 
 #: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:189
-#: ../src/gui/chronojump.cs:3981 ../src/gui/person.cs:2150
+#: ../src/gui/chronojump.cs:3988 ../src/gui/person.cs:2156
 #: ../src/gui/session.cs:735 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Παλμοί"
@@ -555,11 +553,11 @@ msgstr "Πλευρικός"
 msgid "Limb"
 msgstr "Άκρο"
 
-#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:1914
+#: ../glade/chronojump.glade.h:122 ../src/gui/encoder.cs:2100
 msgid "Right"
 msgstr "Δεξιό"
 
-#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:1914
+#: ../glade/chronojump.glade.h:123 ../src/gui/encoder.cs:2100
 msgid "Left"
 msgstr "Αριστερό"
 
@@ -591,7 +589,7 @@ msgstr "Άγνωστο"
 msgid "Fall"
 msgstr "Πτώση"
 
-#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:1914
+#: ../glade/chronojump.glade.h:129 ../src/gui/encoder.cs:2100
 msgid "Both"
 msgstr "Και τα δύο"
 
@@ -641,8 +639,8 @@ msgid ""
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
-"\"Έναρξη ταχύτητας\" σημαίνει όταν ο αθλητής δεν ξεκινά με \"επαφή\" στην πρώτη "
-"εξέδρα ή φωτοκύτταρο.\n"
+"\"Έναρξη ταχύτητας\" σημαίνει όταν ο αθλητής δεν ξεκινά με \"επαφή\" στην "
+"πρώτη εξέδρα ή φωτοκύτταρο.\n"
 "Ξεκινά πριν και φτάνει εκεί με κάποια ταχύτητα."
 
 #: ../glade/chronojump.glade.h:140
@@ -767,8 +765,8 @@ msgstr "Συνολική απόσταση"
 #: ../src/exportSession.cs:277 ../src/exportSession.cs:379
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:542
 #: ../src/exportSession.cs:633 ../src/exportSession.cs:675
-#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2146
-#: ../src/gui/encoder.cs:2178 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
+#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2409
+#: ../src/gui/encoder.cs:2450 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
 #: ../src/gui/person.cs:123 ../src/gui/run.cs:1347 ../src/gui/run.cs:1518
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -783,7 +781,7 @@ msgstr "Επιλογές εξέτασης"
 msgid "Or press 'space'"
 msgstr "Ή πατήστε 'διάστημα'"
 
-#: ../glade/chronojump.glade.h:170 ../src/gui/chronojump.cs:5325
+#: ../glade/chronojump.glade.h:170 ../src/gui/chronojump.cs:5332
 msgid "Execute test"
 msgstr "Εκτέλεση εξέτασης"
 
@@ -812,8 +810,8 @@ msgstr "Τερματισμός εξέτασης (αποθήκευση δοκιμ
 msgid "Time"
 msgstr "Ώρα"
 
-#: ../glade/chronojump.glade.h:174 ../src/gui/chronojump.cs:3323
-#: ../src/gui/chronojump.cs:3627 ../src/gui/chronojump.cs:3874
+#: ../glade/chronojump.glade.h:174 ../src/gui/chronojump.cs:3330
+#: ../src/gui/chronojump.cs:3634 ../src/gui/chronojump.cs:3881
 msgid "Phases"
 msgstr "Φάσεις"
 
@@ -904,9 +902,9 @@ msgid "Person average on this test"
 msgstr "Μέσος όρος ατόμου σε αυτήν την εξέταση"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:185 ../src/stats/runIntervallic.cs:64
-#: ../src/treeViewMultiChronopic.cs:30 ../src/treeViewPulse.cs:46
-#: ../src/treeViewReactionTime.cs:30
+#: ../glade/chronojump.glade.h:185 ../src/gui/encoder.cs:336
+#: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
+#: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
 msgid "Person"
 msgstr "Άτομο"
 
@@ -1034,7 +1032,7 @@ msgid "Pulse"
 msgstr "Παλμός"
 
 #: ../glade/chronojump.glade.h:208 ../src/exportSession.cs:191
-#: ../src/gui/person.cs:2151 ../src/gui/session.cs:736
+#: ../src/gui/person.cs:2157 ../src/gui/session.cs:736
 msgid "MultiChronopic"
 msgstr "Πολλαπλή χρονοεικόνα"
 
@@ -1078,9 +1076,9 @@ msgstr "διαδοχικά_σημάδια"
 msgid "Current"
 msgstr "Τρέχον"
 
-#: ../glade/chronojump.glade.h:219 ../src/gui/genericWindow.cs:278
-#: ../src/gui/genericWindow.cs:300 ../src/gui/genericWindow.cs:306
-#: ../src/gui/genericWindow.cs:527 ../src/gui/person.cs:319
+#: ../glade/chronojump.glade.h:219 ../src/gui/genericWindow.cs:298
+#: ../src/gui/genericWindow.cs:320 ../src/gui/genericWindow.cs:326
+#: ../src/gui/genericWindow.cs:554 ../src/gui/person.cs:319
 #: ../src/gui/person.cs:433 ../src/gui/person.cs:487 ../src/gui/stats.cs:215
 #: ../src/gui/stats.cs:527 ../src/gui/stats.cs:957
 msgid "Selected"
@@ -1090,8 +1088,8 @@ msgstr "Επιλεγμένο"
 msgid "select"
 msgstr "επιλογή"
 
-#: ../glade/chronojump.glade.h:221 ../src/gui/genericWindow.cs:275
-#: ../src/gui/genericWindow.cs:320 ../src/gui/person.cs:317
+#: ../glade/chronojump.glade.h:221 ../src/gui/genericWindow.cs:295
+#: ../src/gui/genericWindow.cs:340 ../src/gui/person.cs:317
 #: ../src/gui/person.cs:446 ../src/gui/stats.cs:212 ../src/gui/stats.cs:937
 #: ../src/gui/stats.cs:1273 ../src/report.cs:287 ../src/stats/main.cs:227
 msgid "All"
@@ -1122,7 +1120,7 @@ msgstr "Εμφάνιση φύλου"
 msgid "Show description"
 msgstr "Εμφάνιση περιγραφής"
 
-#: ../glade/chronojump.glade.h:228 ../src/constants.cs:166
+#: ../glade/chronojump.glade.h:228 ../src/constants.cs:167
 msgid "Other"
 msgstr "Άλλα"
 
@@ -1193,8 +1191,7 @@ msgstr "Επάνω"
 #: ../glade/chronojump.glade.h:245
 msgid "Adjust this and bottom margin if athlete's names are long."
 msgstr ""
-"Ρύθμιση αυτού και του κάτω περιθωρίου αν τα ονόματα των αθλητών είναι "
-"μεγάλα."
+"Ρύθμιση αυτού και του κάτω περιθωρίου αν τα ονόματα των αθλητών είναι μεγάλα."
 
 #: ../glade/chronojump.glade.h:246
 msgid "X axis font size"
@@ -1269,218 +1266,248 @@ msgstr "Εμφάνιση περιγραφής αυτής της άσκησης"
 msgid "Add new exercise"
 msgstr "Προσθήκη νέας άσκησης"
 
-#: ../glade/chronojump.glade.h:264 ../src/gui/encoder.cs:408
-#: ../src/gui/encoder.cs:767 ../src/gui/encoder.cs:2345
+#: ../glade/chronojump.glade.h:264
+#| msgid "Extra weight"
+msgid "Extra weight in Kg"
+msgstr "Πρόσθετο βάρος σε κιλά"
+
+#: ../glade/chronojump.glade.h:265 ../src/gui/encoder.cs:531
+#: ../src/gui/encoder.cs:890 ../src/gui/encoder.cs:2637
 #: ../src/gui/jump.cs:1577 ../src/gui/jump.cs:1776
 msgid "Extra weight"
 msgstr "Πρόσθετο βάρος"
 
-#: ../glade/chronojump.glade.h:265 ../src/gui/person.cs:1834
-msgid "Kg"
-msgstr "Kg"
-
 #: ../glade/chronojump.glade.h:266
-msgid "Minimal height"
-msgstr "Ελάχιστο ύψος"
+#| msgid "Displaced body weight"
+msgid "Displaced weight in Kg"
+msgstr "Αντικατεστημένο βάρος σε κιλά"
 
 #: ../glade/chronojump.glade.h:267
+#| msgid "Displaced body weight"
+msgid "Displaced"
+msgstr "Αντικατεστημένο"
+
+#: ../glade/chronojump.glade.h:268
+msgid "1RM window"
+msgstr "Παράθυρο 1RM"
+
+#: ../glade/chronojump.glade.h:269
 msgid "Recording time"
 msgstr "Χρόνος εγγραφής"
 
-#: ../glade/chronojump.glade.h:268
+#: ../glade/chronojump.glade.h:270
 msgid "s"
 msgstr "s"
 
-#: ../glade/chronojump.glade.h:269
+#: ../glade/chronojump.glade.h:271
+msgid "Minimal height"
+msgstr "Ελάχιστο ύψος"
+
+#: ../glade/chronojump.glade.h:272
+#| msgid "Invert"
+msgid "Inverted"
+msgstr "Ανεστραμμένο"
+
+#: ../glade/chronojump.glade.h:273
+msgid "Encoder is upside down"
+msgstr "Ο κωδικοποιητής είναι ανάποδα"
+
+#: ../glade/chronojump.glade.h:274
 msgid "Recalculate signal with changed parameters"
 msgstr "Επανυπολογισμός σήματος με αλλαγμένες παραμέτρους"
 
-#: ../glade/chronojump.glade.h:270 ../src/gui/encoder.cs:406
-#: ../src/gui/encoder.cs:765 ../src/gui/encoder.cs:2344
+#: ../glade/chronojump.glade.h:275 ../src/gui/encoder.cs:337
+#: ../src/gui/encoder.cs:529 ../src/gui/encoder.cs:888
+#: ../src/gui/encoder.cs:2636
 msgid "Exercise"
 msgstr "Άσκηση"
 
-#: ../glade/chronojump.glade.h:271
+#: ../glade/chronojump.glade.h:276
 msgid "Safe"
 msgstr "Ασφαλής"
 
-#: ../glade/chronojump.glade.h:272
+#: ../glade/chronojump.glade.h:277
 msgid "External"
 msgstr "Εξωτερική"
 
-#: ../glade/chronojump.glade.h:273
+#: ../glade/chronojump.glade.h:278
 msgid "Cancel process"
 msgstr "Ακύρωση διαδικασίας"
 
-#: ../glade/chronojump.glade.h:274
+#: ../glade/chronojump.glade.h:279
 msgid "Finish capture"
 msgstr "Τερματισμός λήψης"
 
-#: ../glade/chronojump.glade.h:275
+#: ../glade/chronojump.glade.h:280
 msgid "Load signal"
 msgstr "Φόρτωση σήματος"
 
-#: ../glade/chronojump.glade.h:276
+#: ../glade/chronojump.glade.h:281
 msgid "Add a comment"
 msgstr "Προσθήκη σχολίου"
 
-#: ../glade/chronojump.glade.h:277
+#: ../glade/chronojump.glade.h:282
 msgid "Update signal (save it again if changed)"
 msgstr "Ενημέρωση σήματος (αποθήκευση του ξανά αν αλλάξει)"
 
-#: ../glade/chronojump.glade.h:278
+#: ../glade/chronojump.glade.h:283
 msgid "Delete signal"
 msgstr "Διαγραφή σήματος"
 
-#: ../glade/chronojump.glade.h:279
+#: ../glade/chronojump.glade.h:284
 msgid "capture"
 msgstr "εγγραφή"
 
-#: ../glade/chronojump.glade.h:280
+#: ../glade/chronojump.glade.h:285
 msgid "curves"
 msgstr "καμπύλες"
 
-#: ../glade/chronojump.glade.h:281
+#: ../glade/chronojump.glade.h:286
 msgid "On capture: displayed positive and negative height in meters"
 msgstr "Κατά την λήψη: εμφάνιση θετικού και αρνητικού ύψους σε μέτρα"
 
-#: ../glade/chronojump.glade.h:282 ../src/gui/encoder.cs:764
+#: ../glade/chronojump.glade.h:287 ../src/gui/encoder.cs:887
 msgid "Signal"
 msgstr "Σήμα"
 
-#: ../glade/chronojump.glade.h:283
+#: ../glade/chronojump.glade.h:288
 msgid "Curves"
 msgstr "Καμπύλες"
 
-#: ../glade/chronojump.glade.h:284
+#: ../glade/chronojump.glade.h:289
 msgid "Capture"
 msgstr "Λήψη"
 
-#: ../glade/chronojump.glade.h:285
+#: ../glade/chronojump.glade.h:290
 msgid "Data:"
 msgstr "Δεδομένα:"
 
-#: ../glade/chronojump.glade.h:286
+#: ../glade/chronojump.glade.h:291
 msgid "Current signal"
 msgstr "Τρέχον σήμα"
 
-#: ../glade/chronojump.glade.h:287
+#: ../glade/chronojump.glade.h:292
 msgid "User curves"
 msgstr "Καμπύλες χρήστη"
 
-#: ../glade/chronojump.glade.h:288
+#: ../glade/chronojump.glade.h:293
 msgid "("
 msgstr "("
 
-#: ../glade/chronojump.glade.h:289 ../src/gui/encoder.cs:404
+#: ../glade/chronojump.glade.h:294 ../src/gui/encoder.cs:527
 msgid "Active"
 msgstr "Ενεργές"
 
-#: ../glade/chronojump.glade.h:290
+#: ../glade/chronojump.glade.h:295
 msgid "0"
 msgstr "0"
 
-#: ../glade/chronojump.glade.h:291
+#: ../glade/chronojump.glade.h:296
 msgid "/"
 msgstr "/"
 
-#: ../glade/chronojump.glade.h:292
+#: ../glade/chronojump.glade.h:297
 msgid ")"
 msgstr ")"
 
-#: ../glade/chronojump.glade.h:293
+#: ../glade/chronojump.glade.h:298
 msgid "Select"
 msgstr "Επιλογή"
 
-#: ../glade/chronojump.glade.h:294
+#: ../glade/chronojump.glade.h:299
 msgid "Compare to"
 msgstr "Σύγκριση με"
 
-#: ../glade/chronojump.glade.h:295
+#: ../glade/chronojump.glade.h:300
 msgid "Power bars"
 msgstr "Γραμμές ισχύος"
 
-#: ../glade/chronojump.glade.h:296
+#: ../glade/chronojump.glade.h:301
 msgid "Cross variables"
 msgstr "Διασταυρούμενες μεταβλητές"
 
-#: ../glade/chronojump.glade.h:297
+#: ../glade/chronojump.glade.h:302
 msgid "Side compare"
 msgstr "Σύγκριση πλευράς"
 
-#: ../glade/chronojump.glade.h:298
+#: ../glade/chronojump.glade.h:303
 msgid "Single curve"
 msgstr "Απλή καμπύλη"
 
-#: ../glade/chronojump.glade.h:299
+#: ../glade/chronojump.glade.h:304
 msgid "Analyze"
 msgstr "Ανάλυση"
 
-#: ../glade/chronojump.glade.h:300
+#: ../glade/chronojump.glade.h:305
 msgid "EC together"
 msgstr "EC μαζί"
 
-#: ../glade/chronojump.glade.h:301
+#: ../glade/chronojump.glade.h:306
 msgid "Eccentric-concentric together"
 msgstr "Έκκεντρο-ομόκεντρο μαζί"
 
-#: ../glade/chronojump.glade.h:302
+#: ../glade/chronojump.glade.h:307
 msgid "Curve num."
 msgstr "Αριθμός καμπύλης"
 
-#: ../glade/chronojump.glade.h:303
+#: ../glade/chronojump.glade.h:308
 msgid "Mean"
 msgstr "Μέσος όρος"
 
-#: ../glade/chronojump.glade.h:304
+#: ../glade/chronojump.glade.h:309
 msgid "Mean values"
 msgstr "Διάμεσες τιμές"
 
-#: ../glade/chronojump.glade.h:305
+#: ../glade/chronojump.glade.h:310
 msgid "Max"
 msgstr "Μέγιστο"
 
-#: ../glade/chronojump.glade.h:306
+#: ../glade/chronojump.glade.h:311
 msgid "Max values"
 msgstr "Μέγιστες τιμές"
 
-#: ../glade/chronojump.glade.h:307
+#: ../glade/chronojump.glade.h:312
 msgid "Side compare allows a maximum of 12 graphs."
 msgstr "Η σύγκριση πλευράς επιτρέπει ένα μέγιστο 12 γραφημάτων."
 
-#: ../glade/chronojump.glade.h:308
+#: ../glade/chronojump.glade.h:313
 msgid "Maximum 12 graphs"
 msgstr "Μέγιστο 12 γραφημάτων"
 
-#: ../glade/chronojump.glade.h:309
+#: ../glade/chronojump.glade.h:314
 msgid "Mode:"
 msgstr "Κατάσταση:"
 
-#: ../glade/chronojump.glade.h:310
+#: ../glade/chronojump.glade.h:315
 msgid "\t"
 msgstr "\t"
 
-#: ../glade/chronojump.glade.h:311 ../src/gui/encoder.cs:951
+#: ../glade/chronojump.glade.h:316 ../src/gui/encoder.cs:1075
 msgid "Save image"
 msgstr "Αποθήκευση εικόνας"
 
-#: ../glade/chronojump.glade.h:312
+#: ../glade/chronojump.glade.h:317
+#| msgid "Save table"
+msgid "Save 1RM value"
+msgstr "Αποθήκευση τιμής 1RM"
+
+#: ../glade/chronojump.glade.h:318
 msgid "Show graph"
 msgstr "Εμφάνιση γραφήματος"
 
-#: ../glade/chronojump.glade.h:313 ../src/gui/encoder.cs:953
+#: ../glade/chronojump.glade.h:319 ../src/gui/encoder.cs:1077
 msgid "Save table"
 msgstr "Αποθήκευση πίνακα"
 
-#: ../glade/chronojump.glade.h:314
+#: ../glade/chronojump.glade.h:320
 msgid "Show table"
 msgstr "Εμφάνιση πίνακα"
 
-#: ../glade/chronojump.glade.h:315
+#: ../glade/chronojump.glade.h:321
 msgid "Encoder"
 msgstr "Κωδικοποιητής"
 
-#: ../glade/chronojump.glade.h:316
+#: ../glade/chronojump.glade.h:322
 msgid ""
 "Chronojump has a server in order to share data between users.\n"
 "Data is collected by users contributions and server generates statistics and "
@@ -1494,23 +1521,23 @@ msgstr ""
 "Οποιοσδήποτε μπορεί να ελέγξει στατιστικά και γραφήματα του διακομιστή και "
 "να κάνει εύκολα ερωτήματα στον διακομιστή."
 
-#: ../glade/chronojump.glade.h:319
+#: ../glade/chronojump.glade.h:325
 msgid "Check connection"
 msgstr "Έλεγχος σύνδεσης"
 
-#: ../glade/chronojump.glade.h:320
+#: ../glade/chronojump.glade.h:326
 msgid "Query to the server"
 msgstr "Ερώτημα στον διακομιστή"
 
-#: ../glade/chronojump.glade.h:321
+#: ../glade/chronojump.glade.h:327
 msgid "Check basic stats"
 msgstr "Έλεγχος βασικών στατιστικών"
 
-#: ../glade/chronojump.glade.h:322
+#: ../glade/chronojump.glade.h:328
 msgid "Check data"
 msgstr "Έλεγχος δεδομένων"
 
-#: ../glade/chronojump.glade.h:323
+#: ../glade/chronojump.glade.h:329
 msgid ""
 "Privacy is respected:\n"
 "- Names, comments, photos and videos are not uploaded.\n"
@@ -1526,45 +1553,45 @@ msgstr ""
 "Οι προσομοιωμένες εξετάσεις απορρίπτονται.\n"
 "Ο εκτιμητής μπορεί να χρησιμοποιήσει πραγματικό όνομα ή ψευδώνυμο."
 
-#: ../glade/chronojump.glade.h:329
+#: ../glade/chronojump.glade.h:335
 msgid "Upload (or update) session to server"
 msgstr "Συνεδρία ανεβάσματος (ή ενημέρωσης) στον διακομιστή"
 
-#: ../glade/chronojump.glade.h:330
+#: ../glade/chronojump.glade.h:336
 msgid "Share data!"
 msgstr "Μερισμός δεδομένων!"
 
-#: ../glade/chronojump.glade.h:331
+#: ../glade/chronojump.glade.h:337
 msgid "Open server website (on browser)"
 msgstr "Άνοιγμα ιστοτόπου διακομιστή (στον περιηγητή)"
 
-#: ../glade/chronojump.glade.h:332
+#: ../glade/chronojump.glade.h:338
 msgid "Server actions"
 msgstr "Ενέργειες διακομιστή"
 
-#: ../glade/chronojump.glade.h:333
+#: ../glade/chronojump.glade.h:339
 msgid "Connecting with Chronopic"
 msgstr "Σύνδεση με χρονοεικόνα"
 
-#: ../glade/chronojump.glade.h:334
+#: ../glade/chronojump.glade.h:340
 msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr ""
 "Παρακαλούμε ενεργοποιήστε την εξέδρα ή πατήστε το κουμπί χρονοεικόνας "
 "<i>TEST</i>"
 
-#: ../glade/chronojump.glade.h:335
+#: ../glade/chronojump.glade.h:341
 msgid "Help with Chronopic port"
 msgstr "Βοήθεια με τη θύρα χρονοεικόνας"
 
-#: ../glade/chronojump.glade.h:336
+#: ../glade/chronojump.glade.h:342
 msgid "Port Help"
 msgstr "Βοήθεια θύρας"
 
-#: ../glade/chronojump.glade.h:337
+#: ../glade/chronojump.glade.h:343
 msgid "Chronopic window"
 msgstr "Παράθυρο χρονοεικόνας"
 
-#: ../glade/chronojump.glade.h:338
+#: ../glade/chronojump.glade.h:344
 msgid ""
 "Contacts\n"
 "(platform or photocell)"
@@ -1572,28 +1599,28 @@ msgstr ""
 "Επαφές\n"
 "(εξέδρα ή φωτοκύτταρο)"
 
-#: ../glade/chronojump.glade.h:340
+#: ../glade/chronojump.glade.h:346
 msgid "Select your connection"
 msgstr "Επιλογή σύνδεσης"
 
-#: ../glade/chronojump.glade.h:341
+#: ../glade/chronojump.glade.h:347
 msgid "Connect"
 msgstr "Σύνδεση"
 
-#: ../glade/chronojump.glade.h:342
+#: ../glade/chronojump.glade.h:348
 msgid "<b>Main Chronopic</b> (used on all tests)"
 msgstr "<b>Κύρια χρονοεικόνα</b> (χρησιμοποιούμενη σε όλες τις εξετάσεις)"
 
-#: ../glade/chronojump.glade.h:343
+#: ../glade/chronojump.glade.h:349
 msgid "Show"
 msgstr "Εμφάνιση"
 
-#: ../glade/chronojump.glade.h:344
+#: ../glade/chronojump.glade.h:350
 msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr ""
 "<b>Συμπληρωματικός</b> (μπορεί να χρησιμοποιηθεί σε πολλαπλή χρονοεικόνα)"
 
-#: ../glade/chronojump.glade.h:345
+#: ../glade/chronojump.glade.h:351
 msgid ""
 "Select the port where Chronopic is connected.\n"
 "\n"
@@ -1607,19 +1634,19 @@ msgstr ""
 "\n"
 "Απλά επιλέξτε και έπειτα κλείστε αυτό το παράθυρο."
 
-#: ../glade/chronojump.glade.h:350
+#: ../glade/chronojump.glade.h:356
 msgid "Chronopic"
 msgstr "Χρονοεικόνα"
 
-#: ../glade/chronojump.glade.h:351
+#: ../glade/chronojump.glade.h:357
 msgid "ChronoJump - Confirm"
 msgstr "Chronojump - Επιβεβαίωση"
 
-#: ../glade/chronojump.glade.h:352
+#: ../glade/chronojump.glade.h:358
 msgid "Convert weight of tests"
 msgstr "Μετατροπή βάρους των εξετάσεων"
 
-#: ../glade/chronojump.glade.h:354
+#: ../glade/chronojump.glade.h:360
 #, no-c-format
 msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
@@ -1628,63 +1655,63 @@ msgstr ""
 "Το βάρος των αλμάτων αποθηκεύεται ως ένα βάρος του άλτη '%'. Καθώς το βάρος "
 "του άλτη αλλάζει, χρειάζεται να επιλύσετε το νέο βάρος του άλματος."
 
-#: ../glade/chronojump.glade.h:355
+#: ../glade/chronojump.glade.h:361
 msgid "Old jumper weight"
 msgstr "Παλιό βάρος άλτη"
 
-#: ../glade/chronojump.glade.h:356
+#: ../glade/chronojump.glade.h:362
 msgid "New jumper weight"
 msgstr "Νέο βάρος άλτη"
 
-#: ../glade/chronojump.glade.h:357
+#: ../glade/chronojump.glade.h:363
 msgid "About"
 msgstr "Περί"
 
-#: ../glade/chronojump.glade.h:358
+#: ../glade/chronojump.glade.h:364
 msgid "Developers"
 msgstr "Προγραμματιστές"
 
-#: ../glade/chronojump.glade.h:359
+#: ../glade/chronojump.glade.h:365
 msgid "Documenters"
 msgstr "Τεκμηριωτές"
 
-#: ../glade/chronojump.glade.h:360
+#: ../glade/chronojump.glade.h:366
 msgid "Translators"
 msgstr "Μεταφραστές"
 
-#: ../glade/chronojump.glade.h:361
+#: ../glade/chronojump.glade.h:367
 msgid "Chronopic port help"
 msgstr "Βοήθεια θύρας χρονοεικόνας"
 
-#: ../glade/chronojump.glade.h:362 ../src/gui/helpPorts.cs:100
+#: ../glade/chronojump.glade.h:368 ../src/gui/helpPorts.cs:100
 msgid "Check Chronopic port"
 msgstr "Έλεγχος θύρας χρονοεικόνας"
 
-#: ../glade/chronojump.glade.h:363 ../src/gui/helpPorts.cs:116
+#: ../glade/chronojump.glade.h:369 ../src/gui/helpPorts.cs:116
 msgid "Force Chronopic port to COM1 - COM4"
 msgstr "Εξαναγκασμός θύρας χρονοεικόνας στα COM1 - COM4"
 
-#: ../glade/chronojump.glade.h:364
+#: ../glade/chronojump.glade.h:370
 msgid "Test image and description"
 msgstr "Εικόνα εξέτασης και περιγραφή"
 
-#: ../glade/chronojump.glade.h:365
+#: ../glade/chronojump.glade.h:371
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: ../glade/chronojump.glade.h:366
+#: ../glade/chronojump.glade.h:372
 msgid "Server stats"
 msgstr "Στατιστικά διακομιστή"
 
-#: ../glade/chronojump.glade.h:367
+#: ../glade/chronojump.glade.h:373
 msgid "Evaluators"
 msgstr "Εκτιμητές"
 
-#: ../glade/chronojump.glade.h:368
+#: ../glade/chronojump.glade.h:374
 msgid "In server"
 msgstr "Στον διακομιστή"
 
-#: ../glade/chronojump.glade.h:369
+#: ../glade/chronojump.glade.h:375
 msgid ""
 "Uploaded\n"
 "by you"
@@ -1692,71 +1719,71 @@ msgstr ""
 "Ανέβασμα\n"
 "από εσάς"
 
-#: ../glade/chronojump.glade.h:371
+#: ../glade/chronojump.glade.h:377
 msgid "Sessions"
 msgstr "Συνεδρίες"
 
-#: ../glade/chronojump.glade.h:372 ../src/exportSession.cs:174
+#: ../glade/chronojump.glade.h:378 ../src/exportSession.cs:174
 #: ../src/gui/session.cs:725 ../src/report.cs:158
 msgid "Persons"
 msgstr "Άτομα"
 
-#: ../glade/chronojump.glade.h:373
+#: ../glade/chronojump.glade.h:379
 msgid "General data"
 msgstr "Γενικά δεδομένα"
 
-#: ../glade/chronojump.glade.h:374 ../src/exportSession.cs:179
+#: ../glade/chronojump.glade.h:380 ../src/exportSession.cs:179
 #: ../src/report.cs:168 ../src/report.cs:171
 msgid "Reactive jumps"
 msgstr "Ενεργά άλματα"
 
-#: ../glade/chronojump.glade.h:375
+#: ../glade/chronojump.glade.h:381
 msgid "Intervallic runs"
 msgstr "Δρόμοι με μεσοδιαστήματα"
 
-#: ../glade/chronojump.glade.h:376 ../src/exportSession.cs:187
+#: ../glade/chronojump.glade.h:382 ../src/exportSession.cs:187
 #: ../src/report.cs:193
 msgid "Reaction times"
 msgstr "Χρόνοι αντίδρασης"
 
-#: ../glade/chronojump.glade.h:377
+#: ../glade/chronojump.glade.h:383
 msgid "Tests"
 msgstr "Εξετάσεις"
 
-#: ../glade/chronojump.glade.h:378 ../src/gui/chronojump.cs:1125
+#: ../glade/chronojump.glade.h:384 ../src/gui/chronojump.cs:1125
 msgid "Edit"
 msgstr "Επεξεργασία"
 
-#: ../glade/chronojump.glade.h:379
+#: ../glade/chronojump.glade.h:385
 msgid "Flight time"
 msgstr "Χρόνος πτήσης"
 
-#: ../glade/chronojump.glade.h:380
+#: ../glade/chronojump.glade.h:386
 msgid "Identifier"
 msgstr "Αναγνωριστικό"
 
-#: ../glade/chronojump.glade.h:381
+#: ../glade/chronojump.glade.h:387
 msgid "Contact time"
 msgstr "Χρόνος επαφής"
 
-#: ../glade/chronojump.glade.h:382
+#: ../glade/chronojump.glade.h:388
 msgid "<b>Simulated</b>"
 msgstr "<b>Εξομοιωμένο</b>"
 
-#: ../glade/chronojump.glade.h:383
+#: ../glade/chronojump.glade.h:389
 msgid "Knee angle"
 msgstr "Γωνία γόνατου"
 
-#: ../glade/chronojump.glade.h:384
+#: ../glade/chronojump.glade.h:390
 msgid "Mistakes"
 msgstr "Λάθη"
 
-#: ../glade/chronojump.glade.h:385
+#: ../glade/chronojump.glade.h:391
 msgid "Video available"
 msgstr "Διαθέσιμο βίντεο"
 
-#: ../glade/chronojump.glade.h:386 ../src/constants.cs:526
-#: ../src/encoder.cs:344 ../src/gui/jump.cs:1588 ../src/gui/jump.cs:1593
+#: ../glade/chronojump.glade.h:392 ../src/constants.cs:529
+#: ../src/encoder.cs:357 ../src/gui/jump.cs:1588 ../src/gui/jump.cs:1593
 #: ../src/gui/jump.cs:1624 ../src/gui/jump.cs:1627 ../src/gui/jump.cs:1654
 #: ../src/gui/jump.cs:1657 ../src/gui/jump.cs:1787 ../src/gui/jump.cs:1792
 #: ../src/gui/jump.cs:1866 ../src/gui/jump.cs:1869 ../src/gui/jump.cs:1914
@@ -1764,26 +1791,30 @@ msgstr "Διαθέσιμο βίντεο"
 msgid "Yes"
 msgstr "Ναι"
 
-#: ../glade/chronojump.glade.h:387 ../src/constants.cs:525
-#: ../src/encoder.cs:346 ../src/gui/jump.cs:1590 ../src/gui/jump.cs:1595
+#: ../glade/chronojump.glade.h:393 ../src/constants.cs:528
+#: ../src/encoder.cs:359 ../src/gui/jump.cs:1590 ../src/gui/jump.cs:1595
 #: ../src/gui/jump.cs:1789 ../src/gui/jump.cs:1794
 msgid "No"
 msgstr "Όχι"
 
-#: ../glade/chronojump.glade.h:388
+#: ../glade/chronojump.glade.h:394
 msgid "Play video"
 msgstr "Αναπαραγωγή βίντεο"
 
-#: ../glade/chronojump.glade.h:389
+#: ../glade/chronojump.glade.h:395
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:390 ../src/gui/encoder.cs:2233
-#: ../src/gui/encoder.cs:2346
+#: ../glade/chronojump.glade.h:396 ../src/gui/person.cs:1840
+msgid "Kg"
+msgstr "Kg"
+
+#: ../glade/chronojump.glade.h:397 ../src/gui/encoder.cs:2525
+#: ../src/gui/encoder.cs:2639
 msgid "Start"
 msgstr "Έναρξη"
 
-#: ../glade/chronojump.glade.h:391
+#: ../glade/chronojump.glade.h:398
 msgid ""
 "Description /\n"
 "comments"
@@ -1791,84 +1822,84 @@ msgstr ""
 "Περιγραφή /\n"
 "σχόλια"
 
-#: ../glade/chronojump.glade.h:393
+#: ../glade/chronojump.glade.h:400
 msgid "Sit to stand"
 msgstr "Κάθισμα για σήκωμα"
 
-#: ../glade/chronojump.glade.h:394
+#: ../glade/chronojump.glade.h:401
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
 "Ικανότητα για ανόρθωση χωρίς χρήση χεριών σε μια σταθερή και ελεγχόμενη "
 "ενέργεια."
 
-#: ../glade/chronojump.glade.h:395
+#: ../glade/chronojump.glade.h:402
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
 "Ικανότητα για ανόρθωση με χρήση χεριών σε μια σταθερή και ελεγχόμενη "
 "ενέργεια."
 
-#: ../glade/chronojump.glade.h:396
+#: ../glade/chronojump.glade.h:403
 msgid "Able to stand up using hands after multiple attempts."
 msgstr "Ικανότητα ανόρθωσης χρησιμοποιώντας χέρια μετά από πολλές προσπάθειες."
 
-#: ../glade/chronojump.glade.h:397
+#: ../glade/chronojump.glade.h:404
 msgid "Needs or asks for help."
 msgstr "Χρειάζεται ή ζητά βοήθεια."
 
-#: ../glade/chronojump.glade.h:398
+#: ../glade/chronojump.glade.h:405
 msgid "Undefined."
 msgstr "Ακαθόριστο."
 
-#: ../glade/chronojump.glade.h:399
+#: ../glade/chronojump.glade.h:406
 msgid "MTGUG Questionnaire 1"
 msgstr "Ερωτηματολόγιο MTGUG 1"
 
-#: ../glade/chronojump.glade.h:400
+#: ../glade/chronojump.glade.h:407
 msgid "Kick ball"
 msgstr "Λάκτισμα μπάλας"
 
-#: ../glade/chronojump.glade.h:401
+#: ../glade/chronojump.glade.h:408
 msgid "Able to kick ball without losing balance."
 msgstr "Ικανότητα λακτίσματος μπάλας χωρίς απώλεια ισορροπίας."
 
-#: ../glade/chronojump.glade.h:402
+#: ../glade/chronojump.glade.h:409
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr ""
 "Ικανότητα λακτίσματος μπάλας αλλά χρειάζεται να κάνει ένα βήμα για να "
 "επιστρέψει στην ισορροπία."
 
-#: ../glade/chronojump.glade.h:403
+#: ../glade/chronojump.glade.h:410
 msgid "Able to kick ball with difficulty finding balance."
 msgstr "Ικανότητα λακτίσματος μπάλας με δυσκολία εύρεσης ισορροπίας."
 
-#: ../glade/chronojump.glade.h:404
+#: ../glade/chronojump.glade.h:411
 msgid "Walk whilst counting backwards from 15 to 0"
 msgstr "Βάδισμα ενώ μετρά αντίστροφα από το 15 μέχρι το 0"
 
-#: ../glade/chronojump.glade.h:405
+#: ../glade/chronojump.glade.h:412
 msgid "Able to coordinate walking with counting without making a mistake."
 msgstr "Ικανότητα συντονισμού βαδίσματος με μέτρηση χωρίς λάθος."
 
-#: ../glade/chronojump.glade.h:406
+#: ../glade/chronojump.glade.h:413
 msgid "Able to coordinate walking with counting with one mistake."
 msgstr "Ικανότητα συντονισμού βαδίσματος με μέτρηση με ένα λάθος."
 
-#: ../glade/chronojump.glade.h:407
+#: ../glade/chronojump.glade.h:414
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
 msgstr ""
 "Φτωχός συντονισμός μεταξύ βαδίσματος και μέτρησης με περισσότερα από ένα "
 "λάθη."
 
-#: ../glade/chronojump.glade.h:408
+#: ../glade/chronojump.glade.h:415
 msgid "Needs help or cannot perform the counting task."
 msgstr "Χρειάζεται βοήθεια ή δεν μπορεί να εκτελέσει την εργασία μέτρησης."
 
-#: ../glade/chronojump.glade.h:409
+#: ../glade/chronojump.glade.h:416
 msgid "Go around back of cone"
 msgstr "Περιστροφή γύρω από τον κώνο"
 
-#: ../glade/chronojump.glade.h:410
+#: ../glade/chronojump.glade.h:417
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
@@ -1876,11 +1907,11 @@ msgstr ""
 "Ικανότητα περιστροφής γύρω από τον κώνο χωρίς επαφή, χωρίς έξοδο από τη "
 "σημειωμένη περιοχή, αλλά με επιβράδυνση του ρυθμού."
 
-#: ../glade/chronojump.glade.h:411
+#: ../glade/chronojump.glade.h:418
 msgid "Able to go around with obvious signs of insecurity."
 msgstr "Ικανότητα περιστροφής με προφανή σημάδια ανασφάλειας."
 
-#: ../glade/chronojump.glade.h:412
+#: ../glade/chronojump.glade.h:419
 msgid ""
 "Able to go around the cone without touching it, without going outside the  "
 "marked area, and keeping up the pace."
@@ -1888,11 +1919,11 @@ msgstr ""
 "Ικανότητα περιστροφής γύρω από τον κώνο χωρίς επαφή, χωρίς έξοδο από τη "
 "σημειωμένη περιοχή και διατήρηση του ρυθμού."
 
-#: ../glade/chronojump.glade.h:413
+#: ../glade/chronojump.glade.h:420
 msgid "Step into circles"
 msgstr "Βήμα σε κύκλους"
 
-#: ../glade/chronojump.glade.h:414
+#: ../glade/chronojump.glade.h:421
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
@@ -1900,7 +1931,7 @@ msgstr ""
 "Ικανότητα βαδίσματος, με βήμα ενός ποδιού σε κάθε κύκλο χωρίς επαφή τους και "
 "χωρίς απώλεια ισορροπίας."
 
-#: ../glade/chronojump.glade.h:415
+#: ../glade/chronojump.glade.h:422
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
@@ -1909,7 +1940,7 @@ msgstr ""
 "ανάγκη λήψης ενός πρόσθετου βήματος έξω από τους δακτυλίους για ανάκτηση "
 "ισορροπίας."
 
-#: ../glade/chronojump.glade.h:416
+#: ../glade/chronojump.glade.h:423
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
@@ -1918,131 +1949,131 @@ msgstr ""
 "μία επαφές ή με ανάγκη περισσότερων από ένα πρόσθετο βήμα για ανάκτηση "
 "ισορροπίας."
 
-#: ../glade/chronojump.glade.h:417
+#: ../glade/chronojump.glade.h:424
 msgid "Sit back down"
 msgstr "Κάθομαι προς τα πίσω"
 
-#: ../glade/chronojump.glade.h:418
+#: ../glade/chronojump.glade.h:425
 msgid "Able to sit down smoothly without using hands."
 msgstr "Ικανότητα ομαλού καθίσματος χωρίς χρήση χεριών."
 
-#: ../glade/chronojump.glade.h:419
+#: ../glade/chronojump.glade.h:426
 msgid "Able to sit down sharply without using hands."
 msgstr "Ικανότητα απότομου καθίσματος χωρίς χρήση χεριών."
 
-#: ../glade/chronojump.glade.h:420
+#: ../glade/chronojump.glade.h:427
 msgid "Able to sit down using hands."
 msgstr "Ικανότητα καθίσματος με χρήση χεριών."
 
-#: ../glade/chronojump.glade.h:421
+#: ../glade/chronojump.glade.h:428
 msgid "slCMJ"
 msgstr "slCMJ"
 
-#: ../glade/chronojump.glade.h:422
+#: ../glade/chronojump.glade.h:429
 msgid "ChronoJump - Error"
 msgstr "Chronojump - Σφάλμα"
 
-#: ../glade/chronojump.glade.h:423
+#: ../glade/chronojump.glade.h:430
 msgid "ChronoJump"
 msgstr "Chronojump"
 
-#: ../glade/chronojump.glade.h:424
+#: ../glade/chronojump.glade.h:431
 msgid "Evaluator server data"
 msgstr "Δεδομένα του διακομιστή στον εκτιμητή"
 
-#: ../glade/chronojump.glade.h:425
+#: ../glade/chronojump.glade.h:432
 msgid "Please fill these values."
 msgstr "Παρακαλούμε συμπληρώστε αυτές τις τιμές."
 
-#: ../glade/chronojump.glade.h:426
+#: ../glade/chronojump.glade.h:433
 msgid "E-mail will never be shown in public."
 msgstr "Η αλληλογραφία δεν θα εμφανιστεί ποτέ δημόσια."
 
-#: ../glade/chronojump.glade.h:427 ../src/exportSession.cs:208
+#: ../glade/chronojump.glade.h:434 ../src/exportSession.cs:208
 #: ../src/exportSession.cs:223 ../src/gui/jump.cs:1575 ../src/gui/jump.cs:1772
 #: ../src/gui/person.cs:120 ../src/gui/run.cs:1345 ../src/gui/run.cs:1514
 #: ../src/gui/server.cs:164 ../src/gui/session.cs:722
-#: ../src/gui/session.cs:960 ../src/report.cs:241
+#: ../src/gui/session.cs:959 ../src/report.cs:241
 msgid "Name"
 msgstr "Όνομα"
 
-#: ../glade/chronojump.glade.h:428
+#: ../glade/chronojump.glade.h:435
 msgid "E-mail"
 msgstr "Ηλεκτρονική διεύθυνση"
 
-#: ../glade/chronojump.glade.h:429
+#: ../glade/chronojump.glade.h:436
 msgid "change"
 msgstr "αλλαγή"
 
-#: ../glade/chronojump.glade.h:430
+#: ../glade/chronojump.glade.h:437
 msgid "Country"
 msgstr "Χώρα"
 
-#: ../glade/chronojump.glade.h:431
+#: ../glade/chronojump.glade.h:438
 msgid "Accredited"
 msgstr "Διαπιστευμένος"
 
-#: ../glade/chronojump.glade.h:432
+#: ../glade/chronojump.glade.h:439
 msgid "more info"
 msgstr "περισσότερες πληροφορίες"
 
-#: ../glade/chronojump.glade.h:433
+#: ../glade/chronojump.glade.h:440
 msgid "Date of birth"
 msgstr "Ημερομηνία γέννησης"
 
-#: ../glade/chronojump.glade.h:434 ../src/exportSession.cs:211
+#: ../glade/chronojump.glade.h:441 ../src/exportSession.cs:211
 #: ../src/exportSession.cs:228 ../src/gui/session.cs:742
-#: ../src/gui/session.cs:963 ../src/report.cs:243 ../src/runType.cs:197
+#: ../src/gui/session.cs:962 ../src/report.cs:243 ../src/runType.cs:197
 #: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Σχόλια"
 
-#: ../glade/chronojump.glade.h:435
+#: ../glade/chronojump.glade.h:442
 msgid "Evaluator data"
 msgstr "Δεδομένα εκτιμητή"
 
-#: ../glade/chronojump.glade.h:436
+#: ../glade/chronojump.glade.h:443
 msgid "Select your Chronometer"
 msgstr "Επιλογή του χρονομέτρου σας"
 
-#: ../glade/chronojump.glade.h:437 ../src/constants.cs:450
-#: ../src/constants.cs:481 ../src/gui/person.cs:1287 ../src/gui/person.cs:1303
+#: ../glade/chronojump.glade.h:444 ../src/constants.cs:453
+#: ../src/constants.cs:484 ../src/gui/person.cs:1293 ../src/gui/person.cs:1309
 msgid "Undefined"
 msgstr "Ακαθόριστο"
 
-#: ../glade/chronojump.glade.h:438
+#: ../glade/chronojump.glade.h:445
 msgid "Chronopic 1"
 msgstr "Χρονοεικόνα 1"
 
-#: ../glade/chronojump.glade.h:439
+#: ../glade/chronojump.glade.h:446
 msgid "Chronopic 2"
 msgstr "Χρονοεικόνα 2"
 
-#: ../glade/chronojump.glade.h:440
+#: ../glade/chronojump.glade.h:447
 msgid "Chronopic 3"
 msgstr "Χρονοεικόνα 3"
 
-#: ../glade/chronojump.glade.h:441
+#: ../glade/chronojump.glade.h:448
 msgid "Other. Specify:"
 msgstr "Άλλο. Καθορισμός:"
 
-#: ../glade/chronojump.glade.h:442
+#: ../glade/chronojump.glade.h:449
 msgid "Expand image and show description"
 msgstr "Επέκταση εικόνας και εμφάνιση περιγραφής"
 
-#: ../glade/chronojump.glade.h:443
+#: ../glade/chronojump.glade.h:450
 msgid "To buy or build Chronopic see website:"
 msgstr "Για αγορά ή δόμηση χρονοεικόνας δείτε τον ιστότοπο:"
 
-#: ../glade/chronojump.glade.h:444
+#: ../glade/chronojump.glade.h:451
 msgid "Chronometer"
 msgstr "Χρονόμετρο"
 
-#: ../glade/chronojump.glade.h:445
+#: ../glade/chronojump.glade.h:452
 msgid "Select the device you currently use"
 msgstr "Επιλογή της συσκευής που χρησιμοποιείτε προς το παρόν"
 
-#: ../glade/chronojump.glade.h:446
+#: ../glade/chronojump.glade.h:453
 msgid ""
 "Contact platform\n"
 "(tempered steel)"
@@ -2050,7 +2081,7 @@ msgstr ""
 "Εξέδρα επαφής\n"
 "(βαμμένος χάλυβας)"
 
-#: ../glade/chronojump.glade.h:448
+#: ../glade/chronojump.glade.h:455
 msgid ""
 "Contact platform\n"
 "(circuit board)"
@@ -2058,96 +2089,96 @@ msgstr ""
 "Εξέδρα επαφής\n"
 "(κάρτα κυκλώματος)"
 
-#: ../glade/chronojump.glade.h:450
+#: ../glade/chronojump.glade.h:457
 msgid "Infrared"
 msgstr "Υπέρυθρο"
 
-#: ../glade/chronojump.glade.h:451
+#: ../glade/chronojump.glade.h:458
 msgid "To buy or build these devices see website:"
 msgstr "Για αγορά ή δόμηση αυτών των συσκευών δείτε τον ιστότοπο:"
 
-#: ../glade/chronojump.glade.h:452
+#: ../glade/chronojump.glade.h:459
 msgid "Device"
 msgstr "Συσκευή"
 
-#: ../glade/chronojump.glade.h:453
+#: ../glade/chronojump.glade.h:460
 msgid "Configure graph"
 msgstr "Διαμόρφωση γραφήματος"
 
-#: ../glade/chronojump.glade.h:454
+#: ../glade/chronojump.glade.h:461
 msgid "Maximum"
 msgstr "Μέγιστο"
 
-#: ../glade/chronojump.glade.h:455
+#: ../glade/chronojump.glade.h:462
 msgid "Minimum"
 msgstr "Ελάχιστο"
 
-#: ../glade/chronojump.glade.h:456
+#: ../glade/chronojump.glade.h:463
 msgid "auto"
 msgstr "αυτόματο"
 
-#: ../glade/chronojump.glade.h:457
+#: ../glade/chronojump.glade.h:464
 msgid "Vertical Axe"
 msgstr "Κατακόρυφος άξονας"
 
-#: ../glade/chronojump.glade.h:458
+#: ../glade/chronojump.glade.h:465
 msgid "Show black guide"
 msgstr "Εμφάνιση μαύρου οδηγού"
 
-#: ../glade/chronojump.glade.h:459
+#: ../glade/chronojump.glade.h:466
 msgid "Show green guide"
 msgstr "Εμφάνιση πράσινου οδηγού"
 
-#: ../glade/chronojump.glade.h:460
+#: ../glade/chronojump.glade.h:467
 msgid "Guides"
 msgstr "Οδηγοί"
 
-#: ../glade/chronojump.glade.h:461
+#: ../glade/chronojump.glade.h:468
 msgid "Paint a circle at end"
 msgstr "Βαφή ενός κύκλου στο τέλος"
 
-#: ../glade/chronojump.glade.h:462
+#: ../glade/chronojump.glade.h:469
 msgid "Show grid (on repetitive tests)"
 msgstr "Εμφάνιση πλέγματος (σε επαναλαμβανόμενες εξετάσεις)"
 
-#: ../glade/chronojump.glade.h:463
+#: ../glade/chronojump.glade.h:470
 msgid "Show time"
 msgstr "Εμφάνιση ώρας"
 
-#: ../glade/chronojump.glade.h:464
+#: ../glade/chronojump.glade.h:471
 msgid "Show speed"
 msgstr "Εμφάνιση ταχύτητας"
 
-#: ../glade/chronojump.glade.h:465
+#: ../glade/chronojump.glade.h:472
 msgid "Feet"
 msgstr "Πόδια"
 
-#: ../glade/chronojump.glade.h:466
+#: ../glade/chronojump.glade.h:473
 msgid "Inches"
 msgstr "Ίντσες"
 
-#: ../glade/chronojump.glade.h:467
+#: ../glade/chronojump.glade.h:474
 msgid "Create new Jump Type"
 msgstr "Δημιουργία νέου τύπου άλματος"
 
-#: ../glade/chronojump.glade.h:468
+#: ../glade/chronojump.glade.h:475
 msgid "Create a new jump type in the database"
 msgstr "Δημιουργία νέου τύπου άλματος στη βάση δεδομένων"
 
-#: ../glade/chronojump.glade.h:469 ../src/gui/jump.cs:1576
+#: ../glade/chronojump.glade.h:476 ../src/gui/jump.cs:1576
 #: ../src/gui/jump.cs:1775
 msgid "Start inside"
 msgstr "Έναρξη εσωτερικά"
 
-#: ../glade/chronojump.glade.h:470
+#: ../glade/chronojump.glade.h:477
 msgid "yes"
 msgstr "ναι"
 
-#: ../glade/chronojump.glade.h:471
+#: ../glade/chronojump.glade.h:478
 msgid "no"
 msgstr "όχι"
 
-#: ../glade/chronojump.glade.h:472
+#: ../glade/chronojump.glade.h:479
 msgid ""
 "Main\n"
 "options"
@@ -2155,64 +2186,64 @@ msgstr ""
 "Κύριες\n"
 "επιλογές"
 
-#: ../glade/chronojump.glade.h:474
+#: ../glade/chronojump.glade.h:481
 msgid "Limited by "
-msgstr "Περιορισμένο κατά"
+msgstr "Περιορισμένο κατά "
 
-#: ../glade/chronojump.glade.h:475
+#: ../glade/chronojump.glade.h:482
 msgid "value"
 msgstr "τιμή"
 
-#: ../glade/chronojump.glade.h:476 ../src/gui/jump.cs:1227
+#: ../glade/chronojump.glade.h:483 ../src/gui/jump.cs:1227
 #: ../src/gui/queryServer.cs:777
 msgid "jumps"
 msgstr "άλματα"
 
-#: ../glade/chronojump.glade.h:477
+#: ../glade/chronojump.glade.h:484
 msgid "time"
 msgstr "ώρα"
 
-#: ../glade/chronojump.glade.h:478
+#: ../glade/chronojump.glade.h:485
 msgid "simple"
 msgstr "απλή"
 
-#: ../glade/chronojump.glade.h:479
+#: ../glade/chronojump.glade.h:486
 msgid "repetitive"
 msgstr "επαναλαμβανόμενη"
 
-#: ../glade/chronojump.glade.h:480
+#: ../glade/chronojump.glade.h:487
 msgid "fixed: "
 msgstr "σταθερή: "
 
-#: ../glade/chronojump.glade.h:481
+#: ../glade/chronojump.glade.h:488
 msgid "All tests"
 msgstr "Όλες οι εξετάσεις"
 
-#: ../glade/chronojump.glade.h:482
+#: ../glade/chronojump.glade.h:489
 msgid "Delete type"
 msgstr "Τύπος διαγραφής"
 
-#: ../glade/chronojump.glade.h:483
+#: ../glade/chronojump.glade.h:490
 msgid "Chronojump language select"
 msgstr "Επιλογή γλώσσας Chronojump"
 
-#: ../glade/chronojump.glade.h:484
+#: ../glade/chronojump.glade.h:491
 msgid "Please select <b>Chronojump</b> language"
 msgstr "Παρακαλούμε επιλέξτε τη γλώσσα του <b>Chronojump</b>"
 
-#: ../glade/chronojump.glade.h:485
+#: ../glade/chronojump.glade.h:492
 msgid "Add/Edit multiple persons"
 msgstr "Προσθήκη/επεξεργασία πολλών ατόμων"
 
-#: ../glade/chronojump.glade.h:486
+#: ../glade/chronojump.glade.h:493
 msgid "Add the following persons to this session"
 msgstr "Προσθήκη των ακόλουθων ατόμων σε αυτή τη συνεδρία"
 
-#: ../glade/chronojump.glade.h:487
+#: ../glade/chronojump.glade.h:494
 msgid "Load persons"
 msgstr "Φόρτωση ατόμων"
 
-#: ../glade/chronojump.glade.h:488
+#: ../glade/chronojump.glade.h:495
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
@@ -2220,171 +2251,171 @@ msgstr ""
 "Επιλογή ατόμων που θέλετε να φορτωθούν.\n"
 "(Τα άτομα στην τρέχουσα συνεδρία δεν είναι καταχωρισμένα)"
 
-#: ../glade/chronojump.glade.h:490
+#: ../glade/chronojump.glade.h:497
 msgid "From session"
 msgstr "Από τη συνεδρία"
 
-#: ../glade/chronojump.glade.h:491
+#: ../glade/chronojump.glade.h:498
 msgid "Check"
 msgstr "Έλεγχος"
 
-#: ../glade/chronojump.glade.h:492
+#: ../glade/chronojump.glade.h:499
 msgid "Search filter"
 msgstr "Φίλτρο αναζήτησης"
 
-#: ../glade/chronojump.glade.h:493 ../src/gui/encoder.cs:802
+#: ../glade/chronojump.glade.h:500 ../src/gui/encoder.cs:925
 msgid "Load"
 msgstr "Φόρτωση"
 
-#: ../glade/chronojump.glade.h:494
+#: ../glade/chronojump.glade.h:501
 msgid "Show all tests of a person"
 msgstr "Εμφάνιση όλων των εξετάσεων ενός ατόμου"
 
-#: ../glade/chronojump.glade.h:495
+#: ../glade/chronojump.glade.h:502
 msgid "show only persons in current session"
 msgstr "εμφάνιση μόνο των ατόμων στην τρέχουσα συνεδρία"
 
-#: ../glade/chronojump.glade.h:496 ../src/gui/person.cs:971
+#: ../glade/chronojump.glade.h:503 ../src/gui/person.cs:971
 msgid "New jumper"
 msgstr "Νέος άλτης"
 
-#: ../glade/chronojump.glade.h:497
+#: ../glade/chronojump.glade.h:504
 msgid "Please fill these values. <b>Bold</b> titles are required."
 msgstr ""
 "Παρακαλούμε συμπληρώστε αυτές τις τιμές. <b>Έντονοι</b> τίτλοι απαιτούνται."
 
-#: ../glade/chronojump.glade.h:498 ../src/gui/person.cs:1831
+#: ../glade/chronojump.glade.h:505 ../src/gui/person.cs:1837
 msgid "Full name"
 msgstr "Πλήρες όνομα"
 
-#: ../glade/chronojump.glade.h:499 ../src/exportSession.cs:224
-#: ../src/gui/person.cs:121 ../src/gui/person.cs:1832
+#: ../glade/chronojump.glade.h:506 ../src/exportSession.cs:224
+#: ../src/gui/person.cs:121 ../src/gui/person.cs:1838
 msgid "Sex"
 msgstr "Φύλο"
 
-#: ../glade/chronojump.glade.h:500 ../src/exportSession.cs:224
+#: ../glade/chronojump.glade.h:507 ../src/exportSession.cs:224
 #: ../src/gui/person.cs:122
 msgid "Date of Birth"
 msgstr "Ημερομηνία γέννησης"
 
-#: ../glade/chronojump.glade.h:501
+#: ../glade/chronojump.glade.h:508
 msgid "man"
 msgstr "άνδρας"
 
-#: ../glade/chronojump.glade.h:502
+#: ../glade/chronojump.glade.h:509
 msgid "woman"
 msgstr "γυναίκα"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:510
 msgid "Change date"
 msgstr "Ημερομηνία αλλαγής"
 
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:511
 msgid "Take snapshot"
 msgstr "Λήψη στιγμιότυπου"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:512
 msgid "Data of person"
 msgstr "Δεδομένα ατόμου"
 
 #. decimals
-#: ../glade/chronojump.glade.h:506 ../src/exportSession.cs:226
+#: ../glade/chronojump.glade.h:513 ../src/exportSession.cs:226
 #: ../src/exportSession.cs:255 ../src/exportSession.cs:353
-#: ../src/gui/person.cs:1833 ../src/stats/graphs/potency.cs:84
+#: ../src/gui/person.cs:1839 ../src/stats/graphs/potency.cs:84
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:66
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:83 ../src/stats/sjCmjAbkPlus.cs:57
 #: ../src/treeViewJump.cs:38
 msgid "Weight"
 msgstr "Βάρος"
 
-#: ../glade/chronojump.glade.h:507 ../src/exportSession.cs:227
-#: ../src/gui/person.cs:1888 ../src/gui/session.cs:726
+#: ../glade/chronojump.glade.h:514 ../src/exportSession.cs:227
+#: ../src/gui/person.cs:1894 ../src/gui/session.cs:726
 msgid "Sport"
 msgstr "Άθλημα"
 
-#: ../glade/chronojump.glade.h:508 ../src/exportSession.cs:227
-#: ../src/gui/person.cs:1890 ../src/gui/session.cs:727
+#: ../glade/chronojump.glade.h:515 ../src/exportSession.cs:227
+#: ../src/gui/person.cs:1896 ../src/gui/session.cs:727
 msgid "Speciallity"
 msgstr "Ειδικότητα"
 
-#: ../glade/chronojump.glade.h:509 ../src/exportSession.cs:228
-#: ../src/gui/person.cs:1892 ../src/gui/session.cs:728
+#: ../glade/chronojump.glade.h:516 ../src/exportSession.cs:228
+#: ../src/gui/person.cs:1898 ../src/gui/session.cs:728
 msgid "Level"
 msgstr "Επίπεδο"
 
-#: ../glade/chronojump.glade.h:510
+#: ../glade/chronojump.glade.h:517
 msgid "Add new sport"
 msgstr "Προσθήκη νέου αθλήματος"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:518
 msgid "Use metric units"
 msgstr "Χρήση μετρικών μονάδων"
 
-#: ../glade/chronojump.glade.h:512
+#: ../glade/chronojump.glade.h:519
 msgid "Data of person in this session"
 msgstr "Δεδομένα ατόμου σε αυτήν τη συνεδρία"
 
-#: ../glade/chronojump.glade.h:513
+#: ../glade/chronojump.glade.h:520
 msgid "Preferences"
 msgstr "Προτιμήσεις"
 
-#: ../glade/chronojump.glade.h:514
+#: ../glade/chronojump.glade.h:521
 msgid "Open database folder"
 msgstr "Άνοιγμα φακέλου βάσης δεδομένων"
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:522
 msgid "Backup database"
 msgstr "Βάση δεδομένων αντιγράφου ασφαλείας"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:523
 msgid "Make a copy of the database"
 msgstr "Δημιουργία αντιγράφου της βάσης δεδομένων"
 
-#: ../glade/chronojump.glade.h:517
+#: ../glade/chronojump.glade.h:524
 msgid "Database"
 msgstr "Βάση δεδομένων"
 
-#: ../glade/chronojump.glade.h:518
+#: ../glade/chronojump.glade.h:525
 msgid "Decimal number"
 msgstr "Δεκαδικός αριθμός"
 
-#: ../glade/chronojump.glade.h:519
+#: ../glade/chronojump.glade.h:526
 msgid "Ask for confirm test deletion"
 msgstr "Ερώτηση για επιβεβαίωση διαγραφής εξέτασης"
 
-#: ../glade/chronojump.glade.h:520
+#: ../glade/chronojump.glade.h:527
 msgid "Ask user if really wants to delete a test"
 msgstr "Ερώτηση αν ο χρήστης θέλει πραγματικά να διαγράψει μια εξέταση"
 
-#: ../glade/chronojump.glade.h:521
+#: ../glade/chronojump.glade.h:528
 msgid "Show height"
 msgstr "Εμφάνιση ύψους"
 
-#: ../glade/chronojump.glade.h:522
+#: ../glade/chronojump.glade.h:529
 msgid "Show power"
 msgstr "Εμφάνιση ισχύος"
 
-#: ../glade/chronojump.glade.h:523
+#: ../glade/chronojump.glade.h:530
 msgid "Show initial speed"
 msgstr "Εμφάνιση αρχικής ταχύτητας"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:531
 msgid "Show knee angle"
 msgstr "Εμφάνιση γωνίας γόνατου"
 
-#: ../glade/chronojump.glade.h:525
+#: ../glade/chronojump.glade.h:532
 msgid "Show indexes between TF and TC"
 msgstr "εμφάνιση δεικτών μεταξύ TF και TC"
 
-#: ../glade/chronojump.glade.h:526
+#: ../glade/chronojump.glade.h:533
 msgid "QIndex"
 msgstr "Δείκτης Q"
 
-#: ../glade/chronojump.glade.h:527
+#: ../glade/chronojump.glade.h:534
 msgid "DjIndex"
 msgstr "Δείκτης Dj"
 
-#: ../glade/chronojump.glade.h:528
+#: ../glade/chronojump.glade.h:535
 msgid ""
 "On statistics\n"
 "show elevation as:"
@@ -2392,165 +2423,195 @@ msgstr ""
 "Σε στατιστικά\n"
 "εμφάνιση ανύψωσης ως:"
 
-#: ../glade/chronojump.glade.h:530
+#: ../glade/chronojump.glade.h:537
 msgid "Speed units:"
 msgstr "Μονάδες ταχύτητας:"
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:538
 msgid "Weight units:"
 msgstr "Μονάδες βάρους:"
 
-#: ../glade/chronojump.glade.h:532
+#: ../glade/chronojump.glade.h:539
 msgid "Height (cm)"
 msgstr "Ύψος (cm)"
 
-#: ../glade/chronojump.glade.h:533
+#: ../glade/chronojump.glade.h:540
 msgid "Contacts"
 msgstr "Επαφές"
 
-#: ../glade/chronojump.glade.h:534
+#: ../glade/chronojump.glade.h:541
 msgid "Propulsive"
 msgstr "Προωθητικός"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:542
 msgid "On concentric evaluate only propulsive phase"
 msgstr "Σε ομόκεντρη εκτίμηση μόνο η προωθητική φάση"
 
-#: ../glade/chronojump.glade.h:536 ../src/encoder.cs:295
-#: ../src/gui/encoder.cs:1901
+#: ../glade/chronojump.glade.h:543 ../src/encoder.cs:308
+#: ../src/gui/encoder.cs:2087
 msgid "Eccentric-concentric"
 msgstr "Έκκεντρος-ομόκεντρος"
 
-#: ../glade/chronojump.glade.h:537 ../src/encoder.cs:293
-#: ../src/gui/encoder.cs:1901
+#: ../glade/chronojump.glade.h:544 ../src/encoder.cs:306
+#: ../src/gui/encoder.cs:2087
 msgid "Concentric"
 msgstr "Ομόκεντρος"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:545
 msgid "Recommended values:"
 msgstr "Συνιστώμενες τιμές:"
 
-#: ../glade/chronojump.glade.h:539
+#: ../glade/chronojump.glade.h:546
 msgid "Smoothing"
 msgstr "Εξομάλυνση"
 
-#: ../glade/chronojump.glade.h:540
+#: ../glade/chronojump.glade.h:547
+#| msgid "body weight"
+msgid "Non weighted"
+msgstr "Χωρίς βάρος"
+
+#: ../glade/chronojump.glade.h:548
+#| msgid "Weight"
+msgid "Weighted"
+msgstr "Με βάρος"
+
+#: ../glade/chronojump.glade.h:549
+#| msgid "Weight"
+msgid "Weighted^2"
+msgstr "Βάρος^2"
+
+#: ../glade/chronojump.glade.h:550
+#| msgid "Weight"
+msgid "Weighted^3"
+msgstr "Βάρος^3"
+
+#: ../glade/chronojump.glade.h:551
+#| msgid "Recommended values:"
+msgid "Recommended: Weighted^2"
+msgstr "Συνιστάται: Βάρος^2"
+
+#: ../glade/chronojump.glade.h:552
+#| msgid "1RM Prediction"
+msgid "1RM prediction"
+msgstr "Πρόβλεψη 1RM"
+
+#: ../glade/chronojump.glade.h:553
 msgid "Select the camera"
 msgstr "Επιλογή της κάμερας"
 
-#: ../glade/chronojump.glade.h:541
+#: ../glade/chronojump.glade.h:554
 msgid "Camera"
 msgstr "Κάμερα"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:555
 msgid "Query to server"
 msgstr "Ερώτημα στον διακομιστή"
 
-#: ../glade/chronojump.glade.h:543
+#: ../glade/chronojump.glade.h:556
 msgid "Perform a query to the server."
 msgstr "Εκτέλεση ερωτήματος στον διακομιστή."
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:557
 msgid "Type of test"
 msgstr "Τύπος εξέτασης"
 
-#: ../glade/chronojump.glade.h:545
+#: ../glade/chronojump.glade.h:558
 msgid "Test"
 msgstr "Εξέταση"
 
-#: ../glade/chronojump.glade.h:546
+#: ../glade/chronojump.glade.h:559
 msgid "Variable"
 msgstr "Μεταβλητή"
 
-#: ../glade/chronojump.glade.h:547
+#: ../glade/chronojump.glade.h:560
 msgid "Test variables"
 msgstr "Εξέταση μεταβλητών"
 
-#: ../glade/chronojump.glade.h:548
+#: ../glade/chronojump.glade.h:561
 msgid "Continent"
 msgstr "Ήπειρος"
 
-#: ../glade/chronojump.glade.h:549
+#: ../glade/chronojump.glade.h:562
 msgid "And"
 msgstr "Και"
 
-#: ../glade/chronojump.glade.h:550
+#: ../glade/chronojump.glade.h:563
 msgid "Age"
 msgstr "Ηλικία"
 
-#: ../glade/chronojump.glade.h:551
+#: ../glade/chronojump.glade.h:564
 msgid "Person variables"
 msgstr "Μεταβλητές ατόμου"
 
-#: ../glade/chronojump.glade.h:552
+#: ../glade/chronojump.glade.h:565
 msgid "Evaluator"
 msgstr "Εκτιμητής"
 
-#: ../glade/chronojump.glade.h:553
+#: ../glade/chronojump.glade.h:566
 msgid "Show query"
 msgstr "Εμφάνιση ερωτήματος"
 
-#: ../glade/chronojump.glade.h:554
+#: ../glade/chronojump.glade.h:567
 msgid "Results:"
 msgstr "Αποτελέσματα:"
 
-#: ../glade/chronojump.glade.h:555
+#: ../glade/chronojump.glade.h:568
 msgid "Average:"
 msgstr "Μέσος όρος:"
 
-#: ../glade/chronojump.glade.h:556
+#: ../glade/chronojump.glade.h:569
 msgid "Query"
 msgstr "Ερώτημα"
 
-#: ../glade/chronojump.glade.h:557
+#: ../glade/chronojump.glade.h:570
 msgid "Notes"
 msgstr "Σημειώσεις"
 
-#: ../glade/chronojump.glade.h:558
+#: ../glade/chronojump.glade.h:571
 msgid "Totaltime"
 msgstr "Συνολικός χρόνος"
 
-#: ../glade/chronojump.glade.h:559
+#: ../glade/chronojump.glade.h:572
 msgid "Configure feedback"
 msgstr "Διαμόρφωση ανάδρασης"
 
-#: ../glade/chronojump.glade.h:560
+#: ../glade/chronojump.glade.h:573
 msgid "Select conditions for beep signals"
 msgstr "Επιλογή συνθηκών για σήματα ήχου"
 
-#: ../glade/chronojump.glade.h:561
+#: ../glade/chronojump.glade.h:574
 msgid "show best TF / TC"
 msgstr "εμφάνιση του καλύτερου TF / TC"
 
-#: ../glade/chronojump.glade.h:562
+#: ../glade/chronojump.glade.h:575
 msgid "show worst TF / TC"
 msgstr "εμφάνιση του χειρότερου TF / TC"
 
-#: ../glade/chronojump.glade.h:563
+#: ../glade/chronojump.glade.h:576
 msgid "show best time"
 msgstr "εμφάνιση του καλύτερου χρόνου"
 
-#: ../glade/chronojump.glade.h:564
+#: ../glade/chronojump.glade.h:577
 msgid "show worst time"
 msgstr "εμφάνιση του χειρότερου χρόνου"
 
-#: ../glade/chronojump.glade.h:565
+#: ../glade/chronojump.glade.h:578
 msgid "Best and worst values"
 msgstr "Η καλύτερη και η χειρότερη τιμή"
 
-#: ../glade/chronojump.glade.h:566
+#: ../glade/chronojump.glade.h:579
 msgid "Range of movement"
 msgstr "Περιοχή κίνησης"
 
-#: ../glade/chronojump.glade.h:567
+#: ../glade/chronojump.glade.h:580
 msgid "Mean speed"
 msgstr "Μέσος όρος ταχύτητας"
 
-#: ../glade/chronojump.glade.h:568
+#: ../glade/chronojump.glade.h:581
 msgid "Max speed"
 msgstr "Μέγιστη ταχύτητα"
 
-#: ../glade/chronojump.glade.h:569
+#: ../glade/chronojump.glade.h:582
 msgid "Mean power"
 msgstr "Μέσος όρος ισχύος"
 
@@ -2588,153 +2649,153 @@ msgstr "Μέσος όρος ισχύος"
 #. 9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
 #. newtons, yielding power in watts (N.m/s).
 #. POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
-#: ../glade/chronojump.glade.h:570 ../src/constants.cs:183
-#: ../src/constants.cs:217 ../src/constants.cs:222 ../src/constants.cs:227
-#: ../src/constants.cs:232 ../src/constants.cs:237 ../src/constants.cs:250
-#: ../src/constants.cs:257 ../src/constants.cs:264 ../src/constants.cs:271
-#: ../src/constants.cs:273 ../src/constants.cs:278 ../src/constants.cs:280
+#: ../glade/chronojump.glade.h:583 ../src/constants.cs:184
+#: ../src/constants.cs:218 ../src/constants.cs:223 ../src/constants.cs:228
+#: ../src/constants.cs:233 ../src/constants.cs:238 ../src/constants.cs:251
+#: ../src/constants.cs:258 ../src/constants.cs:265 ../src/constants.cs:272
+#: ../src/constants.cs:274 ../src/constants.cs:279 ../src/constants.cs:281
 msgid "Peak power"
 msgstr "Κορυφή ισχύος"
 
-#: ../glade/chronojump.glade.h:571
+#: ../glade/chronojump.glade.h:584
 msgid "Display variables on encoder capture"
 msgstr "Εμφάνιση μεταβλητών στη λήψη κωδικοποιητή"
 
-#: ../glade/chronojump.glade.h:572
+#: ../glade/chronojump.glade.h:585
 msgid "Bell good"
 msgstr "Ήχος καλός"
 
-#: ../glade/chronojump.glade.h:573
+#: ../glade/chronojump.glade.h:586
 msgid "Bell bad"
 msgstr "Ήχος κακός"
 
-#: ../glade/chronojump.glade.h:574
+#: ../glade/chronojump.glade.h:587
 msgid "<b>Time</b> (s)"
 msgstr "<b>Χρόνος</b> (s)"
 
-#: ../glade/chronojump.glade.h:575
+#: ../glade/chronojump.glade.h:588
 msgid ">="
 msgstr ">="
 
-#: ../glade/chronojump.glade.h:576
+#: ../glade/chronojump.glade.h:589
 msgid "<b>Peak power</b> (W)"
 msgstr "<b>Ισχύς κορυφής</b> (W)"
 
-#: ../glade/chronojump.glade.h:577
+#: ../glade/chronojump.glade.h:590
 msgid "<b>Mean power</b> (W)"
 msgstr "<b>Μέση ισχύ</b> (W)"
 
-#: ../glade/chronojump.glade.h:578
+#: ../glade/chronojump.glade.h:591
 msgid "<b>Mean speed</b> (m/s)"
 msgstr "<b>Μέση ταχύτητα</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:579
+#: ../glade/chronojump.glade.h:592
 msgid "<b>Max speed</b> (m/s)"
 msgstr "<b>Μέγιστη ταχύτητα</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:593
 msgid "<b>Height</b> (cm)"
 msgstr "<b>Ύψος</b> (cm)"
 
-#: ../glade/chronojump.glade.h:581
+#: ../glade/chronojump.glade.h:594
 msgid "Conditions"
 msgstr "Συνθήκες"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:595
 msgid "\"Good\" bell"
 msgstr "\"Καλός\" ήχος"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:596
 msgid "\"Bad\" bell"
 msgstr "\"Κακός\" ήχος"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:597
 msgid "test!"
 msgstr "εξέταση!"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:598
 msgid "test bells"
 msgstr "ήχοι εξέτασης"
 
-#: ../glade/chronojump.glade.h:586
+#: ../glade/chronojump.glade.h:599
 msgid "Chronojump Report window"
 msgstr "Παράθυρο αναφοράς Chronojump"
 
-#: ../glade/chronojump.glade.h:587
+#: ../glade/chronojump.glade.h:600
 msgid "Select data for HTML report"
 msgstr "Επιλογή δεδομένων για αναφορά HTML"
 
-#: ../glade/chronojump.glade.h:588
+#: ../glade/chronojump.glade.h:601
 msgid "show..."
 msgstr "εμφάνιση..."
 
-#: ../glade/chronojump.glade.h:589 ../src/constants.cs:300
+#: ../glade/chronojump.glade.h:602 ../src/constants.cs:301
 #: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Απλή"
 
-#: ../glade/chronojump.glade.h:590 ../src/gui/convertWeight.cs:62
+#: ../glade/chronojump.glade.h:603 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
 msgid "Reactive"
 msgstr "Ενεργή"
 
-#: ../glade/chronojump.glade.h:591
+#: ../glade/chronojump.glade.h:604
 msgid "Intervallic"
 msgstr "Με μεσοδιάστημα"
 
-#: ../glade/chronojump.glade.h:592
+#: ../glade/chronojump.glade.h:605
 msgid "Include tracks"
 msgstr "Συμπερίληψη διαδρομών"
 
-#: ../glade/chronojump.glade.h:593
+#: ../glade/chronojump.glade.h:606
 msgid "Include individual"
 msgstr "Συμπερίληψη ατομικού"
 
-#: ../glade/chronojump.glade.h:594
+#: ../glade/chronojump.glade.h:607
 msgid "Data"
 msgstr "Δεδομένα"
 
-#: ../glade/chronojump.glade.h:595
+#: ../glade/chronojump.glade.h:608
 msgid "general data"
 msgstr "γενικά δεδομένα"
 
-#: ../glade/chronojump.glade.h:596
+#: ../glade/chronojump.glade.h:609
 msgid "Up"
 msgstr "Επάνω"
 
-#: ../glade/chronojump.glade.h:597
+#: ../glade/chronojump.glade.h:610
 msgid "Down"
 msgstr "Κάτω"
 
-#: ../glade/chronojump.glade.h:598
+#: ../glade/chronojump.glade.h:611
 msgid "See graph"
 msgstr "Δείτε το γράφημα"
 
-#: ../glade/chronojump.glade.h:599
+#: ../glade/chronojump.glade.h:612
 msgid "Add comment"
 msgstr "Προσθήκη σχολίου"
 
-#: ../glade/chronojump.glade.h:600
+#: ../glade/chronojump.glade.h:613
 msgid "Remove"
 msgstr "Αφαίρεση"
 
-#: ../glade/chronojump.glade.h:601
+#: ../glade/chronojump.glade.h:614
 msgid "statistics data"
 msgstr "δεδομένα στατιστικών"
 
-#: ../glade/chronojump.glade.h:602
+#: ../glade/chronojump.glade.h:615
 msgid "Make report"
 msgstr "Δημιουργία αναφοράς"
 
-#: ../glade/chronojump.glade.h:603
+#: ../glade/chronojump.glade.h:616
 msgid "Create new Run Type"
 msgstr "Δημιουργία νέου τύπου δρόμου"
 
-#: ../glade/chronojump.glade.h:604
+#: ../glade/chronojump.glade.h:617
 msgid "Create a new run type in the database"
 msgstr "Δημιουργία νέου τύπου δρόμου στη βάση δεδομένων"
 
-#: ../glade/chronojump.glade.h:605
+#: ../glade/chronojump.glade.h:618
 msgid ""
 "Limited by\n"
 "(how it finishes)"
@@ -2742,31 +2803,31 @@ msgstr ""
 "Περιορισμένο από\n"
 "(πώς τελειώνει)"
 
-#: ../glade/chronojump.glade.h:607
+#: ../glade/chronojump.glade.h:620
 msgid "tracks (m)"
 msgstr "διαδρομές (m)"
 
-#: ../glade/chronojump.glade.h:608
+#: ../glade/chronojump.glade.h:621
 msgid "time (s)"
 msgstr "χρόνος (s)"
 
-#: ../glade/chronojump.glade.h:609
+#: ../glade/chronojump.glade.h:622
 msgid "intervallic"
 msgstr "με μεσοδιάστημα"
 
-#: ../glade/chronojump.glade.h:610
+#: ../glade/chronojump.glade.h:623
 msgid "Variable (user will select distance at each test)"
 msgstr "Μεταβλητός (ο χρήστης θα επιλέξει απόσταση σε κάθε εξέταση)"
 
-#: ../glade/chronojump.glade.h:611
+#: ../glade/chronojump.glade.h:624
 msgid "Fixed (distance will be always the same)"
 msgstr "Σταθερός (η απόσταση θα είναι πάντα η ίδια)"
 
-#: ../glade/chronojump.glade.h:612
+#: ../glade/chronojump.glade.h:625
 msgid "(m)"
 msgstr "(m)"
 
-#: ../glade/chronojump.glade.h:613
+#: ../glade/chronojump.glade.h:626
 msgid ""
 "Different (each track have different distance\n"
 "suitable for agility tests and RSA)"
@@ -2774,19 +2835,19 @@ msgstr ""
 "Διαφορετικός (κάθε διαδρομή έχει διαφορετική απόσταση\n"
 "κατάλληλη για εξετάσεις ευκινησίας και RSA)"
 
-#: ../glade/chronojump.glade.h:615
+#: ../glade/chronojump.glade.h:628
 msgid "Number of different tracks"
 msgstr "Αριθμός διαφορετικών διαδρομών"
 
-#: ../glade/chronojump.glade.h:616
+#: ../glade/chronojump.glade.h:629
 msgid "Help RSA"
 msgstr "Βοήθεια RSA"
 
-#: ../glade/chronojump.glade.h:617
+#: ../glade/chronojump.glade.h:630
 msgid "Distance of each track"
 msgstr "Απόσταση κάθε διαδρομής"
 
-#: ../glade/chronojump.glade.h:618
+#: ../glade/chronojump.glade.h:631
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
@@ -2794,47 +2855,47 @@ msgstr ""
 "Παρακαλούμε συμπληρώστε αυτές τις τιμές\n"
 "(έντονοι τίτλοι απαιτούνται)"
 
-#: ../glade/chronojump.glade.h:620 ../src/exportSession.cs:209
-#: ../src/gui/person.cs:2143 ../src/gui/session.cs:723
-#: ../src/gui/session.cs:961 ../src/report.cs:242
+#: ../glade/chronojump.glade.h:633 ../src/exportSession.cs:209
+#: ../src/gui/person.cs:2149 ../src/gui/session.cs:723
+#: ../src/gui/session.cs:960 ../src/report.cs:242
 msgid "Place"
 msgstr "Θέση"
 
-#: ../glade/chronojump.glade.h:621 ../src/exportSession.cs:210
-#: ../src/gui/encoder.cs:409 ../src/gui/encoder.cs:768
-#: ../src/gui/session.cs:724 ../src/gui/session.cs:962 ../src/report.cs:242
+#: ../glade/chronojump.glade.h:634 ../src/exportSession.cs:210
+#: ../src/gui/encoder.cs:532 ../src/gui/encoder.cs:891
+#: ../src/gui/session.cs:724 ../src/gui/session.cs:961 ../src/report.cs:242
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: ../glade/chronojump.glade.h:622
+#: ../glade/chronojump.glade.h:635
 msgid "Different"
 msgstr "Διαφορετικό"
 
-#: ../glade/chronojump.glade.h:623
+#: ../glade/chronojump.glade.h:636
 msgid "All the same"
 msgstr "Όλα το ίδιο"
 
-#: ../glade/chronojump.glade.h:624
+#: ../glade/chronojump.glade.h:637
 msgid "Person's data"
 msgstr "Δεδομένα του ατόμου"
 
-#: ../glade/chronojump.glade.h:625
+#: ../glade/chronojump.glade.h:638
 msgid "Load session"
 msgstr "Φόρτωση συνεδρίας"
 
-#: ../glade/chronojump.glade.h:626
+#: ../glade/chronojump.glade.h:639
 msgid "Show data of encoder tests"
 msgstr "Εμφάνιση δεδομένων των εξετάσεων κωδικοποιητή"
 
-#: ../glade/chronojump.glade.h:627
+#: ../glade/chronojump.glade.h:640
 msgid "Show data of jump and run tests"
 msgstr "εμφάνιση δεδομένων των εξετάσεων άλματος και δρόμου"
 
-#: ../glade/chronojump.glade.h:628
+#: ../glade/chronojump.glade.h:641
 msgid "Upload session to server"
 msgstr "Ανέβασμα συνεδρίας στον διακομιστή"
 
-#: ../glade/chronojump.glade.h:629 ../src/gui/person.cs:2146
+#: ../glade/chronojump.glade.h:642 ../src/gui/person.cs:2152
 msgid ""
 "Jumps\n"
 "reactive"
@@ -2842,19 +2903,19 @@ msgstr ""
 "Άλματα\n"
 "πολλαπλά"
 
-#: ../glade/chronojump.glade.h:631
+#: ../glade/chronojump.glade.h:644
 msgid "Multi Chronopic"
 msgstr "Πολλαπλή χρονοεικόνα"
 
-#: ../glade/chronojump.glade.h:632
+#: ../glade/chronojump.glade.h:645
 msgid "Names will be hidden"
 msgstr "Τα ονόματα θα κρυφτούν"
 
-#: ../glade/chronojump.glade.h:633
+#: ../glade/chronojump.glade.h:646
 msgid "Codes:"
 msgstr "Κωδικοί:"
 
-#: ../glade/chronojump.glade.h:634
+#: ../glade/chronojump.glade.h:647
 msgid ""
 "<i>U</i> Uploaded.\n"
 "<i>E</i> Not uploaded. Already Exists.\n"
@@ -2864,49 +2925,45 @@ msgstr ""
 "<i>E</i> Δεν ανέβηκε. Υπάρχει ήδη.\n"
 "<i>S</i> Δεν ανέβηκε. Προσομοιωμένη εξέταση."
 
-#: ../glade/chronojump.glade.h:637
+#: ../glade/chronojump.glade.h:650
 msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
 msgstr ""
 "Σας ευχαριστούμε για τον χρόνο σας. Τα γραφήματα θα ενημερωθούν στον "
 "διακομιστή στις 3ω7λ UTC."
 
-#: ../glade/chronojump.glade.h:638
-msgid "Chonojump"
-msgstr "Χρονοάλμα"
-
-#: ../glade/chronojump.glade.h:639
+#: ../glade/chronojump.glade.h:651
 msgid "Loading Chronojump..."
 msgstr "Φόρτωση Chronojump..."
 
-#: ../glade/chronojump.glade.h:640
+#: ../glade/chronojump.glade.h:652
 msgid "Cancel connection with server"
 msgstr "Ακύρωση σύνδεσης με τον διακομιστή"
 
-#: ../glade/chronojump.glade.h:641
+#: ../glade/chronojump.glade.h:653
 msgid "Select sessions for statistics"
 msgstr "Επιλογή συνεδριών για στατιστικά"
 
-#: ../glade/chronojump.glade.h:642
+#: ../glade/chronojump.glade.h:654
 msgid "unselected"
 msgstr "ανεπίλεκτο"
 
-#: ../glade/chronojump.glade.h:643
+#: ../glade/chronojump.glade.h:655
 msgid "selected"
 msgstr "επιλεγμένο"
 
-#: ../glade/chronojump.glade.h:644
+#: ../glade/chronojump.glade.h:656
 msgid "select ->"
 msgstr "επιλογή ->"
 
-#: ../glade/chronojump.glade.h:645
+#: ../glade/chronojump.glade.h:657
 msgid "<- unselect"
 msgstr "<- αποεπιλογή"
 
-#: ../glade/chronojump.glade.h:646
+#: ../glade/chronojump.glade.h:658
 msgid "all"
 msgstr "όλα"
 
-#: ../glade/chronojump.glade.h:647
+#: ../glade/chronojump.glade.h:659
 msgid "none"
 msgstr "κανένα"
 
@@ -3186,7 +3243,7 @@ msgstr "Παρακαλούμε ενημερώστε το Chronojump"
 msgid "tables already created"
 msgstr "οι πίνακες δημιουργήθηκαν ήδη"
 
-#: ../src/chronojump.cs:330
+#: ../src/chronojump.cs:337
 #, csharp-format
 msgid ""
 "\n"
@@ -3197,23 +3254,23 @@ msgstr ""
 "Η νέα έκδοση του Chronojump είναι διαθέσιμη στον ιστότοπο.\n"
 "Η έκδοση σας του Chronojump είναι: {1}"
 
-#: ../src/chronojump.cs:332
+#: ../src/chronojump.cs:339
 msgid "Please, update to new version."
 msgstr "Παρακαλούμε, ενημερώστε στη νέα έκδοση."
 
-#: ../src/chronojump.cs:340
+#: ../src/chronojump.cs:347
 msgid "Chronojump crashed before."
 msgstr "Το Chronojump κατέρρευσε πριν."
 
-#: ../src/chronojump.cs:341 ../src/gui/chronojump.cs:1178
+#: ../src/chronojump.cs:348 ../src/gui/chronojump.cs:1178
 msgid "Please, update to new version: "
-msgstr "Παρακαλούμε, ενημερώστε στη νέα έκδοση:"
+msgstr "Παρακαλούμε, ενημερώστε στη νέα έκδοση: "
 
-#: ../src/chronojump.cs:413 ../src/chronojump.cs:757 ../src/chronojump.cs:765
+#: ../src/chronojump.cs:420 ../src/chronojump.cs:764 ../src/chronojump.cs:772
 msgid "Chronojump will exit now."
 msgstr "Το Chronojump θα τερματίσει τώρα."
 
-#: ../src/chronojump.cs:591
+#: ../src/chronojump.cs:598
 #, csharp-format
 msgid ""
 "Chronojump {0} crashed before. If this problem persist, please, report it at "
@@ -3222,49 +3279,49 @@ msgstr ""
 "Το Chronojump {0} κατέρρευσε πριν. Αν αυτό το πρόβλημα επιμένει, "
 "παρακαλούμε, αναφέρτε το στις ομάδες συζήτησης:"
 
-#: ../src/chronojump.cs:592
+#: ../src/chronojump.cs:599
 msgid "Remember to describe on Chronojump software forum how crash happened."
 msgstr ""
 "Θυμηθείτε να περιγράψετε στις ομάδες συζήτησης του λογισμικού Chronojump πώς "
 "συνέβη η κατάρρευση."
 
-#: ../src/chronojump.cs:597
+#: ../src/chronojump.cs:604
 msgid "Your help is needed."
 msgstr "Η βοήθειά σας χρειάζεται."
 
-#: ../src/chronojump.cs:724
+#: ../src/chronojump.cs:731
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Αδύνατη η μετακίνηση του καταλόγου της βάσης δεδομένων από {0} σε {1}"
 
-#: ../src/chronojump.cs:726
+#: ../src/chronojump.cs:733
 msgid "Trying to move/copy each file now"
 msgstr "Προσπαθήστε να μετακινήστε/αντιγράψετε κάθε αρχείο τώρα"
 
-#: ../src/chronojump.cs:755
+#: ../src/chronojump.cs:762
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Αδύνατη η δημιουργία καταλόγου {0}"
 
-#: ../src/chronojump.cs:756 ../src/chronojump.cs:764
+#: ../src/chronojump.cs:763 ../src/chronojump.cs:771
 msgid "Please, do it manually."
 msgstr "Παρακαλούμε, κάντε το χειροκίνητα."
 
-#: ../src/chronojump.cs:763
+#: ../src/chronojump.cs:770
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Αδύνατη η αντιγραφή των αρχείων {0} από το {1} στο {2}"
 
-#: ../src/chronojump.cs:771
+#: ../src/chronojump.cs:778
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Αδύνατη η μετακίνηση των αρχείων {0} από το {1} στο {2}"
 
-#: ../src/chronojump.cs:772
+#: ../src/chronojump.cs:779
 msgid "Please, do it manually"
 msgstr "Παρακαλούμε, κάντε το χειροκίνητα"
 
-#: ../src/chronojump.cs:778
+#: ../src/chronojump.cs:785
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Η βάση δεδομένων είναι τώρα εδώ: {0}"
@@ -3398,21 +3455,21 @@ msgstr "Στρώση υλικού κωδικοποιητή."
 msgid "Chronojump Manual English translation"
 msgstr "Αγγλική μετάφραση του εγχειριδίου του Chronojump"
 
-#: ../src/constants.cs:116
+#: ../src/constants.cs:117
 msgid "Any"
 msgstr "Οποιαδήποτε"
 
-#: ../src/constants.cs:136
+#: ../src/constants.cs:137
 msgid "Server is connected."
 msgstr "Ο διακομιστής είναι συνδεμένος."
 
-#: ../src/constants.cs:137
+#: ../src/constants.cs:138
 msgid "Sorry, server is currently offline. Try later."
 msgstr ""
 "Συγνώμη, ο διακομιστής είναι προς το παρόν εκτός σύνδεσης. Δοκιμάστε "
 "αργότερα."
 
-#: ../src/constants.cs:138
+#: ../src/constants.cs:139
 msgid ""
 "Or maybe you are not connected to the Internet or your firewall is "
 "restricting connections"
@@ -3423,280 +3480,280 @@ msgstr ""
 #. Josep Ma Padullés test
 #. translate (take off?)
 #. translate (take off?)
-#: ../src/constants.cs:176
+#: ../src/constants.cs:177
 msgid ""
 "When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\n"
 "remember the separator character is semicolon <b>;</b>, or comma <b>,</b>."
 msgstr ""
 "Κατά την εισαγωγή από το υπολογιστικό φύλλο (OpenOffice, R, MS Excel, ...)\n"
-"να θυμάστε ότι ο διαχωριστικός χαρακτήρας είναι το <b>;</b>, ή κόμμα "
-"<b>,</b>."
+"να θυμάστε ότι ο διαχωριστικός χαρακτήρας είναι το <b>;</b>, ή κόμμα <b>,</"
+"b>."
 
-#: ../src/constants.cs:184
+#: ../src/constants.cs:185
 msgid "adapted (added g to have Watts)"
 msgstr "προσαρμοσμένο (προστέθηκε g για να έχετε Watts)"
 
-#: ../src/constants.cs:186 ../src/constants.cs:220 ../src/constants.cs:225
-#: ../src/constants.cs:230 ../src/constants.cs:235 ../src/constants.cs:240
-#: ../src/constants.cs:254 ../src/constants.cs:261 ../src/constants.cs:268
-#: ../src/constants.cs:276 ../src/constants.cs:282
+#: ../src/constants.cs:187 ../src/constants.cs:221 ../src/constants.cs:226
+#: ../src/constants.cs:231 ../src/constants.cs:236 ../src/constants.cs:241
+#: ../src/constants.cs:255 ../src/constants.cs:262 ../src/constants.cs:269
+#: ../src/constants.cs:277 ../src/constants.cs:283
 msgid "body weight"
 msgstr "βάρος σώματος"
 
-#: ../src/constants.cs:186 ../src/constants.cs:220 ../src/constants.cs:225
-#: ../src/constants.cs:230 ../src/constants.cs:235 ../src/constants.cs:240
-#: ../src/constants.cs:254 ../src/constants.cs:261 ../src/constants.cs:268
-#: ../src/constants.cs:276 ../src/constants.cs:282
+#: ../src/constants.cs:187 ../src/constants.cs:221 ../src/constants.cs:226
+#: ../src/constants.cs:231 ../src/constants.cs:236 ../src/constants.cs:241
+#: ../src/constants.cs:255 ../src/constants.cs:262 ../src/constants.cs:269
+#: ../src/constants.cs:277 ../src/constants.cs:283
 msgid "extra weight"
 msgstr "πρόσθετο βάρος"
 
-#: ../src/constants.cs:186 ../src/constants.cs:219 ../src/constants.cs:224
-#: ../src/constants.cs:229 ../src/constants.cs:234 ../src/constants.cs:239
-#: ../src/constants.cs:253 ../src/constants.cs:260 ../src/constants.cs:267
-#: ../src/constants.cs:275 ../src/constants.cs:281 ../src/stats/fv.cs:51
+#: ../src/constants.cs:187 ../src/constants.cs:220 ../src/constants.cs:225
+#: ../src/constants.cs:230 ../src/constants.cs:235 ../src/constants.cs:240
+#: ../src/constants.cs:254 ../src/constants.cs:261 ../src/constants.cs:268
+#: ../src/constants.cs:276 ../src/constants.cs:282 ../src/stats/fv.cs:51
 #: ../src/stats/fv.cs:52 ../src/stats/graphs/fv.cs:74
 #: ../src/stats/graphs/fv.cs:75
 msgid "height"
 msgstr "ύψος"
 
-#: ../src/constants.cs:252
+#: ../src/constants.cs:253
 msgid "Male applicants to a Faculty of Sport Sciencies"
-msgstr "Άνδρες υποψήφιοι για ένα τμήμα αθλητικών επιστημών "
+msgstr "Άνδρες υποψήφιοι για ένα τμήμα αθλητικών επιστημών"
 
-#: ../src/constants.cs:259
+#: ../src/constants.cs:260
 msgid "Female elite volleybol"
 msgstr "Πετόσφαιρα επίλεκτων γυναικών"
 
-#: ../src/constants.cs:266
+#: ../src/constants.cs:267
 msgid "Female medium volleybol"
 msgstr "Πετόσφαιρα μέτριων γυναικών"
 
-#: ../src/constants.cs:274
+#: ../src/constants.cs:275
 msgid "Female sports sciencies students"
 msgstr "Φοιτήτριες αθλητικών επιστημών"
 
-#: ../src/constants.cs:280
+#: ../src/constants.cs:281
 msgid "Female university students"
 msgstr "Φοιτήτριες πανεπιστημίου"
 
 #. *4.0 for having double division
 #. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:286 ../src/stats/graphs/potency.cs:61
+#: ../src/constants.cs:287 ../src/stats/graphs/potency.cs:61
 #: ../src/stats/graphs/potency.cs:71 ../src/stats/graphs/potency.cs:81
 #: ../src/stats/graphs/potency.cs:91 ../src/stats/potency.cs:60
 msgid "Peak Power"
 msgstr "Κορυφή ισχύος"
 
 #. global stat types
-#: ../src/constants.cs:298
+#: ../src/constants.cs:299
 msgid "Session summary"
 msgstr "Περίληψη συνεδρίας"
 
-#: ../src/constants.cs:299
+#: ../src/constants.cs:300
 msgid "Jumper summary"
 msgstr "Περίληψη άλτη"
 
-#: ../src/constants.cs:301
+#: ../src/constants.cs:302
 msgid "Simple with TC"
 msgstr "Απλό με TC"
 
-#: ../src/constants.cs:302
+#: ../src/constants.cs:303
 msgid "Jumps: Reactive"
 msgstr "Άλματα: πολλαπλά"
 
-#: ../src/constants.cs:303
+#: ../src/constants.cs:304
 msgid "Runs: Simple"
 msgstr "Δρόμοι: απλοί"
 
-#: ../src/constants.cs:304
+#: ../src/constants.cs:305
 msgid "Runs: Intervallic"
 msgstr "Δρόμοι: Με διαλείμματα"
 
 #. strings
-#: ../src/constants.cs:307
+#: ../src/constants.cs:308
 msgid "See all jumps"
 msgstr "Δείτε όλα τα άλματα"
 
-#: ../src/constants.cs:308
+#: ../src/constants.cs:309
 msgid "See all runs"
 msgstr "Δείτε όλους τους δρόμους"
 
-#: ../src/constants.cs:309
+#: ../src/constants.cs:310
 msgid "See all pulses"
 msgstr "Δείτε όλους τους παλμούς"
 
-#: ../src/constants.cs:331
+#: ../src/constants.cs:334
 msgid "black only"
 msgstr "μόνο μαύρο"
 
-#: ../src/constants.cs:398
+#: ../src/constants.cs:401
 msgid "Typical serial and USB-serial ports on Windows:"
 msgstr "Τυπικές σειριακές και USB σειριακές θύρες σε Windows:"
 
-#: ../src/constants.cs:400
+#: ../src/constants.cs:403
 msgid "Also, these are possible:"
 msgstr "Επίσης, είναι δυνατά τα:"
 
-#: ../src/constants.cs:404
+#: ../src/constants.cs:407
 msgid "Typical serial ports on GNU/Linux:"
 msgstr "Τυπικές σειριακές θύρες σε GNU/Λίνουξ:"
 
-#: ../src/constants.cs:406
+#: ../src/constants.cs:409
 msgid "Typical USB-serial ports on GNU/Linux:"
 msgstr "Τυπικές σειριακές θύρες USB σε GNU/Λίνουξ:"
 
-#: ../src/constants.cs:408
+#: ../src/constants.cs:411
 msgid "If you use Chronopic3, you will have an USB-serial port."
 msgstr "Αν χρησιμοποιείτε Chronopic3, θα έχετε μια σειριακή θύρα USB."
 
-#: ../src/constants.cs:411
+#: ../src/constants.cs:414
 msgid "Serial ports found:"
 msgstr "Βρέθηκαν σειριακές θύρες:"
 
-#: ../src/constants.cs:412
+#: ../src/constants.cs:415
 msgid "USB-serial ports found:"
 msgstr "Βρέθηκαν σειριακές θύρες USB:"
 
-#: ../src/constants.cs:413
+#: ../src/constants.cs:416
 msgid "Not found any USB-serial ports."
 msgstr "Δεν βρέθηκαν σειριακές θύρες USB."
 
-#: ../src/constants.cs:413
+#: ../src/constants.cs:416
 msgid "Is Chronopic connected?"
 msgstr "Είναι συνδεμένο το Chronopic;"
 
-#: ../src/constants.cs:442
+#: ../src/constants.cs:445
 msgid "--Undefined"
 msgstr "--Αόριστο"
 
-#: ../src/constants.cs:443
+#: ../src/constants.cs:446
 msgid "--Any"
 msgstr "--Οποιοδήποτε"
 
-#: ../src/constants.cs:446
+#: ../src/constants.cs:449
 msgid "-None"
 msgstr "-Κανένα"
 
-#: ../src/constants.cs:459
+#: ../src/constants.cs:462
 msgid "Africa"
 msgstr "Αφρική"
 
-#: ../src/constants.cs:460
+#: ../src/constants.cs:463
 msgid "Antarctica"
 msgstr "Ανταρκτική"
 
-#: ../src/constants.cs:461
+#: ../src/constants.cs:464
 msgid "Asia"
 msgstr "Ασία"
 
-#: ../src/constants.cs:462
+#: ../src/constants.cs:465
 msgid "Europe"
 msgstr "Ευρώπη"
 
-#: ../src/constants.cs:463
+#: ../src/constants.cs:466
 msgid "North America"
 msgstr "Βόρεια Αμερική"
 
-#: ../src/constants.cs:464
+#: ../src/constants.cs:467
 msgid "Oceania"
 msgstr "Ωκεανία"
 
-#: ../src/constants.cs:465
+#: ../src/constants.cs:468
 msgid "South America"
 msgstr "Νότια Αμερική"
 
-#: ../src/constants.cs:469
+#: ../src/constants.cs:472
 msgid "Tests are <b>simulated</b> until Chronopic is connected."
 msgstr ""
 "Οι εξετάσεις είναι <b>προσομοιωμένες</b> μέχρι να συνδεθεί το Chronopic."
 
 #. Catalog.GetString("Angles") + ":" +
-#: ../src/constants.cs:470 ../src/exportSession.cs:279
+#: ../src/constants.cs:473 ../src/exportSession.cs:279
 #: ../src/exportSession.cs:381 ../src/exportSession.cs:488
 #: ../src/exportSession.cs:543 ../src/exportSession.cs:634
 #: ../src/exportSession.cs:676 ../src/exportSession.cs:736
 msgid "Simulated"
 msgstr "Προσομοιωμένο"
 
-#: ../src/constants.cs:472
+#: ../src/constants.cs:475
 msgid "All tests available except MultiChronopic."
 msgstr "Όλες οι εξετάσεις διαθέσιμες εκτός από το MultiChronopic."
 
-#: ../src/constants.cs:473
+#: ../src/constants.cs:476
 msgid "All tests available."
 msgstr "Όλες οι εξετάσεις διαθέσιμες."
 
-#: ../src/constants.cs:484
+#: ../src/constants.cs:487
 msgid "Sedentary/Ocasional practice"
 msgstr "Καθιστική/περιστασιακή άσκηση"
 
-#: ../src/constants.cs:488
+#: ../src/constants.cs:491
 msgid "Regular practice"
 msgstr "Τακτική άσκηση"
 
-#: ../src/constants.cs:489
+#: ../src/constants.cs:492
 msgid "Competition"
 msgstr "Συναγωνισμός"
 
-#: ../src/constants.cs:490
+#: ../src/constants.cs:493
 msgid "Elite"
 msgstr "Επίλεκτοι"
 
-#: ../src/constants.cs:494
+#: ../src/constants.cs:497
 msgid "Initializing"
 msgstr "Αρχικοποίηση"
 
 #. 0
-#: ../src/constants.cs:495
+#: ../src/constants.cs:498
 msgid "Checking database"
 msgstr "Έλεγχος βάσης δεδομένων"
 
 #. 1
-#: ../src/constants.cs:496
+#: ../src/constants.cs:499
 msgid "Creating database"
 msgstr "Δημιουργία βάσης δεδομένων"
 
 #. 2
-#: ../src/constants.cs:497
+#: ../src/constants.cs:500
 msgid "Making database backup"
 msgstr "Δημιουργία αντιγράφου ασφαλείας βάσης δεδομένων"
 
 #. 3
-#: ../src/constants.cs:498
+#: ../src/constants.cs:501
 msgid "Updating database"
 msgstr "Ενημέρωση βάσης δεδομένων"
 
 #. 4
-#: ../src/constants.cs:499
+#: ../src/constants.cs:502
 msgid "Check for new version"
 msgstr "Έλεγχος για νέα έκδοση"
 
 #. 5
-#: ../src/constants.cs:500
+#: ../src/constants.cs:503
 msgid "Preparing main Window"
 msgstr "Προετοιμασία κύριου παραθύρου"
 
-#: ../src/constants.cs:528
+#: ../src/constants.cs:531
 msgid "In"
 msgstr "Είσοδος"
 
-#: ../src/constants.cs:529
+#: ../src/constants.cs:532
 msgid "Out"
 msgstr "Έξοδος"
 
-#: ../src/constants.cs:562
+#: ../src/constants.cs:565
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Συγνώμη, αυτό το αρχείο πολυμέσων δεν υπάρχει."
 
-#: ../src/constants.cs:567
+#: ../src/constants.cs:570
 msgid "Running start. Started with initial speed."
 msgstr "Εκτέλεση έναρξης. Έναρξη με αρχική ταχύτητα."
 
-#: ../src/constants.cs:568
+#: ../src/constants.cs:571
 msgid "Standing start. Started without initial speed."
 msgstr "Στατική εκκίνηση. Εκκίνηση χωρίς αρχική ταχύτητα."
 
-#: ../src/constants.cs:570
+#: ../src/constants.cs:573
 msgid "Sorry, no cameras found."
 msgstr "Συγνώμη, δεν βρέθηκαν κάμερες."
 
@@ -3820,7 +3877,7 @@ msgid "Run will not be recorded, 1st track is out of time"
 msgstr "Ο δρόμος δεν θα γραφτεί, η 1η διαδρομή είναι εκτός χρόνου"
 
 #: ../src/execute/run.cs:940 ../src/exportSession.cs:540
-#: ../src/gui/chronojump.cs:3753 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
+#: ../src/gui/chronojump.cs:3760 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
 #: ../src/gui/run.cs:1657
 msgid "Tracks"
 msgstr "Διαδρομές"
@@ -3833,23 +3890,23 @@ msgstr "Αποθήκευση αναφοράς ως..."
 msgid "Export session in format "
 msgstr "Εξαγωγή συνεδρίας σε μορφή "
 
-#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:967
-#: ../src/gui/preferences.cs:320
+#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1091
+#: ../src/gui/preferences.cs:350
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:968
+#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:1092
 msgid "Export"
 msgstr "Εξαγωγή"
 
-#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:990
-#: ../src/gui/preferences.cs:333
+#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:1114
+#: ../src/gui/preferences.cs:363
 msgid "Are you sure you want to overwrite file: "
 msgstr "Είσαστε σίγουροι ότι θέλετε να αντικαταστήσετε το αρχείο: "
 
 #: ../src/exportSession.cs:104 ../src/exportSession.cs:136
-#: ../src/gui/encoder.cs:1011 ../src/gui/encoder.cs:1040
-#: ../src/gui/encoder.cs:1048 ../src/gui/encoder.cs:1055
+#: ../src/gui/encoder.cs:1135 ../src/gui/encoder.cs:1164
+#: ../src/gui/encoder.cs:1172 ../src/gui/encoder.cs:1179
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Αποθήκευση σε {0}"
@@ -3860,7 +3917,7 @@ msgid "Cannot export to file {0} "
 msgstr "Αδύνατη η εξαγωγή σε αρχείο {0} "
 
 #. report does not currently send the appBar reference
-#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1026
+#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1150
 msgid "Cancelled."
 msgstr "Ακυρώθηκε."
 
@@ -3889,8 +3946,8 @@ msgid "SessionID"
 msgstr "Αναγνωριστικό συνεδρίας"
 
 #: ../src/exportSession.cs:223 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:403 ../src/gui/encoder.cs:597
-#: ../src/gui/encoder.cs:689 ../src/gui/encoder.cs:763
+#: ../src/gui/encoder.cs:526 ../src/gui/encoder.cs:720
+#: ../src/gui/encoder.cs:812 ../src/gui/encoder.cs:886
 #: ../src/gui/person.cs:119
 msgid "ID"
 msgstr "Αναγνωριστικό"
@@ -3906,7 +3963,7 @@ msgstr "Αναγνωριστικό ατόμου"
 #: ../src/exportSession.cs:267 ../src/exportSession.cs:363
 #: ../src/exportSession.cs:481 ../src/exportSession.cs:533
 #: ../src/exportSession.cs:630 ../src/exportSession.cs:671
-#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:599
+#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:722
 msgid "Person name"
 msgstr "Όνομα ατόμου"
 
@@ -4078,7 +4135,8 @@ msgstr "Παρακαλούμε, συμπληρώστε πρώτα τα δεδο�
 
 #: ../src/gui/chronojump.cs:1163
 msgid "Please, first check evaluator data is ok."
-msgstr "Παρακαλούμε, ελέγξετε πρώτα ότι τα δεδομένα του εκτιμητή είναι εντάξει."
+msgstr ""
+"Παρακαλούμε, ελέγξετε πρώτα ότι τα δεδομένα του εκτιμητή είναι εντάξει."
 
 #: ../src/gui/chronojump.cs:1177
 msgid "Your version of Chronojump is too old for this."
@@ -4113,8 +4171,7 @@ msgstr "Παρακαλούμε, διορθώστε αυτό πριν το ανέ
 #: ../src/gui/chronojump.cs:1359
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr ""
-"Ή όταν ανεβάσετε τη συνεδρία πάλι, σημειώστε αυτά τα άτομα να μην "
-"ανεβαστούν."
+"Ή όταν ανεβάσετε τη συνεδρία πάλι, σημειώστε αυτά τα άτομα να μην ανεβαστούν."
 
 #: ../src/gui/chronojump.cs:1376
 msgid "Session will be uploaded to server."
@@ -4123,8 +4180,7 @@ msgstr "Η συνεδρία θα ανέβει στον διακομιστή."
 #: ../src/gui/chronojump.cs:1377
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr ""
-"Τα ονόματα, οι ημερομηνίες γέννησης και οι περιγραφές των ατόμων θα "
-"κρυφτούν."
+"Τα ονόματα, οι ημερομηνίες γέννησης και οι περιγραφές των ατόμων θα κρυφτούν."
 
 #: ../src/gui/chronojump.cs:1378
 msgid "You can upload again this session if you add more data or persons."
@@ -4234,14 +4290,15 @@ msgstr ""
 #: ../src/gui/chronojump.cs:1506 ../src/gui/chronojump.cs:1588
 #: ../src/gui/chronojump.cs:1668 ../src/gui/chronojump.cs:1749
 #: ../src/gui/chronojump.cs:1829 ../src/gui/chronojump.cs:1909
-#: ../src/gui/chronojump.cs:2004 ../src/gui/genericWindow.cs:563
+#: ../src/gui/chronojump.cs:2004 ../src/gui/genericWindow.cs:583
 msgid "Edit selected"
 msgstr "Επεξεργασία επιλεγμένου"
 
 #: ../src/gui/chronojump.cs:1513 ../src/gui/chronojump.cs:1599
 #: ../src/gui/chronojump.cs:1675 ../src/gui/chronojump.cs:1760
 #: ../src/gui/chronojump.cs:1836 ../src/gui/chronojump.cs:1920
-#: ../src/gui/chronojump.cs:2017 ../src/gui/genericWindow.cs:568
+#: ../src/gui/chronojump.cs:2017 ../src/gui/genericWindow.cs:587
+#: ../src/gui/genericWindow.cs:592
 msgid "Delete selected"
 msgstr "Διαγραφή επιλεγμένου"
 
@@ -4313,7 +4370,7 @@ msgstr "Τρέχον άτομο: "
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Διαγραμμένο άτομο και όλες οι εξετάσεις του σε αυτήν τη συνεδρία."
 
-#: ../src/gui/chronojump.cs:2965
+#: ../src/gui/chronojump.cs:2972
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -4321,7 +4378,7 @@ msgstr ""
 "Παρακαλούμε, ακουμπήστε την εξέδρα επαφής για πλήρη ακύρωση.\n"
 "Έπειτα πατήστε το κουμπί\n"
 
-#: ../src/gui/chronojump.cs:3008
+#: ../src/gui/chronojump.cs:3015
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -4332,7 +4389,7 @@ msgstr ""
 "ακύρωση.\n"
 "Έπειτα πατήστε το κουμπί\n"
 
-#: ../src/gui/chronojump.cs:3070
+#: ../src/gui/chronojump.cs:3077
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -4340,7 +4397,7 @@ msgstr ""
 "Παρακαλούμε, ακουμπήστε την εξέδρα επαφής για πλήρη τερματισμό.\n"
 "Έπειτα πατήστε αυτό το κουμπί:\n"
 
-#: ../src/gui/chronojump.cs:3124
+#: ../src/gui/chronojump.cs:3131
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
@@ -4348,149 +4405,150 @@ msgstr ""
 "Παρακαλούμε, ακουμπήστε την εξέδρα επαφής στο Chronopic/s [{0}] για πλήρη "
 "τερματισμό."
 
-#: ../src/gui/chronojump.cs:3125
+#: ../src/gui/chronojump.cs:3132
 msgid "Then press this button:\n"
 msgstr "Έπειτα πατήστε αυτό το κουμπί:\n"
 
-#: ../src/gui/chronojump.cs:3390 ../src/gui/chronojump.cs:3520
-#: ../src/gui/chronojump.cs:3676 ../src/gui/chronojump.cs:3803
-#: ../src/gui/chronojump.cs:3917 ../src/gui/chronojump.cs:4037
-#: ../src/gui/chronojump.cs:4266 ../src/gui/encoder.cs:1296
+#: ../src/gui/chronojump.cs:3397 ../src/gui/chronojump.cs:3527
+#: ../src/gui/chronojump.cs:3683 ../src/gui/chronojump.cs:3810
+#: ../src/gui/chronojump.cs:3924 ../src/gui/chronojump.cs:4044
+#: ../src/gui/chronojump.cs:4273 ../src/gui/encoder.cs:1422
 msgid "Sorry, video cannot be stored."
 msgstr "Συγνώμη, το βίντεο δεν μπορεί να αποθηκευτεί."
 
-#: ../src/gui/chronojump.cs:4157
+#: ../src/gui/chronojump.cs:4164
 msgid "Changes"
 msgstr "Αλλαγές"
 
-#: ../src/gui/chronojump.cs:4361
+#: ../src/gui/chronojump.cs:4368
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Αδύνατη η ενημέρωση. Προφανώς αυτή η εξέταση διαγράφτηκε."
 
 #. without these lines works also but has less functionalities (speed, go to ms)
-#: ../src/gui/chronojump.cs:4622 ../src/gui/event.cs:315
+#: ../src/gui/chronojump.cs:4629 ../src/gui/event.cs:315
 msgid "Playing video"
 msgstr "Αναπαραγωγή βίντεο"
 
-#: ../src/gui/chronojump.cs:4788 ../src/gui/chronojump.cs:4804
+#: ../src/gui/chronojump.cs:4795 ../src/gui/chronojump.cs:4811
 msgid "Do you want to delete this jump?"
 msgstr "Θέλετε να διαγραφεί αυτό το άλμα;"
 
-#: ../src/gui/chronojump.cs:4805
+#: ../src/gui/chronojump.cs:4812
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr ""
 "Προσοχή: Η διαγραφή ενός πολλαπλού υποάλματος θα διαγράψει ολόκληρο το άλμα"
 
-#: ../src/gui/chronojump.cs:4870 ../src/gui/chronojump.cs:4887
+#: ../src/gui/chronojump.cs:4877 ../src/gui/chronojump.cs:4894
 msgid "Do you want to delete this run?"
 msgstr "Θέλετε να διαγραφεί αυτός ο δρόμος;"
 
-#: ../src/gui/chronojump.cs:4888
+#: ../src/gui/chronojump.cs:4895
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr ""
 "Προσοχή: Η διαγραφή ενός υποδρόμου με διαλείμματα θα διαγράψει ολόκληρο το "
 "δρόμο"
 
-#: ../src/gui/chronojump.cs:5022
+#: ../src/gui/chronojump.cs:5029
 msgid "Do you want to delete this test?"
 msgstr "Θέλετε να διαγραφεί αυτή η εξέταση;"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5076
+#: ../src/gui/chronojump.cs:5083
 msgid "Added simple jump."
 msgstr "Προσθήκη απλού άλματος."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5079
+#: ../src/gui/chronojump.cs:5086
 msgid "Added reactive jump."
 msgstr "Προσθήκη πολλαπλού άλματος."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5104
+#: ../src/gui/chronojump.cs:5111
 msgid "Added simple run."
 msgstr "Προσθήκη απλού δρόμου."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5107
+#: ../src/gui/chronojump.cs:5114
 msgid "Added intervallic run."
 msgstr "Προσθήκη δρόμου με διαλείμματα."
 
-#: ../src/gui/chronojump.cs:5318
+#: ../src/gui/chronojump.cs:5325
 msgid "Accelerators help"
 msgstr "Βοήθεια επιταχυντών"
 
-#: ../src/gui/chronojump.cs:5320
+#: ../src/gui/chronojump.cs:5327
 msgid "Use these keys in order to work faster."
 msgstr "Χρήση αυτών των πλήκτρων για να δουλεύετε γρηγορότερα."
 
-#: ../src/gui/chronojump.cs:5321
+#: ../src/gui/chronojump.cs:5328
 msgid "On execute test tab:"
 msgstr "Στην καρτέλα εξέτασης εκτέλεσης:"
 
-#: ../src/gui/chronojump.cs:5322
+#: ../src/gui/chronojump.cs:5329
 msgid "Edit selected person"
 msgstr "Επεξεργασία επιλεγμένου ατόμου"
 
-#: ../src/gui/chronojump.cs:5323
+#: ../src/gui/chronojump.cs:5330
 msgid "CURSOR_UP"
 msgstr "ΔΡΟΜΕΑΣ_ΠΑΝΩ"
 
-#: ../src/gui/chronojump.cs:5323
+#: ../src/gui/chronojump.cs:5330
 msgid "Select previous person"
 msgstr "Επιλογή προηγούμενου ατόμου"
 
-#: ../src/gui/chronojump.cs:5324
+#: ../src/gui/chronojump.cs:5331
 msgid "CURSOR_DOWN"
 msgstr "ΔΡΟΜΕΑΣ_ΚΑΤΩ"
 
-#: ../src/gui/chronojump.cs:5324
+#: ../src/gui/chronojump.cs:5331
 msgid "Select next person"
 msgstr "Επιλογή επόμενου ατόμου"
 
-#: ../src/gui/chronojump.cs:5326
+#: ../src/gui/chronojump.cs:5333
 msgid "Play video of this test"
 msgstr "Αναπαραγωγή βίντεο αυτής της εξέτασης"
 
-#: ../src/gui/chronojump.cs:5326 ../src/gui/chronojump.cs:5330
-#: ../src/gui/chronojump.cs:5333
+#: ../src/gui/chronojump.cs:5333 ../src/gui/chronojump.cs:5337
+#: ../src/gui/chronojump.cs:5340
 msgid "(if available)"
 msgstr "(αν είναι διαθέσιμο)"
 
-#: ../src/gui/chronojump.cs:5327
+#: ../src/gui/chronojump.cs:5334
 msgid "Delete this test"
 msgstr "Διαγραφή αυτής της εξέτασης"
 
-#: ../src/gui/chronojump.cs:5328
+#: ../src/gui/chronojump.cs:5335
 msgid "On results tab:"
 msgstr "Στην καρτέλα αποτελεσμάτων:"
 
-#: ../src/gui/chronojump.cs:5329
+#: ../src/gui/chronojump.cs:5336
 msgid "Zoom change"
 msgstr "Αλλαγή εστίασης"
 
-#: ../src/gui/chronojump.cs:5330
+#: ../src/gui/chronojump.cs:5337
 msgid "Play video of selected test"
 msgstr "Αναπαραγωγή βίντεο της επιλεγμένης εξέτασης"
 
-#: ../src/gui/chronojump.cs:5331
+#: ../src/gui/chronojump.cs:5338
 msgid "Edit selected test"
 msgstr "Επεξεργασία επιλεγμένης δοκιμής"
 
-#: ../src/gui/chronojump.cs:5332
+#: ../src/gui/chronojump.cs:5339
 msgid "Delete selected test"
 msgstr "Διαγραφή επιλεγμένης δοκιμής"
 
-#: ../src/gui/chronojump.cs:5333
+#: ../src/gui/chronojump.cs:5340
 msgid "Repair selected test"
 msgstr "Επισκευή επιλεγμένης εξέτασης"
 
-#: ../src/gui/chronojump.cs:5338
+#: ../src/gui/chronojump.cs:5345
 msgid "translator-credits"
 msgstr ""
+"Ελληνική μεταφραστική ομάδα του GNOME \n"
 " Δημήτρης Σπίγγος <dmtrs32@gmail.com>\n"
 "Για περισσότερες πληροφορίες http://gnome.gr"
 
-#: ../src/gui/chronojump.cs:5692
+#: ../src/gui/chronojump.cs:5702
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Έτοιμο για σκοπούς εξέτασης. Το Chronojump θα τερματίσει άσχημα"
 
@@ -4580,63 +4638,89 @@ msgstr ""
 "Νέο βάρος\n"
 "επιλογή 2"
 
-#: ../src/gui/encoder.cs:186 ../src/gui/encoder.cs:3122
+#: ../src/gui/encoder.cs:193 ../src/gui/encoder.cs:3423
 msgid "Chronopic port is not configured."
 msgstr "Η θύρα Chronopic δεν είναι ρυθμισμένη."
 
-#: ../src/gui/encoder.cs:296
+#: ../src/gui/encoder.cs:338
+#| msgid "Load"
+msgid "Load 1RM"
+msgstr "Φόρτωση 1RM"
+
+#. don't show now
+#: ../src/gui/encoder.cs:349
+#, csharp-format
+#| msgid "Saved curves of athlete {0} on this session."
+msgid "Saved 1RM values of athlete {0} on this session."
+msgstr "Οι αποθηκευμένες τιμές 1RM του αθλητή {0} σε αυτήν τη συνεδρία."
+
+#: ../src/gui/encoder.cs:351
+#| msgid "If you want to edit or delete a row, right click on it."
+msgid "If you want to delete a row, right click on it."
+msgstr "Αν θέλετε να διαγράψετε μια γραμμή, δεξιοπατήστε την."
+
+#: ../src/gui/encoder.cs:352
+msgid ""
+"If there is more than one value for an exercise,\n"
+"the used value is the top one."
+msgstr ""
+"Αν υπάρχουν περισσότερες από μία τιμές για μια άσκηση,\n"
+"η χρησιμοποιούμενη τιμή είναι η κορυφαία."
+
+#: ../src/gui/encoder.cs:366 ../src/gui/encoder.cs:582
+#: ../src/gui/encoder.cs:926
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: ../src/gui/encoder.cs:420
 msgid "Missing data."
 msgstr "Λείπουν δεδομένα."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:405 ../src/gui/encoder.cs:2232
-#: ../src/gui/encoder.cs:2342
+#: ../src/gui/encoder.cs:528 ../src/gui/encoder.cs:2524
+#: ../src/gui/encoder.cs:2634
 msgid "Curve"
 msgstr "Καμπύλη"
 
-#: ../src/gui/encoder.cs:407 ../src/gui/encoder.cs:766
+#: ../src/gui/encoder.cs:530 ../src/gui/encoder.cs:889
 msgid "Contraction"
 msgstr "Σύσπαση"
 
-#: ../src/gui/encoder.cs:410 ../src/gui/encoder.cs:770
+#: ../src/gui/encoder.cs:533 ../src/gui/encoder.cs:893
 #: ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Σχόλιο"
 
 #. don't show now
-#: ../src/gui/encoder.cs:435
+#: ../src/gui/encoder.cs:558
 #, csharp-format
 msgid "Saved curves of athlete {0} on this session."
 msgstr "Οι αποθηκευμένες καμπύλες του αθλητή {0} σε αυτήν τη συνεδρία."
 
-#: ../src/gui/encoder.cs:437
+#: ../src/gui/encoder.cs:560
 msgid "Activate the curves you want to use clicking on first column."
 msgstr ""
 "Ενεργοποιήστε τις καμπύλες που θέλετε να χρησιμοποιήσετε πατώντας στην πρώτη "
 "στήλη."
 
-#: ../src/gui/encoder.cs:438 ../src/gui/encoder.cs:786
+#: ../src/gui/encoder.cs:561 ../src/gui/encoder.cs:909
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Αν θέλετε να επεξεργαστείτε ή να διαγράψετε μια γραμμή, δεξιοπατήστε την."
 
-#: ../src/gui/encoder.cs:453
+#: ../src/gui/encoder.cs:576
 msgid "Change the owner of selected curve"
 msgstr "Αλλαγή του κατόχου της επιλεγμένης καμπύλης"
 
-#: ../src/gui/encoder.cs:454 ../src/gui/encoder.cs:798
+#: ../src/gui/encoder.cs:577 ../src/gui/encoder.cs:921
 msgid "code"
 msgstr "κώδικας"
 
-#: ../src/gui/encoder.cs:454 ../src/gui/encoder.cs:798
+#: ../src/gui/encoder.cs:577 ../src/gui/encoder.cs:921
 msgid "name"
 msgstr "όνομα"
 
-#: ../src/gui/encoder.cs:459 ../src/gui/encoder.cs:803
-msgid "Close"
-msgstr "Κλείσιμο"
-
-#: ../src/gui/encoder.cs:600 ../src/gui/encoder.cs:693
+#: ../src/gui/encoder.cs:723 ../src/gui/encoder.cs:816
 msgid ""
 "Selected\n"
 "curves"
@@ -4644,7 +4728,7 @@ msgstr ""
 "Επιλεγμένες\n"
 "καμπύλες"
 
-#: ../src/gui/encoder.cs:601 ../src/gui/encoder.cs:694
+#: ../src/gui/encoder.cs:724 ../src/gui/encoder.cs:817
 msgid ""
 "All\n"
 "curves"
@@ -4653,215 +4737,258 @@ msgstr ""
 "καμπύλες"
 
 #. don't show now
-#: ../src/gui/encoder.cs:616
+#: ../src/gui/encoder.cs:739
 #, csharp-format
 msgid "Select persons to compare to {0}."
 msgstr "Επιλογή ατόμων για σύγκριση με το {0}."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:691 ../src/gui/person.cs:2142
+#: ../src/gui/encoder.cs:814 ../src/gui/person.cs:2148
 msgid "Session name"
 msgstr "Όνομα συνεδρίας"
 
-#: ../src/gui/encoder.cs:692
+#: ../src/gui/encoder.cs:815
 msgid "Session date"
 msgstr "Ημερομηνία συνεδρίας"
 
 #. don't show now
-#: ../src/gui/encoder.cs:709
+#: ../src/gui/encoder.cs:832
 #, csharp-format
 msgid "Compare curves of {0} from this session with the following sessions."
 msgstr ""
 "Σύγκριση καμπυλών του {0} από αυτήν τη συνεδρία με τις ακόλουθες συνεδρίες."
 
-#: ../src/gui/encoder.cs:769
+#: ../src/gui/encoder.cs:892
 msgid "Video"
 msgstr "Βίντεο"
 
 #. don't show now
-#: ../src/gui/encoder.cs:784
+#: ../src/gui/encoder.cs:907
 #, csharp-format
 msgid "Select signal of athlete {0} on this session."
 msgstr "Επιλογή σήματος του αθλητή {0} σε αυτήν τη συνεδρία."
 
-#: ../src/gui/encoder.cs:797
+#: ../src/gui/encoder.cs:920
 msgid "Change the owner of selected signal"
 msgstr "Αλλαγή του κατόχου του επιλεγμένου σήματος"
 
-#: ../src/gui/encoder.cs:849 ../src/gui/encoder.cs:3367
+#: ../src/gui/encoder.cs:974 ../src/gui/encoder.cs:3693
 msgid "Sorry, file not found"
 msgstr "Συγνώμη, δεν βρέθηκε το αρχείο"
 
-#: ../src/gui/encoder.cs:949
+#: ../src/gui/encoder.cs:1073
 msgid "Export session in format CSV"
 msgstr "Εξαγωγή συνεδρίας σε μορφή CSV"
 
-#: ../src/gui/encoder.cs:1019 ../src/gui/encoder.cs:2062
-#: ../src/gui/encoder.cs:2097
+#: ../src/gui/encoder.cs:1143 ../src/gui/encoder.cs:2251
+#: ../src/gui/encoder.cs:2286
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "Αδύνατη η αποθήκευση αρχείου {0} "
 
-#: ../src/gui/encoder.cs:1063
+#: ../src/gui/encoder.cs:1187
 msgid "Are you sure you want to delete this signal?"
 msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το σήμα;"
 
-#: ../src/gui/encoder.cs:1079
+#: ../src/gui/encoder.cs:1203
 msgid "Signal deleted"
 msgstr "Διαγραμμένο σήμα"
 
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:1193
+#: ../src/gui/encoder.cs:1317
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Αποθηκευμένη καμπύλη {0}"
 
-#: ../src/gui/encoder.cs:1196
+#: ../src/gui/encoder.cs:1320
 msgid "All curves saved"
 msgstr "Αποθήκευση όλων των καμπυλών"
 
-#: ../src/gui/encoder.cs:1279
+#: ../src/gui/encoder.cs:1405
 msgid "Signal saved"
 msgstr "Αποθήκευση σήματος"
 
 #. only signal is updated
 #. Adding on SQL
-#: ../src/gui/encoder.cs:1304
+#: ../src/gui/encoder.cs:1430
 msgid "Signal updated"
 msgstr "Ενημέρωση σήματος"
 
-#: ../src/gui/encoder.cs:1321
+#: ../src/gui/encoder.cs:1447
 msgid "Sorry, no curves selected."
 msgstr "Συγνώμη, δεν επιλέχτηκαν καμπύλες."
 
-#: ../src/gui/encoder.cs:1334 ../src/gui/encoder.cs:1950
+#: ../src/gui/encoder.cs:1460 ../src/gui/encoder.cs:2137
 msgid "Speed,Power / Load"
 msgstr "Ταχύτητα, ισχύς / φορτίο"
 
-#: ../src/gui/encoder.cs:1336 ../src/gui/encoder.cs:1952
-msgid "1RM Prediction"
-msgstr "Πρόβλεψη 1RM"
+#: ../src/gui/encoder.cs:1462 ../src/gui/encoder.cs:2139
+msgid "1RM Bench Press"
+msgstr "Πίεση πάγκου 1RM"
 
-#: ../src/gui/encoder.cs:1339
+#: ../src/gui/encoder.cs:1464 ../src/gui/encoder.cs:2139
+#| msgid "Add new exercise"
+msgid "1RM Any exercise"
+msgstr "Οποιαδήποτε άσκηση 1RM"
+
+#: ../src/gui/encoder.cs:1467
 msgid "Sorry, this graph is not supported yet."
 msgstr "Συγνώμη, αυτό το γράφημα δεν υποστηρίζεται ακόμα."
 
-#: ../src/gui/encoder.cs:1928
+#: ../src/gui/encoder.cs:1707
+msgid "Sorry, cannot calculate 1RM of different exercises."
+msgstr "Συγνώμη, αδύνατος ο υπολογισμός 1RM διαφορετικών ασκήσεων."
+
+#: ../src/gui/encoder.cs:2114
 msgid "No compare"
 msgstr "Χωρίς σύγκριση"
 
-#: ../src/gui/encoder.cs:1929
+#: ../src/gui/encoder.cs:2115
 msgid "Between persons"
 msgstr "Μεταξύ ατόμων"
 
-#: ../src/gui/encoder.cs:1930
+#: ../src/gui/encoder.cs:2116
 msgid "Between sessions"
 msgstr "Μεταξύ συνεδριών"
 
-#: ../src/gui/encoder.cs:1949
+#: ../src/gui/encoder.cs:2136
 msgid "Speed / Load"
 msgstr "Ταχύτητα / φορτίο"
 
-#: ../src/gui/encoder.cs:1949
+#: ../src/gui/encoder.cs:2136
 msgid "Force / Load"
 msgstr "Δύναμη / φορτίο"
 
-#: ../src/gui/encoder.cs:1950
+#: ../src/gui/encoder.cs:2137
 msgid "Power / Load"
 msgstr "Ισχύς / φορτίο"
 
-#: ../src/gui/encoder.cs:1951
+#: ../src/gui/encoder.cs:2138
 msgid "Force / Speed"
 msgstr "Δύναμη / ταχύτητα"
 
-#: ../src/gui/encoder.cs:1951
+#: ../src/gui/encoder.cs:2138
 msgid "Power / Speed"
 msgstr "Ισχύς / ταχύτητα"
 
-#: ../src/gui/encoder.cs:2142
+#: ../src/gui/encoder.cs:2298
+msgid "Not enough data."
+msgstr "Ανεπαρκή δεδομένα."
+
+#: ../src/gui/encoder.cs:2308
+msgid "Saved."
+msgstr "Αποθηκευμένο."
+
+#: ../src/gui/encoder.cs:2310
+#, csharp-format
+msgid "1RM found: {0} Kg."
+msgstr "Βρέθηκε 1RM: {0} κιλά."
+
+#: ../src/gui/encoder.cs:2311
+#, csharp-format
+#| msgid "Displaced body weight"
+msgid "Displaced body weight in this exercise: {0}%."
+msgstr "Μετατοπισμένο βάρος σώματος σε αυτήν την άσκηση: {0}%."
+
+#: ../src/gui/encoder.cs:2313
+#, csharp-format
+msgid "Saved 1RM without displaced body weight: {0} Kg."
+msgstr "Αποθηκευμένο 1RM χωρίς μετατοπισμένο βάρος σώματος: {0} κιλά."
+
+#: ../src/gui/encoder.cs:2405
 msgid "Encoder exercise name:"
 msgstr "Όνομα άσκησης κωδικοποιητή:"
 
-#: ../src/gui/encoder.cs:2143 ../src/gui/encoder.cs:2175
+#: ../src/gui/encoder.cs:2406 ../src/gui/encoder.cs:2447
 msgid "Displaced body weight"
 msgstr "Μετατοπισμένο βάρος σώματος"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:2145
+#: ../src/gui/encoder.cs:2408
 msgid "Resistance"
 msgstr "Αντίσταση"
 
+#: ../src/gui/encoder.cs:2410 ../src/gui/encoder.cs:2451
+#| msgid "Speed skating"
+msgid "Speed at 1RM"
+msgstr "Ταχύτητα στο 1RM"
+
 #. don't show now
-#: ../src/gui/encoder.cs:2174
+#: ../src/gui/encoder.cs:2446
 msgid "Write the name of the encoder exercise:"
 msgstr "Εγγραφή του ονόματος της άσκησης κωδικοποιητή:"
 
-#: ../src/gui/encoder.cs:2177
+#: ../src/gui/encoder.cs:2449
 msgid "Ressitance"
 msgstr "Αντίσταση"
 
-#: ../src/gui/encoder.cs:2179
+#: ../src/gui/encoder.cs:2453
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: ../src/gui/encoder.cs:2193
+#: ../src/gui/encoder.cs:2480
 msgid "Error: Missing name of exercise."
 msgstr "Σφάλμα: λείπει το όνομα της άσκησης."
 
-#: ../src/gui/encoder.cs:2196
+#: ../src/gui/encoder.cs:2483
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Σφάλμα: Μια άσκηση με όνομα '{0}' υπάρχει ήδη."
 
-#: ../src/gui/encoder.cs:2234 ../src/gui/encoder.cs:2347
+#: ../src/gui/encoder.cs:2526 ../src/gui/encoder.cs:2640
 msgid "Duration"
 msgstr "Διάρκεια"
 
-#: ../src/gui/encoder.cs:2235 ../src/gui/encoder.cs:2348
+#: ../src/gui/encoder.cs:2527 ../src/gui/encoder.cs:2641
 msgid "Range"
 msgstr "Περιοχή"
 
-#: ../src/gui/encoder.cs:2236 ../src/gui/encoder.cs:2349
+#: ../src/gui/encoder.cs:2528 ../src/gui/encoder.cs:2642
 msgid "MeanSpeed"
 msgstr "ΜέσηΤαχύτητα"
 
-#: ../src/gui/encoder.cs:2237 ../src/gui/encoder.cs:2350
+#: ../src/gui/encoder.cs:2529 ../src/gui/encoder.cs:2643
 msgid "MaxSpeed"
 msgstr "ΜέγιστηΤαχύτητα"
 
-#: ../src/gui/encoder.cs:2238 ../src/gui/encoder.cs:2351
+#: ../src/gui/encoder.cs:2530 ../src/gui/encoder.cs:2644
 msgid "MaxSpeedTime"
 msgstr "ΔιάρκειαΜέγιστηςΤαχύτητας"
 
-#: ../src/gui/encoder.cs:2239 ../src/gui/encoder.cs:2352
+#: ../src/gui/encoder.cs:2531 ../src/gui/encoder.cs:2645
 msgid "MeanPower"
 msgstr "ΜέσηΙσχύ"
 
-#: ../src/gui/encoder.cs:2240 ../src/gui/encoder.cs:2353
+#: ../src/gui/encoder.cs:2532 ../src/gui/encoder.cs:2646
 msgid "PeakPower"
 msgstr "ΚορυφήΙσχύος"
 
-#: ../src/gui/encoder.cs:2241 ../src/gui/encoder.cs:2354
+#: ../src/gui/encoder.cs:2533 ../src/gui/encoder.cs:2647
 msgid "PeakPowerTime"
 msgstr "ΔιάρκειαΚορυφήςΙσχύος"
 
-#: ../src/gui/encoder.cs:2242 ../src/gui/encoder.cs:2355
+#: ../src/gui/encoder.cs:2534 ../src/gui/encoder.cs:2648
 msgid "PeakPower/PPT"
 msgstr "ΚορυφήΙσχύος/PPT"
 
-#: ../src/gui/encoder.cs:2343
+#: ../src/gui/encoder.cs:2635
 msgid "Series"
 msgstr "Σειρά"
 
-#: ../src/gui/encoder.cs:3145 ../src/gui/encoder.cs:3237
+#: ../src/gui/encoder.cs:2638
+#| msgid "Displaced body weight"
+msgid "Displaced weight"
+msgstr "Μετατοπισμένο βάρος"
+
+#: ../src/gui/encoder.cs:3446 ../src/gui/encoder.cs:3539
 msgid "Please, wait."
 msgstr "Παρακαλούμε, περιμένετε."
 
-#: ../src/gui/encoder.cs:3297 ../src/gui/encoder.cs:3334
+#: ../src/gui/encoder.cs:3594 ../src/gui/encoder.cs:3632
 msgid "Cancelled"
 msgstr "Ακυρώθηκε"
 
-#: ../src/gui/encoder.cs:3305
+#: ../src/gui/encoder.cs:3602
 msgid "Finished"
 msgstr "Ολοκληρώθηκε"
 
@@ -4914,13 +5041,13 @@ msgid "Platforms"
 msgstr "Εξέδρες"
 
 #. put none in combo
-#: ../src/gui/genericWindow.cs:276 ../src/gui/genericWindow.cs:335
+#: ../src/gui/genericWindow.cs:296 ../src/gui/genericWindow.cs:355
 #: ../src/gui/person.cs:318 ../src/gui/person.cs:450 ../src/gui/stats.cs:213
 #: ../src/gui/stats.cs:972 ../src/stats/main.cs:234
 msgid "None"
 msgstr "Καμία"
 
-#: ../src/gui/genericWindow.cs:277 ../src/gui/genericWindow.cs:326
+#: ../src/gui/genericWindow.cs:297 ../src/gui/genericWindow.cs:346
 #: ../src/gui/stats.cs:214 ../src/stats/main.cs:239
 msgid "Invert"
 msgstr "Αντιστροφή"
@@ -5038,8 +5165,8 @@ msgid ""
 "At the line where port is shown right click and select <i>properties</i> "
 "(last option)."
 msgstr ""
-"Στη γραμμή όπου εμφανίζεται η θύρα δεξιοπατήστε και επιλέξτε "
-"<i>ιδιότητες</i> (τελευταία επιλογή)."
+"Στη γραμμή όπου εμφανίζεται η θύρα δεξιοπατήστε και επιλέξτε <i>ιδιότητες</"
+"i> (τελευταία επιλογή)."
 
 #: ../src/gui/helpPorts.cs:119
 msgid "Go to <i>Port configurations</i>."
@@ -5052,8 +5179,7 @@ msgstr "Μετάβαση στο <i>Προχωρημένες επιλογές</i>
 #: ../src/gui/helpPorts.cs:121
 msgid "Select COM1, COM2, COM3 or COM4 on the list shown on that window."
 msgstr ""
-"Επιλέξτε COM1, COM2, COM3 ή COM4 στην εμφανιζόμενη λίστα σε αυτό το "
-"παράθυρο."
+"Επιλέξτε COM1, COM2, COM3 ή COM4 στην εμφανιζόμενη λίστα σε αυτό το παράθυρο."
 
 #: ../src/gui/helpPorts.cs:122
 msgid "If COM1 - COM4 are <i>used</i>, then select unused ports below 10."
@@ -5186,53 +5312,53 @@ msgstr ""
 msgid "Edit jumper"
 msgstr "Επεξεργασία άλτη"
 
-#: ../src/gui/person.cs:1361 ../src/gui/session.cs:511
+#: ../src/gui/person.cs:1367 ../src/gui/session.cs:511
 msgid "Select session date"
 msgstr "Επιλογή ημερομηνίας συνεδρίας"
 
-#: ../src/gui/person.cs:1374
+#: ../src/gui/person.cs:1380
 msgid "Select your height"
 msgstr "Επιλογή ύψους σας"
 
-#: ../src/gui/person.cs:1388
+#: ../src/gui/person.cs:1394
 msgid "Select your weight in pounds"
 msgstr "Επιλογή του βάρους σας σε λίβρες"
 
-#: ../src/gui/person.cs:1531 ../src/gui/session.cs:524
+#: ../src/gui/person.cs:1537 ../src/gui/session.cs:524
 msgid "Add new sport to database"
 msgstr "Προσθήκη νέου αθλήματος στη βάση δεδομένων"
 
-#: ../src/gui/person.cs:1543 ../src/gui/session.cs:536
+#: ../src/gui/person.cs:1549 ../src/gui/session.cs:536
 #, csharp-format
 msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Συγνώμη, αυτό το άθλημα '{0}' υπάρχει ήδη στη βάση δεδομένων"
 
-#: ../src/gui/person.cs:1581
+#: ../src/gui/person.cs:1587
 #, csharp-format
 msgid "Person: '{0}' exists. Please, use another name"
 msgstr "Άτομο: Το '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
 
-#: ../src/gui/person.cs:1583
+#: ../src/gui/person.cs:1589
 msgid "Please select an sport"
 msgstr "Παρακαλούμε επιλέξτε ένα άθλημα"
 
-#: ../src/gui/person.cs:1589
+#: ../src/gui/person.cs:1595
 msgid "Please select an speciallity"
 msgstr "Παρακαλούμε επιλέξτε μια ειδικότητα"
 
-#: ../src/gui/person.cs:1593
+#: ../src/gui/person.cs:1599
 msgid "Please select a level"
 msgstr "Παρακαλούμε επιλέξτε ένα επίπεδο"
 
-#: ../src/gui/person.cs:1895
+#: ../src/gui/person.cs:1901
 msgid "Persons will be created with default session values"
 msgstr "Τα άτομα θα δημιουργηθούν με προεπιλεγμένες τιμές συνεδρίας"
 
-#: ../src/gui/person.cs:2144
+#: ../src/gui/person.cs:2150
 msgid "Date\n"
 msgstr "Ημερομηνία\n"
 
-#: ../src/gui/person.cs:2145
+#: ../src/gui/person.cs:2151
 msgid ""
 "Jumps\n"
 "simple"
@@ -5240,7 +5366,7 @@ msgstr ""
 "Απλά\n"
 "άλματα"
 
-#: ../src/gui/person.cs:2147
+#: ../src/gui/person.cs:2153
 msgid ""
 "Runs\n"
 "simple"
@@ -5248,7 +5374,7 @@ msgstr ""
 "Απλοί\n"
 "δρόμοι"
 
-#: ../src/gui/person.cs:2148
+#: ../src/gui/person.cs:2154
 msgid ""
 "Runs\n"
 "interval"
@@ -5256,7 +5382,7 @@ msgstr ""
 "Δρόμοι\n"
 "με διαλείμματα"
 
-#: ../src/gui/person.cs:2149
+#: ../src/gui/person.cs:2155
 msgid ""
 "Reaction\n"
 "time"
@@ -5264,33 +5390,33 @@ msgstr ""
 "Χρόνος\n"
 "αντίδρασης"
 
-#: ../src/gui/person.cs:2152 ../src/gui/session.cs:739
+#: ../src/gui/person.cs:2158 ../src/gui/session.cs:739
 msgid "Encoder signals"
 msgstr "Σήματα κωδικοποιητή"
 
-#: ../src/gui/person.cs:2153 ../src/gui/session.cs:740
+#: ../src/gui/person.cs:2159 ../src/gui/session.cs:740
 msgid "Encoder curves"
 msgstr "Καμπύλες κωδικοποιητή"
 
-#: ../src/gui/preferences.cs:256
+#: ../src/gui/preferences.cs:286
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "Στην καρτέλα αποτελεσμάτων αλμάτων, η ισχύς υπολογίζεται ανάλογα με τον τύπο "
 "του άλματος:"
 
-#: ../src/gui/preferences.cs:258
+#: ../src/gui/preferences.cs:288
 msgid "Jumps with TC & TF: Bosco Relative Power (W/Kg)"
 msgstr "Άλματα με TC & TF: Σχετική ισχύς Bosco (W/Kg)"
 
-#: ../src/gui/preferences.cs:260
+#: ../src/gui/preferences.cs:290
 msgid "P = 24.6 * (Total time + Flight time) / Contact time"
 msgstr "P = 24.6 * (Συνολικός χρόνος + Χρόνος πτήσης) / Χρόνος επαφής"
 
-#: ../src/gui/preferences.cs:262
+#: ../src/gui/preferences.cs:292
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Άλματα χωρίς TC: κορυφή ισχύος Lewis 1974 (W)"
 
-#: ../src/gui/preferences.cs:264
+#: ../src/gui/preferences.cs:294
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -5298,28 +5424,28 @@ msgstr ""
 "P = SQRT(4.9) * 9.8 * (βάρος σώματος+πρόσθετο βάρος) * SQRT(ύψος άλματος σε "
 "μέτρα)"
 
-#: ../src/gui/preferences.cs:266
+#: ../src/gui/preferences.cs:296
 msgid "If you want to use other formulas, go to Statistics."
 msgstr "Αν θέλετε να χρησιμοποιήσετε άλλους τύπους, πηγαίνετε στα στατιστικά."
 
-#: ../src/gui/preferences.cs:291 ../src/gui/preferences.cs:311
+#: ../src/gui/preferences.cs:321 ../src/gui/preferences.cs:341
 msgid "Error. Cannot find database."
 msgstr "Σφάλμα. Αδύνατη η εύρεση της βάσης δεδομένων."
 
-#: ../src/gui/preferences.cs:317
+#: ../src/gui/preferences.cs:347
 msgid "Copy database to:"
 msgstr "Αντιγραφή της βάσης δεδομένων σε:"
 
-#: ../src/gui/preferences.cs:321
+#: ../src/gui/preferences.cs:351
 msgid "Copy"
 msgstr "Αντιγραφή"
 
-#: ../src/gui/preferences.cs:337 ../src/gui/preferences.cs:362
+#: ../src/gui/preferences.cs:367 ../src/gui/preferences.cs:392
 #, csharp-format
 msgid "Copied to {0}"
 msgstr "Αντιγραμμένο στο {0}"
 
-#: ../src/gui/preferences.cs:342 ../src/gui/preferences.cs:365
+#: ../src/gui/preferences.cs:372 ../src/gui/preferences.cs:395
 #, csharp-format
 msgid "Cannot copy to file {0} "
 msgstr "Αδύνατη η αντιγραφή στο αρχείο {0} "
@@ -5463,7 +5589,8 @@ msgstr "Αόριστο"
 #: ../src/gui/runType.cs:175
 #, csharp-format
 msgid "Run type: '{0}' exists. Please, use another name"
-msgstr "Τύπος δρόμου: '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
+msgstr ""
+"Τύπος δρόμου: '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
 
 #: ../src/gui/runType.cs:360
 msgid "On RSA tests, rest time counts as a \"track\"."
@@ -5473,8 +5600,8 @@ msgstr "Σε εξετάσεις RSA, ο χρόνος ανάπαυσης μετρ
 msgid ""
 "You should write the time in seconds after a capital 'R' (meaning \"Rest\")."
 msgstr ""
-"Θα πρέπει να γράψετε τον χρόνο σε δευτερόλεπτα μετά από ένα κεφαλαίο 'R' "
-"(που σημαίνει \"Ανάπαυση\")."
+"Θα πρέπει να γράψετε τον χρόνο σε δευτερόλεπτα μετά από ένα κεφαλαίο "
+"'R' (που σημαίνει \"Ανάπαυση\")."
 
 #: ../src/gui/runType.cs:362
 msgid "Eg. Aziz et al. (2000) test repeats 8 times the following sequence:"
@@ -5554,7 +5681,7 @@ msgstr "Αυτό το επίπεδο:"
 msgid "Session: '{0}' exists. Please, use another name"
 msgstr "Συνεδρία: Το '{0}' υπάρχει. Παρακαλούμε, χρησιμοποιήστε ένα άλλο όνομα"
 
-#: ../src/gui/session.cs:721 ../src/gui/session.cs:959
+#: ../src/gui/session.cs:721 ../src/gui/session.cs:958
 msgid "Number"
 msgstr "Αριθμός"
 
@@ -5761,8 +5888,7 @@ msgstr "Σύντομη περιγραφή"
 #: ../src/runType.cs:145
 msgid "Subjects had to walk over the bar as fast as possible."
 msgstr ""
-"Τα υποκείμενα πρέπει να βαδίσουν πάνω από τη ράβδο όσο το δυνατό πιο "
-"γρήγορα."
+"Τα υποκείμενα πρέπει να βαδίσουν πάνω από τη ράβδο όσο το δυνατό πιο γρήγορα."
 
 #: ../src/runType.cs:146
 msgid "From one platform to another without falling down."
@@ -5818,7 +5944,7 @@ msgstr "Μπροστά από έναν τοίχο για αποφυγή αποσ
 
 #: ../src/runType.cs:162
 msgid "INSTRUCTIONS AND DEMONSTRATION: "
-msgstr "ΟΔΗΓΙΕΣ ΚΑΙ ΕΠΙΔΕΙΞΗ:"
+msgstr "ΟΔΗΓΙΕΣ ΚΑΙ ΕΠΙΔΕΙΞΗ: "
 
 #: ../src/runType.cs:163
 msgid ""
@@ -5833,8 +5959,8 @@ msgid ""
 "'Like this' means normal, with a foot in front of the other, not side by "
 "side."
 msgstr ""
-"'Όπως αυτό' σημαίνει κανονικά, με ένα πόδι μπροστά από το άλλο, όχι "
-"πλάι-πλάι."
+"'Όπως αυτό' σημαίνει κανονικά, με ένα πόδι μπροστά από το άλλο, όχι πλάι-"
+"πλάι."
 
 #: ../src/runType.cs:166
 msgid "SCORE: "
@@ -5908,8 +6034,8 @@ msgstr ""
 "έτοιμος, ο αθλητής τρέχει προς τον κώνο Β (ακουμπώντας τη γραμμή οποιοδήποτε "
 "πόδι), στρίβει και επιταχύνει προς τον κώνο Γ (ακουμπώντας τη γραμμή) και "
 "τελειώνει επιταχύνοντας μέσα από τη γραμμή του κώνου Α. Το χρονόμετρο ξεκινά "
-"με την πρώτη κίνηση του αθλητή και σταματά το ρολόι όταν ο κορμός του "
-"αθλητή διασχίζει την κεντρική γραμμή."
+"με την πρώτη κίνηση του αθλητή και σταματά το ρολόι όταν ο κορμός του αθλητή "
+"διασχίζει την κεντρική γραμμή."
 
 #: ../src/runType.cs:195 ../src/runType.cs:273
 msgid "Scoring"
@@ -5950,14 +6076,14 @@ msgid ""
 msgstr ""
 "Τα σημάδια τοποθετούνται 5 και 15 μέτρα από μια γραμμή σημειωμένη στο "
 "έδαφος. Ο αθλητής τρέχει από το σημάδι των 15 μέτρων προς τη γραμμή (τρέξιμο "
-"σε απόσταση για αύξηση της ταχύτητας) και από τα σημάδια των 5 m, φτάνει "
-"στη γραμμή και τρέχει πίσω προς τα σημάδια των 5 m. Ο χρόνος καταγράφεται "
-"από τότε που οι αθλητές τρέχουν πρώτα από τα σημάδια των 5 μέτρων και "
-"σταματά όταν επιστρέφουν σε αυτά τα σημάδια (δηλαδή, ο χρόνος που πέρασε για "
-"την κάλυψη της απόστασης των 5 m μπρος και πίσω - 10 m συνολικά). Η "
-"καλύτερη από τις δυο προσπάθειες καταγράφεται. Η ικανότητα στροφής σε κάθε "
-"πόδι πρέπει να ελεγχθεί. Το άτομο πρέπει να ενθαρρύνεται να μην ξεπεράσει τη "
-"γραμμή υπερβολικά, καθώς αυτό θα αυξήσει τον χρόνο του."
+"σε απόσταση για αύξηση της ταχύτητας) και από τα σημάδια των 5 m, φτάνει στη "
+"γραμμή και τρέχει πίσω προς τα σημάδια των 5 m. Ο χρόνος καταγράφεται από "
+"τότε που οι αθλητές τρέχουν πρώτα από τα σημάδια των 5 μέτρων και σταματά "
+"όταν επιστρέφουν σε αυτά τα σημάδια (δηλαδή, ο χρόνος που πέρασε για την "
+"κάλυψη της απόστασης των 5 m μπρος και πίσω - 10 m συνολικά). Η καλύτερη από "
+"τις δυο προσπάθειες καταγράφεται. Η ικανότητα στροφής σε κάθε πόδι πρέπει να "
+"ελεγχθεί. Το άτομο πρέπει να ενθαρρύνεται να μην ξεπεράσει τη γραμμή "
+"υπερβολικά, καθώς αυτό θα αυξήσει τον χρόνο του."
 
 #: ../src/runType.cs:215
 msgid ""
@@ -5997,7 +6123,7 @@ msgstr ""
 "τα χέρια στους ώμους. Με την εντολή 'Εκκίνηση' το χρονόμετρο ξεκινά και ο "
 "αθλητής σηκώνεται όσο πιο γρήγορα μπορεί και τρέχει γύρω από τη διαδρομή "
 "στην προβλεπόμενη κατεύθυνση, χωρίς να χτυπήσει τους κώνους, μέχρι τη γραμμή "
-"τερματισμού, όπου σταματά ο χρόνος. "
+"τερματισμού, όπου σταματά ο χρόνος."
 
 #: ../src/runType.cs:235
 msgid "The table below gives some rating scores (in seconds) for the test"
@@ -6094,8 +6220,7 @@ msgstr ""
 #: ../src/runType.cs:267
 msgid "This is a test of speed and agility, important in many sports."
 msgstr ""
-"Αυτή είναι μια εξέταση ταχύτητας και ευκινησίας, σημαντική σε πολλά "
-"αθλήματα."
+"Αυτή είναι μια εξέταση ταχύτητας και ευκινησίας, σημαντική σε πολλά αθλήματα."
 
 #: ../src/runType.cs:270
 msgid ""
@@ -6112,9 +6237,9 @@ msgstr ""
 "πόδια μακριά ή χρησιμοποιήστε σημάδια γραμμής και βάλτε δύο κομμάτια ξύλου ή "
 "παρόμοιου αντικειμένου πίσω από μία από τις γραμμές. Ξεκινώντας από την "
 "αντίθετη γραμμή από τα κομμάτια, με το σήμα 'Έτοιμος; Εκκίνηση' ο συμμετέχων "
-"τρέχει προς την άλλη γραμμή, σηκώνει ένα κομμάτι και επιστρέφει στη θέση "
-"του πίσω από την γραμμή εκκίνησης, έπειτα επιστρέφει για να σηκώσει το "
-"δεύτερο κομμάτι, έπειτα τρέχει με αυτό πίσω στη γραμμή."
+"τρέχει προς την άλλη γραμμή, σηκώνει ένα κομμάτι και επιστρέφει στη θέση του "
+"πίσω από την γραμμή εκκίνησης, έπειτα επιστρέφει για να σηκώσει το δεύτερο "
+"κομμάτι, έπειτα τρέχει με αυτό πίσω στη γραμμή."
 
 #: ../src/runType.cs:274
 msgid ""
@@ -7632,7 +7757,7 @@ msgstr[1] "Μέγιστες {0} τιμές κάθε ατόμου"
 #: ../src/stats/runSimple.cs:124 ../src/stats/sjCmjAbk.cs:124
 #: ../src/stats/sjCmjAbkPlus.cs:143
 msgid " various sessions "
-msgstr " ποικίλες συνεδρίες"
+msgstr " ποικίλες συνεδρίες "
 
 #: ../src/stats/djIndex.cs:129 ../src/stats/djQ.cs:129 ../src/stats/fv.cs:121
 #: ../src/stats/global.cs:152 ../src/stats/jumpIndexes.cs:134
@@ -7642,7 +7767,7 @@ msgstr " ποικίλες συνεδρίες"
 #: ../src/stats/runIntervallic.cs:258 ../src/stats/runSimple.cs:127
 #: ../src/stats/sjCmjAbk.cs:127 ../src/stats/sjCmjAbkPlus.cs:146
 msgid " session "
-msgstr " συνεδρία"
+msgstr " συνεδρία "
 
 #: ../src/stats/djIndex.cs:133
 #, csharp-format
@@ -7779,8 +7904,7 @@ msgstr "{0} στο {1} που εφαρμόστηκε στο {2} του {3}"
 #, csharp-format
 msgid "{0} at average of jumps using {1} applied to {2} on {3}"
 msgstr ""
-"{0} κατά μέσο όρο αλμάτων χρησιμοποιώντας {1} που εφαρμόστηκε στο {2} του "
-"{3}"
+"{0} κατά μέσο όρο αλμάτων χρησιμοποιώντας {1} που εφαρμόστηκε στο {2} του {3}"
 
 #: ../src/stats/rjEvolution.cs:279
 #, csharp-format
@@ -7800,8 +7924,7 @@ msgstr "{0} στην εξέλιξη Rj που εφαρμόστηκε στο {1} 
 #, csharp-format
 msgid "{0} in Rj Index [(tfavg-tcavg)/tcavg *100] applied to {1} on {2}"
 msgstr ""
-"{0} στον δείκτη Rj [(tfavg-tcavg)/tcavg *100] που εφαρμόστηκε στο {1} του "
-"{2}"
+"{0} στον δείκτη Rj [(tfavg-tcavg)/tcavg *100] που εφαρμόστηκε στο {1} του {2}"
 
 #: ../src/stats/runIntervallic.cs:265
 #, csharp-format
@@ -7872,3 +7995,6 @@ msgstr "Διαφορά"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Δρομέας"
+
+#~ msgid "Chonojump"
+#~ msgstr "Χρονοάλμα"

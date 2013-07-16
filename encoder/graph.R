@@ -84,7 +84,7 @@ write("(1/5) Starting R", OutputData2)
 
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
-findCurves <- function(rawdata, eccon, min_height, draw, title) {
+findCurves <- function(rawdata, eccon, min_height, draw, title, analysis) {
 	a=cumsum(rawdata)
 	b=extrema(a)
 	print("at findCurves")
@@ -177,11 +177,18 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		}
 	}
 	if(draw) {
+		lty=1
+		col="black"
+		if(analysis == "curvesRI") {
+			lty=2
+			col="gray"
+		}
 		plot((1:length(a))/1000			#ms -> s
 		     ,a/10,				#mm -> cm
 		     type="l",
 		     xlim=c(1,length(a))/1000,		#ms -> s
-		     xlab="",ylab="",axes=T) 
+		     xlab="",ylab="",axes=T,
+		     lty=lty,col=col) 
 		
 		title(title, cex.main=1, font.main=1)
 		mtext("time (s) ",side=1,adj=1,line=-1)
@@ -189,12 +196,53 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
 		#plot speed (currently disabled)	
-		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		#abline(h=0,lty=2,col="yellow")
-	        #lines((1:length(rawdata))/1000, speed$y*10, col="green")
-		#print("SPEEEDYYYY")
-		#print(max(speed$y))	
-		#print(min(speed$y))	
+		#if(analysis == "curvesRI") {
+		#	speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		#	abline(h=0,lty=2,col="green")
+	        #	lines((1:length(rawdata))/1000, speed$y*50, col="green")
+		#}
+	}
+	return(as.data.frame(cbind(start,end,startH)))
+}
+
+#all rawdata will be negative because we start on the top
+fixRawdataRIByKnowingHeight <- function(rawdata) {
+	#do not do this:
+	#rawdata[which(rawdata.c >= 0)] = rawdata[which(rawdata.c >= 0)]*-1
+	
+	#do this: work with cumsum, do ABS on cumsum, then *-1
+	#then to obtain rawdata again just do diff (and add first number)
+
+	rawdata.c = abs(cumsum(rawdata))*-1
+
+	lines((1:length(rawdata.c))/1000, rawdata.c/10, col="black", lwd=1)
+
+	#this is to make "inverted cumsum"
+	rawdata = c(0,diff(rawdata.c))
+
+	return(rawdata)
+}
+fixCurvesRIByKnowingHeight <- function(rawdata, curves) {
+	start=0; end=0; startH=0
+	count=0
+	n=length(curves[,1]) #rows
+	for(i in 1:n) {
+		a=rawdata[curves[i,1]:curves[i,2]]
+		a.cumsum=cumsum(a)
+		b.cumsum=extrema(a.cumsum)
+		changeAt = b.cumsum$maxindex[1,1]
+
+		#abline(v=(curves[i,1] + changeAt)/1000, col="green")
+		
+		count = count +1
+		start[count]=curves[i,1]
+		end[count]= curves[i,1] + changeAt
+		startH[count]=0
+		
+		count = count +1
+		start[count]= curves[i,1] + changeAt +1
+		end[count]=curves[i,2]
+		startH[count]=cumsum(rawdata)[curves[i,2]] #stored but incorrect because rawdata need to be corrected
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -207,6 +255,7 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	a=rawdata
 	
 	#debug
+	print("at reduceCurveBySpeed")
 	#print("startT and aaaaaaaaaaaaaaaaaaaaaaa")
 	#print(startT)
 	#print(a)
@@ -236,13 +285,14 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	bcrossLen = length(b$cross[,2])
 	if(bcrossLen == 0)
 		x.ini = 0
-	else if(bcrossLen == 1)
+	else if(bcrossLen == 1) {
 		if(b$cross[,2] < maxSpeedT) 
 			x.ini = b$cross[,2]
-	else 
+	} else { 
 		for(i in b$cross[,2]) 
 			if(i < maxSpeedT) 
 				x.ini = i
+	}
 
 	#debug
 	#print(b)
@@ -1277,7 +1327,7 @@ doProcess <- function(options) {
 	#	titleType="jump"
 
 	curvesPlot = FALSE
-	if(Analysis=="curves") {
+	if(Analysis == "curves" || Analysis == "curvesRI") {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,2,1))
 	}
@@ -1420,16 +1470,32 @@ doProcess <- function(options) {
 			quit()
 		}
 
+		if(Analysis == "curvesRI") 
+			Eccon = "ecS"
+		
+		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title, Analysis)
+
+		print("curves PRE")
+		print(curves)
+
+		if(Analysis == "curvesRI") {
+			rawdata = fixRawdataRIByKnowingHeight(rawdata)
+			curves = fixCurvesRIByKnowingHeight(rawdata, curves)
+
+		}
 		rawdata.cumsum=cumsum(rawdata)
 
-		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
+		print("curves POST")
 		print(curves)
+
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 
-		for(i in 1:n) { 
-			curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-						       SmoothingOneEC, SmoothingOneC)
+		if(Analysis != "curvesRI") {
+			for(i in 1:n) { 
+				curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+							       SmoothingOneEC, SmoothingOneC)
+			}
 		}
 		if(curvesPlot) {
 			#/10 mm -> cm
@@ -1439,6 +1505,8 @@ doProcess <- function(options) {
 				adjVert = 0
 				if(Eccon=="ecS") {
 					myEc=c("c","e")
+					if(Analysis == "curvesRI")
+						myEc=c("e","c")
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = rawdata.cumsum[curves[i,1]]/10
 					if(i%%2 == 1) {
@@ -1578,7 +1646,7 @@ doProcess <- function(options) {
 	if(
 	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
 	   Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise" || 
-	   Analysis == "curves" || writeCurves) 
+	   Analysis == "curves" || Analysis == "curvesRI" || writeCurves) 
 	{
 		paf = data.frame()
 		discardedCurves = NULL
@@ -1682,7 +1750,7 @@ doProcess <- function(options) {
 			paint1RMBadillo2010(paf, Title, OutputData1)
 		} 
 		
-		if(Analysis == "curves" || writeCurves) {
+		if(Analysis == "curves" || Analysis == "curvesRI" || writeCurves) {
 			if(singleFile)
 				paf=cbind(
 					  "1",			#seriesName

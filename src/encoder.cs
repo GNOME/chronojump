@@ -267,7 +267,18 @@ public class EncoderSQL
 	public string description;
 	public string future1;	//active or inactive curves
 	public string future2;	//URL of video of signals
-	public string future3;	//inverted
+	public string future3;	//Constants.EncoderSignalMode (only on signals)
+
+//TODO: 
+//convertir signal future3 inverted de "1" a "inverted" FET
+//convertir "0" i "" en "linear"			FET
+//pq potser sera "linear" or "linearinverted" or "rotaryinertial"	FET
+//fer que al capturar es gravi el future3 amb rotaryinertial o el que sigui (provar-ho amb el darrer capturat)
+//gui/encoder.cs quan es capturi amb RI (click a capture) es desactiva el inverted i es posi ecc-con
+//en un futur posar con-ecc
+//linear, linear inverted i rotaryinertial com a radiobutton FET
+//que findCurves trobi be totes les curves basant-se en el fixed i no en l'original pq llavors no troba les darreres
+
 	public string exerciseName;
 	
 	public string ecconLong;

@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.95";
+	static string lastChronojumpDatabaseVersion = "0.96";
 
 	public Sqlite() {
 	}
@@ -1286,6 +1286,23 @@ class Sqlite
 
 				currentVersion = "0.95";
 			}
+			if(currentVersion == "0.95") {
+				dbcon.Open();
+				
+				Update(true, Constants.EncoderTable, "future3", "", Constants.EncoderSignalMode.LINEAR.ToString(), 
+						"signalOrCurve", "signal");
+				Update(true, Constants.EncoderTable, "future3", "0", Constants.EncoderSignalMode.LINEAR.ToString(), 
+						"signalOrCurve", "signal");
+				Update(true, Constants.EncoderTable, "future3", "1", Constants.EncoderSignalMode.LINEARINVERTED.ToString(),
+						"signalOrCurve", "signal");
+
+				Log.WriteLine("Encoder signal future3 three modes");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.96", true); 
+				dbcon.Close();
+
+				currentVersion = "0.96";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1425,6 +1442,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.95 - 0.96 Converted DB to 0.96 Encoder signal future3 three modes
 		//0.94 - 0.95 Converted DB to 0.95 Added encoder1RMMethod
 		//0.93 - 0.94 Converted DB to 0.94 Added encoder1RM table
 		//0.92 - 0.93 Converted DB to 0.93 Added speed1RM on encoder exercise
@@ -2187,6 +2205,28 @@ Console.WriteLine("5" + tableName);
 		if(!dbconOpened)
 			dbcon.Close();
 		return myReturn;
+	}
+
+	public static void Update(bool dbconOpened, string tableName, string columnName, string searchValue, string newValue, 
+			string columnNameCondition2, string searchValueCondition2)
+	{
+		if( ! dbconOpened)
+			dbcon.Open();
+		
+		string andStr = "";
+		if(columnNameCondition2 != "" && searchValueCondition2 != "")
+			andStr = " AND " + columnNameCondition2 + " == '" + searchValueCondition2 + "'"; 
+
+		dbcmd.CommandText = "Update " + tableName +
+			" SET " + columnName + " = '" + newValue + "'" +  
+			" WHERE " + columnName + " == '" + searchValue + "'" + 
+			andStr
+			;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
 	}
 
 	public static void Delete(bool dbconOpened, string tableName, int uniqueID)

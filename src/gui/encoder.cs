@@ -35,10 +35,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_displaced_weight;
 	[Widget] Gtk.SpinButton spin_encoder_1RM_percent;
 	
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear_inverted;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_inertial;
+
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_external;
-	[Widget] Gtk.CheckButton check_encoder_inverted;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
@@ -144,6 +147,7 @@ public partial class ChronoJumpWindow
 	double encoderSmoothCon;
 
 	bool lastRecalculateWasInverted;
+	//bool capturingRotaryInertial;
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -263,7 +267,7 @@ public partial class ChronoJumpWindow
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
 				repetitiveConditionsWin.EncoderMainVariable,
-				check_encoder_inverted.Active
+				radiobutton_encoder_capture_linear_inverted.Active
 				); 
 
 		EncoderStruct es = new EncoderStruct(
@@ -274,7 +278,7 @@ public partial class ChronoJumpWindow
 				"", 					//SpecialData
 				ep);				
 				
-		lastRecalculateWasInverted = check_encoder_inverted.Active;
+		lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
 
 		if (radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
@@ -419,11 +423,11 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
 		if (File.Exists(Util.GetEncoderDataTempFileName())) {
-			//change sign on signal file if check_encoder_inverted changed
+			//change sign on signal file if radiobutton_encoder_capture_linear_inverted.Active changed
 	
-			if(lastRecalculateWasInverted != check_encoder_inverted.Active) {
+			if(lastRecalculateWasInverted != radiobutton_encoder_capture_linear_inverted.Active) {
 				Util.ChangeSign(Util.GetEncoderDataTempFileName());
-				lastRecalculateWasInverted = check_encoder_inverted.Active;
+				lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
 			}
 			
 			encoderThreadStart(encoderModes.RECALCULATE_OR_LOAD);
@@ -483,11 +487,21 @@ public partial class ChronoJumpWindow
 	//called on calculatecurves, recalculate and load
 	private void encoderCreateCurvesGraphR() 
 	{
+		string analysis = "curves";
+		//if(capturingRotaryInertial)
+		if(radiobutton_encoder_capture_rotary_inertial.Active)
+			analysis = "curvesRI";
+
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
 
-		string future3 = Util.BoolToInt(check_encoder_inverted.Active).ToString();
+		string future3 = Constants.EncoderSignalMode.LINEAR.ToString();
+		if(radiobutton_encoder_capture_linear_inverted.Active)
+			future3 = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+		//if(capturingRotaryInertial)
+		if(radiobutton_encoder_capture_rotary_inertial.Active)
+			future3 = Constants.EncoderSignalMode.ROTARYINERTIAL.ToString();
 		
 		//see explanation on the top of this file
 		lastEncoderSQL = new EncoderSQL(
@@ -517,14 +531,16 @@ public partial class ChronoJumpWindow
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMassFromCombo(true)),
 				findEccon(true),					//force ecS (ecc-conc separated)
-				"curves",
+				analysis,
 				analysisOptions,
 				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
 				Util.GetDecimalSeparator()
-				); 
+				);
+
+		//capturingRotaryInertial = false;
 
 		EncoderStruct es = new EncoderStruct(
 				Util.GetEncoderDataTempFileName(), 
@@ -995,8 +1011,11 @@ public partial class ChronoJumpWindow
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
 				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
-				check_encoder_inverted.Active = (es.future3 == "1");
-				lastRecalculateWasInverted = check_encoder_inverted.Active;
+				radiobutton_encoder_capture_linear_inverted.Active = 
+					(es.future3 == Constants.EncoderSignalMode.LINEARINVERTED.ToString());
+				lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
+				radiobutton_encoder_capture_rotary_inertial.Active = 
+					(es.future3 == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
 			}
 		}
 
@@ -1413,7 +1432,8 @@ public partial class ChronoJumpWindow
 		string future3 = ""; //unused on curve	
 		if(mode == "signal") {
 			myID = encoderSignalUniqueID;
-			future3 = Util.BoolToInt(check_encoder_inverted.Active).ToString();
+			if(radiobutton_encoder_capture_linear_inverted.Active)
+				future3 = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
 		}
 
 		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things
@@ -1527,8 +1547,11 @@ public partial class ChronoJumpWindow
 		Thread.Sleep(500);	
 
 		//will start calcule curves thread
-		if(capturedOk)
+		if(capturedOk) {
+			//capturingRotaryInertial = radiobutton_encoder_capture_rotary_inertial.Active;
+			
 			calculeCurves();
+		}
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
@@ -1584,7 +1607,7 @@ public partial class ChronoJumpWindow
 				byteReaded = byteReaded - 256;
 
 			//invert sign if inverted is selected
-			if(check_encoder_inverted.Active)
+			if(radiobutton_encoder_capture_linear_inverted.Active)
 				byteReaded *= -1;
 
 			i=i+1;

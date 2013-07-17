@@ -12029,13 +12029,14 @@ on current Chronojump version.</property>
                                                             <widget class="GtkHBox" id="hbox90">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="spacing">8</property>
+                                                            <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radiobutton_encoder_capture_linear">
-                                                            <property name="label" translatable="yes">Linear (default)</property>
+                                                            <property name="label" translatable="yes">Linear</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Linear encoder (default)</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
@@ -12053,7 +12054,7 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Linear Encoder upside down</property>
+                                                            <property name="tooltip" translatable="yes">Linear encoder upside down</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radiobutton_encoder_capture_linear</property>
@@ -12065,13 +12066,13 @@ on current Chronojump version.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="radiobutton_encoder_capture_rotary_inertial">
-                                                            <property name="label" translatable="yes">Rotary / inertial</property>
+                                                            <widget class="GtkRadioButton" id="radiobutton_encoder_capture_rotary">
+                                                            <property name="label" translatable="yes">Rotary</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="has_tooltip">True</property>
-                                                            <property name="tooltip" translatable="yes">Rotary encoder on inertial machine</property>
+                                                            <property name="tooltip" translatable="yes">Rotary encoder</property>
                                                             <property name="use_action_appearance">False</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radiobutton_encoder_capture_linear</property>
@@ -12087,6 +12088,59 @@ on current Chronojump version.</property>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
                                                             <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkHBox" id="hbox_encoder_capture_inertial">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="spacing">4</property>
+                                                            <child>
+                                                            <widget class="GtkCheckButton" id="checkbutton_encoder_capture_inertial">
+                                                            <property name="label" translatable="yes">Inertial</property>
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="tooltip" translatable="yes">Inertial machine (Yoyo, VersaPulley)</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="draw_indicator">True</property>
+                                                            <signal name="clicked" handler="on_checkbutton_encoder_capture_inertial_clicked" swapped="no"/>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">0</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkSpinButton" id="spin_encoder_capture_inertial">
+                                                            <property name="can_focus">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Inertia Momentum</property>
+                                                            <property name="invisible_char">●</property>
+                                                            <property name="invisible_char_set">True</property>
+                                                            <property name="primary_icon_activatable">False</property>
+                                                            <property name="secondary_icon_activatable">False</property>
+                                                            <property name="primary_icon_sensitive">True</property>
+                                                            <property name="secondary_icon_sensitive">True</property>
+                                                            <property name="adjustment">0.01 0 1 0.01 0.01 0</property>
+                                                            <property name="climb_rate">1</property>
+                                                            <property name="digits">3</property>
+                                                            <property name="snap_to_ticks">True</property>
+                                                            <property name="numeric">True</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
+                                                            <property name="position">2</property>
                                                             </packing>
                                                             </child>
                                                           </widget>
@@ -12800,7 +12854,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkHBox" id="hbox77">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">10</property>
+                                                    <property name="spacing">8</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_encoder_load_signal">
                                                         <property name="visible">True</property>
@@ -12845,7 +12899,7 @@ on current Chronojump version.</property>
                                                       <widget class="GtkHBox" id="hbox107">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">4</property>
+                                                        <property name="spacing">8</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_capture_cancel">
                                                             <property name="visible">True</property>
@@ -12917,7 +12971,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkHBox" id="hbox82">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">10</property>
+                                                    <property name="spacing">8</property>
                                                     <child>
                                                       <widget class="GtkProgressBar" id="encoder_pulsebar_capture">
                                                         <property name="visible">True</property>
@@ -12969,7 +13023,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkHBox" id="hbox87">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">10</property>
+                                                    <property name="spacing">8</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox85">
                                                         <property name="width_request">150</property>

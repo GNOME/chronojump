@@ -72,7 +72,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.96";
+	static string lastChronojumpDatabaseVersion = "0.97";
 
 	public Sqlite() {
 	}
@@ -1303,6 +1303,17 @@ class Sqlite
 
 				currentVersion = "0.96";
 			}
+			if(currentVersion == "0.96") {
+				dbcon.Open();
+				
+				SqlitePreferences.Insert ("inertialmomentum", "0.01");
+				Log.WriteLine("Added inertialmomentum in preferences");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.97", true); 
+				dbcon.Close();
+
+				currentVersion = "0.97";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1442,6 +1453,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.96 - 0.97 Converted DB to 0.97 Added inertialmomentum in preferences
 		//0.95 - 0.96 Converted DB to 0.96 Encoder signal future3 three modes
 		//0.94 - 0.95 Converted DB to 0.95 Added encoder1RMMethod
 		//0.93 - 0.94 Converted DB to 0.94 Added encoder1RM table

@@ -37,7 +37,9 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear_inverted;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_inertial;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary;
+	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
+	[Widget] Gtk.SpinButton spin_encoder_capture_inertial;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
@@ -200,6 +202,9 @@ public partial class ChronoJumpWindow
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
 		createEncoderCombos();
+		
+		spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
+					SqlitePreferences.Select("inertialmomentum")));
 	}
 	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
@@ -280,6 +285,9 @@ public partial class ChronoJumpWindow
 				
 		lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
 
+		//Update inertia momentum of encoder if needed
+		SqlitePreferences.Update("inertialmomentum", Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
+
 		if (radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
 		
@@ -313,6 +321,10 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	void on_checkbutton_encoder_capture_inertial_clicked (object o, EventArgs args) {
+		spin_encoder_capture_inertial.Visible = (checkbutton_encoder_capture_inertial.Active);
+	}
+
 	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
 		if(UtilGtk.ComboGetActive(combo_encoder_exercise) != "") //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
 			encoder_change_displaced_weight_and_1RM ();
@@ -489,8 +501,9 @@ public partial class ChronoJumpWindow
 	{
 		string analysis = "curves";
 		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary_inertial.Active)
-			analysis = "curvesRI";
+		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
+			analysis = "curvesRI;" + Util.ConvertToPoint( //inertial momentum with '.' for R
+					(double) spin_encoder_capture_inertial.Value);
 
 		string analysisOptions = "-";
 		if(encoderPropulsive)
@@ -500,7 +513,7 @@ public partial class ChronoJumpWindow
 		if(radiobutton_encoder_capture_linear_inverted.Active)
 			future3 = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
 		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary_inertial.Active)
+		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
 			future3 = Constants.EncoderSignalMode.ROTARYINERTIAL.ToString();
 		
 		//see explanation on the top of this file
@@ -1014,7 +1027,11 @@ public partial class ChronoJumpWindow
 				radiobutton_encoder_capture_linear_inverted.Active = 
 					(es.future3 == Constants.EncoderSignalMode.LINEARINVERTED.ToString());
 				lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
-				radiobutton_encoder_capture_rotary_inertial.Active = 
+				radiobutton_encoder_capture_rotary.Active = 
+					(es.future3 == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
+
+				//TODO: add also spinbutton 
+				checkbutton_encoder_capture_inertial.Active = 
 					(es.future3 == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
 			}
 		}
@@ -1548,7 +1565,7 @@ public partial class ChronoJumpWindow
 
 		//will start calcule curves thread
 		if(capturedOk) {
-			//capturingRotaryInertial = radiobutton_encoder_capture_rotary_inertial.Active;
+			//capturingRotaryInertial = radiobutton_encoder_capture_rotaryl.Active && checkbutton_encoder_capture_inertial.Active
 			
 			calculeCurves();
 		}

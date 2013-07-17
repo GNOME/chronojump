@@ -76,6 +76,7 @@ class SqlitePreferences : Sqlite
 		Insert ("encoderSmoothCon", "0.7");
 		Insert ("videoDevice", "0"); //first
 		Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString());
+		Insert ("inertialmomentum", "0.01");
 	}
 
 	public static void Insert(string myName, string myValue)

@@ -1326,8 +1326,12 @@ doProcess <- function(options) {
 	#if(isJump)
 	#	titleType="jump"
 
+	Analysis on curvesRI comes:
+	#"curvesRI;0.001" [1] string [2] inertia momentum
+	analysisCurves = unlist(strsplit(Analysis, "\\;"))
+	
 	curvesPlot = FALSE
-	if(Analysis == "curves" || Analysis == "curvesRI") {
+	if(Analysis == "curves" || analysisCurves[1] == "curvesRI") {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,2,1))
 	}
@@ -1470,15 +1474,15 @@ doProcess <- function(options) {
 			quit()
 		}
 
-		if(Analysis == "curvesRI") 
+		if(analysisCurves[1] == "curvesRI") 
 			Eccon = "ecS"
 		
-		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title, Analysis)
+		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title, analysisCurves[1])
 
 		print("curves PRE")
 		print(curves)
 
-		if(Analysis == "curvesRI") {
+		if(analysisCurves[1] == "curvesRI") {
 			rawdata = fixRawdataRIByKnowingHeight(rawdata)
 			curves = fixCurvesRIByKnowingHeight(rawdata, curves)
 
@@ -1491,7 +1495,7 @@ doProcess <- function(options) {
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 
-		if(Analysis != "curvesRI") {
+		if(analysisCurves[1] != "curvesRI") {
 			for(i in 1:n) { 
 				curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
 							       SmoothingOneEC, SmoothingOneC)
@@ -1505,7 +1509,7 @@ doProcess <- function(options) {
 				adjVert = 0
 				if(Eccon=="ecS") {
 					myEc=c("c","e")
-					if(Analysis == "curvesRI")
+					if(analysisCurves[1] == "curvesRI")
 						myEc=c("e","c")
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = rawdata.cumsum[curves[i,1]]/10
@@ -1646,7 +1650,7 @@ doProcess <- function(options) {
 	if(
 	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
 	   Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise" || 
-	   Analysis == "curves" || Analysis == "curvesRI" || writeCurves) 
+	   Analysis == "curves" || analysisCurves[1] == "curvesRI" || writeCurves) 
 	{
 		paf = data.frame()
 		discardedCurves = NULL
@@ -1750,7 +1754,7 @@ doProcess <- function(options) {
 			paint1RMBadillo2010(paf, Title, OutputData1)
 		} 
 		
-		if(Analysis == "curves" || Analysis == "curvesRI" || writeCurves) {
+		if(Analysis == "curves" || analysisCurves[1] == "curvesRI" || writeCurves) {
 			if(singleFile)
 				paf=cbind(
 					  "1",			#seriesName

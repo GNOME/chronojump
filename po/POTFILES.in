@@ -51,6 +51,7 @@ src/report.cs
 src/runType.cs
 src/server.cs
 src/serverPing.cs
+src/sqlite/main.cs
 src/sqlite/country.cs
 src/sqlite/personSession.cs
 src/sqlite/server.cs

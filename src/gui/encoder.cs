@@ -2165,9 +2165,9 @@ Log.WriteLine(str);
 		combo_encoder_eccon.Changed += new EventHandler (on_combo_encoder_eccon_changed);
 		
 		//create combo laterality
-		string [] comboLateralityOptions = { "Both", "Right", "Left" };
+		string [] comboLateralityOptions = { "RL", "R", "L" };
 		string [] comboLateralityOptionsTranslated = { 
-			Catalog.GetString("Both"), Catalog.GetString("Right"), Catalog.GetString("Left") };
+			Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L") };
 		encoderLateralityTranslation = new String [comboLateralityOptions.Length];
 		for(int j=0; j < 3 ; j++)
 			encoderLateralityTranslation[j] = 

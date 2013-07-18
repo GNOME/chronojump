@@ -328,6 +328,7 @@ RESOURCES = \
 	../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	../images/gtk-new-1.png,gtk-new-1.png \
 	../images/gtk-new-plus.png,gtk-new-plus.png \
+	../images/gtk-open.png,gtk-open.png \
 	../images/gtk-open-1.png,gtk-open-1.png \
 	../images/gtk-open-plus.png,gtk-open-plus.png \
 	../images/calendar.png,calendar.png \

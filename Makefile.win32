@@ -355,6 +355,7 @@ CHRONOJUMP_RESOURCES =  \
 	-resource:../images/gtk-zoom-in-with-text.png,gtk-zoom-in-with-text.png \
 	-resource:../images/gtk-new-1.png,gtk-new-1.png \
 	-resource:../images/gtk-new-plus.png,gtk-new-plus.png \
+	-resource:../images/gtk-open.png,gtk-open.png \
 	-resource:../images/gtk-open-1.png,gtk-open-1.png \
 	-resource:../images/gtk-open-plus.png,gtk-open-plus.png \
 	-resource:../images/chronojump_320.png,chronojump_320.png \

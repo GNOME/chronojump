@@ -2157,11 +2157,20 @@ Log.WriteLine(str);
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) == "Concentric") 
 			return "c";
-		else {
+		else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) == "Eccentric-concentric") 
+		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ecS";
 			else 
 				return "ec";
+		}
+		else
+		{
+			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
+				return "ceS";
+			else 
+				return "ce";
 		}
 	}
 	
@@ -2194,11 +2203,11 @@ Log.WriteLine(str);
 		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
 		
 		//create combo eccon
-		string [] comboEcconOptions = { "Concentric", "Eccentric-concentric" };
+		string [] comboEcconOptions = { "Concentric", "Eccentric-concentric", "Concentric-eccentric" };
 		string [] comboEcconOptionsTranslated = { 
-			Catalog.GetString("Concentric"), Catalog.GetString("Eccentric-concentric") };
+			Catalog.GetString("Concentric"), Catalog.GetString("Eccentric-concentric"), Catalog.GetString("Concentric-eccentric") };
 		encoderEcconTranslation = new String [comboEcconOptions.Length];
-		for(int j=0; j < 2 ; j++)
+		for(int j=0; j < 3 ; j++)
 			encoderEcconTranslation[j] = comboEcconOptions[j] + ":" + comboEcconOptionsTranslated[j];
 		combo_encoder_eccon = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_encoder_eccon, comboEcconOptionsTranslated, "");

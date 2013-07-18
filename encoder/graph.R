@@ -42,7 +42,7 @@
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
-eccons=c("c","ec","ecS") 
+eccons=c("c","ec","ecS","ce","ceS") 
 
 g = 9.81
 smoothingAll= 0.1
@@ -127,12 +127,25 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			} 
 			i=i+1; j=j+1
 		}
-	} else { #ec, ecS
+	} else { #ec, ecS, ce, ceS
 		row=1; i=1; j=2
+
+		referenceindex=0
+		if(eccon=="ec" || eccon=="ecS") {
+			referenceindex=b$maxindex
+		} else {
+			referenceindex=b$minindex
+		}
+
 		#when saved a row with ec-con, and there's only this curve, extrema doesn't find maxindex
-		if(length(b$maxindex) == 0) {
+		if(length(referenceindex) == 0) {
 			start[1] =1
-			end[1]   = mean(which(a == min(a)))
+			
+			if(eccon=="ec" || eccon=="ecS")
+				end[1]   = mean(which(a == min(a)))
+			else
+				end[1]   = mean(which(a == max(a)))
+
 			startH[1]=a[1]
 			start[2] =end[1]+1
 			end[2]   =length(a)
@@ -142,19 +155,26 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		#if a person starts stand up and goes down, extrema maxindex don't find the initial position
 		#if this person does 3 squats, only 2 will be found
 		#add first value of all the serie (1ms time) to maxindex to help to detect this first curve
-		b$maxindex = rbind(c(1,1),b$maxindex)
+		referenceindex = rbind(c(1,1),referenceindex)
 
-		while(j <= length(b$maxindex[,1])) {
-			tempStart = mean(c(b$maxindex[i,1],b$maxindex[i,2]))
-			tempEnd   = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
-			bottom=min(a[tempStart:tempEnd]) #find min value between the two tops
-			mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
-			height=mintop-bottom
+		while(j <= length(referenceindex[,1])) {
+			tempStart = mean(c(referenceindex[i,1],referenceindex[i,2]))
+			tempEnd   = mean(c(referenceindex[j,1],referenceindex[j,2]))
+		
+			if(eccon=="ec" || eccon=="ecS") {
+				opposite=min(a[tempStart:tempEnd]) #find min value between the two tops
+				mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
+				height=mintop-opposite
+			} else {
+				opposite=max(a[tempStart:tempEnd]) #find max value between the two bottoms
+				maxbottom=max(c(a[tempStart],a[tempEnd])) #find wich bottom is higher
+				height=abs(maxbottom-opposite)
+			}
 			if(height >= min_height) { 
-				if(eccon == "ecS") {
+				if(eccon == "ecS" || eccon == "ceS") {
 					start[row] = tempStart
-					end[row]   = mean(which(a[tempStart:tempEnd] == bottom) + tempStart)
-					startH[row] = a[b$maxindex[i,1]]		#height at start
+					end[row]   = mean(which(a[tempStart:tempEnd] == opposite) + tempStart)
+					startH[row] = a[referenceindex[i,1]]		#height at start
 					row=row+1
 					start[row] = end[(row-1)] + 1
 					end[row]   = tempEnd
@@ -164,13 +184,19 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 				} else {
 					start[row] = tempStart
 					end[row]   = tempEnd
-					startH[row] = a[b$maxindex[i,1]]		#height at start
+					startH[row] = a[referenceindex[i,1]]		#height at start
 					row=row+1
 					i=j
 				}
 			} else {
-				if(a[tempEnd] >= a[tempStart]) {
-					i=j
+				if(eccon=="ec" || eccon=="ecS") {
+					if(a[tempEnd] >= a[tempStart]) {
+						i=j
+					}
+				} else {
+					if(a[tempEnd] <= a[tempStart]) {
+						i=j
+					}
 				}
 			}
 			j=j+1
@@ -1466,14 +1492,20 @@ doProcess <- function(options) {
 				myLabel = i
 				myY = min(rawdata.cumsum)/10
 				adjVert = 0
-				if(Eccon=="ecS") {
+				if(Eccon=="ceS")
+					adjVert = 1
+
+				if(Eccon=="ecS" || Eccon=="ceS") {
 					myEc=c("c","e")
-					#if(analysisCurves[1] == "curvesRI")
-					#	myEc=c("e","c")
+					if(Eccon=="ceS")
+						myEc=c("e","c")
+					
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = rawdata.cumsum[curves[i,1]]/10
 					if(i%%2 == 1) {
 						adjVert = 1
+						if(Eccon=="ceS")
+							adjVert = 0
 					}
 				}
 				text(x=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s

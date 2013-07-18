@@ -493,6 +493,60 @@ public partial class ChronoJumpWindow
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
+	private string getEncoderTypeByCombos() {
+		string str = "";
+		if(radiobutton_encoder_capture_linear.Active) {
+			if(checkbutton_encoder_capture_inertial.Active)
+				str = Constants.EncoderSignalMode.LINEARINERTIAL.ToString();
+			else
+				str = Constants.EncoderSignalMode.LINEAR.ToString();
+		}
+		else if(radiobutton_encoder_capture_linear_inverted.Active) {
+			if(checkbutton_encoder_capture_inertial.Active)
+				str = Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString();
+			else
+				str = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+		}
+		else { //(radiobutton_encoder_capture_rotary.Active)
+			if(checkbutton_encoder_capture_inertial.Active)
+				str = Constants.EncoderSignalMode.ROTARYINERTIAL.ToString();
+			else
+				str = Constants.EncoderSignalMode.ROTARY.ToString();
+		}
+			
+		if(checkbutton_encoder_capture_inertial.Active)
+			str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value);
+
+		return str;
+	}
+	
+	private void setEncoderCombos(string str) {
+		if(str == Constants.EncoderSignalMode.LINEAR.ToString()) {
+			radiobutton_encoder_capture_linear.Active = true;
+			checkbutton_encoder_capture_inertial.Active = false;
+		}
+		else if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+			radiobutton_encoder_capture_linear_inverted.Active = true;
+			checkbutton_encoder_capture_inertial.Active = false;
+		}
+		else if(str == Constants.EncoderSignalMode.ROTARY.ToString()) {
+			radiobutton_encoder_capture_rotary.Active = true;
+			checkbutton_encoder_capture_inertial.Active = false;
+		}
+		else { //inertial machines
+			checkbutton_encoder_capture_inertial.Active = true;
+			string [] strFull = str.Split(new char[] {'-'});
+			spin_encoder_capture_inertial.Value = 
+				Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+			
+			if (str.StartsWith(Constants.EncoderSignalMode.LINEARINERTIAL.ToString() + "-" ))
+				radiobutton_encoder_capture_linear.Active = true;
+			else if (str.StartsWith(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() + "-" ))
+				radiobutton_encoder_capture_linear_inverted.Active = true;
+			else //(str.StartsWith(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString() + "-" ))
+				radiobutton_encoder_capture_rotary.Active = true;
+		}
+	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
@@ -509,12 +563,7 @@ public partial class ChronoJumpWindow
 		if(encoderPropulsive)
 			analysisOptions = "p";
 
-		string future3 = Constants.EncoderSignalMode.LINEAR.ToString();
-		if(radiobutton_encoder_capture_linear_inverted.Active)
-			future3 = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
-		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
-			future3 = Constants.EncoderSignalMode.ROTARYINERTIAL.ToString();
+		string future3 = getEncoderTypeByCombos();
 		
 		//see explanation on the top of this file
 		lastEncoderSQL = new EncoderSQL(
@@ -1024,15 +1073,8 @@ public partial class ChronoJumpWindow
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
 				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
-				radiobutton_encoder_capture_linear_inverted.Active = 
-					(es.future3 == Constants.EncoderSignalMode.LINEARINVERTED.ToString());
-				lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
-				radiobutton_encoder_capture_rotary.Active = 
-					(es.future3 == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
 
-				//TODO: add also spinbutton 
-				checkbutton_encoder_capture_inertial.Active = 
-					(es.future3 == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
+				setEncoderCombos(es.future3);
 			}
 		}
 
@@ -1449,8 +1491,7 @@ public partial class ChronoJumpWindow
 		string future3 = ""; //unused on curve	
 		if(mode == "signal") {
 			myID = encoderSignalUniqueID;
-			if(radiobutton_encoder_capture_linear_inverted.Active)
-				future3 = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+			future3 = getEncoderTypeByCombos();
 		}
 
 		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things

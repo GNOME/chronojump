@@ -602,7 +602,10 @@ public class Constants
 	public static string EncoderGraphInputMulti = "chronojump-encoder-graph-input-multi.csv"; 
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
-	public enum EncoderSignalMode { LINEAR, LINEARINVERTED, ROTARYINERTIAL }
+	public enum EncoderSignalMode { 
+		LINEAR, LINEARINVERTED, ROTARY, 
+		LINEARINERTIAL, LINEARINVERTEDINERTIAL, ROTARYINERTIAL 
+	}
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 

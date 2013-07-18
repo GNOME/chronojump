@@ -56,7 +56,7 @@ class SqliteEncoder : Sqlite
 			"description TEXT, " +
 			"future1 TEXT, " +	//works as status: "active", "inactive"
 			"future2 TEXT, " +	//URL of video of signals
-			"future3 TEXT )";	//Constants.EncoderSignalMode (only on signals)
+			"future3 TEXT )";	//Constants.EncoderSignalMode (only on signals) (add "-0.01" for inertia momentum)
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -82,7 +82,7 @@ class SqliteEncoder : Sqlite
 				es.url + "', " + es.time + ", " + es.minHeight + ", " +
 				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', " + 
 				"'','" + 		//future2 url (this is stored later)
-			       	es.future3 + "')" ;	//future3 (Constants.EncoderSignalMode)
+			       	es.future3 + "')" ;	//future3 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 

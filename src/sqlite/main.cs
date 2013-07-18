@@ -25,6 +25,8 @@ using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 using System.Diagnostics; 	//for launching other process
 
+using Mono.Unix;
+
 
 class Sqlite
 {
@@ -72,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.97";
+	static string lastChronojumpDatabaseVersion = "0.98";
 
 	public Sqlite() {
 	}
@@ -1314,6 +1316,25 @@ class Sqlite
 
 				currentVersion = "0.97";
 			}
+			if(currentVersion == "0.97") {
+				dbcon.Open();
+				
+				Update(true, Constants.EncoderTable, "laterality", "both", "RL", "", "");
+				Update(true, Constants.EncoderTable, "laterality", "Both", "RL", "", "");
+				Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("Both"), "RL", "", "");
+				Update(true, Constants.EncoderTable, "laterality", "right", "R", "", "");
+				Update(true, Constants.EncoderTable, "laterality", "Right", "R", "", "");
+				Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("Right"), "R", "", "");
+				Update(true, Constants.EncoderTable, "laterality", "left", "L", "", "");
+				Update(true, Constants.EncoderTable, "laterality", "Left", "L", "", "");
+				Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("Left"), "L", "", "");
+				Log.WriteLine("Fixed encoder laterality");
+				
+				SqlitePreferences.Update ("databaseVersion", "0.98", true); 
+				dbcon.Close();
+
+				currentVersion = "0.98";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()
@@ -1453,6 +1474,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.97 - 0.98 Converted DB to 0.98 Fixed encoder laterality
 		//0.96 - 0.97 Converted DB to 0.97 Added inertialmomentum in preferences
 		//0.95 - 0.96 Converted DB to 0.96 Encoder signal future3 three modes
 		//0.94 - 0.95 Converted DB to 0.95 Added encoder1RMMethod

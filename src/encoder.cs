@@ -314,8 +314,10 @@ public class EncoderSQL
 
 		if(eccon == "c")
 			ecconLong = Catalog.GetString("Concentric");
-		else
+		else if(eccon == "ec" || eccon == "ecS")
 			ecconLong = Catalog.GetString("Eccentric-concentric");
+		else
+			ecconLong = Catalog.GetString("Concentric-eccentric");
 	}
 	
 	public string GetDate(bool pretty) {

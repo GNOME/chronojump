@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_delete_session;
 	[Widget] Gtk.MenuItem menuitem_export_csv;
 	[Widget] Gtk.MenuItem menuitem_export_xml;
+	[Widget] Gtk.Image image_session_open;
 		
 	//menu person
 	[Widget] Gtk.Button button_persons_up;
@@ -712,6 +713,10 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_start);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_multichronopic_run_analysis);
 
+		//open buttons (this is shown better in windows than the default open icon)
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameOpen);
+		image_session_open.Pixbuf = pixbuf;
+		image_encoder_capture_open.Pixbuf = pixbuf;
 
 		//persons buttons
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameNew1);

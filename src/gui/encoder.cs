@@ -56,6 +56,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Image image_encoder_capture;
+	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	[Widget] Gtk.Entry entry_encoder_signal_comment;
 	[Widget] Gtk.Entry entry_encoder_curve_comment;

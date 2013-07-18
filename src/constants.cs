@@ -342,6 +342,7 @@ public class Constants
 	public static string FileNameZoomInWithTextIcon = "gtk-zoom-in-with-text.png";
 	public static string FileNameNew1 = "gtk-new-1.png";
 	public static string FileNameNewPlus = "gtk-new-plus.png";
+	public static string FileNameOpen = "gtk-open.png";
 	public static string FileNameOpen1 = "gtk-open-1.png";
 	public static string FileNameOpenPlus = "gtk-open-plus.png";
 

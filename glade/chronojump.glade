@@ -55,7 +55,7 @@
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_open_activate" swapped="no"/>
                         <child internal-child="image">
-                          <widget class="GtkImage" id="image10">
+                          <widget class="GtkImage" id="image_session_open">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="stock">gtk-open</property>
@@ -12946,7 +12946,7 @@ on current Chronojump version.</property>
                                                         <property name="use_action_appearance">False</property>
                                                         <signal name="clicked" handler="on_button_encoder_load_signal_clicked" swapped="no"/>
                                                         <child>
-                                                          <widget class="GtkImage" id="image24">
+                                                          <widget class="GtkImage" id="image_encoder_capture_open">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>

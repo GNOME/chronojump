@@ -84,7 +84,7 @@ write("(1/5) Starting R", OutputData2)
 
 
 #this will replace below methods: findPics1ByMinindex, findPics2BySpeed
-findCurves <- function(rawdata, eccon, min_height, draw, title, analysis) {
+findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	a=cumsum(rawdata)
 	b=extrema(a)
 	print("at findCurves")
@@ -179,10 +179,6 @@ findCurves <- function(rawdata, eccon, min_height, draw, title, analysis) {
 	if(draw) {
 		lty=1
 		col="black"
-		if(analysis == "curvesRI") {
-			lty=2
-			col="gray"
-		}
 		plot((1:length(a))/1000			#ms -> s
 		     ,a/10,				#mm -> cm
 		     type="l",
@@ -196,17 +192,15 @@ findCurves <- function(rawdata, eccon, min_height, draw, title, analysis) {
 		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
 		#plot speed (currently disabled)	
-		#if(analysis == "curvesRI") {
-		#	speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		#	abline(h=0,lty=2,col="green")
-	        #	lines((1:length(rawdata))/1000, speed$y*50, col="green")
-		#}
+		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+		#abline(h=0,lty=2,col="green")
+	        #lines((1:length(rawdata))/1000, speed$y*50, col="green")
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
 
 #all rawdata will be negative because we start on the top
-fixRawdataRIByKnowingHeight <- function(rawdata) {
+fixRawdataRI <- function(rawdata) {
 	#do not do this:
 	#rawdata[which(rawdata.c >= 0)] = rawdata[which(rawdata.c >= 0)]*-1
 	
@@ -215,38 +209,11 @@ fixRawdataRIByKnowingHeight <- function(rawdata) {
 
 	rawdata.c = abs(cumsum(rawdata))*-1
 
-	lines((1:length(rawdata.c))/1000, rawdata.c/10, col="black", lwd=1)
-
 	#this is to make "inverted cumsum"
 	rawdata = c(0,diff(rawdata.c))
 
 	return(rawdata)
 }
-fixCurvesRIByKnowingHeight <- function(rawdata, curves) {
-	start=0; end=0; startH=0
-	count=0
-	n=length(curves[,1]) #rows
-	for(i in 1:n) {
-		a=rawdata[curves[i,1]:curves[i,2]]
-		a.cumsum=cumsum(a)
-		b.cumsum=extrema(a.cumsum)
-		changeAt = b.cumsum$maxindex[1,1]
-
-		#abline(v=(curves[i,1] + changeAt)/1000, col="green")
-		
-		count = count +1
-		start[count]=curves[i,1]
-		end[count]= curves[i,1] + changeAt
-		startH[count]=0
-		
-		count = count +1
-		start[count]= curves[i,1] + changeAt +1
-		end[count]=curves[i,2]
-		startH[count]=cumsum(rawdata)[curves[i,2]] #stored but incorrect because rawdata need to be corrected
-	}
-	return(as.data.frame(cbind(start,end,startH)))
-}
-
 
 #based on findPics2BySpeed
 #only used in eccon "c"
@@ -1475,21 +1442,13 @@ doProcess <- function(options) {
 		}
 
 		if(analysisCurves[1] == "curvesRI") 
-			Eccon = "ecS"
+			rawdata = fixRawdataRI(rawdata)
 		
-		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title, analysisCurves[1])
+		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
 
-		print("curves PRE")
-		print(curves)
-
-		if(analysisCurves[1] == "curvesRI") {
-			rawdata = fixRawdataRIByKnowingHeight(rawdata)
-			curves = fixCurvesRIByKnowingHeight(rawdata, curves)
-
-		}
 		rawdata.cumsum=cumsum(rawdata)
 
-		print("curves POST")
+		print("curves")
 		print(curves)
 
 		n=length(curves[,1])
@@ -1509,8 +1468,8 @@ doProcess <- function(options) {
 				adjVert = 0
 				if(Eccon=="ecS") {
 					myEc=c("c","e")
-					if(analysisCurves[1] == "curvesRI")
-						myEc=c("e","c")
+					#if(analysisCurves[1] == "curvesRI")
+					#	myEc=c("e","c")
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = rawdata.cumsum[curves[i,1]]/10
 					if(i%%2 == 1) {

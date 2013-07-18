@@ -1326,7 +1326,7 @@ doProcess <- function(options) {
 	#if(isJump)
 	#	titleType="jump"
 
-	Analysis on curvesRI comes:
+	#Analysis on curvesRI comes:
 	#"curvesRI;0.001" [1] string [2] inertia momentum
 	analysisCurves = unlist(strsplit(Analysis, "\\;"))
 	

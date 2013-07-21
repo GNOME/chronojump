@@ -915,7 +915,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
-	mtext("Curve\nLoad",side=1,at=1,adj=0,line=1,cex=.9)
+	mtext("Curve \nLoad ",side=1,at=1,adj=1,line=1,cex=.9)
 	par(new=T, xpd=T)
 	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
 	if(Eccon=="ecS" || Eccon=="ceS")

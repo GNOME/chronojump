@@ -2933,11 +2933,19 @@ Log.WriteLine(str);
 		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
-		else {
+		else if (ecconLast=="ec" || ecconLast =="ecS") {
 			string phase = "e";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)
 				phase = "c";
+				
+			(cell as Gtk.CellRendererText).Text = 
+				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
+		} else {	//(ecconLast=="ce" || ecconLast =="ceS") {
+			string phase = "c";
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			if(isEven)
+				phase = "e";
 				
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
@@ -2954,6 +2962,16 @@ Log.WriteLine(str);
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)
 				phase = "c";
+
+			(cell as Gtk.CellRendererText).Text = 
+				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
+		}
+		else if(radiobutton_encoder_analyze_data_current_signal.Active && findEccon(false) == "ceS") 
+		{
+			string phase = "c";
+			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			if(isEven)
+				phase = "e";
 
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;

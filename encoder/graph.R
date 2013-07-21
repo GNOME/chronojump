@@ -215,12 +215,13 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		title(title, cex.main=1, font.main=1)
 		mtext("time (s) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
-		abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
+		mtext("ABS speed*50 (cm) ",side=4,adj=1,line=-1,col="green")
+		#abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
 	
 		#plot speed (currently disabled)	
-		#speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-		#abline(h=0,lty=2,col="green")
-	        #lines((1:length(rawdata))/1000, speed$y*50, col="green")
+		abline(h=0,lty=2,col="green")
+		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+	        lines((1:length(rawdata))/1000, abs(speed$y*50), col="green")
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -260,20 +261,15 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	
 	b=extrema(speed$y)
+	speed$y=abs(speed$y)
 
-	#from searchValue, go to the left, searchValue is at max speed on going up
-	#but is min speed on going down (this happens when not "concentric" and when phase is odd (impar)
+	#from searchValue, go to the left, searchValue is at max speed on going up (also going down because we use abs(speed$y)
 	searchValue = max(speed$y)
-	if(eccon == "ec")
-		searchValue = min(speed$y)
-	else if(eccon == "ecS" & row%%2 == 1)
-		searchValue = min(speed$y)
 
 	maxSpeedT <- min(which(speed$y == searchValue))
 	
 	#left adjust
 	#find the b$cross at left of max speed
-		
 	x.ini = 0 #good to declare here
 	bcrossLen = length(b$cross[,2])
 	if(bcrossLen == 0)
@@ -287,14 +283,30 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 				x.ini = i
 	}
 
+	#right adjust
+	#find the b$cross at right of max speed
+	x.end = length(rawdata) #good to declare here
+	#bcrossLen = length(b$cross[,2])
+	if(bcrossLen == 0)
+		x.end = length(rawdata)
+	else if(bcrossLen == 1) {
+		if(b$cross[,2] > maxSpeedT) 
+			x.end = b$cross[,2]
+	} else { 
+		for(i in rev(b$cross[,2])) 
+			if(i > maxSpeedT) 
+				x.end = i
+	}
+
+
 	#debug
 	#print(b)
 	print(b$cross[,2])
 	#print(bcrossLen)
 	#print(maxSpeedT)
-	print(x.ini)
+	print(c("x.ini x.end",x.ini,x.end))
 
-	return(startT + x.ini)
+	return(c(startT + x.ini, startT + x.end))
 }
 
 findECPhases <- function(a,speed) {
@@ -1486,8 +1498,10 @@ doProcess <- function(options) {
 
 		if(analysisCurves[1] != "curvesRI") {
 			for(i in 1:n) { 
-				curves[i,1]=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-							       SmoothingOneEC, SmoothingOneC)
+				reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+							      SmoothingOneEC, SmoothingOneC)
+				curves[i,1] = reduceTemp[1]
+				curves[i,2] = reduceTemp[2]
 			}
 		}
 		if(curvesPlot) {
@@ -1516,6 +1530,8 @@ doProcess <- function(options) {
 				     y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
 				arrows(x0=(curves[i,1]/1000),y0=myY,x1=(curves[i,2]/1000),	#/1000 ms -> s
 				       y1=myY, col="blue",code=3,length=0.1)
+				abline(v=curves[i,1]/1000, lty=3, col="green")
+				abline(v=curves[i,2]/1000, lty=3, col="green")
 			}
 		}
 	}

@@ -877,9 +877,11 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	height = abs(height/10)
 	load = paf[,findPosInPaf("Load","")]
 	
-	if(Eccon=="ecS") {
+	if(Eccon=="ecS" || Eccon=="ceS") {
 		if(singleFile) {
 			myEc=c("c","e")
+			if(Eccon=="ceS")
+				myEc=c("e","c")
 			myNums = as.numeric(rownames(paf))
 			myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
 		}
@@ -916,7 +918,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	mtext("Curve\nLoad",side=1,at=1,adj=0,line=1,cex=.9)
 	par(new=T, xpd=T)
 	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
-	if(Eccon=="ecS")
+	if(Eccon=="ecS" || Eccon=="ceS")
 		plot(bp[2,],paf[,findPosInPaf("Power","time")],type="p",lwd=2,
 		     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
 		     axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
@@ -1014,9 +1016,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	#if only one series
 	if(length(unique(seriesName)) == 1) {
 		myNums = rownames(paf)
-		if(Eccon=="ecS") {
+		if(Eccon=="ecS" || Eccon=="ceS") {
 			if(singleFile) {
 				myEc=c("c","e")
+				if(Eccon=="ceS")
+					myEc=c("e","c")
 				myNums = as.numeric(rownames(paf))
 				myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
 			}
@@ -1378,7 +1382,7 @@ doProcess <- function(options) {
 			processTimes = 1
 			changePos = 0
 			#if this curve is ecc-con and we want separated, divide the curve in two
-			if(as.vector(inputMultiData$eccon[i]) != "c" & Eccon =="ecS") {
+			if(as.vector(inputMultiData$eccon[i]) != "c" & (Eccon=="ecS" || Eccon=="ceS") ) {
 				changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
 				processTimes = 2
 			}
@@ -1667,6 +1671,11 @@ doProcess <- function(options) {
 					discardingCurves = TRUE
 					next;
 				}
+				else if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & Eccon == "ceS" & i%%2 == 0) {
+					discardedCurves = c(i,discardedCurves)
+					discardingCurves = TRUE
+					next;
+				}
 			}
 
 			print("i:")
@@ -1679,6 +1688,12 @@ doProcess <- function(options) {
 				       myEcconKn = "e"
 			       else
 				       myEcconKn = "c"
+			}
+			else if(Eccon=="ceS") {
+			       if(i%%2 == 1)
+				       myEcconKn = "c"
+			       else
+				       myEcconKn = "e"
 			}
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 

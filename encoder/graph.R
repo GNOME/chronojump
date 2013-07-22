@@ -181,7 +181,7 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 					startH[row] = a[start[row]]		#height at start
 					row=row+1
 					i=j
-				} else {
+				} else {	#("ec" || "ce")
 					start[row] = tempStart
 					end[row]   = tempEnd
 					startH[row] = a[referenceindex[i,1]]		#height at start
@@ -215,13 +215,6 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 		title(title, cex.main=1, font.main=1)
 		mtext("time (s) ",side=1,adj=1,line=-1)
 		mtext("height (cm) ",side=2,adj=1,line=-1)
-		mtext("ABS speed*50 (cm) ",side=4,adj=1,line=-1,col="green")
-		#abline(v=b$maxindex/1000,lty=3); abline(v=b$minindex/1000,lty=3)	#ms -> s
-	
-		#plot speed (currently disabled)	
-		abline(h=0,lty=2,col="green")
-		speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-	        lines((1:length(rawdata))/1000, abs(speed$y*50), col="green")
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -248,26 +241,54 @@ fixRawdataRI <- function(rawdata) {
 reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
 	a=rawdata
 	
-	#debug
 	print("at reduceCurveBySpeed")
-	#print("startT and aaaaaaaaaaaaaaaaaaaaaaa")
-	#print(startT)
-	#print(a)
 
-	smoothing = 0
+	smoothing = smoothingOneEC
 	if(eccon == "c")
 		smoothing = smoothingOneC
 
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
 	
 	b=extrema(speed$y)
+
+	#in order to reduce curve by speed, we search the cross of speed (in 0m/s)
+        #before and after the peak value, but in "ec" and "ce" there are two peak values:
+	#
+	#ec         2
+	#\         / \
+	# \       /   \
+	#-----------------
+	#   \   /       \
+	#    \ /         \
+	#     1     
+	#
+	#ce   1
+	#    / \         /
+	#   /   \       /
+	#-----------------
+	# /       \   /
+	#/         \ /
+	#           2
+	#
+	#then we need two times: time1, time2 to search cross speed 0 before and after them
+
+	time1 = 0
+	time2 = 0
+	if(eccon=="ec") {
+		time1 = min(which(speed$y == min(speed$y)))
+		time2 = max(which(speed$y == max(speed$y)))
+	} else if(eccon=="ce") {
+		time1 = min(which(speed$y == max(speed$y)))
+		time2 = max(which(speed$y == min(speed$y)))
+	} else {
+		speed$y=abs(speed$y)
+		time1 = min(which(speed$y == max(speed$y)))
+		time2 = max(which(speed$y == max(speed$y)))
+	}
+
+	#now that times are defined we can work in ABS for all the curves
 	speed$y=abs(speed$y)
 
-	#from searchValue, go to the left, searchValue is at max speed on going up (also going down because we use abs(speed$y)
-	searchValue = max(speed$y)
-
-	maxSpeedT <- min(which(speed$y == searchValue))
-	
 	#left adjust
 	#find the b$cross at left of max speed
 	x.ini = 0 #good to declare here
@@ -275,11 +296,11 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	if(bcrossLen == 0)
 		x.ini = 0
 	else if(bcrossLen == 1) {
-		if(b$cross[,2] < maxSpeedT) 
+		if(b$cross[,2] < time1) 
 			x.ini = b$cross[,2]
 	} else { 
 		for(i in b$cross[,2]) 
-			if(i < maxSpeedT) 
+			if(i < time1) 
 				x.ini = i
 	}
 
@@ -290,20 +311,18 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	if(bcrossLen == 0)
 		x.end = length(rawdata)
 	else if(bcrossLen == 1) {
-		if(b$cross[,2] > maxSpeedT) 
+		if(b$cross[,2] > time2) 
 			x.end = b$cross[,2]
 	} else { 
 		for(i in rev(b$cross[,2])) 
-			if(i > maxSpeedT) 
+			if(i > time2) 
 				x.end = i
 	}
 
-
 	#debug
-	#print(b)
 	print(b$cross[,2])
 	#print(bcrossLen)
-	#print(maxSpeedT)
+	print(c("time1,time2",time1,time2))
 	print(c("x.ini x.end",x.ini,x.end))
 
 	return(c(startT + x.ini, startT + x.end))
@@ -311,7 +330,8 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 
 findECPhases <- function(a,speed) {
 	b=extrema(speed)
-	print(b)
+	#print(b)
+	#print(speed)
 	#In all the extrema minindex values, search which range (row) has the min values,
 	#and in this range search last value
 	print("searchMinSpeedEnd")
@@ -445,6 +465,8 @@ powerBars <- function(eccon, kinematics) {
 		meanPower <- mean(kinematics$power)
 	else
 		meanPower <- mean(abs(kinematics$power))
+
+	#print(c("eccon meanPowerSigned meanPowerABS",eccon, mean(kinematics$power), mean(abs(kinematics$power))))
 
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
@@ -608,28 +630,24 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	concentric=0
 	if(eccon=="c") {
 		concentric=1:length(a)
-	} else {	#"ec", "ecS"
+	} else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
 		print("EXTREMA")
 		#abline(v=b$maxindex,lty=3,col="yellow");
 		#abline(v=b$minindex,lty=3,col="magenta")
 		print(b)
 
-		#In all the extrema minindex values, search which range (row) has the min values,
-		#and in this range search last value
-		print("searchMinSpeedEnd")
-		searchMinSpeedEnd = max(which(speed$y == min(speed$y)))
-		#In all the extrema maxindex values, search which range (row) has the max values,
-		#and in this range search first value
-		print("searchMaxSpeedIni")
-		searchMaxSpeedIni = min(which(speed$y == max(speed$y)))
-		#find the cross between both
-		print("search min cross: crossMinRow")
-		crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
-			
-		print("AT PAINT")
-		print(crossMinRow)
-		#maybe there are some crossMinRow's because speed crosses more than one time
-		#use min and max values of crossMinRow
+		time1 = 0
+		time2 = 0
+		if(eccon=="ec") {
+			time1 = max(which(speed$y == min(speed$y)))
+			time2 = min(which(speed$y == max(speed$y)))
+			labelsXeXc = c("Xe","Xc")
+		} else { #(eccon=="ce")
+			time1 = max(which(speed$y == max(speed$y)))
+			time2 = min(which(speed$y == min(speed$y)))
+			labelsXeXc = c("Xc","Xe")
+		}
+		crossMinRow=which(b$cross[,1] > time1 & b$cross[,1] < time2)
 		
 		isometricUse = TRUE
 		if(isometricUse) {
@@ -710,7 +728,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 					      round(meanSpeedC,1)),
 				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
 				axis(4, at=c(meanSpeedE,meanSpeedC),
-				     labels=c("Xe","Xc"),
+				     labels=labelsXeXc,
 				     col=cols[1], lty=lty[1], line=0, lwd=0, padj=-2)
 			}
 		}
@@ -834,7 +852,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 					      round(meanPowerC,1)),
 				     col=cols[3], lty=lty[1], line=6, lwd=1, padj=-.5)
 				axis(4, at=c(meanPowerE,meanPowerC),
-				     labels=c("Xe","Xc"),
+				     labels=labelsXeXc,
 				     col=cols[3], lty=lty[1], line=6, lwd=0, padj=-2)
 			}
 		}
@@ -1496,14 +1514,13 @@ doProcess <- function(options) {
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 
-		if(analysisCurves[1] != "curvesRI") {
-			for(i in 1:n) { 
-				reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-							      SmoothingOneEC, SmoothingOneC)
-				curves[i,1] = reduceTemp[1]
-				curves[i,2] = reduceTemp[2]
-			}
+		for(i in 1:n) { 
+			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+						      SmoothingOneEC, SmoothingOneC)
+			curves[i,1] = reduceTemp[1]
+			curves[i,2] = reduceTemp[2]
 		}
+		
 		if(curvesPlot) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 
@@ -1527,12 +1544,23 @@ doProcess <- function(options) {
 					}
 				}
 				text(x=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
-				     y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=1,col="blue")
+				     y=myY,labels=myLabel, adj=c(0.5,adjVert),cex=.9,col="blue")
 				arrows(x0=(curves[i,1]/1000),y0=myY,x1=(curves[i,2]/1000),	#/1000 ms -> s
-				       y1=myY, col="blue",code=3,length=0.1)
-				abline(v=curves[i,1]/1000, lty=3, col="green")
-				abline(v=curves[i,2]/1000, lty=3, col="green")
+				       y1=myY, col="blue",code=0,length=0.1)
+				#mtext(at=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
+				#     side=1,text=myLabel, cex=.8, col="blue")
+				abline(v=mean(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
+	
+			#plot speed
+			par(new=T)	
+			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
+			plot((1:length(rawdata))/1000, speed$y, col="gray",
+		     		type="l", 
+				xlim=c(1,length(rawdata))/1000,	#ms -> s
+		     		xlab="",ylab="",axes=F)
+			mtext("speed ",side=4,adj=1,line=-1,col="gray")
+			abline(h=0,lty=2,col="gray")
 		}
 	}
 
@@ -1694,8 +1722,7 @@ doProcess <- function(options) {
 				}
 			}
 
-			print("i:")
-			print(i)
+			print(c("i, curves[i,1], curves[i,2]", i, curves[i,1],curves[i,2]))
 
 			#if ecS go kinematics first time with "e" and second with "c"
 			myEcconKn = myEccon

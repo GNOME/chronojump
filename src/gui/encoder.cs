@@ -219,7 +219,8 @@ public partial class ChronoJumpWindow
 		
 		string analysisOptions = "";
 		if(encoderPropulsive)
-			analysisOptions = "p";
+			analysisOptions = "p;-;-";
+		//TODO: add ri and inertia momentum if needed 
 
 		double heightHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderHeightHigher)		
@@ -555,14 +556,17 @@ public partial class ChronoJumpWindow
 	private void encoderCreateCurvesGraphR() 
 	{
 		string analysis = "curves";
-		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
-			analysis = "curvesRI;" + Util.ConvertToPoint( //inertial momentum with '.' for R
-					(double) spin_encoder_capture_inertial.Value);
 
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
+		
+		//if(capturingRotaryInertial)
+		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
+			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
+					(double) spin_encoder_capture_inertial.Value);
+		else 
+			analysisOptions += ";-;-";
 
 		string future3 = getEncoderTypeByCombos();
 		
@@ -1145,6 +1149,13 @@ public partial class ChronoJumpWindow
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
+		
+		//if(capturingRotaryInertial)
+		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
+			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
+					(double) spin_encoder_capture_inertial.Value);
+		else 
+			analysisOptions += ";-;-";
 
 		string displacedMass = Util.ConvertToPoint( lastEncoderSQL.extraWeight + (
 					getExercisePercentBodyWeightFromName(lastEncoderSQL.exerciseName) *
@@ -1726,6 +1737,16 @@ public partial class ChronoJumpWindow
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
+			
+		//if(capturingRotaryInertial)
+		if(
+				radiobutton_encoder_analyze_data_current_signal.Active &&
+				radiobutton_encoder_capture_rotary.Active && 
+				checkbutton_encoder_capture_inertial.Active )
+			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
+					(double) spin_encoder_capture_inertial.Value);
+		else 
+			analysisOptions += ";-;-";
 
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 

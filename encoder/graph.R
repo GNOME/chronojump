@@ -18,6 +18,9 @@
 #   Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
 # 
 
+#TODO: current BUGS
+#peakpowerTime is not working ok at con-ecc
+#paint "eccentric","concentric" labels are not ok at con-ecc
 
 
 #----------------------------------
@@ -83,7 +86,6 @@ OperatingSystem=options[19]
 write("(1/5) Starting R", OutputData2)
 
 
-#this will replace below methods: findPics1ByMinindex, findPics2BySpeed
 findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	a=cumsum(rawdata)
 	b=extrema(a)
@@ -235,7 +237,6 @@ fixRawdataRI <- function(rawdata) {
 	return(rawdata)
 }
 
-#based on findPics2BySpeed
 #only used in eccon "c"
 #if this changes, change also in python capture file
 reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
@@ -389,7 +390,7 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analysisOptions) {
+kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
 	if(eccon == "c")
@@ -419,7 +420,7 @@ kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, analys
 #print(eccon)
 
 	#search propulsiveEnd
-	if(analysisOptions == "p") {
+	if(isPropulsive) {
 		if(eccon=="c") {
 			concentric=1:length(a)
 			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
@@ -445,7 +446,7 @@ print("WARNING ECS\n\n\n\n\n")
 	#print("propulsiveEnd")
 	#print(propulsiveEnd)
 
-	if( analysisOptions == "p" && ( eccon== "c" || eccon == "ec" ) )
+	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
 			    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
 	else
@@ -467,9 +468,14 @@ powerBars <- function(eccon, kinematics) {
 		meanPower <- mean(abs(kinematics$power))
 
 	#print(c("eccon meanPowerSigned meanPowerABS",eccon, mean(kinematics$power), mean(abs(kinematics$power))))
+	#print("kinematics$power")
+	#print(abs(kinematics$power))
 
 	peakPower <- max(abs(kinematics$power))
 	peakPowerT <- min(which(abs(kinematics$power) == peakPower))
+	
+	#print(which(abs(kinematics$power) == peakPower))
+
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
 	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
@@ -482,7 +488,7 @@ powerBars <- function(eccon, kinematics) {
 			  kinematics$mass,meanForce,maxForce))
 }
 
-kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smoothingOneC,g,eccon,analysisOptions) {
+kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smoothingOneC,g,eccon,isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
 	myEccon = eccon
@@ -493,7 +499,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smooth
 			myMass = curves[i,5]
 			myEccon = curves[i,7]
 		}
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingOneEC,smoothingOneC,g,myEccon,analysisOptions)
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingOneEC,smoothingOneC,g,myEccon,isPropulsive)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -510,7 +516,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smooth
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
-	Analysis, AnalysisOptions, exercisePercentBodyWeight 
+	Analysis, isPropulsive, isRotatoryInertial, exercisePercentBodyWeight 
 	) {
 
 	meanSpeedE = 0
@@ -527,6 +533,8 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#eccons ec and ecS is the same here (only show one curve)
 	#receive data as cumulative sum
 	lty=c(1,1,1)
+
+	print(c("xmin,xmax",xmin,xmax))
 
 	rawdata=rawdata[xmin:xmax]
 	a=cumsum(rawdata)
@@ -592,17 +600,24 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#speed
 	#scan file again (raw data: mm displaced every ms, no cumulative sum)
 	a=rawdata
-	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+	speed <- smooth.spline( 1:length(a), a, spar=smoothing)
+       	
 	if(draw) {
 		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$speedy
 		par(new=T)
+	
+		speedPlot=speed$y
+		#on rotatory inertial, concentric-eccentric, plot speed as ABS)
+		#if(isRotatoryInertial && eccon == "ce")
+		#	speedPlot=abs(speed$y)
+
 		if(highlight==FALSE)
-			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
+			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
 		else
-			plot(startX:length(speed$y),speed$y[startX:length(speed$y)],type="l",
+			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 	}
 	
@@ -650,6 +665,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		crossMinRow=which(b$cross[,1] > time1 & b$cross[,1] < time2)
 		
 		isometricUse = TRUE
+		#TODO: con-ecc is opposite
 		if(isometricUse) {
 			eccentric=1:min(b$cross[crossMinRow,1])
 			isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
@@ -674,6 +690,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			mtext(text=" concentric ",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
+		
+	#on rotatory inertial, concentric-eccentric, use speed as ABS)
+	#if(isRotatoryInertial && eccon == "ce")
+	#	speed$y=abs(speed$y)
 
 	accel <- predict( speed, deriv=1 )
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
@@ -687,7 +707,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	if(draw) {
 		#propulsive phase ends when accel is -9.8
-		if(length(which(accel$y[concentric]<=-g)) > 0 & AnalysisOptions == "p") {
+		if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
 			propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
 		} else {
 			propulsiveEnd = max(concentric)
@@ -696,7 +716,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 
 		meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
-		if(AnalysisOptions == "p") {
+		if(isPropulsive) {
 			meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
 		}
 
@@ -741,7 +761,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 			
-		if(AnalysisOptions == "p") {
+		if(isPropulsive) {
 			#propulsive stuff
 			abline(h=-g,lty=3,col="magenta")
 			abline(v=propulsiveEnd,lty=3,col="magenta") 
@@ -823,7 +843,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 
 		meanPowerC = mean(power[min(concentric):max(concentric)])
-		if(AnalysisOptions == "p") {
+		if(isPropulsive) {
 			meanPowerC = mean(power[min(concentric):propulsiveEnd])
 		}
 
@@ -1322,7 +1342,7 @@ doProcess <- function(options) {
 	Mass=as.numeric(options[8])
 	Eccon=options[9]
 	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
-	AnalysisOptions=options[11]	#p: propulsive
+	AnalysisOptions=options[11]	
 	SmoothingOneEC=options[12]
 	SmoothingOneC=options[13]
 	Jump=options[14]
@@ -1339,6 +1359,15 @@ doProcess <- function(options) {
 	print(OutputData2)
 	print(SpecialData)
 	
+	#read AnalysisOptions
+	#if is propulsive and rotatory inertial is: "p;ri;0.010" (last is momentum)
+	#if nothing: "-;-;-"
+	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
+	isPropulsive = (analysisOptionsTemp[1] == "p")
+	isRotatoryInertial = (analysisOptionsTemp[2] == "ri")
+	inertiaMomentum = analysisOptionsTemp[3]
+
+	
 	if(Analysis != "exportCSV") {
 		if(OperatingSystem=="Windows")
 			Cairo(Width, Height, file=OutputGraph, type="png", bg="white")
@@ -1353,12 +1382,8 @@ doProcess <- function(options) {
 	#if(isJump)
 	#	titleType="jump"
 
-	#Analysis on curvesRI comes:
-	#"curvesRI;0.001" [1] string [2] inertia momentum
-	analysisCurves = unlist(strsplit(Analysis, "\\;"))
-	
 	curvesPlot = FALSE
-	if(Analysis == "curves" || analysisCurves[1] == "curvesRI") {
+	if(Analysis == "curves") {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,2,1))
 	}
@@ -1501,7 +1526,7 @@ doProcess <- function(options) {
 			quit()
 		}
 
-		if(analysisCurves[1] == "curvesRI") 
+		if(isRotatoryInertial) 
 			rawdata = fixRawdataRI(rawdata)
 		
 		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
@@ -1551,7 +1576,7 @@ doProcess <- function(options) {
 				#     side=1,text=myLabel, cex=.8, col="blue")
 				abline(v=mean(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
-	
+
 			#plot speed
 			par(new=T)	
 			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
@@ -1591,7 +1616,7 @@ doProcess <- function(options) {
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      Analysis, AnalysisOptions, myExPercentBodyWeight 
+			      Analysis, isPropulsive, isRotatoryInertial, myExPercentBodyWeight 
 			      )	
 		}
 	}
@@ -1605,7 +1630,7 @@ doProcess <- function(options) {
 		yrange=find.yrange(singleFile, rawdata, curves)
 
 		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,
-					 g,Eccon,AnalysisOptions)
+					 g,Eccon,isPropulsive)
 
 		for(i in 1:n) {
 			myMass = Mass
@@ -1632,7 +1657,7 @@ doProcess <- function(options) {
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      Analysis, AnalysisOptions, myExPercentBodyWeight 
+			      Analysis, isPropulsive, isRotatoryInertial, myExPercentBodyWeight 
 			      )
 		}
 		par(mfrow=c(1,1))
@@ -1649,7 +1674,7 @@ doProcess <- function(options) {
 #		#yrange=c(min(a),max(a))
 #		yrange=find.yrange(singleFile, rawdata,curves)
 #
-#		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,AnalysisOptions)
+#		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,isPropulsive)
 #		for(i in 1:n) {
 #			#in superpose all jumps end at max height
 #			#start can change, some are longer than other
@@ -1668,7 +1693,7 @@ doProcess <- function(options) {
 #			      FALSE,	#marShrink
 #			      (i==1),	#showAxes
 #			      TRUE,	#legend
-#			      Analysis, AnalysisOptions, ExercisePercentBodyWeight 
+#			      Analysis, isPropulsive, isRotatoryInertial, ExercisePercentBodyWeight 
 #			      )
 #			par(new=T)
 #		}
@@ -1689,7 +1714,7 @@ doProcess <- function(options) {
 	if(
 	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
 	   Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise" || 
-	   Analysis == "curves" || analysisCurves[1] == "curvesRI" || writeCurves) 
+	   Analysis == "curves" || writeCurves) 
 	{
 		paf = data.frame()
 		discardedCurves = NULL
@@ -1741,7 +1766,7 @@ doProcess <- function(options) {
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
 							     myMass, SmoothingOneEC,SmoothingOneC, 
-							     g, myEcconKn, AnalysisOptions))))
+							     g, myEcconKn, isPropulsive))))
 		}
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded
@@ -1803,7 +1828,7 @@ doProcess <- function(options) {
 			paint1RMBadillo2010(paf, Title, OutputData1)
 		} 
 		
-		if(Analysis == "curves" || analysisCurves[1] == "curvesRI" || writeCurves) {
+		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)
 				paf=cbind(
 					  "1",			#seriesName
@@ -1854,7 +1879,7 @@ doProcess <- function(options) {
 
 		for(i in 1:curvesNum) { 
 			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, 
-					  SmoothingOneEC, SmoothingOneC, g, Eccon, AnalysisOptions)
+					  SmoothingOneEC, SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length
 			col1 = rawdata[curves[i,1]:curves[i,2]]

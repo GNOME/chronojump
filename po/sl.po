@@ -5139,7 +5139,7 @@ msgstr ""
 #, csharp-format
 #| msgid "Displaced body weight"
 msgid "Displaced body weight in this exercise: {0}%."
-msgstr "Izpodrinjena teža telesa v tej vaji: "
+msgstr "Izpodrinjena teža telesa v tej vaji: {0}%."
 
 #: ../src/gui/encoder.cs:2313
 #, csharp-format

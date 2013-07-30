@@ -119,7 +119,6 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			tempEnd = b$maxindex[j,1]
 			
 			height=a[tempEnd]-a[tempStart]
-#			print(paste(height,i,j))
 			if(height >= min_height) { 
 				start[row] = tempStart
 				end[row]   = tempEnd

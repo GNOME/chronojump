@@ -550,6 +550,31 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
+		//capture == true; analyze == false
+
+		string analysisOptions = "-";
+		if(encoderPropulsive)
+			analysisOptions = "p";
+
+		//inertial momentum with '.' for R
+		string im = Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value);
+
+		if(checkbutton_encoder_capture_inertial.Active) {
+			if(captureOrAnalyze || radiobutton_encoder_analyze_data_current_signal.Active) 
+			{
+				if(radiobutton_encoder_capture_rotary.Active)
+					analysisOptions += ";ri;" + im;
+				else	//(radiobutton_encoder_capture_linear.Active || radiobutton_encoder_capture_linear_inverted.Active)
+					analysisOptions += ";li;" + im;
+			} else 
+				analysisOptions += ";-;-";
+		}
+
+		return analysisOptions;
+	}
+
+
 	//this is called by non gtk thread. Don't do gtk stuff here
 	//I suppose reading gtk is ok, changing will be the problem
 	//called on calculatecurves, recalculate and load
@@ -557,16 +582,7 @@ public partial class ChronoJumpWindow
 	{
 		string analysis = "curves";
 
-		string analysisOptions = "-";
-		if(encoderPropulsive)
-			analysisOptions = "p";
-		
-		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
-			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
-					(double) spin_encoder_capture_inertial.Value);
-		else 
-			analysisOptions += ";-;-";
+		string analysisOptions = getEncoderAnalysisOptions(true);
 
 		string future3 = getEncoderTypeByCombos();
 		
@@ -1146,16 +1162,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{
-		string analysisOptions = "-";
-		if(encoderPropulsive)
-			analysisOptions = "p";
-		
-		//if(capturingRotaryInertial)
-		if(radiobutton_encoder_capture_rotary.Active && checkbutton_encoder_capture_inertial.Active)
-			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
-					(double) spin_encoder_capture_inertial.Value);
-		else 
-			analysisOptions += ";-;-";
+		string analysisOptions = getEncoderAnalysisOptions(true);
 
 		string displacedMass = Util.ConvertToPoint( lastEncoderSQL.extraWeight + (
 					getExercisePercentBodyWeightFromName(lastEncoderSQL.exerciseName) *
@@ -1734,19 +1741,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams();
 		string dataFileName = "";
 		
-		string analysisOptions = "-";
-		if(encoderPropulsive)
-			analysisOptions = "p";
-			
-		//if(capturingRotaryInertial)
-		if(
-				radiobutton_encoder_analyze_data_current_signal.Active &&
-				radiobutton_encoder_capture_rotary.Active && 
-				checkbutton_encoder_capture_inertial.Active )
-			analysisOptions += ";ri;" + Util.ConvertToPoint( //inertial momentum with '.' for R
-					(double) spin_encoder_capture_inertial.Value);
-		else 
-			analysisOptions += ";-;-";
+		string analysisOptions = getEncoderAnalysisOptions(false);
 
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 

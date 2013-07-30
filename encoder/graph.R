@@ -515,7 +515,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smooth
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
-	Analysis, isPropulsive, isRotatoryInertial, exercisePercentBodyWeight 
+	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight 
 	) {
 
 	meanSpeedE = 0
@@ -609,7 +609,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	
 		speedPlot=speed$y
 		#on rotatory inertial, concentric-eccentric, plot speed as ABS)
-		#if(isRotatoryInertial && eccon == "ce")
+		#if(inertialType == "ri" && eccon == "ce")
 		#	speedPlot=abs(speed$y)
 
 		if(highlight==FALSE)
@@ -691,7 +691,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 		
 	#on rotatory inertial, concentric-eccentric, use speed as ABS)
-	#if(isRotatoryInertial && eccon == "ce")
+	#if(inertialType == "ri" && eccon == "ce")
 	#	speed$y=abs(speed$y)
 
 	accel <- predict( speed, deriv=1 )
@@ -827,7 +827,38 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#F=m*a		#bar
 	#F=(m*a)+(m*g) #jump m*(a+g) F=m*0
 
-	power <- force*speed$y
+
+
+	power = NULL
+
+	if(inertialType == "li" || inertialType == "ri") {
+		#Explanation rotatory encoder on inertial machine
+		#speed$y comes in mm/ms, is the same than m/s
+		#speedw in meters:
+		speedw <- speed$y/0.0125 #m radius
+		#accel$y comes in meters
+		#accelw in meters:
+		accelw <- accel$y/0.0125
+
+		#inertia momentums
+		#meters: 0.010
+		#meters: 0.067
+
+		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
+		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
+		power <- 0.067 * accelw * speedw + mass * accel$y * speed$y
+	}
+	else #(inertialType == "")
+		power <- force*speed$y
+
+
+	print(c("mass",mass))
+	print(c("speed$y",speed$y))
+	print(c("speedw",speedw))
+	print(c("accel$y",accel$y))
+	print(c("accelw",accelw))
+	print(c("power",power))
+
 	if(draw) {
 		ylim=c(-max(abs(range(power))),max(abs(range(power))))	#put 0 in the middle
 		if(knRanges[1] != "undefined")
@@ -882,8 +913,23 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw & !superpose) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
-		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,cex=.8,col=cols[3])
+		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0,cex=.8,col=cols[3])
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
+	}
+	#time to arrive to peak power negative on con-ecc
+	if(eccon=="ce") {
+		peakPowerTneg=min(which(power == min(power)))
+		if(draw & !superpose) {
+			abline(v=peakPowerTneg, col=cols[3])
+			points(peakPowerTneg, min(power),col=cols[3])
+			mtext(text=paste(round(min(power),1),"W",sep=""),side=3,at=peakPowerTneg,adj=1,cex=.8,col=cols[3])
+			mtext(text=peakPowerTneg,side=1,at=peakPowerTneg,cex=.8,col=cols[3])
+		}
+
+		segments(peakPowerTneg,min(power),peakPowerT,min(power),lty=3,col="red")
+		segments(peakPowerTneg,max(power),peakPowerT,max(power),lty=3,col="red")
+		points(peakPowerTneg,(min(power) * -1),col="red")
+		points(peakPowerT,(max(power) * -1),col="red")
 	}
 
 	#legend, axes and title
@@ -1363,8 +1409,8 @@ doProcess <- function(options) {
 	#if nothing: "-;-;-"
 	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
-	isRotatoryInertial = (analysisOptionsTemp[2] == "ri")
-	inertiaMomentum = analysisOptionsTemp[3]
+	inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
+	inertialMomentum = analysisOptionsTemp[3]
 
 	
 	if(Analysis != "exportCSV") {
@@ -1525,7 +1571,7 @@ doProcess <- function(options) {
 			quit()
 		}
 
-		if(isRotatoryInertial) 
+		if(inertialType == "ri") 
 			rawdata = fixRawdataRI(rawdata)
 		
 		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
@@ -1615,7 +1661,7 @@ doProcess <- function(options) {
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      Analysis, isPropulsive, isRotatoryInertial, myExPercentBodyWeight 
+			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight 
 			      )	
 		}
 	}
@@ -1656,7 +1702,7 @@ doProcess <- function(options) {
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      Analysis, isPropulsive, isRotatoryInertial, myExPercentBodyWeight 
+			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight 
 			      )
 		}
 		par(mfrow=c(1,1))
@@ -1692,7 +1738,7 @@ doProcess <- function(options) {
 #			      FALSE,	#marShrink
 #			      (i==1),	#showAxes
 #			      TRUE,	#legend
-#			      Analysis, isPropulsive, isRotatoryInertial, ExercisePercentBodyWeight 
+#			      Analysis, isPropulsive, inertialType, ExercisePercentBodyWeight 
 #			      )
 #			par(new=T)
 #		}

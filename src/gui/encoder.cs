@@ -2799,7 +2799,7 @@ Log.WriteLine(str);
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
 		} else {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
-			displacedMass = findMassFromCombo(false);
+			displacedMass = findMassFromCombo(true);
 		}
 
 		string line;

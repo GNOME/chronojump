@@ -40,6 +40,47 @@
   #if(Analysis=="exportCSV") data will be exported to CSV file
 #----------------------------------
 
+#TODO: bug: 705214 - Encoders selection and management
+#Change notebook to have a third horizontal tab
+#
+#Inertial machines has to be always using the axis:
+#1. if it's rotatory (friction): in contact with axis
+#2. if it's rotatory (axis): connected to axis
+#3. if it's linear (string): rolled at the axis
+#
+#in all need to provide the inertia momentum, body weight and extra weight (if
+#									   any)
+#
+#in the 2. and 3. need to provide the diameter of the axis 
+#
+#In all the cases, need to convert data using fixRawdataInertial
+#because we need to know the change of direction
+#
+#also preselect con-ecc when inertial machine is selected. Put in the same tab
+#
+#Need also to save encoder type and load encoder type. This has to be useful to
+#have data introduced always and have different encoders.
+#
+#
+#Finally need to add the code and explanation for the calculation of the inertia
+#momentum:
+#
+#     ----------
+#    /          \
+#   /         W  \
+#  /         /    \
+# |         /      |
+# |        o       |
+# |                |
+#  \              /
+#   \            /  
+#    \          /
+#      --------
+#
+#Weight has not to be on the top of the axis (has to be "sided")
+#Measure weight
+#Measure distance between centre of axis and centre of weight
+
 
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
@@ -221,7 +262,7 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 }
 
 #all rawdata will be negative because we start on the top
-fixRawdataRI <- function(rawdata) {
+fixRawdataInertial <- function(rawdata) {
 	#do not do this:
 	#rawdata[which(rawdata.c >= 0)] = rawdata[which(rawdata.c >= 0)]*-1
 	
@@ -232,6 +273,19 @@ fixRawdataRI <- function(rawdata) {
 
 	#this is to make "inverted cumsum"
 	rawdata = c(0,diff(rawdata.c))
+
+	return(rawdata)
+}
+
+#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
+fixRawdataLI <- function(rawdata) {
+	rawdata.c = cumsum(rawdata)
+	meanMax=mean(which(rawdata.c == max(rawdata.c)))
+
+	#this is to make "inverted cumsum"
+	rawdata = c(0,diff(rawdata.c))
+	
+	rawdata[meanMax:length(rawdata)] = rawdata[meanMax:length(rawdata)] * -1
 
 	return(rawdata)
 }
@@ -444,6 +498,12 @@ print("WARNING ECS\n\n\n\n\n")
 
 	#print("propulsiveEnd")
 	#print(propulsiveEnd)
+	
+	print("at kinematicsF")	
+	print(c("mass",mass))
+	print(c("speed$y",speed$y))
+	print(c("accel$y",accel$y))
+	print(c("power",power))
 
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
@@ -835,10 +895,12 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#Explanation rotatory encoder on inertial machine
 		#speed$y comes in mm/ms, is the same than m/s
 		#speedw in meters:
-		speedw <- speed$y/0.0125 #m radius
+		#speedw <- speed$y/0.0125 #m radius
+		speedw <- speed$y/0.0175 #m radius
 		#accel$y comes in meters
 		#accelw in meters:
-		accelw <- accel$y/0.0125
+		#accelw <- accel$y/0.0125
+		accelw <- accel$y/0.0175
 
 		#inertia momentums
 		#meters: 0.010
@@ -846,18 +908,21 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
 		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
-		power <- 0.067 * accelw * speedw + mass * accel$y * speed$y
+		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
+		power <- 0.067 * accelw * speedw + mass * (accel$y +g) * speed$y
+	
+		print("at Paint")	
+		print(c("mass",mass))
+		print(c("speed$y",speed$y))
+		print(c("speedw",speedw))
+		print(c("accel$y",accel$y))
+		print(c("accelw",accelw))
+		print(c("power",power))
 	}
 	else #(inertialType == "")
 		power <- force*speed$y
 
 
-	print(c("mass",mass))
-	print(c("speed$y",speed$y))
-	print(c("speedw",speedw))
-	print(c("accel$y",accel$y))
-	print(c("accelw",accelw))
-	print(c("power",power))
 
 	if(draw) {
 		ylim=c(-max(abs(range(power))),max(abs(range(power))))	#put 0 in the middle
@@ -913,7 +978,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	if(draw & !superpose) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
-		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0,cex=.8,col=cols[3])
+		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3])
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
 	}
 	#time to arrive to peak power negative on con-ecc
@@ -922,7 +987,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		if(draw & !superpose) {
 			abline(v=peakPowerTneg, col=cols[3])
 			points(peakPowerTneg, min(power),col=cols[3])
-			mtext(text=paste(round(min(power),1),"W",sep=""),side=3,at=peakPowerTneg,adj=1,cex=.8,col=cols[3])
+			mtext(text=paste(round(min(power),1),"W",sep=""),side=1,line=-1,at=peakPowerTneg,adj=.5,cex=.8,col=cols[3])
 			mtext(text=peakPowerTneg,side=1,at=peakPowerTneg,cex=.8,col=cols[3])
 		}
 
@@ -1409,8 +1474,27 @@ doProcess <- function(options) {
 	#if nothing: "-;-;-"
 	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
-	inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
-	inertialMomentum = analysisOptionsTemp[3]
+	inertialType = ""
+	inertialMomentum = 0
+	if(length(analysisOptionsTemp) > 1) {
+		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
+		inertialMomentum = analysisOptionsTemp[3]
+	}
+
+	#in "li": linear encoder with inertial machines,
+        #it's recommended to attach string to the rolling axis
+	#because then we have the information of the machine.
+	#If we attach the string to the body of the person, it's wrong because:
+        #1 there's a loose time (without tension) where person moves independent of rolling machine
+	#2 (more important) person changes direction on the top, and this is BIG a change of speed and acceleration, 
+	#	but machine is rolling at same direction and speed.
+	#	Measuring what person does there is giving incorrect high values of power
+	#	because that acceleration of the body is not related to any change of movement of the inertial machine 
+	#3 Also, linear encoder on the body has another problem:
+	#	the force of the disc to the body to make it go down when the body is in the top,
+	#	is a force that contributes greatly on the change of direction,
+	#	then this force has to be added to the gravity in the power calculation
+	#	This is not calculated yet.
 
 	
 	if(Analysis != "exportCSV") {
@@ -1572,7 +1656,7 @@ doProcess <- function(options) {
 		}
 
 		if(inertialType == "ri") 
-			rawdata = fixRawdataRI(rawdata)
+			rawdata = fixRawdataInertial(rawdata)
 		
 		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
 
@@ -1652,6 +1736,13 @@ doProcess <- function(options) {
 			}
 			
 			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
+		
+			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
+			#if(inertialType == "li") {
+			#	rawdata[myStart:myEnd] = fixRawdataLI(rawdata[myStart:myEnd])
+			#	myEccon="c"
+			#}
+
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],SmoothingOneEC,SmoothingOneC,myMass,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),

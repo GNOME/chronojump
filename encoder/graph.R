@@ -89,6 +89,7 @@
 eccons=c("c","ec","ecS","ce","ceS") 
 
 g = 9.81
+
 smoothingAll= 0.1
 
 colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
@@ -290,15 +291,76 @@ fixRawdataLI <- function(rawdata) {
 	return(rawdata)
 }
 
-#only used in eccon "c"
-#if this changes, change also in python capture file
+#called on "ec" and "ce" to have a smoothingOneEC for every curve
+#this smoothingOneEC has produce same speeds than smoothing "c"
+findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
+	smoothings = NULL
+	n=length(curves[,1])
+	
+	#if not "ec" or "ce" just have a value of 0 every curve,
+	#no problem, this value will not be used
+	#is just to not make crash other parts of the software like reduceCurveBySpeed
+	if(eccon != "ec" && eccon != "ce") {
+		for(i in 1:n) {
+			smoothings[i] = 0
+		}
+	} else {
+		#on every curve...
+		for(i in 1:n) {
+			eccentric.concentric = rawdata[curves[i,1]:curves[i,2]]
+
+			#get the cumsum rawdata: rawdata.c
+			rawdata.c=cumsum(rawdata[curves[i,1]:curves[i,2]])
+
+			#analyze the "c" phase
+			#Note dividing phases can be done using the speed,
+			#but there's no need of this small difference here 
+			start = 0
+			end = 0
+			if(eccon=="ec") {
+				start = mean(which(rawdata.c == min(rawdata.c)))
+				end = length(rawdata.c)
+			} else { #(eccon=="ce")
+				start = 0
+				end = mean(which(rawdata.c == max(rawdata.c)))
+			}
+
+			concentric=rawdata[(curves[i,1]+start):(curves[i,1]+end)]
+
+			#get max speed at "c"
+			speed <- smooth.spline( 1:length(concentric), concentric, spar=smoothingOneC) 
+			maxSpeedC=max(speed$y)
+
+			#find max speed at "ec" that's similar to maxSpeedC
+			smoothingOneEC = smoothingOneC
+			for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
+				speed <- smooth.spline( 1:length(eccentric.concentric), eccentric.concentric, spar=j)
+				smoothingOneEC = j
+				maxSpeedEC=max(speed$y)
+				print(c("maxC",maxSpeedC,"maxEC",maxSpeedEC))
+				if(maxSpeedEC >= maxSpeedC)
+					break
+			}
+
+			#use smoothingOneEC
+			smoothings[i] = smoothingOneEC
+			
+			print(smoothings[i])
+		}
+	}
+		
+	return(smoothings)
+}
+
+#used in alls eccons
+#TODO: remember to change thi in python capture file because there it's only used in "c"
 reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
 	a=rawdata
 	
 	print("at reduceCurveBySpeed")
 
 	smoothing = smoothingOneEC
-	if(eccon == "c")
+	if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
 		smoothing = smoothingOneC
 
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
@@ -430,6 +492,11 @@ findECPhases <- function(a,speed) {
 		concentric=concentric))
 }
 
+#TODO: this can have problems if there's an initial brake when lifting and this goes under -9.8
+#better use extrema, and if there's more than one minindex:
+#take the last minindex and it's previous maxindex
+#go from that maxindex to the minindex and on the first moment that goes under -9.8 assign propulsiveEnd there
+#Also use more this funcion (eg on paint)
 findPropulsiveEnd <- function(accel, concentric) {
 	if(length(which(accel[concentric]<=-g)) > 0) 
 		propulsiveEnd = min(concentric) + min(which(accel[concentric] <= -g))
@@ -446,10 +513,12 @@ return (propulsiveEnd)
 kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
-	if(eccon == "c")
+	if(eccon == "c" || eccon == "e")
 		smoothing = smoothingOneC
 	else
 		smoothing = smoothingOneEC
+
+	print(c("at kinematicsF smoothing:",smoothing))
 
 	#x vector should contain at least 4 different values
 	if(length(a) >= 4)
@@ -500,10 +569,10 @@ print("WARNING ECS\n\n\n\n\n")
 	#print(propulsiveEnd)
 	
 	print("at kinematicsF")	
-	print(c("mass",mass))
-	print(c("speed$y",speed$y))
-	print(c("accel$y",accel$y))
-	print(c("power",power))
+	#print(c("mass",mass))
+	#print(c("speed$y",speed$y))
+	#print(c("accel$y",accel$y))
+	#print(c("power",power))
 
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
@@ -547,7 +616,7 @@ powerBars <- function(eccon, kinematics) {
 			  kinematics$mass,meanForce,maxForce))
 }
 
-kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smoothingOneC,g,eccon,isPropulsive) {
+kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0;maxForce=0;maxPower=0
 	myEccon = eccon
@@ -558,7 +627,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingOneEC,smooth
 			myMass = curves[i,5]
 			myEccon = curves[i,7]
 		}
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingOneEC,smoothingOneC,g,myEccon,isPropulsive)
+		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$force)) > maxForce)
@@ -911,13 +980,13 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
 		power <- 0.067 * accelw * speedw + mass * (accel$y +g) * speed$y
 	
-		print("at Paint")	
-		print(c("mass",mass))
-		print(c("speed$y",speed$y))
-		print(c("speedw",speedw))
-		print(c("accel$y",accel$y))
-		print(c("accelw",accelw))
-		print(c("power",power))
+		#print("at Paint")	
+		#print(c("mass",mass))
+		#print(c("speed$y",speed$y))
+		#print(c("speedw",speedw))
+		#print(c("accel$y",accel$y))
+		#print(c("accelw",accelw))
+		#print(c("power",power))
 	}
 	else #(inertialType == "")
 		power <- force*speed$y
@@ -1453,7 +1522,7 @@ doProcess <- function(options) {
 	Eccon=options[9]
 	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
 	AnalysisOptions=options[11]	
-	SmoothingOneEC=options[12]
+	SmoothingOneEC=options[12] #unused, now it's calculated with findSmoothingsEC
 	SmoothingOneC=options[13]
 	Jump=options[14]
 	Width=as.numeric(options[15])
@@ -1527,6 +1596,9 @@ doProcess <- function(options) {
 			singleFile = FALSE
 		}
 	}
+	
+	#declare here
+	SmoothingsEC = 0
 
 	if(! singleFile) {
 		#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
@@ -1640,6 +1712,12 @@ doProcess <- function(options) {
 
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
+		
+		print("curves")
+		print(curves)
+		
+		#find SmoothingsEC
+		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
 	} else {
 		rawdata=scan(file=File,sep=",")
 			
@@ -1662,15 +1740,16 @@ doProcess <- function(options) {
 
 		rawdata.cumsum=cumsum(rawdata)
 
-		print("curves")
-		print(curves)
-
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
+	
+		#find SmoothingsEC
+		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
 
-		for(i in 1:n) { 
+		#reduceCurveBySpeed
+		for(i in 1:n) {
 			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
-						      SmoothingOneEC, SmoothingOneC)
+						      SmoothingsEC[i], SmoothingOneC)
 			curves[i,1] = reduceTemp[1]
 			curves[i,2] = reduceTemp[2]
 		}
@@ -1744,7 +1823,7 @@ doProcess <- function(options) {
 			#}
 
 			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[Jump,3],SmoothingOneEC,SmoothingOneC,myMass,
+			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMass,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
@@ -1765,7 +1844,7 @@ doProcess <- function(options) {
 		#yrange=c(min(a),max(a))
 		yrange=find.yrange(singleFile, rawdata, curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,
+		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingsEC,SmoothingOneC,
 					 g,Eccon,isPropulsive)
 
 		for(i in 1:n) {
@@ -1787,7 +1866,7 @@ doProcess <- function(options) {
 			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
 
 			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],SmoothingOneEC,SmoothingOneC,myMass,myTitle,mySubtitle,
+			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMass,myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
@@ -1901,7 +1980,7 @@ doProcess <- function(options) {
 			}
 			paf=rbind(paf,(powerBars(myEccon,
 						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
-							     myMass, SmoothingOneEC,SmoothingOneC, 
+							     myMass, SmoothingsEC[i],SmoothingOneC, 
 							     g, myEcconKn, isPropulsive))))
 		}
 
@@ -2015,7 +2094,7 @@ doProcess <- function(options) {
 
 		for(i in 1:curvesNum) { 
 			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, 
-					  SmoothingOneEC, SmoothingOneC, g, Eccon, isPropulsive)
+					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length
 			col1 = rawdata[curves[i,1]:curves[i,2]]

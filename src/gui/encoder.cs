@@ -36,10 +36,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_1RM_percent;
 	
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear_inverted;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_friction;
+	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_axis;
+	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inverted;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
+	[Widget] Gtk.Box hbox_encoder_capture_rotary_f_a;
 	[Widget] Gtk.SpinButton spin_encoder_capture_inertial;
+	[Widget] Gtk.Button button_encoder_capture_inertial;
+	[Widget] Gtk.Box hbox_encoder_capture_diameter;
 
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
@@ -272,7 +277,7 @@ public partial class ChronoJumpWindow
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
 				repetitiveConditionsWin.EncoderMainVariable,
-				radiobutton_encoder_capture_linear_inverted.Active
+				checkbutton_encoder_capture_inverted.Active
 				); 
 
 		EncoderStruct es = new EncoderStruct(
@@ -283,7 +288,7 @@ public partial class ChronoJumpWindow
 				"", 					//SpecialData
 				ep);				
 				
-		lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
+		lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 
 		//Update inertia momentum of encoder if needed
 		SqlitePreferences.Update("inertialmomentum", Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
@@ -321,9 +326,51 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	//---- start of sensitiveness of encoder capture buttons
+
+	//diameter is shown when: 
+	//encoder rotary axis or
+	//encoder linear with inertial (wire will be surrounding the inertial machine)
+	
+	void on_radiobutton_encoder_capture_l_r_toggled (object o, EventArgs args) {
+		if(radiobutton_encoder_capture_linear.Active) {
+			checkbutton_encoder_capture_inverted.Visible = true;
+			hbox_encoder_capture_rotary_f_a.Visible = false;
+			
+			hbox_encoder_capture_diameter.Visible = (checkbutton_encoder_capture_inertial.Active);
+		} else {
+			checkbutton_encoder_capture_inverted.Visible = false;
+			hbox_encoder_capture_rotary_f_a.Visible = true;
+		
+			hbox_encoder_capture_diameter.Visible = (radiobutton_encoder_capture_rotary_axis.Active);
+		}
+	}
+	
+	void on_radiobutton_encoder_capture_rotary_friction_or_axis_toggled (object o, EventArgs args) {
+		hbox_encoder_capture_diameter.Visible = 
+			(radiobutton_encoder_capture_rotary_axis.Active);
+	}
+		
 	void on_checkbutton_encoder_capture_inertial_clicked (object o, EventArgs args) {
 		spin_encoder_capture_inertial.Visible = (checkbutton_encoder_capture_inertial.Active);
+		button_encoder_capture_inertial.Visible = (checkbutton_encoder_capture_inertial.Active);
+		
+		hbox_encoder_capture_diameter.Visible = (
+			(checkbutton_encoder_capture_inertial.Active &&
+			 radiobutton_encoder_capture_linear.Active) ||
+			(radiobutton_encoder_capture_rotary.Active &&
+			radiobutton_encoder_capture_rotary_axis.Active)
+			);
+
+		//if inertial machine use con-ecc
+		if(checkbutton_encoder_capture_inertial.Active) {
+			combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, 
+				Constants.ConcentricEccentric);
+		}
 	}
+	
+	//---- end of sensitiveness of encoder capture buttons
+
 
 	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
 		if(UtilGtk.ComboGetActive(combo_encoder_exercise) != "") //needed because encoder_exercise_edit updates this combo and can be without values in the changing process
@@ -435,11 +482,11 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
 	{
 		if (File.Exists(Util.GetEncoderDataTempFileName())) {
-			//change sign on signal file if radiobutton_encoder_capture_linear_inverted.Active changed
+			//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
 	
-			if(lastRecalculateWasInverted != radiobutton_encoder_capture_linear_inverted.Active) {
+			if(lastRecalculateWasInverted != checkbutton_encoder_capture_inverted.Active) {
 				Util.ChangeSign(Util.GetEncoderDataTempFileName());
-				lastRecalculateWasInverted = radiobutton_encoder_capture_linear_inverted.Active;
+				lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 			}
 			
 			encoderThreadStart(encoderModes.RECALCULATE_OR_LOAD);
@@ -460,7 +507,7 @@ public partial class ChronoJumpWindow
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			else {
 				if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-						encoderEcconTranslation) != "Concentric") 
+						encoderEcconTranslation) != Constants.Concentric) 
 					curvesNum = curvesNum / 2;
 			
 				string [] activeCurvesList = new String[curvesNum];
@@ -496,16 +543,17 @@ public partial class ChronoJumpWindow
 	private string getEncoderTypeByCombos() {
 		string str = "";
 		if(radiobutton_encoder_capture_linear.Active) {
-			if(checkbutton_encoder_capture_inertial.Active)
-				str = Constants.EncoderSignalMode.LINEARINERTIAL.ToString();
-			else
-				str = Constants.EncoderSignalMode.LINEAR.ToString();
-		}
-		else if(radiobutton_encoder_capture_linear_inverted.Active) {
-			if(checkbutton_encoder_capture_inertial.Active)
-				str = Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString();
-			else
-				str = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+			if(checkbutton_encoder_capture_inverted.Active) {
+				if(checkbutton_encoder_capture_inertial.Active)
+					str = Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString();
+				else
+					str = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+			} else {
+				if(checkbutton_encoder_capture_inertial.Active)
+					str = Constants.EncoderSignalMode.LINEARINERTIAL.ToString();
+				else
+					str = Constants.EncoderSignalMode.LINEAR.ToString();
+			}
 		}
 		else { //(radiobutton_encoder_capture_rotary.Active)
 			if(checkbutton_encoder_capture_inertial.Active)
@@ -521,33 +569,40 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void setEncoderCombos(string str) {
-		if(str == Constants.EncoderSignalMode.LINEAR.ToString()) {
-			radiobutton_encoder_capture_linear.Active = true;
-			checkbutton_encoder_capture_inertial.Active = false;
-		}
-		else if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
-			radiobutton_encoder_capture_linear_inverted.Active = true;
-			checkbutton_encoder_capture_inertial.Active = false;
-		}
-		else if(str == Constants.EncoderSignalMode.ROTARY.ToString()) {
-			radiobutton_encoder_capture_rotary.Active = true;
-			checkbutton_encoder_capture_inertial.Active = false;
-		}
-		else { //inertial machines
+		if (
+				str.StartsWith(Constants.EncoderSignalMode.LINEARINERTIAL.ToString() + "-" ) ||
+				str.StartsWith(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() + "-" ) ||
+				str.StartsWith(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString() + "-" )
+		   ) {
+			//inertial machines
 			checkbutton_encoder_capture_inertial.Active = true;
 			string [] strFull = str.Split(new char[] {'-'});
 			spin_encoder_capture_inertial.Value = 
 				Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
 			
-			if (str.StartsWith(Constants.EncoderSignalMode.LINEARINERTIAL.ToString() + "-" ))
-				radiobutton_encoder_capture_linear.Active = true;
-			else if (str.StartsWith(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() + "-" ))
-				radiobutton_encoder_capture_linear_inverted.Active = true;
-			else //(str.StartsWith(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString() + "-" ))
-				radiobutton_encoder_capture_rotary.Active = true;
+			str=strFull[0]; //to be processed by the next ifs:
+		} else
+			checkbutton_encoder_capture_inertial.Active = false;
+				
+	
+		if(str == Constants.EncoderSignalMode.LINEAR.ToString()) {
+			radiobutton_encoder_capture_linear.Active = true;
+			checkbutton_encoder_capture_inverted.Active = false;
 		}
+		else if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+			radiobutton_encoder_capture_linear.Active = true;
+			checkbutton_encoder_capture_inverted.Active = true;
+		}
+		else { //(str == Constants.EncoderSignalMode.ROTARY.ToString())
+			radiobutton_encoder_capture_rotary.Active = true;
+			checkbutton_encoder_capture_inverted.Active = false;
+		}
+
+		//TODO: fix this to use diameter if needed
 	}
 
+
+	//TODO: fix this to use diameter if needed
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
 		//capture == true; analyze == false
 
@@ -563,7 +618,7 @@ public partial class ChronoJumpWindow
 			{
 				if(radiobutton_encoder_capture_rotary.Active)
 					analysisOptions += ";ri;" + im;
-				else	//(radiobutton_encoder_capture_linear.Active || radiobutton_encoder_capture_linear_inverted.Active)
+				else	//(radiobutton_encoder_capture_linear.Active || checkbutton_encoder_capture_inverted.Active)
 					analysisOptions += ";li;" + im;
 			} else 
 				analysisOptions += ";-;-";
@@ -1680,7 +1735,7 @@ public partial class ChronoJumpWindow
 				byteReaded = byteReaded - 256;
 
 			//invert sign if inverted is selected
-			if(radiobutton_encoder_capture_linear_inverted.Active)
+			if(checkbutton_encoder_capture_inverted.Active)
 				byteReaded *= -1;
 
 			i=i+1;
@@ -2165,17 +2220,17 @@ Log.WriteLine(str);
 	//TODO: check all this	
 	private string findEccon(bool forceEcconSeparated) {	
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == "Concentric") 
+					encoderEcconTranslation) == Constants.Concentric) 
 			return "c";
 		else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == "Eccentric-concentric") 
+					encoderEcconTranslation) == Constants.EccentricConcentric) 
 		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ecS";
 			else 
 				return "ec";
 		}
-		else
+		else //Constants.ConcentricEccentric
 		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ceS";
@@ -2213,9 +2268,12 @@ Log.WriteLine(str);
 		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
 		
 		//create combo eccon
-		string [] comboEcconOptions = { "Concentric", "Eccentric-concentric", "Concentric-eccentric" };
+		string [] comboEcconOptions = { Constants.Concentric, 
+			Constants.EccentricConcentric, Constants.ConcentricEccentric };
 		string [] comboEcconOptionsTranslated = { 
-			Catalog.GetString("Concentric"), Catalog.GetString("Eccentric-concentric"), Catalog.GetString("Concentric-eccentric") };
+			Catalog.GetString(Constants.Concentric), 
+			Catalog.GetString(Constants.EccentricConcentric), 
+			Catalog.GetString(Constants.ConcentricEccentric) };
 		encoderEcconTranslation = new String [comboEcconOptions.Length];
 		for(int j=0; j < 3 ; j++)
 			encoderEcconTranslation[j] = comboEcconOptions[j] + ":" + comboEcconOptionsTranslated[j];

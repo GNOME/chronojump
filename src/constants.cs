@@ -602,6 +602,10 @@ public class Constants
 	//if this name changes, change it in encoder/graph.R
 	public static string EncoderGraphInputMulti = "chronojump-encoder-graph-input-multi.csv"; 
 
+	public static string Concentric = "Concentric";
+	public static string EccentricConcentric = "Eccentric-concentric";
+	public static string ConcentricEccentric = "Concentric-eccentric";
+
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
 	public enum EncoderSignalMode { 
 		LINEAR, LINEARINVERTED, ROTARY, 

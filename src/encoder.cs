@@ -34,7 +34,6 @@ public class EncoderParams
 	private string eccon;
 	private string analysis;
 	private string analysisOptions;		//p: propulsive
-	private string smoothEccCon; //to pass always as "." to R
 	private string smoothCon; //to pass always as "." to R
 	private int curve;
 	private int width;
@@ -59,7 +58,7 @@ public class EncoderParams
 
 	//to encoder capture (pyserial_pyper.py)
 	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, 
-			string smoothEccCon, string smoothCon, string eccon, string analysisOptions,
+			string smoothCon, string eccon, string analysisOptions,
 			double heightHigherCondition, double heightLowerCondition, 
 			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
@@ -71,7 +70,6 @@ public class EncoderParams
 		this.minHeight = minHeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
 		this.mass = mass;
-		this.smoothEccCon = smoothEccCon;
 		this.smoothCon = smoothCon;
 		this.eccon = eccon;
 		this.analysisOptions = analysisOptions;
@@ -96,7 +94,7 @@ public class EncoderParams
 			analysisOptionsPrint = "none";
 
 		return time.ToString() + " " + minHeight.ToString() + " " + exercisePercentBodyWeight.ToString() + 
-			" " + mass.ToString() + " " + smoothEccCon + " " + smoothCon + " " + eccon + " " + analysisOptionsPrint +
+			" " + mass.ToString() + " " + smoothCon + " " + eccon + " " + analysisOptionsPrint +
 			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
 			" " + Util.ConvertToPoint(meanSpeedHigherCondition.ToString()) + 	
 			" " + Util.ConvertToPoint(meanSpeedLowerCondition.ToString()) +
@@ -109,7 +107,7 @@ public class EncoderParams
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string analysisOptions, string smoothEccCon, string smoothCon,
+			string analysis, string analysisOptions, string smoothCon,
 			int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
@@ -118,7 +116,6 @@ public class EncoderParams
 		this.eccon = eccon;
 		this.analysis = analysis;
 		this.analysisOptions = analysisOptions;
-		this.smoothEccCon = smoothEccCon;
 		this.smoothCon = smoothCon;
 		this.curve = curve;
 		this.width = width;
@@ -129,7 +126,7 @@ public class EncoderParams
 	public string ToString2 (string sep) 
 	{
 		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
-			sep + analysis + sep + analysisOptions + sep + smoothEccCon + sep + smoothCon + 
+			sep + analysis + sep + analysisOptions + sep + smoothCon + 
 			sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}
 	

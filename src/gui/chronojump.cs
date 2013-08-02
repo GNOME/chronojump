@@ -903,8 +903,6 @@ public partial class ChronoJumpWindow
 		update_sqlite_at_runs_speed_radios = true;
 
 		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
-		encoderSmoothEccCon = Convert.ToDouble ( Util.ChangeDecimalSeparator ( 
-					SqlitePreferences.Select("encoderSmoothEccCon") ) );
 		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 
@@ -2621,7 +2619,7 @@ public partial class ChronoJumpWindow
 				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
-				encoderPropulsive, encoderSmoothEccCon, encoderSmoothCon,
+				encoderPropulsive, encoderSmoothCon,
 				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod")
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
@@ -2704,8 +2702,6 @@ public partial class ChronoJumpWindow
 			metersSecondsPreferred = false;
 		
 		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
-		encoderSmoothEccCon = Convert.ToDouble ( Util.ChangeDecimalSeparator ( 
-					SqlitePreferences.Select("encoderSmoothEccCon") ) );
 		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 

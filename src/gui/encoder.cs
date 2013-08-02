@@ -146,7 +146,6 @@ public partial class ChronoJumpWindow
 
 	//smooth preferences on Sqlite since 1.3.7
 	bool encoderPropulsive;
-	double encoderSmoothEccCon; 
 	double encoderSmoothCon;
 
 	bool lastRecalculateWasInverted;
@@ -264,7 +263,6 @@ public partial class ChronoJumpWindow
 				(int) spin_encoder_capture_min_height.Value, 
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMassFromCombo(true)),
-				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
 				analysisOptions,
@@ -616,7 +614,6 @@ public partial class ChronoJumpWindow
 				findEccon(true),					//force ecS (ecc-conc separated)
 				analysis,
 				analysisOptions,
-				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
@@ -1176,7 +1173,6 @@ public partial class ChronoJumpWindow
 				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQL because there is (true)
 				"exportCSV",
 				analysisOptions,
-				Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				-1,
 				image_encoder_width,
@@ -1860,7 +1856,6 @@ public partial class ChronoJumpWindow
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
 					analysisOptions,
-					Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 
@@ -1960,7 +1955,6 @@ Log.WriteLine(str);
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					analysisOptions,
-					Util.ConvertToPoint(encoderSmoothEccCon),		//R decimal: '.'
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,

@@ -101,7 +101,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=19)
+	options=readLines(optionsCon,n=18)
 	close(optionsCon)
 	return (options)
 }
@@ -122,7 +122,7 @@ print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
-OperatingSystem=options[19]
+OperatingSystem=options[18]
 
 
 write("(1/5) Starting R", OutputData2)
@@ -1522,14 +1522,13 @@ doProcess <- function(options) {
 	Eccon=options[9]
 	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
 	AnalysisOptions=options[11]	
-	SmoothingOneEC=options[12] #unused, now it's calculated with findSmoothingsEC
-	SmoothingOneC=options[13]
-	Jump=options[14]
-	Width=as.numeric(options[15])
-	Height=as.numeric(options[16])
-	DecimalSeparator=options[17]
-	Title=options[18]
-	OperatingSystem=options[19]	#if this changes, change it also at start of this R file
+	SmoothingOneC=options[12]
+	Jump=options[13]
+	Width=as.numeric(options[14])
+	Height=as.numeric(options[15])
+	DecimalSeparator=options[16]
+	Title=options[17]
+	OperatingSystem=options[18]	#if this changes, change it also at start of this R file
 	#important, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
@@ -1782,7 +1781,7 @@ doProcess <- function(options) {
 				       y1=myY, col="blue",code=0,length=0.1)
 				#mtext(at=((curves[i,1]+curves[i,2])/2/1000),	#/1000 ms -> s
 				#     side=1,text=myLabel, cex=.8, col="blue")
-				abline(v=mean(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
+				abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
 
 			#plot speed

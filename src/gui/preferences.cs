@@ -60,9 +60,7 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_weight_kg;
 	
 	[Widget] Gtk.CheckButton checkbutton_encoder_propulsive;
-	[Widget] Gtk.SpinButton spin_encoder_smooth_ecc_con;
 	[Widget] Gtk.SpinButton spin_encoder_smooth_con;
-	[Widget] Gtk.Label label_encoder_ecc_con;
 	[Widget] Gtk.Label label_encoder_con;
 			
 	[Widget] Gtk.RadioButton radio_encoder_1RM_nonweighted;
@@ -106,7 +104,7 @@ public class PreferencesWindow {
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool encoderPropulsive, double encoderSmoothEccCon, double encoderSmoothCon,
+			string language, bool encoderPropulsive, double encoderSmoothCon,
 			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod)
 	{
 		if (PreferencesWindowBox == null) {
@@ -188,7 +186,6 @@ public class PreferencesWindow {
 	
 		//encoder	
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
-		PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value = encoderSmoothEccCon;
 		PreferencesWindowBox.spin_encoder_smooth_con.Value = encoderSmoothCon;
 
 		if(encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED.ToString())
@@ -217,7 +214,6 @@ public class PreferencesWindow {
 		*/
 
 		//done here and not in glade to be shown with the decimal point of user language	
-		PreferencesWindowBox.label_encoder_ecc_con.Text = (0.6).ToString();
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 
 		PreferencesWindowBox.preferences.Show ();
@@ -424,8 +420,6 @@ public class PreferencesWindow {
 		
 		SqlitePreferences.Update("encoderPropulsive", 
 				PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
-		SqlitePreferences.Update("encoderSmoothEccCon", Util.ConvertToPoint( 
-				(double) PreferencesWindowBox.spin_encoder_smooth_ecc_con.Value), true);
 		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
 		SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);

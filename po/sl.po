@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-05 21:29+0000\n"
-"PO-Revision-Date: 2013-09-12 20:23+0100\n"
+"POT-Creation-Date: 2013-09-12 18:24+0000\n"
+"PO-Revision-Date: 2013-09-20 22:46+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -1278,14 +1278,12 @@ msgid "Type:"
 msgstr "Vrsta:"
 
 #: ../glade/chronojump.glade.h:263
-#, fuzzy
 msgid "Linear"
-msgstr "Linearno"
+msgstr "Linearen"
 
 #: ../glade/chronojump.glade.h:264
-#, fuzzy
 msgid "Linear encoder (default)"
-msgstr "Privzeta višina okna"
+msgstr "Linearen kodirnik (privzeto)"
 
 #: ../glade/chronojump.glade.h:265
 msgid "Rotary"
@@ -1305,7 +1303,6 @@ msgid "Friction"
 msgstr "Trenje"
 
 #: ../glade/chronojump.glade.h:269
-#, fuzzy
 msgid "Axis"
 msgstr "Os"
 
@@ -1333,19 +1330,16 @@ msgid "Diameter"
 msgstr "Premer"
 
 #: ../glade/chronojump.glade.h:275
-#, fuzzy
 msgid "Help on encoder types"
-msgstr "Pomoč za delo s programom"
+msgstr "Pomoč za vrste kodirnika"
 
 #: ../glade/chronojump.glade.h:276
-#, fuzzy
 msgid "Load encoder configuration"
-msgstr "Naloži nastavitveno datoteko terminala"
+msgstr "Naloži nastavitev kodirnika"
 
 #: ../glade/chronojump.glade.h:277
-#, fuzzy
 msgid "Save encoder configuration"
-msgstr "Ni mogoče shraniti nastavitev"
+msgstr "Shrani nastavitev kodirnika"
 
 #: ../glade/chronojump.glade.h:278
 msgid "Encoder"
@@ -1380,7 +1374,7 @@ msgstr "Izpodrinjeno"
 #: ../glade/chronojump.glade.h:285
 #, fuzzy
 msgid "1RM window"
-msgstr "Višina okna"
+msgstr "Okno 1RM"
 
 #: ../glade/chronojump.glade.h:286 ../src/gui/encoder.cs:412
 #: ../src/gui/encoder.cs:717 ../src/gui/encoder.cs:1076
@@ -1571,7 +1565,7 @@ msgstr "Shrani sliko"
 #: ../glade/chronojump.glade.h:332
 #, fuzzy
 msgid "Save 1RM value"
-msgstr "Vrednost višine okna."
+msgstr "Shrani vrednost 1RM"
 
 #: ../glade/chronojump.glade.h:333
 msgid "Show graph"
@@ -2559,7 +2553,7 @@ msgstr "Priporočeni izvajalci"
 #: ../glade/chronojump.glade.h:565
 #, fuzzy
 msgid "1RM prediction"
-msgstr "Natančnost predvidevanja"
+msgstr "Predvidevanje 1RM"
 
 #: ../glade/chronojump.glade.h:566
 msgid "Select the camera"
@@ -3832,9 +3826,8 @@ msgid "Eccentric-concentric"
 msgstr "Ekscentrično-koncentrično"
 
 #: ../src/encoder.cs:317
-#, fuzzy
 msgid "Concentric-eccentric"
-msgstr "Ekscentrično-koncentrično"
+msgstr "Koncentrično-ekscentrično"
 
 #: ../src/execute/event.cs:338
 msgid ""
@@ -4723,7 +4716,7 @@ msgstr "Vrata kronopik niso nastavljena."
 #: ../src/gui/encoder.cs:413
 #, fuzzy
 msgid "Load 1RM"
-msgstr "Naloži / Shrani"
+msgstr "Naloži 1RM"
 
 #. don't show now
 #: ../src/gui/encoder.cs:424
@@ -4907,8 +4900,9 @@ msgid "Sorry, this graph is not supported yet."
 msgstr "Žal ta graf še ni podprt."
 
 #: ../src/gui/encoder.cs:1886
+#, fuzzy
 msgid "Sorry, cannot calculate 1RM of different exercises."
-msgstr ""
+msgstr "Žal ni mogoče izračunati 1RM za različne vaje."
 
 #: ../src/gui/encoder.cs:2289
 msgid "RL"
@@ -4965,7 +4959,7 @@ msgstr "Shranjeno."
 #: ../src/gui/encoder.cs:2499
 #, fuzzy, csharp-format
 msgid "1RM found: {0} Kg."
-msgstr "Gradnika ni mogoče najti: %s"
+msgstr "Najden 1RM: {0} kg."
 
 #: ../src/gui/encoder.cs:2500
 #, csharp-format
@@ -4993,7 +4987,7 @@ msgstr "Odpor"
 #: ../src/gui/encoder.cs:2599 ../src/gui/encoder.cs:2640
 #, fuzzy
 msgid "Speed at 1RM"
-msgstr "AT-SPI določilnik veljavnosti"
+msgstr "Hitrost pri 1RM"
 
 #. don't show now
 #: ../src/gui/encoder.cs:2635

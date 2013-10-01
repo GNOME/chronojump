@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-12 18:24+0000\n"
-"PO-Revision-Date: 2013-09-20 22:46+0100\n"
+"POT-Creation-Date: 2013-09-27 21:14+0000\n"
+"PO-Revision-Date: 2013-10-01 23:50+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -530,7 +530,7 @@ msgid ""
 "weight"
 msgstr ""
 "% telesne\n"
-"teže"
+"mase"
 
 #: ../glade/chronojump.glade.h:115
 msgid "Technique"
@@ -1287,12 +1287,11 @@ msgstr "Linearen kodirnik (privzeto)"
 
 #: ../glade/chronojump.glade.h:265
 msgid "Rotary"
-msgstr ""
+msgstr "Rotacijski kodirnik"
 
 #: ../glade/chronojump.glade.h:266
-#, fuzzy
 msgid "Rotary encoder"
-msgstr "Nastavitve kodirnika"
+msgstr "Rotacijski kodirnik"
 
 #: ../glade/chronojump.glade.h:267
 msgid "Inverted"
@@ -1307,23 +1306,20 @@ msgid "Axis"
 msgstr "Os"
 
 #: ../glade/chronojump.glade.h:270
-#, fuzzy
 msgid "Inertial"
-msgstr "Navpično"
+msgstr "Vztrajnost"
 
 #: ../glade/chronojump.glade.h:271
 msgid "Inertial machine (Yoyo, VersaPulley)"
-msgstr ""
+msgstr "Vztrajnostna naprava (Yoyo, VersaPulley)"
 
-# http://www.myotest.us/Horizontal/Protocols/Vert-Jump.aspx
 #: ../glade/chronojump.glade.h:272
-#, fuzzy
 msgid "Inertia Momentum"
-msgstr "Skok iz nasprotnega gibanja"
+msgstr "Masni vztrajnostni moment"
 
 #: ../glade/chronojump.glade.h:273
 msgid "Calcule inertial momentum"
-msgstr ""
+msgstr "Izračunaj masni vztrajnostni moment"
 
 #: ../glade/chronojump.glade.h:274
 msgid "Diameter"
@@ -1365,14 +1361,13 @@ msgstr "Dodatna obtežitev"
 
 #: ../glade/chronojump.glade.h:283
 msgid "Displaced weight in Kg"
-msgstr "Izpodrinjena teža telesa v kg"
+msgstr "Izpodrinjena masa telesa v kg"
 
 #: ../glade/chronojump.glade.h:284
 msgid "Displaced"
 msgstr "Izpodrinjeno"
 
 #: ../glade/chronojump.glade.h:285
-#, fuzzy
 msgid "1RM window"
 msgstr "Okno 1RM"
 
@@ -1563,7 +1558,6 @@ msgid "Save image"
 msgstr "Shrani sliko"
 
 #: ../glade/chronojump.glade.h:332
-#, fuzzy
 msgid "Save 1RM value"
 msgstr "Shrani vrednost 1RM"
 
@@ -1723,16 +1717,16 @@ msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
 "jumper changed, you need to solve new jump's weight."
 msgstr ""
-"Teža skokov je zabeležena kot '%' teže skakalca. Ko se teža skakalca "
+"Teža skokov je zabeležena kot '%' mase skakalca. Ko se masa skakalca "
 "spremeni, je treba izračunati novo težo skoka. "
 
 #: ../glade/chronojump.glade.h:375
 msgid "Old jumper weight"
-msgstr "Stara teža skakalca"
+msgstr "Stara masa skakalca"
 
 #: ../glade/chronojump.glade.h:376
 msgid "New jumper weight"
-msgstr "Nova teža skakalca"
+msgstr "Nova masa skakalca"
 
 #: ../glade/chronojump.glade.h:377
 msgid "About"
@@ -1934,11 +1928,11 @@ msgstr "Je sposoben brcniti žogo brez težav z ravnotežjem."
 
 #: ../glade/chronojump.glade.h:423
 msgid "Able to kick ball but needs to take a step to get back on balance."
-msgstr "Je sposoben brcniti žogo, vendar pa mora ulovi ravnotežje."
+msgstr "Je sposoben brcniti žogo, vendar mora ulovi ravnotežje."
 
 #: ../glade/chronojump.glade.h:424
 msgid "Able to kick ball with difficulty finding balance."
-msgstr "Je sposoben brcniti žogo, vendar pa očitno težko ulovi ravnotežje."
+msgstr "Je sposoben brcniti žogo, vendar očitno težko ulovi ravnotežje."
 
 #: ../glade/chronojump.glade.h:425
 msgid "Walk whilst counting backwards from 15 to 0"
@@ -2392,7 +2386,7 @@ msgstr "Podatki testiranca"
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:83 ../src/stats/sjCmjAbkPlus.cs:57
 #: ../src/treeViewJump.cs:38
 msgid "Weight"
-msgstr "Teža"
+msgstr "Masa"
 
 #: ../glade/chronojump.glade.h:528 ../src/exportSession.cs:227
 #: ../src/gui/person.cs:1894 ../src/gui/session.cs:726
@@ -2495,7 +2489,7 @@ msgstr "Enote hitrosti:"
 
 #: ../glade/chronojump.glade.h:552
 msgid "Weight units:"
-msgstr "Enota teže:"
+msgstr "Enota mase:"
 
 #: ../glade/chronojump.glade.h:553
 msgid "Height (cm)"
@@ -2526,34 +2520,28 @@ msgid "Smoothing"
 msgstr "Glajenje"
 
 #: ../glade/chronojump.glade.h:560
-#, fuzzy
 msgid "Non weighted"
-msgstr "Ne-sodelujoči"
+msgstr "Neuteženo"
 
 #: ../glade/chronojump.glade.h:561
-#, fuzzy
 msgid "Weighted"
-msgstr "Središčno obteženo povprečje"
+msgstr "Uteženo"
 
 #: ../glade/chronojump.glade.h:562
-#, fuzzy
 msgid "Weighted^2"
-msgstr "Središčno obteženo povprečje"
+msgstr "Uteženo^2"
 
 #: ../glade/chronojump.glade.h:563
-#, fuzzy
 msgid "Weighted^3"
-msgstr "Središčno obteženo povprečje"
+msgstr "Uteženo^3"
 
 #: ../glade/chronojump.glade.h:564
-#, fuzzy
 msgid "Recommended: Weighted^2"
-msgstr "Priporočeni izvajalci"
+msgstr "Priporočeno: uteženo^2"
 
 #: ../glade/chronojump.glade.h:565
-#, fuzzy
 msgid "1RM prediction"
-msgstr "Predvidevanje 1RM"
+msgstr "Napoved 1RM"
 
 #: ../glade/chronojump.glade.h:566
 msgid "Select the camera"
@@ -3557,7 +3545,7 @@ msgstr "prevzeto (dodan g za enote watt)"
 #: ../src/constants.cs:255 ../src/constants.cs:262 ../src/constants.cs:269
 #: ../src/constants.cs:277 ../src/constants.cs:283
 msgid "body weight"
-msgstr "telesna teža"
+msgstr "telesna masa"
 
 #: ../src/constants.cs:187 ../src/constants.cs:221 ../src/constants.cs:226
 #: ../src/constants.cs:231 ../src/constants.cs:236 ../src/constants.cs:241
@@ -4227,7 +4215,7 @@ msgstr "Trenutno ni mogoče poslati."
 
 #: ../src/gui/chronojump.cs:1319
 msgid "<b>Weight</b> of the following persons is not ok:"
-msgstr "<b>Teža</b> navedenih testirancev ni ustrezna:"
+msgstr "<b>Masa</b> navedenih testirancev ni ustrezna:"
 
 #: ../src/gui/chronojump.cs:1333
 msgid "<b>Country</b> of the following persons is undefined:"
@@ -4714,15 +4702,14 @@ msgid "Chronopic port is not configured."
 msgstr "Vrata kronopik niso nastavljena."
 
 #: ../src/gui/encoder.cs:413
-#, fuzzy
 msgid "Load 1RM"
-msgstr "Naloži 1RM"
+msgstr "Obremenitev 1RM"
 
 #. don't show now
 #: ../src/gui/encoder.cs:424
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Saved 1RM values of athlete {0} on this session."
-msgstr "Shranjene krivulje testiranca {0} iz te seje."
+msgstr "Shranjene vrednosti 1RM testiranca {0} iz te seje."
 
 #: ../src/gui/encoder.cs:426
 msgid "If you want to delete a row, right click on it."
@@ -4733,6 +4720,8 @@ msgid ""
 "If there is more than one value for an exercise,\n"
 "the used value is the top one."
 msgstr ""
+"Kadar je za vajo določenih več vrednosti,\n"
+"je uporabljena najvišja vrednost."
 
 #: ../src/gui/encoder.cs:441 ../src/gui/encoder.cs:770
 #: ../src/gui/encoder.cs:1114
@@ -4886,21 +4875,18 @@ msgid "Speed,Power / Load"
 msgstr "Hitrost,moč / Breme"
 
 #: ../src/gui/encoder.cs:1640 ../src/gui/encoder.cs:2328
-#, fuzzy
 msgid "1RM Bench Press"
-msgstr "Ali pa pritisnite 'preslednico'."
+msgstr "1RM potisk s prsi"
 
 #: ../src/gui/encoder.cs:1642 ../src/gui/encoder.cs:2328
-#, fuzzy
 msgid "1RM Any exercise"
-msgstr "Dodaj novo vajo"
+msgstr "1RM katerekoli vaje"
 
 #: ../src/gui/encoder.cs:1645
 msgid "Sorry, this graph is not supported yet."
 msgstr "Žal ta graf še ni podprt."
 
 #: ../src/gui/encoder.cs:1886
-#, fuzzy
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Žal ni mogoče izračunati 1RM za različne vaje."
 
@@ -4957,19 +4943,19 @@ msgid "Saved."
 msgstr "Shranjeno."
 
 #: ../src/gui/encoder.cs:2499
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "1RM found: {0} Kg."
-msgstr "Najden 1RM: {0} kg."
+msgstr "1RM napoved: {0} Kg."
 
 #: ../src/gui/encoder.cs:2500
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
-msgstr "Izpodrinjena teža telesa v tej vaji: {0}%."
+msgstr "Izpodrinjena masa telesa v tej vaji: {0}%."
 
 #: ../src/gui/encoder.cs:2502
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
-msgstr ""
+msgstr "Shranjen podatek 1RM brez izpodrinjene mase telesa: {0} Kg."
 
 #: ../src/gui/encoder.cs:2594
 msgid "Encoder exercise name:"
@@ -4977,7 +4963,7 @@ msgstr "Ime vaje kodirnika:"
 
 #: ../src/gui/encoder.cs:2595 ../src/gui/encoder.cs:2636
 msgid "Displaced body weight"
-msgstr "Izpodrinjena teža telesa"
+msgstr "Izpodrinjena masa telesa"
 
 #. done this because IsEditable does not affect the cursors
 #: ../src/gui/encoder.cs:2597
@@ -4985,7 +4971,6 @@ msgid "Resistance"
 msgstr "Odpor"
 
 #: ../src/gui/encoder.cs:2599 ../src/gui/encoder.cs:2640
-#, fuzzy
 msgid "Speed at 1RM"
 msgstr "Hitrost pri 1RM"
 
@@ -5053,7 +5038,7 @@ msgstr "Niz"
 
 #: ../src/gui/encoder.cs:2827
 msgid "Displaced weight"
-msgstr "Izpodrinjena teža telesa"
+msgstr "Izpodrinjena masa telesa"
 
 #: ../src/gui/encoder.cs:3653 ../src/gui/encoder.cs:3746
 msgid "Please, wait."
@@ -5393,11 +5378,11 @@ msgstr "Izberite datum seje"
 
 #: ../src/gui/person.cs:1380
 msgid "Select your height"
-msgstr "Izberite težo"
+msgstr "Izberite maso"
 
 #: ../src/gui/person.cs:1394
 msgid "Select your weight in pounds"
-msgstr "Izberite težo v funtih"
+msgstr "Izberite maso v funtih"
 
 #: ../src/gui/person.cs:1537 ../src/gui/session.cs:524
 msgid "Add new sport to database"
@@ -5494,7 +5479,7 @@ msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
 msgstr ""
-"P = SQRT(4,9) * 9,8 * (telesna teža+dodatna teža) * SQRT(višina skoka v "
+"P = SQRT(4,9) * 9,8 * (telesna masa+dodatna obtežitev) * SQRT(višina skoka v "
 "metrih)"
 
 #: ../src/gui/preferences.cs:292
@@ -7915,7 +7900,7 @@ msgstr "Rezultat"
 
 #: ../src/stats/graphs/potency.cs:72 ../src/stats/potency.cs:61
 msgid "Person's Weight"
-msgstr "Teža testiranca"
+msgstr "Masa testiranca"
 
 #: ../src/stats/graphs/potency.cs:73 ../src/stats/potency.cs:62
 msgid "Extra Weight"

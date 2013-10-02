@@ -964,21 +964,15 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#Explanation rotatory encoder on inertial machine
 		#speed$y comes in mm/ms, is the same than m/s
 		#speedw in meters:
-		#speedw <- speed$y/0.0125 #m radius
-		speedw <- speed$y/0.0175 #m radius
+		speedw <- speed$y/inertialDiameter #m radius
 		#accel$y comes in meters
 		#accelw in meters:
-		#accelw <- accel$y/0.0125
-		accelw <- accel$y/0.0175
-
-		#inertia momentums
-		#meters: 0.010
-		#meters: 0.067
+		accelw <- accel$y/inertialDiameter
 
 		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
 		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
 		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
-		power <- 0.067 * accelw * speedw + mass * (accel$y +g) * speed$y
+		power <- inertialMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
 	
 		#print("at Paint")	
 		#print(c("mass",mass))
@@ -1546,7 +1540,10 @@ doProcess <- function(options) {
 	inertialMomentum = 0
 	if(length(analysisOptionsTemp) > 1) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
-		inertialMomentum = analysisOptionsTemp[3]
+		inertialMomentum = analysisOptionsTemp[3] #in meters, eg: 0.010
+	}
+	if(length(analysisOptionsTemp) > 3) {
+		inertialDiameter = analysisOptionsTemp[4] #in meters, eg: 0.0175
 	}
 
 	#in "li": linear encoder with inertial machines,

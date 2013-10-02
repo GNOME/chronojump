@@ -42,7 +42,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inverted;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
 	[Widget] Gtk.Box hbox_encoder_capture_rotary_f_a;
-	[Widget] Gtk.SpinButton spin_encoder_capture_inertial;
+	
+	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. The rest of the software uses Kg*m^2 ( /10000 )
+	[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
+	
+	[Widget] Gtk.SpinButton spin_encoder_capture_diameter;
 	[Widget] Gtk.Button button_encoder_capture_inertial;
 	[Widget] Gtk.Box hbox_encoder_capture_diameter;
 
@@ -209,7 +213,7 @@ public partial class ChronoJumpWindow
 		createEncoderCombos();
 		
 		spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
-					SqlitePreferences.Select("inertialmomentum")));
+					SqlitePreferences.Select("inertialmomentum"))) * 10000;
 	}
 	
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
@@ -291,7 +295,8 @@ public partial class ChronoJumpWindow
 		lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 
 		//Update inertia momentum of encoder if needed
-		SqlitePreferences.Update("inertialmomentum", Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
+		SqlitePreferences.Update("inertialmomentum", 
+				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000), false);
 
 		if (radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
@@ -563,11 +568,15 @@ public partial class ChronoJumpWindow
 		}
 			
 		if(checkbutton_encoder_capture_inertial.Active)
-			str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value);
+			str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000); //Kg*cm^2 -> Kg*m^2
+		
+		str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_diameter.Value);
 
 		return str;
 	}
-	
+
+
+	//TODO: add diameter here	
 	private void setEncoderCombos(string str) {
 		if (
 				str.StartsWith(Constants.EncoderSignalMode.LINEARINERTIAL.ToString() + "-" ) ||
@@ -578,7 +587,7 @@ public partial class ChronoJumpWindow
 			checkbutton_encoder_capture_inertial.Active = true;
 			string [] strFull = str.Split(new char[] {'-'});
 			spin_encoder_capture_inertial.Value = 
-				Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+				Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])) * 10000; //Kg*m^2 -> Kg*cm^2
 			
 			str=strFull[0]; //to be processed by the next ifs:
 		} else
@@ -602,7 +611,6 @@ public partial class ChronoJumpWindow
 	}
 
 
-	//TODO: fix this to use diameter if needed
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
 		//capture == true; analyze == false
 
@@ -611,17 +619,18 @@ public partial class ChronoJumpWindow
 			analysisOptions = "p";
 
 		//inertial momentum with '.' for R
-		string im = Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value);
+		string im = Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000);
+		string diameter = Util.ConvertToPoint((double) spin_encoder_capture_diameter.Value);
 
 		if(checkbutton_encoder_capture_inertial.Active) {
 			if(captureOrAnalyze || radiobutton_encoder_analyze_data_current_signal.Active) 
 			{
 				if(radiobutton_encoder_capture_rotary.Active)
-					analysisOptions += ";ri;" + im;
+					analysisOptions += ";ri;" + im + ";" + diameter;
 				else	//(radiobutton_encoder_capture_linear.Active || checkbutton_encoder_capture_inverted.Active)
-					analysisOptions += ";li;" + im;
+					analysisOptions += ";li;" + im + ";" + diameter;
 			} else 
-				analysisOptions += ";-;-";
+				analysisOptions += ";-;-;-";
 		}
 
 		return analysisOptions;

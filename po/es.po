@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-02 15:42+0000\n"
-"PO-Revision-Date: 2013-08-14 13:32+0200\n"
+"POT-Creation-Date: 2013-10-02 18:17+0000\n"
+"PO-Revision-Date: 2013-10-03 18:19+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -769,8 +769,8 @@ msgstr "Distancia total"
 #: ../src/exportSession.cs:277 ../src/exportSession.cs:379
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:542
 #: ../src/exportSession.cs:633 ../src/exportSession.cs:675
-#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2598
-#: ../src/gui/encoder.cs:2639 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
+#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2607
+#: ../src/gui/encoder.cs:2648 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
 #: ../src/gui/person.cs:123 ../src/gui/run.cs:1347 ../src/gui/run.cs:1518
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -908,7 +908,7 @@ msgid "Person average on this test"
 msgstr "Promedio del atleta en esta prueba"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:185 ../src/gui/encoder.cs:411
+#: ../glade/chronojump.glade.h:185 ../src/gui/encoder.cs:416
 #: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
 #: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
 msgid "Person"
@@ -1265,7 +1265,6 @@ msgid "Contacts (platform or photocell)"
 msgstr "Contactos (plataforma o fotocélulas)"
 
 #: ../glade/chronojump.glade.h:262
-#| msgid "Type"
 msgid "Type:"
 msgstr "Tipo:"
 
@@ -1290,7 +1289,6 @@ msgid "Inverted"
 msgstr "Invertido"
 
 #: ../glade/chronojump.glade.h:268
-#| msgid "action"
 msgid "Friction"
 msgstr "Fricción"
 
@@ -1307,25 +1305,22 @@ msgid "Inertial machine (Yoyo, VersaPulley)"
 msgstr "Máquina inercial (Yoyo, VersaPulley)"
 
 #: ../glade/chronojump.glade.h:272
-msgid "Inertia Momentum"
-msgstr "Momento de la inercia"
-
-#: ../glade/chronojump.glade.h:273
-#| msgid "Inertia Momentum"
 msgid "Calcule inertial momentum"
 msgstr "Calcular momento de la inercia"
 
-#: ../glade/chronojump.glade.h:274
-#| msgid "meters"
+#: ../glade/chronojump.glade.h:273
 msgid "Diameter"
 msgstr "Diámetro"
+
+#: ../glade/chronojump.glade.h:274
+msgid "Diameter of inertia machine axis"
+msgstr "Diámetro del eje de la máquina de inercia"
 
 #: ../glade/chronojump.glade.h:275
 msgid "Help on encoder types"
 msgstr "Ayuda sobre tipos de codificadores"
 
 #: ../glade/chronojump.glade.h:276
-#| msgid "Go to <i>Port configurations</i>."
 msgid "Load encoder configuration"
 msgstr "Cargar configuración del codificador"
 
@@ -1349,8 +1344,8 @@ msgstr "Añadir ejercicio nuevo"
 msgid "Extra weight in Kg"
 msgstr "Peso adicional en Kg"
 
-#: ../glade/chronojump.glade.h:282 ../src/gui/encoder.cs:719
-#: ../src/gui/encoder.cs:1078 ../src/gui/encoder.cs:2826
+#: ../glade/chronojump.glade.h:282 ../src/gui/encoder.cs:728
+#: ../src/gui/encoder.cs:1087 ../src/gui/encoder.cs:2835
 #: ../src/gui/jump.cs:1577 ../src/gui/jump.cs:1776
 msgid "Extra weight"
 msgstr "Peso extra"
@@ -1367,9 +1362,9 @@ msgstr "Desplazado"
 msgid "1RM window"
 msgstr "Ventana 1RM"
 
-#: ../glade/chronojump.glade.h:286 ../src/gui/encoder.cs:412
-#: ../src/gui/encoder.cs:717 ../src/gui/encoder.cs:1076
-#: ../src/gui/encoder.cs:2825
+#: ../glade/chronojump.glade.h:286 ../src/gui/encoder.cs:417
+#: ../src/gui/encoder.cs:726 ../src/gui/encoder.cs:1085
+#: ../src/gui/encoder.cs:2834
 msgid "Exercise"
 msgstr "Ejercicio"
 
@@ -1437,7 +1432,7 @@ msgstr "curvas"
 msgid "On capture: displayed positive and negative height in meters"
 msgstr "Al capturar: altura positiva o negativa mostrada en metros"
 
-#: ../glade/chronojump.glade.h:303 ../src/gui/encoder.cs:1075
+#: ../glade/chronojump.glade.h:303 ../src/gui/encoder.cs:1084
 msgid "Signal"
 msgstr "Señal"
 
@@ -1461,7 +1456,7 @@ msgstr "Curvas del usuario"
 msgid "("
 msgstr "("
 
-#: ../glade/chronojump.glade.h:309 ../src/gui/encoder.cs:715
+#: ../glade/chronojump.glade.h:309 ../src/gui/encoder.cs:724
 msgid "Active"
 msgstr "Activar"
 
@@ -1549,7 +1544,7 @@ msgstr "Modo:"
 msgid "\t"
 msgstr "\t"
 
-#: ../glade/chronojump.glade.h:331 ../src/gui/encoder.cs:1265
+#: ../glade/chronojump.glade.h:331 ../src/gui/encoder.cs:1274
 msgid "Save image"
 msgstr "Guardar imagen"
 
@@ -1561,7 +1556,7 @@ msgstr "Guardar valor 1RM"
 msgid "Show graph"
 msgstr "Mostrar gráfica"
 
-#: ../glade/chronojump.glade.h:334 ../src/gui/encoder.cs:1267
+#: ../glade/chronojump.glade.h:334 ../src/gui/encoder.cs:1276
 msgid "Save table"
 msgstr "Guardar tabla"
 
@@ -1868,8 +1863,8 @@ msgstr "m/s"
 msgid "Kg"
 msgstr "Kg"
 
-#: ../glade/chronojump.glade.h:411 ../src/gui/encoder.cs:2714
-#: ../src/gui/encoder.cs:2828
+#: ../glade/chronojump.glade.h:411 ../src/gui/encoder.cs:2723
+#: ../src/gui/encoder.cs:2837
 msgid "Start"
 msgstr "Salida"
 
@@ -2318,7 +2313,7 @@ msgstr "Marcar"
 msgid "Search filter"
 msgstr "Filtro de búsqueda"
 
-#: ../glade/chronojump.glade.h:514 ../src/gui/encoder.cs:1113
+#: ../glade/chronojump.glade.h:514 ../src/gui/encoder.cs:1122
 msgid "Load"
 msgstr "Cargar"
 
@@ -2504,12 +2499,10 @@ msgid "On concentric evaluate only propulsive phase"
 msgstr "En concéntrico, evaluar sólo la fase propulsiva"
 
 #: ../glade/chronojump.glade.h:557
-#| msgid "Smoothing"
 msgid "Smooth"
 msgstr "Suave"
 
 #: ../glade/chronojump.glade.h:558
-#| msgid "Recommended values:"
 msgid "Recommended:"
 msgstr "Recomendado:"
 
@@ -2908,7 +2901,7 @@ msgid "Place"
 msgstr "Lugar"
 
 #: ../glade/chronojump.glade.h:647 ../src/exportSession.cs:210
-#: ../src/gui/encoder.cs:720 ../src/gui/encoder.cs:1079
+#: ../src/gui/encoder.cs:729 ../src/gui/encoder.cs:1088
 #: ../src/gui/session.cs:724 ../src/gui/session.cs:961 ../src/report.cs:242
 msgid "Date"
 msgstr "Fecha"
@@ -3940,23 +3933,23 @@ msgstr "Guardar informe como..."
 msgid "Export session in format "
 msgstr "Exportar sesión en formato "
 
-#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1281
+#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1290
 #: ../src/gui/preferences.cs:346
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:1282
+#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:1291
 msgid "Export"
 msgstr "Exportar"
 
-#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:1304
+#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:1313
 #: ../src/gui/preferences.cs:359
 msgid "Are you sure you want to overwrite file: "
 msgstr "Está seguro de que desea sobreescribir el archivo: "
 
 #: ../src/exportSession.cs:104 ../src/exportSession.cs:136
-#: ../src/gui/encoder.cs:1325 ../src/gui/encoder.cs:1354
-#: ../src/gui/encoder.cs:1362 ../src/gui/encoder.cs:1369
+#: ../src/gui/encoder.cs:1334 ../src/gui/encoder.cs:1363
+#: ../src/gui/encoder.cs:1371 ../src/gui/encoder.cs:1378
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Guardado en {0}"
@@ -3967,7 +3960,7 @@ msgid "Cannot export to file {0} "
 msgstr "No se puede exportar al archivo {0} "
 
 #. report does not currently send the appBar reference
-#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1340
+#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1349
 msgid "Cancelled."
 msgstr "Cancelado."
 
@@ -3996,8 +3989,8 @@ msgid "SessionID"
 msgstr "ID de sesión"
 
 #: ../src/exportSession.cs:223 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:714 ../src/gui/encoder.cs:908
-#: ../src/gui/encoder.cs:1000 ../src/gui/encoder.cs:1074
+#: ../src/gui/encoder.cs:723 ../src/gui/encoder.cs:917
+#: ../src/gui/encoder.cs:1009 ../src/gui/encoder.cs:1083
 #: ../src/gui/person.cs:119
 msgid "ID"
 msgstr "ID"
@@ -4013,7 +4006,7 @@ msgstr "ID de atleta"
 #: ../src/exportSession.cs:267 ../src/exportSession.cs:363
 #: ../src/exportSession.cs:481 ../src/exportSession.cs:533
 #: ../src/exportSession.cs:630 ../src/exportSession.cs:671
-#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:910
+#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:919
 msgid "Person name"
 msgstr "Nombre de atleta"
 
@@ -4459,7 +4452,7 @@ msgstr "Pulsar este botón:\n"
 #: ../src/gui/chronojump.cs:3402 ../src/gui/chronojump.cs:3535
 #: ../src/gui/chronojump.cs:3694 ../src/gui/chronojump.cs:3824
 #: ../src/gui/chronojump.cs:3941 ../src/gui/chronojump.cs:4064
-#: ../src/gui/chronojump.cs:4296 ../src/gui/encoder.cs:1600
+#: ../src/gui/chronojump.cs:4296 ../src/gui/encoder.cs:1609
 msgid "Sorry, video cannot be stored."
 msgstr "Lo sentimo, el video no puede ser guardado."
 
@@ -4686,25 +4679,25 @@ msgstr ""
 "Nuevo peso\n"
 "opción 2"
 
-#: ../src/gui/encoder.cs:219 ../src/gui/encoder.cs:3630
+#: ../src/gui/encoder.cs:223 ../src/gui/encoder.cs:3639
 msgid "Chronopic port is not configured."
 msgstr "El puerto de Chronopic no está configurado."
 
-#: ../src/gui/encoder.cs:413
+#: ../src/gui/encoder.cs:418
 msgid "Load 1RM"
 msgstr "Cargar 1RM"
 
 #. don't show now
-#: ../src/gui/encoder.cs:424
+#: ../src/gui/encoder.cs:429
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} on this session."
 msgstr "Valor 1RM guardado del atleta {0} en esta sesión."
 
-#: ../src/gui/encoder.cs:426
+#: ../src/gui/encoder.cs:431
 msgid "If you want to delete a row, right click on it."
 msgstr "Si quiere eliminar una fila, pulse con el botón derecho sobre ella."
 
-#: ../src/gui/encoder.cs:427
+#: ../src/gui/encoder.cs:432
 msgid ""
 "If there is more than one value for an exercise,\n"
 "the used value is the top one."
@@ -4712,58 +4705,58 @@ msgstr ""
 "Si hay más de un valor para un ejercicio,\n"
 "se usa el valor superior."
 
-#: ../src/gui/encoder.cs:441 ../src/gui/encoder.cs:770
-#: ../src/gui/encoder.cs:1114
+#: ../src/gui/encoder.cs:446 ../src/gui/encoder.cs:779
+#: ../src/gui/encoder.cs:1123
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/gui/encoder.cs:495
+#: ../src/gui/encoder.cs:500
 msgid "Missing data."
 msgstr "Faltan datos."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:716 ../src/gui/encoder.cs:2713
-#: ../src/gui/encoder.cs:2823
+#: ../src/gui/encoder.cs:725 ../src/gui/encoder.cs:2722
+#: ../src/gui/encoder.cs:2832
 msgid "Curve"
 msgstr "Curva"
 
-#: ../src/gui/encoder.cs:718 ../src/gui/encoder.cs:1077
+#: ../src/gui/encoder.cs:727 ../src/gui/encoder.cs:1086
 msgid "Contraction"
 msgstr "Contracción"
 
-#: ../src/gui/encoder.cs:721 ../src/gui/encoder.cs:1081
+#: ../src/gui/encoder.cs:730 ../src/gui/encoder.cs:1090
 #: ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Comentario"
 
 #. don't show now
-#: ../src/gui/encoder.cs:746
+#: ../src/gui/encoder.cs:755
 #, csharp-format
 msgid "Saved curves of athlete {0} on this session."
 msgstr "Curvas guardadas del atleta {0} en esta sesión."
 
-#: ../src/gui/encoder.cs:748
+#: ../src/gui/encoder.cs:757
 msgid "Activate the curves you want to use clicking on first column."
 msgstr "Active las curvas que quiere usar pulsando en la primera columna"
 
-#: ../src/gui/encoder.cs:749 ../src/gui/encoder.cs:1097
+#: ../src/gui/encoder.cs:758 ../src/gui/encoder.cs:1106
 msgid "If you want to edit or delete a row, right click on it."
 msgstr ""
 "Si quiere editar o eliminar una fila, pulse con el botón derecho sobre ella."
 
-#: ../src/gui/encoder.cs:764
+#: ../src/gui/encoder.cs:773
 msgid "Change the owner of selected curve"
 msgstr "Cambiar el propietario de la curva seleccionada"
 
-#: ../src/gui/encoder.cs:765 ../src/gui/encoder.cs:1109
+#: ../src/gui/encoder.cs:774 ../src/gui/encoder.cs:1118
 msgid "code"
 msgstr "código"
 
-#: ../src/gui/encoder.cs:765 ../src/gui/encoder.cs:1109
+#: ../src/gui/encoder.cs:774 ../src/gui/encoder.cs:1118
 msgid "name"
 msgstr "nombre"
 
-#: ../src/gui/encoder.cs:911 ../src/gui/encoder.cs:1004
+#: ../src/gui/encoder.cs:920 ../src/gui/encoder.cs:1013
 msgid ""
 "Selected\n"
 "curves"
@@ -4771,7 +4764,7 @@ msgstr ""
 "Curvas\n"
 "seleccionadas"
 
-#: ../src/gui/encoder.cs:912 ../src/gui/encoder.cs:1005
+#: ../src/gui/encoder.cs:921 ../src/gui/encoder.cs:1014
 msgid ""
 "All\n"
 "curves"
@@ -4780,266 +4773,266 @@ msgstr ""
 "las curvas"
 
 #. don't show now
-#: ../src/gui/encoder.cs:927
+#: ../src/gui/encoder.cs:936
 #, csharp-format
 msgid "Select persons to compare to {0}."
 msgstr "Seleccionar atletas para comparar con {0}."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:1002 ../src/gui/person.cs:2148
+#: ../src/gui/encoder.cs:1011 ../src/gui/person.cs:2148
 msgid "Session name"
 msgstr "Nombre de Sesión"
 
-#: ../src/gui/encoder.cs:1003
+#: ../src/gui/encoder.cs:1012
 msgid "Session date"
 msgstr "Fecha de la sesión"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1020
+#: ../src/gui/encoder.cs:1029
 #, csharp-format
 msgid "Compare curves of {0} from this session with the following sessions."
 msgstr ""
 "Comparar las curvas de {0} de esta sesión con las de las siguientes sesiones."
 
-#: ../src/gui/encoder.cs:1080
+#: ../src/gui/encoder.cs:1089
 msgid "Video"
 msgstr "Vídeo"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1095
+#: ../src/gui/encoder.cs:1104
 #, csharp-format
 msgid "Select signal of athlete {0} on this session."
 msgstr "Seleccionar las señales del atleta {0} en esta sesión."
 
-#: ../src/gui/encoder.cs:1108
+#: ../src/gui/encoder.cs:1117
 msgid "Change the owner of selected signal"
 msgstr "Cambiar el propietario de la señal seleccionada"
 
-#: ../src/gui/encoder.cs:1162 ../src/gui/encoder.cs:3900
+#: ../src/gui/encoder.cs:1171 ../src/gui/encoder.cs:3909
 msgid "Sorry, file not found"
 msgstr "Archivo no encontrado"
 
-#: ../src/gui/encoder.cs:1263
+#: ../src/gui/encoder.cs:1272
 msgid "Export session in format CSV"
 msgstr "Exportar sesión en formato CSV"
 
-#: ../src/gui/encoder.cs:1333 ../src/gui/encoder.cs:2440
-#: ../src/gui/encoder.cs:2475
+#: ../src/gui/encoder.cs:1342 ../src/gui/encoder.cs:2449
+#: ../src/gui/encoder.cs:2484
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "No se puede guardar el archivo {0} "
 
-#: ../src/gui/encoder.cs:1377
+#: ../src/gui/encoder.cs:1386
 msgid "Are you sure you want to delete this signal?"
 msgstr "¿Seguro que desea borrar esta señal?"
 
-#: ../src/gui/encoder.cs:1393
+#: ../src/gui/encoder.cs:1402
 msgid "Signal deleted"
 msgstr "Señal eliminada"
 
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:1507
+#: ../src/gui/encoder.cs:1516
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Curva {0} guardada"
 
-#: ../src/gui/encoder.cs:1510
+#: ../src/gui/encoder.cs:1519
 msgid "All curves saved"
 msgstr "Se han guardado todas las curvas"
 
-#: ../src/gui/encoder.cs:1583
+#: ../src/gui/encoder.cs:1592
 msgid "Signal saved"
 msgstr "Señal guardada"
 
 #. only signal is updated
 #. Adding on SQL
-#: ../src/gui/encoder.cs:1608
+#: ../src/gui/encoder.cs:1617
 msgid "Signal updated"
 msgstr "Señal actualizada"
 
-#: ../src/gui/encoder.cs:1625
+#: ../src/gui/encoder.cs:1634
 msgid "Sorry, no curves selected."
 msgstr "No hay curvas seleccionadas."
 
-#: ../src/gui/encoder.cs:1638 ../src/gui/encoder.cs:2326
+#: ../src/gui/encoder.cs:1647 ../src/gui/encoder.cs:2335
 msgid "Speed,Power / Load"
 msgstr "Velocidad, potencia / carga"
 
-#: ../src/gui/encoder.cs:1640 ../src/gui/encoder.cs:2328
+#: ../src/gui/encoder.cs:1649 ../src/gui/encoder.cs:2337
 msgid "1RM Bench Press"
 msgstr "1RM press de banca"
 
-#: ../src/gui/encoder.cs:1642 ../src/gui/encoder.cs:2328
+#: ../src/gui/encoder.cs:1651 ../src/gui/encoder.cs:2337
 msgid "1RM Any exercise"
 msgstr "1RM cualquier ejercicio"
 
-#: ../src/gui/encoder.cs:1645
+#: ../src/gui/encoder.cs:1654
 msgid "Sorry, this graph is not supported yet."
 msgstr "Este gráfico todavía no está soportado"
 
-#: ../src/gui/encoder.cs:1886
+#: ../src/gui/encoder.cs:1895
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "No se puede calcular 1RM en ejercicios diferentes."
 
-#: ../src/gui/encoder.cs:2289
+#: ../src/gui/encoder.cs:2298
 msgid "RL"
 msgstr "RL"
 
-#: ../src/gui/encoder.cs:2289
+#: ../src/gui/encoder.cs:2298
 msgid "R"
 msgstr "R"
 
-#: ../src/gui/encoder.cs:2289
+#: ../src/gui/encoder.cs:2298
 msgid "L"
 msgstr "L"
 
-#: ../src/gui/encoder.cs:2303
+#: ../src/gui/encoder.cs:2312
 msgid "No compare"
 msgstr "No comparar"
 
-#: ../src/gui/encoder.cs:2304
+#: ../src/gui/encoder.cs:2313
 msgid "Between persons"
 msgstr "Entre atletas"
 
-#: ../src/gui/encoder.cs:2305
+#: ../src/gui/encoder.cs:2314
 msgid "Between sessions"
 msgstr "Entre sesiones"
 
-#: ../src/gui/encoder.cs:2325
+#: ../src/gui/encoder.cs:2334
 msgid "Speed / Load"
 msgstr "Velocidad / carga"
 
-#: ../src/gui/encoder.cs:2325
+#: ../src/gui/encoder.cs:2334
 msgid "Force / Load"
 msgstr "Fuerza / carga"
 
-#: ../src/gui/encoder.cs:2326
+#: ../src/gui/encoder.cs:2335
 msgid "Power / Load"
 msgstr "Potencia / carga"
 
-#: ../src/gui/encoder.cs:2327
+#: ../src/gui/encoder.cs:2336
 msgid "Force / Speed"
 msgstr "Fuerza / velocidad"
 
-#: ../src/gui/encoder.cs:2327
+#: ../src/gui/encoder.cs:2336
 msgid "Power / Speed"
 msgstr "Potencia / velocidad"
 
-#: ../src/gui/encoder.cs:2487
+#: ../src/gui/encoder.cs:2496
 msgid "Not enough data."
 msgstr "No hay datos suficientes."
 
-#: ../src/gui/encoder.cs:2497
+#: ../src/gui/encoder.cs:2506
 msgid "Saved."
 msgstr "Guardado"
 
-#: ../src/gui/encoder.cs:2499
+#: ../src/gui/encoder.cs:2508
 #, csharp-format
 msgid "1RM found: {0} Kg."
 msgstr "Encontrado 1RM: {0} Kg."
 
-#: ../src/gui/encoder.cs:2500
+#: ../src/gui/encoder.cs:2509
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
 msgstr "Peso corporal desplazado en el ejercicio: {0}%"
 
-#: ../src/gui/encoder.cs:2502
+#: ../src/gui/encoder.cs:2511
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
 msgstr "1RM guardado sin peso corporal desplazado: {0} Kg."
 
-#: ../src/gui/encoder.cs:2594
+#: ../src/gui/encoder.cs:2603
 msgid "Encoder exercise name:"
 msgstr "Nombre del ejercicio del codificador:"
 
-#: ../src/gui/encoder.cs:2595 ../src/gui/encoder.cs:2636
+#: ../src/gui/encoder.cs:2604 ../src/gui/encoder.cs:2645
 msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:2597
+#: ../src/gui/encoder.cs:2606
 msgid "Resistance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:2599 ../src/gui/encoder.cs:2640
+#: ../src/gui/encoder.cs:2608 ../src/gui/encoder.cs:2649
 msgid "Speed at 1RM"
 msgstr "Velocidad a 1RM"
 
 #. don't show now
-#: ../src/gui/encoder.cs:2635
+#: ../src/gui/encoder.cs:2644
 msgid "Write the name of the encoder exercise:"
 msgstr "Escriba el nombre del codificador del ejercicio:"
 
-#: ../src/gui/encoder.cs:2638
+#: ../src/gui/encoder.cs:2647
 msgid "Ressitance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:2642
+#: ../src/gui/encoder.cs:2651
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:2669
+#: ../src/gui/encoder.cs:2678
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:2672
+#: ../src/gui/encoder.cs:2681
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/encoder.cs:2715 ../src/gui/encoder.cs:2829
+#: ../src/gui/encoder.cs:2724 ../src/gui/encoder.cs:2838
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoder.cs:2716 ../src/gui/encoder.cs:2830
+#: ../src/gui/encoder.cs:2725 ../src/gui/encoder.cs:2839
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/gui/encoder.cs:2717 ../src/gui/encoder.cs:2831
+#: ../src/gui/encoder.cs:2726 ../src/gui/encoder.cs:2840
 msgid "MeanSpeed"
 msgstr "Velocidad media"
 
-#: ../src/gui/encoder.cs:2718 ../src/gui/encoder.cs:2832
+#: ../src/gui/encoder.cs:2727 ../src/gui/encoder.cs:2841
 msgid "MaxSpeed"
 msgstr "Velocidad máxima"
 
-#: ../src/gui/encoder.cs:2719 ../src/gui/encoder.cs:2833
+#: ../src/gui/encoder.cs:2728 ../src/gui/encoder.cs:2842
 msgid "MaxSpeedTime"
 msgstr "Tiempo de velocidad máxima"
 
-#: ../src/gui/encoder.cs:2720 ../src/gui/encoder.cs:2834
+#: ../src/gui/encoder.cs:2729 ../src/gui/encoder.cs:2843
 msgid "MeanPower"
 msgstr "Potencia media"
 
-#: ../src/gui/encoder.cs:2721 ../src/gui/encoder.cs:2835
+#: ../src/gui/encoder.cs:2730 ../src/gui/encoder.cs:2844
 msgid "PeakPower"
 msgstr "Pico de potencia"
 
-#: ../src/gui/encoder.cs:2722 ../src/gui/encoder.cs:2836
+#: ../src/gui/encoder.cs:2731 ../src/gui/encoder.cs:2845
 msgid "PeakPowerTime"
 msgstr "Instante del pico de potencia"
 
-#: ../src/gui/encoder.cs:2723 ../src/gui/encoder.cs:2837
+#: ../src/gui/encoder.cs:2732 ../src/gui/encoder.cs:2846
 msgid "PeakPower/PPT"
 msgstr "Pico de potencia/Instante"
 
-#: ../src/gui/encoder.cs:2824
+#: ../src/gui/encoder.cs:2833
 msgid "Series"
 msgstr "Series"
 
-#: ../src/gui/encoder.cs:2827
+#: ../src/gui/encoder.cs:2836
 msgid "Displaced weight"
 msgstr "Peso desplazado"
 
-#: ../src/gui/encoder.cs:3653 ../src/gui/encoder.cs:3746
+#: ../src/gui/encoder.cs:3662 ../src/gui/encoder.cs:3755
 msgid "Please, wait."
 msgstr "Espere."
 
-#: ../src/gui/encoder.cs:3801 ../src/gui/encoder.cs:3839
+#: ../src/gui/encoder.cs:3810 ../src/gui/encoder.cs:3848
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: ../src/gui/encoder.cs:3809
+#: ../src/gui/encoder.cs:3818
 msgid "Finished"
 msgstr "Terminado"
 
@@ -8043,6 +8036,9 @@ msgstr "Diferencia"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Corredor"
+
+#~ msgid "Inertia Momentum"
+#~ msgstr "Momento de la inercia"
 
 #~| msgid "Encoder is upside down"
 #~ msgid "Linear encoder upside down"

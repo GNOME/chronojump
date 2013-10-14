@@ -1,4 +1,3 @@
-
 EXTRA_DIST =  chronojump_mini.cs ../images/report_web_style.css angle/*
 
 

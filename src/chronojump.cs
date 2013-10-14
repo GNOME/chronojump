@@ -30,6 +30,8 @@ using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
 
+using RDotNet;
+
 public class ChronoJump 
 {
 	SplashWindow splashWin;
@@ -87,6 +89,16 @@ public class ChronoJump
 			createBlankDBServer();
 			Environment.Exit(1);
 		}
+		
+		string rPackagePath="/usr/lib/R";
+		bool initResult = REngine.SetDllDirectory(rPackagePath);
+		if (!initResult)
+			   throw new Exception(@"R Initialization Failed");
+
+		REngine engine = REngine.CreateInstance("tsEngine");
+
+		if (engine == null)
+			   throw new Exception(@"REngine Creation Failed");
 		
 		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 					

@@ -5,12 +5,17 @@ AC_INIT([chronojump], [1.3.9])
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
-AC_CONFIG_MACRO_DIR([m4])
-AC_SUBST([ACLOCAL_AMFLAGS], ["-I m4/shamrock -I m4/shave \${ACLOCAL_FLAGS}"])
+AC_CONFIG_MACRO_DIR([build/m4])
+AC_SUBST([ACLOCAL_AMFLAGS], ["-I build/m4/shamrock -I build/m4/shave \${ACLOCAL_FLAGS}"])
 
+AM_PROG_CC_STDC
+AC_ISC_POSIX
+AC_PROG_CC
+AC_C_CONST
+AC_HEADER_STDC
 AM_PROG_LIBTOOL
-
 AM_PATH_PYTHON
+LT_INIT
 
 dnl Check for pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
@@ -24,6 +29,25 @@ SHAMROCK_EXPAND_DATADIR
 
 
 AC_PROG_INSTALL
+
+#*******************************************************************************
+# Internationalization
+#*******************************************************************************
+GETTEXT_PACKAGE=chronojump
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+
+dnl Check for gettext utils
+AC_PATH_PROG(MSGFMT, msgfmt, no)
+if test "x$MSGFMT" = "xno"; then
+	AC_MSG_ERROR([gettext not found])
+else 
+	AC_SUBST(MSGFMT,[msgfmt])
+fi
+
+IT_PROG_INTLTOOL([0.40.0])
+AM_GLIB_GNU_GETTEXT
+
 
 dnl Mono and C# compiler
 dnl Check first for a 4.0 compiler or than fallback to 2.0
@@ -99,6 +123,9 @@ if test -z "$CONFIG_REQUESTED" ; then
 	enable_release=yes
 fi
 
+dnl Disable tests
+AM_CONDITIONAL(ENABLE_TESTS, test x = y)
+
 
 dnl package checks, common for all configs
 PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0])
@@ -111,6 +138,8 @@ AC_SUBST(CESARPLAYER_LIBS)
 
 AC_CONFIG_FILES([
 Makefile
+build/m4/shave/shave
+build/m4/shave/shave-libtool
 chronopic-firmware/Makefile
 chronopic-firmware/chronopic-firmwarecord/Makefile
 chronopic-firmware/chronopic-firmwarecord/libIris/Makefile
@@ -131,6 +160,8 @@ CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
 rdotnet/Makefile
+rdotnet/R.NET/Makefile
+rdotnet/RDotNet.NativeLibrary/Makefile
 ])
 
 AC_OUTPUT

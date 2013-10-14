@@ -8,4 +8,8 @@ SOURCES = \
     UnmanagedDll.cs \
     NativeUtility.cs
 
+if !OSTYPE_WINDOWS
+ASSEMBLY_BUILD_FLAGS = -define:UNIX
+endif
+
 include $(top_srcdir)/build/build.mk

@@ -30,6 +30,7 @@ using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
 
+using System.Linq;
 using RDotNet;
 
 public class ChronoJump 
@@ -70,8 +71,37 @@ public class ChronoJump
 		System.Console.SetOut(sw);
 		System.Console.SetError(sw);
 		sw.AutoFlush = true;
-*/
+		*/
 
+		var envPath = Environment.GetEnvironmentVariable ("PATH");
+		var rBinPath = @"/usr/lib/R/lib";
+		Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
+		Environment.SetEnvironmentVariable ("PATH", envPath + Path.PathSeparator + rBinPath);
+
+		using (REngine engine = REngine.CreateInstance("RDotNet"))
+		{
+			// From v1.5, REngine requires explicit initialization.
+			// You can set some parameters.
+			engine.Initialize();
+
+			// .NET Framework array to R vector.
+			NumericVector group1 = engine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
+			engine.SetSymbol("group1", group1);
+			// Direct parsing from R script.
+			NumericVector group2 = engine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
+
+			// Test difference of mean and get the P-value.
+			GenericVector testResult = engine.Evaluate("t.test(group1, group2)").AsList();
+			double p = testResult["p.value"].AsNumeric().First();
+
+			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
+			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
+			Console.WriteLine("P-value = {0:0.000}", p);
+		}
+		Environment.Exit(1);
+		
+		
+		
 		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"../../");
 		if(UtilAll.IsWindows())
 			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
@@ -89,16 +119,8 @@ public class ChronoJump
 			createBlankDBServer();
 			Environment.Exit(1);
 		}
-		
-		string rPackagePath="/usr/lib/R";
-		bool initResult = REngine.SetDllDirectory(rPackagePath);
-		if (!initResult)
-			   throw new Exception(@"R Initialization Failed");
 
-		REngine engine = REngine.CreateInstance("tsEngine");
 
-		if (engine == null)
-			   throw new Exception(@"REngine Creation Failed");
 		
 		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 					

@@ -5,9 +5,9 @@ ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = chronopic-firmware \
 	encoder libcesarplayer CesarPlayer src po manual chronojump_server #rdotnet 
 
-#if OSTYPE_LINUX
-#SUBDIRS += chronopic-tests chronojump_server
-#endif
+if OSTYPE_LINUX
+SUBDIRS += chronopic-tests chronojump_server
+endif
 
 if OSTYPE_WINDOWS
 win32-installer:

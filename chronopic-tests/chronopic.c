@@ -24,6 +24,8 @@
  $Revision: 1.1 $
  $Source: /cvsroot/chronojump/chronopic/test/chronopic.c,v $
 --------------------------------------------------------------------------*/
+#include <sys/time.h>
+#include <sys/types.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>

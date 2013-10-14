@@ -147,7 +147,7 @@ chronopic-firmware/chronopic-firmwarecord/chronopic-firmwarecord
 chronopic-tests/Makefile
 src/Makefile
 src/Mini/Makefile
-po/Makefile
+po/Makefile.in
 chronojump_server/Makefile
 encoder/Makefile
 manual/Makefile

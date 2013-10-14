@@ -1,166 +1,105 @@
-EXTRA_DIST =  chronojump_mini.cs ../images/report_web_style.css angle/*
+SUBDIRS = Mini
 
+ASSEMBLY = Chronojump
+TARGET = exe
+LINK = $(REF_DEP_CHRONOJUMP)
 
-if ENABLE_DEBUG
-ASSEMBLY_COMPILER_COMMAND = $(MCS)
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -nowarn:169,649 -optimize+ -debug -define:DEBUG 
-ASSEMBLY = bin/Debug/Chronojump.exe
-ASSEMBLY_MDB = $(ASSEMBLY).mdb
-COMPILE_TARGET = exe
-BUILD_DIR = bin/Debug
-CHRONOJUMP_EXE_MDB_SOURCE=bin/Debug/Chronojump.exe.mdb
-CHRONOJUMP_MINI_EXE=bin/Debug/Chronojump_Mini.exe
-PROJECT_REFERENCES =  \
-	../CesarPlayer/bin/Debug/CesarPlayer.dll
-CESARPLAYER_DLL_SOURCE=../CesarPlayer/bin/Debug/CesarPlayer.dll
-CESARPLAYER_DLL=$(BUILD_DIR)/CesarPlayer.dll
-CESARPLAYER_DLL_MDB_SOURCE=../CesarPlayer/bin/Debug/CesarPlayer.dll.mdb
-CESARPLAYER_DLL_MDB=$(BUILD_DIR)/CesarPlayer.dll.mdb
-endif
-
-if ENABLE_RELEASE
-ASSEMBLY_COMPILER_COMMAND = $(MCS)
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -nowarn:169,649 -optimize+ 
-ASSEMBLY = bin/Release/Chronojump.exe
-ASSEMBLY_MDB = 
-COMPILE_TARGET = exe
-BUILD_DIR = bin/Release
-CHRONOJUMP_EXE_MDB_SOURCE=
-CHRONOJUMP_MINI_EXE=bin/Release/Chronojump_Mini.exe
-PROJECT_REFERENCES =  \
-	../CesarPlayer/bin/Release/CesarPlayer.dll
-CESARPLAYER_DLL_SOURCE=../CesarPlayer/bin/Release/CesarPlayer.dll
-CESARPLAYER_DLL=$(BUILD_DIR)/CesarPlayer.dll
-endif
-
-AL=al2
-SATELLITE_ASSEMBLY_NAME=$(notdir $(basename $(ASSEMBLY))).resources.dll
-
-COMMONAPPLICATIONDATAROOT_IMAGES = \
-	../images/chronojump-logo-2013.png \
-	../images/chronojump-logo-2013_320.png
-
-COMMONAPPLICATIONDATA_ROOT = \
-	../images/report_web_style.css
- 
-
-PROGRAMFILES = \
-	$(CESARPLAYER_DLL) \
-	$(CHRONOJUMP_MINI_EXE)
-
-LINUX_DESKTOPAPPLICATIONS = \
-	$(CHRONOJUMP_DESKTOP) 
-
-COMMONAPPLICATIONDATAROOT_LOGO = \
-	$(CHRONOJUMP_LOGO)
-
-BINARIES = \
-	$(CHRONOJUMP)\
-	$(CHRONOJUMP_MINI)
-
-	 
-
-
-RESGEN=resgen2
-	
-all: $(ASSEMBLY) $(COMMONAPPLICATIONDATA_ROOT) $(COMMONAPPLICATIONDATAROOT_IMAGES) $(COMMONAPPLICATIONDATAROOT_LOGO) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(BINARIES) 
-
-FILES = \
+SOURCES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
 	gui/confirm.cs\
 	gui/encoder.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\
- 	gui/eventGraphConfigure.cs\
- 	gui/event.cs\
- 	gui/jump.cs\
- 	gui/jumpType.cs\
- 	gui/run.cs\
- 	gui/runType.cs\
- 	gui/reactionTime.cs\
- 	gui/pulse.cs\
- 	gui/multiChronopic.cs\
- 	gui/person.cs\
- 	gui/preferences.cs\
- 	gui/session.cs\
- 	gui/stats.cs\
- 	gui/presentation.cs\
+	gui/eventGraphConfigure.cs\
+	gui/event.cs\
+	gui/jump.cs\
+	gui/jumpType.cs\
+	gui/run.cs\
+	gui/runType.cs\
+	gui/reactionTime.cs\
+	gui/pulse.cs\
+	gui/multiChronopic.cs\
+	gui/person.cs\
+	gui/preferences.cs\
+	gui/session.cs\
+	gui/stats.cs\
+	gui/presentation.cs\
 	gui/report.cs\
 	gui/about.cs\
 	gui/helpPorts.cs\
 	gui/dialogMessage.cs\
- 	gui/dialogCalendar.cs\
+	gui/dialogCalendar.cs\
 	gui/dialogImageTest.cs\
- 	gui/language.cs\
+	gui/language.cs\
 	gui/repetitiveConditions.cs\
 	gui/chronopicConnection.cs\
 	gui/convertWeight.cs\
- 	gui/genericWindow.cs\
- 	gui/splash.cs\
+	gui/genericWindow.cs\
+	gui/splash.cs\
 	gui/server.cs\
 	gui/dialogServerStats.cs\
- 	gui/evaluator.cs\
- 	gui/queryServer.cs\
+	gui/evaluator.cs\
+	gui/queryServer.cs\
 	gui/usefulObjects.cs\
 	statType.cs\
 	stats/main.cs\
 	stats/global.cs\
 	stats/sjCmjAbk.cs\
- 	stats/sjCmjAbkPlus.cs\
- 	stats/djIndex.cs\
- 	stats/djQ.cs\
- 	stats/jumpSimpleSubtraction.cs\
- 	stats/rjIndex.cs\
- 	stats/rjPotencyBosco.cs\
- 	stats/rjEvolution.cs\
- 	stats/jumpIndexes.cs\
- 	stats/fv.cs\
- 	stats/potency.cs\
- 	stats/rjAVGSD.cs\
- 	stats/runSimple.cs\
- 	stats/runIntervallic.cs\
+	stats/sjCmjAbkPlus.cs\
+	stats/djIndex.cs\
+	stats/djQ.cs\
+	stats/jumpSimpleSubtraction.cs\
+	stats/rjIndex.cs\
+	stats/rjPotencyBosco.cs\
+	stats/rjEvolution.cs\
+	stats/jumpIndexes.cs\
+	stats/fv.cs\
+	stats/potency.cs\
+	stats/rjAVGSD.cs\
+	stats/runSimple.cs\
+	stats/runIntervallic.cs\
 	stats/graphs/graphData.cs\
- 	stats/graphs/graphROptions.cs\
- 	stats/graphs/graphSerie.cs\
- 	stats/graphs/global.cs\
- 	stats/graphs/sjCmjAbk.cs\
- 	stats/graphs/sjCmjAbkPlus.cs\
- 	stats/graphs/djIndex.cs\
- 	stats/graphs/djQ.cs\
- 	stats/graphs/rjIndex.cs\
- 	stats/graphs/rjPotencyBosco.cs\
- 	stats/graphs/rjEvolution.cs\
- 	stats/graphs/jumpIndexes.cs\
- 	stats/graphs/fv.cs\
- 	stats/graphs/potency.cs\
+	stats/graphs/graphROptions.cs\
+	stats/graphs/graphSerie.cs\
+	stats/graphs/global.cs\
+	stats/graphs/sjCmjAbk.cs\
+	stats/graphs/sjCmjAbkPlus.cs\
+	stats/graphs/djIndex.cs\
+	stats/graphs/djQ.cs\
+	stats/graphs/rjIndex.cs\
+	stats/graphs/rjPotencyBosco.cs\
+	stats/graphs/rjEvolution.cs\
+	stats/graphs/jumpIndexes.cs\
+	stats/graphs/fv.cs\
+	stats/graphs/potency.cs\
 	stats/graphs/rjAVGSD.cs\
- 	stats/graphs/runSimple.cs\
- 	stats/graphs/runIntervallic.cs\
- 	stats/graphs/jumpSimpleSubtraction.cs\
+	stats/graphs/runSimple.cs\
+	stats/graphs/runIntervallic.cs\
+	stats/graphs/jumpSimpleSubtraction.cs\
 	sqlite/main.cs\
- 	sqlite/preferences.cs\
- 	sqlite/session.cs\
- 	sqlite/encoder.cs\
- 	sqlite/jump.cs\
- 	sqlite/jumpRj.cs\
- 	sqlite/jumpType.cs\
- 	sqlite/run.cs\
- 	sqlite/runInterval.cs\
- 	sqlite/runType.cs\
- 	sqlite/person.cs\
- 	sqlite/personSession.cs\
- 	sqlite/personSessionNotUpload.cs\
- 	sqlite/stat.cs\
- 	sqlite/pulse.cs\
- 	sqlite/pulseType.cs\
- 	sqlite/reactionTime.cs\
- 	sqlite/multiChronopic.cs\
- 	sqlite/event.cs\
- 	sqlite/sport.cs\
- 	sqlite/speciallity.cs\
- 	sqlite/country.cs\
- 	sqlite/server.cs\
+	sqlite/preferences.cs\
+	sqlite/session.cs\
+	sqlite/encoder.cs\
+	sqlite/jump.cs\
+	sqlite/jumpRj.cs\
+	sqlite/jumpType.cs\
+	sqlite/run.cs\
+	sqlite/runInterval.cs\
+	sqlite/runType.cs\
+	sqlite/person.cs\
+	sqlite/personSession.cs\
+	sqlite/personSessionNotUpload.cs\
+	sqlite/stat.cs\
+	sqlite/pulse.cs\
+	sqlite/pulseType.cs\
+	sqlite/reactionTime.cs\
+	sqlite/multiChronopic.cs\
+	sqlite/event.cs\
+	sqlite/sport.cs\
+	sqlite/speciallity.cs\
+	sqlite/country.cs\
+	sqlite/server.cs\
 	execute/event.cs\
 	execute/jump.cs\
 	execute/run.cs\
@@ -171,62 +110,47 @@ FILES = \
 	AssemblyInfo.cs\
 	chronojump.cs\
 	encoder.cs\
- 	event.cs\
- 	eventType.cs\
- 	jump.cs\
- 	jumpType.cs\
+	event.cs\
+	eventType.cs\
+	jump.cs\
+	jumpType.cs\
 	person.cs\
 	personSession.cs\
 	run.cs\
- 	runType.cs\
- 	pulse.cs\
- 	pulseType.cs\
- 	reactionTime.cs\
- 	reactionTimeType.cs\
- 	multiChronopic.cs\
+	runType.cs\
+	pulse.cs\
+	pulseType.cs\
+	reactionTime.cs\
+	reactionTimeType.cs\
+	multiChronopic.cs\
 	multiChronopicType.cs\
- 	session.cs\
- 	exportSession.cs\
- 	treeViewEvent.cs\
- 	treeViewPerson.cs\
- 	treeViewJump.cs\
- 	treeViewRun.cs\
- 	treeViewPulse.cs\
- 	treeViewReactionTime.cs\
- 	treeViewMultiChronopic.cs\
- 	util.cs\
- 	utilAll.cs\
- 	utilDate.cs\
-	utilGtk.cs\
- 	utilVideo.cs\
-	constants.cs\
- 	report.cs\
- 	sport.cs\
- 	log.cs\
- 	serverPing.cs\
- 	serverEvaluator.cs\
- 	server.cs\
-	chronopic.cs\
- 	oldCodeNeedToDBConvert/person.cs\
- 	oldCodeNeedToDBConvert/personSession.cs\
- 	oldCodeNeedToDBConvert/sqlite/person.cs\
- 	oldCodeNeedToDBConvert/sqlite/personSession.cs\
- 	oldCodeNeedToDBConvert/sqlite/session.cs
-
-CHRONOJUMP_MINI_FILES=\
-	chronojump_mini.cs\
-	chronopic.cs\
+	session.cs\
+	exportSession.cs\
+	treeViewEvent.cs\
+	treeViewPerson.cs\
+	treeViewJump.cs\
+	treeViewRun.cs\
+	treeViewPulse.cs\
+	treeViewReactionTime.cs\
+	treeViewMultiChronopic.cs\
+	util.cs\
 	utilAll.cs\
 	utilDate.cs\
+	utilGtk.cs\
+	utilVideo.cs\
+	constants.cs\
+	report.cs\
+	sport.cs\
 	log.cs\
-	constants.cs
-
-
-
-#CHRONOJUMP_MINI_VALIDATE_FILES=
-
-
-DATA_FILES = 
+	serverPing.cs\
+	serverEvaluator.cs\
+	server.cs\
+	chronopic.cs\
+	oldCodeNeedToDBConvert/person.cs\
+	oldCodeNeedToDBConvert/personSession.cs\
+	oldCodeNeedToDBConvert/sqlite/person.cs\
+	oldCodeNeedToDBConvert/sqlite/personSession.cs\
+	oldCodeNeedToDBConvert/sqlite/session.cs
 
 RESOURCES = \
 	../glade/chronojump.glade\
@@ -236,9 +160,9 @@ RESOURCES = \
 	../images/agility_20yard.png,agility_20yard.png\
 	../images/mini/agility_20yard.png,mini/agility_20yard.png \
 	../images/agility_illinois.png,agility_illinois.png\
- 	../images/mini/agility_illinois.png,mini/agility_illinois.png \
+	../images/mini/agility_illinois.png,mini/agility_illinois.png \
 	../images/agility_shuttle.png,agility_shuttle.png\
- 	../images/mini/agility_shuttle.png,mini/agility_shuttle.png \
+	../images/mini/agility_shuttle.png,mini/agility_shuttle.png \
 	../images/agility_zigzag.png,agility_zigzag.png\
 	../images/mini/agility_zigzag.png,mini/agility_zigzag.png \
 	../images/jump_free.png,jump_free.png\
@@ -266,7 +190,7 @@ RESOURCES = \
 	../images/jump_rj_in.png,jump_rj_in.png \
 	../images/mini/jump_rj_in.png,mini/jump_rj_in.png \
 	../images/jump_rj_hexagon.png,jump_rj_hexagon.png \
- 	../images/mini/jump_rj_hexagon.png,mini/jump_rj_hexagon.png \
+	../images/mini/jump_rj_hexagon.png,mini/jump_rj_hexagon.png \
 	../images/run_simple.png,run_simple.png \
 	../images/mini/run_simple.png,mini/run_simple.png \
 	../images/run_interval.png,run_interval.png \
@@ -275,7 +199,7 @@ RESOURCES = \
 	../images/mini/margaria.png,mini/margaria.png \
 	../images/gesell_dbt.png,gesell_dbt.png \
 	../images/mini/gesell_dbt.png,mini/gesell_dbt.png \
-	../images/multiChronopic.png,multiChronopic.png	\
+	../images/multiChronopic.png,multiChronopic.png \
 	../images/mini/multiChronopic.png,mini/multiChronopic.png \
 	../images/run_analysis.png,run_analysis.png \
 	../images/mini/run_analysis.png,mini/run_analysis.png \
@@ -285,15 +209,15 @@ RESOURCES = \
 	../images/mini/pulse_custom.png,mini/pulse_custom.png \
 	../images/reaction_time.png,reaction_time.png \
 	../images/mini/reaction_time.png,mini/reaction_time.png \
-	../images/mtgug.png,mtgug.png	\
+	../images/mtgug.png,mtgug.png \
 	../images/mini/mtgug.png,mini/mtgug.png \
 	../images/take_off.png,take_off.png \
 	../images/mini/take_off.png,mini/take_off.png \
-	../images/chronopic1.jpg,chronopic1.jpg	\
+	../images/chronopic1.jpg,chronopic1.jpg \
 	../images/mini/chronopic1.jpg,mini/chronopic1.jpg \
 	../images/chronopic2.jpg,chronopic2.jpg \
 	../images/mini/chronopic2.jpg,mini/chronopic2.jpg \
-	../images/chronopic3.jpg,chronopic3.jpg	\
+	../images/chronopic3.jpg,chronopic3.jpg \
 	../images/mini/chronopic3.jpg,mini/chronopic3.jpg \
 	../images/modular_platform_with_chronopic.jpg,modular_platform_with_chronopic.jpg \
 	../images/mini/modular_platform_with_chronopic.jpg,mini/modular_platform_with_chronopic.jpg \
@@ -332,63 +256,23 @@ RESOURCES = \
 	../images/gtk-open-plus.png,gtk-open-plus.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
-	../images/chronojump-logo-2013.png,chronojump-logo-2013.png 
+	../images/chronojump-logo-2013.png,chronojump-logo-2013.png
 
+IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
+         $(top_srcdir)/images/chronojump-logo-2013_320.png \
+         $(top_srcdir)/images/report_web_style.css
 
-EXTRAS = \
-	chronojump.in\
-	chronojump_mini.in
+LOGO = $(top_srcdir)/images/svg/chronojump-logo-2013.svg
 
-REFERENCES =  \
-	$(GTK_SHARP_20_LIBS) \
-	$(GLIB_SHARP_20_LIBS) \
-	$(GLADE_SHARP_20_LIBS) \
-	$(WEBKIT_SHARP_10_LIBS) \
-	System\
-	System.Data\
-	System.Drawing\
-	System.Web.Services\
-	System.Xml\
-	Mono.Data.Sqlite\
-	Mono.Posix
+bin_SCRIPTS = chronojump
 
+DESKTOP_FILE = chronojump.desktop.in
 
+include $(top_srcdir)/build/build.mk
 
-#DLL_REFERENCES =  \
-#	../rdotnet/R.NET/bin/Debug/RDotNet.dll
-
-
-#CLEANFILES = $(COMMONAPPLICATIONDATA_ROOT) $(COMMONAPPLICATIONDATAROOT_IMAGES) $(COMMONAPPLICATIONDATAROOT_LOGO) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(BINARIES) 
-CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(BINARIES) 
-
-
-include $(top_srcdir)/Makefile.include
-
-
-CHRONOJUMP_LOGO_SOURCE=../images/chronojump_icon.png
-CHRONOJUMP_LOGO=$(BUILD_DIR)/chronojump.png
-CHRONOJUMP_DESKTOP_SOURCE=chronojump.desktop
-CHRONOJUMP_DESKTOP = $(BUILD_DIR)/chronojump.desktop
-CHRONOJUMP_EXE_MDB = $(BUILD_DIR)/ChronoJump.exe.mdb
-CHRONOJUMP=$(BUILD_DIR)/chronojump
-CHRONOJUMP_MINI=$(BUILD_DIR)/chronojump_mini
-
-$(eval $(call emit-deploy-target,CESARPLAYER_DLL))
-$(eval $(call emit-deploy-wrapper,CHRONOJUMP,chronojump,x))
-$(eval $(call emit-deploy-wrapper,CHRONOJUMP_MINI,chronojump_mini,x))
-$(eval $(call emit-deploy-target,CHRONOJUMP_DESKTOP))
-$(eval $(call emit-deploy-target,CHRONOJUMP_LOGO))
-
-
-$(eval $(call emit_resgen_targets))
-$(build_xamlg_list): %.xaml.g.cs: %.xaml
-	xamlg '$<'
-
-$(ASSEMBLY) $(ASSEMBLY_MDB): $(build_sources) $(build_resources) $(build_datafiles) $(DLL_REFERENCES) $(PROJECT_REFERENCES) $(build_xamlg_list) $(build_satellite_assembly_list)
-	mkdir -p $(shell dirname $(ASSEMBLY))
-	$(ASSEMBLY_COMPILER_COMMAND) $(ASSEMBLY_COMPILER_FLAGS) -out:$(ASSEMBLY) -target:$(COMPILE_TARGET) $(build_sources_embed) $(build_resources_embed) $(build_references_ref)
-
-
-$(CHRONOJUMP_MINI_EXE):
-	$(ASSEMBLY_COMPILER_COMMAND) $(ASSEMBLY_COMPILER_FLAGS) $(CHRONOJUMP_MINI_FILES) -out:$(CHRONOJUMP_MINI_EXE) -target:$(COMPILE_TARGET) -r:Mono.Posix -r:System -r:System.Data
+EXTRA_DIST += \
+	chronojump.in \
+	AssemblyInfo.cs.in \
+	../images/report_web_style.css \
+	$(top_srcdir)/src/angle/*
 

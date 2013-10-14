@@ -4,9 +4,12 @@ BUILD_DATA_DIR = $(top_builddir)/bin/share/$(PACKAGE)
 SOURCES_BUILD = $(addprefix $(srcdir)/, $(SOURCES))
 #SOURCES_BUILD += $(top_srcdir)/src/AssemblyInfo.cs
 
+SUBST = ,
+RESOURCES_D := $(foreach res,$(RESOURCES),$(firstword $(subst $(SUBST), ,$(strip $(res)))))
+RESOURCES_DIST := $(addprefix $(srcdir)/, $(RESOURCES_D))
 RESOURCES_EXPANDED = $(addprefix $(srcdir)/, $(RESOURCES))
 RESOURCES_BUILD = $(foreach resource, $(RESOURCES_EXPANDED), \
-	-resource:$(resource),$(notdir $(resource)))
+	-resource:$(resource))
 
 #INSTALL_ICONS = $(top_srcdir)/build/private-icon-theme-installer "$(mkinstalldirs)" "$(INSTALL_DATA)"
 #THEME_ICONS_SOURCE = $(wildcard $(srcdir)/ThemeIcons/*/*/*.png) $(wildcard $(srcdir)/ThemeIcons/scalable/*/*.svg)
@@ -64,7 +67,7 @@ build-debug:
 
 $(ASSEMBLY_FILE).mdb: $(ASSEMBLY_FILE)
 
-$(ASSEMBLY_FILE): $(SOURCES_BUILD) $(RESOURCES_EXPANDED) $(DEP_LINK)
+$(ASSEMBLY_FILE): $(SOURCES_BUILD) $(DEP_LINK)
 	@mkdir -p $(top_builddir)/bin
 	$(MCS) \
 		$(GMCS_FLAGS) \
@@ -89,7 +92,7 @@ uninstall-hook: $(THEME_ICONS_SOURCE)
 	@$(INSTALL_ICONS) -u "$(DESTDIR)$(pkgdatadir)" "$(srcdir)" $(THEME_ICONS_RELATIVE)
 	$(EXTRA_UNINSTALL_HOOK)
 
-EXTRA_DIST = $(SOURCES_BUILD) $(RESOURCES_EXPANDED) $(THEME_ICONS_SOURCE) $(IMAGES) $(LOGO) $(LOGO_48) $(desktop_in_files)
+EXTRA_DIST = $(SOURCES_BUILD) $(RESOURCES_DIST) $(THEME_ICONS_SOURCE) $(IMAGES) $(LOGO) $(LOGO_48) $(desktop_in_files)
 
 CLEANFILES = $(OUTPUT_FILES)
 DISTCLEANFILES = *.pidb $(desktop_DATA)

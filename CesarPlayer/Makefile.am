@@ -46,4 +46,6 @@ DLLCONFIG = CesarPlayer.dll.config
 
 include $(top_srcdir)/build/build.mk
 
-EXTRA_DIST += CesarPlayer.dll.config
+EXTRA_DIST += CesarPlayer.dll.config \
+	gtk-gui/objects.xml \
+	gtk-gui/gui.stetic

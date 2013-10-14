@@ -43,12 +43,15 @@ si els botons de firmware, test1 i test2 no estan sensitive potser pq no arriba 
 
 gravar
 PIC16_bootloader_1.2.hex
-(esta en aquesta carpeta)
+
+at: ~/Documents/chronojump-no-git/chronopic-3.0/bootloader
 
 sembla que es grava amb 3F32
 
 2.A encoder 20MHz grabar firmware:
 ----------------------------------
+
+Cal que el click estigui posat a 20
 
 per 20MHz cal el pydownloader-wx,pero no va pq necessita python 2.6
 anem a agafar el pydownloader de la web (sense wx) i compilar-lo

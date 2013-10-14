@@ -146,14 +146,15 @@ chronopic-firmware/chronopic-firmwarecord/libIris/Makefile
 chronopic-firmware/chronopic-firmwarecord/chronopic-firmwarecord
 chronopic-tests/Makefile
 src/Makefile
+src/Mini/Makefile
 po/Makefile
 chronojump_server/Makefile
 encoder/Makefile
 manual/Makefile
 src/AssemblyInfo.cs
 src/chronojump
-src/chronojump_mini
 src/chronojump.desktop
+src/Mini/chronojump_mini
 libcesarplayer/Makefile
 CesarPlayer/Makefile
 CesarPlayer/AssemblyInfo.cs

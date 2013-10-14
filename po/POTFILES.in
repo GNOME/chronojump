@@ -10,7 +10,7 @@ glade/chronojump.glade
 libcesarplayer/bacon-video-widget-gst-0.10.c
 libcesarplayer/video-utils.c
 src/chronojump.cs
-src/chronojump_mini.cs
+src/Mini/chronojump_mini.cs
 src/constants.cs
 src/encoder.cs
 src/execute/event.cs
@@ -45,7 +45,6 @@ src/gui/server.cs
 src/gui/session.cs
 src/gui/stats.cs
 src/jumpType.cs
-src/platform.cs
 src/pulseType.cs
 src/report.cs
 src/runType.cs

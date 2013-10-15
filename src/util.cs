@@ -1146,7 +1146,7 @@ public class Util
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	
-	public static void RunEncoderGraph(string title, EncoderStruct es) 
+	public static bool RunEncoderGraph(string title, EncoderStruct es) 
 	{
 		CancelRScript = false;
 
@@ -1260,16 +1260,22 @@ public class Util
 		//delete 1RM data if exists
 		if (File.Exists(es.SpecialData))
 			File.Delete(es.SpecialData);
-	
-		p = new Process();
-		p.StartInfo = pinfo;
-		p.Start();
-		p.WaitForExit();
 
-		if(outputFileCheck2 == "")
-			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
-		else
-			while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
+		try {	
+			p = new Process();
+			p.StartInfo = pinfo;
+			p.Start();
+			p.WaitForExit();
+
+			if(outputFileCheck2 == "")
+				while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+			else
+				while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
+		} catch {
+			return false;
+		}
+
+		return true;
 	}
 
 	private static string [] encoderFindPos(string contents, int start, int duration) {

@@ -78,6 +78,7 @@ public class ChronoJump
 		Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
 		Environment.SetEnvironmentVariable ("PATH", envPath + Path.PathSeparator + rBinPath);
 
+		/*
 		using (REngine engine = REngine.CreateInstance("RDotNet"))
 		{
 			// From v1.5, REngine requires explicit initialization.
@@ -99,6 +100,7 @@ public class ChronoJump
 			Console.WriteLine("P-value = {0:0.000}", p);
 		}
 		Environment.Exit(1);
+		*/
 		
 		
 		

@@ -151,6 +151,7 @@ public partial class ChronoJumpWindow
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
 	private static int encoderCapturePointsPainted;			//stored to be realtime displayed
 	private static bool encoderProcessCancel;
+	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
 
 	//smooth preferences on Sqlite since 1.3.7
@@ -694,15 +695,19 @@ public partial class ChronoJumpWindow
 				"",	//SpecialData
 				ep);
 		
-		Util.RunEncoderGraph(
+		bool result = Util.RunEncoderGraph(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
 				es);
 
-		//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
-		//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
-		ecconLast = findEccon(false);
+		if(result)
+			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
+			//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
+			ecconLast = findEccon(false);
+		else {
+			encoderProcessProblems = true;
+		}
 	}
 	
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
@@ -3804,13 +3809,21 @@ Log.WriteLine(str);
 			
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
-			if(encoderProcessCancel) {
+			if(encoderProcessCancel || encoderProcessProblems) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);
-				encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 				if(notebook_encoder_capture.CurrentPage == 0 )
 					notebook_encoder_capture.NextPage();
 				encoder_pulsebar_capture.Fraction = 1;
+			
+				if(encoderProcessProblems) {
+					new DialogMessage(Constants.MessageTypes.WARNING, 
+							Catalog.GetString("Sorry. Error doing graph.") + 
+							"\n" + Catalog.GetString("Maybe R is not installed.") + 
+							"\n\nhttp://www.r-project.org/");
+					encoderProcessProblems = false;
+				} else
+					encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 			}
 			else if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);

@@ -319,7 +319,9 @@ findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
 			end = 0
 			if(eccon=="ec") {
 				start = mean(which(rawdata.c == min(rawdata.c)))
-				end = length(rawdata.c)
+				end = length(rawdata.c) -1
+				#the -1 is because the line below: "concentric=" will fail in curves[i,1]+end
+				#and will add an NA
 			} else { #(eccon=="ce")
 				start = 0
 				end = mean(which(rawdata.c == max(rawdata.c)))

@@ -27,6 +27,8 @@ using Glade;
 using System.Collections;
 using System.Threading;
 using Mono.Unix;
+using System.Linq;
+using RDotNet;
 
 
 public partial class ChronoJumpWindow 
@@ -1711,6 +1713,42 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("00d 1");
 		return true;
 	}
+		
+	bool RInitialized = false;	
+	REngine rengine;
+
+	private void runEncoderCaptureCsharpInitializeR() {
+		if(RInitialized)
+			return;
+
+		Log.WriteLine("initializing rdotnet");
+		
+		rengine = REngine.CreateInstance("RDotNet");
+		// From v1.5, REngine requires explicit initialization.
+		// You can set some parameters.
+		rengine.Initialize();
+
+		rengine.Evaluate("library(\"EMD\")");
+
+		// .NET Framework array to R vector.
+		NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
+		rengine.SetSymbol("group1", group1);
+		// Direct parsing from R script.
+		NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
+
+		// Test difference of mean and get the P-value.
+		GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
+		double p = testResult["p.value"].AsNumeric().First();
+
+		Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
+		Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
+		Console.WriteLine("P-value = {0:0.000}", p);
+
+		RInitialized = true;
+
+		Log.WriteLine("initialized rdotnet");
+	}
+		
 
 	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
@@ -1795,6 +1833,7 @@ public partial class ChronoJumpWindow
 
 		writer.Flush();
 		((IDisposable)writer).Dispose();
+
 
 		return true;
 	}
@@ -3551,6 +3590,12 @@ Log.WriteLine(str);
 				encoder_capture_drawingarea.QueueDraw(); 			// -- refresh
 
 			encoderCapturePointsPainted = encoderCapturePointsCaptured;
+
+		
+			Log.WriteLine("calling rdotnet");
+			CharacterVector charVec = rengine.CreateCharacterVector(new[] { "Hello, R world!, .NET speaking" });
+			rengine.SetSymbol("greetings", charVec);
+			rengine.Evaluate("str(greetings)"); // print out in the console
 		}
 	}
 	
@@ -3617,6 +3662,9 @@ Log.WriteLine(str);
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
+				
+				runEncoderCaptureCsharpInitializeR();
+
 				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
 				layout_encoder_capture = new Pango.Layout (encoder_capture_drawingarea.PangoContext);
 				layout_encoder_capture.FontDescription = 

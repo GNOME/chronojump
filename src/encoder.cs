@@ -529,3 +529,18 @@ public class Encoder1RM
 
 	~Encoder1RM() {}
 }
+
+public class EncoderCaptureCurve {
+	public bool up;
+	public int startFrame;
+        public int endFrame;
+
+	public EncoderCaptureCurve(bool up, int startFrame, int endFrame)
+	{
+		this.up = up;
+		this.startFrame = startFrame;
+		this.endFrame = endFrame;
+	}
+
+	~EncoderCaptureCurve() {}
+}

@@ -148,6 +148,7 @@ public partial class ChronoJumpWindow
 	private ArrayList encoderCompareInterperson;	//personID:personName
 	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
+	private static int [] encoderReaded;		//data coming from encoder
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
@@ -1770,7 +1771,8 @@ public partial class ChronoJumpWindow
 		int recordingTime = time * 1000;
 		
 		int byteReaded;
-		int [] bytesReaded = new int[recordingTime];
+		//initialize
+		encoderReaded = new int[recordingTime];
 
 		int sum = 0;
 		string dataString = "";
@@ -1781,6 +1783,34 @@ public partial class ChronoJumpWindow
 		encoderCapturePoints = new Gdk.Point[recordingTime];
 		encoderCapturePointsCaptured = 0;
 		encoderCapturePointsPainted = 0;
+				
+		/*
+		 * calculate params with R explanation	
+		 */
+
+		/*               3
+		 *              / \
+		 *             /   B
+		 *            /     \
+		 * --1       /
+		 *    \     /
+		 *     \   A
+		 *      \2/
+		 *
+		 * Record the signal, when arrive to A, then store the descending phase (1-2) and calculate params (power, ...)
+		 * When arrive to B, then store the ascending phase (2-3)
+		 */
+
+		int directionChangePeriod = 25; //how long (ms) to recognize as change direction. (from 2 to A in ms)
+						//it's in ms and not in cm, because it's easier to calculate
+		int directionChangeCount = 0; //counter for this period
+		int directionNow = 1;		// +1 or -1
+		int directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
+		int directionCompleted = -1;	// +1 or -1
+		int previousFrameChange = 0;
+		bool firstCurve = true;
+
+
 		do {
 			byteReaded = sp.ReadByte();
 			if(byteReaded > 128)
@@ -1793,7 +1823,7 @@ public partial class ChronoJumpWindow
 			i=i+1;
 			if(i >= 0) {
 				sum += byteReaded;
-				bytesReaded[i] = byteReaded;
+				encoderReaded[i] = byteReaded;
 
 				encoderCapturePoints[i] = new Gdk.Point(
 						Convert.ToInt32(width*i/recordingTime),
@@ -1808,7 +1838,83 @@ public partial class ChronoJumpWindow
 				dataString += sep + b.ToString();
 				sep = ", ";
 				*/
-			
+	
+
+				/*
+				 * calculate params with R (see explanation above)	
+				 */
+
+				//if string goes up or down
+				if(byteReaded != 0)
+					//store the direction
+					directionNow = byteReaded / Math.Abs(byteReaded); //1 (up) or -1 (down)
+				//if it's different than the last direction, mark the start of change
+				if(directionNow != directionLastMSecond) {
+					directionLastMSecond = directionNow;
+					directionChangeCount = 0;
+				} 
+				
+				//we are in a different direction than the last completed
+				if(directionNow != directionCompleted) {
+					//we cannot add byteReaded because then is difficult to come back n frames to know the max point
+					//directionChangeCount += byteReaded
+					directionChangeCount += 1;
+
+					//count >= than change_period
+					if(directionChangeCount > directionChangePeriod)
+					{ 
+						EncoderCaptureCurve ecc = new EncoderCaptureCurve(
+								Util.IntToBool(byteReaded),
+								previousFrameChange,
+								i - directionChangePeriod
+								);
+
+						previousFrameChange = i;
+						directionChangeCount = 0;
+						directionCompleted = directionNow;
+
+						if(firstCurve)
+							firstCurve = false;
+						else {
+							Log.WriteLine(ecc.up.ToString());
+							sep = "";
+							Log.Write(" A ");
+							Log.WriteLine(ecc.startFrame.ToString());
+							Log.WriteLine(ecc.endFrame.ToString());
+							int [] curve = new int[ecc.endFrame - ecc.startFrame];
+							Log.Write(" A2 ");
+							int k=0;
+							for(int j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+								Log.Write(sep + encoderReaded[j]);
+								sep = ", ";
+
+								curve[k]=encoderReaded[j];
+								k++;
+							}
+							
+							/*
+							 * TODO
+							 * do not call it here
+							 * make ecc object public
+							 * call in the other thread
+							 * manage to find if it has been calculated in R or not
+ 
+							IntegerVector curveToR = rengine.CreateIntegerVector(new int[] {2,8,12,15,19});
+							rengine.SetSymbol("curveToR", curveToR);
+							rengine.Evaluate("print(length(curveToR))");
+							rengine.Evaluate("print(mean(curveToR))");
+							//IntegerVector curveToR = rengine.CreateIntegerVector(curve);
+							
+							//var length = rengine.GetSymbol("length").AsFunction();
+							//var lengthNums = length.Invoke(new[] { curveToR }).AsNumeric();
+							//Console.WriteLine(string.Join(" ", lengthNums));
+							*/
+						}
+					}
+				}
+
+
+				//this is for visual feedback of remaining time	
 				msCount ++;
 				if(msCount >= 1000) {
 					encoderCaptureCountdown --;
@@ -1826,8 +1932,9 @@ public partial class ChronoJumpWindow
 		
 		TextWriter writer = File.CreateText(outputData1);
 
+		sep = "";
 		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + bytesReaded[j]);
+			writer.Write(sep + encoderReaded[j]);
 			sep = ", ";
 		}
 
@@ -3591,11 +3698,17 @@ Log.WriteLine(str);
 
 			encoderCapturePointsPainted = encoderCapturePointsCaptured;
 
-		
 			Log.WriteLine("calling rdotnet");
+/*
 			CharacterVector charVec = rengine.CreateCharacterVector(new[] { "Hello, R world!, .NET speaking" });
 			rengine.SetSymbol("greetings", charVec);
 			rengine.Evaluate("str(greetings)"); // print out in the console
+			*/
+			IntegerVector curveToR = rengine.CreateIntegerVector(new int[] {2,8,12,15,19});
+			rengine.SetSymbol("curveToR", curveToR);
+			rengine.Evaluate("print(length(curveToR))");
+			rengine.Evaluate("print(mean(curveToR))");
+			//IntegerVector curveToR = rengine.CreateIntegerVector(curve);
 		}
 	}
 	
@@ -3625,7 +3738,7 @@ Log.WriteLine(str);
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		Log.WriteLine("EXPOSE");
+//		Log.WriteLine("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
 		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
@@ -3730,7 +3843,7 @@ Log.WriteLine(str);
 	//this is the only who was finish	
 	private bool pulseGTKEncoderCapture ()
 	{
-		Log.WriteLine("PPPPPPPPP");
+//		Log.WriteLine("PPPPPPPPP");
 		if(! encoderThreadCapture.IsAlive || encoderProcessCancel || encoderProcessFinish) {
 			finishPulsebar(encoderModes.CAPTURE);
 			Log.Write("dying");

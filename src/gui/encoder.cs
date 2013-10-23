@@ -153,6 +153,11 @@ public partial class ChronoJumpWindow
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
 	private static int encoderCapturePointsPainted;			//stored to be realtime displayed
+	
+	//Contains curves captured to be analyzed by R
+	private static EncoderCaptureCurveArray ecca;
+	private static bool eccaCreated = false;
+
 	private static bool encoderProcessCancel;
 	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
@@ -1808,7 +1813,14 @@ public partial class ChronoJumpWindow
 		int directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
 		int directionCompleted = -1;	// +1 or -1
 		int previousFrameChange = 0;
+		int lastNonZero = 0;
 		bool firstCurve = true;
+
+		//create ecca if needed
+		if(! eccaCreated) {
+			ecca = new EncoderCaptureCurveArray();
+			eccaCreated = true;
+		}
 
 
 		do {
@@ -1848,68 +1860,40 @@ public partial class ChronoJumpWindow
 				if(byteReaded != 0)
 					//store the direction
 					directionNow = byteReaded / Math.Abs(byteReaded); //1 (up) or -1 (down)
+					
+				if(directionNow == directionLastMSecond) {
+					//check which is the last non-zero value
+					//this is suitable to find where starts the only-zeros previous to the change
+					if(byteReaded != 0)
+						lastNonZero = i;
+				}
+
 				//if it's different than the last direction, mark the start of change
 				if(directionNow != directionLastMSecond) {
 					directionLastMSecond = directionNow;
 					directionChangeCount = 0;
 				} 
-				
-				//we are in a different direction than the last completed
-				if(directionNow != directionCompleted) {
+				else if(directionNow != directionCompleted) {
+					//we are in a different direction than the last completed
+					
 					//we cannot add byteReaded because then is difficult to come back n frames to know the max point
 					//directionChangeCount += byteReaded
-					directionChangeCount += 1;
+					directionChangeCount ++;
 
 					//count >= than change_period
 					if(directionChangeCount > directionChangePeriod)
 					{ 
 						EncoderCaptureCurve ecc = new EncoderCaptureCurve(
-								Util.IntToBool(byteReaded),
+								! Util.IntToBool(directionNow), //if we go now UP, then record previous DOWN phase
 								previousFrameChange,
-								i - directionChangePeriod
+								( (i + lastNonZero)/2 ) //end between i and start of the zeros (end at 1/2 of zeros)
+								- directionChangePeriod //and obviously - directionChangePeriod
 								);
+						ecca.ecc.Add(ecc);
 
 						previousFrameChange = i;
 						directionChangeCount = 0;
 						directionCompleted = directionNow;
-
-						if(firstCurve)
-							firstCurve = false;
-						else {
-							Log.WriteLine(ecc.up.ToString());
-							sep = "";
-							Log.Write(" A ");
-							Log.WriteLine(ecc.startFrame.ToString());
-							Log.WriteLine(ecc.endFrame.ToString());
-							int [] curve = new int[ecc.endFrame - ecc.startFrame];
-							Log.Write(" A2 ");
-							int k=0;
-							for(int j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-								Log.Write(sep + encoderReaded[j]);
-								sep = ", ";
-
-								curve[k]=encoderReaded[j];
-								k++;
-							}
-							
-							/*
-							 * TODO
-							 * do not call it here
-							 * make ecc object public
-							 * call in the other thread
-							 * manage to find if it has been calculated in R or not
- 
-							IntegerVector curveToR = rengine.CreateIntegerVector(new int[] {2,8,12,15,19});
-							rengine.SetSymbol("curveToR", curveToR);
-							rengine.Evaluate("print(length(curveToR))");
-							rengine.Evaluate("print(mean(curveToR))");
-							//IntegerVector curveToR = rengine.CreateIntegerVector(curve);
-							
-							//var length = rengine.GetSymbol("length").AsFunction();
-							//var lengthNums = length.Invoke(new[] { curveToR }).AsNumeric();
-							//Console.WriteLine(string.Join(" ", lengthNums));
-							*/
-						}
 					}
 				}
 
@@ -3698,17 +3682,64 @@ Log.WriteLine(str);
 
 			encoderCapturePointsPainted = encoderCapturePointsCaptured;
 
-			Log.WriteLine("calling rdotnet");
-/*
-			CharacterVector charVec = rengine.CreateCharacterVector(new[] { "Hello, R world!, .NET speaking" });
-			rengine.SetSymbol("greetings", charVec);
-			rengine.Evaluate("str(greetings)"); // print out in the console
-			*/
-			IntegerVector curveToR = rengine.CreateIntegerVector(new int[] {2,8,12,15,19});
-			rengine.SetSymbol("curveToR", curveToR);
-			rengine.Evaluate("print(length(curveToR))");
-			rengine.Evaluate("print(mean(curveToR))");
-			//IntegerVector curveToR = rengine.CreateIntegerVector(curve);
+			if(ecca.ecc.Count > ecca.curvesDone) {
+				Log.WriteLine("calling rdotnet: direction, start, end");
+				EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
+				Log.WriteLine(ecc.DirectionAsString());
+				Log.WriteLine(ecc.startFrame.ToString());
+				Log.WriteLine(ecc.endFrame.ToString());
+		
+				//evaluate only concentric curves	
+				if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
+					int [] curve = new int[ecc.endFrame - ecc.startFrame];
+					for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+						curve[k]=encoderReaded[j];
+						k++;
+					}
+
+					IntegerVector curveToR = rengine.CreateIntegerVector(curve);
+					rengine.SetSymbol("curveToR", curveToR);
+					rengine.Evaluate("print(length(curveToR))");
+					rengine.Evaluate("print(mean(curveToR))");
+					rengine.Evaluate("speedCut <- smooth.spline( 1:length(curveToR), curveToR, spar=0.7)");
+
+					//reduce curve by speed, the same way as graph.R
+					rengine.Evaluate("b=extrema(speedCut$y)");
+					rengine.Evaluate("maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
+
+					int maxSpeedT = rengine.GetSymbol("maxSpeedT").AsInteger().First();
+
+					rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
+					int bcrossLen = rengine.GetSymbol("bcrossLen").AsInteger().First();
+
+					rengine.Evaluate("bcross <- b$cross[,2]");
+					IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
+
+					int x_ini = 0;	
+					if(bcrossLen == 0)
+						x_ini = 0;
+					else if(bcrossLen == 1) {
+						if(bcross[0] < maxSpeedT)
+							x_ini = bcross[0];
+					} else {
+						x_ini = bcross[0];	//not 1, we are in C# now
+						for(int i=0; i < bcross.Length; i++) {
+							if(bcross[i] < maxSpeedT)
+								x_ini = bcross[i];	//left adjust
+						}
+					}
+
+					rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
+					rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
+					int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
+
+					Log.WriteLine("reducedCurveBySpeed (start, end)");
+					Log.WriteLine((ecc.startFrame + x_ini).ToString());
+					Log.WriteLine((ecc.startFrame + x_end).ToString());
+				}
+
+				ecca.curvesDone ++;
+			}
 		}
 	}
 	

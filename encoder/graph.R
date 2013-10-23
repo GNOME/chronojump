@@ -1743,6 +1743,9 @@ doProcess <- function(options) {
 	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
+		
+		print("curves before reduceCurveBySpeed")
+		print(curves)
 
 		#reduceCurveBySpeed
 		for(i in 1:n) {
@@ -1782,7 +1785,7 @@ doProcess <- function(options) {
 				#     side=1,text=myLabel, cex=.8, col="blue")
 				abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
-
+			
 			#plot speed
 			par(new=T)	
 			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)

@@ -22,7 +22,7 @@ using System;
 using System.Data;
 using System.Text; //StringBuilder
 using System.IO;   //for Path
-
+using System.Collections; //ArrayList
 using Mono.Unix;
 
 public class EncoderParams
@@ -542,5 +542,24 @@ public class EncoderCaptureCurve {
 		this.endFrame = endFrame;
 	}
 
+	public string DirectionAsString() {
+		if(up)
+			return "UP";
+		else
+			return "DOWN";
+	}
+
 	~EncoderCaptureCurve() {}
+}
+
+public class EncoderCaptureCurveArray {
+	public ArrayList ecc;	//each of the EncoderCaptureCurve
+	public int curvesDone;	//starts at int 0. How many ecc have been calculated by R
+	
+	public EncoderCaptureCurveArray() {
+		ecc = new ArrayList();
+		curvesDone = 0;
+	}
+	
+	~EncoderCaptureCurveArray() {}
 }

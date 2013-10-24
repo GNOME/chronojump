@@ -1861,7 +1861,8 @@ public partial class ChronoJumpWindow
 					//store the direction
 					directionNow = byteReaded / Math.Abs(byteReaded); //1 (up) or -1 (down)
 					
-				if(directionNow == directionLastMSecond) {
+				//if we don't have changed the direction, store the last non-zero that we can find
+				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
 					//check which is the last non-zero value
 					//this is suitable to find where starts the only-zeros previous to the change
 					if(byteReaded != 0)
@@ -3609,138 +3610,237 @@ Log.WriteLine(str);
 
 	/* end of sensitivity stuff */	
 	
-	/* update capture graph */	
-	
+	/*
+	 * update encoder capture graph stuff
+	 */
+
 	private void updateEncoderCaptureGraph() 
+	{
+		if(encoderCapturePoints != null) 
+		{
+			updateEncoderCaptureGraphPaint(); 
+			updateEncoderCaptureGraphRCalc(); 
+		}
+	}
+	
+	private void updateEncoderCaptureGraphPaint() 
 	{
 		bool refreshAreaOnly = false;
 
-		if(encoderCapturePoints != null) 
+		//also can be optimized to do not erase window every time and only add points since last time
+		int last = encoderCapturePointsCaptured;
+		int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
+
+		//Log.WriteLine("last - toDraw:" + last + " - " + toDraw);	
+
+		//fixes crash at the end
+		if(toDraw == 0)
+			return;
+
+		int maxY=-1;
+		int minY=10000;
+		Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
+		for(int j=0, i=encoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
 		{
-			//also can be optimized to do not erase window every time and only add points since last time
-			int last = encoderCapturePointsCaptured;
-			int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
-
-			//Log.WriteLine("last - toDraw:" + last + " - " + toDraw);	
-
-			//fixes crash at the end
-			if(toDraw == 0)
-				return;
-
-			int maxY=-1;
-			int minY=10000;
-			Gdk.Point [] paintPoints = new Gdk.Point[toDraw];
-			for(int j=0, i=encoderCapturePointsPainted +1 ; i <= last ; i ++, j++) 
-			{
-				paintPoints[j] = encoderCapturePoints[i];
-
-				if(refreshAreaOnly) {
-					if(encoderCapturePoints[i].Y > maxY)
-						maxY = encoderCapturePoints[i].Y;
-					if(encoderCapturePoints[i].Y < minY)
-						minY = encoderCapturePoints[i].Y;
-				}
-
-			}
-
-			encoder_capture_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
-			
-			layout_encoder_capture.SetMarkup(currentPerson.Name + " (" + 
-					spin_encoder_extra_weight.Value.ToString() + "Kg)");
-			encoder_capture_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture);
+			paintPoints[j] = encoderCapturePoints[i];
 
 			if(refreshAreaOnly) {
-				/*			
-				Log.WriteLine("pp X-TD-W: " + 
-				paintPoints[0].X.ToString() + " - " + 
-				paintPoints[toDraw-1].X.ToString() + " - " + 
-				(paintPoints[toDraw-1].X-paintPoints[0].X).ToString());
-				*/
-
-				int startX = paintPoints[0].X;
-				/*
-				 * this helps to ensure that no white points are drawed
-				 * caused by this int when encoderCapturePoints are assigned:
-				 * Convert.ToInt32(width*i/recordingTime)
-				 */
-				int exposeMargin = 4;
-				if(startX -exposeMargin > 0)
-					startX -= exposeMargin;	
-
-
-				encoder_capture_drawingarea.QueueDrawArea( 			// -- refresh
-						startX,
-						//0,
-						minY,
-						(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
-						//encoder_capture_drawingarea.Allocation.Height
-						maxY-minY
-						);
-				Log.WriteLine("minY - maxY " + minY + " - " + maxY);
-			} else
-				encoder_capture_drawingarea.QueueDraw(); 			// -- refresh
-
-			encoderCapturePointsPainted = encoderCapturePointsCaptured;
-
-			if(ecca.ecc.Count > ecca.curvesDone) {
-				Log.WriteLine("calling rdotnet: direction, start, end");
-				EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-				Log.WriteLine(ecc.DirectionAsString());
-				Log.WriteLine(ecc.startFrame.ToString());
-				Log.WriteLine(ecc.endFrame.ToString());
-		
-				//evaluate only concentric curves	
-				if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
-					int [] curve = new int[ecc.endFrame - ecc.startFrame];
-					for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-						curve[k]=encoderReaded[j];
-						k++;
-					}
-
-					IntegerVector curveToR = rengine.CreateIntegerVector(curve);
-					rengine.SetSymbol("curveToR", curveToR);
-					rengine.Evaluate("print(length(curveToR))");
-					rengine.Evaluate("print(mean(curveToR))");
-					rengine.Evaluate("speedCut <- smooth.spline( 1:length(curveToR), curveToR, spar=0.7)");
-
-					//reduce curve by speed, the same way as graph.R
-					rengine.Evaluate("b=extrema(speedCut$y)");
-					rengine.Evaluate("maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
-
-					int maxSpeedT = rengine.GetSymbol("maxSpeedT").AsInteger().First();
-
-					rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
-					int bcrossLen = rengine.GetSymbol("bcrossLen").AsInteger().First();
-
-					rengine.Evaluate("bcross <- b$cross[,2]");
-					IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
-
-					int x_ini = 0;	
-					if(bcrossLen == 0)
-						x_ini = 0;
-					else if(bcrossLen == 1) {
-						if(bcross[0] < maxSpeedT)
-							x_ini = bcross[0];
-					} else {
-						x_ini = bcross[0];	//not 1, we are in C# now
-						for(int i=0; i < bcross.Length; i++) {
-							if(bcross[i] < maxSpeedT)
-								x_ini = bcross[i];	//left adjust
-						}
-					}
-
-					rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
-					rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
-					int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
-
-					Log.WriteLine("reducedCurveBySpeed (start, end)");
-					Log.WriteLine((ecc.startFrame + x_ini).ToString());
-					Log.WriteLine((ecc.startFrame + x_end).ToString());
-				}
-
-				ecca.curvesDone ++;
+				if(encoderCapturePoints[i].Y > maxY)
+					maxY = encoderCapturePoints[i].Y;
+				if(encoderCapturePoints[i].Y < minY)
+					minY = encoderCapturePoints[i].Y;
 			}
+
 		}
+
+		encoder_capture_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+
+		layout_encoder_capture.SetMarkup(currentPerson.Name + " (" + 
+				spin_encoder_extra_weight.Value.ToString() + "Kg)");
+		encoder_capture_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture);
+
+		if(refreshAreaOnly) {
+			/*			
+						Log.WriteLine("pp X-TD-W: " + 
+						paintPoints[0].X.ToString() + " - " + 
+						paintPoints[toDraw-1].X.ToString() + " - " + 
+						(paintPoints[toDraw-1].X-paintPoints[0].X).ToString());
+						*/
+
+			int startX = paintPoints[0].X;
+			/*
+			 * this helps to ensure that no white points are drawed
+			 * caused by this int when encoderCapturePoints are assigned:
+			 * Convert.ToInt32(width*i/recordingTime)
+			 */
+			int exposeMargin = 4;
+			if(startX -exposeMargin > 0)
+				startX -= exposeMargin;	
+
+
+			encoder_capture_drawingarea.QueueDrawArea( 			// -- refresh
+					startX,
+					//0,
+					minY,
+					(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
+					//encoder_capture_drawingarea.Allocation.Height
+					maxY-minY
+					);
+			Log.WriteLine("minY - maxY " + minY + " - " + maxY);
+		} else
+			encoder_capture_drawingarea.QueueDraw(); 			// -- refresh
+
+		encoderCapturePointsPainted = encoderCapturePointsCaptured;
+	}
+
+	private void updateEncoderCaptureGraphRCalc() 
+	{
+		if(ecca.ecc.Count <= ecca.curvesDone) 
+			return;
+
+		Log.WriteLine("calling rdotnet: direction, start, end");
+		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
+		Log.WriteLine(ecc.DirectionAsString());
+		Log.WriteLine(ecc.startFrame.ToString());
+		Log.WriteLine(ecc.endFrame.ToString());
+
+		//evaluate only concentric curves	
+		if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
+			int [] curve = new int[ecc.endFrame - ecc.startFrame];
+			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+				curve[k]=encoderReaded[j];
+				k++;
+			}
+
+			IntegerVector curveToR = rengine.CreateIntegerVector(curve);
+			rengine.SetSymbol("curveToR", curveToR);
+
+			//cannot do smooth.spline with less than 4 values
+			if(curveToR.Length <= 4)
+				return;
+			try {
+				rengine.Evaluate("speedCut <- smooth.spline( 1:length(curveToR), curveToR, spar=0.7)");
+			} catch {
+				return;
+			}
+
+			//reduce curve by speed, the same way as graph.R
+			rengine.Evaluate("b=extrema(speedCut$y)");
+			rengine.Evaluate("maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
+
+			int maxSpeedT = rengine.GetSymbol("maxSpeedT").AsInteger().First();
+
+			rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
+			int bcrossLen = rengine.GetSymbol("bcrossLen").AsInteger().First();
+
+			rengine.Evaluate("bcross <- b$cross[,2]");
+			IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
+
+			int x_ini = 0;	
+			if(bcrossLen == 0)
+				x_ini = 0;
+			else if(bcrossLen == 1) {
+				if(bcross[0] < maxSpeedT)
+					x_ini = bcross[0];
+			} else {
+				x_ini = bcross[0];	//not 1, we are in C# now
+				for(int i=0; i < bcross.Length; i++) {
+					if(bcross[i] < maxSpeedT)
+						x_ini = bcross[i];	//left adjust
+				}
+			}
+
+			rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
+			rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
+			int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
+
+			Log.WriteLine("reducedCurveBySpeed (start, end)");
+			Log.WriteLine((ecc.startFrame + x_ini).ToString());
+			Log.WriteLine((ecc.startFrame + x_end).ToString());
+
+			//create a curveToR with only reduced curve
+			IntegerVector curveToRreduced = rengine.CreateIntegerVector(new int[x_end - x_ini]);
+			for(int k=0, i=x_ini; i < x_end; i ++)
+				curveToRreduced[k++] = curveToR[i]; 				
+			rengine.SetSymbol("curveToRreduced", curveToRreduced);
+
+			//2) do speed and accel for curve once reducedCurveBySpeed
+
+			//cannot do smooth.spline with less than 4 values
+			if(curveToRreduced.Length <= 4)
+				return;
+			try {
+				rengine.Evaluate("speed <- smooth.spline( 1:length(curveToRreduced), curveToRreduced, spar=0.7)");
+			} catch {
+				return;
+			}
+
+			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
+
+
+			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
+			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
+
+			//propulsive stuff
+			//TODO: implement this
+			//end of propulsive stuff
+
+
+			//TODO: change this, obtain from GUI, now written bench press of 10Kg:
+			rengine.Evaluate("mass <- 10");
+
+			rengine.Evaluate("accel$y <- accel$y * 1000"); //input data is in mm, conversion to m
+			//if isJump == "True":
+			rengine.Evaluate("force <- mass*(accel$y+9.81)");
+			//else:
+			//rengine.Evaluate("force <- mass*accel$y')
+			rengine.Evaluate("power <- force*speed$y");
+
+
+			//TODO: change this, obtain from GUI
+			string eccon = "c";
+
+			if(eccon == "c")
+				rengine.Evaluate("meanPower <- mean(power)");
+			else
+				rengine.Evaluate("meanPower <- mean(abs(power))");
+
+			rengine.Evaluate("peakPower <- max(power)");
+
+			//without the 'min', if there's more than one value it returns a list and this make crash later in
+			//this code:  pp_ppt = peakPower / peakPowerT
+			rengine.Evaluate("peakPowerT=min(which(power == peakPower))"); 
+
+			rengine.Evaluate("meanSpeed = mean(abs(speed$y))");
+			double meanSpeed = rengine.GetSymbol("meanSpeed").AsNumeric().First();
+
+			double maxSpeed = 0;
+			if(ecc.up) {
+				rengine.Evaluate("maxSpeed = max(speed$y)");
+				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
+				//phase = "   up,"
+			}
+			else {
+				rengine.Evaluate("maxSpeed = min(speed$y)");
+				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
+				//phase = " down,"
+			}
+			double height = rengine.GetSymbol("range").AsNumeric().First();
+			height = height / 10; //cm -> mm
+
+			double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
+			double peakPower = rengine.GetSymbol("peakPower").AsNumeric().First();
+			int peakPowerT = rengine.GetSymbol("peakPowerT").AsInteger().First();
+
+			peakPowerT = peakPowerT / 1000; //ms -> s
+			double pp_ppt = peakPower / peakPowerT;
+
+			Log.WriteLine(string.Format(
+						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, meanPower: {3}\npeakPower: {4}\npeakPowerT: {5}", 
+						height, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT));
+		}
+
+		ecca.curvesDone ++;
 	}
 	
 	int encoder_capture_allocationXOld;
@@ -3795,7 +3895,10 @@ Log.WriteLine(str);
 	}
 
 
-	/* end of update capture graph */	
+	/*
+	 * end of update encoder capture graph stuff
+	 */
+	
 	
 	/* thread stuff */
 

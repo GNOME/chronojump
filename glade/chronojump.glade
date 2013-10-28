@@ -13301,7 +13301,6 @@ on current Chronojump version.</property>
                                                         <property name="spacing">2</property>
                                                         <child>
                                                           <widget class="GtkEntry" id="entry_encoder_signal_comment">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip" translatable="yes">Add a comment</property>
@@ -13320,7 +13319,6 @@ on current Chronojump version.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_update_signal">
-                                                            <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">True</property>
                                                             <property name="has_tooltip">True</property>

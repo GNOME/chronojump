@@ -75,7 +75,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_save_all_curves;
 	[Widget] Gtk.Button button_encoder_export_all_curves;
-	[Widget] Gtk.Button button_encoder_update_signal;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
@@ -181,9 +180,12 @@ public partial class ChronoJumpWindow
 	 */
 	EncoderSQL lastEncoderSQL;
 
-	//CAPTURE is the capture from csharp (not from external python)	
-	//difference between CALCULECURVES and RECALCULATE_OR_LOAD is: CALCULECURVES does a autosave at end
-	enum encoderModes { CAPTURE, CALCULECURVES, RECALCULATE_OR_LOAD, ANALYZE } 
+	//CAPTURE is the capture from csharp (not from external python)
+	//
+	//diffrence between:
+	//CALC_RECALC_CURVES: calcule and recalculate, autosaves the curve at end
+	//LOAD curves does snot	
+	enum encoderModes { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
@@ -480,7 +482,7 @@ public partial class ChronoJumpWindow
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
-		encoderThreadStart(encoderModes.CALCULECURVES);
+		encoderThreadStart(encoderModes.CALC_RECALC_CURVES);
 	}
 	
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
@@ -493,7 +495,11 @@ public partial class ChronoJumpWindow
 		encoderProcessFinish = true;
 	}
 
-	void on_button_encoder_recalculate_clicked (object o, EventArgs args) 
+	void on_button_encoder_recalculate_clicked (object o, EventArgs args) {
+		encoder_recalculate(true); //save
+	}
+	
+	void encoder_recalculate(bool save) 
 	{
 		if (File.Exists(Util.GetEncoderDataTempFileName())) {
 			//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
@@ -502,8 +508,13 @@ public partial class ChronoJumpWindow
 				Util.ChangeSign(Util.GetEncoderDataTempFileName());
 				lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 			}
-			
-			encoderThreadStart(encoderModes.RECALCULATE_OR_LOAD);
+	
+			//calculate and recalculate saves the curve at end
+			//load does not save the curve 
+			if(save)		
+				encoderThreadStart(encoderModes.CALC_RECALC_CURVES);
+			else
+				encoderThreadStart(encoderModes.LOAD);
 		}
 		else
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
@@ -1174,8 +1185,8 @@ public partial class ChronoJumpWindow
 		}
 
 		if(success) {	
-			//force a recalculate
-			on_button_encoder_recalculate_clicked (o, args);
+			//force a recalculate but not save the curve (we are loading)
+			encoder_recalculate(false); 
 		
 			radiobutton_encoder_analyze_data_current_signal.Active = true;
 
@@ -1443,26 +1454,22 @@ public partial class ChronoJumpWindow
 			Util.EncoderDeleteCurveFromSignal(Util.GetEncoderDataTempFileName(), curveStart, duration);
 		}
 		//force a recalculate
-		on_button_encoder_recalculate_clicked (o, args); 
+		encoder_recalculate(true); //save the curve 
 	}
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
 		Gtk.Button button = (Gtk.Button) o;
 
-		if(button == button_encoder_update_signal) 
-			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
-		else {
-			if(button == button_encoder_save_curve) {
-				int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
-				encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
-			} else if(button == button_encoder_save_all_curves) 
-				for(int i=1; i <= UtilGtk.CountRows(encoderCaptureListStore); i++)
-					if(ecconLast == "c" || ! Util.IsEven(i)) //use only uneven (spanish: "impar") values
-						encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
+		if(button == button_encoder_save_curve) {
+			int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
+			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
+		} else if(button == button_encoder_save_all_curves) 
+			for(int i=1; i <= UtilGtk.CountRows(encoderCaptureListStore); i++)
+				if(ecconLast == "c" || ! Util.IsEven(i)) //use only uneven (spanish: "impar") values
+					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
 
-			updateUserCurvesLabelsAndCombo();
-		}
+		updateUserCurvesLabelsAndCombo();
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
@@ -3507,7 +3514,6 @@ Log.WriteLine(str);
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
-		//	button_encoder_update_signal, 
 		//	button_encoder_delete_signal, entry_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
@@ -3571,9 +3577,7 @@ Log.WriteLine(str);
 		
 		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
-		button_encoder_update_signal.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
-		entry_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
@@ -3940,7 +3944,7 @@ Log.WriteLine(str);
 				createChronopicWindow(true);
 				return;
 			}
-		} else if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
+		} else if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
@@ -3948,10 +3952,10 @@ Log.WriteLine(str);
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_capture_curves.Sensitive = false;
 			encoderThreadR = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
-			if(mode == encoderModes.CALCULECURVES)
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalculeCurves));
-			else // mode == encoderModes.RECALCULATE_OR_LOAD
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderRecalculateOrLoad));
+			if(mode == encoderModes.CALC_RECALC_CURVES)
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalcRecalcCurves));
+			else // mode == encoderModes.LOAD
+				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			encoderThreadR.Start(); 
 		} else { //encoderModes.ANALYZE
@@ -3991,35 +3995,35 @@ Log.WriteLine(str);
 		return true;
 	}
 	
-	private bool pulseGTKEncoderCalculeCurves ()
+	private bool pulseGTKEncoderCalcRecalcCurves ()
 	{
 		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
 				Util.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.CALCULECURVES);
+			finishPulsebar(encoderModes.CALC_RECALC_CURVES);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
+		updatePulsebar(encoderModes.CALC_RECALC_CURVES); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
 	}
 	
-	private bool pulseGTKEncoderRecalculateOrLoad ()
+	private bool pulseGTKEncoderLoad ()
 	{
 		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
 				Util.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.RECALCULATE_OR_LOAD);
+			finishPulsebar(encoderModes.LOAD);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CALCULECURVES); //activity on pulsebar
+		updatePulsebar(encoderModes.LOAD); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
@@ -4066,7 +4070,7 @@ Log.WriteLine(str);
 							Convert.ToInt32(contents[1]-48), Convert.ToInt32(contents[3]-48) );
 			}
 
-			if(mode == encoderModes.CALCULECURVES || mode == encoderModes.RECALCULATE_OR_LOAD) {
+			if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
 				if(fraction == -1) {
 					encoder_pulsebar_capture.Pulse();
 					encoder_pulsebar_capture.Text = contents;
@@ -4093,8 +4097,8 @@ Log.WriteLine(str);
 	private void finishPulsebar(encoderModes mode) {
 		if(
 				mode == encoderModes.CAPTURE || 
-				mode == encoderModes.CALCULECURVES || 
-				mode == encoderModes.RECALCULATE_OR_LOAD )
+				mode == encoderModes.CALC_RECALC_CURVES || 
+				mode == encoderModes.LOAD )
 		{
 			Log.WriteLine("ffffffinishPulsebarrrrr");
 		
@@ -4125,9 +4129,7 @@ Log.WriteLine(str);
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
-			else if(mode == encoderModes.CALCULECURVES || 
-					mode == encoderModes.RECALCULATE_OR_LOAD) {
-
+			else if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
@@ -4136,8 +4138,8 @@ Log.WriteLine(str);
 				encoderUpdateTreeViewCapture();
 				image_encoder_capture.Sensitive = true;
 		
-				//autosave signal (but not in recalculate or load)
-				if(mode == encoderModes.CALCULECURVES)
+				//autosave signal (but not in load)
+				if(mode == encoderModes.CALC_RECALC_CURVES)
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 				else
 					encoder_pulsebar_capture.Text = "";

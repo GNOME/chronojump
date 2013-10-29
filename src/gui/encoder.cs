@@ -41,6 +41,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_friction;
 	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_axis;
+	[Widget] Gtk.Box hbox_checkbutton_encoder_capture_inverted;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inverted;
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
 	[Widget] Gtk.Box hbox_encoder_capture_rotary_f_a;
@@ -53,8 +54,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_capture_diameter;
 
 	[Widget] Gtk.Button button_encoder_capture;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_safe;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
@@ -62,14 +61,11 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
-	[Widget] Gtk.Image image_encoder_bell;
-	[Widget] Gtk.SpinButton spin_encoder_capture_time;
-	[Widget] Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
-	[Widget] Gtk.Entry entry_encoder_signal_comment;
+	//[Widget] Gtk.Entry entry_encoder_signal_comment;
 	[Widget] Gtk.Entry entry_encoder_curve_comment;
 	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
@@ -167,6 +163,8 @@ public partial class ChronoJumpWindow
 
 	bool lastRecalculateWasInverted;
 	//bool capturingRotaryInertial;
+		
+	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
@@ -225,8 +223,20 @@ public partial class ChronoJumpWindow
 		
 		spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
 					SqlitePreferences.Select("inertialmomentum"))) * 10000;
+		
+		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create();
+		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 	}
 	
+	
+	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
+		encoderCaptureOptionsWin.View(repetitiveConditionsWin, volumeOn);
+	}
+	
+	private void on_encoder_capture_options_closed(object o, EventArgs args) {
+		Log.WriteLine("closed");
+	}
+
 	void on_button_encoder_capture_clicked (object o, EventArgs args) 
 	{
 		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
@@ -279,8 +289,8 @@ public partial class ChronoJumpWindow
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
 		//capture data
 		EncoderParams ep = new EncoderParams(
-				(int) spin_encoder_capture_time.Value, 
-				(int) spin_encoder_capture_min_height.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMassFromCombo(true)),
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
@@ -309,7 +319,7 @@ public partial class ChronoJumpWindow
 		SqlitePreferences.Update("inertialmomentum", 
 				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000), false);
 
-		if (radiobutton_encoder_capture_external.Active) {
+		if (encoderCaptureOptionsWin.radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
 		
 			//wait to ensure label "Rec" has been shown
@@ -323,20 +333,20 @@ public partial class ChronoJumpWindow
 					Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
 					es, chronopicWin.GetEncoderPort());
 			
-			entry_encoder_signal_comment.Text = "";
+			//entry_encoder_signal_comment.Text = "";
 			
 			encoderStopVideoRecord();
 			
 			calculeCurves();
 		}
-		else if (radiobutton_encoder_capture_safe.Active) {
+		else if (encoderCaptureOptionsWin.radiobutton_encoder_capture_safe.Active) {
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
 
 			Log.WriteLine("AAAAAAAAAAAAAAA");
 			encoderThreadStart(encoderModes.CAPTURE);
 			
-			entry_encoder_signal_comment.Text = "";
+			//entry_encoder_signal_comment.Text = "";
 
 			Log.WriteLine("ZZZZZZZZZZZZZZZ");
 		}
@@ -350,12 +360,12 @@ public partial class ChronoJumpWindow
 	
 	void on_radiobutton_encoder_capture_l_r_toggled (object o, EventArgs args) {
 		if(radiobutton_encoder_capture_linear.Active) {
-			checkbutton_encoder_capture_inverted.Visible = true;
+			hbox_checkbutton_encoder_capture_inverted.Visible = true;
 			hbox_encoder_capture_rotary_f_a.Visible = false;
 			
 			hbox_encoder_capture_diameter.Visible = (checkbutton_encoder_capture_inertial.Active);
 		} else {
-			checkbutton_encoder_capture_inverted.Visible = false;
+			hbox_checkbutton_encoder_capture_inverted.Visible = false;
 			hbox_encoder_capture_rotary_f_a.Visible = true;
 		
 			hbox_encoder_capture_diameter.Visible = (radiobutton_encoder_capture_rotary_axis.Active);
@@ -680,8 +690,8 @@ public partial class ChronoJumpWindow
 				"",	//signalOrCurve,
 				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
 				"",	//path,			//url
-				(int) spin_encoder_capture_time.Value, 
-				(int) spin_encoder_capture_min_height.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				-1,	//Since 1.3.7 smooth is not stored in curves
 				"", 	//desc,
 				"","",
@@ -692,7 +702,7 @@ public partial class ChronoJumpWindow
 
 
 		EncoderParams ep = new EncoderParams(
-				(int) spin_encoder_capture_min_height.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				getExercisePercentBodyWeightFromCombo (),
 				Util.ConvertToPoint(findMassFromCombo(true)),
 				findEccon(true),					//force ecS (ecc-conc separated)
@@ -1174,8 +1184,8 @@ public partial class ChronoJumpWindow
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
 
-				spin_encoder_capture_min_height.Value = es.minHeight;
-				entry_encoder_signal_comment.Text = es.description;
+				encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value = es.minHeight;
+				//entry_encoder_signal_comment.Text = es.description;
 				encoderTimeStamp = es.GetDate(false); 
 				encoderSignalUniqueID = es.uniqueID;
 				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
@@ -1424,7 +1434,7 @@ public partial class ChronoJumpWindow
 			treeviewEncoderCaptureRemoveColumns();
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
-			entry_encoder_signal_comment.Text = "";
+			//entry_encoder_signal_comment.Text = "";
 		}
 	}
 
@@ -1579,7 +1589,8 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
-			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
+			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
+			desc = "";
 
 			fileSaved = Util.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
@@ -1696,7 +1707,7 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
 				Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
 				//es, 
-				(int) spin_encoder_capture_time.Value, 
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				Util.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort());
 	
@@ -2156,7 +2167,7 @@ Log.WriteLine(str);
 			}
 
 			ep = new EncoderParams(
-					(int) spin_encoder_capture_min_height.Value, 
+					(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 					getExercisePercentBodyWeightFromCombo (),
 					Util.ConvertToPoint(findMassFromCombo(true)),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
@@ -3699,15 +3710,18 @@ Log.WriteLine(str);
 
 	private void updateEncoderCaptureGraphRCalc() 
 	{
+Log.Write("A");
 		if(ecca.ecc.Count <= ecca.curvesDone) 
 			return;
 
+Log.Write("B");
 		Log.WriteLine("calling rdotnet: direction, start, end");
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
 		Log.WriteLine(ecc.DirectionAsString());
 		Log.WriteLine(ecc.startFrame.ToString());
 		Log.WriteLine(ecc.endFrame.ToString());
 
+Log.Write("C");
 		//evaluate only concentric curves	
 		if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
 			int [] curve = new int[ecc.endFrame - ecc.startFrame];
@@ -3716,6 +3730,7 @@ Log.WriteLine(str);
 				k++;
 			}
 
+Log.Write("D");
 			IntegerVector curveToR = rengine.CreateIntegerVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
 
@@ -3728,6 +3743,7 @@ Log.WriteLine(str);
 				return;
 			}
 
+Log.Write("E");
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
 			rengine.Evaluate("maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
@@ -3740,6 +3756,7 @@ Log.WriteLine(str);
 			rengine.Evaluate("bcross <- b$cross[,2]");
 			IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
 
+Log.Write("F");
 			int x_ini = 0;	
 			if(bcrossLen == 0)
 				x_ini = 0;
@@ -3754,6 +3771,7 @@ Log.WriteLine(str);
 				}
 			}
 
+Log.Write("G");
 			rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
 			rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
 			int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
@@ -3768,6 +3786,7 @@ Log.WriteLine(str);
 				curveToRreduced[k++] = curveToR[i]; 				
 			rengine.SetSymbol("curveToRreduced", curveToRreduced);
 
+Log.Write("H");
 			//2) do speed and accel for curve once reducedCurveBySpeed
 
 			//cannot do smooth.spline with less than 4 values
@@ -3779,12 +3798,14 @@ Log.WriteLine(str);
 				return;
 			}
 
+Log.Write("I");
 			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
 
 
 			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
 			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
 
+Log.Write("J");
 			//propulsive stuff
 			//TODO: implement this
 			//end of propulsive stuff
@@ -3801,6 +3822,7 @@ Log.WriteLine(str);
 			rengine.Evaluate("power <- force*speed$y");
 
 
+Log.Write("K");
 			//TODO: change this, obtain from GUI
 			string eccon = "c";
 
@@ -3839,10 +3861,12 @@ Log.WriteLine(str);
 			peakPowerT = peakPowerT / 1000; //ms -> s
 			double pp_ppt = peakPower / peakPowerT;
 
+Log.Write("L");
 			Log.WriteLine(string.Format(
 						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, meanPower: {3}\npeakPower: {4}\npeakPowerT: {5}", 
 						height, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT));
 		}
+Log.Write("M");
 
 		ecca.curvesDone ++;
 	}
@@ -4048,7 +4072,7 @@ Log.WriteLine(str);
 	
 	private void updatePulsebar (encoderModes mode) {
 		if(mode == encoderModes.CAPTURE) {
-			int selectedTime = (int) spin_encoder_capture_time.Value;
+			int selectedTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
 					(selectedTime - encoderCaptureCountdown), selectedTime);
 			encoder_pulsebar_capture.Text = encoderCaptureCountdown + " s";
@@ -4221,3 +4245,78 @@ Log.WriteLine(str);
 	/* end of video stuff */
 
 }	
+	
+
+public class EncoderCaptureOptionsWindow {
+
+	[Widget] Gtk.Window encoder_capture_options;
+	static EncoderCaptureOptionsWindow EncoderCaptureOptionsWindowBox;
+	
+	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_safe;
+	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
+	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
+	[Widget] Gtk.Image image_encoder_bell;
+	[Widget] Gtk.Button button_close;
+	
+	RepetitiveConditionsWindow repetitiveConditionsWin;
+	bool volumeOn;
+	
+	public Gtk.Button FakeButtonClose;
+		
+	EncoderCaptureOptionsWindow () { 
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_capture_options", null);
+		gladeXML.Autoconnect(this);
+	
+		//don't show until View is called
+		encoder_capture_options.Hide ();
+
+		//put an icon to window
+		UtilGtk.IconWindow(encoder_capture_options);
+		
+		FakeButtonClose = new Gtk.Button();
+		
+		//putNonStandardIcons
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
+		image_encoder_bell.Pixbuf = pixbuf;
+	}
+
+	
+	static public EncoderCaptureOptionsWindow Create () {
+		if (EncoderCaptureOptionsWindowBox == null)
+			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
+		
+		return EncoderCaptureOptionsWindowBox;
+	}
+
+	public void View (RepetitiveConditionsWindow repetitiveConditionsWin, bool volumeOn)
+	{
+		if (EncoderCaptureOptionsWindowBox == null) 
+			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
+		
+		EncoderCaptureOptionsWindowBox.repetitiveConditionsWin = repetitiveConditionsWin;
+		EncoderCaptureOptionsWindowBox.volumeOn = volumeOn;
+
+		//show window
+		EncoderCaptureOptionsWindowBox.encoder_capture_options.Show ();
+	}
+	
+	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
+	}
+
+	protected virtual void on_button_close_clicked (object o, EventArgs args)
+	{
+		EncoderCaptureOptionsWindowBox.encoder_capture_options.Hide();
+		FakeButtonClose.Click();
+		//EncoderCaptureOptionsWindowBox = null;
+	}
+	
+	protected virtual void on_delete_event (object o, DeleteEventArgs args)
+	{
+		button_close.Click();
+		args.RetVal = true;
+	}
+}
+

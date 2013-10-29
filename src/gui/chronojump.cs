@@ -733,7 +733,6 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
 		image_jump_reactive_bell.Pixbuf = pixbuf;
 		image_run_interval_bell.Pixbuf = pixbuf;
-		image_encoder_bell.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "preferences-system.png");
 		image_jump_reactive_repair.Pixbuf = pixbuf;
@@ -5381,10 +5380,6 @@ Console.WriteLine("X");
 		repetitiveConditionsWin.View(Constants.BellModes.RUNS, volumeOn);
 	}
 	
-	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
-	}
-		
 	private void on_repetitive_conditions_closed(object o, EventArgs args) {
 		//treeview_encoder should be updated (to colorize some cells)
 		//only if there was data

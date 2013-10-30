@@ -392,7 +392,9 @@ public partial class ChronoJumpWindow
 		if(checkbutton_encoder_capture_inertial.Active) {
 			combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, 
 				Constants.ConcentricEccentric);
-		}
+			combo_encoder_eccon.Sensitive = false;
+		} else
+			combo_encoder_eccon.Sensitive = true;
 	}
 	
 	//---- end of sensitiveness of encoder capture buttons

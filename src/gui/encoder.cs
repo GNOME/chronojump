@@ -3710,20 +3710,19 @@ Log.WriteLine(str);
 		encoderCapturePointsPainted = encoderCapturePointsCaptured;
 	}
 
+	string encoderCaptureStringR;
+	
 	private void updateEncoderCaptureGraphRCalc() 
 	{
-Log.Write("A");
 		if(ecca.ecc.Count <= ecca.curvesDone) 
 			return;
 
-Log.Write("B");
 		Log.WriteLine("calling rdotnet: direction, start, end");
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
 		Log.WriteLine(ecc.DirectionAsString());
 		Log.WriteLine(ecc.startFrame.ToString());
 		Log.WriteLine(ecc.endFrame.ToString());
 
-Log.Write("C");
 		//evaluate only concentric curves	
 		if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
 			int [] curve = new int[ecc.endFrame - ecc.startFrame];
@@ -3732,7 +3731,6 @@ Log.Write("C");
 				k++;
 			}
 
-Log.Write("D");
 			IntegerVector curveToR = rengine.CreateIntegerVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
 
@@ -3745,11 +3743,16 @@ Log.Write("D");
 				return;
 			}
 
-Log.Write("E");
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
-			rengine.Evaluate("maxSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
 
+			rengine.Evaluate("speedCut$y=abs(speedCut$y)");
+			
+			//for concentric
+			rengine.Evaluate("minSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
+			rengine.Evaluate("maxSpeedT <- max(which(speedCut$y == max(speedCut$y)))");
+			
+			int minSpeedT = rengine.GetSymbol("minSpeedT").AsInteger().First();
 			int maxSpeedT = rengine.GetSymbol("maxSpeedT").AsInteger().First();
 
 			rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
@@ -3758,29 +3761,55 @@ Log.Write("E");
 			rengine.Evaluate("bcross <- b$cross[,2]");
 			IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
 
-Log.Write("F");
+			//left adjust
+			//find the b$cross at left of max speed
+
 			int x_ini = 0;	
 			if(bcrossLen == 0)
 				x_ini = 0;
 			else if(bcrossLen == 1) {
-				if(bcross[0] < maxSpeedT)
+				if(bcross[0] < minSpeedT)
 					x_ini = bcross[0];
 			} else {
 				x_ini = bcross[0];	//not 1, we are in C# now
 				for(int i=0; i < bcross.Length; i++) {
-					if(bcross[i] < maxSpeedT)
+					if(bcross[i] < minSpeedT)
 						x_ini = bcross[i];	//left adjust
 				}
 			}
 
-Log.Write("G");
-			rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
-			rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
-			int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
+			//rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
+
+			//TODO: this has to be at right of x_ini
+			//rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
+			//int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
+
+
+			//right adjust
+			//find the b$cross at right of max speed
+	
+			int x_end = curveToR.Length; //good to declare here
+			if(bcrossLen == 0) {
+				x_end = curveToR.Length;
+			} else if(bcrossLen == 1) {
+				if(bcross[0] > maxSpeedT)
+					x_end = bcross[0];
+			} else {
+				for(int i=bcross.Length -1; i >= 0; i--) {
+					if(bcross[i] > maxSpeedT)
+						x_end = bcross[i];	//right adjust
+				}
+			}
+			
 
 			Log.WriteLine("reducedCurveBySpeed (start, end)");
 			Log.WriteLine((ecc.startFrame + x_ini).ToString());
 			Log.WriteLine((ecc.startFrame + x_end).ToString());
+
+			//TODO: this is to get info about previous TODO bug
+			if(ecc.startFrame + x_end <= ecc.startFrame + x_ini)
+				for(int i=x_end; i < x_ini; i ++)
+					Log.Write(curveToR[i] + ","); //TODO: provar aixo!!				
 
 			//create a curveToR with only reduced curve
 			IntegerVector curveToRreduced = rengine.CreateIntegerVector(new int[x_end - x_ini]);
@@ -3788,7 +3817,6 @@ Log.Write("G");
 				curveToRreduced[k++] = curveToR[i]; 				
 			rengine.SetSymbol("curveToRreduced", curveToRreduced);
 
-Log.Write("H");
 			//2) do speed and accel for curve once reducedCurveBySpeed
 
 			//cannot do smooth.spline with less than 4 values
@@ -3800,17 +3828,23 @@ Log.Write("H");
 				return;
 			}
 
-Log.Write("I");
 			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
-
 
 			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
 			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
 
-Log.Write("J");
 			//propulsive stuff
 			//TODO: implement this
 			//end of propulsive stuff
+
+			double height = rengine.GetSymbol("range").AsNumeric().First();
+			height = height / 10; //cm -> mm
+
+			//only process curves with height >= min_height
+			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
+				ecca.curvesDone ++;
+				return;	
+			}
 
 
 			//TODO: change this, obtain from GUI, now written bench press of 10Kg:
@@ -3824,7 +3858,6 @@ Log.Write("J");
 			rengine.Evaluate("power <- force*speed$y");
 
 
-Log.Write("K");
 			//TODO: change this, obtain from GUI
 			string eccon = "c";
 
@@ -3853,8 +3886,6 @@ Log.Write("K");
 				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
 				//phase = " down,"
 			}
-			double height = rengine.GetSymbol("range").AsNumeric().First();
-			height = height / 10; //cm -> mm
 
 			double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
 			double peakPower = rengine.GetSymbol("peakPower").AsNumeric().First();
@@ -3863,12 +3894,17 @@ Log.Write("K");
 			peakPowerT = peakPowerT / 1000; //ms -> s
 			double pp_ppt = peakPower / peakPowerT;
 
-Log.Write("L");
 			Log.WriteLine(string.Format(
 						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, meanPower: {3}\npeakPower: {4}\npeakPowerT: {5}", 
 						height, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT));
+			
+			encoderCaptureStringR += string.Format("\n1,1,a,1,1,1,1,{0},{1},{2},{3},1,1,1,1", 
+					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), 
+					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower) );
+		
+			treeviewEncoderCaptureRemoveColumns();
+			int curvesNum = createTreeViewEncoderCapture(encoderCaptureStringR);
 		}
-Log.Write("M");
 
 		ecca.curvesDone ++;
 	}
@@ -3958,6 +3994,10 @@ Log.Write("M");
 				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 
 				encoderStartVideoRecord();
+
+				//remove treeview columns
+				treeviewEncoderCaptureRemoveColumns();
+				encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));

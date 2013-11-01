@@ -1785,13 +1785,19 @@ doProcess <- function(options) {
 				#     side=1,text=myLabel, cex=.8, col="blue")
 				abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
-			
+		
+			#abline(v=c(820,2361,3255)/1000,col="green")
+			#abline(v=c(1441,2731,3630)/1000,col="red")
+
+
+
 			#plot speed
 			par(new=T)	
 			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
 			plot((1:length(rawdata))/1000, speed$y, col="gray",
 		     		type="l", 
 				xlim=c(1,length(rawdata))/1000,	#ms -> s
+				#ylim=c(-.25,.25),		#to test speed at small changes
 		     		xlab="",ylab="",axes=F)
 			mtext("speed ",side=4,adj=1,line=-1,col="gray")
 			abline(h=0,lty=2,col="gray")

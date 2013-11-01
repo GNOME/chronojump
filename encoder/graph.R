@@ -154,11 +154,11 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
 			
 			
-			#end at the mean of maximum values
-			#tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+			#end at the mean of maximum values then reduceCurveBySpeed will end it when first speed==0 at right of maxspeed 
+			tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
 
 			#end at the first maximum value
-			tempEnd = b$maxindex[j,1]
+			#tempEnd = b$maxindex[j,1]
 			
 			height=a[tempEnd]-a[tempStart]
 			if(height >= min_height) { 
@@ -1786,10 +1786,6 @@ doProcess <- function(options) {
 				abline(v=c(curves[i,1],curves[i,2])/1000, lty=3, col="gray")
 			}
 		
-			#abline(v=c(820,2361,3255)/1000,col="green")
-			#abline(v=c(1441,2731,3630)/1000,col="red")
-
-
 
 			#plot speed
 			par(new=T)	

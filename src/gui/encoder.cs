@@ -3834,7 +3834,21 @@ Log.WriteLine(str);
 			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
 
 			//propulsive stuff
-			//TODO: implement this
+			int propulsiveEnd = curveToRreduced.Length;
+			rengine.Evaluate("g <- -9.81");
+			if(encoderPropulsive) {
+				//check if propulsive phase ends
+				rengine.Evaluate("propulsiveStuffAtRight <- length(which(accel$y <= -g))"); 
+				int propulsiveStuffAtRight = rengine.GetSymbol("propulsiveStuffAtRight").AsInteger().First();
+				if(propulsiveStuffAtRight > 0) {
+					rengine.Evaluate("propulsiveEnd <- min(which(accel$y <= -g))");
+					propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
+
+					rengine.Evaluate("curveToRreduced <- curveToRreduced[1:propulsiveEnd]");
+					rengine.Evaluate("speed$y <- speed$y[1:propulsiveEnd]");
+					rengine.Evaluate("accel$y <- accel$y[1:propulsiveEnd]");
+				}
+			}
 			//end of propulsive stuff
 
 			double height = rengine.GetSymbol("range").AsNumeric().First();

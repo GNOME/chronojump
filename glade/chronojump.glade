@@ -12427,13 +12427,13 @@ on current Chronojump version.</property>
                                               <widget class="GtkHBox" id="hbox96">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="spacing">12</property>
+                                                <property name="border_width">8</property>
+                                                <property name="spacing">20</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox79">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="border_width">8</property>
-                                                    <property name="spacing">4</property>
+                                                    <property name="spacing">20</property>
                                                     <child>
                                                       <widget class="GtkVBox" id="vbox18">
                                                         <property name="visible">True</property>
@@ -12559,17 +12559,6 @@ on current Chronojump version.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkVSeparator" id="vseparator4">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
                                                       <widget class="GtkTable" id="table11">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
@@ -12586,7 +12575,12 @@ on current Chronojump version.</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">Extra weight</property>
                                                             <property name="use_markup">True</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="max_width_chars">10</property>
                                                           </widget>
+                                                          <packing>
+                                                            <property name="x_options"/>
+                                                          </packing>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkLabel" id="label78">
@@ -12597,6 +12591,8 @@ on current Chronojump version.</property>
                                                             <property name="xalign">1</property>
                                                             <property name="label" translatable="yes">Displaced</property>
                                                             <property name="use_markup">True</property>
+                                                            <property name="ellipsize">end</property>
+                                                            <property name="max_width_chars">10</property>
                                                           </widget>
                                                           <packing>
                                                             <property name="left_attach">1</property>
@@ -12615,7 +12611,6 @@ on current Chronojump version.</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="has_tooltip">True</property>
                                                             <property name="tooltip">1 RM (%)</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="label">1RM</property>
                                                             <property name="use_markup">True</property>
                                                             </widget>
@@ -12645,6 +12640,7 @@ on current Chronojump version.</property>
                                                             <packing>
                                                             <property name="expand">False</property>
                                                             <property name="fill">False</property>
+                                                            <property name="pack_type">end</property>
                                                             <property name="position">1</property>
                                                             </packing>
                                                             </child>
@@ -12652,7 +12648,7 @@ on current Chronojump version.</property>
                                                           <packing>
                                                             <property name="left_attach">2</property>
                                                             <property name="right_attach">3</property>
-                                                            <property name="x_options"/>
+                                                            <property name="x_options">GTK_FILL</property>
                                                           </packing>
                                                         </child>
                                                         <child>
@@ -12734,12 +12730,12 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">True</property>
                                                         <property name="fill">True</property>
-                                                        <property name="position">2</property>
+                                                        <property name="position">1</property>
                                                       </packing>
                                                     </child>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">True</property>
+                                                    <property name="expand">False</property>
                                                     <property name="fill">True</property>
                                                     <property name="position">0</property>
                                                   </packing>
@@ -12748,7 +12744,6 @@ on current Chronojump version.</property>
                                                   <widget class="GtkVBox" id="vbox88">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="border_width">8</property>
                                                     <property name="spacing">8</property>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox77">
@@ -12911,7 +12906,7 @@ on current Chronojump version.</property>
                                                             <property name="pulse_step">0.10000000149</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                             </packing>
@@ -12944,7 +12939,7 @@ on current Chronojump version.</property>
                                                             </child>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">True</property>
+                                                            <property name="expand">False</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                           </packing>
@@ -12983,7 +12978,7 @@ on current Chronojump version.</property>
                                                     </child>
                                                   </widget>
                                                   <packing>
-                                                    <property name="expand">True</property>
+                                                    <property name="expand">False</property>
                                                     <property name="fill">True</property>
                                                     <property name="position">1</property>
                                                   </packing>

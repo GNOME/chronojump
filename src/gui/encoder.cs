@@ -1903,16 +1903,32 @@ public partial class ChronoJumpWindow
 
 					//count >= than change_period
 					if(directionChangeCount > directionChangePeriod)
-					{ 
+					{
+						int startFrame = previousFrameChange - directionChangeCount;	//startFrame
+								//at startFrame we do the "-directionChangePeriod" because
+								//we want data a little bit earlier, because we want some zeros
+								//that will be removed by reduceCurveBySpeed
+								//if not done, then the data:
+								//0 0 0 0 0 0 0 0 0 1
+								//will start at 10th digit (the 1)
+								//if done, then at speed will be like this:
+								//0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
+								//and will start at fourth digit
+						if(startFrame < 0)
+							startFrame = 0;
+
 						EncoderCaptureCurve ecc = new EncoderCaptureCurve(
 								! Util.IntToBool(directionNow), //if we go now UP, then record previous DOWN phase
-								previousFrameChange,
-								( (i + lastNonZero)/2 ) //end between i and start of the zeros (end at 1/2 of zeros)
-								- directionChangePeriod //and obviously - directionChangePeriod
+								startFrame,
+								(i - directionChangeCount + lastNonZero)/2 	//endFrame
+								//to find endFrame, first substract directionChangePeriod from i
+								//then find the middle point between that and lastNonZero
 								);
 						ecca.ecc.Add(ecc);
 
-						previousFrameChange = i;
+
+						previousFrameChange = i - directionChangeCount;
+
 						directionChangeCount = 0;
 						directionCompleted = directionNow;
 					}
@@ -3886,6 +3902,8 @@ Log.WriteLine(str);
 			//this code:  pp_ppt = peakPower / peakPowerT
 			rengine.Evaluate("peakPowerT=min(which(power == peakPower))"); 
 
+			//rengine.Evaluate("print(speed$y)");
+			
 			rengine.Evaluate("meanSpeed = mean(abs(speed$y))");
 			double meanSpeed = rengine.GetSymbol("meanSpeed").AsNumeric().First();
 

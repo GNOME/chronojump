@@ -136,6 +136,7 @@ SOURCES = \
 	util.cs\
 	utilAll.cs\
 	utilDate.cs\
+	utilEncoder.cs\
 	utilGtk.cs\
 	utilVideo.cs\
 	constants.cs\

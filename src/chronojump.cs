@@ -161,7 +161,7 @@ public class ChronoJump
 		//to store user videos and photos
 		Util.CreateMultimediaDirsIfNeeded();
 		//to store encoder data and graphs
-		Util.CreateEncoderDirIfNeeded();
+		UtilEncoder.CreateEncoderDirIfNeeded();
 
 //TODO: create encoder session dirs when load or create a session, or when use encoder with button capture_from_encoder
 //TODO: when a session is deleted, encoder data has to be deleted, also multimedia videos, I suppose. Show message to user warning about it

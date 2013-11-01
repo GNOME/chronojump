@@ -308,7 +308,7 @@ public partial class ChronoJumpWindow
 		EncoderStruct es = new EncoderStruct(
 				"",					//no data input
 				"",					//no graph ouptut
-				Util.GetEncoderDataTempFileName(), 	//OutputData1
+				UtilEncoder.GetEncoderDataTempFileName(), 	//OutputData1
 				"", 					//OutputData2
 				"", 					//SpecialData
 				ep);				
@@ -327,7 +327,7 @@ public partial class ChronoJumpWindow
 			//Does not work. Basically it records, but Rec message is not shown because we would need to open a new thread here
 			
 			//title to sen to python software has to be without spaces
-			Util.RunEncoderCapturePython( 
+			UtilEncoder.RunEncoderCapturePython( 
 					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
 					Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
 					Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
@@ -513,11 +513,11 @@ public partial class ChronoJumpWindow
 	
 	void encoder_recalculate(bool save) 
 	{
-		if (File.Exists(Util.GetEncoderDataTempFileName())) {
+		if (File.Exists(UtilEncoder.GetEncoderDataTempFileName())) {
 			//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
 	
 			if(lastRecalculateWasInverted != checkbutton_encoder_capture_inverted.Active) {
-				Util.ChangeSign(Util.GetEncoderDataTempFileName());
+				UtilEncoder.ChangeSign(UtilEncoder.GetEncoderDataTempFileName());
 				lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 			}
 	
@@ -534,7 +534,7 @@ public partial class ChronoJumpWindow
 	
 	private void encoderUpdateTreeViewCapture()
 	{
-		string contents = Util.ReadFile(Util.GetEncoderCurvesTempFileName(), false);
+		string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
 		if (contents == null || contents == "") {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
@@ -719,14 +719,14 @@ public partial class ChronoJumpWindow
 		//capturingRotaryInertial = false;
 
 		EncoderStruct es = new EncoderStruct(
-				Util.GetEncoderDataTempFileName(), 
-				Util.GetEncoderGraphTempFileName(),
-				Util.GetEncoderCurvesTempFileName(), 
-				Util.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderDataTempFileName(), 
+				UtilEncoder.GetEncoderGraphTempFileName(),
+				UtilEncoder.GetEncoderCurvesTempFileName(), 
+				UtilEncoder.GetEncoderStatusTempFileName(),
 				"",	//SpecialData
 				ep);
 		
-		bool result = Util.RunEncoderGraph(
+		bool result = UtilEncoder.RunEncoderGraph(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
@@ -1179,7 +1179,7 @@ public partial class ChronoJumpWindow
 
 		bool success = false;
 		foreach(EncoderSQL es in data) {	//it will run only one time
-			success = Util.CopyEncoderDataToTemp(es.url, es.filename);
+			success = UtilEncoder.CopyEncoderDataToTemp(es.url, es.filename);
 			if(success) {
 				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
 				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
@@ -1280,24 +1280,24 @@ public partial class ChronoJumpWindow
 				Util.GetDecimalSeparator()
 				);
 
-		string dataFileName = Util.GetEncoderDataTempFileName();
+		string dataFileName = UtilEncoder.GetEncoderDataTempFileName();
 
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
-				Util.GetEncoderGraphTempFileName(),
+				UtilEncoder.GetEncoderGraphTempFileName(),
 				selectedFileName, 
-				Util.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderStatusTempFileName(),
 				"", 		//SpecialData
 				ep);
 
-		Util.RunEncoderGraph(
+		UtilEncoder.RunEncoderGraph(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQL.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
 				encoderStruct);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
-		//			"Exported to {0}."), Util.GetEncoderExportTempFileName());
+		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
 	}
 
 	string exportFileName;	
@@ -1463,7 +1463,7 @@ public partial class ChronoJumpWindow
 
 		if(curve.Start != null) {
 			//Log.WriteLine(curveStart + "->" + duration);
-			Util.EncoderDeleteCurveFromSignal(Util.GetEncoderDataTempFileName(), curveStart, duration);
+			UtilEncoder.EncoderDeleteCurveFromSignal(UtilEncoder.GetEncoderDataTempFileName(), curveStart, duration);
 		}
 		//force a recalculate
 		encoder_recalculate(true); //save the curve 
@@ -1586,17 +1586,17 @@ public partial class ChronoJumpWindow
 
 			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
-			fileSaved = Util.EncoderSaveCurve(Util.GetEncoderDataTempFileName(), curveStart, duration,
+			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), curveStart, duration,
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
-			path = Util.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
+			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
 			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
 			desc = "";
 
-			fileSaved = Util.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
+			fileSaved = UtilEncoder.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
-			path = Util.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
+			path = UtilEncoder.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
 
 		string myID = "-1";	
@@ -1710,7 +1710,7 @@ public partial class ChronoJumpWindow
 				Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
 				//es, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
-				Util.GetEncoderDataTempFileName(),
+				UtilEncoder.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort());
 	
 		//wait to ensure capture thread has ended
@@ -1993,7 +1993,7 @@ public partial class ChronoJumpWindow
 							combo_encoder_analyze_curve_num_combo));
 
 			
-			dataFileName = Util.GetEncoderGraphInputMulti();
+			dataFileName = UtilEncoder.GetEncoderGraphInputMulti();
 
 
 			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
@@ -2182,15 +2182,15 @@ Log.WriteLine(str);
 					Util.GetDecimalSeparator()
 					);
 			
-			dataFileName = Util.GetEncoderDataTempFileName();
+			dataFileName = UtilEncoder.GetEncoderDataTempFileName();
 		}
 
 		EncoderStruct encoderStruct = new EncoderStruct(
 				dataFileName, 
-				Util.GetEncoderGraphTempFileName(),
-				Util.GetEncoderAnalyzeTableTempFileName(),
-				Util.GetEncoderStatusTempFileName(),
-				Util.GetEncoderSpecialDataTempFileName(),
+				UtilEncoder.GetEncoderGraphTempFileName(),
+				UtilEncoder.GetEncoderAnalyzeTableTempFileName(),
+				UtilEncoder.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
 
 		//show mass in title except if it's curves because then can be different mass
@@ -2203,7 +2203,7 @@ Log.WriteLine(str);
 		if( ! radiobutton_encoder_analyze_data_user_curves.Active)
 			titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 
-		Util.RunEncoderGraph(titleStr, encoderStruct);
+		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct);
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
@@ -2599,7 +2599,7 @@ Log.WriteLine(str);
 	void on_button_encoder_save_image_file_selected (string destination)
 	{
 		try {
-			File.Copy(Util.GetEncoderGraphTempFileName(), destination, true);
+			File.Copy(UtilEncoder.GetEncoderGraphTempFileName(), destination, true);
 		} catch {
 			string myString = string.Format(
 					Catalog.GetString("Cannot save file {0} "), destination);
@@ -2644,7 +2644,7 @@ Log.WriteLine(str);
 
 	void on_button_encoder_analyze_1RM_save_clicked (object o, EventArgs args)
 	{
-		string contents = Util.ReadFile(Util.GetEncoderSpecialDataTempFileName(), true);
+		string contents = Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true);
 		string [] load1RMStr = contents.Split(new char[] {';'});
 		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
 
@@ -4065,7 +4065,7 @@ Log.WriteLine(str);
 	{
 		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
-				Util.CancelRScript = true;
+				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderModes.CALC_RECALC_CURVES);
@@ -4082,7 +4082,7 @@ Log.WriteLine(str);
 	{
 		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
-				Util.CancelRScript = true;
+				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderModes.LOAD);
@@ -4099,7 +4099,7 @@ Log.WriteLine(str);
 	{
 		if(! encoderThreadR.IsAlive || encoderProcessCancel) {
 			if(encoderProcessCancel){
-				Util.CancelRScript = true;
+				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderModes.ANALYZE);
@@ -4124,8 +4124,8 @@ Log.WriteLine(str);
 		try {
 			string contents = Catalog.GetString("Please, wait.");
 			double fraction = -1;
-			if(Util.FileExists(Util.GetEncoderStatusTempFileName())) {
-				contents = Util.ReadFile(Util.GetEncoderStatusTempFileName(), true);
+			if(Util.FileExists(UtilEncoder.GetEncoderStatusTempFileName())) {
+				contents = Util.ReadFile(UtilEncoder.GetEncoderStatusTempFileName(), true);
 				//contents is:
 				//(1/5) Starting R
 				//(5/5) R tasks done
@@ -4155,7 +4155,7 @@ Log.WriteLine(str);
 
 			}
 		} catch {
-			//Util.GetEncoderStatusTempFileName() is deleted at the end of the process
+			//UtilEncoder.GetEncoderStatusTempFileName() is deleted at the end of the process
 			//this can make crash updatePulsebar sometimes
 		}
 	}
@@ -4199,7 +4199,7 @@ Log.WriteLine(str);
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
-				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
 				encoderUpdateTreeViewCapture();
 				image_encoder_capture.Sensitive = true;
@@ -4225,11 +4225,11 @@ Log.WriteLine(str);
 			} else {
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
-				Pixbuf pixbuf = new Pixbuf (Util.GetEncoderGraphTempFileName()); //from a file
+				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_analyze.Pixbuf = pixbuf;
 				encoder_pulsebar_analyze.Text = "";
 			
-				string contents = Util.ReadFile(Util.GetEncoderAnalyzeTableTempFileName(), false);
+				string contents = Util.ReadFile(UtilEncoder.GetEncoderAnalyzeTableTempFileName(), false);
 				if (contents != null && contents != "") {
 					treeviewEncoderAnalyzeRemoveColumns();
 					createTreeViewEncoderAnalyze(contents);
@@ -4251,7 +4251,7 @@ Log.WriteLine(str);
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;
-		Util.FileDelete(Util.GetEncoderStatusTempFileName());
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempFileName());
 	}
 	
 	/* end of thread stuff */

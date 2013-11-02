@@ -11993,7 +11993,7 @@ on current Chronojump version.</property>
                                               <widget class="GtkHBox" id="hbox117">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="border_width">8</property>
+                                                <property name="border_width">6</property>
                                                 <property name="spacing">4</property>
                                                 <child>
                                                   <widget class="GtkLabel" id="label90">
@@ -12408,8 +12408,8 @@ on current Chronojump version.</property>
                                               <widget class="GtkAlignment" id="alignment21">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="left_padding">8</property>
-                                                <property name="right_padding">8</property>
+                                                <property name="left_padding">6</property>
+                                                <property name="right_padding">6</property>
                                                 <child>
                                                   <widget class="GtkHSeparator" id="hseparator8">
                                                     <property name="visible">True</property>
@@ -12427,7 +12427,7 @@ on current Chronojump version.</property>
                                               <widget class="GtkHBox" id="hbox96">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="border_width">8</property>
+                                                <property name="border_width">6</property>
                                                 <property name="spacing">20</property>
                                                 <child>
                                                   <widget class="GtkHBox" id="hbox79">
@@ -13111,7 +13111,6 @@ on current Chronojump version.</property>
                                                   <packing>
                                                     <property name="expand">False</property>
                                                     <property name="fill">True</property>
-                                                    <property name="padding">6</property>
                                                     <property name="pack_type">end</property>
                                                     <property name="position">2</property>
                                                   </packing>

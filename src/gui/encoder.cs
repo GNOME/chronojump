@@ -61,7 +61,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_load_signal;
 	[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
-	[Widget] Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
@@ -1785,7 +1784,7 @@ public partial class ChronoJumpWindow
 	{
 		int width=encoder_capture_drawingarea.Allocation.Width;
 		int height=encoder_capture_drawingarea.Allocation.Height;
-		double realHeight = 1000 * 2 * spin_encoder_capture_curves_height_range.Value;
+		double realHeight = 1000 * 2 * (int) encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
 		Log.Write(" 00a 2 ");
 		SerialPort sp = new SerialPort(port);
@@ -4340,6 +4339,7 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
+	[Widget] public Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_close;
 	

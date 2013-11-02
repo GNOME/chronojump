@@ -620,7 +620,7 @@ powerBars <- function(eccon, kinematics) {
 
 kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
 	n=length(curves[,1])
-	maxSpeedy=0;maxForce=0;maxPower=0
+	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
 	myEccon = eccon
 	for(i in 1:n) { 
 		myMass = mass
@@ -632,6 +632,8 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothin
 		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
+		if(max(abs(kn$accely)) > maxAccely)
+			maxAccely = max(abs(kn$accely))
 		if(max(abs(kn$force)) > maxForce)
 			maxForce = max(abs(kn$force))
 		if(max(abs(kn$power)) > maxPower)
@@ -639,6 +641,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothin
 	}
 	return(list(
 		speedy=c(-maxSpeedy,maxSpeedy),
+		accely=c(-maxAccely,maxAccely),
 		force=c(-maxForce,maxForce),
 		power=c(-maxPower,maxPower)))
 }
@@ -836,14 +839,16 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#print(accel2)
 
 	if(draw) {
+		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
+		if(knRanges[1] != "undefined")
+			ylim = knRanges$accely
+
 		#propulsive phase ends when accel is -9.8
 		if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
 			propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
 		} else {
 			propulsiveEnd = max(concentric)
 		}
-
-		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 
 		meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
 		if(isPropulsive) {

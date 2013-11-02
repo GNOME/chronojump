@@ -1160,7 +1160,7 @@ public class PersonAddModifyWindow
 			//PersonAddModifyWindowBox.button_cancel.Hide();
 		
 		PersonAddModifyWindowBox.person_win.Show ();
-		
+
 		PersonAddModifyWindowBox.fillDialog ();
 		
 		return PersonAddModifyWindowBox;
@@ -1272,6 +1272,9 @@ public class PersonAddModifyWindow
 		UtilGtk.ComboUpdate(combo_countries, myCountries, "");
 		combo_countries.Active = UtilGtk.ComboMakeActive(myCountries, 
 				Catalog.GetString(Constants.CountryUndefined));
+		
+		//create countriesTranslated, only with translated stuff
+		countriesTranslated = new String[1];
 
 		
 		combo_countries.Changed += new EventHandler (on_combo_countries_changed);
@@ -1309,11 +1312,14 @@ public class PersonAddModifyWindow
 				label_date.Text = Catalog.GetString("Undefined");
 			else
 				label_date.Text = dateTime.ToLongDateString();
+
 			//country stuff
 			if(currentPerson.CountryID != Constants.CountryUndefinedID) {
 				string [] countryString = SqliteCountry.Select(currentPerson.CountryID);
+			
 				combo_continents.Active = UtilGtk.ComboMakeActive(continentsTranslated, 
 						Catalog.GetString(countryString[3]));
+				
 				combo_countries.Active = UtilGtk.ComboMakeActive(countriesTranslated, 
 						Catalog.GetString(countryString[1]));
 			}
@@ -1346,7 +1352,6 @@ public class PersonAddModifyWindow
 			TextBuffer tb2 = new TextBuffer (new TextTagTable());
 			tb2.Text = myPS.Comments;
 			textview_ps_comments.Buffer = tb2;
-
 		}
 			
 		sport = SqliteSport.Select(mySportID);
@@ -1494,9 +1499,10 @@ public class PersonAddModifyWindow
 	
 	private void on_combo_continents_changed(object o, EventArgs args) {
 		//Console.WriteLine("Changed");
-		
+
 		if(UtilGtk.ComboGetActive(combo_continents) == Catalog.GetString(Constants.ContinentUndefined)) {
-			countries [0] = Constants.CountryUndefinedID + ":" + Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
+			countries [0] = Constants.CountryUndefinedID + ":" + 
+				Constants.CountryUndefined + ":" + Catalog.GetString(Constants.CountryUndefined);
 			countriesTranslated = new String[1];
 			countriesTranslated [0] = Catalog.GetString(Constants.CountryUndefined);
 			combo_countries.Sensitive = false;

@@ -1752,7 +1752,11 @@ public partial class ChronoJumpWindow
 		rengine = REngine.CreateInstance("RDotNet");
 		// From v1.5, REngine requires explicit initialization.
 		// You can set some parameters.
+
 		rengine.Initialize();
+		//Previous command, unfortunatelly localizes all GUI to english
+		//then call Catalog.Init again in order to see new windows localised		
+		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 
 		rengine.Evaluate("library(\"EMD\")");
 

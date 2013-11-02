@@ -96,7 +96,6 @@ public class ChronoJump
 		}
 
 
-		
 		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 					
 			

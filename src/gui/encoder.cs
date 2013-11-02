@@ -3844,18 +3844,33 @@ Log.WriteLine(str);
 				return;
 			}
 
-			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
-
+			//height (or range)	
 			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
 			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
+			double height = rengine.GetSymbol("range").AsNumeric().First();
+			height = height / 10; //cm -> mm
+
+			//only process curves with height >= min_height
+			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
+				ecca.curvesDone ++;
+				return;	
+			}
+
+
+			//accel and propulsive stuff
+			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
+			rengine.Evaluate("accel$y <- accel$y * 1000"); //input data is in mm, conversion to m
 
 			//propulsive stuff
 			int propulsiveEnd = curveToRreduced.Length;
-			rengine.Evaluate("g <- -9.81");
+			rengine.Evaluate("g <- 9.81");
 			if(encoderPropulsive) {
 				//check if propulsive phase ends
+				Log.WriteLine("accel$y");
+				rengine.Evaluate("print(accel$y)");
 				rengine.Evaluate("propulsiveStuffAtRight <- length(which(accel$y <= -g))"); 
 				int propulsiveStuffAtRight = rengine.GetSymbol("propulsiveStuffAtRight").AsInteger().First();
+				Log.WriteLine(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
 				if(propulsiveStuffAtRight > 0) {
 					rengine.Evaluate("propulsiveEnd <- min(which(accel$y <= -g))");
 					propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
@@ -3867,20 +3882,11 @@ Log.WriteLine(str);
 			}
 			//end of propulsive stuff
 
-			double height = rengine.GetSymbol("range").AsNumeric().First();
-			height = height / 10; //cm -> mm
-
-			//only process curves with height >= min_height
-			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
-				ecca.curvesDone ++;
-				return;	
-			}
-
 
 			//TODO: change this, obtain from GUI, now written bench press of 10Kg:
 			rengine.Evaluate("mass <- 10");
 
-			rengine.Evaluate("accel$y <- accel$y * 1000"); //input data is in mm, conversion to m
+
 			//if isJump == "True":
 			rengine.Evaluate("force <- mass*(accel$y+9.81)");
 			//else:

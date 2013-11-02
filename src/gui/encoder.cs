@@ -3882,9 +3882,8 @@ Log.WriteLine(str);
 			}
 			//end of propulsive stuff
 
-
-			//TODO: change this, obtain from GUI, now written bench press of 10Kg:
-			rengine.Evaluate("mass <- 10");
+			NumericVector mass = rengine.CreateNumericVector(new double[] {findMassFromCombo(true)});
+			rengine.SetSymbol("mass", mass);
 
 
 			//if isJump == "True":
@@ -3924,7 +3923,7 @@ Log.WriteLine(str);
 				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
 				//phase = " down,"
 			}
-
+			
 			double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
 			double peakPower = rengine.GetSymbol("peakPower").AsNumeric().First();
 			int peakPowerT = rengine.GetSymbol("peakPowerT").AsInteger().First();
@@ -3933,12 +3932,13 @@ Log.WriteLine(str);
 			double pp_ppt = peakPower / peakPowerT;
 
 			Log.WriteLine(string.Format(
-						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, meanPower: {3}\npeakPower: {4}\npeakPowerT: {5}", 
-						height, meanSpeed, maxSpeed, meanPower, peakPower, peakPowerT));
+						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, maxSpeedT: {3}\n" + 
+						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
+						height, meanSpeed, maxSpeed, maxSpeedT, meanPower, peakPower, peakPowerT));
 			
-			encoderCaptureStringR += string.Format("\n1,1,a,1,1,1,1,{0},{1},{2},{3},1,1,1,1", 
-					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), 
-					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower) );
+			encoderCaptureStringR += string.Format("\n1,1,a,1,1,1,1,{0},{1},{2},{3},{4},{5},1,1", 
+					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), maxSpeedT,
+					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), peakPowerT );
 		
 			treeviewEncoderCaptureRemoveColumns();
 			int curvesNum = createTreeViewEncoderCapture(encoderCaptureStringR);

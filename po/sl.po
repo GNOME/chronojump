@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-03 16:22+0000\n"
-"PO-Revision-Date: 2013-10-03 22:05+0100\n"
+"POT-Creation-Date: 2013-11-02 00:02+0000\n"
+"PO-Revision-Date: 2013-11-02 11:42+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -187,7 +187,7 @@ msgstr "<b>Testiranci</b>"
 #. serieJumps.Title = Catalog.GetString("Jumps") + " *10";
 #. serieTime.Title = Catalog.GetString("Time") + " *10";
 #: ../glade/chronojump.glade.h:33 ../src/exportSession.cs:376
-#: ../src/gui/chronojump.cs:3484 ../src/gui/jump.cs:1805
+#: ../src/gui/chronojump.cs:3483 ../src/gui/jump.cs:1805
 #: ../src/gui/jump.cs:1855 ../src/gui/jump.cs:1903
 #: ../src/sqlite/speciallity.cs:160 ../src/stats/graphs/rjAVGSD.cs:71
 #: ../src/stats/graphs/rjAVGSD.cs:80 ../src/stats/graphs/rjEvolution.cs:77
@@ -226,7 +226,7 @@ msgstr ""
 "časi"
 
 #: ../glade/chronojump.glade.h:41 ../src/exportSession.cs:189
-#: ../src/gui/chronojump.cs:4005 ../src/gui/person.cs:2156
+#: ../src/gui/chronojump.cs:4004 ../src/gui/person.cs:2156
 #: ../src/gui/session.cs:735 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Ritmični testi"
@@ -779,8 +779,8 @@ msgstr "Skupna razdalja"
 #: ../src/exportSession.cs:277 ../src/exportSession.cs:379
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:542
 #: ../src/exportSession.cs:633 ../src/exportSession.cs:675
-#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2607
-#: ../src/gui/encoder.cs:2648 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
+#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:2779
+#: ../src/gui/encoder.cs:2820 ../src/gui/jump.cs:1578 ../src/gui/jump.cs:1777
 #: ../src/gui/person.cs:123 ../src/gui/run.cs:1347 ../src/gui/run.cs:1518
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -795,7 +795,7 @@ msgstr "Možnosti testa"
 msgid "Or press 'space'"
 msgstr "Ali pa pritisnite 'preslednico'."
 
-#: ../glade/chronojump.glade.h:170 ../src/gui/chronojump.cs:5355
+#: ../glade/chronojump.glade.h:170 ../src/gui/chronojump.cs:5354
 msgid "Execute test"
 msgstr "Izvedi test"
 
@@ -824,8 +824,8 @@ msgstr "Končaj test (test bo shranjen do tega trenutka)\t"
 msgid "Time"
 msgstr "Čas"
 
-#: ../glade/chronojump.glade.h:174 ../src/gui/chronojump.cs:3332
-#: ../src/gui/chronojump.cs:3642 ../src/gui/chronojump.cs:3895
+#: ../glade/chronojump.glade.h:174 ../src/gui/chronojump.cs:3331
+#: ../src/gui/chronojump.cs:3641 ../src/gui/chronojump.cs:3894
 msgid "Phases"
 msgstr "Koraki"
 
@@ -916,7 +916,7 @@ msgid "Person average on this test"
 msgstr "Povprečje rezultatov testiranca na tem preizkusu"
 
 #. column where the uniqueID of event will be (and will be hidded)
-#: ../glade/chronojump.glade.h:185 ../src/gui/encoder.cs:416
+#: ../glade/chronojump.glade.h:185 ../src/gui/encoder.cs:439
 #: ../src/stats/runIntervallic.cs:64 ../src/treeViewMultiChronopic.cs:30
 #: ../src/treeViewPulse.cs:46 ../src/treeViewReactionTime.cs:30
 msgid "Person"
@@ -1274,8 +1274,8 @@ msgid "Contacts (platform or photocell)"
 msgstr "Stiki (merilna podloga ali fotocelice)"
 
 #: ../glade/chronojump.glade.h:262
-msgid "Type:"
-msgstr "Vrsta:"
+msgid "Encoder:"
+msgstr "Kodirnik:"
 
 #: ../glade/chronojump.glade.h:263
 msgid "Linear"
@@ -1338,242 +1338,216 @@ msgid "Save encoder configuration"
 msgstr "Shrani nastavitev kodirnika"
 
 #: ../glade/chronojump.glade.h:278
-msgid "Encoder"
-msgstr "Kodirnik"
-
-#: ../glade/chronojump.glade.h:279
 msgid "Show description of this exercise"
 msgstr "Pokaži opis vaje"
 
-#: ../glade/chronojump.glade.h:280
+#: ../glade/chronojump.glade.h:279
 msgid "Add new exercise"
 msgstr "Dodaj novo vajo"
 
-#: ../glade/chronojump.glade.h:281
+#: ../glade/chronojump.glade.h:280
 msgid "Extra weight in Kg"
 msgstr "Dodatna obtežitev v kg"
 
-#: ../glade/chronojump.glade.h:282 ../src/gui/encoder.cs:728
-#: ../src/gui/encoder.cs:1087 ../src/gui/encoder.cs:2835
+#: ../glade/chronojump.glade.h:281 ../src/gui/encoder.cs:764
+#: ../src/gui/encoder.cs:1123 ../src/gui/encoder.cs:3007
 #: ../src/gui/jump.cs:1577 ../src/gui/jump.cs:1776
 msgid "Extra weight"
 msgstr "Dodatna obtežitev"
 
-#: ../glade/chronojump.glade.h:283
+#: ../glade/chronojump.glade.h:282
 msgid "Displaced weight in Kg"
 msgstr "Izpodrinjena masa telesa v kg"
 
-#: ../glade/chronojump.glade.h:284
+#: ../glade/chronojump.glade.h:283
 msgid "Displaced"
 msgstr "Izpodrinjeno"
 
-#: ../glade/chronojump.glade.h:285
+#: ../glade/chronojump.glade.h:284
 msgid "1RM window"
 msgstr "Okno izračunov mejnih obtežitev"
 
-#: ../glade/chronojump.glade.h:286 ../src/gui/encoder.cs:417
-#: ../src/gui/encoder.cs:726 ../src/gui/encoder.cs:1085
-#: ../src/gui/encoder.cs:2834
-msgid "Exercise"
-msgstr "Vaja"
+#: ../glade/chronojump.glade.h:285
+msgid "Options"
+msgstr "Možnosti"
 
-#: ../glade/chronojump.glade.h:287
-msgid "Safe"
-msgstr "Varno"
-
-#: ../glade/chronojump.glade.h:288
-msgid "External"
-msgstr "Zunanje"
-
-#: ../glade/chronojump.glade.h:289
-msgid "Recording time"
-msgstr "Čas snemanja"
-
-#: ../glade/chronojump.glade.h:290
-msgid "s"
-msgstr "s"
-
-#: ../glade/chronojump.glade.h:291
-msgid "Minimal height"
-msgstr "Najmanjša višina"
-
-#: ../glade/chronojump.glade.h:292
+#: ../glade/chronojump.glade.h:286
 msgid "Capture"
 msgstr "Zajemanje"
 
-#: ../glade/chronojump.glade.h:293
+#: ../glade/chronojump.glade.h:287
 msgid "Cancel process"
 msgstr "Prekini opravilo"
 
-#: ../glade/chronojump.glade.h:294
+#: ../glade/chronojump.glade.h:288
 msgid "Finish capture"
 msgstr "Končaj zajem"
 
-#: ../glade/chronojump.glade.h:295
+#: ../glade/chronojump.glade.h:289
 msgid "Load signal"
 msgstr "Naloži signal"
 
-#: ../glade/chronojump.glade.h:296
+#: ../glade/chronojump.glade.h:290
 msgid "Recalculate signal with changed parameters"
 msgstr "Ponovno izračunaj signal s spremenjenimi parametri"
 
-#: ../glade/chronojump.glade.h:297
-msgid "Add a comment"
-msgstr "Dodaj komentar"
-
-#: ../glade/chronojump.glade.h:298
-msgid "Update signal (save it again if changed)"
-msgstr "Posodobi signal (in ga znova shrani, če je spremenjen)"
-
-#: ../glade/chronojump.glade.h:299
+#: ../glade/chronojump.glade.h:291
 msgid "Delete signal"
 msgstr "Izbriši signal"
 
-#: ../glade/chronojump.glade.h:300
+#: ../glade/chronojump.glade.h:292
 msgid "capture"
 msgstr "zajem"
 
-#: ../glade/chronojump.glade.h:301
+#: ../glade/chronojump.glade.h:293
 msgid "curves"
 msgstr "Krivulje"
 
-#: ../glade/chronojump.glade.h:302
+#: ../glade/chronojump.glade.h:294
 msgid "On capture: displayed positive and negative height in meters"
 msgstr "Ob zajemu: prikazani pozitivna in negativna višina v metrih"
 
-#: ../glade/chronojump.glade.h:303 ../src/gui/encoder.cs:1084
+#: ../glade/chronojump.glade.h:295 ../src/gui/encoder.cs:1120
 msgid "Signal"
 msgstr "Signal"
 
-#: ../glade/chronojump.glade.h:304
+#: ../glade/chronojump.glade.h:296
+msgid "Add a comment"
+msgstr "Dodaj komentar"
+
+#: ../glade/chronojump.glade.h:297
 msgid "Curves"
 msgstr "Krivulje"
 
-#: ../glade/chronojump.glade.h:305
+#: ../glade/chronojump.glade.h:298
 msgid "Data:"
 msgstr "Podatki:"
 
-#: ../glade/chronojump.glade.h:306
+#: ../glade/chronojump.glade.h:299
 msgid "Current signal"
 msgstr "Trenutni signal"
 
-#: ../glade/chronojump.glade.h:307
+#: ../glade/chronojump.glade.h:300
 msgid "User curves"
 msgstr "Uporabniške krivulje"
 
-#: ../glade/chronojump.glade.h:308
+#: ../glade/chronojump.glade.h:301
 msgid "("
 msgstr "("
 
-#: ../glade/chronojump.glade.h:309 ../src/gui/encoder.cs:724
+#: ../glade/chronojump.glade.h:302 ../src/gui/encoder.cs:760
 msgid "Active"
 msgstr "Dejavno"
 
-#: ../glade/chronojump.glade.h:310
+#: ../glade/chronojump.glade.h:303
 msgid "0"
 msgstr "0"
 
-#: ../glade/chronojump.glade.h:311
+#: ../glade/chronojump.glade.h:304
 msgid "/"
 msgstr "/"
 
-#: ../glade/chronojump.glade.h:312
+#: ../glade/chronojump.glade.h:305
 msgid ")"
 msgstr ")"
 
-#: ../glade/chronojump.glade.h:313
+#: ../glade/chronojump.glade.h:306
 msgid "Select"
 msgstr "Izberi"
 
-#: ../glade/chronojump.glade.h:314
+#: ../glade/chronojump.glade.h:307
 msgid "Compare to"
 msgstr "Primerjaj z"
 
-#: ../glade/chronojump.glade.h:315
+#: ../glade/chronojump.glade.h:308
 msgid "Power bars"
 msgstr "Stolpci moči"
 
-#: ../glade/chronojump.glade.h:316
+#: ../glade/chronojump.glade.h:309
 msgid "Cross variables"
 msgstr "Križne spremenljivke"
 
-#: ../glade/chronojump.glade.h:317
+#: ../glade/chronojump.glade.h:310
 msgid "Side compare"
 msgstr "Primerjava ob strani"
 
-#: ../glade/chronojump.glade.h:318
+#: ../glade/chronojump.glade.h:311
 msgid "Single curve"
 msgstr "Enojna krivulja"
 
-#: ../glade/chronojump.glade.h:319
+#: ../glade/chronojump.glade.h:312
 msgid "Analyze"
 msgstr "Preuči"
 
-#: ../glade/chronojump.glade.h:320
+#: ../glade/chronojump.glade.h:313
 msgid "EC together"
 msgstr "Skupaj EK"
 
-#: ../glade/chronojump.glade.h:321
+#: ../glade/chronojump.glade.h:314
 msgid "Eccentric-concentric together"
 msgstr "Ekscentrično-koncentrično skupaj"
 
-#: ../glade/chronojump.glade.h:322
+#: ../glade/chronojump.glade.h:315
 msgid "Curve num."
 msgstr "Št. krivulje"
 
-#: ../glade/chronojump.glade.h:323
+#: ../glade/chronojump.glade.h:316
 msgid "Mean"
 msgstr "Povprečje"
 
-#: ../glade/chronojump.glade.h:324
+#: ../glade/chronojump.glade.h:317
 msgid "Mean values"
 msgstr "Srednje vrednosti"
 
-#: ../glade/chronojump.glade.h:325
+#: ../glade/chronojump.glade.h:318
 msgid "Max"
 msgstr "Največja vrednost"
 
-#: ../glade/chronojump.glade.h:326
+#: ../glade/chronojump.glade.h:319
 msgid "Max values"
 msgstr "Najvišje vrednosti"
 
-#: ../glade/chronojump.glade.h:327
+#: ../glade/chronojump.glade.h:320
 msgid "Side compare allows a maximum of 12 graphs."
 msgstr "Primerjava ob strani dovoljuje največ dvanajst grafov."
 
-#: ../glade/chronojump.glade.h:328
+#: ../glade/chronojump.glade.h:321
 msgid "Maximum 12 graphs"
 msgstr "Največ dvanajst grafov"
 
-#: ../glade/chronojump.glade.h:329
+#: ../glade/chronojump.glade.h:322
 msgid "Mode:"
 msgstr "Način:"
 
-#: ../glade/chronojump.glade.h:330
+#: ../glade/chronojump.glade.h:323
 msgid "\t"
 msgstr "\t"
 
-#: ../glade/chronojump.glade.h:331 ../src/gui/encoder.cs:1274
+#: ../glade/chronojump.glade.h:324 ../src/gui/encoder.cs:1310
 msgid "Save image"
 msgstr "Shrani sliko"
 
-#: ../glade/chronojump.glade.h:332
+#: ../glade/chronojump.glade.h:325
 msgid "Save 1RM value"
 msgstr "Shrani vrednost mejne teže"
 
-#: ../glade/chronojump.glade.h:333
+#: ../glade/chronojump.glade.h:326
 msgid "Show graph"
 msgstr "Pokaži graf"
 
-#: ../glade/chronojump.glade.h:334 ../src/gui/encoder.cs:1276
+#: ../glade/chronojump.glade.h:327 ../src/gui/encoder.cs:1312
 msgid "Save table"
 msgstr "Shrani razpredelnico"
 
-#: ../glade/chronojump.glade.h:335
+#: ../glade/chronojump.glade.h:328
 msgid "Show table"
 msgstr "Pokaži tabelo"
 
-#: ../glade/chronojump.glade.h:336
+#: ../glade/chronojump.glade.h:329
+msgid "Encoder"
+msgstr "Kodirnik"
+
+#: ../glade/chronojump.glade.h:330
 msgid ""
 "Chronojump has a server in order to share data between users.\n"
 "Data is collected by users contributions and server generates statistics and "
@@ -1587,23 +1561,23 @@ msgstr ""
 "Vsakomur je dovoljeno pregledovati statistiko in grafe ter zaganjati "
 "poizvedbe na strežniku."
 
-#: ../glade/chronojump.glade.h:339
+#: ../glade/chronojump.glade.h:333
 msgid "Check connection"
 msgstr "Preveri povezavo"
 
-#: ../glade/chronojump.glade.h:340
+#: ../glade/chronojump.glade.h:334
 msgid "Query to the server"
 msgstr "Poizvedba na strežniku"
 
-#: ../glade/chronojump.glade.h:341
+#: ../glade/chronojump.glade.h:335
 msgid "Check basic stats"
 msgstr "Preveri osnovno statistiko"
 
-#: ../glade/chronojump.glade.h:342
+#: ../glade/chronojump.glade.h:336
 msgid "Check data"
 msgstr "Pregled podatkov"
 
-#: ../glade/chronojump.glade.h:343
+#: ../glade/chronojump.glade.h:337
 msgid ""
 "Privacy is respected:\n"
 "- Names, comments, photos and videos are not uploaded.\n"
@@ -1619,45 +1593,45 @@ msgstr ""
 "Simulirani testi so prezrti.\n"
 "Uporabljena so prava imena ali vzdevki."
 
-#: ../glade/chronojump.glade.h:349
+#: ../glade/chronojump.glade.h:343
 msgid "Upload (or update) session to server"
 msgstr "Pošlji (ali posodobi) sejo na strežniku"
 
-#: ../glade/chronojump.glade.h:350
+#: ../glade/chronojump.glade.h:344
 msgid "Share data!"
 msgstr "Izmenjava  podatkov!"
 
-#: ../glade/chronojump.glade.h:351
+#: ../glade/chronojump.glade.h:345
 msgid "Open server website (on browser)"
 msgstr "Odpri spletišče strežnika (v brskalniku)"
 
-#: ../glade/chronojump.glade.h:352
+#: ../glade/chronojump.glade.h:346
 msgid "Server actions"
 msgstr "Dejanja strežnika"
 
-#: ../glade/chronojump.glade.h:353
+#: ../glade/chronojump.glade.h:347
 msgid "Connecting with Chronopic"
 msgstr "Povezovanje z napravo kronopik"
 
-#: ../glade/chronojump.glade.h:354
+#: ../glade/chronojump.glade.h:348
 msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr ""
 "Dotaknite se merilne podloge ali pa kliknite na <i>TEST</i> gumb naprave "
 "kronopik"
 
-#: ../glade/chronojump.glade.h:355
+#: ../glade/chronojump.glade.h:349
 msgid "Help with Chronopic port"
 msgstr "Pomoč z vrati kronopik"
 
-#: ../glade/chronojump.glade.h:356
+#: ../glade/chronojump.glade.h:350
 msgid "Port Help"
 msgstr "Pomoč vrat"
 
-#: ../glade/chronojump.glade.h:357
+#: ../glade/chronojump.glade.h:351
 msgid "Chronopic window"
 msgstr "Okno naprave kronopik"
 
-#: ../glade/chronojump.glade.h:358
+#: ../glade/chronojump.glade.h:352
 msgid ""
 "Contacts\n"
 "(platform or photocell)"
@@ -1665,27 +1639,27 @@ msgstr ""
 "Stiki\n"
 "(merilna podloga ali fotocelice)"
 
-#: ../glade/chronojump.glade.h:360
+#: ../glade/chronojump.glade.h:354
 msgid "Select your connection"
 msgstr "Izberite svojo povezavo"
 
-#: ../glade/chronojump.glade.h:361
+#: ../glade/chronojump.glade.h:355
 msgid "Connect"
 msgstr "Poveži"
 
-#: ../glade/chronojump.glade.h:362
+#: ../glade/chronojump.glade.h:356
 msgid "<b>Main Chronopic</b> (used on all tests)"
 msgstr "<b>Glavna naprava kronopik</b> (uporabljena pri vseh testih)"
 
-#: ../glade/chronojump.glade.h:363
+#: ../glade/chronojump.glade.h:357
 msgid "Show"
 msgstr "Pokaži"
 
-#: ../glade/chronojump.glade.h:364
+#: ../glade/chronojump.glade.h:358
 msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr "<b>Dodatki</b> (uporabni z multikronopiki)"
 
-#: ../glade/chronojump.glade.h:365
+#: ../glade/chronojump.glade.h:359
 msgid ""
 "Select the port where Chronopic is connected.\n"
 "\n"
@@ -1699,19 +1673,19 @@ msgstr ""
 "\n"
 "Enostavno izberite in nato zaprite to okno."
 
-#: ../glade/chronojump.glade.h:370
+#: ../glade/chronojump.glade.h:364
 msgid "Chronopic"
 msgstr "Kronopik"
 
-#: ../glade/chronojump.glade.h:371
+#: ../glade/chronojump.glade.h:365
 msgid "ChronoJump - Confirm"
 msgstr "ChronoJump - Potrditev"
 
-#: ../glade/chronojump.glade.h:372
+#: ../glade/chronojump.glade.h:366
 msgid "Convert weight of tests"
 msgstr "Pretvori težo testov"
 
-#: ../glade/chronojump.glade.h:374
+#: ../glade/chronojump.glade.h:368
 #, no-c-format
 msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
@@ -1720,63 +1694,63 @@ msgstr ""
 "Teža skokov je zabeležena kot '%' mase skakalca. Ko se masa skakalca "
 "spremeni, je treba izračunati novo težo skoka. "
 
-#: ../glade/chronojump.glade.h:375
+#: ../glade/chronojump.glade.h:369
 msgid "Old jumper weight"
 msgstr "Stara masa skakalca"
 
-#: ../glade/chronojump.glade.h:376
+#: ../glade/chronojump.glade.h:370
 msgid "New jumper weight"
 msgstr "Nova masa skakalca"
 
-#: ../glade/chronojump.glade.h:377
+#: ../glade/chronojump.glade.h:371
 msgid "About"
 msgstr "O programu"
 
-#: ../glade/chronojump.glade.h:378
+#: ../glade/chronojump.glade.h:372
 msgid "Developers"
 msgstr "Razvijalci"
 
-#: ../glade/chronojump.glade.h:379
+#: ../glade/chronojump.glade.h:373
 msgid "Documenters"
 msgstr "Pisci dokumentacije"
 
-#: ../glade/chronojump.glade.h:380
+#: ../glade/chronojump.glade.h:374
 msgid "Translators"
 msgstr "Prevajalci"
 
-#: ../glade/chronojump.glade.h:381
+#: ../glade/chronojump.glade.h:375
 msgid "Chronopic port help"
 msgstr "Pomoč vrat kronopik"
 
-#: ../glade/chronojump.glade.h:382 ../src/gui/helpPorts.cs:100
+#: ../glade/chronojump.glade.h:376 ../src/gui/helpPorts.cs:100
 msgid "Check Chronopic port"
 msgstr "Preverjanje vrat naprave kronopik"
 
-#: ../glade/chronojump.glade.h:383 ../src/gui/helpPorts.cs:116
+#: ../glade/chronojump.glade.h:377 ../src/gui/helpPorts.cs:116
 msgid "Force Chronopic port to COM1 - COM4"
 msgstr "Vsili vrata naprave kronopik na vrata COM1 - COM4"
 
-#: ../glade/chronojump.glade.h:384
+#: ../glade/chronojump.glade.h:378
 msgid "Test image and description"
 msgstr "Slika in opis testa"
 
-#: ../glade/chronojump.glade.h:385
+#: ../glade/chronojump.glade.h:379
 msgid "Message"
 msgstr "Sporočilo"
 
-#: ../glade/chronojump.glade.h:386
+#: ../glade/chronojump.glade.h:380
 msgid "Server stats"
 msgstr "Statistika strežnika"
 
-#: ../glade/chronojump.glade.h:387
+#: ../glade/chronojump.glade.h:381
 msgid "Evaluators"
 msgstr "Merilniki"
 
-#: ../glade/chronojump.glade.h:388
+#: ../glade/chronojump.glade.h:382
 msgid "In server"
 msgstr "Na strežniku"
 
-#: ../glade/chronojump.glade.h:389
+#: ../glade/chronojump.glade.h:383
 msgid ""
 "Uploaded\n"
 "by you"
@@ -1784,70 +1758,70 @@ msgstr ""
 "Ste\n"
 "poslali"
 
-#: ../glade/chronojump.glade.h:391
+#: ../glade/chronojump.glade.h:385
 msgid "Sessions"
 msgstr "Seje"
 
-#: ../glade/chronojump.glade.h:392 ../src/exportSession.cs:174
+#: ../glade/chronojump.glade.h:386 ../src/exportSession.cs:174
 #: ../src/gui/session.cs:725 ../src/report.cs:158
 msgid "Persons"
 msgstr "Testiranci"
 
-#: ../glade/chronojump.glade.h:393
+#: ../glade/chronojump.glade.h:387
 msgid "General data"
 msgstr "Splošni podatki"
 
-#: ../glade/chronojump.glade.h:394 ../src/exportSession.cs:179
+#: ../glade/chronojump.glade.h:388 ../src/exportSession.cs:179
 #: ../src/report.cs:168 ../src/report.cs:171
 msgid "Reactive jumps"
 msgstr "Repetitivno-eksplozivni skoki"
 
-#: ../glade/chronojump.glade.h:395
+#: ../glade/chronojump.glade.h:389
 msgid "Intervallic runs"
 msgstr "Intervalni teki"
 
-#: ../glade/chronojump.glade.h:396 ../src/exportSession.cs:187
+#: ../glade/chronojump.glade.h:390 ../src/exportSession.cs:187
 #: ../src/report.cs:193
 msgid "Reaction times"
 msgstr "Odzivni časi"
 
-#: ../glade/chronojump.glade.h:397
+#: ../glade/chronojump.glade.h:391
 msgid "Tests"
 msgstr "Testi"
 
-#: ../glade/chronojump.glade.h:398 ../src/gui/chronojump.cs:1129
+#: ../glade/chronojump.glade.h:392 ../src/gui/chronojump.cs:1128
 msgid "Edit"
 msgstr "Uredi"
 
-#: ../glade/chronojump.glade.h:399
+#: ../glade/chronojump.glade.h:393
 msgid "Flight time"
 msgstr "Čas leta"
 
-#: ../glade/chronojump.glade.h:400
+#: ../glade/chronojump.glade.h:394
 msgid "Identifier"
 msgstr "Določilo"
 
-#: ../glade/chronojump.glade.h:401
+#: ../glade/chronojump.glade.h:395
 msgid "Contact time"
 msgstr "Čas stika"
 
-#: ../glade/chronojump.glade.h:402
+#: ../glade/chronojump.glade.h:396
 msgid "<b>Simulated</b>"
 msgstr "<b>Simulirano</b>"
 
-#: ../glade/chronojump.glade.h:403
+#: ../glade/chronojump.glade.h:397
 msgid "Knee angle"
 msgstr "Kolenski kot"
 
-#: ../glade/chronojump.glade.h:404
+#: ../glade/chronojump.glade.h:398
 msgid "Mistakes"
 msgstr "Napake"
 
-#: ../glade/chronojump.glade.h:405
+#: ../glade/chronojump.glade.h:399
 msgid "Video available"
 msgstr "Razpoložljivi posnetek"
 
-#: ../glade/chronojump.glade.h:406 ../src/constants.cs:530
+#: ../glade/chronojump.glade.h:400 ../src/constants.cs:530
 #: ../src/encoder.cs:366 ../src/gui/jump.cs:1588 ../src/gui/jump.cs:1593
 #: ../src/gui/jump.cs:1624 ../src/gui/jump.cs:1627 ../src/gui/jump.cs:1654
 #: ../src/gui/jump.cs:1657 ../src/gui/jump.cs:1787 ../src/gui/jump.cs:1792
@@ -1856,30 +1830,30 @@ msgstr "Razpoložljivi posnetek"
 msgid "Yes"
 msgstr "Da"
 
-#: ../glade/chronojump.glade.h:407 ../src/constants.cs:529
+#: ../glade/chronojump.glade.h:401 ../src/constants.cs:529
 #: ../src/encoder.cs:368 ../src/gui/jump.cs:1590 ../src/gui/jump.cs:1595
 #: ../src/gui/jump.cs:1789 ../src/gui/jump.cs:1794
 msgid "No"
 msgstr "Ne"
 
-#: ../glade/chronojump.glade.h:408
+#: ../glade/chronojump.glade.h:402
 msgid "Play video"
 msgstr "Predvajaj posnetek"
 
-#: ../glade/chronojump.glade.h:409
+#: ../glade/chronojump.glade.h:403
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:410 ../src/gui/person.cs:1840
+#: ../glade/chronojump.glade.h:404 ../src/gui/person.cs:1840
 msgid "Kg"
 msgstr "Kg"
 
-#: ../glade/chronojump.glade.h:411 ../src/gui/encoder.cs:2723
-#: ../src/gui/encoder.cs:2837
+#: ../glade/chronojump.glade.h:405 ../src/gui/encoder.cs:2895
+#: ../src/gui/encoder.cs:3009
 msgid "Start"
 msgstr "Start"
 
-#: ../glade/chronojump.glade.h:412
+#: ../glade/chronojump.glade.h:406
 msgid ""
 "Description /\n"
 "comments"
@@ -1887,80 +1861,80 @@ msgstr ""
 "Opis\n"
 "razlage"
 
-#: ../glade/chronojump.glade.h:414
+#: ../glade/chronojump.glade.h:408
 msgid "Sit to stand"
 msgstr "Iz sedečega v stoječi"
 
-#: ../glade/chronojump.glade.h:415
+#: ../glade/chronojump.glade.h:409
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
 "Je sposoben vstati iz sedečega položaja brez uporabe rok mirno in "
 "nadzorovano."
 
-#: ../glade/chronojump.glade.h:416
+#: ../glade/chronojump.glade.h:410
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
 "Je sposoben vstati iz sedečega položaja z uporabo rok mirno in nadzorovano."
 
-#: ../glade/chronojump.glade.h:417
+#: ../glade/chronojump.glade.h:411
 msgid "Able to stand up using hands after multiple attempts."
 msgstr "Je sposoben vstati iz sedečega položaja z uporabo rok po več poskusih."
 
-#: ../glade/chronojump.glade.h:418
+#: ../glade/chronojump.glade.h:412
 msgid "Needs or asks for help."
 msgstr "Potrebuje ali prosi za pomoč."
 
-#: ../glade/chronojump.glade.h:419
+#: ../glade/chronojump.glade.h:413
 msgid "Undefined."
 msgstr "Nedoločeno."
 
-#: ../glade/chronojump.glade.h:420
+#: ../glade/chronojump.glade.h:414
 msgid "MTGUG Questionnaire 1"
 msgstr "MTGUG vprašalnik 1"
 
-#: ../glade/chronojump.glade.h:421
+#: ../glade/chronojump.glade.h:415
 msgid "Kick ball"
 msgstr "Brcanje žoge"
 
-#: ../glade/chronojump.glade.h:422
+#: ../glade/chronojump.glade.h:416
 msgid "Able to kick ball without losing balance."
 msgstr "Je sposoben brcniti žogo brez težav z ravnotežjem."
 
-#: ../glade/chronojump.glade.h:423
+#: ../glade/chronojump.glade.h:417
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr "Je sposoben brcniti žogo, vendar mora ulovi ravnotežje."
 
-#: ../glade/chronojump.glade.h:424
+#: ../glade/chronojump.glade.h:418
 msgid "Able to kick ball with difficulty finding balance."
 msgstr "Je sposoben brcniti žogo, vendar očitno težko ulovi ravnotežje."
 
-#: ../glade/chronojump.glade.h:425
+#: ../glade/chronojump.glade.h:419
 msgid "Walk whilst counting backwards from 15 to 0"
 msgstr "Hoja z odštevanjem od 15 do 0"
 
-#: ../glade/chronojump.glade.h:426
+#: ../glade/chronojump.glade.h:420
 msgid "Able to coordinate walking with counting without making a mistake."
 msgstr "Je sposoben usklajeno hoditi in šteti brez napak."
 
-#: ../glade/chronojump.glade.h:427
+#: ../glade/chronojump.glade.h:421
 msgid "Able to coordinate walking with counting with one mistake."
 msgstr ""
 "Je sposoben usklajeno hoditi in šteti ter pri štetju narediti le eno napako."
 
-#: ../glade/chronojump.glade.h:428
+#: ../glade/chronojump.glade.h:422
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
 msgstr "Slabo sta usklajena hoja in štetja z več kot eno napako."
 
-#: ../glade/chronojump.glade.h:429
+#: ../glade/chronojump.glade.h:423
 msgid "Needs help or cannot perform the counting task."
 msgstr "Potrebuje pomoč ali ni sposoben šteti."
 
-#: ../glade/chronojump.glade.h:430
+#: ../glade/chronojump.glade.h:424
 msgid "Go around back of cone"
 msgstr "Obhod stožca"
 
-#: ../glade/chronojump.glade.h:431
+#: ../glade/chronojump.glade.h:425
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
@@ -1968,13 +1942,13 @@ msgstr ""
 "Je sposoben hoditi znotraj označenega območja z zmanjšano hitrostjo in obiti "
 "postavljen stožec brez dotika."
 
-#: ../glade/chronojump.glade.h:432
+#: ../glade/chronojump.glade.h:426
 msgid "Able to go around with obvious signs of insecurity."
 msgstr ""
 "Je sposoben hoditi znotraj označenega območja in obiti stožec z očitnimi "
 "znaki negotovosti."
 
-#: ../glade/chronojump.glade.h:433
+#: ../glade/chronojump.glade.h:427
 msgid ""
 "Able to go around the cone without touching it, without going outside the  "
 "marked area, and keeping up the pace."
@@ -1982,11 +1956,11 @@ msgstr ""
 "Je sposoben hoditi znotraj označenega območja z nespremenjeno hitrostjo in "
 "obiti postavljen stožec brez dotika."
 
-#: ../glade/chronojump.glade.h:434
+#: ../glade/chronojump.glade.h:428
 msgid "Step into circles"
 msgstr "Stopanje v obroče"
 
-#: ../glade/chronojump.glade.h:435
+#: ../glade/chronojump.glade.h:429
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
@@ -1994,7 +1968,7 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, brez dotika "
 "obroča in brez težav z ravnotežjem."
 
-#: ../glade/chronojump.glade.h:436
+#: ../glade/chronojump.glade.h:430
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
@@ -2002,7 +1976,7 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, z enim dotikom "
 "obroča ali pa mora s korakom izven kroga ulovi ravnotežje."
 
-#: ../glade/chronojump.glade.h:437
+#: ../glade/chronojump.glade.h:431
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
@@ -2010,47 +1984,79 @@ msgstr ""
 "Je sposoben stopati z eno nogo v vsak na tleh položen obroč, z več dotiki "
 "obroča ali pa mora s korakom ulovi ravnotežje."
 
-#: ../glade/chronojump.glade.h:438
+#: ../glade/chronojump.glade.h:432
 msgid "Sit back down"
 msgstr "Usedite se"
 
-#: ../glade/chronojump.glade.h:439
+#: ../glade/chronojump.glade.h:433
 msgid "Able to sit down smoothly without using hands."
 msgstr "Je sposoben usesti se brez težav in brez uporabe rok."
 
-#: ../glade/chronojump.glade.h:440
+#: ../glade/chronojump.glade.h:434
 msgid "Able to sit down sharply without using hands."
 msgstr "Je sposoben usesti se hitro brez uporabe rok."
 
-#: ../glade/chronojump.glade.h:441
+#: ../glade/chronojump.glade.h:435
 msgid "Able to sit down using hands."
 msgstr "Je sposoben usesti se z uporabo rok."
 
-#: ../glade/chronojump.glade.h:442
+#: ../glade/chronojump.glade.h:436
 msgid "slCMJ"
 msgstr "psSNG"
 
+#: ../glade/chronojump.glade.h:437
+msgid "Encoder capture options"
+msgstr "Možnosti zajemanja kodirnika"
+
+#: ../glade/chronojump.glade.h:438
+msgid "Mode"
+msgstr "Način"
+
+#: ../glade/chronojump.glade.h:439
+msgid "Safe"
+msgstr "Varno"
+
+#: ../glade/chronojump.glade.h:440
+msgid "External"
+msgstr "Zunanje"
+
+#: ../glade/chronojump.glade.h:441
+msgid "Recording time"
+msgstr "Čas snemanja"
+
+#: ../glade/chronojump.glade.h:442
+msgid "Minimal height"
+msgstr "Najmanjša višina"
+
 #: ../glade/chronojump.glade.h:443
+msgid "Feedback"
+msgstr "Odziv"
+
+#: ../glade/chronojump.glade.h:444
+msgid "s"
+msgstr "s"
+
+#: ../glade/chronojump.glade.h:445
 msgid "ChronoJump - Error"
 msgstr "ChronoJump - Napaka"
 
-#: ../glade/chronojump.glade.h:444
+#: ../glade/chronojump.glade.h:446
 msgid "ChronoJump"
 msgstr "ChronoJump"
 
-#: ../glade/chronojump.glade.h:445
+#: ../glade/chronojump.glade.h:447
 msgid "Evaluator server data"
 msgstr "Podatki strežnika merilnika"
 
-#: ../glade/chronojump.glade.h:446
+#: ../glade/chronojump.glade.h:448
 msgid "Please fill these values."
 msgstr "Izpolnite te vrednosti."
 
-#: ../glade/chronojump.glade.h:447
+#: ../glade/chronojump.glade.h:449
 msgid "E-mail will never be shown in public."
 msgstr "Elektronski naslov ne bo nikoli javno prikazana."
 
-#: ../glade/chronojump.glade.h:448 ../src/exportSession.cs:208
+#: ../glade/chronojump.glade.h:450 ../src/exportSession.cs:208
 #: ../src/exportSession.cs:223 ../src/gui/jump.cs:1575 ../src/gui/jump.cs:1772
 #: ../src/gui/person.cs:120 ../src/gui/run.cs:1345 ../src/gui/run.cs:1514
 #: ../src/gui/server.cs:164 ../src/gui/session.cs:722
@@ -2058,83 +2064,83 @@ msgstr "Elektronski naslov ne bo nikoli javno prikazana."
 msgid "Name"
 msgstr "Ime"
 
-#: ../glade/chronojump.glade.h:449
+#: ../glade/chronojump.glade.h:451
 msgid "E-mail"
 msgstr "Elektronski naslov"
 
-#: ../glade/chronojump.glade.h:450
+#: ../glade/chronojump.glade.h:452
 msgid "change"
 msgstr "sprememba"
 
-#: ../glade/chronojump.glade.h:451
+#: ../glade/chronojump.glade.h:453
 msgid "Country"
 msgstr "Država"
 
-#: ../glade/chronojump.glade.h:452
+#: ../glade/chronojump.glade.h:454
 msgid "Accredited"
 msgstr "Pooblaščen"
 
-#: ../glade/chronojump.glade.h:453
+#: ../glade/chronojump.glade.h:455
 msgid "more info"
 msgstr "več podrobnosti"
 
-#: ../glade/chronojump.glade.h:454
+#: ../glade/chronojump.glade.h:456
 msgid "Date of birth"
 msgstr "Datum rojstva"
 
-#: ../glade/chronojump.glade.h:455 ../src/exportSession.cs:211
+#: ../glade/chronojump.glade.h:457 ../src/exportSession.cs:211
 #: ../src/exportSession.cs:228 ../src/gui/session.cs:742
 #: ../src/gui/session.cs:962 ../src/report.cs:243 ../src/runType.cs:197
 #: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Razlage"
 
-#: ../glade/chronojump.glade.h:456
+#: ../glade/chronojump.glade.h:458
 msgid "Evaluator data"
 msgstr "Podatki merilnika"
 
-#: ../glade/chronojump.glade.h:457
+#: ../glade/chronojump.glade.h:459
 msgid "Select your Chronometer"
 msgstr "Izbor vašega časomera"
 
-#: ../glade/chronojump.glade.h:458 ../src/constants.cs:454
+#: ../glade/chronojump.glade.h:460 ../src/constants.cs:454
 #: ../src/constants.cs:485 ../src/gui/person.cs:1293 ../src/gui/person.cs:1309
 msgid "Undefined"
 msgstr "Nedoločeno"
 
-#: ../glade/chronojump.glade.h:459
+#: ../glade/chronojump.glade.h:461
 msgid "Chronopic 1"
 msgstr "kronopik1"
 
-#: ../glade/chronojump.glade.h:460
+#: ../glade/chronojump.glade.h:462
 msgid "Chronopic 2"
 msgstr "kronopik2"
 
-#: ../glade/chronojump.glade.h:461
+#: ../glade/chronojump.glade.h:463
 msgid "Chronopic 3"
 msgstr "kronopik3"
 
-#: ../glade/chronojump.glade.h:462
+#: ../glade/chronojump.glade.h:464
 msgid "Other. Specify:"
 msgstr "Drugo. Določite:"
 
-#: ../glade/chronojump.glade.h:463
+#: ../glade/chronojump.glade.h:465
 msgid "Expand image and show description"
 msgstr "Razširi sliko in pokaži opis"
 
-#: ../glade/chronojump.glade.h:464
+#: ../glade/chronojump.glade.h:466
 msgid "To buy or build Chronopic see website:"
 msgstr "Za nakup ali izdelavo naprave kronopik si poglejte spletišče:"
 
-#: ../glade/chronojump.glade.h:465
+#: ../glade/chronojump.glade.h:467
 msgid "Chronometer"
 msgstr "Časomer"
 
-#: ../glade/chronojump.glade.h:466
+#: ../glade/chronojump.glade.h:468
 msgid "Select the device you currently use"
 msgstr "Izbor trenutno uporabljene naprave"
 
-#: ../glade/chronojump.glade.h:467
+#: ../glade/chronojump.glade.h:469
 msgid ""
 "Contact platform\n"
 "(tempered steel)"
@@ -2142,7 +2148,7 @@ msgstr ""
 "Merilna tenziometrična podloga\n"
 "(kaljeno jeklo)"
 
-#: ../glade/chronojump.glade.h:469
+#: ../glade/chronojump.glade.h:471
 msgid ""
 "Contact platform\n"
 "(circuit board)"
@@ -2150,96 +2156,96 @@ msgstr ""
 "Merilna podloga\n"
 "(modularna vezna plošča)"
 
-#: ../glade/chronojump.glade.h:471
+#: ../glade/chronojump.glade.h:473
 msgid "Infrared"
 msgstr "Infrardeče"
 
-#: ../glade/chronojump.glade.h:472
+#: ../glade/chronojump.glade.h:474
 msgid "To buy or build these devices see website:"
 msgstr "Za nakup ali izgradnjo teh naprav si poglejte spletišče:"
 
-#: ../glade/chronojump.glade.h:473
+#: ../glade/chronojump.glade.h:475
 msgid "Device"
 msgstr "Naprava"
 
-#: ../glade/chronojump.glade.h:474
+#: ../glade/chronojump.glade.h:476
 msgid "Configure graph"
 msgstr "Nastavitev grafa"
 
-#: ../glade/chronojump.glade.h:475
+#: ../glade/chronojump.glade.h:477
 msgid "Maximum"
 msgstr "Najvišji"
 
-#: ../glade/chronojump.glade.h:476
+#: ../glade/chronojump.glade.h:478
 msgid "Minimum"
 msgstr "Najnižji"
 
-#: ../glade/chronojump.glade.h:477
+#: ../glade/chronojump.glade.h:479
 msgid "auto"
 msgstr "samodejno"
 
-#: ../glade/chronojump.glade.h:478
+#: ../glade/chronojump.glade.h:480
 msgid "Vertical Axe"
 msgstr "Navpična os"
 
-#: ../glade/chronojump.glade.h:479
+#: ../glade/chronojump.glade.h:481
 msgid "Show black guide"
 msgstr "Pokaži črno vodilo"
 
-#: ../glade/chronojump.glade.h:480
+#: ../glade/chronojump.glade.h:482
 msgid "Show green guide"
 msgstr "Pokaži zeleno vodilo"
 
-#: ../glade/chronojump.glade.h:481
+#: ../glade/chronojump.glade.h:483
 msgid "Guides"
 msgstr "Vodniki"
 
-#: ../glade/chronojump.glade.h:482
+#: ../glade/chronojump.glade.h:484
 msgid "Paint a circle at end"
 msgstr "na koncu narišite krog"
 
-#: ../glade/chronojump.glade.h:483
+#: ../glade/chronojump.glade.h:485
 msgid "Show grid (on repetitive tests)"
 msgstr "Pokaži mrežo (pri repetitivnih testih)"
 
-#: ../glade/chronojump.glade.h:484
+#: ../glade/chronojump.glade.h:486
 msgid "Show time"
 msgstr "Pokaži čas"
 
-#: ../glade/chronojump.glade.h:485
+#: ../glade/chronojump.glade.h:487
 msgid "Show speed"
 msgstr "Pokaži hitrost"
 
-#: ../glade/chronojump.glade.h:486
+#: ../glade/chronojump.glade.h:488
 msgid "Feet"
 msgstr "Čevlji"
 
-#: ../glade/chronojump.glade.h:487
+#: ../glade/chronojump.glade.h:489
 msgid "Inches"
 msgstr "Palci"
 
-#: ../glade/chronojump.glade.h:488
+#: ../glade/chronojump.glade.h:490
 msgid "Create new Jump Type"
 msgstr "Ustvari novo vrsto skoka"
 
-#: ../glade/chronojump.glade.h:489
+#: ../glade/chronojump.glade.h:491
 msgid "Create a new jump type in the database"
 msgstr "Ustvari novo vrsto skoka v podatkovni zbirki"
 
-#: ../glade/chronojump.glade.h:490 ../src/gui/jump.cs:1576
+#: ../glade/chronojump.glade.h:492 ../src/gui/jump.cs:1576
 #: ../src/gui/jump.cs:1775
 msgid "Start inside"
 msgstr "Začnte NA PODLOGI"
 
-#: ../glade/chronojump.glade.h:491
+#: ../glade/chronojump.glade.h:493
 msgid "yes"
 msgstr "da"
 
-#: ../glade/chronojump.glade.h:492
+#: ../glade/chronojump.glade.h:494
 msgid "no"
 msgstr "ne"
 
-#: ../glade/chronojump.glade.h:493
+#: ../glade/chronojump.glade.h:495
 msgid ""
 "Main\n"
 "options"
@@ -2247,64 +2253,64 @@ msgstr ""
 "Glavne\n"
 "možnosti"
 
-#: ../glade/chronojump.glade.h:495
+#: ../glade/chronojump.glade.h:497
 msgid "Limited by "
 msgstr "Omejeno z"
 
-#: ../glade/chronojump.glade.h:496
+#: ../glade/chronojump.glade.h:498
 msgid "value"
 msgstr "vrednost"
 
-#: ../glade/chronojump.glade.h:497 ../src/gui/jump.cs:1227
+#: ../glade/chronojump.glade.h:499 ../src/gui/jump.cs:1227
 #: ../src/gui/queryServer.cs:777
 msgid "jumps"
 msgstr "skoki"
 
-#: ../glade/chronojump.glade.h:498
+#: ../glade/chronojump.glade.h:500
 msgid "time"
 msgstr "čas"
 
-#: ../glade/chronojump.glade.h:499
+#: ../glade/chronojump.glade.h:501
 msgid "simple"
 msgstr "enostaven"
 
-#: ../glade/chronojump.glade.h:500
+#: ../glade/chronojump.glade.h:502
 msgid "repetitive"
 msgstr "repetitivni"
 
-#: ../glade/chronojump.glade.h:501
+#: ../glade/chronojump.glade.h:503
 msgid "fixed: "
 msgstr "nespremenljivo:"
 
-#: ../glade/chronojump.glade.h:502
+#: ../glade/chronojump.glade.h:504
 msgid "All tests"
 msgstr "Vsi testi"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:505
 msgid "Delete type"
 msgstr "Izbriši vrsto"
 
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:506
 msgid "Chronojump language select"
 msgstr "Izbor jezika ChronoJump"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:507
 msgid "Please select <b>Chronojump</b> language"
 msgstr "Izberite jezik programa <b>ChronoJump</b>"
 
-#: ../glade/chronojump.glade.h:506
+#: ../glade/chronojump.glade.h:508
 msgid "Add/Edit multiple persons"
 msgstr "Dodajanje in urejanje več testirancev"
 
-#: ../glade/chronojump.glade.h:507
+#: ../glade/chronojump.glade.h:509
 msgid "Add the following persons to this session"
 msgstr "Dodaj navedene testirance v sejo"
 
-#: ../glade/chronojump.glade.h:508
+#: ../glade/chronojump.glade.h:510
 msgid "Load persons"
 msgstr "Naloži testirance"
 
-#: ../glade/chronojump.glade.h:509
+#: ../glade/chronojump.glade.h:511
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
@@ -2312,74 +2318,74 @@ msgstr ""
 "Izbor testirancev za nalaganje.\n"
 "(Testiranci v trenutni seji niso prikazani)"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:513
 msgid "From session"
 msgstr "Iz seje"
 
-#: ../glade/chronojump.glade.h:512
+#: ../glade/chronojump.glade.h:514
 msgid "Check"
 msgstr "Preveri"
 
-#: ../glade/chronojump.glade.h:513
+#: ../glade/chronojump.glade.h:515
 msgid "Search filter"
 msgstr "Filter iskanja"
 
-#: ../glade/chronojump.glade.h:514 ../src/gui/encoder.cs:1122
+#: ../glade/chronojump.glade.h:516 ../src/gui/encoder.cs:1158
 msgid "Load"
 msgstr "Naloži"
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:517
 msgid "Show all tests of a person"
 msgstr "Pokaži vse teste testiranca"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:518
 msgid "show only persons in current session"
 msgstr "pokaži le testirance trenutne seje"
 
-#: ../glade/chronojump.glade.h:517 ../src/gui/person.cs:971
+#: ../glade/chronojump.glade.h:519 ../src/gui/person.cs:971
 msgid "New jumper"
 msgstr "Nov skakalec"
 
-#: ../glade/chronojump.glade.h:518
+#: ../glade/chronojump.glade.h:520
 msgid "Please fill these values. <b>Bold</b> titles are required."
 msgstr "Izpolnite vrednosti (krepko zapisana polja so obvezna)."
 
-#: ../glade/chronojump.glade.h:519 ../src/gui/person.cs:1837
+#: ../glade/chronojump.glade.h:521 ../src/gui/person.cs:1837
 msgid "Full name"
 msgstr "Polno Ime"
 
-#: ../glade/chronojump.glade.h:520 ../src/exportSession.cs:224
+#: ../glade/chronojump.glade.h:522 ../src/exportSession.cs:224
 #: ../src/gui/person.cs:121 ../src/gui/person.cs:1838
 msgid "Sex"
 msgstr "Spol"
 
-#: ../glade/chronojump.glade.h:521 ../src/exportSession.cs:224
+#: ../glade/chronojump.glade.h:523 ../src/exportSession.cs:224
 #: ../src/gui/person.cs:122
 msgid "Date of Birth"
 msgstr "Datum rojstva"
 
-#: ../glade/chronojump.glade.h:522
+#: ../glade/chronojump.glade.h:524
 msgid "man"
 msgstr "moški"
 
-#: ../glade/chronojump.glade.h:523
+#: ../glade/chronojump.glade.h:525
 msgid "woman"
 msgstr "ženska"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:526
 msgid "Change date"
 msgstr "Spremeni datum"
 
-#: ../glade/chronojump.glade.h:525
+#: ../glade/chronojump.glade.h:527
 msgid "Take snapshot"
 msgstr "Zajem zaslonske slike"
 
-#: ../glade/chronojump.glade.h:526
+#: ../glade/chronojump.glade.h:528
 msgid "Data of person"
 msgstr "Podatki testiranca"
 
 #. decimals
-#: ../glade/chronojump.glade.h:527 ../src/exportSession.cs:226
+#: ../glade/chronojump.glade.h:529 ../src/exportSession.cs:226
 #: ../src/exportSession.cs:255 ../src/exportSession.cs:353
 #: ../src/gui/person.cs:1839 ../src/stats/graphs/potency.cs:84
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:66
@@ -2388,94 +2394,94 @@ msgstr "Podatki testiranca"
 msgid "Weight"
 msgstr "Masa"
 
-#: ../glade/chronojump.glade.h:528 ../src/exportSession.cs:227
+#: ../glade/chronojump.glade.h:530 ../src/exportSession.cs:227
 #: ../src/gui/person.cs:1894 ../src/gui/session.cs:726
 msgid "Sport"
 msgstr "Šport"
 
-#: ../glade/chronojump.glade.h:529 ../src/exportSession.cs:227
+#: ../glade/chronojump.glade.h:531 ../src/exportSession.cs:227
 #: ../src/gui/person.cs:1896 ../src/gui/session.cs:727
 msgid "Speciallity"
 msgstr "Posebnost"
 
-#: ../glade/chronojump.glade.h:530 ../src/exportSession.cs:228
+#: ../glade/chronojump.glade.h:532 ../src/exportSession.cs:228
 #: ../src/gui/person.cs:1898 ../src/gui/session.cs:728
 msgid "Level"
 msgstr "Raven"
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:533
 msgid "Add new sport"
 msgstr "Dodaj nov šport"
 
-#: ../glade/chronojump.glade.h:532
+#: ../glade/chronojump.glade.h:534
 msgid "Use metric units"
 msgstr "Uporabi metrične enote"
 
-#: ../glade/chronojump.glade.h:533
+#: ../glade/chronojump.glade.h:535
 msgid "Data of person in this session"
 msgstr "Podatki testiranca v tej seji"
 
-#: ../glade/chronojump.glade.h:534
+#: ../glade/chronojump.glade.h:536
 msgid "Preferences"
 msgstr "Možnosti"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:537
 msgid "Open database folder"
 msgstr "Odpri mapo podatkovne zbirke"
 
-#: ../glade/chronojump.glade.h:536
+#: ../glade/chronojump.glade.h:538
 msgid "Backup database"
 msgstr "Varnostna kopija podatkovne zbirke"
 
-#: ../glade/chronojump.glade.h:537
+#: ../glade/chronojump.glade.h:539
 msgid "Make a copy of the database"
 msgstr "Naredi kopijo podatkovne zbirke"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:540
 msgid "Database"
 msgstr "Podatkovna zbirka"
 
-#: ../glade/chronojump.glade.h:539
+#: ../glade/chronojump.glade.h:541
 msgid "Decimal number"
 msgstr "Decimalno število"
 
-#: ../glade/chronojump.glade.h:540
+#: ../glade/chronojump.glade.h:542
 msgid "Ask for confirm test deletion"
 msgstr "Vprašaj za potrditev brisanja"
 
-#: ../glade/chronojump.glade.h:541
+#: ../glade/chronojump.glade.h:543
 msgid "Ask user if really wants to delete a test"
 msgstr "Vpraša uporabnika ali res želi izbrisati test"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:544
 msgid "Show height"
 msgstr "Pokaži višino"
 
-#: ../glade/chronojump.glade.h:543
+#: ../glade/chronojump.glade.h:545
 msgid "Show power"
 msgstr "Pokaži moč"
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:546
 msgid "Show initial speed"
 msgstr "Pokaži začetno hitrost"
 
-#: ../glade/chronojump.glade.h:545
+#: ../glade/chronojump.glade.h:547
 msgid "Show knee angle"
 msgstr "Pokaži kot kolena"
 
-#: ../glade/chronojump.glade.h:546
+#: ../glade/chronojump.glade.h:548
 msgid "Show indexes between TF and TC"
 msgstr "Pokaži indekse med čL in čS"
 
-#: ../glade/chronojump.glade.h:547
+#: ../glade/chronojump.glade.h:549
 msgid "QIndex"
 msgstr "Indeks Q"
 
-#: ../glade/chronojump.glade.h:548
+#: ../glade/chronojump.glade.h:550
 msgid "DjIndex"
 msgstr "Indeks SzO"
 
-#: ../glade/chronojump.glade.h:549
+#: ../glade/chronojump.glade.h:551
 msgid ""
 "On statistics\n"
 "show elevation as:"
@@ -2483,183 +2489,183 @@ msgstr ""
 "Pri statistiki\n"
 "pokaži dvig kot:"
 
-#: ../glade/chronojump.glade.h:551
+#: ../glade/chronojump.glade.h:553
 msgid "Speed units:"
 msgstr "Enote hitrosti:"
 
-#: ../glade/chronojump.glade.h:552
+#: ../glade/chronojump.glade.h:554
 msgid "Weight units:"
 msgstr "Enota mase:"
 
-#: ../glade/chronojump.glade.h:553
+#: ../glade/chronojump.glade.h:555
 msgid "Height (cm)"
 msgstr "Višina (cm)"
 
-#: ../glade/chronojump.glade.h:554
+#: ../glade/chronojump.glade.h:556
 msgid "Contacts"
 msgstr "Stiki"
 
-#: ../glade/chronojump.glade.h:555
+#: ../glade/chronojump.glade.h:557
 msgid "Propulsive"
 msgstr "Odrivni"
 
-#: ../glade/chronojump.glade.h:556
+#: ../glade/chronojump.glade.h:558
 msgid "On concentric evaluate only propulsive phase"
 msgstr "Pri koncentričnih gibih, oceni le odrivni del giba."
 
-#: ../glade/chronojump.glade.h:557
+#: ../glade/chronojump.glade.h:559
 msgid "Smooth"
 msgstr "Gladko"
 
-#: ../glade/chronojump.glade.h:558
+#: ../glade/chronojump.glade.h:560
 msgid "Recommended:"
 msgstr "Priporočeno:"
 
-#: ../glade/chronojump.glade.h:559
+#: ../glade/chronojump.glade.h:561
 msgid "Smoothing"
 msgstr "Glajenje"
 
-#: ../glade/chronojump.glade.h:560
+#: ../glade/chronojump.glade.h:562
 msgid "Non weighted"
 msgstr "Neuteženo"
 
-#: ../glade/chronojump.glade.h:561
+#: ../glade/chronojump.glade.h:563
 msgid "Weighted"
 msgstr "Uteženo"
 
-#: ../glade/chronojump.glade.h:562
+#: ../glade/chronojump.glade.h:564
 msgid "Weighted^2"
 msgstr "Uteženo^2"
 
-#: ../glade/chronojump.glade.h:563
+#: ../glade/chronojump.glade.h:565
 msgid "Weighted^3"
 msgstr "Uteženo^3"
 
-#: ../glade/chronojump.glade.h:564
+#: ../glade/chronojump.glade.h:566
 msgid "Recommended: Weighted^2"
 msgstr "Priporočeno: uteženo^2"
 
-#: ../glade/chronojump.glade.h:565
+#: ../glade/chronojump.glade.h:567
 msgid "1RM prediction"
 msgstr "Napoved mejne teže"
 
-#: ../glade/chronojump.glade.h:566
+#: ../glade/chronojump.glade.h:568
 msgid "Select the camera"
 msgstr "Izbor fotoaparata"
 
-#: ../glade/chronojump.glade.h:567
+#: ../glade/chronojump.glade.h:569
 msgid "Camera"
 msgstr "Fotoaparat"
 
-#: ../glade/chronojump.glade.h:568
+#: ../glade/chronojump.glade.h:570
 msgid "Query to server"
 msgstr "Poizvedba na strežnik"
 
-#: ../glade/chronojump.glade.h:569
+#: ../glade/chronojump.glade.h:571
 msgid "Perform a query to the server."
 msgstr "Izvedi poizvedbo na strežniku."
 
-#: ../glade/chronojump.glade.h:570
+#: ../glade/chronojump.glade.h:572
 msgid "Type of test"
 msgstr "Vrsta testa"
 
-#: ../glade/chronojump.glade.h:571
+#: ../glade/chronojump.glade.h:573
 msgid "Test"
 msgstr "Test"
 
-#: ../glade/chronojump.glade.h:572
+#: ../glade/chronojump.glade.h:574
 msgid "Variable"
 msgstr "Spremenljiva"
 
-#: ../glade/chronojump.glade.h:573
+#: ../glade/chronojump.glade.h:575
 msgid "Test variables"
 msgstr "Spremenljivke testa"
 
-#: ../glade/chronojump.glade.h:574
+#: ../glade/chronojump.glade.h:576
 msgid "Continent"
 msgstr "Celina"
 
-#: ../glade/chronojump.glade.h:575
+#: ../glade/chronojump.glade.h:577
 msgid "And"
 msgstr "In"
 
-#: ../glade/chronojump.glade.h:576
+#: ../glade/chronojump.glade.h:578
 msgid "Age"
 msgstr "Starost"
 
-#: ../glade/chronojump.glade.h:577
+#: ../glade/chronojump.glade.h:579
 msgid "Person variables"
 msgstr "Spremenljivke testiranca"
 
-#: ../glade/chronojump.glade.h:578
+#: ../glade/chronojump.glade.h:580
 msgid "Evaluator"
 msgstr "Merilnik"
 
-#: ../glade/chronojump.glade.h:579
+#: ../glade/chronojump.glade.h:581
 msgid "Show query"
 msgstr "Pokaži poizvedbo"
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:582
 msgid "Results:"
 msgstr "Rezultati:"
 
-#: ../glade/chronojump.glade.h:581
+#: ../glade/chronojump.glade.h:583
 msgid "Average:"
 msgstr "Povprečje:"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:584
 msgid "Query"
 msgstr "Poizvedba"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:585
 msgid "Notes"
 msgstr "Opombe"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:586
 msgid "Totaltime"
 msgstr "Skupni čas"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:587
 msgid "Configure feedback"
 msgstr "Nastavitev odzivov"
 
-#: ../glade/chronojump.glade.h:586
+#: ../glade/chronojump.glade.h:588
 msgid "Select conditions for beep signals"
 msgstr "Izbor pogojev za zvočni odziv"
 
-#: ../glade/chronojump.glade.h:587
+#: ../glade/chronojump.glade.h:589
 msgid "show best TF / TC"
 msgstr "pokaži najboljše razmerje čL/čS"
 
-#: ../glade/chronojump.glade.h:588
+#: ../glade/chronojump.glade.h:590
 msgid "show worst TF / TC"
 msgstr "pokaži najslabše razmerje čL/čS"
 
-#: ../glade/chronojump.glade.h:589
+#: ../glade/chronojump.glade.h:591
 msgid "show best time"
 msgstr "pokaži najboljši čas"
 
-#: ../glade/chronojump.glade.h:590
+#: ../glade/chronojump.glade.h:592
 msgid "show worst time"
 msgstr "pokaži najslabši čas"
 
-#: ../glade/chronojump.glade.h:591
+#: ../glade/chronojump.glade.h:593
 msgid "Best and worst values"
 msgstr "Najboljši in najslabši rezultati"
 
-#: ../glade/chronojump.glade.h:592
+#: ../glade/chronojump.glade.h:594
 msgid "Range of movement"
 msgstr "Obseg gibanja"
 
-#: ../glade/chronojump.glade.h:593
+#: ../glade/chronojump.glade.h:595
 msgid "Mean speed"
 msgstr "Povprečna hitrost"
 
-#: ../glade/chronojump.glade.h:594
+#: ../glade/chronojump.glade.h:596
 msgid "Max speed"
 msgstr "Največja hitrost"
 
-#: ../glade/chronojump.glade.h:595
+#: ../glade/chronojump.glade.h:597
 msgid "Mean power"
 msgstr "Povprečna moč"
 
@@ -2697,7 +2703,7 @@ msgstr "Povprečna moč"
 #. 9.8 (the acceleration of gravity in m/sec2), which converts kilograms to
 #. newtons, yielding power in watts (N.m/s).
 #. POWERw = (SQRT(4.9))(9.8)(BODY MASSkg)(SQRT(JUMP-REACH SCOREm)) (2)
-#: ../glade/chronojump.glade.h:596 ../src/constants.cs:184
+#: ../glade/chronojump.glade.h:598 ../src/constants.cs:184
 #: ../src/constants.cs:218 ../src/constants.cs:223 ../src/constants.cs:228
 #: ../src/constants.cs:233 ../src/constants.cs:238 ../src/constants.cs:251
 #: ../src/constants.cs:258 ../src/constants.cs:265 ../src/constants.cs:272
@@ -2705,145 +2711,145 @@ msgstr "Povprečna moč"
 msgid "Peak power"
 msgstr "Končna moč"
 
-#: ../glade/chronojump.glade.h:597
+#: ../glade/chronojump.glade.h:599
 msgid "Display variables on encoder capture"
 msgstr "Pokaži spremenljivke med zajemanjem dekodirnika"
 
-#: ../glade/chronojump.glade.h:598
+#: ../glade/chronojump.glade.h:600
 msgid "Bell good"
 msgstr "Zvonec potrditve"
 
-#: ../glade/chronojump.glade.h:599
+#: ../glade/chronojump.glade.h:601
 msgid "Bell bad"
 msgstr "Zvonec napake"
 
-#: ../glade/chronojump.glade.h:600
+#: ../glade/chronojump.glade.h:602
 msgid "<b>Time</b> (s)"
 msgstr "<b>Čas</b> (s)"
 
-#: ../glade/chronojump.glade.h:601
+#: ../glade/chronojump.glade.h:603
 msgid ">="
 msgstr ">="
 
-#: ../glade/chronojump.glade.h:602
+#: ../glade/chronojump.glade.h:604
 msgid "<b>Peak power</b> (W)"
 msgstr "<b>Končna moč</b> (W)"
 
-#: ../glade/chronojump.glade.h:603
+#: ../glade/chronojump.glade.h:605
 msgid "<b>Mean power</b> (W)"
 msgstr "<b>Povprečna moč</b> (W)"
 
-#: ../glade/chronojump.glade.h:604
+#: ../glade/chronojump.glade.h:606
 msgid "<b>Mean speed</b> (m/s)"
 msgstr "<b>Povprečna hitrost</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:605
+#: ../glade/chronojump.glade.h:607
 msgid "<b>Max speed</b> (m/s)"
 msgstr "<b>Največja hitrost</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:606
+#: ../glade/chronojump.glade.h:608
 msgid "<b>Height</b> (cm)"
 msgstr "<b>Višina</b> (cm)"
 
-#: ../glade/chronojump.glade.h:607
+#: ../glade/chronojump.glade.h:609
 msgid "Conditions"
 msgstr "Razmere"
 
-#: ../glade/chronojump.glade.h:608
+#: ../glade/chronojump.glade.h:610
 msgid "\"Good\" bell"
 msgstr "Zvonec \"potrditve\""
 
-#: ../glade/chronojump.glade.h:609
+#: ../glade/chronojump.glade.h:611
 msgid "\"Bad\" bell"
 msgstr "Zvonec \"napake\""
 
-#: ../glade/chronojump.glade.h:610
+#: ../glade/chronojump.glade.h:612
 msgid "test!"
 msgstr "preizkus!"
 
-#: ../glade/chronojump.glade.h:611
+#: ../glade/chronojump.glade.h:613
 msgid "test bells"
 msgstr "preizkus zvoncev"
 
-#: ../glade/chronojump.glade.h:612
+#: ../glade/chronojump.glade.h:614
 msgid "Chronojump Report window"
 msgstr "Okno poročila ChronoJump"
 
-#: ../glade/chronojump.glade.h:613
+#: ../glade/chronojump.glade.h:615
 msgid "Select data for HTML report"
 msgstr "Izbor podatkov za poročilo HTML"
 
-#: ../glade/chronojump.glade.h:614
+#: ../glade/chronojump.glade.h:616
 msgid "show..."
 msgstr "pokaži ..."
 
-#: ../glade/chronojump.glade.h:615 ../src/constants.cs:301
+#: ../glade/chronojump.glade.h:617 ../src/constants.cs:301
 #: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Enostavno"
 
-#: ../glade/chronojump.glade.h:616 ../src/gui/convertWeight.cs:62
+#: ../glade/chronojump.glade.h:618 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
 msgid "Reactive"
 msgstr "Repetitivno-eksplozivni"
 
-#: ../glade/chronojump.glade.h:617
+#: ../glade/chronojump.glade.h:619
 msgid "Intervallic"
 msgstr "Intervalni"
 
-#: ../glade/chronojump.glade.h:618
+#: ../glade/chronojump.glade.h:620
 msgid "Include tracks"
 msgstr "Dodaj steze"
 
-#: ../glade/chronojump.glade.h:619
+#: ../glade/chronojump.glade.h:621
 msgid "Include individual"
 msgstr "Dodaj posamezno"
 
-#: ../glade/chronojump.glade.h:620
+#: ../glade/chronojump.glade.h:622
 msgid "Data"
 msgstr "Podatki"
 
-#: ../glade/chronojump.glade.h:621
+#: ../glade/chronojump.glade.h:623
 msgid "general data"
 msgstr "splošni podatki"
 
-#: ../glade/chronojump.glade.h:622
+#: ../glade/chronojump.glade.h:624
 msgid "Up"
 msgstr "Gor"
 
-#: ../glade/chronojump.glade.h:623
+#: ../glade/chronojump.glade.h:625
 msgid "Down"
 msgstr "Dol"
 
-#: ../glade/chronojump.glade.h:624
+#: ../glade/chronojump.glade.h:626
 msgid "See graph"
 msgstr "Pogled grafa"
 
-#: ../glade/chronojump.glade.h:625
+#: ../glade/chronojump.glade.h:627
 msgid "Add comment"
 msgstr "Dodaj razlago"
 
-#: ../glade/chronojump.glade.h:626
+#: ../glade/chronojump.glade.h:628
 msgid "Remove"
 msgstr "Odstrani"
 
-#: ../glade/chronojump.glade.h:627
+#: ../glade/chronojump.glade.h:629
 msgid "statistics data"
 msgstr "statistični podatki"
 
-#: ../glade/chronojump.glade.h:628
+#: ../glade/chronojump.glade.h:630
 msgid "Make report"
 msgstr "Sestavi poročilo"
 
-#: ../glade/chronojump.glade.h:629
+#: ../glade/chronojump.glade.h:631
 msgid "Create new Run Type"
 msgstr "Ustvari novo vrsto teka"
 
-#: ../glade/chronojump.glade.h:630
+#: ../glade/chronojump.glade.h:632
 msgid "Create a new run type in the database"
 msgstr "Ustvari novo vrsto teka v podatkovni zbirki"
 
-#: ../glade/chronojump.glade.h:631
+#: ../glade/chronojump.glade.h:633
 msgid ""
 "Limited by\n"
 "(how it finishes)"
@@ -2851,31 +2857,31 @@ msgstr ""
 "Omejeno z\n"
 "(kako se zaključi)"
 
-#: ../glade/chronojump.glade.h:633
+#: ../glade/chronojump.glade.h:635
 msgid "tracks (m)"
 msgstr "steze (m)"
 
-#: ../glade/chronojump.glade.h:634
+#: ../glade/chronojump.glade.h:636
 msgid "time (s)"
 msgstr "čas (s)"
 
-#: ../glade/chronojump.glade.h:635
+#: ../glade/chronojump.glade.h:637
 msgid "intervallic"
 msgstr "intervalni"
 
-#: ../glade/chronojump.glade.h:636
+#: ../glade/chronojump.glade.h:638
 msgid "Variable (user will select distance at each test)"
 msgstr "Spremenljiva (uporabnik izbere razdaljo pred vsakim testom)"
 
-#: ../glade/chronojump.glade.h:637
+#: ../glade/chronojump.glade.h:639
 msgid "Fixed (distance will be always the same)"
 msgstr "Nespremenljivo (razdalja bo vedno enaka)"
 
-#: ../glade/chronojump.glade.h:638
+#: ../glade/chronojump.glade.h:640
 msgid "(m)"
 msgstr "(m)"
 
-#: ../glade/chronojump.glade.h:639
+#: ../glade/chronojump.glade.h:641
 msgid ""
 "Different (each track have different distance\n"
 "suitable for agility tests and RSA)"
@@ -2883,19 +2889,19 @@ msgstr ""
 "Različna (vsaka steza je različne razdalje,\n"
 "primerne za izvajanje testov gibčnosti in RSA)"
 
-#: ../glade/chronojump.glade.h:641
+#: ../glade/chronojump.glade.h:643
 msgid "Number of different tracks"
 msgstr "Število različnih stez"
 
-#: ../glade/chronojump.glade.h:642
+#: ../glade/chronojump.glade.h:644
 msgid "Help RSA"
 msgstr "Pomoč RSA"
 
-#: ../glade/chronojump.glade.h:643
+#: ../glade/chronojump.glade.h:645
 msgid "Distance of each track"
 msgstr "Dolžina vsake steze"
 
-#: ../glade/chronojump.glade.h:644
+#: ../glade/chronojump.glade.h:646
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
@@ -2903,47 +2909,47 @@ msgstr ""
 "Izpolnite te vrednosti\n"
 "(krepki naslovi so zahtevani)"
 
-#: ../glade/chronojump.glade.h:646 ../src/exportSession.cs:209
+#: ../glade/chronojump.glade.h:648 ../src/exportSession.cs:209
 #: ../src/gui/person.cs:2149 ../src/gui/session.cs:723
 #: ../src/gui/session.cs:960 ../src/report.cs:242
 msgid "Place"
 msgstr "Mesto"
 
-#: ../glade/chronojump.glade.h:647 ../src/exportSession.cs:210
-#: ../src/gui/encoder.cs:729 ../src/gui/encoder.cs:1088
+#: ../glade/chronojump.glade.h:649 ../src/exportSession.cs:210
+#: ../src/gui/encoder.cs:765 ../src/gui/encoder.cs:1124
 #: ../src/gui/session.cs:724 ../src/gui/session.cs:961 ../src/report.cs:242
 msgid "Date"
 msgstr "Datum"
 
-#: ../glade/chronojump.glade.h:648
+#: ../glade/chronojump.glade.h:650
 msgid "Different"
 msgstr "Različno"
 
-#: ../glade/chronojump.glade.h:649
+#: ../glade/chronojump.glade.h:651
 msgid "All the same"
 msgstr "Vse enako"
 
-#: ../glade/chronojump.glade.h:650
+#: ../glade/chronojump.glade.h:652
 msgid "Person's data"
 msgstr "Podatki testiranca"
 
-#: ../glade/chronojump.glade.h:651
+#: ../glade/chronojump.glade.h:653
 msgid "Load session"
 msgstr "Naloži sejo"
 
-#: ../glade/chronojump.glade.h:652
+#: ../glade/chronojump.glade.h:654
 msgid "Show data of encoder tests"
 msgstr "Pokaži podatke testov kodirnika"
 
-#: ../glade/chronojump.glade.h:653
+#: ../glade/chronojump.glade.h:655
 msgid "Show data of jump and run tests"
 msgstr "Pokaži podatke skokov in testov teka"
 
-#: ../glade/chronojump.glade.h:654
+#: ../glade/chronojump.glade.h:656
 msgid "Upload session to server"
 msgstr "Pošlji sejo na strežnik"
 
-#: ../glade/chronojump.glade.h:655 ../src/gui/person.cs:2152
+#: ../glade/chronojump.glade.h:657 ../src/gui/person.cs:2152
 msgid ""
 "Jumps\n"
 "reactive"
@@ -2951,19 +2957,19 @@ msgstr ""
 "Skoki\n"
 "repetitivno-eksplozivni"
 
-#: ../glade/chronojump.glade.h:657
+#: ../glade/chronojump.glade.h:659
 msgid "Multi Chronopic"
 msgstr "multikronopik"
 
-#: ../glade/chronojump.glade.h:658
+#: ../glade/chronojump.glade.h:660
 msgid "Names will be hidden"
 msgstr "Imena bodo skrita"
 
-#: ../glade/chronojump.glade.h:659
+#: ../glade/chronojump.glade.h:661
 msgid "Codes:"
 msgstr "Kode:"
 
-#: ../glade/chronojump.glade.h:660
+#: ../glade/chronojump.glade.h:662
 msgid ""
 "<i>U</i> Uploaded.\n"
 "<i>E</i> Not uploaded. Already Exists.\n"
@@ -2973,45 +2979,45 @@ msgstr ""
 "<i>E</i> Ni poslano, ker že obstaja.\n"
 "<i>S</i> Ni poslano, ker je le simuliran test."
 
-#: ../glade/chronojump.glade.h:663
+#: ../glade/chronojump.glade.h:665
 msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
 msgstr ""
 "Zahvaljujemo se vam za vaš čas. Graf na strežniku bo posodobljen ob 03:07 "
 "UTC."
 
-#: ../glade/chronojump.glade.h:664
+#: ../glade/chronojump.glade.h:666
 msgid "Loading Chronojump..."
 msgstr "Nalaganje programa ..."
 
-#: ../glade/chronojump.glade.h:665
+#: ../glade/chronojump.glade.h:667
 msgid "Cancel connection with server"
 msgstr "Preklic povezave s strežnikom"
 
-#: ../glade/chronojump.glade.h:666
+#: ../glade/chronojump.glade.h:668
 msgid "Select sessions for statistics"
 msgstr "Izbor sej za statistiko"
 
-#: ../glade/chronojump.glade.h:667
+#: ../glade/chronojump.glade.h:669
 msgid "unselected"
 msgstr "neizbrano"
 
-#: ../glade/chronojump.glade.h:668
+#: ../glade/chronojump.glade.h:670
 msgid "selected"
 msgstr "izbrano"
 
-#: ../glade/chronojump.glade.h:669
+#: ../glade/chronojump.glade.h:671
 msgid "select ->"
 msgstr "izberi ->"
 
-#: ../glade/chronojump.glade.h:670
+#: ../glade/chronojump.glade.h:672
 msgid "<- unselect"
 msgstr "<- prekliči izbor"
 
-#: ../glade/chronojump.glade.h:671
+#: ../glade/chronojump.glade.h:673
 msgid "all"
 msgstr "vse"
 
-#: ../glade/chronojump.glade.h:672
+#: ../glade/chronojump.glade.h:674
 msgid "none"
 msgstr "brez"
 
@@ -3233,13 +3239,13 @@ msgstr "%s"
 msgid "0 seconds"
 msgstr "0 sekund"
 
-#: ../src/chronojump.cs:191
+#: ../src/chronojump.cs:200
 msgid "no tables, creating ..."
 msgstr "ni razpredelnic, zato bo ustvarjana ..."
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:241
+#: ../src/chronojump.cs:250
 msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
@@ -3249,7 +3255,7 @@ msgstr ""
 "V primeru nadaljnjih težav, bo treba poiskati pomoč na dopisnem seznamu "
 "ChronoJump."
 
-#: ../src/chronojump.cs:242
+#: ../src/chronojump.cs:251
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -3258,16 +3264,16 @@ msgstr ""
 "V primeru, da v podatkovni zbirki še ni podatkov (program prvič zagnan) je "
 "mogoče težavo odpraviti z izbrisom te datoteke: {0}"
 
-#: ../src/chronojump.cs:244
+#: ../src/chronojump.cs:253
 msgid "And starting Chronojump again."
 msgstr "In ponovno začenjanje programa ChronoJump."
 
-#: ../src/chronojump.cs:256
+#: ../src/chronojump.cs:265
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Vsi skoki SzO so preimenovani v 'SzObZ' (Seskok z odskokom brez zamaha)."
 
-#: ../src/chronojump.cs:257
+#: ../src/chronojump.cs:266
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -3276,22 +3282,22 @@ msgstr ""
 "preimenovati v 'SzOzZ'."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:265
+#: ../src/chronojump.cs:274
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Različica programa ChronoJump ({0}) je starejša od različice podatkovne "
 "zbirke."
 
-#: ../src/chronojump.cs:266
+#: ../src/chronojump.cs:275
 msgid "Please update Chronojump"
 msgstr "Posodobite program ChronoJump"
 
-#: ../src/chronojump.cs:274
+#: ../src/chronojump.cs:283
 msgid "tables already created"
 msgstr "razpredelnice so že ustvarjene"
 
-#: ../src/chronojump.cs:337
+#: ../src/chronojump.cs:346
 #, csharp-format
 msgid ""
 "\n"
@@ -3302,23 +3308,23 @@ msgstr ""
 "Na voljo je novo različica programa ChronoJump.\n"
 "Trenutna različica programa je: {1}"
 
-#: ../src/chronojump.cs:339
+#: ../src/chronojump.cs:348
 msgid "Please, update to new version."
 msgstr "Posodobite na novo različico."
 
-#: ../src/chronojump.cs:347
+#: ../src/chronojump.cs:356
 msgid "Chronojump crashed before."
 msgstr "ChronoJump se je v preteklosti že sesul. "
 
-#: ../src/chronojump.cs:348 ../src/gui/chronojump.cs:1182
+#: ../src/chronojump.cs:357 ../src/gui/chronojump.cs:1181
 msgid "Please, update to new version: "
 msgstr "Posodobite na novo različico:"
 
-#: ../src/chronojump.cs:420 ../src/chronojump.cs:764 ../src/chronojump.cs:772
+#: ../src/chronojump.cs:429 ../src/chronojump.cs:773 ../src/chronojump.cs:781
 msgid "Chronojump will exit now."
 msgstr "ChronoJump bo sedaj končan."
 
-#: ../src/chronojump.cs:598
+#: ../src/chronojump.cs:607
 #, csharp-format
 msgid ""
 "Chronojump {0} crashed before. If this problem persist, please, report it at "
@@ -3327,112 +3333,112 @@ msgstr ""
 "ChronoJump {0} se je v preteklosti že sesul. V primeru, da se težava ponovi, "
 "pošljite poročilo na forum:"
 
-#: ../src/chronojump.cs:599
+#: ../src/chronojump.cs:608
 msgid "Remember to describe on Chronojump software forum how crash happened."
 msgstr ""
 "Pri pošiljanju poročila sesutja programa ChronoJump, je treba podrobno "
 "opisati, kako je do napake prišlo."
 
-#: ../src/chronojump.cs:604
+#: ../src/chronojump.cs:613
 msgid "Your help is needed."
 msgstr "Zahtevana je pomoč."
 
-#: ../src/chronojump.cs:731
+#: ../src/chronojump.cs:740
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Ni mogoče premakniti mape podatkovne zbirke iz {0} v {1}"
 
-#: ../src/chronojump.cs:733
+#: ../src/chronojump.cs:742
 msgid "Trying to move/copy each file now"
 msgstr "Poskušanje premikanja/kopiranja vsake datoteke"
 
-#: ../src/chronojump.cs:762
+#: ../src/chronojump.cs:771
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Ni mogoče ustvariti mape {0}"
 
-#: ../src/chronojump.cs:763 ../src/chronojump.cs:771
+#: ../src/chronojump.cs:772 ../src/chronojump.cs:780
 msgid "Please, do it manually."
 msgstr "Storite to ročno."
 
 # plural
-#: ../src/chronojump.cs:770
+#: ../src/chronojump.cs:779
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Ni mogoče kopirati {0} datotek iz {1} v {2}"
 
 # plural
-#: ../src/chronojump.cs:778
+#: ../src/chronojump.cs:787
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Ni mogoče premakniti {0} datotek iz {1} v {2}"
 
-#: ../src/chronojump.cs:779
+#: ../src/chronojump.cs:788
 msgid "Please, do it manually"
 msgstr "Storite to ročno."
 
-#: ../src/chronojump.cs:785
+#: ../src/chronojump.cs:794
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Podatkovna zbirka je sedaj na: {0}"
 
-#: ../src/chronojump_mini.cs:108
+#: ../src/Mini/chronojump_mini.cs:108
 msgid "More information on Chronojump manual"
 msgstr "Več podrobnosti o priročniku ChronoJump"
 
-#: ../src/chronojump_mini.cs:118
+#: ../src/Mini/chronojump_mini.cs:118
 msgid "Print the port name where chronopic is connected:"
 msgstr "Natisnite ime vrat, kjer je povezan kronopik:"
 
-#: ../src/chronojump_mini.cs:130
+#: ../src/Mini/chronojump_mini.cs:130
 msgid "Opening port..."
 msgstr "Odpiranje vrat ..."
 
-#: ../src/chronojump_mini.cs:131
+#: ../src/Mini/chronojump_mini.cs:131
 msgid "Please touch the platform or click Chronopic TEST button"
 msgstr ""
 "Dotaknite se merilne podloge ali pa kliknite na gumb TEST na napravi kronopik"
 
-#: ../src/chronojump_mini.cs:141
+#: ../src/Mini/chronojump_mini.cs:141
 msgid "Error opening serial port"
 msgstr "Napaka med odpiranjem zaporednih vrat"
 
 #. -- Si hay error terminar
-#: ../src/chronojump_mini.cs:160
+#: ../src/Mini/chronojump_mini.cs:160
 #, csharp-format
 msgid "Error: {0}"
 msgstr "Napaka: {0}"
 
-#: ../src/chronojump_mini.cs:163
+#: ../src/Mini/chronojump_mini.cs:163
 #, csharp-format
 msgid "Platform state: {0}"
 msgstr "Stanje merilne podloge: {0}"
 
-#: ../src/chronojump_mini.cs:170
+#: ../src/Mini/chronojump_mini.cs:170
 msgid "Go up platform for jumping"
 msgstr "Stopite na merilno podlogo za testiranje skakanja"
 
-#: ../src/chronojump_mini.cs:183
+#: ../src/Mini/chronojump_mini.cs:183
 msgid "Jump when prepared"
 msgstr "Skočite, ko ste pripravljeni"
 
-#: ../src/chronojump_mini.cs:184
+#: ../src/Mini/chronojump_mini.cs:184
 msgid "Press CTRL-c for ending session"
 msgstr "Pritisnite tipki CTRL-C za končanje seje"
 
-#: ../src/chronojump_mini.cs:245
+#: ../src/Mini/chronojump_mini.cs:245
 msgid "Invalid args. Use:"
 msgstr "Neveljavni argumenti. Uporabite:"
 
-#: ../src/chronojump_mini.cs:249 ../src/chronojump_mini.cs:256
+#: ../src/Mini/chronojump_mini.cs:249 ../src/Mini/chronojump_mini.cs:256
 msgid "Examples:"
 msgstr "Primeri:"
 
-#: ../src/chronojump_mini.cs:298
+#: ../src/Mini/chronojump_mini.cs:298
 msgid "Do you want to output data to a file?"
 msgstr "Ali želite shraniti podatke v datoteko?"
 
-#: ../src/chronojump_mini.cs:302
+#: ../src/Mini/chronojump_mini.cs:302
 msgid ""
 "If you want to open it with an Spreadsheet like Gnumeric, OpenOffice or MS "
 "Office, we recommend to use .csv extension.\n"
@@ -3442,21 +3448,21 @@ msgstr ""
 "OpenOffice ali MS Office, je priporočljivo uporabiti pripono datoteke .csv.\n"
 "Primer: 'test.csv'."
 
-#: ../src/chronojump_mini.cs:303
+#: ../src/Mini/chronojump_mini.cs:303
 #, csharp-format
 msgid "File will be available at directory: {0}"
 msgstr "Datoteka bo na voljo v mapi: {0}"
 
-#: ../src/chronojump_mini.cs:304
+#: ../src/Mini/chronojump_mini.cs:304
 msgid "Please, write filename:"
 msgstr "Ime datoteke:"
 
-#: ../src/chronojump_mini.cs:314
+#: ../src/Mini/chronojump_mini.cs:314
 #, csharp-format
 msgid "File {0} exists with attributes {1}, created at {2}"
 msgstr "Datoteka {0} obstaja z atributi {1} in je bila ustvarjena ob {2}"
 
-#: ../src/chronojump_mini.cs:316
+#: ../src/Mini/chronojump_mini.cs:316
 #, csharp-format
 msgid "Are you sure you want to overwrite file: {0}"
 msgstr "Ali ste prepričani, da želite prepisati datoteko: {0}"
@@ -3939,7 +3945,7 @@ msgid "Run will not be recorded, 1st track is out of time"
 msgstr "Tek ne bo zabeležen, saj je na prvi stezi čas že pretekel"
 
 #: ../src/execute/run.cs:940 ../src/exportSession.cs:540
-#: ../src/gui/chronojump.cs:3771 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
+#: ../src/gui/chronojump.cs:3770 ../src/gui/run.cs:1544 ../src/gui/run.cs:1607
 #: ../src/gui/run.cs:1657
 msgid "Tracks"
 msgstr "Steze"
@@ -3952,23 +3958,23 @@ msgstr "Shrani poročilo kot ..."
 msgid "Export session in format "
 msgstr "Izvozi sejo v zapisu"
 
-#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1290
+#: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1326
 #: ../src/gui/preferences.cs:346
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:1291
+#: ../src/exportSession.cs:78 ../src/gui/encoder.cs:1327
 msgid "Export"
 msgstr "Izvozi"
 
-#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:1313
+#: ../src/exportSession.cs:96 ../src/gui/encoder.cs:1349
 #: ../src/gui/preferences.cs:359
 msgid "Are you sure you want to overwrite file: "
 msgstr "Ali ste prepričani, da želite prepisati datoteko:"
 
 #: ../src/exportSession.cs:104 ../src/exportSession.cs:136
-#: ../src/gui/encoder.cs:1334 ../src/gui/encoder.cs:1363
-#: ../src/gui/encoder.cs:1371 ../src/gui/encoder.cs:1378
+#: ../src/gui/encoder.cs:1370 ../src/gui/encoder.cs:1399
+#: ../src/gui/encoder.cs:1407 ../src/gui/encoder.cs:1414
 #, csharp-format
 msgid "Saved to {0}"
 msgstr "Shranjeno v {0}"
@@ -3979,7 +3985,7 @@ msgid "Cannot export to file {0} "
 msgstr "Ni mogoče izvoziti v datoteko {0}"
 
 #. report does not currently send the appBar reference
-#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1349
+#: ../src/exportSession.cs:117 ../src/gui/encoder.cs:1385
 msgid "Cancelled."
 msgstr "Preklicano."
 
@@ -4008,8 +4014,8 @@ msgid "SessionID"
 msgstr "ID Seje"
 
 #: ../src/exportSession.cs:223 ../src/gui/convertWeight.cs:106
-#: ../src/gui/encoder.cs:723 ../src/gui/encoder.cs:917
-#: ../src/gui/encoder.cs:1009 ../src/gui/encoder.cs:1083
+#: ../src/gui/encoder.cs:759 ../src/gui/encoder.cs:953
+#: ../src/gui/encoder.cs:1045 ../src/gui/encoder.cs:1119
 #: ../src/gui/person.cs:119
 msgid "ID"
 msgstr "ID"
@@ -4025,7 +4031,7 @@ msgstr "ID testiranca"
 #: ../src/exportSession.cs:267 ../src/exportSession.cs:363
 #: ../src/exportSession.cs:481 ../src/exportSession.cs:533
 #: ../src/exportSession.cs:630 ../src/exportSession.cs:671
-#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:919
+#: ../src/exportSession.cs:732 ../src/gui/encoder.cs:955
 msgid "Person name"
 msgstr "Ime testiranca"
 
@@ -4173,98 +4179,98 @@ msgstr "NA-NA"
 msgid "OUT-OUT"
 msgstr "OB-OB"
 
-#: ../src/gui/chronojump.cs:781
+#: ../src/gui/chronojump.cs:780
 #, csharp-format
 msgid "Chronojump database version file: {0}"
 msgstr "Datoteka različice podatkovne zbirke ChronoJump: {0}"
 
-#: ../src/gui/chronojump.cs:921
+#: ../src/gui/chronojump.cs:920
 msgid "Preferences loaded"
 msgstr "Možnosti so naložene"
 
-#: ../src/gui/chronojump.cs:1133
+#: ../src/gui/chronojump.cs:1132
 msgid "Show all tests of"
 msgstr "Pokaži vse teste"
 
-#: ../src/gui/chronojump.cs:1140
+#: ../src/gui/chronojump.cs:1139
 #, csharp-format
 msgid "Delete {0} from this session"
 msgstr "Izbrisan je {0} iz te seje"
 
-#: ../src/gui/chronojump.cs:1165
+#: ../src/gui/chronojump.cs:1164
 msgid "Please, first fill evaluator data."
 msgstr "Najprej izpolnite podatke merilnika."
 
-#: ../src/gui/chronojump.cs:1167
+#: ../src/gui/chronojump.cs:1166
 msgid "Please, first check evaluator data is ok."
 msgstr "Najprej preverite, če so podatki merilnika v redu."
 
-#: ../src/gui/chronojump.cs:1181
+#: ../src/gui/chronojump.cs:1180
 msgid "Your version of Chronojump is too old for this."
 msgstr "Različica programa ChronoJump je prestara za to dejanje."
 
 #. false: don't do insertion
 #. false: don't do insertion
-#: ../src/gui/chronojump.cs:1249
+#: ../src/gui/chronojump.cs:1248
 msgid "Do you want to upload evaluator data now?"
 msgstr "Ali ste prepričani, da želite poslati podatke merilnika takoj?"
 
-#: ../src/gui/chronojump.cs:1253
+#: ../src/gui/chronojump.cs:1252
 msgid "Currently cannot upload."
 msgstr "Trenutno ni mogoče poslati."
 
-#: ../src/gui/chronojump.cs:1319
+#: ../src/gui/chronojump.cs:1318
 msgid "<b>Weight</b> of the following persons is not ok:"
 msgstr "<b>Masa</b> navedenih testirancev ni ustrezna:"
 
-#: ../src/gui/chronojump.cs:1333
+#: ../src/gui/chronojump.cs:1332
 msgid "<b>Country</b> of the following persons is undefined:"
 msgstr "<b>Država</b> navedenih testirancev ni navedena:"
 
-#: ../src/gui/chronojump.cs:1347
+#: ../src/gui/chronojump.cs:1346
 msgid "<b>Sport</b> of the following persons is undefined:"
 msgstr "<b>Šport</b> navedenih testirancev ni določen:"
 
-#: ../src/gui/chronojump.cs:1361
+#: ../src/gui/chronojump.cs:1360
 msgid "Please, fix this before uploading:"
 msgstr "Popravite napako pred pošiljanjem:"
 
-#: ../src/gui/chronojump.cs:1363
+#: ../src/gui/chronojump.cs:1362
 msgid "Or when upload session again, mark these persons as not to be uploaded."
 msgstr "Ali pa med pošiljanjem izpustite označene testirance."
 
-#: ../src/gui/chronojump.cs:1380
+#: ../src/gui/chronojump.cs:1379
 msgid "Session will be uploaded to server."
 msgstr "Seja bo poslana na strežnik."
 
-#: ../src/gui/chronojump.cs:1381
+#: ../src/gui/chronojump.cs:1380
 msgid "Names, date of birth and descriptions of persons will be hidden."
 msgstr "Imena testirancev, opisi in datumi rojstva bodo skriti."
 
-#: ../src/gui/chronojump.cs:1382
+#: ../src/gui/chronojump.cs:1381
 msgid "You can upload again this session if you add more data or persons."
 msgstr ""
 "Sejo je mogoče poslati znova, v kolikor bodo dodani novi testiranci ali pa "
 "bodo zbrani novi podatki."
 
-#: ../src/gui/chronojump.cs:1385
+#: ../src/gui/chronojump.cs:1384
 msgid "Session has been uploaded to server before."
 msgstr "Seja je bila že poslana na strežnik."
 
-#: ../src/gui/chronojump.cs:1386
+#: ../src/gui/chronojump.cs:1385
 msgid "Uploading new data."
 msgstr "Pošiljanje novih podatkov."
 
-#: ../src/gui/chronojump.cs:1388
+#: ../src/gui/chronojump.cs:1387
 msgid "All the uploaded data will be licensed as:"
 msgstr "Vsi poslani podatki bodo objavljeni z dovoljenjem:"
 
-#: ../src/gui/chronojump.cs:1389
+#: ../src/gui/chronojump.cs:1388
 msgid "Creative Commons Attribution 3.0"
 msgstr "Dovoljenje Creative Commons - priznanje avtorstva 3.0"
 
 #. label_link
-#: ../src/gui/chronojump.cs:1394
+#: ../src/gui/chronojump.cs:1393
 msgid "Are you sure you want to upload this session to server?"
 msgstr "Ali ste prepričani, da želite poslati to sejo na strežnik?"
 
@@ -4345,27 +4351,27 @@ msgstr "Ali ste prepričani, da želite poslati to sejo na strežnik?"
 #. myItem.Sensitive = false;
 #. myMenu.Attach( myItem, 0, 1, 0, 1 );
 #.
-#: ../src/gui/chronojump.cs:1510 ../src/gui/chronojump.cs:1592
-#: ../src/gui/chronojump.cs:1672 ../src/gui/chronojump.cs:1753
-#: ../src/gui/chronojump.cs:1833 ../src/gui/chronojump.cs:1913
-#: ../src/gui/chronojump.cs:2008 ../src/gui/genericWindow.cs:583
+#: ../src/gui/chronojump.cs:1509 ../src/gui/chronojump.cs:1591
+#: ../src/gui/chronojump.cs:1671 ../src/gui/chronojump.cs:1752
+#: ../src/gui/chronojump.cs:1832 ../src/gui/chronojump.cs:1912
+#: ../src/gui/chronojump.cs:2007 ../src/gui/genericWindow.cs:583
 msgid "Edit selected"
 msgstr "Izbrano je urejanje"
 
-#: ../src/gui/chronojump.cs:1517 ../src/gui/chronojump.cs:1603
-#: ../src/gui/chronojump.cs:1679 ../src/gui/chronojump.cs:1764
-#: ../src/gui/chronojump.cs:1840 ../src/gui/chronojump.cs:1924
-#: ../src/gui/chronojump.cs:2021 ../src/gui/genericWindow.cs:587
+#: ../src/gui/chronojump.cs:1516 ../src/gui/chronojump.cs:1602
+#: ../src/gui/chronojump.cs:1678 ../src/gui/chronojump.cs:1763
+#: ../src/gui/chronojump.cs:1839 ../src/gui/chronojump.cs:1923
+#: ../src/gui/chronojump.cs:2020 ../src/gui/genericWindow.cs:587
 #: ../src/gui/genericWindow.cs:592
 msgid "Delete selected"
 msgstr "Izbran je brisanje"
 
-#: ../src/gui/chronojump.cs:1596 ../src/gui/chronojump.cs:1757
-#: ../src/gui/chronojump.cs:1917
+#: ../src/gui/chronojump.cs:1595 ../src/gui/chronojump.cs:1756
+#: ../src/gui/chronojump.cs:1916
 msgid "Repair selected"
 msgstr "Izbrano je popravljanje"
 
-#: ../src/gui/chronojump.cs:2207
+#: ../src/gui/chronojump.cs:2206
 #, csharp-format
 msgid ""
 "Could not delete file:\n"
@@ -4376,34 +4382,34 @@ msgstr ""
 
 #. reportWin is still not created, not need to Fill again
 #. feedback (more in 1st session created)
-#: ../src/gui/chronojump.cs:2268
+#: ../src/gui/chronojump.cs:2267
 msgid "Session created, now add or load persons."
 msgstr "Seja je ustvarjena, sedaj je mogoče dodati ali naložiti testirance."
 
-#: ../src/gui/chronojump.cs:2337
+#: ../src/gui/chronojump.cs:2336
 msgid "Are you sure you want to delete the current session"
 msgstr "Ali ste prepričani, da želite izbrisati trenutno sejo"
 
-#: ../src/gui/chronojump.cs:2337
+#: ../src/gui/chronojump.cs:2336
 msgid "and all the session tests?"
 msgstr "in vsi testi seje?"
 
-#: ../src/gui/chronojump.cs:2343
+#: ../src/gui/chronojump.cs:2342
 msgid "Deleted session and all its tests."
 msgstr "Seja in vsi testi seje so izbrisani."
 
-#: ../src/gui/chronojump.cs:2465
+#: ../src/gui/chronojump.cs:2464
 msgid "Select number of persons to add"
 msgstr "Izberite število testirancev za dodajanje"
 
-#: ../src/gui/chronojump.cs:2466
+#: ../src/gui/chronojump.cs:2465
 msgid "If you want to add more than 40 persons, do this process two times."
 msgstr ""
 "V kolikor želite dodati več kot 40 testirancev, je treba postopek izvesti "
 "dvakrat."
 
 # plural
-#: ../src/gui/chronojump.cs:2498 ../src/gui/person.cs:616
+#: ../src/gui/chronojump.cs:2497 ../src/gui/person.cs:616
 #, csharp-format
 msgid "Successfully added one person."
 msgid_plural "Successfully added {0} persons."
@@ -4412,7 +4418,7 @@ msgstr[1] "Uspešno je dodan {0} testiranec)"
 msgstr[2] "Uspešno sta dodana {0} testiranca"
 msgstr[3] "Uspešno so dodani {0} testiranci"
 
-#: ../src/gui/chronojump.cs:2557
+#: ../src/gui/chronojump.cs:2556
 msgid ""
 "Are you sure you want to delete the current person and all his/her tests "
 "(jumps, runs, pulses, ...) from this session?\n"
@@ -4422,15 +4428,15 @@ msgstr ""
 "testov (skoke, teke, ritme, ...) te seje?\n"
 "(Osebni podatki in testi drugih sej, bodo ostali nespremenjeni.)"
 
-#: ../src/gui/chronojump.cs:2558
+#: ../src/gui/chronojump.cs:2557
 msgid "Current Person: "
 msgstr "Trenutni testiranec:"
 
-#: ../src/gui/chronojump.cs:2565
+#: ../src/gui/chronojump.cs:2564
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Izbrisani podatki testov testiranca te seje"
 
-#: ../src/gui/chronojump.cs:2974
+#: ../src/gui/chronojump.cs:2973
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -4438,7 +4444,7 @@ msgstr ""
 "Dotaknite se merilne podloge za poln preklic merjenja.\n"
 "Nato pritisnite gumb\n"
 
-#: ../src/gui/chronojump.cs:3017
+#: ../src/gui/chronojump.cs:3016
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -4449,7 +4455,7 @@ msgstr ""
 "merjenja.\n"
 "Nato pritisnite gumb\n"
 
-#: ../src/gui/chronojump.cs:3079
+#: ../src/gui/chronojump.cs:3078
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -4457,156 +4463,156 @@ msgstr ""
 "Dotaknite se merilne podloge za končanje testa.\n"
 "Nato pritisnite ta gumb:\n"
 
-#: ../src/gui/chronojump.cs:3133
+#: ../src/gui/chronojump.cs:3132
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
 msgstr ""
 "Dotaknite se merilne podloge na napravi kronopik [{0}] za končanje testa."
 
-#: ../src/gui/chronojump.cs:3134
+#: ../src/gui/chronojump.cs:3133
 msgid "Then press this button:\n"
 msgstr "Nato pritisnite gumb:\n"
 
-#: ../src/gui/chronojump.cs:3402 ../src/gui/chronojump.cs:3535
-#: ../src/gui/chronojump.cs:3694 ../src/gui/chronojump.cs:3824
-#: ../src/gui/chronojump.cs:3941 ../src/gui/chronojump.cs:4064
-#: ../src/gui/chronojump.cs:4296 ../src/gui/encoder.cs:1609
+#: ../src/gui/chronojump.cs:3401 ../src/gui/chronojump.cs:3534
+#: ../src/gui/chronojump.cs:3693 ../src/gui/chronojump.cs:3823
+#: ../src/gui/chronojump.cs:3940 ../src/gui/chronojump.cs:4063
+#: ../src/gui/chronojump.cs:4295 ../src/gui/encoder.cs:1642
 msgid "Sorry, video cannot be stored."
 msgstr "Žal videa ni mogoče shraniti."
 
-#: ../src/gui/chronojump.cs:4184
+#: ../src/gui/chronojump.cs:4183
 msgid "Changes"
 msgstr "Spremembe"
 
-#: ../src/gui/chronojump.cs:4391
+#: ../src/gui/chronojump.cs:4390
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Podatkov ni mogoče posodobiti. Verjetno je bil test izbrisan."
 
 #. without these lines works also but has less functionalities (speed, go to ms)
-#: ../src/gui/chronojump.cs:4652 ../src/gui/event.cs:315
+#: ../src/gui/chronojump.cs:4651 ../src/gui/event.cs:315
 msgid "Playing video"
 msgstr "Predvajanje posnetka"
 
-#: ../src/gui/chronojump.cs:4818 ../src/gui/chronojump.cs:4834
+#: ../src/gui/chronojump.cs:4817 ../src/gui/chronojump.cs:4833
 msgid "Do you want to delete this jump?"
 msgstr "Ali želite izbrisati ta skok?"
 
-#: ../src/gui/chronojump.cs:4835
+#: ../src/gui/chronojump.cs:4834
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr ""
 "Pozor: z izbrisom posameznega repetitivno-eksplozivnega poskoka bo izbrisan "
 "celoten test skoka"
 
-#: ../src/gui/chronojump.cs:4900 ../src/gui/chronojump.cs:4917
+#: ../src/gui/chronojump.cs:4899 ../src/gui/chronojump.cs:4916
 msgid "Do you want to delete this run?"
 msgstr "Ali želite izbrisati ta tek?"
 
-#: ../src/gui/chronojump.cs:4918
+#: ../src/gui/chronojump.cs:4917
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Pozor: z izbrisom intervalnega preteka bo izbrisal celoten tek"
 
-#: ../src/gui/chronojump.cs:5052
+#: ../src/gui/chronojump.cs:5051
 msgid "Do you want to delete this test?"
 msgstr "Ali želite izbrisati ta test?"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5106
+#: ../src/gui/chronojump.cs:5105
 msgid "Added simple jump."
 msgstr "Dodan je enostavni skok."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5109
+#: ../src/gui/chronojump.cs:5108
 msgid "Added reactive jump."
 msgstr "Dodan je repetitivno-eksplozivni skok."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5134
+#: ../src/gui/chronojump.cs:5133
 msgid "Added simple run."
 msgstr "Dodan je enostavni tek."
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5137
+#: ../src/gui/chronojump.cs:5136
 msgid "Added intervallic run."
 msgstr "Dodan je intervalni tek."
 
-#: ../src/gui/chronojump.cs:5348
+#: ../src/gui/chronojump.cs:5347
 msgid "Accelerators help"
 msgstr "Pomoč pospeševalnih tipk"
 
-#: ../src/gui/chronojump.cs:5350
+#: ../src/gui/chronojump.cs:5349
 msgid "Use these keys in order to work faster."
 msgstr "Z uporabo tipk, je upravljanje dejanj hitrejše"
 
-#: ../src/gui/chronojump.cs:5351
+#: ../src/gui/chronojump.cs:5350
 msgid "On execute test tab:"
 msgstr "Na zavihku izvajanja:"
 
-#: ../src/gui/chronojump.cs:5352
+#: ../src/gui/chronojump.cs:5351
 msgid "Edit selected person"
 msgstr "Uredi izbranega testiranca"
 
-#: ../src/gui/chronojump.cs:5353
+#: ../src/gui/chronojump.cs:5352
 msgid "CURSOR_UP"
 msgstr "Smerna tipka GOR"
 
-#: ../src/gui/chronojump.cs:5353
+#: ../src/gui/chronojump.cs:5352
 msgid "Select previous person"
 msgstr "Izbor predhodnega testiranca"
 
-#: ../src/gui/chronojump.cs:5354
+#: ../src/gui/chronojump.cs:5353
 msgid "CURSOR_DOWN"
 msgstr "Smerna tipka DOL"
 
-#: ../src/gui/chronojump.cs:5354
+#: ../src/gui/chronojump.cs:5353
 msgid "Select next person"
 msgstr "Izbor naslednjega testiranca"
 
-#: ../src/gui/chronojump.cs:5356
+#: ../src/gui/chronojump.cs:5355
 msgid "Play video of this test"
 msgstr "Predvajaj video testa"
 
-#: ../src/gui/chronojump.cs:5356 ../src/gui/chronojump.cs:5360
-#: ../src/gui/chronojump.cs:5363
+#: ../src/gui/chronojump.cs:5355 ../src/gui/chronojump.cs:5359
+#: ../src/gui/chronojump.cs:5362
 msgid "(if available)"
 msgstr "(če je na voljo)"
 
-#: ../src/gui/chronojump.cs:5357
+#: ../src/gui/chronojump.cs:5356
 msgid "Delete this test"
 msgstr "Izbriši izbrani test"
 
-#: ../src/gui/chronojump.cs:5358
+#: ../src/gui/chronojump.cs:5357
 msgid "On results tab:"
 msgstr "Na zavihku rezultatov:"
 
-#: ../src/gui/chronojump.cs:5359
+#: ../src/gui/chronojump.cs:5358
 msgid "Zoom change"
 msgstr "Spremeni približanje"
 
-#: ../src/gui/chronojump.cs:5360
+#: ../src/gui/chronojump.cs:5359
 msgid "Play video of selected test"
 msgstr "Predvajaj video izbranega testa"
 
-#: ../src/gui/chronojump.cs:5361
+#: ../src/gui/chronojump.cs:5360
 msgid "Edit selected test"
 msgstr "Uredi izbrani test"
 
-#: ../src/gui/chronojump.cs:5362
+#: ../src/gui/chronojump.cs:5361
 msgid "Delete selected test"
 msgstr "Izbriši izbrani test"
 
-#: ../src/gui/chronojump.cs:5363
+#: ../src/gui/chronojump.cs:5362
 msgid "Repair selected test"
 msgstr "Popravi izbrani test"
 
-#: ../src/gui/chronojump.cs:5368
+#: ../src/gui/chronojump.cs:5367
 msgid "translator-credits"
 msgstr ""
 "Matej Urbančič <mateju@svn.gnome.org>\n"
 "Andrej Žnidaršič <andrej.znidarsic@gmail.com>Matej Dremelj <matej."
 "dremelj@gmail.com>"
 
-#: ../src/gui/chronojump.cs:5725
+#: ../src/gui/chronojump.cs:5720
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Končano za testiranje. Program ChronoJump bo končan z napako."
 
@@ -4697,25 +4703,30 @@ msgstr ""
 "Nova teža\n"
 "možnost 2"
 
-#: ../src/gui/encoder.cs:223 ../src/gui/encoder.cs:3639
+#: ../src/gui/encoder.cs:244 ../src/gui/encoder.cs:4041
 msgid "Chronopic port is not configured."
 msgstr "Vrata kronopik niso nastavljena."
 
-#: ../src/gui/encoder.cs:418
+#: ../src/gui/encoder.cs:440 ../src/gui/encoder.cs:762
+#: ../src/gui/encoder.cs:1121 ../src/gui/encoder.cs:3006
+msgid "Exercise"
+msgstr "Vaja"
+
+#: ../src/gui/encoder.cs:441
 msgid "Load 1RM"
 msgstr "Naloži mejno težo"
 
 #. don't show now
-#: ../src/gui/encoder.cs:429
+#: ../src/gui/encoder.cs:452
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} on this session."
 msgstr "Shranjene vrednosti mejnih tež testiranca {0} te seje."
 
-#: ../src/gui/encoder.cs:431
+#: ../src/gui/encoder.cs:454
 msgid "If you want to delete a row, right click on it."
 msgstr "Z desnim klikom lahko izbrišete vrstico."
 
-#: ../src/gui/encoder.cs:432
+#: ../src/gui/encoder.cs:455
 msgid ""
 "If there is more than one value for an exercise,\n"
 "the used value is the top one."
@@ -4723,57 +4734,57 @@ msgstr ""
 "Kadar je za vajo določenih več vrednosti,\n"
 "je uporabljena najvišja vrednost."
 
-#: ../src/gui/encoder.cs:446 ../src/gui/encoder.cs:779
-#: ../src/gui/encoder.cs:1123
+#: ../src/gui/encoder.cs:469 ../src/gui/encoder.cs:815
+#: ../src/gui/encoder.cs:1159
 msgid "Close"
 msgstr "Zapri"
 
-#: ../src/gui/encoder.cs:500
+#: ../src/gui/encoder.cs:532
 msgid "Missing data."
 msgstr "Manjkajo podatki."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:725 ../src/gui/encoder.cs:2722
-#: ../src/gui/encoder.cs:2832
+#: ../src/gui/encoder.cs:761 ../src/gui/encoder.cs:2894
+#: ../src/gui/encoder.cs:3004
 msgid "Curve"
 msgstr "Krivulja"
 
-#: ../src/gui/encoder.cs:727 ../src/gui/encoder.cs:1086
+#: ../src/gui/encoder.cs:763 ../src/gui/encoder.cs:1122
 msgid "Contraction"
 msgstr "Krčenje"
 
-#: ../src/gui/encoder.cs:730 ../src/gui/encoder.cs:1090
+#: ../src/gui/encoder.cs:766 ../src/gui/encoder.cs:1126
 #: ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Razlaga"
 
 #. don't show now
-#: ../src/gui/encoder.cs:755
+#: ../src/gui/encoder.cs:791
 #, csharp-format
 msgid "Saved curves of athlete {0} on this session."
 msgstr "Shranjene krivulje testiranca {0} iz te seje."
 
-#: ../src/gui/encoder.cs:757
+#: ../src/gui/encoder.cs:793
 msgid "Activate the curves you want to use clicking on first column."
 msgstr "Krivulje je mogoče prikazati s klikom na prvi stolpec."
 
-#: ../src/gui/encoder.cs:758 ../src/gui/encoder.cs:1106
+#: ../src/gui/encoder.cs:794 ../src/gui/encoder.cs:1142
 msgid "If you want to edit or delete a row, right click on it."
 msgstr "Z desnim klikom je mogoče urejati ali brisati vrstice"
 
-#: ../src/gui/encoder.cs:773
+#: ../src/gui/encoder.cs:809
 msgid "Change the owner of selected curve"
 msgstr "Spremeni lastnika izbrane krivulje"
 
-#: ../src/gui/encoder.cs:774 ../src/gui/encoder.cs:1118
+#: ../src/gui/encoder.cs:810 ../src/gui/encoder.cs:1154
 msgid "code"
 msgstr "koda"
 
-#: ../src/gui/encoder.cs:774 ../src/gui/encoder.cs:1118
+#: ../src/gui/encoder.cs:810 ../src/gui/encoder.cs:1154
 msgid "name"
 msgstr "ime"
 
-#: ../src/gui/encoder.cs:920 ../src/gui/encoder.cs:1013
+#: ../src/gui/encoder.cs:956 ../src/gui/encoder.cs:1049
 msgid ""
 "Selected\n"
 "curves"
@@ -4781,7 +4792,7 @@ msgstr ""
 "Izbrane\n"
 "krivulje"
 
-#: ../src/gui/encoder.cs:921 ../src/gui/encoder.cs:1014
+#: ../src/gui/encoder.cs:957 ../src/gui/encoder.cs:1050
 msgid ""
 "All\n"
 "curves"
@@ -4790,265 +4801,273 @@ msgstr ""
 "krivulje"
 
 #. don't show now
-#: ../src/gui/encoder.cs:936
+#: ../src/gui/encoder.cs:972
 #, csharp-format
 msgid "Select persons to compare to {0}."
 msgstr "Izberite osebe za primerjavo z {0}."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:1011 ../src/gui/person.cs:2148
+#: ../src/gui/encoder.cs:1047 ../src/gui/person.cs:2148
 msgid "Session name"
 msgstr "Ime seje"
 
-#: ../src/gui/encoder.cs:1012
+#: ../src/gui/encoder.cs:1048
 msgid "Session date"
 msgstr "Datum seje"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1029
+#: ../src/gui/encoder.cs:1065
 #, csharp-format
 msgid "Compare curves of {0} from this session with the following sessions."
 msgstr "Primerjaj krivulje {0} iz te seje z naslednjo sejo."
 
-#: ../src/gui/encoder.cs:1089
+#: ../src/gui/encoder.cs:1125
 msgid "Video"
 msgstr "Video"
 
 #. don't show now
-#: ../src/gui/encoder.cs:1104
+#: ../src/gui/encoder.cs:1140
 #, csharp-format
 msgid "Select signal of athlete {0} on this session."
 msgstr "Izbor signala testiranca {0} za to sejo."
 
-#: ../src/gui/encoder.cs:1117
+#: ../src/gui/encoder.cs:1153
 msgid "Change the owner of selected signal"
 msgstr "Spremeni lastnika izbranega signala"
 
-#: ../src/gui/encoder.cs:1171 ../src/gui/encoder.cs:3909
+#: ../src/gui/encoder.cs:1207 ../src/gui/encoder.cs:4317
 msgid "Sorry, file not found"
 msgstr "Žal datoteke ni mogoče najti"
 
-#: ../src/gui/encoder.cs:1272
+#: ../src/gui/encoder.cs:1308
 msgid "Export session in format CSV"
 msgstr "Izvozi sejo v zapisu CSV"
 
-#: ../src/gui/encoder.cs:1342 ../src/gui/encoder.cs:2449
-#: ../src/gui/encoder.cs:2484
+#: ../src/gui/encoder.cs:1378 ../src/gui/encoder.cs:2621
+#: ../src/gui/encoder.cs:2656
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "Ni mogoče shraniti datoteke {0}"
 
-#: ../src/gui/encoder.cs:1386
+#: ../src/gui/encoder.cs:1422
 msgid "Are you sure you want to delete this signal?"
 msgstr "Ali ste prepričani, da želite izbrisati ta signal?"
 
-#: ../src/gui/encoder.cs:1402
+#: ../src/gui/encoder.cs:1438
 msgid "Signal deleted"
 msgstr "Signal je izbrisan"
 
 #. 1,1,2,2,...
-#: ../src/gui/encoder.cs:1516
+#: ../src/gui/encoder.cs:1548
 #, csharp-format
 msgid "Curve {0} saved"
 msgstr "Krivulja {0} je shranjena"
 
-#: ../src/gui/encoder.cs:1519
+#: ../src/gui/encoder.cs:1551
 msgid "All curves saved"
 msgstr "Vse krivulje so shranjene"
 
-#: ../src/gui/encoder.cs:1592
+#: ../src/gui/encoder.cs:1625
 msgid "Signal saved"
 msgstr "Signal je shranjen"
 
 #. only signal is updated
 #. Adding on SQL
-#: ../src/gui/encoder.cs:1617
+#: ../src/gui/encoder.cs:1650
 msgid "Signal updated"
 msgstr "Signal je posodobljen"
 
-#: ../src/gui/encoder.cs:1634
+#: ../src/gui/encoder.cs:1667
 msgid "Sorry, no curves selected."
 msgstr "Žal krivulje niso izbrane."
 
-#: ../src/gui/encoder.cs:1647 ../src/gui/encoder.cs:2335
+#: ../src/gui/encoder.cs:1680 ../src/gui/encoder.cs:2507
 msgid "Speed,Power / Load"
 msgstr "Hitrost,moč / Breme"
 
-#: ../src/gui/encoder.cs:1649 ../src/gui/encoder.cs:2337
+#: ../src/gui/encoder.cs:1682 ../src/gui/encoder.cs:2509
 msgid "1RM Bench Press"
 msgstr "Mejna teža potiska s prsmi"
 
-#: ../src/gui/encoder.cs:1651 ../src/gui/encoder.cs:2337
+#: ../src/gui/encoder.cs:1684 ../src/gui/encoder.cs:2509
 msgid "1RM Any exercise"
 msgstr "Mejna teža katerekoli vaje"
 
-#: ../src/gui/encoder.cs:1654
+#: ../src/gui/encoder.cs:1687
 msgid "Sorry, this graph is not supported yet."
 msgstr "Žal ta graf še ni podprt."
 
-#: ../src/gui/encoder.cs:1895
+#: ../src/gui/encoder.cs:2067
 msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Žal ni mogoče izračunati mejne teže za različne vaje."
 
-#: ../src/gui/encoder.cs:2298
+#: ../src/gui/encoder.cs:2470
 msgid "RL"
 msgstr "RL"
 
-#: ../src/gui/encoder.cs:2298
+#: ../src/gui/encoder.cs:2470
 msgid "R"
 msgstr "R"
 
-#: ../src/gui/encoder.cs:2298
+#: ../src/gui/encoder.cs:2470
 msgid "L"
 msgstr "L"
 
-#: ../src/gui/encoder.cs:2312
+#: ../src/gui/encoder.cs:2484
 msgid "No compare"
 msgstr "Brez primerjave"
 
-#: ../src/gui/encoder.cs:2313
+#: ../src/gui/encoder.cs:2485
 msgid "Between persons"
 msgstr "Med testiranci"
 
-#: ../src/gui/encoder.cs:2314
+#: ../src/gui/encoder.cs:2486
 msgid "Between sessions"
 msgstr "Med sejami"
 
-#: ../src/gui/encoder.cs:2334
+#: ../src/gui/encoder.cs:2506
 msgid "Speed / Load"
 msgstr "Hitrost / Breme"
 
-#: ../src/gui/encoder.cs:2334
+#: ../src/gui/encoder.cs:2506
 msgid "Force / Load"
 msgstr "Sila / Breme"
 
-#: ../src/gui/encoder.cs:2335
+#: ../src/gui/encoder.cs:2507
 msgid "Power / Load"
 msgstr "Moč / Breme"
 
-#: ../src/gui/encoder.cs:2336
+#: ../src/gui/encoder.cs:2508
 msgid "Force / Speed"
 msgstr "Sila / hitrost"
 
-#: ../src/gui/encoder.cs:2336
+#: ../src/gui/encoder.cs:2508
 msgid "Power / Speed"
 msgstr "Moč / hitrost"
 
-#: ../src/gui/encoder.cs:2496
+#: ../src/gui/encoder.cs:2668
 msgid "Not enough data."
 msgstr "Premalo podatkov."
 
-#: ../src/gui/encoder.cs:2506
+#: ../src/gui/encoder.cs:2678
 msgid "Saved."
 msgstr "Shranjeno."
 
-#: ../src/gui/encoder.cs:2508
+#: ../src/gui/encoder.cs:2680
 #, csharp-format
 msgid "1RM found: {0} Kg."
 msgstr "Mejna teža (MT): {0} Kg."
 
-#: ../src/gui/encoder.cs:2509
+#: ../src/gui/encoder.cs:2681
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
 msgstr "Izpodrinjena masa telesa v tej vaji: {0}%."
 
-#: ../src/gui/encoder.cs:2511
+#: ../src/gui/encoder.cs:2683
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
 msgstr "Shranjen podatek mejne teže brez izpodrinjene mase telesa: {0} Kg."
 
-#: ../src/gui/encoder.cs:2603
+#: ../src/gui/encoder.cs:2775
 msgid "Encoder exercise name:"
 msgstr "Ime vaje kodirnika:"
 
-#: ../src/gui/encoder.cs:2604 ../src/gui/encoder.cs:2645
+#: ../src/gui/encoder.cs:2776 ../src/gui/encoder.cs:2817
 msgid "Displaced body weight"
 msgstr "Izpodrinjena masa telesa"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:2606
+#: ../src/gui/encoder.cs:2778
 msgid "Resistance"
 msgstr "Odpor"
 
-#: ../src/gui/encoder.cs:2608 ../src/gui/encoder.cs:2649
+#: ../src/gui/encoder.cs:2780 ../src/gui/encoder.cs:2821
 msgid "Speed at 1RM"
 msgstr "Hitrost pri mejni obtežitvi"
 
 #. don't show now
-#: ../src/gui/encoder.cs:2644
+#: ../src/gui/encoder.cs:2816
 msgid "Write the name of the encoder exercise:"
 msgstr "Ime kodirane vaje:"
 
-#: ../src/gui/encoder.cs:2647
+#: ../src/gui/encoder.cs:2819
 msgid "Ressitance"
 msgstr "Odpor"
 
-#: ../src/gui/encoder.cs:2651
+#: ../src/gui/encoder.cs:2823
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../src/gui/encoder.cs:2678
+#: ../src/gui/encoder.cs:2850
 msgid "Error: Missing name of exercise."
 msgstr "Napaka: manjka ime vaje."
 
-#: ../src/gui/encoder.cs:2681
+#: ../src/gui/encoder.cs:2853
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
-#: ../src/gui/encoder.cs:2724 ../src/gui/encoder.cs:2838
+#: ../src/gui/encoder.cs:2896 ../src/gui/encoder.cs:3010
 msgid "Duration"
 msgstr "Trajanje"
 
-#: ../src/gui/encoder.cs:2725 ../src/gui/encoder.cs:2839
+#: ../src/gui/encoder.cs:2897 ../src/gui/encoder.cs:3011
 msgid "Range"
 msgstr "Območje"
 
-#: ../src/gui/encoder.cs:2726 ../src/gui/encoder.cs:2840
+#: ../src/gui/encoder.cs:2898 ../src/gui/encoder.cs:3012
 msgid "MeanSpeed"
 msgstr "Povprečna hitrost"
 
-#: ../src/gui/encoder.cs:2727 ../src/gui/encoder.cs:2841
+#: ../src/gui/encoder.cs:2899 ../src/gui/encoder.cs:3013
 msgid "MaxSpeed"
 msgstr "Največja hitrost"
 
-#: ../src/gui/encoder.cs:2728 ../src/gui/encoder.cs:2842
+#: ../src/gui/encoder.cs:2900 ../src/gui/encoder.cs:3014
 msgid "MaxSpeedTime"
 msgstr "Čas največje hitrosti"
 
-#: ../src/gui/encoder.cs:2729 ../src/gui/encoder.cs:2843
+#: ../src/gui/encoder.cs:2901 ../src/gui/encoder.cs:3015
 msgid "MeanPower"
 msgstr "Povprečna moč"
 
-#: ../src/gui/encoder.cs:2730 ../src/gui/encoder.cs:2844
+#: ../src/gui/encoder.cs:2902 ../src/gui/encoder.cs:3016
 msgid "PeakPower"
 msgstr "Končna moč"
 
-#: ../src/gui/encoder.cs:2731 ../src/gui/encoder.cs:2845
+#: ../src/gui/encoder.cs:2903 ../src/gui/encoder.cs:3017
 msgid "PeakPowerTime"
 msgstr "Čas končne moči"
 
-#: ../src/gui/encoder.cs:2732 ../src/gui/encoder.cs:2846
+#: ../src/gui/encoder.cs:2904 ../src/gui/encoder.cs:3018
 msgid "PeakPower/PPT"
 msgstr "Končna moč/PPT"
 
-#: ../src/gui/encoder.cs:2833
+#: ../src/gui/encoder.cs:3005
 msgid "Series"
 msgstr "Niz"
 
-#: ../src/gui/encoder.cs:2836
+#: ../src/gui/encoder.cs:3008
 msgid "Displaced weight"
 msgstr "Izpodrinjena masa telesa"
 
-#: ../src/gui/encoder.cs:3662 ../src/gui/encoder.cs:3755
+#: ../src/gui/encoder.cs:4064 ../src/gui/encoder.cs:4157
 msgid "Please, wait."
 msgstr "Počakajte."
 
-#: ../src/gui/encoder.cs:3810 ../src/gui/encoder.cs:3848
+#: ../src/gui/encoder.cs:4218 ../src/stats/main.cs:1477
+msgid "Sorry. Error doing graph."
+msgstr "Oprostite, napaka pri izdelavi grafa."
+
+#: ../src/gui/encoder.cs:4219 ../src/stats/main.cs:1478
+msgid "Maybe R is not installed."
+msgstr "Morda R ni nameščen."
+
+#: ../src/gui/encoder.cs:4223 ../src/gui/encoder.cs:4256
 msgid "Cancelled"
 msgstr "Preklicano"
 
-#: ../src/gui/encoder.cs:3818
+#: ../src/gui/encoder.cs:4228
 msgid "Finished"
 msgstr "Dokončano"
 
@@ -7929,14 +7948,6 @@ msgstr "Srednje vrednosti vsakega testiranca"
 msgid "Dispersion"
 msgstr "Razpršitev"
 
-#: ../src/stats/main.cs:1477
-msgid "Sorry. Error doing graph."
-msgstr "Oprostite, napaka pri izdelavi grafa."
-
-#: ../src/stats/main.cs:1478
-msgid "Maybe R is not installed."
-msgstr "Morda R ni nameščen."
-
 #: ../src/stats/main.cs:1481
 msgid "Chronojump Graph"
 msgstr "Graf ChronoJump"
@@ -8044,6 +8055,12 @@ msgstr "Razlika"
 #: ../src/treeViewRun.cs:49 ../src/treeViewRun.cs:125
 msgid "Runner"
 msgstr "Tekač"
+
+#~ msgid "Type:"
+#~ msgstr "Vrsta:"
+
+#~ msgid "Update signal (save it again if changed)"
+#~ msgstr "Posodobi signal (in ga znova shrani, če je spremenjen)"
 
 #~ msgid "Inertia Momentum"
 #~ msgstr "Masni vztrajnostni moment"

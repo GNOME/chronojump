@@ -3751,9 +3751,13 @@ Log.WriteLine(str);
 		Log.WriteLine(ecc.DirectionAsString());
 		Log.WriteLine(ecc.startFrame.ToString());
 		Log.WriteLine(ecc.endFrame.ToString());
-
-		//evaluate only concentric curves	
-		if(ecc.up && (ecc.endFrame - ecc.startFrame) > 0) {
+		
+		string eccon = findEccon(true);
+			
+		//if eccon == "c" only up phase
+		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
+				(ecc.endFrame - ecc.startFrame) > 0 ) 
+		{
 			int [] curve = new int[ecc.endFrame - ecc.startFrame];
 			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
 				curve[k]=encoderReaded[j];
@@ -3777,12 +3781,16 @@ Log.WriteLine(str);
 
 			rengine.Evaluate("speedCut$y=abs(speedCut$y)");
 			
-			//for concentric
-			rengine.Evaluate("minSpeedT <- min(which(speedCut$y == max(speedCut$y)))");
-			rengine.Evaluate("maxSpeedT <- max(which(speedCut$y == max(speedCut$y)))");
+			if(ecc.up) { //concentric
+				rengine.Evaluate("speedT1 <- min(which(speedCut$y == max(speedCut$y)))");
+				rengine.Evaluate("speedT2 <- max(which(speedCut$y == max(speedCut$y)))");
+			} else {
+				rengine.Evaluate("speedT1 <- min(which(speedCut$y == min(speedCut$y)))");
+				rengine.Evaluate("speedT2 <- max(which(speedCut$y == min(speedCut$y)))");
+			}
 			
-			int minSpeedT = rengine.GetSymbol("minSpeedT").AsInteger().First();
-			int maxSpeedT = rengine.GetSymbol("maxSpeedT").AsInteger().First();
+			int speedT1 = rengine.GetSymbol("speedT1").AsInteger().First();
+			int speedT2 = rengine.GetSymbol("speedT2").AsInteger().First();
 
 			rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
 			int bcrossLen = rengine.GetSymbol("bcrossLen").AsInteger().First();
@@ -3797,12 +3805,12 @@ Log.WriteLine(str);
 			if(bcrossLen == 0)
 				x_ini = 0;
 			else if(bcrossLen == 1) {
-				if(bcross[0] < minSpeedT)
+				if(bcross[0] < speedT1)
 					x_ini = bcross[0];
 			} else {
 				x_ini = bcross[0];	//not 1, we are in C# now
 				for(int i=0; i < bcross.Length; i++) {
-					if(bcross[i] < minSpeedT)
+					if(bcross[i] < speedT1)
 						x_ini = bcross[i];	//left adjust
 				}
 			}
@@ -3821,11 +3829,11 @@ Log.WriteLine(str);
 			if(bcrossLen == 0) {
 				x_end = curveToR.Length;
 			} else if(bcrossLen == 1) {
-				if(bcross[0] > maxSpeedT)
+				if(bcross[0] > speedT2)
 					x_end = bcross[0];
 			} else {
 				for(int i=bcross.Length -1; i >= 0; i--) {
-					if(bcross[i] > maxSpeedT)
+					if(bcross[i] > speedT2)
 						x_end = bcross[i];	//right adjust
 				}
 			}
@@ -3905,11 +3913,7 @@ Log.WriteLine(str);
 			//rengine.Evaluate("force <- mass*accel$y')
 			rengine.Evaluate("power <- force*speed$y");
 
-
-			//TODO: change this, obtain from GUI
-			string eccon = "c";
-
-			if(eccon == "c")
+			if(ecc.up) //concentric
 				rengine.Evaluate("meanPower <- mean(power)");
 			else
 				rengine.Evaluate("meanPower <- mean(abs(power))");
@@ -3947,10 +3951,10 @@ Log.WriteLine(str);
 			Log.WriteLine(string.Format(
 						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, maxSpeedT: {3}\n" + 
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
-						height, meanSpeed, maxSpeed, maxSpeedT, meanPower, peakPower, peakPowerT));
+						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
 			
 			encoderCaptureStringR += string.Format("\n1,1,a,1,1,1,1,{0},{1},{2},{3},{4},{5},1,1", 
-					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), maxSpeedT,
+					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
 					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), peakPowerT );
 		
 			treeviewEncoderCaptureRemoveColumns();

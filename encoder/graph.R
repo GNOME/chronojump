@@ -1795,12 +1795,12 @@ doProcess <- function(options) {
 			#plot speed
 			par(new=T)	
 			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-			plot((1:length(rawdata))/1000, speed$y, col="gray",
+			plot((1:length(rawdata))/1000, speed$y, col="green2",
 		     		type="l", 
 				xlim=c(1,length(rawdata))/1000,	#ms -> s
 				#ylim=c(-.25,.25),		#to test speed at small changes
 		     		xlab="",ylab="",axes=F)
-			mtext("speed ",side=4,adj=1,line=-1,col="gray")
+			mtext("speed ",side=4,adj=1,line=-1,col="green2")
 			abline(h=0,lty=2,col="gray")
 		}
 	}

@@ -61,9 +61,9 @@
      inkscape:window-height="711"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.31340614"
-     inkscape:cx="260.30902"
-     inkscape:cy="-287.92853"
+     inkscape:zoom="0.95205745"
+     inkscape:cx="408.59508"
+     inkscape:cy="-1062.519"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -735,19 +735,19 @@
        id="tspan3075" /></text>
   <text
      xml:space="preserve"
-     style="font-size:42.17992019999999798px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;text-anchor:middle;text-align:center"
-     x="259.17627"
-     y="999.66211"
+     style="font-size:42.1799202px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="311.69412"
+     y="1356.7834"
      id="text3146"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="-45.176151"
-       y="999.66211"
-       id="tspan3150">chronojump_icon.png  48x48</tspan><tspan
+       x="311.69412"
+       y="1356.7834"
+       id="tspan3150">chronojump_icon_google_appd.png  143x59</tspan><tspan
        sodipodi:role="line"
-       x="-45.176151"
-       y="1052.387"
-       id="tspan3240">then on Gimp save as .ico</tspan></text>
+       x="311.69412"
+       y="1409.5083"
+       id="tspan3240" /></text>
   <g
      id="g3188"
      transform="translate(-125.86151,0)"
@@ -3126,4 +3126,70 @@
        id="tspan3253-8-8-6"
        x="273.20276"
        y="-61.366703">Same as above but with the points (platform)</tspan></text>
+  <g
+     id="g3473"
+     transform="translate(-91.38104,-5.2517839)"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_google_apps.png"
+     inkscape:export-xdpi="28.860001"
+     inkscape:export-ydpi="28.860001">
+    <rect
+       inkscape:export-ydpi="23.48"
+       inkscape:export-xdpi="23.48"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon.png"
+       y="1110.2208"
+       x="185.59508"
+       height="184"
+       width="446"
+       id="rect3495-5-0-8"
+       style="fill:#0e1e46;fill-opacity:1;stroke:none" />
+    <path
+       sodipodi:nodetypes="cccccccccccccccc"
+       id="path3623-5-9-4-0-0"
+       d="m 194.16808,1186.8465 c 44.61922,76.958 131.12022,-61.9331 139.05922,-64.6832 7.30636,-9.1847 38.53873,-20.3859 76.72224,38.8099 6.39773,8.1598 25.02739,14.3558 34.52507,-4.6202 -1.50393,1.764 -14.67735,-11.4636 -23.01666,-18.4809 9.93024,4.1021 18.45564,1.4358 30.68887,16.6329 8.80247,0.3298 19.65345,1.835 33.56608,12.0125 10.46534,11.9185 -20.40164,7.9073 -32.60706,11.0885 -23.01666,13.185 -20.19868,38.0343 -37.40209,32.3415 -11.22533,34.4902 -20.65122,35.2997 -26.85286,28.6454 26.23515,-21.8466 12.28572,-32.2596 0,-32.3415 -17.18592,4.5326 -14.67246,29.7716 -3.83603,63.7589 31.32832,-0.1994 53.06626,11.1095 75.76337,12.0125 -17.73852,12.6287 -29.22928,-4.312 -81.51758,-0.924 -12.99967,-49.1812 -42.26458,-92.4851 -84.39453,-88.7081 -78.82576,59.3627 -89.59187,29.3419 -100.69804,-5.5442 z"
+       style="fill:#e7be19;fill-opacity:1;stroke:none"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="matrix(0.97698976,0,0,0.97698976,155.57026,426.75785)"
+       id="g3182-5">
+      <text
+         xml:space="preserve"
+         style="font-size:43.44813919px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+         x="386.11078"
+         y="821.37799"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-5"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="386.11078"
+           y="821.37799"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+           id="tspan3157-5">CHRONO</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:43.44813919px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+         x="386.11078"
+         y="866.2356"
+         id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4-1"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           x="386.11078"
+           y="866.2356"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+           id="tspan3157-9-0">JUMP</tspan></text>
+    </g>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:42.1799202px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="237.66899"
+     y="1014.6281"
+     id="text3146-2"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="237.66899"
+       y="1014.6281"
+       id="tspan3150-0">chronojump_icon.png  48x48</tspan><tspan
+       sodipodi:role="line"
+       x="237.66899"
+       y="1067.353"
+       id="tspan3240-3">then on Gimp save as .ico</tspan></text>
 </svg>

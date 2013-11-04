@@ -1742,9 +1742,9 @@ public partial class ChronoJumpWindow
 	bool RInitialized = false;	
 	REngine rengine;
 
-	private void runEncoderCaptureCsharpInitializeR() {
+	private bool runEncoderCaptureCsharpInitializeR() {
 		if(RInitialized)
-			return;
+			return true;
 
 		Log.WriteLine("initializing rdotnet");
 		
@@ -1752,12 +1752,20 @@ public partial class ChronoJumpWindow
 		// From v1.5, REngine requires explicit initialization.
 		// You can set some parameters.
 
-		rengine.Initialize();
+		try {
+			rengine.Initialize();
+		} catch {
+			return false;
+		}
 		//Previous command, unfortunatelly localizes all GUI to english
 		//then call Catalog.Init again in order to see new windows localised		
 		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 
-		rengine.Evaluate("library(\"EMD\")");
+		try {
+			rengine.Evaluate("library(\"EMD\")");
+		} catch {
+			return false;
+		}
 
 		// .NET Framework array to R vector.
 		NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
@@ -1776,6 +1784,8 @@ public partial class ChronoJumpWindow
 		RInitialized = true;
 
 		Log.WriteLine("initialized rdotnet");
+
+		return true;
 	}
 		
 
@@ -4017,7 +4027,14 @@ Log.WriteLine(str);
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				
-				runEncoderCaptureCsharpInitializeR();
+				bool ok = runEncoderCaptureCsharpInitializeR();
+				if(! ok) {
+					new DialogMessage(Constants.MessageTypes.WARNING,
+							Catalog.GetString("Sorry. Error doing graph.") +
+							"\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
+							"\n\nhttp://www.r-project.org/");
+					return;
+				}
 
 				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
 				layout_encoder_capture = new Pango.Layout (encoder_capture_drawingarea.PangoContext);
@@ -4225,7 +4242,7 @@ Log.WriteLine(str);
 				if(encoderProcessProblems) {
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry. Error doing graph.") + 
-							"\n" + Catalog.GetString("Maybe R is not installed.") + 
+							"\n" + Catalog.GetString("Maybe R or EMD are not installed.") + 
 							"\n\nhttp://www.r-project.org/");
 					encoderProcessProblems = false;
 				} else

@@ -157,6 +157,7 @@ public partial class ChronoJumpWindow
 	Gdk.Pixmap event_execute_pixmap = null;
 	
 
+	string event_execute_label_simulated;
 	int event_execute_personID;	
 	//int sessionID;
 	//string event_execute_personName;	
@@ -187,6 +188,7 @@ public partial class ChronoJumpWindow
 	
 	//for writing text
 	Pango.Layout layout;
+	Pango.Layout layoutBig;
 
 	static EventGraphConfigureWindow eventGraphConfigureWin;
 	
@@ -196,6 +198,7 @@ public partial class ChronoJumpWindow
 	
 
 	ExecutingGraphData event_execute_initializeVariables (
+			bool simulated,
 			int personID,
 			string personName,
 			string phasesName, 
@@ -213,6 +216,10 @@ public partial class ChronoJumpWindow
 
 		event_execute_configureColors();
 	
+		event_execute_label_simulated = "";
+		if(simulated) 
+			event_execute_label_simulated = Catalog.GetString("Simulated");
+
 		event_graph_label_graph_person.Text = personName;
 		event_graph_label_graph_test.Text = event_execute_eventType;
 				
@@ -263,6 +270,10 @@ public partial class ChronoJumpWindow
 		
 		layout = new Pango.Layout (event_execute_drawingarea.PangoContext);
 		layout.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+
+		layoutBig = new Pango.Layout (event_execute_drawingarea.PangoContext);
+		layoutBig.FontDescription = Pango.FontDescription.FromString ("Courier 14");
+		//layoutBig.Alignment = Pango.Alignment.Center; //doesn't work, see GetPixelSize below
 	
 		eventHasEnded = false;
 
@@ -1037,6 +1048,18 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_label_reaction_time_session.Text = Util.TrimDecimals(timeSession.ToString(), prefsDigitsNumber);
 	}
 	
+	private void plotSimulatedMessageIfNeeded(int ancho, int alto) {
+		if(event_execute_label_simulated != "") {
+			layoutBig.SetMarkup(event_execute_label_simulated);
+			int lWidth = 1;
+			int lHeight = 1;
+			layoutBig.GetPixelSize(out lWidth, out lHeight); 
+			event_execute_pixmap.DrawLayout (pen_negro, 
+					Convert.ToInt32(ancho/2 - lWidth/2), 
+					Convert.ToInt32(alto/2 - lHeight/2), 
+					layoutBig);
+		}
+	}
 
 	private void paintJumpSimple (Gtk.DrawingArea drawingarea, string [] jumps, 
 			double tvNow, double tvPerson, double tvSession, 
@@ -1111,6 +1134,8 @@ Log.WriteLine("Preparing reactive A");
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft + tctfSep, 
 						0, layout);
 			}
+
+			plotSimulatedMessageIfNeeded(ancho, alto);
 			
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1167,6 +1192,8 @@ Log.WriteLine("Preparing reactive A");
 						Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/runs.Length)-barDesplLeft, 
 						0, layout);
 			}
+			
+			plotSimulatedMessageIfNeeded(ancho, alto);
 		}
 	}
 
@@ -1259,6 +1286,9 @@ Log.WriteLine("Preparing reactive A");
 					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTVStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin),
 					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin));
 
+			
+			plotSimulatedMessageIfNeeded(ancho, alto);
+			
 			//bells & images
 			event_execute_image_jump_reactive_tf_good.Hide();
 			event_execute_image_jump_reactive_tf_bad.Hide();
@@ -1437,6 +1467,8 @@ Log.WriteLine("Preparing reactive A");
 				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 				event_execute_image_run_interval_time_bad.Show();
 			}
+			
+			plotSimulatedMessageIfNeeded(ancho, alto);
 		}
 		
 		event_execute_label_run_interval_time_now.Text = Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber);
@@ -1493,7 +1525,8 @@ Log.WriteLine("Preparing reactive A");
 			}
 		
 			drawCircleAndWriteValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
-
+			
+			plotSimulatedMessageIfNeeded(ancho, alto);
 		}
 		
 		event_execute_label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber);

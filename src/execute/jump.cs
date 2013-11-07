@@ -266,7 +266,7 @@ public class JumpExecute : EventExecute
 						Log.Write(string.Format("t1:{0}", timestamp));
 
 						tv = timestamp / 1000.0;
-						write ();
+						write();
 
 						success = true;
 						
@@ -306,7 +306,7 @@ public class JumpExecute : EventExecute
 						//if(fixedValue == 0.5) 
 						if(type == Constants.TakeOffName || type == Constants.TakeOffWeightName) {
 							tv = 0;
-							write ();
+							write();
 							success = true;
 						}
 

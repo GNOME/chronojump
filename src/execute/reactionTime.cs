@@ -166,7 +166,7 @@ public class ReactionTimeExecute : EventExecute
 					Log.Write(string.Format("t1:{0}", timestamp));
 
 					time = timestamp / 1000.0;
-					write ();
+					write();
 
 					success = true;
 

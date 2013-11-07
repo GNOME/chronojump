@@ -3326,6 +3326,7 @@ Console.WriteLine("X");
 			showUpdateStatsAndHideData(false);
 
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -3478,6 +3479,7 @@ Log.WriteLine("DDD 2");
 
 		//show the event doing window
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Jumps"),  	  //name of the different moments
@@ -3636,6 +3638,7 @@ Log.WriteLine("DDD 2");
 			showUpdateStatsAndHideData(false);
 
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -3765,6 +3768,7 @@ Log.WriteLine("DDD 2");
 
 		//show the event doing window
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Tracks"),  	  //name of the different moments
@@ -3889,6 +3893,7 @@ Log.WriteLine("DDD 2");
 			showUpdateStatsAndHideData(false);
 
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Phases"),  	  //name of the different moments
@@ -3999,6 +4004,7 @@ Log.WriteLine("DDD 2");
 
 		//show the event doing window
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Pulses"),  	  //name of the different moments
@@ -4178,6 +4184,7 @@ Log.WriteLine("DDD 2");
 
 		//show the event doing window
 		ExecutingGraphData egd = event_execute_initializeVariables(
+			! chronopicWin.Connected,	//is simulated
 			currentPerson.UniqueID, 
 			currentPerson.Name, 
 			Catalog.GetString("Changes"),  	  //name of the different moments

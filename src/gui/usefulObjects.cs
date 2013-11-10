@@ -57,6 +57,8 @@ public class PrepareEventGraphJumpSimple {
 	public string [] jumpsAtSQL;
 	public double tvPersonAVGAtSQL;
 	public double tvSessionAVGAtSQL;
+	public double heightPersonAVGAtSQL;
+	public double heightSessionAVGAtSQL;
 	public double tcPersonAVGAtSQL;
 	public double tcSessionAVGAtSQL;
 
@@ -78,6 +80,17 @@ public class PrepareEventGraphJumpSimple {
 				table, type, "TV");
 		tvSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
 				sessionID, -1, table, type, "TV");
+
+		//need to calculate height also, because:
+		//it's different to have mean of tv and then calculate height of that mean
+		//than have every height and then calculate the mean
+
+		heightPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				sessionID, personID, 
+				table, type, "100*4.9*(TV/2)*(TV/2)");
+		heightSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				sessionID, -1, table, type, "100*4.9*(TV/2)*(TV/2)");
+
 
 		tcPersonAVGAtSQL = 0; 
 		tcSessionAVGAtSQL = 0; 

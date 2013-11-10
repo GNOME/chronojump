@@ -611,6 +611,7 @@ public partial class ChronoJumpWindow
 		//printLabels
 		printLabelsJumpSimple (
 				eventGraph.tv, eventGraph.tvPersonAVGAtSQL, eventGraph.tvSessionAVGAtSQL, 
+				eventGraph.heightPersonAVGAtSQL, eventGraph.heightSessionAVGAtSQL, 
 				eventGraph.tc, eventGraph.tcPersonAVGAtSQL, eventGraph.tcSessionAVGAtSQL);
 		
 		// -- refresh
@@ -998,7 +999,11 @@ Log.WriteLine("Preparing reactive A");
 	}
 	
 
-	private void printLabelsJumpSimple (double tvNow, double tvPerson, double tvSession, double tcNow, double tcPerson, double tcSession) {
+	private void printLabelsJumpSimple (
+			double tvNow, double tvPerson, double tvSession, 
+			double heightPerson, double heightSession,
+			double tcNow, double tcPerson, double tcSession) 
+	{
 		if(tcNow > 0) {
 			event_execute_label_jump_simple_tc_now.Text = Util.TrimDecimals(tcNow.ToString(), prefsDigitsNumber);
 			event_execute_label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), prefsDigitsNumber);
@@ -1012,12 +1017,12 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), prefsDigitsNumber);
 		event_execute_label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), prefsDigitsNumber);
 		
+		//current height is calculated from tvNow
+		//heightPerson and heightSession is calculated for every jump, then done the AVG, then send here
 		event_execute_label_jump_simple_height_now.Text = Util.TrimDecimals(
 				Util.GetHeightInCentimeters(tvNow.ToString()) , prefsDigitsNumber);
-		event_execute_label_jump_simple_height_person.Text = Util.TrimDecimals(
-				Util.GetHeightInCentimeters(tvPerson.ToString()) , prefsDigitsNumber);
-		event_execute_label_jump_simple_height_session.Text = Util.TrimDecimals(
-				Util.GetHeightInCentimeters(tvSession.ToString()) , prefsDigitsNumber);
+		event_execute_label_jump_simple_height_person.Text = Util.TrimDecimals(heightPerson.ToString(), prefsDigitsNumber);
+		event_execute_label_jump_simple_height_session.Text = Util.TrimDecimals(heightSession.ToString(), prefsDigitsNumber);
 	}
 	
 	private void printLabelsRunSimple (double timeNow, double timePerson, double timeSession, double speedNow, double speedPerson, double speedSession) {

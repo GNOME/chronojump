@@ -1041,7 +1041,21 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_label_reaction_time_session.Text = Util.TrimDecimals(timeSession.ToString(), prefsDigitsNumber);
 	}
 	
-	private void plotSimulatedMessageIfNeeded(int ancho, int alto) {
+	//used on simple tests
+	private void plotSimulatedMessageIfNeededAtLast(int x, int alto) {
+		if(event_execute_label_simulated != "") {
+			layoutBig.SetMarkup(event_execute_label_simulated);
+			int lWidth = 1;
+			int lHeight = 1;
+			layoutBig.GetPixelSize(out lWidth, out lHeight); 
+			event_execute_pixmap.DrawLayout (pen_negro, 
+					Convert.ToInt32(x - lWidth/2), 
+					Convert.ToInt32(alto/2 - lHeight/2), 
+					layoutBig);
+		}
+	}
+	//used on jumps reactive, runs interval
+	private void plotSimulatedMessageIfNeededAtCenter(int ancho, int alto) {
 		if(event_execute_label_simulated != "") {
 			layoutBig.SetMarkup(event_execute_label_simulated);
 			int lWidth = 1;
@@ -1061,6 +1075,7 @@ Log.WriteLine("Preparing reactive A");
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
+		int count;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		writeMarginsText(maxValue, minValue, alto);
@@ -1087,8 +1102,8 @@ Log.WriteLine("Preparing reactive A");
 			}
 
 			//red for TC
+			count = 0;
 			if(tcNow > 0) {
-				int count = 0;
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
 					Rectangle rect = new Rectangle(
@@ -1105,8 +1120,8 @@ Log.WriteLine("Preparing reactive A");
 		
 			//blue for TF
 			//check it's not a take off
+			count = 0;
 			if(tvNow > 0) {
-				int count = 0;
 				foreach(string myStr in jumps) {
 					string [] jump = myStr.Split(new char[] {':'});
 					//jump[5] is ok fo jump.tv and for reactionTime.time
@@ -1128,7 +1143,10 @@ Log.WriteLine("Preparing reactive A");
 						0, layout);
 			}
 
-			plotSimulatedMessageIfNeeded(ancho, alto);
+			plotSimulatedMessageIfNeededAtLast(
+					Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/jumps.Length)-barDesplLeft + tctfSep 
+					+ barWidth/2,
+				       	alto);
 			
 			//paint reference guide black and green if needed
 			drawGuideOrAVG(pen_negro_discont, eventGraphConfigureWin.BlackGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
@@ -1142,6 +1160,7 @@ Log.WriteLine("Preparing reactive A");
 	{
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
+		int count;
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		writeMarginsText(maxValue, minValue, alto);
@@ -1159,12 +1178,12 @@ Log.WriteLine("Preparing reactive A");
 			drawGuideOrAVG(pen_green_discont, eventGraphConfigureWin.GreenGuide, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 
 			//blue for TF
+			count = 0;
 			if(now > 0) {
 				//blue tf average discountinuos line	
 				drawGuideOrAVG(pen_azul_claro, 	person, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 				drawGuideOrAVG(pen_azul_claro_discont, session, alto, ancho, topMargin, bottomMargin, maxValue, minValue);
 		
-				int count = 0;
 				foreach(string myStr in runs) {
 					string [] run = myStr.Split(new char[] {':'});
 					Rectangle rect = new Rectangle(
@@ -1186,7 +1205,10 @@ Log.WriteLine("Preparing reactive A");
 						0, layout);
 			}
 			
-			plotSimulatedMessageIfNeeded(ancho, alto);
+			plotSimulatedMessageIfNeededAtLast(
+					Convert.ToInt32((ancho-event_execute_rightMargin)*(count-.5)/runs.Length)-barDesplLeft 
+					+ barWidth/2,
+				       	alto);
 		}
 	}
 
@@ -1280,7 +1302,7 @@ Log.WriteLine("Preparing reactive A");
 					Convert.ToInt32((ancho-event_execute_rightMargin)*(posMin+.5)/jumps), calculatePaintHeight(Convert.ToDouble(myTCStringFull[posMin]), alto, maxValue, minValue, topMargin, bottomMargin));
 
 			
-			plotSimulatedMessageIfNeeded(ancho, alto);
+			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 			
 			//bells & images
 			event_execute_image_jump_reactive_tf_good.Hide();
@@ -1461,7 +1483,7 @@ Log.WriteLine("Preparing reactive A");
 				event_execute_image_run_interval_time_bad.Show();
 			}
 			
-			plotSimulatedMessageIfNeeded(ancho, alto);
+			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 		}
 		
 		event_execute_label_run_interval_time_now.Text = Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber);
@@ -1519,7 +1541,7 @@ Log.WriteLine("Preparing reactive A");
 		
 			drawCircleAndWriteValue(pen_azul, myTimeDouble, --count, pulses, ancho, alto, maxValue, minValue, topMargin, bottomMargin);
 			
-			plotSimulatedMessageIfNeeded(ancho, alto);
+			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 		}
 		
 		event_execute_label_pulse_now.Text = Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber);

@@ -4341,8 +4341,8 @@ Console.WriteLine("X");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
-					if(lastJumpIsSimple) 
-						PrepareJumpSimpleGraph(currentJump.Tv, currentJump.Tc);
+					if(lastJumpIsSimple)  
+						PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject);
 					else
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),

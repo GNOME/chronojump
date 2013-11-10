@@ -366,6 +366,7 @@ public class JumpExecute : EventExecute
 		} else {
 			tc = 0;
 		}
+
 		
 		/*	
 		string myStringPush =   
@@ -380,8 +381,10 @@ public class JumpExecute : EventExecute
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 
+		
+		string table = Constants.JumpTable;
 
-		uniqueID = SqliteJump.Insert(false, Constants.JumpTable, "NULL", personID, sessionID, 
+		uniqueID = SqliteJump.Insert(false, table, "NULL", personID, sessionID, 
 				type, tv, tc, fall,  //type, tv, tc, fall
 				weight, description, angle, Util.BoolToNegativeInt(simulated));
 
@@ -391,8 +394,8 @@ public class JumpExecute : EventExecute
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
-		
-		PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc);
+	
+		PrepareEventGraphJumpSimpleObject = new PrepareEventGraphJumpSimple(tv, tc, sessionID, personID, table, type);
 		needUpdateGraphType = eventType.JUMP;
 		needUpdateGraph = true;
 		

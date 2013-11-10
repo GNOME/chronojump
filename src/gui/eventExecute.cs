@@ -550,33 +550,13 @@ public partial class ChronoJumpWindow
 	
 
 	// simple and DJ jump	
-	public void PrepareJumpSimpleGraph(double tv, double tc) 
+	public void PrepareJumpSimpleGraph(PrepareEventGraphJumpSimple eventGraph)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		
-		//obtain data
-		string []jumps = SqliteJump.SelectJumps(
-				currentSession.UniqueID, event_execute_personID, "", event_execute_eventType);
-
-		double tvPersonAVG = SqliteSession.SelectAVGEventsOfAType(
-				currentSession.UniqueID, event_execute_personID, 
-				event_execute_tableName, event_execute_eventType, "TV");
-		double tvSessionAVG = SqliteSession.SelectAVGEventsOfAType(
-				currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TV");
-
-		double tcPersonAVG = 0; 
-		double tcSessionAVG = 0; 
-		if(tc > 0) {
-			tcPersonAVG = SqliteSession.SelectAVGEventsOfAType(
-					currentSession.UniqueID, event_execute_personID, 
-					event_execute_tableName, event_execute_eventType, "TC");
-			tcSessionAVG = SqliteSession.SelectAVGEventsOfAType(
-					currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "TC");
-		}
 		
 		double maxValue = 0;
 		double minValue = 0;
@@ -586,9 +566,11 @@ public partial class ChronoJumpWindow
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
 			maxValue = Util.GetMax(
-					tv.ToString() + "=" + tvPersonAVG.ToString() + "=" + tvSessionAVG.ToString() + "=" +
-					tc.ToString() + "=" + tcPersonAVG.ToString() + "=" + tcSessionAVG.ToString());
-			foreach(string myStr in jumps) {
+					eventGraph.tv.ToString() + "=" + 
+					eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString() + "=" +
+					eventGraph.tc.ToString() + "=" + 
+					eventGraph.tcPersonAVGAtSQL.ToString() + "=" + eventGraph.tcSessionAVGAtSQL.ToString());
+			foreach(string myStr in eventGraph.jumpsAtSQL) {
 				string [] jump = myStr.Split(new char[] {':'});
 				if(Convert.ToDouble(jump[5]) > maxValue)
 					maxValue = Convert.ToDouble(jump[5]); //tf
@@ -602,11 +584,13 @@ public partial class ChronoJumpWindow
 		
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) {
-			string myString = tv.ToString() + "=" + tvPersonAVG.ToString() + "=" + tvSessionAVG.ToString();
-			if(tc > 0)
-				myString = myString + "=" + tc.ToString() + "=" + tcPersonAVG.ToString() + "=" + tcSessionAVG.ToString();
+			string myString = eventGraph.tv.ToString() + "=" + 
+				eventGraph.tvPersonAVGAtSQL.ToString() + "=" + eventGraph.tvSessionAVGAtSQL.ToString();
+			if(eventGraph.tc > 0)
+				myString = myString + "=" + eventGraph.tc.ToString() + "=" + 
+					eventGraph.tcPersonAVGAtSQL.ToString() + "=" + eventGraph.tcSessionAVGAtSQL.ToString();
 			minValue = Util.GetMin(myString);
-			foreach(string myStr in jumps) {
+			foreach(string myStr in eventGraph.jumpsAtSQL) {
 				string [] jump = myStr.Split(new char[] {':'});
 				if(Convert.ToDouble(jump[5]) < minValue)
 					minValue = Convert.ToDouble(jump[5]); //tf
@@ -619,11 +603,15 @@ public partial class ChronoJumpWindow
 		}
 		
 		//paint graph
-		paintJumpSimple (event_execute_drawingarea, jumps, tv, tvPersonAVG, tvSessionAVG, 
-				tc, tcPersonAVG, tcSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+		paintJumpSimple (event_execute_drawingarea, eventGraph.jumpsAtSQL, 
+				eventGraph.tv, eventGraph.tvPersonAVGAtSQL, eventGraph.tvSessionAVGAtSQL, 
+				eventGraph.tc, eventGraph.tcPersonAVGAtSQL, eventGraph.tcSessionAVGAtSQL,
+			       	maxValue, minValue, topMargin, bottomMargin);
 
 		//printLabels
-		printLabelsJumpSimple (tv, tvPersonAVG, tvSessionAVG, tc, tcPersonAVG, tcSessionAVG);
+		printLabelsJumpSimple (
+				eventGraph.tv, eventGraph.tvPersonAVGAtSQL, eventGraph.tvSessionAVGAtSQL, 
+				eventGraph.tc, eventGraph.tcPersonAVGAtSQL, eventGraph.tcSessionAVGAtSQL);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1797,11 +1785,9 @@ Log.WriteLine("Preparing reactive A");
 	private void on_event_execute_update_graph_in_progress_clicked(object o, EventArgs args) {
 		switch (currentEventType.Type) {
 			case EventType.Types.JUMP:
-				if(thisJumpIsSimple) {
-					PrepareJumpSimpleGraph(
-							currentEventExecute.PrepareEventGraphJumpSimpleObject.tv, 
-							currentEventExecute.PrepareEventGraphJumpSimpleObject.tc);
-				} else {
+				if(thisJumpIsSimple) 
+					PrepareJumpSimpleGraph(currentEventExecute.PrepareEventGraphJumpSimpleObject);
+				else {
 					PrepareJumpReactiveGraph(
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTv, 
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,

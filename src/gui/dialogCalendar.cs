@@ -28,6 +28,7 @@ public class DialogCalendar
 	[Widget] Gtk.Calendar calendar1;
 	
 	private DateTime myDateTime;
+	private bool signalsActive;
 	
 	//for raise a signal and manage it on guis/session.cs (and other places)
 	protected Gtk.Button fakeButtonDateChanged;
@@ -37,6 +38,8 @@ public class DialogCalendar
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_calendar", null);
 		gladeXML.Autoconnect(this);
+	
+		signalsActive = false;
 		
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_calendar);
@@ -46,10 +49,19 @@ public class DialogCalendar
 		calendar1.Date = dateInitial;
 
 		fakeButtonDateChanged = new Button();
+		
+		signalsActive = true;
 	}
 				
 	void on_calendar1_day_selected (object obj, EventArgs args)
 	{
+		/* 
+		   when dialog starts, calendar1.Date = dateInitial changes date
+		   and raises this and it's too early
+		   */
+		if(! signalsActive)
+			return;
+
 		try {
 			Calendar activatedCalendar = (Calendar) obj;
 			myDateTime = activatedCalendar.Date;

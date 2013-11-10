@@ -53,13 +53,44 @@ public class ExecutingGraphData
 }	
 
 public class PrepareEventGraphJumpSimple {
+	//sql data of previous jumps to plot graph and show stats at bottom
+	public string [] jumpsAtSQL;
+	public double tvPersonAVGAtSQL;
+	public double tvSessionAVGAtSQL;
+	public double tcPersonAVGAtSQL;
+	public double tcSessionAVGAtSQL;
+
+	//current data
 	public double tv;
 	public double tc;
 
 	public PrepareEventGraphJumpSimple() {
 	}
 
-	public PrepareEventGraphJumpSimple(double tv, double tc) {
+	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type) 
+	{
+		//select data from SQL to update graph	
+		jumpsAtSQL = SqliteJump.SelectJumps(
+				sessionID, personID, "", type);
+
+		tvPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				sessionID, personID, 
+				table, type, "TV");
+		tvSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				sessionID, -1, table, type, "TV");
+
+		tcPersonAVGAtSQL = 0; 
+		tcSessionAVGAtSQL = 0; 
+		if(tc > 0) {
+			tcPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+					sessionID, personID, 
+					table, type, "TC");
+			tcSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+					sessionID, -1, table, type, "TC");
+		}
+
+		//end of select data from SQL to update graph	
+			
 		this.tv = tv;
 		this.tc = tc;
 	}

@@ -84,15 +84,17 @@ class SqliteReactionTime : Sqlite
 	}
 
 	//if all persons, put -1 in personID
-	public static string[] SelectReactionTimes(int sessionID, int personID) 
+	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID) 
 	{
+		if(!dbconOpened)
+			dbcon.Open();
+
 		string tp = Constants.PersonTable;
 
 		string filterPersonString = "";
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
-		dbcon.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, reactionTime.* " +
 			" FROM " + tp + ", reactionTime " +
 			" WHERE " + tp + ".uniqueID == reactionTime.personID" + 
@@ -125,7 +127,9 @@ class SqliteReactionTime : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		
+		if(!dbconOpened)
+			dbcon.Close();
 
 		string [] myEvents = new string[count];
 		count =0;

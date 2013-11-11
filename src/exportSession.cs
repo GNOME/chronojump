@@ -156,7 +156,7 @@ public class ExportSession
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(false, mySession.UniqueID, -1, "");
 		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1, "");
-		myReactionTimes = SqliteReactionTime.SelectReactionTimes(mySession.UniqueID, -1);
+		myReactionTimes = SqliteReactionTime.SelectReactionTimes(false, mySession.UniqueID, -1);
 		myPulses = SqlitePulse.SelectPulses(mySession.UniqueID, -1);
 		myMCs = SqliteMultiChronopic.SelectTests(mySession.UniqueID, -1);
 	}

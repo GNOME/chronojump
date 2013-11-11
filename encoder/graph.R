@@ -649,7 +649,8 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothin
 
 paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
-	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight 
+	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
+        showSpeed, showAccel, showForce, showPower	
 	) {
 
 	meanSpeedE = 0
@@ -673,12 +674,24 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	a=cumsum(rawdata)
 	a=a+startH
 
+	#to control the placement of the diferent axis on the right
+	axisLineRight = 0
+	marginRight = 8.5
+	if(! showSpeed)
+		marginRight = marginRight -2
+	if(! showAccel)
+		marginRight = marginRight -2
+	if(! showForce)
+		marginRight = marginRight -2
+	if(! showPower)
+		marginRight = marginRight -2
+
 	#all in meters
 	#a=a/1000
 
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
-		par(mar=c(3, 3.5, 5, 8.5))
+		par(mar=c(3, 3.5, 5, marginRight))
 		if(marShrink) #used on "side" compare
 			par(mar=c(1, 1, 4, 1))
 	
@@ -735,7 +748,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	a=rawdata
 	speed <- smooth.spline( 1:length(a), a, spar=smoothing)
        	
-	if(draw) {
+	if(draw & showSpeed) {
 		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$speedy
@@ -756,7 +769,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	
 	#time to arrive to max speed
 	maxSpeedT=min(which(speed$y == max(speed$y)))
-	if(draw & !superpose) {
+	if(draw & showSpeed & !superpose) {
 		abline(v=maxSpeedT, col=cols[1])
 		points(maxSpeedT, max(speed$y),col=cols[1])
 		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
@@ -838,63 +851,70 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#accel2 <- accel2 * 1000
 	#print(accel2)
 
+	#propulsive phase ends when accel is -9.8
+	if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
+		propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
+	} else {
+		propulsiveEnd = max(concentric)
+	}
+
+	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
+	if(isPropulsive) {
+		meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
+	}
+
+	if(eccon == "c") {
+		if(showSpeed) {
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
+		}
+	} else {
+		meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
+		if(showSpeed) {
+			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
+		}
+	}
+
 	if(draw) {
 		ylim=c(-max(abs(range(accel$y))),max(abs(range(accel$y))))	 #put 0 in the middle
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$accely
 
-		#propulsive phase ends when accel is -9.8
-		if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
-			propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
-		} else {
-			propulsiveEnd = max(concentric)
-		}
-
-		meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
-		if(isPropulsive) {
-			meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
-		}
-
-		if(eccon == "c") {
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-		} else {
-			meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
-			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
-			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
-		}
-
 		
 		#plot the speed axis
-		if(showAxes) {
+		if(showAxes & showSpeed) {
 			abline(h=0,lty=3,col="black")
 			if(eccon == "c") {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
 					      round(meanSpeedC,1)),
-				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axis(4, at=meanSpeedC,
 				     labels="Xc",
-				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-2)
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-2)
 			}
 			else {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedE,meanSpeedC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
 					      round(meanSpeedE,1),
 					      round(meanSpeedC,1)),
-				     col=cols[1], lty=lty[1], line=0, lwd=1, padj=-.5)
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axis(4, at=c(meanSpeedE,meanSpeedC),
 				     labels=labelsXeXc,
-				     col=cols[1], lty=lty[1], line=0, lwd=0, padj=-2)
+				     col=cols[1], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
 			}
+			axisLineRight = axisLineRight +2
 		}
 
-		par(new=T)
-		if(highlight==FALSE)
-			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
-		else
-			plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+		if(showAccel) {
+			par(new=T)
+			if(highlight==FALSE)
+				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+				     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
+			else
+				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
+				     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+		}
 			
 		if(isPropulsive) {
 			#propulsive stuff
@@ -903,8 +923,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			points(propulsiveEnd, -g, col="magenta")
 		}
 		
-		if(showAxes)
-			axis(4, col="magenta", lty=lty[1], line=2, lwd=1, padj=-.5)
+		if(showAxes & showAccel) {
+			axis(4, col="magenta", lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
+			axisLineRight = axisLineRight +2
+		}
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
@@ -916,7 +938,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 #print("MAXFORCE!!!!!")
 #print(max(force))
 
-	if(draw) {
+	if(draw & showForce) {
 		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$force
@@ -927,8 +949,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		else
 			plot(startX:length(force),force[startX:length(force)],type="l",
 			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
-		if(showAxes)
-			axis(4, col=cols[2], lty=lty[2], line=4, lwd=1, padj=-.5)
+		if(showAxes) {
+			axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
+			axisLineRight = axisLineRight +2
+		}
 	}
 
 	
@@ -994,7 +1018,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 
 
-	if(draw) {
+	if(draw & showPower) {
 		ylim=c(-max(abs(range(power))),max(abs(range(power))))	#put 0 in the middle
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$power
@@ -1025,27 +1049,28 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
 					      round(meanPowerC,1)),
-				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-.5)
+				     col=cols[3], lty=lty[1], line=axisLineRight, lwd=2, padj=-.5)
 				axis(4, at=meanPowerC,
 				     labels="Xc",
-				     col=cols[3], lty=lty[1], line=6, lwd=2, padj=-2)
+				     col=cols[3], lty=lty[1], line=axisLineRight, lwd=2, padj=-2)
 			}
 			else {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanPowerE,meanPowerC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),
 					      round(meanPowerE,1),
 					      round(meanPowerC,1)),
-				     col=cols[3], lty=lty[1], line=6, lwd=1, padj=-.5)
+				     col=cols[3], lty=lty[1], line=axisLineRight, lwd=1, padj=-.5)
 				axis(4, at=c(meanPowerE,meanPowerC),
 				     labels=labelsXeXc,
-				     col=cols[3], lty=lty[1], line=6, lwd=0, padj=-2)
+				     col=cols[3], lty=lty[1], line=axisLineRight, lwd=0, padj=-2)
 			}
+			axisLineRight = axisLineRight +2
 		}
 	}
 
 	#time to arrive to peak power
 	peakPowerT=min(which(power == max(power)))
-	if(draw & !superpose) {
+	if(draw & !superpose & showPower) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
 		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3])
@@ -1067,22 +1092,59 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		points(peakPowerT,(max(power) * -1),col="red")
 	}
 
+	#TODO: fix this to show only the cinematic values selected by user
 	#legend, axes and title
 	if(draw) {
 		if(legend & showAxes) {
+			legendText=c("Distance (mm)")
+			lty=c(1)
+			lwd=c(2)
+			colors=c("black") 
+			ncol=1
+
+			if(showSpeed) {
+				legendText=c(legendText, "Speed (m/s)")
+				lty=c(lty,1)
+				lwd=c(lwd,2)
+				colors=c(colors,cols[1]) 
+				ncol=ncol+1
+			}
+			if(showAccel) {
+				legendText=c(legendText, "Accel. (m/s²)")
+				lty=c(lty,1)
+				lwd=c(lwd,2)
+				colors=c(colors,"magenta") 
+				ncol=ncol+1
+			}
+			if(showForce) {
+				legendText=c(legendText, "Force (N)")
+				lty=c(lty,1)
+				lwd=c(lwd,2)
+				colors=c(colors,cols[2]) 
+				ncol=ncol+1
+			}
+			if(showPower) {
+				legendText=c(legendText, "Power (W)")
+				lty=c(lty,1)
+				lwd=c(lwd,2)
+				colors=c(colors,cols[3]) 
+				ncol=ncol+1
+			}
+
+
 			#plot legend on top exactly out
 			#http://stackoverflow.com/a/7322792
 			rng=par("usr")
 			lg = legend(0,rng[2], 
-				    legend=c("Distance (mm)","Speed (m/s)","Accel. (m/s²)","Force (N)","Power (W)"), 
-				    lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
-				    col=c("black",cols[1],"magenta",cols[2],cols[3]), 
-				    cex=1, bg="white", ncol=6, bty="n", plot=F)
+				    legend=legendText, 
+				    lty=lty, lwd=lwd, 
+				    col=colors, 
+				    cex=1, bg="white", ncol=ncol, bty="n", plot=F)
 			legend(0,rng[4]+1.25*lg$rect$h, 
-			       legend=c("Distance (mm)","Speed (m/s)","Accel. (m/s²)","Force (N)","Power (W)"), 
-			       lty=c(1,1,1,1,1), lwd=c(2,2,2,2,2), 
-			       col=c("black",cols[1],"magenta",cols[2],cols[3]), 
-			       cex=1, bg="white", ncol=6, bty="n", plot=T, xpd=NA)
+			       legend=legendText, 
+			       lty=lty, lwd=lwd, 
+			       col=colors, 
+			       cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 		}
 		if(showLabels) {
 			mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
@@ -1522,6 +1584,8 @@ doProcess <- function(options) {
 	Mass=as.numeric(options[8])
 	Eccon=options[9]
 	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
+				#in single comes as "single;Speed;Accel;Force;Power", or eg: "single;NoSpeed;NoAccel;Force;Power"
+				#in side same as in single
 	AnalysisOptions=options[11]	
 	SmoothingOneC=options[12]
 	Jump=options[13]
@@ -1537,7 +1601,10 @@ doProcess <- function(options) {
 	print(OutputData1)
 	print(OutputData2)
 	print(SpecialData)
-	
+
+	analysisSingleOrSideSAFE = unlist(strsplit(Analysis, "\\;"))
+	Analysis = analysisSingleOrSideSAFE[1]
+
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri;0.010" (last is momentum)
 	#if nothing: "-;-;-"
@@ -1839,7 +1906,11 @@ doProcess <- function(options) {
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight 
+			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      (analysisSingleOrSideSAFE[2] == "Speed"), #show speed
+			      (analysisSingleOrSideSAFE[3] == "Accel"), #show accel
+			      (analysisSingleOrSideSAFE[4] == "Force"), #show force
+			      (analysisSingleOrSideSAFE[5] == "Power") #show power
 			      )	
 		}
 	}
@@ -1880,7 +1951,11 @@ doProcess <- function(options) {
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight 
+			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      (analysisSingleOrSideSAFE[2] == "Speed"), #show speed
+			      (analysisSingleOrSideSAFE[3] == "Accel"), #show accel
+			      (analysisSingleOrSideSAFE[4] == "Force"), #show force
+			      (analysisSingleOrSideSAFE[5] == "Power") #show power
 			      )
 		}
 		par(mfrow=c(1,1))

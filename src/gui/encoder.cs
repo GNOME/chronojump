@@ -85,6 +85,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
+	[Widget] Gtk.Box hbox_encoder_analyze_show_SAFE;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_force;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
+	
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
@@ -2011,13 +2017,16 @@ public partial class ChronoJumpWindow
 					sendAnalysis += ";max";
 			}
 		}
-			
+		
+		if(sendAnalysis == "single" || sendAnalysis == "side")
+			sendAnalysis = getEncoderAnalysisSAFE(sendAnalysis);
+
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
 			if(! check_encoder_analyze_eccon_together.Active)
 				myEccon = "ecS";
 			int myCurveNum = -1;
-			if(sendAnalysis == "single")
+			if(sendAnalysis.StartsWith("single"))
 				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(
 							combo_encoder_analyze_curve_num_combo));
 
@@ -2292,13 +2301,37 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
+	private string getEncoderAnalysisSAFE(string encoderAnalysis) {
+		if(check_encoder_analyze_show_speed.Active)
+			encoderAnalysis += ";Speed";
+		else
+			encoderAnalysis += ";NoSpeed";
+
+		if(check_encoder_analyze_show_accel.Active)
+			encoderAnalysis += ";Accel";
+		else
+			encoderAnalysis += ";NoAccel";
+
+		if(check_encoder_analyze_show_force.Active)
+			encoderAnalysis += ";Force";
+		else
+			encoderAnalysis += ";NoForce";
+
+		if(check_encoder_analyze_show_power.Active)
+			encoderAnalysis += ";Power";
+		else
+			encoderAnalysis += ";NoPower";
+
+		return encoderAnalysis;
+	}
 
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
-		encoderAnalysis="single";
+		hbox_encoder_analyze_show_SAFE.Visible=true;
+		encoderAnalysis = "single";
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
@@ -2317,6 +2350,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis="superpose";
 		
 		//together, mandatory
@@ -2334,7 +2368,8 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
-		encoderAnalysis="side";
+		hbox_encoder_analyze_show_SAFE.Visible=true;
+		encoderAnalysis = "side";
 		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
@@ -2350,6 +2385,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="powerBars";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
@@ -2367,6 +2403,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=true;
 		hbox_encoder_analyze_mean_or_max.Visible=true;
+		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="cross";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;

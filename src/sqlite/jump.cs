@@ -97,8 +97,11 @@ class SqliteJump : Sqlite
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types put, "" in filterType
-	public static string[] SelectJumps(int sessionID, int personID, string filterWeight, string filterType) 
+	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
+		if(!dbconOpened)
+			dbcon.Open();
+
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 
@@ -118,7 +121,6 @@ class SqliteJump : Sqlite
 		if(filterType != "")
 			filterTypeString = " AND jump.type == '" + filterType + "' ";
 
-		dbcon.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, jump.*, " + tps + ".weight " +
 			" FROM " + tp + ", jump, " + tps + 
 			" WHERE " + tp + ".uniqueID == jump.personID " + 
@@ -140,7 +142,6 @@ class SqliteJump : Sqlite
 
 		int count = new int();
 		count = 0;
-
 		
 		while(reader.Read()) {
 
@@ -162,7 +163,10 @@ class SqliteJump : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		
+		if(!dbconOpened)
+			dbcon.Close();
+
 
 		string [] myJumps = new string[count];
 		count =0;

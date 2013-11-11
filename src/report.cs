@@ -120,7 +120,7 @@ public class Report : ExportSession
 			myPersons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 		}
 		if(ShowSimpleJumps) {
-			myJumps= SqliteJump.SelectJumps(sessionID, -1, "", "");
+			myJumps= SqliteJump.SelectJumps(false, sessionID, -1, "", "");
 		}
 		if(ShowReactiveJumps) {
 			myJumpsRj = SqliteJumpRj.SelectJumps(sessionID, -1, "", "");

@@ -1607,7 +1607,7 @@ public class PersonAddModifyWindow
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {
 				//see if this person has done jumps with weight
-				string [] myJumpsNormal = SqliteJump.SelectJumps(currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
+				string [] myJumpsNormal = SqliteJump.SelectJumps(false, currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 				string [] myJumpsReactive = SqliteJumpRj.SelectJumps(currentSession.UniqueID, currentPerson.UniqueID, "withWeight", "");
 
 				if(myJumpsNormal.Length > 0 || myJumpsReactive.Length > 0) {

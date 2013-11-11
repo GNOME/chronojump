@@ -715,18 +715,18 @@ Log.WriteLine("Preparing reactive A");
 		//obtain data
 		string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, event_execute_personID, event_execute_eventType);
 
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
+		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
+		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
-		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance");
-		//double distanceSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance");
+		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance");
+		//double distanceSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance");
 		//better to know speed like:
 		//SELECT AVG(distance/time) from run; than 
 		//SELECT AVG(distance) / SELECT AVG(time) 
 		//first is ok, because is the speed AVG
 		//2nd is not good because it tries to do an AVG of all distances and times
-		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance/time");
-		double speedSessionAVG = SqliteSession.SelectAVGEventsOfAType(currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance/time");
+		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance/time");
+		double speedSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance/time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -909,9 +909,9 @@ Log.WriteLine("Preparing reactive A");
 		string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, event_execute_personID);
 
 		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(
-				currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
+				false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
 		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(
-				currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
+				false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
 		double maxValue = 0;
 		double minValue = 0;

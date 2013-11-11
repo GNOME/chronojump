@@ -1645,7 +1645,7 @@ public class PersonAddModifyWindow
 		double weight = (double) spinbutton_weight.Value;
 
 		//convert margarias (it's power is calculated using weight and it's written on description)
-		string [] myMargarias = SqliteRun.SelectRuns(currentSession.UniqueID, currentPerson.UniqueID, "Margaria");
+		string [] myMargarias = SqliteRun.SelectRuns(false, currentSession.UniqueID, currentPerson.UniqueID, "Margaria");
 		foreach(string myStr in myMargarias) {
 			string [] margaria = myStr.Split(new char[] {':'});
 			Run mRun = SqliteRun.SelectRunData(Convert.ToInt32(margaria[1]), false);

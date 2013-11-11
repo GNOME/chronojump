@@ -126,7 +126,7 @@ public class Report : ExportSession
 			myJumpsRj = SqliteJumpRj.SelectJumps(sessionID, -1, "", "");
 		}
 		if(ShowSimpleRuns) {
-			myRuns= SqliteRun.SelectRuns(sessionID, -1, "");
+			myRuns= SqliteRun.SelectRuns(false, sessionID, -1, "");
 		}
 		if (ShowIntervalRuns) {
 			myRunsInterval = SqliteRunInterval.SelectRuns(sessionID, -1, "");

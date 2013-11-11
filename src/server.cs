@@ -365,7 +365,7 @@ public class Server
 				countE = 0;					
 				countS = 0;					
 
-				string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, person.UniqueID, "");
+				string [] runs = SqliteRun.SelectRuns(false, currentSession.UniqueID, person.UniqueID, "");
 				Sqlite.Open();
 				foreach(string myRun in runs) {
 					string [] js = myRun.Split(new char[] {':'});

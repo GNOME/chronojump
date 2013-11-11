@@ -89,8 +89,11 @@ class SqliteRun : Sqlite
 	//if all sessions, put -1 in sessionID
 	//if all persons, put -1 in personID
 	//if all types, put "" in filterType
-	public static string[] SelectRuns(int sessionID, int personID, string filterType) 
+	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
 	{
+		if(!dbconOpened)
+			dbcon.Open();
+
 		string tp = Constants.PersonTable;
 
 		string filterSessionString = "";
@@ -105,7 +108,6 @@ class SqliteRun : Sqlite
 		if(filterType != "")
 			filterTypeString = " AND run.type == '" + filterType + "' " ;
 
-		dbcon.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, run.* " +
 			" FROM " + tp + ", run " +
 			" WHERE " + tp + ".uniqueID == run.personID" + 
@@ -141,7 +143,9 @@ class SqliteRun : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		
+		if(!dbconOpened)
+			dbcon.Close();
 
 		string [] myRuns = new string[count];
 		count =0;

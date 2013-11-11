@@ -135,15 +135,44 @@ public class PrepareEventGraphJumpReactive {
 }
 
 public class PrepareEventGraphRunSimple {
+	//sql data of previous runs to plot graph and show stats at bottom
+	public string [] runsAtSQL;
+	public double timePersonAVGAtSQL;
+	public double timeSessionAVGAtSQL;
+	public double speedPersonAVGAtSQL;
+	public double speedSessionAVGAtSQL;
+	
 	public double time;
 	public double speed;
 
 	public PrepareEventGraphRunSimple() {
 	}
 
-	public PrepareEventGraphRunSimple(double time, double speed) {
+	public PrepareEventGraphRunSimple(double time, double speed, int sessionID, int personID, string table, string type) 
+	{
+		Sqlite.Open();
+		
+		//obtain data
+		runsAtSQL = SqliteRun.SelectRuns(true, sessionID, personID, type);
+
+		timePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "time");
+		timeSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "time");
+
+		//distancePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance");
+		//distanceSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance");
+		//better to know speed like:
+		//SELECT AVG(distance/time) from run; than 
+		//SELECT AVG(distance) / SELECT AVG(time) 
+		//first is ok, because is the speed AVG
+		//2nd is not good because it tries to do an AVG of all distances and times
+		speedPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, personID, table, type, "distance/time");
+		speedSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(true, sessionID, -1, table, type, "distance/time");
+		
+		
 		this.time = time;
 		this.speed = speed;
+		
+		Sqlite.Close();
 	}
 
 	~PrepareEventGraphRunSimple() {}

@@ -700,7 +700,7 @@ Log.WriteLine("Preparing reactive A");
 			
 
 	// run simple
-	public void PrepareRunSimpleGraph(double time, double speed) 
+	public void PrepareRunSimpleGraph(PrepareEventGraphRunSimple eventGraph)
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
@@ -712,21 +712,6 @@ Log.WriteLine("Preparing reactive A");
 		if(eventGraphConfigureWin.RunsTimeActive) 
 			paintTime = true;
 		
-		//obtain data
-		string [] runs = SqliteRun.SelectRuns(currentSession.UniqueID, event_execute_personID, event_execute_eventType);
-
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
-
-		//double distancePersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance");
-		//double distanceSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance");
-		//better to know speed like:
-		//SELECT AVG(distance/time) from run; than 
-		//SELECT AVG(distance) / SELECT AVG(time) 
-		//first is ok, because is the speed AVG
-		//2nd is not good because it tries to do an AVG of all distances and times
-		double speedPersonAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "distance/time");
-		double speedSessionAVG = SqliteSession.SelectAVGEventsOfAType(false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "distance/time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -736,16 +721,18 @@ Log.WriteLine("Preparing reactive A");
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
 			if(paintTime) {
-				maxValue = Util.GetMax(time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
-				foreach(string myStr in runs) {
+				maxValue = Util.GetMax(eventGraph.time.ToString() + "=" + 
+						eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
+				foreach(string myStr in eventGraph.runsAtSQL) {
 					string [] run = myStr.Split(new char[] {':'});
 					if(Convert.ToDouble(run[6]) > maxValue)
 						maxValue = Convert.ToDouble(run[6]); 
 				}
 			}
 			else {						//paint speed
-				maxValue = Util.GetMax(speed.ToString() + "=" + speedPersonAVG.ToString() + "=" + speedSessionAVG.ToString());
-				foreach(string myStr in runs) {
+				maxValue = Util.GetMax(eventGraph.speed.ToString() + "=" + 
+						eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
+				foreach(string myStr in eventGraph.runsAtSQL) {
 					string [] run = myStr.Split(new char[] {':'});
 					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
 					if(mySpeed > maxValue)
@@ -760,16 +747,18 @@ Log.WriteLine("Preparing reactive A");
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) {
 			if(paintTime) {
-				minValue = Util.GetMin(time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
-				foreach(string myStr in runs) {
+				minValue = Util.GetMin(eventGraph.time.ToString() + "=" + 
+						eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
+				foreach(string myStr in eventGraph.runsAtSQL) {
 					string [] run = myStr.Split(new char[] {':'});
 					if(Convert.ToDouble(run[6]) < minValue)
 						minValue = Convert.ToDouble(run[6]); 
 				}
 			}
 			else {
-				minValue = Util.GetMin(speed.ToString() + "=" + speedPersonAVG.ToString() + "=" + speedSessionAVG.ToString());
-				foreach(string myStr in runs) {
+				minValue = Util.GetMin(eventGraph.speed.ToString() + "=" + 
+						eventGraph.speedPersonAVGAtSQL.ToString() + "=" + eventGraph.speedSessionAVGAtSQL.ToString());
+				foreach(string myStr in eventGraph.runsAtSQL) {
 					string [] run = myStr.Split(new char[] {':'});
 					double mySpeed = Convert.ToDouble(Util.GetSpeed(run[5], run[6], true));
 					if(mySpeed < minValue)
@@ -784,12 +773,17 @@ Log.WriteLine("Preparing reactive A");
 		
 		//paint graph
 		if(paintTime)
-			paintRunSimple (event_execute_drawingarea, pen_rojo, runs, time, timePersonAVG, timeSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+			paintRunSimple (event_execute_drawingarea, pen_rojo, eventGraph.runsAtSQL, 
+					eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
+					maxValue, minValue, topMargin, bottomMargin);
 		else						//paint speed
-			paintRunSimple (event_execute_drawingarea, pen_azul_claro, runs, speed, speedPersonAVG, speedSessionAVG, maxValue, minValue, topMargin, bottomMargin);
+			paintRunSimple (event_execute_drawingarea, pen_azul_claro, eventGraph.runsAtSQL, 
+					eventGraph.speed, eventGraph.speedPersonAVGAtSQL, eventGraph.speedSessionAVGAtSQL, 
+					maxValue, minValue, topMargin, bottomMargin);
 		
 		//printLabels
-		printLabelsRunSimple (time, timePersonAVG, timeSessionAVG, speed, speedPersonAVG, speedSessionAVG);
+		printLabelsRunSimple (eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
+				eventGraph.speed, eventGraph.speedPersonAVGAtSQL, eventGraph.speedSessionAVGAtSQL);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1824,11 +1818,9 @@ Log.WriteLine("Preparing reactive A");
 				}
 				break;
 			case EventType.Types.RUN:
-				if(thisRunIsSimple) {
-					PrepareRunSimpleGraph(
-							currentEventExecute.PrepareEventGraphRunSimpleObject.time,
-							currentEventExecute.PrepareEventGraphRunSimpleObject.speed);
-				} else {
+				if(thisRunIsSimple)
+					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
+				else {
 					bool volumeOnHere = true;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
 					if(currentRunIntervalType.IsRSA)

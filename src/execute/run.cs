@@ -409,8 +409,11 @@ Log.WriteLine("MANAGE(3)!!!!");
 			description = "P = " + Util.TrimDecimals ( (weight * 9.8 * distanceMeters / time).ToString(), pDN) + " (Watts)";
 		} else if(type == "Gesell-DBT") 
 			description = "0";
+		
 
-		uniqueID = SqliteRun.Insert(false, Constants.RunTable, "NULL", personID, sessionID, 
+		string table = Constants.RunTable;
+
+		uniqueID = SqliteRun.Insert(false, table, "NULL", personID, sessionID, 
 				type, distance, time, description, 
 				Util.BoolToNegativeInt(simulated), 
 				!startIn	//initialSpeed true if not startIn
@@ -424,7 +427,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 		fakeButtonFinished.Click();
 		
 		//app1.PrepareRunSimpleGraph(time, distance/time);
-		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(time, distance/time);
+		PrepareEventGraphRunSimpleObject = new PrepareEventGraphRunSimple(time, distance/time, sessionID, personID, table, type);
 		needUpdateGraphType = eventType.RUN;
 		needUpdateGraph = true;
 		

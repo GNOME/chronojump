@@ -1621,7 +1621,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_runs (string filter) {
-		string [] myRuns = SqliteRun.SelectRuns(currentSession.UniqueID, -1, "");
+		string [] myRuns = SqliteRun.SelectRuns(false, currentSession.UniqueID, -1, "");
 		myTreeViewRuns.Fill(myRuns, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewRuns, treeview_runs);
@@ -4350,7 +4350,7 @@ Console.WriteLine("X");
 					break;
 				case EventType.Types.RUN:
 					if(lastRunIsSimple) 
-						PrepareRunSimpleGraph(currentRun.Time, currentRun.Speed);
+						PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
 					else {
 						RunType runType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(currentRunInterval.Type, false);
 						double distanceTotal = Util.GetRunITotalDistance(currentRunInterval.DistanceInterval, 

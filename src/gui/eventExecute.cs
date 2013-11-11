@@ -909,6 +909,12 @@ Log.WriteLine("Preparing reactive A");
 			maxValue = Util.GetMax(
 					eventGraph.time.ToString() + "=" + 
 					eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
+
+			foreach(string myStr in eventGraph.rtsAtSQL) {
+				string [] rts = myStr.Split(new char[] {':'});
+				if(Convert.ToDouble(rts[5]) > maxValue)
+					maxValue = Convert.ToDouble(rts[5]); 
+			}
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;

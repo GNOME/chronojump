@@ -1783,7 +1783,7 @@ public partial class ChronoJumpWindow
 
 	//private void fillTreeView_reaction_times (string filter) {
 	private void fillTreeView_reaction_times () {
-		string [] myRTs = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, -1);
+		string [] myRTs = SqliteReactionTime.SelectReactionTimes(false, currentSession.UniqueID, -1);
 		myTreeViewReactionTimes.Fill(myRTs, "");
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewReactionTimes, treeview_reaction_times);
 	}
@@ -4373,7 +4373,7 @@ Console.WriteLine("X");
 					PreparePulseGraph(Util.GetLast(currentPulse.TimesString), currentPulse.TimesString);
 					break;
 				case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(currentReactionTime.Time);
+					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject);
 					break;
 				case EventType.Types.MULTICHRONOPIC:
 					PrepareMultiChronopicGraph(

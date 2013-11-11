@@ -215,12 +215,30 @@ public class PrepareEventGraphPulse {
 }
 
 public class PrepareEventGraphReactionTime {
+	//sql data of previous rts to plot graph and show stats at bottom
+	public string [] rtsAtSQL;
+	public double timePersonAVGAtSQL;
+	public double timeSessionAVGAtSQL;
+
 	public double time;
 
 	public PrepareEventGraphReactionTime() {
 	}
 
-	public PrepareEventGraphReactionTime(double time) {
+	public PrepareEventGraphReactionTime(double time, int sessionID, int personID, string table, string type) 
+	{
+		Sqlite.Open();
+
+		//obtain data
+		rtsAtSQL = SqliteReactionTime.SelectReactionTimes(true, sessionID, personID);
+
+		timePersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				true, sessionID, personID, table, type, "time");
+		timeSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
+				true, sessionID, -1, table, type, "time");
+		
+		Sqlite.Close();
+	
 		this.time = time;
 	}
 

@@ -891,21 +891,13 @@ Log.WriteLine("Preparing reactive A");
 		event_execute_drawingarea.QueueDraw();
 	}
 	
-	public void PrepareReactionTimeGraph(double time) 
+	public void PrepareReactionTimeGraph(PrepareEventGraphReactionTime eventGraph) 
 	{
 		//check graph properties window is not null (propably user has closed it with the DeleteEvent
 		//then create it, but not show it
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-		
-		//obtain data
-		string [] rts = SqliteReactionTime.SelectReactionTimes(currentSession.UniqueID, event_execute_personID);
-
-		double timePersonAVG = SqliteSession.SelectAVGEventsOfAType(
-				false, currentSession.UniqueID, event_execute_personID, event_execute_tableName, event_execute_eventType, "time");
-		double timeSessionAVG = SqliteSession.SelectAVGEventsOfAType(
-				false, currentSession.UniqueID, -1, event_execute_tableName, event_execute_eventType, "time");
 
 		double maxValue = 0;
 		double minValue = 0;
@@ -915,7 +907,8 @@ Log.WriteLine("Preparing reactive A");
 		//if max value of graph is automatic
 		if(eventGraphConfigureWin.Max == -1) {
 			maxValue = Util.GetMax(
-					time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
+					eventGraph.time.ToString() + "=" + 
+					eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
 		} else {
 			maxValue = eventGraphConfigureWin.Max;
 			topMargin = 0;
@@ -924,16 +917,19 @@ Log.WriteLine("Preparing reactive A");
 		//if min value of graph is automatic
 		if(eventGraphConfigureWin.Min == -1) {
 			minValue = Util.GetMin(
-					time.ToString() + "=" + timePersonAVG.ToString() + "=" + timeSessionAVG.ToString());
+					eventGraph.time.ToString() + "=" + 
+					eventGraph.timePersonAVGAtSQL.ToString() + "=" + eventGraph.timeSessionAVGAtSQL.ToString());
 		} else {
 			minValue = eventGraphConfigureWin.Min;
 			bottomMargin = 0;
 		}
 		
 		//paint graph (use simple jump method)
-		paintJumpSimple (event_execute_drawingarea, rts, time, timePersonAVG, timeSessionAVG, 0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
+		paintJumpSimple (event_execute_drawingarea, eventGraph.rtsAtSQL, 
+				eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL, 
+				0, 0, 0, maxValue, minValue, topMargin, bottomMargin);
 
-		printLabelsReactionTime (time, timePersonAVG, timeSessionAVG);
+		printLabelsReactionTime (eventGraph.time, eventGraph.timePersonAVGAtSQL, eventGraph.timeSessionAVGAtSQL);
 		
 		// -- refresh
 		event_execute_drawingarea.QueueDraw();
@@ -1836,8 +1832,7 @@ Log.WriteLine("Preparing reactive A");
 				}
 				break;
 			case EventType.Types.REACTIONTIME:
-					PrepareReactionTimeGraph(
-							currentEventExecute.PrepareEventGraphReactionTimeObject.time);
+					PrepareReactionTimeGraph(currentEventExecute.PrepareEventGraphReactionTimeObject);
 				break;
 			case EventType.Types.PULSE:
 					PreparePulseGraph(

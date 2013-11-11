@@ -247,9 +247,11 @@ public class ReactionTimeExecute : EventExecute
 		else
 			feedbackMessage = "";
 		needShowFeedbackMessage = true; 
+		
+		string table = Constants.ReactionTimeTable;
 
 		uniqueID = SqliteReactionTime.Insert(
-				false, Constants.ReactionTimeTable, 
+				false, table, 
 				"NULL", personID, sessionID, "", //type
 				time, "", Util.BoolToNegativeInt(simulated)); //time, description, simulated
 
@@ -260,7 +262,7 @@ public class ReactionTimeExecute : EventExecute
 		fakeButtonFinished.Click();
 		
 		//app1.PrepareJumpSimpleGraph(tv, tc);
-		PrepareEventGraphReactionTimeObject = new PrepareEventGraphReactionTime(time);
+		PrepareEventGraphReactionTimeObject = new PrepareEventGraphReactionTime(time, sessionID, personID, table, type);
 		needUpdateGraphType = eventType.REACTIONTIME;
 		needUpdateGraph = true;
 		

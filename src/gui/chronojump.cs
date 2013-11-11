@@ -1458,7 +1458,7 @@ public partial class ChronoJumpWindow
 	private void fillTreeView_jumps (string filter) {
 		string [] myJumps;
 	
-		myJumps = SqliteJump.SelectJumps(currentSession.UniqueID, -1, "", "");
+		myJumps = SqliteJump.SelectJumps(false, currentSession.UniqueID, -1, "", "");
 		myTreeViewJumps.Fill(myJumps, filter);
 
 		expandOrMinimizeTreeView((TreeViewEvent) myTreeViewJumps, treeview_jumps);
@@ -5574,6 +5574,7 @@ Log.WriteLine("7");
 		button_activate_chronopics.Sensitive = true;
 Log.WriteLine("8");
 		notebook_options.Sensitive = true;
+Log.WriteLine("8.5");
 		event_execute_button_update.Sensitive = true;
 
 Log.WriteLine("9");

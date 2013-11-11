@@ -152,7 +152,7 @@ public class ExportSession
 	protected virtual void getData() 
 	{
 		myPersons = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID);
-		myJumps= SqliteJump.SelectJumps(mySession.UniqueID, -1, "", "");
+		myJumps= SqliteJump.SelectJumps(false, mySession.UniqueID, -1, "", "");
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(mySession.UniqueID, -1, "");
 		myRunsInterval = SqliteRunInterval.SelectRuns(mySession.UniqueID, -1, "");

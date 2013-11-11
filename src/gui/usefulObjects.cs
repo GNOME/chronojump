@@ -71,41 +71,45 @@ public class PrepareEventGraphJumpSimple {
 
 	public PrepareEventGraphJumpSimple(double tv, double tc, int sessionID, int personID, string table, string type) 
 	{
+
+		Sqlite.Open();
+
 		//select data from SQL to update graph	
-		jumpsAtSQL = SqliteJump.SelectJumps(
-				sessionID, personID, "", type);
+		jumpsAtSQL = SqliteJump.SelectJumps(true, sessionID, personID, "", type);
 
 		tvPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				sessionID, personID, 
+				true, sessionID, personID, 
 				table, type, "TV");
 		tvSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				sessionID, -1, table, type, "TV");
+				true, sessionID, -1, table, type, "TV");
 
 		//need to calculate height also, because:
 		//it's different to have mean of tv and then calculate height of that mean
 		//than have every height and then calculate the mean
 
 		heightPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				sessionID, personID, 
+				true, sessionID, personID, 
 				table, type, "100*4.9*(TV/2)*(TV/2)");
 		heightSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-				sessionID, -1, table, type, "100*4.9*(TV/2)*(TV/2)");
+				true, sessionID, -1, table, type, "100*4.9*(TV/2)*(TV/2)");
 
 
 		tcPersonAVGAtSQL = 0; 
 		tcSessionAVGAtSQL = 0; 
 		if(tc > 0) {
 			tcPersonAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-					sessionID, personID, 
+					true, sessionID, personID, 
 					table, type, "TC");
 			tcSessionAVGAtSQL = SqliteSession.SelectAVGEventsOfAType(
-					sessionID, -1, table, type, "TC");
+					true, sessionID, -1, table, type, "TC");
 		}
 
 		//end of select data from SQL to update graph	
 			
 		this.tv = tv;
 		this.tc = tc;
+		
+		Sqlite.Close();
 	}
 
 	~PrepareEventGraphJumpSimple() {}

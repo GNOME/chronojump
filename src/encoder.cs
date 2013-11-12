@@ -555,10 +555,12 @@ public class EncoderCaptureCurve {
 public class EncoderCaptureCurveArray {
 	public ArrayList ecc;	//each of the EncoderCaptureCurve
 	public int curvesDone;	//starts at int 0. How many ecc have been calculated by R
+	public int curvesAccepted; //starts at int 0. How many ecc have been accepeted (will be rows in treeview_encoder_capture_curves)
 	
 	public EncoderCaptureCurveArray() {
 		ecc = new ArrayList();
 		curvesDone = 0;
+		curvesAccepted = 0;
 	}
 	
 	~EncoderCaptureCurveArray() {}

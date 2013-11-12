@@ -1793,7 +1793,8 @@ public partial class ChronoJumpWindow
 
 		return true;
 	}
-		
+	
+	bool capturingCsharp;	
 
 	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
@@ -1860,6 +1861,8 @@ public partial class ChronoJumpWindow
 			ecca = new EncoderCaptureCurveArray();
 			eccaCreated = true;
 		}
+		ecca.curvesDone = 0;
+		ecca.curvesAccepted = 0;
 
 
 		do {
@@ -3228,6 +3231,10 @@ Log.WriteLine(str);
 
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
+		//do this in order to have ecconLast useful for RenderN when capturing
+		if(capturingCsharp)
+			ecconLast = findEccon(false);
+
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
@@ -3980,7 +3987,7 @@ Log.WriteLine(str);
 			
 			double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
 			double peakPower = rengine.GetSymbol("peakPower").AsNumeric().First();
-			int peakPowerT = rengine.GetSymbol("peakPowerT").AsInteger().First();
+			double peakPowerT = rengine.GetSymbol("peakPowerT").AsNumeric().First();
 
 			peakPowerT = peakPowerT / 1000; //ms -> s
 			double pp_ppt = peakPower / peakPowerT;
@@ -3990,12 +3997,14 @@ Log.WriteLine(str);
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
 						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
 			
-			encoderCaptureStringR += string.Format("\n1,1,a,1,1,1,1,{0},{1},{2},{3},{4},{5},1,1", 
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,5,{1},{2},{3},{4},{5},{6},{7},6,7",
+					ecca.curvesAccepted +1,
+					Util.ConvertToPoint(height*10), //cm	
 					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
-					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), peakPowerT );
+					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), Util.ConvertToPoint(peakPowerT*1000) );
 		
 			treeviewEncoderCaptureRemoveColumns();
-			int curvesNum = createTreeViewEncoderCapture(encoderCaptureStringR);
+			ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
 		}
 
 		ecca.curvesDone ++;
@@ -4097,6 +4106,8 @@ Log.WriteLine(str);
 				//remove treeview columns
 				treeviewEncoderCaptureRemoveColumns();
 				encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
+				
+				capturingCsharp = true;
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
@@ -4270,6 +4281,9 @@ Log.WriteLine(str);
 			//stop video		
 			if(mode == encoderModes.CAPTURE) 
 				encoderStopVideoRecord();
+				
+			if(mode == encoderModes.CAPTURE) 
+				capturingCsharp = false;
 			
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			

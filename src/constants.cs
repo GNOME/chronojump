@@ -503,6 +503,8 @@ public class Constants
 		Catalog.GetString("Check for new version"),	//5
 		Catalog.GetString("Preparing main Window"),	//6
 	};
+	
+	public static string DatabaseNotFound = Catalog.GetString("Error. Cannot find database");
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";

@@ -19,6 +19,7 @@
  */
 
 using System;
+using System.IO;
 using Gtk;
 using Glade;
 //using Gnome;
@@ -32,6 +33,7 @@ public class ErrorWindow
 	[Widget] Gtk.Window error_window;
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_open_database_folder;
 
 	string table;
 	static ErrorWindow ErrorWindowBox;
@@ -56,7 +58,11 @@ public class ErrorWindow
 		if (ErrorWindowBox == null) {
 			ErrorWindowBox = new ErrorWindow(text1);
 		}
-		ErrorWindowBox.error_window.Show ();
+		
+		//hidden always excepted when called to be shown (see below)
+		ErrorWindowBox.button_open_database_folder.Hide();
+
+		ErrorWindowBox.error_window.Show();
 		
 		return ErrorWindowBox;
 	}
@@ -72,6 +78,25 @@ public class ErrorWindow
 		button_accept.Click();
 	}
 	
+	public void Show_button_open_database_folder () {
+		button_open_database_folder.Show();
+	}
+	
+	private void on_button_open_database_folder_clicked (object o, EventArgs args)
+	{
+		string database_url = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		string database_temp_url = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
+		
+		System.IO.FileInfo file1 = new System.IO.FileInfo(database_url); //potser cal una arrobar abans (a windows)
+		System.IO.FileInfo file2 = new System.IO.FileInfo(database_temp_url); //potser cal una arrobar abans (a windows)
+
+		if(file1.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseDir()); 
+		else if(file2.Exists)
+			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
+	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)
 	{

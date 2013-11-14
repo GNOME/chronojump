@@ -426,7 +426,9 @@ Console.WriteLine("--6--");
 			ErrorWindow errorWin;
 			if(chronojumpHasToExit) {
 				messageToShowOnBoot += "\n<b>" + string.Format(Catalog.GetString("Chronojump will exit now.")) + "</b>\n";
+
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
+				errorWin.Show_button_open_database_folder();
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);

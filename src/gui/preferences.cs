@@ -314,7 +314,7 @@ public class PreferencesWindow {
 		else if(file2.Exists)
 			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
 		else
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Error. Cannot find database."));
+			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
 	}
 	
 	string fileDB;

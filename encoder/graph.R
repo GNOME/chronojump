@@ -1602,8 +1602,10 @@ doProcess <- function(options) {
 	print(OutputData2)
 	print(SpecialData)
 
+	#TODO: write this clearer
 	analysisSingleOrSideSAFE = unlist(strsplit(Analysis, "\\;"))
-	Analysis = analysisSingleOrSideSAFE[1]
+	if(analysisSingleOrSideSAFE[1] == "single" || analysisSingleOrSideSAFE[1] == "side")
+		Analysis = analysisSingleOrSideSAFE[1]
 
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri;0.010" (last is momentum)

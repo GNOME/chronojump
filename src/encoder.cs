@@ -33,6 +33,7 @@ public class EncoderParams
 	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
 	private string eccon;
 	private string analysis;
+	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
 	private string smoothCon; //to pass always as "." to R
 	private int curve;
@@ -107,7 +108,7 @@ public class EncoderParams
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string analysisOptions, string smoothCon,
+			string analysis, string analysisVariables, string analysisOptions, string smoothCon,
 			int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
@@ -115,6 +116,7 @@ public class EncoderParams
 		this.mass = mass;
 		this.eccon = eccon;
 		this.analysis = analysis;
+		this.analysisVariables = analysisVariables;
 		this.analysisOptions = analysisOptions;
 		this.smoothCon = smoothCon;
 		this.curve = curve;
@@ -126,7 +128,7 @@ public class EncoderParams
 	public string ToString2 (string sep) 
 	{
 		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
-			sep + analysis + sep + analysisOptions + sep + smoothCon + 
+			sep + analysis + sep + analysisVariables + sep + analysisOptions + sep + smoothCon + 
 			sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}
 	

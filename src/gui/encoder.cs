@@ -85,6 +85,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
+	[Widget] Gtk.Box hbox_encoder_analyze_show_powerbars;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_time_to_peak_power;
+	[Widget] Gtk.CheckButton check_encoder_analyze_show_range;
+
 	[Widget] Gtk.Box hbox_encoder_analyze_show_SAFE;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_speed;
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_accel;
@@ -2027,8 +2031,8 @@ public partial class ChronoJumpWindow
 			}
 		}
 		
-		if(sendAnalysis == "single" || sendAnalysis == "side")
-			analysisVariables = getAnalysisVariablesSAFE(sendAnalysis);
+		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
+			analysisVariables = getAnalysisVariables(sendAnalysis);
 
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
@@ -2313,9 +2317,21 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
-	private string getAnalysisVariablesSAFE(string encoderAnalysis) {
-		string analysisVariables = "";
-
+	private string getAnalysisVariables(string encoderAnalysis) {
+	string analysisVariables = "";
+	
+	if(encoderAnalysis == "powerBars") {
+		if(check_encoder_analyze_show_time_to_peak_power.Active)
+			analysisVariables = "TimeToPeakPower";
+		else
+			analysisVariables = "NoTimeToPeakPower";
+		
+		if(check_encoder_analyze_show_range.Active)
+			analysisVariables += ";Range";
+		else
+			analysisVariables += ";NoRange";
+	}
+	else {  //(encoderAnalysis == "single" || encoderAnalysis == "side")
 		if(check_encoder_analyze_show_speed.Active)
 			analysisVariables = "Speed";
 		else
@@ -2335,15 +2351,20 @@ Log.WriteLine(str);
 			analysisVariables += ";Power";
 		else
 			analysisVariables += ";NoPower";
+	}
 
 		return analysisVariables;
 	}
+
+
+	//encoder analysis modes
 
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis = "single";
 		//together, mandatory
@@ -2364,6 +2385,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis="superpose";
 		
@@ -2382,6 +2404,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis = "side";
 		
@@ -2399,6 +2422,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
 		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=true;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="powerBars";
 		
@@ -2417,6 +2441,7 @@ Log.WriteLine(str);
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=true;
 		hbox_encoder_analyze_mean_or_max.Visible=true;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="cross";
 		
@@ -2429,6 +2454,8 @@ Log.WriteLine(str);
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
+	//end of encoder analysis modes
+
 
 	private bool curvesNumOkToSideCompare() {
 		if(radiobutton_encoder_analyze_data_current_signal.Active &&

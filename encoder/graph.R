@@ -1163,7 +1163,7 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, height, n) {
+paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, height, n, showTTPP, showRange) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
@@ -1201,63 +1201,100 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 	#	lowerY = 0
 	lowerY = 0
 	
-	par(mar=c(2.5, 4, 5, 5))
+	marginRight = 6
+	if(! showTTPP)
+		marginRight = marginRight -3
+	if(! showRange)
+		marginRight = marginRight -3
+
+	par(mar=c(2.5, 4, 5, marginRight))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
 			xlab="",ylab="Power (W)", 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
 	mtext("Curve \nLoad ",side=1,at=1,adj=1,line=1,cex=.9)
-	par(new=T, xpd=T)
-	#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
-	if(Eccon=="ecS" || Eccon=="ceS")
-		plot(bp[2,],paf[,findPosInPaf("Power","time")],type="p",lwd=2,
-		     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
-		     axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
-	else
-		plot(bp[2,],paf[,findPosInPaf("Power","time")],type="b",lwd=2,
-		     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
-		     axes=F,xlab="",ylab="",col=pafColors[3])
 	
-	axis(4, col=pafColors[3], line=0,padj=-.5)
-	mtext("Time to peak power (ms)", side=4, line=-1)
+	axisLineRight=0
 
-	#range	
-	par(new=T)
-	plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
+	#time to peak power
+	if(showTTPP) {
+		par(new=T, xpd=T)
+		#on ecS, concentric has high value of time to peak power and eccentric has it very low. Don't draw lines
+		if(Eccon=="ecS" || Eccon=="ceS")
+			plot(bp[2,],paf[,findPosInPaf("Power","time")],type="p",lwd=2,
+			     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
+			     axes=F,xlab="",ylab="",col="blue", bg="lightblue",cex=1.5,pch=21)
+		else
+			plot(bp[2,],paf[,findPosInPaf("Power","time")],type="b",lwd=2,
+			     xlim=c(1,n*3+.5),ylim=c(0,max(paf[,findPosInPaf("Power","time")])),
+			     axes=F,xlab="",ylab="",col=pafColors[3])
 
-	abline(h=max(height),lty=2, col="green")
-	abline(h=min(height),lty=2, col="green")
-	#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
-	axis(4, col="green", line=3, padj=-.5)
-	mtext("Range (cm)", side=4, line=2)
-	
-	for(i in unique(load)) { 
-		#print(paste("mean",i,mean(height[which(load == i)])))
-		segments(
-			 bp[2,min(which(load == i))],mean(height[which(load == i)]),
-			 bp[2,max(which(load == i))],mean(height[which(load == i)]),
-			 lty=1,col="green")
+		axis(4, col=pafColors[3], line=axisLineRight,padj=-.5)
+		mtext("Time to peak power (ms)", side=4, line=(axisLineRight-1))
+		axisLineRight = axisLineRight +3
+	}
 
-		myLabel = round(mean(height[which(load == i)]),1)
+	#range
+	if(showRange) {	
+		par(new=T)
+		plot(bp[2,],height,type="p",lwd=2,xlim=c(1,n*3+.5),ylim=c(0,max(height)),axes=F,xlab="",ylab="",col="green")
 
-		text(x=mean(bp[2,which(load == i)]),
-		     y=mean(height[which(load == i)]),
-		     labels=myLabel,adj=c(.5,0),cex=.9,col="darkgreen")
-		#textBox(mean(bp[2,which(load == i)]),
-		#	mean(height[which(load == i)]),
-		#	myLabel, "green", "white", ypad=1)
+		abline(h=max(height),lty=2, col="green")
+		abline(h=min(height),lty=2, col="green")
+		#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
+		axis(4, col="green", line=axisLineRight, padj=-.5)
+		mtext("Range (cm)", side=4, line=(axisLineRight-1))
+		axisLineRight = axisLineRight +3
+
+		for(i in unique(load)) { 
+			#print(paste("mean",i,mean(height[which(load == i)])))
+			segments(
+				 bp[2,min(which(load == i))],mean(height[which(load == i)]),
+				 bp[2,max(which(load == i))],mean(height[which(load == i)]),
+				 lty=1,col="green")
+
+			myLabel = round(mean(height[which(load == i)]),1)
+
+			text(x=mean(bp[2,which(load == i)]),
+			     y=mean(height[which(load == i)]),
+			     labels=myLabel,adj=c(.5,0),cex=.9,col="darkgreen")
+			#textBox(mean(bp[2,which(load == i)]),
+			#	mean(height[which(load == i)]),
+			#	myLabel, "green", "white", ypad=1)
+		}
 	}
 	
+	legendText = c(powerName, peakPowerName)
+	lty=c(0,0)
+	lwd=c(1,1)
+	pch=c(15,15)
+	graphColors=c(pafColors[1],pafColors[2])
+
+	if(showTTPP) {
+		legendText = c(legendText, "Time to Peak Power    ")
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		pch=c(pch,NA)
+		graphColors=c(graphColors,pafColors[3])
+	}
+	if(showRange) {
+		legendText = c(legendText, "Range")
+		lty=c(lty,1)
+		lwd=c(lwd,2)
+		pch=c(pch,NA)
+		graphColors=c(graphColors,"green")
+	}
+
 	#plot legend on top exactly out
 	#http://stackoverflow.com/a/7322792
 	rng=par("usr")
 	lg = legend(rng[1], rng[2],
-		    col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
-		    legend=c(powerName, peakPowerName, "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=F)
+		    col=graphColors, lty=lty, lwd=lwd, pch=pch, 
+		    legend=legendText, ncol=4, bty="n", plot=F)
 	legend(rng[1], rng[4]+1.25*lg$rect$h,
-	       col=c(pafColors,"green"), lty=c(0,0,1,1), lwd=c(1,1,2,2), pch=c(15,15,NA,NA), 
-	       legend=c(powerName, peakPowerName, "Time to Peak Power    ", "Range"), ncol=4, bty="n", plot=T, xpd=NA)
+	       col=graphColors, lty=lty, lwd=lwd, pch=pch, 
+	       legend=legendText, ncol=4, bty="n", plot=T, xpd=NA)
 }
 
 #see paf for more info
@@ -1593,6 +1630,9 @@ doProcess <- function(options) {
 	#in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
 	#Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
 	#	1st: Speed,power are Y (left and right), 2n: Load is X.
+	#
+	#in Analysis "powerBars", AnalysisVariables can be:
+	#	"TimeToPeakPower;Range", or eg: "NoTimeToPeakPower;NoRange"
 	#
 	#in Analysis "single" or "side", AnalysisVariables can be:
 	#	"Speed;Accel;Force;Power", or eg: "NoSpeed;NoAccel;Force;Power"
@@ -2089,11 +2129,19 @@ doProcess <- function(options) {
 			if(! singleFile) 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
 							curves[,7], Eccon,	 	#myEccon, Eccon
-							curvesHeight, n)			#height
+							curvesHeight,			#height 
+							n, 
+			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
+			      				(AnalysisVariables[2] == "Range") 		#show range
+							)		
 			else 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							curves[,7], Eccon,		#myEccon, Eccon
-							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
+							curves[,7], Eccon,			#myEccon, Eccon
+							rawdata.cumsum[curves[,2]]-curves[,3], 	#height
+							n, 
+			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
+			      				(AnalysisVariables[2] == "Range") 		#show range
+							) 
 		}
 		else if(Analysis == "cross") {
 			mySeries = "1"

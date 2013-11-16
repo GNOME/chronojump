@@ -101,7 +101,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=18)
+	options=readLines(optionsCon,n=19)
 	close(optionsCon)
 	return (options)
 }
@@ -122,7 +122,7 @@ print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
-OperatingSystem=options[18]
+OperatingSystem=options[19]
 
 
 write("(1/5) Starting R", OutputData2)
@@ -1485,7 +1485,13 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	maxy=max(c(msp,curvesSpeed))
 	miny=min(c(msp,curvesSpeed))
 
+
 	loadPercentCalc=8.4326*curvesSpeed^2 - 73.501*curvesSpeed + 112.33
+	#sometimes there's a negative value, fix it
+	for(i in 1:length(loadPercentCalc))
+	       if(loadPercentCalc[i] < 0)
+		       loadPercentCalc[i] = NA
+
 	loadCalc= 100 * curvesLoad / loadPercentCalc
 
 	#for calculations take only the curves slower or == than 1.33
@@ -1583,29 +1589,34 @@ doProcess <- function(options) {
 	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
 	Mass=as.numeric(options[8])
 	Eccon=options[9]
-	Analysis=options[10]	#in cross comes as "cross;Force;Speed;mean"
-				#in single comes as "single;Speed;Accel;Force;Power", or eg: "single;NoSpeed;NoAccel;Force;Power"
-				#in side same as in single
-	AnalysisOptions=options[11]	
-	SmoothingOneC=options[12]
-	Jump=options[13]
-	Width=as.numeric(options[14])
-	Height=as.numeric(options[15])
-	DecimalSeparator=options[16]
-	Title=options[17]
-	OperatingSystem=options[18]	#if this changes, change it also at start of this R file
-	#important, if this grows, change the readLines value on getOptionsFromFile
+	
+	#in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
+	#Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
+	#	1st: Speed,power are Y (left and right), 2n: Load is X.
+	#
+	#in Analysis "single" or "side", AnalysisVariables can be:
+	#	"Speed;Accel;Force;Power", or eg: "NoSpeed;NoAccel;Force;Power"
+	#
+	#in Analysis = "1RMAnyExercise"
+	#AnalysisVariables = "0.185;method". speed1RM = 0.185m/s
+	Analysis=options[10]	
+	AnalysisVariables=unlist(strsplit(options[11], "\\;"))
+	
+	AnalysisOptions=options[12]	
+	SmoothingOneC=options[13]
+	Jump=options[14]
+	Width=as.numeric(options[15])
+	Height=as.numeric(options[16])
+	DecimalSeparator=options[17]
+	Title=options[18]
+	OperatingSystem=options[19]	#if this changes, change it also at start of this R file
+	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
 	print(OutputGraph)
 	print(OutputData1)
 	print(OutputData2)
 	print(SpecialData)
-
-	#TODO: write this clearer
-	analysisSingleOrSideSAFE = unlist(strsplit(Analysis, "\\;"))
-	if(analysisSingleOrSideSAFE[1] == "single" || analysisSingleOrSideSAFE[1] == "side")
-		Analysis = analysisSingleOrSideSAFE[1]
 
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri;0.010" (last is momentum)
@@ -1909,10 +1920,10 @@ doProcess <- function(options) {
 			      TRUE,	#showAxes
 			      TRUE,	#legend
 			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
-			      (analysisSingleOrSideSAFE[2] == "Speed"), #show speed
-			      (analysisSingleOrSideSAFE[3] == "Accel"), #show accel
-			      (analysisSingleOrSideSAFE[4] == "Force"), #show force
-			      (analysisSingleOrSideSAFE[5] == "Power") #show power
+			      (AnalysisVariables[1] == "Speed"), #show speed
+			      (AnalysisVariables[2] == "Accel"), #show accel
+			      (AnalysisVariables[3] == "Force"), #show force
+			      (AnalysisVariables[4] == "Power")  #show power
 			      )	
 		}
 	}
@@ -1954,10 +1965,10 @@ doProcess <- function(options) {
 			      FALSE,	#showAxes
 			      FALSE,	#legend
 			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
-			      (analysisSingleOrSideSAFE[2] == "Speed"), #show speed
-			      (analysisSingleOrSideSAFE[3] == "Accel"), #show accel
-			      (analysisSingleOrSideSAFE[4] == "Force"), #show force
-			      (analysisSingleOrSideSAFE[5] == "Power") #show power
+			      (AnalysisVariables[1] == "Speed"), #show speed
+			      (AnalysisVariables[2] == "Accel"), #show accel
+			      (AnalysisVariables[3] == "Force"), #show force
+			      (AnalysisVariables[4] == "Power")  #show power
 			      )
 		}
 		par(mfrow=c(1,1))
@@ -2005,15 +2016,9 @@ doProcess <- function(options) {
 	#when an analysis is done, curves file has to be written
 	writeCurves = TRUE
 
-	#Analysis in cross variables comes as:
-	#"cross;Speed;Force;mean" 	#2nd is Y, 3d is X. "mean" can also be "max"
-	#there's a double XY plot:
-	#"cross;Speed,Power;Load;mean" 	#Speed,power are Y (left and right), 3d: Load is X.
-	#in 1RMAnyExercise: "1RMAnyExercise;0.185;method" speed1RM = 0.185m/s
-	analysisCross = unlist(strsplit(Analysis, "\\;"))
 	if(
-	   Analysis == "powerBars" || analysisCross[1] == "cross" || 
-	   Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise" || 
+	   Analysis == "powerBars" || Analysis == "cross" || 
+	   Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise" || 
 	   Analysis == "curves" || writeCurves) 
 	{
 		paf = data.frame()
@@ -2029,18 +2034,18 @@ doProcess <- function(options) {
 				myEccon = curves[i,7]
 
 				#only use concentric data	
-				if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & myEccon == "e") {
+				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & myEccon == "e") {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
 			} else {
-				if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & Eccon == "ecS" & i%%2 == 1) {
+				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & Eccon == "ecS" & i%%2 == 1) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
-				else if( (Analysis == "1RMBadillo2010" || analysisCross[1] == "1RMAnyExercise") & Eccon == "ceS" & i%%2 == 0) {
+				else if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & Eccon == "ceS" & i%%2 == 0) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
@@ -2090,30 +2095,35 @@ doProcess <- function(options) {
 							curves[,7], Eccon,		#myEccon, Eccon
 							rawdata.cumsum[curves[,2]]-curves[,3], n) #height
 		}
-		else if(analysisCross[1] == "cross") {
+		else if(Analysis == "cross") {
 			mySeries = "1"
 			if(! singleFile)
 				mySeries = curves[,8]
 
-			if(analysisCross[2] == "Speed,Power") {
+			print("AnalysisVariables:")
+			print(AnalysisVariables[1])
+			print(AnalysisVariables[2])
+			print(AnalysisVariables[3])
+
+			if(AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,4,5))
-				analysisCrossVertVars = unlist(strsplit(analysisCross[2], "\\,"))
-				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[1], 
-						    analysisCross[4], "LEFT", Title,
+				analysisVertVars = unlist(strsplit(AnalysisVariables[1], "\\,"))
+				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[1], 
+						    AnalysisVariables[3], "LEFT", Title,
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
 				par(new=T)
-				paintCrossVariables(paf, analysisCross[3], analysisCrossVertVars[2], 
-						    analysisCross[4], "RIGHT", "",
+				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[2], 
+						    AnalysisVariables[3], "RIGHT", "",
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
 			} else
-				paintCrossVariables(paf, analysisCross[3], analysisCross[2], 
-						    analysisCross[4], "ALONE", Title,
+				paintCrossVariables(paf, AnalysisVariables[2], AnalysisVariables[1], 
+						    AnalysisVariables[3], "ALONE", Title,
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
 		}
-		else if(analysisCross[1] == "1RMAnyExercise") {
+		else if(Analysis == "1RMAnyExercise") {
 			mySeries = "1"
 			if(! singleFile)
 				mySeries = curves[,8]
@@ -2121,7 +2131,7 @@ doProcess <- function(options) {
 			paintCrossVariables(paf, "Load", "Speed", 
 					    "mean", "ALONE", Title,
 					    singleFile,Eccon,mySeries, 
-					    analysisCross[2], analysisCross[3], #speed1RM, method
+					    AnalysisVariables[1], AnalysisVariables[2], #speed1RM, method
 					    OutputData1) 
 		}
 		else if(Analysis == "1RMBadillo2010") {

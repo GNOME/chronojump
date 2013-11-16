@@ -714,6 +714,7 @@ public partial class ChronoJumpWindow
 				Util.ConvertToPoint(findMassFromCombo(true)),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				analysis,
+				"none",				//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
@@ -1277,6 +1278,7 @@ public partial class ChronoJumpWindow
 				displacedMass,
 				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQL because there is (true)
 				"exportCSV",
+				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				-1,
@@ -1999,7 +2001,11 @@ public partial class ChronoJumpWindow
 
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
+		//encoderAnalysis can be "cross" and sendAnalysis be "1RMBadillo1010"
 		string sendAnalysis = encoderAnalysis;
+
+		//see doProcess at encoder/graph.R
+		string analysisVariables = "none"; //cannot be blank
 
 		string crossName = "";
 		if(sendAnalysis == "cross") {
@@ -2013,23 +2019,23 @@ public partial class ChronoJumpWindow
 			} else {
 				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
 				string [] crossNameFull = crossName.Split(new char[] {' '});
-				sendAnalysis += ";" + crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
+				analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
 				if(radiobutton_encoder_analyze_mean.Active)
-					sendAnalysis += ";mean";
+					analysisVariables += ";mean";
 				else
-					sendAnalysis += ";max";
+					analysisVariables += ";max";
 			}
 		}
 		
 		if(sendAnalysis == "single" || sendAnalysis == "side")
-			sendAnalysis = getEncoderAnalysisSAFE(sendAnalysis);
+			analysisVariables = getAnalysisVariablesSAFE(sendAnalysis);
 
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
 			if(! check_encoder_analyze_eccon_together.Active)
 				myEccon = "ecS";
 			int myCurveNum = -1;
-			if(sendAnalysis.StartsWith("single"))
+			if(sendAnalysis == "single")
 				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(
 							combo_encoder_analyze_curve_num_combo));
 
@@ -2103,7 +2109,8 @@ public partial class ChronoJumpWindow
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 						false , exerciseOld, false)[0];
 				
-					sendAnalysis = "1RMAnyExercise;" + Util.ConvertToPoint(exTemp.speed1RM) + ";" +
+					sendAnalysis = "1RMAnyExercise";
+				        analysisVariables = Util.ConvertToPoint(exTemp.speed1RM) + ";" +
 						SqlitePreferences.Select("encoder1RMMethod");
 					analysisOptions = "p";
 				}
@@ -2116,6 +2123,7 @@ public partial class ChronoJumpWindow
 					"-1",		//mass
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
+					analysisVariables,
 					analysisOptions,
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					myCurveNum,
@@ -2203,9 +2211,9 @@ Log.WriteLine(str);
 				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 						false, getExerciseIDFromCombo(), false)[0];
 				
-				sendAnalysis = "1RMAnyExercise;" + Util.ConvertToPoint(ex.speed1RM) + ";" +
+				sendAnalysis = "1RMAnyExercise";
+			        analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
 					SqlitePreferences.Select("encoder1RMMethod");
-
 				analysisOptions = "p";
 			}
 
@@ -2215,6 +2223,7 @@ Log.WriteLine(str);
 					Util.ConvertToPoint(findMassFromCombo(true)),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
+					analysisVariables, 
 					analysisOptions,
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
@@ -2304,28 +2313,30 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
-	private string getEncoderAnalysisSAFE(string encoderAnalysis) {
+	private string getAnalysisVariablesSAFE(string encoderAnalysis) {
+		string analysisVariables = "";
+
 		if(check_encoder_analyze_show_speed.Active)
-			encoderAnalysis += ";Speed";
+			analysisVariables = "Speed";
 		else
-			encoderAnalysis += ";NoSpeed";
+			analysisVariables = "NoSpeed";
 
 		if(check_encoder_analyze_show_accel.Active)
-			encoderAnalysis += ";Accel";
+			analysisVariables += ";Accel";
 		else
-			encoderAnalysis += ";NoAccel";
+			analysisVariables += ";NoAccel";
 
 		if(check_encoder_analyze_show_force.Active)
-			encoderAnalysis += ";Force";
+			analysisVariables += ";Force";
 		else
-			encoderAnalysis += ";NoForce";
+			analysisVariables += ";NoForce";
 
 		if(check_encoder_analyze_show_power.Active)
-			encoderAnalysis += ";Power";
+			analysisVariables += ";Power";
 		else
-			encoderAnalysis += ";NoPower";
+			analysisVariables += ";NoPower";
 
-		return encoderAnalysis;
+		return analysisVariables;
 	}
 
 	private void on_radiobutton_encoder_analyze_single_toggled (object obj, EventArgs args) {

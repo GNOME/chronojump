@@ -635,16 +635,14 @@ public partial class ChronoJumpWindow
 			checkbutton_encoder_capture_inertial.Active = false;
 				
 	
-		if(str == Constants.EncoderSignalMode.LINEAR.ToString()) {
-			radiobutton_encoder_capture_linear.Active = true;
-			checkbutton_encoder_capture_inverted.Active = false;
-		}
-		else if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+		if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = true;
-		}
-		else { //(str == Constants.EncoderSignalMode.ROTARY.ToString())
+		} else if(str == Constants.EncoderSignalMode.ROTARY.ToString()) {
 			radiobutton_encoder_capture_rotary.Active = true;
+			checkbutton_encoder_capture_inverted.Active = false;
+		} else { //default to linear: (str == Constants.EncoderSignalMode.LINEAR.ToString()) 
+			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
 

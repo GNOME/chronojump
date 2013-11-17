@@ -874,19 +874,23 @@ public class ExportSessionCSV : ExportSession
 	}
 
 	protected override void writeData (ArrayList exportData) {
-		for(int i=0; i < exportData.Count ; i++) {
-			//if the locale of this user shows the decimal point as ',', show it as '.' for not confusing with the comma separator
-			//exportData[i] = exportData[i].ToString().Replace(",", ".");
-
+		for(int i=0; i < exportData.Count ; i++) 
+		{
 			//correctly separate the rows with no problems with decimals
-			//1 delete the ';'
+			//delete the ';'
 			exportData[i] = exportData[i].ToString().Replace(";", " ");
-			/*
-			//2 put '; ' as separator
-			exportData[i] = exportData[i].ToString().Replace(":", "; ");
-			*/
-			//2 put ';' as separator
-			exportData[i] = exportData[i].ToString().Replace(":", ";");
+			
+			bool latin = true;
+
+			if(latin) {
+				//put ';' as separator
+				exportData[i] = exportData[i].ToString().Replace(":", ";");
+			} else {
+				//decimal as "."
+				exportData[i] = exportData[i].ToString().Replace(",", ".");
+				//put ',' as separator
+				exportData[i] = exportData[i].ToString().Replace(":", ",");
+			}
 
 			writer.WriteLine( exportData[i] );
 		}

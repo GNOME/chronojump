@@ -1158,7 +1158,7 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 	w=strwidth(text)+xpad*strwidth(text)
 	h=strheight(text)+ypad*strheight(text)
 
-	rect(x-w/2,y-h/2,x+w/2,y+h/2,col=bgCol, border=NA)
+	rect(x-w/2,y-h/2,x+w/2,y+h/2,col=bgCol, density=60, angle=-30, border=NA)
 	text(x,y,text,col=frontCol)
 } 
 
@@ -1248,20 +1248,21 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, hei
 		axisLineRight = axisLineRight +3
 
 		for(i in unique(load)) { 
+			myLabel = round(mean(height[which(load == i)]),1)
+			
+			#text(x=mean(bp[2,which(load == i)]),
+			#     y=mean(height[which(load == i)]),
+			#     labels=myLabel,adj=c(.5,0),cex=.9,col="darkgreen")
+			textBox(mean(bp[2,which(load == i)]),
+				mean(height[which(load == i)]),
+				myLabel, "darkgreen", "white", ypad=1)
+			
 			#print(paste("mean",i,mean(height[which(load == i)])))
+			
 			segments(
 				 bp[2,min(which(load == i))],mean(height[which(load == i)]),
 				 bp[2,max(which(load == i))],mean(height[which(load == i)]),
 				 lty=1,col="green")
-
-			myLabel = round(mean(height[which(load == i)]),1)
-
-			text(x=mean(bp[2,which(load == i)]),
-			     y=mean(height[which(load == i)]),
-			     labels=myLabel,adj=c(.5,0),cex=.9,col="darkgreen")
-			#textBox(mean(bp[2,which(load == i)]),
-			#	mean(height[which(load == i)]),
-			#	myLabel, "green", "white", ypad=1)
 		}
 	}
 	

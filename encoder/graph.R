@@ -918,9 +918,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			
 		if(isPropulsive) {
 			#propulsive stuff
-			abline(h=-g,lty=3,col="magenta")
+			segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
 			abline(v=propulsiveEnd,lty=3,col="magenta") 
 			points(propulsiveEnd, -g, col="magenta")
+			text(x=length(accel$y),y=-9.81,labels=" g",cex=1,adj=c(0,0),col="magenta")
 		}
 		
 		if(showAxes & showAccel) {

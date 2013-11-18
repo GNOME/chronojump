@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.98";
+	static string lastChronojumpDatabaseVersion = "0.99";
 
 	public Sqlite() {
 	}
@@ -1335,6 +1335,48 @@ class Sqlite
 
 				currentVersion = "0.98";
 			}
+			if(currentVersion == "0.98") {
+				dbcon.Open();
+		
+				ArrayList array = SqliteOldConvert.EncoderSelect098(true,-1,-1,-1,"all",false);
+				
+				conversionRateTotal = array.Count;
+				
+				dropTable(Constants.EncoderTable);
+				SqliteEncoder.createTableEncoder();
+			
+				int count = 1;	
+				foreach( EncoderSQL098 es in array) {
+					conversionRate = count;
+				
+					//do not use SqliteEncoder.Insert because that method maybe changes in the future,
+					//and here we need to do a conversion that works from 0.98 to 0.99
+					dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
+						" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
+						"signalOrCurve, filename, url, time, minHeight, smooth, description, status, " +
+						"videoURL, mode, inertiaMomentum, diameter, future1, future2, future3)" +
+						" VALUES (" + es.uniqueID + ", " +
+						es.personID + ", " + es.sessionID + ", " +
+						es.exerciseID + ", '" + es.eccon + "', '" +
+						es.laterality + "', '" + es.extraWeight + "', '" +
+						es.signalOrCurve + "', '" + es.filename + "', '" +
+						es.url + "', " + es.time + ", " + es.minHeight + ", " +
+						Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', '" +
+						es.future1 + "', '" + es.future2 + "', 'LINEAR', " + //status, videoURL, mode
+						"0, 0, '', '', '')"; //inertiaMomentum, diameter, future1, 2, 3
+					Log.WriteLine(dbcmd.CommandText.ToString());
+					dbcmd.ExecuteNonQuery();
+					count ++;
+				}	
+
+				conversionRate = count;
+				Log.WriteLine("Encoder table improved");
+				SqlitePreferences.Update ("databaseVersion", "0.99", true); 
+				dbcon.Close();
+
+				currentVersion = "0.99";
+			}
+				
 		}
 
 		//if changes are made here, remember to change also in CreateTables()

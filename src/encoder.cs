@@ -264,18 +264,14 @@ public class EncoderSQL
 	public int minHeight;
 	public double smooth;	//unused on curves, since 1.3.7 it's in database
 	public string description;
-	public string future1;	//active or inactive curves
-	public string future2;	//URL of video of signals
-	public string future3;	//Constants.EncoderSignalMode (only on signals) (add "-0.01" for inertia momentum)
-
-//TODO: 
-//convertir signal future3 inverted de "1" a "inverted" FET
-//convertir "0" i "" en "linear"			FET
-//pq potser sera "linear" or "linearinverted" or "rotaryinertial"	FET
-//fer que al capturar es gravi el future3 amb rotaryinertial o el que sigui (provar-ho amb el darrer capturat)
-//en un futur posar con-ecc
-//linear, linear inverted i rotaryinertial com a radiobutton FET
-//que findCurves trobi be totes les curves basant-se en el fixed i no en l'original pq llavors no troba les darreres
+	public string status;	//active or inactive curves
+	public string videoURL;	//URL of video of signals
+	public string mode;	//Constants.EncoderSignalMode (only on signals??)
+	public int inertiaMomentum;
+	public double diameter;
+	public string future1;
+	public string future2;
+	public string future3;
 
 	public string exerciseName;
 	
@@ -288,7 +284,9 @@ public class EncoderSQL
 	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, double smooth, 
-			string description, string future1, string future2, string future3, 
+			string description, string status, string videoURL, string mode,
+			int inertiaMomentum, double diameter,
+			string future1, string future2, string future3, 
 			string exerciseName
 			)
 	{
@@ -306,6 +304,11 @@ public class EncoderSQL
 		this.minHeight = minHeight;
 		this.smooth = smooth;
 		this.description = description;
+		this.status = status;
+		this.videoURL = videoURL;
+		this.mode = mode;
+		this.inertiaMomentum = inertiaMomentum;
+		this.diameter = diameter;
 		this.future1 = future1;
 		this.future2 = future2;
 		this.future3 = future3;
@@ -364,7 +367,7 @@ public class EncoderSQL
 		str[i++] = GetDate(true);
 		
 		if(video) {
-			if(future2 != "")
+			if(videoURL != "")
 				str[i++] = Catalog.GetString("Yes");
 			else
 				str[i++] = Catalog.GetString("No");
@@ -425,6 +428,62 @@ public class EncoderSQL
 		SqliteEncoder.Update(false, this);
 	}
 }
+
+//used in DB version 0.98 and before
+public class EncoderSQL098
+{
+	public string uniqueID;
+	public int personID;
+	public int sessionID;
+	public int exerciseID;
+	public string eccon;
+	public string laterality;
+	public string extraWeight;
+	public string signalOrCurve;
+	public string filename;
+	public string url;
+	public int time;
+	public int minHeight;
+	public double smooth;	//unused on curves, since 1.3.7 it's in database
+	public string description;
+	public string future1;	//active or inactive curves
+	public string future2;	//URL of video of signals
+	public string future3;	//Constants.EncoderSignalMode (only on signals) (add "-0.01" for inertia momentum)
+
+	public string exerciseName;
+	
+	public EncoderSQL098 ()
+	{
+	}
+	
+	public EncoderSQL098 (string uniqueID, int personID, int sessionID, int exerciseID, 
+			string eccon, string laterality, string extraWeight, string signalOrCurve, 
+			string filename, string url, int time, int minHeight, double smooth, 
+			string description, string future1, string future2, string future3, 
+			string exerciseName
+			)
+	{
+		this.uniqueID = uniqueID;
+		this.personID = personID;
+		this.sessionID = sessionID;
+		this.exerciseID = exerciseID;
+		this.eccon = eccon;
+		this.laterality = laterality;
+		this.extraWeight = extraWeight;
+		this.signalOrCurve = signalOrCurve;
+		this.filename = filename;
+		this.url = url;
+		this.time = time;
+		this.minHeight = minHeight;
+		this.smooth = smooth;
+		this.description = description;
+		this.future1 = future1;
+		this.future2 = future2;
+		this.future3 = future3;
+		this.exerciseName = exerciseName;
+	}
+}
+
 
 public class EncoderPersonCurvesInDB
 {

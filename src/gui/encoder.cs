@@ -255,10 +255,7 @@ public partial class ChronoJumpWindow
 			return;
 		}
 		
-		string analysisOptions = "";
-		if(encoderPropulsive)
-			analysisOptions = "p;-;-";
-		//TODO: add ri and inertia momentum if needed 
+		string analysisOptions = getEncoderAnalysisOptions(true);
 
 		double heightHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderHeightHigher)		
@@ -651,7 +648,24 @@ public partial class ChronoJumpWindow
 
 
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
-		//capture == true; analyze == false
+		/*
+		 * analysisOptions, separated by ';'
+		 * 1: "p" or "-". Propulsive or all
+		 * 2: "l", "li", "rf" or "ra". Linear, linear inverted, rotatory friction, rotatory axes
+		 * 3: "i" or "-". Inertial or not
+		 * 4: inertial moment in Kgxcm^2 or "-".
+		 * 5: diameter in cm
+		 *
+		 * eg:
+		 * p;ra;i;100;4
+		 * p;ra;-;-;4
+		 * -;li;-;-;-
+		 *
+		 * TODO: not. Do this on getEncoderTypeByCombos();
+		 * here only do the "p"
+		 *
+		 */
+
 
 		string analysisOptions = "-";
 		if(encoderPropulsive)
@@ -685,7 +699,7 @@ public partial class ChronoJumpWindow
 
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
-		string future3 = getEncoderTypeByCombos();
+		string mode = getEncoderTypeByCombos();
 		
 		//see explanation on the top of this file
 		lastEncoderSQL = new EncoderSQL(
@@ -701,10 +715,12 @@ public partial class ChronoJumpWindow
 				"",	//path,			//url
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
-				-1,	//Since 1.3.7 smooth is not stored in curves
-				"", 	//desc,
-				"","",
-				future3,
+				-1,		//Since 1.3.7 smooth is not stored in curves
+				"", 		//desc,
+				"","",		//status, videoURL
+				mode,	
+				0,0,		//inertiaMomentum, diameter
+				"","","",	//future1, 2, 3
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
 				);

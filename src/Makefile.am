@@ -99,6 +99,7 @@ SOURCES = \
 	sqlite/sport.cs\
 	sqlite/speciallity.cs\
 	sqlite/country.cs\
+	sqlite/oldConvert.cs\
 	sqlite/server.cs\
 	execute/event.cs\
 	execute/jump.cs\

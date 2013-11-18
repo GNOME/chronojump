@@ -38,6 +38,7 @@ class SqliteEncoder : Sqlite
 	
 	protected internal static void createTableEncoder()
 	{
+		/* old
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
@@ -58,6 +59,32 @@ class SqliteEncoder : Sqlite
 			"future2 TEXT, " +	//URL of video of signals
 			"future3 TEXT )";	//Constants.EncoderSignalMode (only on signals) (add "-0.01" for inertia momentum)
 		dbcmd.ExecuteNonQuery();
+		*/
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.EncoderTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"eccon TEXT, " +	//"c" or "ec"
+			"laterality TEXT, " +	//"left" "right" "both"
+			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"signalOrCurve TEXT, " + //"signal" or "curve"
+			"filename TEXT, " +
+			"url TEXT, " +
+			"time INT, " +
+			"minHeight INT, " +
+			"smooth FLOAT, " +  	//unused. since 1.3.7 is on preferences
+			"description TEXT, " +
+			"status TEXT, " +	//"active", "inactive"
+			"videoURL TEXT, " +	//URL of video of signals
+			"mode TEXT, " +		//Constants.EncoderSignalMode (only on signals??)
+		       	"inertiaMomentum INT, " + 
+		       	"diameter FLOAT, " + 
+		       	"future1 TEXT, " + 
+		       	"future2 TEXT, " + 
+		       	"future3 TEXT )";
+		dbcmd.ExecuteNonQuery();
 	}
 	
 	/*
@@ -73,16 +100,20 @@ class SqliteEncoder : Sqlite
 			es.uniqueID = "NULL";
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
-				" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, signalOrCurve, filename, url, time, minHeight, smooth, description, future1, future2, future3)" +
-				" VALUES (" + es.uniqueID + ", " +
-				es.personID + ", " + es.sessionID + ", " +
-				es.exerciseID + ", '" + es.eccon + "', '" +
-				es.laterality + "', '" + es.extraWeight + "', '" +
-				es.signalOrCurve + "', '" + es.filename + "', '" +
-				es.url + "', " + es.time + ", " + es.minHeight + ", " +
-				Util.ConvertToPoint(es.smooth) + ", '" + es.description + "', 'active', " + 
-				"'','" + 		//future2 url (this is stored later)
-			       	es.future3 + "')" ;	//future3 
+			" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
+			"signalOrCurve, filename, url, time, minHeight, smooth, description, status, " +
+			"videoURL, mode, inertiaMomentum, diameter, future1, future2, future3)" +
+			" VALUES (" + es.uniqueID + ", " +
+			es.personID + ", " + es.sessionID + ", " +
+			es.exerciseID + ", '" + es.eccon + "', '" +
+			es.laterality + "', '" + es.extraWeight + "', '" +
+			es.signalOrCurve + "', '" + es.filename + "', '" +
+			es.url + "', " + es.time + ", " + es.minHeight + ", " +
+			Util.ConvertToPoint(es.smooth) + ", '" + es.description + 
+			"', 'active', '" + es.videoURL + "', '" + es.mode + "', " + 
+			es.inertiaMomentum + ", " + es.diameter + ", '" +
+			es.future1 + "', '" + es.future2 + "', '" +
+			es.future3 + "')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -120,7 +151,12 @@ class SqliteEncoder : Sqlite
 				", minHeight = " + es.minHeight +
 				", smooth = " + Util.ConvertToPoint(es.smooth) +	//unused. in 1.3.7 is on preferences
 				", description = '" + es.description + 
-				"', future1 = '" + es.future1 + 
+				"', status = '" + es.status + 
+				"', videoURL = '" + es.videoURL + 
+				"', mode = '" + es.mode + 
+				"', inertiaMomentum = " + es.inertiaMomentum + 
+				", diameter = " + es.diameter + 
+				", future1 = '" + es.future1 + 
 				"', future2 = '" + es.future2 + 
 				"', future3 = '" + es.future3 + 
 				"' WHERE uniqueID == " + es.uniqueID ;
@@ -138,6 +174,7 @@ class SqliteEncoder : Sqlite
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	//personID can be -1 to get all on that session
 	//sessionID can be -1 to get all sessions
+	//signalOrCurve can be "all"
 	public static ArrayList Select (bool dbconOpened, 
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
@@ -155,19 +192,26 @@ class SqliteEncoder : Sqlite
 		string selectStr = "";
 		if(uniqueID != -1)
 			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
-		else
-			selectStr = personIDStr + sessionIDStr + 
-			" signalOrCurve = '" + signalOrCurve + "'";
+		else {
+			if(signalOrCurve == "all")
+				selectStr = personIDStr + sessionIDStr;
+			else
+				selectStr = personIDStr + sessionIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+		}
+
+		string andString = "";
+		if(selectStr != "")
+			andString = " AND ";
 
 		string onlyActiveString = "";
 		if(onlyActive)
-			onlyActiveString = " AND " + Constants.EncoderTable + ".future1 = 'active' ";
+			onlyActiveString = " AND " + Constants.EncoderTable + ".status = 'active' ";
 
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
 			" WHERE " + selectStr +
-			" AND " + Constants.EncoderTable + ".exerciseID = " + 
+			andString + Constants.EncoderTable + ".exerciseID = " + 
 				Constants.EncoderExerciseTable + ".uniqueID " +
 				onlyActiveString +
 			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
@@ -196,10 +240,15 @@ class SqliteEncoder : Sqlite
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
 					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[12].ToString())), //smooth UNUSED
 					reader[13].ToString(),			//description
-					reader[14].ToString(),			//future1
-					reader[15].ToString(),			//future2
-					reader[16].ToString(),			//future3
-					reader[17].ToString()			//EncoderExercise.name
+					reader[14].ToString(),			//status
+					reader[15].ToString(),			//videoURL
+					reader[16].ToString(),			//mode
+					Convert.ToInt32(reader[17].ToString()),	//inertiaMomentum
+					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[18].ToString())), //diameter
+					reader[19].ToString(),			//future1
+					reader[20].ToString(),			//future2
+					reader[21].ToString(),			//future3
+					reader[22].ToString()			//EncoderExercise.name
 					);
 			array.Add (es);
 		}
@@ -218,22 +267,22 @@ class SqliteEncoder : Sqlite
 
 		/* OLD, returns a row for active and a row for inactive at each session	
 		dbcmd.CommandText = 
-			"SELECT count(*), encoder.sessionID, session.name, session.date, encoder.future1 " +
+			"SELECT count(*), encoder.sessionID, session.name, session.date, encoder.status " +
 			" FROM encoder, session, person77 " +
 			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " + 
 			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " + 
-			" GROUP BY encoder.sessionID, encoder.future1 ORDER BY encoder.sessionID, encoder.future1";
+			" GROUP BY encoder.sessionID, encoder.status ORDER BY encoder.sessionID, encoder.status";
 			*/
 
 		//returns a row for each session where there are active or inactive
 		dbcmd.CommandText = 
 			"SELECT encoder.sessionID, session.name, session.date, " +
-			" SUM(CASE WHEN encoder.future1 = 'active' THEN 1 END) as active, " +
-			" SUM(CASE WHEN encoder.future1 = 'inactive' THEN 1 END) as inactive " + 
+			" SUM(CASE WHEN encoder.status = 'active' THEN 1 END) as active, " +
+			" SUM(CASE WHEN encoder.status = 'inactive' THEN 1 END) as inactive " + 
 			" FROM encoder, session, person77 " +
 			" WHERE encoder.personID == " + personID + " AND signalOrCurve == 'curve' AND " +
 			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
-			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.future1";
+			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
 	
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		

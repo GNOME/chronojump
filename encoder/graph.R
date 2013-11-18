@@ -1141,7 +1141,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 				    lty=lty, lwd=lwd, 
 				    col=colors, 
 				    cex=1, bg="white", ncol=ncol, bty="n", plot=F)
-			legend(0,rng[4]+1.25*lg$rect$h, 
+			legend(0,rng[4]+1.4*lg$rect$h, 
 			       legend=legendText, 
 			       lty=lty, lwd=lwd, 
 			       col=colors, 

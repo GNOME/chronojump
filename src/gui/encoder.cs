@@ -615,35 +615,35 @@ public partial class ChronoJumpWindow
 
 
 	//TODO: add diameter here	
-	private void setEncoderCombos(string str) {
+	private void setEncoderCombos(EncoderSQL eSQL) {
+		//TODO diferentiate both rotary encoders
 		if (
-				str.StartsWith(Constants.EncoderSignalMode.LINEARINERTIAL.ToString() + "-" ) ||
-				str.StartsWith(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() + "-" ) ||
-				str.StartsWith(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString() + "-" )
+				eSQL.mode == Constants.EncoderSignalMode.LINEARINERTIAL.ToString() ||
+				eSQL.mode == Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() ||
+				eSQL.mode == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString()
 		   ) {
 			//inertial machines
 			checkbutton_encoder_capture_inertial.Active = true;
-			string [] strFull = str.Split(new char[] {'-'});
+			//TODO: check this is ok
 			spin_encoder_capture_inertial.Value = 
-				Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1])) * 10000; //Kg*m^2 -> Kg*cm^2
-			
-			str=strFull[0]; //to be processed by the next ifs:
+				Convert.ToDouble(eSQL.inertiaMomentum) * 10000; //Kg*m^2 -> Kg*cm^2
 		} else
 			checkbutton_encoder_capture_inertial.Active = false;
 				
 	
-		if(str == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+		if(eSQL.mode == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = true;
-		} else if(str == Constants.EncoderSignalMode.ROTARY.ToString()) {
+		} else if(eSQL.mode == Constants.EncoderSignalMode.ROTARY.ToString()) {
 			radiobutton_encoder_capture_rotary.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
-		} else { //default to linear: (str == Constants.EncoderSignalMode.LINEAR.ToString()) 
+		} else { //default to linear: (eSQL.mode == Constants.EncoderSignalMode.LINEAR.ToString()) 
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
 
 		//TODO: fix this to use diameter if needed
+		//eSQL.diameter...
 	}
 
 
@@ -774,7 +774,7 @@ public partial class ChronoJumpWindow
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
 		int count = 0;
 		foreach(EncoderSQL es in data) {
-			checkboxes[count++] = es.future1;
+			checkboxes[count++] = es.status;
 			Log.WriteLine(checkboxes[count-1]);
 			dataPrint.Add(es.ToStringArray(count,true,false));
 		}
@@ -865,10 +865,10 @@ public partial class ChronoJumpWindow
 		int count = 0;
 
 		Sqlite.Open();
-		foreach(EncoderSQL es in data) {
-			if(es.future1 != checkboxes[count]) {
-				es.future1 = checkboxes[count];
-				SqliteEncoder.Update(true, es);
+		foreach(EncoderSQL eSQL in data) {
+			if(eSQL.status != checkboxes[count]) {
+				eSQL.status = checkboxes[count];
+				SqliteEncoder.Update(true, eSQL);
 			}
 			count ++;
 		}
@@ -1202,21 +1202,21 @@ public partial class ChronoJumpWindow
 				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
 
 		bool success = false;
-		foreach(EncoderSQL es in data) {	//it will run only one time
-			success = UtilEncoder.CopyEncoderDataToTemp(es.url, es.filename);
+		foreach(EncoderSQL eSQL in data) {	//it will run only one time
+			success = UtilEncoder.CopyEncoderDataToTemp(eSQL.url, eSQL.filename);
 			if(success) {
-				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, es.exerciseName);
-				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, es.ecconLong);
-				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, es.laterality);
-				spin_encoder_extra_weight.Value = Convert.ToInt32(es.extraWeight);
+				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, eSQL.exerciseName);
+				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, eSQL.ecconLong);
+				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
+				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 
-				encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value = es.minHeight;
-				//entry_encoder_signal_comment.Text = es.description;
-				encoderTimeStamp = es.GetDate(false); 
-				encoderSignalUniqueID = es.uniqueID;
-				button_video_play_this_test_encoder.Sensitive = (es.future2 != "");
+				encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value = eSQL.minHeight;
+				//entry_encoder_signal_comment.Text = eSQL.description;
+				encoderTimeStamp = eSQL.GetDate(false); 
+				encoderSignalUniqueID = eSQL.uniqueID;
+				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
 
-				setEncoderCombos(es.future3);
+				setEncoderCombos(eSQL);
 			}
 		}
 
@@ -1512,7 +1512,7 @@ public partial class ChronoJumpWindow
 	private int getActiveCurvesNum(ArrayList curvesArray) {
 		int countActiveCurves = 0;
 		foreach(EncoderSQL es in curvesArray) 
-			if(es.future1 == "active")
+			if(es.status == "active")
 				countActiveCurves ++;
 		
 		return countActiveCurves;
@@ -1545,8 +1545,8 @@ public partial class ChronoJumpWindow
 	private void updateComboEncoderAnalyzeCurveNum (ArrayList data, int activeCurvesNum) {
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
 		int count = 0;
-		foreach(EncoderSQL es in data) {
-			checkboxes[count++] = es.future1;
+		foreach(EncoderSQL eSQL in data) {
+			checkboxes[count++] = eSQL.status;
 		}
 		string [] activeCurvesList = getActiveCheckboxesList(checkboxes, activeCurvesNum);
 		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
@@ -1625,10 +1625,10 @@ public partial class ChronoJumpWindow
 		}
 
 		string myID = "-1";	
-		string future3 = ""; //unused on curve	
+		string encoderMode = ""; //unused on curve	
 		if(mode == "signal") {
 			myID = encoderSignalUniqueID;
-			future3 = getEncoderTypeByCombos();
+			encoderMode = getEncoderTypeByCombos();
 		}
 
 		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things
@@ -1638,6 +1638,7 @@ public partial class ChronoJumpWindow
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
 		eSQL.description = desc;
+		eSQL.mode = encoderMode;
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update
@@ -1655,7 +1656,7 @@ public partial class ChronoJumpWindow
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
 								Constants.TestTypes.ENCODER, 
 								Convert.ToInt32(encoderSignalUniqueID))) {
-						eSQL.future2 = Util.GetVideoFileName(currentSession.UniqueID, 
+						eSQL.videoURL = Util.GetVideoFileName(currentSession.UniqueID, 
 								Constants.TestTypes.ENCODER, 
 								Convert.ToInt32(encoderSignalUniqueID));
 						//need assign uniqueID to update and add the URL of video
@@ -2083,8 +2084,8 @@ public partial class ChronoJumpWindow
 						currentSession.UniqueID, 
 						"curve", true);
 					//this curves are added to data, data included currentPerson, currentSession
-					foreach(EncoderSQL es in dataPre) 
-						data.Add(es);
+					foreach(EncoderSQL eSQL in dataPre) 
+						data.Add(eSQL);
 				}
 			} else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
 					encoderDataCompareTranslation) == "Between sessions") {
@@ -2096,8 +2097,8 @@ public partial class ChronoJumpWindow
 						Util.FetchID(encoderCompareIntersession[i].ToString()),
 						"curve", true);
 					//this curves are added to data, data included currentPerson, currentSession
-					foreach(EncoderSQL es in dataPre) 
-						data.Add(es);
+					foreach(EncoderSQL eSQL in dataPre) 
+						data.Add(eSQL);
 				}
 			}
 
@@ -2109,16 +2110,16 @@ public partial class ChronoJumpWindow
 			{
 				int count = 0;
 				int exerciseOld = -1;
-				foreach(EncoderSQL es in data) {
-					if(es.future1 == "active") {
-						if(count > 0 && es.exerciseID != exerciseOld) {
+				foreach(EncoderSQL eSQL in data) {
+					if(eSQL.status == "active") {
+						if(count > 0 && eSQL.exerciseID != exerciseOld) {
 							new DialogMessage(Constants.MessageTypes.WARNING, 
 									Catalog.GetString("Sorry, cannot calculate 1RM of different exercises."));
 							encoderProcessCancel = true;
 							return;	
 						}
 
-						exerciseOld = es.exerciseID;
+						exerciseOld = eSQL.exerciseID;
 						count ++;
 					}
 				}
@@ -2211,7 +2212,7 @@ Log.WriteLine(str);
 					fullURL = eSQL.GetFullURL(true);	//convertPathToR
 				}
 
-				writer.WriteLine(eSQL.future1 + "," + seriesName + "," + ex.name + "," +
+				writer.WriteLine(eSQL.status + "," + seriesName + "," + ex.name + "," +
 						Util.ConvertToPoint(mass).ToString() + "," + 
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						fullURL + "," +	

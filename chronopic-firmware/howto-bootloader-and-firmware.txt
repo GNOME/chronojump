@@ -33,7 +33,7 @@ cd ~/Documents/chronojump-no-git/chronopic-3.0/grabar_cronopic_firmware/pyburn-w
 python pyburn-wx.py
 
 Mètode dels 2 skypics.
-- grabador: alimentador corrent
+- alimentador corrent al chronopic que te el chip que es vol gravar
 - cable blau entre dos skypics
 - cable tlf (amb cable serial-USB) a roseta que posa PC a sota
 

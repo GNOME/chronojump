@@ -4073,11 +4073,14 @@ Log.WriteLine(str);
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
 						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
 			
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,5,{1},{2},{3},{4},{5},{6},{7},6,7",
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					ecca.curvesAccepted +1,
+					ecc.startFrame, ecc.endFrame-ecc.startFrame,
 					Util.ConvertToPoint(height*10), //cm	
 					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
-					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), Util.ConvertToPoint(peakPowerT*1000) );
+					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
+					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
+					);
 		
 			treeviewEncoderCaptureRemoveColumns();
 			ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);

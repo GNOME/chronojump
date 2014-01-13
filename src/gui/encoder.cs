@@ -3843,23 +3843,38 @@ Log.WriteLine(str);
 		if(ecca.ecc.Count <= ecca.curvesDone) 
 			return;
 
-		Log.WriteLine("calling rdotnet: direction, start, end");
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-		Log.WriteLine(ecc.DirectionAsString());
-		Log.WriteLine(ecc.startFrame.ToString());
-		Log.WriteLine(ecc.endFrame.ToString());
+		Log.Write("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
 		
 		string eccon = findEccon(true);
 			
+		Log.Write(" uECGRC0 ");
+		
 		//if eccon == "c" only up phase
 		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
 				(ecc.endFrame - ecc.startFrame) > 0 ) 
 		{
+			Log.Write(" uECGRC1 ");
+			
+			double height = 0;
+
 			int [] curve = new int[ecc.endFrame - ecc.startFrame];
 			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+				height += encoderReaded[j];
 				curve[k]=encoderReaded[j];
 				k++;
 			}
+			
+			//check height in a fast way first to discard curves soon
+			//only process curves with height >= min_height
+			height = height / 10; //cm -> mm
+			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
+				ecca.curvesDone ++;
+				return;	
+			}
+
+			
+			Log.Write(" uECGRC2 calling rdotnet ");
 
 			IntegerVector curveToR = rengine.CreateIntegerVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
@@ -3873,6 +3888,7 @@ Log.WriteLine(str);
 				return;
 			}
 
+			Log.Write(" uECGRC3 ");
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
 
@@ -3886,6 +3902,7 @@ Log.WriteLine(str);
 				rengine.Evaluate("speedT2 <- max(which(speedCut$y == min(speedCut$y)))");
 			}
 			
+			Log.Write(" uECGRC4 ");
 			int speedT1 = rengine.GetSymbol("speedT1").AsInteger().First();
 			int speedT2 = rengine.GetSymbol("speedT2").AsInteger().First();
 
@@ -3897,6 +3914,8 @@ Log.WriteLine(str);
 
 			//left adjust
 			//find the b$cross at left of max speed
+
+			Log.Write(" uECGRC5 ");
 
 			int x_ini = 0;	
 			if(bcrossLen == 0)
@@ -3911,6 +3930,7 @@ Log.WriteLine(str);
 						x_ini = bcross[i];	//left adjust
 				}
 			}
+			Log.Write(" uECGRC6 ");
 
 			//rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
 
@@ -3935,6 +3955,7 @@ Log.WriteLine(str);
 				}
 			}
 			
+			Log.Write(" uECGRC7 ");
 
 			Log.WriteLine("reducedCurveBySpeed (start, end)");
 			Log.WriteLine((ecc.startFrame + x_ini).ToString());
@@ -3965,7 +3986,9 @@ Log.WriteLine(str);
 			//height (or range)	
 			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
 			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
-			double height = rengine.GetSymbol("range").AsNumeric().First();
+			
+			//check height now in a more accurate way than before
+			height = rengine.GetSymbol("range").AsNumeric().First();
 			height = height / 10; //cm -> mm
 
 			//only process curves with height >= min_height
@@ -3985,7 +4008,7 @@ Log.WriteLine(str);
 			if(encoderPropulsive) {
 				//check if propulsive phase ends
 				Log.WriteLine("accel$y");
-				rengine.Evaluate("print(accel$y)");
+				//rengine.Evaluate("print(accel$y)");
 				rengine.Evaluate("propulsiveStuffAtRight <- length(which(accel$y <= -g))"); 
 				int propulsiveStuffAtRight = rengine.GetSymbol("propulsiveStuffAtRight").AsInteger().First();
 				Log.WriteLine(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
@@ -4219,7 +4242,7 @@ Log.WriteLine(str);
 		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
 		updateEncoderCaptureGraph();
 
-		Thread.Sleep (50);
+		Thread.Sleep (25);
 		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());
 		return true;
 	}

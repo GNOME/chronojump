@@ -20,7 +20,7 @@ if test -z $INTLTOOLIZE; then
 	echo "*** No intltoolize found, please install it ***"
 	exit 1
 else
-	intltoolize || exit $?
+	intltoolize --force || exit $?
 fi
 
 cd "$olddir"

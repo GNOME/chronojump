@@ -279,17 +279,17 @@ fixRawdataInertial <- function(rawdata) {
 }
 
 #don't do this, because on inertial machines string will be rolled to machine and not connected to the body
-fixRawdataLI <- function(rawdata) {
-	rawdata.c = cumsum(rawdata)
-	meanMax=mean(which(rawdata.c == max(rawdata.c)))
-
-	#this is to make "inverted cumsum"
-	rawdata = c(0,diff(rawdata.c))
-	
-	rawdata[meanMax:length(rawdata)] = rawdata[meanMax:length(rawdata)] * -1
-
-	return(rawdata)
-}
+#fixRawdataLI <- function(rawdata) {
+#	rawdata.c = cumsum(rawdata)
+#	meanMax=mean(which(rawdata.c == max(rawdata.c)))
+#
+#	#this is to make "inverted cumsum"
+#	rawdata = c(0,diff(rawdata.c))
+#	
+#	rawdata[meanMax:length(rawdata)] = rawdata[meanMax:length(rawdata)] * -1
+#
+#	return(rawdata)
+#}
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"

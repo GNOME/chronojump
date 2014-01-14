@@ -171,6 +171,7 @@ public partial class ChronoJumpWindow
 	double encoderSmoothCon;
 
 	bool lastRecalculateWasInverted;
+	bool dataHasBeenInverted; //useful to save info of curve in SQL if no curves are found after inverting and recalculating
 	//bool capturingRotaryInertial;
 		
 	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
@@ -517,19 +518,23 @@ public partial class ChronoJumpWindow
 		encoder_recalculate(true); //save
 	}
 	
-	void encoder_recalculate(bool save) 
+	void encoder_recalculate(bool saveOrLoad) 
 	{
-		if (File.Exists(UtilEncoder.GetEncoderDataTempFileName())) {
-			//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
-	
-			if(lastRecalculateWasInverted != checkbutton_encoder_capture_inverted.Active) {
-				UtilEncoder.ChangeSign(UtilEncoder.GetEncoderDataTempFileName());
-				lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
+		if (File.Exists(UtilEncoder.GetEncoderDataTempFileName())) 
+		{
+			dataHasBeenInverted = false;	
+			if(saveOrLoad) {
+				//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
+				if(lastRecalculateWasInverted != checkbutton_encoder_capture_inverted.Active) {
+					UtilEncoder.ChangeSign(UtilEncoder.GetEncoderDataTempFileName());
+					dataHasBeenInverted = true;
+				}
 			}
+			lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
 	
 			//calculate and recalculate saves the curve at end
 			//load does not save the curve 
-			if(save)		
+			if(saveOrLoad)		
 				encoderThreadStart(encoderModes.CALC_RECALC_CURVES);
 			else
 				encoderThreadStart(encoderModes.LOAD);
@@ -583,34 +588,37 @@ public partial class ChronoJumpWindow
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
-	private string getEncoderTypeByCombos() {
-		string str = "";
+	//arraylist with: mode, inertial value (or zero), diameter value (or zero)
+	private ArrayList getEncoderTypeByCombos() {
+		ArrayList data = new ArrayList(3);
 		if(radiobutton_encoder_capture_linear.Active) {
 			if(checkbutton_encoder_capture_inverted.Active) {
 				if(checkbutton_encoder_capture_inertial.Active)
-					str = Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString();
+					data.Add(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString());
 				else
-					str = Constants.EncoderSignalMode.LINEARINVERTED.ToString();
+					data.Add(Constants.EncoderSignalMode.LINEARINVERTED.ToString());
 			} else {
 				if(checkbutton_encoder_capture_inertial.Active)
-					str = Constants.EncoderSignalMode.LINEARINERTIAL.ToString();
+					data.Add(Constants.EncoderSignalMode.LINEARINERTIAL.ToString());
 				else
-					str = Constants.EncoderSignalMode.LINEAR.ToString();
+					data.Add(Constants.EncoderSignalMode.LINEAR.ToString());
 			}
 		}
 		else { //(radiobutton_encoder_capture_rotary.Active)
 			if(checkbutton_encoder_capture_inertial.Active)
-				str = Constants.EncoderSignalMode.ROTARYINERTIAL.ToString();
+				data.Add(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
 			else
-				str = Constants.EncoderSignalMode.ROTARY.ToString();
+				data.Add(Constants.EncoderSignalMode.ROTARY.ToString());
 		}
 			
 		if(checkbutton_encoder_capture_inertial.Active)
-			str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000); //Kg*cm^2 -> Kg*m^2
+			data.Add(Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000)); //Kg*cm^2 -> Kg*m^2
+		else
+			data.Add(0);
 		
-		str += "-" + Util.ConvertToPoint((double) spin_encoder_capture_diameter.Value);
+		data.Add((double) spin_encoder_capture_diameter.Value);
 
-		return str;
+		return data;
 	}
 
 
@@ -699,7 +707,7 @@ public partial class ChronoJumpWindow
 
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
-		string mode = getEncoderTypeByCombos();
+		ArrayList encoderTypeArray = getEncoderTypeByCombos();
 		
 		//see explanation on the top of this file
 		lastEncoderSQL = new EncoderSQL(
@@ -718,8 +726,9 @@ public partial class ChronoJumpWindow
 				-1,		//Since 1.3.7 smooth is not stored in curves
 				"", 		//desc,
 				"","",		//status, videoURL
-				mode,	
-				0,0,		//inertiaMomentum, diameter
+				encoderTypeArray[0].ToString(),	//mode	
+				Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
+				Convert.ToDouble(encoderTypeArray[2]),	//diameter
 				"","","",	//future1, 2, 3
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
@@ -1222,7 +1231,7 @@ public partial class ChronoJumpWindow
 
 		if(success) {	
 			//force a recalculate but not save the curve (we are loading)
-			encoder_recalculate(false); 
+			encoder_recalculate(false); //load
 		
 			radiobutton_encoder_analyze_data_current_signal.Active = true;
 
@@ -1579,7 +1588,7 @@ public partial class ChronoJumpWindow
 		
 			//check if data is ok (maybe encoder was not connected, then don't save this signal)
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
-			if(curve.N == null)
+			if(curve.N == null) 
 				return "";
 		}
 		
@@ -1625,11 +1634,8 @@ public partial class ChronoJumpWindow
 		}
 
 		string myID = "-1";	
-		string encoderMode = ""; //unused on curve	
-		if(mode == "signal") {
+		if(mode == "signal")
 			myID = encoderSignalUniqueID;
-			encoderMode = getEncoderTypeByCombos();
-		}
 
 		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things
 		EncoderSQL eSQL = lastEncoderSQL;
@@ -1638,7 +1644,17 @@ public partial class ChronoJumpWindow
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
 		eSQL.description = desc;
-		eSQL.mode = encoderMode;
+
+		if(mode == "signal") {
+			ArrayList encoderTypeArray = getEncoderTypeByCombos();
+			eSQL.mode = encoderTypeArray[0].ToString();
+			eSQL.inertiaMomentum = Convert.ToInt32(encoderTypeArray[1]);
+			eSQL.diameter = Convert.ToDouble(encoderTypeArray[2]);
+		} else {
+			eSQL.mode = "";
+			eSQL.inertiaMomentum = 0;
+			eSQL.diameter = 0; 
+		}
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update
@@ -3676,7 +3692,7 @@ Log.WriteLine(str);
 		int [] yesPerson = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
 		int [] processingCapture = 	{0, 0, 0, 0, 0, 0, 0, 1, 1};
 		int [] processingR = 		{0, 0, 0, 0, 0, 0, 0, 1, 0};
-		int [] doneNoSignal = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
+		int [] doneNoSignal = 		{1, 1, 1, 0, 0, 1, 1, 0, 0};
 		int [] doneYesSignal = 		{1, 1, 1, 1, 0, 1, 1, 0, 0};
 		int [] selectedCurve = 		{1, 1, 1, 1, 1, 1, 1, 0, 0};
 		int [] table = new int[7];

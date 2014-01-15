@@ -46,7 +46,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
 	[Widget] Gtk.Box hbox_encoder_capture_rotary_f_a;
 	
-	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. The rest of the software uses Kg*m^2 ( /10000 )
+	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
+	//at SQL it's in Kg*cm^2 also because it's stored as int
+	//at graph.R is converted to Kg*m^2 ( /10000 )
 	[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
 	[Widget] Gtk.SpinButton spin_encoder_capture_diameter;
@@ -232,7 +234,7 @@ public partial class ChronoJumpWindow
 		createEncoderCombos();
 		
 		spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
-					SqlitePreferences.Select("inertialmomentum"))) * 10000;
+					SqlitePreferences.Select("inertialmomentum")));
 		
 		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create();
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
@@ -324,7 +326,7 @@ public partial class ChronoJumpWindow
 
 		//Update inertia momentum of encoder if needed
 		SqlitePreferences.Update("inertialmomentum", 
-				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000), false);
+				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
 
 		if (encoderCaptureOptionsWin.radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
@@ -588,7 +590,7 @@ public partial class ChronoJumpWindow
 		encoderAnalyzeListStore = new Gtk.ListStore (typeof (EncoderCurve));
 	}
 
-	//arraylist with: mode, inertial value (or zero), diameter value (or zero)
+	//arraylist with: encoderMode, inertial value (or zero), diameter value (or zero)
 	private ArrayList getEncoderTypeByCombos() {
 		ArrayList data = new ArrayList(3);
 		if(radiobutton_encoder_capture_linear.Active) {
@@ -612,7 +614,7 @@ public partial class ChronoJumpWindow
 		}
 			
 		if(checkbutton_encoder_capture_inertial.Active)
-			data.Add(Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000)); //Kg*cm^2 -> Kg*m^2
+			data.Add((int) spin_encoder_capture_inertial.Value);
 		else
 			data.Add(0);
 		
@@ -626,26 +628,26 @@ public partial class ChronoJumpWindow
 	private void setEncoderCombos(EncoderSQL eSQL) {
 		//TODO diferentiate both rotary encoders
 		if (
-				eSQL.mode == Constants.EncoderSignalMode.LINEARINERTIAL.ToString() ||
-				eSQL.mode == Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() ||
-				eSQL.mode == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString()
+				eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINERTIAL.ToString() ||
+				eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() ||
+				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString()
 		   ) {
 			//inertial machines
 			checkbutton_encoder_capture_inertial.Active = true;
 			//TODO: check this is ok
 			spin_encoder_capture_inertial.Value = 
-				Convert.ToDouble(eSQL.inertiaMomentum) * 10000; //Kg*m^2 -> Kg*cm^2
+				Convert.ToInt32(eSQL.inertiaMomentum);
 		} else
 			checkbutton_encoder_capture_inertial.Active = false;
 				
 	
-		if(eSQL.mode == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+		if(eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = true;
-		} else if(eSQL.mode == Constants.EncoderSignalMode.ROTARY.ToString()) {
+		} else if(eSQL.encoderMode == Constants.EncoderSignalMode.ROTARY.ToString()) {
 			radiobutton_encoder_capture_rotary.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
-		} else { //default to linear: (eSQL.mode == Constants.EncoderSignalMode.LINEAR.ToString()) 
+		} else { //default to linear: (eSQL.encoderMode == Constants.EncoderSignalMode.LINEAR.ToString()) 
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
@@ -657,6 +659,8 @@ public partial class ChronoJumpWindow
 
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
 		/*
+		 * OLD: now only first two rows: "p", and "l","li", ...
+		 *
 		 * analysisOptions, separated by ';'
 		 * 1: "p" or "-". Propulsive or all
 		 * 2: "l", "li", "rf" or "ra". Linear, linear inverted, rotatory friction, rotatory axes
@@ -679,19 +683,15 @@ public partial class ChronoJumpWindow
 		if(encoderPropulsive)
 			analysisOptions = "p";
 
-		//inertial momentum with '.' for R
-		string im = Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value / 10000);
-		string diameter = Util.ConvertToPoint((double) spin_encoder_capture_diameter.Value);
-
 		if(checkbutton_encoder_capture_inertial.Active) {
 			if(captureOrAnalyze || radiobutton_encoder_analyze_data_current_signal.Active) 
 			{
 				if(radiobutton_encoder_capture_rotary.Active)
-					analysisOptions += ";ri;" + im + ";" + diameter;
+					analysisOptions += ";ri";
 				else	//(radiobutton_encoder_capture_linear.Active || checkbutton_encoder_capture_inverted.Active)
-					analysisOptions += ";li;" + im + ";" + diameter;
+					analysisOptions += ";li";
 			} else 
-				analysisOptions += ";-;-;-";
+				analysisOptions += ";-";
 		}
 
 		return analysisOptions;
@@ -726,7 +726,7 @@ public partial class ChronoJumpWindow
 				-1,		//Since 1.3.7 smooth is not stored in curves
 				"", 		//desc,
 				"","",		//status, videoURL
-				encoderTypeArray[0].ToString(),	//mode	
+				encoderTypeArray[0].ToString(),		//encoderMode	
 				Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
 				Convert.ToDouble(encoderTypeArray[2]),	//diameter
 				"","","",	//future1, 2, 3
@@ -743,6 +743,9 @@ public partial class ChronoJumpWindow
 				analysis,
 				"none",				//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
+				encoderTypeArray[0].ToString(),		//encoderMode	
+				Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
+				Convert.ToDouble(encoderTypeArray[2]),	//diameter
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
@@ -1298,6 +1301,8 @@ public partial class ChronoJumpWindow
 					getExercisePercentBodyWeightFromName(lastEncoderSQL.exerciseName) *
 					currentPersonSession.Weight
 					) );	
+		
+		ArrayList encoderTypeArray = getEncoderTypeByCombos();
 
 		EncoderParams ep = new EncoderParams(
 				lastEncoderSQL.minHeight, 
@@ -1307,6 +1312,9 @@ public partial class ChronoJumpWindow
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
+				encoderTypeArray[0].ToString(),		//encoderMode	
+				Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
+				Convert.ToDouble(encoderTypeArray[2]),	//diameter
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				-1,
 				image_encoder_width,
@@ -1647,11 +1655,11 @@ public partial class ChronoJumpWindow
 
 		if(mode == "signal") {
 			ArrayList encoderTypeArray = getEncoderTypeByCombos();
-			eSQL.mode = encoderTypeArray[0].ToString();
-			eSQL.inertiaMomentum = Convert.ToInt32(encoderTypeArray[1]);
-			eSQL.diameter = Convert.ToDouble(encoderTypeArray[2]);
+			eSQL.encoderMode = 	encoderTypeArray[0].ToString();
+			eSQL.inertiaMomentum = 	Convert.ToInt32(encoderTypeArray[1]);
+			eSQL.diameter = 	Convert.ToDouble(encoderTypeArray[2]);
 		} else {
-			eSQL.mode = "";
+			eSQL.encoderMode = "";
 			eSQL.inertiaMomentum = 0;
 			eSQL.diameter = 0; 
 		}
@@ -2065,6 +2073,8 @@ public partial class ChronoJumpWindow
 		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
 			analysisVariables = getAnalysisVariables(sendAnalysis);
 
+		ArrayList encoderTypeArray = getEncoderTypeByCombos();
+
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
 			if(! check_encoder_analyze_eccon_together.Active)
@@ -2160,6 +2170,9 @@ public partial class ChronoJumpWindow
 					sendAnalysis,
 					analysisVariables,
 					analysisOptions,
+					encoderTypeArray[0].ToString(),		//encoderMode	
+					Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
+					Convert.ToDouble(encoderTypeArray[2]),	//diameter
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 
@@ -2260,6 +2273,9 @@ Log.WriteLine(str);
 					sendAnalysis,
 					analysisVariables, 
 					analysisOptions,
+					encoderTypeArray[0].ToString(),		//encoderMode	
+					Convert.ToInt32(encoderTypeArray[1]),	//inertiaMomentum
+					Convert.ToDouble(encoderTypeArray[2]),	//diameter
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,

@@ -20608,12 +20608,12 @@ comments</property>
                 </child>
                 <child>
                   <widget class="GtkRadioButton" id="radiobutton_encoder_capture_external">
-                    <property name="label" translatable="yes">External</property>
+                    <property name="label" translatable="no">External DEPRECATED</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">External</property>
+                    <property name="tooltip" translatable="no">External DEPRECATED</property>
                     <property name="image_position">right</property>
                     <property name="draw_indicator">True</property>
                     <property name="group">radiobutton_encoder_capture_safe</property>

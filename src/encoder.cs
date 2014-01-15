@@ -35,6 +35,16 @@ public class EncoderParams
 	private string analysis;
 	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
+					
+	//Constants.EncoderSignalMode
+	//in signals and in curves
+	//in signals need to do conversions (invert)
+	//in curves they are already done, is just informative
+	//same for inertiaMomentum and diameter
+	private string encoderMode;	
+	private int inertiaMomentum; 
+	private double diameter;
+	
 	private string smoothCon; //to pass always as "." to R
 	private int curve;
 	private int width;
@@ -51,13 +61,14 @@ public class EncoderParams
 	private int peakPowerLowerCondition;
 	private string mainVariable;
 	private string decimalSeparator;	//used in export data from R to csv
-	private bool inverted;
+	private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderMode
 
 	public EncoderParams()
 	{
 	}
 
-	//to encoder capture (pyserial_pyper.py)
+	//to encoder capture
+	//RunEncoderCapturePython: pyserial_pyper.py and pyserial_pyper_windows.py . This will be deprecated soon 
 	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, 
 			string smoothCon, string eccon, string analysisOptions,
 			double heightHigherCondition, double heightLowerCondition, 
@@ -87,7 +98,9 @@ public class EncoderParams
 		this.mainVariable = mainVariable;
 		this.inverted = inverted;
 	}
-	
+
+	//to encoder capture
+	//RunEncoderCapturePython: pyserial_pyper.py and pyserial_pyper_windows.py . This will be deprecated soon 
 	public string ToString1 () 
 	{
 		string analysisOptionsPrint = analysisOptions;
@@ -108,8 +121,9 @@ public class EncoderParams
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string analysisVariables, string analysisOptions, string smoothCon,
-			int curve, int width, int height, string decimalSeparator)
+			string analysis, string analysisVariables, string analysisOptions, 
+			string encoderMode, int inertiaMomentum, double diameter,
+			string smoothCon, int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
@@ -118,6 +132,9 @@ public class EncoderParams
 		this.analysis = analysis;
 		this.analysisVariables = analysisVariables;
 		this.analysisOptions = analysisOptions;
+		this.encoderMode = encoderMode;
+		this.inertiaMomentum = inertiaMomentum;
+		this.diameter = diameter;
 		this.smoothCon = smoothCon;
 		this.curve = curve;
 		this.width = width;
@@ -128,8 +145,9 @@ public class EncoderParams
 	public string ToString2 (string sep) 
 	{
 		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
-			sep + analysis + sep + analysisVariables + sep + analysisOptions + sep + smoothCon + 
-			sep + curve + sep + width + sep + height + sep + decimalSeparator;
+			sep + analysis + sep + analysisVariables + sep + analysisOptions + 
+			sep + encoderMode + sep + inertiaMomentum.ToString() + sep + Util.ConvertToPoint(diameter) +
+			sep + smoothCon + sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}
 	
 	public string Analysis {
@@ -266,9 +284,16 @@ public class EncoderSQL
 	public string description;
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals
-	public string mode;	//Constants.EncoderSignalMode (only on signals??)
-	public int inertiaMomentum;
+	
+	//Constants.EncoderSignalMode
+	//in signals and in curves
+	//in signals need to do conversions (invert)
+	//in curves they are already done, is just informative
+	//same for inertiaMomentum and diameter
+	public string encoderMode;
+	public int inertiaMomentum; //kg*cm^2
 	public double diameter;
+	
 	public string future1;
 	public string future2;
 	public string future3;
@@ -284,8 +309,8 @@ public class EncoderSQL
 	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, double smooth, 
-			string description, string status, string videoURL, string mode,
-			int inertiaMomentum, double diameter,
+			string description, string status, string videoURL, 
+			string encoderMode, int inertiaMomentum, double diameter,
 			string future1, string future2, string future3, 
 			string exerciseName
 			)
@@ -306,7 +331,7 @@ public class EncoderSQL
 		this.description = description;
 		this.status = status;
 		this.videoURL = videoURL;
-		this.mode = mode;
+		this.encoderMode = encoderMode;
 		this.inertiaMomentum = inertiaMomentum;
 		this.diameter = diameter;
 		this.future1 = future1;

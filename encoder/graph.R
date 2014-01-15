@@ -101,7 +101,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=19)
+	options=readLines(optionsCon,n=22)
 	close(optionsCon)
 	return (options)
 }
@@ -122,7 +122,7 @@ print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
-OperatingSystem=options[19]
+OperatingSystem=options[22]
 
 
 write("(1/5) Starting R", OutputData2)
@@ -996,15 +996,15 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#Explanation rotatory encoder on inertial machine
 		#speed$y comes in mm/ms, is the same than m/s
 		#speedw in meters:
-		speedw <- speed$y/inertialDiameter #m radius
+		speedw <- speed$y / diameter #m radius
 		#accel$y comes in meters
 		#accelw in meters:
-		accelw <- accel$y/inertialDiameter
+		accelw <- accel$y / diameter
 
 		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
 		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
 		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
-		power <- inertialMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
+		power <- inertiaMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
 	
 		#print("at Paint")	
 		#print(c("mass",mass))
@@ -1645,13 +1645,18 @@ doProcess <- function(options) {
 	AnalysisVariables=unlist(strsplit(options[11], "\\;"))
 	
 	AnalysisOptions=options[12]	
-	SmoothingOneC=options[13]
-	Jump=options[14]
-	Width=as.numeric(options[15])
-	Height=as.numeric(options[16])
-	DecimalSeparator=options[17]
-	Title=options[18]
-	OperatingSystem=options[19]	#if this changes, change it also at start of this R file
+
+	encoderMode=		options[13]	
+	inertiaMomentum=	as.numeric(options[14])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	diameter=		as.numeric(options[15])	#in meters, eg: 0.0175
+	
+	SmoothingOneC=options[16]
+	Jump=options[17]
+	Width=as.numeric(options[18])
+	Height=as.numeric(options[19])
+	DecimalSeparator=options[20]
+	Title=options[21]
+	OperatingSystem=options[22]	#if this changes, change it also at start of this R file
 	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
@@ -1661,18 +1666,13 @@ doProcess <- function(options) {
 	print(SpecialData)
 
 	#read AnalysisOptions
-	#if is propulsive and rotatory inertial is: "p;ri;0.010" (last is momentum)
-	#if nothing: "-;-;-"
+	#if is propulsive and rotatory inertial is: "p;ri" 
+	#if nothing: "-;-"
 	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
-	inertialType = ""
-	inertialMomentum = 0
+	inertialType = ""	#TODO: use encoderMode
 	if(length(analysisOptionsTemp) > 1) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
-		inertialMomentum = analysisOptionsTemp[3] #in meters, eg: 0.010
-	}
-	if(length(analysisOptionsTemp) > 3) {
-		inertialDiameter = analysisOptionsTemp[4] #in meters, eg: 0.0175
 	}
 
 	#in "li": linear encoder with inertial machines,

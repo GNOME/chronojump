@@ -110,8 +110,8 @@ class SqliteEncoder : Sqlite
 			es.signalOrCurve + "', '" + es.filename + "', '" +
 			es.url + "', " + es.time + ", " + es.minHeight + ", " +
 			Util.ConvertToPoint(es.smooth) + ", '" + es.description + 
-			"', 'active', '" + es.videoURL + "', '" + es.mode + "', " + 
-			es.inertiaMomentum + ", " + es.diameter + ", '" +
+			"', 'active', '" + es.videoURL + "', '" + es.encoderMode + "', " + 
+			es.inertiaMomentum + ", " + Util.ConvertToPoint(es.diameter) + ", '" +
 			es.future1 + "', '" + es.future2 + "', '" +
 			es.future3 + "')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -153,7 +153,7 @@ class SqliteEncoder : Sqlite
 				", description = '" + es.description + 
 				"', status = '" + es.status + 
 				"', videoURL = '" + es.videoURL + 
-				"', mode = '" + es.mode + 
+				"', mode = '" + es.encoderMode + 
 				"', inertiaMomentum = " + es.inertiaMomentum + 
 				", diameter = " + es.diameter + 
 				", future1 = '" + es.future1 + 
@@ -242,7 +242,7 @@ class SqliteEncoder : Sqlite
 					reader[13].ToString(),			//description
 					reader[14].ToString(),			//status
 					reader[15].ToString(),			//videoURL
-					reader[16].ToString(),			//mode
+					reader[16].ToString(),			//encoderMode
 					Convert.ToInt32(reader[17].ToString()),	//inertiaMomentum
 					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[18].ToString())), //diameter
 					reader[19].ToString(),			//future1

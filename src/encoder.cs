@@ -36,11 +36,8 @@ public class EncoderParams
 	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
 					
-	//Constants.EncoderSignalMode
-	//in signals and in curves
-	//in signals need to do conversions (invert)
-	//in curves they are already done, is just informative
-	//same for inertiaMomentum and diameter
+	//encoderMode conversions
+	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 	private string encoderMode;	
 	private int inertiaMomentum; 
 	private double diameter;
@@ -285,11 +282,8 @@ public class EncoderSQL
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals
 	
-	//Constants.EncoderSignalMode
-	//in signals and in curves
-	//in signals need to do conversions (invert)
-	//in curves they are already done, is just informative
-	//same for inertiaMomentum and diameter
+	//encoderMode conversions
+	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 	public string encoderMode;
 	public int inertiaMomentum; //kg*cm^2
 	public double diameter;

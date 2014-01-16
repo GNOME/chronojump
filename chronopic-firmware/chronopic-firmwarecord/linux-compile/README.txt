@@ -1,5 +1,5 @@
-Guide for Debian (Ubuntu...) systems with python2.7
----------------------------------------------------
+Guide for Debian (Ubuntu...) systems with python2.7 and 32 bits!!
+-----------------------------------------------------------------
 
 1.- Install python-wx:
 

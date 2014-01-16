@@ -172,8 +172,6 @@ public partial class ChronoJumpWindow
 	bool encoderPropulsive;
 	double encoderSmoothCon;
 
-	bool lastRecalculateWasInverted;
-	bool dataHasBeenInverted; //useful to save info of curve in SQL if no curves are found after inverting and recalculating
 	//bool capturingRotaryInertial;
 		
 	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
@@ -322,8 +320,6 @@ public partial class ChronoJumpWindow
 				"", 					//SpecialData
 				ep);				
 				
-		lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
-
 		//Update inertia momentum of encoder if needed
 		SqlitePreferences.Update("inertialmomentum", 
 				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
@@ -524,16 +520,6 @@ public partial class ChronoJumpWindow
 	{
 		if (File.Exists(UtilEncoder.GetEncoderDataTempFileName())) 
 		{
-			dataHasBeenInverted = false;	
-			if(saveOrLoad) {
-				//change sign on signal file if checkbutton_encoder_capture_inverted.Active changed
-				if(lastRecalculateWasInverted != checkbutton_encoder_capture_inverted.Active) {
-					UtilEncoder.ChangeSign(UtilEncoder.GetEncoderDataTempFileName());
-					dataHasBeenInverted = true;
-				}
-			}
-			lastRecalculateWasInverted = checkbutton_encoder_capture_inverted.Active;
-	
 			//calculate and recalculate saves the curve at end
 			//load does not save the curve 
 			if(saveOrLoad)		
@@ -609,8 +595,12 @@ public partial class ChronoJumpWindow
 		else { //(radiobutton_encoder_capture_rotary.Active)
 			if(checkbutton_encoder_capture_inertial.Active)
 				data.Add(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
-			else
-				data.Add(Constants.EncoderSignalMode.ROTARY.ToString());
+			else {
+				if(radiobutton_encoder_capture_rotary_friction.Active)
+					data.Add(Constants.EncoderSignalMode.ROTARYFRICTION.ToString());
+				else
+					data.Add(Constants.EncoderSignalMode.ROTARYAXIS.ToString());
+			}
 		}
 			
 		if(checkbutton_encoder_capture_inertial.Active)
@@ -624,7 +614,6 @@ public partial class ChronoJumpWindow
 	}
 
 
-	//TODO: add diameter here	
 	private void setEncoderCombos(EncoderSQL eSQL) {
 		//TODO diferentiate both rotary encoders
 		if (
@@ -644,16 +633,23 @@ public partial class ChronoJumpWindow
 		if(eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = true;
-		} else if(eSQL.encoderMode == Constants.EncoderSignalMode.ROTARY.ToString()) {
+		} else if(
+				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYFRICTION.ToString() ||
+				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYAXIS.ToString() ) {
 			radiobutton_encoder_capture_rotary.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
+			
+			if(eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYFRICTION.ToString())
+				radiobutton_encoder_capture_rotary_friction.Active = true;
+			else
+				radiobutton_encoder_capture_rotary_axis.Active = true;
+
 		} else { //default to linear: (eSQL.encoderMode == Constants.EncoderSignalMode.LINEAR.ToString()) 
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
 
-		//TODO: fix this to use diameter if needed
-		//eSQL.diameter...
+		spin_encoder_capture_diameter.Value = Convert.ToDouble(eSQL.diameter);  
 	}
 
 
@@ -1653,16 +1649,10 @@ public partial class ChronoJumpWindow
 		eSQL.url = path;
 		eSQL.description = desc;
 
-		if(mode == "signal") {
-			ArrayList encoderTypeArray = getEncoderTypeByCombos();
-			eSQL.encoderMode = 	encoderTypeArray[0].ToString();
-			eSQL.inertiaMomentum = 	Convert.ToInt32(encoderTypeArray[1]);
-			eSQL.diameter = 	Convert.ToDouble(encoderTypeArray[2]);
-		} else {
-			eSQL.encoderMode = "";
-			eSQL.inertiaMomentum = 0;
-			eSQL.diameter = 0; 
-		}
+		ArrayList encoderTypeArray = getEncoderTypeByCombos();
+		eSQL.encoderMode = 	encoderTypeArray[0].ToString();
+		eSQL.inertiaMomentum = 	Convert.ToInt32(encoderTypeArray[1]);
+		eSQL.diameter = 	Convert.ToDouble(encoderTypeArray[2]);
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update
@@ -1860,9 +1850,21 @@ public partial class ChronoJumpWindow
 		//int recordingTime = es.Ep.Time * 1000;
 		int recordingTime = time * 1000;
 		
+		//this is what's readed from encoder, as it's linear (non-inverted, not inertial, ...)
+		//it's stored in file like this
+		int byteReadedRaw;
+		//this it's converted applying encoderModeConversions: inverted, inertial, diameter, demult, ...
 		int byteReaded;
+		
 		//initialize
-		encoderReaded = new int[recordingTime];
+		int [] encoderReadedRaw = new int[recordingTime]; //stored to file in this method
+		encoderReaded = new int[recordingTime];		  //readed from drawing process: updateEncoderCaptureGraphRCalc() 
+		
+		ArrayList encoderTypeArray = getEncoderTypeByCombos();
+		string encoderMode = encoderTypeArray[0].ToString();
+		int inertiaMomentum = Convert.ToInt32(encoderTypeArray[1]);
+		double diameter = Convert.ToDouble(encoderTypeArray[2]);
+
 
 		int sum = 0;
 		string dataString = "";
@@ -1906,23 +1908,20 @@ public partial class ChronoJumpWindow
 			ecca = new EncoderCaptureCurveArray();
 			eccaCreated = true;
 		}
-		ecca.curvesDone = 0;
-		ecca.curvesAccepted = 0;
 
 
 		do {
-			byteReaded = sp.ReadByte();
-			if(byteReaded > 128)
-				byteReaded = byteReaded - 256;
+			byteReadedRaw = sp.ReadByte();
+			if(byteReadedRaw > 128)
+				byteReadedRaw = byteReadedRaw - 256;
 
-			//invert sign if inverted is selected
-			if(checkbutton_encoder_capture_inverted.Active)
-				byteReaded *= -1;
+			byteReaded = UtilEncoder.EncoderModeConversions(byteReadedRaw, encoderMode, inertiaMomentum, diameter);
 
 			i=i+1;
 			if(i >= 0) {
 				sum += byteReaded;
 				encoderReaded[i] = byteReaded;
+				encoderReadedRaw[i] = byteReadedRaw;
 
 				encoderCapturePoints[i] = new Gdk.Point(
 						Convert.ToInt32(width*i/recordingTime),
@@ -2022,7 +2021,7 @@ public partial class ChronoJumpWindow
 
 		sep = "";
 		for(int j=0; j < i ; j ++) {
-			writer.Write(sep + encoderReaded[j]);
+			writer.Write(sep + encoderReadedRaw[j]); //store the raw file (before encoderModeConversions)
 			sep = ", ";
 		}
 
@@ -2074,6 +2073,9 @@ public partial class ChronoJumpWindow
 			analysisVariables = getAnalysisVariables(sendAnalysis);
 
 		ArrayList encoderTypeArray = getEncoderTypeByCombos();
+		string encoderMode = encoderTypeArray[0].ToString();
+		int inertiaMomentum = Convert.ToInt32(encoderTypeArray[1]);
+		double diameter = Convert.ToDouble(encoderTypeArray[2]);
 
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
 			string myEccon = "ec";
@@ -3872,6 +3874,8 @@ Log.WriteLine(str);
 	
 	private void updateEncoderCaptureGraphRCalc() 
 	{
+		if(! eccaCreated)
+			return;
 		if(ecca.ecc.Count <= ecca.curvesDone) 
 			return;
 
@@ -4219,6 +4223,7 @@ Log.WriteLine(str);
 				encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
 				
 				capturingCsharp = true;
+				eccaCreated = false;
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));

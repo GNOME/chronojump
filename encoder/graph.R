@@ -1599,6 +1599,19 @@ find.yrange <- function(singleFile, rawdata, curves) {
 	return (c(y.min,y.max))
 }
 
+#encoderMode conversions
+#in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
+encoderModeConversions <- function(rawdata, encoderMode, diameter) {
+	if(encoderMode == "LINEARINVERTED")
+		rawdata = -rawdata
+	if(encoderMode == "ROTARYAXIS") {
+		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+		rawdata = ( rawdata / ticksRotaryEncoder ) * 2 * pi * ( diameter / 2 )
+	}
+	#write(rawdata, "debug-file.txt")
+	return(rawdata)
+}
+
 quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
 	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
@@ -1725,7 +1738,8 @@ doProcess <- function(options) {
 	#declare here
 	SmoothingsEC = 0
 
-	if(! singleFile) {
+
+	if(! singleFile) {	#reads CSV with curves to analyze
 		#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
 		#this are separated movements
 		#maybe all are concentric (there's no returning to 0 phase)
@@ -1758,6 +1772,8 @@ doProcess <- function(options) {
 			#if curves file ends with comma. Last character will be an NA. remove it
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
+
+			dataTempFile = encoderModeConversions(dataTempFile, encoderMode, diameter)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1843,12 +1859,14 @@ doProcess <- function(options) {
 		
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
-	} else {
+	} else {	#singleFile == True. reads a signal file
 		rawdata=scan(file=File,sep=",")
 			
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		rawdata  = rawdata[!is.na(rawdata)]
+			
+		rawdata = encoderModeConversions(rawdata, encoderMode, diameter)
 
 		if(length(rawdata)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")

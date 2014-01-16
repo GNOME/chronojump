@@ -78,9 +78,9 @@ class SqliteEncoder : Sqlite
 			"description TEXT, " +
 			"status TEXT, " +	//"active", "inactive"
 			"videoURL TEXT, " +	//URL of video of signals
-			"mode TEXT, " +		//Constants.EncoderSignalMode (only on signals??)
-		       	"inertiaMomentum INT, " + 
-		       	"diameter FLOAT, " + 
+			"mode TEXT, " +		//Constants.EncoderSignalMode (signals, and curves)
+		       	"inertiaMomentum INT, " +	//signals and curves
+		       	"diameter FLOAT, " + 		//signals and curves
 		       	"future1 TEXT, " + 
 		       	"future2 TEXT, " + 
 		       	"future3 TEXT )";

@@ -609,10 +609,12 @@ public class Constants
 	public static string ConcentricEccentric = "Concentric-eccentric";
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
-	public enum EncoderSignalMode { 
-		LINEAR, LINEARINVERTED, ROTARY, 
+
+	public enum EncoderSignalMode { //this names are used on graph.R change there also if needed
+		LINEAR, LINEARINVERTED, ROTARYFRICTION, ROTARYAXIS,
 		LINEARINERTIAL, LINEARINVERTEDINERTIAL, ROTARYINERTIAL 
 	}
+
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }
 

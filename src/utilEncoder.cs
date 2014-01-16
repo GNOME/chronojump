@@ -441,33 +441,12 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
-	//used on encoder inverted-noninverted
-	public static void ChangeSign(string fileName) 
-	{
-		string data = Util.ReadFile(fileName, true);
-		if(data != null) {
-			TextWriter writer;
-			try {
-				writer = File.CreateText(fileName);
-			} catch {return;}
-	
-			using (StringReader reader = new StringReader (data)) {
-				do {
-					string line = reader.ReadLine ();
-					if (line == null)
-						break;
-					string [] ints = line.Split(new char[] {','});
-					string sep = "";
-					foreach(string istr in ints) {
-						int i = Convert.ToInt32(istr);
-						i *= -1;
-						writer.Write(sep + i.ToString());
-						sep = ", ";
-					}
-				} while(true);
-			}
-			writer.Flush();
-			((IDisposable)writer).Dispose();
-		}
-	}
+	public static int EncoderModeConversions(int byteReaded, string encoderMode, int inertiaMomentum, double diameter) {
+		//invert sign if inverted is selected
+		if(encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString())
+			byteReaded *= -1;
+
+		return byteReaded;
+	}	
+
 }

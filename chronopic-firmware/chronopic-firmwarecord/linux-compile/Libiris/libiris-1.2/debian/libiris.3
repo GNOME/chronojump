@@ -1,0 +1,69 @@
+.\"     Title: LIBIRIS
+.\"    Author: 
+.\" Generator: DocBook XSL Stylesheets v1.71.0 <http://docbook.sf.net/>
+.\"      Date: 09/08/2007
+.\"    Manual: 
+.\"    Source: 
+.\"
+.TH "LIBIRIS" "3" "09/08/2007" "" ""
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.SH "NAME"
+libiris \- Libreria para la descarga de programas en la tarjeta Skypic.
+.SH "DESCRIPTION"
+.PP
+Con esta libreria es muy sencillo realizar herramientas en python para descargar programas en la tarjeta Skypic, o en cualquier otra que tenga un microcontrolador PIC16F87A con este bootloader cargado: http://www.iearobotics.com/wiki/index.php?title=PIC_Bootloader
+.PP
+La libreria
+\fBlibiris\fR
+esta formada por tres modulos:
+.PP
+\fBIntelhex\fR
+.RS 3n
+Lectura de ficheros en formato .hex
+.RE
+.PP
+\fBPIC16_Bootloader\fR
+.RS 3n
+Descarga de ficheros a traves del Bootloader
+.RE
+.PP
+\fBPIC16_Firmware\fR
+.RS 3n
+Programas para el PIC16F876A. Entre ellos los servidores del proyecto Stargate
+.RE
+.PP
+Y por las siguientes utilidades para la consola:
+.PP
+\fBhex\-view\fR
+.RS 3n
+Visualizacion de ficheros .hex
+.RE
+.PP
+\fBhex2python\fR
+.RS 3n
+Convertir un fichero .hex a un script en python, que contiene el codigo maquina en una lista
+.RE
+.PP
+\fBskypic\-test\fR
+.RS 3n
+Prueba de descarga en la skypic. Se graba el programa del ledp parpadeante. Permite comprobar si la skypic esta funcionando correctamente Stargate
+.RE
+.SH "AUTORES"
+.PP
+Rafael Trevino
+<skasi.7@gmail.com>
+.PP
+Juan Gonzalez
+<juan@iearobotics.com>
+.SH "LICENCIA"
+.PP
+This manual page was written for the
+Debian(TM)
+system (but may be used by others). Permission is granted to copy, distribute and/or modify this document under the terms of the
+GNU
+General Public License, Version 2 any later version published by the Free Software Foundation.
+.PP
+On Debian systems, the complete text of the GNU General Public License can be found in /usr/share/common\-licenses/GPL.

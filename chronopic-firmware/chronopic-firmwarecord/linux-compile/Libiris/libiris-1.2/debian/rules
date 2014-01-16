@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+  
+DEB_PYTHON_SYSTEM=pycentral
+DBK2MAN_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/python-distutils.mk
+
+build/python-libiris::
+	xsltproc --nonet $(DBK2MAN_XSL) debian/libiris.xml
+
+install/python-libiris::
+	mv $(CURDIR)/debian/python-libiris/usr/bin/hex-view.py $(CURDIR)/debian/python-libiris/usr/bin/hex-view
+	mv $(CURDIR)/debian/python-libiris/usr/bin/hex2python.py $(CURDIR)/debian/python-libiris/usr/bin/hex2python
+	mv $(CURDIR)/debian/python-libiris/usr/bin/skypic-test.py $(CURDIR)/debian/python-libiris/usr/bin/skypic-test
+	dh_installexamples test-libIris/*.py test-IntelHex/*
+
+clean::
+	-rm libiris.3

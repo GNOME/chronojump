@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+<!--
+
+Process this file with an XSLT processor: `xsltproc \
+-''-nonet /usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
+manpages/docbook.xsl manpage.dbk'.  A manual page
+<package>.<section> will be generated.  You may view the
+manual page with: nroff -man <package>.<section> | less'.  A
+typical entry in a Makefile or Makefile.am is:
+
+DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
+manpages/docbook.xsl
+XP=xsltproc -''-nonet
+
+manpage.1: manpage.dbk
+        $(XP) $(DB2MAN) $<
+    
+The xsltproc binary is found in the xsltproc package.  The
+XSL files are in docbook-xsl.  Please remember that if you
+create the nroff version in one of the debian/rules file
+targets (such as build), you will need to include xsltproc
+and docbook-xsl in your Build-Depends control field.
+
+--><!-- Fill in your name for FIRSTNAME and SURNAME. --><!ENTITY dhfirstname "<firstname>Juan</firstname>">
+<!ENTITY dhsurname "<surname>Gonzalez</surname>">
+<!-- Please adjust the date whenever revising the manpage. --><!ENTITY dhdate "<date>agosto 31, 2007</date>">
+<!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). --><!ENTITY dhsection "<manvolnum>3</manvolnum>">
+<!ENTITY dhemail "<email>juan@iearobotics.com</email>">
+<!ENTITY dhusername "Juan Gonzalez">
+<!ENTITY dhucpackage "<refentrytitle>LIBIRIS</refentrytitle>">
+<!ENTITY dhpackage "libiris">
+<!ENTITY debian "<productname>Debian</productname>">
+<!ENTITY gnu "<acronym>GNU</acronym>">
+<!ENTITY gpl "&gnu; <acronym>GPL</acronym>">
+]>
+<refentry>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+    <refpurpose>Libreria para la descarga de programas en la tarjeta Skypic. 
+  </refpurpose>
+  </refnamediv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+    <para>
+     Con esta libreria es muy sencillo realizar herramientas en python para descargar programas en la tarjeta Skypic,
+    o en cualquier otra que tenga un microcontrolador PIC16F87A con este bootloader cargado:
+    http://www.iearobotics.com/wiki/index.php?title=PIC_Bootloader
+    </para>
+    <para>La libreria <command>&dhpackage;</command> esta formada por tres modulos:
+   </para>
+
+  <variablelist>
+      <varlistentry>
+	<term>
+            <command>Intelhex</command>
+	  </term>
+        <listitem>
+          <para> Lectura de ficheros en formato .hex</para>
+        </listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+            <command>PIC16_Bootloader</command>
+	</term>
+        <listitem>
+          <para>Descarga de ficheros a traves del Bootloader</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>
+            <command>PIC16_Firmware</command>
+	</term>
+        <listitem>
+          <para>Programas para el PIC16F876A. Entre ellos los servidores del proyecto 
+	  Stargate</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    
+    <para>
+	    Y por las siguientes utilidades para la consola:
+    </para>
+    
+      <variablelist>
+      <varlistentry>
+	<term>
+            <command>hex-view</command>
+	  </term>
+        <listitem>
+          <para> Visualizacion de ficheros .hex</para>
+        </listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+            <command>hex2python</command>
+	</term>
+        <listitem>
+          <para>Convertir un fichero .hex a un script en python, que contiene el
+	  codigo maquina en una lista</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>
+            <command>skypic-test</command>
+	</term>
+        <listitem>
+          <para>Prueba de descarga en la skypic. Se graba el programa del ledp
+           parpadeante. Permite comprobar si la skypic esta funcionando correctamente
+	  Stargate</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    
+
+  <refsect1>
+    <title>AUTORES</title>
+    
+    <para> Rafael Trevino <email>skasi.7@gmail.com</email> </para>
+    <para> Juan Gonzalez  <email>juan@iearobotics.com</email> </para>
+    
+  </refsect1>    
+    
+   
+  </refsect1>
+  
+  <refsect1>
+    <title>LICENCIA</title>
+    <para>This manual page was written for
+      the &debian; system (but may be used by others).  Permission is
+      granted to copy, distribute and/or modify this document under
+      the terms of the &gnu; General Public License, Version 2 any 
+	  later version published by the Free Software Foundation.
+    </para>
+    <para>
+	  On Debian systems, the complete text of the GNU General Public
+	  License can be found in /usr/share/common-licenses/GPL.
+	</para>
+  </refsect1>
+</refentry>

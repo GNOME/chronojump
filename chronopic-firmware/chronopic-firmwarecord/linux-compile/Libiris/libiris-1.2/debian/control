@@ -1,0 +1,15 @@
+Source: libiris
+Section: python
+Priority: optional
+Maintainer: Juan Gonzalez <juan@iearobotics.com>
+Build-Depends: cdbs, cdbs, debhelper (>= 5)
+XS-Python-Version: all
+Standards-Version: 3.7.2
+
+Package: python-libiris
+Architecture: any
+Depends: ${python:Depends}, python-serial
+XB-Python-Version: ${python:Versions}
+Description: Libreria para descarga de programas en la tarjeta Skypic
+ Libreria en python para implementar aplicaciones que pueden descargar
+ firmware en la tarjeta Skypic, basada en el PIC16F876A

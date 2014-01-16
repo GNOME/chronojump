@@ -1,0 +1,31 @@
+------------------------------------------------
+--  COSAS POR HACER
+------------------------------------------------
+
+2007-08-01 Rafael Treviño <skasi.7@gmail.com>
+* TODO: Crear todos los destructores que se ocupan de cerrar los puertos serie
+  
+* Modificar libIris para usar IntelHex 
+
+
+------------------------------------------------
+--  BUGS ENCONTRADOS
+------------------------------------------------  
+
+
+-------------------------------------------------
+--- BUGS SOLUCIONADOS
+-------------------------------------------------
+
+2007-07-31  Juan Gonzalez <juan@iearobotics.com>
+* BUG: el programa test-readHex.py peta cuando se le pasa como parametro
+  el fichero PIC16_bootloader_1.2.hex
+ 
+$ ./test-readHex.py PIC16_bootloader_1.2.hex
+File: "PIC16_bootloader_1.2.hex"
+Traceback (most recent call last):
+  File "./test-readHex.py", line 39, in ?
+    data = hr.readHex (fd)
+  File "/home/juan/desarrollo/libIris/libIris.py", line 74, in readHex
+    raise ReaderError, 'Can\'t handle %X record type.' % rectype
+libIris.ReaderError: Can't handle 4 record type.

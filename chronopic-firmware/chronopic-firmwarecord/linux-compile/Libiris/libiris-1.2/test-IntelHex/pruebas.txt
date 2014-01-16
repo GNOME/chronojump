@@ -1,0 +1,173 @@
+----------------------------
+PRUEBAS DEL MODULO IntelHex
+----------------------------
+
+Se han probado los siguientes ficheros .hex:
+El formato de estos ficheros es correcto
+ledon.hex
+ledp.hex 
+ledp1.hex
+ledp2.hex
+Picp-pic16f876-skypic-2.hex 
+sg-generic-pic16f876a-skypic-0-BOOT.hex
+sg-servos8-pic16f876-skypic.hex
+PIC16_bootloader_1.2.hex 
+
+#-- El formato de estos ficheros es INCORRECTO y debe dar error
+wrong1.hex
+wrong2.hex
+wrong3.hex 
+wrong4.hex --> Tiene un error en el checksum
+       
+------------       
+PRUEBA 1    
+------------
+* Pasrseo correcto de los .hex con formato adecuado.
+
+Ejemplo:
+
+$ ./test-readHex.py ledon.hex
+Fichero: "ledon.hex"
+[(0, (0, 0)), (1, (17, 138)), (2, (18, 10)), (3, (40, 12)), (5, (22, 131)), (6, (19, 3)), (7, (16, 134)), (8, (18, 131)), (9, (20, 134)), (10, (40, 10)), (11, (0, 8)), (12, (17, 138)), (13, (18, 10)), (14, (40, 5))]
+
+--------------
+PRUEBA 2
+--------------
+
+* Parseo de los .hex con formatos incorrecto:
+
+$ ./test-readHex.py wrong1.hex
+Fichero: "wrong1.hex"
+Error: Error en formato HEX: Comienzo de linea incorrecto
+
+$ ./test-readHex.py wrong2.hex
+Fichero: "wrong2.hex"
+Error: Error en formato HEX: Final erroneo
+
+$ ./test-readHex.py wrong3.hex
+Fichero: "wrong3.hex"
+Error: Error en formato HEX: Palabra incorrecta
+
+$ ./test-readHex.py wrong4.hex
+Fichero: "wrong4.hex"
+Error: Error en formato HEX: Fallo en checksum
+
+------------------
+PRUEBA 3
+------------------
+
+* Pruebas de conversion a los diferentes formatos
+Probado con todos los ficheros .hex correctos
+
+Ejemplo:
+
+$ ./test-formats.py ledp.hex
+Fichero: "ledp.hex"
+
+---------- FORMATO 1 ---------------------------------
+[(0, (0, 0)), (1, (17, 138)), (2, (18, 10)), (3, (40, 33)), (5, (48, 253)), (6, (22, 131)), (7, (19, 3)), (8, (0, 134)), (9, (48, 2)), (10, (18, 131)), (11, (6, 134)), (12, (48, 255)), (13, (0, 255)), (14, (48, 255)), (15, (32, 18)), (16, (40, 9)), (17, (0, 8)), (18, (18, 131)), (19, (19, 3)), (20, (0, 163)), (21, (8, 127)), (22, (0, 162)), (23, (8, 34)), (24, (4, 35)), (25, (25, 3)), (26, (40, 32)), (27, (48, 255)), (28, (7, 162)), (29, (28, 3)), (30, (3, 163)), (31, (40, 23)), (32, (0, 8)), (33, (17, 138)), (34, (18, 10)), (35, (40, 5))]
+
+---------- FORMATO 2 ---------------------------------
+[[0, 0, 4490, 4618, 10273, 0, 12541, 5763, 4867, 134, 12290, 4739, 1670, 12543, 255, 12543, 8210, 10249, 8, 4739, 4867, 163, 2175, 162, 2082, 1059, 6403, 10272, 12543, 1954, 7171, 931, 10263, 8, 4490, 4618, 10245]]
+
+---------- FORMATO 3 ---------------------------------
+[[0, 0, 4490, 4618, 10273, 0, 12541, 5763, 4867, 134, 12290, 4739, 1670, 12543, 255, 12543, 8210], [16, 10249, 8, 4739, 4867, 163, 2175, 162, 2082, 1059, 6403, 10272, 12543, 1954, 7171, 931, 10263], [32, 8, 4490, 4618, 10245]]
+
+------------------
+PRUEBA 4
+------------------
+* Pruebas del formato de salida
+Probado con todos los ficheros .hex correctos
+
+Ejemplo:
+
+$ ./test-outputs.py ledon.hex
+Fichero: "ledon.hex"
+---------------------- Vista 1 ---------------------------
+Dir: Contenido
+---- ---------
+0000: 0000
+0001: 118A
+0002: 120A
+0003: 280C
+0005: 1683
+0006: 1303
+0007: 1086
+0008: 1283
+0009: 1486
+000A: 280A
+000B: 0008
+000C: 118A
+000D: 120A
+000E: 2805
+
+---------------------- Vista 2 ---------------------------
+Direccion: 0000
+0000 118A 120A 280C 0000 1683 1303 1086 1283 1486 280A 0008 118A 120A 2805
+
+
+---------------------- Vista 3 ---------------------------
+Direccion: 0000
+0000 118A 120A 280C 0000 1683 1303 1086 1283 1486 280A 0008 118A 120A 2805
+
+
+---------------------- Vista 4 ---------------------------
+prog=[[0x0000, 0x0000, 0x118A, 0x120A, 0x280C, 0x0000, 0x1683, 0x1303, 0x1086, 0x1283, 0x1486, 0x280A, 0x0008, 0x118A, 0x120A, 0x2805],]
+
+
+---------------------------
+- PRUEBA 5
+---------------------------
+* Prueba de los metodos de obtencion de estadisticas
+
+Ejemplos:
+
+$ ./test-stats ledon.hex
+Fichero: "ledon.hex"
+Tamano    : 14 palabras
+Bloques   : 1
+Bloques 16: 1
+
+$ ./test-stats.py ledp.hex
+Fichero: "ledp.hex"
+Tamano    : 35 palabras
+Bloques   : 1
+Bloques 16: 3
+
+$ ./test-stats.py ledp1.hex
+Fichero: "ledp1.hex"
+Tamano    : 35 palabras
+Bloques   : 1
+Bloques 16: 3
+
+$ ./test-stats.py ledp2.hex
+Fichero: "ledp2.hex"
+Tamano    : 35 palabras
+Bloques   : 1
+Bloques 16: 3
+
+
+$ ./test-stats.py Picp-pic16f876-skypic-2.hex
+Fichero: "Picp-pic16f876-skypic-2.hex"
+Tamano    : 409 palabras
+Bloques   : 1
+Bloques 16: 26
+
+
+$ ./test-stats.py sg-generic-pic16f876a-skypic-0-BOOT.hex
+Fichero: "sg-generic-pic16f876a-skypic-0-BOOT.hex"
+Tamano    : 80 palabras
+Bloques   : 1
+Bloques 16: 5
+
+$ ./test-stats.py sg-servos8-pic16f876-skypic.hex
+Fichero: "sg-servos8-pic16f876-skypic.hex"
+Tamano    : 266 palabras
+Bloques   : 1
+Bloques 16: 17
+
+$ ./test-stats.py PIC16_bootloader_1.2.hex
+Fichero: "PIC16_bootloader_1.2.hex"
+Tamano    : 390 palabras
+Bloques   : 3
+Bloques 16: 26

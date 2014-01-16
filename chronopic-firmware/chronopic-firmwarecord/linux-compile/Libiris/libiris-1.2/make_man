@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+all: man
+  
+DBK2MAN_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
+
+
+man:: debian/libiris.3
+
+debian/libiris.3: debian/libiris.xml
+	xsltproc --nonet $(DBK2MAN_XSL) debian/libiris.xml
+	mv libiris.3 debian
+
+view:: debian/libiris.3
+	nroff -man debian/libiris.3 | less
+

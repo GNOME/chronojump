@@ -1,0 +1,35 @@
+libiris (1.2-5) unstable; urgency=low
+
+  * Anadidos los ultimos cambios que se han realizado en la libiris-1.2 
+
+ -- juan <juan@Roma.local.lan>  Sun, 16 Sep 2007 17:03:27 +0200
+
+libiris (1.2-4) unstable; urgency=low
+
+  * Anadidos como ejemplos los scripts de los directorios test-IntelHex y
+    test-libIris. Tambien los ficheros .hex que hay en ellos
+
+ -- juan <juan@Roma.local.lan>  Sun,  2 Sep 2007 01:09:54 +0200
+
+libiris (1.2-3) unstable; urgency=low
+
+  * Ademas de instalar la libreria libiris se instalan las tres utilidades:
+    -hex-view
+    -hex2python
+    -skypic-test
+
+ -- juan <juan@Roma.local.lan>  Sun,  2 Sep 2007 00:57:15 +0200
+
+libiris (1.2-2) unstable; urgency=low
+
+  * Cambiado el nombre del paquete a python-libiris para seguir las
+    reglas de debian
+
+ -- juan <juan@Roma.local.lan>  Sat,  1 Sep 2007 13:20:05 +0200
+
+libiris (1.2-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Juan Gonzalez <juan@iearobotics.com>  Fri, 31 Aug 2007 21:59:13 +0200
+

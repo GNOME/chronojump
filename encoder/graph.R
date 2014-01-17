@@ -1602,13 +1602,15 @@ find.yrange <- function(singleFile, rawdata, curves) {
 #encoderMode conversions
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 encoderModeConversions <- function(rawdata, encoderMode, diameter) {
-	if(encoderMode == "LINEARINVERTED")
-		rawdata = -rawdata
-	if(encoderMode == "ROTARYAXIS") {
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		rawdata = ( rawdata / ticksRotaryEncoder ) * 2 * pi * ( diameter / 2 )
-	}
 	#write(rawdata, "debug-file.txt")
+	if(encoderMode == "LINEARINVERTED") {
+		rawdata = -rawdata
+	} else if(encoderMode == "ROTARYAXIS") {
+		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+		#diameter m -> mm
+		rawdata = ( rawdata / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
+	}
+	#write(rawdata, "debug-file2.txt")
 	return(rawdata)
 }
 

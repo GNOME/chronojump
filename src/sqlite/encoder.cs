@@ -155,7 +155,7 @@ class SqliteEncoder : Sqlite
 				"', videoURL = '" + es.videoURL + 
 				"', mode = '" + es.encoderMode + 
 				"', inertiaMomentum = " + es.inertiaMomentum + 
-				", diameter = " + es.diameter + 
+				", diameter = " + Util.ConvertToPoint(es.diameter) + 
 				", future1 = '" + es.future1 + 
 				"', future2 = '" + es.future2 + 
 				"', future3 = '" + es.future3 + 

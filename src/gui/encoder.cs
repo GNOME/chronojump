@@ -51,7 +51,7 @@ public partial class ChronoJumpWindow
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
-	[Widget] Gtk.SpinButton spin_encoder_capture_diameter;
+	[Widget] Gtk.SpinButton spin_encoder_capture_diameter;	//diameter is always in m except in gui: there is in cm
 	[Widget] Gtk.Button button_encoder_capture_inertial;
 	[Widget] Gtk.Box hbox_encoder_capture_diameter;
 
@@ -154,7 +154,7 @@ public partial class ChronoJumpWindow
 	private ArrayList encoderCompareInterperson;	//personID:personName
 	private ArrayList encoderCompareIntersession;	//sessionID:sessionDate
 
-	private static int [] encoderReaded;		//data coming from encoder
+	private static double [] encoderReaded;		//data coming from encoder and converted (can be double)
 	private static int encoderCaptureCountdown;
 	private static Gdk.Point [] encoderCapturePoints;		//stored to be realtime displayed
 	private static int encoderCapturePointsCaptured;		//stored to be realtime displayed
@@ -608,7 +608,8 @@ public partial class ChronoJumpWindow
 		else
 			data.Add(0);
 		
-		data.Add((double) spin_encoder_capture_diameter.Value);
+		//diameter is always in m except in gui: there is in cm
+		data.Add((double) spin_encoder_capture_diameter.Value / 100);
 
 		return data;
 	}
@@ -649,7 +650,8 @@ public partial class ChronoJumpWindow
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
 
-		spin_encoder_capture_diameter.Value = Convert.ToDouble(eSQL.diameter);  
+		//diameter is always in m except in gui: there is in cm
+		spin_encoder_capture_diameter.Value = Convert.ToDouble(eSQL.diameter) * 100;  
 	}
 
 
@@ -662,7 +664,7 @@ public partial class ChronoJumpWindow
 		 * 2: "l", "li", "rf" or "ra". Linear, linear inverted, rotatory friction, rotatory axes
 		 * 3: "i" or "-". Inertial or not
 		 * 4: inertial moment in Kgxcm^2 or "-".
-		 * 5: diameter in cm
+		 * 5: diameter in cm (in GUI. the rest is in meters)
 		 *
 		 * eg:
 		 * p;ra;i;100;4
@@ -1854,11 +1856,11 @@ public partial class ChronoJumpWindow
 		//it's stored in file like this
 		int byteReadedRaw;
 		//this it's converted applying encoderModeConversions: inverted, inertial, diameter, demult, ...
-		int byteReaded;
+		double byteReaded;
 		
 		//initialize
 		int [] encoderReadedRaw = new int[recordingTime]; //stored to file in this method
-		encoderReaded = new int[recordingTime];		  //readed from drawing process: updateEncoderCaptureGraphRCalc() 
+		encoderReaded = new double[recordingTime];	  //readed from drawing process: updateEncoderCaptureGraphRCalc() 
 		
 		ArrayList encoderTypeArray = getEncoderTypeByCombos();
 		string encoderMode = encoderTypeArray[0].ToString();
@@ -1866,7 +1868,7 @@ public partial class ChronoJumpWindow
 		double diameter = Convert.ToDouble(encoderTypeArray[2]);
 
 
-		int sum = 0;
+		double sum = 0;
 		string dataString = "";
 		string sep = "";
 		
@@ -1945,7 +1947,7 @@ public partial class ChronoJumpWindow
 				//if string goes up or down
 				if(byteReaded != 0)
 					//store the direction
-					directionNow = byteReaded / Math.Abs(byteReaded); //1 (up) or -1 (down)
+					directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
 					
 				//if we don't have changed the direction, store the last non-zero that we can find
 				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
@@ -3894,7 +3896,7 @@ Log.WriteLine(str);
 			
 			double height = 0;
 
-			int [] curve = new int[ecc.endFrame - ecc.startFrame];
+			double [] curve = new double[ecc.endFrame - ecc.startFrame];
 			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
 				height += encoderReaded[j];
 				curve[k]=encoderReaded[j];
@@ -3912,7 +3914,7 @@ Log.WriteLine(str);
 			
 			Log.Write(" uECGRC2 calling rdotnet ");
 
-			IntegerVector curveToR = rengine.CreateIntegerVector(curve);
+			NumericVector curveToR = rengine.CreateNumericVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
 
 			//cannot do smooth.spline with less than 4 values
@@ -4003,7 +4005,7 @@ Log.WriteLine(str);
 					Log.Write(curveToR[i] + ","); //TODO: provar aixo!!				
 
 			//create a curveToR with only reduced curve
-			IntegerVector curveToRreduced = rengine.CreateIntegerVector(new int[x_end - x_ini]);
+			NumericVector curveToRreduced = rengine.CreateNumericVector(new double[x_end - x_ini]);
 			for(int k=0, i=x_ini; i < x_end; i ++)
 				curveToRreduced[k++] = curveToR[i]; 				
 			rengine.SetSymbol("curveToRreduced", curveToRreduced);

@@ -441,12 +441,20 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
-	public static int EncoderModeConversions(int byteReaded, string encoderMode, int inertiaMomentum, double diameter) {
+	public static double EncoderModeConversions(int byteReaded, string encoderMode, int inertiaMomentum, double diameter) {
+		double byteConverted = byteReaded;
+
 		//invert sign if inverted is selected
 		if(encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString())
-			byteReaded *= -1;
+			byteConverted *= -1;
+		else if(encoderMode == "ROTARYAXIS") {
+			int ticksRotaryEncoder = 200; //our rotary axis encoder send 200 ticks by turn
+			//diameter m -> mm
+			byteConverted = ( byteConverted / ticksRotaryEncoder ) * 2 * Math.PI * ( diameter * 1000 / 2 );
+		}
+		//Log.Write(" " + byteReaded + ":" + byteConverted);
 
-		return byteReaded;
+		return byteConverted;
 	}	
 
 }

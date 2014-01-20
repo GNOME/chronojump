@@ -3,7 +3,6 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT([chronojump], [1.3.9])
 AM_INIT_AUTOMAKE([foreign])
-AM_MAINTAINER_MODE
 
 AC_CONFIG_MACRO_DIR([build/m4])
 AC_SUBST([ACLOCAL_AMFLAGS], ["-I build/m4/shamrock -I build/m4/shave \${ACLOCAL_FLAGS}"])
@@ -160,6 +159,7 @@ CesarPlayer/Makefile
 CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
+win32/Makefile
 rdotnet/Makefile
 rdotnet/R.NET/Makefile
 rdotnet/RDotNet.NativeLibrary/Makefile

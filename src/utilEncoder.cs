@@ -445,7 +445,7 @@ public class UtilEncoder
 		double byteConverted = byteReaded;
 
 		//invert sign if inverted is selected
-		if(encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString())
+		if(encoderMode == Constants.EncoderMode.LINEARINVERTED.ToString())
 			byteConverted *= -1;
 		else if(encoderMode == "ROTARYAXIS") {
 			int ticksRotaryEncoder = 200; //our rotary axis encoder send 200 ticks by turn

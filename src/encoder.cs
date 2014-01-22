@@ -598,18 +598,106 @@ public class EncoderModeList
 	public EncoderModeList(string type) 
 	{
 		list = new ArrayList();
+		EncoderMode enc = new EncoderMode();
+		
 		if(type == "linear") {
-			EncoderMode enc = new EncoderMode();
 			enc = new EncoderMode(
-					Constants.EncoderSignalMode.LINEAR.ToString(),
+					Constants.EncoderMode.LINEAR.ToString(),
 					Constants.FileNameEncoderLinearFreeWeight,
 					"Text for normal linear encoder"); 
 			list.Add(enc);
 
 			enc = new EncoderMode(
-					Constants.EncoderSignalMode.LINEARINVERTED.ToString(),
+					Constants.EncoderMode.LINEARINVERTED.ToString(),
 					Constants.FileNameEncoderLinearFreeWeightInv,
 					"Text for inverted linear encoder"); 
+			list.Add(enc);
+			
+			enc = new EncoderMode(
+					Constants.EncoderMode.LINEARINERTIAL.ToString(),
+					Constants.FileNameEncoderLinearInertial,
+					"Linear encoder on inertial machine. NOT Recommended!"); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1.ToString(),
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV.ToString(),
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
+					"Inverted"); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2.ToString(),
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV.ToString(),
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
+					"Inverted"); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER.ToString(),
+					Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.LINEARONPLANE.ToString(),
+					Constants.FileNameEncoderLinearOnPlane,
+					""); 
+			list.Add(enc);
+		}
+		else if(type == "rotary-friction") {
+			enc = new EncoderMode(
+					Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString(),
+					Constants.FileNameEncoderFrictionSide,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.ROTARYFRICTIONAXIS.ToString(),
+					Constants.FileNameEncoderFrictionAxis ,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString(),
+					Constants.FileNameEncoderFrictionInertial ,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION.ToString(),
+					Constants.FileNameEncoderFrictionWithMovPulley ,
+					""); 
+			list.Add(enc);
+
+		}
+		else {	// rotary-axis
+			enc = new EncoderMode(
+					Constants.EncoderMode.ROTARYAXIS.ToString(),
+					Constants.FileNameEncoderRotaryAxisOnAxis ,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.ROTARYAXISINERTIAL.ToString(),
+					Constants.FileNameEncoderAxisInertial ,
+					""); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS.ToString(),
+					Constants.FileNameEncoderAxisWithMovPulley ,
+					""); 
 			list.Add(enc);
 		}
 	}

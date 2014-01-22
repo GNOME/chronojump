@@ -590,3 +590,42 @@ public class EncoderCaptureCurveArray {
 	
 	~EncoderCaptureCurveArray() {}
 }
+
+public class EncoderModeList 
+{
+	public ArrayList list;
+
+	public EncoderModeList(string type) 
+	{
+		list = new ArrayList();
+		if(type == "linear") {
+			EncoderMode enc = new EncoderMode();
+			enc = new EncoderMode(
+					Constants.EncoderSignalMode.LINEAR.ToString(),
+					Constants.FileNameEncoderLinearFreeWeight,
+					"Text for normal linear encoder"); 
+			list.Add(enc);
+
+			enc = new EncoderMode(
+					Constants.EncoderSignalMode.LINEARINVERTED.ToString(),
+					Constants.FileNameEncoderLinearFreeWeightInv,
+					"Text for inverted linear encoder"); 
+			list.Add(enc);
+		}
+	}
+}
+
+public class EncoderMode {
+	public string encoderMode;
+	public string image;
+	public string text;
+	
+	public EncoderMode() {
+	}
+
+	public EncoderMode(string encoderMode, string image, string text) {
+		this.encoderMode = encoderMode;
+		this.image = image;
+		this.text = text;
+	}
+}

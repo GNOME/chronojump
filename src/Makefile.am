@@ -258,7 +258,12 @@ RESOURCES = \
 	../images/gtk-open-plus.png,gtk-open-plus.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
-	../images/chronojump-logo-2013.png,chronojump-logo-2013.png
+	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
+	../images/encoder-linear.png,encoder-linear.png \
+	../images/encoder-rotary-friction.png,encoder-rotary-friction.png \
+	../images/encoder-rotary-axis.png,encoder-rotary-axis.png \
+	../images/encoder-linear-free-weight.png,encoder-linear-free-weight.png \
+	../images/encoder-linear-free-weight-inv.png,encoder-linear-free-weight-inv.png
 
 IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
          $(top_srcdir)/images/chronojump-logo-2013_320.png \

@@ -9,7 +9,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg4136"
-   viewBox="0 0 14654.06 8167.7667"
+   viewBox="0 0 8680.261 18484.713"
    version="1.1"
    inkscape:version="0.48.4 r9939"
    width="100%"
@@ -31,9 +31,9 @@
      inkscape:window-height="711"
      id="namedview5689"
      showgrid="false"
-     inkscape:zoom="0.17303085"
-     inkscape:cx="9513.9765"
-     inkscape:cy="1777.3612"
+     inkscape:zoom="0.12139761"
+     inkscape:cx="4340.1305"
+     inkscape:cy="18098.098"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -8660,6 +8660,26 @@
        y1="737.02002"
        x2="470"
        y2="737.02002" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient30038-0-4-1-3-8-11-1-16-6"
+       id="linearGradient6060"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.90371528,0,0,0.97580118,1253.8612,192.3917)"
+       x1="13006.704"
+       y1="7719.4697"
+       x2="13086.345"
+       y2="7719.4697" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient30038-0-4-1-3-7-1-8-0-6"
+       id="linearGradient6062"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2888541,0,0,0.41922837,-3770.8616,4587.414)"
+       x1="13087.136"
+       y1="7718.0806"
+       x2="13006.816"
+       y2="7718.0806" />
   </defs>
   <metadata
      id="metadata5687">
@@ -8708,7 +8728,7 @@
   </metadata>
   <g
      id="g6741"
-     transform="translate(1886.2752,238.93024)"
+     transform="translate(2629.2344,-2206.0052)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-free-weight.png"
      inkscape:export-xdpi="15.721952"
      inkscape:export-ydpi="15.721952">
@@ -8901,7 +8921,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-pulley.png"
      inkscape:export-xdpi="15.702842"
      inkscape:export-ydpi="15.702842"
-     transform="translate(-62.179888,659.34224)">
+     transform="translate(3682.1732,-4249.3786)">
     <rect
        y="5279.5215"
        x="62.179787"
@@ -9044,7 +9064,7 @@
   </g>
   <g
      id="g6705"
-     transform="translate(2121.382,238.93024)"
+     transform="translate(565.14353,155.11624)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-free-weight-inv.png"
      inkscape:export-xdpi="15.721952"
      inkscape:export-ydpi="15.721952">
@@ -9234,7 +9254,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-pulley-axis.png"
      inkscape:export-xdpi="15.702842"
      inkscape:export-ydpi="15.702842"
-     transform="translate(-94.128442,3260.2241)">
+     transform="translate(1184.8831,813.63533)">
     <rect
        y="2620.8447"
        x="2460.1113"
@@ -9415,49 +9435,49 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="64.714943"
-     y="5536.9019"
+     x="3735.52"
+     y="2374.0134"
      id="text5892-2-9"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="64.714943"
-       y="5536.9019"
+       x="3735.52"
+       y="2374.0134"
        id="tspan6546">Rotary friction encoder on pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2357.6685"
-     y="3042.6545"
+     x="768.22839"
+     y="4667.4385"
      id="text5892-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2357.6685"
-       y="3042.6545"
+       x="768.22839"
+       y="4667.4385"
        id="tspan14125">Linear encoder inverted</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2354.4468"
-     y="5512.5591"
+     x="3643.0642"
+     y="4784.7061"
      id="text5892-2-9-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2354.4468"
-       y="5512.5591"
+       x="3643.0642"
+       y="4784.7061"
        id="tspan6546-9">Rotary friction encoder on pulley axis</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="4550.6748"
-     y="5506.8994"
+     x="6431.3994"
+     y="4764.8555"
      id="text5892-2-9-6-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="4550.6748"
-       y="5506.8994"
+       x="6431.3994"
+       y="4764.8555"
        id="tspan6546-9-9"
        style="font-size:90px">Rotary axis encoder on pulley axis</tspan></text>
   <g
@@ -9465,7 +9485,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-axis-inertial.png"
      inkscape:export-xdpi="15.639504"
      inkscape:export-ydpi="15.639504"
-     transform="translate(-85.448183,1.8443416)">
+     transform="translate(-1133.4042,5235.5833)">
     <rect
        y="580.85236"
        x="7591.9717"
@@ -9676,33 +9696,33 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7461.4453"
-     y="179.10205"
+     x="6449.7344"
+     y="7148.1025"
      id="text5892-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
        id="tspan5894-4"
-       x="7461.4453"
-       y="179.10205">Rotary axis encoder on inertial machine</tspan></text>
+       x="6449.7344"
+       y="7148.1025">Rotary axis encoder on inertial machine</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9629.6182"
-     y="159.33008"
+     x="3605.0635"
+     y="7193.1519"
      id="text5892-2-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
        id="tspan5894-0-0"
-       x="9629.6182"
-       y="159.33008">Rotary friction encoder on inertial machine</tspan></text>
+       x="3605.0635"
+       y="7193.1519">Rotary friction encoder on inertial machine</tspan></text>
   <g
      id="g13491"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inertial.png"
      inkscape:export-xdpi="15.627689"
      inkscape:export-ydpi="15.627689"
-     transform="translate(-85.448183,1.8443416)">
+     transform="translate(-11369.444,5060.3439)">
     <rect
        y="581.75037"
        x="12079.488"
@@ -10039,81 +10059,81 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="11960.737"
-     y="68.378906"
+     x="701.21082"
+     y="6956.6943"
      id="text5892-2-9-6-2-6"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="11960.737"
-       y="68.378906"
+       x="701.21082"
+       y="6956.6943"
        id="tspan6546-9-9-2"
        style="font-size:90px">Linear encoder on inertial machine</tspan><tspan
        sodipodi:role="line"
-       x="11960.737"
-       y="180.87891"
+       x="701.21082"
+       y="7069.1943"
        style="font-size:90px"
        id="tspan10259">NOT RECOMMENDED!</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9614.0234"
-     y="2801.6421"
+     x="598.28503"
+     y="12539.971"
      id="text5892-2-9-6-2-6-6"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="9614.0234"
-       y="2801.6421"
+       x="598.28503"
+       y="12539.971"
        style="font-size:90px"
        id="tspan14030">Linear or inverted encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="9614.0234"
-       y="2914.1421"
+       x="598.28503"
+       y="12652.471"
        style="font-size:90px"
        id="tspan16732">Fixed pulley attached to a weighted moving pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7315.7915"
-     y="2815.2517"
+     x="685.56189"
+     y="9375.543"
      id="text5892-2-9-6-2-6-6-9"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="7315.7915"
-       y="2815.2517"
+       x="685.56189"
+       y="9375.543"
        style="font-size:90px"
        id="tspan10259-8-7">Linear or inverted encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="7315.7915"
-       y="2927.7517"
+       x="685.56189"
+       y="9488.043"
        style="font-size:90px"
        id="tspan14030-6">Weighted moving pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="12549.801"
-     y="2785.2717"
+     x="593.21375"
+     y="15332.5"
      id="text5892-2-9-6-2-6-6-9-0"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="12549.801"
-       y="2785.2717"
+       x="593.21375"
+       y="15332.5"
        style="font-size:90px"
        id="tspan14030-6-1">Linear encoder attached on</tspan><tspan
        sodipodi:role="line"
-       x="12549.801"
-       y="2897.7717"
+       x="593.21375"
+       y="15445"
        style="font-size:90px"
        id="tspan16728">weighted moving pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9556.9551"
-     y="5764.4658"
+     x="3554.918"
+     y="9618.4248"
      id="text5892-2-9-6-2-6-6-9-9"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="9556.9551"
-       y="5764.4658"
+       x="3554.918"
+       y="9618.4248"
        style="font-size:90px"
        id="tspan6562">Rotary friction encoder  on weighted moving pulley</tspan></text>
   <g
@@ -10121,7 +10141,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis-pulley-axis.png"
      inkscape:export-xdpi="15.702839"
      inkscape:export-ydpi="15.702839"
-     transform="translate(-257.78244,4242.3347)">
+     transform="translate(1677.1787,1808.6983)">
     <rect
        y="1608.2507"
        x="4763.0537"
@@ -10256,7 +10276,8 @@
      id="g16496"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702841"
-     inkscape:export-ydpi="15.702841">
+     inkscape:export-ydpi="15.702841"
+     transform="translate(-6297.0254,1955.2699)">
     <rect
        y="6221.8716"
        x="9861.7822"
@@ -10403,7 +10424,7 @@
        style="fill:none;stroke:#000000;stroke-width:7.75285912;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none" />
     <path
        transform="matrix(1,0,0,-1,-9.09517,11137.252)"
-       d="m 10973.804,4206.0205 a 26.506771,26.506771 0 1 1 -53.014,0 26.506771,26.506771 0 1 1 53.014,0 z"
+       d="m 10973.804,4206.0205 c 0,14.6393 -11.868,26.5068 -26.507,26.5068 -14.639,0 -26.507,-11.8675 -26.507,-26.5068 0,-14.6393 11.868,-26.5068 26.507,-26.5068 14.639,0 26.507,11.8675 26.507,26.5068 z"
        sodipodi:ry="26.506771"
        sodipodi:rx="26.506771"
        sodipodi:cy="4206.0205"
@@ -10495,25 +10516,26 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="12943.636"
-     y="5858.5029"
+     x="6499.7861"
+     y="9407.5859"
      id="text5892-2-9-6-2-6-6-9-9-8"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="12943.636"
-       y="5858.5029"
+       x="6499.7861"
+       y="9407.5859"
        style="font-size:90px"
        id="tspan14030-6-13-1">Rotary axis encoder on</tspan><tspan
        sodipodi:role="line"
-       x="12943.636"
-       y="5971.0029"
+       x="6499.7861"
+       y="9520.0859"
        style="font-size:90px"
        id="tspan6562-0">weighted moving pulley</tspan></text>
   <g
      id="g16628"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702841"
-     inkscape:export-ydpi="15.702841">
+     inkscape:export-ydpi="15.702841"
+     transform="translate(-5832.2564,1831.6314)">
     <rect
        y="6251.9937"
        x="12336.828"
@@ -10660,7 +10682,7 @@
        style="fill:none;stroke:#000000;stroke-width:7.75285959;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none" />
     <path
        transform="matrix(1,0,0,-1,2364.7098,11167.374)"
-       d="m 10973.804,4206.0205 a 26.506771,26.506771 0 1 1 -53.014,0 26.506771,26.506771 0 1 1 53.014,0 z"
+       d="m 10973.804,4206.0205 c 0,14.6393 -11.868,26.5068 -26.507,26.5068 -14.639,0 -26.507,-11.8675 -26.507,-26.5068 0,-14.6393 11.868,-26.5068 26.507,-26.5068 14.639,0 26.507,11.8675 26.507,26.5068 z"
        sodipodi:ry="26.506771"
        sodipodi:rx="26.506771"
        sodipodi:cy="4206.0205"
@@ -10725,20 +10747,22 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-size:277.62417603px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9185.6396"
-     y="2932.9873"
+     style="font-size:857.96234131px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="-90.907143"
+     y="7903.5117"
      id="text7097"
-     sodipodi:linespacing="125%"><tspan
+     sodipodi:linespacing="125%"
+     transform="scale(0.70647597,1.4154763)"><tspan
        sodipodi:role="line"
        id="tspan7099"
-       x="9185.6396"
-       y="2932.9873">=</tspan></text>
+       x="-90.907143"
+       y="7903.5117">=</tspan></text>
   <g
      id="g16382"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inclined-plane.png"
      inkscape:export-xdpi="15.702651"
-     inkscape:export-ydpi="15.702651">
+     inkscape:export-ydpi="15.702651"
+     transform="translate(-6655.5744,10637.143)">
     <rect
        y="6221.5996"
        x="7232.2095"
@@ -10767,7 +10791,7 @@
        sodipodi:nodetypes="cc" />
     <path
        transform="matrix(0.73977464,-0.19822202,0.19822202,0.73977464,-1433.9971,3514.6651)"
-       d="m 9952.5078,7457.5874 a 56.383801,56.383801 0 1 1 -112.7676,0 56.383801,56.383801 0 1 1 112.7676,0 z"
+       d="m 9952.5078,7457.5874 c 0,31.1399 -25.2439,56.3838 -56.3838,56.3838 -31.1399,0 -56.3838,-25.2439 -56.3838,-56.3838 0,-31.1399 25.2439,-56.3838 56.3838,-56.3838 31.1399,0 56.3838,25.2439 56.3838,56.3838 z"
        sodipodi:ry="56.383801"
        sodipodi:rx="56.383801"
        sodipodi:cy="7457.5874"
@@ -10808,7 +10832,7 @@
        sodipodi:end="0.26179939"
        sodipodi:start="0"
        transform="matrix(3.395168,0,0,-3.395168,-29346.53,34611.784)"
-       d="m 11213.113,8089.2144 a 372.34827,372.34827 0 0 1 -12.688,96.3708"
+       d="m 11213.113,8089.2144 c 0,32.5399 -4.266,64.9396 -12.688,96.3708"
        sodipodi:ry="372.34827"
        sodipodi:rx="372.34827"
        sodipodi:cy="8089.2144"
@@ -10855,87 +10879,11 @@
     </g>
   </g>
   <g
-     id="g9874"
-     transform="translate(811.92095,-3865.1986)">
-    <rect
-       inkscape:export-ydpi="17.449989"
-       inkscape:export-xdpi="17.449989"
-       inkscape:export-filename="/home/xavier/Documents/chronojump-no-git/icones-encoder-mode/encoder-mode-icons-inertial-pulleys.png"
-       y="4992.3633"
-       x="2396.3618"
-       height="737.68317"
-       width="1540.4824"
-       id="rect9678-3"
-       style="fill:#ffffff;fill-opacity:1;stroke:#6c777f;stroke-width:4.21800375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
-    <g
-       transform="matrix(0.96592583,0.25881905,-0.25881905,0.96592583,-4708.5525,-4086.791)"
-       id="g7995">
-      <path
-         sodipodi:nodetypes="cc"
-         style="fill:none;stroke:#000000;stroke-width:1.65217984;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         d="m 9894.2869,7026.9788 522.7321,-140.0654"
-         id="path5597-2-6"
-         inkscape:connector-curvature="0" />
-      <rect
-         style="fill:#8686bf;fill-opacity:1;stroke:none"
-         id="rect7748"
-         width="156.1869"
-         height="115.4425"
-         x="7584.3872"
-         y="9264.6797"
-         transform="matrix(0.96592582,-0.25881905,0.25881905,0.96592582,0,0)" />
-      <path
-         sodipodi:type="arc"
-         style="fill:#19262e;fill-opacity:1;stroke:none"
-         id="path7750"
-         sodipodi:cx="9896.124"
-         sodipodi:cy="7457.5874"
-         sodipodi:rx="56.383801"
-         sodipodi:ry="56.383801"
-         d="m 9952.5078,7457.5874 c 0,31.1399 -25.2439,56.3838 -56.3838,56.3838 -31.1399,0 -56.3838,-25.2439 -56.3838,-56.3838 0,-31.1399 25.2439,-56.3838 56.3838,-56.3838 31.1399,0 56.3838,25.2439 56.3838,56.3838 z"
-         transform="matrix(0.73977464,-0.19822202,0.19822202,0.73977464,1015.0437,3466.247)" />
-    </g>
-    <g
-       transform="translate(-10561.353,-2825.826)"
-       id="g6301">
-      <path
-         sodipodi:nodetypes="cc"
-         style="fill:none;stroke:#000000;stroke-width:1.65217996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-         d="m 13579.649,8346.5405 541.172,2e-4"
-         id="path5597-2-6-1-9"
-         inkscape:connector-curvature="0" />
-      <g
-         id="g6219-0"
-         transform="translate(465.63002,550.87919)">
-        <rect
-           y="7750.8271"
-           x="12966.111"
-           height="61.737263"
-           width="156.1869"
-           id="rect7748-65-4-3"
-           style="fill:#8686bf;fill-opacity:1;stroke:none" />
-        <rect
-           y="7699.2915"
-           x="13008.219"
-           height="51.53558"
-           width="71.972328"
-           id="rect7748-65-4-5-6"
-           style="fill:url(#linearGradient8308);fill-opacity:1;stroke:none" />
-        <rect
-           y="7812.5645"
-           x="12992.882"
-           height="22.140963"
-           width="102.64497"
-           id="rect7748-65-4-5-1-4"
-           style="fill:url(#linearGradient8310);fill-opacity:1;stroke:none" />
-      </g>
-    </g>
-  </g>
-  <g
      id="g16199"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-or-inv-on-person-weighted-moving-pulley2.png"
      inkscape:export-xdpi="15.702651"
-     inkscape:export-ydpi="15.702651">
+     inkscape:export-ydpi="15.702651"
+     transform="translate(-9068.4274,7819.0518)">
     <rect
        y="3363.7322"
        x="9675.5459"
@@ -11352,7 +11300,7 @@
   </g>
   <g
      id="g15159"
-     transform="translate(-85.448183,1.8443416)">
+     transform="translate(-6221.9664,5211.6241)">
     <rect
        y="581.75043"
        x="9835.8643"
@@ -11923,128 +11871,129 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-size:200.72659302px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="4044.9985"
-     y="2521.7666"
+     style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="4243.5171"
+     y="12251.729"
      id="text14119"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121"
-       x="4044.9985"
-       y="2521.7666">All graph's height = 200px</tspan></text>
+       x="4243.5171"
+       y="12251.729">All graph's height = 200px</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2361.5356"
-     y="3210.5125"
+     x="772.09558"
+     y="4835.2964"
      id="text5892-2-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2361.5356"
-       y="3210.5125"
+       x="772.09558"
+       y="4835.2964"
        id="tspan14125-8">encoder-linear-free-weight-inv.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="77.758583"
-     y="3070.9636"
+     x="780.40759"
+     y="2328.8538"
      id="text5892-2-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="77.758583"
-       y="3070.9636"
+       x="780.40759"
+       y="2328.8538"
        id="tspan14125-1">Linear encoder</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="81.625771"
-     y="3238.8215"
+     x="784.27478"
+     y="2496.7117"
      id="text5892-2-6-7"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="81.625771"
-       y="3238.8215"
+       x="784.27478"
+       y="2496.7117"
        id="tspan14125-8-4">encoder-linear-free-weight.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="81.194771"
-     y="5732.6528"
+     x="3739.3872"
+     y="2569.7644"
      id="text5892-2-6-7-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="81.194771"
-       y="5732.6528"
+       x="3739.3872"
+       y="2569.7644"
        id="tspan14125-8-4-2">encoder-rotary-friction-pulley.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2336.9568"
-     y="5711.6372"
+     x="3646.9314"
+     y="4983.7842"
      id="text5892-2-6-7-2-4"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2336.9568"
-       y="5711.6372"
+       x="3646.9314"
+       y="4983.7842"
        id="tspan14125-8-4-2-0">encoder-rotary-friction-pulley-axis.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="4581.7739"
-     y="5660.749"
+     x="6435.2666"
+     y="4918.7051"
      id="text5892-2-6-7-2-4-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="4581.7739"
-       y="5660.749"
+       x="6435.2666"
+       y="4918.7051"
        id="tspan14125-8-4-2-0-6">encoder-rotary-axis-pulley-axis.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7537.3984"
-     y="367.55127"
+     x="6453.6016"
+     y="7336.5518"
      id="text5892-2-6-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="7537.3984"
-       y="367.55127"
+       x="6453.6016"
+       y="7336.5518"
        id="tspan14125-8-0">encoder-axis-inertial.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9621.0996"
-     y="382.84326"
+     x="3608.9307"
+     y="7416.665"
      id="text5892-2-6-6-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="9621.0996"
-       y="382.84326"
+       x="3608.9307"
+       y="7416.665"
        id="tspan14125-8-0-1">encoder-friction-inertial.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="11926.063"
-     y="343.29883"
+     x="705.078"
+     y="7231.6143"
      id="text5892-2-6-6-1-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="11926.063"
-       y="343.29883"
+       x="705.078"
+       y="7231.6143"
        id="tspan14125-8-0-1-1">encoder-linear-inertial.png</tspan></text>
   <g
      id="g15960"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-or-inv-on-person-weighted-moving-pulley1.png"
      inkscape:export-xdpi="15.702722"
-     inkscape:export-ydpi="15.702722">
+     inkscape:export-ydpi="15.702722"
+     transform="translate(-6743.2384,4641.015)">
     <rect
        y="3363.0386"
        x="7431.7876"
@@ -12423,7 +12372,8 @@
      id="g16321"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-or-inv-on-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702651"
-     inkscape:export-ydpi="15.702651">
+     inkscape:export-ydpi="15.702651"
+     transform="translate(-11679.66,10594.618)">
     <rect
        y="3333.1479"
        x="12276.653"
@@ -12637,7 +12587,7 @@
        style="fill:#fff200;fill-opacity:1;stroke:#000000;stroke-width:8.63407612;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-mid:none;marker-end:none" />
     <path
        transform="matrix(1,0,0,-1,2191.9655,7689.0585)"
-       d="m 10973.804,4206.0205 a 26.506771,26.506771 0 1 1 -53.014,0 26.506771,26.506771 0 1 1 53.014,0 z"
+       d="m 10973.804,4206.0205 c 0,14.6393 -11.868,26.5068 -26.507,26.5068 -14.639,0 -26.507,-11.8675 -26.507,-26.5068 0,-14.6393 11.868,-26.5068 26.507,-26.5068 14.639,0 26.507,11.8675 26.507,26.5068 z"
        sodipodi:ry="26.506771"
        sodipodi:rx="26.506771"
        sodipodi:cy="4206.0205"
@@ -12656,396 +12606,396 @@
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7199.9937"
-     y="3185.2046"
+     x="685.08679"
+     y="9696.5342"
      id="text5892-2-6-6-1-6-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649094px"
        sodipodi:role="line"
-       x="7199.9937"
-       y="3185.2046"
+       x="685.08679"
+       y="9696.5342"
        id="tspan14125-8-0-1-1-8">encoder-linear-or-inv-on-person-weighted-moving-pulley1.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:81.30310059px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="12237.61"
-     y="3176.801"
+     x="593.02917"
+     y="15668.636"
      id="text5892-2-6-6-1-6-1-3-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:71.84432983px"
        sodipodi:role="line"
-       x="12237.61"
-       y="3176.801"
+       x="593.02917"
+       y="15668.636"
        id="tspan14125-8-0-1-1-8-9-9">encoder-linear-or-inv-on-weighted-moving-pulley.png</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9199.4551"
-     y="5930.0415"
+     style="font-size:70.03668213px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="3560.3362"
+     y="9805.7949"
      id="text5892-2-6-6-1-6-1-3-8"
      sodipodi:linespacing="125%"><tspan
-       style="font-size:90px"
+       style="font-size:61.88863754px"
        sodipodi:role="line"
-       x="9199.4551"
-       y="5930.0415"
+       x="3560.3362"
+       y="9805.7949"
        id="tspan14125-8-0-1-1-8-9-98">encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="11551.652"
-     y="6161.2271"
+     style="font-size:71.57343292px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="6500.0757"
+     y="9707.2441"
      id="text5892-2-6-6-1-6-1-3-8-3"
      sodipodi:linespacing="125%"><tspan
-       style="font-size:90px"
+       style="font-size:63.2466011px"
        sodipodi:role="line"
-       x="11551.652"
-       y="6161.2271"
+       x="6500.0757"
+       y="9707.2441"
        id="tspan14125-8-0-1-1-8-9-98-8">encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7313.9639"
-     y="5965.5366"
+     x="564.97058"
+     y="18171.125"
      id="text5892-2-6-6-1-6-1-3-8-4"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="7313.9639"
-       y="5965.5366"
+       x="564.97058"
+       y="18171.125"
        id="tspan14125-8-0-1-1-8-9-98-3">encoder-linear-inclined-plane.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="43.688622"
-     y="4813.2725"
+     x="786.64783"
+     y="2703.1299"
      id="text5892-2-6-7-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="43.688622"
-       y="4813.2725"
+       x="786.64783"
+       y="2703.1299"
        id="tspan14125-8-4-6">encoderMode = LINEAR</tspan><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="43.688622"
-       y="4925.7725"
+       x="786.64783"
+       y="2815.6299"
        id="tspan15436">x is captured always like this</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2358.1746"
-     y="4706.0405"
+     x="774.46863"
+     y="4945.4751"
      id="text5892-2-6-7-0-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2358.1746"
-       y="4706.0405"
+       x="774.46863"
+       y="4945.4751"
        id="tspan14125-8-4-6-7" /><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2358.1746"
-       y="4818.5405"
+       x="774.46863"
+       y="5057.9751"
        id="tspan15438">encoderMode = LINEARINVERTED</tspan><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="2358.1746"
-       y="4931.0405"
+       x="774.46863"
+       y="5170.4751"
        id="tspan15440">x *= -1</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:72.8219986px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="4534.5645"
-     y="7065.4688"
+     x="6438.5044"
+     y="4997.8496"
      id="text5892-2-6-7-0-0-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:64.34990692px"
        sodipodi:role="line"
-       x="4534.5645"
-       y="7065.4688"
+       x="6438.5044"
+       y="4997.8496"
        id="tspan14125-8-4-6-7-4" /><tspan
        style="font-size:64.34990692px"
        sodipodi:role="line"
-       x="4534.5645"
-       y="7145.9062"
+       x="6438.5044"
+       y="5078.2871"
        id="tspan15428">encoderMode = ROTARYAXIS</tspan><tspan
        style="font-size:64.34990692px"
        sodipodi:role="line"
-       x="4534.5645"
-       y="7226.3438"
+       x="6438.5044"
+       y="5158.7246"
        id="tspan15442">ticks = 200 #our rotary axis encoder send 200 ticks by turn</tspan><tspan
        style="font-size:64.34990692px"
        sodipodi:role="line"
-       x="4534.5645"
-       y="7306.7808"
+       x="6438.5044"
+       y="5239.1616"
        id="tspan15434">#diameter m -&gt; mm</tspan><tspan
        style="font-size:64.34990692px"
        sodipodi:role="line"
-       x="4534.5645"
-       y="7387.2183"
+       x="6438.5044"
+       y="5319.5991"
        id="tspan15432">x = ( x / ticks ) * 2 * pi * ( d * 1000 / 2 )</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:90.17471313px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="66.562386"
-     y="7171.7222"
+     x="3739.9565"
+     y="2685.8203"
      id="text5892-2-6-7-0-0-0-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
-       x="66.562386"
-       y="7171.7222"
+       x="3739.9565"
+       y="2685.8203"
        id="tspan14125-8-4-6-7-4-2" /><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
-       x="66.562386"
-       y="7271.3271"
+       x="3739.9565"
+       y="2785.425"
        id="tspan15428-0">encoderMode = ROTARYFRICTIONSIDE</tspan><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
-       x="66.562386"
-       y="7370.9316"
+       x="3739.9565"
+       y="2885.0298"
        id="tspan15432-1">(like LINEAR mode)</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:98.18868256px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="2367.7593"
-     y="7155.3828"
+     x="3649.3975"
+     y="5129.8501"
      id="text5892-2-6-7-0-0-0-1-4"
      sodipodi:linespacing="125%"><tspan
        style="font-size:86.76544189px"
        sodipodi:role="line"
-       x="2367.7593"
-       y="7155.3828"
+       x="3649.3975"
+       y="5129.8501"
        id="tspan14125-8-4-6-7-4-2-8" /><tspan
        style="font-size:86.76544189px"
        sodipodi:role="line"
-       x="2367.7593"
-       y="7263.8398"
+       x="3649.3975"
+       y="5238.3071"
        id="tspan15432-1-8">encoderMode = ROTARYFRICTIONAXIS</tspan><tspan
        style="font-size:86.76544189px"
        sodipodi:role="line"
-       x="2367.7593"
-       y="7372.2964"
+       x="3649.3975"
+       y="5346.7637"
        id="tspan15612">x = x * d1 / d2</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7410.3936"
-     y="1982.7728"
+     x="6455.7617"
+     y="7611.9902"
      id="text15614"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616"
-       x="7410.3936"
-       y="1982.7728">encoderMode = ROTARYAXISINERTIAL</tspan><tspan
+       x="6455.7617"
+       y="7611.9902">encoderMode = ROTARYAXISINERTIAL</tspan><tspan
        sodipodi:role="line"
-       x="7410.3936"
-       y="2104.5229"
+       x="6455.7617"
+       y="7733.7402"
        id="tspan15669">x = </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9565.0303"
-     y="3211.3352"
+     x="603.65515"
+     y="12822.365"
      id="text5892-2-6-6-1-6-1-9"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649475px"
        sodipodi:role="line"
-       x="9565.0303"
-       y="3211.3352"
+       x="603.65515"
+       y="12822.365"
        id="tspan14125-8-0-1-1-8-0">encoder-linear-or-inv-on-person-weighted-moving-pulley2.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9634.082"
-     y="1983.4413"
+     x="3611.0906"
+     y="7653.2671"
      id="text15614-6"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-1"
-       x="9634.082"
-       y="1983.4413">encoderMode = ROTARYFRICTIONINERTIAL</tspan><tspan
+       x="3611.0906"
+       y="7653.2671">encoderMode = ROTARYFRICTIONINERTIAL</tspan><tspan
        sodipodi:role="line"
-       x="9634.082"
-       y="2105.1914"
+       x="3611.0906"
+       y="7775.0171"
        id="tspan15669-1">x = </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="11927.044"
-     y="2009.7971"
+     x="707.23767"
+     y="7466.5845"
      id="text15614-8"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-9"
-       x="11927.044"
-       y="2009.7971">encoderMode = LINEARINERTIAL</tspan><tspan
+       x="707.23767"
+       y="7466.5845">encoderMode = LINEARINERTIAL</tspan><tspan
        sodipodi:role="line"
-       x="11927.044"
-       y="2131.5474"
+       x="707.23767"
+       y="7588.3345"
        id="tspan15669-4">x = </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7002.1357"
-     y="4742.832"
+     x="685.74402"
+     y="9912.627"
      id="text15614-65"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7"
-       x="7002.1357"
-       y="4742.832">encoderMode =</tspan><tspan
+       x="685.74402"
+       y="9912.627">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="4864.582"
+       x="685.74402"
+       y="10034.377"
        id="tspan15778">WEIGHTEDMOVPULLEYLINEARONPERSON1</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="4986.3325"
+       x="685.74402"
+       y="10156.127"
        id="tspan5082">WEIGHTEDMOVPULLEYLINEARONPERSON1INV</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="5108.0825"
+       x="685.74402"
+       y="10277.877"
        id="tspan5086">x *=-1 //on inverted</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="5229.8325"
+       x="685.74402"
+       y="10399.628"
        id="tspan15669-8">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="5351.5825"
+       x="685.74402"
+       y="10521.378"
        id="tspan15867">massPulley = mass / demult</tspan><tspan
        sodipodi:role="line"
-       x="7002.1357"
-       y="5473.333"
+       x="685.74402"
+       y="10643.128"
        id="tspan15869">P = (massPulley*a + massSubj? *(a+g))*v</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9512.0303"
-     y="4807.4165"
+     x="603.88416"
+     y="13018.157"
      id="text15614-65-1"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9"
-       x="9512.0303"
-       y="4807.4165">encoderMode =</tspan><tspan
+       x="603.88416"
+       y="13018.157">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="9512.0303"
-       y="4929.1665"
+       x="603.88416"
+       y="13139.907"
        id="tspan15780">WEIGHTEDMOVPULLEYLINEARONPERSON2</tspan><tspan
        sodipodi:role="line"
-       x="9512.0303"
-       y="5050.917"
+       x="603.88416"
+       y="13261.657"
        id="tspan5084">WEIGHTEDMOVPULLEYLINEARONPERSON2INV</tspan><tspan
        sodipodi:role="line"
-       x="9512.0303"
-       y="5172.667"
+       x="603.88416"
+       y="13383.407"
        id="tspan15669-8-5">(same as</tspan><tspan
        sodipodi:role="line"
-       x="9512.0303"
-       y="5294.417"
+       x="603.88416"
+       y="13505.158"
        id="tspan15871">WEIGHTEDMOVPULLEYLINEARONPERSON1)</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="12190.873"
-     y="4711.6572"
+     x="594.18738"
+     y="15984.841"
      id="text15614-65-1-3"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9-3"
-       x="12190.873"
-       y="4711.6572">encoderMode =</tspan><tspan
+       x="594.18738"
+       y="15984.841">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="12190.873"
-       y="4833.4072"
+       x="594.18738"
+       y="16106.591"
        id="tspan15782">WEIGHTEDMOVPULLEYONLINEARENCODER</tspan><tspan
        sodipodi:role="line"
-       x="12190.873"
-       y="4955.1577"
+       x="594.18738"
+       y="16228.341"
        id="tspan15669-8-5-7">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="12190.873"
-       y="5076.9077"
+       x="594.18738"
+       y="16350.091"
        id="tspan15873">x'=x * demult</tspan><tspan
        sodipodi:role="line"
-       x="12190.873"
-       y="5198.6577"
+       x="594.18738"
+       y="16471.842"
        id="tspan15877">P = mass * a * v + massSubj? * (a'+g)*v'</tspan><tspan
        sodipodi:role="line"
-       x="12190.873"
-       y="5320.4077"
+       x="594.18738"
+       y="16593.592"
        id="tspan15875" /></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="7211.0859"
-     y="7724.4414"
+     x="555.51111"
+     y="18361.584"
      id="text15614-65-5"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="7211.0859"
-       y="7724.4414"
+       x="555.51111"
+       y="18361.584"
        id="tspan15778-5">encoderMode = LINEARONPLANE</tspan><tspan
        sodipodi:role="line"
-       x="7211.0859"
-       y="7846.1914"
+       x="555.51111"
+       y="18483.334"
        id="tspan15669-8-3">data = </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="9791.8809"
-     y="7640.1582"
+     x="3560.5171"
+     y="10035.579"
      id="text15614-65-1-9"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9-1"
-       x="9791.8809"
-       y="7640.1582">encoderMode =</tspan><tspan
+       x="3560.5171"
+       y="10035.579">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="9791.8809"
-       y="7761.9082"
+       x="3560.5171"
+       y="10157.329"
        id="tspan15780-1">WEIGHTEDMOVPULLEYROTARYFRICTION</tspan><tspan
        sodipodi:role="line"
-       x="9791.8809"
-       y="7883.6587"
+       x="3560.5171"
+       y="10279.079"
        id="tspan15669-8-5-2">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="9791.8809"
-       y="8005.4087"
+       x="3560.5171"
+       y="10400.829"
        id="tspan15881">mass = mass / demult </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="12331.834"
-     y="7671.73"
+     x="6500.7593"
+     y="9955.043"
      id="text15614-65-1-9-1"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9-1-7"
-       x="12331.834"
-       y="7671.73">encoderMode =</tspan><tspan
+       x="6500.7593"
+       y="9955.043">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="12331.834"
-       y="7793.48"
+       x="6500.7593"
+       y="10076.793"
        id="tspan15780-1-1">WEIGHTEDMOVPULLEYROTARYAXIS</tspan><tspan
        sodipodi:role="line"
-       x="12331.834"
-       y="7915.2305"
+       x="6500.7593"
+       y="10198.543"
        id="tspan15669-8-5-2-1">x = ( pi / 200 ) * x</tspan><tspan
        sodipodi:role="line"
-       x="12331.834"
-       y="8036.9805"
+       x="6500.7593"
+       y="10320.293"
        id="tspan15885">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="12331.834"
-       y="8158.7305"
+       x="6500.7593"
+       y="10442.044"
        id="tspan15883">mass = mass / demult</tspan></text>
   <g
      id="g6537"
-     transform="translate(2082.2467,-577.65524)"
+     transform="matrix(1.4658455,0,0,1.4658455,6673.5346,13056.254)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13157,29 +13107,29 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-size:77.50960541px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1099.9237"
-     y="1029.2545"
+     style="font-size:113.61710358px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="5233.6011"
+     y="15411.734"
      id="text6442-7-09"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="1099.9237"
-       y="1029.2545"
+       x="5233.6011"
+       y="15411.734"
        id="tspan8405-5-9">encoder-rotary-friction.png</tspan></text>
   <text
      xml:space="preserve"
-     style="font-size:77.50960541px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1992.3153"
-     y="1202.8467"
+     style="font-size:113.61710358px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="6541.7095"
+     y="15666.194"
      id="text6442-7-0-7"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="1992.3153"
-       y="1202.8467"
+       x="6541.7095"
+       y="15666.194"
        id="tspan8405-5-3-5">encoder-rotary-axis.png</tspan></text>
   <g
      id="g6578"
-     transform="translate(3141.0162,-1341.1081)"
+     transform="matrix(1.4775722,0,0,1.4775722,8234.5731,11902.917)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13241,7 +13191,7 @@
   </g>
   <g
      id="g6559"
-     transform="translate(3035.1393,-1265.4817)"
+     transform="matrix(1.4658455,0,0,1.4658455,8070.3279,12048.006)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13335,41 +13285,164 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-size:77.50960541px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="189.96582"
-     y="1029.2545"
+     style="font-size:113.61710358px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="3899.7434"
+     y="15411.734"
      id="text6442-7-09-8"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="189.96582"
-       y="1029.2545"
+       x="3899.7434"
+       y="15411.734"
        id="tspan6625">encoder-linear.png</tspan></text>
+  <g
+     id="g6044"
+     transform="translate(3377.7183,1656.4086)">
+    <g
+       transform="translate(-913.77888,10797.41)"
+       id="g9874">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#6c777f;stroke-width:4.21800375;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+         id="rect9678-3"
+         width="1540.4824"
+         height="737.68317"
+         x="2396.3618"
+         y="4992.3633"
+         inkscape:export-filename="/home/xavier/Documents/chronojump-no-git/icones-encoder-mode/encoder-mode-icons-inertial-pulleys.png"
+         inkscape:export-xdpi="17.449989"
+         inkscape:export-ydpi="17.449989" />
+      <g
+         id="g7995"
+         transform="matrix(0.96592583,0.25881905,-0.25881905,0.96592583,-4708.5525,-4086.791)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5597-2-6"
+           d="m 9894.2869,7026.9788 522.7321,-140.0654"
+           style="fill:none;stroke:#000000;stroke-width:1.65217984;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <rect
+           transform="matrix(0.96592582,-0.25881905,0.25881905,0.96592582,0,0)"
+           y="9264.6797"
+           x="7584.3872"
+           height="115.4425"
+           width="156.1869"
+           id="rect7748"
+           style="fill:#8686bf;fill-opacity:1;stroke:none" />
+        <path
+           transform="matrix(0.73977464,-0.19822202,0.19822202,0.73977464,1015.0437,3466.247)"
+           d="m 9952.5078,7457.5874 c 0,31.1399 -25.2439,56.3838 -56.3838,56.3838 -31.1399,0 -56.3838,-25.2439 -56.3838,-56.3838 0,-31.1399 25.2439,-56.3838 56.3838,-56.3838 31.1399,0 56.3838,25.2439 56.3838,56.3838 z"
+           sodipodi:ry="56.383801"
+           sodipodi:rx="56.383801"
+           sodipodi:cy="7457.5874"
+           sodipodi:cx="9896.124"
+           id="path7750"
+           style="fill:#19262e;fill-opacity:1;stroke:none"
+           sodipodi:type="arc" />
+      </g>
+      <g
+         id="g6301"
+         transform="translate(-10561.353,-2825.826)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path5597-2-6-1-9"
+           d="m 13579.649,8346.5405 541.172,2e-4"
+           style="fill:none;stroke:#000000;stroke-width:1.65217996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           sodipodi:nodetypes="cc" />
+        <g
+           transform="translate(465.63002,550.87919)"
+           id="g6219-0">
+          <rect
+             style="fill:#8686bf;fill-opacity:1;stroke:none"
+             id="rect7748-65-4-3"
+             width="156.1869"
+             height="61.737263"
+             x="12966.111"
+             y="7750.8271" />
+          <rect
+             style="fill:url(#linearGradient6060);fill-opacity:1;stroke:none"
+             id="rect7748-65-4-5-6"
+             width="71.972328"
+             height="51.53558"
+             x="13008.219"
+             y="7699.2915" />
+          <rect
+             style="fill:url(#linearGradient6062);fill-opacity:1;stroke:none"
+             id="rect7748-65-4-5-1-4"
+             width="102.64497"
+             height="22.140963"
+             x="12992.882"
+             y="7812.5645" />
+        </g>
+      </g>
+    </g>
+    <text
+       sodipodi:linespacing="125%"
+       id="text6635"
+       y="15735.993"
+       x="2001.8275"
+       style="font-size:76.95967102px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="15735.993"
+         x="2001.8275"
+         id="tspan6637"
+         sodipodi:role="line">Some ideas</tspan></text>
+  </g>
   <text
      xml:space="preserve"
-     style="font-size:76.95967102px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3727.5271"
-     y="1073.3838"
-     id="text6635"
-     sodipodi:linespacing="125%"><tspan
-       sodipodi:role="line"
-       id="tspan6637"
-       x="3727.5271"
-       y="1073.3838">Some ideas</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-size:116.77611542px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="909.79321"
-     y="812.17102"
+     style="font-size:171.17573547px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="4954.8994"
+     y="15093.524"
      id="text6639"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan6641"
-       x="909.79321"
-       y="812.17102">This at height = 80px</tspan></text>
+       x="4954.8994"
+       y="15093.524">This at height = 80px</tspan></text>
   <path
-     style="fill:none;stroke:#000000;stroke-width:5.80000017;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-     d="m 197.43066,890.25318 2764.02924,0"
+     style="fill:none;stroke:#000000;stroke-width:8.50190353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     d="m 3910.6856,15207.981 4051.6397,0"
      id="path6643"
-     inkscape:connector-curvature="0"
-     transform="translate(0,-7.0529201e-5)" />
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     d="m 202.81103,11321.224 0,2188.032"
+     id="path5088"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+     d="m 188.96263,8357.6879 0,2188.0321"
+     id="path5088-1"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="1321.1874"
+     y="183.61275"
+     id="text14119-2"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan14121-3"
+       x="1321.1874"
+       y="183.61275">LINEAR</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="3473.8171"
+     y="183.49203"
+     id="text14119-2-7"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan14121-3-5"
+       x="3473.8171"
+       y="183.49203">ROTARY FRICTION</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="6555.499"
+     y="183.49203"
+     id="text14119-2-7-8"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       id="tspan14121-3-5-3"
+       x="6555.499"
+       y="183.49203">ROTARY AXIS</tspan></text>
 </svg>

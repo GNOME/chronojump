@@ -4594,3 +4594,45 @@ public class EncoderCaptureOptionsWindow {
 	}
 }
 
+public class EncoderConfigurationWindow {
+	[Widget] Gtk.Window encoder_configuration;
+	[Widget] Gtk.Image image_encoder_linear;
+	[Widget] Gtk.Image image_encoder_rotary_friction;
+	[Widget] Gtk.Image image_encoder_rotary_axis;
+	[Widget] Gtk.Image image_encoder_configuration;
+
+	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
+
+	EncoderConfigurationWindow () {
+		Glade.XML gladeXML;
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", null);
+		gladeXML.Autoconnect(this);
+		
+		Pixbuf pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinear);
+		image_encoder_linear.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderRotaryFriction);
+		image_encoder_rotary_friction.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderRotaryAxis);
+		image_encoder_rotary_axis.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinearFreeWeight);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinearFreeWeight);
+		image_encoder_configuration.Pixbuf = pixbuf;
+	
+
+		//put an icon to window
+		UtilGtk.IconWindow(encoder_configuration);
+	}
+	
+	static public EncoderConfigurationWindow Show () {
+		if (EncoderConfigurationWindowBox == null) {
+			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
+		}
+		EncoderConfigurationWindowBox.encoder_configuration.Show ();
+		return EncoderConfigurationWindowBox;
+	}
+}

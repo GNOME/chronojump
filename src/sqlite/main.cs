@@ -1291,11 +1291,11 @@ class Sqlite
 			if(currentVersion == "0.95") {
 				dbcon.Open();
 				
-				Update(true, Constants.EncoderTable, "future3", "", Constants.EncoderSignalMode.LINEAR.ToString(), 
+				Update(true, Constants.EncoderTable, "future3", "", Constants.EncoderMode.LINEAR.ToString(), 
 						"signalOrCurve", "signal");
-				Update(true, Constants.EncoderTable, "future3", "0", Constants.EncoderSignalMode.LINEAR.ToString(), 
+				Update(true, Constants.EncoderTable, "future3", "0", Constants.EncoderMode.LINEAR.ToString(), 
 						"signalOrCurve", "signal");
-				Update(true, Constants.EncoderTable, "future3", "1", Constants.EncoderSignalMode.LINEARINVERTED.ToString(),
+				Update(true, Constants.EncoderTable, "future3", "1", Constants.EncoderMode.LINEARINVERTED.ToString(),
 						"signalOrCurve", "signal");
 
 				Log.WriteLine("Encoder signal future3 three modes");

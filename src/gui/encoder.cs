@@ -581,25 +581,25 @@ public partial class ChronoJumpWindow
 		ArrayList data = new ArrayList(3);
 		if(radiobutton_encoder_capture_linear.Active) {
 			if(checkbutton_encoder_capture_inverted.Active) {
-				if(checkbutton_encoder_capture_inertial.Active)
-					data.Add(Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString());
-				else
-					data.Add(Constants.EncoderSignalMode.LINEARINVERTED.ToString());
+				//if(checkbutton_encoder_capture_inertial.Active)
+					//data.Add(Constants.EncoderMode.LINEARINVERTEDINERTIAL.ToString());
+				//else
+					data.Add(Constants.EncoderMode.LINEARINVERTED.ToString());
 			} else {
 				if(checkbutton_encoder_capture_inertial.Active)
-					data.Add(Constants.EncoderSignalMode.LINEARINERTIAL.ToString());
+					data.Add(Constants.EncoderMode.LINEARINERTIAL.ToString());
 				else
-					data.Add(Constants.EncoderSignalMode.LINEAR.ToString());
+					data.Add(Constants.EncoderMode.LINEAR.ToString());
 			}
 		}
 		else { //(radiobutton_encoder_capture_rotary.Active)
 			if(checkbutton_encoder_capture_inertial.Active)
-				data.Add(Constants.EncoderSignalMode.ROTARYINERTIAL.ToString());
+				data.Add(Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString());
 			else {
 				if(radiobutton_encoder_capture_rotary_friction.Active)
-					data.Add(Constants.EncoderSignalMode.ROTARYFRICTION.ToString());
+					data.Add(Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString());
 				else
-					data.Add(Constants.EncoderSignalMode.ROTARYAXIS.ToString());
+					data.Add(Constants.EncoderMode.ROTARYAXIS.ToString());
 			}
 		}
 			
@@ -618,9 +618,10 @@ public partial class ChronoJumpWindow
 	private void setEncoderCombos(EncoderSQL eSQL) {
 		//TODO diferentiate both rotary encoders
 		if (
-				eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINERTIAL.ToString() ||
-				eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINVERTEDINERTIAL.ToString() ||
-				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYINERTIAL.ToString()
+				eSQL.encoderMode == Constants.EncoderMode.LINEARINERTIAL.ToString() ||
+				//eSQL.encoderMode == Constants.EncoderMode.LINEARINVERTEDINERTIAL.ToString() ||
+				eSQL.encoderMode == Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString() ||
+				eSQL.encoderMode == Constants.EncoderMode.ROTARYAXISINERTIAL.ToString()
 		   ) {
 			//inertial machines
 			checkbutton_encoder_capture_inertial.Active = true;
@@ -631,21 +632,21 @@ public partial class ChronoJumpWindow
 			checkbutton_encoder_capture_inertial.Active = false;
 				
 	
-		if(eSQL.encoderMode == Constants.EncoderSignalMode.LINEARINVERTED.ToString()) {
+		if(eSQL.encoderMode == Constants.EncoderMode.LINEARINVERTED.ToString()) {
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = true;
 		} else if(
-				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYFRICTION.ToString() ||
-				eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYAXIS.ToString() ) {
+				eSQL.encoderMode == Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString() ||
+				eSQL.encoderMode == Constants.EncoderMode.ROTARYAXIS.ToString() ) {
 			radiobutton_encoder_capture_rotary.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 			
-			if(eSQL.encoderMode == Constants.EncoderSignalMode.ROTARYFRICTION.ToString())
+			if(eSQL.encoderMode == Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString())
 				radiobutton_encoder_capture_rotary_friction.Active = true;
 			else
 				radiobutton_encoder_capture_rotary_axis.Active = true;
 
-		} else { //default to linear: (eSQL.encoderMode == Constants.EncoderSignalMode.LINEAR.ToString()) 
+		} else { //default to linear: (eSQL.encoderMode == Constants.EncoderMode.LINEAR.ToString()) 
 			radiobutton_encoder_capture_linear.Active = true;
 			checkbutton_encoder_capture_inverted.Active = false;
 		}
@@ -4609,21 +4610,22 @@ public class EncoderConfigurationWindow {
 		gladeXML.Autoconnect(this);
 		
 		Pixbuf pixbuf;
-		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinear);
+	
+		//three encoder types	
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
 		image_encoder_linear.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderRotaryFriction);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
 		image_encoder_rotary_friction.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderRotaryAxis);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
 		image_encoder_rotary_axis.Pixbuf = pixbuf;
 
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinearFreeWeight);
+		//encoder configurations
+		//linear (default)
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinearFreeWeight);
 		image_encoder_configuration.Pixbuf = pixbuf;
 	
-
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
 	}

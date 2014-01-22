@@ -31,9 +31,9 @@
      inkscape:window-height="711"
      id="namedview5689"
      showgrid="false"
-     inkscape:zoom="0.14012593"
-     inkscape:cx="602.18491"
-     inkscape:cy="6589.5796"
+     inkscape:zoom="0.17303085"
+     inkscape:cx="9513.9765"
+     inkscape:cy="1777.3612"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -8676,7 +8676,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title></dc:title>
+        <dc:title />
         <dc:date>2013-08-08T13:03:15</dc:date>
         <dc:description>Simple database or storage symbol. Font is &quot;League Gothic&quot;. Drawn on Inkscape</dc:description>
         <dc:source>http://openclipart.org/detail/181674/database-symbol-by-eternaltyro-181674</dc:source>
@@ -12903,14 +12903,22 @@
        sodipodi:role="line"
        x="7002.1357"
        y="4986.3325"
-       id="tspan15669-8">demult = 2</tspan><tspan
+       id="tspan5082">WEIGHTEDMOVPULLEYLINEARONPERSON1INV</tspan><tspan
        sodipodi:role="line"
        x="7002.1357"
        y="5108.0825"
-       id="tspan15867">massPulley = mass / demult</tspan><tspan
+       id="tspan5086">x *=-1 //on inverted</tspan><tspan
        sodipodi:role="line"
        x="7002.1357"
        y="5229.8325"
+       id="tspan15669-8">demult = 2</tspan><tspan
+       sodipodi:role="line"
+       x="7002.1357"
+       y="5351.5825"
+       id="tspan15867">massPulley = mass / demult</tspan><tspan
+       sodipodi:role="line"
+       x="7002.1357"
+       y="5473.333"
        id="tspan15869">P = (massPulley*a + massSubj? *(a+g))*v</tspan></text>
   <text
      xml:space="preserve"
@@ -12930,10 +12938,14 @@
        sodipodi:role="line"
        x="9512.0303"
        y="5050.917"
-       id="tspan15669-8-5">(same as</tspan><tspan
+       id="tspan5084">WEIGHTEDMOVPULLEYLINEARONPERSON2INV</tspan><tspan
        sodipodi:role="line"
        x="9512.0303"
        y="5172.667"
+       id="tspan15669-8-5">(same as</tspan><tspan
+       sodipodi:role="line"
+       x="9512.0303"
+       y="5294.417"
        id="tspan15871">WEIGHTEDMOVPULLEYLINEARONPERSON1)</tspan></text>
   <text
      xml:space="preserve"

@@ -609,18 +609,42 @@ public class Constants
 	public static string ConcentricEccentric = "Concentric-eccentric";
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
+
+
+	//three encoder types
+	public static string FileNameEncoderTypeLinear = "encoder-linear.png";
+	public static string FileNameEncoderTypeRotaryFriction = "encoder-rotary-friction.png";
+	public static string FileNameEncoderTypeRotaryAxis = "encoder-rotary-axis.png";
 	
-	public static string FileNameEncoderLinear = "encoder-linear.png";
-	public static string FileNameEncoderRotaryFriction = "encoder-rotary-friction.png";
-	public static string FileNameEncoderRotaryAxis = "encoder-rotary-axis.png";
-	
+	//encoder configurations
+	//linear
 	public static string FileNameEncoderLinearFreeWeight = "encoder-linear-free-weight.png";
 	public static string FileNameEncoderLinearFreeWeightInv = "encoder-linear-free-weight-inv.png";
-	
+	public static string FileNameEncoderLinearInertial = "encoder-linear-inertial.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson1 = "encoder-linear-or-inv-on-person-weighted-moving-pulley1.png";
+	public static string FileNameEncoderWeightedMovPulleyOnPerson2 = "encoder-linear-or-inv-on-person-weighted-moving-pulley2.png";
+	public static string FileNameEncoderWeightedMovPulleyOnLinearEncoder = "encoder-linear-or-inv-on-weighted-moving-pulley.png";
+	public static string FileNameEncoderLinearOnPlane = "encoder-linear-inclined-plane.png";	
 
-	public enum EncoderSignalMode { //this names are used on graph.R change there also if needed
-		LINEAR, LINEARINVERTED, ROTARYFRICTION, ROTARYAXIS,
-		LINEARINERTIAL, LINEARINVERTEDINERTIAL, ROTARYINERTIAL 
+	//rotary friction
+	public static string FileNameEncoderFrictionSide = "encoder-rotary-friction-pulley.png";
+	public static string FileNameEncoderFrictionAxis = "encoder-rotary-friction-pulley-axis.png";
+	public static string FileNameEncoderFrictionInertial = "encoder-friction-inertial.png";
+	public static string FileNameEncoderFrictionWithMovPulley = "encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png";
+
+	//rotary axis
+	public static string FileNameEncoderRotaryAxisOnAxis = "encoder-rotary-axis-pulley-axis.png";
+	public static string FileNameEncoderAxisInertial = "encoder-axis-inertial.png";
+	public static string FileNameEncoderAxisWithMovPulley = "encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png";
+
+	public enum EncoderMode { //this names are used on graph.R change there also if needed
+		LINEAR, LINEARINVERTED, LINEARINERTIAL, 
+		WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+		WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+		WEIGHTEDMOVPULLEYONLINEARENCODER, LINEARONPLANE, 
+		ROTARYFRICTIONSIDE, ROTARYFRICTIONAXIS,				//friction
+		ROTARYFRICTIONINERTIAL, WEIGHTEDMOVPULLEYROTARYFRICTION,	//friction
+		ROTARYAXIS, ROTARYAXISINERTIAL, WEIGHTEDMOVPULLEYROTARYAXIS	//axis
 	}
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }

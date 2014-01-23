@@ -591,90 +591,90 @@ public class EncoderCaptureCurveArray {
 	~EncoderCaptureCurveArray() {}
 }
 
-public class EncoderModeList 
+public class EncoderModeSelectionList 
 {
 	public ArrayList list;
 
-	public EncoderModeList(string type) 
+	public EncoderModeSelectionList(string type) 
 	{
 		list = new ArrayList();
-		EncoderMode enc = new EncoderMode();
+		EncoderModeSelection enc = new EncoderModeSelection();
 		
 		if(type == "linear") {
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEAR.ToString(),
 					Constants.FileNameEncoderLinearFreeWeight,
 					"Text for normal linear encoder"); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINVERTED.ToString(),
 					Constants.FileNameEncoderLinearFreeWeightInv,
 					"Text for inverted linear encoder"); 
 			list.Add(enc);
 			
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINERTIAL.ToString(),
 					Constants.FileNameEncoderLinearInertial,
 					"Linear encoder on inertial machine. NOT Recommended!"); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv,
 					"Inverted"); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
+					Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv,
 					"Inverted"); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARONPLANE.ToString(),
 					Constants.FileNameEncoderLinearOnPlane,
 					""); 
 			list.Add(enc);
 		}
 		else if(type == "rotary-friction") {
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString(),
 					Constants.FileNameEncoderFrictionSide,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONAXIS.ToString(),
 					Constants.FileNameEncoderFrictionAxis ,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString(),
 					Constants.FileNameEncoderFrictionInertial ,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION.ToString(),
 					Constants.FileNameEncoderFrictionWithMovPulley ,
 					""); 
@@ -682,19 +682,19 @@ public class EncoderModeList
 
 		}
 		else {	// rotary-axis
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXIS.ToString(),
 					Constants.FileNameEncoderRotaryAxisOnAxis ,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXISINERTIAL.ToString(),
 					Constants.FileNameEncoderAxisInertial ,
 					""); 
 			list.Add(enc);
 
-			enc = new EncoderMode(
+			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS.ToString(),
 					Constants.FileNameEncoderAxisWithMovPulley ,
 					""); 
@@ -703,15 +703,15 @@ public class EncoderModeList
 	}
 }
 
-public class EncoderMode {
+public class EncoderModeSelection {
 	public string encoderMode;
 	public string image;
 	public string text;
 	
-	public EncoderMode() {
+	public EncoderModeSelection() {
 	}
 
-	public EncoderMode(string encoderMode, string image, string text) {
+	public EncoderModeSelection(string encoderMode, string image, string text) {
 		this.encoderMode = encoderMode;
 		this.image = image;
 		this.text = text;

@@ -265,9 +265,11 @@ RESOURCES = \
 	../images/encoder-linear-free-weight.png,encoder-linear-free-weight.png \
 	../images/encoder-linear-free-weight-inv.png,encoder-linear-free-weight-inv.png \
 	../images/encoder-linear-inertial.png,encoder-linear-inertial.png \
-	../images/encoder-linear-or-inv-on-person-weighted-moving-pulley1.png,encoder-linear-or-inv-on-person-weighted-moving-pulley1.png \
-	../images/encoder-linear-or-inv-on-person-weighted-moving-pulley2.png,encoder-linear-or-inv-on-person-weighted-moving-pulley2.png \
-	../images/encoder-linear-or-inv-on-weighted-moving-pulley.png,encoder-linear-or-inv-on-weighted-moving-pulley.png \
+	../images/encoder-linear-on-person-weighted-moving-pulley1.png,encoder-linear-on-person-weighted-moving-pulley1.png \
+	../images/encoder-linear-inv-on-person-weighted-moving-pulley1.png,encoder-linear-inv-on-person-weighted-moving-pulley1.png \
+	../images/encoder-linear-on-person-weighted-moving-pulley2.png,encoder-linear-on-person-weighted-moving-pulley2.png \
+	../images/encoder-linear-inv-on-person-weighted-moving-pulley2.png,encoder-linear-inv-on-person-weighted-moving-pulley2.png \
+	../images/encoder-linear-on-weighted-moving-pulley.png,encoder-linear-on-weighted-moving-pulley.png \
 	../images/encoder-linear-inclined-plane.png,encoder-linear-inclined-plane.png \
 	../images/encoder-rotary-friction-pulley.png,encoder-rotary-friction-pulley.png \
 	../images/encoder-rotary-friction-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \

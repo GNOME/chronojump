@@ -4601,16 +4601,24 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Image image_encoder_rotary_friction;
 	[Widget] Gtk.Image image_encoder_rotary_axis;
 	[Widget] Gtk.Image image_encoder_configuration;
+	[Widget] Gtk.RadioButton radio_linear;
+	[Widget] Gtk.RadioButton radio_rotary_friction;
+	[Widget] Gtk.RadioButton radio_rotary_axis;
+	[Widget] Gtk.Label label_count;
 
 	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
+	
+	EncoderModeSelectionList encoderModeSelectionList;
+
+	ArrayList list;
+	int listCurrent = 0; //current item on list
+	Pixbuf pixbuf;
 
 	EncoderConfigurationWindow () {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", null);
 		gladeXML.Autoconnect(this);
 		
-		Pixbuf pixbuf;
-	
 		//three encoder types	
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
 		image_encoder_linear.Pixbuf = pixbuf;
@@ -4621,10 +4629,7 @@ public class EncoderConfigurationWindow {
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
 		image_encoder_rotary_axis.Pixbuf = pixbuf;
 
-		//encoder configurations
-		//linear (default)
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderLinearFreeWeight);
-		image_encoder_configuration.Pixbuf = pixbuf;
+		initializeList("linear");
 	
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
@@ -4636,5 +4641,50 @@ public class EncoderConfigurationWindow {
 		}
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
+	}
+	
+	private void on_radio_encoder_type_linear_toggled (object obj, EventArgs args) {
+		if(radio_linear.Active)
+			initializeList("linear");
+	}
+	private void on_radio_encoder_type_rotary_friction_toggled (object obj, EventArgs args) {
+		if(radio_rotary_friction.Active)
+			initializeList("rotary-friction");
+	}
+	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {
+		if(radio_rotary_axis.Active)
+			initializeList("rotary-axis");
+	}
+	
+	private void initializeList(string type) {
+		EncoderModeSelectionList encoderModeSelectionList = new EncoderModeSelectionList(type);
+		list = encoderModeSelectionList.list;
+		listCurrent = 0; //current item on list
+		
+		updateImageAndConfigurationGUI();
+	}
+	
+	private void on_button_previous_clicked (object o, EventArgs args) {
+		listCurrent --;
+		if(listCurrent < 0)
+			listCurrent = list.Count -1;
+		
+		updateImageAndConfigurationGUI();
+	}
+
+	private void on_button_next_clicked (object o, EventArgs args) {
+		listCurrent ++;
+		if(listCurrent > list.Count -1)
+			listCurrent = 0;
+
+		updateImageAndConfigurationGUI();
+	}
+	
+	private void updateImageAndConfigurationGUI() {
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + 
+				( (EncoderModeSelection) list[listCurrent]).image);
+		image_encoder_configuration.Pixbuf = pixbuf;
+		
+		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	}
 }

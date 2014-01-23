@@ -648,6 +648,12 @@ public class Constants
 		ROTARYFRICTIONINERTIAL, WEIGHTEDMOVPULLEYROTARYFRICTION,	//friction
 		ROTARYAXIS, ROTARYAXISINERTIAL, WEIGHTEDMOVPULLEYROTARYAXIS	//axis
 	}
+
+	public static string DefaultEncoderConfigurationCode = "Linear - barbell";
+	
+	public enum EncoderType {
+		LINEAR, ROTARYFRICTION, ROTARYAXIS
+	}	
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }

@@ -534,8 +534,6 @@ public partial class ChronoJumpWindow
 		//presentationInit();
 
 		videoCaptureInitialize();
-
-		EncoderConfigurationWindow encoder_configuration_win = EncoderConfigurationWindow.Show();
 	}
 	
 

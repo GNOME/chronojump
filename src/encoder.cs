@@ -604,80 +604,145 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEAR.ToString(),
 					Constants.FileNameEncoderLinearFreeWeight,
-					"Text for normal linear encoder"); 
+					"Linear encoder attached to a barbell.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINVERTED.ToString(),
 					Constants.FileNameEncoderLinearFreeWeightInv,
-					"Text for inverted linear encoder"); 
+					"Linear encoder inverted attached to a barbell.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					);
 			list.Add(enc);
 			
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINERTIAL.ToString(),
 					Constants.FileNameEncoderLinearInertial,
-					"Linear encoder on inertial machine. NOT Recommended!"); 
+					"Linear encoder on inertia machine. NOT Recommended!",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					true	//inertia
+					);	
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
-					""); 
+					"Linear encoder attached to a barbell. Barbell is connected to a weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv,
-					"Inverted"); 
+					"Linear encoder inverted attached to a barbell. Barbell is connected to a weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
-					""); 
+					"Linear encoder attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv,
-					"Inverted"); 
+					"Linear encoder inverted attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder,
-					""); 
+					"Linear encoder attached to a weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARONPLANE.ToString(),
 					Constants.FileNameEncoderLinearOnPlane,
-					""); 
+					"Linear encoder on a inclinated plane.",
+					false,	//d
+					false,	//d2
+					true,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 		}
 		else if(type == "rotary-friction") {
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString(),
 					Constants.FileNameEncoderFrictionSide,
-					""); 
+					"Rotary friction encoder on pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONAXIS.ToString(),
 					Constants.FileNameEncoderFrictionAxis ,
-					""); 
+					"Rotary friction encoder on pulley axis.",
+					true,	//d
+					true,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString(),
 					Constants.FileNameEncoderFrictionInertial ,
-					""); 
+					"Rotary friction encoder on inertial machine.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					true	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION.ToString(),
 					Constants.FileNameEncoderFrictionWithMovPulley ,
-					""); 
+					"Rotary friction encoder on weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 		}
@@ -685,19 +750,34 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXIS.ToString(),
 					Constants.FileNameEncoderRotaryAxisOnAxis ,
-					""); 
+					"Rotary axis encoder on pulley axis.",
+					true,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXISINERTIAL.ToString(),
 					Constants.FileNameEncoderAxisInertial ,
-					""); 
+					"Rotary axis encoder on inertial machine.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					true	//inertia
+					); 
 			list.Add(enc);
 
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS.ToString(),
 					Constants.FileNameEncoderAxisWithMovPulley ,
-					""); 
+					"Rotary axis encoder on weighted moving pulley.",
+					false,	//d
+					false,	//d2
+					false,	//angle
+					false	//inertia
+					); 
 			list.Add(enc);
 		}
 	}
@@ -707,13 +787,23 @@ public class EncoderModeSelection {
 	public string encoderMode;
 	public string image;
 	public string text;
+	public bool d;
+	public bool d2;
+	public bool angle;
+	public bool inertia;
 	
 	public EncoderModeSelection() {
 	}
 
-	public EncoderModeSelection(string encoderMode, string image, string text) {
+	public EncoderModeSelection(
+			string encoderMode, string image, string text,
+			bool d, bool d2, bool angle, bool inertia) {
 		this.encoderMode = encoderMode;
 		this.image = image;
 		this.text = text;
+		this.d = d;
+		this.d2 = d2;
+		this.angle = angle;
+		this.inertia = inertia;
 	}
 }

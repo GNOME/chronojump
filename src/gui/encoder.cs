@@ -4605,6 +4605,12 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.RadioButton radio_rotary_friction;
 	[Widget] Gtk.RadioButton radio_rotary_axis;
 	[Widget] Gtk.Label label_count;
+	[Widget] Gtk.TextView textview;
+	[Widget] Gtk.Box hbox_d;
+	[Widget] Gtk.Box hbox_d2;
+	[Widget] Gtk.Box hbox_angle;
+	[Widget] Gtk.Box hbox_inertia;
+	[Widget] Gtk.Box hbox_inertia2;
 
 	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
 	
@@ -4681,9 +4687,20 @@ public class EncoderConfigurationWindow {
 	}
 	
 	private void updateImageAndConfigurationGUI() {
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + 
-				( (EncoderModeSelection) list[listCurrent]).image);
+		EncoderModeSelection sel = (EncoderModeSelection) list[listCurrent];
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + sel.image);
 		image_encoder_configuration.Pixbuf = pixbuf;
+			
+		TextBuffer tb1 = new TextBuffer (new TextTagTable());
+		tb1.Text = sel.text;
+		textview.Buffer = tb1;
+		
+		hbox_d.Visible = sel.d;
+		hbox_d2.Visible = sel.d2;
+		hbox_angle.Visible = sel.angle;
+		hbox_inertia.Visible = sel.inertia;
+		hbox_inertia2.Visible = sel.inertia;
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	}

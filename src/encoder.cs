@@ -600,10 +600,11 @@ public class EncoderModeSelectionList
 		list = new ArrayList();
 		EncoderModeSelection enc = new EncoderModeSelection();
 		
-		if(type == "linear") {
+		if(type == Constants.EncoderType.LINEAR.ToString()) {
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEAR.ToString(),
 					Constants.FileNameEncoderLinearFreeWeight,
+					Constants.DefaultEncoderConfigurationCode,
 					"Linear encoder attached to a barbell.",
 					false,	//d
 					false,	//d2
@@ -615,6 +616,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINVERTED.ToString(),
 					Constants.FileNameEncoderLinearFreeWeightInv,
+					"Linear inv - barbell",
 					"Linear encoder inverted attached to a barbell.",
 					false,	//d
 					false,	//d2
@@ -626,6 +628,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARINERTIAL.ToString(),
 					Constants.FileNameEncoderLinearInertial,
+					"Linear - inertial machine",
 					"Linear encoder on inertia machine. NOT Recommended!",
 					false,	//d
 					false,	//d2
@@ -637,6 +640,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
+					"Linear - barbell - moving pulley",
 					"Linear encoder attached to a barbell. Barbell is connected to a weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -648,6 +652,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv,
+					"Linear inv - barbell - moving pulley",
 					"Linear encoder inverted attached to a barbell. Barbell is connected to a weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -659,6 +664,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
+					"Linear - barbell - pulley - moving pulley",
 					"Linear encoder attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -670,6 +676,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv,
+					"Linear inv - barbell - pulley - moving pulley",
 					"Linear encoder inverted attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -681,6 +688,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER.ToString(),
 					Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder,
+					"Linear - moving pulley",
 					"Linear encoder attached to a weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -692,6 +700,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.LINEARONPLANE.ToString(),
 					Constants.FileNameEncoderLinearOnPlane,
+					"Linear - inclinated plane",
 					"Linear encoder on a inclinated plane.",
 					false,	//d
 					false,	//d2
@@ -700,10 +709,11 @@ public class EncoderModeSelectionList
 					); 
 			list.Add(enc);
 		}
-		else if(type == "rotary-friction") {
+		else if(type == Constants.EncoderType.ROTARYFRICTION.ToString()) {
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString(),
 					Constants.FileNameEncoderFrictionSide,
+					"Rotary friction - pulley",
 					"Rotary friction encoder on pulley.",
 					false,	//d
 					false,	//d2
@@ -715,6 +725,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONAXIS.ToString(),
 					Constants.FileNameEncoderFrictionAxis ,
+					"Rotary friction - pulley axis",
 					"Rotary friction encoder on pulley axis.",
 					true,	//d
 					true,	//d2
@@ -726,6 +737,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString(),
 					Constants.FileNameEncoderFrictionInertial ,
+					"Rotary friction - inertial machine",
 					"Rotary friction encoder on inertial machine.",
 					false,	//d
 					false,	//d2
@@ -737,6 +749,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION.ToString(),
 					Constants.FileNameEncoderFrictionWithMovPulley ,
+					"Rotary friction - moving pulley",
 					"Rotary friction encoder on weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -746,10 +759,11 @@ public class EncoderModeSelectionList
 			list.Add(enc);
 
 		}
-		else {	// rotary-axis
+		else {	// (type == Constants.EncoderType.ROTARYAXIS.ToString())
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXIS.ToString(),
 					Constants.FileNameEncoderRotaryAxisOnAxis ,
+					"Rotary axis - pulley axis",
 					"Rotary axis encoder on pulley axis.",
 					true,	//d
 					false,	//d2
@@ -761,6 +775,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.ROTARYAXISINERTIAL.ToString(),
 					Constants.FileNameEncoderAxisInertial ,
+					"Rotary axis - inertial machine",
 					"Rotary axis encoder on inertial machine.",
 					false,	//d
 					false,	//d2
@@ -772,6 +787,7 @@ public class EncoderModeSelectionList
 			enc = new EncoderModeSelection(
 					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS.ToString(),
 					Constants.FileNameEncoderAxisWithMovPulley ,
+					"Rotary axis - moving pulley",
 					"Rotary axis encoder on weighted moving pulley.",
 					false,	//d
 					false,	//d2
@@ -781,11 +797,15 @@ public class EncoderModeSelectionList
 			list.Add(enc);
 		}
 	}
+
 }
 
 public class EncoderModeSelection {
 	public string encoderMode;
 	public string image;
+	public string code;	//this code will be stored untranslated but will be translated just to be shown
+				//TODO: decide if use this or Constants.EncoderMode
+				//maybe this code has problems when sent to R (spaces, "-")
 	public string text;
 	public bool d;
 	public bool d2;
@@ -796,10 +816,11 @@ public class EncoderModeSelection {
 	}
 
 	public EncoderModeSelection(
-			string encoderMode, string image, string text,
+			string encoderMode, string image, string code, string text,
 			bool d, bool d2, bool angle, bool inertia) {
 		this.encoderMode = encoderMode;
 		this.image = image;
+		this.code = code;
 		this.text = text;
 		this.d = d;
 		this.d2 = d2;

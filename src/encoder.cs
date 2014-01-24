@@ -591,240 +591,158 @@ public class EncoderCaptureCurveArray {
 	~EncoderCaptureCurveArray() {}
 }
 
-public class EncoderModeSelectionList 
-{
-	public ArrayList list;
-
-	public EncoderModeSelectionList(string type) 
-	{
-		list = new ArrayList();
-		EncoderModeSelection enc = new EncoderModeSelection();
-		
-		if(type == Constants.EncoderType.LINEAR.ToString()) {
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.LINEAR.ToString(),
-					Constants.FileNameEncoderLinearFreeWeight,
-					Constants.DefaultEncoderConfigurationCode,
-					"Linear encoder attached to a barbell.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.LINEARINVERTED.ToString(),
-					Constants.FileNameEncoderLinearFreeWeightInv,
-					"Linear inv - barbell",
-					"Linear encoder inverted attached to a barbell.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					);
-			list.Add(enc);
-			
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.LINEARINERTIAL.ToString(),
-					Constants.FileNameEncoderLinearInertial,
-					"Linear - inertial machine",
-					"Linear encoder on inertia machine. NOT Recommended!",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					true	//inertia
-					);	
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson1,
-					"Linear - barbell - moving pulley",
-					"Linear encoder attached to a barbell. Barbell is connected to a weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv,
-					"Linear inv - barbell - moving pulley",
-					"Linear encoder inverted attached to a barbell. Barbell is connected to a weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson2,
-					"Linear - barbell - pulley - moving pulley",
-					"Linear encoder attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv,
-					"Linear inv - barbell - pulley - moving pulley",
-					"Linear encoder inverted attached to a barbell. Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER.ToString(),
-					Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder,
-					"Linear - moving pulley",
-					"Linear encoder attached to a weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.LINEARONPLANE.ToString(),
-					Constants.FileNameEncoderLinearOnPlane,
-					"Linear - inclinated plane",
-					"Linear encoder on a inclinated plane.",
-					false,	//d
-					false,	//d2
-					true,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-		}
-		else if(type == Constants.EncoderType.ROTARYFRICTION.ToString()) {
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.ROTARYFRICTIONSIDE.ToString(),
-					Constants.FileNameEncoderFrictionSide,
-					"Rotary friction - pulley",
-					"Rotary friction encoder on pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.ROTARYFRICTIONAXIS.ToString(),
-					Constants.FileNameEncoderFrictionAxis ,
-					"Rotary friction - pulley axis",
-					"Rotary friction encoder on pulley axis.",
-					true,	//d
-					true,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.ROTARYFRICTIONINERTIAL.ToString(),
-					Constants.FileNameEncoderFrictionInertial ,
-					"Rotary friction - inertial machine",
-					"Rotary friction encoder on inertial machine.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					true	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION.ToString(),
-					Constants.FileNameEncoderFrictionWithMovPulley ,
-					"Rotary friction - moving pulley",
-					"Rotary friction encoder on weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-		}
-		else {	// (type == Constants.EncoderType.ROTARYAXIS.ToString())
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.ROTARYAXIS.ToString(),
-					Constants.FileNameEncoderRotaryAxisOnAxis ,
-					"Rotary axis - pulley axis",
-					"Rotary axis encoder on pulley axis.",
-					true,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.ROTARYAXISINERTIAL.ToString(),
-					Constants.FileNameEncoderAxisInertial ,
-					"Rotary axis - inertial machine",
-					"Rotary axis encoder on inertial machine.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					true	//inertia
-					); 
-			list.Add(enc);
-
-			enc = new EncoderModeSelection(
-					Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS.ToString(),
-					Constants.FileNameEncoderAxisWithMovPulley ,
-					"Rotary axis - moving pulley",
-					"Rotary axis encoder on weighted moving pulley.",
-					false,	//d
-					false,	//d2
-					false,	//angle
-					false	//inertia
-					); 
-			list.Add(enc);
-		}
-	}
-
-}
 
 public class EncoderModeSelection {
-	public string encoderMode;
+	public Constants.EncoderMode encoderMode;
+	public Constants.EncoderType type;
+	public int position;
 	public string image;
 	public string code;	//this code will be stored untranslated but will be translated just to be shown
-				//TODO: decide if use this or Constants.EncoderMode
-				//maybe this code has problems when sent to R (spaces, "-")
 	public string text;
 	public bool d;
 	public bool d2;
 	public bool angle;
 	public bool inertia;
-	
-	public EncoderModeSelection() {
-	}
 
-	public EncoderModeSelection(
-			string encoderMode, string image, string code, string text,
-			bool d, bool d2, bool angle, bool inertia) {
+	
+	/* note: if this changes, change also in:
+	 * Constants.EncoderModeSelectionList(enum encoderType)
+	 */
+	public EncoderModeSelection(Constants.EncoderMode encoderMode) {
 		this.encoderMode = encoderMode;
-		this.image = image;
-		this.code = code;
-		this.text = text;
-		this.d = d;
-		this.d2 = d2;
-		this.angle = angle;
-		this.inertia = inertia;
+		d = false;
+		d2 = false;
+		angle = false;
+		inertia = false;
+
+		if(encoderMode == Constants.EncoderMode.LINEAR) {
+			type = Constants.EncoderType.LINEAR;
+			position = 0;
+			image = Constants.FileNameEncoderLinearFreeWeight;
+			code = Constants.DefaultEncoderConfigurationCode;
+			text = "Linear encoder attached to a barbell.";
+		}
+		else if(encoderMode == Constants.EncoderMode.LINEARINVERTED) {
+			type = Constants.EncoderType.LINEAR;
+			position = 1;
+			image =Constants.FileNameEncoderLinearFreeWeightInv;
+			code = "Linear inv - barbell";
+			text = "Linear encoder inverted attached to a barbell.";
+		}
+		else if(encoderMode == Constants.EncoderMode.LINEARINERTIAL) {
+			type = Constants.EncoderType.LINEAR;
+			position = 2;
+			image = Constants.FileNameEncoderLinearInertial;
+			code = "Linear - inertial machine";
+			text = "Linear encoder on inertia machine." + " " + "NOT Recommended!";
+			
+			inertia = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
+			type = Constants.EncoderType.LINEAR;
+			position = 3;
+			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
+			code = "Linear - barbell - moving pulley";
+			text = "Linear encoder attached to a barbell." + " " + 
+				"Barbell is connected to a weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
+			type = Constants.EncoderType.LINEAR;
+			position = 4;
+			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
+			code = "Linear inv - barbell - moving pulley";
+			text = "Linear encoder inverted attached to a barbell." + " " + 
+				"Barbell is connected to a weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
+			type = Constants.EncoderType.LINEAR;
+			position = 5;
+			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
+			code = "Linear - barbell - pulley - moving pulley";
+			text = "Linear encoder attached to a barbell." + " " + 
+				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
+			type = Constants.EncoderType.LINEAR;
+			position = 6;
+			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
+			code = "Linear inv - barbell - pulley - moving pulley";
+			text = "Linear encoder inverted attached to a barbell." + " " + 
+				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER) {
+			type = Constants.EncoderType.LINEAR;
+			position = 7;
+			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
+			code = "Linear - moving pulley";
+			text = "Linear encoder attached to a weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.LINEARONPLANE) {
+			type = Constants.EncoderType.LINEAR;
+			position = 8;
+			image = Constants.FileNameEncoderLinearOnPlane;
+			code = "Linear - inclinated plane";
+			text = "Linear encoder on a inclinated plane.";
+			
+			angle = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONSIDE) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 0;
+			image = Constants.FileNameEncoderFrictionSide;
+			code = "Rotary friction - pulley";
+			text = "Rotary friction encoder on pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONAXIS) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 1;
+			image = Constants.FileNameEncoderFrictionAxis;
+			code = "Rotary friction - pulley axis";
+			text = "Rotary friction encoder on pulley axis.";
+
+			d = true;
+			d2 = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONINERTIAL) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 2;
+			image = Constants.FileNameEncoderFrictionInertial;
+			code = "Rotary friction - inertial machine";
+			text = "Rotary friction encoder on inertial machine.";
+
+			inertia = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 3;
+			image = Constants.FileNameEncoderFrictionWithMovPulley;
+			code = "Rotary friction - moving pulley";
+			text = "Rotary friction encoder on weighted moving pulley.";
+		}
+		else if(encoderMode == Constants.EncoderMode.ROTARYAXIS) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 0;
+			image = Constants.FileNameEncoderRotaryAxisOnAxis;
+			code = "Rotary axis - pulley axis";
+			text = "Rotary axis encoder on pulley axis.";
+
+			d = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.ROTARYAXISINERTIAL) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 1;
+			image = Constants.FileNameEncoderAxisInertial;
+			code = "Rotary axis - inertial machine";
+			text = "Rotary axis encoder on inertial machine.";
+
+			inertia = true;
+		}
+		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 2;
+			image = Constants.FileNameEncoderAxisWithMovPulley;
+			code = "Rotary axis - moving pulley";
+			text = "Rotary axis encoder on weighted moving pulley.";
+		}
 	}
 }

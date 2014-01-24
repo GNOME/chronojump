@@ -75,23 +75,23 @@ public class EncoderConfigurationWindow {
 		UtilGtk.IconWindow(encoder_configuration);
 	}
 	
-	static public EncoderConfigurationWindow View (EncoderModeSelection ems, double d, double d2, int angle, int inertia) {
+	static public EncoderConfigurationWindow View (EncoderConfiguration ec) {
 		if (EncoderConfigurationWindowBox == null) {
 			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
 		}
 		
 		//activate default radiobutton
-		if(ems.type == Constants.EncoderType.ROTARYFRICTION)
+		if(ec.type == Constants.EncoderType.ROTARYFRICTION)
 			EncoderConfigurationWindowBox.radio_rotary_friction.Active = true;
-		else if(ems.type == Constants.EncoderType.ROTARYAXIS)
+		else if(ec.type == Constants.EncoderType.ROTARYAXIS)
 			EncoderConfigurationWindowBox.radio_rotary_axis.Active = true;
 		else	//linear
 			EncoderConfigurationWindowBox.radio_linear.Active = true;
 
 
-		EncoderConfigurationWindowBox.initializeList(ems.type, ems.position);
+		EncoderConfigurationWindowBox.initializeList(ec.type, ec.position);
 		
-		EncoderConfigurationWindowBox.putValuesStoredPreviously(d, d2, angle, inertia);
+		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.d2, ec.angle, ec.inertia);
 	
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -111,7 +111,7 @@ public class EncoderConfigurationWindow {
 	}
 	
 	private void initializeList(Constants.EncoderType type, int position) {
-		list = UtilEncoder.EncoderModeSelectionList(type);
+		list = UtilEncoder.EncoderConfigurationList(type);
 		listCurrent = position; //current item on list
 		
 		selectedModeChanged();
@@ -134,20 +134,20 @@ public class EncoderConfigurationWindow {
 	}
 
 	private void selectedModeChanged() {
-		EncoderModeSelection sel = (EncoderModeSelection) list[listCurrent];
+		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + sel.image);
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + ec.image);
 		image_encoder_configuration.Pixbuf = pixbuf;
 			
 		TextBuffer tb1 = new TextBuffer (new TextTagTable());
-		tb1.Text = "[" + sel.code + "]\n" + sel.text;
+		tb1.Text = "[" + ec.code + "]\n" + ec.text;
 		textview.Buffer = tb1;
 		
-		hbox_d.Visible = sel.d;
-		hbox_d2.Visible = sel.d2;
-		hbox_angle.Visible = sel.angle;
-		hbox_inertia.Visible = sel.inertia;
-		hbox_inertia2.Visible = sel.inertia;
+		hbox_d.Visible = ec.has_d;
+		hbox_d2.Visible = ec.has_d2;
+		hbox_angle.Visible = ec.has_angle;
+		hbox_inertia.Visible = ec.has_inertia;
+		hbox_inertia2.Visible = ec.has_inertia;
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	}
@@ -163,22 +163,21 @@ public class EncoderConfigurationWindow {
 			spin_inertia.Value = inertia;
 	}
 	
-	public EncoderModeSelection GetSelected() {
-		EncoderModeSelection sel = (EncoderModeSelection) list[listCurrent];
-		return sel;
-	}
-	
-	public double GetDiameter() {
-		return (double) spin_d.Value; 
-	}
-	public double GetDiameter2() {
-		return (double) spin_d2.Value; 
-	}
-	public int GetAngle() {
-		return (int) spin_angle.Value; 
-	}
-	public int GetInertia() {
-		return (int) spin_inertia.Value; 
+	/*
+	 * Use this to retrieve values after accept
+	 * do not use to know current encoder configuration
+	 * because that is stored in gui/encoder as
+	 * encoderConfigurationCurrent
+	 */
+	public EncoderConfiguration GetAcceptedValues() 
+	{
+		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
+		ec.d = (double) spin_d.Value; 
+		ec.d2 = (double) spin_d2.Value; 
+		ec.angle = (int) spin_angle.Value; 
+		ec.inertia = (int) spin_inertia.Value; 
+
+		return ec;
 	}
 	
 	

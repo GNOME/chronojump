@@ -36,9 +36,9 @@ public class EncoderParams
 	private string analysisVariables;
 	private string analysisOptions;		//p: propulsive
 					
-	//encoderMode conversions
+	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	private string encoderMode;	
+	private string encoderConfigurationName;	
 	private int inertiaMomentum; 
 	private double diameter;
 	
@@ -58,7 +58,7 @@ public class EncoderParams
 	private int peakPowerLowerCondition;
 	private string mainVariable;
 	private string decimalSeparator;	//used in export data from R to csv
-	private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderMode
+	private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderConfigurationName
 
 	public EncoderParams()
 	{
@@ -119,7 +119,7 @@ public class EncoderParams
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
 			string analysis, string analysisVariables, string analysisOptions, 
-			string encoderMode, int inertiaMomentum, double diameter,
+			string encoderConfigurationName, int inertiaMomentum, double diameter,
 			string smoothCon, int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
@@ -129,7 +129,7 @@ public class EncoderParams
 		this.analysis = analysis;
 		this.analysisVariables = analysisVariables;
 		this.analysisOptions = analysisOptions;
-		this.encoderMode = encoderMode;
+		this.encoderConfigurationName = encoderConfigurationName;
 		this.inertiaMomentum = inertiaMomentum;
 		this.diameter = diameter;
 		this.smoothCon = smoothCon;
@@ -143,7 +143,7 @@ public class EncoderParams
 	{
 		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
 			sep + analysis + sep + analysisVariables + sep + analysisOptions + 
-			sep + encoderMode + sep + inertiaMomentum.ToString() + sep + Util.ConvertToPoint(diameter) +
+			sep + encoderConfigurationName + sep + inertiaMomentum.ToString() + sep + Util.ConvertToPoint(diameter) +
 			sep + smoothCon + sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}
 	
@@ -282,9 +282,9 @@ public class EncoderSQL
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals
 	
-	//encoderMode conversions
+	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	public string encoderMode;
+	public string encoderConfigurationName;
 	public int inertiaMomentum; //kg*cm^2
 	public double diameter;
 	
@@ -304,7 +304,7 @@ public class EncoderSQL
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
 			string filename, string url, int time, int minHeight, double smooth, 
 			string description, string status, string videoURL, 
-			string encoderMode, int inertiaMomentum, double diameter,
+			string encoderConfigurationName, int inertiaMomentum, double diameter,
 			string future1, string future2, string future3, 
 			string exerciseName
 			)
@@ -325,7 +325,7 @@ public class EncoderSQL
 		this.description = description;
 		this.status = status;
 		this.videoURL = videoURL;
-		this.encoderMode = encoderMode;
+		this.encoderConfigurationName = encoderConfigurationName;
 		this.inertiaMomentum = inertiaMomentum;
 		this.diameter = diameter;
 		this.future1 = future1;
@@ -592,53 +592,74 @@ public class EncoderCaptureCurveArray {
 }
 
 
-public class EncoderModeSelection {
-	public Constants.EncoderMode encoderMode;
+public class EncoderConfiguration {
+	public Constants.EncoderConfigurationNames name;
 	public Constants.EncoderType type;
 	public int position;
 	public string image;
 	public string code;	//this code will be stored untranslated but will be translated just to be shown
 	public string text;
-	public bool d;
-	public bool d2;
-	public bool angle;
-	public bool inertia;
+	public bool has_d;
+	public bool has_d2;
+	public bool has_angle;
+	public bool has_inertia;
+	public double d;
+	public double d2;
+	public int angle;
+	public int inertia;
 
+	//this is the default values
+	public EncoderConfiguration() {
+		name = Constants.EncoderConfigurationNames.LINEAR;
+		type = Constants.EncoderType.LINEAR;
+		position = 0;
+		image = Constants.FileNameEncoderLinearFreeWeight;
+		code = Constants.DefaultEncoderConfigurationCode;
+		text = "Linear encoder attached to a barbell.";
+		has_d = false;
+		has_d2 = false;
+		has_angle = false;
+		has_inertia = false;
+		d = -1;
+		d2 = -1;
+		angle = -1;
+		inertia = -1;
+	}
 	
 	/* note: if this changes, change also in:
-	 * Constants.EncoderModeSelectionList(enum encoderType)
+	 * UtilEncoder.EncoderConfigurationList(enum encoderType)
 	 */
-	public EncoderModeSelection(Constants.EncoderMode encoderMode) {
-		this.encoderMode = encoderMode;
-		d = false;
-		d2 = false;
-		angle = false;
-		inertia = false;
+	public EncoderConfiguration(Constants.EncoderConfigurationNames name) {
+		this.name = name;
+		has_d = false;
+		has_d2 = false;
+		has_angle = false;
+		has_inertia = false;
 
-		if(encoderMode == Constants.EncoderMode.LINEAR) {
+		if(name == Constants.EncoderConfigurationNames.LINEAR) {
 			type = Constants.EncoderType.LINEAR;
 			position = 0;
 			image = Constants.FileNameEncoderLinearFreeWeight;
 			code = Constants.DefaultEncoderConfigurationCode;
 			text = "Linear encoder attached to a barbell.";
 		}
-		else if(encoderMode == Constants.EncoderMode.LINEARINVERTED) {
+		else if(name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
 			type = Constants.EncoderType.LINEAR;
 			position = 1;
 			image =Constants.FileNameEncoderLinearFreeWeightInv;
 			code = "Linear inv - barbell";
 			text = "Linear encoder inverted attached to a barbell.";
 		}
-		else if(encoderMode == Constants.EncoderMode.LINEARINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
 			type = Constants.EncoderType.LINEAR;
 			position = 2;
 			image = Constants.FileNameEncoderLinearInertial;
 			code = "Linear - inertial machine";
 			text = "Linear encoder on inertia machine." + " " + "NOT Recommended!";
 			
-			inertia = true;
+			has_inertia = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
 			type = Constants.EncoderType.LINEAR;
 			position = 3;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
@@ -646,7 +667,7 @@ public class EncoderModeSelection {
 			text = "Linear encoder attached to a barbell." + " " + 
 				"Barbell is connected to a weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
 			type = Constants.EncoderType.LINEAR;
 			position = 4;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
@@ -654,7 +675,7 @@ public class EncoderModeSelection {
 			text = "Linear encoder inverted attached to a barbell." + " " + 
 				"Barbell is connected to a weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
 			type = Constants.EncoderType.LINEAR;
 			position = 5;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
@@ -662,7 +683,7 @@ public class EncoderModeSelection {
 			text = "Linear encoder attached to a barbell." + " " + 
 				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
 			type = Constants.EncoderType.LINEAR;
 			position = 6;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
@@ -670,74 +691,74 @@ public class EncoderModeSelection {
 			text = "Linear encoder inverted attached to a barbell." + " " + 
 				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYONLINEARENCODER) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
 			type = Constants.EncoderType.LINEAR;
 			position = 7;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
 			code = "Linear - moving pulley";
 			text = "Linear encoder attached to a weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.LINEARONPLANE) {
+		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
 			type = Constants.EncoderType.LINEAR;
 			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlane;
 			code = "Linear - inclinated plane";
 			text = "Linear encoder on a inclinated plane.";
 			
-			angle = true;
+			has_angle = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONSIDE) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
 			image = Constants.FileNameEncoderFrictionSide;
 			code = "Rotary friction - pulley";
 			text = "Rotary friction encoder on pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONAXIS) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionAxis;
 			code = "Rotary friction - pulley axis";
 			text = "Rotary friction encoder on pulley axis.";
 
-			d = true;
-			d2 = true;
+			has_d = true;
+			has_d2 = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.ROTARYFRICTIONINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
 			image = Constants.FileNameEncoderFrictionInertial;
 			code = "Rotary friction - inertial machine";
 			text = "Rotary friction encoder on inertial machine.";
 
-			inertia = true;
+			has_inertia = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYFRICTION) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 3;
 			image = Constants.FileNameEncoderFrictionWithMovPulley;
 			code = "Rotary friction - moving pulley";
 			text = "Rotary friction encoder on weighted moving pulley.";
 		}
-		else if(encoderMode == Constants.EncoderMode.ROTARYAXIS) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
 			image = Constants.FileNameEncoderRotaryAxisOnAxis;
 			code = "Rotary axis - pulley axis";
 			text = "Rotary axis encoder on pulley axis.";
 
-			d = true;
+			has_d = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.ROTARYAXISINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 1;
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
 			text = "Rotary axis encoder on inertial machine.";
 
-			inertia = true;
+			has_inertia = true;
 		}
-		else if(encoderMode == Constants.EncoderMode.WEIGHTEDMOVPULLEYROTARYAXIS) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 2;
 			image = Constants.FileNameEncoderAxisWithMovPulley;

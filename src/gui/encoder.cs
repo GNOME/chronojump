@@ -195,7 +195,7 @@ public partial class ChronoJumpWindow
 	//diffrence between:
 	//CALC_RECALC_CURVES: calcule and recalculate, autosaves the curve at end
 	//LOAD curves does snot	
-	enum encoderModes { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE } 
+	enum encoderActions { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
@@ -379,7 +379,7 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture.PrevPage();
 
 			Log.WriteLine("AAAAAAAAAAAAAAA");
-			encoderThreadStart(encoderModes.CAPTURE);
+			encoderThreadStart(encoderActions.CAPTURE);
 			
 			//entry_encoder_signal_comment.Text = "";
 
@@ -529,7 +529,7 @@ public partial class ChronoJumpWindow
 		encoderTimeStamp = UtilDate.ToFile(DateTime.Now);
 		encoderSignalUniqueID = "-1"; //mark to know that there's no ID for this until it's saved on database
 
-		encoderThreadStart(encoderModes.CALC_RECALC_CURVES);
+		encoderThreadStart(encoderActions.CALC_RECALC_CURVES);
 	}
 	
 	void on_button_encoder_cancel_clicked (object o, EventArgs args) 
@@ -553,9 +553,9 @@ public partial class ChronoJumpWindow
 			//calculate and recalculate saves the curve at end
 			//load does not save the curve 
 			if(saveOrLoad)		
-				encoderThreadStart(encoderModes.CALC_RECALC_CURVES);
+				encoderThreadStart(encoderActions.CALC_RECALC_CURVES);
 			else
-				encoderThreadStart(encoderModes.LOAD);
+				encoderThreadStart(encoderActions.LOAD);
 		}
 		else
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
@@ -1769,7 +1769,7 @@ public partial class ChronoJumpWindow
 
 		}
 	
-		encoderThreadStart(encoderModes.ANALYZE);
+		encoderThreadStart(encoderActions.ANALYZE);
 	}
 
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -4217,10 +4217,10 @@ Log.WriteLine(str);
 	
 	/* thread stuff */
 
-	private void encoderThreadStart(encoderModes mode) {
+	private void encoderThreadStart(encoderActions action) {
 		encoderProcessCancel = false;
 		encoderProcessFinish = false;
-		if(mode == encoderModes.CAPTURE) {
+		if(action == encoderActions.CAPTURE) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
@@ -4269,7 +4269,7 @@ Log.WriteLine(str);
 				createChronopicWindow(true);
 				return;
 			}
-		} else if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
+		} else if(action == encoderActions.CALC_RECALC_CURVES || action == encoderActions.LOAD) {
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
@@ -4277,13 +4277,13 @@ Log.WriteLine(str);
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_capture_curves.Sensitive = false;
 			encoderThreadR = new Thread(new ThreadStart(encoderCreateCurvesGraphR));
-			if(mode == encoderModes.CALC_RECALC_CURVES)
+			if(action == encoderActions.CALC_RECALC_CURVES)
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCalcRecalcCurves));
-			else // mode == encoderModes.LOAD
+			else // action == encoderActions.LOAD
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
 			encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			encoderThreadR.Start(); 
-		} else { //encoderModes.ANALYZE
+		} else { //encoderActions.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_analyze)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
@@ -4308,11 +4308,11 @@ Log.WriteLine(str);
 	{
 //		Log.WriteLine("PPPPPPPPP");
 		if(! encoderThreadCapture.IsAlive || encoderProcessCancel || encoderProcessFinish) {
-			finishPulsebar(encoderModes.CAPTURE);
+			finishPulsebar(encoderActions.CAPTURE);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CAPTURE); //activity on pulsebar
+		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
 		updateEncoderCaptureGraph();
 
 		Thread.Sleep (25);
@@ -4327,11 +4327,11 @@ Log.WriteLine(str);
 				UtilEncoder.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.CALC_RECALC_CURVES);
+			finishPulsebar(encoderActions.CALC_RECALC_CURVES);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.CALC_RECALC_CURVES); //activity on pulsebar
+		updatePulsebar(encoderActions.CALC_RECALC_CURVES); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
@@ -4344,11 +4344,11 @@ Log.WriteLine(str);
 				UtilEncoder.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.LOAD);
+			finishPulsebar(encoderActions.LOAD);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.LOAD); //activity on pulsebar
+		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
@@ -4361,18 +4361,18 @@ Log.WriteLine(str);
 				UtilEncoder.CancelRScript = true;
 			}
 
-			finishPulsebar(encoderModes.ANALYZE);
+			finishPulsebar(encoderActions.ANALYZE);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderModes.ANALYZE); //activity on pulsebar
+		updatePulsebar(encoderActions.ANALYZE); //activity on pulsebar
 		Thread.Sleep (50);
 		Log.Write("R:" + encoderThreadR.ThreadState.ToString());
 		return true;
 	}
 	
-	private void updatePulsebar (encoderModes mode) {
-		if(mode == encoderModes.CAPTURE) {
+	private void updatePulsebar (encoderActions action) {
+		if(action == encoderActions.CAPTURE) {
 			int selectedTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
 					(selectedTime - encoderCaptureCountdown), selectedTime);
@@ -4395,7 +4395,7 @@ Log.WriteLine(str);
 							Convert.ToInt32(contents[1]-48), Convert.ToInt32(contents[3]-48) );
 			}
 
-			if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
+			if(action == encoderActions.CALC_RECALC_CURVES || action == encoderActions.LOAD) {
 				if(fraction == -1) {
 					encoder_pulsebar_capture.Pulse();
 					encoder_pulsebar_capture.Text = contents;
@@ -4419,19 +4419,19 @@ Log.WriteLine(str);
 		}
 	}
 	
-	private void finishPulsebar(encoderModes mode) {
+	private void finishPulsebar(encoderActions action) {
 		if(
-				mode == encoderModes.CAPTURE || 
-				mode == encoderModes.CALC_RECALC_CURVES || 
-				mode == encoderModes.LOAD )
+				action == encoderActions.CAPTURE || 
+				action == encoderActions.CALC_RECALC_CURVES || 
+				action == encoderActions.LOAD )
 		{
 			Log.WriteLine("ffffffinishPulsebarrrrr");
 		
 			//stop video		
-			if(mode == encoderModes.CAPTURE) 
+			if(action == encoderActions.CAPTURE) 
 				encoderStopVideoRecord();
 				
-			if(mode == encoderModes.CAPTURE) 
+			if(action == encoderActions.CAPTURE) 
 				capturingCsharp = false;
 			
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
@@ -4452,12 +4452,12 @@ Log.WriteLine(str);
 				} else
 					encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 			}
-			else if(mode == encoderModes.CAPTURE && encoderProcessFinish) {
+			else if(action == encoderActions.CAPTURE && encoderProcessFinish) {
 				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
-			else if(mode == encoderModes.CALC_RECALC_CURVES || mode == encoderModes.LOAD) {
+			else if(action == encoderActions.CALC_RECALC_CURVES || action == encoderActions.LOAD) {
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
@@ -4467,7 +4467,7 @@ Log.WriteLine(str);
 				image_encoder_capture.Sensitive = true;
 		
 				//autosave signal (but not in load)
-				if(mode == encoderModes.CALC_RECALC_CURVES)
+				if(action == encoderActions.CALC_RECALC_CURVES)
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 				else
 					encoder_pulsebar_capture.Text = "";

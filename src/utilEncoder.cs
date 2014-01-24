@@ -441,8 +441,9 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
+	//this == encoder/graph.R encoderConfigurationConversions
+	
 	public static double EncoderConfigurationConversions(
-			//int byteReaded, string encoderMode, int inertiaMomentum, double diameter) {
 			int byteReaded, EncoderConfiguration ec) {
 		double byteConverted = byteReaded;
 

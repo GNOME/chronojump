@@ -1599,13 +1599,13 @@ find.yrange <- function(singleFile, rawdata, curves) {
 	return (c(y.min,y.max))
 }
 
-#encoderMode conversions
+#encoderConfiguration conversions
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-encoderModeConversions <- function(rawdata, encoderMode, diameter) {
+encoderConfigurationConversions <- function(rawdata, encoderConfiguration, diameter) {
 	#write(rawdata, "debug-file.txt")
-	if(encoderMode == "LINEARINVERTED") {
+	if(encoderConfiguration == "LINEARINVERTED") {
 		rawdata = -rawdata
-	} else if(encoderMode == "ROTARYAXIS") {
+	} else if(encoderConfiguration == "ROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		rawdata = ( rawdata / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
@@ -1661,7 +1661,7 @@ doProcess <- function(options) {
 	
 	AnalysisOptions=options[12]	
 
-	encoderMode=		options[13]	
+	encoderConfiguration=		options[13]	
 	inertiaMomentum=	as.numeric(options[14])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 	diameter=		as.numeric(options[15])	#in meters, eg: 0.0175
 	
@@ -1685,7 +1685,7 @@ doProcess <- function(options) {
 	#if nothing: "-;-"
 	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
-	inertialType = ""	#TODO: use encoderMode
+	inertialType = ""	#TODO: use encoderConfiguration
 	if(length(analysisOptionsTemp) > 1) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
 	}
@@ -1775,7 +1775,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = encoderModeConversions(dataTempFile, encoderMode, diameter)
+			dataTempFile = encoderConfigurationConversions(dataTempFile, encoderConfiguration, diameter)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1868,7 +1868,7 @@ doProcess <- function(options) {
 		#this removes all NAs
 		rawdata  = rawdata[!is.na(rawdata)]
 			
-		rawdata = encoderModeConversions(rawdata, encoderMode, diameter)
+		rawdata = encoderConfigurationConversions(rawdata, encoderConfiguration, diameter)
 
 		if(length(rawdata)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")

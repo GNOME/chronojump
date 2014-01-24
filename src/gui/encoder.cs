@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -178,6 +178,8 @@ public partial class ChronoJumpWindow
 	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
 
+	EncoderModeSelection encoderModeSelectionCurrent;
+
 	/* 
 	 * this contains last EncoderSQL captured, recalculated or loaded
 	 * 
@@ -227,7 +229,8 @@ public partial class ChronoJumpWindow
 		encoder_pulsebar_analyze.Fraction = 1;
 		encoder_pulsebar_analyze.Text = "";
 	
-		label_encoder_selected.Text = Constants.DefaultEncoderConfigurationCode;
+		encoderModeSelectionCurrent = new EncoderModeSelection(Constants.EncoderMode.LINEAR);
+		label_encoder_selected.Text = encoderModeSelectionCurrent.code; 
 		
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 
@@ -249,7 +252,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(
-				label_encoder_selected.Text,
+				encoderModeSelectionCurrent,
 				encoderConfigurationWindowDiameter,
 				encoderConfigurationWindowDiameter2,
 				encoderConfigurationWindowAngle,
@@ -261,7 +264,8 @@ public partial class ChronoJumpWindow
 	void on_encoder_configuration_win_accepted (object o, EventArgs args) {
 		encoder_configuration_win.Button_accept.Clicked -= new EventHandler(on_encoder_configuration_win_accepted);
 		
-		label_encoder_selected.Text = encoder_configuration_win.GetSelected();
+		encoderModeSelectionCurrent = encoder_configuration_win.GetSelected();
+		label_encoder_selected.Text = encoderModeSelectionCurrent.code;
 		
 		encoderConfigurationWindowDiameter = encoder_configuration_win.GetDiameter();
 		encoderConfigurationWindowDiameter2 = encoder_configuration_win.GetDiameter2();
@@ -4623,223 +4627,4 @@ public class EncoderCaptureOptionsWindow {
 		button_close.Click();
 		args.RetVal = true;
 	}
-}
-
-public class EncoderConfigurationWindow {
-	[Widget] Gtk.Window encoder_configuration;
-	[Widget] Gtk.Image image_encoder_linear;
-	[Widget] Gtk.Image image_encoder_rotary_friction;
-	[Widget] Gtk.Image image_encoder_rotary_axis;
-	[Widget] Gtk.Image image_encoder_configuration;
-	[Widget] Gtk.RadioButton radio_linear;
-	[Widget] Gtk.RadioButton radio_rotary_friction;
-	[Widget] Gtk.RadioButton radio_rotary_axis;
-	[Widget] Gtk.Label label_count;
-	[Widget] Gtk.TextView textview;
-	[Widget] Gtk.Box hbox_d;
-	[Widget] Gtk.Box hbox_d2;
-	[Widget] Gtk.Box hbox_angle;
-	[Widget] Gtk.Box hbox_inertia;
-	[Widget] Gtk.Box hbox_inertia2;
-
-	[Widget] Gtk.SpinButton spin_d;
-	[Widget] Gtk.SpinButton spin_d2;
-	[Widget] Gtk.SpinButton spin_angle;
-	[Widget] Gtk.SpinButton spin_inertia;
-
-	[Widget] Gtk.Button button_accept;
-
-	static EncoderConfigurationWindow EncoderConfigurationWindowBox;
-	
-	EncoderModeSelectionList encoderModeSelectionList;
-
-	ArrayList list;
-	int listCurrent = 0; //current item on list
-	Pixbuf pixbuf;
-
-	EncoderConfigurationWindow () {
-		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", null);
-		gladeXML.Autoconnect(this);
-		
-		//three encoder types	
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeLinear);
-		image_encoder_linear.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryFriction);
-		image_encoder_rotary_friction.Pixbuf = pixbuf;
-
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
-		image_encoder_rotary_axis.Pixbuf = pixbuf;
-
-		//put an icon to window
-		UtilGtk.IconWindow(encoder_configuration);
-	}
-	
-	static public EncoderConfigurationWindow View (string code, double d, double d2, int angle, int inertia) {
-		if (EncoderConfigurationWindowBox == null) {
-			EncoderConfigurationWindowBox = new EncoderConfigurationWindow ();
-		}
-		
-		string type = EncoderConfigurationWindowBox.encoderModeSelectionListFindType(code);
-		//activate default radiobutton
-		if(type == Constants.EncoderType.ROTARYFRICTION.ToString())
-			EncoderConfigurationWindowBox.radio_rotary_friction.Active = true;
-		else if(type == Constants.EncoderType.ROTARYAXIS.ToString())
-			EncoderConfigurationWindowBox.radio_rotary_axis.Active = true;
-		else	//linear
-			EncoderConfigurationWindowBox.radio_linear.Active = true;
-
-
-		int position = EncoderConfigurationWindowBox.encoderModeSelectionListFindPosition(type, code);
-		EncoderConfigurationWindowBox.initializeList(type, position);
-		
-		EncoderConfigurationWindowBox.updateValues(d, d2, angle, inertia);
-	
-		EncoderConfigurationWindowBox.encoder_configuration.Show ();
-		return EncoderConfigurationWindowBox;
-	}
-	
-	//finds with type of encoder is a code
-	private string encoderModeSelectionListFindType(string code) {
-		string [] types = { 
-			Constants.EncoderType.LINEAR.ToString(), 
-			Constants.EncoderType.ROTARYFRICTION.ToString(), 
-			Constants.EncoderType.ROTARYAXIS.ToString()
-			};
-
-		for(int i=0; i < types.Length; i++) {
-			EncoderModeSelectionList eMSL = new EncoderModeSelectionList(types[i]);
-			ArrayList l = eMSL.list;
-			for(int j=0; j < l.Count ; j++)
-				if( ( (EncoderModeSelection) l[j]).code == code)
-					return types[i];
-		}
-		//default if error
-		return types[0];
-	}
-	
-	//finds which position belongs to a code in a list
-	private int encoderModeSelectionListFindPosition(string type, string code) {
-		EncoderModeSelectionList eMSL = new EncoderModeSelectionList(type);
-		ArrayList l = eMSL.list;
-
-		for(int i=0; i < l.Count; i++)
-			if( ( (EncoderModeSelection) l[i]).code == code)
-				return i;
-		
-		//default if error
-		return 0;
-	}
-	
-	
-	private void on_radio_encoder_type_linear_toggled (object obj, EventArgs args) {
-		if(radio_linear.Active)
-			initializeList(Constants.EncoderType.LINEAR.ToString(), 0);
-	}
-	private void on_radio_encoder_type_rotary_friction_toggled (object obj, EventArgs args) {
-		if(radio_rotary_friction.Active)
-			initializeList(Constants.EncoderType.ROTARYFRICTION.ToString(), 0);
-	}
-	private void on_radio_encoder_type_rotary_axis_toggled (object obj, EventArgs args) {
-		if(radio_rotary_axis.Active)
-			initializeList(Constants.EncoderType.ROTARYAXIS.ToString(), 0);
-	}
-	
-	private void initializeList(string type, int position) {
-		EncoderModeSelectionList encoderModeSelectionList = new EncoderModeSelectionList(type);
-		list = encoderModeSelectionList.list;
-		listCurrent = position; //current item on list
-		
-		updateImageAndConfigurationGUI();
-	}
-	
-	private void on_button_previous_clicked (object o, EventArgs args) {
-		listCurrent --;
-		if(listCurrent < 0)
-			listCurrent = list.Count -1;
-		
-		updateImageAndConfigurationGUI();
-	}
-
-	private void on_button_next_clicked (object o, EventArgs args) {
-		listCurrent ++;
-		if(listCurrent > list.Count -1)
-			listCurrent = 0;
-
-		updateImageAndConfigurationGUI();
-	}
-	
-	private void updateImageAndConfigurationGUI() {
-		EncoderModeSelection sel = (EncoderModeSelection) list[listCurrent];
-		
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + sel.image);
-		image_encoder_configuration.Pixbuf = pixbuf;
-			
-		TextBuffer tb1 = new TextBuffer (new TextTagTable());
-		tb1.Text = "[" + sel.code + "]\n" + sel.text;
-		textview.Buffer = tb1;
-		
-		hbox_d.Visible = sel.d;
-		hbox_d2.Visible = sel.d2;
-		hbox_angle.Visible = sel.angle;
-		hbox_inertia.Visible = sel.inertia;
-		hbox_inertia2.Visible = sel.inertia;
-		
-		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
-	}
-	
-	private void updateValues(double d, double d2, int angle, int inertia) {
-		if(d != -1)
-			spin_d.Value = d;
-		if(d2 != -1)
-			spin_d2.Value = d2;
-		if(angle != -1)
-			spin_angle.Value = angle;
-		if(inertia != -1)
-			spin_inertia.Value = inertia;
-	}
-	
-	public string GetSelected() {
-		EncoderModeSelection sel = (EncoderModeSelection) list[listCurrent];
-		return sel.code;
-	}
-	
-	public double GetDiameter() {
-		return (double) spin_d.Value; 
-	}
-	public double GetDiameter2() {
-		return (double) spin_d2.Value; 
-	}
-	public int GetAngle() {
-		return (int) spin_angle.Value; 
-	}
-	public int GetInertia() {
-		return (int) spin_inertia.Value; 
-	}
-	
-	
-	private void on_button_cancel_clicked (object o, EventArgs args)
-	{
-		EncoderConfigurationWindowBox.encoder_configuration.Hide();
-		EncoderConfigurationWindowBox = null;
-	}
-	
-	private void on_button_accept_clicked (object o, EventArgs args)
-	{
-		EncoderConfigurationWindowBox.encoder_configuration.Hide();
-	}
-	
-	protected void on_delete_event (object o, DeleteEventArgs args)
-	{
-		args.RetVal = true;
-			
-		EncoderConfigurationWindowBox.encoder_configuration.Hide();
-		EncoderConfigurationWindowBox = null;
-	}
-
-	public Button Button_accept {
-		get { return button_accept; }
-	}
-		
 }

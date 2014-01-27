@@ -38,24 +38,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.SpinButton spin_encoder_1RM_percent;
 
 	[Widget] Gtk.Label label_encoder_selected;	
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_linear;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_friction;
-	[Widget] Gtk.RadioButton radiobutton_encoder_capture_rotary_axis;
-	[Widget] Gtk.Box hbox_checkbutton_encoder_capture_inverted;
-	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inverted;
-	[Widget] Gtk.CheckButton checkbutton_encoder_capture_inertial;
-	[Widget] Gtk.Box hbox_encoder_capture_rotary_f_a;
 	
 	//this is Kg*cm^2 because there's limitation of Glade on 3 decimals. 
 	//at SQL it's in Kg*cm^2 also because it's stored as int
 	//at graph.R is converted to Kg*m^2 ( /10000 )
-	[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
+	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
-	[Widget] Gtk.SpinButton spin_encoder_capture_diameter;	//diameter is always in m except in gui: there is in cm
-	[Widget] Gtk.Button button_encoder_capture_inertial;
-	[Widget] Gtk.Box hbox_encoder_capture_diameter;
-
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
@@ -239,8 +227,8 @@ public partial class ChronoJumpWindow
 		treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
 		createEncoderCombos();
 		
-		spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
-					SqlitePreferences.Select("inertialmomentum")));
+		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
+		//			SqlitePreferences.Select("inertialmomentum")));
 		
 		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create();
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
@@ -328,8 +316,8 @@ public partial class ChronoJumpWindow
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
-				repetitiveConditionsWin.EncoderMainVariable,
-				checkbutton_encoder_capture_inverted.Active
+				repetitiveConditionsWin.EncoderMainVariable//,
+				//checkbutton_encoder_capture_inverted.Active
 				); 
 
 		EncoderStruct es = new EncoderStruct(
@@ -341,8 +329,8 @@ public partial class ChronoJumpWindow
 				ep);				
 				
 		//Update inertia momentum of encoder if needed
-		SqlitePreferences.Update("inertialmomentum", 
-				Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
+		//SqlitePreferences.Update("inertialmomentum", 
+		//		Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
 
 		if (encoderCaptureOptionsWin.radiobutton_encoder_capture_external.Active) {
 			encoderStartVideoRecord();
@@ -377,52 +365,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	//---- start of sensitiveness of encoder capture buttons
-
-	//diameter is shown when: 
-	//encoder rotary axis or
-	//encoder linear with inertial (wire will be surrounding the inertial machine)
-	
-	void on_radiobutton_encoder_capture_l_r_toggled (object o, EventArgs args) {
-		if(radiobutton_encoder_capture_linear.Active) {
-			hbox_checkbutton_encoder_capture_inverted.Visible = true;
-			hbox_encoder_capture_rotary_f_a.Visible = false;
-			
-			hbox_encoder_capture_diameter.Visible = (checkbutton_encoder_capture_inertial.Active);
-		} else {
-			hbox_checkbutton_encoder_capture_inverted.Visible = false;
-			hbox_encoder_capture_rotary_f_a.Visible = true;
-		
-			hbox_encoder_capture_diameter.Visible = (radiobutton_encoder_capture_rotary_axis.Active);
-		}
-	}
-	
-	void on_radiobutton_encoder_capture_rotary_friction_or_axis_toggled (object o, EventArgs args) {
-		hbox_encoder_capture_diameter.Visible = 
-			(radiobutton_encoder_capture_rotary_axis.Active);
-	}
-		
-	void on_checkbutton_encoder_capture_inertial_clicked (object o, EventArgs args) {
-		spin_encoder_capture_inertial.Visible = (checkbutton_encoder_capture_inertial.Active);
-		button_encoder_capture_inertial.Visible = (checkbutton_encoder_capture_inertial.Active);
-		
-		hbox_encoder_capture_diameter.Visible = (
-			(checkbutton_encoder_capture_inertial.Active &&
-			 radiobutton_encoder_capture_linear.Active) ||
-			(radiobutton_encoder_capture_rotary.Active &&
-			radiobutton_encoder_capture_rotary_axis.Active)
-			);
-
-		//if inertial machine use con-ecc
-		if(checkbutton_encoder_capture_inertial.Active) {
-			combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, 
-				Constants.ConcentricEccentric);
-			combo_encoder_eccon.Sensitive = false;
-		} else
-			combo_encoder_eccon.Sensitive = true;
-	}
-	
-	//---- end of sensitiveness of encoder capture buttons
 
 
 	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
@@ -623,6 +565,7 @@ public partial class ChronoJumpWindow
 		if(encoderPropulsive)
 			analysisOptions = "p";
 
+		/*
 		if(checkbutton_encoder_capture_inertial.Active) {
 			if(captureOrAnalyze || radiobutton_encoder_analyze_data_current_signal.Active) 
 			{
@@ -633,6 +576,7 @@ public partial class ChronoJumpWindow
 			} else 
 				analysisOptions += ";-";
 		}
+		*/
 
 		return analysisOptions;
 	}

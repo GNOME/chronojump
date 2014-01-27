@@ -58,7 +58,7 @@ public class EncoderParams
 	private int peakPowerLowerCondition;
 	private string mainVariable;
 	private string decimalSeparator;	//used in export data from R to csv
-	private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderConfigurationName
+	//private bool inverted; //used only in runEncoderCapturePython. In graph.R will be used encoderConfigurationName
 
 	public EncoderParams()
 	{
@@ -73,7 +73,8 @@ public class EncoderParams
 			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
 			int powerHigherCondition, int powerLowerCondition, 
 			int peakPowerHigherCondition, int peakPowerLowerCondition,
-			string mainVariable, bool inverted)
+			string mainVariable//, bool inverted)
+		)
 	{
 		this.time = time;
 		this.minHeight = minHeight;
@@ -93,7 +94,7 @@ public class EncoderParams
 		this.peakPowerHigherCondition = peakPowerHigherCondition;
 		this.peakPowerLowerCondition = peakPowerLowerCondition;
 		this.mainVariable = mainVariable;
-		this.inverted = inverted;
+		//this.inverted = inverted;
 	}
 
 	//to encoder capture
@@ -113,7 +114,8 @@ public class EncoderParams
 			" " + Util.ConvertToPoint(maxSpeedLowerCondition.ToString()) +
 			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
 			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString() +
-			" " + mainVariable + " " + Util.BoolToInt(inverted).ToString();
+			" " + mainVariable //+ " " + Util.BoolToInt(inverted).ToString();
+		;
 	}
 	
 	//to graph.R	

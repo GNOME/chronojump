@@ -128,43 +128,43 @@ OperatingSystem=options[22]
 write("(1/5) Starting R", OutputData2)
 
 
-findCurves <- function(rawdata, eccon, min_height, draw, title) {
-	a=cumsum(rawdata)
-	b=extrema(a)
+findCurves <- function(displacement, eccon, min_height, draw, title) {
+	position=cumsum(displacement)
+	position.ext=extrema(position)
 	print("at findCurves")
-	print(b)
+	print(position.ext)
 	
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
 	#TODO: fer algo per si no es detecta el minindex previ al salt
 	if(eccon=="c") {
-		if(length(b$minindex)==0) { b$minindex=cbind(1,1) }
-		if(length(b$maxindex)==0) { b$maxindex=cbind(length(a),length(a)) }
+		if(length(position.ext$minindex)==0) { position.ext$minindex=cbind(1,1) }
+		if(length(position.ext$maxindex)==0) { position.ext$maxindex=cbind(length(position),length(position)) }
 		#fixes if 1st minindex is after 1st maxindex
-		if(b$maxindex[1] < b$minindex[1]) { b$minindex = rbind(c(1,1),b$minindex) } 
+		if(position.ext$maxindex[1] < position.ext$minindex[1]) { position.ext$minindex = rbind(c(1,1),position.ext$minindex) } 
 		row=1; i=1; j=1
-		while(max(c(i,j)) <= min(c(length(b$minindex[,1]),length(b$maxindex[,1])))) {
+		while(max(c(i,j)) <= min(c(length(position.ext$minindex[,1]),length(position.ext$maxindex[,1])))) {
 
 			#tempStart at the end of minindexs
-			#tempStart = b$minindex[i,2]
+			#tempStart = position.ext$minindex[i,2]
 			
 			#tempStart at the mean of minindexs
 			#this is better because has more data in order to reduceCurveBySpeed
 			#then we get similar results than pyserial_pyper.py
-			tempStart = mean(c(b$minindex[i,1],b$minindex[i,2]))
+			tempStart = mean(c(position.ext$minindex[i,1],position.ext$minindex[i,2]))
 			
 			
 			#end at the mean of maximum values then reduceCurveBySpeed will end it when first speed==0 at right of maxspeed 
-			tempEnd = mean(c(b$maxindex[j,1],b$maxindex[j,2]))
+			tempEnd = mean(c(position.ext$maxindex[j,1],position.ext$maxindex[j,2]))
 
 			#end at the first maximum value
-			#tempEnd = b$maxindex[j,1]
+			#tempEnd = position.ext$maxindex[j,1]
 			
-			height=a[tempEnd]-a[tempStart]
+			height=position[tempEnd]-position[tempStart]
 			if(height >= min_height) { 
 				start[row] = tempStart
 				end[row]   = tempEnd
-				startH[row]= a[b$minindex[i,1]]		#height at start
+				startH[row]= position[position.ext$minindex[i,1]]		#height at start
 				row=row+1;
 #				if(eccon=="c") { break } #c only needs one result
 			} 
@@ -175,24 +175,24 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 
 		referenceindex=0
 		if(eccon=="ec" || eccon=="ecS") {
-			referenceindex=b$maxindex
+			referenceindex=position.ext$maxindex
 		} else {
-			referenceindex=b$minindex
+			referenceindex=position.ext$minindex
 		}
 
 		#when saved a row with ec-con, and there's only this curve, extrema doesn't find maxindex
 		if(length(referenceindex) == 0) {
-			start[1] =1
+			start[1] = 1
 			
 			if(eccon=="ec" || eccon=="ecS")
-				end[1]   = mean(which(a == min(a)))
+				end[1] = mean(which(position == min(position)))
 			else
-				end[1]   = mean(which(a == max(a)))
+				end[1] = mean(which(position == max(position)))
 
-			startH[1]=a[1]
+			startH[1]=position[1]
 			start[2] =end[1]+1
-			end[2]   =length(a)
-			startH[2]=a[start[2]]
+			end[2]   =length(position)
+			startH[2]=position[start[2]]
 		}
 
 		#if a person starts stand up and goes down, extrema maxindex don't find the initial position
@@ -205,39 +205,39 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 			tempEnd   = mean(c(referenceindex[j,1],referenceindex[j,2]))
 		
 			if(eccon=="ec" || eccon=="ecS") {
-				opposite=min(a[tempStart:tempEnd]) #find min value between the two tops
-				mintop=min(c(a[tempStart],a[tempEnd])) #find wich top is lower
+				opposite=min(position[tempStart:tempEnd]) #find min value between the two tops
+				mintop=min(c(position[tempStart],position[tempEnd])) #find wich top is lower
 				height=mintop-opposite
 			} else {
-				opposite=max(a[tempStart:tempEnd]) #find max value between the two bottoms
-				maxbottom=max(c(a[tempStart],a[tempEnd])) #find wich bottom is higher
+				opposite=max(position[tempStart:tempEnd]) #find max value between the two bottoms
+				maxbottom=max(c(position[tempStart],position[tempEnd])) #find wich bottom is higher
 				height=abs(maxbottom-opposite)
 			}
 			if(height >= min_height) { 
 				if(eccon == "ecS" || eccon == "ceS") {
 					start[row] = tempStart
-					end[row]   = mean(which(a[tempStart:tempEnd] == opposite) + tempStart)
-					startH[row] = a[referenceindex[i,1]]		#height at start
+					end[row]   = mean(which(position[tempStart:tempEnd] == opposite) + tempStart)
+					startH[row] = position[referenceindex[i,1]]		#height at start
 					row=row+1
 					start[row] = end[(row-1)] + 1
 					end[row]   = tempEnd
-					startH[row] = a[start[row]]		#height at start
+					startH[row] = position[start[row]]		#height at start
 					row=row+1
 					i=j
 				} else {	#("ec" || "ce")
 					start[row] = tempStart
 					end[row]   = tempEnd
-					startH[row] = a[referenceindex[i,1]]		#height at start
+					startH[row] = position[referenceindex[i,1]]		#height at start
 					row=row+1
 					i=j
 				}
 			} else {
 				if(eccon=="ec" || eccon=="ecS") {
-					if(a[tempEnd] >= a[tempStart]) {
+					if(position[tempEnd] >= position[tempStart]) {
 						i=j
 					}
 				} else {
-					if(a[tempEnd] <= a[tempStart]) {
+					if(position[tempEnd] <= position[tempStart]) {
 						i=j
 					}
 				}
@@ -248,10 +248,10 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	if(draw) {
 		lty=1
 		col="black"
-		plot((1:length(a))/1000			#ms -> s
-		     ,a/10,				#mm -> cm
+		plot((1:length(position))/1000			#ms -> s
+		     ,position/10,				#mm -> cm
 		     type="l",
-		     xlim=c(1,length(a))/1000,		#ms -> s
+		     xlim=c(1,length(position))/1000,		#ms -> s
 		     xlab="",ylab="",axes=T,
 		     lty=lty,col=col) 
 		
@@ -262,38 +262,39 @@ findCurves <- function(rawdata, eccon, min_height, draw, title) {
 	return(as.data.frame(cbind(start,end,startH)))
 }
 
-#all rawdata will be negative because we start on the top
-fixRawdataInertial <- function(rawdata) {
+#all displacement will be negative because we start on the top
+fixRawdataInertial <- function(displacement) {
 	#do not do this:
-	#rawdata[which(rawdata.c >= 0)] = rawdata[which(rawdata.c >= 0)]*-1
+	#position=cumsum(displacement)
+	#displacement[which(position >= 0)] = displacement[which(position >= 0)]*-1
 	
 	#do this: work with cumsum, do ABS on cumsum, then *-1
-	#then to obtain rawdata again just do diff (and add first number)
+	#then to obtain displacement again just do diff (and add first number)
 
-	rawdata.c = abs(cumsum(rawdata))*-1
+	position = abs(cumsum(displacement))*-1
 
 	#this is to make "inverted cumsum"
-	rawdata = c(0,diff(rawdata.c))
+	displacement = c(0,diff(position))
 
-	return(rawdata)
+	return(displacement)
 }
 
 #don't do this, because on inertial machines string will be rolled to machine and not connected to the body
-#fixRawdataLI <- function(rawdata) {
-#	rawdata.c = cumsum(rawdata)
-#	meanMax=mean(which(rawdata.c == max(rawdata.c)))
+#fixRawdataLI <- function(displacement) {
+#	position = cumsum(displacement)
+#	meanMax=mean(which(position == max(position)))
 #
 #	#this is to make "inverted cumsum"
-#	rawdata = c(0,diff(rawdata.c))
+#	displacement = c(0,diff(position))
 #	
-#	rawdata[meanMax:length(rawdata)] = rawdata[meanMax:length(rawdata)] * -1
+#	displacement[meanMax:length(displacement)] = displacement[meanMax:length(displacement)] * -1
 #
-#	return(rawdata)
+#	return(displacement)
 #}
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
+findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 	smoothings = NULL
 	n=length(curves[,1])
 	
@@ -307,10 +308,10 @@ findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
 	} else {
 		#on every curve...
 		for(i in 1:n) {
-			eccentric.concentric = rawdata[curves[i,1]:curves[i,2]]
+			eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
 
-			#get the cumsum rawdata: rawdata.c
-			rawdata.c=cumsum(rawdata[curves[i,1]:curves[i,2]])
+			#get the position
+			position=cumsum(displacement[curves[i,1]:curves[i,2]])
 
 			#analyze the "c" phase
 			#Note dividing phases can be done using the speed,
@@ -318,16 +319,16 @@ findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
 			start = 0
 			end = 0
 			if(eccon=="ec") {
-				start = mean(which(rawdata.c == min(rawdata.c)))
-				end = length(rawdata.c) -1
+				start = mean(which(position == min(position)))
+				end = length(position) -1
 				#the -1 is because the line below: "concentric=" will fail in curves[i,1]+end
 				#and will add an NA
 			} else { #(eccon=="ce")
 				start = 0
-				end = mean(which(rawdata.c == max(rawdata.c)))
+				end = mean(which(position == max(position)))
 			}
 
-			concentric=rawdata[(curves[i,1]+start):(curves[i,1]+end)]
+			concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
 
 			#get max speed at "c"
 			speed <- smooth.spline( 1:length(concentric), concentric, spar=smoothingOneC) 
@@ -356,18 +357,17 @@ findSmoothingsEC <- function(rawdata, curves, eccon, smoothingOneC) {
 
 #used in alls eccons
 #TODO: remember to change thi in python capture file because there it's only used in "c"
-reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoothingOneC) {
-	a=rawdata
-	
+reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneEC, smoothingOneC) 
+{
 	print("at reduceCurveBySpeed")
 
 	smoothing = smoothingOneEC
 	if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
 		smoothing = smoothingOneC
 
-	speed <- smooth.spline( 1:length(a), a, spar=smoothing) 
+	speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing) 
 	
-	b=extrema(speed$y)
+	speed.ext=extrema(speed$y)
 
 	#in order to reduce curve by speed, we search the cross of speed (in 0m/s)
         #before and after the peak value, but in "ec" and "ce" there are two peak values:
@@ -408,69 +408,72 @@ reduceCurveBySpeed <- function(eccon, row, startT, rawdata, smoothingOneEC, smoo
 	speed$y=abs(speed$y)
 
 	#left adjust
-	#find the b$cross at left of max speed
+	#find the speed.ext$cross at left of max speed
 	x.ini = 0 #good to declare here
-	bcrossLen = length(b$cross[,2])
-	if(bcrossLen == 0)
+	ext.cross.len = length(speed.ext$cross[,2])
+	if(ext.cross.len == 0)
 		x.ini = 0
-	else if(bcrossLen == 1) {
-		if(b$cross[,2] < time1) 
-			x.ini = b$cross[,2]
+	else if(ext.cross.len == 1) {
+		if(speed.ext$cross[,2] < time1) 
+			x.ini = speed.ext$cross[,2]
 	} else { 
-		for(i in b$cross[,2]) 
+		for(i in speed.ext$cross[,2]) 
 			if(i < time1) 
 				x.ini = i
 	}
 
 	#right adjust
-	#find the b$cross at right of max speed
-	x.end = length(rawdata) #good to declare here
-	#bcrossLen = length(b$cross[,2])
-	if(bcrossLen == 0)
-		x.end = length(rawdata)
-	else if(bcrossLen == 1) {
-		if(b$cross[,2] > time2) 
-			x.end = b$cross[,2]
+	#find the speed.ext$cross at right of max speed
+	x.end = length(displacement) #good to declare here
+	#ext.cross.len = length(speed.ext$cross[,2])
+	if(ext.cross.len == 0)
+		x.end = length(displacement)
+	else if(ext.cross.len == 1) {
+		if(speed.ext$cross[,2] > time2) 
+			x.end = speed.ext$cross[,2]
 	} else { 
-		for(i in rev(b$cross[,2])) 
+		for(i in rev(speed.ext$cross[,2])) 
 			if(i > time2) 
 				x.end = i
 	}
 
 	#debug
-	print(b$cross[,2])
-	#print(bcrossLen)
+	print(speed.ext$cross[,2])
+	#print(ext.cross.len)
 	print(c("time1,time2",time1,time2))
 	print(c("x.ini x.end",x.ini,x.end))
 
 	return(c(startT + x.ini, startT + x.end))
 }
 
-findECPhases <- function(a,speed) {
-	b=extrema(speed)
-	#print(b)
+findECPhases <- function(displacement,speed) {
+	speed.ext=extrema(speed)
+	#print(speed.ext)
 	#print(speed)
+	
 	#In all the extrema minindex values, search which range (row) has the min values,
 	#and in this range search last value
 	print("searchMinSpeedEnd")
 	searchMinSpeedEnd = max(which(speed == min(speed)))
 	print(searchMinSpeedEnd)
+	
 	#In all the extrema maxindex values, search which range (row) has the max values,
 	#and in this range search first value
 	print("searchMaxSpeedIni")
 	searchMaxSpeedIni = min(which(speed == max(speed)))
 	print(searchMaxSpeedIni)
+	
 	#find the cross between both
-	print("b-Cross")
-	print(b$cross[,1])
+	print("speed.ext-Cross")
+	print(speed.ext$cross[,1])
 	print("search min cross: crossMinRow")
-	crossMinRow=which(b$cross[,1] > searchMinSpeedEnd & b$cross[,1] < searchMaxSpeedIni)
+	crossMinRow=which(speed.ext$cross[,1] > searchMinSpeedEnd & speed.ext$cross[,1] < searchMaxSpeedIni)
 	print(crossMinRow)
 			
 	#if (length(crossMinRow) > 0) {
 	#	print(crossMinRow)
 	#} else {
-	#	propulsiveEnd = length(a)
+	#	propulsiveEnd = length(displacement)
 	#	errorSearching = TRUE
 	#}
 	
@@ -480,13 +483,13 @@ findECPhases <- function(a,speed) {
 				
 	isometricUse = TRUE
 	if(isometricUse) {
-		eccentric=1:min(b$cross[crossMinRow,1])
-		isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
-		concentric=max(b$cross[crossMinRow,2]):length(a)
+		eccentric=1:min(speed.ext$cross[crossMinRow,1])
+		isometric=c(min(speed.ext$cross[crossMinRow,1]), max(speed.ext$cross[crossMinRow,2]))
+		concentric=max(speed.ext$cross[crossMinRow,2]):length(displacement)
 	} else {
-		eccentric=1:mean(b$cross[crossMinRow,1])
-		isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
-		concentric=mean(b$cross[crossMinRow,2]):length(a)
+		eccentric=1:mean(speed.ext$cross[crossMinRow,1])
+		isometric=c(mean(speed.ext$cross[crossMinRow,1]), mean(speed.ext$cross[crossMinRow,2]))
+		concentric=mean(speed.ext$cross[crossMinRow,2]):length(displacement)
 	}
 	return(list(
 		eccentric=eccentric,
@@ -512,7 +515,7 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
+kinematicsF <- function(displacement, mass, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
 	if(eccon == "c" || eccon == "e")
@@ -523,15 +526,15 @@ kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, isProp
 	print(c("at kinematicsF smoothing:",smoothing))
 
 	#x vector should contain at least 4 different values
-	if(length(a) >= 4)
-		speed <- smooth.spline( 1:length(a), a, spar=smoothing)
+	if(length(displacement) >= 4)
+		speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing)
 	else
-		speed=list(y=rep(0,length(a)))
+		speed=list(y=rep(0,length(displacement)))
 	
-	if(length(a) >= 4)
+	if(length(displacement) >= 4)
 		accel <- predict( speed, deriv=1 )
 	else
-		accel=list(y=rep(0,length(a)))
+		accel=list(y=rep(0,length(displacement)))
 	
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
@@ -546,10 +549,10 @@ kinematicsF <- function(a, mass, smoothingOneEC, smoothingOneC, g, eccon, isProp
 	#search propulsiveEnd
 	if(isPropulsive) {
 		if(eccon=="c") {
-			concentric=1:length(a)
+			concentric=1:length(displacement)
 			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
 		} else if(eccon=="ec") {
-			phases=findECPhases(a,speed$y)
+			phases=findECPhases(displacement,speed$y)
 			eccentric = phases$eccentric
 			isometric = phases$isometric
 			concentric = phases$concentric
@@ -618,7 +621,7 @@ powerBars <- function(eccon, kinematics) {
 			  kinematics$mass,meanForce,maxForce))
 }
 
-kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
+kinematicRanges <- function(singleFile,displacement,curves,mass,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
 	myEccon = eccon
@@ -629,7 +632,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothin
 			myMass = curves[i,5]
 			myEccon = curves[i,7]
 		}
-		kn=kinematicsF(rawdata[curves[i,1]:curves[i,2]],myMass,smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
+		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],myMass,smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$accely)) > maxAccely)
@@ -647,7 +650,7 @@ kinematicRanges <- function(singleFile,rawdata,curves,mass,smoothingsEC,smoothin
 }
 
 
-paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
+paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
 	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
         showSpeed, showAccel, showForce, showPower	
@@ -670,9 +673,9 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 	print(c("xmin,xmax",xmin,xmax))
 
-	rawdata=rawdata[xmin:xmax]
-	a=cumsum(rawdata)
-	a=a+startH
+	displacement=displacement[xmin:xmax]
+	position=cumsum(displacement)
+	position=position+startH
 
 	#to control the placement of the diferent axis on the right
 	axisLineRight = 0
@@ -687,7 +690,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		marginRight = marginRight -2
 
 	#all in meters
-	#a=a/1000
+	#position=position/1000
 
 	if(draw) {
 		#three vertical axis inspired on http://www.r-bloggers.com/multiple-y-axis-in-a-r-plot/
@@ -704,7 +707,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		#}
 		ylim=yrange
 		if(ylim[1]=="undefined") { ylim=NULL }
-		plot(a-min(a),type="n",xlim=c(1,length(a)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
+		plot(position-min(position),type="n",xlim=c(1,length(position)),ylim=ylim,xlab=xlab, ylab=ylab, col="gray", axes=F)
 
 		title(main=title,line=-2,outer=T)
 		mtext(subtitle,side=1,adj=0,cex=.8)
@@ -719,19 +722,19 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		colNormal="black"
 		if(superpose)
 			colNormal="gray30"
-		yValues = a[startX:length(a)]-min(a[startX:length(a)])
+		yValues = position[startX:length(position)]-min(position[startX:length(position)])
 		if(highlight==FALSE) {
-			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,
+			plot(startX:length(position),yValues,type="l",xlim=c(1,length(position)),ylim=ylim,
 			     xlab="",ylab="",col="black",lty=lty[1],lwd=2,axes=F)
 			par(new=T)
-			plot(startX:length(a),yValues,type="h",xlim=c(1,length(a)),ylim=ylim,
+			plot(startX:length(position),yValues,type="h",xlim=c(1,length(position)),ylim=ylim,
 			     xlab="",ylab="",col="grey90",lty=lty[1],lwd=1,axes=F)
 		}
 		else
-			plot(startX:length(a),yValues,type="l",xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
+			plot(startX:length(position),yValues,type="l",xlim=c(1,length(position)),ylim=ylim,xlab="",ylab="",col=colNormal,lty=2,lwd=3,axes=F)
 		abline(h=0,lty=3,col="black")
 
-		#abline(v=seq(from=0,to=length(a),by=500),lty=3,col="gray")
+		#abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
 
 
 #print("ROTARY")		
@@ -744,12 +747,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	}
 
 	#speed
-	#scan file again (raw data: mm displaced every ms, no cumulative sum)
-	a=rawdata
-	speed <- smooth.spline( 1:length(a), a, spar=smoothing)
+	speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing)
        	
 	if(draw & showSpeed) {
-		ylim=c(-max(abs(range(a))),max(abs(range(a))))	#put 0 in the middle 
+		ylim=c(-max(abs(range(displacement))),max(abs(range(displacement))))	#put 0 in the middle 
 		if(knRanges[1] != "undefined")
 			ylim = knRanges$speedy
 		par(new=T)
@@ -761,10 +762,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 		if(highlight==FALSE)
 			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[1],lty=lty[1],lwd=1,axes=F)
 		else
 			plot(startX:length(speedPlot),speedPlot[startX:length(speedPlot)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkgreen",lty=2,lwd=3,axes=F)
 	}
 	
 	#time to arrive to max speed
@@ -779,23 +780,23 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 
 
 	#show extrema values in speed
-	b=extrema(speed$y)
+	speed.ext=extrema(speed$y)
 
 
 	#if(draw & !superpose) 
-	#	segments(x0=b$maxindex,y0=0,x1=b$maxindex,y1=speed$y[b$maxindex],col=cols[1])
+	#	segments(x0=speed.ext$maxindex,y0=0,x1=speed.ext$maxindex,y1=speed$y[speed.ext$maxindex],col=cols[1])
 
 	#declare variables:
 	eccentric=0
 	isometric=0
 	concentric=0
 	if(eccon=="c") {
-		concentric=1:length(a)
+		concentric=1:length(displacement)
 	} else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
 		print("EXTREMA")
-		#abline(v=b$maxindex,lty=3,col="yellow");
-		#abline(v=b$minindex,lty=3,col="magenta")
-		print(b)
+		#abline(v=speed.ext$maxindex,lty=3,col="yellow");
+		#abline(v=speed.ext$minindex,lty=3,col="magenta")
+		print(speed.ext)
 
 		time1 = 0
 		time2 = 0
@@ -808,18 +809,18 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			time2 = min(which(speed$y == min(speed$y)))
 			labelsXeXc = c("Xc","Xe")
 		}
-		crossMinRow=which(b$cross[,1] > time1 & b$cross[,1] < time2)
+		crossMinRow=which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2)
 		
 		isometricUse = TRUE
 		#TODO: con-ecc is opposite
 		if(isometricUse) {
-			eccentric=1:min(b$cross[crossMinRow,1])
-			isometric=c(min(b$cross[crossMinRow,1]), max(b$cross[crossMinRow,2]))
-			concentric=max(b$cross[crossMinRow,2]):length(a)
+			eccentric=1:min(speed.ext$cross[crossMinRow,1])
+			isometric=c(min(speed.ext$cross[crossMinRow,1]), max(speed.ext$cross[crossMinRow,2]))
+			concentric=max(speed.ext$cross[crossMinRow,2]):length(displacement)
 		} else {
-			eccentric=1:mean(b$cross[crossMinRow,1])
-			isometric=c(mean(b$cross[crossMinRow,1]), mean(b$cross[crossMinRow,2]))
-			concentric=mean(b$cross[crossMinRow,2]):length(a)
+			eccentric=1:mean(speed.ext$cross[crossMinRow,1])
+			isometric=c(mean(speed.ext$cross[crossMinRow,1]), mean(speed.ext$cross[crossMinRow,2]))
+			concentric=mean(speed.ext$cross[crossMinRow,2]):length(displacement)
 		}
 
 		if(draw) {
@@ -910,10 +911,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 			par(new=T)
 			if(highlight==FALSE)
 				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-				     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
+				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="magenta",lty=lty[2],lwd=1,axes=F)
 			else
 				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
-				     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		}
 			
 		if(isPropulsive) {
@@ -946,10 +947,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		par(new=T)
 		if(highlight==FALSE)
 			plot(startX:length(force),force[startX:length(force)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[2],lty=lty[2],lwd=1,axes=F)
 		else
 			plot(startX:length(force),force[startX:length(force)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		if(showAxes) {
 			axis(4, col=cols[2], lty=lty[2], line=axisLineRight, lwd=1, padj=-.5)
 			axisLineRight = axisLineRight +2
@@ -960,7 +961,7 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 	#mark when it's air and land
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
-	#if(draw & (!superpose || (superpose & highlight)) & isJump) {
+	#if(draw & (!superpose || (superpose & highlight)) & isJump) 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*9.81
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
@@ -977,10 +978,11 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		}
 	}
 	#forceToBodyMass <- force - weight
-	#b=extrema(forceToBodyMass)
-	#abline(v=b$cross[,1],lty=3,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-	#text(x=(mean(b$cross[1,1],b$cross[1,2])+mean(b$cross[2,1],b$cross[2,2]))/2, y=weight, 
-	#		labels=paste("flight time:", mean(b$cross[2,1],b$cross[2,2])-mean(b$cross[1,1],b$cross[1,2]),"ms"), 
+	#force.ext=extrema(forceToBodyMass)
+	#abline(v=force.ext$cross[,1],lty=3,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+	#text(x=(mean(force.ext$cross[1,1],force.ext$cross[1,2])+mean(force.ext$cross[2,1],force.ext$cross[2,2]))/2, y=weight, 
+	#		labels=paste("flight time:", 
+	#			mean(force.ext$cross[2,1],force.ext$cross[2,2])-mean(force.ext$cross[1,1],force.ext$cross[1,2]),"ms"), 
 	#		col=cols[2], cex=.8, adj=c(0.5,0))
 
 	#power #normalment m=massa barra + peses: 	F=m*a #com es va contra gravetat: 		F=m*a+m*g  	F=m*(a+g) #g sempre es positiva. a es negativa en la baixada de manera que en caiguda lliure F=0 #cal afegir la resistencia del encoder a la força #Potència	P=F*V #si es treballa amb el pes corporal, cal afegir-lo
@@ -1026,10 +1028,10 @@ paint <- function(rawdata, eccon, xmin, xmax, yrange, knRanges, superpose, highl
 		par(new=T);
 		if(highlight==FALSE)
 			plot(startX:length(power),power[startX:length(power)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col=cols[3],lty=lty[3],lwd=2,axes=F)
 		else
 			plot(startX:length(power),power[startX:length(power)],type="l",
-			     xlim=c(1,length(a)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
+			     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkred",lty=2,lwd=3,axes=F)
 
 
 		meanPowerC = mean(power[min(concentric):max(concentric)])
@@ -1581,12 +1583,12 @@ find.mfrow <- function(n) {
 	else return(c(3, ceiling(n/3)))
 }
 
-find.yrange <- function(singleFile, rawdata, curves) {
+find.yrange <- function(singleFile, displacement, curves) {
 	n=length(curves[,1])
 	y.max = 0
 	y.min = 10000
 	for(i in 1:n) { 
-		y.current = cumsum(rawdata[curves[i,1]:curves[i,2]])
+		y.current = cumsum(displacement[curves[i,1]:curves[i,2]])
 		if(max(y.current) > y.max)
 			y.max = max(y.current)
 		if(min(y.current) < y.min)
@@ -1599,20 +1601,22 @@ find.yrange <- function(singleFile, rawdata, curves) {
 	return (c(y.min,y.max))
 }
 
-#encoderConfiguration conversions
+#-------------------- encoderConfiguration conversions --------------------------
+
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-encoderConfigurationConversions <- function(rawdata, encoderConfiguration, diameter) {
-	#write(rawdata, "debug-file.txt")
+#we use 'data' variable because can be position or displacement
+getDisplacement <- function(data, encoderConfiguration, diameter) {
 	if(encoderConfiguration == "LINEARINVERTED") {
-		rawdata = -rawdata
+		data = -data
 	} else if(encoderConfiguration == "ROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
-		rawdata = ( rawdata / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
+		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
 	}
-	#write(rawdata, "debug-file2.txt")
-	return(rawdata)
+	return(data)
 }
+
+#-------------- end of encoderConfiguration conversions -------------------------
 
 quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
@@ -1742,7 +1746,7 @@ doProcess <- function(options) {
 
 
 	if(! singleFile) {	#reads CSV with curves to analyze
-		#this produces a rawdata, but note that a cumsum(rawdata) cannot be done because:
+		#this produces a displacement, but note that a position = cumsum(displacement) cannot be done because:
 		#this are separated movements
 		#maybe all are concentric (there's no returning to 0 phase)
 
@@ -1751,7 +1755,7 @@ doProcess <- function(options) {
 
 		inputMultiData=read.csv(file=File,sep=",",stringsAsFactors=F)
 
-		rawdata = NULL
+		displacement = NULL
 		count = 1
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL
@@ -1775,7 +1779,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = encoderConfigurationConversions(dataTempFile, encoderConfiguration, diameter)
+			dataTempFile = getDisplacement(dataTempFile, encoderConfiguration, diameter)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1798,7 +1802,7 @@ doProcess <- function(options) {
 						newLines=newLines+1
 					}
 				}
-				rawdata = c(rawdata, dataTempPhase)
+				displacement = c(displacement, dataTempPhase)
 				id[(i+newLines)] = countLines
 				start[(i+newLines)] = count
 				end[(i+newLines)] = length(dataTempPhase) + count -1
@@ -1834,7 +1838,7 @@ doProcess <- function(options) {
 			}
 		}		
 
-		#rawdata.cumsum=cumsum(rawdata)
+		#position=cumsum(displacement)
 
 		#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
 		#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
@@ -1860,17 +1864,17 @@ doProcess <- function(options) {
 		print(curves)
 		
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 	} else {	#singleFile == True. reads a signal file
-		rawdata=scan(file=File,sep=",")
+		displacement=scan(file=File,sep=",")
 			
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
-		rawdata  = rawdata[!is.na(rawdata)]
+		displacement  = displacement[!is.na(displacement)]
 			
-		rawdata = encoderConfigurationConversions(rawdata, encoderConfiguration, diameter)
+		displacement = getDisplacement(displacement, encoderConfiguration, diameter)
 
-		if(length(rawdata)==0) {
+		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
 			text(x=0,y=0,"Encoder is not connected.",cex=1.5)
 			dev.off()
@@ -1879,24 +1883,24 @@ doProcess <- function(options) {
 		}
 
 		if(inertialType == "ri") 
-			rawdata = fixRawdataInertial(rawdata)
+			displacement = fixRawdataInertial(displacement)
 		
-		curves=findCurves(rawdata, Eccon, MinHeight, curvesPlot, Title)
+		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
 
-		rawdata.cumsum=cumsum(rawdata)
+		position=cumsum(displacement)
 
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 	
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(rawdata, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)
 
 		#reduceCurveBySpeed
 		for(i in 1:n) {
-			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], rawdata[curves[i,1]:curves[i,2]], 
+			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], 
 						      SmoothingsEC[i], SmoothingOneC)
 			curves[i,1] = reduceTemp[1]
 			curves[i,2] = reduceTemp[2]
@@ -1906,7 +1910,7 @@ doProcess <- function(options) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 
 				myLabel = i
-				myY = min(rawdata.cumsum)/10
+				myY = min(position)/10
 				adjVert = 0
 				if(Eccon=="ceS")
 					adjVert = 1
@@ -1917,7 +1921,7 @@ doProcess <- function(options) {
 						myEc=c("e","c")
 					
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
-					myY = rawdata.cumsum[curves[i,1]]/10
+					myY = position[curves[i,1]]/10
 					if(i%%2 == 1) {
 						adjVert = 1
 						if(Eccon=="ceS")
@@ -1936,10 +1940,10 @@ doProcess <- function(options) {
 
 			#plot speed
 			par(new=T)	
-			speed <- smooth.spline( 1:length(rawdata), rawdata, spar=smoothingAll)
-			plot((1:length(rawdata))/1000, speed$y, col="green2",
+			speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothingAll)
+			plot((1:length(displacement))/1000, speed$y, col="green2",
 		     		type="l", 
-				xlim=c(1,length(rawdata))/1000,	#ms -> s
+				xlim=c(1,length(displacement))/1000,	#ms -> s
 				#ylim=c(-.25,.25),		#to test speed at small changes
 		     		xlab="",ylab="",axes=F)
 			mtext("speed ",side=4,adj=1,line=-1,col="green2")
@@ -1968,11 +1972,11 @@ doProcess <- function(options) {
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
-			#	rawdata[myStart:myEnd] = fixRawdataLI(rawdata[myStart:myEnd])
+			#	displacement[myStart:myEnd] = fixRawdataLI(displacement[myStart:myEnd])
 			#	myEccon="c"
 			#}
 
-			paint(rawdata, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
+			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMass,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
@@ -1994,11 +1998,9 @@ doProcess <- function(options) {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))
 
-		#a=cumsum(rawdata)
-		#yrange=c(min(a),max(a))
-		yrange=find.yrange(singleFile, rawdata, curves)
+		yrange=find.yrange(singleFile, displacement, curves)
 
-		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingsEC,SmoothingOneC,
+		knRanges=kinematicRanges(singleFile,displacement,curves,Mass,SmoothingsEC,SmoothingOneC,
 					 g,Eccon,isPropulsive)
 
 		for(i in 1:n) {
@@ -2019,7 +2021,7 @@ doProcess <- function(options) {
 			
 			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
 
-			paint(rawdata, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
+			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
 			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMass,myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
@@ -2043,11 +2045,11 @@ doProcess <- function(options) {
 #		#fer que es pugui enviar colors que es vol per cada curva, o linetypes
 #		wide=max(curves$end-curves$start)
 #
-#		#a=cumsum(rawdata)
-#		#yrange=c(min(a),max(a))
-#		yrange=find.yrange(singleFile, rawdata,curves)
+#		#position=cumsum(displacement)
+#		#yrange=c(min(position),max(position))
+#		yrange=find.yrange(singleFile, displacement,curves)
 #
-#		knRanges=kinematicRanges(singleFile,rawdata,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,isPropulsive)
+#		knRanges=kinematicRanges(singleFile,displacement,curves,Mass,SmoothingOneEC,SmoothingOneC,g,Eccon,isPropulsive)
 #		for(i in 1:n) {
 #			#in superpose all jumps end at max height
 #			#start can change, some are longer than other
@@ -2059,7 +2061,7 @@ doProcess <- function(options) {
 #			if(i==1)
 #				myTitle = paste(titleType,Jump);
 #
-#			paint(rawdata, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
+#			paint(displacement, Eccon, curves[i,2]-wide,curves[i,2],yrange,knRanges,TRUE,(i==Jump),
 #			      startX,curves[i,3],SmoothingOneEC,SmoothingOneC,Mass,myTitle,"",
 #			      TRUE,	#draw
 #			      TRUE,	#showLabels
@@ -2131,7 +2133,7 @@ doProcess <- function(options) {
 				       myEcconKn = "e"
 			}
 			paf=rbind(paf,(powerBars(myEccon,
-						 kinematicsF(rawdata[curves[i,1]:curves[i,2]], 
+						 kinematicsF(displacement[curves[i,1]:curves[i,2]], 
 							     myMass, SmoothingsEC[i],SmoothingOneC, 
 							     g, myEcconKn, isPropulsive))))
 		}
@@ -2159,7 +2161,7 @@ doProcess <- function(options) {
 			else 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
 							curves[,7], Eccon,			#myEccon, Eccon
-							rawdata.cumsum[curves[,2]]-curves[,3], 	#height
+							position[curves[,2]]-curves[,3], 	#height
 							n, 
 			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
 			      				(AnalysisVariables[2] == "Range") 		#show range
@@ -2215,7 +2217,7 @@ doProcess <- function(options) {
 					  "exerciseName",
 					  Mass,
 					  curves[,1],
-					  curves[,2]-curves[,1],rawdata.cumsum[curves[,2]]-curves[,3],paf)
+					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],paf)
 			else {
 				if(discardingCurves)
 					curvesHeight = curvesHeight[-discardedCurves]
@@ -2258,12 +2260,12 @@ doProcess <- function(options) {
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (rawdata[curves[i,1]:curves[i,2]], Mass, 
+			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], Mass, 
 					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length
-			col1 = rawdata[curves[i,1]:curves[i,2]]
-			col2 = rawdata.cumsum[curves[i,1]:curves[i,2]]
+			col1 = displacement[curves[i,1]:curves[i,2]]
+			col2 = position[curves[i,1]:curves[i,2]]
 
 			#add mean, max, and time to max
 			col1=append(col1,

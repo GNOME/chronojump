@@ -368,7 +368,7 @@ public class EncoderSQL
 	}
 
 	public string [] ToStringArray (int count, bool checkboxes, bool video) {
-		int all = 8;
+		int all = 9;
 		if(checkboxes)
 			all ++;
 		if(video)
@@ -383,8 +383,13 @@ public class EncoderSQL
 	
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
-		str[i++] = ecconLong;
 		str[i++] = extraWeight;
+
+		EncoderConfiguration econf = new EncoderConfiguration( (Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), encoderConfigurationName) ); 
+		str[i++] = econf.code.ToString();
+		
+		str[i++] = ecconLong;
 		str[i++] = GetDate(true);
 		
 		if(video) {

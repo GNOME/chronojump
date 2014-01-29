@@ -678,8 +678,9 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Active"),	//checkboxes
 			Catalog.GetString("Curve"),
 			Catalog.GetString("Exercise"),
-			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
+			Catalog.GetString("Encoder"),
+			Catalog.GetString("Contraction"),
 			Catalog.GetString("Date"),
 			Catalog.GetString("Comment")
 		};
@@ -1037,8 +1038,9 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("ID"),
 			Catalog.GetString("Signal"),
 			Catalog.GetString("Exercise"),
-			Catalog.GetString("Contraction"),
 			Catalog.GetString("Extra weight"),
+			Catalog.GetString("Encoder"),
+			Catalog.GetString("Contraction"),
 			Catalog.GetString("Date"),
 			Catalog.GetString("Video"),
 			Catalog.GetString("Comment")

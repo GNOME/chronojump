@@ -150,7 +150,7 @@ public class ChronojumpServer {
 	{
 		int id = -1;
 		//upload if doesn't exists (uploaded before by this or other evaluator)
-		if(! Sqlite.Exists(Constants.SportTable, mySport.Name))
+		if(! Sqlite.Exists(false, Constants.SportTable, mySport.Name))
 			id = mySport.InsertAtDB(false);
 		
 		return id; //uniqueID of sport at server
@@ -169,7 +169,7 @@ public class ChronojumpServer {
 			case (int) Constants.TestTypes.JUMP :
 				JumpType jumpType = (JumpType)type;
 				Console.WriteLine("JUMP" + typeServer + ":" + jumpType.StartIn + ":" + jumpType.HasWeight + ":" + jumpType.Description);
-				if(! Sqlite.Exists(Constants.JumpTypeTable, typeServer)) {
+				if(! Sqlite.Exists(false, Constants.JumpTypeTable, typeServer)) {
 					Console.WriteLine("YYYYYYYYYYYYYYYY");
 					//Console.WriteLine("Jump type doesn't exists");
 					SqliteJumpType.JumpTypeInsert(
@@ -182,7 +182,7 @@ public class ChronojumpServer {
 			case (int) Constants.TestTypes.JUMP_RJ :
 				JumpType jumpTypeRj = (JumpType)type;
 				Console.WriteLine("JUMP_RJ" + typeServer + ":" + jumpTypeRj.Description);
-				if(! Sqlite.Exists(Constants.JumpRjTypeTable, typeServer)) {
+				if(! Sqlite.Exists(false, Constants.JumpRjTypeTable, typeServer)) {
 					//Console.WriteLine("JumpRj type doesn't exists");
 					SqliteJumpType.JumpRjTypeInsert(
 							typeServer + ":" + Util.BoolToInt(jumpTypeRj.StartIn).ToString() + ":" + 
@@ -211,7 +211,7 @@ public class ChronojumpServer {
 		string typeServer = type.Name + "-" + evalSID.ToString();
 				
 		Console.WriteLine("JUMP" + typeServer + ":" + type.StartIn + ":" + type.HasWeight + ":" + type.Description);
-		if(! Sqlite.Exists(Constants.JumpTypeTable, typeServer)) {
+		if(! Sqlite.Exists(false, Constants.JumpTypeTable, typeServer)) {
 			SqliteJumpType.JumpTypeInsert(
 					typeServer + ":" + Util.BoolToInt(type.StartIn).ToString() + ":" + 
 					Util.BoolToInt(type.HasWeight).ToString() + ":" + type.Description,
@@ -227,7 +227,7 @@ public class ChronojumpServer {
 		string typeServer = type.Name + "-" + evalSID.ToString();
 				
 		Console.WriteLine("JUMP_RJ" + typeServer + ":" + type.Description);
-		if(! Sqlite.Exists(Constants.JumpRjTypeTable, typeServer)) {
+		if(! Sqlite.Exists(false, Constants.JumpRjTypeTable, typeServer)) {
 			SqliteJumpType.JumpRjTypeInsert(
 					typeServer + ":" + Util.BoolToInt(type.StartIn).ToString() + ":" + 
 					Util.BoolToInt(type.HasWeight).ToString() + ":" + 
@@ -246,7 +246,7 @@ public class ChronojumpServer {
 		string typeServer = type.Name + "-" + evalSID.ToString();
 				
 		Console.WriteLine("RUN" + typeServer + ":" + type.Distance + ":" + type.Description);
-		if(! Sqlite.Exists(Constants.RunTypeTable, typeServer)) {
+		if(! Sqlite.Exists(false, Constants.RunTypeTable, typeServer)) {
 			type.Name = typeServer;
 			SqliteRunType.Insert(type, Constants.RunTypeTable, false);
 			return typeServer;
@@ -260,7 +260,7 @@ public class ChronojumpServer {
 		string typeServer = type.Name + "-" + evalSID.ToString();
 				
 		Console.WriteLine("RUN_I" + typeServer + ":" + type.Distance + ":" + type.Description);
-		if(! Sqlite.Exists(Constants.RunIntervalTypeTable, typeServer)) {
+		if(! Sqlite.Exists(false, Constants.RunIntervalTypeTable, typeServer)) {
 			type.Name = typeServer;
 			SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, false);
 			return typeServer;

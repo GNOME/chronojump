@@ -40,6 +40,12 @@ public class GenericWindow
 	[Widget] Gtk.Box hbox_spin_int;
 	[Widget] Gtk.Label label_spin_int;
 	[Widget] Gtk.SpinButton spin_int;
+	[Widget] Gtk.Box hbox_spin_int2;
+	[Widget] Gtk.Label label_spin_int2;
+	[Widget] Gtk.SpinButton spin_int2;
+	[Widget] Gtk.Box hbox_spin_int3;
+	[Widget] Gtk.Label label_spin_int3;
+	[Widget] Gtk.SpinButton spin_int3;
 
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
@@ -155,6 +161,8 @@ public class GenericWindow
 		hbox_entry2.Hide();
 		hbox_entry3.Hide();
 		hbox_spin_int.Hide();
+		hbox_spin_int2.Hide();
+		hbox_spin_int3.Hide();
 		spin_double.Hide();
 		hbox_spin_double2.Hide();
 		hbox_height_metric.Hide();
@@ -198,6 +206,14 @@ public class GenericWindow
 			spin_double2.IsEditable = editable;
 			spin_double2.Sensitive = editable;
 		}
+		else if(stuff == Constants.GenericWindowShow.SPININT2) {
+			hbox_spin_int2.Show();
+			spin_int2.IsEditable = editable;
+		}
+		else if(stuff == Constants.GenericWindowShow.SPININT3) {
+			hbox_spin_int3.Show();
+			spin_int3.IsEditable = editable;
+		}
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC) {
 			hbox_height_metric.Show();
 		}
@@ -238,6 +254,10 @@ public class GenericWindow
 			hbox_spin_double2.Show();
 		else if(stuff == Constants.GenericWindowShow.HEIGHTMETRIC)
 			hbox_height_metric.Show();
+		else if(stuff == Constants.GenericWindowShow.SPININT2)
+			hbox_spin_int2.Show();
+		else if(stuff == Constants.GenericWindowShow.SPININT3)
+			hbox_spin_int3.Show();
 		else if(stuff == Constants.GenericWindowShow.COMBO) {
 			//do later, we need to create them first
 			/*
@@ -264,6 +284,20 @@ public class GenericWindow
 	}
 	public void SetSpinRange(double min, double max) {
 		spin_int.SetRange(min, max);
+	}
+	
+	public void SetSpin2Value(int num) {
+		spin_int2.Value = num;
+	}
+	public void SetSpin2Range(int min, int max) {
+		spin_int2.SetRange(min, max);
+	}
+	
+	public void SetSpin3Value(int num) {
+		spin_int3.Value = num;
+	}
+	public void SetSpin3Range(int min, int max) {
+		spin_int3.SetRange(min, max);
 	}
 	
 	public void SetSpinDouble2Value(double num) {
@@ -706,6 +740,20 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	}
 	public int SpinIntSelected {
 		get { return (int) spin_int.Value; }
+	}
+	
+	public string LabelSpinInt2 {
+		set { label_spin_int2.Text = value; }
+	}
+	public int SpinInt2Selected {
+		get { return (int) spin_int2.Value; }
+	}
+	
+	public string LabelSpinInt3 {
+		set { label_spin_int3.Text = value; }
+	}
+	public int SpinInt3Selected {
+		get { return (int) spin_int3.Value; }
 	}
 	
 	public double SpinDoubleSelected {

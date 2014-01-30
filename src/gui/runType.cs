@@ -166,7 +166,7 @@ public class RunTypeAddWindow
 		//Console.WriteLine(getEntriesString());
 
 		//check if this run type exists, and check it's name is not AllRunsName
-		bool runTypeExists = Sqlite.Exists (Constants.RunTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
+		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
 		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Constants.AllRunsName) {
 			runTypeExists = true;
 		}

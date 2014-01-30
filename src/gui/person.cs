@@ -1547,7 +1547,7 @@ public class PersonAddModifyWindow
 	private void on_sport_add_accepted (object o, EventArgs args) {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
 		string newSportName = genericWin.EntrySelected;
-		if(Sqlite.Exists(Constants.SportTable, newSportName) ||
+		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
 				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
 				)
@@ -1583,7 +1583,7 @@ public class PersonAddModifyWindow
 	{
 		bool personExists;
 		if(adding)
-			personExists = Sqlite.Exists (Constants.PersonTable, Util.RemoveTilde(entry1.Text));
+			personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(entry1.Text));
 		else
 			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(entry1.Text));
 
@@ -1939,7 +1939,7 @@ public class PersonAddMultipleWindow {
 		
 	void checkEntries(int count, string name, double weight) {
 		if(name.Length > 0) {
-			bool personExists = Sqlite.Exists (Constants.PersonTable, Util.RemoveTilde(name));
+			bool personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(name));
 			if(personExists) {
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 			}

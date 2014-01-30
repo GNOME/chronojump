@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "0.99";
+	static string lastChronojumpDatabaseVersion = "1.00";
 
 	public Sqlite() {
 	}
@@ -1210,7 +1210,8 @@ class Sqlite
 			if(currentVersion == "0.88") {
 				dbcon.Open();
 	
-				SqliteEncoder.InsertExercise(true, "Free", 0, "", "", "");
+				SqliteEncoder.addEncoderFreeExercise();
+				
 				Log.WriteLine("Added encoder exercise: Free");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.89", true); 
@@ -1234,7 +1235,7 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				dbcon.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "", "");	
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "", "", 90, 90);	
 				Log.WriteLine("Encoder Squat 75% -> 100%");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1256,8 +1257,8 @@ class Sqlite
 			if(currentVersion == "0.92") {
 				dbcon.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Bench press", 0, "weight bar", "","0.185");	
-				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "","0.31");	
+				SqliteEncoder.UpdateExercise(true, "Bench press", 0, "weight bar", "","0.185",90,90);
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "","0.31",90,90);
 				Log.WriteLine("Added speed1RM on encoder exercise");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.93", true); 
@@ -1375,6 +1376,19 @@ class Sqlite
 				dbcon.Close();
 
 				currentVersion = "0.99";
+			}
+			if(currentVersion == "0.99") {
+				dbcon.Open();
+
+				SqliteEncoder.putEncoderExerciseAnglesAt90();
+				SqliteEncoder.addEncoderJumpExercise();
+				SqliteEncoder.addEncoderInclinatedExercises();
+
+				Log.WriteLine("Added Free and inclinatedExercises");
+				SqlitePreferences.Update ("databaseVersion", "1.00", true); 
+				dbcon.Close();
+
+				currentVersion = "1.00";
 			}
 				
 		}
@@ -1516,6 +1530,8 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclinated Exercises
+		//0.98 - 0.99 Converted DB to 0.99 Encoder table improved 
 		//0.97 - 0.98 Converted DB to 0.98 Fixed encoder laterality
 		//0.96 - 0.97 Converted DB to 0.97 Added inertialmomentum in preferences
 		//0.95 - 0.96 Converted DB to 0.96 Encoder signal future3 three modes
@@ -1580,9 +1596,11 @@ class Sqlite
 		creationRate ++;
 	}
 
-	public static bool Exists(string tableName, string findName)
+	public static bool Exists(bool dbconOpened, string tableName, string findName)
 	{
-		dbcon.Open();
+		if(!dbconOpened)
+			dbcon.Open();
+
 		dbcmd.CommandText = "SELECT uniqueID FROM " + tableName + 
 			" WHERE LOWER(name) == LOWER('" + findName + "')" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -1599,7 +1617,9 @@ class Sqlite
 		Log.WriteLine(string.Format("name exists = {0}", exists.ToString()));
 
 		reader.Close();
-		dbcon.Close();
+		if(!dbconOpened)
+			dbcon.Close();
+
 		return exists;
 	}
 
@@ -1915,11 +1935,11 @@ class Sqlite
 	protected internal static void convertDJInDJna()
 	{
 		//Dja exists in DB? (user defined)
-		if(Exists(Constants.JumpTypeTable, "DJa")) {
+		if(Exists(false, Constants.JumpTypeTable, "DJa")) {
 			string [] names = { "DJa-user", "DJa-user2", "DJa-user3", "DJa-user4" }; //sorry, we cannot check all the names in the world, ok, yes, i know, we can, but it's ok like this
 			bool success = false;
 			foreach(string name in names) {
-				if(!Exists(Constants.JumpTypeTable, name)) {
+				if(!Exists(false, Constants.JumpTypeTable, name)) {
 					success = true;
 					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type == 'DJa'";
 					Log.WriteLine(dbcmd.CommandText.ToString());
@@ -1931,11 +1951,11 @@ class Sqlite
 		}
 		
 		//Djna exists in DB? (user defined)
-		if(Exists(Constants.JumpTypeTable, "DJna")) {
+		if(Exists(false, Constants.JumpTypeTable, "DJna")) {
 			string [] names = { "DJna-user", "DJna-user2", "DJna-user3", "DJna-user4" }; //sorry, we cannot check all the names in the world, ok, yes, i know, we can, but it's ok like this
 			bool success = false;
 			foreach(string name in names) {
-				if(!Exists(Constants.JumpTypeTable, name)) {
+				if(!Exists(false, Constants.JumpTypeTable, name)) {
 					success = true;
 					dbcmd.CommandText = "UPDATE jump SET type = '" + name + "' WHERE type == 'DJna'";
 					Log.WriteLine(dbcmd.CommandText.ToString());

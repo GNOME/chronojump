@@ -124,7 +124,7 @@ public class JumpTypeAddWindow
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		//check if this jump type exists, and check it's name is not AllJumpsName
-		bool jumpTypeExists = Sqlite.Exists (Constants.JumpTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
+		bool jumpTypeExists = Sqlite.Exists (false, Constants.JumpTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
 		if(Util.RemoveTildeAndColonAndDot(entry_name.Text) == Constants.AllJumpsName) {
 			jumpTypeExists = true;
 		}

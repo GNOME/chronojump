@@ -493,6 +493,8 @@ public class EncoderExercise
 	public string ressistance;
 	public string description;
 	public double speed1RM;
+	public int bodyAngle;
+	public int weightAngle;
 
 	public EncoderExercise() {
 	}
@@ -501,7 +503,8 @@ public class EncoderExercise
 		this.name = name;
 	}
 
-	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, string ressistance, string description, double speed1RM)
+	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, string ressistance, string description, 
+			double speed1RM, int bodyAngle, int weightAngle)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -509,6 +512,8 @@ public class EncoderExercise
 		this.ressistance = ressistance;
 		this.description = description;
 		this.speed1RM = speed1RM;
+		this.bodyAngle = bodyAngle;
+		this.weightAngle = weightAngle;
 	}
 
 	~EncoderExercise() {}

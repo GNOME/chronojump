@@ -528,7 +528,7 @@ public class SessionAddEditWindow {
 	private void on_sport_add_accepted (object o, EventArgs args) {
 		genericWin.Button_accept.Clicked -= new EventHandler(on_sport_add_accepted);
 		string newSportName = genericWin.EntrySelected;
-		if(Sqlite.Exists(Constants.SportTable, newSportName) ||
+		if(Sqlite.Exists(false, Constants.SportTable, newSportName) ||
 				newSportName == Catalog.GetString(Constants.SportUndefined) || //let's save problems
 				newSportName == Catalog.GetString(Constants.SportNone)		//let's save problems
 				)
@@ -562,7 +562,7 @@ public class SessionAddEditWindow {
 	{
 		//check if name of session exists (is owned by other session),
 		//but all is ok if the name is the same as the old name (editing)
-		bool sessionNameExists = Sqlite.Exists (Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
+		bool sessionNameExists = Sqlite.Exists (false, Constants.SessionTable, Util.RemoveTildeAndColon(entry_name.Text));
 		if(sessionNameExists && Util.RemoveTildeAndColon(entry_name.Text) != currentSession.Name ) {
 			string myString = string.Format(Catalog.GetString("Session: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			ErrorWindow.Show(myString);

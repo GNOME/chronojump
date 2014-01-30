@@ -1605,16 +1605,81 @@ find.yrange <- function(singleFile, displacement, curves) {
 
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 #we use 'data' variable because can be position or displacement
-getDisplacement <- function(data, encoderConfiguration, diameter) {
+getDisplacement <- function(data, encoderConfiguration, diameter, diameter2) {
+	#no change
+	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+	#LINEARONPLANE
+	#ROTARYFRICTIONSIDE
+	#WEIGHTEDMOVPULLEYROTARYFRICTION
+
 	if(encoderConfiguration == "LINEARINVERTED") {
 		data = -data
-	} else if(encoderConfiguration == "ROTARYAXIS") {
+	else if(encoderConfiguration == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
+		#default is: demultiplication = 2. Future maybe this will be a parameter
+		data = data *2
+	} else if(encoderConfiguration == "ROTARYFRICTIONAXIS") {
+		data = data * diameter / diameter2
+	} else if(encoderConfiguration == "ROTARYAXIS" || 
+		  encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
 	}
 	return(data)
 }
+
+getSpeed <- function(displacement, smoothing) {
+	#no change depending on encoderConfiguration
+	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
+}
+
+getAcceleration <- function(speed) {
+	#no change depending on encoderConfiguration
+	return (predict( speed, deriv=1 ))
+}
+
+#demult is positive, normally 2
+getMass <- function(mass, demult, angle) {
+	return ( ( mass / demult ) * sin( angle * pi / 180 ) )
+}
+
+#mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
+getDynamics <- function(speed, accel, encoderConfiguration, mass.body, mass.extra, demult, angle) 
+{
+	if(
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
+	   encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+	{
+		#angle will be 90 degrees. We assume this.
+		#Maybe in the future, person or person and extra weight, 
+		#can be with different angle
+		mass.extra = getMass(mass.extra, demult, angle)
+	} else if(encoderConfiguration == "LINEARONPLANE") {
+		mass.body = getMass(mass.body, demult, angle)
+		mass.extra = getMass(mass.extra, demult, angle)
+	}
+		
+	mass = mass.body + mass.extra
+
+	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
+
+	power <- force*speed
+
+	return(list(mass=mass, force=force, power=power))
+}
+
+
+#this angle refers to the rotation of the inertial machine
+getAngleInertial <- function(displacement, diameter) {
+	return (displacement / ( pi * diameter ))
+}
+
+#TODO: inertial
 
 #-------------- end of encoderConfiguration conversions -------------------------
 
@@ -1645,7 +1710,10 @@ doProcess <- function(options) {
 	SpecialData=options[5] #currently used to write 1RM. variable;result (eg. "1RM;82.78")
 	MinHeight=as.numeric(options[6])*10 #from cm to mm
 	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
-	Mass=as.numeric(options[8])
+	Mass=as.numeric(options[8])	#TODO: This is displaced mass (can include body weight). Separate this in two different values. This affects:
+	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+
 	Eccon=options[9]
 	
 	#in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
@@ -1668,6 +1736,7 @@ doProcess <- function(options) {
 	encoderConfiguration=		options[13]	
 	inertiaMomentum=	as.numeric(options[14])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 	diameter=		as.numeric(options[15])	#in meters, eg: 0.0175
+	diameter2 = 1	#TODO: pass this param
 	
 	SmoothingOneC=options[16]
 	Jump=options[17]
@@ -1779,7 +1848,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = getDisplacement(dataTempFile, encoderConfiguration, diameter)
+			dataTempFile = getDisplacement(dataTempFile, encoderConfiguration, diameter, diameter2)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1872,7 +1941,7 @@ doProcess <- function(options) {
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 			
-		displacement = getDisplacement(displacement, encoderConfiguration, diameter)
+		displacement = getDisplacement(displacement, encoderConfiguration, diameter, diameter2)
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")

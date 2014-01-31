@@ -302,12 +302,13 @@ public partial class ChronoJumpWindow
 			peakPowerLowerCondition = repetitiveConditionsWin.EncoderPeakPowerLowerValue;
 
 		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
-		//capture data
+
+		//capture data (Python)
 		EncoderParams ep = new EncoderParams(
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				getExercisePercentBodyWeightFromCombo (),
-				Util.ConvertToPoint(findMassFromCombo(true)),
+				Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)),
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				findEccon(true),					//force ecS (ecc-conc separated)
 				analysisOptions,
@@ -343,7 +344,7 @@ public partial class ChronoJumpWindow
 			UtilEncoder.RunEncoderCapturePython( 
 					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
 					Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
-					Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
+					Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 					es, chronopicWin.GetEncoderPort());
 			
 			//entry_encoder_signal_comment.Text = "";
@@ -377,7 +378,7 @@ public partial class ChronoJumpWindow
 
 	void encoder_change_displaced_weight_and_1RM () {
 		//displaced weight
-		spin_encoder_displaced_weight.Value = findMassFromCombo(true);
+		spin_encoder_displaced_weight.Value = findMass(Constants.MassType.DISPLACED);
 
 		//1RM
 		ArrayList array1RM = SqliteEncoder.Select1RM(
@@ -386,10 +387,10 @@ public partial class ChronoJumpWindow
 		if(array1RM.Count > 0)
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
 
-		if(load1RM == 0 || findMassFromCombo(false) == 0)
+		if(load1RM == 0 || findMass(Constants.MassType.EXTRA) == 0)
 			spin_encoder_1RM_percent.Value = 0;
 		else
-			spin_encoder_1RM_percent.Value = 100 * findMassFromCombo(false) / ( load1RM * 1.0 );
+			spin_encoder_1RM_percent.Value = 100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 );
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {
@@ -599,7 +600,7 @@ public partial class ChronoJumpWindow
 				getExerciseIDFromCombo(),	
 				findEccon(true), 	//force ecS (ecc-conc separated)
 				UtilGtk.ComboGetActive(combo_encoder_laterality),
-				Util.ConvertToPoint(findMassFromCombo(false)),	//when save on sql, do not include person weight
+				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)), //when save on sql, do not include person weight
 				"",	//signalOrCurve,
 				"", 	//fileSaved,	//to know date do: select substr(name,-23,19) from encoder;
 				"",	//path,			//url
@@ -620,7 +621,8 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				getExercisePercentBodyWeightFromCombo (),
-				Util.ConvertToPoint(findMassFromCombo(true)),
+				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
+				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 				findEccon(true),					//force ecS (ecc-conc separated)
 				analysis,
 				"none",				//analysisVariables (not needed in create curves). Cannot be blank
@@ -647,7 +649,7 @@ public partial class ChronoJumpWindow
 		bool result = UtilEncoder.RunEncoderGraph(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
-				"-(" + Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
+				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 				es);
 
 		if(result)
@@ -1194,7 +1196,8 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams(
 				lastEncoderSQL.minHeight, 
 				getExercisePercentBodyWeightFromName (lastEncoderSQL.exerciseName),
-				displacedMass,
+				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
+				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQL because there is (true)
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
@@ -1637,7 +1640,7 @@ public partial class ChronoJumpWindow
 		bool capturedOk = runEncoderCaptureCsharp( 
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
 				Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
-				Util.ConvertToPoint(findMassFromCombo(true)) + "Kg)",
+				Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 				//es, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				UtilEncoder.GetEncoderDataTempFileName(),
@@ -1970,7 +1973,7 @@ public partial class ChronoJumpWindow
 			dataFileName = UtilEncoder.GetEncoderGraphInputMulti();
 
 
-			double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
+			//double bodyMass = Convert.ToDouble(currentPersonSession.Weight);
 
 			//select curves for this person
 			ArrayList data = new ArrayList();
@@ -2047,7 +2050,8 @@ public partial class ChronoJumpWindow
 			ep = new EncoderParams(
 					-1, 
 					-1, 		//exercisePercentBodyWeight
-					"-1",		//mass
+					"-1",		//massBody
+					"-1",		//massExtra
 					myEccon,	//this decides if analysis will be together or separated
 					sendAnalysis,
 					analysisVariables,
@@ -2065,23 +2069,28 @@ public partial class ChronoJumpWindow
 
 			//create dataFileName
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("status,seriesName,exerciseName,mass,smoothingOne,dateTime,fullURL,eccon,percentBodyWeight");
+			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,smoothingOne,dateTime,fullURL,eccon,percentBodyWeight");
 		
 			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
 						
 Log.WriteLine("AT ANALYZE");
 
+			int iteratingPerson = -1;
+			int iteratingSession = -1;
+			double iteratingMassBody = -1;
 			int countSeries = 1;
+
 			foreach(EncoderSQL eSQL in data) {
 				foreach(EncoderExercise eeSearch in eeArray)
 					if(eSQL.exerciseID == eeSearch.uniqueID)
 						ex = eeSearch;
 
-				double mass = Convert.ToDouble(eSQL.extraWeight); //TODO: future problem if this has '%'
-				//EncoderExercise ex = (EncoderExercise) 
-				//	SqliteEncoder.SelectEncoderExercises(true, eSQL.exerciseID, false)[0];
-				mass += bodyMass * ex.percentBodyWeight / 100.0;
+				//massBody change if we are comparing different persons or sessions
+				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
+					iteratingMassBody = SqlitePersonSession.SelectAttribute(
+							false, eSQL.personID, eSQL.sessionID, Constants.Weight);
+				}
 
 				//seriesName
 				string seriesName = "";
@@ -2124,7 +2133,8 @@ Log.WriteLine(str);
 				}
 
 				writer.WriteLine(eSQL.status + "," + seriesName + "," + ex.name + "," +
-						Util.ConvertToPoint(mass).ToString() + "," + 
+						Util.ConvertToPoint(iteratingMassBody).ToString() + "," + 
+						Util.ConvertToPoint(Convert.ToDouble(eSQL.extraWeight)) + "," +
 						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
 						fullURL + "," +	
 						eSQL.eccon + "," + 	//this is the eccon of every curve
@@ -2150,7 +2160,8 @@ Log.WriteLine(str);
 			ep = new EncoderParams(
 					(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 					getExercisePercentBodyWeightFromCombo (),
-					Util.ConvertToPoint(findMassFromCombo(true)),
+					Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
+					Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
 					findEccon(false),		//do not force ecS (ecc-conc separated)
 					sendAnalysis,
 					analysisVariables, 
@@ -2397,6 +2408,7 @@ Log.WriteLine(str);
 		return false;
 	}
 
+	/*
 	private double findMassFromCombo(bool includePerson) {
 		double mass = spin_encoder_extra_weight.Value;
 		if(includePerson) {
@@ -2407,6 +2419,18 @@ Log.WriteLine(str);
 		}
 
 		return mass;
+	}
+	*/
+
+	//BODY and EXTRA are at EncoderParams and sent to graph.R	
+	private double findMass(Constants.MassType massType) {
+		if(massType == Constants.MassType.BODY)
+			return currentPersonSession.Weight;
+		else if(massType == Constants.MassType.EXTRA)
+			return spin_encoder_extra_weight.Value;
+		else //(massType == Constants.MassType.DISPLACED)
+			return spin_encoder_extra_weight.Value + 
+				( currentPersonSession.Weight * getExercisePercentBodyWeightFromCombo() );
 	}
 
 	//this is used in 1RM return to substract the weight of the body (if used on exercise)
@@ -2976,11 +3000,12 @@ Log.WriteLine(str);
 							cells[0],	//id 
 							//cells[1],	//seriesName
 							//cells[2], 	//exerciseName
-							//cells[3], 	//mass
-							cells[4], cells[5], cells[6], 
-							cells[7], cells[8], cells[9], 
-							cells[10], cells[11], cells[12],
-							cells[13]
+							//cells[3], 	//massBody
+							//cells[4], 	//massExtra
+							cells[5], cells[6], cells[7], 
+							cells[8], cells[9], cells[10], 
+							cells[11], cells[12], cells[13],
+							cells[14]
 							));
 
 			} while(true);
@@ -3082,7 +3107,7 @@ Log.WriteLine(str);
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
 		} else {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
-			displacedMass = findMassFromCombo(true);
+			displacedMass = findMass(Constants.MassType.DISPLACED);
 		}
 
 		string line;
@@ -3109,7 +3134,7 @@ Log.WriteLine(str);
 					displacedMass = eSQL.extraWeight;
 					*/
 					exerciseName = cells[2];
-					displacedMass = Convert.ToDouble(cells[3]);
+					displacedMass = Convert.ToDouble(cells[4]);
 				}
 
 				encoderAnalyzeCurves.Add (new EncoderCurve (
@@ -3118,10 +3143,10 @@ Log.WriteLine(str);
 							exerciseName,
 						       	massWithoutPerson(displacedMass, exerciseName),
 							displacedMass,
-							cells[4], cells[5], cells[6], 
-							cells[7], cells[8], cells[9], 
-							cells[10], cells[11], cells[12],
-							cells[13]
+							cells[5], cells[6], cells[7], 
+							cells[8], cells[9], cells[10], 
+							cells[11], cells[12], cells[13],
+							cells[14]
 							));
 
 			} while(true);
@@ -3445,15 +3470,16 @@ Log.WriteLine(str);
 	
 	private string [] fixDecimals(string [] cells) {
 		//start, width, height
-		for(int i=4; i <= 6; i++)
+		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
 		
 		//meanSpeed,maxSpeed,maxSpeedT, meanPower,peakPower,peakPowerT
-		for(int i=7; i <= 12; i++)
+		for(int i=8; i <= 13; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 		
 		//pp/ppt
-		cells[13] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[13])),1); 
+		int pp_ppt = 14;
+		cells[pp_ppt] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[pp_ppt])),1); 
 		return cells;
 	}
 	
@@ -3969,7 +3995,7 @@ Log.WriteLine(str);
 			}
 			//end of propulsive stuff
 
-			NumericVector mass = rengine.CreateNumericVector(new double[] {findMassFromCombo(true)});
+			NumericVector mass = rengine.CreateNumericVector(new double[] {findMass(Constants.MassType.DISPLACED)});
 			rengine.SetSymbol("mass", mass);
 
 
@@ -4019,7 +4045,7 @@ Log.WriteLine(str);
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
 						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
 			
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					ecca.curvesAccepted +1,
 					ecc.startFrame, ecc.endFrame-ecc.startFrame,
 					Util.ConvertToPoint(height*10), //cm	

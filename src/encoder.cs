@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -29,6 +29,12 @@ public class EncoderParams
 {
 	private int time;
 	private string mass; //to pass always as "." to R
+	
+	//graph.R need both to know displacedMass depending on encoderConfiguration
+	//and plot both as entry data in the table of result data
+	private string massBody; //to pass always as "." to R.
+	private string massExtra; //to pass always as "." to R
+	
 	private int minHeight;
 	private int exercisePercentBodyWeight; //was private bool isJump; (if it's 0 is like "jump")
 	private string eccon;
@@ -119,14 +125,15 @@ public class EncoderParams
 	}
 	
 	//to graph.R	
-	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string mass, string eccon, 
-			string analysis, string analysisVariables, string analysisOptions, 
+	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string massBody, string massExtra, 
+			string eccon, string analysis, string analysisVariables, string analysisOptions, 
 			string encoderConfigurationName, int inertiaMomentum, double diameter,
 			string smoothCon, int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
 		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
-		this.mass = mass;
+		this.massBody = massBody;
+		this.massExtra = massExtra;
 		this.eccon = eccon;
 		this.analysis = analysis;
 		this.analysisVariables = analysisVariables;
@@ -143,8 +150,8 @@ public class EncoderParams
 	
 	public string ToString2 (string sep) 
 	{
-		return minHeight + sep + exercisePercentBodyWeight + sep + mass + sep + eccon + 
-			sep + analysis + sep + analysisVariables + sep + analysisOptions + 
+		return minHeight + sep + exercisePercentBodyWeight + sep + massBody + sep + massExtra +
+			sep + eccon + sep + analysis + sep + analysisVariables + sep + analysisOptions + 
 			sep + encoderConfigurationName + sep + inertiaMomentum.ToString() + sep + Util.ConvertToPoint(diameter) +
 			sep + smoothCon + sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}

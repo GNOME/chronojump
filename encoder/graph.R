@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
 # 
 
 #TODO: current BUGS
@@ -101,7 +101,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=22)
+	options=readLines(optionsCon,n=23)
 	close(optionsCon)
 	return (options)
 }
@@ -122,8 +122,8 @@ print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
-OperatingSystem=options[22]
-
+OperatingSystem=options[23]
+EncoderConfiguration = ""
 
 write("(1/5) Starting R", OutputData2)
 
@@ -515,7 +515,7 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(displacement, mass, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
+kinematicsF <- function(displacement, massBody, massExtra, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
 	if(eccon == "c" || eccon == "e")
@@ -564,6 +564,9 @@ print("WARNING ECS\n\n\n\n\n")
 		}
 	}
 
+	#TODO: pass demult and angle
+	mass = getMassByEncoderConfiguration(massBody, massExtra, 1, 90)
+
 #	force <- mass*accel$y
 #	if(isJump)
 		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
@@ -586,7 +589,7 @@ print("WARNING ECS\n\n\n\n\n")
 		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
 }
 
-powerBars <- function(eccon, kinematics) {
+pafGenerate <- function(eccon, kinematics, massBody, massExtra) {
 	#print("speed$y")
 	#print(kinematics$speedy)
 
@@ -615,24 +618,30 @@ powerBars <- function(eccon, kinematics) {
 
 
 	#here paf is generated
-	#mass is not used by powerBars, but used by Kg/W (loadVSPower)
-	#meanForce and maxForce are not used by powerBars, but used by F/S (forceVSSpeed)
-	return(data.frame(meanSpeed, maxSpeed, maxSpeedT, meanPower,peakPower,peakPowerT,pp_ppt,
-			  kinematics$mass,meanForce,maxForce))
+	#mass is not used by pafGenerate, but used by Kg/W (loadVSPower)
+	#meanForce and maxForce are not used by pafGenerate, but used by F/S (forceVSSpeed)
+	return(data.frame(
+			  meanSpeed, maxSpeed, maxSpeedT,
+			  meanPower, peakPower, peakPowerT, pp_ppt,
+			  meanForce, maxForce,
+			  kinematics$mass, massBody, massExtra)) #kinematics$mass is Load
 }
 
-kinematicRanges <- function(singleFile,displacement,curves,mass,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
+kinematicRanges <- function(singleFile,displacement,curves,massBody,massExtra,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
 	myEccon = eccon
 	for(i in 1:n) { 
-		myMass = mass
+		myMassBody = massBody
+		myMassExtra = massExtra
 		#mySmoothingOne = smoothingOne
 		if(! singleFile) {
-			myMass = curves[i,5]
-			myEccon = curves[i,7]
+			myMassBody = curves[i,5]
+			myMassExtra = curves[i,6]
+			myEccon = curves[i,8]
 		}
-		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],myMass,smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
+		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],myMassBody,myMassExtra,
+			       smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$accely)) > maxAccely)
@@ -651,7 +660,8 @@ kinematicRanges <- function(singleFile,displacement,curves,mass,smoothingsEC,smo
 
 
 paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
-	startX, startH, smoothingOneEC, smoothingOneC, mass, title, subtitle, draw, showLabels, marShrink, showAxes, legend,
+	startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
+	title, subtitle, draw, showLabels, marShrink, showAxes, legend,
 	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
         showSpeed, showAccel, showForce, showPower	
 	) {
@@ -932,6 +942,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
+	#TODO: pass demult and angle
+	mass = getMassByEncoderConfiguration(massBody, massExtra, 1, 90)
+
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
 #	if(isJump)
@@ -1166,7 +1179,7 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, myEccons, Eccon, height, n, showTTPP, showRange) {
+paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, showTTPP, showRange) {
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
@@ -1308,14 +1321,20 @@ findPosInPaf <- function(var, option) {
 		pos = 1
 	else if(var == "Power")
 		pos = 4
-	else if(var == "Load") #or Mass
-		pos = 8
 	else if(var == "Force")
-		pos = 9
+		pos = 8
+	else if(var == "Load") #MassDisplaced
+		pos = 10
+	else if(var == "MassBody")
+		pos = 11
+	else if(var == "MassExtra")
+		pos = 12
+	
 	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
 		pos=pos+1
 	if( ( var == "Speed" || var == "Power") & option == "time")
 		pos=pos+2
+
 	return(pos)
 }
 
@@ -1601,11 +1620,11 @@ find.yrange <- function(singleFile, displacement, curves) {
 	return (c(y.min,y.max))
 }
 
-#-------------------- encoderConfiguration conversions --------------------------
+#-------------------- EncoderConfiguration conversions --------------------------
 
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 #we use 'data' variable because can be position or displacement
-getDisplacement <- function(data, encoderConfiguration, diameter, diameter2) {
+getDisplacement <- function(data, diameter, diameter2) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
@@ -1613,15 +1632,15 @@ getDisplacement <- function(data, encoderConfiguration, diameter, diameter2) {
 	#ROTARYFRICTIONSIDE
 	#WEIGHTEDMOVPULLEYROTARYFRICTION
 
-	if(encoderConfiguration == "LINEARINVERTED") {
+	if(EncoderConfiguration == "LINEARINVERTED") {
 		data = -data
-	else if(encoderConfiguration == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
+	} else if(EncoderConfiguration == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
 		#default is: demultiplication = 2. Future maybe this will be a parameter
 		data = data *2
-	} else if(encoderConfiguration == "ROTARYFRICTIONAXIS") {
+	} else if(EncoderConfiguration == "ROTARYFRICTIONAXIS") {
 		data = data * diameter / diameter2
-	} else if(encoderConfiguration == "ROTARYAXIS" || 
-		  encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS") {
+	} else if(EncoderConfiguration == "ROTARYAXIS" || 
+		  EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
@@ -1630,12 +1649,12 @@ getDisplacement <- function(data, encoderConfiguration, diameter, diameter2) {
 }
 
 getSpeed <- function(displacement, smoothing) {
-	#no change depending on encoderConfiguration
+	#no change depending on EncoderConfiguration
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
 
 getAcceleration <- function(speed) {
-	#no change depending on encoderConfiguration
+	#no change depending on EncoderConfiguration
 	return (predict( speed, deriv=1 ))
 }
 
@@ -1644,27 +1663,33 @@ getMass <- function(mass, demult, angle) {
 	return ( ( mass / demult ) * sin( angle * pi / 180 ) )
 }
 
-#mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
-getDynamics <- function(speed, accel, encoderConfiguration, mass.body, mass.extra, demult, angle) 
+getMassByEncoderConfiguration <- function(mass.body, mass.extra, demult, angle)
 {
 	if(
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   encoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
+	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
 	{
 		#angle will be 90 degrees. We assume this.
 		#Maybe in the future, person or person and extra weight, 
 		#can be with different angle
 		mass.extra = getMass(mass.extra, demult, angle)
-	} else if(encoderConfiguration == "LINEARONPLANE") {
+	} else if(EncoderConfiguration == "LINEARONPLANE") {
 		mass.body = getMass(mass.body, demult, angle)
 		mass.extra = getMass(mass.extra, demult, angle)
 	}
 		
 	mass = mass.body + mass.extra
+	return (mass)
+}
+
+#mass extra can be connected to body or connected to a pulley depending on EncoderConfiguration
+getDynamics <- function(speed, accel, mass.body, mass.extra, demult, angle) 
+{
+	mass = getMassByEncoderConfiguration (mass.body, mass.extra, demult, angle)
 
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
@@ -1681,7 +1706,7 @@ getAngleInertial <- function(displacement, diameter) {
 
 #TODO: inertial
 
-#-------------- end of encoderConfiguration conversions -------------------------
+#-------------- end of EncoderConfiguration conversions -------------------------
 
 quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
@@ -1710,11 +1735,13 @@ doProcess <- function(options) {
 	SpecialData=options[5] #currently used to write 1RM. variable;result (eg. "1RM;82.78")
 	MinHeight=as.numeric(options[6])*10 #from cm to mm
 	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
-	Mass=as.numeric(options[8])	#TODO: This is displaced mass (can include body weight). Separate this in two different values. This affects:
+	#Mass=as.numeric(options[8])	#TODO: This is displaced mass (can include body weight). Separate this in two different values. This affects:
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+	MassBody=as.numeric(options[8])	
+	MassExtra=as.numeric(options[9])	
 
-	Eccon=options[9]
+	Eccon=options[10]
 	
 	#in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
 	#Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
@@ -1728,23 +1755,23 @@ doProcess <- function(options) {
 	#
 	#in Analysis = "1RMAnyExercise"
 	#AnalysisVariables = "0.185;method". speed1RM = 0.185m/s
-	Analysis=options[10]	
-	AnalysisVariables=unlist(strsplit(options[11], "\\;"))
+	Analysis=options[11]	
+	AnalysisVariables=unlist(strsplit(options[12], "\\;"))
 	
-	AnalysisOptions=options[12]	
+	AnalysisOptions=options[13]	
 
-	encoderConfiguration=		options[13]	
-	inertiaMomentum=	as.numeric(options[14])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-	diameter=		as.numeric(options[15])	#in meters, eg: 0.0175
+	EncoderConfiguration=		options[14]	
+	inertiaMomentum=	as.numeric(options[15])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	diameter=		as.numeric(options[16])	#in meters, eg: 0.0175
 	diameter2 = 1	#TODO: pass this param
 	
-	SmoothingOneC=options[16]
-	Jump=options[17]
-	Width=as.numeric(options[18])
-	Height=as.numeric(options[19])
-	DecimalSeparator=options[20]
-	Title=options[21]
-	OperatingSystem=options[22]	#if this changes, change it also at start of this R file
+	SmoothingOneC=options[17]
+	Jump=options[18]
+	Width=as.numeric(options[19])
+	Height=as.numeric(options[20])
+	DecimalSeparator=options[21]
+	Title=options[22]
+	OperatingSystem=options[23]	#if this changes, change it also at start of this R file
 	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)
@@ -1758,7 +1785,7 @@ doProcess <- function(options) {
 	#if nothing: "-;-"
 	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
-	inertialType = ""	#TODO: use encoderConfiguration
+	inertialType = ""	#TODO: use EncoderConfiguration
 	if(length(analysisOptionsTemp) > 1) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
 	}
@@ -1827,8 +1854,8 @@ doProcess <- function(options) {
 		displacement = NULL
 		count = 1
 		start = NULL; end = NULL; startH = NULL
-		status = NULL; id = NULL; exerciseName = NULL; mass = NULL; smooth = NULL
-		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
+		status = NULL; id = NULL; exerciseName = NULL; massBody = NULL; massExtra = NULL
+		smooth = NULL ; dateTime = NULL; myEccon = NULL; curvesHeight = NULL
 		seriesName = NULL; percentBodyWeight = NULL;
 
 		newLines=0;
@@ -1848,7 +1875,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = getDisplacement(dataTempFile, encoderConfiguration, diameter, diameter2)
+			dataTempFile = getDisplacement(dataTempFile, diameter, diameter2)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1877,8 +1904,11 @@ doProcess <- function(options) {
 				end[(i+newLines)] = length(dataTempPhase) + count -1
 				startH[(i+newLines)] = 0
 				exerciseName[(i+newLines)] = as.vector(inputMultiData$exerciseName[i])
-				mass[(i+newLines)] = inputMultiData$mass[i]
-				#smooth[(i+newLines)] = inputMultiData$smoothingOne[i] #unused since 1.3.7
+
+				#mass[(i+newLines)] = inputMultiData$mass[i]
+				massBody[(i+newLines)] = inputMultiData$massBody[i]
+				massExtra[(i+newLines)] = inputMultiData$massExtra[i]
+
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 				percentBodyWeight[(i+newLines)] = as.vector(inputMultiData$percentBodyWeight[i])
 
@@ -1917,11 +1947,11 @@ doProcess <- function(options) {
 		#then a column id is created when there's only on row, but it is not created there's more than one.
 		#solution:
 		if(length(id)==1) {
-			curves = data.frame(start,end,startH,exerciseName,mass,
+			curves = data.frame(start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
 					    stringsAsFactors=F,row.names=id)
 		} else {
-			curves = data.frame(id,start,end,startH,exerciseName,mass,
+			curves = data.frame(id,start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
 					    stringsAsFactors=F,row.names=1)
 		}
@@ -1941,7 +1971,7 @@ doProcess <- function(options) {
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 			
-		displacement = getDisplacement(displacement, encoderConfiguration, diameter, diameter2)
+		displacement = getDisplacement(displacement, diameter, diameter2)
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
@@ -2024,20 +2054,22 @@ doProcess <- function(options) {
 
 	if(Analysis=="single") {
 		if(Jump>0) {
-			myMass = Mass
+			myMassBody = MassBody
+			myMassExtra = MassExtra
 			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myStart = curves[Jump,1]
 			myEnd = curves[Jump,2]
 			myExPercentBodyWeight = ExercisePercentBodyWeight
 			if(! singleFile) {
-				myMass = curves[Jump,5]
-				#mySmoothingOne = curves[Jump,6]
-				myEccon = curves[Jump,7]
-				myExPercentBodyWeight = curves[Jump,9]
+				myMassBody = curves[Jump,5]
+				myMassExtra = curves[Jump,6]
+				#mySmoothingOne = curves[Jump,7]
+				myEccon = curves[Jump,8]
+				myExPercentBodyWeight = curves[Jump,10]
 			}
 			
-			myCurveStr = paste("curve=", Jump, ", ", myMass, "Kg", sep="")
+			myCurveStr = paste("curve=", Jump, ", ", myMassExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
@@ -2046,7 +2078,7 @@ doProcess <- function(options) {
 			#}
 
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMass,
+			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMassBody,myMassExtra,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
@@ -2069,29 +2101,31 @@ doProcess <- function(options) {
 
 		yrange=find.yrange(singleFile, displacement, curves)
 
-		knRanges=kinematicRanges(singleFile,displacement,curves,Mass,SmoothingsEC,SmoothingOneC,
+		knRanges=kinematicRanges(singleFile,displacement,curves,MassBody,MassExtra,SmoothingsEC,SmoothingOneC,
 					 g,Eccon,isPropulsive)
 
 		for(i in 1:n) {
-			myMass = Mass
+			myMassBody = MassBody
+			myMassExtra = MassExtra
 			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myExPercentBodyWeight = ExercisePercentBodyWeight
 			if(! singleFile) {
-				myMass = curves[i,5]
-				#mySmoothingOne = curves[i,6]
-				myEccon = curves[i,7]
-				myExPercentBodyWeight = curves[i,9]
+				myMassBody = curves[i,5]
+				myMassExtra = curves[i,6]
+				#mySmoothingOne = curves[i,7]
+				myEccon = curves[i,8]
+				myExPercentBodyWeight = curves[i,10]
 			}
 
 			myTitle = ""
 			if(i == 1)
 				myTitle = paste(Title)
 			
-			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMass, "Kg", sep="")
+			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMassExtra, "Kg", sep="")
 
 			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMass,myTitle,mySubtitle,
+			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMassBody,myMassExtra,myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
@@ -2158,13 +2192,15 @@ doProcess <- function(options) {
 		discardedCurves = NULL
 		discardingCurves = FALSE
 		for(i in 1:n) { 
-			myMass = Mass
+			myMassBody = MassBody
+			myMassExtra = MassExtra
 			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			if(! singleFile) {
-				myMass = curves[i,5]
-				#mySmoothingOne = curves[i,6]
-				myEccon = curves[i,7]
+				myMassBody = curves[i,5]
+				myMassExtra = curves[i,6]
+				#mySmoothingOne = curves[i,7]
+				myEccon = curves[i,8]
 
 				#only use concentric data	
 				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & myEccon == "e") {
@@ -2201,10 +2237,13 @@ doProcess <- function(options) {
 			       else
 				       myEcconKn = "e"
 			}
-			paf=rbind(paf,(powerBars(myEccon,
-						 kinematicsF(displacement[curves[i,1]:curves[i,2]], 
-							     myMass, SmoothingsEC[i],SmoothingOneC, 
-							     g, myEcconKn, isPropulsive))))
+			paf = rbind(paf,(pafGenerate(
+						   myEccon,
+						   kinematicsF(displacement[curves[i,1]:curves[i,2]], 
+							     myMassBody, myMassExtra, SmoothingsEC[i],SmoothingOneC, 
+							     g, myEcconKn, isPropulsive),
+						   myMassBody, myMassExtra
+						   )))
 		}
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded
@@ -2221,7 +2260,7 @@ doProcess <- function(options) {
 		if(Analysis == "powerBars") {
 			if(! singleFile) 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							curves[,7], Eccon,	 	#myEccon, Eccon
+							Eccon,	 			#Eccon
 							curvesHeight,			#height 
 							n, 
 			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
@@ -2229,7 +2268,7 @@ doProcess <- function(options) {
 							)		
 			else 
 				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							curves[,7], Eccon,			#myEccon, Eccon
+							Eccon,					#Eccon
 							position[curves[,2]]-curves[,3], 	#height
 							n, 
 			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
@@ -2239,7 +2278,7 @@ doProcess <- function(options) {
 		else if(Analysis == "cross") {
 			mySeries = "1"
 			if(! singleFile)
-				mySeries = curves[,8]
+				mySeries = curves[,9]
 
 			print("AnalysisVariables:")
 			print(AnalysisVariables[1])
@@ -2267,7 +2306,7 @@ doProcess <- function(options) {
 		else if(Analysis == "1RMAnyExercise") {
 			mySeries = "1"
 			if(! singleFile)
-				mySeries = curves[,8]
+				mySeries = curves[,9]
 
 			paintCrossVariables(paf, "Load", "Speed", 
 					    "mean", "ALONE", Title,
@@ -2281,25 +2320,27 @@ doProcess <- function(options) {
 		
 		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)
-				paf=cbind(
+				paf = cbind(
 					  "1",			#seriesName
 					  "exerciseName",
-					  Mass,
+					  MassBody,
+					  MassExtra,
 					  curves[,1],
 					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],paf)
 			else {
 				if(discardingCurves)
 					curvesHeight = curvesHeight[-discardedCurves]
 
-				paf=cbind(
-					  curves[,8],		#seriesName
+				paf = cbind(
+					  curves[,9],		#seriesName
 					  curves[,4],		#exerciseName
-					  curves[,5],		#mass
+					  curves[,5],		#massBody
+					  curves[,6],		#massExtra
 					  curves[,1],		
 					  curves[,2]-curves[,1],curvesHeight,paf)
 			}
 
-			colnames(paf)=c("series","exercise","mass",
+			colnames(paf)=c("series","exercise","massBody","massExtra",
 					"start","width","height",
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
@@ -2329,7 +2370,7 @@ doProcess <- function(options) {
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], Mass, 
+			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], MassBody, MassExtra, 
 					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length

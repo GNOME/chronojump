@@ -515,7 +515,8 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(displacement, massBody, massExtra, smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
+kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight, 
+			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
 	if(eccon == "c" || eccon == "e")
@@ -565,7 +566,8 @@ print("WARNING ECS\n\n\n\n\n")
 	}
 
 	#TODO: pass demult and angle
-	mass = getMassByEncoderConfiguration(massBody, massExtra, 1, 90)
+	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, 1, 90)
+	print(c("MASS: ", mass, massBody, massExtra, exercisePercentBodyWeight))
 
 #	force <- mass*accel$y
 #	if(isJump)
@@ -627,7 +629,9 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra) {
 			  kinematics$mass, massBody, massExtra)) #kinematics$mass is Load
 }
 
-kinematicRanges <- function(singleFile,displacement,curves,massBody,massExtra,smoothingsEC,smoothingOneC,g,eccon,isPropulsive) {
+kinematicRanges <- function(singleFile, displacement, curves,
+			    massBody, massExtra, exercisePercentBodyWeight,
+			    smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
 	myEccon = eccon
@@ -635,13 +639,17 @@ kinematicRanges <- function(singleFile,displacement,curves,massBody,massExtra,sm
 		myMassBody = massBody
 		myMassExtra = massExtra
 		#mySmoothingOne = smoothingOne
+		myExPercentBodyWeight = exercisePercentBodyWeight
 		if(! singleFile) {
 			myMassBody = curves[i,5]
 			myMassExtra = curves[i,6]
 			myEccon = curves[i,8]
+			myExPercentBodyWeight = curves[i,10]
 		}
-		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],myMassBody,myMassExtra,
-			       smoothingsEC[i],smoothingOneC,g,myEccon,isPropulsive)
+		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],
+			       myMassBody, myMassExtra, myExPercentBodyWeight,
+			       smoothingsEC[i], smoothingOneC, g, myEccon, isPropulsive)
+
 		if(max(abs(kn$speedy)) > maxSpeedy)
 			maxSpeedy = max(abs(kn$speedy))
 		if(max(abs(kn$accely)) > maxAccely)
@@ -943,7 +951,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	}
 
 	#TODO: pass demult and angle
-	mass = getMassByEncoderConfiguration(massBody, massExtra, 1, 90)
+	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, 1, 90)
 
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
@@ -1660,11 +1668,23 @@ getAcceleration <- function(speed) {
 
 #demult is positive, normally 2
 getMass <- function(mass, demult, angle) {
+	if(mass == 0)
+		return (0)
+
 	return ( ( mass / demult ) * sin( angle * pi / 180 ) )
 }
 
-getMassByEncoderConfiguration <- function(mass.body, mass.extra, demult, angle)
+getMassBodyByExercise <- function(mass.body, exercisePercentBodyWeight) {
+	if(mass.body == 0 || exercisePercentBodyWeight == 0)
+		return (0)
+	
+	return (mass.body * exercisePercentBodyWeight / 100.0)
+}
+
+getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercentBodyWeight, demult, angle)
 {
+	mass.body = getMassBodyByExercise(mass.body,exercisePercentBodyWeight)
+
 	if(
 	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
 	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
@@ -1687,9 +1707,9 @@ getMassByEncoderConfiguration <- function(mass.body, mass.extra, demult, angle)
 }
 
 #mass extra can be connected to body or connected to a pulley depending on EncoderConfiguration
-getDynamics <- function(speed, accel, mass.body, mass.extra, demult, angle) 
+getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, demult, angle) 
 {
-	mass = getMassByEncoderConfiguration (mass.body, mass.extra, demult, angle)
+	mass = getMassByEncoderConfiguration (mass.body, mass.extra, exercisePercentBodyWeight, demult, angle)
 
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
@@ -2101,8 +2121,11 @@ doProcess <- function(options) {
 
 		yrange=find.yrange(singleFile, displacement, curves)
 
-		knRanges=kinematicRanges(singleFile,displacement,curves,MassBody,MassExtra,SmoothingsEC,SmoothingOneC,
-					 g,Eccon,isPropulsive)
+		#if !singleFile kinematicRanges takes the 'curves' values
+		knRanges=kinematicRanges(singleFile, displacement, curves, 
+					 MassBody, MassExtra, ExercisePercentBodyWeight, 
+					 SmoothingsEC, SmoothingOneC, 
+					 g, Eccon, isPropulsive)
 
 		for(i in 1:n) {
 			myMassBody = MassBody
@@ -2196,11 +2219,13 @@ doProcess <- function(options) {
 			myMassExtra = MassExtra
 			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
+			myExPercentBodyWeight = ExercisePercentBodyWeight
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
 				#mySmoothingOne = curves[i,7]
 				myEccon = curves[i,8]
+				myExPercentBodyWeight = curves[i,10]
 
 				#only use concentric data	
 				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & myEccon == "e") {
@@ -2238,12 +2263,13 @@ doProcess <- function(options) {
 				       myEcconKn = "e"
 			}
 			paf = rbind(paf,(pafGenerate(
-						   myEccon,
-						   kinematicsF(displacement[curves[i,1]:curves[i,2]], 
-							     myMassBody, myMassExtra, SmoothingsEC[i],SmoothingOneC, 
-							     g, myEcconKn, isPropulsive),
-						   myMassBody, myMassExtra
-						   )))
+						     myEccon,
+						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
+								 myMassBody, myMassExtra, myExPercentBodyWeight,
+								 SmoothingsEC[i],SmoothingOneC, 
+								 g, myEcconKn, isPropulsive),
+						     myMassBody, myMassExtra
+						     )))
 		}
 
 		#on 1RMBadillo discard curves "e", because paf has this curves discarded
@@ -2370,7 +2396,8 @@ doProcess <- function(options) {
 		namesNums=paste(namesNums, units)
 
 		for(i in 1:curvesNum) { 
-			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], MassBody, MassExtra, 
+			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], 
+					  MassBody, MassExtra, ExercisePercentBodyWeight,
 					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length

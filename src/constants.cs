@@ -589,6 +589,7 @@ public class Constants
 	public static string EncoderScriptCaptureLinux = "pyserial_pyper.py";
 	public static string EncoderScriptCaptureWindows = "pyserial_pyper_windows.exe";
 	public static string EncoderScriptGraph = "graph.R";
+	public static string EncoderScriptInertiaMomentum = "inertia-momentum.R";
 	//no longer used:
 	//public static string EncoderScriptGraphCall = 
 		//"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";

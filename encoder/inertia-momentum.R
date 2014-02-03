@@ -1,0 +1,107 @@
+# 
+#  This file is part of ChronoJump
+# 
+#  ChronoJump is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or   
+#     (at your option) any later version.
+#     
+#  ChronoJump is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+#     GNU General Public License for more details.
+# 
+#  You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+#   Copyright (C) 2014   
+#   
+#   Xavier Padullés <x.padulles@gmail.com>
+#   Xavier de Blas <xaviblas@gmail.com> 
+# 
+#
+#     ----------
+#    /          \
+#   /         W  \
+#  /         /    \
+# |         /      |
+# |        o       |
+# |                |
+#  \              /
+#   \            /  
+#    \          /
+#      --------
+#
+#Weight has not to be on the top of the axis (has to be "sided")
+#Measure weight
+#Measure distance between centre of axis and centre of weight
+
+library("EMD")
+
+calculate <- function (displacement, mass, length)
+{
+	#cumulative movement of the encoder
+	x <- cumsum(displacement)
+
+	#time in milliseconds
+	t <- seq(1,length(displacement))
+
+	#all the information about local maximums and minimums and crossings
+	ex <- extrema(x)
+
+	#times where the maximums are found in milliseconds
+	tmax <- rowMeans(ex$maxindex)
+
+	#the last maximum is discarded
+	tmax <- tmax[1:(length(tmax)-1)]
+
+	#Periods of the oscillations
+	T <- diff(tmax[1:length(tmax)])
+
+	#Coefficients of a Logarithmic regression
+	logT <- lm( log(T) ~ I(log(tmax[1:(length(tmax)-1)])))
+
+	#The final period of the oscillation in seconds
+	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tmax[length(tmax)]))/1000
+
+	print(c("finalT: ", finalT, "; mass: ", mass))
+	
+	print ( (finalT / (2 * pi))^2 ) * mass
+
+	#Inertia momentum using the pendulus formula
+	I <- ( (finalT / (2 * pi))^2 ) * mass * 9.81 * length - (mass * length^2)
+
+	return(I)
+}
+
+getOptionsFromFile <- function(optionsFile,n) {
+	optionsCon <- file(optionsFile, 'r')
+	options=readLines(optionsCon,n=n)
+	close(optionsCon)
+	return (options)
+}
+
+
+args <- commandArgs(TRUE)
+print(args)
+
+optionsFile = args[1]
+print(optionsFile)
+
+options = getOptionsFromFile(optionsFile, 4)
+
+fileInput = options[1]
+fileOutput = options[2]
+mass = options[3]
+length = options[4]
+
+displacement = scan(file=fileInput, sep=",")
+
+inertia = calculate(displacement, mass, length)
+
+print (inertia)
+
+#TODO: use fileOutput
+
+

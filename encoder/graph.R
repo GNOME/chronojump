@@ -62,26 +62,6 @@
 #have data introduced always and have different encoders.
 #
 #
-#Finally need to add the code and explanation for the calculation of the inertia
-#momentum:
-#
-#     ----------
-#    /          \
-#   /         W  \
-#  /         /    \
-# |         /      |
-# |        o       |
-# |                |
-#  \              /
-#   \            /  
-#    \          /
-#      --------
-#
-#Weight has not to be on the top of the axis (has to be "sided")
-#Measure weight
-#Measure distance between centre of axis and centre of weight
-
-
 
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
@@ -116,7 +96,7 @@ optionsFile =args[1]
 
 print(optionsFile)
 
-options=getOptionsFromFile(optionsFile);
+options=getOptionsFromFile(optionsFile)
 
 print(options)
 

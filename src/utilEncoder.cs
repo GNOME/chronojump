@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -441,25 +441,6 @@ public class UtilEncoder
 		return fileCurve;
 	}
 
-	//this == encoder/graph.R encoderConfigurationConversions
-	
-	public static double EncoderConfigurationConversions(
-			int byteReaded, EncoderConfiguration ec) {
-		double byteConverted = byteReaded;
-
-		//invert sign if inverted is selected
-		if(ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED)
-			byteConverted *= -1;
-		else if(ec.name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
-			int ticksRotaryEncoder = 200; //our rotary axis encoder send 200 ticks by turn
-			//diameter m -> mm
-			byteConverted = ( byteConverted / ticksRotaryEncoder ) * 2 * Math.PI * ( ec.d * 1000 / 2 );
-		}
-		//Log.Write(" " + byteReaded + ":" + byteConverted);
-
-		return byteConverted;
-	}
-
 	public static ArrayList EncoderConfigurationList(Constants.EncoderType encoderType) {
 		ArrayList list = new ArrayList();
 		if(encoderType == Constants.EncoderType.LINEAR) {
@@ -500,5 +481,87 @@ public class UtilEncoder
 		}
 		return list;
 	}
+
+	/* -------- EncoderConfiguration, kinematics and Dynamics ---- 
+	 *
+	 *  		this is the same than graph.R
+	 * -------------------------------------------------------- */
+
+	/*
+	 * in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
+	 * we use 'data' variable because can be position or displacement
+	 */
+
+	public static double GetDisplacement(int byteReaded, EncoderConfiguration ec) {
+		/* no change:
+		 * WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+		 * WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+		 * LINEARONPLANE, ROTARYFRICTIONSIDE, WEIGHTEDMOVPULLEYROTARYFRICTION
+		 */
+
+		double data = byteReaded;
+		if(ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
+			data *= -1;
+		} else if(ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
+			//default is: demultiplication = 2. Future maybe this will be a parameter
+			data *= 2;
+		} else if(ec.name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
+			data = data * ec.d / ec.d2;
+		} else if(
+				ec.name == Constants.EncoderConfigurationNames.ROTARYAXIS || 
+				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) 
+		{
+			int ticksRotaryEncoder = 200; //our rotary axis encoder send 200 ticks by turn
+			//diameter m -> mm
+			data = ( data / ticksRotaryEncoder ) * 2 * Math.PI * ( ec.d * 1000 / 2 );
+		}
+		return data;
+	}
+
+	//demult is positive, normally 2
+	private static double getMass(double mass, int demult, int angle) {
+		if(mass == 0)
+			return 0;
+
+		return ( ( mass / demult ) * Math.Sin( angle * Math.PI / 180 ) );
+	}
+
+	private static double getMassBodyByExercise(double massBody, int exercisePercentBodyWeight) {
+		if(massBody == 0 || exercisePercentBodyWeight == 0)
+			return 0;
+
+		return (massBody * exercisePercentBodyWeight / 100.0);
+	}
+
+	public static double GetMassByEncoderConfiguration(
+			EncoderConfiguration ec, double massBody, double massExtra, 
+			int exercisePercentBodyWeight, int demult, int angle)
+	{
+		massBody = getMassBodyByExercise(massBody, exercisePercentBodyWeight);
+
+		if(
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION ||
+			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS 
+		  ) {
+			/*
+			 * angle will be 90 degrees. We assume this.
+			 * Maybe in the future, person or person and extra weight, 
+			 * can have different angles
+			 */
+			massExtra = getMass(massExtra, demult, angle);
+		} 
+		else if(ec.name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
+			massBody = getMass(massBody, demult, angle);
+			massExtra = getMass(massExtra, demult, angle);
+		}
+
+		return (massBody + massExtra);
+	}
+
+	/* ----end of EncoderConfiguration, kinematics and Dynamics ---- */ 
 
 }

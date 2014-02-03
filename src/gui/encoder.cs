@@ -1802,8 +1802,7 @@ public partial class ChronoJumpWindow
 			if(byteReadedRaw > 128)
 				byteReadedRaw = byteReadedRaw - 256;
 
-			byteReaded = UtilEncoder.EncoderConfigurationConversions(
-					byteReadedRaw, encoderConfigurationCurrent);
+			byteReaded = UtilEncoder.GetDisplacement(byteReadedRaw, encoderConfigurationCurrent);
 
 			i=i+1;
 			if(i >= 0) {
@@ -3807,6 +3806,7 @@ Log.WriteLine(str);
 	}
 
 	string encoderCaptureStringR;
+	double massDisplacedEncoder = 0;
 	
 	private void updateEncoderCaptureGraphRCalc() 
 	{
@@ -3995,9 +3995,10 @@ Log.WriteLine(str);
 			}
 			//end of propulsive stuff
 
-			NumericVector mass = rengine.CreateNumericVector(new double[] {findMass(Constants.MassType.DISPLACED)});
-			rengine.SetSymbol("mass", mass);
 
+			NumericVector mass = rengine.CreateNumericVector(new double[] { massDisplacedEncoder });
+			rengine.SetSymbol("mass", mass);
+		
 
 			//if isJump == "True":
 			rengine.Evaluate("force <- mass*(accel$y+9.81)");
@@ -4160,6 +4161,12 @@ Log.WriteLine(str);
 				
 				capturingCsharp = true;
 				eccaCreated = false;
+			
+				//TODO: add demult and angle	
+				massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration(encoderConfigurationCurrent, 
+					findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
+					getExercisePercentBodyWeightFromCombo(), 1, 90
+					);
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));

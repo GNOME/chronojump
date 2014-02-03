@@ -331,13 +331,13 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 			concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
 
 			#get max speed at "c"
-			speed <- smooth.spline( 1:length(concentric), concentric, spar=smoothingOneC) 
+			speed <- getSpeed(concentric, smoothingOneC)
 			maxSpeedC=max(speed$y)
 
 			#find max speed at "ec" that's similar to maxSpeedC
 			smoothingOneEC = smoothingOneC
 			for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
-				speed <- smooth.spline( 1:length(eccentric.concentric), eccentric.concentric, spar=j)
+				speed <- getSpeed(eccentric.concentric, j)
 				smoothingOneEC = j
 				maxSpeedEC=max(speed$y)
 				print(c("maxC",maxSpeedC,"maxEC",maxSpeedEC))
@@ -365,7 +365,7 @@ reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneEC,
 	if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
 		smoothing = smoothingOneC
 
-	speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing) 
+	speed <- getSpeed(displacement, smoothing)
 	
 	speed.ext=extrema(speed$y)
 
@@ -528,12 +528,12 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	#x vector should contain at least 4 different values
 	if(length(displacement) >= 4)
-		speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing)
+		speed <- getSpeed(displacement, smoothing)
 	else
 		speed=list(y=rep(0,length(displacement)))
 	
 	if(length(displacement) >= 4)
-		accel <- predict( speed, deriv=1 )
+		accel <- getAcceleration(speed)
 	else
 		accel=list(y=rep(0,length(displacement)))
 	
@@ -717,7 +717,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			par(mar=c(1, 1, 4, 1))
 	
 		#plot distance
-		#plot(a,type="h",xlim=c(xmin,xmax),xlab="time (ms)",ylab="Left: distance (mm); Right: speed (m/s), accelration (m/s^2)",col="gray", axes=F) #this shows background on distance (nice when plotting distance and speed, but confusing when there are more variables)
+		#plot(a,type="h",xlim=c(xmin,xmax),xlab="time (ms)",ylab="Left: distance (mm); Right: speed (m/s), acceleration (m/s^2)",col="gray", axes=F) #this shows background on distance (nice when plotting distance and speed, but confusing when there are more variables)
 		xlab="";ylab="";
 		#if(showLabels) {
 		#	xlab="time (ms)"
@@ -765,7 +765,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	}
 
 	#speed
-	speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothing)
+	speed <- getSpeed(displacement, smoothing)
        	
 	if(draw & showSpeed) {
 		ylim=c(-max(abs(range(displacement))),max(abs(range(displacement))))	#put 0 in the middle 
@@ -860,7 +860,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#if(inertialType == "ri" && eccon == "ce")
 	#	speed$y=abs(speed$y)
 
-	accel <- predict( speed, deriv=1 )
+	accel <- getAcceleration(speed)
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000
 	
@@ -2059,7 +2059,7 @@ doProcess <- function(options) {
 
 			#plot speed
 			par(new=T)	
-			speed <- smooth.spline( 1:length(displacement), displacement, spar=smoothingAll)
+			speed <- getSpeed(displacement, smoothingAll)
 			plot((1:length(displacement))/1000, speed$y, col="green2",
 		     		type="l", 
 				xlim=c(1,length(displacement))/1000,	#ms -> s

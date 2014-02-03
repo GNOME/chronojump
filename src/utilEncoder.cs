@@ -161,6 +161,11 @@ public class UtilEncoder
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptGraph);
 	}
 	
+	private static string getEncoderScriptInertiaMomentum() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptInertiaMomentum);
+	}
+	
 	
 	/********** end of encoder paths ************/
 
@@ -356,6 +361,85 @@ public class UtilEncoder
 
 		return true;
 	}
+	
+	public static bool RunEncoderCalculeInertiaMomentum(double weight, double length) 
+	{
+		CancelRScript = false;
+
+		ProcessStartInfo pinfo;
+	        Process p;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+		
+		string pBin="";
+		pinfo = new ProcessStartInfo();
+
+		string inputData = GetEncoderDataTempFileName();
+		string outputData = GetEncoderSpecialDataTempFileName();
+		string operatingSystem = "Linux";
+			
+		pBin="Rscript";
+		if (UtilAll.IsWindows()) {
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			Log.WriteLine("pBin:" + pBin);
+
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			inputData = inputData.Replace("\\","/");
+			operatingSystem = "Windows";
+		}
+		
+		//--- way A. passing options to a file
+		string scriptOptions = 
+			inputData + "\n" + 
+			outputData + "\n" + 
+			Util.ConvertToPoint(weight) + "\n" + 
+			Util.ConvertToPoint(length) + "\n";
+
+		string optionsFile = Path.GetTempPath() + "Roptions.txt";
+		TextWriter writer = File.CreateText(optionsFile);
+		writer.Write(scriptOptions);
+		writer.Flush();
+		((IDisposable)writer).Dispose();
+		
+		if (UtilAll.IsWindows()) {
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			optionsFile = optionsFile.Replace("\\","/");
+		}
+		
+		//on Windows we need the \"str\" to call without problems in path with spaces
+		pinfo.Arguments = "\"" + getEncoderScriptInertiaMomentum() + "\" " + optionsFile;
+		Log.WriteLine("Arguments:" + pinfo.Arguments);
+		
+		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
+		string outputFileCheck = outputData;
+
+		pinfo.FileName=pBin;
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+
+		//delete output file check(s)
+		Console.WriteLine("Deleting... " + outputFileCheck);
+		if (File.Exists(outputFileCheck))
+			File.Delete(outputFileCheck);
+
+		try {	
+			p = new Process();
+			p.StartInfo = pinfo;
+			p.Start();
+			p.WaitForExit();
+
+			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+		} catch {
+			return false;
+		}
+
+		return true;
+	}
+
 
 	private static string [] encoderFindPos(string contents, int start, int duration) {
 		int startPos = 0;

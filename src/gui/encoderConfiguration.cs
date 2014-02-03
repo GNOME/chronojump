@@ -180,6 +180,10 @@ public class EncoderConfigurationWindow {
 		return ec;
 	}
 	
+	void on_button_encoder_capture_inertial_clicked (object o, EventArgs args) 
+	{
+		UtilEncoder.RunEncoderCalculeInertiaMomentum(20,10);
+	}
 	
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{

@@ -640,6 +640,8 @@ public class Constants
 	public static string FileNameEncoderRotaryAxisOnAxis = "encoder-rotary-axis-pulley-axis.png";
 	public static string FileNameEncoderAxisInertial = "encoder-axis-inertial.png";
 	public static string FileNameEncoderAxisWithMovPulley = "encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png";
+	
+	public static string FileNameEncoderCalculeIM = "encoder-calcule-im.png";	
 
 	public enum EncoderConfigurationNames { //this names are used on graph.R change there also if needed
 		LINEAR, LINEARINVERTED, LINEARINERTIAL, 

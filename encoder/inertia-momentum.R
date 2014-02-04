@@ -15,10 +15,8 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2014   
-#   
-#   Xavier Padullés <x.padulles@gmail.com>
-#   Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2014   	Xavier Padullés <x.padulles@gmail.com>
+#   Copyright (C) 2014  	Xavier de Blas <xaviblas@gmail.com> 
 # 
 #
 #     ----------
@@ -65,14 +63,10 @@ calculate <- function (displacement, mass, length)
 	#The final period of the oscillation in seconds
 	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tmax[length(tmax)]))/1000
 
-	print(c("finalT: ", finalT, "; mass: ", mass))
-	
-	print ( (finalT / (2 * pi))^2 ) * mass
-
 	#Inertia momentum using the pendulus formula
 	I <- ( (finalT / (2 * pi))^2 ) * mass * 9.81 * length - (mass * length^2)
 
-	return(I)
+	return(as.numeric(I))
 }
 
 getOptionsFromFile <- function(optionsFile,n) {
@@ -93,15 +87,12 @@ options = getOptionsFromFile(optionsFile, 4)
 
 fileInput = options[1]
 fileOutput = options[2]
-mass = options[3]
-length = options[4]
+mass = as.numeric(options[3]) / 1000.0 	# g -> Kg
+length = as.numeric(options[4]) / 100.0	#cm -> m
 
 displacement = scan(file=fileInput, sep=",")
 
 inertia = calculate(displacement, mass, length)
 
 print (inertia)
-
-#TODO: use fileOutput
-
-
+write(inertia, fileOutput)

@@ -278,6 +278,7 @@ RESOURCES = \
 	../images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/encoder-rotary-axis-pulley-axis.png,encoder-rotary-axis-pulley-axis.png \
 	../images/encoder-axis-inertial.png,encoder-axis-inertial.png \
+	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png
 
 IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \

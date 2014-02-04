@@ -32,6 +32,7 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Image image_encoder_rotary_friction;
 	[Widget] Gtk.Image image_encoder_rotary_axis;
 	[Widget] Gtk.Image image_encoder_configuration;
+	[Widget] Gtk.Image image_encoder_calcule_im;
 	[Widget] Gtk.RadioButton radio_linear;
 	[Widget] Gtk.RadioButton radio_rotary_friction;
 	[Widget] Gtk.RadioButton radio_rotary_axis;
@@ -47,6 +48,11 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.SpinButton spin_d2;
 	[Widget] Gtk.SpinButton spin_angle;
 	[Widget] Gtk.SpinButton spin_inertia;
+		
+	[Widget] Gtk.VSeparator vseparator_im;
+	[Widget] Gtk.Box vbox_calcule_im;
+	[Widget] Gtk.SpinButton spin_im_weight;
+	[Widget] Gtk.SpinButton spin_im_length;
 
 	[Widget] Gtk.Button button_accept;
 
@@ -70,6 +76,9 @@ public class EncoderConfigurationWindow {
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderTypeRotaryAxis);
 		image_encoder_rotary_axis.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderCalculeIM);
+		image_encoder_calcule_im.Pixbuf = pixbuf;
 
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_configuration);
@@ -180,9 +189,20 @@ public class EncoderConfigurationWindow {
 		return ec;
 	}
 	
-	void on_button_encoder_capture_inertial_clicked (object o, EventArgs args) 
+	bool show_calcule_im = false;
+	void on_button_encoder_capture_inertial_show_clicked (object o, EventArgs args) 
 	{
-		UtilEncoder.RunEncoderCalculeInertiaMomentum(20,10);
+		show_calcule_im = ! show_calcule_im;
+		vseparator_im.Visible = show_calcule_im;
+		vbox_calcule_im.Visible = show_calcule_im;
+	}
+	
+	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) 
+	{
+		UtilEncoder.RunEncoderCalculeInertiaMomentum(
+				spin_im_weight.Value,
+				spin_im_length.Value
+				);
 	}
 	
 	private void on_button_cancel_clicked (object o, EventArgs args)

@@ -109,6 +109,7 @@ class Deploy():
         self.deploy_mono()
         self.deploy_msys()
         self.deploy_themes()
+        self.deploy_translations()
         self.close()
 
     def close(self, message=None):
@@ -163,6 +164,11 @@ class Deploy():
             os.path.join(self.lib_dir, name))
         for name in GTK_DEPS:
             shutil.copy(os.path.join(self.prefix, 'bin', name), self.bin_dir)
+
+    def deploy_translations(self):
+        print 'Deploying translation'
+        shutil.copytree(os.path.join(self.prefix, 'share', 'locale'),
+                     os.path.join(self.share_dir, 'locale'))
 
     def deploy_mono(self):
         print 'Deploying Mono dependencies'

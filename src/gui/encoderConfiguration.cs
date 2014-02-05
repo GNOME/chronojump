@@ -53,6 +53,8 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Box vbox_calcule_im;
 	[Widget] Gtk.SpinButton spin_im_weight;
 	[Widget] Gtk.SpinButton spin_im_length;
+	[Widget] Gtk.Label label_im_progress;
+	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 
 	[Widget] Gtk.Button button_accept;
 
@@ -226,6 +228,14 @@ public class EncoderConfigurationWindow {
 
 	public Button Button_accept {
 		get { return button_accept; }
+	}
+	
+	public Button Button_encoder_capture_inertial_do {
+		get { return button_encoder_capture_inertial_do; }
+	}
+	
+	public string Label_im_progress_text {
+		set { label_im_progress.Text = value; }
 	}
 		
 }

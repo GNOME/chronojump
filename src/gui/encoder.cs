@@ -185,7 +185,8 @@ public partial class ChronoJumpWindow
 	//diffrence between:
 	//CALC_RECALC_CURVES: calcule and recalculate, autosaves the curve at end
 	//LOAD curves does snot	
-	enum encoderActions { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE } 
+	//CAPTURE_CALCULE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
+	enum encoderActions { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE, CAPTURE_CALCULE_IM } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
@@ -238,6 +239,8 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
+		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked += 
+			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
 	}
 
 	void on_encoder_configuration_win_accepted (object o, EventArgs args) {
@@ -247,6 +250,16 @@ public partial class ChronoJumpWindow
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 	
+	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) {
+		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked -= 
+			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
+	
+		//TODO: put a thread in order to interface be updated,
+		//maybe on start capturing this will happen because CAPTURE thread will start	
+		encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Capturing");
+//		on_button_encoder_capture_calcule_inertial();
+	}
+	
 	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
 		encoderCaptureOptionsWin.View(repetitiveConditionsWin, volumeOn);
 	}
@@ -254,15 +267,21 @@ public partial class ChronoJumpWindow
 	private void on_encoder_capture_options_closed(object o, EventArgs args) {
 		Log.WriteLine("closed");
 	}
-
-	void on_button_encoder_capture_clicked (object o, EventArgs args) 
-	{
+	
+	private bool encoderCheckPort()	{
 		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
 			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, false);
-			return;
+			return false;
 		}
+		return true;
+	}
+
+	void on_button_encoder_capture_clicked (object o, EventArgs args) 
+	{
+		if(! encoderCheckPort())
+			return;
 		
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
@@ -366,6 +385,13 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	void on_button_encoder_capture_calcule_inertial () 
+	{
+		if(! encoderCheckPort())
+			return;
+		
+		encoderThreadStart(encoderActions.CAPTURE_CALCULE_IM);
+	}
 
 
 	void on_combo_encoder_exercise_changed (object o, EventArgs args) {
@@ -4124,18 +4150,20 @@ Log.WriteLine(str);
 	private void encoderThreadStart(encoderActions action) {
 		encoderProcessCancel = false;
 		encoderProcessFinish = false;
-		if(action == encoderActions.CAPTURE) {
+		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_CALCULE_IM) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				
-				bool ok = runEncoderCaptureCsharpInitializeR();
-				if(! ok) {
-					new DialogMessage(Constants.MessageTypes.WARNING,
-							Catalog.GetString("Sorry. Error doing graph.") +
-							"\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
-							"\n\nhttp://www.r-project.org/");
-					return;
+				if(action == encoderActions.CAPTURE) {
+					bool ok = runEncoderCaptureCsharpInitializeR();
+					if(! ok) {
+						new DialogMessage(Constants.MessageTypes.WARNING,
+								Catalog.GetString("Sorry. Error doing graph.") +
+								"\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
+								"\n\nhttp://www.r-project.org/");
+						return;
+					}
 				}
 
 				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
@@ -4155,18 +4183,20 @@ Log.WriteLine(str);
 
 				encoderStartVideoRecord();
 
-				//remove treeview columns
-				treeviewEncoderCaptureRemoveColumns();
-				encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
-				
-				capturingCsharp = true;
-				eccaCreated = false;
-			
-				//TODO: add demult and angle	
-				massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration(encoderConfigurationCurrent, 
-					findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
-					getExercisePercentBodyWeightFromCombo(), 1, 90
-					);
+				if(action == encoderActions.CAPTURE) {
+					//remove treeview columns
+					treeviewEncoderCaptureRemoveColumns();
+					encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
+
+					capturingCsharp = true;
+					eccaCreated = false;
+
+					//TODO: add demult and angle	
+					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration(encoderConfigurationCurrent, 
+							findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
+							getExercisePercentBodyWeightFromCombo(), 1, 90
+							);
+				}
 
 				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));

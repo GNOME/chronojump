@@ -235,6 +235,9 @@ public partial class ChronoJumpWindow
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 	}
 
+	void on_button_andoni_crash_clicked (object o, EventArgs args) {
+		runEncoderCaptureCsharpInitializeR();
+	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);

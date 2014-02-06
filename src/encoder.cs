@@ -618,12 +618,12 @@ public class EncoderConfiguration {
 	public string image;
 	public string code;	//this code will be stored untranslated but will be translated just to be shown
 	public string text;
-	public bool has_d;
-	public bool has_d2;
+	public bool has_d;	//axis
+	public bool has_D;	//external disc or pulley
 	public bool has_angle;
 	public bool has_inertia;
-	public double d;
-	public double d2;
+	public double d;	//axis
+	public double D;	//external disc or pulley
 	public int angle;
 	public int inertia;
 
@@ -636,11 +636,11 @@ public class EncoderConfiguration {
 		code = Constants.DefaultEncoderConfigurationCode;
 		text = "Linear encoder attached to a barbell.";
 		has_d = false;
-		has_d2 = false;
+		has_D = false;
 		has_angle = false;
 		has_inertia = false;
 		d = -1;
-		d2 = -1;
+		D = -1;
 		angle = -1;
 		inertia = -1;
 	}
@@ -651,7 +651,7 @@ public class EncoderConfiguration {
 	public EncoderConfiguration(Constants.EncoderConfigurationNames name) {
 		this.name = name;
 		has_d = false;
-		has_d2 = false;
+		has_D = false;
 		has_angle = false;
 		has_inertia = false;
 
@@ -676,6 +676,7 @@ public class EncoderConfiguration {
 			code = "Linear - inertial machine";
 			text = "Linear encoder on inertia machine." + " " + "NOT Recommended!";
 			
+			has_d = true;
 			has_inertia = true;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1) {
@@ -741,20 +742,31 @@ public class EncoderConfiguration {
 			text = "Rotary friction encoder on pulley axis.";
 
 			has_d = true;
-			has_d2 = true;
+			has_D = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
-			image = Constants.FileNameEncoderFrictionInertial;
-			code = "Rotary friction - inertial machine";
-			text = "Rotary friction encoder on inertial machine.";
+			image = Constants.FileNameEncoderFrictionSideInertial;
+			code = "Rotary friction - inertial machine side";
+			text = "Rotary friction encoder on inertial machine side.";
 
+			has_D = true;
+			has_inertia = true;
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 3;
+			image = Constants.FileNameEncoderFrictionAxisInertial;
+			code = "Rotary friction axis - inertial machine axis";
+			text = "Rotary friction encoder on inertial machine axis.";
+
+			has_d = true;
 			has_inertia = true;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 3;
+			position = 4;
 			image = Constants.FileNameEncoderFrictionWithMovPulley;
 			code = "Rotary friction - moving pulley";
 			text = "Rotary friction encoder on weighted moving pulley.";
@@ -766,7 +778,7 @@ public class EncoderConfiguration {
 			code = "Rotary axis - pulley axis";
 			text = "Rotary axis encoder on pulley axis.";
 
-			has_d = true;
+			has_D = true;
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
@@ -775,6 +787,7 @@ public class EncoderConfiguration {
 			code = "Rotary axis - inertial machine";
 			text = "Rotary axis encoder on inertial machine.";
 
+			has_d = true;
 			has_inertia = true;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) {

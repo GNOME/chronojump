@@ -274,10 +274,11 @@ RESOURCES = \
 	../images/encoder-linear-inclined-plane.png,encoder-linear-inclined-plane.png \
 	../images/encoder-rotary-friction-pulley.png,encoder-rotary-friction-pulley.png \
 	../images/encoder-rotary-friction-pulley-axis.png,encoder-rotary-friction-pulley-axis.png \
-	../images/encoder-friction-inertial.png,encoder-friction-inertial.png \
+	../images/encoder-rotary-friction-side-inertial.png,encoder-rotary-friction-side-inertial.png \
+	../images/encoder-rotary-friction-axis-inertial.png,encoder-rotary-friction-axis-inertial.png \
 	../images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/encoder-rotary-axis-pulley-axis.png,encoder-rotary-axis-pulley-axis.png \
-	../images/encoder-axis-inertial.png,encoder-axis-inertial.png \
+	../images/encoder-rotary-axis-inertial.png,encoder-rotary-axis-inertial.png \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png
 

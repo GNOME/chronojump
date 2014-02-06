@@ -552,7 +552,9 @@ public class UtilEncoder
 			list.Add(new EncoderConfiguration(
 					Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS));
 			list.Add(new EncoderConfiguration(
-					Constants.EncoderConfigurationNames.ROTARYFRICTIONINERTIAL));
+					Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL));
+			list.Add(new EncoderConfiguration(
+					Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL));
 			list.Add(new EncoderConfiguration(
 					Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION));
 		} else if(encoderType == Constants.EncoderType.ROTARYAXIS) {
@@ -590,7 +592,7 @@ public class UtilEncoder
 			//default is: demultiplication = 2. Future maybe this will be a parameter
 			data *= 2;
 		} else if(ec.name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
-			data = data * ec.d / ec.d2;
+			data = data * ec.D / ec.d;
 		} else if(
 				ec.name == Constants.EncoderConfigurationNames.ROTARYAXIS || 
 				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) 

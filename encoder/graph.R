@@ -736,13 +736,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#abline(v=seq(from=0,to=length(position),by=500),lty=3,col="gray")
 
 
-#print("ROTARY")		
-#print(max(yValues))
-#print(max(yValues)/2)
-#print(mean(which(yValues == max(yValues)/2)))
-#abline(h=round(mean(which(yValues == max(yValues)/2)),0))
-#abline(v=round(mean(which(yValues == max(yValues)/2)),0))
-
 	}
 
 	#speed
@@ -1613,7 +1606,7 @@ find.yrange <- function(singleFile, displacement, curves) {
 
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 #we use 'data' variable because can be position or displacement
-getDisplacement <- function(data, diameter, diameter2) {
+getDisplacement <- function(data, diameter, diameterExt) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
@@ -1627,7 +1620,7 @@ getDisplacement <- function(data, diameter, diameter2) {
 		#default is: demultiplication = 2. Future maybe this will be a parameter
 		data = data *2
 	} else if(EncoderConfiguration == "ROTARYFRICTIONAXIS") {
-		data = data * diameter / diameter2
+		data = data * diameter / diameterExt
 	} else if(EncoderConfiguration == "ROTARYAXIS" || 
 		  EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
@@ -1701,11 +1694,66 @@ getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBody
 
 
 #this angle refers to the rotation of the inertial machine
-getAngleInertial <- function(displacement, diameter) {
-	return (displacement / ( pi * diameter ))
-}
+#getAngleInertial <- function(displacement, diameter) {
+#	return (displacement / ( pi * diameter ))
+#}
 
-#TODO: inertial
+
+#d: diameter axis
+#D: diameter external (disc)
+#angle: angle (rotation of disc) in radians
+#angleSpeed: speed of angle
+#angleAccel: acceleration of angle
+#encoderConfiguration:
+#  LINEARINERTIAL Linear encoder on inertial machine (rolled on axis)
+#  ROTARYFRICTIONSIDEINERTIAL Rotary friction encoder connected to inertial machine on the side of the disc
+#  ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
+#  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
+
+getDynamicsInertial <- function(displacement, d, D, mass, inertiaMomentum, smoothing)
+{
+	if(EncoderConfiguration == "ROTARYFRICTIONSIDEINERTIAL")
+	{
+		angle = displacement * 2 / D #displacement of the disc
+		displacement = displacement * d / D #displacement of the axis
+	}
+
+	position = abs(cumsum(displacement)) / 1000 #mm -> m
+
+	if(EncoderConfiguration == "LINEARINERTIAL" ||
+	   EncoderConfiguration == "ROTARYFRICTIONSIDEINERTIAL" ||
+	   EncoderConfiguration == "ROTARYFRICTIONAXISINERTIAL") {
+
+		speed = getSpeed(displacement, smoothing)
+		accel = getAcceleration(speed)
+		#use the values
+		speed = speed$y
+		accel = accel$y
+
+		angle = position * 2 / d
+		angleSpeed = speed * 2 / d
+		angleAccel = accel * 2 / d
+	} else {
+		#(EncoderConfiguration == "ROTARYAXISINERTIAL")
+		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
+
+		angleSpeed = getSpeed(angle, smoothing)
+		angleAccel = getAcceleration(angleSpeed)      
+		#use the values
+		angleSpeed = angleSpeed$y
+		angleAccel = angleAccel$y
+
+		position = angle * d / 2
+		speed = angleSpeed * d / 2
+		accel = angleAccel * d / 2
+	}
+
+	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass(accel + g)
+	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass(accel + g) * speed
+	
+	return(list(displacement=displacement, position=position, mass=mass, force=force, power=power))
+}
 
 #-------------- end of EncoderConfiguration conversions -------------------------
 
@@ -1764,7 +1812,7 @@ doProcess <- function(options) {
 	EncoderConfiguration=		options[14]	
 	inertiaMomentum=	as.numeric(options[15])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 	diameter=		as.numeric(options[16])	#in meters, eg: 0.0175
-	diameter2 = 1	#TODO: pass this param
+	diameterExt = 1	#TODO: pass this param
 	
 	SmoothingOneC=options[17]
 	Jump=options[18]
@@ -1876,7 +1924,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = getDisplacement(dataTempFile, diameter, diameter2)
+			dataTempFile = getDisplacement(dataTempFile, diameter, diameterExt)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -1972,7 +2020,7 @@ doProcess <- function(options) {
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 			
-		displacement = getDisplacement(displacement, diameter, diameter2)
+		displacement = getDisplacement(displacement, diameter, diameterExt)
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")

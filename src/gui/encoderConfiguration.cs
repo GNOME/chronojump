@@ -39,13 +39,13 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Label label_count;
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Box hbox_d;
-	[Widget] Gtk.Box hbox_d2;
+	[Widget] Gtk.Box hbox_D;
 	[Widget] Gtk.Box hbox_angle;
 	[Widget] Gtk.Box hbox_inertia;
 	[Widget] Gtk.Box hbox_inertia2;
 
 	[Widget] Gtk.SpinButton spin_d;
-	[Widget] Gtk.SpinButton spin_d2;
+	[Widget] Gtk.SpinButton spin_D;
 	[Widget] Gtk.SpinButton spin_angle;
 	[Widget] Gtk.SpinButton spin_inertia;
 		
@@ -102,7 +102,7 @@ public class EncoderConfigurationWindow {
 
 		EncoderConfigurationWindowBox.initializeList(ec.type, ec.position);
 		
-		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.d2, ec.angle, ec.inertia);
+		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.D, ec.angle, ec.inertia);
 	
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -155,7 +155,7 @@ public class EncoderConfigurationWindow {
 		textview.Buffer = tb1;
 		
 		hbox_d.Visible = ec.has_d;
-		hbox_d2.Visible = ec.has_d2;
+		hbox_D.Visible = ec.has_D;
 		hbox_angle.Visible = ec.has_angle;
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia2.Visible = ec.has_inertia;
@@ -163,11 +163,11 @@ public class EncoderConfigurationWindow {
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
 	}
 	
-	private void putValuesStoredPreviously(double d, double d2, int angle, int inertia) {
+	private void putValuesStoredPreviously(double d, double D, int angle, int inertia) {
 		if(d != -1)
 			spin_d.Value = d;
-		if(d2 != -1)
-			spin_d2.Value = d2;
+		if(D != -1)
+			spin_D.Value = D;
 		if(angle != -1)
 			spin_angle.Value = angle;
 		if(inertia != -1)
@@ -184,7 +184,7 @@ public class EncoderConfigurationWindow {
 	{
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		ec.d = (double) spin_d.Value; 
-		ec.d2 = (double) spin_d2.Value; 
+		ec.D = (double) spin_D.Value; 
 		ec.angle = (int) spin_angle.Value; 
 		ec.inertia = (int) spin_inertia.Value; 
 

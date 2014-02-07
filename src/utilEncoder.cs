@@ -362,7 +362,7 @@ public class UtilEncoder
 		return true;
 	}
 	
-	public static bool RunEncoderCalculeInertiaMomentum(double weight, double length) 
+	public static double RunEncoderCalculeInertiaMomentum(double weight, double length) 
 	{
 		CancelRScript = false;
 
@@ -434,10 +434,18 @@ public class UtilEncoder
 
 			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 		} catch {
-			return false;
+			return Constants.EncoderErrorCode;
 		}
+	
+		string result = Util.ChangeDecimalSeparator(
+				Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
+		Log.WriteLine("result = |" + result + "|");
 
-		return true;
+		if(result == "NA")
+			return Constants.EncoderErrorCode;
+
+		//return the inertia moment	
+		return Convert.ToDouble(result) / 1000.0;	//g*cm^2 -> Kg*cm^2
 	}
 
 

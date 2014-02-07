@@ -49,10 +49,12 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.SpinButton spin_angle;
 	[Widget] Gtk.SpinButton spin_inertia;
 		
+	[Widget] Gtk.Box vbox_select_encoder;
 	[Widget] Gtk.VSeparator vseparator_im;
 	[Widget] Gtk.Box vbox_calcule_im;
 	[Widget] Gtk.SpinButton spin_im_weight;
 	[Widget] Gtk.SpinButton spin_im_length;
+	[Widget] Gtk.SpinButton spin_im_duration;
 	[Widget] Gtk.Label label_im_progress;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 
@@ -201,10 +203,26 @@ public class EncoderConfigurationWindow {
 	
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) 
 	{
-		UtilEncoder.RunEncoderCalculeInertiaMomentum(
-				spin_im_weight.Value,
-				spin_im_length.Value
-				);
+		vbox_select_encoder.Visible = false;
+		vseparator_im.Visible = false;
+		button_encoder_capture_inertial_do.Sensitive = false;
+
+		//signal is raised and managed in gui/encoder.cs
+	}
+	
+	public void Button_encoder_capture_inertial_do_ended (double imResult) 
+	{
+		vbox_select_encoder.Visible = true;
+		vseparator_im.Visible = true;
+		button_encoder_capture_inertial_do.Sensitive = true;
+			
+		if(imResult != Constants.EncoderErrorCode) {
+			label_im_progress.Text = 
+				imResult.ToString() + " Kg*cm^2";
+			spin_inertia.Value = imResult;
+		}
+		else 
+			label_im_progress.Text = "Error capturing"; 
 	}
 	
 	private void on_button_cancel_clicked (object o, EventArgs args)
@@ -236,6 +254,18 @@ public class EncoderConfigurationWindow {
 	
 	public string Label_im_progress_text {
 		set { label_im_progress.Text = value; }
+	}
+	
+	public double Spin_im_weight {
+		get { return spin_im_weight.Value; }
+	}
+	
+	public double Spin_im_length {
+		get { return spin_im_length.Value; }
+	}
+	
+	public int Spin_im_duration {
+		get { return (int) spin_im_duration.Value; }
 	}
 		
 }

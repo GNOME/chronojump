@@ -612,7 +612,8 @@ public class Constants
 
 	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
 
-
+	public static double EncoderErrorCode = -1;
+	
 	//three encoder types
 	public static string FileNameEncoderTypeLinear = "encoder-linear.png";
 	public static string FileNameEncoderTypeRotaryFriction = "encoder-rotary-friction.png";

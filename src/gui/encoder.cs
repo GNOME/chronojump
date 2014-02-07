@@ -185,8 +185,8 @@ public partial class ChronoJumpWindow
 	//diffrence between:
 	//CALC_RECALC_CURVES: calcule and recalculate, autosaves the curve at end
 	//LOAD curves does snot	
-	//CAPTURE_CALCULE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
-	enum encoderActions { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE, CAPTURE_CALCULE_IM } 
+	//CAPTURE_INERTIA_MOMENT records to get the inertia moment but does not calculate curves in R and not updates the treeview
+	enum encoderActions { CAPTURE, CALC_RECALC_CURVES, LOAD, ANALYZE, CAPTURE_INERTIA_MOMENT } 
 	enum encoderSensEnum { 
 		NOSESSION, NOPERSON, YESPERSON, PROCESSINGCAPTURE, PROCESSINGR, DONENOSIGNAL, DONEYESSIGNAL, SELECTEDCURVE }
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
@@ -254,13 +254,10 @@ public partial class ChronoJumpWindow
 	}
 	
 	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) {
-		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked -= 
-			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
-	
 		//TODO: put a thread in order to interface be updated,
 		//maybe on start capturing this will happen because CAPTURE thread will start	
 		encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Capturing");
-//		on_button_encoder_capture_calcule_inertial();
+		on_button_encoder_capture_calcule_inertial();
 	}
 	
 	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
@@ -393,7 +390,7 @@ public partial class ChronoJumpWindow
 		if(! encoderCheckPort())
 			return;
 		
-		encoderThreadStart(encoderActions.CAPTURE_CALCULE_IM);
+		encoderThreadStart(encoderActions.CAPTURE_INERTIA_MOMENT);
 	}
 
 
@@ -1673,17 +1670,42 @@ public partial class ChronoJumpWindow
 				//es, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				UtilEncoder.GetEncoderDataTempFileName(),
-				chronopicWin.GetEncoderPort());
-	
+				chronopicWin.GetEncoderPort() );
+
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
 
 		//will start calcule curves thread
-		if(capturedOk) {
-			//capturingRotaryInertial = radiobutton_encoder_capture_rotaryl.Active && checkbutton_encoder_capture_inertial.Active
-			
+		if(capturedOk)
 			calculeCurves();
+	}
+	
+	//this is called by non gtk thread. Don't do gtk stuff here
+	//I suppose reading gtk is ok, changing will be the problem
+	private void captureCsharpInertiaMoment () 
+	{
+		bool capturedOk = runEncoderCaptureCsharp("Capturing Inertia Moment", 
+				encoder_configuration_win.Spin_im_duration,
+				UtilEncoder.GetEncoderDataTempFileName(),
+				chronopicWin.GetEncoderPort() );
+
+		encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Processing");
+		//wait to ensure capture thread has ended
+		Thread.Sleep(500);	
+
+		double imResult = Constants.EncoderErrorCode;
+
+		if(capturedOk) {
+			imResult = UtilEncoder.RunEncoderCalculeInertiaMomentum(
+					encoder_configuration_win.Spin_im_weight,
+					encoder_configuration_win.Spin_im_length
+					);
 		}
+		
+		encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
+		
+		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
@@ -1753,7 +1775,6 @@ public partial class ChronoJumpWindow
 	
 	bool capturingCsharp;	
 
-	//private bool runEncoderCaptureCsharp(string title, EncoderStruct es, string port) 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
 		int width=encoder_capture_drawingarea.Allocation.Width;
@@ -3755,12 +3776,14 @@ Log.WriteLine(str);
 	 * update encoder capture graph stuff
 	 */
 
-	private void updateEncoderCaptureGraph() 
+	private void updateEncoderCaptureGraph(bool graph, bool calc) 
 	{
 		if(encoderCapturePoints != null) 
 		{
-			updateEncoderCaptureGraphPaint(); 
-			updateEncoderCaptureGraphRCalc(); 
+			if(graph)
+				updateEncoderCaptureGraphPaint(); 
+			if(calc)
+				updateEncoderCaptureGraphRCalc(); 
 		}
 	}
 	
@@ -4153,7 +4176,7 @@ Log.WriteLine(str);
 	private void encoderThreadStart(encoderActions action) {
 		encoderProcessCancel = false;
 		encoderProcessFinish = false;
-		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_CALCULE_IM) {
+		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_INERTIA_MOMENT) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
@@ -4184,9 +4207,9 @@ Log.WriteLine(str);
 				pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 
-				encoderStartVideoRecord();
-
 				if(action == encoderActions.CAPTURE) {
+					encoderStartVideoRecord();
+
 					//remove treeview columns
 					treeviewEncoderCaptureRemoveColumns();
 					encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
@@ -4201,8 +4224,15 @@ Log.WriteLine(str);
 							);
 				}
 
-				encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
-				GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+				if(action == encoderActions.CAPTURE) {
+					encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
+					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
+				}
+				else { //action == encoderActions.CAPTURE_INERTIA_MOMENT)
+					encoderThreadCapture = new Thread(new ThreadStart(captureCsharpInertiaMoment));
+					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureInertiaMoment));
+				}
+
 				Log.WriteLine("DDDDDDDDDDDDDDD");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
 				encoderThreadCapture.Start(); 
@@ -4256,12 +4286,29 @@ Log.WriteLine(str);
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-		updateEncoderCaptureGraph();
+		updateEncoderCaptureGraph(true, true); //graph, calc
 
 		Thread.Sleep (25);
 		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());
 		return true;
 	}
+	
+	private bool pulseGTKEncoderCaptureInertiaMoment ()
+	{
+//		Log.WriteLine("PPPPPPPPP");
+		if(! encoderThreadCapture.IsAlive || encoderProcessCancel || encoderProcessFinish) {
+			finishPulsebar(encoderActions.CAPTURE_INERTIA_MOMENT);
+			Log.Write("dying");
+			return false;
+		}
+		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
+		updateEncoderCaptureGraph(true, false); //graph, not calc 
+
+		Thread.Sleep (25);
+		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());
+		return true;
+	}
+	
 	
 	private bool pulseGTKEncoderCalcRecalcCurves ()
 	{
@@ -4365,6 +4412,7 @@ Log.WriteLine(str);
 	private void finishPulsebar(encoderActions action) {
 		if(
 				action == encoderActions.CAPTURE || 
+				action == encoderActions.CAPTURE_INERTIA_MOMENT || 
 				action == encoderActions.CALC_RECALC_CURVES || 
 				action == encoderActions.LOAD )
 		{
@@ -4395,8 +4443,8 @@ Log.WriteLine(str);
 				} else
 					encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
 			}
-			else if(action == encoderActions.CAPTURE && encoderProcessFinish) {
-				//encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+			else if( (action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_INERTIA_MOMENT) 
+					&& encoderProcessFinish ) {
 				encoderButtonsSensitive(encoderSensEnumStored);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 

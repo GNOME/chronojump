@@ -176,8 +176,10 @@ namespace RDotNet.NativeLibrary
 			{
 				return dlopen(filename, RTLD_LAZY);
 			}
+			Console.WriteLine (filename); 
 			var searchPaths = (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator);
 			var dll = searchPaths.Select(directory => Path.Combine(directory, filename)).FirstOrDefault(File.Exists);
+			Console.WriteLine (dll); 
 			return dll == null ? IntPtr.Zero : dlopen(dll, RTLD_LAZY);
 		}
 		

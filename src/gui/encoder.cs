@@ -1732,12 +1732,18 @@ public partial class ChronoJumpWindow
 			return true;
 
 		Log.WriteLine("initializing rdotnet");
-		
+
+		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
+		//rsup.Interactive = false;
+		//rsup.Quiet = false;
+
 		rengine = REngine.CreateInstance("RDotNet");
+		
 		// From v1.5, REngine requires explicit initialization.
 		// You can set some parameters.
 
 		try {
+			//rengine.Initialize(rsup);
 			rengine.Initialize();
 		} catch {
 			return false;

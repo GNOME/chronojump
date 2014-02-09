@@ -34,7 +34,7 @@ namespace RDotNet.NativeLibrary
 				throw new ArgumentException("dllName");
 			}
 
-			IntPtr handle = LoadLibrary(dllName);
+			IntPtr handle = IntLoadLibrary(dllName);
 			if (handle == IntPtr.Zero)
 			{
 				throw new DllNotFoundException();
@@ -169,17 +169,15 @@ namespace RDotNet.NativeLibrary
 #endif
 
 #if UNIX
-		private static IntPtr LoadLibrary(string filename)
+		private static IntPtr IntLoadLibrary(string filename)
 		{
 			const int RTLD_LAZY = 0x1;
 			if (filename.StartsWith("/"))
 			{
 				return dlopen(filename, RTLD_LAZY);
 			}
-			Console.WriteLine (filename); 
 			var searchPaths = (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator);
 			var dll = searchPaths.Select(directory => Path.Combine(directory, filename)).FirstOrDefault(File.Exists);
-			Console.WriteLine (dll); 
 			return dll == null ? IntPtr.Zero : dlopen(dll, RTLD_LAZY);
 		}
 		
@@ -188,6 +186,13 @@ namespace RDotNet.NativeLibrary
 #else
 		[DllImport("kernel32.dll")]
 		private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+
+		private static IntPtr IntLoadLibrary(string filename)
+		{
+			var searchPaths = (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator);
+			var dll = searchPaths.Select(directory => Path.Combine(directory, filename)).FirstOrDefault(File.Exists);
+			return dll == null ? IntPtr.Zero : LoadLibrary(dll);
+		}
 #endif
 
 #if UNIX

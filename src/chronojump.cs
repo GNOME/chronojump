@@ -71,13 +71,20 @@ public class ChronoJump
 		sw.AutoFlush = true;
 		*/
 
-		var envPath = Environment.GetEnvironmentVariable ("PATH");
-		var rBinPath = @"/usr/lib/R/lib";
-		Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
-		Environment.SetEnvironmentVariable ("PATH", envPath + Path.PathSeparator + rBinPath);
-
 		
-		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"../../");
+		var envPath = Environment.GetEnvironmentVariable ("PATH");
+		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
+		if (!Directory.Exists(Path.Combine (baseDirectory, "chronojump"))) {
+			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
+		}
+		if(UtilAll.IsWindows()) {
+			Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
+		} else {
+			var rBinPath = @"/usr/lib/R/lib";
+			Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
+			Environment.SetEnvironmentVariable ("PATH", envPath + Path.PathSeparator + rBinPath);
+		}
+
 		if(UtilAll.IsWindows())
 			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
 

@@ -220,7 +220,8 @@ namespace RDotNet
 			this.parameter = parameter ?? new StartupParameter();
 			this.adapter = new CharacterDeviceAdapter(device ?? DefaultDevice);
 			GetFunction<R_setStartTime>("R_setStartTime")();
-			GetFunction<Rf_initialize_R>("Rf_initialize_R")(1, new[] { ID });
+			///GetFunction<Rf_initialize_R>("Rf_initialize_R")(1, new[] { ID });
+			GetFunction<Rf_initialize_R>("Rf_initialize_R")(3, new[] { ID, "--quiet", "--vanilla" }); 
 			this.adapter.Install(this, this.parameter);
 			switch (Environment.OSVersion.Platform)
 			{

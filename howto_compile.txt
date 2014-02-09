@@ -23,7 +23,7 @@ make install
 
 y para hacer un paquete:
 cd win32
-make bundle
+make installer
 
 ----- end of 2014 ------
 

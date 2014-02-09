@@ -13,6 +13,22 @@ http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
 WINDOWS
 -------------------------------------------------------------------
 
+----- 2014 -------------
+
+chronojump-shell
+cd chronojump
+sh autogen.sh --prefix /c/gstreamer-sdk/0.10/x86
+make
+make install
+
+y para hacer un paquete:
+cd win32
+make bundle
+
+----- end of 2014 ------
+
+
+
 a) Prepare stuff
 
 Install cerbero:

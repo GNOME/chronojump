@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -28,7 +28,14 @@ public class About
 	[Widget] Gtk.Dialog dialog_about;
 	[Widget] Gtk.Image image_logo;
 	[Widget] Gtk.Label dialog_about_label_version;
-	[Widget] Gtk.Label dialog_about_label_developers;
+	
+	[Widget] Gtk.Label dialog_about_label_developers_CEO;
+	[Widget] Gtk.Label dialog_about_label_developers_software;
+	[Widget] Gtk.Label dialog_about_label_developers_chronopic;
+	[Widget] Gtk.Label dialog_about_label_developers_devices;
+	[Widget] Gtk.Label dialog_about_label_developers_math;
+	[Widget] Gtk.Label dialog_about_label_developers_opencv;
+
 	[Widget] Gtk.Label dialog_about_label_documenters;
 	[Widget] Gtk.Label dialog_about_label_translators;
 
@@ -38,7 +45,6 @@ public class About
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_about", null);
 		gladeXML.Autoconnect(this);
 	
-		
 		/*	
 		//crash for test purposes
 		string [] myCrash = {
@@ -46,8 +52,6 @@ public class About
 		Console.WriteLine("going to crash now intentionally");
 		Console.WriteLine(myCrash[1]);
 		*/
-
-
 
 		//put an icon to window
 		UtilGtk.IconWindow(dialog_about);
@@ -63,27 +67,31 @@ public class About
 		//white bg
 		dialog_about.ModifyBg(StateType.Normal, new Gdk.Color(0xff,0xff,0xff));
 		
-		//put authors separated by commas
-		string authorsString = "";
-		string paragraph = "";
-		foreach (string singleAuthor in Constants.Authors) {
-			authorsString += paragraph;
-			authorsString += singleAuthor;
-			paragraph = "\n\n";
-		}
-		dialog_about_label_developers.Text = authorsString;
-		
+		//put authors
+		textLabel(Constants.AuthorsCEO, dialog_about_label_developers_CEO);
+		textLabel(Constants.AuthorsSoftware, dialog_about_label_developers_software);
+		textLabel(Constants.AuthorsChronopic, dialog_about_label_developers_chronopic);
+		textLabel(Constants.AuthorsDevices, dialog_about_label_developers_devices);
+		textLabel(Constants.AuthorsMath, dialog_about_label_developers_math);
+		textLabel(Constants.AuthorsOpenCV, dialog_about_label_developers_opencv);
+
 		//put documenters separated by commas
 		string docsString = "";
-		paragraph = "";
+		string paragraph = "";
 		foreach (string doc in Constants.Documenters) {
 			docsString += paragraph;
 			docsString += doc;
-			paragraph = "\n\n";
+			paragraph = "\n";
 		}
 		dialog_about_label_documenters.Text = docsString;
 	}
-				
+
+	private void textLabel(string [] text, Gtk.Label label) {
+		string str = "";
+		foreach (string singleAuthor in text)
+			str += singleAuthor;
+		label.Text = str;
+	}
 
 	public void on_button_close_clicked (object obj, EventArgs args) {
 		dialog_about.Destroy ();

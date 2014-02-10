@@ -28,23 +28,47 @@ public class Constants
 	//the strings created by Catalog cannot be const
 	
 	//public static string ReadmeTranslators = Catalog.GetString("Translator, there's a glossary that will help you in Chronojump translation:\n http://git.gnome.org/browse/chronojump/plain/glossary/chronojump_glossary_for_translators.html");
-
-	public static string [] Authors = {
-		"Xavier de Blas Foix (xaviblas@gmail.com)\n" + Catalog.GetString("Project leader and main developer."), 
-		"Juan Gonzalez Gómez (http://www.iearobotics.com)\n" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software."), 
-		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n" + Catalog.GetString("Chronopic2 creation, Chronojump tester."), 
-		"Ricardo Gómez González (http://www.iearobotics.com)\n" + Catalog.GetString("Chronopic3 industrial prototype."),
-		"Sharad Shankar (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."), 
-		"Onkar Nath Mishra (http://www.logicbrick.com)\n" + Catalog.GetString("OpenCV Detection of knee angle."),
-		"Andoni Morales Alastruey (http://ylatuya.es)\n" + Catalog.GetString("Installation support: Autotools, packaging, bundle."), 
-		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n" + Catalog.GetString("Statistics support."),
-		"Teng Wei Hua (wadedang@gmail.com)\n" + Catalog.GetString("Translation of Firmware to C.") + "\n" +
-			Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") 
+	
+	public static string [] AuthorsCEO = {
+		"Xavier de Blas Foix (info@chronojump.org)\n",
+		"Josep Ma Padullés (jmpadulles@gmail.com)"	
 	};
+	public static string [] AuthorsSoftware = {
+		"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" + 
+			Catalog.GetString("Main developer.") + "\n",
+		"Andoni Morales Alastruey (http://ylatuya.es)\n\t" + 
+			Catalog.GetString("Installation support: Autotools, packaging, bundle.")
+	};
+	public static string [] AuthorsChronopic = {
+		"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +
+			Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") + "\n",
+		"Juan Gonzalez Gómez (http://www.iearobotics.com)\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software.") + "\n", 
+		"Ricardo Gómez González (http://www.iearobotics.com)\n\t" + Catalog.GetString("Chronopic3 industrial prototype.") + "\n",
+		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n\t" + "Chronopic2."
+	};
+	public static string [] AuthorsDevices = {
+		"Josep Ma Padullés (jmpadulles@gmail.com)\n",
+		"Anna Padullés (hardware@chronojump.org)\n",
+		"Xavier Padullés (testing@chronojump.org)\n",
+		"Teng Wei Hua (wadedang@gmail.com)\n",
+		"Xavier de Blas Foix (info@chronojump.org)"
+	};
+	public static string [] AuthorsMath = {
+		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n",
+		"Aleix Ruiz de Villa (aleixrvr@gmail.com)\n",
+		"Xavier Padullés (testing@chronojump.org)"
+	};
+	public static string [] AuthorsOpenCV = {
+		"Sharad Shankar (http://www.logicbrick.com)\n", 
+		"Onkar Nath Mishra (http://www.logicbrick.com)\n"
+	};
+
 	public static string [] Documenters = {
-		"Xavier de Blas Foix (xaviblas@gmail.com)\n\n",
-		"Helena Olsson (hjolsson@gmail.com)\n",
-		"(" + Catalog.GetString("Chronojump Manual English translation") + ")"
+		"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" +
+			Catalog.GetString("Chronojump Manual author."),
+		"Helena Olsson (hjolsson@gmail.com)\n\t" +
+			Catalog.GetString("Chronojump Manual English translation."),
+		"Xavier Padullés (testing@chronojump.org)",
 	};
 	
 	public static string ChronojumpWebsite = "http://www.chronojump.org";

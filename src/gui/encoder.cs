@@ -65,7 +65,6 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
-	[Widget] Gtk.DrawingArea encoder_capture_drawingarea;
 	
 	[Widget] Gtk.Box hbox_combo_encoder_exercise;
 	[Widget] Gtk.ComboBox combo_encoder_exercise;
@@ -122,6 +121,11 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.TreeView treeview_encoder_capture_curves;
 	[Widget] Gtk.TreeView treeview_encoder_analyze_curves;
+	
+	[Widget] Gtk.DrawingArea encoder_capture_signal_drawingarea;
+	[Widget] Gtk.DrawingArea encoder_capture_curves_bars_drawingarea;
+	Gdk.Pixmap encoder_capture_signal_pixmap = null;
+	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
 
 	ArrayList encoderCaptureCurves;
         Gtk.ListStore encoderCaptureListStore;
@@ -130,7 +134,6 @@ public partial class ChronoJumpWindow
 	Thread encoderThreadCapture;
 	Thread encoderThreadR;
 	
-	Gdk.Pixmap encoder_capture_pixmap = null;
 
 	int image_encoder_width;
 	int image_encoder_height;
@@ -192,7 +195,9 @@ public partial class ChronoJumpWindow
 	encoderSensEnum encoderSensEnumStored; //tracks how was sensitive before PROCESSINGCAPTURE or PROCESSINGR
 	
 	//for writing text
-	Pango.Layout layout_encoder_capture;
+	Pango.Layout layout_encoder_capture_signal;
+	Pango.Layout layout_encoder_capture_curves_bars;
+
  
 	Gdk.GC pen_black_encoder_capture;
 	Gdk.GC pen_azul_encoder_capture;
@@ -1783,8 +1788,8 @@ public partial class ChronoJumpWindow
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
-		int width=encoder_capture_drawingarea.Allocation.Width;
-		int height=encoder_capture_drawingarea.Allocation.Height;
+		int width=encoder_capture_signal_drawingarea.Allocation.Width;
+		int height=encoder_capture_signal_drawingarea.Allocation.Height;
 		double realHeight = 1000 * 2 * (int) encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
 		Log.Write(" 00a 2 ");
@@ -3782,14 +3787,14 @@ Log.WriteLine(str);
 	 * update encoder capture graph stuff
 	 */
 
-	private void updateEncoderCaptureGraph(bool graph, bool calc) 
+	private void updateEncoderCaptureGraph(bool graphSignal, bool calcCurves, bool plotCurvesBars) 
 	{
 		if(encoderCapturePoints != null) 
 		{
-			if(graph)
+			if(graphSignal)
 				updateEncoderCaptureGraphPaint(); 
-			if(calc)
-				updateEncoderCaptureGraphRCalc(); 
+			if(calcCurves)
+				updateEncoderCaptureGraphRCalc(plotCurvesBars); 
 		}
 	}
 	
@@ -3823,11 +3828,11 @@ Log.WriteLine(str);
 
 		}
 
-		encoder_capture_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
+		encoder_capture_signal_pixmap.DrawPoints(pen_black_encoder_capture, paintPoints);
 
-		layout_encoder_capture.SetMarkup(currentPerson.Name + " (" + 
+		layout_encoder_capture_signal.SetMarkup(currentPerson.Name + " (" + 
 				spin_encoder_extra_weight.Value.ToString() + "Kg)");
-		encoder_capture_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture);
+		encoder_capture_signal_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {
 			/*			
@@ -3848,25 +3853,26 @@ Log.WriteLine(str);
 				startX -= exposeMargin;	
 
 
-			encoder_capture_drawingarea.QueueDrawArea( 			// -- refresh
+			encoder_capture_signal_drawingarea.QueueDrawArea( 			// -- refresh
 					startX,
 					//0,
 					minY,
 					(paintPoints[toDraw-1].X-paintPoints[0].X ) + exposeMargin,
-					//encoder_capture_drawingarea.Allocation.Height
+					//encoder_capture_signal_drawingarea.Allocation.Height
 					maxY-minY
 					);
 			Log.WriteLine("minY - maxY " + minY + " - " + maxY);
 		} else
-			encoder_capture_drawingarea.QueueDraw(); 			// -- refresh
+			encoder_capture_signal_drawingarea.QueueDraw(); 			// -- refresh
 
 		encoderCapturePointsPainted = encoderCapturePointsCaptured;
 	}
 
 	string encoderCaptureStringR;
 	double massDisplacedEncoder = 0;
+	ArrayList captureCurvesBarsData;
 	
-	private void updateEncoderCaptureGraphRCalc() 
+	private void updateEncoderCaptureGraphRCalc(bool plotCurvesBars) 
 	{
 		if(! eccaCreated)
 			return;
@@ -4099,6 +4105,13 @@ Log.WriteLine(str);
 			peakPowerT = peakPowerT / 1000; //ms -> s
 			double pp_ppt = peakPower / peakPowerT;
 
+			//plot
+			if(plotCurvesBars) {
+				captureCurvesBarsData.Add(meanPower);
+				plotCurvesGraphDoPlot(captureCurvesBarsData);
+			}
+
+
 			Log.WriteLine(string.Format(
 						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, maxSpeedT: {3}\n" + 
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
@@ -4119,56 +4132,195 @@ Log.WriteLine(str);
 
 		ecca.curvesDone ++;
 	}
-	
-	int encoder_capture_allocationXOld;
-	bool encoder_capture_sizeChanged;
-	public void on_encoder_capture_drawingarea_configure_event(object o, ConfigureEventArgs args)
+
+	void plotCurvesGraphDoPlot(ArrayList data) {
+		Log.WriteLine("at plotCurvesGraphDoPlot");
+		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+
+		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
+		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
+		
+		//define colors
+		Gdk.GC pen_red = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		Gdk.GC pen_black = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
+		pen_red.Foreground = UtilGtk.RED_PLOTS;
+		pen_black.Foreground = UtilGtk.BLACK;
+
+		//search max
+		double max = 0;
+		foreach(double d in data)
+			if(d > max)
+				max = d;
+		double min = 100000;
+		foreach(double d in data)
+			if(d < min)
+				min = d;
+		
+		int textWidth = 1;
+		int textHeight = 1;
+
+		int left_margin = 10;
+		int right_margin = 0;
+		int vert_margin = 35;
+
+		int sep = 20;	//between reps
+		if (data.Count >= 10)
+			sep = 10;
+
+		int dLeft = 0;
+		int count = 0;
+		foreach(double d in data) {
+			int dWidth = 0;
+			int dHeight = 0;
+
+			dHeight = Convert.ToInt32(( graphHeight - vert_margin ) * d / max * 1.0);
+			//height should be inverted 
+			dHeight = graphHeight - dHeight;
+
+			if (data.Count == 1)	//do not fill all the screen with only one bar
+				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / 2.0); 
+			else
+				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / data.Count * 1.0);
+
+			dLeft = left_margin + dWidth * count;
+			dWidth = dWidth - sep;
+			
+			//paint bar:	
+			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red, true, rect);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black, false, rect);
+		
+			layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
+			textWidth = 1;
+			textHeight = 1;
+			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black, 
+					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dHeight - 15, //x, y 
+					layout_encoder_capture_curves_bars);
+
+			count ++;
+		}
+			
+		layout_encoder_capture_curves_bars.SetMarkup("Power (W)");
+		textWidth = 1;
+		textHeight = 1;
+		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black, 
+				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
+				layout_encoder_capture_curves_bars);
+			
+		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
+	}
+
+	int encoder_capture_curves_allocationXOld;
+	int encoder_capture_curves_allocationYOld;
+	bool encoder_capture_curves_sizeChanged;
+	public void on_encoder_capture_curves_bars_drawingarea_configure_event(object o, ConfigureEventArgs args)
 	{
 		Gdk.EventConfigure ev = args.Event;
 		Gdk.Window window = ev.Window;
 
-		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
+		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		
-		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
-				allocation.Width != encoder_capture_allocationXOld) {
-			encoder_capture_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
+				allocation.Width != encoder_capture_curves_allocationXOld ||
+				allocation.Height != encoder_capture_curves_allocationYOld) {
+			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
-			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			
-			encoder_capture_sizeChanged = false;
+			encoder_capture_curves_sizeChanged = false;
 		}
 
-		encoder_capture_allocationXOld = allocation.Width;
+		encoder_capture_curves_allocationXOld = allocation.Width;
+		encoder_capture_curves_allocationYOld = allocation.Height;
 	}
-	
-	public void on_encoder_capture_drawingarea_expose_event(object o, ExposeEventArgs args)
+
+	public void on_encoder_capture_curves_bars_drawingarea_expose_event(object o, ExposeEventArgs args)
 	{
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
 //		Log.WriteLine("EXPOSE");
 		
-		Gdk.Rectangle allocation = encoder_capture_drawingarea.Allocation;
-		if(encoder_capture_pixmap == null || encoder_capture_sizeChanged || 
-				allocation.Width != encoder_capture_allocationXOld) {
-			encoder_capture_pixmap = new Gdk.Pixmap (encoder_capture_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
-			UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
+		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
+		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
+				allocation.Width != encoder_capture_curves_allocationXOld ||
+				allocation.Height != encoder_capture_curves_allocationYOld) {
+			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (
+					encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
-			encoder_capture_sizeChanged = false;
+			encoder_capture_curves_sizeChanged = false;
 		}
 
 		Gdk.Rectangle area = args.Event.Area;
 
 		//sometimes this is called when pait is finished
 		//don't let this erase win
-		if(encoder_capture_pixmap != null) {
-			args.Event.Window.DrawDrawable(encoder_capture_drawingarea.Style.WhiteGC, encoder_capture_pixmap,
+		if(encoder_capture_curves_bars_pixmap != null) {
+			args.Event.Window.DrawDrawable(encoder_capture_curves_bars_drawingarea.Style.WhiteGC, 
+					encoder_capture_curves_bars_pixmap,
 				area.X, area.Y,
 				area.X, area.Y,
 				area.Width, area.Height);
 		}
 		
-		encoder_capture_allocationXOld = allocation.Width;
+		encoder_capture_curves_allocationXOld = allocation.Width;
+		encoder_capture_curves_allocationYOld = allocation.Height;
+	}
+
+	
+	int encoder_capture_signal_allocationXOld;
+	bool encoder_capture_signal_sizeChanged;
+	public void on_encoder_capture_signal_drawingarea_configure_event(object o, ConfigureEventArgs args)
+	{
+		Gdk.EventConfigure ev = args.Event;
+		Gdk.Window window = ev.Window;
+
+		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
+		
+		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
+				allocation.Width != encoder_capture_signal_allocationXOld) {
+			encoder_capture_signal_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
+		
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			
+			encoder_capture_signal_sizeChanged = false;
+		}
+
+		encoder_capture_signal_allocationXOld = allocation.Width;
+	}
+	
+	public void on_encoder_capture_signal_drawingarea_expose_event(object o, ExposeEventArgs args)
+	{
+		/* in some mono installations, configure_event is not called, but expose_event yes. 
+		 * Do here the initialization
+		 */
+//		Log.WriteLine("EXPOSE");
+		
+		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
+		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
+				allocation.Width != encoder_capture_signal_allocationXOld) {
+			encoder_capture_signal_pixmap = new Gdk.Pixmap (encoder_capture_signal_drawingarea.GdkWindow, 
+					allocation.Width, allocation.Height, -1);
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+
+			encoder_capture_signal_sizeChanged = false;
+		}
+
+		Gdk.Rectangle area = args.Event.Area;
+
+		//sometimes this is called when pait is finished
+		//don't let this erase win
+		if(encoder_capture_signal_pixmap != null) {
+			args.Event.Window.DrawDrawable(encoder_capture_signal_drawingarea.Style.WhiteGC, encoder_capture_signal_pixmap,
+				area.X, area.Y,
+				area.X, area.Y,
+				area.Width, area.Height);
+		}
+		
+		encoder_capture_signal_allocationXOld = allocation.Width;
 	}
 
 
@@ -4198,13 +4350,17 @@ Log.WriteLine(str);
 					}
 				}
 
-				UtilGtk.ErasePaint(encoder_capture_drawingarea, encoder_capture_pixmap);
-				layout_encoder_capture = new Pango.Layout (encoder_capture_drawingarea.PangoContext);
-				layout_encoder_capture.FontDescription = 
-					Pango.FontDescription.FromString ("Courier 10");
+				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+				
+				layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
+				layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+				
+				layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
+				layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
-				pen_black_encoder_capture = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
-				pen_azul_encoder_capture = new Gdk.GC(encoder_capture_drawingarea.GdkWindow);
+				pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+				pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 				Gdk.Colormap colormap = Gdk.Colormap.System;
 				colormap.AllocColor (ref UtilGtk.BLACK,true,true);
@@ -4231,6 +4387,7 @@ Log.WriteLine(str);
 				}
 
 				if(action == encoderActions.CAPTURE) {
+					captureCurvesBarsData = new ArrayList();
 					encoderThreadCapture = new Thread(new ThreadStart(captureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCapture));
 				}
@@ -4292,7 +4449,7 @@ Log.WriteLine(str);
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-		updateEncoderCaptureGraph(true, true); //graph, calc
+		updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 
 		Thread.Sleep (25);
 		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());
@@ -4308,7 +4465,7 @@ Log.WriteLine(str);
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-		updateEncoderCaptureGraph(true, false); //graph, not calc 
+		updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
 
 		Thread.Sleep (25);
 		Log.Write("C:" + encoderThreadCapture.ThreadState.ToString());

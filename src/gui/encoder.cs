@@ -4107,8 +4107,18 @@ Log.WriteLine(str);
 
 			//plot
 			if(plotCurvesBars) {
-				captureCurvesBarsData.Add(meanPower);
-				plotCurvesGraphDoPlot(captureCurvesBarsData);
+				string title = "";
+				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
+				if(mainVariable == Constants.MeanSpeed)
+					captureCurvesBarsData.Add(meanSpeed);
+				else if(mainVariable == Constants.MaxSpeed)
+					captureCurvesBarsData.Add(maxSpeed);
+				else if(mainVariable == Constants.MeanPower)
+					captureCurvesBarsData.Add(meanPower);
+				else	//mainVariable == Constants.PeakPower
+					captureCurvesBarsData.Add(peakPower);
+
+				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData);
 			}
 
 
@@ -4133,19 +4143,13 @@ Log.WriteLine(str);
 		ecca.curvesDone ++;
 	}
 
-	void plotCurvesGraphDoPlot(ArrayList data) {
+	void plotCurvesGraphDoPlot(string mainVariable, ArrayList data) {
 		Log.WriteLine("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 		
-		//define colors
-		Gdk.GC pen_red = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		Gdk.GC pen_black = new Gdk.GC(encoder_capture_curves_bars_drawingarea.GdkWindow);
-		pen_red.Foreground = UtilGtk.RED_PLOTS;
-		pen_black.Foreground = UtilGtk.BLACK;
-
 		//search max
 		double max = 0;
 		foreach(double d in data)
@@ -4187,25 +4191,34 @@ Log.WriteLine(str);
 			
 			//paint bar:	
 			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_red, true, rect);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black, false, rect);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_azul_encoder_capture, true, rect);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 		
-			layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
+			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
+				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
+			else //powers
+				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
+			
 			textWidth = 1;
 			textHeight = 1;
 			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black, 
+			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
 					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dHeight - 15, //x, y 
 					layout_encoder_capture_curves_bars);
 
 			count ++;
 		}
+		
+		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
+			mainVariable = mainVariable += " (m/s)";
+		else //powers
+			mainVariable = mainVariable += " (W)";
 			
-		layout_encoder_capture_curves_bars.SetMarkup("Power (W)");
+		layout_encoder_capture_curves_bars.SetMarkup(mainVariable);
 		textWidth = 1;
 		textHeight = 1;
 		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black, 
+		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
 				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
 				layout_encoder_capture_curves_bars);
 			
@@ -4715,6 +4728,8 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_curves_height_range;
+	[Widget] Gtk.Box hbox_combo_main_variable;
+	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_close;
 	
@@ -4730,6 +4745,8 @@ public class EncoderCaptureOptionsWindow {
 	
 		//don't show until View is called
 		encoder_capture_options.Hide ();
+
+		createCombo();
 
 		//put an icon to window
 		UtilGtk.IconWindow(encoder_capture_options);
@@ -4759,6 +4776,21 @@ public class EncoderCaptureOptionsWindow {
 
 		//show window
 		EncoderCaptureOptionsWindowBox.encoder_capture_options.Show ();
+	}
+
+	private void createCombo() {
+		combo_main_variable = ComboBox.NewText ();
+		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanPower, Constants.PeakPower };
+		UtilGtk.ComboUpdate(combo_main_variable, values, "");
+		combo_main_variable.Active = UtilGtk.ComboMakeActive(combo_main_variable, "Mean power");
+		
+		hbox_combo_main_variable.PackStart(combo_main_variable, false, false, 0);
+		hbox_combo_main_variable.ShowAll();
+		combo_main_variable.Sensitive = true;
+	}
+
+	public string GetComboValue() {
+		return UtilGtk.ComboGetActive(combo_main_variable);
 	}
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args) {

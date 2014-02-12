@@ -5392,8 +5392,10 @@ Console.WriteLine("X");
 		//only if there was data
 		//this avoids misbehaviour when bell is pressed and there's no data in treeview
 		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
-		if(curve.N != null)
-			encoderUpdateTreeViewCapture();
+		if(curve.N != null) {
+			string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
+			encoderUpdateTreeViewCapture(contents);
+		}
 	}
 
 

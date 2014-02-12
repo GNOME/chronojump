@@ -525,9 +525,8 @@ public partial class ChronoJumpWindow
 			encoder_pulsebar_capture.Text = Catalog.GetString("Missing data.");
 	}
 	
-	private void encoderUpdateTreeViewCapture()
+	private void encoderUpdateTreeViewCapture(string contents)
 	{
-		string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
 		if (contents == null || contents == "") {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
@@ -4363,24 +4362,7 @@ Log.WriteLine(str);
 					}
 				}
 
-				UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-				
-				layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
-				layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
-				
-				layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
-				layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 10");
-
-				pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-				pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-
-				Gdk.Colormap colormap = Gdk.Colormap.System;
-				colormap.AllocColor (ref UtilGtk.BLACK,true,true);
-				colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
-				
-				pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
-				pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
+				prepareEncoderGraphs();
 
 				if(action == encoderActions.CAPTURE) {
 					encoderStartVideoRecord();
@@ -4422,6 +4404,8 @@ Log.WriteLine(str);
 			//image is inside (is smaller than) viewport
 			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
+				
+			prepareEncoderGraphs();
 
 //			encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			treeview_encoder_capture_curves.Sensitive = false;
@@ -4450,6 +4434,27 @@ Log.WriteLine(str);
 
 			encoderThreadR.Start(); 
 		}
+	}
+
+	void prepareEncoderGraphs() {
+		UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+
+		layout_encoder_capture_signal = new Pango.Layout (encoder_capture_signal_drawingarea.PangoContext);
+		layout_encoder_capture_signal.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+
+		layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
+		layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+
+		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+
+		Gdk.Colormap colormap = Gdk.Colormap.System;
+		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
+		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+
+		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
+		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 	}
 
 	//this is the only who was finish	
@@ -4628,10 +4633,27 @@ Log.WriteLine(str);
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
+				string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
+				
 				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;
-				encoderUpdateTreeViewCapture();
+				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 				image_encoder_capture.Sensitive = true;
+
+				//plot curves bars graph
+				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
+				captureCurvesBarsData = new ArrayList();
+				foreach (EncoderCurve curve in encoderCaptureCurves) {
+					if(mainVariable == Constants.MeanSpeed)
+						captureCurvesBarsData.Add(Convert.ToDouble(curve.MeanSpeed));
+					else if(mainVariable == Constants.MaxSpeed)
+						captureCurvesBarsData.Add(Convert.ToDouble(curve.MaxSpeed));
+					else if(mainVariable == Constants.MeanPower)
+						captureCurvesBarsData.Add(Convert.ToDouble(curve.MeanPower));
+					else	//mainVariable == Constants.PeakPower
+						captureCurvesBarsData.Add(Convert.ToDouble(curve.PeakPower));
+				}
+				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData);
 		
 				//autosave signal (but not in load)
 				if(action == encoderActions.CALC_RECALC_CURVES)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -241,6 +241,7 @@ public class UtilGtk
 	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
 	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
 	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
+	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70);
 	
 
 	public static void ColorsMenuLabel(Gtk.Viewport v, Gtk.Label l) {

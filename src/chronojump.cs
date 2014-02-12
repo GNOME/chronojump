@@ -152,6 +152,7 @@ public class ChronoJump
 		if(crashedBefore) {
 			if(chronojumpIsExecutingNTimes()) {
 				quitNow = true;
+				Log.WriteLine("\n\nChronojump is already running.\n");
 				Application.Quit();
 				return;
 			}

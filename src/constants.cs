@@ -685,6 +685,11 @@ public class Constants
 	public enum EncoderType {
 		LINEAR, ROTARYFRICTION, ROTARYAXIS
 	}	
+
+	public static string MeanSpeed = "Mean speed";
+	public static string MaxSpeed = "Max speed";
+	public static string MeanPower = "Mean power";
+	public static string PeakPower = "Peak power";
 		
 	public enum Encoder1RMMethod { NONWEIGHTED, WEIGHTED, WEIGHTED2, WEIGHTED3 }
 	public enum ContextMenu { NONE, EDITDELETE, DELETE }

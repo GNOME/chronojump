@@ -1396,6 +1396,7 @@ public partial class ChronoJumpWindow
 			encoderSignalUniqueID = "-1";
 			image_encoder_capture.Sensitive = false;
 			treeviewEncoderCaptureRemoveColumns();
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
 			//entry_encoder_signal_comment.Text = "";
@@ -3663,6 +3664,8 @@ Log.WriteLine(str);
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
 		treeviewEncoderCaptureRemoveColumns();
+		if(encoder_capture_curves_bars_pixmap != null) 
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		image_encoder_capture.Sensitive = false;
 		image_encoder_analyze.Sensitive = false;
 		treeview_encoder_analyze_curves.Sensitive = false;
@@ -4165,10 +4168,29 @@ Log.WriteLine(str);
 		int left_margin = 10;
 		int right_margin = 0;
 		int vert_margin = 35;
+		
+		//plot title	
+		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
+			mainVariable = mainVariable += " (m/s)";
+		else //powers
+			mainVariable = mainVariable += " (W)";
+			
+		layout_encoder_capture_curves_bars.SetMarkup(mainVariable);
+		textWidth = 1;
+		textHeight = 1;
+		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
+				layout_encoder_capture_curves_bars);
+		//end plot title	
+			
 
+		//plot bars
 		int sep = 20;	//between reps
-		if (data.Count >= 10)
+		if (data.Count >= 10) {
 			sep = 10;
+			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+		}
 
 		int dLeft = 0;
 		int count = 0;
@@ -4207,20 +4229,8 @@ Log.WriteLine(str);
 
 			count ++;
 		}
+		//end plot bars
 		
-		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
-			mainVariable = mainVariable += " (m/s)";
-		else //powers
-			mainVariable = mainVariable += " (W)";
-			
-		layout_encoder_capture_curves_bars.SetMarkup(mainVariable);
-		textWidth = 1;
-		textHeight = 1;
-		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-				layout_encoder_capture_curves_bars);
-			
 		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
 	}
 

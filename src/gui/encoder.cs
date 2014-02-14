@@ -1380,9 +1380,12 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
 	{
-		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-					"Are you sure you want to delete this signal?"), "", "");
-		confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
+		if(askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this signal?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
+		} else
+			on_button_encoder_delete_signal_accepted (o, args);
 	}	
 
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 

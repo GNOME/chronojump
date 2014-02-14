@@ -663,7 +663,7 @@ public partial class ChronoJumpWindow
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
-				Util.GetDecimalSeparator()
+				CSVExportDecimalSeparator 
 				);
 
 		//capturingRotaryInertial = false;
@@ -1239,7 +1239,7 @@ public partial class ChronoJumpWindow
 				-1,
 				image_encoder_width,
 				image_encoder_height,
-				Util.GetDecimalSeparator()
+				CSVExportDecimalSeparator 
 				);
 
 		string dataFileName = UtilEncoder.GetEncoderDataTempFileName();
@@ -2117,7 +2117,7 @@ public partial class ChronoJumpWindow
 					myCurveNum,
 					image_encoder_width, 
 					image_encoder_height,
-					Util.GetDecimalSeparator()
+					CSVExportDecimalSeparator 
 					);
 
 
@@ -2227,7 +2227,7 @@ Log.WriteLine(str);
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
 					image_encoder_height,
-					Util.GetDecimalSeparator()
+					CSVExportDecimalSeparator 
 					);
 			
 			dataFileName = UtilEncoder.GetEncoderDataTempFileName();

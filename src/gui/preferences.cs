@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -67,6 +67,9 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted2;
 	[Widget] Gtk.RadioButton radio_encoder_1RM_weighted3;
+			
+	[Widget] Gtk.RadioButton radio_export_latin;
+	[Widget] Gtk.RadioButton radio_export_non_latin;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -105,7 +108,8 @@ public class PreferencesWindow {
 			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool encoderPropulsive, double encoderSmoothCon,
-			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod)
+			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod,
+			string CSVExportDecimalSeparator)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -183,6 +187,13 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_speed_ms.Active = true; 
 		else 
 			PreferencesWindowBox.radio_speed_km.Active = true; 
+
+
+		if(CSVExportDecimalSeparator == "COMMA")
+			PreferencesWindowBox.radio_export_latin.Active = true; 
+		else
+			PreferencesWindowBox.radio_export_non_latin.Active = true; 
+
 	
 		//encoder	
 		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
@@ -423,6 +434,11 @@ public class PreferencesWindow {
 		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
 				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
 		SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
+		
+		if(PreferencesWindowBox.radio_export_latin.Active)
+			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
+		else
+			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
 	
 		string encoder1RMMethod = "";	
 		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)

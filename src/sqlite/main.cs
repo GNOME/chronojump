@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.00";
+	static string lastChronojumpDatabaseVersion = "1.01";
 
 	public Sqlite() {
 	}
@@ -1390,6 +1390,18 @@ class Sqlite
 
 				currentVersion = "1.00";
 			}
+			if(currentVersion == "1.00") {
+				dbcon.Open();
+			
+				SqlitePreferences.Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
+
+				Log.WriteLine("Added export to CSV configuration on preferences");
+				SqlitePreferences.Update ("databaseVersion", "1.01", true); 
+				dbcon.Close();
+
+				currentVersion = "1.01";
+			}
+
 				
 		}
 
@@ -1530,6 +1542,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.00 - 1.01 Converted DB to 1.01 Added export to CSV configuration on preferences
 		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclinated Exercises
 		//0.98 - 0.99 Converted DB to 0.99 Encoder table improved 
 		//0.97 - 0.98 Converted DB to 0.98 Fixed encoder laterality

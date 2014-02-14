@@ -27447,7 +27447,7 @@ show elevation as:</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkRadioButton" id="radiobutton_export_latin">
+                          <widget class="GtkRadioButton" id="radio_export_latin">
                             <property name="label" translatable="yes">Latin</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -27486,14 +27486,14 @@ show elevation as:</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkRadioButton" id="radiobutton_export_non-latin">
+                          <widget class="GtkRadioButton" id="radio_export_non_latin">
                             <property name="label" translatable="yes">Non-Latin</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
-                            <property name="group">radiobutton_export_latin</property>
+                            <property name="group">radio_export_latin</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>

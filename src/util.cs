@@ -59,8 +59,9 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
-	//used to send to R and export csv there
-	public static string GetDecimalSeparator() {
+	//this is only used to define a preferences configuration
+	//to send to R and export csv,  gui/encoder.cs uses CSVExportDecimalSeparator variable that is read from preferences SQL
+	public static string GetDecimalSeparatorFromLocale() {
 		System.Globalization.NumberFormatInfo localeInfo = new System.Globalization.NumberFormatInfo();
 		localeInfo = System.Globalization.NumberFormatInfo.CurrentInfo;
 

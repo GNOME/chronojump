@@ -341,7 +341,7 @@ public partial class ChronoJumpWindow
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
-				repetitiveConditionsWin.EncoderMainVariable//,
+				encoderCaptureOptionsWin.GetComboValue()//,
 				//checkbutton_encoder_capture_inverted.Active
 				); 
 

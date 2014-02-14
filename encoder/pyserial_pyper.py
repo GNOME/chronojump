@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2012   Teng Wei Hua <wadedang@gmail.com>, Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2004-2014   Teng Wei Hua <wadedang@gmail.com>, Xavier de Blas <xaviblas@gmail.com> 
 # 
 # encoding=utf-8
 #
@@ -349,19 +349,19 @@ def calculate_all_in_r(temp, top_values, bottom_values, direction_now,
 
 				#position it at 40+112+4 pixels vert: 156
 				#vertical_height: 600 -4 (lower sep) - 156 : 440
-				if mainVariable == "meanSpeed":
+				if mainVariable == "Mean Speed":
 					update_graph("Mean Speed (m/s)", meanSpeedList, 
 							meanSpeedLowerCondition, meanSpeedHigherCondition, hasRightMargin,
 							graphsWidth, 440, (222,222,222), 4, 156, True)
-				elif mainVariable == "maxSpeed":
+				elif mainVariable == "Max Speed":
 					update_graph("Max Speed (m/s)", maxSpeedList, 
 							maxSpeedLowerCondition, maxSpeedHigherCondition, hasRightMargin,
 							graphsWidth, 440, (222,222,222), 4, 156, True)
-				elif mainVariable == "meanPower":
+				elif mainVariable == "Mean Power":
 					update_graph("Mean Power (W)", meanPowerList, 
 							powerLowerCondition, powerHigherCondition, hasRightMargin,
 							graphsWidth, 440, (222,222,222), 4, 156, False)
-				else: #mainVariable == "peakPower"
+				else: #mainVariable == "Peak Power"
 					update_graph("Peak Power (W)", peakPowerList, 
 							peakPowerLowerCondition, peakPowerHigherCondition, hasRightMargin,
 							graphsWidth, 440, (222,222,222), 4, 156, False)

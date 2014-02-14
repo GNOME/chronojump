@@ -1700,17 +1700,11 @@ public partial class ChronoJumpWindow
 
 		double imResult = Constants.EncoderErrorCode;
 
-		if(capturedOk) {
-			imResult = UtilEncoder.RunEncoderCalculeInertiaMomentum(
+		if(capturedOk)
+			UtilEncoder.RunEncoderCalculeInertiaMomentum(
 					encoder_configuration_win.Spin_im_weight,
 					encoder_configuration_win.Spin_im_length
 					);
-		}
-		
-		encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
-		
-		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
@@ -4670,6 +4664,20 @@ Log.WriteLine(str);
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
 				else
 					encoder_pulsebar_capture.Text = "";
+			}
+	
+			if(action == encoderActions.CAPTURE_INERTIA_MOMENT) {
+				string imResultText = Util.ChangeDecimalSeparator(
+						Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
+				Log.WriteLine("imResultText = |" + imResultText + "|");
+
+				//return the inertia moment
+				//script calculates Kg*m^2 -> GUI needs Kg*cm^2
+				double imResult = Convert.ToDouble(imResultText) * 10000.0;
+		
+				encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
+		
+				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			}
 
 			encoder_pulsebar_capture.Fraction = 1;

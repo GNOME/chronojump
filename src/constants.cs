@@ -198,7 +198,8 @@ public class Constants
 	public static string TakeOffWeightName = "TakeOffWeight"; //translate (take off?)
 
 
-	public static string SpreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon <b>;</b>, or comma <b>,</b>.");
+	public static string SpreadsheetString = "\n\n" + Catalog.GetString("When import from your spreadsheet (OpenOffice, R, MS Excel, ...)\nremember the separator character is semicolon <b>;</b>, or comma <b>,</b>.") + 
+			"\n\n" + Catalog.GetString("This can be changed on preferences.");
 
 /*	OLD, check this
 	public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +

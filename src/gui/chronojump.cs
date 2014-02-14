@@ -311,6 +311,7 @@ public partial class ChronoJumpWindow
 	private static bool weightPercentPreferred;
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
+	private static string CSVExportDecimalSeparator; //"COMMA" or "POINT"
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -905,6 +906,7 @@ public partial class ChronoJumpWindow
 		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 
+		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
@@ -2619,7 +2621,8 @@ public partial class ChronoJumpWindow
 				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
 				SqlitePreferences.Select("language"),
 				encoderPropulsive, encoderSmoothCon,
-				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod")
+				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod"),
+				CSVExportDecimalSeparator 
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2703,6 +2706,8 @@ public partial class ChronoJumpWindow
 		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
 		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
 				SqlitePreferences.Select("encoderSmoothCon") ) );
+		
+		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
 
 		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -77,6 +77,7 @@ class SqlitePreferences : Sqlite
 		Insert ("videoDevice", "0"); //first
 		Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString());
 		Insert ("inertialmomentum", "0.01");
+		Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
 	}
 
 	public static void Insert(string myName, string myValue)

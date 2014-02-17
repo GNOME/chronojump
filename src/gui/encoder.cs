@@ -1858,8 +1858,11 @@ public partial class ChronoJumpWindow
 		int directionCompleted = -1;	// +1 or -1
 		int previousFrameChange = 0;
 		int lastNonZero = 0;
-		int consecutiveZeros = -1;		//this will be used to stop encoder automatically
 		bool firstCurve = true;
+
+		//this will be used to stop encoder automatically	
+		int consecutiveZeros = -1;		
+		int consecutiveZerosMax = (int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value * 1000;
 
 		//create ecca if needed
 		if(! eccaCreated) {
@@ -1878,13 +1881,14 @@ public partial class ChronoJumpWindow
 			i=i+1;
 			if(i >= 0) {
 				
-				//stop if 3 seconds of inactivity	
 				if(byteReaded == 0)
 					consecutiveZeros ++;
 				else
 					consecutiveZeros = -1;
 					       
-				if(consecutiveZeros >= 3000)
+				//stop if n seconds of inactivity
+				//but it has to be moved a little bit first, just to give time to the people
+				if(consecutiveZeros >= consecutiveZerosMax && sum > 0)
 					encoderProcessFinish = true;
 
 
@@ -4781,6 +4785,7 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_safe;
 	[Widget] public Gtk.RadioButton radiobutton_encoder_capture_external;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_time;
+	[Widget] public Gtk.SpinButton spin_encoder_capture_inactivity_end_time;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_min_height;
 	[Widget] public Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Box hbox_combo_main_variable;

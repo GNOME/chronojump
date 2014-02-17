@@ -1787,7 +1787,7 @@ public partial class ChronoJumpWindow
 	{
 		int width=encoder_capture_signal_drawingarea.Allocation.Width;
 		int height=encoder_capture_signal_drawingarea.Allocation.Height;
-		double realHeight = 1000 * 2 * (int) encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
+		double realHeight = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
 		Log.Write(" 00a 2 ");
 		SerialPort sp = new SerialPort(port);

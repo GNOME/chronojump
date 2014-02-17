@@ -1701,13 +1701,25 @@ public partial class ChronoJumpWindow
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
 
-		double imResult = Constants.EncoderErrorCode;
-
-		if(capturedOk)
+		if(capturedOk) {
 			UtilEncoder.RunEncoderCalculeInertiaMomentum(
 					encoder_configuration_win.Spin_im_weight,
 					encoder_configuration_win.Spin_im_length
 					);
+				
+			string imResultText = Util.ChangeDecimalSeparator(
+					Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
+			Log.WriteLine("imResultText = |" + imResultText + "|");
+
+			double imResult = Constants.EncoderErrorCode;
+
+			if(imResultText != "NA")
+				imResult = Convert.ToDouble(imResultText) * 10000.0; //script calculates Kg*m^2 -> GUI needs Kg*cm^2
+
+			encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
+
+			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+		}
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
@@ -1846,6 +1858,7 @@ public partial class ChronoJumpWindow
 		int directionCompleted = -1;	// +1 or -1
 		int previousFrameChange = 0;
 		int lastNonZero = 0;
+		int consecutiveZeros = -1;		//this will be used to stop encoder automatically
 		bool firstCurve = true;
 
 		//create ecca if needed
@@ -1864,6 +1877,17 @@ public partial class ChronoJumpWindow
 
 			i=i+1;
 			if(i >= 0) {
+				
+				//stop if 3 seconds of inactivity	
+				if(byteReaded == 0)
+					consecutiveZeros ++;
+				else
+					consecutiveZeros = -1;
+					       
+				if(consecutiveZeros >= 3000)
+					encoderProcessFinish = true;
+
+
 				sum += byteReaded;
 				encoderReaded[i] = byteReaded;
 				encoderReadedRaw[i] = byteReadedRaw;
@@ -1886,11 +1910,12 @@ public partial class ChronoJumpWindow
 				/*
 				 * calculate params with R (see explanation above)	
 				 */
-
+			
 				//if string goes up or down
-				if(byteReaded != 0)
+				if(byteReaded != 0) {
 					//store the direction
 					directionNow = (int) byteReaded / (int) Math.Abs(byteReaded); //1 (up) or -1 (down)
+				}
 					
 				//if we don't have changed the direction, store the last non-zero that we can find
 				if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
@@ -4668,20 +4693,7 @@ Log.WriteLine(str);
 				else
 					encoder_pulsebar_capture.Text = "";
 			}
-	
-			if(action == encoderActions.CAPTURE_INERTIA_MOMENT) {
-				string imResultText = Util.ChangeDecimalSeparator(
-						Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
-				Log.WriteLine("imResultText = |" + imResultText + "|");
 
-				//return the inertia moment
-				//script calculates Kg*m^2 -> GUI needs Kg*cm^2
-				double imResult = Convert.ToDouble(imResultText) * 10000.0;
-		
-				encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
-		
-				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-			}
 
 			encoder_pulsebar_capture.Fraction = 1;
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved

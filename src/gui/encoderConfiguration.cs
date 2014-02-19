@@ -54,7 +54,7 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.Box vbox_calcule_im;
 	[Widget] Gtk.SpinButton spin_im_weight;
 	[Widget] Gtk.SpinButton spin_im_length;
-	[Widget] Gtk.SpinButton spin_im_duration;
+	//[Widget] Gtk.SpinButton spin_im_duration;
 	[Widget] Gtk.Label label_im_progress;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
@@ -310,7 +310,10 @@ public class EncoderConfigurationWindow {
 	}
 	
 	public int Spin_im_duration {
-		get { return (int) spin_im_duration.Value; }
+		//get { return (int) spin_im_duration.Value; }
+		//
+		//do 60 seconds and it will end automatically when ended
+		get { return 60; }
 	}
 		
 }

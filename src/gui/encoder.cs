@@ -1906,8 +1906,10 @@ public partial class ChronoJumpWindow
 					       
 				//stop if n seconds of inactivity
 				//but it has to be moved a little bit first, just to give time to the people
-				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #sum maybe is 0: +1,+1,-1,-1
-				if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) 
+				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK becuase sum maybe is 0: +1,+1,-1,-1
+				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
+				//lastNonZero > 0 means something different than 0 has been readed 
+				if(consecutiveZeros >= consecutiveZerosMax && lastNonZero > 0)	
 				{
 					encoderProcessFinish = true;
 					Log.WriteLine("SHOULD FINISH");
@@ -4419,16 +4421,18 @@ Log.WriteLine(str);
 				}
 
 				prepareEncoderGraphs();
+				eccaCreated = false;
 
 				if(action == encoderActions.CAPTURE) {
 					encoderStartVideoRecord();
 
 					//remove treeview columns
 					treeviewEncoderCaptureRemoveColumns();
-					encoderCaptureStringR = ",series,exercise,mass,start,width,height,meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
+					encoderCaptureStringR = 
+						",series,exercise,mass,start,width,height," + 
+						"meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
 
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
-					eccaCreated = false;
 
 					//TODO: add demult and angle	
 					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration(encoderConfigurationCurrent, 
@@ -4554,7 +4558,7 @@ Log.WriteLine(str);
 			Log.Write("dying");
 			return false;
 		}
-		updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
+		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
 		updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
 
 		Thread.Sleep (25);
@@ -4615,8 +4619,11 @@ Log.WriteLine(str);
 	}
 	
 	private void updatePulsebar (encoderActions action) {
-		if(action == encoderActions.CAPTURE) {
+		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
 			int selectedTime = (int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value;
+			if(action == encoderActions.CAPTURE_IM)
+				selectedTime = encoder_configuration_win.Spin_im_duration;
+
 			encoder_pulsebar_capture.Fraction = Util.DivideSafeFraction(
 					(selectedTime - encoderCaptureCountdown), selectedTime);
 			encoder_pulsebar_capture.Text = encoderCaptureCountdown + " s";

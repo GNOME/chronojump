@@ -345,7 +345,8 @@ public class UtilEncoder
 		if (File.Exists(es.SpecialData))
 			File.Delete(es.SpecialData);
 
-		try {	
+		//try catch crash sometimes when used in conjunction with RDotNet
+//		try {	
 			p = new Process();
 			p.StartInfo = pinfo;
 			p.Start();
@@ -355,14 +356,17 @@ public class UtilEncoder
 				while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 			else
 				while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
+		/*
 		} catch {
 			return false;
 		}
+		*/
 
 		return true;
 	}
 	
-	public static void RunEncoderCalculeInertiaMomentum(double weight, double length) 
+	//Inertia Momentum
+	public static void RunEncoderCalculeIM(double weight, double length) 
 	{
 		CancelRScript = false;
 

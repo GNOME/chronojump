@@ -21949,7 +21949,6 @@ comments</property>
                 </child>
                 <child>
                   <widget class="GtkHBox" id="hbox_im_duration">
-                    <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">8</property>
                     <child>

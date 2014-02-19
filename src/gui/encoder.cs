@@ -394,6 +394,7 @@ public partial class ChronoJumpWindow
 			encoderCalculeCurves(encoderActions.CAPTURE_EXTERNAL); //deprecated
 		}
 		else if (encoderCaptureOptionsWin.radiobutton_encoder_capture_safe.Active) {
+			//tis notebook has capture (signal plotting), and curves (shows R graph)	
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
 
@@ -412,6 +413,10 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderCheckPort())
 			return;
+		
+		//tis notebook has capture (signal plotting), and curves (shows R graph)	
+		if(notebook_encoder_capture.CurrentPage == 1)
+			notebook_encoder_capture.PrevPage();
 		
 		encoderProcessFinish = false;
 		encoderThreadStart(encoderActions.CAPTURE_IM);
@@ -4659,6 +4664,7 @@ Log.WriteLine(str);
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
 			if(encoderProcessCancel || encoderProcessProblems) {
+				//tis notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0 )
 					notebook_encoder_capture.NextPage();
 				encoder_pulsebar_capture.Fraction = 1;
@@ -4677,6 +4683,7 @@ Log.WriteLine(str);
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
+				//tis notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 

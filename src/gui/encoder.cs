@@ -265,6 +265,10 @@ public partial class ChronoJumpWindow
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
 		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked += 
 			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
+		encoder_configuration_win.Button_encoder_capture_inertial_cancel.Clicked += 
+			new EventHandler(on_button_encoder_cancel_clicked);
+		//encoder_configuration_win.Button_encoder_capture_inertial_finish.Clicked += 
+		//	new EventHandler(on_button_encoder_capture_finish_clicked);
 	}
 
 	void on_encoder_configuration_win_accepted (object o, EventArgs args) {
@@ -275,12 +279,14 @@ public partial class ChronoJumpWindow
 	}
 	
 	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) {
-		//TODO: put a thread in order to interface be updated,
-		//maybe on start capturing this will happen because CAPTURE thread will start	
-		encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Capturing");
+		//need this "-=" in order to do not open the port two times on function:
+		//on_button_encoder_capture_calcule_im();
+		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked -= 
+			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
+		
 		on_button_encoder_capture_calcule_im();
 	}
-	
+		
 	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
 		encoderCaptureOptionsWin.View(repetitiveConditionsWin, volumeOn);
 	}
@@ -413,6 +419,8 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderCheckPort())
 			return;
+	
+		encoder_configuration_win.Button_encoder_capture_inertial_do_chronopic_ok();
 		
 		//tis notebook has capture (signal plotting), and curves (shows R graph)	
 		if(notebook_encoder_capture.CurrentPage == 1)
@@ -1720,7 +1728,9 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort() );
 
-		encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Processing");
+		//TODO: call this on GUI (updatePulseBars...)
+		//encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Processing");
+		
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
 
@@ -4539,7 +4549,7 @@ Log.WriteLine(str);
 	
 	private bool pulseGTKEncoderCaptureIM ()
 	{
-		if(! encoderThread.IsAlive || encoderProcessCancel || encoderProcessFinish) {
+		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			finishPulsebar(encoderActions.CAPTURE_IM);
 			Log.Write("dying");
 			return false;
@@ -4675,8 +4685,12 @@ Log.WriteLine(str);
 							"\n" + Catalog.GetString("Maybe R or EMD are not installed.") + 
 							"\n\nhttp://www.r-project.org/");
 					encoderProcessProblems = false;
-				} else
-					encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+				} else {
+					if(action == encoderActions.CAPTURE_IM)
+						encoder_configuration_win.Button_encoder_capture_inertial_do_ended(0,"Cancelled");
+					else
+						encoder_pulsebar_capture.Text = Catalog.GetString("Cancelled");
+				}
 			}
 			else if( (action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) 
 					&& encoderProcessFinish ) {
@@ -4722,12 +4736,13 @@ Log.WriteLine(str);
 						Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
 				Log.WriteLine("imResultText = |" + imResultText + "|");
 
-				double imResult = Constants.EncoderErrorCode;
-
-				if(imResultText != "NA" && imResultText != "")
-					imResult = Convert.ToDouble(imResultText) * 10000.0; //script calculates Kg*m^2 -> GUI needs Kg*cm^2
-
-				encoder_configuration_win.Button_encoder_capture_inertial_do_ended (imResult);
+				if(imResultText == "NA" || imResultText == "")
+					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing");
+				else {
+					//script calculates Kg*m^2 -> GUI needs Kg*cm^2
+					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (
+							Convert.ToDouble(imResultText) * 10000.0, "");
+				}
 
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			} else {

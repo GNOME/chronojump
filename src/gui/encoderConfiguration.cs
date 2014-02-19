@@ -57,6 +57,9 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.SpinButton spin_im_duration;
 	[Widget] Gtk.Label label_im_progress;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
+	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
+	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
+	[Widget] Gtk.Label label_button_encoder_capture_inertial_do;
 
 	[Widget] Gtk.Button button_accept;
 
@@ -199,31 +202,64 @@ public class EncoderConfigurationWindow {
 		show_calcule_im = ! show_calcule_im;
 		vseparator_im.Visible = show_calcule_im;
 		vbox_calcule_im.Visible = show_calcule_im;
+
+		button_encoder_capture_inertial_cancel.Sensitive = ! show_calcule_im;
+		//button_encoder_capture_inertial_finish.Sensitive = ! show_calcule_im;
 	}
 	
 	void on_button_encoder_capture_inertial_do_clicked (object o, EventArgs args) 
+	{
+		//signal is raised and managed in gui/encoder.cs
+	}
+
+	bool capturing = false;
+	public void Button_encoder_capture_inertial_do_chronopic_ok () 
 	{
 		vbox_select_encoder.Visible = false;
 		vseparator_im.Visible = false;
 		button_encoder_capture_inertial_do.Sensitive = false;
 
-		//signal is raised and managed in gui/encoder.cs
+		//adapt capture, cancel and finish	
+		//label_button_encoder_capture_inertial_do.Visible = false;
+		button_encoder_capture_inertial_cancel.Sensitive = true;
+		//button_encoder_capture_inertial_finish.Sensitive = true;
+		
+		label_im_progress.Text = "Capturing";
+		capturing = true;
 	}
-	
-	public void Button_encoder_capture_inertial_do_ended (double imResult) 
+
+	//if error, imResult: 0; message: is error message	
+	//if ok, imResult: inertia moment; message: ""	
+	public void Button_encoder_capture_inertial_do_ended (double imResult, string message) 
 	{
 		vbox_select_encoder.Visible = true;
 		vseparator_im.Visible = true;
 		button_encoder_capture_inertial_do.Sensitive = true;
+		
+		//adapt capture, cancel and finish	
+		//label_button_encoder_capture_inertial_do.Visible = true;
+		button_encoder_capture_inertial_cancel.Sensitive = false;
+		//button_encoder_capture_inertial_finish.Sensitive = false;
 			
-		if(imResult != Constants.EncoderErrorCode) {
-			label_im_progress.Text = 
-				imResult.ToString() + " Kg*cm^2";
+		if(imResult == 0)
+			label_im_progress.Text = message;
+		else {
+			label_im_progress.Text = imResult.ToString() + " Kg*cm^2";
 			spin_inertia.Value = imResult;
 		}
-		else 
-			label_im_progress.Text = "Error capturing"; 
+		capturing = false;
 	}
+	
+	void on_button_encoder_capture_inertial_cancel_clicked (object o, EventArgs args) {
+		//signal is raised and managed in gui/encoder.cs
+		label_im_progress.Text = "Cancelled"; 
+		capturing = false;
+	}
+	/*
+	void on_button_encoder_capture_inertial_finish_clicked (object o, EventArgs args) {
+		//signal is raised and managed in gui/encoder.cs
+	}
+	*/
 	
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
@@ -239,6 +275,9 @@ public class EncoderConfigurationWindow {
 	protected void on_delete_event (object o, DeleteEventArgs args)
 	{
 		args.RetVal = true;
+	
+		if(capturing)
+			button_encoder_capture_inertial_cancel.Click();
 			
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
 		EncoderConfigurationWindowBox = null;
@@ -251,6 +290,12 @@ public class EncoderConfigurationWindow {
 	public Button Button_encoder_capture_inertial_do {
 		get { return button_encoder_capture_inertial_do; }
 	}
+	public Button Button_encoder_capture_inertial_cancel {
+		get { return button_encoder_capture_inertial_cancel; }
+	}
+	//public Button Button_encoder_capture_inertial_finish {
+	//	get { return button_encoder_capture_inertial_finish; }
+	//}
 	
 	public string Label_im_progress_text {
 		set { label_im_progress.Text = value; }

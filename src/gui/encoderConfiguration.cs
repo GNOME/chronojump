@@ -166,6 +166,10 @@ public class EncoderConfigurationWindow {
 		hbox_inertia2.Visible = ec.has_inertia;
 		
 		label_count.Text = (listCurrent + 1).ToString() + " / " + list.Count.ToString();
+	
+		//hide inertia moment calculation options when change mode
+		if(show_calcule_im)
+			on_button_encoder_capture_inertial_show_clicked (new object(), new EventArgs());
 	}
 	
 	private void putValuesStoredPreviously(double d, double D, int angle, int inertia) {

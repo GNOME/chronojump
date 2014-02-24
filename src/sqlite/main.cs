@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.02";
+	static string lastChronojumpDatabaseVersion = "1.03";
 
 	public Sqlite() {
 	}
@@ -1235,7 +1235,7 @@ class Sqlite
 			if(currentVersion == "0.90") {
 				dbcon.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "", "", 90, 90);	
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "", "");	
 				Log.WriteLine("Encoder Squat 75% -> 100%");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.91", true); 
@@ -1257,8 +1257,8 @@ class Sqlite
 			if(currentVersion == "0.92") {
 				dbcon.Open();
 				
-				SqliteEncoder.UpdateExercise(true, "Bench press", 0, "weight bar", "","0.185",90,90);
-				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "","0.31",90,90);
+				SqliteEncoder.UpdateExercise(true, "Bench press", 0, "weight bar", "","0.185");
+				SqliteEncoder.UpdateExercise(true, "Squat", 100, "weight bar", "","0.31");
 				Log.WriteLine("Added speed1RM on encoder exercise");
 				
 				SqlitePreferences.Update ("databaseVersion", "0.93", true); 
@@ -1415,6 +1415,18 @@ class Sqlite
 
 				currentVersion = "1.02";
 			}
+			if(currentVersion == "1.02") {
+				dbcon.Open();
+		
+				DeleteFromName(true, Constants.EncoderExerciseTable, "Inclinated plane Custom");
+				SqliteEncoder.removeEncoderExerciseAngles();
+
+				Log.WriteLine("Updated encoder exercise, angle is now on encoder configuration");
+				SqlitePreferences.Update ("databaseVersion", "1.03", true); 
+				dbcon.Close();
+
+				currentVersion = "1.03";
+			}
 
 				
 		}
@@ -1556,6 +1568,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.02 - 1-03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration
 		//1.01 - 1-02 Converted DB to 1.02 Added Agility Tests: Agility-T-Test, Agility-3L3R
 		//1.00 - 1.01 Converted DB to 1.01 Added export to CSV configuration on preferences
 		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclinated Exercises
@@ -2360,6 +2373,20 @@ Console.WriteLine("5" + tableName);
 
 		dbcmd.CommandText = "Delete FROM " + tableName +
 			" WHERE uniqueID == " + uniqueID.ToString();
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
+	}
+
+	public static void DeleteFromName(bool dbconOpened, string tableName, string name)
+	{
+		if( ! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "Delete FROM " + tableName +
+			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

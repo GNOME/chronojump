@@ -44,9 +44,7 @@ public class EncoderParams
 					
 	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	private string encoderConfigurationName;	
-	private int inertiaMomentum; 
-	private double diameter;
+	private EncoderConfiguration encoderConfiguration;	
 	
 	private string smoothCon; //to pass always as "." to R
 	private int curve;
@@ -70,6 +68,7 @@ public class EncoderParams
 	{
 	}
 
+	/*
 	//to encoder capture
 	//RunEncoderCapturePython: pyserial_pyper.py and pyserial_pyper_windows.py . This will be deprecated soon 
 	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, 
@@ -123,11 +122,12 @@ public class EncoderParams
 			" " + mainVariable //+ " " + Util.BoolToInt(inverted).ToString();
 		;
 	}
+	*/
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string massBody, string massExtra, 
 			string eccon, string analysis, string analysisVariables, string analysisOptions, 
-			string encoderConfigurationName, int inertiaMomentum, double diameter,
+			EncoderConfiguration encoderConfiguration,
 			string smoothCon, int curve, int width, int height, string decimalSeparator)
 	{
 		this.minHeight = minHeight;
@@ -138,9 +138,7 @@ public class EncoderParams
 		this.analysis = analysis;
 		this.analysisVariables = analysisVariables;
 		this.analysisOptions = analysisOptions;
-		this.encoderConfigurationName = encoderConfigurationName;
-		this.inertiaMomentum = inertiaMomentum;
-		this.diameter = diameter;
+		this.encoderConfiguration = encoderConfiguration;
 		this.smoothCon = smoothCon;
 		this.curve = curve;
 		this.width = width;
@@ -152,7 +150,7 @@ public class EncoderParams
 	{
 		return minHeight + sep + exercisePercentBodyWeight + sep + massBody + sep + massExtra +
 			sep + eccon + sep + analysis + sep + analysisVariables + sep + analysisOptions + 
-			sep + encoderConfigurationName + sep + inertiaMomentum.ToString() + sep + Util.ConvertToPoint(diameter) +
+			sep + encoderConfiguration.ToString(sep, true) +
 			sep + smoothCon + sep + curve + sep + width + sep + height + sep + decimalSeparator;
 	}
 	
@@ -500,8 +498,6 @@ public class EncoderExercise
 	public string ressistance;
 	public string description;
 	public double speed1RM;
-	public int bodyAngle;
-	public int weightAngle;
 
 	public EncoderExercise() {
 	}
@@ -510,8 +506,8 @@ public class EncoderExercise
 		this.name = name;
 	}
 
-	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, string ressistance, string description, 
-			double speed1RM, int bodyAngle, int weightAngle)
+	public EncoderExercise(int uniqueID, string name, int percentBodyWeight, 
+			string ressistance, string description, double speed1RM)
 	{
 		this.uniqueID = uniqueID;
 		this.name = name;
@@ -519,8 +515,6 @@ public class EncoderExercise
 		this.ressistance = ressistance;
 		this.description = description;
 		this.speed1RM = speed1RM;
-		this.bodyAngle = bodyAngle;
-		this.weightAngle = weightAngle;
 	}
 
 	~EncoderExercise() {}
@@ -620,12 +614,15 @@ public class EncoderConfiguration {
 	public string text;
 	public bool has_d;	//axis
 	public bool has_D;	//external disc or pulley
-	public bool has_angle;
+	public bool has_angle_push;
+	public bool has_angle_weight;
 	public bool has_inertia;
 	public double d;	//axis
 	public double D;	//external disc or pulley
-	public int angle;
+	public int anglePush;
+	public int angleWeight;
 	public int inertia;
+	public int gearedDown;	//demultiplication
 
 	//this is the default values
 	public EncoderConfiguration() {
@@ -637,12 +634,33 @@ public class EncoderConfiguration {
 		text = "Linear encoder attached to a barbell.";
 		has_d = false;
 		has_D = false;
-		has_angle = false;
+		has_angle_push = false;
+		has_angle_weight = false;
 		has_inertia = false;
 		d = -1;
 		D = -1;
-		angle = -1;
+		anglePush = -1;
+		angleWeight = -1;
 		inertia = -1;
+		gearedDown = 1;
+	}
+
+	//decimalPointForR: ensure decimal is point in order to work in R
+	public string ToString(string sep, bool decimalPointForR) {
+		string str_d = "";
+		string str_D = "";
+		if(decimalPointForR) {
+			str_d = Util.ConvertToPoint(d);
+			str_D = Util.ConvertToPoint(D);
+		} else {
+			str_d = d.ToString();
+			str_D = D.ToString();
+		}
+
+		return 
+			name + sep + str_d + sep + str_D + sep + 
+			anglePush.ToString() + sep + angleWeight.ToString() + sep +
+			inertia.ToString() + sep + gearedDown.ToString();
 	}
 	
 	/* note: if this changes, change also in:
@@ -652,8 +670,10 @@ public class EncoderConfiguration {
 		this.name = name;
 		has_d = false;
 		has_D = false;
-		has_angle = false;
+		has_angle_push = false;
+		has_angle_weight = false;
 		has_inertia = false;
+		gearedDown = 1;
 
 		if(name == Constants.EncoderConfigurationNames.LINEAR) {
 			type = Constants.EncoderType.LINEAR;
@@ -685,7 +705,10 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
 			code = "Linear - barbell - moving pulley";
 			text = "Linear encoder attached to a barbell." + " " + 
-				"Barbell is connected to a weighted moving pulley.";
+				"Barbell is connected to a weighted moving pulley." 
+				+ " " + "Mass is geared down by 2."; 
+		
+			gearedDown = 2;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV) {
 			type = Constants.EncoderType.LINEAR;
@@ -693,7 +716,10 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
 			code = "Linear inv - barbell - moving pulley";
 			text = "Linear encoder inverted attached to a barbell." + " " + 
-				"Barbell is connected to a weighted moving pulley.";
+				"Barbell is connected to a weighted moving pulley."
+				+ " " + "Mass is geared down by 2."; 
+		
+			gearedDown = 2;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2) {
 			type = Constants.EncoderType.LINEAR;
@@ -701,7 +727,10 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
 			code = "Linear - barbell - pulley - moving pulley";
 			text = "Linear encoder attached to a barbell." + " " + 
-				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
+				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley."
+				+ " " + "Mass is geared down by 2."; 
+		
+			gearedDown = 2;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV) {
 			type = Constants.EncoderType.LINEAR;
@@ -709,14 +738,20 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
 			code = "Linear inv - barbell - pulley - moving pulley";
 			text = "Linear encoder inverted attached to a barbell." + " " + 
-				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.";
+				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley."
+				+ " " + "Mass is geared down by 2."; 
+		
+			gearedDown = 2;
 		}
 		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
 			type = Constants.EncoderType.LINEAR;
 			position = 7;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
 			code = "Linear - moving pulley";
-			text = "Linear encoder attached to a weighted moving pulley.";
+			text = "Linear encoder attached to a weighted moving pulley."
+				+ " " + "Mass is geared down by 2."; 
+		
+			gearedDown = 2;
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
 			type = Constants.EncoderType.LINEAR;
@@ -725,7 +760,18 @@ public class EncoderConfiguration {
 			code = "Linear - inclinated plane";
 			text = "Linear encoder on a inclinated plane.";
 			
-			has_angle = true;
+			has_angle_push = true;
+			has_angle_weight = false;
+		}
+		else if(name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE) {
+			type = Constants.EncoderType.LINEAR;
+			position = 9;
+			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
+			code = "Linear - inclinated plane different angle";
+			text = "Linear encoder on a inclinated plane moving a weight in different angle.";
+			
+			has_angle_push = true;
+			has_angle_weight = true;
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE) {
 			type = Constants.EncoderType.ROTARYFRICTION;
@@ -795,7 +841,10 @@ public class EncoderConfiguration {
 			position = 2;
 			image = Constants.FileNameEncoderAxisWithMovPulley;
 			code = "Rotary axis - moving pulley";
-			text = "Rotary axis encoder on weighted moving pulley.";
+			text = "Rotary axis encoder on weighted moving pulley."
+				+ " " + "Mass is geared down by 2."; 
+			
+			gearedDown = 2;
 		}
 	}
 }

@@ -338,13 +338,13 @@ class SqliteEncoder : Sqlite
 			"ressistance TEXT, " +
 			"description TEXT, " +
 			"future1 TEXT, " +	//speed1RM: speed in m/s at 1RM with decimal point separator '.' ; 0 means undefined
-			"future2 TEXT, " +	//bodyAngle
-			"future3 TEXT )";	//weightAngle
+			"future2 TEXT, " +	//bodyAngle (unused)
+			"future3 TEXT )";	//weightAngle (unused)
 		dbcmd.ExecuteNonQuery();
 	}
 	
 	public static void InsertExercise(bool dbconOpened, string name, int percentBodyWeight, 
-			string ressistance, string description, string speed1RM, int bodyAngle, int weightAngle) //speed1RM decimal point = '.'
+			string ressistance, string description, string speed1RM)	 //speed1RM decimal point = '.'
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -352,8 +352,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderExerciseTable +  
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
 				" VALUES (NULL, '" + name + "', " + percentBodyWeight + ", '" + 
-				ressistance + "', '" + description + "', '" + speed1RM + "', '" +
-				bodyAngle.ToString() + "', '" + weightAngle.ToString() + "')";
+				ressistance + "', '" + description + "', '" + speed1RM + "', '', '')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -367,16 +366,14 @@ class SqliteEncoder : Sqlite
 	protected internal static void initializeTableEncoderExercise()
 	{
 		string [] iniEncoderExercises = {
-			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle
-			"Bench press:0:weight bar::0.185:90:90", //González-Badillo, J. 2010. Movement velocity as a measure of loading intensity in resistance training
-			"Squat:100:weight bar::0.31:90:90" //González-Badillo, JJ.2000b http://foro.chronojump.org/showthread.php?tid=1288&page=3 
+			//name:percentBodyWeight:ressistance:description:speed1RM:pullAngle:weightAngle
+			"Bench press:0:weight bar::0.185::", //González-Badillo, J. 2010. Movement velocity as a measure of loading intensity in resistance training
+			"Squat:100:weight bar::0.31::" //González-Badillo, JJ.2000b http://foro.chronojump.org/showthread.php?tid=1288&page=3 
 		};
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4],
-					Convert.ToInt32(parts[5]), Convert.ToInt32(parts[6])	//bodyAngle, weightAngle
-					);
+			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
 		}
 
 		addEncoderFreeExercise();
@@ -388,33 +385,30 @@ class SqliteEncoder : Sqlite
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Free");
 		if(! exists)
-			InsertExercise(true, "Free", 0, "", "", "", 90, 90);
+			InsertExercise(true, "Free", 0, "", "", "");
 	}
 	protected internal static void addEncoderJumpExercise()
 	{
 		bool exists = Sqlite.Exists (true, Constants.EncoderExerciseTable, "Jump");
 		if(! exists)
-			InsertExercise(true, "Jump", 100, "", "", "", 90, 90);
+			InsertExercise(true, "Jump", 100, "", "", "");
 	}
 	protected internal static void addEncoderInclinatedExercises()
 	{
 		string [] iniEncoderExercises = {
 			//name:percentBodyWeight:ressistance:description:speed1RM:bodyAngle:weightAngle
-			"Inclinated plane:0:machine:::30:30",
-			"Inclinated plane BW:100:machine:::30:30",
-			"Inclinated plane Custom:100:machine:::30:90"
+			"Inclinated plane:0:machine::::",
+			"Inclinated plane BW:100:machine::::",
 		};
 		
 		foreach(string line in iniEncoderExercises) {
 			string [] parts = line.Split(new char[] {':'});
-			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4],
-					Convert.ToInt32(parts[5]), Convert.ToInt32(parts[6])	//bodyAngle, weightAngle
-					);
+			InsertExercise(true, parts[0], Convert.ToInt32(parts[1]), parts[2], parts[3], parts[4]);
 		}
 	}
 
 	public static void UpdateExercise(bool dbconOpened, string name, int percentBodyWeight, 
-			string ressistance, string description, string speed1RM, int bodyAngle, int weightAngle)
+			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -424,8 +418,6 @@ class SqliteEncoder : Sqlite
 				", ressistance = '" + ressistance +
 				"', description = '" + description +
 				"', future1 = '" + speed1RM +
-				"', future2 = '" + bodyAngle +
-				"', future3 = '" + weightAngle +
 				"' WHERE name = '" + name + "'" ;
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -477,9 +469,7 @@ class SqliteEncoder : Sqlite
 						Convert.ToInt32(reader[2].ToString()),	//percentBodyWeight
 						reader[3].ToString(),			//ressistance
 						reader[4].ToString(),			//description
-						speed1RM,
-						Convert.ToInt32(reader[6].ToString()),	//bodyAngle
-						Convert.ToInt32(reader[7].ToString())	//weightAngle
+						speed1RM
 						);
 				array.Add(ex);
 			}
@@ -496,6 +486,15 @@ class SqliteEncoder : Sqlite
 	protected internal static void putEncoderExerciseAnglesAt90() {
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
 			" SET future2 = 90, future3 = 90";
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	//conversion from DB 1.02 to 1.03
+	protected internal static void removeEncoderExerciseAngles() {
+		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
+			" SET future2 = '', future3 = ''";
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

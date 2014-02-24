@@ -9,7 +9,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg4136"
-   viewBox="0 0 11643.037 16174.3"
+   viewBox="0 0 11643.038 18043.762"
    version="1.1"
    inkscape:version="0.48.4 r9939"
    width="100%"
@@ -31,9 +31,9 @@
      inkscape:window-height="711"
      id="namedview5689"
      showgrid="false"
-     inkscape:zoom="0.034684653"
-     inkscape:cx="5821.5191"
-     inkscape:cy="8188.0593"
+     inkscape:zoom="0.34648292"
+     inkscape:cx="1719.3653"
+     inkscape:cy="1063.6248"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -10428,7 +10428,7 @@
        xlink:href="#linearGradient5962-7-3-3"
        id="linearGradient6645"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0060803,0,0,1.0060803,11291.388,3325.5691)"
+       gradientTransform="matrix(1.0060803,0,0,1.0060803,11291.388,3325.5693)"
        x1="-1016.8681"
        y1="4258.1187"
        x2="-833.49841"
@@ -10508,7 +10508,7 @@
        xlink:href="#linearGradient30038-5-7-0-4-9-0-9-7-2"
        id="linearGradient6682"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0036372,0,0,1.0036372,9628.6586,2327.7891)"
+       gradientTransform="matrix(1.0036372,0,0,1.0036372,9628.6585,2327.7893)"
        x1="263.34442"
        y1="5017.9204"
        x2="272.7132"
@@ -10518,7 +10518,7 @@
        xlink:href="#linearGradient30038-5-7-0-4-9-0-9-7"
        id="linearGradient6687"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.0036372,0,0,1.0036372,9568.6268,2327.7892)"
+       gradientTransform="matrix(1.0036372,0,0,1.0036372,9568.6267,2327.7894)"
        x1="263.34442"
        y1="5017.9204"
        x2="272.7132"
@@ -10528,7 +10528,7 @@
        xlink:href="#linearGradient30038-5-7-0-4-9-0-91"
        id="linearGradient6691"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,1.6605382,-0.94620763,0,10309.903,6852.6391)"
+       gradientTransform="matrix(0,1.6605382,-0.94620763,0,10309.903,6852.6393)"
        x1="175.72"
        y1="737.02002"
        x2="470"
@@ -10538,7 +10538,7 @@
        xlink:href="#linearGradient30038-5-7-0-4-19-9"
        id="linearGradient6704"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0,0.1614264,-0.07552953,0,10803.026,6851.6453)"
+       gradientTransform="matrix(0,0.1614264,-0.07552953,0,10803.026,6851.6455)"
        x1="175.72"
        y1="737.02002"
        x2="470"
@@ -10753,6 +10753,113 @@
        y1="4258.1187"
        x2="-833.49841"
        y2="3232.9158" />
+    <linearGradient
+       id="linearGradient5962-14-8-5">
+      <stop
+         style="stop-color:#fff842;stop-opacity:1;"
+         offset="0"
+         id="stop5964-61-5-0" />
+      <stop
+         style="stop-color:#f3ff80;stop-opacity:0;"
+         offset="1"
+         id="stop5966-8-0-3" />
+    </linearGradient>
+    <marker
+       inkscape:stockid="TriangleInL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleInL-08"
+       style="overflow:visible">
+      <path
+         id="path12556-45"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(-0.8,-0.8)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <marker
+       inkscape:stockid="TriangleOutL"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="TriangleOutL-1"
+       style="overflow:visible">
+      <path
+         id="path12565-40"
+         d="m 5.77,0 -8.65,5 0,-10 8.65,5 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="scale(0.8,0.8)"
+         inkscape:connector-curvature="0" />
+    </marker>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient30038-0-4-1-3-8-11-1-16-67"
+       id="linearGradient8020-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.90371528,0,0,0.97580118,1253.8612,192.3917)"
+       x1="13006.704"
+       y1="7719.4697"
+       x2="13086.345"
+       y2="7719.4697" />
+    <linearGradient
+       id="linearGradient30038-0-4-1-3-8-11-1-16-67"
+       y2="737.02002"
+       gradientUnits="userSpaceOnUse"
+       x2="470"
+       gradientTransform="matrix(0.47131,0,0,0.47131,8046.6,409.49)"
+       y1="737.02002"
+       x1="175.72">
+      <stop
+         id="stop12003-8-7-3-2-5-9-3-6-0"
+         stop-color="#1b4a78"
+         offset="0"
+         style="stop-color:#19262e;stop-opacity:1;" />
+      <stop
+         id="stop12005-3-5-4-7-7-4-6-20-9"
+         stop-color="#5dacd1"
+         offset="1"
+         style="stop-color:#244457;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient30038-0-4-1-3-7-1-8-0-3"
+       id="linearGradient8022-03"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2888541,0,0,0.41922837,-3770.8616,4587.414)"
+       x1="13087.136"
+       y1="7718.0806"
+       x2="13006.816"
+       y2="7718.0806" />
+    <linearGradient
+       id="linearGradient30038-0-4-1-3-7-1-8-0-3"
+       y2="737.02002"
+       gradientUnits="userSpaceOnUse"
+       x2="470"
+       gradientTransform="matrix(0.47131,0,0,0.47131,8046.6,409.49)"
+       y1="737.02002"
+       x1="175.72">
+      <stop
+         id="stop12003-8-7-3-2-58-7-4-34-31"
+         stop-color="#1b4a78"
+         offset="0"
+         style="stop-color:#dddddd;stop-opacity:1;" />
+      <stop
+         id="stop12005-3-5-4-7-2-6-9-3-4"
+         stop-color="#5dacd1"
+         offset="1"
+         style="stop-color:#244457;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5962-14-8-5"
+       id="linearGradient5680"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(2759.4689,13214.791)"
+       x1="-1016.8681"
+       y1="4258.1187"
+       x2="-833.49841"
+       y2="3232.9158" />
   </defs>
   <metadata
      id="metadata5687">
@@ -10769,7 +10876,7 @@
             <dc:title>Openclipart</dc:title>
           </cc:Agent>
         </dc:publisher>
-        <dc:title />
+        <dc:title></dc:title>
         <dc:date>2013-08-08T13:03:15</dc:date>
         <dc:description>Simple database or storage symbol. Font is &quot;League Gothic&quot;. Drawn on Inkscape</dc:description>
         <dc:source>http://openclipart.org/detail/181674/database-symbol-by-eternaltyro-181674</dc:source>
@@ -10801,7 +10908,7 @@
   </metadata>
   <g
      id="g6741"
-     transform="translate(2878.5128,-2146.101)"
+     transform="translate(2878.5127,-2146.1008)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-free-weight.png"
      inkscape:export-xdpi="15.721952"
      inkscape:export-ydpi="15.721952">
@@ -10994,7 +11101,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-pulley.png"
      inkscape:export-xdpi="15.702842"
      inkscape:export-ydpi="15.702842"
-     transform="translate(6644.9496,-4238.5135)">
+     transform="translate(6644.9495,-4238.5133)">
     <rect
        y="5279.5215"
        x="62.179787"
@@ -11139,7 +11246,8 @@
      id="g5270"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-free-weight-inv.png"
      inkscape:export-xdpi="15.721946"
-     inkscape:export-ydpi="15.721946">
+     inkscape:export-ydpi="15.721946"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        y="1113.181"
        x="3478.2959"
@@ -11325,7 +11433,8 @@
      id="g5635"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-pulley-axis.png"
      inkscape:export-xdpi="15.721946"
-     inkscape:export-ydpi="15.721946">
+     inkscape:export-ydpi="15.721946"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        inkscape:export-ydpi="15.721959"
        inkscape:export-xdpi="15.721959"
@@ -11511,25 +11620,25 @@
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="6698.2964"
-     y="2384.8787"
+     y="2384.8789"
      id="text5892-2-9"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
        x="6698.2964"
-       y="2384.8787"
+       y="2384.8789"
        id="tspan6546">Rotary friction encoder on pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3469.4629"
-     y="2422.5042"
+     x="3469.4626"
+     y="2422.5044"
      id="text5892-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="3469.4629"
-       y="2422.5042"
+       x="3469.4626"
+       y="2422.5044"
        id="tspan14125">Linear encoder inverted</tspan></text>
   <text
      xml:space="preserve"
@@ -11582,68 +11691,68 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="887.93121"
+     x="887.93109"
      y="4651.8252"
      id="text5892-2-9-6-2-6"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="887.93121"
+       x="887.93109"
        y="4651.8252"
        id="tspan6546-9-9-2"
        style="font-size:90px">Linear encoder on inertial machine</tspan><tspan
        sodipodi:role="line"
-       x="887.93121"
+       x="887.93109"
        y="4764.3252"
        style="font-size:90px"
        id="tspan10259">NOT RECOMMENDED!</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3422.4929"
+     x="3422.4927"
      y="10212.491"
      id="text5892-2-9-6-2-6-6"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="3422.4929"
+       x="3422.4927"
        y="10212.491"
        style="font-size:90px"
        id="tspan14030">Linear inverted encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="3422.4929"
+       x="3422.4927"
        y="10324.991"
        style="font-size:90px"
        id="tspan16732">Fixed pulley attached to a weighted moving pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3517.5674"
+     x="3517.5671"
      y="7097.916"
      id="text5892-2-9-6-2-6-6-9"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="3517.5674"
+       x="3517.5671"
        y="7097.916"
        style="font-size:90px"
        id="tspan10259-8-7">Linear inverted encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="3517.5674"
+       x="3517.5671"
        y="7210.416"
        style="font-size:90px"
        id="tspan14030-6">Weighted moving pulley</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="925.20795"
+     x="925.20782"
      y="13022.087"
      id="text5892-2-9-6-2-6-6-9-0"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="925.20795"
+       x="925.20782"
        y="13022.087"
        style="font-size:90px"
        id="tspan14030-6-1">Linear encoder attached on</tspan><tspan
        sodipodi:role="line"
-       x="925.20795"
+       x="925.20782"
        y="13134.587"
        style="font-size:90px"
        id="tspan16728">weighted moving pulley</tspan></text>
@@ -11664,7 +11773,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702841"
      inkscape:export-ydpi="15.702841"
-     transform="translate(-3334.249,3641.774)">
+     transform="translate(-3334.2491,3641.7742)">
     <rect
        y="6221.8716"
        x="9861.7822"
@@ -11920,21 +12029,21 @@
   <text
      xml:space="preserve"
      style="font-size:857.96234131px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="-90.907143"
+     x="-90.907318"
      y="6294.4229"
      id="text7097"
      sodipodi:linespacing="125%"
      transform="scale(0.70647597,1.4154763)"><tspan
        sodipodi:role="line"
        id="tspan7099"
-       x="-90.907143"
+       x="-90.907318"
        y="6294.4229">=</tspan></text>
   <g
      id="g16382"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inclined-plane.png"
      inkscape:export-xdpi="15.702651"
      inkscape:export-ydpi="15.702651"
-     transform="translate(-6323.5802,8326.7296)">
+     transform="translate(-6323.5803,8326.7298)">
     <rect
        y="6221.5996"
        x="7232.2095"
@@ -12055,7 +12164,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inv-on-person-weighted-moving-pulley2.png"
      inkscape:export-xdpi="15.702846"
      inkscape:export-ydpi="15.702846"
-     transform="translate(2962.7764,10.865125)">
+     transform="translate(2962.7763,10.865342)">
     <rect
        y="8844.4395"
        x="468.5499"
@@ -12339,60 +12448,60 @@
      xml:space="preserve"
      style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="4265.8735"
-     y="557.42365"
+     y="557.42389"
      id="text14119"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121"
        x="4265.8735"
-       y="557.42365">All graph's height = 200px</tspan></text>
+       y="557.42389">All graph's height = 200px</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3473.3301"
-     y="2590.3621"
+     x="3473.3298"
+     y="2590.3623"
      id="text5892-2-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="3473.3301"
-       y="2590.3621"
+       x="3473.3298"
+       y="2590.3623"
        id="tspan14125-8">encoder-linear-free-weight-inv.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1029.686"
-     y="2388.7581"
+     x="1029.6859"
+     y="2388.7583"
      id="text5892-2-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="1029.686"
-       y="2388.7581"
+       x="1029.6859"
+       y="2388.7583"
        id="tspan14125-1">Linear encoder</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1033.5532"
-     y="2556.616"
+     x="1033.5531"
+     y="2556.6162"
      id="text5892-2-6-7"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="1033.5532"
-       y="2556.616"
+       x="1033.5531"
+       y="2556.6162"
        id="tspan14125-8-4">encoder-linear-free-weight.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="6702.1636"
-     y="2580.6296"
+     y="2580.6299"
      id="text5892-2-6-7-2"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
        x="6702.1636"
-       y="2580.6296"
+       y="2580.6299"
        id="tspan14125-8-4-2">encoder-rotary-friction-pulley.png</tspan></text>
   <text
      xml:space="preserve"
@@ -12445,13 +12554,13 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="891.7984"
+     x="891.79828"
      y="4926.7451"
      id="text5892-2-6-6-1-6"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="891.7984"
+       x="891.79828"
        y="4926.7451"
        id="tspan14125-8-0-1-1">encoder-linear-inertial.png</tspan></text>
   <g
@@ -12459,7 +12568,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inv-on-person-weighted-moving-pulley1.png"
      inkscape:export-xdpi="15.702712"
      inkscape:export-ydpi="15.702712"
-     transform="translate(2962.7764,10.865125)">
+     transform="translate(2962.7763,10.865342)">
     <rect
        y="5715.561"
        x="557.7782"
@@ -12710,7 +12819,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-on-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702839"
      inkscape:export-ydpi="15.702839"
-     transform="translate(-11347.666,8284.2046)">
+     transform="translate(-11347.666,8284.2048)">
     <rect
        y="3333.1479"
        x="12276.653"
@@ -12943,25 +13052,25 @@
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3517.0923"
+     x="3517.092"
      y="7418.9072"
      id="text5892-2-6-6-1-6-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649094px"
        sodipodi:role="line"
-       x="3517.0923"
+       x="3517.092"
        y="7418.9072"
        id="tspan14125-8-0-1-1-8">encoder-linear-inv-on-person-weighted-moving-pulley1.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:81.30310059px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="925.02338"
+     x="925.02325"
      y="13358.223"
      id="text5892-2-6-6-1-6-1-3-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:71.84432983px"
        sodipodi:role="line"
-       x="925.02338"
+       x="925.02325"
        y="13358.223"
        id="tspan14125-8-0-1-1-8-9-9">encoder-linear-on-weighted-moving-pulley.png</tspan></text>
   <text
@@ -12991,53 +13100,53 @@
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="896.96466"
+     x="896.96454"
      y="15860.712"
      id="text5892-2-6-6-1-6-1-3-8-4"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="896.96466"
+       x="896.96454"
        y="15860.712"
        id="tspan14125-8-0-1-1-8-9-98-3">encoder-linear-inclined-plane.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1035.9263"
-     y="2763.0342"
+     x="1035.9261"
+     y="2763.0344"
      id="text5892-2-6-7-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="1035.9263"
-       y="2763.0342"
+       x="1035.9261"
+       y="2763.0344"
        id="tspan14125-8-4-6">encoderMode = LINEAR</tspan><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="1035.9263"
-       y="2875.5342"
+       x="1035.9261"
+       y="2875.5344"
        id="tspan15436">x is captured always like this</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3475.7031"
-     y="2700.5408"
+     x="3475.7029"
+     y="2700.541"
      id="text5892-2-6-7-0-0"
      sodipodi:linespacing="125%"><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="3475.7031"
-       y="2700.5408"
+       x="3475.7029"
+       y="2700.541"
        id="tspan14125-8-4-6-7" /><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="3475.7031"
-       y="2813.0408"
+       x="3475.7029"
+       y="2813.041"
        id="tspan15438">encoderMode = LINEARINVERTED</tspan><tspan
        style="font-size:90px"
        sodipodi:role="line"
-       x="3475.7031"
-       y="2925.5408"
+       x="3475.7029"
+       y="2925.541"
        id="tspan15440">x *= -1</tspan></text>
   <text
      xml:space="preserve"
@@ -13075,23 +13184,23 @@
      xml:space="preserve"
      style="font-size:90.17471313px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="6702.7329"
-     y="2696.6855"
+     y="2696.6858"
      id="text5892-2-6-7-0-0-0-1"
      sodipodi:linespacing="125%"><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
        x="6702.7329"
-       y="2696.6855"
+       y="2696.6858"
        id="tspan14125-8-4-6-7-4-2" /><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
        x="6702.7329"
-       y="2796.2903"
+       y="2796.2905"
        id="tspan15428-0">encoderMode = ROTARYFRICTIONSIDE</tspan><tspan
        style="font-size:79.683815px"
        sodipodi:role="line"
        x="6702.7329"
-       y="2895.895"
+       y="2895.8953"
        id="tspan15432-1">(like LINEAR mode)</tspan></text>
   <text
      xml:space="preserve"
@@ -13133,13 +13242,13 @@
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3427.863"
+     x="3427.8628"
      y="10494.887"
      id="text5892-2-6-6-1-6-1-9"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649475px"
        sodipodi:role="line"
-       x="3427.863"
+       x="3427.8628"
        y="10494.887"
        id="tspan14125-8-0-1-1-8-0">encoder-linear-inv-on-person-weighted-moving-pulley2.png</tspan></text>
   <text
@@ -13160,116 +13269,116 @@
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="893.95807"
+     x="893.95795"
      y="5161.7153"
      id="text15614-8"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-9"
-       x="893.95807"
+       x="893.95795"
        y="5161.7153">encoderMode = LINEARINERTIAL</tspan><tspan
        sodipodi:role="line"
-       x="893.95807"
+       x="893.95795"
        y="5283.4653"
        id="tspan15669-4">x = </tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3517.7495"
+     x="3517.7493"
      y="7635"
      id="text15614-65"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7"
-       x="3517.7495"
+       x="3517.7493"
        y="7635">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="3517.7495"
+       x="3517.7493"
        y="7756.75"
        id="tspan5082">WEIGHTEDMOVPULLEYLINEARONPERSON1INV</tspan><tspan
        sodipodi:role="line"
-       x="3517.7495"
+       x="3517.7493"
        y="7878.5005"
        id="tspan5086">x *=-1</tspan><tspan
        sodipodi:role="line"
-       x="3517.7495"
+       x="3517.7493"
        y="8000.2505"
        id="tspan15669-8">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="3517.7495"
+       x="3517.7493"
        y="8122.0005"
        id="tspan15867">massPulley = mass / demult</tspan><tspan
        sodipodi:role="line"
-       x="3517.7495"
+       x="3517.7493"
        y="8243.751"
        id="tspan15869">P = (massPulley*a + massSubj? *(a+g))*v</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3428.092"
+     x="3428.0918"
      y="10690.677"
      id="text15614-65-1"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9"
-       x="3428.092"
+       x="3428.0918"
        y="10690.677">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="3428.092"
+       x="3428.0918"
        y="10812.427"
        id="tspan5084">WEIGHTEDMOVPULLEYLINEARONPERSON2INV</tspan><tspan
        sodipodi:role="line"
-       x="3428.092"
+       x="3428.0918"
        y="10934.177"
        id="tspan15669-8-5">(same as</tspan><tspan
        sodipodi:role="line"
-       x="3428.092"
+       x="3428.0918"
        y="11055.927"
        id="tspan15871">WEIGHTEDMOVPULLEYLINEARONPERSON1INV)</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="926.18158"
+     x="926.18146"
      y="13674.427"
      id="text15614-65-1-3"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9-3"
-       x="926.18158"
+       x="926.18146"
        y="13674.427">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="926.18158"
+       x="926.18146"
        y="13796.177"
        id="tspan15782">WEIGHTEDMOVPULLEYONLINEARENCODER</tspan><tspan
        sodipodi:role="line"
-       x="926.18158"
+       x="926.18146"
        y="13917.927"
        id="tspan15669-8-5-7">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="926.18158"
+       x="926.18146"
        y="14039.677"
        id="tspan15873">x'=x * demult</tspan><tspan
        sodipodi:role="line"
-       x="926.18158"
-       y="14161.427"
+       x="926.18146"
+       y="14161.428"
        id="tspan15877">P = mass * a * v + massSubj? * (a'+g)*v'</tspan><tspan
        sodipodi:role="line"
-       x="926.18158"
-       y="14283.177"
+       x="926.18146"
+       y="14283.178"
        id="tspan15875" /></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="887.50519"
+     x="887.50507"
      y="16051.171"
      id="text15614-65-5"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="887.50519"
+       x="887.50507"
        y="16051.171"
        id="tspan15778-5">encoderMode = LINEARONPLANE</tspan><tspan
        sodipodi:role="line"
-       x="887.50519"
+       x="887.50507"
        y="16172.921"
        id="tspan15669-8-3">data = </tspan></text>
   <text
@@ -13324,7 +13433,7 @@
        id="tspan15883">mass = mass / demult</tspan></text>
   <g
      id="g6537"
-     transform="matrix(1.4658455,0,0,1.4658455,7418.2005,10926.384)"
+     transform="matrix(1.4658455,0,0,1.4658455,7418.2004,10926.384)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13458,7 +13567,7 @@
        id="tspan8405-5-3-5">encoder-rotary-axis.png</tspan></text>
   <g
      id="g6578"
-     transform="matrix(1.4775722,0,0,1.4775722,8979.239,9773.0475)"
+     transform="matrix(1.4775722,0,0,1.4775722,8979.2389,9773.0477)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13520,7 +13629,7 @@
   </g>
   <g
      id="g6559"
-     transform="matrix(1.4658455,0,0,1.4658455,8814.9938,9918.1365)"
+     transform="matrix(1.4658455,0,0,1.4658455,8814.9937,9918.1367)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-friction.png"
      inkscape:export-xdpi="14.4"
      inkscape:export-ydpi="14.4">
@@ -13625,7 +13734,7 @@
        id="tspan6625">encoder-linear.png</tspan></text>
   <g
      id="g6044"
-     transform="translate(7836.4297,-886.13257)">
+     transform="translate(7836.4296,-886.13235)">
     <g
        transform="translate(-913.77888,10797.41)"
        id="g9874">
@@ -13728,66 +13837,66 @@
        y="12963.655">This at height = 80px</tspan></text>
   <path
      style="fill:none;stroke:#000000;stroke-width:8.50190353;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-     d="m 4655.3515,13078.111 4051.6397,0"
+     d="m 4655.3514,13078.111 4051.6397,0"
      id="path6643"
      inkscape:connector-curvature="0" />
   <path
      style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-     d="m 195.01321,8993.7441 0,2188.0319"
+     d="m 195.01309,8993.7443 0,2188.0317"
      id="path5088"
      inkscape:connector-curvature="0" />
   <path
      style="fill:none;stroke:#000000;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-     d="m 188.96241,6080.0607 0,2188.0321"
+     d="m 188.96229,6080.0609 0,2188.0321"
      id="path5088-1"
      inkscape:connector-curvature="0" />
   <text
      xml:space="preserve"
      style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="1415.2639"
-     y="183.61259"
+     x="1415.2638"
+     y="183.61281"
      id="text14119-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121-3"
-       x="1415.2639"
-       y="183.61259">LINEAR</tspan></text>
+       x="1415.2638"
+       y="183.61281">LINEAR</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="6436.5938"
-     y="183.49188"
+     y="183.4921"
      id="text14119-2-7"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121-3-5"
        x="6436.5938"
-       y="183.49188">ROTARY FRICTION</tspan></text>
+       y="183.4921">ROTARY FRICTION</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
      x="9518.2754"
-     y="183.49188"
+     y="183.4921"
      id="text14119-2-7-8"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121-3-5-3"
        x="9518.2754"
-       y="183.49188">ROTARY AXIS</tspan></text>
+       y="183.4921">ROTARY AXIS</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="851.55646"
+     x="851.55634"
      y="7048.2383"
      id="text5892-2-9-6-2-6-6-9-1"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="851.55646"
+       x="851.55634"
        y="7048.2383"
        style="font-size:90px"
        id="tspan10259-8-7-6">Linear encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="851.55646"
+       x="851.55634"
        y="7160.7383"
        style="font-size:90px"
        id="tspan14030-6-0">Weighted moving pulley</tspan></text>
@@ -13796,7 +13905,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-on-person-weighted-moving-pulley1.png"
      inkscape:export-xdpi="15.702712"
      inkscape:export-ydpi="15.702712"
-     transform="translate(2962.7764,10.865125)">
+     transform="translate(2962.7763,10.865342)">
     <rect
        y="5665.8833"
        x="-2108.2327"
@@ -14039,71 +14148,71 @@
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="851.08136"
+     x="851.08124"
      y="7369.2295"
      id="text5892-2-6-6-1-6-1-96"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649094px"
        sodipodi:role="line"
-       x="851.08136"
+       x="851.08124"
        y="7369.2295"
        id="tspan14125-8-0-1-1-8-9">encoder-linear-on-person-weighted-moving-pulley1.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="851.73859"
+     x="851.73846"
      y="7585.3223"
      id="text15614-65-3"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-3"
-       x="851.73859"
+       x="851.73846"
        y="7585.3223">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="851.73859"
+       x="851.73846"
        y="7707.0723"
        id="tspan5082-6">WEIGHTEDMOVPULLEYLINEARONPERSON1</tspan><tspan
        sodipodi:role="line"
-       x="851.73859"
+       x="851.73846"
        y="7828.8228"
        id="tspan5086-1" /><tspan
        sodipodi:role="line"
-       x="851.73859"
+       x="851.73846"
        y="7950.5728"
        id="tspan15669-8-59">demult = 2</tspan><tspan
        sodipodi:role="line"
-       x="851.73859"
+       x="851.73846"
        y="8072.3228"
        id="tspan15867-1">massPulley = mass / demult</tspan><tspan
        sodipodi:role="line"
-       x="851.73859"
-       y="8194.0723"
+       x="851.73846"
+       y="8194.0732"
        id="tspan15869-1">P = (massPulley*a + massSubj? *(a+g))*v</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:247.23146057px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="3311.4927"
-     y="183.61259"
+     x="3311.4924"
+     y="183.61281"
      id="text14119-2-1"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan14121-3-58"
-       x="3311.4927"
-       y="183.61259">LINEAR INVERTED</tspan></text>
+       x="3311.4924"
+       y="183.61281">LINEAR INVERTED</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="851.44855"
+     x="851.44843"
      y="10232.475"
      id="text5892-2-9-6-2-6-6-4"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="851.44855"
+       x="851.44843"
        y="10232.475"
        style="font-size:90px"
        id="tspan14030-5">Linear encoder on person.</tspan><tspan
        sodipodi:role="line"
-       x="851.44855"
+       x="851.44843"
        y="10344.975"
        style="font-size:90px"
        id="tspan16732-0">Fixed pulley attached to a weighted moving pulley</tspan></text>
@@ -14112,7 +14221,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-on-person-weighted-moving-pulley2.png"
      inkscape:export-xdpi="15.702846"
      inkscape:export-ydpi="15.702846"
-     transform="translate(2962.7764,10.865125)">
+     transform="translate(2962.7763,10.865342)">
     <rect
        y="8864.4219"
        x="-2102.4941"
@@ -14401,43 +14510,44 @@
   <text
      xml:space="preserve"
      style="font-size:71.03011322px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="856.81866"
+     x="856.81854"
      y="10514.87"
      id="text5892-2-6-6-1-6-1-9-8"
      sodipodi:linespacing="125%"><tspan
        style="font-size:62.76649475px"
        sodipodi:role="line"
-       x="856.81866"
+       x="856.81854"
        y="10514.87"
        id="tspan14125-8-0-1-1-8-0-0">encoder-linear-on-person-weighted-moving-pulley2.png</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="857.04767"
+     x="857.04755"
      y="10710.66"
      id="text15614-65-1-0"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan15616-7-9-7"
-       x="857.04767"
+       x="857.04755"
        y="10710.66">encoderMode =</tspan><tspan
        sodipodi:role="line"
-       x="857.04767"
+       x="857.04755"
        y="10832.41"
        id="tspan15780-7">WEIGHTEDMOVPULLEYLINEARONPERSON2</tspan><tspan
        sodipodi:role="line"
-       x="857.04767"
+       x="857.04755"
        y="10954.16"
        id="tspan15669-8-5-76">(same as</tspan><tspan
        sodipodi:role="line"
-       x="857.04767"
+       x="857.04755"
        y="11075.91"
        id="tspan15871-7">WEIGHTEDMOVPULLEYLINEARONPERSON1)</tspan></text>
   <g
      id="g5671"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis-pulley-axis.png"
      inkscape:export-xdpi="15.721946"
-     inkscape:export-ydpi="15.721946">
+     inkscape:export-ydpi="15.721946"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        y="3427.8142"
        x="9403.0088"
@@ -14594,7 +14704,7 @@
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png"
      inkscape:export-xdpi="15.702832"
      inkscape:export-ydpi="15.702832"
-     transform="translate(0,1675.639)">
+     transform="translate(-1.249641e-4,1675.6392)">
     <g
        transform="translate(-2869.48,1842.4965)"
        inkscape:export-ydpi="15.702841"
@@ -14836,7 +14946,8 @@
      id="g7141"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-calcule-im.png"
      inkscape:export-xdpi="21"
-     inkscape:export-ydpi="21">
+     inkscape:export-ydpi="21"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        y="13275.515"
        x="10111.672"
@@ -14846,7 +14957,7 @@
        style="fill:url(#linearGradient7139);fill-opacity:1;stroke:none" />
     <path
        transform="translate(190.14845,370.07913)"
-       d="m 10515.328,13205.436 a 293.8046,293.8046 0 1 1 -587.6092,0 293.8046,293.8046 0 1 1 587.6092,0 z"
+       d="m 10515.328,13205.436 c 0,162.263 -131.541,293.804 -293.805,293.804 -162.263,0 -293.8042,-131.541 -293.8042,-293.804 0,-162.264 131.5412,-293.805 293.8042,-293.805 162.264,0 293.805,131.541 293.805,293.805 z"
        sodipodi:ry="293.8046"
        sodipodi:rx="293.8046"
        sodipodi:cy="13205.436"
@@ -14856,7 +14967,7 @@
        sodipodi:type="arc" />
     <path
        transform="matrix(0.13249837,0,0,0.13249837,9203.686,11651.498)"
-       d="m 10515.328,13205.436 a 293.8046,293.8046 0 1 1 -587.6092,0 293.8046,293.8046 0 1 1 587.6092,0 z"
+       d="m 10515.328,13205.436 c 0,162.263 -131.541,293.804 -293.805,293.804 -162.263,0 -293.8042,-131.541 -293.8042,-293.804 0,-162.264 131.5412,-293.805 293.8042,-293.805 162.264,0 293.805,131.541 293.805,293.805 z"
        sodipodi:ry="293.8046"
        sodipodi:rx="293.8046"
        sodipodi:cy="13205.436"
@@ -14967,7 +15078,8 @@
        y="7392.2964"
        id="tspan15669-1-8">x = </tspan></text>
   <g
-     id="g5777">
+     id="g5777"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        y="5501.4692"
        x="6559.2812"
@@ -15337,7 +15449,8 @@
      id="g7868"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-friction-axis-inertial.png"
      inkscape:export-xdpi="15.683772"
-     inkscape:export-ydpi="15.683772">
+     inkscape:export-ydpi="15.683772"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <rect
        y="7586.6606"
        x="6551.0918"
@@ -15612,7 +15725,7 @@
        inkscape:connector-curvature="0"
        id="path3928-8-9-2-8"
        d="m 7251.8554,8041.018 0,60.6462"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.50000003;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text4734-4-5-5"
@@ -15629,7 +15742,7 @@
        inkscape:connector-curvature="0"
        id="path3928-8-9-2-8-9"
        d="m 7985.9043,8041.018 0,60.6462"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.50000003;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text4734-4-5-5-6"
@@ -15646,7 +15759,8 @@
      id="g8006"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inertial.png"
      inkscape:export-xdpi="15.61662"
-     inkscape:export-ydpi="15.61662">
+     inkscape:export-ydpi="15.61662"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <g
        transform="translate(-11182.724,2755.4745)"
        inkscape:export-ydpi="15.627689"
@@ -15991,7 +16105,7 @@
        inkscape:connector-curvature="0"
        id="path3928-8-9-2-8-9-4"
        d="m 2364.7632,3660.9704 -0.6272,65.0363"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.50000003;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text4734-4-5-5-6-2"
@@ -16008,7 +16122,7 @@
        inkscape:connector-curvature="0"
        id="path3928-8-9-2-8-9-4-4"
        d="m 1502.3568,3660.9704 -0.6272,65.0363"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.50000003;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text4734-4-5-5-6-2-4"
@@ -16033,7 +16147,7 @@
      inkscape:export-ydpi="15.626947" />
   <g
      id="g5130"
-     transform="matrix(1.0036372,0,0,1.0036372,10123.093,1868.0995)">
+     transform="matrix(1.0036372,0,0,1.0036372,10123.093,1868.0997)">
     <path
        d="m 318.42253,4774.061 -0.58926,0 c 0.19506,0.035 0.39465,0.074 0.58926,0.1017 l 0,-0.1017 z m 0,486.6215 c -0.66094,0.1056 -1.33667,0.2071 -2.00334,0.2071 l 2.00334,0 0,-0.2071 z m -2.00334,0.2071 c -30.10905,0 -54.53321,-109.0879 -54.53321,-243.4722 0,-132.285 23.66004,-240.032 53.11899,-243.367 l -81.3737,0 c -0.4676,-0.053 -0.91425,-0.053 -1.38474,-0.053 -0.45095,0 -0.90681,0 -1.35517,0.053 -29.48696,3.1998 -53.20702,110.9977 -53.20702,243.367 0,132.3729 23.72006,240.1689 53.20702,243.3669 l 0,0.1016 85.52635,0 z"
        id="path30030-4-0-4-5-9-0"
@@ -16047,13 +16161,13 @@
   </g>
   <path
      style="fill:none;stroke:#000000;stroke-width:6.64596415;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
-     d="m 10582.599,6548.1651 c -0.541,181.8259 6.259,395 -43.702,393.1323"
+     d="m 10582.599,6548.1653 c -0.541,181.8259 6.259,395 -43.702,393.1323"
      id="path8419-6-5-8-1"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cc" />
   <g
      id="g5176"
-     transform="matrix(1.0036372,0,0,1.0036372,10328.153,1842.9504)">
+     transform="matrix(1.0036372,0,0,1.0036372,10328.153,1842.9506)">
     <path
        sodipodi:nodetypes="cccccccccsccscscccc"
        d="m 362.54183,5008.879 -0.0813,0 c 0.0269,0 0.0545,0.01 0.0813,0.014 z m 0,67.1619 c -0.0912,0.015 -0.18448,0.029 -0.27649,0.029 l 0.27649,0 z m -0.27649,0.029 c -4.15556,0 -7.5265,-15.0559 -7.5265,-33.6032 0,-18.2576 3.26548,-33.1284 7.33131,-33.5887 l -11.23093,0 c -0.0645,-0.01 -0.12619,-0.01 -0.19112,-0.01 -0.0622,0 -242.28384,0 -242.34572,0.01 -4.06969,0.4416 -7.34346,15.3195 -7.34346,33.5887 0,18.2697 3.27696,33.1473 7.34665,33.5887 l 0,0.014 253.95956,0 z"
@@ -16068,7 +16182,7 @@
   </g>
   <path
      style="fill:none;stroke:#000000;stroke-width:6.64596367;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
-     d="m 10510.13,6548.1651 c 8.711,187.9533 -20.921,383.7665 28.019,393.1323"
+     d="m 10510.13,6548.1653 c 8.711,187.9533 -20.921,383.7665 28.019,393.1323"
      id="path8419-6-5-8"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cc" />
@@ -16076,10 +16190,10 @@
      style="fill:#a08e3a;fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30032-2-0-6-2-2-7"
-     d="m 10827.021,6928.7552 c -5.158,0 -9.339,-10.6346 -9.339,-23.7524 0,-13.1182 4.182,-23.7523 9.339,-23.7523 5.158,0 9.34,10.6346 9.34,23.7523 0,13.1183 -4.182,23.7524 -9.34,23.7524 z" />
+     d="m 10827.021,6928.7554 c -5.158,0 -9.339,-10.6346 -9.339,-23.7524 0,-13.1182 4.182,-23.7523 9.339,-23.7523 5.158,0 9.34,10.6346 9.34,23.7523 0,13.1183 -4.182,23.7524 -9.34,23.7524 z" />
   <path
      style="fill:none;stroke:#19262e;stroke-width:4.67189407;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-     d="m 10884.52,6993.2219 c 0,0 50.181,146.8758 87.026,137.8293 36.844,-9.0465 53.855,-19.16 100.022,-0.6668"
+     d="m 10884.52,6993.2221 c 0,0 50.181,146.8758 87.026,137.8293 36.844,-9.0465 53.855,-19.16 100.022,-0.6668"
      id="path6847-0-4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="czc" />
@@ -16088,10 +16202,10 @@
      style="fill:url(#linearGradient6704);fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30030-4-1-3-3-1-5-6"
-     d="m 10752.996,6880.0048 -0.05,0 c 0.01,0 0.03,0 0.05,0.015 z m 0,47.4783 c -0.05,0.016 -0.107,0.02 -0.16,0.02 l 0.16,0 z m -0.16,0.02 c -2.412,0 -4.369,-10.6433 -4.369,-23.7546 0,-12.9068 1.896,-23.4193 4.256,-23.7446 l -6.52,0 c -0.04,0 -0.07,0 -0.11,0 -0.04,0 -55.653,3e-4 -55.689,0 -2.362,0.3122 -4.264,10.8296 -4.264,23.7446 0,12.9151 1.901,23.4325 4.263,23.7444 l 55.581,0.015 6.852,0 z" />
+     d="m 10752.996,6880.005 -0.05,0 c 0.01,0 0.03,0 0.05,0.015 z m 0,47.4783 c -0.05,0.016 -0.107,0.02 -0.16,0.02 l 0.16,0 z m -0.16,0.02 c -2.412,0 -4.369,-10.6433 -4.369,-23.7546 0,-12.9068 1.896,-23.4193 4.256,-23.7446 l -6.52,0 c -0.04,0 -0.07,0 -0.11,0 -0.04,0 -55.653,3e-4 -55.689,0 -2.362,0.3122 -4.264,10.8296 -4.264,23.7446 0,12.9151 1.901,23.4325 4.263,23.7444 l 55.581,0.015 6.852,0 z" />
   <g
      id="g5322"
-     transform="matrix(1.0036372,0,0,1.0036372,10456.619,1851.0562)">
+     transform="matrix(1.0036372,0,0,1.0036372,10456.619,1851.0564)">
     <g
        id="g6686-2-1-4"
        transform="matrix(2.2905221,0,0,2.2905221,-782.12981,3823.2278)">
@@ -16133,7 +16247,7 @@
   </g>
   <path
      style="fill:none;stroke:#000000;stroke-width:6.64596415;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
-     d="m 9834.0373,6940.8052 c -8.7106,187.9532 15.4706,530.9663 -35.8263,529.491"
+     d="m 9834.0372,6940.8054 c -8.7106,187.9532 15.4706,530.9663 -35.8263,529.491"
      id="path8419-6-5-8-4-4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cc" />
@@ -16141,21 +16255,21 @@
      style="fill:url(#linearGradient6691);fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30030-4-0-4-5-9-0-1"
-     d="m 9683.147,7144.3635 -0.5915,0 c 0.1958,0.035 0.3962,0.074 0.5915,0.102 l 0,-0.102 z m 0,488.3914 c -0.6633,0.106 -1.3416,0.2078 -2.0106,0.2078 l 2.0106,0 0,-0.2078 z m -2.0106,0.2078 c -30.2186,0 -54.7316,-109.4846 -54.7316,-244.3577 0,-132.7662 23.7461,-240.9051 53.3121,-244.2522 l -81.6696,0 c -0.4693,-0.053 -0.9176,-0.053 -1.3898,-0.053 -0.4525,0 -0.9101,0 -1.3601,0.053 -29.5941,3.2114 -53.4005,111.4014 -53.4005,244.2522 0,132.8544 23.8064,241.0424 53.4005,244.2521 l 0,0.1019 85.8375,0 z" />
+     d="m 9683.1469,7144.3637 -0.5915,0 c 0.1958,0.035 0.3962,0.074 0.5915,0.102 l 0,-0.102 z m 0,488.3914 c -0.6633,0.106 -1.3416,0.2078 -2.0106,0.2078 l 2.0106,0 0,-0.2078 z m -2.0106,0.2078 c -30.2186,0 -54.7316,-109.4846 -54.7316,-244.3577 0,-132.7662 23.7461,-240.9051 53.3121,-244.2522 l -81.6696,0 c -0.4693,-0.053 -0.9176,-0.053 -1.3898,-0.053 -0.4525,0 -0.9101,0 -1.3601,0.053 -29.5941,3.2114 -53.4005,111.4014 -53.4005,244.2522 0,132.8544 23.8064,241.0424 53.4005,244.2521 l 0,0.1019 85.8375,0 z" />
   <path
      style="fill:#edc6de;fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30032-2-1-4-0-11-5-1"
-     d="m 9676.9036,7144.2268 c -30.2345,0 -54.7428,109.3927 -54.7428,244.3311 0,134.9436 24.5105,244.3312 54.7428,244.3312 30.2345,0 54.7429,-109.3929 54.7429,-244.3312 0,-134.9433 -24.5105,-244.3311 -54.7429,-244.3311 z" />
+     d="m 9676.9035,7144.227 c -30.2345,0 -54.7428,109.3927 -54.7428,244.3311 0,134.9436 24.5105,244.3312 54.7428,244.3312 30.2345,0 54.7429,-109.3929 54.7429,-244.3312 0,-134.9433 -24.5105,-244.3311 -54.7429,-244.3311 z" />
   <path
      style="fill:url(#linearGradient6687);fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30030-4-0-4-5-9-0-8-6"
-     d="m 9932.4873,7354.8865 -0.081,0 c 0.027,0 0.055,0.01 0.081,0.014 z m -0.162,67.9552 c -577.5233,-688.1518 -288.7616,-344.076 0,0 z m 59.4814,-0.5441 c 1.0948,-1.8012 1.1747,-17.7528 1.1747,-36.3676 0,-18.324 -0.2708,-28.5605 -1.2553,-31.024 l -72.078,-0.02 c -3.3913,1.4607 4.3781,1.985 0.9021,-0.01 -0.054,-0.031 -248.7514,-92.5229 -248.8134,-92.5128 -1.2351,0.4432 -7.9578,110.3802 -7.9578,126.7086 0,18.3361 3.7823,119.6893 7.8668,120.1323 l -0.099,0.1468 248.8934,-86.2204 z"
+     d="m 9932.4872,7354.8867 -0.081,0 c 0.027,0 0.055,0.01 0.081,0.014 z m -0.162,67.9552 c -577.5233,-688.1518 -288.7616,-344.076 0,0 z m 59.4814,-0.5441 c 1.0948,-1.8012 1.1747,-17.7528 1.1747,-36.3676 0,-18.324 -0.2708,-28.5605 -1.2553,-31.024 l -72.078,-0.02 c -3.3913,1.4607 4.3781,1.985 0.9021,-0.01 -0.054,-0.031 -248.7514,-92.5229 -248.8134,-92.5128 -1.2351,0.4432 -7.9578,110.3802 -7.9578,126.7086 0,18.3361 3.7823,119.6893 7.8668,120.1323 l -0.099,0.1468 248.8934,-86.2204 z"
      sodipodi:nodetypes="cccccccsccscscccc" />
   <path
      style="fill:none;stroke:#000000;stroke-width:6.64596367;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:none"
-     d="m 9762.154,6940.8052 c 8.7106,187.9532 -15.4706,530.9663 35.8262,529.491"
+     d="m 9762.1539,6940.8054 c 8.7106,187.9532 -15.4706,530.9663 35.8262,529.491"
      id="path8419-6-5-8-4"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="cc" />
@@ -16163,15 +16277,15 @@
      style="fill:#a08e3a;fill-opacity:1"
      inkscape:connector-curvature="0"
      id="path30032-2-0-6-2-2-7-4"
-     d="m 10067.495,7413.5939 c -5.158,0 -9.339,-10.6345 -9.339,-23.7523 0,-13.1183 4.181,-23.7523 9.339,-23.7523 5.158,0 9.339,10.6345 9.339,23.7523 0,13.1183 -4.181,23.7523 -9.339,23.7523 z" />
+     d="m 10067.495,7413.5941 c -5.158,0 -9.339,-10.6345 -9.339,-23.7523 0,-13.1183 4.181,-23.7523 9.339,-23.7523 5.158,0 9.339,10.6345 9.339,23.7523 0,13.1183 -4.181,23.7523 -9.339,23.7523 z" />
   <path
-     d="m 9991.6574,7354.8676 c -4.1728,0 -7.5554,15.0981 -7.5554,33.7218 0,18.6245 3.3829,33.7218 7.5554,33.7218 4.1729,0 7.5555,-15.098 7.5555,-33.7218 0,-18.6244 -3.3829,-33.7218 -7.5555,-33.7218 z"
+     d="m 9991.6573,7354.8678 c -4.1728,0 -7.5554,15.0981 -7.5554,33.7218 0,18.6245 3.3829,33.7218 7.5554,33.7218 4.1729,0 7.5555,-15.098 7.5555,-33.7218 0,-18.6244 -3.3829,-33.7218 -7.5555,-33.7218 z"
      id="path30032-2-1-4-0-11-5-3-0-0"
      inkscape:connector-curvature="0"
      style="fill:url(#linearGradient6682);fill-opacity:1" />
   <g
      id="g6264"
-     transform="matrix(1.0036372,0,0,1.0036372,9126.8456,2425.0058)">
+     transform="matrix(1.0036372,0,0,1.0036372,9126.8455,2425.006)">
     <path
        sodipodi:nodetypes="czc"
        inkscape:connector-curvature="0"
@@ -16228,13 +16342,14 @@
     </g>
   </g>
   <g
-     id="g7697">
+     id="g7697"
+     transform="translate(-1.249641e-4,2.1731853e-4)">
     <path
        sodipodi:nodetypes="cc"
        inkscape:connector-curvature="0"
        id="path3928-8-9-2-8-9-4-4-3-0"
        d="m 9961.4454,7356.0477 0.094,65.6339"
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.50000003;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
     <text
        sodipodi:linespacing="125%"
        id="text4734-4-5-5-6-2-4-1-0"
@@ -16248,7 +16363,7 @@
          sodipodi:role="line">d</tspan></text>
   </g>
   <g
-     transform="translate(686.91197,-485.37484)"
+     transform="translate(686.91185,-485.37462)"
      id="g7697-9">
     <path
        sodipodi:nodetypes="cc"
@@ -16267,5 +16382,193 @@
          x="9941.1396"
          id="tspan4736-8-2-9-4-8-9-5-2-0"
          sodipodi:role="line">d</tspan></text>
+  </g>
+  <text
+     xml:space="preserve"
+     style="font-size:101.84909058px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="886.08038"
+     y="17730.174"
+     id="text5892-2-6-6-1-6-1-3-8-4-2"
+     sodipodi:linespacing="125%"><tspan
+       style="font-size:90px"
+       sodipodi:role="line"
+       x="886.08038"
+       y="17730.174"
+       id="tspan14125-8-0-1-1-8-9-98-3-1">encoder-linear-inclined-plane-weight-diff-angle.png</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-size:97.40011597px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+     x="876.62091"
+     y="17920.633"
+     id="text15614-65-5-9"
+     sodipodi:linespacing="125%"><tspan
+       sodipodi:role="line"
+       x="876.62091"
+       y="17920.633"
+       id="tspan15778-5-9">encoderMode = LINEARONPLANEWEIGHTDIFFANGLE</tspan><tspan
+       sodipodi:role="line"
+       x="876.62091"
+       y="18042.383"
+       id="tspan15669-8-3-1">data = </tspan></text>
+  <g
+     id="g6740"
+     inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-linear-inclined-plane-weight-diff-angle.png"
+     inkscape:export-xdpi="15.721953"
+     inkscape:export-ydpi="15.721953">
+    <rect
+       y="16417.791"
+       x="897.74506"
+       height="1144.896"
+       width="1643.2402"
+       id="rect5960-6-3-0"
+       style="fill:url(#linearGradient5680);fill-opacity:1;stroke:none" />
+    <path
+       transform="matrix(0.73977464,-0.19822202,0.19822202,0.73977464,-7768.4615,13710.856)"
+       d="m 9952.5078,7457.5874 a 56.383801,56.383801 0 1 1 -112.7676,0 56.383801,56.383801 0 1 1 112.7676,0 z"
+       sodipodi:ry="56.383801"
+       sodipodi:rx="56.383801"
+       sodipodi:cy="7457.5874"
+       sodipodi:cx="9896.124"
+       id="path7750-1-0"
+       style="fill:#19262e;fill-opacity:1;stroke:none"
+       sodipodi:type="arc" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path12417-1-2-1-2-3-5-0"
+       d="m 1661.9349,17065.385 123.29,-33.036"
+       style="fill:#fff200;fill-opacity:1;stroke:#000000;stroke-width:4.86109352;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:url(#TriangleInL);marker-mid:none;marker-end:url(#TriangleOutL)" />
+    <rect
+       ry="0"
+       transform="matrix(0.96592582,-0.25881907,0.25881903,0.96592583,0,0)"
+       y="17003.549"
+       x="-3551.5232"
+       height="18.177877"
+       width="1432.4166"
+       id="rect9054-5-7"
+       style="fill:#666666;fill-opacity:1;stroke:none" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       id="path9142-8-2"
+       d="m 970.67588,17364.758 1266.49902,0"
+       style="fill:none;stroke:#000000;stroke-width:2.51335645;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:30.16027805, 30.16027805;stroke-dashoffset:0" />
+    <path
+       sodipodi:open="true"
+       sodipodi:end="0.23216623"
+       sodipodi:start="0.023184659"
+       transform="matrix(3.395168,0,0,-3.395168,-36068.748,44848.791)"
+       d="m 11213.013,8097.8463 a 372.34827,372.34827 0 0 1 -9.89,77.0402"
+       sodipodi:ry="372.34827"
+       sodipodi:rx="372.34827"
+       sodipodi:cy="8089.2144"
+       sodipodi:cx="10840.765"
+       id="path9146-8-3"
+       style="fill:none;stroke:#000000;stroke-opacity:1"
+       sodipodi:type="arc" />
+    <text
+       transform="scale(1.0840646,0.92245425)"
+       sodipodi:linespacing="125%"
+       id="text12007-7-9-9-6-7-0"
+       y="18634.031"
+       x="1646.5481"
+       style="font-size:62.82155228px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="18634.031"
+         x="1646.5481"
+         id="tspan12009-9-7-2-6-9-4"
+         sodipodi:role="line">push</tspan><tspan
+         id="tspan6681"
+         y="18712.559"
+         x="1646.5481"
+         sodipodi:role="line">angle</tspan><tspan
+         id="tspan6709"
+         y="18791.086"
+         x="1646.5481"
+         sodipodi:role="line">15º</tspan></text>
+    <g
+       transform="matrix(0.96592583,-0.25881905,0.25881905,0.96592583,-13579.52,13131.132)"
+       id="g6219-1">
+      <rect
+         style="fill:#8686bf;fill-opacity:1;stroke:none"
+         id="rect7748-65-4-6"
+         width="156.1869"
+         height="61.737263"
+         x="12966.111"
+         y="7750.8271" />
+      <rect
+         style="fill:url(#linearGradient8020-5);fill-opacity:1;stroke:none"
+         id="rect7748-65-4-5-2"
+         width="71.972328"
+         height="51.53558"
+         x="13008.219"
+         y="7699.2915" />
+      <rect
+         style="fill:url(#linearGradient8022-03);fill-opacity:1;stroke:none"
+         id="rect7748-65-4-5-1-43"
+         width="102.64497"
+         height="22.140963"
+         x="12992.882"
+         y="7812.5645" />
+    </g>
+    <path
+       sodipodi:nodetypes="czc"
+       inkscape:connector-curvature="0"
+       id="path6674"
+       d="m 1116.4994,17271.876 c 405.4264,-110.102 1201.1129,-343.032 1238.342,-313.352 37.2291,29.68 29.3054,117.874 30.7931,195.197"
+       style="fill:none;stroke:#000000;stroke-width:1.65200007;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    <path
+       transform="matrix(0.32101161,0,0,0.32101161,1567.8366,11538.911)"
+       d="m 2501.9568,16966.516 a 101.9473,101.9473 0 1 1 -203.8946,0 101.9473,101.9473 0 1 1 203.8946,0 z"
+       sodipodi:ry="101.9473"
+       sodipodi:rx="101.9473"
+       sodipodi:cy="16966.516"
+       sodipodi:cx="2400.0095"
+       id="path5682"
+       style="fill:#a0563a;fill-opacity:1;stroke:#ff0000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       sodipodi:type="arc" />
+    <g
+       transform="translate(-1.249641e-4,2.1731853e-4)"
+       id="g6676">
+      <rect
+         style="fill:#b8b560;fill-opacity:1;stroke:none"
+         id="rect7748-6-2-6"
+         width="268.14301"
+         height="178.76201"
+         x="2247.1548"
+         y="17154.088" />
+      <text
+         xml:space="preserve"
+         style="font-size:67.14350891px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;font-family:Sans"
+         x="2291.5103"
+         y="17261.795"
+         id="text12007-7-9-9-2-5"
+         sodipodi:linespacing="125%"
+         inkscape:transform-center-x="-16.764795"
+         inkscape:transform-center-y="4.968234"><tspan
+           sodipodi:role="line"
+           id="tspan12009-9-7-2-7-5"
+           x="2291.5103"
+           y="17261.795">mass</tspan></text>
+    </g>
+    <text
+       transform="scale(1.0840646,0.92245425)"
+       sodipodi:linespacing="125%"
+       id="text12007-7-9-9-6-7-0-3"
+       y="18856.883"
+       x="2088.5652"
+       style="font-size:62.82155228px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#1a1a1a;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="18856.883"
+         x="2088.5652"
+         id="tspan12009-9-7-2-6-9-4-4"
+         sodipodi:role="line">weight</tspan><tspan
+         id="tspan6681-8"
+         y="18935.41"
+         x="2088.5652"
+         sodipodi:role="line">angle</tspan><tspan
+         id="tspan6709-9"
+         y="19013.938"
+         x="2088.5652"
+         sodipodi:role="line">90º</tspan></text>
   </g>
 </svg>

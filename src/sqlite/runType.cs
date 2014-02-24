@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -73,7 +73,8 @@ class SqliteRunType : Sqlite
 			"Agility-505:10:505 Agility test",
 			"Agility-Illinois:60:Illinois Agility test",
 			"Agility-Shuttle-Run:40:Shuttle Run Agility test",
-			"Agility-ZigZag:17.6:ZigZag Agility test"
+			"Agility-ZigZag:17.6:ZigZag Agility test",
+			"Agility-T-Test:36:T Test"
 		};
 		conversionSubRateTotal = iniRunTypes.Length;
 		conversionSubRate = 0;
@@ -317,7 +318,8 @@ class SqliteRunIntervalType : SqliteRunType
 			"20m10times:20:1:10:0:Run 10 times a 20m distance:",	//only in more runs
 			"7m30seconds:7:0:30:0:Make max laps in 30 seconds:",	//only in more runs
 			"20m endurance:20:0:0:1:Continue running in 20m distance:",	//only in more runs
-			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19"
+			"MTGUG:-1:1:3:0:Modified time Getup and Go test:1-7-19",
+			"Agility-3L3R:-1:1:3:0:Turn left three times and turn right three times:24.14-24.14"
 		};
 		foreach(string myString in iniRunTypes) {
 			//RunIntervalTypeInsert(myString, true);
@@ -512,6 +514,7 @@ class SqliteRunIntervalType : SqliteRunType
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "7m30seconds", "run_interval.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "20m endurance", "run_interval.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "MTGUG", "mtgug.png", true);
+		SqliteEvent.GraphLinkInsert (Constants.RunIntervalTable, "Agility-3L3R", "agility_3l3r.png", true);
 	}
 	
 	public static void Delete(string name)

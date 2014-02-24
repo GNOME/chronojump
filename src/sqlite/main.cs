@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.01";
+	static string lastChronojumpDatabaseVersion = "1.02";
 
 	public Sqlite() {
 	}
@@ -1401,6 +1401,20 @@ class Sqlite
 
 				currentVersion = "1.01";
 			}
+			if(currentVersion == "1.01") {
+				dbcon.Open();
+			
+				RunType type = new RunType("Agility-T-Test");
+				SqliteRunType.Insert(type, Constants.RunTypeTable, true);
+				type = new RunType("Agility-3L3R");
+				SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
+
+				Log.WriteLine("Added Agility Tests: Agility-T-Test, Agility-3l3R");
+				SqlitePreferences.Update ("databaseVersion", "1.02", true); 
+				dbcon.Close();
+
+				currentVersion = "1.02";
+			}
 
 				
 		}
@@ -1542,6 +1556,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.01 - 1-02 Converted DB to 1.02 Added Agility Tests: Agility-T-Test, Agility-3L3R
 		//1.00 - 1.01 Converted DB to 1.01 Added export to CSV configuration on preferences
 		//0.99 - 1.00 Converted DB to 1.00 Encoder added Free and Inclinated Exercises
 		//0.98 - 0.99 Converted DB to 0.99 Encoder table improved 

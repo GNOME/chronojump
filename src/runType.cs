@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -307,6 +307,16 @@ public class RunType : EventType
 				"http://www.topendsports.com/testing/tests/zigzag.htm" + "\n" +
 	    			Catalog.GetString("Cited with permission.");
 		} 
+		else if(name == "Agility-T-Test") {
+			hasIntervals 	= false; 
+			distance 	= 36;
+			tracksLimited 	= false;
+			fixedValue 	= 0;
+			isPredefined	= true;
+			imageFileName = "agility_t_test.png";
+			description	= "T Test";
+			longDescription = "";
+		} 
 		else if(name == "Margaria") {
 			hasIntervals 	= false; 
 			distance 	= 0; //0:will ask user... refered to the vertical distance between third and nineth stair
@@ -388,6 +398,17 @@ public class RunType : EventType
 				"<b>" + Catalog.GetString("Abstract:") + "</b>\n" +
 				"http://linkinghub.elsevier.com/retrieve/pii/S0167494308001763";
 
+		} else if(name == "Agility-3L3R") {
+			hasIntervals 	= true; 
+			distance 	= -1;
+			tracksLimited 	= true;
+			fixedValue 	= 2;
+			unlimited 	= false;
+			isPredefined	= true;
+			description	= Catalog.GetString("Turn left three times and turn right three times");
+			imageFileName = "agility_3l3r.png";
+			distancesString = "24.14-24.14";	//this intervallic run has different distance for each track
+			longDescription = "";
 		} else if(name == "RSA 8-4-R3-5") {
 			hasIntervals 	= true; 
 			distance 	= -1;

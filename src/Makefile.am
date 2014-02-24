@@ -168,6 +168,10 @@ RESOURCES = \
 	../images/mini/agility_shuttle.png,mini/agility_shuttle.png \
 	../images/agility_zigzag.png,agility_zigzag.png\
 	../images/mini/agility_zigzag.png,mini/agility_zigzag.png \
+	../images/agility_t_test.png,agility_t_test.png \
+	../images/mini/agility_t_test.png,mini/agility_t_test.png \
+	../images/agility_3l3r.png,agility_3l3r.png \
+	../images/mini/agility_3l3r.png,mini/agility_3l3r.png \
 	../images/jump_free.png,jump_free.png\
 	../images/mini/jump_free.png,mini/jump_free.png \
 	../images/jump_sj.png,jump_sj.png\

@@ -40,13 +40,15 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.TextView textview;
 	[Widget] Gtk.Box hbox_d;
 	[Widget] Gtk.Box hbox_D;
-	[Widget] Gtk.Box hbox_angle;
+	[Widget] Gtk.Box hbox_angle_push;
+	[Widget] Gtk.Box hbox_angle_weight;
 	[Widget] Gtk.Box hbox_inertia;
 	[Widget] Gtk.Box hbox_inertia2;
 
 	[Widget] Gtk.SpinButton spin_d;
 	[Widget] Gtk.SpinButton spin_D;
-	[Widget] Gtk.SpinButton spin_angle;
+	[Widget] Gtk.SpinButton spin_angle_push;
+	[Widget] Gtk.SpinButton spin_angle_weight;
 	[Widget] Gtk.SpinButton spin_inertia;
 		
 	[Widget] Gtk.Box vbox_select_encoder;
@@ -107,7 +109,7 @@ public class EncoderConfigurationWindow {
 
 		EncoderConfigurationWindowBox.initializeList(ec.type, ec.position);
 		
-		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.D, ec.angle, ec.inertia);
+		EncoderConfigurationWindowBox.putValuesStoredPreviously(ec.d, ec.D, ec.anglePush, ec.angleWeight, ec.inertia);
 	
 		EncoderConfigurationWindowBox.encoder_configuration.Show ();
 		return EncoderConfigurationWindowBox;
@@ -161,7 +163,8 @@ public class EncoderConfigurationWindow {
 		
 		hbox_d.Visible = ec.has_d;
 		hbox_D.Visible = ec.has_D;
-		hbox_angle.Visible = ec.has_angle;
+		hbox_angle_push.Visible = ec.has_angle_push;
+		hbox_angle_weight.Visible = ec.has_angle_weight;
 		hbox_inertia.Visible = ec.has_inertia;
 		hbox_inertia2.Visible = ec.has_inertia;
 		
@@ -172,13 +175,15 @@ public class EncoderConfigurationWindow {
 			on_button_encoder_capture_inertial_show_clicked (new object(), new EventArgs());
 	}
 	
-	private void putValuesStoredPreviously(double d, double D, int angle, int inertia) {
+	private void putValuesStoredPreviously(double d, double D, int anglePush, int angleWeight, int inertia) {
 		if(d != -1)
 			spin_d.Value = d;
 		if(D != -1)
 			spin_D.Value = D;
-		if(angle != -1)
-			spin_angle.Value = angle;
+		if(anglePush != -1)
+			spin_angle_push.Value = anglePush;
+		if(angleWeight != -1)
+			spin_angle_weight.Value = angleWeight;
 		if(inertia != -1)
 			spin_inertia.Value = inertia;
 	}
@@ -194,7 +199,8 @@ public class EncoderConfigurationWindow {
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
 		ec.d = (double) spin_d.Value; 
 		ec.D = (double) spin_D.Value; 
-		ec.angle = (int) spin_angle.Value; 
+		ec.anglePush = (int) spin_angle_push.Value; 
+		ec.angleWeight = (int) spin_angle_weight.Value; 
 		ec.inertia = (int) spin_inertia.Value; 
 
 		return ec;

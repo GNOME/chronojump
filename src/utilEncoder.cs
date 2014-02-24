@@ -177,6 +177,8 @@ public class UtilEncoder
 	}
 
 	
+	/*
+	 * DEPRECATED, now use always RDotNet
 	public static void RunEncoderCapturePython(string title, EncoderStruct es, string port) 
 	{
 		CancelRScript = false;
@@ -193,11 +195,9 @@ public class UtilEncoder
 		string outputFileCheck = "";
 		
 
-		/*
-		on Windows (py2exe) we execute a exe with the py file that contains python
-		on linux we execute python and call to the py file
-		also on windows we need the full path to find R
-		*/
+		//on Windows (py2exe) we execute a exe with the py file that contains python
+		//on linux we execute python and call to the py file
+		//also on windows we need the full path to find R
 		if (UtilAll.IsWindows()) {
 			pBin=getEncoderScriptCapture();
 			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port 
@@ -229,6 +229,7 @@ public class UtilEncoder
 		p.WaitForExit();
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
+	*/
 	
 	public static bool RunEncoderGraph(string title, EncoderStruct es) 
 	{
@@ -547,6 +548,8 @@ public class UtilEncoder
 					Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER));
 			list.Add(new EncoderConfiguration(
 					Constants.EncoderConfigurationNames.LINEARONPLANE));
+			list.Add(new EncoderConfiguration(
+					Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE));
 		} else if(encoderType == Constants.EncoderType.ROTARYFRICTION) {
 			list.Add(new EncoderConfiguration(
 					Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE));
@@ -583,14 +586,14 @@ public class UtilEncoder
 		/* no change:
 		 * WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 		 * WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
-		 * LINEARONPLANE, ROTARYFRICTIONSIDE, WEIGHTEDMOVPULLEYROTARYFRICTION
+		 * LINEARONPLANE, LINEARONPLANEWEIGHTDIFFANGLE, ROTARYFRICTIONSIDE, WEIGHTEDMOVPULLEYROTARYFRICTION
 		 */
 
 		double data = byteReaded;
 		if(ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
 			data *= -1;
 		} else if(ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
-			//default is: demultiplication = 2. Future maybe this will be a parameter
+			//default is: gearedDown = 2. Future maybe this will be a parameter
 			data *= 2;
 		} else if(ec.name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
 			data = data * ec.D / ec.d;
@@ -605,12 +608,12 @@ public class UtilEncoder
 		return data;
 	}
 
-	//demult is positive, normally 2
-	private static double getMass(double mass, int demult, int angle) {
+	//gearedDown is positive, normally 2
+	private static double getMass(double mass, int gearedDown, int angle) {
 		if(mass == 0)
 			return 0;
 
-		return ( ( mass / demult ) * Math.Sin( angle * Math.PI / 180 ) );
+		return ( ( mass / gearedDown ) * Math.Sin( angle * Math.PI / 180 ) );
 	}
 
 	private static double getMassBodyByExercise(double massBody, int exercisePercentBodyWeight) {
@@ -621,8 +624,7 @@ public class UtilEncoder
 	}
 
 	public static double GetMassByEncoderConfiguration(
-			EncoderConfiguration ec, double massBody, double massExtra, 
-			int exercisePercentBodyWeight, int demult, int angle)
+			EncoderConfiguration ec, double massBody, double massExtra, int exercisePercentBodyWeight)
 	{
 		massBody = getMassBodyByExercise(massBody, exercisePercentBodyWeight);
 
@@ -634,16 +636,15 @@ public class UtilEncoder
 			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION ||
 			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS 
 		  ) {
-			/*
-			 * angle will be 90 degrees. We assume this.
-			 * Maybe in the future, person or person and extra weight, 
-			 * can have different angles
-			 */
-			massExtra = getMass(massExtra, demult, angle);
+			massExtra = getMass(massExtra, ec.gearedDown, ec.anglePush);
 		} 
 		else if(ec.name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
-			massBody = getMass(massBody, demult, angle);
-			massExtra = getMass(massExtra, demult, angle);
+			massBody = getMass(massBody, ec.gearedDown, ec.anglePush);
+			massExtra = getMass(massExtra, ec.gearedDown, ec.anglePush);
+		}
+		else if(ec.name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE) {
+			massBody = getMass(massBody, ec.gearedDown, ec.anglePush);
+			massExtra = getMass(massExtra, ec.gearedDown, ec.angleWeight);
 		}
 
 		return (massBody + massExtra);

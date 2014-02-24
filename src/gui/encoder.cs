@@ -310,6 +310,8 @@ public partial class ChronoJumpWindow
 		if(! encoderCheckPort())
 			return;
 		
+		/*
+		 * DEPRECATED
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
 		double heightHigherCondition = -1;
@@ -400,6 +402,7 @@ public partial class ChronoJumpWindow
 			encoderCalculeCurves(encoderActions.CAPTURE_EXTERNAL); //deprecated
 		}
 		else if (encoderCaptureOptionsWin.radiobutton_encoder_capture_safe.Active) {
+		*/
 			//tis notebook has capture (signal plotting), and curves (shows R graph)	
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
@@ -412,7 +415,7 @@ public partial class ChronoJumpWindow
 			//entry_encoder_signal_comment.Text = "";
 
 			Log.WriteLine("ZZZZZZZZZZZZZZZ");
-		}
+		//}
 	}
 	
 	void on_button_encoder_capture_calcule_im () 
@@ -685,9 +688,7 @@ public partial class ChronoJumpWindow
 				analysis,
 				"none",				//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
-				encoderConfigurationCurrent.name.ToString(),
-				encoderConfigurationCurrent.inertia,
-				encoderConfigurationCurrent.d,
+				encoderConfigurationCurrent,
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
@@ -1260,9 +1261,7 @@ public partial class ChronoJumpWindow
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
-				encoderConfigurationCurrent.name.ToString(),
-				encoderConfigurationCurrent.inertia,
-				encoderConfigurationCurrent.d,
+				encoderConfigurationCurrent,
 				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 				-1,
 				image_encoder_width,
@@ -1834,7 +1833,7 @@ public partial class ChronoJumpWindow
 		//this is what's readed from encoder, as it's linear (non-inverted, not inertial, ...)
 		//it's stored in file like this
 		int byteReadedRaw;
-		//this it's converted applying encoderConfigurationConversions: inverted, inertial, diameter, demult, ...
+		//this it's converted applying encoderConfigurationConversions: inverted, inertial, diameter, gearedDown, ...
 		double byteReaded;
 		
 		//initialize
@@ -2165,9 +2164,7 @@ public partial class ChronoJumpWindow
 					sendAnalysis,
 					analysisVariables,
 					analysisOptions,
-					encoderConfigurationCurrent.name.ToString(),
-					encoderConfigurationCurrent.inertia,
-					encoderConfigurationCurrent.d,
+					encoderConfigurationCurrent,
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 
@@ -2275,9 +2272,7 @@ Log.WriteLine(str);
 					sendAnalysis,
 					analysisVariables, 
 					analysisOptions,
-					encoderConfigurationCurrent.name.ToString(),
-					encoderConfigurationCurrent.inertia,
-					encoderConfigurationCurrent.d,
+					encoderConfigurationCurrent,
 					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
@@ -2908,8 +2903,6 @@ Log.WriteLine(str);
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
 		ArrayList a5 = new ArrayList();
-		ArrayList a6 = new ArrayList();
-		ArrayList a7 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(ex.name);
@@ -2927,12 +2920,6 @@ Log.WriteLine(str);
 		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");	//alowed to change
 		bigArray.Add(a5);
 		
-		a6.Add(Constants.GenericWindowShow.SPININT2); a6.Add(false); a6.Add("");
-		bigArray.Add(a6);
-		
-		a7.Add(Constants.GenericWindowShow.SPININT3); a7.Add(false); a7.Add("");
-		bigArray.Add(a7);
-		
 		
 		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
@@ -2942,10 +2929,13 @@ Log.WriteLine(str);
 		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
 		genericWin.SetSpinDouble2Value(ex.speed1RM);
 		genericWin.SetSpinDouble2Increments(0.001,0.1);
+		/*
+		 * Now this is in encoder configuration
 		genericWin.LabelSpinInt2 = Catalog.GetString("Body angle") + " (º)";
 		genericWin.SetSpin2Range(ex.bodyAngle,ex.bodyAngle); //done this because IsEditable does not affect the cursors
 		genericWin.LabelSpinInt3 = Catalog.GetString("Weight angle") + " (º)";
 		genericWin.SetSpin3Range(ex.weightAngle,ex.weightAngle); //done this because IsEditable does not affect the cursors
+		*/
 		genericWin.ShowButtonCancel(false);
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_info_accepted);
@@ -2961,8 +2951,6 @@ Log.WriteLine(str);
 		ArrayList a3 = new ArrayList();
 		ArrayList a4 = new ArrayList();
 		ArrayList a5 = new ArrayList();
-		ArrayList a6 = new ArrayList();
-		ArrayList a7 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
 		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add("");
@@ -2980,12 +2968,6 @@ Log.WriteLine(str);
 		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");
 		bigArray.Add(a5);
 		
-		a6.Add(Constants.GenericWindowShow.SPININT2); a6.Add(false); a6.Add("");
-		bigArray.Add(a6);
-		
-		a7.Add(Constants.GenericWindowShow.SPININT3); a7.Add(false); a7.Add("");
-		bigArray.Add(a7);
-		
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
 				Catalog.GetString("Write the name of the encoder exercise:"), bigArray);
@@ -2995,12 +2977,15 @@ Log.WriteLine(str);
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
 		genericWin.SetSpinDouble2Increments(0.001,0.1);
+		/*
+		 * Now this is in encoder configuration
 		genericWin.LabelSpinInt2 = Catalog.GetString("Body angle") + " (º)";
 		genericWin.SetSpin2Range(0,90);
 		genericWin.SetSpin2Value(90);
 		genericWin.LabelSpinInt3 = Catalog.GetString("Weight angle") + " (º)";
 		genericWin.SetSpin3Range(0,90);
 		genericWin.SetSpin3Value(90);
+		*/
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Add"));
 		
 		genericWin.HideOnAccept = false;
@@ -3036,13 +3021,13 @@ Log.WriteLine(str);
 			if(adding)
 				SqliteEncoder.InsertExercise(false, name, genericWin.SpinIntSelected, 
 						genericWin.Entry2Selected, genericWin.Entry3Selected,
-						Util.ConvertToPoint(genericWin.SpinDouble2Selected),
-						genericWin.SpinInt2Selected, genericWin.SpinInt3Selected);
+						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
+						);
 			else
 				SqliteEncoder.UpdateExercise(false, name, genericWin.SpinIntSelected, 
 						genericWin.Entry2Selected, genericWin.Entry3Selected,
-						Util.ConvertToPoint(genericWin.SpinDouble2Selected),
-						genericWin.SpinInt2Selected, genericWin.SpinInt3Selected);
+						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
+						);
 
 			ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false,-1, false);
 			encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
@@ -4434,11 +4419,9 @@ Log.WriteLine(str);
 
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
 
-					//TODO: add demult and angle	
-					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration(encoderConfigurationCurrent, 
+					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration( encoderConfigurationCurrent, 
 							findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
-							getExercisePercentBodyWeightFromCombo(), 1, 90
-							);
+							getExercisePercentBodyWeightFromCombo() );
 				}
 
 				if(action == encoderActions.CAPTURE) {

@@ -655,6 +655,7 @@ public class Constants
 	public static string FileNameEncoderWeightedMovPulleyOnPerson2Inv = "encoder-linear-inv-on-person-weighted-moving-pulley2.png";
 	public static string FileNameEncoderWeightedMovPulleyOnLinearEncoder = "encoder-linear-on-weighted-moving-pulley.png";
 	public static string FileNameEncoderLinearOnPlane = "encoder-linear-inclined-plane.png";	
+	public static string FileNameEncoderLinearOnPlaneWeightDiffAngle = "encoder-linear-inclined-plane-weight-diff-angle.png";	
 
 	//rotary friction
 	public static string FileNameEncoderFrictionSide = "encoder-rotary-friction-pulley.png";
@@ -674,7 +675,8 @@ public class Constants
 		LINEAR, LINEARINVERTED, LINEARINERTIAL, 
 		WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 		WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
-		WEIGHTEDMOVPULLEYONLINEARENCODER, LINEARONPLANE, 
+		WEIGHTEDMOVPULLEYONLINEARENCODER, 
+		LINEARONPLANE, LINEARONPLANEWEIGHTDIFFANGLE, 
 		ROTARYFRICTIONSIDE, ROTARYFRICTIONAXIS,				//friction
 		ROTARYFRICTIONSIDEINERTIAL, ROTARYFRICTIONAXISINERTIAL,		//friction
 		WEIGHTEDMOVPULLEYROTARYFRICTION,				//friction

@@ -82,7 +82,7 @@ cols=c(colSpeed,colForce,colPower); lty=rep(1,3)
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=23)
+	options=readLines(optionsCon,n=27)
 	close(optionsCon)
 	return (options)
 }
@@ -103,7 +103,7 @@ print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
-OperatingSystem=options[23]
+OperatingSystem=options[27]
 EncoderConfiguration = ""
 
 write("(1/5) Starting R", OutputData2)
@@ -621,8 +621,7 @@ print("WARNING ECS\n\n\n\n\n")
 		}
 	}
 
-	#TODO: pass demult and angle
-	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, 1, 90)
+	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 	print(c("MASS: ", mass, massBody, massExtra, exercisePercentBodyWeight))
 
 #	force <- mass*accel$y
@@ -999,8 +998,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
-	#TODO: pass demult and angle
-	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, 1, 90)
+	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
@@ -1692,7 +1690,7 @@ getDisplacement <- function(data, diameter, diameterExt) {
 	if(EncoderConfiguration == "LINEARINVERTED") {
 		data = -data
 	} else if(EncoderConfiguration == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
-		#default is: demultiplication = 2. Future maybe this will be a parameter
+		#default is: gearedDowniplication = 2. Future maybe this will be a parameter
 		data = data *2
 	} else if(EncoderConfiguration == "ROTARYFRICTIONAXIS") {
 		data = data * diameter / diameterExt
@@ -1715,12 +1713,12 @@ getAcceleration <- function(speed) {
 	return (predict( speed, deriv=1 ))
 }
 
-#demult is positive, normally 2
-getMass <- function(mass, demult, angle) {
+#gearedDown is positive, normally 2
+getMass <- function(mass, gearedDown, angle) {
 	if(mass == 0)
 		return (0)
 
-	return ( ( mass / demult ) * sin( angle * pi / 180 ) )
+	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
 getMassBodyByExercise <- function(mass.body, exercisePercentBodyWeight) {
@@ -1730,7 +1728,7 @@ getMassBodyByExercise <- function(mass.body, exercisePercentBodyWeight) {
 	return (mass.body * exercisePercentBodyWeight / 100.0)
 }
 
-getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercentBodyWeight, demult, angle)
+getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 {
 	mass.body = getMassBodyByExercise(mass.body,exercisePercentBodyWeight)
 
@@ -1742,13 +1740,13 @@ getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercent
 	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
 	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
 	{
-		#angle will be 90 degrees. We assume this.
-		#Maybe in the future, person or person and extra weight, 
-		#can be with different angle
-		mass.extra = getMass(mass.extra, demult, angle)
+		mass.extra = getMass(mass.extra, gearedDown, anglePush)
 	} else if(EncoderConfiguration == "LINEARONPLANE") {
-		mass.body = getMass(mass.body, demult, angle)
-		mass.extra = getMass(mass.extra, demult, angle)
+		mass.body = getMass(mass.body, gearedDown, anglePush)
+		mass.extra = getMass(mass.extra, gearedDown, anglePush)
+	} else if(EncoderConfiguration == "LINEARONPLANEWEIGHTDIFFANGLE") {
+		mass.body = getMass(mass.body, gearedDown, anglePush)
+		mass.extra = getMass(mass.extra, gearedDown, angleWeight)
 	}
 		
 	mass = mass.body + mass.extra
@@ -1756,9 +1754,9 @@ getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercent
 }
 
 #mass extra can be connected to body or connected to a pulley depending on EncoderConfiguration
-getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, demult, angle) 
+getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 {
-	mass = getMassByEncoderConfiguration (mass.body, mass.extra, exercisePercentBodyWeight, demult, angle)
+	mass = getMassByEncoderConfiguration (mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
@@ -1859,9 +1857,6 @@ doProcess <- function(options) {
 	SpecialData=options[5] #currently used to write 1RM. variable;result (eg. "1RM;82.78")
 	MinHeight=as.numeric(options[6])*10 #from cm to mm
 	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
-	#Mass=as.numeric(options[8])	#TODO: This is displaced mass (can include body weight). Separate this in two different values. This affects:
-	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
-	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
 	MassBody=as.numeric(options[8])	
 	MassExtra=as.numeric(options[9])	
 
@@ -1884,18 +1879,21 @@ doProcess <- function(options) {
 	
 	AnalysisOptions=options[13]	
 
-	EncoderConfiguration=		options[14]	
-	inertiaMomentum=	as.numeric(options[15])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-	diameter=		as.numeric(options[16])	#in meters, eg: 0.0175
-	diameterExt = 1	#TODO: pass this param
-	
-	SmoothingOneC=options[17]
-	Jump=options[18]
-	Width=as.numeric(options[19])
-	Height=as.numeric(options[20])
-	DecimalSeparator=options[21]
-	Title=options[22]
-	OperatingSystem=options[23]	#if this changes, change it also at start of this R file
+	EncoderConfiguration=	options[14]	#just the name of the EncoderConfiguration	
+	diameter=	as.numeric(options[15])	#in meters, eg: 0.0175
+	diameterExt=	as.numeric(options[16])	#in meters, eg: 0.0175
+	anglePush =	options[17]
+	angleWeight =	options[18]
+	inertiaMomentum=as.numeric(options[19])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	gearedDown =	options[20]
+
+	SmoothingOneC=options[21]
+	Jump=options[22]
+	Width=as.numeric(options[23])
+	Height=as.numeric(options[24])
+	DecimalSeparator=options[25]
+	Title=options[26]
+	OperatingSystem=options[27]	#if this changes, change it also at start of this R file
 	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 
 	print(File)

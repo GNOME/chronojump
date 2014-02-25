@@ -1735,6 +1735,10 @@ getMass <- function(mass, gearedDown, angle) {
 	if(mass == 0)
 		return (0)
 
+	#default value of angle is 90 degrees. If is not selected, it's -1
+	if(angle == -1)
+		angle = 90
+
 	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
@@ -1915,10 +1919,10 @@ doProcess <- function(options) {
 	EncoderConfigurationName=	options[14]	#just the name of the EncoderConfiguration	
 	diameter=	as.numeric(options[15])	#in meters, eg: 0.0175
 	diameterExt=	as.numeric(options[16])	#in meters, eg: 0.0175
-	anglePush =	options[17]
-	angleWeight =	options[18]
+	anglePush =	as.numeric(options[17])
+	angleWeight =	as.numeric(options[18])
 	inertiaMomentum=as.numeric(options[19])/10000.0	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-	gearedDown =	options[20]
+	gearedDown =	as.numeric(options[20])
 
 	SmoothingOneC=options[21]
 	Jump=options[22]

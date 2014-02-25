@@ -4179,9 +4179,9 @@ Log.WriteLine(str);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
-		
+	
 		//search max
-		double max = 0;
+		double max = -100000;
 		foreach(double d in data)
 			if(d > max)
 				max = d;

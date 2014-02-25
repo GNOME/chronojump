@@ -104,7 +104,7 @@ print(options)
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
 OperatingSystem=options[27]
-EncoderConfiguration = ""
+EncoderConfigurationName = ""
 
 write("(1/5) Starting R", OutputData2)
 
@@ -571,7 +571,8 @@ return (propulsiveEnd)
 #eccon="c" one time each curve
 #eccon="ec" one time each curve
 #eccon="ecS" means ecSeparated. two times each curve: one for "e", one for "c"
-kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight, 
+kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWeight,
+			encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 			smoothingOneEC, smoothingOneC, g, eccon, isPropulsive) {
 
 	smoothing = 0
@@ -617,27 +618,18 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		} else if(eccon=="e") {
 			#not eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS
-print("WARNING ECS\n\n\n\n\n")
+			print("WARNING ECS\n\n\n\n\n")
 		}
 	}
 
-	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
-	print(c("MASS: ", mass, massBody, massExtra, exercisePercentBodyWeight))
+	dynamics = getDynamics(encoderConfigurationName,
+			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
+	mass = dynamics$mass
+	force = dynamics$force
+	power = dynamics$power
 
-#	force <- mass*accel$y
-#	if(isJump)
-		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
-
-	power <- force*speed$y
-
-	#print("propulsiveEnd")
-	#print(propulsiveEnd)
-	
 	print("at kinematicsF")	
-	#print(c("mass",mass))
-	#print(c("speed$y",speed$y))
-	#print(c("accel$y",accel$y))
-	#print(c("power",power))
 
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
@@ -686,6 +678,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra) {
 
 kinematicRanges <- function(singleFile, displacement, curves,
 			    massBody, massExtra, exercisePercentBodyWeight,
+			    encoderConfiguration,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 			    smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
@@ -693,16 +686,34 @@ kinematicRanges <- function(singleFile, displacement, curves,
 	for(i in 1:n) { 
 		myMassBody = massBody
 		myMassExtra = massExtra
-		#mySmoothingOne = smoothingOne
 		myExPercentBodyWeight = exercisePercentBodyWeight
+			
+		#encoderConfiguration
+		myEncoderConfigurationName = EncoderConfigurationName
+		myDiameter = diameter
+		myDiameterExt = diameterExt
+		myAnglePush = anglePush
+		myAngleWeight = angleWeight
+		myInertiaMomentum = inertiaMomentum
+		myGearedDown = gearedDown
 		if(! singleFile) {
 			myMassBody = curves[i,5]
 			myMassExtra = curves[i,6]
 			myEccon = curves[i,8]
 			myExPercentBodyWeight = curves[i,10]
+
+			#encoderConfiguration
+			myEncoderConfigurationName = curves[i,11]
+			myDiameter = curves[i,12]
+			myDiameterExt = curves[i,13]
+			myAnglePush = curves[i,14]
+			myAngleWeight = curves[i,15]
+			myInertiaMomentum = curves[i,16]
+			myGearedDown = curves[i,17]
 		}
 		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],
 			       myMassBody, myMassExtra, myExPercentBodyWeight,
+			       myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			       smoothingsEC[i], smoothingOneC, g, myEccon, isPropulsive)
 
 		if(max(abs(kn$speedy)) > maxSpeedy)
@@ -724,6 +735,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 
 paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
+	encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown, #encoderConfiguration stuff
 	title, subtitle, draw, showLabels, marShrink, showAxes, legend,
 	Analysis, isPropulsive, inertialType, exercisePercentBodyWeight,
         showSpeed, showAccel, showForce, showPower	
@@ -998,12 +1010,17 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#mtext(text=paste("max accel:",round(max(accel$y),3)),side=3,at=which(accel$y == max(accel$y)),cex=.8,col=cols[1],line=2)
 	}
 
-	mass = getMassByEncoderConfiguration(massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
+	dynamics = getDynamics(encoderConfigurationName,
+			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
+	mass = dynamics$mass
+	force = dynamics$force
+	power = dynamics$power
 
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
 #	if(isJump)
-		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
+#		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
 
 #print("MAXFORCE!!!!!")
 #print(max(force))
@@ -1060,21 +1077,21 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 
 
-	power = NULL
+	#power = NULL
 
-	if(inertialType == "li" || inertialType == "ri") {
+	#if(inertialType == "li" || inertialType == "ri") {
 		#Explanation rotatory encoder on inertial machine
 		#speed$y comes in mm/ms, is the same than m/s
 		#speedw in meters:
-		speedw <- speed$y / diameter #m radius
+	 #	speedw <- speed$y / diameter #m radius
 		#accel$y comes in meters
 		#accelw in meters:
-		accelw <- accel$y / diameter
+	#	accelw <- accel$y / diameter
 
 		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
 		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
 		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
-		power <- inertiaMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
+	#	power <- inertiaMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
 	
 		#print("at Paint")	
 		#print(c("mass",mass))
@@ -1083,9 +1100,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#print(c("accel$y",accel$y))
 		#print(c("accelw",accelw))
 		#print(c("power",power))
-	}
-	else #(inertialType == "")
-		power <- force*speed$y
+	#}
+	#else #(inertialType == "")
+	#	power <- force*speed$y
 
 
 
@@ -1679,7 +1696,7 @@ find.yrange <- function(singleFile, displacement, curves) {
 
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 #we use 'data' variable because can be position or displacement
-getDisplacement <- function(data, diameter, diameterExt) {
+getDisplacement <- function(encoderConfigurationName, data, diameter, diameterExt) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
 	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
@@ -1687,15 +1704,15 @@ getDisplacement <- function(data, diameter, diameterExt) {
 	#ROTARYFRICTIONSIDE
 	#WEIGHTEDMOVPULLEYROTARYFRICTION
 
-	if(EncoderConfiguration == "LINEARINVERTED") {
+	if(encoderConfigurationName == "LINEARINVERTED") {
 		data = -data
-	} else if(EncoderConfiguration == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
+	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
 		#default is: gearedDowniplication = 2. Future maybe this will be a parameter
 		data = data *2
-	} else if(EncoderConfiguration == "ROTARYFRICTIONAXIS") {
+	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
 		data = data * diameter / diameterExt
-	} else if(EncoderConfiguration == "ROTARYAXIS" || 
-		  EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS") {
+	} else if(encoderConfigurationName == "ROTARYAXIS" || 
+		  encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") {
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
@@ -1704,12 +1721,12 @@ getDisplacement <- function(data, diameter, diameterExt) {
 }
 
 getSpeed <- function(displacement, smoothing) {
-	#no change depending on EncoderConfiguration
+	#no change affected by encoderConfiguration
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
 
 getAcceleration <- function(speed) {
-	#no change depending on EncoderConfiguration
+	#no change affected by encoderConfiguration
 	return (predict( speed, deriv=1 ))
 }
 
@@ -1728,23 +1745,23 @@ getMassBodyByExercise <- function(mass.body, exercisePercentBodyWeight) {
 	return (mass.body * exercisePercentBodyWeight / 100.0)
 }
 
-getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
+getMassByEncoderConfiguration <- function(encoderConfigurationName, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 {
 	mass.body = getMassBodyByExercise(mass.body,exercisePercentBodyWeight)
 
 	if(
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   EncoderConfiguration == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
 	{
 		mass.extra = getMass(mass.extra, gearedDown, anglePush)
-	} else if(EncoderConfiguration == "LINEARONPLANE") {
+	} else if(encoderConfigurationName == "LINEARONPLANE") {
 		mass.body = getMass(mass.body, gearedDown, anglePush)
 		mass.extra = getMass(mass.extra, gearedDown, anglePush)
-	} else if(EncoderConfiguration == "LINEARONPLANEWEIGHTDIFFANGLE") {
+	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
 		mass.body = getMass(mass.body, gearedDown, anglePush)
 		mass.extra = getMass(mass.extra, gearedDown, angleWeight)
 	}
@@ -1753,10 +1770,25 @@ getMassByEncoderConfiguration <- function(mass.body, mass.extra, exercisePercent
 	return (mass)
 }
 
-#mass extra can be connected to body or connected to a pulley depending on EncoderConfiguration
-getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+getDynamics <- function(encoderConfigurationName,
+			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
+			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
 {
-	mass = getMassByEncoderConfiguration (mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
+	if(encoderConfigurationName == "LINEARINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+	   encoderConfigurationName == "ROTARYAXISINERTIAL") 
+	{
+		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, diameterExt, inertiaMomentum, smoothing))
+	} else {
+		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
+	}
+}
+
+#mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
+getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+{
+	mass = getMassByEncoderConfiguration (encoderConfigurationName, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
@@ -1783,9 +1815,9 @@ getDynamics <- function(speed, accel, mass.body, mass.extra, exercisePercentBody
 #  ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
 #  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
 
-getDynamicsInertial <- function(displacement, d, D, mass, inertiaMomentum, smoothing)
+getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
 {
-	if(EncoderConfiguration == "ROTARYFRICTIONSIDEINERTIAL")
+	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
 	{
 		angle = displacement * 2 / D #displacement of the disc
 		displacement = displacement * d / D #displacement of the axis
@@ -1793,9 +1825,9 @@ getDynamicsInertial <- function(displacement, d, D, mass, inertiaMomentum, smoot
 
 	position = abs(cumsum(displacement)) / 1000 #mm -> m
 
-	if(EncoderConfiguration == "LINEARINERTIAL" ||
-	   EncoderConfiguration == "ROTARYFRICTIONSIDEINERTIAL" ||
-	   EncoderConfiguration == "ROTARYFRICTIONAXISINERTIAL") {
+	if(encoderConfigurationName == "LINEARINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL") {
 
 		speed = getSpeed(displacement, smoothing)
 		accel = getAcceleration(speed)
@@ -1807,7 +1839,7 @@ getDynamicsInertial <- function(displacement, d, D, mass, inertiaMomentum, smoot
 		angleSpeed = speed * 2 / d
 		angleAccel = accel * 2 / d
 	} else {
-		#(EncoderConfiguration == "ROTARYAXISINERTIAL")
+		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
 
@@ -1825,7 +1857,7 @@ getDynamicsInertial <- function(displacement, d, D, mass, inertiaMomentum, smoot
 	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass(accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass(accel + g) * speed
 	
-	return(list(displacement=displacement, position=position, mass=mass, force=force, power=power))
+	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
 
 #-------------- end of EncoderConfiguration conversions -------------------------
@@ -1879,12 +1911,13 @@ doProcess <- function(options) {
 	
 	AnalysisOptions=options[13]	
 
-	EncoderConfiguration=	options[14]	#just the name of the EncoderConfiguration	
+	#TODO: all this have to be applicable also on ! singleFILE
+	EncoderConfigurationName=	options[14]	#just the name of the EncoderConfiguration	
 	diameter=	as.numeric(options[15])	#in meters, eg: 0.0175
 	diameterExt=	as.numeric(options[16])	#in meters, eg: 0.0175
 	anglePush =	options[17]
 	angleWeight =	options[18]
-	inertiaMomentum=as.numeric(options[19])/10000	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+	inertiaMomentum=as.numeric(options[19])/10000.0	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 	gearedDown =	options[20]
 
 	SmoothingOneC=options[21]
@@ -1977,8 +2010,12 @@ doProcess <- function(options) {
 		count = 1
 		start = NULL; end = NULL; startH = NULL
 		status = NULL; id = NULL; exerciseName = NULL; massBody = NULL; massExtra = NULL
-		smooth = NULL ; dateTime = NULL; myEccon = NULL; curvesHeight = NULL
+		dateTime = NULL; myEccon = NULL; curvesHeight = NULL
 		seriesName = NULL; percentBodyWeight = NULL;
+
+		#encoderConfiguration
+		econfName = NULL; econfd = NULL; econfD = NULL; econfAnglePush = NULL; econfAngleWeight = NULL; 
+		econfInertia = NULL; econfGearedDown = NULL;
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
@@ -1997,7 +2034,7 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = getDisplacement(dataTempFile, diameter, diameterExt)
+			dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, diameter, diameterExt)
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -2033,6 +2070,15 @@ doProcess <- function(options) {
 
 				dateTime[(i+newLines)] = as.vector(inputMultiData$dateTime[i])
 				percentBodyWeight[(i+newLines)] = as.vector(inputMultiData$percentBodyWeight[i])
+				
+				#also encoder configuration stuff
+				econfName[(i+newLines)] = inputMultiData$econfName[i]
+				econfd[(i+newLines)] = inputMultiData$econfd[i]
+				econfD[(i+newLines)] = inputMultiData$econfD[i]
+				econfAnglePush[(i+newLines)] = inputMultiData$econfAnglePush[i]
+				econfAngleWeight[(i+newLines)] = inputMultiData$econfAngleWeight[i]
+				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]
+				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
 
@@ -2061,7 +2107,7 @@ doProcess <- function(options) {
 
 		#position=cumsum(displacement)
 
-		#curves = data.frame(id,start,end,startH,exerciseName,mass,smooth,dateTime,myEccon,stringsAsFactors=F,row.names=1)
+		#curves = data.frame(id,start,end,startH,exerciseName,mass,dateTime,myEccon,stringsAsFactors=F,row.names=1)
 		#this is a problem when there's only one row as seen by the R code of data.frame. ?data.frame:
 		#"If row names are supplied of length one and the data frame has a
 		#single row, the ‘row.names’ is taken to specify the row names and
@@ -2071,10 +2117,12 @@ doProcess <- function(options) {
 		if(length(id)==1) {
 			curves = data.frame(start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
+					    econfName,econfd,econfD,econfAnglePush,econfAngleWeight,econfInertia,econfGearedDown,
 					    stringsAsFactors=F,row.names=id)
 		} else {
 			curves = data.frame(id,start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
+					    econfName,econfd,econfD,econfAnglePush,econfAngleWeight,econfInertia,econfGearedDown,
 					    stringsAsFactors=F,row.names=1)
 		}
 
@@ -2093,7 +2141,7 @@ doProcess <- function(options) {
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 			
-		displacement = getDisplacement(displacement, diameter, diameterExt)
+		displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
@@ -2103,8 +2151,8 @@ doProcess <- function(options) {
 			quit()
 		}
 
-		if(inertialType == "ri") 
-			displacement = fixRawdataInertial(displacement)
+		#if(inertialType == "ri") 
+		#	displacement = fixRawdataInertial(displacement)
 		
 		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
 
@@ -2178,17 +2226,33 @@ doProcess <- function(options) {
 		if(Jump>0) {
 			myMassBody = MassBody
 			myMassExtra = MassExtra
-			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myStart = curves[Jump,1]
 			myEnd = curves[Jump,2]
 			myExPercentBodyWeight = ExercisePercentBodyWeight
+			
+			#encoderConfiguration
+			myEncoderConfigurationName = EncoderConfigurationName
+			myDiameter = diameter
+			myDiameterExt = diameterExt
+			myAnglePush = anglePush
+			myAngleWeight = angleWeight
+			myInertiaMomentum = inertiaMomentum
+			myGearedDown = gearedDown
 			if(! singleFile) {
 				myMassBody = curves[Jump,5]
 				myMassExtra = curves[Jump,6]
-				#mySmoothingOne = curves[Jump,7]
 				myEccon = curves[Jump,8]
 				myExPercentBodyWeight = curves[Jump,10]
+
+				#encoderConfiguration
+				myEncoderConfigurationName = curves[Jump,11]
+				myDiameter = curves[Jump,12]
+				myDiameterExt = curves[Jump,13]
+				myAnglePush = curves[Jump,14]
+				myAngleWeight = curves[Jump,15]
+				myInertiaMomentum = curves[Jump,16]
+				myGearedDown = curves[Jump,17]
 			}
 			
 			myCurveStr = paste("curve=", Jump, ", ", myMassExtra, "Kg", sep="")
@@ -2201,6 +2265,7 @@ doProcess <- function(options) {
 
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMassBody,myMassExtra,
+			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
@@ -2226,21 +2291,38 @@ doProcess <- function(options) {
 		#if !singleFile kinematicRanges takes the 'curves' values
 		knRanges=kinematicRanges(singleFile, displacement, curves, 
 					 MassBody, MassExtra, ExercisePercentBodyWeight, 
+			    		 EncoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 					 SmoothingsEC, SmoothingOneC, 
 					 g, Eccon, isPropulsive)
 
 		for(i in 1:n) {
 			myMassBody = MassBody
 			myMassExtra = MassExtra
-			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myExPercentBodyWeight = ExercisePercentBodyWeight
+			
+			#encoderConfiguration
+			myEncoderConfigurationName = EncoderConfigurationName
+			myDiameter = diameter
+			myDiameterExt = diameterExt
+			myAnglePush = anglePush
+			myAngleWeight = angleWeight
+			myInertiaMomentum = inertiaMomentum
+			myGearedDown = gearedDown
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
-				#mySmoothingOne = curves[i,7]
 				myEccon = curves[i,8]
 				myExPercentBodyWeight = curves[i,10]
+
+				#encoderConfiguration
+				myEncoderConfigurationName = curves[i,11]
+				myDiameter = curves[i,12]
+				myDiameterExt = curves[i,13]
+				myAnglePush = curves[i,14]
+				myAngleWeight = curves[i,15]
+				myInertiaMomentum = curves[i,16]
+				myGearedDown = curves[i,17]
 			}
 
 			myTitle = ""
@@ -2250,7 +2332,9 @@ doProcess <- function(options) {
 			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMassExtra, "Kg", sep="")
 
 			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMassBody,myMassExtra,myTitle,mySubtitle,
+			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMassBody,myMassExtra,
+			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
+			      myTitle,mySubtitle,
 			      TRUE,	#draw
 			      FALSE,	#showLabels
 			      TRUE,	#marShrink
@@ -2319,15 +2403,31 @@ doProcess <- function(options) {
 		for(i in 1:n) { 
 			myMassBody = MassBody
 			myMassExtra = MassExtra
-			#mySmoothingOne = SmoothingOne
 			myEccon = Eccon
 			myExPercentBodyWeight = ExercisePercentBodyWeight
+			
+			#encoderConfiguration
+			myEncoderConfigurationName = EncoderConfigurationName
+			myDiameter = diameter
+			myDiameterExt = diameterExt
+			myAnglePush = anglePush
+			myAngleWeight = angleWeight
+			myInertiaMomentum = inertiaMomentum
+			myGearedDown = gearedDown
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
-				#mySmoothingOne = curves[i,7]
 				myEccon = curves[i,8]
 				myExPercentBodyWeight = curves[i,10]
+
+				#encoderConfiguration
+				myEncoderConfigurationName = curves[i,11]
+				myDiameter = curves[i,12]
+				myDiameterExt = curves[i,13]
+				myAnglePush = curves[i,14]
+				myAngleWeight = curves[i,15]
+				myInertiaMomentum = curves[i,16]
+				myGearedDown = curves[i,17]
 
 				#only use concentric data	
 				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & myEccon == "e") {
@@ -2368,6 +2468,7 @@ doProcess <- function(options) {
 						     myEccon,
 						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
 								 myMassBody, myMassExtra, myExPercentBodyWeight,
+								 myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 								 SmoothingsEC[i],SmoothingOneC, 
 								 g, myEcconKn, isPropulsive),
 						     myMassBody, myMassExtra
@@ -2500,6 +2601,7 @@ doProcess <- function(options) {
 		for(i in 1:curvesNum) { 
 			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], 
 					  MassBody, MassExtra, ExercisePercentBodyWeight,
+					  EncoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length

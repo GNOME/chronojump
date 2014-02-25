@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.03";
+	static string lastChronojumpDatabaseVersion = "1.04";
 
 	public Sqlite() {
 	}
@@ -1427,6 +1427,50 @@ class Sqlite
 
 				currentVersion = "1.03";
 			}
+			if(currentVersion == "1.03") {
+				dbcon.Open();
+		
+				ArrayList array = SqliteOldConvert.EncoderSelect103(true,-1,-1,-1,"all",false);
+				
+				conversionRateTotal = array.Count;
+				
+				dropTable(Constants.EncoderTable);
+				SqliteEncoder.createTableEncoder();
+				
+				//in this conversion put this as default for all SQL rows
+				EncoderConfiguration econf = new EncoderConfiguration();
+			
+				int count = 1;	
+				foreach(EncoderSQL103 es in array) {
+					conversionRate = count;
+				
+					//do not use SqliteEncoder.Insert because that method maybe changes in the future,
+					//and here we need to do a conversion that works from 1.03 to 1.04
+					dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
+						" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
+						"signalOrCurve, filename, url, time, minHeight, description, status, " +
+						"videoURL, encoderConfiguration, future1, future2, future3)" +
+						" VALUES (" + es.uniqueID + ", " +
+						es.personID + ", " + es.sessionID + ", " +
+						es.exerciseID + ", '" + es.eccon + "', '" +
+						es.laterality + "', '" + es.extraWeight + "', '" +
+						es.signalOrCurve + "', '" + es.filename + "', '" +
+						es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + "', '" + 
+						es.status + "', '" + es.videoURL + "', '" + 
+						econf.ToString(":", true) + "', '" + //in this conversion put this as default for all SQL rows
+						es.future1 + "', '" + es.future2 + "', '" + es.future3 + "')";
+					Log.WriteLine(dbcmd.CommandText.ToString());
+					dbcmd.ExecuteNonQuery();
+					count ++;
+				}	
+
+				conversionRate = count;
+				Log.WriteLine("Encoder table improved");
+				SqlitePreferences.Update ("databaseVersion", "1.04", true); 
+				dbcon.Close();
+
+				currentVersion = "1.04";
+			}
 
 				
 		}
@@ -1568,6 +1612,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.03 - 1-04 Converted DB to 1.04 Encoder table improved
 		//1.02 - 1-03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration
 		//1.01 - 1-02 Converted DB to 1.02 Added Agility Tests: Agility-T-Test, Agility-3L3R
 		//1.00 - 1.01 Converted DB to 1.01 Added export to CSV configuration on preferences

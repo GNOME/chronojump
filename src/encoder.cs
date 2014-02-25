@@ -284,16 +284,15 @@ public class EncoderSQL
 	public string url;
 	public int time;
 	public int minHeight;
-	public double smooth;	//unused on curves, since 1.3.7 it's in database
 	public string description;
 	public string status;	//active or inactive curves
 	public string videoURL;	//URL of video of signals
 	
 	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-	public string encoderConfigurationName;
-	public int inertiaMomentum; //kg*cm^2
-	public double diameter;
+	public EncoderConfiguration encoderConfiguration;
+//	public int inertiaMomentum; //kg*cm^2
+//	public double diameter;
 	
 	public string future1;
 	public string future2;
@@ -309,9 +308,9 @@ public class EncoderSQL
 
 	public EncoderSQL (string uniqueID, int personID, int sessionID, int exerciseID, 
 			string eccon, string laterality, string extraWeight, string signalOrCurve, 
-			string filename, string url, int time, int minHeight, double smooth, 
+			string filename, string url, int time, int minHeight, 
 			string description, string status, string videoURL, 
-			string encoderConfigurationName, int inertiaMomentum, double diameter,
+			EncoderConfiguration encoderConfiguration,
 			string future1, string future2, string future3, 
 			string exerciseName
 			)
@@ -328,13 +327,10 @@ public class EncoderSQL
 		this.url = url;
 		this.time = time;
 		this.minHeight = minHeight;
-		this.smooth = smooth;
 		this.description = description;
 		this.status = status;
 		this.videoURL = videoURL;
-		this.encoderConfigurationName = encoderConfigurationName;
-		this.inertiaMomentum = inertiaMomentum;
-		this.diameter = diameter;
+		this.encoderConfiguration = encoderConfiguration;
 		this.future1 = future1;
 		this.future2 = future2;
 		this.future3 = future3;
@@ -379,6 +375,7 @@ public class EncoderSQL
 		if(video)
 			all++;
 
+
 		string [] str = new String [all];
 		int i=0;
 		str[i++] = uniqueID;
@@ -390,9 +387,7 @@ public class EncoderSQL
 		str[i++] = exerciseName;
 		str[i++] = extraWeight;
 
-		EncoderConfiguration econf = new EncoderConfiguration( (Constants.EncoderConfigurationNames) 
-				Enum.Parse(typeof(Constants.EncoderConfigurationNames), encoderConfigurationName) ); 
-		str[i++] = econf.code.ToString();
+		str[i++] = encoderConfiguration.code.ToString();
 		
 		str[i++] = ecconLong;
 		str[i++] = GetDate(true);
@@ -645,24 +640,6 @@ public class EncoderConfiguration {
 		gearedDown = 1;
 	}
 
-	//decimalPointForR: ensure decimal is point in order to work in R
-	public string ToString(string sep, bool decimalPointForR) {
-		string str_d = "";
-		string str_D = "";
-		if(decimalPointForR) {
-			str_d = Util.ConvertToPoint(d);
-			str_D = Util.ConvertToPoint(D);
-		} else {
-			str_d = d.ToString();
-			str_D = D.ToString();
-		}
-
-		return 
-			name + sep + str_d + sep + str_D + sep + 
-			anglePush.ToString() + sep + angleWeight.ToString() + sep +
-			inertia.ToString() + sep + gearedDown.ToString();
-	}
-	
 	/* note: if this changes, change also in:
 	 * UtilEncoder.EncoderConfigurationList(enum encoderType)
 	 */
@@ -847,4 +824,33 @@ public class EncoderConfiguration {
 			gearedDown = 2;
 		}
 	}
+
+	public void FromSQL (string [] strFull) {
+		//adds other params
+		this.d = 	   Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[1]));
+		this.D = 	   Convert.ToDouble(Util.ChangeDecimalSeparator(strFull[2]));
+		this.anglePush =   Convert.ToInt32(strFull[3]);
+		this.angleWeight = Convert.ToInt32(strFull[4]);
+		this.inertia = 	   Convert.ToInt32(strFull[5]);
+		this.gearedDown =  Convert.ToInt32(strFull[6]);
+	}
+	
+	//decimalPointForR: ensure decimal is point in order to work in R
+	public string ToString(string sep, bool decimalPointForR) {
+		string str_d = "";
+		string str_D = "";
+		if(decimalPointForR) {
+			str_d = Util.ConvertToPoint(d);
+			str_D = Util.ConvertToPoint(D);
+		} else {
+			str_d = d.ToString();
+			str_D = D.ToString();
+		}
+
+		return 
+			name + sep + str_d + sep + str_D + sep + 
+			anglePush.ToString() + sep + angleWeight.ToString() + sep +
+			inertia.ToString() + sep + gearedDown.ToString();
+	}
+	
 }

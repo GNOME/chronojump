@@ -197,11 +197,27 @@ public class EncoderConfigurationWindow {
 	public EncoderConfiguration GetAcceptedValues() 
 	{
 		EncoderConfiguration ec = (EncoderConfiguration) list[listCurrent];
-		ec.d = (double) spin_d.Value; 
-		ec.D = (double) spin_D.Value; 
-		ec.anglePush = (int) spin_angle_push.Value; 
-		ec.angleWeight = (int) spin_angle_weight.Value; 
-		ec.inertia = (int) spin_inertia.Value; 
+		
+		ec.d = -1;
+		ec.D = -1;
+		ec.anglePush = -1;
+		ec.angleWeight = -1;
+		ec.inertia = -1;
+		
+		if(ec.has_d)
+			ec.d = (double) spin_d.Value; 
+
+		if(ec.has_D)
+			ec.D = (double) spin_D.Value; 
+
+		if(ec.has_angle_push)
+			ec.anglePush = (int) spin_angle_push.Value; 
+
+		if(ec.has_angle_weight)
+			ec.angleWeight = (int) spin_angle_weight.Value; 
+
+		if(ec.has_inertia)
+			ec.inertia = (int) spin_inertia.Value; 
 
 		return ec;
 	}

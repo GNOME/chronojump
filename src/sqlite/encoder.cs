@@ -38,7 +38,6 @@ class SqliteEncoder : Sqlite
 	
 	protected internal static void createTableEncoder()
 	{
-		/* old
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderTable + " ( " +
 			"uniqueID INTEGER PRIMARY KEY, " +
@@ -53,34 +52,10 @@ class SqliteEncoder : Sqlite
 			"url TEXT, " +
 			"time INT, " +
 			"minHeight INT, " +
-			"smooth FLOAT, " +  	//unused. since 1.3.7 is on preferences
-			"description TEXT, " +
-			"future1 TEXT, " +	//works as status: "active", "inactive"
-			"future2 TEXT, " +	//URL of video of signals
-			"future3 TEXT )";	//Constants.EncoderSignalMode (only on signals) (add "-0.01" for inertia momentum)
-		dbcmd.ExecuteNonQuery();
-		*/
-		dbcmd.CommandText = 
-			"CREATE TABLE " + Constants.EncoderTable + " ( " +
-			"uniqueID INTEGER PRIMARY KEY, " +
-			"personID INT, " +
-			"sessionID INT, " +
-			"exerciseID INT, " +
-			"eccon TEXT, " +	//"c" or "ec"
-			"laterality TEXT, " +	//"left" "right" "both"
-			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
-			"signalOrCurve TEXT, " + //"signal" or "curve"
-			"filename TEXT, " +
-			"url TEXT, " +
-			"time INT, " +
-			"minHeight INT, " +
-			"smooth FLOAT, " +  	//unused. since 1.3.7 is on preferences
 			"description TEXT, " +
 			"status TEXT, " +	//"active", "inactive"
 			"videoURL TEXT, " +	//URL of video of signals
-			"mode TEXT, " +		//Constants.EncoderSignalMode (signals, and curves)
-		       	"inertiaMomentum INT, " +	//signals and curves
-		       	"diameter FLOAT, " + 		//signals and curves
+			"encoderConfiguration TEXT, " +	//text separated by ':'
 		       	"future1 TEXT, " + 
 		       	"future2 TEXT, " + 
 		       	"future3 TEXT )";
@@ -101,19 +76,17 @@ class SqliteEncoder : Sqlite
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderTable +  
 			" (uniqueID, personID, sessionID, exerciseID, eccon, laterality, extraWeight, " + 
-			"signalOrCurve, filename, url, time, minHeight, smooth, description, status, " +
-			"videoURL, mode, inertiaMomentum, diameter, future1, future2, future3)" +
+			"signalOrCurve, filename, url, time, minHeight, description, status, " +
+			"videoURL, encoderConfiguration, future1, future2, future3)" +
 			" VALUES (" + es.uniqueID + ", " +
 			es.personID + ", " + es.sessionID + ", " +
 			es.exerciseID + ", '" + es.eccon + "', '" +
 			es.laterality + "', '" + es.extraWeight + "', '" +
 			es.signalOrCurve + "', '" + es.filename + "', '" +
-			es.url + "', " + es.time + ", " + es.minHeight + ", " +
-			Util.ConvertToPoint(es.smooth) + ", '" + es.description + 
-			"', 'active', '" + es.videoURL + "', '" + es.encoderConfigurationName + "', " + 
-			es.inertiaMomentum + ", " + Util.ConvertToPoint(es.diameter) + ", '" +
-			es.future1 + "', '" + es.future2 + "', '" +
-			es.future3 + "')";
+			es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + 
+			"', '" + es.status + "', '" + es.videoURL + "', '" + 
+			es.encoderConfiguration.ToString(":",true) + "', '" + 
+			es.future1 + "', '" + es.future2 + "', '" + es.future3 + "')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -149,14 +122,11 @@ class SqliteEncoder : Sqlite
 				"', url = '" + es.url +
 				"', time = " + es.time +
 				", minHeight = " + es.minHeight +
-				", smooth = " + Util.ConvertToPoint(es.smooth) +	//unused. in 1.3.7 is on preferences
 				", description = '" + es.description + 
 				"', status = '" + es.status + 
 				"', videoURL = '" + es.videoURL + 
-				"', mode = '" + es.encoderConfigurationName + 
-				"', inertiaMomentum = " + es.inertiaMomentum + 
-				", diameter = " + Util.ConvertToPoint(es.diameter) + 
-				", future1 = '" + es.future1 + 
+				"', encoderConfiguration = '" + es.encoderConfiguration.ToString(":",true) + 
+				"', future1 = '" + es.future1 + 
 				"', future2 = '" + es.future2 + 
 				"', future3 = '" + es.future3 + 
 				"' WHERE uniqueID == " + es.uniqueID ;
@@ -225,6 +195,13 @@ class SqliteEncoder : Sqlite
 
 		EncoderSQL es = new EncoderSQL();
 		while(reader.Read()) {
+			string [] strFull = reader[15].ToString().Split(new char[] {':'});
+			EncoderConfiguration econf = new EncoderConfiguration(
+				(Constants.EncoderConfigurationNames) 
+				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
+			econf.FromSQL(strFull);
+			
+			Log.WriteLine(econf.ToString(":", true));
 			es = new EncoderSQL (
 					reader[0].ToString(),			//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID	
@@ -238,17 +215,14 @@ class SqliteEncoder : Sqlite
 					reader[9].ToString(),			//url
 					Convert.ToInt32(reader[10].ToString()),	//time
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[12].ToString())), //smooth UNUSED
-					reader[13].ToString(),			//description
-					reader[14].ToString(),			//status
-					reader[15].ToString(),			//videoURL
-					reader[16].ToString(),			//encoderConfigurationName
-					Convert.ToInt32(reader[17].ToString()),	//inertiaMomentum
-					Convert.ToDouble(Util.ChangeDecimalSeparator(reader[18].ToString())), //diameter
-					reader[19].ToString(),			//future1
-					reader[20].ToString(),			//future2
-					reader[21].ToString(),			//future3
-					reader[22].ToString()			//EncoderExercise.name
+					reader[12].ToString(),			//description
+					reader[13].ToString(),			//status
+					reader[14].ToString(),			//videoURL
+					econf,					//encoderConfiguration
+					reader[16].ToString(),			//future1
+					reader[17].ToString(),			//future2
+					reader[18].ToString(),			//future3
+					reader[19].ToString()			//EncoderExercise.name
 					);
 			array.Add (es);
 		}

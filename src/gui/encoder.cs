@@ -667,12 +667,9 @@ public partial class ChronoJumpWindow
 				"",	//path,			//url
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
-				-1,		//Since 1.3.7 smooth is not stored in curves
 				"", 		//desc,
 				"","",		//status, videoURL
-				encoderConfigurationCurrent.name.ToString(),
-				encoderConfigurationCurrent.inertia,
-				encoderConfigurationCurrent.d,
+				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
 					encoderExercisesTranslationAndBodyPWeight)	//exerciseName (english)
@@ -1173,10 +1170,7 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = eSQL.uniqueID;
 				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
 
-				encoderConfigurationCurrent = new EncoderConfiguration( (Constants.EncoderConfigurationNames) 
-						Enum.Parse(typeof(Constants.EncoderConfigurationNames), eSQL.encoderConfigurationName) );
-				encoderConfigurationCurrent.d = eSQL.diameter;
-				encoderConfigurationCurrent.inertia = eSQL.inertiaMomentum;
+				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 
 				label_encoder_selected.Text = encoderConfigurationCurrent.code; 
 			}
@@ -1604,9 +1598,7 @@ public partial class ChronoJumpWindow
 		eSQL.url = path;
 		eSQL.description = desc;
 
-		eSQL.encoderConfigurationName = encoderConfigurationCurrent.name.ToString();
-		eSQL.inertiaMomentum = encoderConfigurationCurrent.inertia;
-		eSQL.diameter = encoderConfigurationCurrent.d;
+		eSQL.encoderConfiguration = encoderConfigurationCurrent;
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update
@@ -2175,7 +2167,8 @@ public partial class ChronoJumpWindow
 
 			//create dataFileName
 			TextWriter writer = File.CreateText(dataFileName);
-			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,smoothingOne,dateTime,fullURL,eccon,percentBodyWeight");
+			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,dateTime,fullURL,eccon,percentBodyWeight," + 
+					"econfName, econfd, econfD, econfAnglePush, econfAngleWeight, econfInertia, econfGearedDown");
 		
 			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
@@ -2241,10 +2234,11 @@ Log.WriteLine(str);
 				writer.WriteLine(eSQL.status + "," + seriesName + "," + ex.name + "," +
 						Util.ConvertToPoint(iteratingMassBody).ToString() + "," + 
 						Util.ConvertToPoint(Convert.ToDouble(eSQL.extraWeight)) + "," +
-						Util.ConvertToPoint(eSQL.smooth) + "," + eSQL.GetDate(true) + "," + 
+						eSQL.GetDate(true) + "," + 
 						fullURL + "," +	
 						eSQL.eccon + "," + 	//this is the eccon of every curve
-						ex.percentBodyWeight.ToString()
+						ex.percentBodyWeight.ToString() + "," +
+						eSQL.encoderConfiguration.ToString(",",true)
 						);
 				countSeries ++;
 			}

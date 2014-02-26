@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -1123,7 +1123,7 @@ partial class ChronoJumpWindow
 		previousJumpType = currentJumpType;
 
 		if(extra_window_radio_jump_more.Active) {
-			jumpsMoreWin = JumpsMoreWindow.Show(app1, true);
+			jumpsMoreWin = JumpsMoreWindow.Show(app1, true, currentJumpType.Name);
 			jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
 			jumpsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_cancelled);
 			jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
@@ -1145,7 +1145,7 @@ partial class ChronoJumpWindow
 		previousJumpRjType = currentJumpRjType;
 
 		if(extra_window_radio_jump_rj_more.Active) {
-			jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true);
+			jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true, currentJumpRjType.Name);
 			jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 			jumpsRjMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_rj_cancelled);
 			jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
@@ -1537,12 +1537,13 @@ public class JumpsMoreWindow : EventMoreWindow
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
+		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1558,10 +1559,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
+	static public JumpsMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
 	{
 		if (JumpsMoreWindowBox == null) {
-			JumpsMoreWindowBox = new JumpsMoreWindow (parent, testOrDelete);
+			JumpsMoreWindowBox = new JumpsMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
 		}
 		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1729,13 +1730,14 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
+		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1755,10 +1757,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsRjMoreWindow Show (Gtk.Window parent, bool testOrDelete)
+	static public JumpsRjMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
 	{
 		if (JumpsRjMoreWindowBox == null) {
-			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent, testOrDelete);
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
 		}
 		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		

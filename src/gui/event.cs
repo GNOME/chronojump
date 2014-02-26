@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -140,7 +140,7 @@ public class EditEventWindow
 		if (EditEventWindowBox == null) {
 			EditEventWindowBox = new EditEventWindow (parent);
 		}
-		
+	
 		EditEventWindowBox.pDN = pDN;
 		
 		EditEventWindowBox.initializeValues();
@@ -591,13 +591,15 @@ public class EventMoreWindow
 	protected string selectedEventName;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
+	public Gtk.Button button_deleted_current_test; //just to send a signal
 	
 	protected bool testOrDelete; //are we going to do a test or to delete a test type (test is true)
+	protected string selectedTestOnMainWindow;
 
 	public EventMoreWindow () {
 	}
 
-	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	public EventMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
@@ -613,6 +615,7 @@ public class EventMoreWindow
 	protected void initializeThings() 
 	{
 		button_selected = new Gtk.Button();
+		button_deleted_current_test = new Gtk.Button();
 		
 		createTreeView(treeview_more);
 
@@ -694,6 +697,10 @@ public class EventMoreWindow
 	{
 		deleteTestLine();
 
+		//if deleted test was the selected test, change selected test to default
+		if(selectedTestOnMainWindow == selectedEventName)
+			button_deleted_current_test.Click();
+
 		TreeModel model;
 		TreeIter iter;
 		if (treeview_more.Selection.GetSelected (out model, out iter)) 
@@ -712,6 +719,11 @@ public class EventMoreWindow
 	public Button Button_selected
 	{
 		get { return button_selected; }
+	}
+
+	public Button Button_deleted_current_test
+	{
+		get { return button_deleted_current_test; }
 	}
 
 	public Button Button_accept {

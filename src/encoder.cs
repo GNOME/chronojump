@@ -368,7 +368,7 @@ public class EncoderSQL
 		return str;
 	}
 
-	public string [] ToStringArray (int count, bool checkboxes, bool video) {
+	public string [] ToStringArray (int count, bool checkboxes, bool video, bool encoderConfigPretty) {
 		int all = 9;
 		if(checkboxes)
 			all ++;
@@ -387,7 +387,10 @@ public class EncoderSQL
 		str[i++] = exerciseName;
 		str[i++] = extraWeight;
 
-		str[i++] = encoderConfiguration.code.ToString();
+		if(encoderConfigPretty)
+			str[i++] = encoderConfiguration.ToStringPretty();
+		else
+			str[i++] = encoderConfiguration.code.ToString();
 		
 		str[i++] = ecconLong;
 		str[i++] = GetDate(true);
@@ -851,6 +854,37 @@ public class EncoderConfiguration {
 			name + sep + str_d + sep + str_D + sep + 
 			anglePush.ToString() + sep + angleWeight.ToString() + sep +
 			inertia.ToString() + sep + gearedDown.ToString();
+	}
+
+	//just to show on a treeview	
+	public string ToStringPretty() {
+		string sep = "; ";
+
+		string str_d = "";
+		if(d != -1)
+			str_d = sep + "d=" + d.ToString();
+
+		string str_D = "";
+		if(D != -1)
+			str_D = sep + "D=" + D.ToString();
+
+		string str_anglePush = "";
+		if(anglePush != -1)
+			str_anglePush = sep + "push angle=" + anglePush.ToString();
+
+		string str_angleWeight = "";
+		if(angleWeight != -1)
+			str_angleWeight = sep + "weight angle=" + angleWeight.ToString();
+
+		string str_inertia = "";
+		if(inertia != -1)
+			str_inertia = sep + "inertia=" + inertia.ToString();
+
+		string str_gearedDown = "";
+		if(gearedDown != 1)	//1 is the default
+			str_gearedDown = sep + "geared down=" + gearedDown.ToString();
+
+		return code + str_d + str_D + str_anglePush + str_angleWeight + str_inertia + str_gearedDown;
 	}
 	
 }

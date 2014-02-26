@@ -728,7 +728,7 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.status;
 			Log.WriteLine(checkboxes[count-1]);
-			dataPrint.Add(es.ToStringArray(count,true,false));
+			dataPrint.Add(es.ToStringArray(count,true,false,true));
 		}
 	
 		string [] columnsString = {
@@ -1090,7 +1090,7 @@ public partial class ChronoJumpWindow
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(EncoderSQL es in data) 
-			dataPrint.Add(es.ToStringArray(count++,false,true));
+			dataPrint.Add(es.ToStringArray(count++,false,true,true));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),

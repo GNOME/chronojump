@@ -1009,7 +1009,7 @@ partial class ChronoJumpWindow
 		previousRunType = currentRunType;
 
 		if(extra_window_radio_run_more.Active) {
-			runsMoreWin = RunsMoreWindow.Show(app1, true);
+			runsMoreWin = RunsMoreWindow.Show(app1, true, currentRunType.Name);
 			runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
 			runsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_cancelled);
 			runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
@@ -1033,7 +1033,7 @@ partial class ChronoJumpWindow
 		previousRunIntervalType = currentRunIntervalType;
 
 		if(extra_window_radio_run_interval_more.Active) {
-			runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
+			runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true, currentRunIntervalType.Name);
 			runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
 			runsIntervalMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_interval_cancelled);
 			runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
@@ -1312,12 +1312,13 @@ public class RunsMoreWindow : EventMoreWindow
 	
 	private double selectedDistance;
 	
-	RunsMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	RunsMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
+		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1332,10 +1333,10 @@ public class RunsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
+	static public RunsMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
 	{
 		if (RunsMoreWindowBox == null) {
-			RunsMoreWindowBox = new RunsMoreWindow (parent, testOrDelete);
+			RunsMoreWindowBox = new RunsMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
 		}
 		RunsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1479,13 +1480,14 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private bool selectedUnlimited;
 	private string selectedDistancesString;
 	
-	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete) {
+	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
+		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1501,10 +1503,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsIntervalMoreWindow Show (Gtk.Window parent, bool testOrDelete)
+	static public RunsIntervalMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
 	{
 		if (RunsIntervalMoreWindowBox == null) {
-			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent, testOrDelete);
+			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
 		}
 		RunsIntervalMoreWindowBox.jumps_runs_more.Show ();
 		

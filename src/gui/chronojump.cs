@@ -5168,19 +5168,38 @@ Console.WriteLine("X");
 	 */
 
 	private void on_jump_type_delete_simple (object o, EventArgs args) {
-		jumpsMoreWin = JumpsMoreWindow.Show(app1, false); //delete jump type
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, false, currentJumpType.Name); //delete jump type
+		jumpsMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_jump_type);
 	}
 	
 	private void on_jump_type_delete_reactive (object o, EventArgs args) {
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false); //delete jump type
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false, currentJumpRjType.Name); //delete jump type
+		jumpsRjMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_jump_rj_type);
 	}
 	
 	private void on_run_type_delete_simple (object o, EventArgs args) {
-		runsMoreWin = RunsMoreWindow.Show(app1, false); //delete run type
+		runsMoreWin = RunsMoreWindow.Show(app1, false, currentRunType.Name); //delete run type
+		runsMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_run_type);
 	}
 	
 	private void on_run_type_delete_intervallic (object o, EventArgs args) {
-		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, false); //delete run type
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, false, currentRunIntervalType.Name); //delete run type
+		runsIntervalMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_run_i_type);
+	}
+	
+	//----
+	
+	private void on_deleted_current_jump_type (object o, EventArgs args) {
+		extra_window_jumps_toggle_desired_button_on_toolbar(new JumpType("Free"));
+	}
+	private void on_deleted_current_jump_rj_type (object o, EventArgs args) {
+		extra_window_jumps_rj_toggle_desired_button_on_toolbar(new JumpType("RJ(j)"));
+	}
+	private void on_deleted_current_run_type (object o, EventArgs args) {
+		extra_window_runs_toggle_desired_button_on_toolbar(new RunType("Custom"));
+	}
+	private void on_deleted_current_run_i_type (object o, EventArgs args) {
+		extra_window_runs_interval_toggle_desired_button_on_toolbar(new RunType("byLaps"));
 	}
 
 	/* ---------------------------------------------------------

@@ -581,8 +581,6 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	else
 		smoothing = smoothingOneEC
 
-	print(c("at kinematicsF smoothing:",smoothing))
-
 	#x vector should contain at least 4 different values
 	if(length(displacement) >= 4)
 		speed <- getSpeed(displacement, smoothing)
@@ -629,7 +627,6 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	force = dynamics$force
 	power = dynamics$power
 
-	print("at kinematicsF")	
 
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
 		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
@@ -1722,6 +1719,7 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 
 getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
+
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
 
@@ -1742,16 +1740,16 @@ getMass <- function(mass, gearedDown, angle) {
 	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
-getMassBodyByExercise <- function(mass.body, exercisePercentBodyWeight) {
-	if(mass.body == 0 || exercisePercentBodyWeight == 0)
+getMassBodyByExercise <- function(massBody, exercisePercentBodyWeight) {
+	if(massBody == 0 || exercisePercentBodyWeight == 0)
 		return (0)
 	
-	return (mass.body * exercisePercentBodyWeight / 100.0)
+	return (massBody * exercisePercentBodyWeight / 100.0)
 }
 
-getMassByEncoderConfiguration <- function(encoderConfigurationName, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
+getMassByEncoderConfiguration <- function(encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 {
-	mass.body = getMassBodyByExercise(mass.body,exercisePercentBodyWeight)
+	massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)
 
 	if(
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
@@ -1761,16 +1759,16 @@ getMassByEncoderConfiguration <- function(encoderConfigurationName, mass.body, m
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
 	{
-		mass.extra = getMass(mass.extra, gearedDown, anglePush)
+		massExtra = getMass(massExtra, gearedDown, anglePush)
 	} else if(encoderConfigurationName == "LINEARONPLANE") {
-		mass.body = getMass(mass.body, gearedDown, anglePush)
-		mass.extra = getMass(mass.extra, gearedDown, anglePush)
+		massBody = getMass(massBody, gearedDown, anglePush)
+		massExtra = getMass(massExtra, gearedDown, anglePush)
 	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-		mass.body = getMass(mass.body, gearedDown, anglePush)
-		mass.extra = getMass(mass.extra, gearedDown, angleWeight)
+		massBody = getMass(massBody, gearedDown, anglePush)
+		massExtra = getMass(massExtra, gearedDown, angleWeight)
 	}
 		
-	mass = mass.body + mass.extra
+	mass = massBody + massExtra
 	return (mass)
 }
 
@@ -1778,35 +1776,28 @@ getDynamics <- function(encoderConfigurationName,
 			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
 			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
 {
+	mass = getMassByEncoderConfiguration (encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
+
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
 	   encoderConfigurationName == "ROTARYAXISINERTIAL") 
 	{
-		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, diameterExt, inertiaMomentum, smoothing))
+		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, diameterExt, mass, inertiaMomentum, smoothing))
 	} else {
-		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
+		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
 	}
 }
 
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
-getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 {
-	mass = getMassByEncoderConfiguration (encoderConfigurationName, mass.body, mass.extra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
-
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
 	power <- force*speed
 
 	return(list(mass=mass, force=force, power=power))
 }
-
-
-#this angle refers to the rotation of the inertial machine
-#getAngleInertial <- function(displacement, diameter) {
-#	return (displacement / ( pi * diameter ))
-#}
-
 
 #d: diameter axis
 #D: diameter external (disc)
@@ -1858,8 +1849,18 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 		accel = angleAccel * d / 2
 	}
 
-	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass(accel + g)
-	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass(accel + g) * speed
+	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass * (accel + g)
+	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+
+	print(c("inertia momentum",inertiaMomentum))
+	print(c("angleAccel",angleAccel))
+	print(c("angleSpeed",angleSpeed))
+	print(c("speed",speed))
+	print(c("d",d))
+	print(c("mass",mass))
+	print(c("accel",accel))
+	print(c("g",g))
+	print(c("power at inertial",power))
 	
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
@@ -1924,7 +1925,7 @@ doProcess <- function(options) {
 	inertiaMomentum=as.numeric(options[19])/10000.0	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 	gearedDown =	as.numeric(options[20])
 
-	SmoothingOneC=options[21]
+	SmoothingOneC=as.numeric(options[21])
 	Jump=options[22]
 	Width=as.numeric(options[23])
 	Height=as.numeric(options[24])

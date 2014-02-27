@@ -816,6 +816,7 @@ public partial class ChronoJumpWindow
 
 		//update on database the curves that have been selected/deselected
 		int count = 0;
+		int countActive = 0;
 
 		Sqlite.Open();
 		foreach(EncoderSQL eSQL in data) {
@@ -823,7 +824,11 @@ public partial class ChronoJumpWindow
 				eSQL.status = checkboxes[count];
 				SqliteEncoder.Update(true, eSQL);
 			}
+			
 			count ++;
+
+			if(eSQL.status == "active") 
+				countActive ++;
 		}
 		Sqlite.Close();
 
@@ -837,7 +842,8 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 		
-		encoderButtonsSensitive(encoderSensEnumStored);
+		//encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze.Sensitive = (countActive > 0);
 	}
 	
 	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
@@ -860,6 +866,7 @@ public partial class ChronoJumpWindow
 		}
 
 		genericWin.ShowCombo(false);
+		updateUserCurvesLabelsAndCombo();
 	}
 	
 	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
@@ -2302,7 +2309,7 @@ Log.WriteLine(str);
 		int rows = UtilGtk.CountRows(encoderCaptureListStore);
 
 		//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
-
+		
 		bool analyze_sensitive = (rows > 0);
 		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
 			analyze_sensitive = curvesNumOkToSideCompare();

@@ -834,12 +834,11 @@ public class Util
 	}
 
 	public static string GetPrefixDir(){
-		string runningFolder = System.AppDomain.CurrentDomain.BaseDirectory;
-		if (Environment.OSVersion.Platform == PlatformID.Win32NT)	
-			return System.IO.Path.Combine(runningFolder, ".." + Path.DirectorySeparatorChar);
-		else 
-			return System.IO.Path.Combine(runningFolder,
-				".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar);
+		string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
+		if (!Directory.Exists(Path.Combine (baseDirectory, "lib", "chronojump"))) {
+			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
+		}
+		return baseDirectory;
 	}
 
 	public static string GetDataDir(){

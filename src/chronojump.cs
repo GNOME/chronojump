@@ -73,10 +73,7 @@ public class ChronoJump
 
 		
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
-		baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
-		if (!Directory.Exists(Path.Combine (baseDirectory, "chronojump"))) {
-			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
-		}
+		baseDirectory = Util.GetPrefixDir();
 		if(UtilAll.IsWindows()) {
 			Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
 		} else {

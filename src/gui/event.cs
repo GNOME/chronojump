@@ -602,7 +602,7 @@ public class EventMoreWindow
 	public EventMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		/*
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		*/
 

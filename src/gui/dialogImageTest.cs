@@ -60,7 +60,7 @@ public class DialogImageTest
 	public DialogImageTest (string title, string imagePath)
 	{
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "dialog_image_test", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		dialog_image_test.Title = title;

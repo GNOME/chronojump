@@ -4841,7 +4841,7 @@ public class EncoderCaptureOptionsWindow {
 		
 	EncoderCaptureOptionsWindow () { 
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_capture_options", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_capture_options", "chronojump");
 		gladeXML.Autoconnect(this);
 	
 		//don't show until View is called

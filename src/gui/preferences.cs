@@ -89,7 +89,7 @@ public class PreferencesWindow {
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window

@@ -15,13 +15,18 @@ WINDOWS
 
 ----- 2014 -------------
 
+- to compile:
+
 chronojump-shell
 cd chronojump
 sh autogen.sh --prefix /c/gstreamer-sdk/0.10/x86
 make
 make install
 
-y para hacer un paquete:
+Just do 'make install' if compiled before
+
+- to build the package to be installed:
+
 cd win32
 make installer
 

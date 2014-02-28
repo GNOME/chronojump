@@ -73,7 +73,7 @@ public class EncoderConfigurationWindow {
 
 	EncoderConfigurationWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "encoder_configuration", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//three encoder types	

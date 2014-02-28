@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -66,7 +66,7 @@ public class ReportWindow {
 
 	ReportWindow (Gtk.Window parent, Report report ) {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "report_window", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		

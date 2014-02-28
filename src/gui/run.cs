@@ -1483,7 +1483,7 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;

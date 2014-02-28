@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -139,7 +139,7 @@ public class ChronopicWindow
 	public ChronopicWindow(ArrayList myCpd)
 	{
 		Glade.XML gxml;
-		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_window", null);
+		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_window", "chronojump");
 		gxml.Autoconnect(this);
 
 		cpd = myCpd;

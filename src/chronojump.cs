@@ -73,15 +73,40 @@ public class ChronoJump
 
 		
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
+		var rBinPath = "";
 		baseDirectory = Util.GetPrefixDir();
 		if(UtilAll.IsWindows()) {
-			Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
-		} else {
-			var rBinPath = @"/usr/lib/R/lib";
-			Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
-			Environment.SetEnvironmentVariable ("PATH", envPath + Path.PathSeparator + rBinPath);
-		}
+			//Environment.SetEnvironmentVariable ("R_HOME", RelativeToPrefix ("library"));
+			//rBinPath = RelativeToPrefix ("lib");
+			//rBinPath = RelativeToPrefix ("library");
+			//var rPath = System.Environment.Is64BitProcess ? @"C:\Program Files\R\R-3.0.2\bin\x64" : @"C:\Program Files\R\R-3.0.2\bin\i386";
+			string x64 = "bin" + System.IO.Path.DirectorySeparatorChar + "x64";
+			string i386 = "bin" + System.IO.Path.DirectorySeparatorChar + "i386";
+			var rPath = System.Environment.Is64BitProcess ? 
+				System.IO.Path.Combine(baseDirectory, x64) : System.IO.Path.Combine(baseDirectory, i386);
 
+			if (Directory.Exists(rPath) == false) {
+				throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
+				Log.WriteLine("Could not found the specified path to the directory containing R.dll: " + rPath);
+			}
+
+			var newPath = string.Format("{0}{1}{2}", rPath, System.IO.Path.PathSeparator, envPath);
+			Log.WriteLine("newPath:" + newPath);
+		
+			System.Environment.SetEnvironmentVariable("PATH", newPath);
+			Log.WriteLine("path:" + System.Environment.GetEnvironmentVariable("PATH"));
+		} else {
+			rBinPath = @"/usr/lib/R/lib";
+			Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
+			Environment.SetEnvironmentVariable("PATH", envPath + Path.PathSeparator + rBinPath);
+		}
+		
+		
+		Log.WriteLine("baseDir0:" + System.AppDomain.CurrentDomain.BaseDirectory);
+		Log.WriteLine("baseDir1:" + baseDirectory);
+		Log.WriteLine("envPath+rBinPath:" + envPath + Path.PathSeparator + rBinPath);
+		
+				
 		if(UtilAll.IsWindows())
 			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
 

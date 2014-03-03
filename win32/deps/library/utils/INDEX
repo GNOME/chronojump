@@ -3,6 +3,7 @@ DLL.version             DLL Version Information
 INSTALL                 Install Add-on Packages
 Question                Documentation Shortcuts
 REMOVE                  Remove Add-on Packages
+RHOME                   R Home Directory
 RShowDoc                Show R Manuals and Other Documentation
 RSiteSearch             Search for Key Words or Phrases in
                         Documentation
@@ -41,6 +42,7 @@ chooseBioCmirror        Select a Bioconductor Mirror
 chooseCRANmirror        Select a CRAN Mirror
 citEntry                Bibliography Entries (Older Interface)
 citation                Citing R and R Packages in Publications
+cite                    Cite a bibliography entry.
 clipboard               Read/Write to/from the Windows Clipboard
 close.socket            Close a Socket
 combn                   Generate All Combinations of n Elements, Taken
@@ -70,6 +72,7 @@ formatUL                Format Unordered and Ordered Lists
 getAnywhere             Retrieve an R Object, Including from a
                         Namespace
 getFromNamespace        Utility functions for Developing Namespaces
+getParseData            Get detailed parse information from object.
 getS3method             Get An S3 Method
 getSrcFilename          Source Reference Utilities
 getWindowsHandle        Get a Windows Handle
@@ -102,9 +105,11 @@ news                    Build and Query R or Package News Information
 object.size             Report the Space Allocated for an Object
 package.skeleton        Create a Skeleton for a New Source Package
 packageDescription      Package Description
+packageName             Find package associated with an environment.
 packageStatus           Package Management Tools
 page                    Invoke a Pager on an R Object
 person                  Persons
+process.events          Trigger event handling
 prompt                  Produce Prototype of an R Documentation File
 promptData              Generate Outline Documentation for a Data Set
 promptPackage           Generate a Shell for Documentation of a Package
@@ -145,7 +150,7 @@ update.packages         Compare Installed Packages with CRAN-like
 url.show                Display a text URL
 utils-deprecated        Deprecated Functions in Package 'utils'
 utils-package           The R Utils Package
-vignette                View or List Vignettes
+vignette                View or List Package Vignettes
 win.version             Auxiliary Functions for the Windows Port
 winDialog               Dialog Boxes under Windows
 winMenuAdd              User Menus under Windows

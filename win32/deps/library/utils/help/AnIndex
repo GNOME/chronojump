@@ -22,7 +22,9 @@ as.relistable	relist
 as.roman	roman
 aspell	aspell
 aspell-utils	aspell-utils
+aspell_package_C_files	aspell-utils
 aspell_package_Rd_files	aspell-utils
+aspell_package_R_files	aspell-utils
 aspell_package_vignettes	aspell-utils
 aspell_write_personal_dictionary_file	aspell-utils
 assignInMyNamespace	getFromNamespace
@@ -45,6 +47,8 @@ chooseBioCmirror	chooseBioCmirror
 chooseCRANmirror	chooseCRANmirror
 CITATION	citation
 citation	citation
+cite	cite
+citeNatbib	cite
 citEntry	citEntry
 citFooter	citEntry
 citHeader	citEntry
@@ -57,7 +61,7 @@ compareVersion	compareVersion
 completion	rcompgen
 contrib.url	contrib.url
 count.fields	count.fields
-CRAN.packages	utils-deprecated
+CRAN.packages	utils-defunct
 create.post	create.post
 data	data
 data.entry	dataentry
@@ -96,6 +100,8 @@ getClipboardFormats	clipboard
 getCRANmirrors	chooseCRANmirror
 getFromNamespace	getFromNamespace
 getIdentification	setWindowTitle
+getParseData	getParseData
+getParseText	getParseData
 getS3method	getS3method
 getSrcDirectory	sourceutils
 getSrcFilename	sourceutils
@@ -148,6 +154,7 @@ old.packages	update.packages
 package.contents	utils-defunct
 package.skeleton	package.skeleton
 packageDescription	packageDescription
+packageName	packageName
 packageStatus	packageStatus
 packageVersion	packageDescription
 page	page
@@ -170,6 +177,7 @@ print.person	person
 print.sessionInfo	sessionInfo
 print.socket	make.socket
 print.vignette	vignette
+process.events	process.events
 prompt	prompt
 prompt.data.frame	prompt
 prompt.default	prompt
@@ -204,6 +212,7 @@ relist.matrix	relist
 REMOVE	REMOVE
 remove.packages	remove.packages
 removeSource	removeSource
+RHOME	RHOME
 Rprof	Rprof
 Rprofmem	Rprofmem
 Rscript	Rscript

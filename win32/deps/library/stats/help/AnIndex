@@ -45,7 +45,7 @@ ar.yw.mts	ar
 arima	arima
 arima.sim	arima.sim
 arima0	arima0
-arima0.diag	ts-defunct
+arima0.diag	stats-defunct
 ARMAacf	ARMAacf
 ARMAtoMA	ARMAtoMA
 as.dendrogram	dendrogram
@@ -428,7 +428,7 @@ pf	Fdist
 pgamma	GammaDist
 pgeom	Geometric
 phyper	Hypergeometric
-plclust	hclust
+plclust	stats-deprecated
 plnorm	Lognormal
 plogis	Logistic
 plot.acf	plot.acf
@@ -507,7 +507,7 @@ print.ecdf	ecdf
 print.factanal	loadings
 print.family	family
 print.formula	formula
-print.ftable	ftable
+print.ftable	read.ftable
 print.glm	glm
 print.hclust	hclust
 print.HoltWinters	HoltWinters

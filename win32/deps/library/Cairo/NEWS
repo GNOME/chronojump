@@ -1,5 +1,34 @@
 NEWS/Changelog
 
+1.5-5	(2013-12-23)
+    o	fix onSave reporting incorrect page number for the last page
+	(introduced in 1.5-4, closes #6)
+
+    o	scale fonts unconditionally according to the dpi adjustment
+	(fixes issues with grid graphics and dpi changes)
+
+
+1.5-4	(2013-12-12)
+    o	fix invalid pointsize scaling if dpi auto-detection is used
+	(closes #1)
+
+    o	fix failure to emit final page in some multi-page settings
+	(closes #4)
+
+    o	the `res' parameter in CairoPNG(), CairoTIFF() and CairoJPEG()
+	it now passed down to Cairo() which now accepts `res' to
+	override the value of `dpi' if `res' is set to anyhting other
+	than NA or NULL. (closes #3)
+
+    o	release onSave callback function on close (closes #2)
+
+
+1.5-3	(2013-12-03)
+    o	remove compatibility layers to make R 3.x happy
+
+    o	adjust pointsize according to the dpi setting
+
+
 1.5-2	(2012-11-05)
     o	added Cairo.onSave() callback which allows R code to be run
 	when Cairo finishes a page

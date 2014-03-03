@@ -5,6 +5,7 @@ Documentation           Using and Creating On-line Documentation for
 GenericFunctions        Tools for Managing Generic Functions
 LinearMethodsList-class
                         Class "LinearMethodsList"
+LocalReferenceClasses   Localized Objects based on Reference Classes
 MethodDefinition-class
                         Classes to Represent Method Definitions
 MethodWithNext-class    Class MethodWithNext

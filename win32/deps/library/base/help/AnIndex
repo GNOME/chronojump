@@ -32,6 +32,9 @@ $<-.data.frame	Extract.data.frame
 -.POSIXt	DateTimeClasses
 ->	assignOps
 ->>	assignOps
+...	Reserved
+..1	Reserved
+..getNamespace	ns-internal
 .Alias	base-defunct
 .amatch_bounds	agrep
 .amatch_costs	agrep
@@ -48,10 +51,17 @@ $<-.data.frame	Extract.data.frame
 .colMeans	colSums
 .colSums	colSums
 .conflicts.OK	attach
+.C_R_addTaskCallback	base-internal
+.C_R_getbcprofcounts	base-internal
+.C_R_getTaskCallbackNames	base-internal
+.C_R_removeTaskCallback	base-internal
+.C_R_startbcprof	base-internal
+.C_R_stopbcprof	base-internal
 .decode_numeric_version	numeric_version
 .Defunct	Defunct
 .deparseOpts	deparseOpts
 .Deprecated	Deprecated
+.detach	base-internal
 .Device	dev
 .Devices	dev
 .difftime	base-internal
@@ -63,12 +73,21 @@ $<-.data.frame	Extract.data.frame
 .Export	base-defunct
 .External	CallExternal
 .External.graphics	Foreign-internal
-.find.package	find.package
+.External2	Foreign-internal
+.find.package	base-deprecated
 .First	Startup
 .First.lib	base-defunct
 .First.sys	Startup
 .Firstlib_as_onLoad	base-internal
 .Fortran	Foreign
+.F_dchdc	base-internal
+.F_dqrcf	base-internal
+.F_dqrdc2	base-internal
+.F_dqrqty	base-internal
+.F_dqrqy	base-internal
+.F_dqrrsd	base-internal
+.F_dqrxb	base-internal
+.F_dtrco	base-internal
 .Generic	UseMethod
 .GenericArgsEnv	base-internal
 .getNamespace	ns-internal
@@ -99,6 +118,7 @@ $<-.data.frame	Extract.data.frame
 .Machine	zMachine
 .makeMessage	message
 .make_numeric_version	numeric_version
+.mapply	base-internal
 .mergeExportMethods	ns-internal
 .mergeImportMethods	ns-internal
 .Method	UseMethod
@@ -107,14 +127,16 @@ $<-.data.frame	Extract.data.frame
 .NotYetImplemented	notyet
 .NotYetUsed	notyet
 .onAttach	ns-hooks
+.onDetach	ns-hooks
 .onLoad	ns-hooks
 .onUnload	ns-hooks
 .Options	options
 .OptRequireMethods	Startup
 .packages	zpackages
 .packageStartupMessage	message
-.path.package	find.package
+.path.package	base-deprecated
 .Platform	Platform
+.popath	base-internal
 .POSIXct	base-internal
 .POSIXlt	base-internal
 .Primitive	Primitive
@@ -160,6 +182,7 @@ $<-.data.frame	Extract.data.frame
 >	Comparison
 >=	Comparison
 @	slotOp
+@<-	slotOp
 abbreviate	abbreviate
 abs	MathFun
 acos	Trig
@@ -177,7 +200,7 @@ all.equal.formula	all.equal
 all.equal.language	all.equal
 all.equal.list	all.equal
 all.equal.numeric	all.equal
-all.equal.POSIXct	DateTimeClasses
+all.equal.POSIXct	all.equal
 all.equal.raw	all.equal
 all.names	allnames
 all.vars	allnames
@@ -300,7 +323,7 @@ as.POSIXlt.numeric	as.POSIXlt
 as.POSIXlt.POSIXct	as.POSIXlt
 as.qr	qr
 as.raw	raw
-as.real	real
+as.real	base-defunct
 as.single	double
 as.single.default	double
 as.symbol	name
@@ -349,6 +372,12 @@ bindenv	bindenv
 bindingIsActive	bindenv
 bindingIsLocked	bindenv
 bindtextdomain	gettext
+bitwAnd	bitwise
+bitwNot	bitwise
+bitwOr	bitwise
+bitwShiftL	bitwise
+bitwShiftR	bitwise
+bitwXor	bitwise
 body	body
 body<-	body
 bquote	bquote
@@ -389,6 +418,7 @@ chol2inv	chol2inv
 choose	Special
 class	class
 class<-	class
+clearPushBack	pushBack
 clipboard	connections
 close	connections
 close.connection	connections
@@ -598,8 +628,6 @@ get	get
 getAllConnections	showConnections
 getCallingDLL	getCallingDLL
 getCallingDLLe	getCallingDLL
-getCConverterDescriptions	converters
-getCConverterStatus	converters
 getConnection	showConnections
 getDLLRegisteredRoutines	getDLLRegisteredRoutines
 getDLLRegisteredRoutines.character	getDLLRegisteredRoutines
@@ -618,7 +646,6 @@ getNamespaceName	ns-reflect
 getNamespaceUsers	ns-reflect
 getNamespaceVersion	ns-reflect
 getNativeSymbolInfo	getNativeSymbolInfo
-getNumCConverters	converters
 getOption	options
 getRversion	numeric_version
 getSrcLines	srcfile
@@ -711,7 +738,7 @@ is.primitive	is.function
 is.qr	qr
 is.R	isR
 is.raw	raw
-is.real	real
+is.real	base-defunct
 is.recursive	is.recursive
 is.single	is.single
 is.symbol	name
@@ -800,6 +827,9 @@ log2	Log
 logb	Log
 Logic	Logic
 logical	logical
+long vector	LongVectors
+Long vectors	LongVectors
+long vectors	LongVectors
 lower.tri	lower.tri
 ls	ls
 Machine	base-defunct
@@ -829,7 +859,6 @@ matrix	matrix
 max	Extremes
 max.col	maxCol
 mean	mean
-mean.data.frame	mean
 mean.Date	Dates
 mean.default	mean
 mean.difftime	difftime
@@ -1008,6 +1037,7 @@ promise	delayedAssign
 promises	delayedAssign
 prop.table	prop.table
 provide	base-defunct
+provideDimnames	dimnames
 psigamma	Special
 pushBack	pushBack
 pushBackLength	pushBack
@@ -1059,7 +1089,7 @@ readline	readline
 readLines	readLines
 readRDS	readRDS
 readRenviron	readRenviron
-real	real
+real	base-defunct
 Recall	Recall
 Reduce	funprog
 reg.finalizer	reg.finalizer
@@ -1074,7 +1104,6 @@ regmatches	regmatches
 regmatches<-	regmatches
 regular expression	regex
 remove	rm
-removeCConverter	converters
 removeTaskCallback	taskCallback
 Renviron	Startup
 Renviron.site	Startup
@@ -1088,6 +1117,7 @@ rep.POSIXlt	rep
 repeat	Control
 replace	replace
 replicate	lapply
+rep_len	rep
 require	library
 requireNamespace	ns-load
 Reserved	Reserved
@@ -1178,7 +1208,6 @@ seq_along	seq
 seq_len	seq
 serialize	serialize
 set.seed	Random
-setCConverterStatus	converters
 setdiff	sets
 setequal	sets
 setHook	userhooks
@@ -1283,6 +1312,7 @@ Summary.POSIXct	DateTimeClasses
 summary.POSIXct	DateTimeClasses
 Summary.POSIXlt	DateTimeClasses
 summary.POSIXlt	DateTimeClasses
+summary.proc_time	proc.time
 summary.srcfile	srcfile
 summary.srcref	srcfile
 summary.table	table
@@ -1472,6 +1502,7 @@ zapsmall	zapsmall
 [.POSIXct	DateTimeClasses
 [.POSIXlt	DateTimeClasses
 [.simple.list	Extract
+[.warnings	warnings
 [<-	Extract
 [<-.data.frame	Extract.data.frame
 [<-.Date	Dates

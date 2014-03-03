@@ -1,9 +1,9 @@
 Package: utils
-Version: 2.15.2
+Version: 3.0.2
 Priority: base
 Title: The R Utils Package
 Author: R Core Team and contributors worldwide
 Maintainer: R Core Team <R-core@r-project.org>
 Description: R utility functions
-License: Part of R 2.15.2
-Built: R 2.15.2; ; 2012-10-27 03:05:31 UTC; windows
+License: Part of R 3.0.2
+Built: R 3.0.2; x86_64-w64-mingw32; 2013-09-25 15:38:52 UTC; windows

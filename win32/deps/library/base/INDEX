@@ -13,7 +13,7 @@
 .standard_regexps       Miscellaneous Internal/Programming Utilities
 :                       Colon Operator
 ::                      Double Colon and Triple Colon Operators
-@                       Extract Slots
+@                       Extract or Replace A Slot
 Arithmetic              Arithmetic Operators
 AsIs                    Inhibit Interpretation/Conversion of Objects
 Bessel                  Bessel Functions
@@ -94,7 +94,7 @@ as.function             Convert Object to Function
 assign                  Assign a Value to a Name
 assignOps               Assignment Operators
 attach                  Attach Set of R Objects to Search Path
-attachNamespace         Loading and Unloading Namespaces
+attachNamespace         Loading and Unloading Name Spaces
 attr                    Object Attributes
 attributes              Object Attribute Lists
 autoload                On-demand Loading of Packages
@@ -102,6 +102,7 @@ backsolve               Solve an Upper or Lower Triangular System
 base-package            The R Base Package
 basename                Manipulate File Paths
 bindenv                 Binding and Environment Adjustments
+bitwNot                 Bitwise Logical Operations
 body                    Access to and Manipulation of the Body of a
                         Function
 bquote                  Partial substitution in expressions
@@ -204,7 +205,6 @@ getHook                 Functions to Get and Set Hooks for Load,
 getLoadedDLLs           Get DLLs Loaded in Current Session
 getNativeSymbolInfo     Obtain a Description of one or more Native
                         (C/Fortran) Symbols
-getNumCConverters       Management of .C argument conversion list
 getTaskCallbackNames    Query the Names of the Current Internal
                         Top-Level Task Callbacks
 gettext                 Translate Text Messages
@@ -253,6 +253,7 @@ load                    Reload Saved Datasets
 locales                 Query or Set Aspects of the Locale
 log                     Logarithms and Exponentials
 logical                 Logical Vectors
+long vector             Long Vectors
 lower.tri               Lower and Upper Triangular Part of a Matrix
 ls                      List Objects
 make.names              Make Syntactically Valid Names
@@ -328,7 +329,6 @@ readLines               Read Text Lines from a Connection
 readRDS                 Serialization Interface for Single Objects
 readRenviron            Set Environment Variables from a File
 readline                Read a Line from the Terminal
-real                    Real Vectors
 reg.finalizer           Finalization of Objects
 regex                   Regular Expressions as used in R
 regmatches              Extract or Replace Matched Substrings
@@ -424,7 +424,8 @@ warning                 Warning Messages
 warnings                Print Warning Messages
 weekdays                Extract Parts of a POSIXt or Date Object
 which                   Which indices are TRUE?
-which.min               Where is the Min() or Max() ?
+which.min               Where is the Min() or Max() or first TRUE or
+                        FALSE ?
 with                    Evaluate an Expression in a Data Environment
 withVisible             Return both a value and its visibility
 write                   Write Data to a File

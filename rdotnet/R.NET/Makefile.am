@@ -29,8 +29,15 @@ SOURCES = \
     Expression.cs \
     ExpressionVector.cs \
     DataFrame.cs \
+	DataFrameColumnAttribute.cs \
     DataFrameRow.cs \
-    DynamicVector.cs \
+	DataFrameRowAttribute.cs \
+	Diagnostics/DataFrameColumnDisplay.cs \
+	Diagnostics/DataFrameDebugView.cs \
+	Diagnostics/FactorDebugView.cs \
+	Diagnostics/MatrixDebugView.cs \
+	Diagnostics/VectorDebugView.cs \
+	DynamicVector.cs \
     Dynamic/DataFrameDynamicMeta.cs \
     Dynamic/SymbolicExpressionDynamicMeta.cs \
     Dynamic/ListDynamicMeta.cs \
@@ -61,6 +68,7 @@ SOURCES = \
     Internals/sxpinfo.cs \
     Properties/AssemblyInfo.cs \
     REngine.cs \
+	Factor.cs \
     SymbolicExpressionExtension.cs \
     Utility.cs \
     Vector.cs \

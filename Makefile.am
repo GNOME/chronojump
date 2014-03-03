@@ -3,7 +3,7 @@ EXTRA_DIST = build/m4
 ACLOCAL_AMFLAGS = -I build/m4 -I build/m4/shave -I build/m4/shamrock
 
 SUBDIRS = chronopic-firmware \
-	encoder libcesarplayer CesarPlayer rdotnet src po manual chronojump_server
+	 rdotnet encoder libcesarplayer CesarPlayer src po manual chronojump_server
 
 if OSTYPE_LINUX
 SUBDIRS += chronopic-tests chronojump_server

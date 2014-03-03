@@ -1763,8 +1763,8 @@ public partial class ChronoJumpWindow
 			return true;
 
 		Log.WriteLine("initializing rdotnet");
-
-		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
+		
+        //RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
 		//rsup.Interactive = false;
 		//rsup.Quiet = false;
 
@@ -1773,21 +1773,23 @@ public partial class ChronoJumpWindow
 		// From v1.5, REngine requires explicit initialization.
 		// You can set some parameters.
 
-		try {
+		//try {
 			//rengine.Initialize(rsup);
 			rengine.Initialize();
-		} catch {
-			return false;
-		}
+		//} catch {
+			//return false;
+		//}
 		//Previous command, unfortunatelly localizes all GUI to english
 		//then call Catalog.Init again in order to see new windows localised		
-		Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+		//Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
 
+		/*
 		try {
 			rengine.Evaluate("library(\"EMD\")");
 		} catch {
 			return false;
 		}
+		*/
 
 		// .NET Framework array to R vector.
 		NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });

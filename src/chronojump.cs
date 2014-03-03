@@ -95,6 +95,11 @@ public class ChronoJump
 		
 			System.Environment.SetEnvironmentVariable("PATH", newPath);
 			Log.WriteLine("path:" + System.Environment.GetEnvironmentVariable("PATH"));
+			
+			//use this because we don't want to look at the registry
+			//we don't want to force user to install R
+			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
+			Log.WriteLine("R_HOME:" + baseDirectory);
 		} else {
 			rBinPath = @"/usr/lib/R/lib";
 			Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");

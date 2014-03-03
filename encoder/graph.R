@@ -1704,7 +1704,7 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 	if(encoderConfigurationName == "LINEARINVERTED") {
 		data = -data
 	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
-		#default is: gearedDowniplication = 2. Future maybe this will be a parameter
+		#default is: gearedDown = 2. Future maybe this will be a parameter
 		data = data *2
 	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
 		data = data * diameter / diameterExt
@@ -1713,7 +1713,14 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
+	} else if(encoderConfigurationName == "LINEARINERTIAL" ||
+				encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+				encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+				encoderConfigurationName == "ROTARYAXISINERTIAL") { 
+		data = fixRawdataInertial(data)
 	}
+
+		
 	return(data)
 }
 
@@ -1812,20 +1819,26 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
 {
+displacement = displacement / 1000 #mm -> m
+d=d/100 #cm -> m
+D=D/100 #cm -> m
 	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
 	{
 		angle = displacement * 2 / D #displacement of the disc
 		displacement = displacement * d / D #displacement of the axis
 	}
 
-	position = abs(cumsum(displacement)) / 1000 #mm -> m
+	#position = abs(cumsum(displacement)) / 1000 #mm -> m
+	position = abs(cumsum(displacement))
 
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL") {
 
-		speed = getSpeed(displacement, smoothing)
-		accel = getAcceleration(speed)
+		speed = getSpeed(displacement, smoothing)  # getSpeed returns in m/ms because displacement is in m/ms
+		speed$y = speed$y * 1000 # m/ms -> m/s
+		accel = getAcceleration(speed) # getAcceleration returns in m/ms²
+		accel$y = accel$y * 1000000 # m/ms² -> m/s²
 		#use the values
 		speed = speed$y
 		accel = accel$y
@@ -1836,7 +1849,7 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	} else {
 		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
+#revisar		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
 
 		angleSpeed = getSpeed(angle, smoothing)
 		angleAccel = getAcceleration(angleSpeed)      
@@ -1851,17 +1864,23 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 
 	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+	powerBody = mass * (accel + g) * speed
+	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
 
+	print(c("displacement",displacement))
 	print(c("inertia momentum",inertiaMomentum))
+        print(c("d",d))
+        print(c("mass",mass))
+        print(c("g",g))
 	print(c("angleAccel",angleAccel))
 	print(c("angleSpeed",angleSpeed))
 	print(c("speed",speed))
-	print(c("d",d))
-	print(c("mass",mass))
 	print(c("accel",accel))
-	print(c("g",g))
+	print(c("force",force))
 	print(c("power at inertial",power))
-	
+	print(c("powerBody",powerBody[1000]))
+	print(c("powerWheel",powerWheel[1000]))
+
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
 
@@ -2156,9 +2175,6 @@ doProcess <- function(options) {
 			quit()
 		}
 
-		#if(inertialType == "ri") 
-		#	displacement = fixRawdataInertial(displacement)
-		
 		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
 
 		position=cumsum(displacement)

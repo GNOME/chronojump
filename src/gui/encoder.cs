@@ -4224,9 +4224,13 @@ Log.WriteLine(str);
 
 		//plot bars
 		int sep = 20;	//between reps
-		if (data.Count >= 10) {
+		if (data.Count >= 10 && data.Count < 20) {
 			sep = 10;
 			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+		} else	if (data.Count >= 20) {
+			sep = 1;
+			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+			left_margin = 2;
 		}
 
 		int dLeft = 0;

@@ -318,7 +318,27 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 	return(as.data.frame(cbind(start,end,startH)))
 }
 
-#all displacement will be negative because we start on the top
+
+
+# This function converts top curve into bottom curve
+#
+#          /\
+#         /  \        /
+# _     B/    \C     /
+#  \    /      \    /D
+#  A\  /        \  /
+#    \/          \/
+#
+# _     b        
+#  \    /\    /\    /\
+#   \  /  \  /  \  /  \
+#    \/    \/    \/
+#    ab    bc
+#
+# eg: in to curve, 'B' is a movement of disc rolling to right (or left),
+# but in this movement, person has gone up/down. Up phase is ab-b. Down phase is b-bc.
+# his function produces this transformation
+# all displacement will be negative because we start on the top
 fixRawdataInertial <- function(displacement) {
 	#do not do this:
 	#position=cumsum(displacement)
@@ -1701,7 +1721,11 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 	#ROTARYFRICTIONSIDE
 	#WEIGHTEDMOVPULLEYROTARYFRICTION
 
-	if(encoderConfigurationName == "LINEARINVERTED") {
+	if(
+	   encoderConfigurationName == "LINEARINVERTED" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
+	{
 		data = -data
 	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
 		#default is: gearedDown = 2. Future maybe this will be a parameter
@@ -1713,10 +1737,12 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
-	} else if(encoderConfigurationName == "LINEARINERTIAL" ||
-				encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-				encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
-				encoderConfigurationName == "ROTARYAXISINERTIAL") { 
+	} else if(
+		  encoderConfigurationName == "LINEARINERTIAL" ||
+		  encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+		  encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+		  encoderConfigurationName == "ROTARYAXISINERTIAL") 
+	{ 
 		data = fixRawdataInertial(data)
 	}
 
@@ -1867,19 +1893,19 @@ D=D/100 #cm -> m
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
 
-	print(c("displacement",displacement))
-	print(c("inertia momentum",inertiaMomentum))
-        print(c("d",d))
-        print(c("mass",mass))
-        print(c("g",g))
-	print(c("angleAccel",angleAccel))
-	print(c("angleSpeed",angleSpeed))
-	print(c("speed",speed))
-	print(c("accel",accel))
-	print(c("force",force))
-	print(c("power at inertial",power))
-	print(c("powerBody",powerBody[1000]))
-	print(c("powerWheel",powerWheel[1000]))
+	#print(c("displacement",displacement))
+	#print(c("inertia momentum",inertiaMomentum))
+        #print(c("d",d))
+        #print(c("mass",mass))
+        #print(c("g",g))
+	#print(c("angleAccel",angleAccel))
+	#print(c("angleSpeed",angleSpeed))
+	#print(c("speed",speed))
+	#print(c("accel",accel))
+	#print(c("force",force))
+	#print(c("power at inertial",power))
+	#print(c("powerBody",powerBody[1000]))
+	#print(c("powerWheel",powerWheel[1000]))
 
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }

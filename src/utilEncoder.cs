@@ -590,7 +590,10 @@ public class UtilEncoder
 		 */
 
 		double data = byteReaded;
-		if(ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
+		if(
+				ec.name == Constants.EncoderConfigurationNames.LINEARINVERTED ||
+				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
+				ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ) {
 			data *= -1;
 		} else if(ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYONLINEARENCODER) {
 			//default is: gearedDown = 2. Future maybe this will be a parameter

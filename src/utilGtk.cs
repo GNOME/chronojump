@@ -238,10 +238,11 @@ public class UtilGtk
 	public static Gdk.Color BLUE = new Gdk.Color(0x6c,0x77,0xab);
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
 	
+	public static Gdk.Color GREEN_PLOTS = new Gdk.Color(0,238,0);
 	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
 	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
 	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
-	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70);
+	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background
 	
 
 	public static void ColorsMenuLabel(Gtk.Viewport v, Gtk.Label l) {

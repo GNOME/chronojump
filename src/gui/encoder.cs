@@ -217,6 +217,8 @@ public partial class ChronoJumpWindow
  
 	Gdk.GC pen_black_encoder_capture;
 	Gdk.GC pen_azul_encoder_capture;
+	Gdk.GC pen_green_encoder_capture;
+	Gdk.GC pen_red_encoder_capture;
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -367,7 +369,7 @@ public partial class ChronoJumpWindow
 				maxSpeedHigherCondition, maxSpeedLowerCondition,
 				powerHigherCondition, powerLowerCondition,
 				peakPowerHigherCondition, peakPowerLowerCondition,
-				encoderCaptureOptionsWin.GetComboValue()//,
+				encoderCaptureOptionsWin.GetMainVariable()//,
 				//checkbutton_encoder_capture_inverted.Active
 				); 
 
@@ -4160,7 +4162,9 @@ Log.WriteLine(str);
 			//plot
 			if(plotCurvesBars) {
 				string title = "";
-				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
 				if(mainVariable == Constants.MeanSpeed)
 					captureCurvesBarsData.Add(meanSpeed);
 				else if(mainVariable == Constants.MaxSpeed)
@@ -4170,7 +4174,7 @@ Log.WriteLine(str);
 				else	//mainVariable == Constants.PeakPower
 					captureCurvesBarsData.Add(peakPower);
 
-				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
 			}
 
 
@@ -4195,7 +4199,7 @@ Log.WriteLine(str);
 		ecca.curvesDone ++;
 	}
 
-	void plotCurvesGraphDoPlot(string mainVariable, ArrayList data) {
+	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, ArrayList data) {
 		Log.WriteLine("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -4246,6 +4250,7 @@ Log.WriteLine(str);
 			left_margin = 2;
 		}
 
+		Gdk.GC my_pen;
 		int dLeft = 0;
 		int count = 0;
 		foreach(double d in data) {
@@ -4263,10 +4268,18 @@ Log.WriteLine(str);
 
 			dLeft = left_margin + dWidth * count;
 			dWidth = dWidth - sep;
-			
+
+			//select pen color for bars
+			if(mainVariableHigher != -1 && d >= mainVariableHigher)
+				my_pen = pen_green_encoder_capture;
+			else if(mainVariableLower != -1 && d <= mainVariableLower)
+				my_pen = pen_red_encoder_capture;
+			else
+				my_pen = pen_azul_encoder_capture;
+
 			//paint bar:	
 			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
-			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_azul_encoder_capture, true, rect);
+			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 		
 			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
@@ -4305,8 +4318,10 @@ Log.WriteLine(str);
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
 			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
-				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData); //this also erases first
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			
@@ -4333,8 +4348,10 @@ Log.WriteLine(str);
 					encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			
 			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
-				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData); //this also erases first
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -4531,13 +4548,19 @@ Log.WriteLine(str);
 
 		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
+		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 	}
 
 	private bool pulseGTKEncoderCaptureAndCurves ()
@@ -4730,7 +4753,10 @@ Log.WriteLine(str);
 				image_encoder_capture.Sensitive = true;
 
 				//plot curves bars graph
-				string mainVariable = encoderCaptureOptionsWin.GetComboValue();
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				
 				captureCurvesBarsData = new ArrayList();
 				foreach (EncoderCurve curve in encoderCaptureCurves) {
 					if(mainVariable == Constants.MeanSpeed)
@@ -4742,7 +4768,7 @@ Log.WriteLine(str);
 					else	//mainVariable == Constants.PeakPower
 						captureCurvesBarsData.Add(Convert.ToDouble(curve.PeakPower));
 				}
-				plotCurvesGraphDoPlot(mainVariable, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
 		
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES)
@@ -4920,10 +4946,42 @@ public class EncoderCaptureOptionsWindow {
 		combo_main_variable.Sensitive = true;
 	}
 
-	public string GetComboValue() {
+	public string GetMainVariable() {
 		return UtilGtk.ComboGetActive(combo_main_variable);
 	}
 	
+	public double GetMainVariableHigher(string mainVariable) {
+		//if user has not clicked at bells, repetitiveConditionsWin has not ben sent to encoderCaptureOptionsWin
+		if(repetitiveConditionsWin != null) {
+			if(mainVariable == Constants.MeanSpeed && repetitiveConditionsWin.EncoderMeanSpeedHigher)
+				return repetitiveConditionsWin.EncoderMeanSpeedHigherValue;
+			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedHigher)
+				return repetitiveConditionsWin.EncoderMaxSpeedHigherValue;
+			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerHigher)
+				return repetitiveConditionsWin.EncoderPowerHigherValue;
+			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerHigher)
+				return repetitiveConditionsWin.EncoderPeakPowerHigherValue;
+		}
+			
+		return -1;
+	}
+
+	public double GetMainVariableLower(string mainVariable) {
+		//if user has not clicked at bells, repetitiveConditionsWin has not ben sent to encoderCaptureOptionsWin
+		if(repetitiveConditionsWin != null) {
+			if(mainVariable == Constants.MeanSpeed && repetitiveConditionsWin.EncoderMeanSpeedLower)
+				return repetitiveConditionsWin.EncoderMeanSpeedLowerValue;
+			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedLower)
+				return repetitiveConditionsWin.EncoderMaxSpeedLowerValue;
+			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerLower)
+				return repetitiveConditionsWin.EncoderPowerLowerValue;
+			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerLower)
+				return repetitiveConditionsWin.EncoderPeakPowerLowerValue;
+		}
+			
+		return -1;
+	}
+
 	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
 		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
 	}

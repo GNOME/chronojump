@@ -5419,6 +5419,15 @@ Console.WriteLine("X");
 		if(curve.N != null) {
 			string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
 			encoderUpdateTreeViewCapture(contents);
+			
+			//also update the bars plot (to show colors depending on bells changes)
+			if(captureCurvesBarsData.Count > 0) {
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+			} else
+				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		}
 	}
 

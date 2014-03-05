@@ -352,6 +352,8 @@ fixRawdataInertial <- function(displacement) {
 	#this is to make "inverted cumsum"
 	displacement = c(0,diff(position))
 
+	print(displacement)
+
 	return(displacement)
 }
 
@@ -432,7 +434,6 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 }
 
 #used in alls eccons
-#TODO: remember to change thi in python capture file because there it's only used in "c"
 reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneEC, smoothingOneC) 
 {
 	print("at reduceCurveBySpeed")
@@ -601,6 +602,8 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	else
 		smoothing = smoothingOneEC
 
+print(c(" smoothing:",smoothing))
+
 	#x vector should contain at least 4 different values
 	if(length(displacement) >= 4)
 		speed <- getSpeed(displacement, smoothing)
@@ -611,7 +614,12 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		accel <- getAcceleration(speed)
 	else
 		accel=list(y=rep(0,length(displacement)))
-	
+
+print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
+print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))
+print(c(" |ms|",round(mean(abs(speed$y)),5)," |ma|:",round(mean(abs(accel$y)),5)))
+print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
+
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
 	errorSearching = FALSE
@@ -1745,7 +1753,6 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 	{ 
 		data = fixRawdataInertial(data)
 	}
-
 		
 	return(data)
 }
@@ -2210,6 +2217,7 @@ doProcess <- function(options) {
 	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
+		print(c("SmoothingsEC:",SmoothingsEC))
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)

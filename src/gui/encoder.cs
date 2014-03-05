@@ -2549,19 +2549,21 @@ Log.WriteLine(str);
 			return massTotal - (currentPersonSession.Weight * percentBodyWeight / 100.0);
 	}
 
-	//TODO: check all this	
 	private string findEccon(bool forceEcconSeparated) {	
 		if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) == Constants.Concentric) 
 			return "c";
-		else if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
-					encoderEcconTranslation) == Constants.EccentricConcentric) 
+		else //if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+		//			encoderEcconTranslation) == Constants.EccentricConcentric) 
 		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
 				return "ecS";
 			else 
 				return "ec";
 		}
+		/*
+		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
+		 * but is very different than in con-ecc
 		else //Constants.ConcentricEccentric
 		{
 			if(forceEcconSeparated || ! check_encoder_analyze_eccon_together.Active)
@@ -2569,6 +2571,7 @@ Log.WriteLine(str);
 			else 
 				return "ce";
 		}
+		*/
 	}
 	
 	/* encoder exercise stuff */
@@ -2599,15 +2602,23 @@ Log.WriteLine(str);
 				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
 		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
 		
+		/* ConcentricEccentric
+		 * unavailable until find while concentric data on concentric is the same than in ecc-con,
+		 * but is very different than in con-ecc
+		 */
 		//create combo eccon
 		string [] comboEcconOptions = { Constants.Concentric, 
-			Constants.EccentricConcentric, Constants.ConcentricEccentric };
+			Constants.EccentricConcentric//, 
+			//Constants.ConcentricEccentric 
+		};
 		string [] comboEcconOptionsTranslated = { 
 			Catalog.GetString(Constants.Concentric), 
-			Catalog.GetString(Constants.EccentricConcentric), 
-			Catalog.GetString(Constants.ConcentricEccentric) };
+			Catalog.GetString(Constants.EccentricConcentric)//, 
+			//Catalog.GetString(Constants.ConcentricEccentric) 
+		};
 		encoderEcconTranslation = new String [comboEcconOptions.Length];
-		for(int j=0; j < 3 ; j++)
+		//for(int j=0; j < 3 ; j++)
+		for(int j=0; j < 2 ; j++)
 			encoderEcconTranslation[j] = comboEcconOptions[j] + ":" + comboEcconOptionsTranslated[j];
 		combo_encoder_eccon = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_encoder_eccon, comboEcconOptionsTranslated, "");

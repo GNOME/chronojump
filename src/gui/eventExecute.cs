@@ -280,7 +280,8 @@ public partial class ChronoJumpWindow
 		checkbutton_video.Sensitive = false;
 		if(videoOn) {
 			capturer.ClickRec();
-			label_video_feedback.Text = Catalog.GetString("Recording");
+			//label_video_feedback.Text = Catalog.GetString("Recording");
+			label_video_feedback.Text = "Rec.";
 		}
 
 		ExecutingGraphData executingGraphData = new ExecutingGraphData(

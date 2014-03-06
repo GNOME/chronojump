@@ -4860,7 +4860,7 @@ Log.WriteLine(str);
 		checkbutton_video_encoder.Sensitive = false;
 		if(videoOn) {
 			capturer.ClickRec();
-			label_video_feedback_encoder.Text = "Rec";
+			label_video_feedback_encoder.Text = "Rec.";
 		}
 		button_video_play_this_test_encoder.Sensitive = false; 
 	}

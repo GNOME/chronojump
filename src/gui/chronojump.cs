@@ -171,6 +171,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_video_no_encoder;
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Image image_volume;
+	[Widget] Gtk.CheckButton checkbutton_volume_encoder;
+	[Widget] Gtk.Image image_volume_encoder;
 
 
 	//multiChronopic	
@@ -267,8 +269,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_signal_delete;
 
 	Random rand;
-	bool volumeOn; //TODO: always true now because it's hidden from GUI until videoOn is working
-	bool videoOn; //TODO: now always false because it crashes on windows
+	bool volumeOn;
+	bool videoOn;
 
 	//persons
 	private TreeStore treeview_persons_store;
@@ -856,17 +858,27 @@ public partial class ChronoJumpWindow
 		else 
 			metersSecondsPreferred = false;
 
-		/*
+		//---- volume ----
 		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
 			volumeOn = true;
 		else 
 			volumeOn = false;
-		*/
-		volumeOn = true;
 		
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
-		changeVolumeButton(volumeOn);
+		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume_encoder);
+		
+		//don't raise the signal	
+		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
+		checkbutton_volume.Active = volumeOn;
+		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
+		//don't raise the signal	
+		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
+		checkbutton_volume_encoder.Active = volumeOn;
+		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
+		
+		changeVolumeButtons(volumeOn);
 
+		//---- video ----
 		if ( SqlitePreferences.Select("videoOn") == "True" ) 
 			videoOn = true;
 		else 
@@ -2902,7 +2914,7 @@ public partial class ChronoJumpWindow
 		videoCapturePrepare(true); //if error, show message
 	}
 
-	private void changeVolumeButton(bool myVolume) {
+	private void changeVolumeButtons(bool myVolume) {
 		Pixbuf pixbuf;
 		if(myVolume) 
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-high.png");
@@ -2910,6 +2922,7 @@ public partial class ChronoJumpWindow
 			pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "audio-volume-muted.png");
 		
 		image_volume.Pixbuf = pixbuf;
+		image_volume_encoder.Pixbuf = pixbuf;
 	}
 	
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
@@ -2920,9 +2933,29 @@ public partial class ChronoJumpWindow
 			volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);
 		}
-		changeVolumeButton(checkbutton_volume.Active);
+		//change encoder checkbox but don't raise the signal	
+		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
+		checkbutton_volume_encoder.Active = volumeOn;
+		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
+		
+		changeVolumeButtons(volumeOn);
 	}
 
+	private void on_checkbutton_volume_encoder_clicked(object o, EventArgs args) {
+		if(checkbutton_volume_encoder.Active) {
+			volumeOn = true;
+			SqlitePreferences.Update("volumeOn", "True", false);
+		} else {
+			volumeOn = false;
+			SqlitePreferences.Update("volumeOn", "False", false);
+		}
+		//change encoder checkbox but don't raise the signal	
+		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
+		checkbutton_volume.Active = volumeOn;
+		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
+		
+		changeVolumeButtons(volumeOn);
+	}
 	/*
 	 * cancel and finish
 	 */

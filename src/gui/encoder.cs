@@ -4174,7 +4174,8 @@ Log.WriteLine(str);
 				else	//mainVariable == Constants.PeakPower
 					captureCurvesBarsData.Add(peakPower);
 
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+						true);	//capturing
 			}
 
 
@@ -4199,7 +4200,8 @@ Log.WriteLine(str);
 		ecca.curvesDone ++;
 	}
 
-	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, ArrayList data) {
+	//if we are capturing, play sounds
+	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, ArrayList data, bool capturing) {
 		Log.WriteLine("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -4269,11 +4271,19 @@ Log.WriteLine(str);
 			dLeft = left_margin + dWidth * count;
 			dWidth = dWidth - sep;
 
-			//select pen color for bars
-			if(mainVariableHigher != -1 && d >= mainVariableHigher)
+			//select pen color for bars and sounds
+			if(mainVariableHigher != -1 && d >= mainVariableHigher) {
 				my_pen = pen_green_encoder_capture;
-			else if(mainVariableLower != -1 && d <= mainVariableLower)
+				//play sound if value is high, volumeOn == true, is last value, capturing
+				if(volumeOn && count == data.Count -1 && capturing)
+					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+			}
+			else if(mainVariableLower != -1 && d <= mainVariableLower) {
 				my_pen = pen_red_encoder_capture;
+				//play sound if value is low, volumeOn == true, is last value, capturing
+				if(volumeOn && count == data.Count -1 && capturing)
+					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+			}
 			else
 				my_pen = pen_azul_encoder_capture;
 
@@ -4321,7 +4331,8 @@ Log.WriteLine(str);
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 			
@@ -4351,7 +4362,8 @@ Log.WriteLine(str);
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -4768,7 +4780,8 @@ Log.WriteLine(str);
 					else	//mainVariable == Constants.PeakPower
 						captureCurvesBarsData.Add(Convert.ToDouble(curve.PeakPower));
 				}
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						false);	//not capturing
 		
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES)

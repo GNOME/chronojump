@@ -5425,7 +5425,8 @@ Console.WriteLine("X");
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData);
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						false);	//not capturing
 			} else
 				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		}

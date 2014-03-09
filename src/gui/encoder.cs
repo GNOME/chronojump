@@ -234,6 +234,7 @@ public partial class ChronoJumpWindow
 	//TODO: put a save graph and a html report
 	
 
+	Constants.Status RInitialized;	
 	
 	private void encoderInitializeStuff() {
 		encoder_pulsebar_capture.Fraction = 1;
@@ -258,10 +259,18 @@ public partial class ChronoJumpWindow
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 
 		captureCurvesBarsData = new ArrayList(0);
+	
+		RInitialized = Constants.Status.UNSTARTED;
 	}
 
 	void on_button_andoni_crash_clicked (object o, EventArgs args) {
 		runEncoderCaptureCsharpInitializeR();
+
+		if(RInitialized == Constants.Status.OK)
+			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
+
 	}
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
@@ -1759,16 +1768,13 @@ public partial class ChronoJumpWindow
 		return true;
 	}
 		
-	bool RInitialized = false;	
 	REngine rengine;
 
-	private bool runEncoderCaptureCsharpInitializeR() {
-		if(RInitialized)
-			return true;
-
+	private void runEncoderCaptureCsharpInitializeR() 
+	{
 		Log.WriteLine("initializing rdotnet");
 		
-        //RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
+		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
 		//rsup.Interactive = false;
 		//rsup.Quiet = false;
 
@@ -1777,12 +1783,14 @@ public partial class ChronoJumpWindow
 		// From v1.5, REngine requires explicit initialization.
 		// You can set some parameters.
 
-		//try {
+		try {
 			//rengine.Initialize(rsup);
 			rengine.Initialize();
-		//} catch {
+		} catch {
 			//return false;
-		//}
+			RInitialized = Constants.Status.ERROR;
+			return;
+		}
 		//Previous command, unfortunatelly localizes all GUI to english
 		//then call Catalog.Init again in order to see new windows localised		
 		//Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
@@ -1795,25 +1803,30 @@ public partial class ChronoJumpWindow
 		}
 		*/
 
-		// .NET Framework array to R vector.
-		NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
-		rengine.SetSymbol("group1", group1);
-		// Direct parsing from R script.
-		NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
+		try {
+			// .NET Framework array to R vector.
+			NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
+			rengine.SetSymbol("group1", group1);
+			// Direct parsing from R script.
+			NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
 
-		// Test difference of mean and get the P-value.
-		GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
-		double p = testResult["p.value"].AsNumeric().First();
+			// Test difference of mean and get the P-value.
+			GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
+			double p = testResult["p.value"].AsNumeric().First();
 
-		Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
-		Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
-		Console.WriteLine("P-value = {0:0.000}", p);
-
-		RInitialized = true;
+			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
+			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
+			Console.WriteLine("P-value = {0:0.000}", p);
+		} catch {
+			RInitialized = Constants.Status.ERROR;
+			return;
+		}
 
 		Log.WriteLine("initialized rdotnet");
+		
+		RInitialized = Constants.Status.OK;
 
-		return true;
+		return;
 	}
 	
 
@@ -3932,6 +3945,9 @@ Log.WriteLine(str);
 	
 	private void updateEncoderCaptureGraphRCalc(bool plotCurvesBars) 
 	{
+		if(RInitialized == Constants.Status.UNSTARTED || RInitialized == Constants.Status.ERROR)
+			return;
+		
 		if(! eccaCreated)
 			return;
 		if(ecca.ecc.Count <= ecca.curvesDone) 
@@ -4459,14 +4475,21 @@ Log.WriteLine(str);
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				
 				if(action == encoderActions.CAPTURE) {
-					bool ok = runEncoderCaptureCsharpInitializeR();
-					if(! ok) {
+					if(RInitialized == Constants.Status.UNSTARTED)
+						runEncoderCaptureCsharpInitializeR();
+
+					/* 
+					 * if error means a problem with RDotNet, not necessarily a problem with R
+					 * we can contnue but without realtime data
+					 *
+					if(RInitialized == Constants.Status.ERROR) {
 						new DialogMessage(Constants.MessageTypes.WARNING,
 								Catalog.GetString("Sorry. Error doing graph.") +
 								"\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
 								"\n\nhttp://www.r-project.org/");
 						return;
 					}
+					*/
 				}
 
 				prepareEncoderGraphs();

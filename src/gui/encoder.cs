@@ -3076,6 +3076,8 @@ Log.WriteLine(str);
 	//returns curves num
 	//capture has single and multiple selection in order to save curves... Analyze only shows data.
 	private int createTreeViewEncoderCapture(string contents) {
+		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
+
 		string [] columnsString = {
 			Catalog.GetString("Curve") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
@@ -3181,7 +3183,9 @@ Log.WriteLine(str);
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
-			treeview_encoder_capture_curves.AppendColumn (aColumn);
+					
+			if( ! ( (i == 1 || i == 2) && ! showStartAndDuration ) )
+				treeview_encoder_capture_curves.AppendColumn (aColumn);
 			i++;
 		}
 		return curvesCount;
@@ -4901,6 +4905,7 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
 	[Widget] Gtk.Image image_encoder_bell;
+	[Widget] public Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.Button button_close;
 	
 	RepetitiveConditionsWindow repetitiveConditionsWin;

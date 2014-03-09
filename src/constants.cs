@@ -704,5 +704,6 @@ public class Constants
 	public enum MassType {
 		BODY, EXTRA, DISPLACED
 	}	
-		
+	
+	public enum Status { ERROR, UNSTARTED, OK}	
 }

@@ -263,7 +263,7 @@ public partial class ChronoJumpWindow
 		RInitialized = Constants.Status.UNSTARTED;
 	}
 
-	void on_button_andoni_crash_clicked (object o, EventArgs args) {
+	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
 		if(RInitialized == Constants.Status.UNSTARTED)
 			runEncoderCaptureCsharpInitializeR();
 

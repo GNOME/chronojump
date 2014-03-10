@@ -182,7 +182,100 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 	list(minindex=minindex, maxindex=maxindex, nextreme=nextreme, cross=cross, ncross=ncross)
 }    
 
+# This function converts top curve into bottom curve
+#
+#          /\
+#         /  \        /
+# _     B/    \C     /
+#  \    /      \    /D
+#  A\  /        \  /
+#    \/          \/
+#
+# _     b        
+#  \    /\    /\    /\
+#   \  /  \  /  \  /  \
+#    \/    \/    \/
+#    ab    bc
+#
+# eg: in to curve, 'B' is a movement of disc rolling to right (or left),
+# but in this movement, person has gone up/down. Up phase is ab-b. Down phase is b-bc.
+# his function produces this transformation
+# all displacement will be negative because we start on the top
+#fixRawdataInertial <- function(displacement) {
+#	#do not do this:
+#	#position=cumsum(displacement)
+#	#displacement[which(position >= 0)] = displacement[which(position >= 0)]*-1
+#	
+#	#do this: work with cumsum, do ABS on cumsum, then *-1
+#	#then to obtain displacement again just do diff (and add first number)
+#
+#	position = abs(cumsum(displacement))*-1
+#
+#	#this is to make "inverted cumsum"
+#	displacement = c(0,diff(position))
+#
+#	print(displacement)
+#
+#	return(displacement)
+#}
 
+#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
+#fixRawdataLI <- function(displacement) {
+#	position = cumsum(displacement)
+#	meanMax=mean(which(position == max(position)))
+#
+#	#this is to make "inverted cumsum"
+#	displacement = c(0,diff(position))
+#	
+#	displacement[meanMax:length(displacement)] = displacement[meanMax:length(displacement)] * -1
+#
+#	return(displacement)
+#}
+
+#separate phases using initial height of full extended person
+#this methods replaces getDisplacement and fixRawdataInertial
+#here comes a signal: (singleFile)
+#it shows the disc rotation and the person movement
+getDisplacementInertial <- function(displacement, draw, title) {
+	position=cumsum(displacement)
+	position.ext=extrema(position)
+
+	print("at findCurvesInertial")
+	print(position.ext)
+
+	#Fix if disc goes wrong direction at start
+	if(position.ext$maxindex[1] < position.ext$minindex[1]) {
+		displacement = displacement * -1
+		position=cumsum(displacement)
+		position.ext=extrema(position)
+	}
+	
+	firstDownPhaseTime = position.ext$minindex[1]
+
+	downHeight = abs(position[1] - position[firstDownPhaseTime])
+	
+	if(draw) {
+		col="black"
+		plot((1:length(position))/1000			#ms -> s
+		     ,position/10,				#mm -> cm
+		     type="l",
+		     xlim=c(1,length(position))/1000,		#ms -> s
+		     xlab="",ylab="",axes=T,
+		     lty=2,col=col) 
+
+		abline(h=0, lty=2, col="gray")
+	
+		positionPerson = abs(cumsum(displacement))*-1
+		#this is to make "inverted cumsum"
+		displacementPerson = c(0,diff(positionPerson))
+		lines((1:length(position))/1000,positionPerson/10,lty=1,lwd=2)
+		
+		title(title, cex.main=1, font.main=1)
+		mtext("time (s) ",side=1,adj=1,line=-1)
+		mtext("height (cm) ",side=2,adj=1,line=-1)
+	}
+	return(displacementPerson)
+}
 
 findCurves <- function(displacement, eccon, min_height, draw, title) {
 	position=cumsum(displacement)
@@ -319,56 +412,6 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 }
 
 
-
-# This function converts top curve into bottom curve
-#
-#          /\
-#         /  \        /
-# _     B/    \C     /
-#  \    /      \    /D
-#  A\  /        \  /
-#    \/          \/
-#
-# _     b        
-#  \    /\    /\    /\
-#   \  /  \  /  \  /  \
-#    \/    \/    \/
-#    ab    bc
-#
-# eg: in to curve, 'B' is a movement of disc rolling to right (or left),
-# but in this movement, person has gone up/down. Up phase is ab-b. Down phase is b-bc.
-# his function produces this transformation
-# all displacement will be negative because we start on the top
-fixRawdataInertial <- function(displacement) {
-	#do not do this:
-	#position=cumsum(displacement)
-	#displacement[which(position >= 0)] = displacement[which(position >= 0)]*-1
-	
-	#do this: work with cumsum, do ABS on cumsum, then *-1
-	#then to obtain displacement again just do diff (and add first number)
-
-	position = abs(cumsum(displacement))*-1
-
-	#this is to make "inverted cumsum"
-	displacement = c(0,diff(position))
-
-	print(displacement)
-
-	return(displacement)
-}
-
-#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
-#fixRawdataLI <- function(displacement) {
-#	position = cumsum(displacement)
-#	meanMax=mean(which(position == max(position)))
-#
-#	#this is to make "inverted cumsum"
-#	displacement = c(0,diff(position))
-#	
-#	displacement[meanMax:length(displacement)] = displacement[meanMax:length(displacement)] * -1
-#
-#	return(displacement)
-#}
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
@@ -1719,6 +1762,16 @@ find.yrange <- function(singleFile, displacement, curves) {
 
 #-------------------- EncoderConfiguration conversions --------------------------
 
+isInertial <- function(encoderConfigurationName) {
+	if(encoderConfigurationName == "LINEARINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+	   encoderConfigurationName == "ROTARYAXISINERTIAL") 
+		return(TRUE)
+	else
+		return(FALSE)
+}
+
 #in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
 #we use 'data' variable because can be position or displacement
 getDisplacement <- function(encoderConfigurationName, data, diameter, diameterExt) {
@@ -1745,13 +1798,6 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#diameter m -> mm
 		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
-	} else if(
-		  encoderConfigurationName == "LINEARINERTIAL" ||
-		  encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-		  encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
-		  encoderConfigurationName == "ROTARYAXISINERTIAL") 
-	{ 
-		data = fixRawdataInertial(data)
 	}
 		
 	return(data)
@@ -1818,15 +1864,10 @@ getDynamics <- function(encoderConfigurationName,
 {
 	mass = getMassByEncoderConfiguration (encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 
-	if(encoderConfigurationName == "LINEARINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
-	   encoderConfigurationName == "ROTARYAXISINERTIAL") 
-	{
+	if(isInertial(encoderConfigurationName))
 		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, diameterExt, mass, inertiaMomentum, smoothing))
-	} else {
+	else 
 		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
-	}
 }
 
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
@@ -2197,8 +2238,13 @@ doProcess <- function(options) {
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
-			
-		displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)
+
+		if(isInertial(EncoderConfigurationName)) {
+			displacement = getDisplacementInertial(displacement, curvesPlot, Title)
+			curvesPlot = FALSE
+		} else {
+			displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)
+		}
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
@@ -2209,6 +2255,9 @@ doProcess <- function(options) {
 		}
 
 		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
+
+		if(Analysis == "curves")
+			curvesPlot = TRUE
 
 		position=cumsum(displacement)
 
@@ -2270,7 +2319,12 @@ doProcess <- function(options) {
 				xlim=c(1,length(displacement))/1000,	#ms -> s
 				#ylim=c(-.25,.25),		#to test speed at small changes
 		     		xlab="",ylab="",axes=F)
-			mtext("speed ",side=4,adj=1,line=-1,col="green2")
+			
+			if(isInertial(EncoderConfigurationName))
+				mtext("body speed ",side=4,adj=1,line=-1,col="green2")
+			else
+				mtext("speed ",side=4,adj=1,line=-1,col="green2")
+
 			abline(h=0,lty=2,col="gray")
 		}
 	}

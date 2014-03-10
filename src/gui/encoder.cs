@@ -1805,8 +1805,22 @@ public partial class ChronoJumpWindow
 		*/
 
 		//load extrema method copied from EMD package
-		rengine.Evaluate("source('" + UtilEncoder.GetEncoderScriptUtilR() + "')");
+		string utilRPath = UtilEncoder.GetEncoderScriptUtilR();
+		
+		//On win32 R understands backlash as an escape character and 
+		//a file path uses Unix-like path separator '/'
+		if(UtilAll.IsWindows())
+			utilRPath = utilRPath.Replace("\\","/");
+		Log.WriteLine(utilRPath);
+		
+		try {
+			rengine.Evaluate("source('" + utilRPath + "')");
+		} catch {
+			RInitialized = Constants.Status.ERROR;
+			return;
+		}
 
+		
 		try {
 			// .NET Framework array to R vector.
 			NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });

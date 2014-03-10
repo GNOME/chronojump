@@ -264,7 +264,8 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_button_andoni_crash_clicked (object o, EventArgs args) {
-		runEncoderCaptureCsharpInitializeR();
+		if(RInitialized == Constants.Status.UNSTARTED)
+			runEncoderCaptureCsharpInitializeR();
 
 		if(RInitialized == Constants.Status.OK)
 			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");

@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+  
+DEB_PYTHON_SYSTEM=pycentral
+DBK2MAN_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/python-distutils.mk
+
+NAME=pyburn-wx
+
+build/$(NAME)::
+	xsltproc -o debian/$(NAME) --nonet $(DBK2MAN_XSL) debian/$(NAME).xml
+
+install/$(NAME)::
+	mv $(CURDIR)/debian/$(NAME)/usr/bin/$(NAME).py $(CURDIR)/debian/$(NAME)/usr/bin/$(NAME)
+	
+clean::
+	rm -f $(NAME).1

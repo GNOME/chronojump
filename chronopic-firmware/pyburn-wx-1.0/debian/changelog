@@ -1,0 +1,6 @@
+pyburn-wx (1.0-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Juan Gonzalez <juan@iearobotics.com>  Fri, 26 Sep 2008 09:50:53 +0200
+

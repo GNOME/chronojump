@@ -721,7 +721,7 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 				es);
-
+				
 		if(result)
 			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
 			//if is not stored, it can change when changed eccon radiobutton on cursor is in treeview
@@ -2555,7 +2555,7 @@ Log.WriteLine(str);
 			return spin_encoder_extra_weight.Value;
 		else //(massType == Constants.MassType.DISPLACED)
 			return spin_encoder_extra_weight.Value + 
-				( currentPersonSession.Weight * getExercisePercentBodyWeightFromCombo() );
+				( currentPersonSession.Weight * getExercisePercentBodyWeightFromCombo() ) / 100.0;
 	}
 
 	//this is used in 1RM return to substract the weight of the body (if used on exercise)

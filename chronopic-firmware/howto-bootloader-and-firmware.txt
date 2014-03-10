@@ -64,7 +64,7 @@ python pydownloader.py ledp1 /dev/ttyUSB1
 s'ha de donar al reset depressa
 
 gravar firmware encoder:
-python pydownloader.py ~/informatica/progs_meus/chronojump/chronojump/chronopic-firmware/chronopic-firmware-c/chronopic-firmware-20MHz.hex /dev/ttyUSB1
+python pydownloader.py chronopic-firmware/chronopic-firmware-c/chronopic-firmware-20MHz.hex /dev/ttyUSB1
 
 la gravacio de firmware funciona fins i tot tenint-hi el encoder connectat
 

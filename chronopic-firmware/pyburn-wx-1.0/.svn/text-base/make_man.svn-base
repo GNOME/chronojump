@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+all: man
+  
+DBK2MAN_XSL=/usr/share/xml/docbook/stylesheet/nwalsh/manpages/docbook.xsl
+
+NAME=pyburn-wx
+NUM=1
+TARGET=$(NAME).$(NUM)
+
+man:: debian/$(TARGET)
+
+debian/$(TARGET): debian/$(NAME).xml
+	xsltproc  -o debian/$(TARGET) --nonet $(DBK2MAN_XSL)   debian/$(NAME).xml 
+
+
+view:: debian/$(TARGET)
+	nroff -man debian/$(TARGET) | less
+

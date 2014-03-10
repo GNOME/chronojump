@@ -29,7 +29,7 @@ sudo python setup.py install
 2.A encoder 20MHz grabar bootloader:
 ------------------------------------
 
-cd ~/Documents/chronojump-no-git/chronopic-3.0/grabar_cronopic_firmware/pyburn-wx-1.0
+cd cronopic-firmware/pyburn-wx-1.0
 python pyburn-wx.py
 
 Mètode dels 2 skypics.

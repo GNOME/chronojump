@@ -1,0 +1,15 @@
+Source: pyburn-wx
+Section: electronics
+Priority: optional
+Maintainer: Juan Gonzalez <juan@iearobotics.com>
+Build-Depends: python-support (>= 0.3), cdbs, docbook-xsl, debhelper(>= 5.0.37.2)
+Standards-Version: 3.7.2
+XS-Python-Version: all
+
+Package: pyburn-wx
+Architecture: any
+Depends: ${python:Depends}, python-libiris, python-libstargate
+XB-Python-Version: ${python:Versions}
+Description: Grabacion de microcontroladores PICs (a bajo nivel) usando la tarjeta Skypic
+ Grabacion de PICs mediante una interfaz grafica muy sencilla. Permite grabar ficheros .hex. Tanto el Bootloader como dos programas de test que hacen parpadear un led se pueden grabar con solo apretar un boton.  
+ Mas informacion: http://www.iearobotics.com/wiki/index.php?title=Pyburn

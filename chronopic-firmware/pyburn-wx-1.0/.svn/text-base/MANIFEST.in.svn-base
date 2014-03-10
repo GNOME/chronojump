@@ -1,0 +1,2 @@
+include pyburn-wx.py README
+recursive-include pyburn_wx/pixmaps *

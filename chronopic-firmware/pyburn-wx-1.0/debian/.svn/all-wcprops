@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/pyburn/!svn/ver/71/pyburn-wx/pyburn-wx-1.0/debian
+END
+control
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/pyburn/!svn/ver/71/pyburn-wx/pyburn-wx-1.0/debian/control
+END
+compat
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/compat
+END
+pyburn-wx.manpages
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/pyburn-wx.manpages
+END
+changelog
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/changelog
+END
+copyright
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/copyright
+END
+pyburn-wx.xml
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/pyburn-wx.xml
+END
+rules
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/pyburn/!svn/ver/70/pyburn-wx/pyburn-wx-1.0/debian/rules
+END

@@ -2043,6 +2043,10 @@ doProcess <- function(options) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
 	}
 
+	#inertial cannot be propulsive
+	if(isInertial(EncoderConfigurationName))
+		isPropulsive = FALSE
+
 	#in "li": linear encoder with inertial machines,
         #it's recommended to attach string to the rolling axis
 	#because then we have the information of the machine.

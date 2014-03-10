@@ -674,7 +674,9 @@ public class EncoderConfiguration {
 			position = 2;
 			image = Constants.FileNameEncoderLinearInertial;
 			code = "Linear - inertial machine";
-			text = "Linear encoder on inertia machine." + " " + "NOT Recommended!";
+			text = "Linear encoder on inertia machine." + "\n" + 
+				"Configuration NOT Recommended! Please use a rotary encoder" + "\n" +
+				"Person has to start fully extended (on the toes).";
 			
 			has_d = true;
 			has_inertia = true;
@@ -775,7 +777,8 @@ public class EncoderConfiguration {
 			position = 2;
 			image = Constants.FileNameEncoderFrictionSideInertial;
 			code = "Rotary friction - inertial machine side";
-			text = "Rotary friction encoder on inertial machine side.";
+			text = "Rotary friction encoder on inertial machine side." + "\n" +
+				"Person has to start fully extended (on the toes).";
 
 			has_D = true;
 			has_inertia = true;
@@ -785,7 +788,8 @@ public class EncoderConfiguration {
 			position = 3;
 			image = Constants.FileNameEncoderFrictionAxisInertial;
 			code = "Rotary friction axis - inertial machine axis";
-			text = "Rotary friction encoder on inertial machine axis.";
+			text = "Rotary friction encoder on inertial machine axis." + "\n" +
+				"Person has to start fully extended (on the toes).";
 
 			has_d = true;
 			has_inertia = true;
@@ -811,7 +815,8 @@ public class EncoderConfiguration {
 			position = 1;
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
-			text = "Rotary axis encoder on inertial machine.";
+			text = "Rotary axis encoder on inertial machine." + "\n" +
+				"Person has to start fully extended (on the toes).";
 
 			has_d = true;
 			has_inertia = true;

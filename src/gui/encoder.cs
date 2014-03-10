@@ -4241,7 +4241,10 @@ Log.WriteLine(str);
 		foreach(double d in data)
 			if(d < min)
 				min = d;
-		
+	
+		if(max == 0)
+			return;	
+
 		int textWidth = 1;
 		int textHeight = 1;
 

@@ -166,6 +166,11 @@ public class UtilEncoder
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptInertiaMomentum);
 	}
 	
+	public static string GetEncoderScriptUtilR() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptUtilR);
+	}
+	
 	
 	/********** end of encoder paths ************/
 

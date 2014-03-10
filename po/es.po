@@ -1493,7 +1493,7 @@ msgstr "Aceleración"
 
 #: ../glade/chronojump.glade.h:318
 msgid "Force"
-msgstr "Forzar"
+msgstr "Fuerza"
 
 #: ../glade/chronojump.glade.h:319 ../src/exportSession.cs:275
 #: ../src/treeViewJump.cs:41

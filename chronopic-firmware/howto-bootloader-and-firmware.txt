@@ -57,7 +57,7 @@ per 20MHz cal el pydownloader-wx,pero no va pq necessita python 2.6
 anem a agafar el pydownloader de la web (sense wx) i compilar-lo
 http://svn.iearobotics.com/pydownloader/pydownloader/pydownloader-1.0/
 
-cd ~/Documents/chronojump-no-git/chronopic-3.0/grabar_cronopic_firmware/pydownloader-per-20MHz
+cd chronopic-firmware/pydownloader_20MHz
 
 gravar firmware prova:
 python pydownloader.py ledp1 /dev/ttyUSB1

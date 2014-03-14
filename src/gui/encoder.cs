@@ -799,7 +799,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
 		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected curve") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.ShowCombo(false);
+		genericWin.ShowEditRow(false);
 		
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -863,23 +863,35 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
 		Log.WriteLine("row edit at show curves");
 		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
-		genericWin.ShowCombo(true);
+		genericWin.ShowEditRow(true);
 	}
 
 	protected void on_encoder_show_curves_row_edit_apply (object o, EventArgs args) {
 		Log.WriteLine("row edit apply at show curves");
-		Log.WriteLine("new person: " + genericWin.GetComboSelected);
 
+		int curveID = genericWin.TreeviewSelectedUniqueID;
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+
+		//if changed comment, update SQL, and update treeview
+		//first remove conflictive characters
+		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if(comment != eSQL.description) {
+			eSQL.description = comment;
+			SqliteEncoder.Update(false, eSQL);
+
+			//update treeview
+			genericWin.on_edit_selected_done_update_treeview();
+		}
+
+		//if changed person, proceed
+		Log.WriteLine("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
-			int curveID = genericWin.TreeviewSelectedUniqueID;
-			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
-
 			eSQL.ChangePerson(genericWin.GetComboSelected);
 			genericWin.RemoveSelectedRow();
 		}
 
-		genericWin.ShowCombo(false);
+		genericWin.ShowEditRow(false);
 		updateUserCurvesLabelsAndCombo();
 	}
 	
@@ -1151,7 +1163,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
 		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected signal") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
-		genericWin.ShowCombo(false);
+		genericWin.ShowEditRow(false);
 	
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));
@@ -1211,25 +1223,35 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
 		Log.WriteLine("row edit at load signal");
 		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
-		genericWin.ShowCombo(true);
+		genericWin.ShowEditRow(true);
 	}
 	
 	protected void on_encoder_load_signal_row_edit_apply (object o, EventArgs args) {
 		Log.WriteLine("row edit apply at load signal");
-		Log.WriteLine("new person: " + genericWin.GetComboSelected);
+			
+		int curveID = genericWin.TreeviewSelectedUniqueID;
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+		
+		//if changed comment, update SQL, and update treeview
+		//first remove conflictive characters
+		string comment = Util.RemoveTildeAndColonAndDot(genericWin.EntryEditRow);
+		if(comment != eSQL.description) {
+			eSQL.description = comment;
+			SqliteEncoder.Update(false, eSQL);
 
+			//update treeview
+			genericWin.on_edit_selected_done_update_treeview();
+		}
+
+		//if changed person, proceed
+		Log.WriteLine("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
-			int curveID = genericWin.TreeviewSelectedUniqueID;
-			Log.WriteLine(curveID.ToString());
-
-			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
-
 			eSQL.ChangePerson(genericWin.GetComboSelected);
 			genericWin.RemoveSelectedRow();
 		}
 
-		genericWin.ShowCombo(false);
+		genericWin.ShowEditRow(false);
 	}
 	
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {

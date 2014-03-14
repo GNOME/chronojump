@@ -50,12 +50,13 @@ public class GenericWindow
 	[Widget] Gtk.SpinButton spin_double;
 	[Widget] Gtk.Box hbox_height_metric;
 
-	//generic combo
-	[Widget] Gtk.Box hbox_combo_full_line;
+	//Edit row
+	[Widget] Gtk.Box hbox_edit_row;
 	[Widget] Gtk.Label hbox_combo_label;
 	[Widget] Gtk.Box hbox_combo;
 	[Widget] Gtk.ComboBox combo;
 	[Widget] Gtk.Button hbox_combo_button;
+	[Widget] Gtk.Entry entry_edit_row;
 	
 	[Widget] Gtk.Box hbox_all_none_selected;
 	[Widget] Gtk.Box hbox_combo_all_none_selected;
@@ -166,7 +167,7 @@ public class GenericWindow
 		spin_double.Hide();
 		hbox_spin_double2.Hide();
 		hbox_height_metric.Hide();
-		hbox_combo_full_line.Hide();
+		hbox_edit_row.Hide();
 		hbox_all_none_selected.Hide();
 		hbox_combo_all_none_selected.Hide();
 		scrolled_window_textview.Hide();
@@ -320,8 +321,8 @@ public class GenericWindow
 	public void SetComboLabel(string l) {
 		hbox_combo_label.Text = l;
 	}
-	public void ShowCombo(bool show) {
-		hbox_combo_full_line.Visible = show;
+	public void ShowEditRow(bool show) {
+		hbox_edit_row.Visible = show;
 	}
 
 	
@@ -432,7 +433,7 @@ public class GenericWindow
 Log.WriteLine("aaaaaaaaaaaaaaaa1");	
 		foreach (string [] line in data) {
 			store.AppendValues (line);
-			Log.WriteLine(Util.StringArrayToString(line,"\n"));
+			//Log.WriteLine(Util.StringArrayToString(line,"\n"));
 		}
 Log.WriteLine("aaaaaaaaaaaaaaaa2");	
 
@@ -511,7 +512,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		else
 			SetButtonAcceptSensitive(false);
 	
-		ShowCombo(false);
+		ShowEditRow(false);
 	}
 	
 	public int TreeviewSelectedRowID() {
@@ -606,7 +607,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 				treeviewContextMenu();
 			}
 		}
-		ShowCombo(false);
+		ShowEditRow(false);
 	}
 
 	private void treeviewContextMenu() {
@@ -632,9 +633,27 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		myMenu.ShowAll();
 	}
 
-	private void on_edit_selected_clicked (object o, EventArgs args) {
+	private void on_edit_selected_clicked (object o, EventArgs args) 
+	{
+		TreeModel model;
+		TreeIter iter = new TreeIter();
+		treeview.Selection.GetSelected (out model, out iter);
+		entry_edit_row.Text = (string) model.GetValue (iter, 8);
+
 		button_row_edit.Click();
 	}
+	
+	public void on_edit_selected_done_update_treeview() 
+	{
+		//remove conflictive characters
+		entry_edit_row.Text = Util.RemoveTildeAndColonAndDot(entry_edit_row.Text);
+
+		TreeModel model;
+		TreeIter iter = new TreeIter();
+		treeview.Selection.GetSelected (out model, out iter);
+		store.SetValue (iter, 8, entry_edit_row.Text);
+	}
+	
 
 	public void RemoveSelectedRow () {
 		store = UtilGtk.RemoveRow(treeview, store);
@@ -703,7 +722,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		set { button_row_edit = value; }
 		get { return button_row_edit; }
 	}
-		
+	
 	public Button Button_row_edit_apply {
 		set { hbox_combo_button = value; }
 		get { return hbox_combo_button; }
@@ -733,6 +752,10 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	public string Entry3Selected {
 		set { entry3.Text = value; }
 		get { return entry3.Text.ToString(); }
+	}
+
+	public string EntryEditRow {
+		get { return entry_edit_row.Text.ToString(); }
 	}
 
 	public string LabelSpinInt {

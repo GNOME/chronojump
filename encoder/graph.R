@@ -1923,7 +1923,7 @@ D=D/100 #cm -> m
 	} else {
 		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-#revisar		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
+		angle = abs(cumsum(displacement * 1000)) * 2 * pi / ticksRotaryEncoder
 
 		angleSpeed = getSpeed(angle, smoothing)
 		angleAccel = getAcceleration(angleSpeed)      

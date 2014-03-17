@@ -780,6 +780,7 @@ public class EncoderConfiguration {
 			text = "Rotary friction encoder on inertial machine side." + "\n" +
 				"Person has to start fully extended (on the toes).";
 
+			has_d = true;
 			has_D = true;
 			has_inertia = true;
 		}

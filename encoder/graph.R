@@ -1894,12 +1894,14 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
 {
-displacement = displacement / 1000 #mm -> m
-d=d/100 #cm -> m
-D=D/100 #cm -> m
+	#first: Internationational System units
+	displacement = displacement / 1000 #mm -> m
+	d=d/100 #cm -> m
+	D=D/100 #cm -> m
+
+	#2nd, on friction side: know displacement of the "person"
 	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
 	{
-		angle = displacement * 2 / D #displacement of the disc
 		displacement = displacement * d / D #displacement of the axis
 	}
 
@@ -1924,9 +1926,15 @@ D=D/100 #cm -> m
 		speed = speed$y
 		accel = accel$y
 
-		angle = position * 2 / d
-		angleSpeed = speed * 2 / d
-		angleAccel = accel * 2 / d
+	   	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL") {
+			angle = position * 2 / D
+			angleSpeed = speed * 2 / D
+			angleAccel = accel * 2 / D
+		} else {
+			angle = position * 2 / d
+			angleSpeed = speed * 2 / d
+			angleAccel = accel * 2 / d
+		}
 	} else {
 		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn

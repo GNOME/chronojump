@@ -253,6 +253,10 @@ getDisplacementInertial <- function(displacement, draw, title) {
 	firstDownPhaseTime = position.ext$minindex[1]
 
 	downHeight = abs(position[1] - position[firstDownPhaseTime])
+		
+	positionPerson = abs(cumsum(displacement))*-1
+	#this is to make "inverted cumsum"
+	displacementPerson = c(0,diff(positionPerson))
 	
 	if(draw) {
 		col="black"
@@ -265,9 +269,6 @@ getDisplacementInertial <- function(displacement, draw, title) {
 
 		abline(h=0, lty=2, col="gray")
 	
-		positionPerson = abs(cumsum(displacement))*-1
-		#this is to make "inverted cumsum"
-		displacementPerson = c(0,diff(positionPerson))
 		lines((1:length(position))/1000,positionPerson/10,lty=1,lwd=2)
 		
 		title(title, cex.main=1, font.main=1)
@@ -1911,8 +1912,14 @@ D=D/100 #cm -> m
 
 		speed = getSpeed(displacement, smoothing)  # getSpeed returns in m/ms because displacement is in m/ms
 		speed$y = speed$y * 1000 # m/ms -> m/s
-		accel = getAcceleration(speed) # getAcceleration returns in m/ms²
+		
+		# accel will be:
+	        # x = ms (there's one value for each ms)
+		# y = m/ms²
+		accel = getAcceleration(speed) 
+		
 		accel$y = accel$y * 1000000 # m/ms² -> m/s²
+		
 		#use the values
 		speed = speed$y
 		accel = accel$y
@@ -1923,10 +1930,21 @@ D=D/100 #cm -> m
 	} else {
 		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+
+		#angle in radians
 		angle = abs(cumsum(displacement * 1000)) * 2 * pi / ticksRotaryEncoder
 
+		#angleSpeed in radians/ms
 		angleSpeed = getSpeed(angle, smoothing)
+		angleSpeed$y = angleSpeed$y * 1000 # rad/ms -> rad/s
+
+		# accel will be:
+	        # x = ms (there's one value for each ms)
+		# y = rad/ms²
 		angleAccel = getAcceleration(angleSpeed)      
+		
+		#angleAccel$y = angleAccel$y * 1000000 # rad/ms² -> rad/s²
+		
 		#use the values
 		angleSpeed = angleSpeed$y
 		angleAccel = angleAccel$y
@@ -1948,8 +1966,8 @@ D=D/100 #cm -> m
         #print(c("g",g))
 	#print(c("angleAccel",angleAccel))
 	#print(c("angleSpeed",angleSpeed))
-	#print(c("speed",speed))
-	#print(c("accel",accel))
+	print(c("speed",speed))
+	print(c("accel",accel))
 	#print(c("force",force))
 	#print(c("power at inertial",power))
 	#print(c("powerBody",powerBody[1000]))

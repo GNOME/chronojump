@@ -182,6 +182,105 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 	list(minindex=minindex, maxindex=maxindex, nextreme=nextreme, cross=cross, ncross=ncross)
 }    
 
+
+#comes with every jump of the three best (in flight time)
+neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart cTimeStart, e2TimeStart, weight)
+{
+
+	#          /\
+	#         /  \ 
+	# _     c/    \e2
+	#  \    /      \
+	# e1\  /        \
+	#    \/          \
+
+	
+
+	#----------------
+	#1.- e1 variables
+	#----------------
+
+	#e1Range = range of e1
+
+	#e1f (when force is done)
+	#from max(abs(speed$y)) at e1, to end of e1
+
+	#e1ft duration of e1f
+
+	#e1fFmax = max Force on e1f
+
+	#e1fRFDavg
+	#average force on e1f / e1ft
+
+	#e1fI (Impulse)
+	#average force on e1f * e1ft / weight
+
+	#----------------
+	#2.- c variables
+	#----------------
+
+	#c1l "land" from bottom to takeoff (force < weight)
+	#c1a "air" from takeoff to max height
+	#c1 = c1l + c1a
+
+	#c1aRange
+	#flight phase on concentric
+
+	#c1lt = contact time on c1l
+	
+	#c1lRFDavg = average force on c1l / c1lt / weight
+	#c1lImpulse = average force on c1l * c1lt / weight
+
+	#c1lFavg = average force on c1l / weight
+
+	#c1lvF (vF -> valley Force)
+	#minimum force on c1l before de concentric Speed max
+
+	#c1lFmax = max force at right of valley
+
+
+	#c1lSavg = avg Speed on c1l
+	#c1lPavg = avg Power on c1l
+	#c1lSmax = max Speed on c1l
+	#c1lPmax = max Power on c1l
+
+
+	#----------------
+	#3.- e2 variables
+	#----------------
+
+	#e2f (when force is done)
+	#is the same as contact phase (land on eccentric)
+	
+	#e2ft duration of e2f
+
+	#e2fFmax = max force on e2f
+
+	#e2fFmaxt = duration from land to max force
+
+	#e2fRFDmax = e2fFmax / e2fFmaxT
+
+
+
+	#return an object, yes, object oriented, please
+}
+
+#Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
+neuromuscularProfileForceTimeDoAnalysis <- function(displacement, weight)
+{
+	#get the maxheight of the 6 jumps
+	#with the best three jumps (in jump height) do:
+
+	#neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart cTimeStart, e2TimeStart, weight)
+
+	#show avg of each three values
+	#plot a graph with these averages
+
+}
+
+
+
+
 # This function converts top curve into bottom curve
 #
 #          /\

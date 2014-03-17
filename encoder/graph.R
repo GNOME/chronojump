@@ -184,7 +184,7 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 
 
 #comes with every jump of the three best (in flight time)
-neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart cTimeStart, e2TimeStart, weight)
+neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart, cTimeStart, e2TimeStart, weight)
 {
 
 	#          /\
@@ -1218,13 +1218,15 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*9.81
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-		takeoff = max(which(force>=weight))
+		#takeoff = max(which(force>=weight))
+		takeoff = min(which(force[concentric]<=weight)) + length(eccentric)
 		abline(v=takeoff,lty=1,col=cols[2]) 
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
 		if(eccon=="ec") {
-			landing = min(which(force>=weight))
+			#landing = min(which(force>=weight))
+			landing = max(which(force[eccentric]<=weight))
 			abline(v=landing,lty=1,col=cols[2]) 
 			mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
 			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])

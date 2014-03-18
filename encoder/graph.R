@@ -561,7 +561,7 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 				speed <- getSpeed(eccentric.concentric, j)
 				smoothingOneEC = j
 				maxSpeedEC=max(speed$y)
-				print(c("maxC",maxSpeedC,"maxEC",maxSpeedEC))
+				print(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)))
 				if(maxSpeedEC >= maxSpeedC)
 					break
 			}
@@ -577,13 +577,21 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 }
 
 #used in alls eccons
-reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneEC, smoothingOneC) 
+reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneC) 
 {
 	print("at reduceCurveBySpeed")
 
-	smoothing = smoothingOneEC
-	if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
-		smoothing = smoothingOneC
+	#In 1.4.0 and before, we use smoothingOneEC on "ec", "ce"
+	#but the problem is findSmoothingsEC has problems knowing the smoothingEC when users stays stand up lot of time before jump.
+        #is better to reduceCurveBySpeed first in order to remove the not-moving phase
+	#and then do findSmoothingsEC
+	#for this reason, following code is commented, and it's only used smoothingOneC	
+
+	#smoothing = smoothingOneEC
+	#if(eccon == "c" || eccon == "ecS" || eccon == "ceS")
+	#	smoothing = smoothingOneC
+		
+	smoothing = smoothingOneC
 
 	speed <- getSpeed(displacement, smoothing)
 	
@@ -2395,6 +2403,13 @@ doProcess <- function(options) {
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
 	
+		#reduceCurveBySpeed
+		for(i in 1:n) {
+			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], SmoothingOneC)
+			curves[i,1] = reduceTemp[1]
+			curves[i,2] = reduceTemp[2]
+		}
+		
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
@@ -2402,13 +2417,6 @@ doProcess <- function(options) {
 		print("curves before reduceCurveBySpeed")
 		print(curves)
 
-		#reduceCurveBySpeed
-		for(i in 1:n) {
-			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], 
-						      SmoothingsEC[i], SmoothingOneC)
-			curves[i,1] = reduceTemp[1]
-			curves[i,2] = reduceTemp[2]
-		}
 		
 		if(curvesPlot) {
 			#/10 mm -> cm

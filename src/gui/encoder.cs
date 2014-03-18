@@ -1192,7 +1192,10 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL eSQL in data) {	//it will run only one time
 			success = UtilEncoder.CopyEncoderDataToTemp(eSQL.url, eSQL.filename);
 			if(success) {
-				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, eSQL.exerciseName);
+				string exerciseNameTranslated =Util.FindOnArray(':', 1, 2, eSQL.exerciseName, 
+						encoderExercisesTranslationAndBodyPWeight);
+				combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, exerciseNameTranslated);
+				
 				combo_encoder_eccon.Active = UtilGtk.ComboMakeActive(combo_encoder_eccon, eSQL.ecconLong);
 				combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, eSQL.laterality);
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);

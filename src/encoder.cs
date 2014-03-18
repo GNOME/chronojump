@@ -629,7 +629,7 @@ public class EncoderConfiguration {
 		position = 0;
 		image = Constants.FileNameEncoderLinearFreeWeight;
 		code = Constants.DefaultEncoderConfigurationCode;
-		text = "Linear encoder attached to a barbell.";
+		text = "Linear encoder attached to a barbell." + "\n" + "Also tests without extra load like jumps.";
 		has_d = false;
 		has_D = false;
 		has_angle_push = false;
@@ -660,7 +660,7 @@ public class EncoderConfiguration {
 			position = 0;
 			image = Constants.FileNameEncoderLinearFreeWeight;
 			code = Constants.DefaultEncoderConfigurationCode;
-			text = "Linear encoder attached to a barbell.";
+			text = "Linear encoder attached to a barbell." + "\n" + "Also tests without extra load like jumps.";
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
 			type = Constants.EncoderType.LINEAR;

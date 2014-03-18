@@ -2083,8 +2083,8 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
         #print(c("g",g))
 	#print(c("angleAccel",angleAccel))
 	#print(c("angleSpeed",angleSpeed))
-	print(c("speed",speed))
-	print(c("accel",accel))
+	#print(c("speed",speed))
+	#print(c("accel",accel))
 	#print(c("force",force))
 	#print(c("power at inertial",power))
 	#print(c("powerBody",powerBody[1000]))
@@ -2393,12 +2393,27 @@ doProcess <- function(options) {
 			quit()
 		}
 
+		if(EncoderConfigurationName == "ROTARYAXISINERTIAL") {
+			displacementMeters = displacement / 1000 #mm -> m
+			diameterMeters = diameter / 100 #cm -> m
+
+			ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+			#angle in radians
+			angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
+			position = angle * diameterMeters / 2
+			position = position * 1000	#m -> mm
+			#this is to make "inverted cumsum"
+			displacement = c(0,diff(position))
+		} else
+			position=cumsum(displacement)
+
+		#print(c("position",position))
+		#print(c("displacement",displacement))
+		
 		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
 
 		if(Analysis == "curves")
 			curvesPlot = TRUE
-
-		position=cumsum(displacement)
 
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)

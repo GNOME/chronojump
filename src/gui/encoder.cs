@@ -2424,42 +2424,43 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_side.Sensitive = true;
 	}
 
-	private string getAnalysisVariables(string encoderAnalysis) {
-	string analysisVariables = "";
-	
-	if(encoderAnalysis == "powerBars") {
-		if(check_encoder_analyze_show_time_to_peak_power.Active)
-			analysisVariables = "TimeToPeakPower";
-		else
-			analysisVariables = "NoTimeToPeakPower";
+	private string getAnalysisVariables(string encoderAnalysis) 
+	{
+		string analysisVariables = "none"; //cannot be blank
+
+		if(encoderAnalysis == "powerBars") {
+			if(check_encoder_analyze_show_time_to_peak_power.Active)
+				analysisVariables = "TimeToPeakPower";
+			else
+				analysisVariables = "NoTimeToPeakPower";
+
+			if(check_encoder_analyze_show_range.Active)
+				analysisVariables += ";Range";
+			else
+				analysisVariables += ";NoRange";
+		}
+		else {  //(encoderAnalysis == "single" || encoderAnalysis == "side")
+			if(check_encoder_analyze_show_speed.Active)
+				analysisVariables = "Speed";
+			else
+				analysisVariables = "NoSpeed";
+
+			if(check_encoder_analyze_show_accel.Active)
+				analysisVariables += ";Accel";
+			else
+				analysisVariables += ";NoAccel";
+
+			if(check_encoder_analyze_show_force.Active)
+				analysisVariables += ";Force";
+			else
+				analysisVariables += ";NoForce";
+
+			if(check_encoder_analyze_show_power.Active)
+				analysisVariables += ";Power";
+			else
+				analysisVariables += ";NoPower";
+		}
 		
-		if(check_encoder_analyze_show_range.Active)
-			analysisVariables += ";Range";
-		else
-			analysisVariables += ";NoRange";
-	}
-	else {  //(encoderAnalysis == "single" || encoderAnalysis == "side")
-		if(check_encoder_analyze_show_speed.Active)
-			analysisVariables = "Speed";
-		else
-			analysisVariables = "NoSpeed";
-
-		if(check_encoder_analyze_show_accel.Active)
-			analysisVariables += ";Accel";
-		else
-			analysisVariables += ";NoAccel";
-
-		if(check_encoder_analyze_show_force.Active)
-			analysisVariables += ";Force";
-		else
-			analysisVariables += ";NoForce";
-
-		if(check_encoder_analyze_show_power.Active)
-			analysisVariables += ";Power";
-		else
-			analysisVariables += ";NoPower";
-	}
-
 		return analysisVariables;
 	}
 
@@ -2561,6 +2562,27 @@ Log.WriteLine(str);
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
+	private void on_radiobutton_encoder_analyze_neuromuscular_profile_toggled (object obj, EventArgs args) {
+		hbox_encoder_analyze_curve_num.Visible=false;
+		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
+		hbox_combo_encoder_analyze_cross.Visible=false;
+		hbox_encoder_analyze_mean_or_max.Visible=false;
+		hbox_encoder_analyze_show_powerbars.Visible=false;
+		hbox_encoder_analyze_show_SAFE.Visible=false;
+		encoderAnalysis="neuromuscularProfile";
+		
+		//separated, mandatory
+		check_encoder_analyze_eccon_together.Sensitive=false;
+		check_encoder_analyze_eccon_together.Active = false;
+
+		label_encoder_analyze_side_max.Visible = false;
+
+		radiobutton_encoder_analyze_max.Sensitive = false;
+		
+		encoderButtonsSensitive(encoderSensEnumStored);
+	}
+	
+		
 	//end of encoder analysis modes
 
 

@@ -266,9 +266,51 @@ neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart,
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
-neuromuscularProfileForceTimeDoAnalysis <- function(displacement, weight)
+neuromuscularProfileForceTimeDoAnalysis <- function(displacement, curves, mass, smoothingC)
 {
+	weight=mass*g
+
+	heights = NULL
+
 	#get the maxheight of the 6 jumps
+	#sequence is e,c,e,c for every jump. There are 6 jumps. Need the first c of every jump
+	for(i in seq(2,22,length=6)) {
+		d = displacement[curves[i,1]:curves[i,2]]
+		speed <- getSpeed(d, smoothingC)
+		
+		position = cumsum(d)
+
+		accel = getAcceleration(speed) 
+		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+		accel$y <- accel$y * 1000
+
+		force <- mass * (accel$y + g)
+
+		takeoff = min(which(force <= weight))
+		jumpHeight = (position[length(position)] - position[takeoff]) /10
+
+		print(paste("Jump Height =", jumpHeight))
+
+		heights[i] = jumpHeight
+	}
+
+	#-----------------------------------------------------------------------------
+	#TODO: fix this because if there are two best values, only first will be shown
+	#do a table or dataframe
+	#-----------------------------------------------------------------------------
+
+	#min() is to ensure to take just one value
+	#find best jump
+	best = min(which(heights == rev(sort(heights))[1]))
+	#find best jump
+	second = min(which(heights == rev(sort(heights))[2]))
+	#find best jump
+	third = min(which(heights == rev(sort(heights))[3]))
+
+	print(paste("best three jumps are:",best,second,third))
+	print(paste("heights are:",heights[best],heights[second],heights[third]))
+
+
 	#with the best three jumps (in jump height) do:
 
 	#neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart cTimeStart, e2TimeStart, weight)
@@ -1194,6 +1236,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	force = dynamics$force
 	power = dynamics$power
 
+
 #print(c(knRanges$accely, max(accel$y), min(accel$y)))
 #	force <- mass*accel$y
 #	if(isJump)
@@ -1225,10 +1268,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#but this eccon will be not done
 	#if(draw & (!superpose || (superpose & highlight)) & isJump) 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
-		weight=mass*9.81
+		weight=mass*g
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
 		#takeoff = max(which(force>=weight))
-		takeoff = min(which(force[concentric]<=weight)) + length(eccentric)
+		takeoff = min(which(force[concentric]<=weight)) + length(eccentric) + length(isometric)
 		abline(v=takeoff,lty=1,col=cols[2]) 
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
@@ -1243,7 +1286,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 		
 		mtext(text=paste("jump height =", 
-				 (position[concentric[length(concentric)]] - position[concentric[(takeoff - length(eccentric))]])/10,
+				 (position[concentric[length(concentric)]] - 
+				  position[concentric[(takeoff - length(eccentric) - length(isometric))]])/10,
 				 "cm",sep=" "),
 		      side=3, at=( takeoff + (length(eccentric)+length(concentric)) )/2,
 		      cex=.8,adj=0.5,col=cols[2])
@@ -2820,6 +2864,18 @@ doProcess <- function(options) {
 		else if(Analysis == "1RMBadillo2010") {
 			paint1RMBadillo2010(paf, Title, OutputData1)
 		} 
+		else if(Analysis == "neuromuscularProfile") {
+			#only signal, it's a jump, use mass of the body (100%) + mass Extra if any
+
+			if(n < 24) {
+				plot(0,0,type="n",axes=F,xlab="",ylab="")
+				text(x=0,y=0,"Not enough data.",cex=1.5)
+				dev.off()
+				write("", OutputData1)
+				quit()
+			}
+			neuromuscularProfileForceTimeDoAnalysis(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
+		}
 		
 		if(Analysis == "curves" || writeCurves) {
 			if(singleFile)

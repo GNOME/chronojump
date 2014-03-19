@@ -335,7 +335,8 @@ neuromuscularProfileForceTimeDoAnalysis <- function(displacement, weight)
 #this methods replaces getDisplacement and fixRawdataInertial
 #here comes a signal: (singleFile)
 #it shows the disc rotation and the person movement
-getDisplacementInertial <- function(displacement, draw, title) {
+getDisplacementInertial <- function(displacement, draw, title) 
+{
 	position=cumsum(displacement)
 	position.ext=extrema(position)
 
@@ -2378,7 +2379,21 @@ doProcess <- function(options) {
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 
-		if(isInertial(EncoderConfigurationName)) {
+		if(isInertial(EncoderConfigurationName)) 
+		{
+			if(EncoderConfigurationName == "ROTARYAXISINERTIAL") {
+				displacementMeters = displacement / 1000 #mm -> m
+				diameterMeters = diameter / 100 #cm -> m
+
+				ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+				#angle in radians
+				angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
+				position = angle * diameterMeters / 2
+				position = position * 1000	#m -> mm
+				#this is to make "inverted cumsum"
+				displacement = c(0,diff(position))
+			}
+			
 			displacement = getDisplacementInertial(displacement, curvesPlot, Title)
 			curvesPlot = FALSE
 		} else {
@@ -2392,20 +2407,8 @@ doProcess <- function(options) {
 			write("", OutputData1)
 			quit()
 		}
-
-		if(EncoderConfigurationName == "ROTARYAXISINERTIAL") {
-			displacementMeters = displacement / 1000 #mm -> m
-			diameterMeters = diameter / 100 #cm -> m
-
-			ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-			#angle in radians
-			angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
-			position = angle * diameterMeters / 2
-			position = position * 1000	#m -> mm
-			#this is to make "inverted cumsum"
-			displacement = c(0,diff(position))
-		} else
-			position=cumsum(displacement)
+			
+		position=cumsum(displacement)
 
 		#print(c("position",position))
 		#print(c("displacement",displacement))
@@ -2475,7 +2478,7 @@ doProcess <- function(options) {
 		     		xlab="",ylab="",axes=F)
 			
 			if(isInertial(EncoderConfigurationName))
-				mtext("body speed ",side=4,adj=1,line=-1,col="green2")
+				mtext("body speed ",side=4,adj=1,line=-1,col="green2",cex=.8)
 			else
 				mtext("speed ",side=4,adj=1,line=-1,col="green2")
 

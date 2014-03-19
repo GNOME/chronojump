@@ -1233,6 +1233,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
+
 		if(eccon=="ec") {
 			#landing = min(which(force>=weight))
 			landing = max(which(force[eccentric]<=weight))
@@ -1240,6 +1241,13 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
 			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
 		}
+		
+		mtext(text=paste("jump height =", 
+				 (position[concentric[length(concentric)]] - position[concentric[(takeoff - length(eccentric))]])/10,
+				 "cm",sep=" "),
+		      side=3, at=( takeoff + (length(eccentric)+length(concentric)) )/2,
+		      cex=.8,adj=0.5,col=cols[2])
+
 	}
 	#forceToBodyMass <- force - weight
 	#force.ext=extrema(forceToBodyMass)

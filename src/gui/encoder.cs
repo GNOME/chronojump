@@ -104,6 +104,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
+	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
 	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
@@ -4921,11 +4922,14 @@ Log.WriteLine(str);
 				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_analyze.Pixbuf = pixbuf;
 				encoder_pulsebar_analyze.Text = "";
-			
-				string contents = Util.ReadFile(UtilEncoder.GetEncoderAnalyzeTableTempFileName(), false);
-				if (contents != null && contents != "") {
-					treeviewEncoderAnalyzeRemoveColumns();
-					createTreeViewEncoderAnalyze(contents);
+
+				//Currently don't show neuromuscular profile because needs his own treeview structure
+				if( ! radiobutton_encoder_analyze_neuromuscular_profile.Active ) {
+					string contents = Util.ReadFile(UtilEncoder.GetEncoderAnalyzeTableTempFileName(), false);
+					if (contents != null && contents != "") {
+						treeviewEncoderAnalyzeRemoveColumns();
+						createTreeViewEncoderAnalyze(contents);
+					}
 				}
 			}
 

@@ -616,6 +616,7 @@ public class Constants
 	public static string EncoderScriptGraph = "graph.R";
 	public static string EncoderScriptInertiaMomentum = "inertia-momentum.R";
 	public static string EncoderScriptUtilR = "util.R";
+	public static string EncoderScriptNeuromuscularProfile = "neuromuscularProfile.R";
 	//no longer used:
 	//public static string EncoderScriptGraphCall = 
 		//"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";

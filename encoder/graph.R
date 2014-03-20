@@ -184,40 +184,62 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 
 
 #comes with every jump of the three best (in flight time)
-neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart, cTimeStart, e2TimeStart, weight)
+#e1, c, e2 are displacements
+neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 {
-
 	#          /\
 	#         /  \ 
 	# _     c/    \e2
 	#  \    /      \
 	# e1\  /        \
 	#    \/          \
-
 	
+	weight <- mass * g
 
 	#----------------
 	#1.- e1 variables
 	#----------------
 
-	#e1Range = range of e1
+	#e1.range <- range of e1
+	e1.pos <- cumsum(e1)
+	e1.range <- e1.pos[length(e1.pos)]
 
 	#e1f (when force is done)
 	#from max(abs(speed$y)) at e1, to end of e1
+	e1.speed <- getSpeed(e1, smoothingC)
+	e1f <- e1[max(abs(e1.speed$y)):length(e1)]
 
-	#e1ft duration of e1f
+	#e1f.t duration of e1f
+	e1f.t <- length(e1f)
 
-	#e1fFmax = max Force on e1f
+	#e1f.fmax <- max Force on e1f
+	e1f.speed <- getSpeed(e1f, smoothingC)
+	e1f.accel <- getAcceleration(e1f.speed)
+	e1f.accel$y <- e1f.accel$y * 1000
+	e1f.force <- mass * (e1f.accel$y + g)
+	e1f.fmax <- max(e1f.force)
 
-	#e1fRFDavg
-	#average force on e1f / e1ft
+	#e1f.rdf.avg
+	#average force on e1f / e1f.t
+	e1f.rfd.avg <- mean(e1f.force) / e1f.t
 
-	#e1fI (Impulse)
-	#average force on e1f * e1ft / weight
+	#e1f.i (Impulse)
+	#average force on e1f * e1f.t / weight
+	e1f.i <- mean(e1f.force) * e1f.t / weight 
 
+	e1.list = list(
+		       range = e1.range,
+		       t = e1f.t,
+		       fmax = e1f.fmax,
+		       rdf.avg = e1f.rfd.avg,
+		       i = e1f.i
+		       )
+	
 	#----------------
 	#2.- c variables
 	#----------------
+
+	c.list = list(fmax=21)	#TODO: delete this
 
 	#c1l "land" from bottom to takeoff (force < weight)
 	#c1a "air" from takeoff to max height
@@ -249,6 +271,8 @@ neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart,
 	#3.- e2 variables
 	#----------------
 
+	e2.list = list(fmax=22)	#TODO: delete this
+
 	#e2f (when force is done)
 	#is the same as contact phase (land on eccentric)
 	
@@ -263,60 +287,69 @@ neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart,
 
 
 	#return an object, yes, object oriented, please
+	return (list(e1.list = e1.list, c.list = c.list, e2.list = e2.list))
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
-neuromuscularProfileForceTimeDoAnalysis <- function(displacement, curves, mass, smoothingC)
+neuromuscularProfileDoAnalysis <- function(displacement, curves, mass, smoothingC)
 {
 	weight=mass*g
 
-	heights = NULL
-
 	#get the maxheight of the 6 jumps
 	#sequence is e,c,e,c for every jump. There are 6 jumps. Need the first c of every jump
+	nums = NULL
+	heights = NULL
+	count = 1
 	for(i in seq(2,22,length=6)) {
 		d = displacement[curves[i,1]:curves[i,2]]
 		speed <- getSpeed(d, smoothingC)
 		
-		position = cumsum(d)
-
 		accel = getAcceleration(speed) 
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 		accel$y <- accel$y * 1000
-
+		
 		force <- mass * (accel$y + g)
 
+		position = cumsum(d)
 		takeoff = min(which(force <= weight))
 		jumpHeight = (position[length(position)] - position[takeoff]) /10
-
 		print(paste("Jump Height =", jumpHeight))
 
-		heights[i] = jumpHeight
+		#store variables
+		nums[count] = i
+		heights[count] = jumpHeight
+		count = count +1
 	}
 
-	#-----------------------------------------------------------------------------
-	#TODO: fix this because if there are two best values, only first will be shown
-	#do a table or dataframe
-	#-----------------------------------------------------------------------------
-
-	#min() is to ensure to take just one value
-	#find best jump
-	best = min(which(heights == rev(sort(heights))[1]))
-	#find best jump
-	second = min(which(heights == rev(sort(heights))[2]))
-	#find best jump
-	third = min(which(heights == rev(sort(heights))[3]))
-
-	print(paste("best three jumps are:",best,second,third))
-	print(paste("heights are:",heights[best],heights[second],heights[third]))
-
+	df=data.frame(cbind(nums,heights))
+	bests=rev(order(df$heights))[1:3]
+	
+	print(c("best three jumps are:", df$nums[bests]))
+	print(c("heights are:", df$heights[bests]))
 
 	#with the best three jumps (in jump height) do:
 
-	#neuromuscularProfileForceTimeGetVariables <- function(displacement, e1TimeStart cTimeStart, e2TimeStart, weight)
-
+	npj <- list()
+	count = 1
+	for(i in df$nums[bests]) {
+		npj[[count]] <- neuromuscularProfileJump(
+						  displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
+						  displacement[curves[(i),1]:curves[(i),2]],	#c
+						  displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
+						  mass, smoothingC)
+		count = count +1
+		
+	}
+	
 	#show avg of each three values
+
+	print(c("e1 fmax 1,2,3", npj[[1]]$e1.list$fmax, npj[[2]]$e1.list$fmax, npj[[3]]$e1.list$fmax,
+		"c fmax 1,2,3", npj[[1]]$c.list$fmax, npj[[2]]$c.list$fmax, npj[[3]]$c.list$fmax,
+		"e2 fmax 1,2,3", npj[[1]]$e2.list$fmax, npj[[2]]$e2.list$fmax, npj[[3]]$e2.list$fmax
+		))
+
 	#plot a graph with these averages
+
 
 }
 
@@ -2874,7 +2907,7 @@ doProcess <- function(options) {
 				write("", OutputData1)
 				quit()
 			}
-			neuromuscularProfileForceTimeDoAnalysis(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
+			neuromuscularProfileDoAnalysis(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
 		}
 		
 		if(Analysis == "curves" || writeCurves) {

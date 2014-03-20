@@ -166,6 +166,11 @@ public class UtilEncoder
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptInertiaMomentum);
 	}
 	
+	public static string GetEncoderScriptNeuromuscularProfile() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptNeuromuscularProfile);
+	}
+	
 	public static string GetEncoderScriptUtilR() {
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptUtilR);
@@ -249,6 +254,9 @@ public class UtilEncoder
 		pinfo = new ProcessStartInfo();
 
 		string operatingSystem = "Linux";
+		
+		string scriptUtilR = GetEncoderScriptUtilR();
+		string scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
 			
 		pBin="Rscript";
 		//pBin="R";
@@ -264,6 +272,8 @@ public class UtilEncoder
 			es.OutputData1 = es.OutputData1.Replace("\\","/");
 			es.OutputData2 = es.OutputData2.Replace("\\","/");
 			es.SpecialData = es.SpecialData.Replace("\\","/");
+			scriptUtilR = scriptUtilR.Replace("\\","/");
+			scriptNeuromuscularProfile = scriptNeuromuscularProfile.Replace("\\","/");
 			operatingSystem = "Windows";
 		}
 		
@@ -271,7 +281,8 @@ public class UtilEncoder
 		string scriptOptions = es.InputData + "\n" + 
 		es.OutputGraph + "\n" + es.OutputData1 + "\n" + 
 		es.OutputData2 + "\n" + es.SpecialData + "\n" + 
-		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n";
+		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
+		scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" ;
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

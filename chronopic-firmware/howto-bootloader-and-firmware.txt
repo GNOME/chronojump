@@ -85,6 +85,9 @@ gravar i després gravar: paraula 3F39
 
 chronopic-firmwarecord
 
+on some Linux machines, doesn't work, then use PIC_downloader. eg.
+./PIC_downloader ledp.hex -P/dev/ttyUSB0
+
 
 
 -------------------------

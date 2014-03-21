@@ -1888,6 +1888,10 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 		angleSpeed = getSpeed(angle, smoothing) #rads/ms
 		angleAccel = getAcceleration(angleSpeed) #rads/ms² 
 		angleAccel$y = angleAccel$y * 1000 #rads/ms² -> rads/s²
+
+		#use the values
+		angleSpeed = angleSpeed$y
+		angleAccel = angleAccel$y
 	}
 
 	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g)
@@ -1981,11 +1985,13 @@ doProcess <- function(options) {
 	OperatingSystem=options[27]	#if this changes, change it also at start of this R file
 	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 
-	scriptUtilR = options[28]
-	scriptNeuromuscularProfileR = options[29]
+	scriptOne = options[28] #usually util.R
+	scriptTwo = options[29] #usually neuromuscularProfile.R
 	#--- include files ---
-	source(scriptUtilR)
-	source(scriptNeuromuscularProfileR)
+	if(scriptOne != "none")
+		source(scriptOne)
+	if(scriptTwo != "none")
+		source(scriptTwo)
 
 	print(File)
 	print(OutputGraph)

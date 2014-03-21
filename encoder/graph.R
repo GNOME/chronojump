@@ -1870,46 +1870,36 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	D.m = D / 100 #cm -> m
 
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL") 
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+	   encoderConfigurationName == "ROTARYAXISINERTIAL") #this has been converted to linear previously
 	{
 		angle = position.m * 2 / d.m
 		angleSpeed = speed * 2 / d.m
 		angleAccel = accel * 2 / d.m
-	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL") 
-	{
+	} else { # encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL"
 		angle = position.m * 2 / D.m
 		angleSpeed = speed * 2 / D.m
 		angleAccel = accel * 2 / D.m
-	} else 
-	{ #(EncoderConfigurationName == "ROTARYAXISINERTIAL")
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		#angle in radians
-		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
-		angleSpeed = getSpeed(angle, smoothing) #rads/ms
-		angleAccel = getAcceleration(angleSpeed) #rads/ms² 
-		angleAccel$y = angleAccel$y * 1000 #rads/ms² -> rads/s²
-
-		#use the values
-		angleSpeed = angleSpeed$y
-		angleAccel = angleAccel$y
-	}
+	} 
 
 	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
 
-	#print(c("displacement",displacement))
-	#print(c("inertia momentum",inertiaMomentum))
+	print(c("displacement",displacement))
+	print(c("displacement cumsum",cumsum(displacement)))
+	print(c("inertia momentum",inertiaMomentum))
         #print(c("d",d))
         #print(c("mass",mass))
         #print(c("g",g))
-	#print(c("angleAccel",angleAccel))
-	#print(c("angleSpeed",angleSpeed))
+        print(c("max angle",max(abs(angle))))
+	print(c("max angleSpeed",max(abs(angleSpeed))))
+	print(c("max angleAccel",max(abs(angleAccel))))
 	#print(c("speed",speed))
 	#print(c("accel",accel))
-	#print(c("force",force))
-	#print(c("power at inertial",power))
+	print(c("max force",max(abs(force))))
+	print(c("max power at inertial",max(abs(power))))
 	#print(c("powerBody",powerBody[1000]))
 	#print(c("powerWheel",powerWheel[1000]))
 

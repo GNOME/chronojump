@@ -241,7 +241,7 @@ public class UtilEncoder
 	}
 	*/
 	
-	public static bool RunEncoderGraph(string title, EncoderStruct es) 
+	public static bool RunEncoderGraph(string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{
 		CancelRScript = false;
 
@@ -256,7 +256,10 @@ public class UtilEncoder
 		string operatingSystem = "Linux";
 		
 		string scriptUtilR = GetEncoderScriptUtilR();
-		string scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
+
+		string scriptNeuromuscularProfile = "none"; //cannot be blank
+		if(neuromuscularProfileDo)
+			scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
 			
 		pBin="Rscript";
 		//pBin="R";

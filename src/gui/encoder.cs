@@ -721,7 +721,8 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
-				es);
+				es,
+				false); //do not use neuromuscularProfile script
 				
 		if(result)
 			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
@@ -1324,7 +1325,8 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQL.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
-				encoderStruct);
+				encoderStruct,
+				false); //do not use neuromuscularProfile script
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
@@ -2365,7 +2367,7 @@ Log.WriteLine(str);
 		if( ! radiobutton_encoder_analyze_data_user_curves.Active)
 			titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 
-		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct);
+		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
 	}
 	
 	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {

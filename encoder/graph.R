@@ -165,7 +165,7 @@ write("(1/5) Starting R", OutputData2)
 #this methods replaces getDisplacement and fixRawdataInertial
 #here comes a signal: (singleFile)
 #it shows the disc rotation and the person movement
-getDisplacementInertial <- function(displacement, draw, title) 
+getDisplacementInertialBody <- function(displacement, draw, title) 
 {
 	position=cumsum(displacement)
 	position.ext=extrema(position)
@@ -1844,75 +1844,53 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
 {
-	#first: Internationational System units
-	displacement = displacement / 1000 #mm -> m
-	d=d/100 #cm -> m
-	D=D/100 #cm -> m
-
-	#2nd, on friction side: know displacement of the "person"
+	#on friction side: know displacement of the "person"
 	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
 	{
 		displacement = displacement * d / D #displacement of the axis
 	}
 
-	#position = abs(cumsum(displacement)) / 1000 #mm -> m
-	position = abs(cumsum(displacement))
+	speed = getSpeed(displacement, smoothing) #mm/ms == m/s 
+
+	# accel will be:
+	accel = getAcceleration(speed) 
+
+	accel$y = accel$y * 1000 # mm/ms² -> m/s²
+	
+	#use the values
+	speed = speed$y
+	accel = accel$y
+	
+	#----------------------
+	#let's work with SI now
+	#----------------------
+
+	position.m = abs(cumsum(displacement)) / 1000 #m
+	d.m = d / 100 #cm -> m
+	D.m = D / 100 #cm -> m
 
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL") {
-
-		speed = getSpeed(displacement, smoothing)  # getSpeed returns in m/ms because displacement is in m/ms
-		speed$y = speed$y * 1000 # m/ms -> m/s
-		
-		# accel will be:
-	        # x = ms (there's one value for each ms)
-		# y = m/ms²
-		accel = getAcceleration(speed) 
-		
-		accel$y = accel$y * 1000000 # m/ms² -> m/s²
-		
-		#use the values
-		speed = speed$y
-		accel = accel$y
-
-	   	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL") {
-			angle = position * 2 / D
-			angleSpeed = speed * 2 / D
-			angleAccel = accel * 2 / D
-		} else {
-			angle = position * 2 / d
-			angleSpeed = speed * 2 / d
-			angleAccel = accel * 2 / d
-		}
-	} else {
-		#(encoderConfigurationName == "ROTARYAXISINERTIAL")
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL") 
+	{
+		angle = position.m * 2 / d.m
+		angleSpeed = speed * 2 / d.m
+		angleAccel = accel * 2 / d.m
+	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL") 
+	{
+		angle = position.m * 2 / D.m
+		angleSpeed = speed * 2 / D.m
+		angleAccel = accel * 2 / D.m
+	} else 
+	{ #(EncoderConfigurationName == "ROTARYAXISINERTIAL")
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-
 		#angle in radians
-		angle = abs(cumsum(displacement * 1000)) * 2 * pi / ticksRotaryEncoder
-
-		#angleSpeed in radians/ms
-		angleSpeed = getSpeed(angle, smoothing)
-		angleSpeed$y = angleSpeed$y * 1000 # rad/ms -> rad/s
-
-		# accel will be:
-	        # x = ms (there's one value for each ms)
-		# y = rad/ms²
-		angleAccel = getAcceleration(angleSpeed)      
-		
-		#angleAccel$y = angleAccel$y * 1000000 # rad/ms² -> rad/s²
-		
-		#use the values
-		angleSpeed = angleSpeed$y
-		angleAccel = angleAccel$y
-
-		position = angle * d / 2
-		speed = angleSpeed * d / 2
-		accel = angleAccel * d / 2
+		angle = abs(cumsum(displacement)) * 2 * pi / ticksRotaryEncoder
+		angleSpeed = getSpeed(angle, smoothing) #rads/ms
+		angleAccel = getAcceleration(angleSpeed) #rads/ms² 
+		angleAccel$y = angleAccel$y * 1000 #rads/ms² -> rads/s²
 	}
 
-	force = abs(inertiaMomentum * angleAccel) * (2 / d) + mass * (accel + g)
+	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
@@ -2227,6 +2205,8 @@ doProcess <- function(options) {
 
 		if(isInertial(EncoderConfigurationName)) 
 		{
+			#scanned displacement is ticks of rotary axis encoder
+			#now convert it to mm of body displacement
 			if(EncoderConfigurationName == "ROTARYAXISINERTIAL") {
 				displacementMeters = displacement / 1000 #mm -> m
 				diameterMeters = diameter / 100 #cm -> m
@@ -2237,10 +2217,10 @@ doProcess <- function(options) {
 				position = angle * diameterMeters / 2
 				position = position * 1000	#m -> mm
 				#this is to make "inverted cumsum"
-				displacement = c(0,diff(position))
+				displacement = c(0,diff(position)) #this displacement is going to be used now
 			}
 			
-			displacement = getDisplacementInertial(displacement, curvesPlot, Title)
+			displacement = getDisplacementInertialBody(displacement, curvesPlot, Title)
 			curvesPlot = FALSE
 		} else {
 			displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)

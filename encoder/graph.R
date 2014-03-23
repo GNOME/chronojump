@@ -2646,22 +2646,22 @@ doProcess <- function(options) {
 				quit()
 			}
 			npj <- neuromuscularProfileGetData(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
-
-			np.bar.load <- mean(
-					    npj[[1]]$e1$rfd.avg,
-					    npj[[2]]$e1$rfd.avg,
-					    npj[[3]]$e1$rfd.avg
-					    )
-			np.bar.explode <- mean(
-					       npj[[1]]$c$cl.rfd.avg,
-					       npj[[2]]$c$cl.rfd.avg,
-					       npj[[3]]$c$cl.rfd.avg
-					       )
-			np.bar.drive <- mean(
-					     npj[[1]]$c$cl.i,
-					     npj[[2]]$c$cl.i,
-					     npj[[3]]$c$cl.i
-					     )
+					    
+			np.bar.load <- mean(c(
+					      npj[[1]]$e1$rfd.avg,
+					      npj[[2]]$e1$rfd.avg,
+					      npj[[3]]$e1$rfd.avg
+					      ))
+			np.bar.explode <- mean(c(
+						 npj[[1]]$c$cl.rfd.avg,
+						 npj[[2]]$c$cl.rfd.avg,
+						 npj[[3]]$c$cl.rfd.avg
+						 ))
+			np.bar.drive <- mean(c(
+					       npj[[1]]$c$cl.i,
+					       npj[[2]]$c$cl.i,
+					       npj[[3]]$c$cl.i
+					       ))
 
 			par(mar=c(5,4,4,5))
 			neuromuscularProfilePlotBars(np.bar.load, np.bar.explode, np.bar.drive)

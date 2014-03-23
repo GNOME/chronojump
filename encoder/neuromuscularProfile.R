@@ -35,6 +35,7 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 	
 	weight <- mass * g
 
+
 	#----------------
 	#1.- e1 variables
 	#----------------
@@ -46,9 +47,13 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 	#e1f (when force is done)
 	#from max(abs(speed$y)) at e1, to end of e1
 	e1.speed <- getSpeed(e1, smoothingC)
-	e1f <- e1[max(abs(e1.speed$y)):length(e1)]
+	e1.maxspeed.pos <- mean(which(abs(e1.speed$y) == max(abs(e1.speed$y))))
+	e1f <- e1[e1.maxspeed.pos:length(e1)]
 
-	#e1f.t duration of e1f
+print(c("e max speed.t",e1.maxspeed.pos))
+print(c("length e1",length(e1)))
+
+	#e1f.t duration of e1f (ms)
 	e1f.t <- length(e1f)
 
 	#e1f.fmax <- max Force on e1f
@@ -58,13 +63,16 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 	e1f.force <- mass * (e1f.accel$y + g)
 	e1f.fmax <- max(e1f.force)
 
+print(c("e1f.t",e1f.t))
+print(c("mean(e1f.force)",mean(e1f.force)))
+
 	#e1f.rdf.avg
-	#average force on e1f / e1f.t
-	e1f.rfd.avg <- mean(e1f.force) / e1f.t #bars LOAD
+	#average force on e1f / e1f.t (s)
+	e1f.rfd.avg <- mean(e1f.force) / (e1f.t / 1000)  #bars LOAD
 
 	#e1f.i (Impulse)
-	#average force on e1f * e1f.t / weight
-	e1f.i <- mean(e1f.force) * e1f.t / weight 
+	#average force on e1f * e1f.t (s) / mass (Kg)
+	e1f.i <- mean(e1f.force) * (e1f.t / 1000) / mass 
 
 	e1.list = list(
 		       range = e1.range,
@@ -87,7 +95,9 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 
 	c.position = cumsum(c)
 	c.takeoff = min(which(c.force <= weight))
-	#c.jumpHeight = (c.position[length(c.position)] - c.position[c.takeoff]) /10
+	c.jumpHeight = (c.position[length(c.position)] - c.position[c.takeoff]) /10
+
+	print(c("jumpHeight", c.jumpHeight))
 
 	#cl "land" from bottom to takeoff (force < weight)
 	#ca "air" from takeoff to max height
@@ -103,20 +113,23 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 	#cl.t = contact time (duration) on cl
 	cl.t <- length(cl)
 	
-	#cl.rfd.avg = average force on cl / cl.t / weight #bars EXPLODE
+	#cl.rfd.avg = average force on cl / cl.t (s) / mass (Kg) #bars EXPLODE
 	cl.speed <- getSpeed(cl, smoothingC)
 	cl.accel = getAcceleration(cl.speed) 
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	cl.accel$y <- cl.accel$y * 1000
 	cl.force <- mass * (cl.accel$y + g)
 
-	cl.rfd.avg <- mean(cl.force) / cl.t / weight
-	
-	#cl.i = average force on cl * cl.t / weight #impulse #bars DRIVE
-	cl.i <- mean(cl.force) * cl.t / weight
+print(c("cl.t",cl.t))
+print(c("mean clforce",mean(cl.force)))
 
-	#cl.f.avg = average force on cl / weight
-	cl.f.avg <- mean(cl.force) / weight
+	cl.rfd.avg <- mean(cl.force) / (cl.t / 1000) / mass
+	
+	#cl.i = average force on cl * cl.t (s) / mass (Kg) #impulse #bars DRIVE
+	cl.i <- mean(cl.force) * (cl.t / 1000) / mass
+
+	#cl.f.avg = average force on cl / mass (Kg)
+	cl.f.avg <- mean(cl.force) / mass
 
 	#cl.vf (vF -> valley Force)
 	#minimum force on cl before concentric Speed max
@@ -178,8 +191,8 @@ neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
 	#e2fFmaxt = duration from land to max force
 	e2f.f.max.t <- min(which(e2.force == e2f.f.max)) - e2.land.pos
 
-	#e2f.rfd.max = e2f.f.max / e2f.f.max.t
-	e2f.rfd.max <- e2f.f.max / e2f.f.max.t
+	#e2f.rfd.max = e2f.f.max / e2f.f.max.t (s)
+	e2f.rfd.max <- e2f.f.max / (e2f.f.max.t / 1000)
 
 	e2.list = list(
 		      e2f.t = e2f.t,
@@ -255,10 +268,59 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 	return (npj)
 }
 
+#implement the Excel Forecast in R
+cutreForecastInRDo <- function(table.points, table.values, value)
+{
+	if(value > table.values[11])
+		return (table.points[11])
+	else if(value < table.values[1])
+		return (table.points[1])
+	else {
+		for(i in 1:10) {
+			if(value >= table.values[i] && value < table.values[(i+1)]) {
+				range.values = table.values[(i+1)] - table.values[i]
+				distanceFromLow = value - table.values[i]
+				percentFromLow = distanceFromLow / range.values
+				range.points = table.points[(i+1)] - table.points[i]
+				return (table.points[i] + (range.points * percentFromLow))
+			}
+		}
+	}
+}
+
+cutreForecastInRPrepare <- function(variable, value)
+{
+	table.points <- seq(0,100,length.out=11)
+	table.load <- seq(0,20000,length.out=11)
+	table.explode <- seq(0,250,length.out=11)
+	table.drive <- seq(3,8,length.out=11)
+
+	if(variable == "load")
+		return (cutreForecastInRDo(table.points, table.load, value))
+	else if(variable == "explode")
+		return (cutreForecastInRDo(table.points, table.explode, value))
+	else #(variable == "drive")
+		return (cutreForecastInRDo(table.points, table.drive, value))
+}
+
+
 neuromuscularProfilePlotBars <- function(load, explode, drive)
 {
-	barplot(c(load,explode,drive),col=topo.colors(3),names.arg=c("Load","Explode","Drive"))
 	print(c("load, explode, drive", load, explode, drive))
+
+	load100 = cutreForecastInRPrepare("load",load)
+	explode100 = cutreForecastInRPrepare("explode",explode)
+	drive100 = cutreForecastInRPrepare("drive",drive)
+	print(c("load100, explode100, drive100", load100, explode100, drive100))
+
+	barplot(c(load100,explode100,drive100),col=topo.colors(3),ylim=c(0,100),
+		names.arg=c(
+			    paste("Load\n",round(load,2)," -> ",round(load100,2),"%",sep=""),
+			    paste("Explode\n",round(explode,2)," -> ",round(explode100,2),"%",sep=""),
+			    paste("Drive\n",round(drive,2)," -> ",round(drive100,2),"%",sep="")
+		))
+
+
 	
 	#show small text related to graph result and how to train
 }
@@ -282,6 +344,6 @@ neuromuscularProfileWriteData <- function(npj, outputData1)
 	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c), names(npj[[1]]$e2))
 	print(df)
 
-	write.csv(df, outputData1, quote=FALSE)
+	write.csv2(df, outputData1, quote=FALSE)
 }
 

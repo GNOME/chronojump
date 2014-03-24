@@ -2363,9 +2363,14 @@ Log.WriteLine(str);
 		//	massString = "";
 
 		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
-		//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
-		if( ! radiobutton_encoder_analyze_data_user_curves.Active)
-			titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+	
+		if(encoderAnalysis == "neuromuscularProfile")
+			titleStr = "Neuromuscular Profile" + "-" + titleStr;
+		else {
+			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
+			if( ! radiobutton_encoder_analyze_data_user_curves.Active)
+				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
+		}
 
 		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
 	}

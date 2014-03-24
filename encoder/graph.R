@@ -2663,15 +2663,22 @@ doProcess <- function(options) {
 					       npj[[3]]$c$cl.i
 					       ))
 
-			par(mar=c(5,4,4,5))
-			neuromuscularProfilePlotBars(np.bar.load, np.bar.explode, np.bar.drive)
+			par(mar=c(3,4,2,4))
+			par(mfrow=c(2,1))
+			neuromuscularProfilePlotBars(Title, np.bar.load, np.bar.explode, np.bar.drive)
 			
+			par(mar=c(4,4,1,4))
 			neuromuscularProfilePlotOther(
 						      displacement, #curves,
 						      list(npj[[1]]$numJump,  npj[[2]]$numJump,  npj[[3]]$numJump),
 						      list(npj[[1]]$start.e1, npj[[2]]$start.e1, npj[[3]]$start.e1),
 						      list(npj[[1]]$end.e2,   npj[[2]]$end.e2,   npj[[3]]$end.e2),
+						      list(npj[[1]]$start.c,  npj[[2]]$start.c,  npj[[3]]$start.c),
+						      list(npj[[1]]$end.c,    npj[[2]]$end.c,    npj[[3]]$end.c),
 						      (MassBody + MassExtra), SmoothingOneC)
+			#TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
+			par(mfrow=c(1,1))
+
 
 			#don't write the curves, write npj
 			writeCurves = FALSE

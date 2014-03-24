@@ -25,7 +25,7 @@ g = 9.81
 #comes with every jump of the three best (in flight time)
 #e1, c, e2 are displacements
 neuromuscularProfileJump <- function(
-				     numJump, start.e1, end.e2, #this are not used in this function but are returned as list
+				     numJump, start.e1, end.e2, start.c, end.c, #these are not used in this function but are returned as list
 				     e1, c, e2, mass, smoothingC)
 {
 	#          /\
@@ -185,7 +185,7 @@ print(c("mean clforce",mean(cl.force)))
 	#e2f.t duration of e2f
 	e2f.t <- length(e2f) 
 
-	#for this variables, we use e2 instead of e2f because there's lot more force on e2f
+	#for these variables, we use e2 instead of e2f because there's lot more force on e2f
 	#so there's no need to use e2f
 	#e2f.f.max = max force on e2f
 	e2f.f.max <- max(e2.force)
@@ -203,7 +203,9 @@ print(c("mean clforce",mean(cl.force)))
 		      e2f.rfd.max  = e2f.rfd.max
 		      )
 
-	return (list(numJump = numJump, start.e1 = start.e1, end.e2 = end.e2,
+	return (list(numJump = numJump, 
+		     start.e1 = start.e1, end.e2 = end.e2,
+		     start.c = start.c, end.c = end.c,
 		     e1 = e1.list, c = c.list, e2 = e2.list))
 }
 
@@ -254,6 +256,8 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 							 numJump, 
 							 curves[(i-1),1],	#start of all (start of e1)
 							 curves[(i+1),2],	#end of all (end of e2)
+							 curves[i,1],		#start of c
+							 curves[i,2],		#end of c
 							 displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
 							 displacement[curves[(i),1]:curves[(i),2]],	#c
 							 displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
@@ -310,37 +314,39 @@ cutreForecastInRPrepare <- function(variable, value)
 }
 
 
-neuromuscularProfilePlotBars <- function(load, explode, drive)
+neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 {
-	print(c("load, explode, drive", load, explode, drive))
+	#print(c("load, explode, drive", load, explode, drive))
 
 	load100 = cutreForecastInRPrepare("load",load)
 	explode100 = cutreForecastInRPrepare("explode",explode)
 	drive100 = cutreForecastInRPrepare("drive",drive)
-	print(c("load100, explode100, drive100", load100, explode100, drive100))
+	#print(c("load100, explode100, drive100", load100, explode100, drive100))
 
-	barplot(c(load100,explode100,drive100),col=topo.colors(3),ylim=c(0,100),
+	barplot(main=title, c(load100,explode100,drive100),col=topo.colors(3),ylim=c(0,100),
 		names.arg=c(
 			    paste("Load\n",round(load,2)," -> ",round(load100,2),"%",sep=""),
 			    paste("Explode\n",round(explode,2)," -> ",round(explode100,2),"%",sep=""),
 			    paste("Drive\n",round(drive,2)," -> ",round(drive100,2),"%",sep="")
 		))
-
-
 	
 	#show small text related to graph result and how to train
 }
 
-neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l.end.e2, mass, smoothingC)
+neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l.end.e2, l.start.c, l.end.c, mass, smoothingC)
 {
-	print(l.numJump)
-	print(l.start.e1)
-	print(l.end.e2)
-
 	#plot
 	#curve e1,c,e2 distance,speed,force /time of best jump
 	#curve e1,c,e2 force/time  (of the three best jumps)
 	#to plot e1,c,e2 curves, just sent to paint() the xmin:xmax from start e1 to end of e2
+
+	minimumForce = 0
+	maximumForce = 0
+	maximumLength = 0
+	forceFirst = NULL
+	forceSecond = NULL
+	forceThird = NULL
+	l.force.max.c.pos = NULL
 
 	for(i in 1:3) {
 		d = displacement[as.integer(l.start.e1[i]):as.integer(l.end.e2[i])]
@@ -351,13 +357,52 @@ neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l
 		accel$y <- accel$y * 1000
 
 		force <- mass * (accel$y + g)
+		if(i == 1)
+			forceFirst <- force
+		else if(i == 2)
+			forceSecond <- force
+		else
+			forceThird <- force
 
-		par(new="T")
-		plot(force)
-		#TODO: sinchronize them in max concentric force previous to jump
+		#find min/maxs for graph
+		if(max(length(force)) > maximumLength)
+			maximumLength <- max(length(force))
+		if(min(force) < minimumForce)
+			minimumForce <- min(force)
+		if(max(force) > maximumForce)
+			maximumForce <- max(force)
+
+		#find the max force moment in concentric
+		#first know start.c relative to this jump
+		start.c = as.integer(l.start.c[i]) - as.integer(l.start.e1[i])
+		end.c   = as.integer(l.end.c[i])   - as.integer(l.start.e1[i])
+
+		#get the max force position between start.c and end.c
+		l.force.max.c.pos[i] = min(which(force[start.c:end.c] == max(force[start.c:end.c])))
+		#add start.c to this position in order to be at right of e1
+		l.force.max.c.pos[i] = l.force.max.c.pos[i] + start.c
 	}
 
+	cols <- c("red","green","blue")
+	plot(forceFirst, type="n", xlab="time (ms)", ylab="Force (N)", 
+	     xlim=c(0,maximumLength), ylim=c(minimumForce, maximumForce))
 
+	#align curves to the right, add NAs at start
+	#forceFirst <- c(rep(NA, (maximumLength - length(forceFirst))), forceFirst)
+	#forceSecond <- c(rep(NA, (maximumLength - length(forceSecond))), forceSecond)
+	#forceThird <- c(rep(NA, (maximumLength - length(forceThird))), forceThird)
+	#align at max force concentric
+	forceFirst <- c(rep(NA, (max(l.force.max.c.pos) - l.force.max.c.pos[1])), forceFirst)
+	forceSecond <- c(rep(NA, (max(l.force.max.c.pos) - l.force.max.c.pos[2])), forceSecond)
+	forceThird <- c(rep(NA, (max(l.force.max.c.pos) - l.force.max.c.pos[3])), forceThird)
+	
+	lines(forceFirst, col=cols[1])
+	lines(forceSecond, col=cols[2])
+	lines(forceThird, col=cols[3])
+	abline(v=max(l.force.max.c.pos),lty=2)
+	legend("topleft", col=cols, lty=1,
+	       legend=c(paste("Jump", l.numJump[1]), paste("Jump", l.numJump[2]), paste("Jump", l.numJump[3]))
+	       )
 }
 
 neuromuscularProfileWriteData <- function(npj, outputData1)

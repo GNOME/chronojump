@@ -1344,7 +1344,10 @@ class Sqlite
 				conversionRateTotal = array.Count;
 				
 				dropTable(Constants.EncoderTable);
-				SqliteEncoder.createTableEncoder();
+				
+				//CAUTION: do like this and never do createTableEncoder,
+				//because method will change in the future and will break updates
+				SqliteOldConvert.createTableEncoder99(); 
 			
 				int count = 1;	
 				foreach( EncoderSQL098 es in array) {
@@ -1435,7 +1438,10 @@ class Sqlite
 				conversionRateTotal = array.Count;
 				
 				dropTable(Constants.EncoderTable);
-				SqliteEncoder.createTableEncoder();
+				
+				//CAUTION: do like this and never do createTableEncoder,
+				//because method will change in the future and will break updates
+				SqliteOldConvert.createTableEncoder104(); 
 				
 				//in this conversion put this as default for all SQL rows
 				EncoderConfiguration econf = new EncoderConfiguration();

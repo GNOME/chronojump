@@ -120,6 +120,61 @@ class SqliteOldConvert : Sqlite
 		return array;
 	}
 	
+	protected internal static void createTableEncoder104()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.EncoderTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"eccon TEXT, " +	//"c" or "ec"
+			"laterality TEXT, " +	//"left" "right" "both"
+			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"signalOrCurve TEXT, " + //"signal" or "curve"
+			"filename TEXT, " +
+			"url TEXT, " +
+			"time INT, " +
+			"minHeight INT, " +
+			"description TEXT, " +
+			"status TEXT, " +	//"active", "inactive"
+			"videoURL TEXT, " +	//URL of video of signals
+			"encoderConfiguration TEXT, " +	//text separated by ':'
+		       	"future1 TEXT, " + 
+		       	"future2 TEXT, " + 
+		       	"future3 TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+
+	protected internal static void createTableEncoder99()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.EncoderTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
+			"personID INT, " +
+			"sessionID INT, " +
+			"exerciseID INT, " +
+			"eccon TEXT, " +	//"c" or "ec"
+			"laterality TEXT, " +	//"left" "right" "both"
+			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
+			"signalOrCurve TEXT, " + //"signal" or "curve"
+			"filename TEXT, " +
+			"url TEXT, " +
+			"time INT, " +
+			"minHeight INT, " +
+    			"smooth INT, " +
+			"description TEXT, " +
+			"status TEXT, " +	//"active", "inactive"
+			"videoURL TEXT, " +	//URL of video of signals
+    			"mode TEXT, " +
+    			"inertiaMomentum INT, " +
+			"diameter INT, " +
+		       	"future1 TEXT, " + 
+		       	"future2 TEXT, " + 
+		       	"future3 TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+	
 
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];

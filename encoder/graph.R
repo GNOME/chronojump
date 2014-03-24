@@ -2665,6 +2665,13 @@ doProcess <- function(options) {
 
 			par(mar=c(5,4,4,5))
 			neuromuscularProfilePlotBars(np.bar.load, np.bar.explode, np.bar.drive)
+			
+			neuromuscularProfilePlotOther(
+						      displacement, #curves,
+						      list(npj[[1]]$numJump,  npj[[2]]$numJump,  npj[[3]]$numJump),
+						      list(npj[[1]]$start.e1, npj[[2]]$start.e1, npj[[3]]$start.e1),
+						      list(npj[[1]]$end.e2,   npj[[2]]$end.e2,   npj[[3]]$end.e2),
+						      (MassBody + MassExtra), SmoothingOneC)
 
 			#don't write the curves, write npj
 			writeCurves = FALSE

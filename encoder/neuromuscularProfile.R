@@ -24,7 +24,9 @@ g = 9.81
 
 #comes with every jump of the three best (in flight time)
 #e1, c, e2 are displacements
-neuromuscularProfileJump <- function(e1, c, e2, mass, smoothingC)
+neuromuscularProfileJump <- function(
+				     numJump, start.e1, end.e2, #this are not used in this function but are returned as list
+				     e1, c, e2, mass, smoothingC)
 {
 	#          /\
 	#         /  \ 
@@ -201,8 +203,8 @@ print(c("mean clforce",mean(cl.force)))
 		      e2f.rfd.max  = e2f.rfd.max
 		      )
 
-	#return an object, yes, object oriented, please
-	return (list(e1 = e1.list, c = c.list, e2 = e2.list))
+	return (list(numJump = numJump, start.e1 = start.e1, end.e2 = end.e2,
+		     e1 = e1.list, c = c.list, e2 = e2.list))
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
@@ -247,11 +249,15 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 	npj <- list()
 	count = 1
 	for(i in df$nums[bests]) {
+		numJump <- ((i-2)/4)+1 #this gets the concentric phase num and calculates which jump is
 		npj[[count]] <- neuromuscularProfileJump(
-						  displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
-						  displacement[curves[(i),1]:curves[(i),2]],	#c
-						  displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
-						  mass, smoothingC)
+							 numJump, 
+							 curves[(i-1),1],	#start of all (start of e1)
+							 curves[(i+1),2],	#end of all (end of e2)
+							 displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
+							 displacement[curves[(i),1]:curves[(i),2]],	#c
+							 displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
+							 mass, smoothingC)
 		count = count +1
 		
 	}
@@ -325,12 +331,33 @@ neuromuscularProfilePlotBars <- function(load, explode, drive)
 	#show small text related to graph result and how to train
 }
 
-neuromuscularProfilePlotOther <- function() 
+neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l.end.e2, mass, smoothingC)
 {
+	print(l.numJump)
+	print(l.start.e1)
+	print(l.end.e2)
+
 	#plot
 	#curve e1,c,e2 distance,speed,force /time of best jump
 	#curve e1,c,e2 force/time  (of the three best jumps)
 	#to plot e1,c,e2 curves, just sent to paint() the xmin:xmax from start e1 to end of e2
+
+	for(i in 1:3) {
+		d = displacement[as.integer(l.start.e1[i]):as.integer(l.end.e2[i])]
+		speed <- getSpeed(d, smoothingC)
+
+		accel = getAcceleration(speed) 
+		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
+		accel$y <- accel$y * 1000
+
+		force <- mass * (accel$y + g)
+
+		par(new="T")
+		plot(force)
+		#TODO: sinchronize them in max concentric force previous to jump
+	}
+
+
 }
 
 neuromuscularProfileWriteData <- function(npj, outputData1)
@@ -344,6 +371,6 @@ neuromuscularProfileWriteData <- function(npj, outputData1)
 	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c), names(npj[[1]]$e2))
 	print(df)
 
-	write.csv2(df, outputData1, quote=FALSE)
+	write.csv(df, outputData1, quote=FALSE)
 }
 

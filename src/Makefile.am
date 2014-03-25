@@ -9,6 +9,7 @@ SOURCES = \
 	gui/chronopic.cs\
 	gui/confirm.cs\
 	gui/encoder.cs\
+	gui/encoderTreeviews.cs\
 	gui/encoderConfiguration.cs\
 	gui/error.cs\
 	gui/eventExecute.cs\

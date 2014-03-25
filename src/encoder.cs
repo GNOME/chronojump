@@ -191,7 +191,7 @@ public class EncoderStruct
 	~EncoderStruct() {}
 }
 
-//used on TreeView
+//used on TreeViews capture and analyze
 public class EncoderCurve
 {
 	public EncoderCurve () {
@@ -268,6 +268,107 @@ public class EncoderCurve
 	public string PeakPower;
 	public string PeakPowerT;
 	public string PP_PPT;
+}
+
+//used on TreeView
+public class EncoderNeuromuscularData
+{
+	public string n; //?
+	public int e1_range;
+	public int e1_t;
+	public double e1_fmax;
+	public double e1_rfd_avg;
+	public double e1_i;
+
+	public int ca_range;
+	public int cl_t;
+	public double cl_rfd_avg;
+	public double cl_i;
+
+	public double cl_f_avg;
+	public double cl_vf;
+	public double cl_f_max;
+
+	public double cl_s_avg;
+	public double cl_s_max;
+	public double cl_p_avg;
+	public double cl_p_max;
+
+	public int e2f_t;
+	public double e2f_f_max;
+	public int e2f_f_max_t;
+	public double e2f_rfd_max;
+
+	public EncoderNeuromuscularData () {
+	}
+
+	//used on TreeView analyze
+	public EncoderNeuromuscularData (
+			string n, //?
+			int e1_range, int e1_t, double e1_fmax, double e1_rfd_avg, double e1_i,
+			int ca_range, int cl_t, double cl_rfd_avg, double cl_i, 
+			double cl_f_avg, double cl_vf, double cl_f_max, 
+			double cl_s_avg, double cl_s_max, double cl_p_avg, double cl_p_max, 
+			int e2f_t, double e2f_f_max, int e2f_f_max_t, double e2f_rfd_max
+			)
+	{
+		this.n = n; //?
+		this.e1_range = e1_range; 
+		this.e1_t = e1_t;
+		this.e1_fmax = e1_fmax;
+		this.e1_rfd_avg = e1_rfd_avg;
+		this.e1_i = e1_i;
+		this.ca_range = ca_range;
+		this.cl_t = cl_t;
+		this.cl_rfd_avg = cl_rfd_avg;
+		this.cl_i = cl_i;
+		this.cl_f_avg = cl_f_avg;
+		this.cl_vf = cl_vf;
+		this.cl_f_max = cl_f_max;
+		this.cl_s_avg = cl_s_avg;
+		this.cl_s_max = cl_s_max;
+		this.cl_p_avg = cl_p_avg;
+		this.cl_p_max = cl_p_max;
+		this.e2f_t = e2f_t;
+		this.e2f_f_max = e2f_f_max;
+		this.e2f_f_max_t = e2f_f_max_t;
+		this.e2f_rfd_max = e2f_rfd_max;
+	}
+
+	//reading contents file from graph.R
+	public EncoderNeuromuscularData (string [] cells)
+	{
+		//cell[0] is not converted because is string
+		for(int i = 1 ; i < cells.Length ;  i ++)
+			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+	
+		this.n = cells[0]; //?
+		this.e1_range 	= Convert.ToInt32(cells[1]); 
+		this.e1_t 	= Convert.ToInt32(cells[2]);
+		this.e1_fmax 	= Convert.ToDouble(cells[3]);
+		this.e1_rfd_avg	= Convert.ToDouble(cells[4]);
+		this.e1_i	= Convert.ToDouble(cells[5]);
+		this.ca_range	= Convert.ToInt32(cells[6]);
+		this.cl_t 	= Convert.ToInt32(cells[7]);
+		this.cl_rfd_avg = Convert.ToDouble(cells[8]);
+		this.cl_i 	= Convert.ToDouble(cells[9]);
+		this.cl_f_avg 	= Convert.ToDouble(cells[10]);
+		this.cl_vf 	= Convert.ToDouble(cells[11]);
+		this.cl_f_max 	= Convert.ToDouble(cells[12]);
+		this.cl_s_avg 	= Convert.ToDouble(cells[13]);
+		this.cl_s_max 	= Convert.ToDouble(cells[14]);
+		this.cl_p_avg 	= Convert.ToDouble(cells[15]);
+		this.cl_p_max 	= Convert.ToDouble(cells[16]);
+		this.e2f_t 	= Convert.ToInt32(cells[17]);
+		this.e2f_f_max 	= Convert.ToDouble(cells[18]);
+		this.e2f_f_max_t = Convert.ToInt32(cells[19]);
+		this.e2f_rfd_max = Convert.ToDouble(cells[20]);
+	}
+
+	//TODO:
+	public string ToCSV() {
+		return "";
+	}
 }
 
 public class EncoderSQL

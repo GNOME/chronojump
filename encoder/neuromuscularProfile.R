@@ -24,9 +24,7 @@ g = 9.81
 
 #comes with every jump of the three best (in flight time)
 #e1, c, e2 are displacements
-neuromuscularProfileJump <- function(
-				     numJump, start.e1, end.e2, start.c, end.c, #these are not used in this function but are returned as list
-				     e1, c, e2, mass, smoothingC)
+neuromuscularProfileJump <- function(l.context, e1, c, e2, mass, smoothingC)
 {
 	#          /\
 	#         /  \ 
@@ -203,10 +201,7 @@ print(c("mean clforce",mean(cl.force)))
 		      e2f.rfd.max  = e2f.rfd.max
 		      )
 
-	return (list(numJump = numJump, 
-		     start.e1 = start.e1, end.e2 = end.e2,
-		     start.c = start.c, end.c = end.c,
-		     e1 = e1.list, c = c.list, e2 = e2.list))
+	return (list(l.context = l.context, e1 = e1.list, c = c.list, e2 = e2.list))
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
@@ -252,12 +247,15 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 	count = 1
 	for(i in df$nums[bests]) {
 		numJump <- ((i-2)/4)+1 #this gets the concentric phase num and calculates which jump is
+		l.context <- list(numJump  = numJump,
+				  jumpHeight = heights[numJump], 
+				  start.e1 = curves[(i-1),1],	#start of all (start of e1)
+				  end.e2   = curves[(i+1),2],	#end of all (end of e2)
+				  start.c  = curves[i,1],	#start of c
+				  end.c    = curves[i,2]	#end of c
+				  )
 		npj[[count]] <- neuromuscularProfileJump(
-							 numJump, 
-							 curves[(i-1),1],	#start of all (start of e1)
-							 curves[(i+1),2],	#end of all (end of e2)
-							 curves[i,1],		#start of c
-							 curves[i,2],		#end of c
+							 l.context,
 							 displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
 							 displacement[curves[(i),1]:curves[(i),2]],	#c
 							 displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
@@ -333,7 +331,7 @@ neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 	#show small text related to graph result and how to train
 }
 
-neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l.end.e2, l.start.c, l.end.c, mass, smoothingC)
+neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothingC)
 {
 	#plot
 	#curve e1,c,e2 distance,speed,force /time of best jump
@@ -349,7 +347,7 @@ neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l
 	l.force.max.c.pos = NULL
 
 	for(i in 1:3) {
-		d = displacement[as.integer(l.start.e1[i]):as.integer(l.end.e2[i])]
+		d = displacement[as.integer(l.context[[i]]$start.e1):as.integer(l.context[[i]]$end.e2)]
 		speed <- getSpeed(d, smoothingC)
 
 		accel = getAcceleration(speed) 
@@ -374,8 +372,8 @@ neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l
 
 		#find the max force moment in concentric
 		#first know start.c relative to this jump
-		start.c = as.integer(l.start.c[i]) - as.integer(l.start.e1[i])
-		end.c   = as.integer(l.end.c[i])   - as.integer(l.start.e1[i])
+		start.c = as.integer(l.context[[i]]$start.c) - as.integer(l.context[[i]]$start.e1)
+		end.c   = as.integer(l.context[[i]]$end.c)   - as.integer(l.context[[i]]$start.e1)
 
 		#get the max force position between start.c and end.c
 		l.force.max.c.pos[i] = min(which(force[start.c:end.c] == max(force[start.c:end.c])))
@@ -400,8 +398,10 @@ neuromuscularProfilePlotOther <- function(displacement, l.numJump, l.start.e1, l
 	lines(forceSecond, col=cols[2])
 	lines(forceThird, col=cols[3])
 	abline(v=max(l.force.max.c.pos),lty=2)
-	legend("topleft", col=cols, lty=1,
-	       legend=c(paste("Jump", l.numJump[1]), paste("Jump", l.numJump[2]), paste("Jump", l.numJump[3]))
+	legend("topleft", col=cols, lty=1, cex=.9,
+	       legend=c(paste("Jump ", l.context[[1]]$numJump, " (", l.context[[1]]$jumpHeight, " cm)",sep=""), 
+			paste("Jump ", l.context[[2]]$numJump, " (", l.context[[2]]$jumpHeight, " cm)",sep=""), 
+			paste("Jump ", l.context[[3]]$numJump, " (", l.context[[3]]$jumpHeight, " cm)",sep=""))
 	       )
 }
 
@@ -414,6 +414,10 @@ neuromuscularProfileWriteData <- function(npj, outputData1)
 
 	df <- data.frame(rbind(jump1,jump2,jump3))
 	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c), names(npj[[1]]$e2))
+	rownames(df) <- c(
+			  paste("jump",npj[[1]]$l.context$numJump), 
+			  paste("jump",npj[[2]]$l.context$numJump),
+			  paste("jump",npj[[3]]$l.context$numJump))
 	print(df)
 
 	write.csv(df, outputData1, quote=FALSE)

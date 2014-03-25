@@ -273,7 +273,7 @@ public class EncoderCurve
 //used on TreeView
 public class EncoderNeuromuscularData
 {
-	public string n; //?
+	public string n; 
 	public int e1_range;
 	public int e1_t;
 	public double e1_fmax;
@@ -304,7 +304,7 @@ public class EncoderNeuromuscularData
 
 	//used on TreeView analyze
 	public EncoderNeuromuscularData (
-			string n, //?
+			string n, 
 			int e1_range, int e1_t, double e1_fmax, double e1_rfd_avg, double e1_i,
 			int ca_range, int cl_t, double cl_rfd_avg, double cl_i, 
 			double cl_f_avg, double cl_vf, double cl_f_max, 

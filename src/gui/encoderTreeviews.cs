@@ -373,6 +373,9 @@ public partial class ChronoJumpWindow
 			//crt1.Background = "blue";
 		
 			switch(i){	
+				case 0:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_jump_num));
+					break;
 				case 1:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e1_range));
 					break;
@@ -685,6 +688,12 @@ public partial class ChronoJumpWindow
 	/* end of rendering capture and analyze cols */
 
 	/* start rendering neuromuscular cols */
+
+	private void Render_jump_num (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = nm.n.ToString();
+	}
 
 	private void Render_e1_range (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{

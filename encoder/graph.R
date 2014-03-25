@@ -2640,7 +2640,7 @@ doProcess <- function(options) {
 
 			if(n < 24) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,"Not enough data.",cex=1.5)
+				text(x=0,y=0,"Not enough data.\nNeed 6 jumps and 4 phases for each jump (ecc,con,ecc,con).",cex=1.5)
 				dev.off()
 				write("", OutputData1)
 				quit()
@@ -2670,11 +2670,7 @@ doProcess <- function(options) {
 			par(mar=c(4,4,1,4))
 			neuromuscularProfilePlotOther(
 						      displacement, #curves,
-						      list(npj[[1]]$numJump,  npj[[2]]$numJump,  npj[[3]]$numJump),
-						      list(npj[[1]]$start.e1, npj[[2]]$start.e1, npj[[3]]$start.e1),
-						      list(npj[[1]]$end.e2,   npj[[2]]$end.e2,   npj[[3]]$end.e2),
-						      list(npj[[1]]$start.c,  npj[[2]]$start.c,  npj[[3]]$start.c),
-						      list(npj[[1]]$end.c,    npj[[2]]$end.c,    npj[[3]]$end.c),
+						      list(npj[[1]]$l.context, npj[[2]]$l.context, npj[[3]]$l.context),
 						      (MassBody + MassExtra), SmoothingOneC)
 			#TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
 			par(mfrow=c(1,1))

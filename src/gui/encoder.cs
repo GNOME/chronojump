@@ -260,6 +260,8 @@ public partial class ChronoJumpWindow
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 
 		captureCurvesBarsData = new ArrayList(0);
+		
+		update_neuromuscular_profile_sensitiveness();
 	
 		RInitialized = Constants.Status.UNSTARTED;
 	}
@@ -2389,7 +2391,7 @@ Log.WriteLine(str);
 			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 		}
 		button_encoder_analyze.Sensitive = analyze_sensitive;
-		
+
 		hbox_encoder_user_curves.Sensitive = false;
 
 		if(ecconLast != "c")
@@ -2411,6 +2413,7 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_powerbars.Sensitive = true;
 		radiobutton_encoder_analyze_single.Sensitive = true;
 		radiobutton_encoder_analyze_side.Sensitive = true;
+		update_neuromuscular_profile_sensitiveness();
 	}
 	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
 		if(currentPerson != null) {
@@ -2433,6 +2436,7 @@ Log.WriteLine(str);
 		radiobutton_encoder_analyze_powerbars.Sensitive = true;
 		radiobutton_encoder_analyze_single.Sensitive = true;
 		radiobutton_encoder_analyze_side.Sensitive = true;
+		update_neuromuscular_profile_sensitiveness();
 	}
 
 	private string getAnalysisVariables(string encoderAnalysis) 
@@ -2593,6 +2597,19 @@ Log.WriteLine(str);
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
 	
+	private void update_neuromuscular_profile_sensitiveness() {
+		//neuromuscular only sensitive on signal and ecc/con
+		if(radiobutton_encoder_analyze_data_current_signal.Active &&
+				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
+					encoderEcconTranslation) == Constants.EccentricConcentric
+		  )
+			radiobutton_encoder_analyze_neuromuscular_profile.Sensitive = true;
+		else {
+			radiobutton_encoder_analyze_neuromuscular_profile.Sensitive = false;
+			if(radiobutton_encoder_analyze_neuromuscular_profile.Active)
+				radiobutton_encoder_analyze_powerbars.Active = true;
+		}
+	}
 		
 	//end of encoder analysis modes
 
@@ -2810,6 +2827,7 @@ Log.WriteLine(str);
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
+		update_neuromuscular_profile_sensitiveness();
 	}
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)

@@ -2908,19 +2908,30 @@ Log.WriteLine(str);
 
 		checkFile(Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE);
 	}
+
 	void on_button_encoder_save_table_file_selected (string destination)
 	{
 		try {
 			//this overwrites if needed
 			TextWriter writer = File.CreateText(destination);
 
-			//wrrite header
-			writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-						treeviewEncoderAnalyzeHeaders, ";"), false));
-			//write curves rows
-			ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
-			foreach (EncoderCurve ec in array)
-				writer.WriteLine(ec.ToCSV());
+			if(lastTreeviewEncoderAnalyzeIsNeuromuscular) {
+				//write header
+				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
+							treeviewEncoderAnalyzeNeuromuscularHeaders, ";"), false));
+				//write curves rows
+				ArrayList array = getTreeViewNeuromuscular(encoderAnalyzeListStore);
+				foreach (EncoderNeuromuscularData nm in array)
+					writer.WriteLine(nm.ToCSV());
+			} else {
+				//write header
+				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
+							treeviewEncoderAnalyzeHeaders, ";"), false));
+				//write curves rows
+				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
+				foreach (EncoderCurve ec in array)
+					writer.WriteLine(ec.ToCSV());
+			}
 			
 			writer.Flush();
 			((IDisposable)writer).Dispose();
@@ -2960,19 +2971,6 @@ Log.WriteLine(str);
 		new DialogMessage(Constants.MessageTypes.INFO, myString);
 	}
 
-
-	// ---------helpful methods -----------
-	
-	ArrayList getTreeViewCurves(Gtk.ListStore ls) {
-		TreeIter iter = new TreeIter();
-		ls.GetIterFirst ( out iter ) ;
-		ArrayList array = new ArrayList();
-		do {
-			EncoderCurve ec = (EncoderCurve) ls.GetValue (iter, 0);
-			array.Add(ec);
-		} while (ls.IterNext (ref iter));
-		return array;
-	}
 
 
 	int getExerciseIDFromName (string name) {
@@ -4341,11 +4339,9 @@ Log.WriteLine(str);
 					if(radiobutton_encoder_analyze_neuromuscular_profile.Active) {
 						treeviewEncoderAnalyzeRemoveColumns(false);	//neuromuscular
 						createTreeViewEncoderAnalyzeNeuromuscular(contents);
-						button_encoder_analyze_table_save.Sensitive = false;
 					} else {
 						treeviewEncoderAnalyzeRemoveColumns(true);	//curves
 						createTreeViewEncoderAnalyze(contents);
-						button_encoder_analyze_table_save.Sensitive = true;
 					}
 				}
 			}
@@ -4356,6 +4352,7 @@ Log.WriteLine(str);
 			treeview_encoder_analyze_curves.Sensitive = true;
 			
 			button_encoder_analyze_image_save.Sensitive = true;
+			button_encoder_analyze_table_save.Sensitive = true;
 			
 			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);

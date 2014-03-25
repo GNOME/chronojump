@@ -312,7 +312,7 @@ public class EncoderNeuromuscularData
 			int e2f_t, double e2f_f_max, int e2f_f_max_t, double e2f_rfd_max
 			)
 	{
-		this.n = n; //?
+		this.n = n;
 		this.e1_range = e1_range; 
 		this.e1_t = e1_t;
 		this.e1_fmax = e1_fmax;
@@ -342,7 +342,7 @@ public class EncoderNeuromuscularData
 		for(int i = 1 ; i < cells.Length ;  i ++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
 	
-		this.n = cells[0]; //?
+		this.n 		= cells[0];
 		this.e1_range 	= Convert.ToInt32(cells[1]); 
 		this.e1_t 	= Convert.ToInt32(cells[2]);
 		this.e1_fmax 	= Convert.ToDouble(cells[3]);
@@ -365,9 +365,19 @@ public class EncoderNeuromuscularData
 		this.e2f_rfd_max = Convert.ToDouble(cells[20]);
 	}
 
-	//TODO:
 	public string ToCSV() {
-		return "";
+		string sep = ";";
+		return 
+			n + sep + e1_range.ToString() + sep + 
+			e1_t.ToString() + sep + e1_fmax.ToString() + sep + 
+			e1_rfd_avg.ToString() + sep + e1_i.ToString() + sep + 
+			ca_range.ToString() + sep + cl_t.ToString() + sep + 
+			cl_rfd_avg.ToString() + sep + cl_i.ToString() + sep + 
+			cl_f_avg.ToString() + sep + cl_vf.ToString() + sep + cl_f_max.ToString() + sep + 
+			cl_s_avg.ToString() + sep + cl_s_max.ToString() + sep + 
+			cl_p_avg.ToString() + sep + cl_p_max.ToString() + sep + 
+			e2f_t.ToString() + sep + e2f_f_max.ToString() + sep + 
+			e2f_f_max_t.ToString() + sep + e2f_rfd_max;
 	}
 }
 

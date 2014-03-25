@@ -169,6 +169,8 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
 	};
 
+	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
+
 	private int createTreeViewEncoderAnalyze(string contents) {
 		string [] columnsString = treeviewEncoderAnalyzeHeaders;
 
@@ -300,6 +302,9 @@ public partial class ChronoJumpWindow
 			treeview_encoder_analyze_curves.AppendColumn (aColumn);
 			i++;
 		}
+
+		lastTreeviewEncoderAnalyzeIsNeuromuscular = false; 
+
 		return curvesCount;
 	}
 
@@ -441,6 +446,9 @@ public partial class ChronoJumpWindow
 			treeview_encoder_analyze_curves.AppendColumn (aColumn);
 			i++;
 		}
+		
+		lastTreeviewEncoderAnalyzeIsNeuromuscular = true; 
+		
 		return curvesCount;
 	}
 
@@ -919,6 +927,30 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+	// ---------helpful methods -----------
+	
+	ArrayList getTreeViewCurves(Gtk.ListStore ls) {
+		TreeIter iter = new TreeIter();
+		ls.GetIterFirst ( out iter ) ;
+		ArrayList array = new ArrayList();
+		do {
+			EncoderCurve ec = (EncoderCurve) ls.GetValue (iter, 0);
+			array.Add(ec);
+		} while (ls.IterNext (ref iter));
+		return array;
+	}
+
+	ArrayList getTreeViewNeuromuscular(Gtk.ListStore ls) {
+		TreeIter iter = new TreeIter();
+		ls.GetIterFirst ( out iter ) ;
+		ArrayList array = new ArrayList();
+		do {
+			EncoderNeuromuscularData nm = (EncoderNeuromuscularData) ls.GetValue (iter, 0);
+			array.Add(nm);
+		} while (ls.IterNext (ref iter));
+		return array;
+	}
+
 	/* end of TreeView stuff */	
 
 }

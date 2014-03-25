@@ -24,6 +24,7 @@ src/gui/chronojump.cs
 src/gui/chronopic.cs
 src/gui/convertWeight.cs
 src/gui/encoder.cs
+src/gui/encoderTreeviews.cs
 src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs

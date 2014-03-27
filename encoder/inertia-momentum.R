@@ -35,8 +35,6 @@
 #Measure weight
 #Measure distance between centre of axis and centre of weight
 
-library("EMD")
-
 calculate <- function (displacement, mass, length)
 {
 	#cumulative movement of the encoder
@@ -83,12 +81,15 @@ print(args)
 optionsFile = args[1]
 print(optionsFile)
 
-options = getOptionsFromFile(optionsFile, 4)
+options = getOptionsFromFile(optionsFile, 5)
 
 fileInput = options[1]
 fileOutput = options[2]
 mass = as.numeric(options[3]) / 1000.0 	# g -> Kg
 length = as.numeric(options[4]) / 100.0	#cm -> m
+scriptUtilR = options[5]
+		
+source(scriptUtilR)
 
 displacement = scan(file=fileInput, sep=",")
 

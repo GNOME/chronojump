@@ -941,16 +941,16 @@ public class Util
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
 	
-		//try {	
-		r = new Process();
-		r.StartInfo = pinfo;
-		r.Start();
-		r.WaitForExit();
-		//while ( ! ( File.Exists(outputFile) || CancelRScript) );
-		while ( ! ( File.Exists(outputFile) ) );
-		//} catch {
+		try {	
+			r = new Process();
+				r.StartInfo = pinfo;
+				r.Start();
+			r.WaitForExit();
+			//while ( ! ( File.Exists(outputFile) || CancelRScript) );
+			while ( ! ( File.Exists(outputFile) ) );
+		} catch {
 			//maybe R is not installed
-		//}
+		}
 	}
 	
 

@@ -543,12 +543,12 @@ findECPhases <- function(displacement,speed) {
 	isometricUse = TRUE
 	if(isometricUse) {
 		eccentric=1:min(speed.ext$cross[crossMinRow,1])
-		isometric=c(min(speed.ext$cross[crossMinRow,1]), max(speed.ext$cross[crossMinRow,2]))
-		concentric=max(speed.ext$cross[crossMinRow,2]):length(displacement)
+		isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
+		concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 	} else {
 		eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-		isometric=c(mean(speed.ext$cross[crossMinRow,1]), mean(speed.ext$cross[crossMinRow,2]))
-		concentric=mean(speed.ext$cross[crossMinRow,2]):length(displacement)
+		#isometric=mean(speed.ext$cross[crossMinRow,1]+1):mean(speed.ext$cross[crossMinRow,2])
+		concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 	}
 	return(list(
 		eccentric=eccentric,
@@ -563,7 +563,7 @@ findECPhases <- function(displacement,speed) {
 #Also use more this funcion (eg on paint)
 findPropulsiveEnd <- function(accel, concentric) {
 	if(length(which(accel[concentric]<=-g)) > 0) 
-		propulsiveEnd = min(concentric) + min(which(accel[concentric] <= -g))
+		propulsiveEnd = min(which(accel[concentric] <= -g))
 	else
 		propulsiveEnd = max(concentric)
 	
@@ -875,6 +875,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	eccentric=0
 	isometric=0
 	concentric=0
+
 	if(eccon=="c") {
 		concentric=1:length(displacement)
 	} else {	#"ec", "ce". Eccons "ecS" and "ceS" are not painted
@@ -900,12 +901,12 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#TODO: con-ecc is opposite
 		if(isometricUse) {
 			eccentric=1:min(speed.ext$cross[crossMinRow,1])
-			isometric=c(min(speed.ext$cross[crossMinRow,1]), max(speed.ext$cross[crossMinRow,2]))
-			concentric=max(speed.ext$cross[crossMinRow,2]):length(displacement)
+			isometric=c(min(speed.ext$cross[crossMinRow,1]+1), max(speed.ext$cross[crossMinRow,2]))
+			concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 		} else {
 			eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-			isometric=c(mean(speed.ext$cross[crossMinRow,1]), mean(speed.ext$cross[crossMinRow,2]))
-			concentric=mean(speed.ext$cross[crossMinRow,2]):length(displacement)
+			#isometric=c(mean(speed.ext$cross[crossMinRow,1]+1), mean(speed.ext$cross[crossMinRow,2]))
+			concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 		}
 
 		if(draw) {
@@ -939,7 +940,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	#propulsive phase ends when accel is -9.8
 	if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
-		propulsiveEnd = min(concentric) + min(which(accel$y[concentric]<=-g))
+		propulsiveEnd = min(which(accel$y[concentric]<=-g))
 	} else {
 		propulsiveEnd = max(concentric)
 	}
@@ -1005,7 +1006,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(isPropulsive) {
 			#propulsive stuff
 			segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
-			abline(v=propulsiveEnd,lty=3,col="magenta") 
+			#abline(v=propulsiveEnd,lty=3,col="magenta") 
+			abline(v=propulsiveEnd,lty=1,col=cols[2]) 
 			points(propulsiveEnd, -g, col="magenta")
 			text(x=length(accel$y),y=-9.81,labels=" g",cex=1,adj=c(0,0),col="magenta")
 		}
@@ -1058,9 +1060,23 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*g
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+
+		#define like this, because if eccentric == 0, length(eccentric) == 1
+		#and if eccentric is NULL, then length(eccentric == 0), but max(eccentric) produces error
+		if(eccentric == 0)
+			length_eccentric = 0
+		else
+			length_eccentric = length(eccentric)
+
+		if(isometric == 0)
+			length_isometric = 0
+		else
+			length_isometric = length(isometric)
+
+
 		#takeoff = max(which(force>=weight))
-		takeoff = min(which(force[concentric]<=weight)) + length(eccentric) + length(isometric)
-		takeoffFisZero = min(which(force[concentric]<=0)) + length(eccentric) + length(isometric)
+		#takeoff = min(which(force[concentric]<=weight)) + length_eccentric + length_isometric
+		takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
 		abline(v=takeoff,lty=1,col=cols[2]) 
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
@@ -1074,20 +1090,12 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
 		}
 		
-		mtext(text=paste("jump height (F<w) =", 
+		mtext(text=paste("jump height =", 
 				 (position[concentric[length(concentric)]] - 
-				  position[concentric[(takeoff - length(eccentric) - length(isometric))]])/10,
+				  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
 				 "cm",sep=" "),
-		      side=3, at=( takeoff + (length(eccentric)+length(concentric)) )/2,
+		      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
 		      cex=.8,adj=0.5,col=cols[2])
-		
-		mtext(text=paste("jump height (F==0) =", 
-				 (position[concentric[length(concentric)]] - 
-				  position[concentric[(takeoffFisZero - length(eccentric) - length(isometric))]])/10,
-				 "cm",sep=" "),
-		      side=3, at=( takeoffFisZero + (length(eccentric)+length(concentric)) )/2, line=.5, 
-		      cex=.8,adj=0.5,col=cols[2])
-
 	}
 	#forceToBodyMass <- force - weight
 	#force.ext=extrema(forceToBodyMass)

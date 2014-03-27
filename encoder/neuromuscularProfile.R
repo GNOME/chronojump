@@ -94,7 +94,8 @@ print(c("mean(e1f.force)",mean(e1f.force)))
 	c.force <- mass * (c.accel$y + g)
 
 	c.position = cumsum(c)
-	c.takeoff = min(which(c.force <= weight))
+	#c.takeoff = min(which(c.force <= weight))
+	c.takeoff = min(which(c.force <= 0))
 	c.jumpHeight = (c.position[length(c.position)] - c.position[c.takeoff]) /10
 
 	print(c("jumpHeight", c.jumpHeight))
@@ -225,7 +226,8 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 		force <- mass * (accel$y + g)
 
 		position = cumsum(d)
-		takeoff = min(which(force <= weight))
+		#takeoff = min(which(force <= weight))
+		takeoff = min(which(force <= 0))
 		jumpHeight = (position[length(position)] - position[takeoff]) /10
 		print(paste("Jump Height =", jumpHeight))
 

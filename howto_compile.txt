@@ -10,6 +10,37 @@ spanish:
 http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
 
 
+MACOSX
+-------------------------------------------------------------------
+
+install cerbero
+
+git clone git://git.gnome.org/chronojump
+
+start cerbero shell
+#this works from terminal or from ssh
+cerbero-cj shell
+
+cd chronojump
+
+sh autogen.sh --prefix=/Users/chronojump/ChronojumpBuild/
+
+compile with make && make install (like Linux and windows)
+
+at same shell, cd bin and execute chronojump (if shell is opened from RDP)
+
+
+when all is working fine and all is commited,
+use cerbero to recompile chronojump
+
+to package chronojump, first ensure that version is ok in:
+cerbero-extras/packages/chronojump.package
+
+packaging (outside the shell):
+cerbero-cj buildone chronojump
+cerbero-cj package chronojump
+
+
 WINDOWS
 -------------------------------------------------------------------
 

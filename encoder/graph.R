@@ -1060,6 +1060,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
 		#takeoff = max(which(force>=weight))
 		takeoff = min(which(force[concentric]<=weight)) + length(eccentric) + length(isometric)
+		takeoffFisZero = min(which(force[concentric]<=0)) + length(eccentric) + length(isometric)
 		abline(v=takeoff,lty=1,col=cols[2]) 
 		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
@@ -1073,11 +1074,18 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
 		}
 		
-		mtext(text=paste("jump height =", 
+		mtext(text=paste("jump height (F<w) =", 
 				 (position[concentric[length(concentric)]] - 
 				  position[concentric[(takeoff - length(eccentric) - length(isometric))]])/10,
 				 "cm",sep=" "),
 		      side=3, at=( takeoff + (length(eccentric)+length(concentric)) )/2,
+		      cex=.8,adj=0.5,col=cols[2])
+		
+		mtext(text=paste("jump height (F==0) =", 
+				 (position[concentric[length(concentric)]] - 
+				  position[concentric[(takeoffFisZero - length(eccentric) - length(isometric))]])/10,
+				 "cm",sep=" "),
+		      side=3, at=( takeoffFisZero + (length(eccentric)+length(concentric)) )/2, line=.5, 
 		      cex=.8,adj=0.5,col=cols[2])
 
 	}

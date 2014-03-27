@@ -401,6 +401,9 @@ public class UtilEncoder
 		string inputData = GetEncoderDataTempFileName();
 		string outputData = GetEncoderSpecialDataTempFileName();
 		string operatingSystem = "Linux";
+		
+		string scriptUtilR = GetEncoderScriptUtilR();
+
 			
 		pBin="Rscript";
 		if (UtilAll.IsWindows()) {
@@ -411,6 +414,7 @@ public class UtilEncoder
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
 			inputData = inputData.Replace("\\","/");
+			scriptUtilR = scriptUtilR.Replace("\\","/");
 			operatingSystem = "Windows";
 		}
 		
@@ -419,7 +423,8 @@ public class UtilEncoder
 			inputData + "\n" + 
 			outputData + "\n" + 
 			Util.ConvertToPoint(weight) + "\n" + 
-			Util.ConvertToPoint(length) + "\n";
+			Util.ConvertToPoint(length) + "\n" +
+			scriptUtilR + "\n";
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

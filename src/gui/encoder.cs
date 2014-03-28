@@ -86,6 +86,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_show_power;
 	
 	[Widget] Gtk.Button button_encoder_analyze;
+	[Widget] Gtk.Box hbox_encoder_analyze_progress;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
@@ -105,8 +106,18 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_side;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_neuromuscular_profile;
+	[Widget] Gtk.Image image_encoder_analyze_powerbars;
+	[Widget] Gtk.Image image_encoder_analyze_cross;
+	[Widget] Gtk.Image image_encoder_analyze_side;
+	[Widget] Gtk.Image image_encoder_analyze_single;
+	[Widget] Gtk.Image image_encoder_analyze_nmp;
+
+
 	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
+	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
+	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
+
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
@@ -1697,6 +1708,9 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
+		button_encoder_analyze.Visible = false;
+		hbox_encoder_analyze_progress.Visible = true;
+
 		//if userCurves and no data, return
 		//TODO: fix this, because curves should be active except in the single curve mode
 		if(radiobutton_encoder_analyze_data_user_curves.Active) {
@@ -2612,6 +2626,11 @@ Log.WriteLine(str);
 	}
 		
 	//end of encoder analysis modes
+
+	private void on_check_encoder_analyze_eccon_together_toggled (object obj, EventArgs args) {
+		image_encoder_analyze_eccon_together.Visible = check_encoder_analyze_eccon_together.Active;
+		image_encoder_analyze_eccon_separated.Visible = ! check_encoder_analyze_eccon_together.Active;
+	}
 
 
 	private bool curvesNumOkToSideCompare() {
@@ -4345,6 +4364,9 @@ Log.WriteLine(str);
 					}
 				}
 			}
+		
+			button_encoder_analyze.Visible = true;
+			hbox_encoder_analyze_progress.Visible = false;
 
 			encoder_pulsebar_analyze.Fraction = 1;
 			encoderButtonsSensitive(encoderSensEnumStored);

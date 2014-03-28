@@ -265,6 +265,13 @@ RESOURCES = \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
+	../images/encoder-analyze-powerbars.png,encoder-analyze-powerbars.png \
+	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
+	../images/encoder-analyze-side.png,encoder-analyze-side.png \
+	../images/encoder-analyze-single.png,encoder-analyze-single.png \
+	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \
+	../images/encoder-analyze-eccon-together.png,encoder-analyze-eccon-together.png \
+	../images/encoder-analyze-eccon-separated.png,encoder-analyze-eccon-separated.png \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/encoder-rotary-friction.png,encoder-rotary-friction.png \
 	../images/encoder-rotary-axis.png,encoder-rotary-axis.png \

@@ -386,6 +386,15 @@ public class Constants
 	public static string FileNameContactPlatformModular = "modular_platform_with_chronopic.jpg";
 	public static string FileNameInfrared = "infrared.jpg";
 	
+	public static string FileNameEncoderAnalyzePowerbarsIcon = "encoder-analyze-powerbars.png";
+	public static string FileNameEncoderAnalyzeCrossIcon = "encoder-analyze-cross.png";
+	public static string FileNameEncoderAnalyzeSideIcon = "encoder-analyze-side.png";
+	public static string FileNameEncoderAnalyzeSingleIcon = "encoder-analyze-single.png";
+	public static string FileNameEncoderAnalyzeNmpIcon = "encoder-analyze-nmp.png";
+	
+	public static string FileNameEncoderAnalyzeEcconTogetherIcon = "encoder-analyze-eccon-together.png";
+	public static string FileNameEncoderAnalyzeEcconSeparatedIcon = "encoder-analyze-eccon-separated.png";
+	
 	//30 colors defined
 	//see als UtilGtk that's not used by the server
 	public static string [] Colors = {

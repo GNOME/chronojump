@@ -770,12 +770,32 @@ public partial class ChronoJumpWindow
 		image_multi_chronopic_zoom.Pixbuf = pixbuf;
 		
 		//encoder
-		//pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameZoomInIcon);
-		//image_encoder_analyze_zoom.Pixbuf = pixbuf;
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_powerbars);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_cross);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_side);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_single);
+		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
+
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerbarsIcon);
+		image_encoder_analyze_powerbars.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeCrossIcon);
+		image_encoder_analyze_cross.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSideIcon);
+		image_encoder_analyze_side.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSingleIcon);
+		image_encoder_analyze_single.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeNmpIcon);
+		image_encoder_analyze_nmp.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeEcconTogetherIcon);
+		image_encoder_analyze_eccon_together.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeEcconSeparatedIcon);
+		image_encoder_analyze_eccon_separated.Pixbuf = pixbuf;
 	}
 
 	private void loadPreferences () 

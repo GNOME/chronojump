@@ -13,7 +13,7 @@
    height="100"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="icons.svg"
    inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/together.png"
    inkscape:export-xdpi="90"
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.61"
+     inkscape:zoom="8.45"
      inkscape:cx="60"
-     inkscape:cy="50.623886"
+     inkscape:cy="50"
      inkscape:document-units="px"
      inkscape:current-layer="capa1"
      showgrid="false"
-     inkscape:window-width="1366"
-     inkscape:window-height="711"
+     inkscape:window-width="1920"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -59,26 +59,6 @@
      inkscape:groupmode="layer"
      id="capa1"
      transform="translate(62.833775,-964.9276)">
-    <g
-       id="g3934"
-       transform="translate(2.9681158,-6.4679591)"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-eccon-together.png"
-       inkscape:export-xdpi="89.989998"
-       inkscape:export-ydpi="89.989998">
-      <rect
-         y="1048.9276"
-         x="-62.833775"
-         height="16"
-         width="16"
-         id="rect3874"
-         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
-      <path
-         sodipodi:nodetypes="csc"
-         inkscape:connector-curvature="0"
-         id="path3792"
-         d="m -60.328478,1055.763 c 3.738913,-0.2466 1.726774,6.0115 5.217008,5.8952 3.424401,-0.1141 1.398989,-9.8289 5.7724,-9.4521"
-         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    </g>
     <text
        xml:space="preserve"
        style="font-size:10px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -118,7 +98,8 @@
        id="g5297"
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-powerbars.png"
        inkscape:export-xdpi="89.989998"
-       inkscape:export-ydpi="89.989998">
+       inkscape:export-ydpi="89.989998"
+       transform="translate(0,0.49890137)">
       <rect
          y="1003.4709"
          x="-58.672874"
@@ -269,36 +250,6 @@
          y="991.88202"
          style="font-size:2px">encoder-analyze-nmp.png</tspan></text>
     <g
-       id="g4754"
-       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-eccon-separated.png"
-       inkscape:export-xdpi="89.989998"
-       inkscape:export-ydpi="89.989998">
-      <rect
-         y="1042.4596"
-         x="-32.586056"
-         height="16"
-         width="16"
-         id="rect2985-8-7"
-         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path3792-5"
-         d="m -23.650599,1055.1911 c 3.424401,-0.1141 1.398989,-9.8289 5.7724,-9.4521"
-         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path3792-5-7"
-         d="m -31.293916,1049.2943 c 3.738913,-0.2466 1.726774,6.0115 5.217008,5.8952"
-         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path4750"
-         d="m -24.863753,1045.9124 0,9.0944"
-         style="fill:none;stroke:#ff0000;stroke-width:1.93314421;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
-    </g>
-    <g
        id="g5316"
        inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-side.png"
        inkscape:export-xdpi="89.989998"
@@ -433,6 +384,52 @@
            x="-30.70376"
            id="tspan4181-7-7-4-8"
            sodipodi:role="line">x</tspan></text>
+    </g>
+    <g
+       id="g3934-7"
+       transform="translate(4.7564761,-6.6968162)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-eccon-together.png"
+       inkscape:export-xdpi="89.989998"
+       inkscape:export-ydpi="89.989998">
+      <rect
+         y="1048.9276"
+         x="-62.833775"
+         height="16"
+         width="16"
+         id="rect3874-3"
+         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
+      <path
+         sodipodi:nodetypes="csc"
+         inkscape:connector-curvature="0"
+         id="path3792-0"
+         d="m -60.328478,1055.763 c 3.738913,-0.2466 1.726774,6.0115 5.217008,5.8952 3.424401,-0.1141 1.398989,-9.8289 5.7724,-9.4521"
+         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <g
+       id="g4103"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/encoder-analyze-eccon-separated.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(6.8501188,-35.288491)">
+      <rect
+         y="1077.5193"
+         x="-33.288647"
+         height="16"
+         width="16"
+         id="rect2985-8-7-5"
+         style="fill:#ffffff;fill-opacity:0;fill-rule:nonzero;stroke:none" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3792-5-2"
+         d="m -23.811047,1090.2508 c 3.424401,-0.1141 1.398989,-9.8289 5.7724,-9.4521"
+         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path3792-5-7-6"
+         d="m -32.538647,1084.354 c 3.738913,-0.2466 1.726774,6.0115 5.217008,5.8952"
+         style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
     </g>
   </g>
 </svg>

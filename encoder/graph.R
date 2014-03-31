@@ -1879,18 +1879,9 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	d.m = d / 100 #cm -> m
 	D.m = D / 100 #cm -> m
 
-	if(encoderConfigurationName == "LINEARINERTIAL" ||
-	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
-	   encoderConfigurationName == "ROTARYAXISINERTIAL") #this has been converted to linear previously
-	{
-		angle = position.m * 2 / d.m
-		angleSpeed = speed * 2 / d.m
-		angleAccel = accel * 2 / d.m
-	} else { # encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL"
-		angle = position.m * 2 / D.m
-		angleSpeed = speed * 2 / D.m
-		angleAccel = accel * 2 / D.m
-	} 
+	angle = position.m * 2 / d.m
+	angleSpeed = speed * 2 / d.m
+	angleAccel = accel * 2 / d.m
 
 	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
@@ -1912,6 +1903,8 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	print(c("max power at inertial",max(abs(power))))
 	#print(c("powerBody",powerBody[1000]))
 	#print(c("powerWheel",powerWheel[1000]))
+	print(c("d.m, D.m", d.m, D.m))
+	print(c("max angle, max pos", max(angle), max(position.m)))
 
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }

@@ -1,0 +1,2537 @@
+%% LyX 2.0.6 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[oneside,spanish,british]{book}
+\usepackage{ae,aecompl}
+\renewcommand{\sfdefault}{cmss}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{array}
+\usepackage{verbatim}
+\usepackage{varioref}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{graphicx}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{a4wide}
+\usepackage{url}
+\pagenumbering{roman}
+
+\usepackage[T1]{fontenc}
+
+\makeatother
+
+\usepackage{babel}
+\addto\shorthandsspanish{\spanishdeactivate{~<>}}
+
+\begin{document}
+
+\title{{\huge{Chronojump}} Manual\\
+{\large{(updated until Chronojump 1.4.0 version)}}}
+
+
+\author{http://www.chronojump.org\\
+\\
+Xavier de Blas Foix.\\
+\\
+English translation by: Helena Olsson.}
+
+\maketitle
+\pagebreak{}
+
+\vspace*{17cm}
+
+
+\noindent Licence of this document: Creative Commons Attribution-ShareAlike
+3.0 Unported \url{http://creativecommons.org/licenses/by-sa/3.0/deed.en}\\
+\\
+Find the last version of this document in last version of Chronojump
+software and here:
+
+\noindent \url{http://www.chronojump.org/documents.html}
+
+\thispagestyle{empty}
+
+\noindent \rule[0.5ex]{1\linewidth}{1pt}
+
+\frontmatter
+
+\tableofcontents{}
+
+\listoffigures
+
+
+\listoftables
+
+
+\mainmatter
+
+
+\chapter{Introduction: Chronojump as a free software collaborator project
+in sport science}
+
+\emph{{[}Pending{]}}
+
+
+\section{introduction}
+
+
+\subsection{Instruments}
+
+
+\subsection{Jump tests}
+
+
+\subsubsection{Seargent test}
+
+
+\subsubsection{Abalakov test}
+
+
+\subsubsection{Bosco test}
+
+
+\subsubsection{Specific jumps}
+
+
+\subsection{Run tests}
+
+
+\subsubsection{Simple runnings}
+
+
+\subsubsection{Interval runnings}
+
+
+\subsubsection{Agility circuits}
+
+
+\subsection{Reaction time}
+
+
+\subsection{Rhythms}
+
+
+\subsection{Other tests}
+
+\newpage{}
+
+
+\part{Obtaining and configuring the software and the hardware}
+
+
+\chapter{Obtaining the software and the hardware}
+
+To use Chronojump technology is necessary: 
+\begin{description}
+\item [{Detection~device}] one or two contact platforms or photocells. 
+\item [{Chronopic}] (chronometric device responsible to receive the changes
+in the detection device) 
+\item [{Chronojump}] management software. 
+\item [{Computer}] with Windows, OSX or Linux operating system connected
+to chronometer Chronopic and executing the software Chronojump. 
+\end{description}
+
+\section{Chronojump software installation}
+
+Chronojump is free software which works with Windows, OSX and Linux
+operating systems. To be download at the web page \url{http://chronojump.org/products.html#chronojump}.
+
+For more information consult the frequent asked questions of the software
+(FAQ) \url{http://chronojump.org/faq_software.html}.
+
+
+\section{Acquisition and construction of the detection device}
+
+If you like to buy measuring device please check online shop at the
+web page \url{http://www.chronojump.org/hardware_store.html}
+
+To build your own contact platform or photoelectric cell, consult
+at the hardware section at the web page \url{http://www.chronojump.org/documents_es.html}
+
+
+\section{\label{sub:Construcci=0000F3n-y-obtenci=0000F3n-chronopic}Acquisition
+and construction of the Chronopic chronometer}
+
+If you like to buy the Chronopic chronometer, please check online
+shop at the web page: \url{http://chronojump.org/pricing.htm} 
+
+If you want to build your own Chronopic please check the section Hardware
+at the web page: \url{http://www.chronojump.org/documents.html}
+
+For more information consult the frequent questions of the software
+(FAQ) \url{http://www.chronojump.org/faq_hardware.html}
+
+
+\chapter{\label{par:Chronopic:-concepto-y-configuracion} Configuring Chronopic}
+
+Chronopic is an integrated circuit used by Chronojump to detect the
+test done at the detection device. To obtain the Chronopic please
+check section \ref{sub:Construcci=0000F3n-y-obtenci=0000F3n-chronopic}. 
+
+\begin{comment}
+Para más información sobre Chronopic y sobre la tarjeta previa: Skypic,
+consulte el siguiente artículo: \url{http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_congreso_gpul.pdf}
+\end{comment}
+
+
+For more information about Chronopic consult the web page: \url{http://www.chronojump.org/documents.html}
+
+Current Chronopic version is Chronopic3 {\small{(fig \ref{fig:Chronopic3}).}}{\small \par}
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[width=250pt,height=188pt,keepaspectratio]{chronopic3-metacrilato_small}
+\par\end{centering}
+
+\noindent \begin{centering}
+\includegraphics[width=250pt,height=188pt]{chronopic3}
+\par\end{centering}
+
+\caption{\label{fig:Chronopic3}Chronopic3.}
+
+
+\noindent \centering{}The image above shows the 200 initial units.
+The methacrylate was available in different colors such as yellow,
+orange, blue or transparent. The image bellow shows the second process
+of the assembly with 500 equal units.
+\end{figure}
+
+
+
+\section{Chronopic connections}
+
+Chronopic 3 is a USB powered hardware. Using USB cable it receives
+data from PC and also power. To complete the connection, this cable
+will also be connected to the socket.
+
+
+
+Chronopic will be connected to the contact platform or photocell barrier
+through the RCA connection , the terminal block\includegraphics[scale=0.03]{screw_connector}
+or both.
+
+Using Chronopic3 RCA  (and / or fuse) it is possible to connect 'n'
+networking platforms to any Chronopic. This model is useful to chronometer
+situations where an athlete should not be able to be in more than
+one platform at the same time. Both cables of each platform must be
+connected to the RCA connector or the terminal block.
+
+Software allows the connection up to 4 Chronopics with an independent
+signal, each connected to one or more sensing devices. This makes
+possible chronometer independently various subjects, complex paces
+or other applications. 
+
+
+\section{Chronopic working process}
+
+Chronopic detect changes in the contact platform and sends it to the
+computer by USB cable, USB-serial or serials. You can also use the
+test button\includegraphics{test_button} to simulate changes in the
+platform.
+
+Chronopic has a green light to indicate when the subject is on the
+platform or the photoelectric barrier (light stays off) or outside
+(light is on). 
+
+
+\section{\label{sub:Chronopic-puertos-USB}USB ports}
+
+The operating system assigns names to ports, as shown in Table \ref{tab:Nombres-de-puerto-USB}.
+
+\begin{table}[H]
+\begin{centering}
+\begin{tabular}{|c|c|>{\centering}p{5cm}|>{\centering}p{4cm}|}
+\hline 
+Operating system & Port & Name & Comments\tabularnewline
+\hline 
+\hline 
+MS Windows & USB & COM1, COM2, COM3, ... (seen to COM27) & Driver required\tabularnewline
+\hline 
+GNU/Linux & USB & \textbf{/dev/ttyUSB0}, /dev/ttyUSB1 & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+
+\caption{\label{tab:Nombres-de-puerto-USB}Names of each operating system port.}
+
+
+\noindent \centering{}The most common names are in bold type text.
+\end{table}
+
+
+The use of the driver is explained in the next section.
+
+
+\subsection{Windows USB Driver}
+
+A driver is a small program that indicates the computer how to operate
+a new device. 
+
+Chronopic3 plate requires a driver to run on Windows. This driver
+is automatically installed when you install any version later than
+Chronojump 0.7.
+
+If you connect the Chronopic to the computer, and it\textquoteright{}s
+detected \textquotedbl{}New hardware found\textquotedbl{}, then the
+driver is not required, in other case it will be necessary to run
+the driver.
+
+\begin{comment}
+Uso del driver
+
+El driver normalmente será un archivo comprimido (tipo .zip) que deberá
+ser descomprimido y contendrá un archivo ejecutable tipo .exe en el
+que hay que realizar doble-click. Normalmente éste se instalará sin
+problemas, y permitirá que cuando sea conectada la Chronopic a posteriori,
+aparezca el diálogo de ``Nuevo hardware encontrado'' y muestre que
+se trata de un dispositivo USB-serie (no acostumbra a ser necesario
+el reinicio del ordenador). Una vez hecho el doble click y verificado
+que ha funcionado correctamente, el archivo .zip o .exe del driver
+puede ser eliminado o guardado en una carpeta para futuras reinstalaciones
+del sistema operativo.
+\end{comment}
+
+
+\begin{comment}
+Chronopic3 in Linux
+\end{comment}
+
+
+\begin{comment}
+Chronopic3 se detecta automáticamente en GNU/Linux con los kernels
+que han aparecido a de la serie 2.6.24 (y suponemos que para valores
+superiores no habrá problemas).
+
+Por un error de Mono que hemos documentado%
+\footnote{ \url{http://mail. gnome. org/ archives/ chronojump- devel- list/ 2008-January/ msg00048.html}%
+} y encontrado su origen %
+\footnote{\url{http://mail. gnome. org/ archives/ chronojump- devel- list/ 2008-January/ msg00050.html}%
+}, la placa Chronopic3 no puede conectarse a Chronojump en los Kernels
+2.6.20-2.6.23. La solución es actualizar el Kernel a 2.6.24 o superior
+\footnote{Si no desea actualizar su distribución, puede seguir este ejemplo
+para Ubuntu Hardy seguir este enlace: \url{http://msdark. atwebpages. com/ actualizar-kernel -a-la-version-2624- de-ubuntu-hardy- para-ubuntu- gutsy}%
+}
+\end{comment}
+
+
+\begin{comment}
+Linux kernels appeared since 2009 detect Chronopic plate without any
+problems.
+\end{comment}
+
+
+
+\section{\label{sub:Detecci=0000F3n-del-puerto}Detection port}
+
+As explained in section \ref{sub:Chronopic-puertos-serie-usb}, is
+assigned a port name for the connection. In case of using \textbf{Linux},
+the port name is not usually a problem, because the names are clear
+and the / dev/ttyUSB0 is usually correct.
+
+In case of using \textbf{MS Windows}, when Chronopic3 is connected
+to the USB port, the driver assigns different names: COM1 ... COM27
+or higher. In previous versions of Windows Chronojump, the port was
+auto detected, but later version than 0.6, this is not possible. In
+case of port serial, is typically assigned port COM1.
+
+We recommend the following process when the port is detected in Windows
+because of the connection of Chronopic via USB:
+\begin{enumerate}
+\item On the desktop or the Start menu, \textbf{right click} on the icon
+\textquotedbl{}My Computer\textquotedbl{} Right (In Windows Vista
+the icon called \textquotedbl{}System\textquotedbl{})
+\item On the menu select \textquotedbl{}Properties\textquotedbl{} (last
+item)
+\item Go to the tab \textquotedbl{}Hardware\textquotedbl{}
+\item Select \textquotedbl{}Device Manager\textquotedbl{}
+\item Click the '+' which is to the left of \textquotedbl{}Ports COM~\&~LPT\textquotedbl{}
+\item Will the port be indicated as COM? to the right of \textquotedblleft{}USB-serial\textquotedblright{}
+click the right mouse button and select \textquotedbl{}Properties\textquotedbl{}
+if this doesn\textquoteright{}t appear, then we can see the COM port
+assigned.
+\item The value of COM, such as \textquotedbl{}COM3\textquotedbl{} is what
+we have to enter in the configuration of Chronopic.
+\end{enumerate}
+The port can change in a reboot or after plugging new USB devices.
+
+The antivirus Spy-doctor has been related to problems in ports connection
+\url{http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html}.
+We recommend to stop it.
+
+
+\section{\label{sub:Modificaci=0000F3n-del-puerto}Modification port assigned
+by Windows}
+
+If the port assigned is COM5 or higher it may cause problems in some
+computers detection. If this happen, it\textquoteright{}s recommended
+to assign a lower port than COM5, preferably COM1 or COM2.
+
+To manually assign a port, repeat the steps described in \ref{sub:Detecci=0000F3n-del-puerto}
+to know which port is assigned, then do the following steps:
+\begin{enumerate}
+\item Click \textquotedbl{}Port Settings\textquotedbl{}.
+\item Click on \textquotedbl{}Advanced Options\textquotedbl{}.
+\item Select one of the ports COM1-4 (preferably COM1 or COM2).
+\item Accept and close the assistant.
+\item Disconnect the USB cable and reconnect it after a few seconds.
+\end{enumerate}
+At this point it should be assigned a COM port that device that will
+last forever. Alternatively, return to perform the steps described
+in \ref{sub:Detecci=0000F3n-del-puerto} to verify that the change
+was made directly. 
+
+En este momento ya debería tener el puerto COM asignado para siempre
+a dicho dispositivo. Opcionalmente, si quiere puede comprobar que
+el cambio se ha realizado directamente puede volver a realizar los
+pasos descritos en \ref{sub:Detecci=0000F3n-del-puerto}.
+
+
+\section{Chronopic solution problems}
+
+In case of detection failure when changing Chronojump platform, we
+propose the following battery of tests. If Chronopic is not working
+after performing these tests, please noted at the Forum \url{http://foro.chronojump.org}.
+
+Perform each of the tests until it\textquoteright{}s working correctly.
+Remember to check that the cables are connected properly. 
+\begin{enumerate}
+\item Power Problem: The red light will turn on when you connect the USB
+cable (this will happen when the computer is turned on except when
+there is a connected platform and someone stepping on it, or pushing
+the test button \includegraphics{test_button}).
+\item Problem networking platform: Connect the contact platform (without
+computer) and check the Chronopic by clicking on the platform and
+checking if the light turns on and off. If the light doesn\textquoteright{}t
+turn on and off, but it did in the previous step, then the cables
+are in touch when they are connected to Chronopic. Insulate them,
+check if they are poorly connected or if the platform has a bad contact
+(disassemble and repair).
+\item Port problem on Windows: If the contact platform doesn\textquoteright{}t
+have any problem, unplug it and continue the testing only with the
+Chronopic. Then, check if the port is detected and connect the cables
+to the computer, the power should also be detected in the Chronopic
+as described in Section \ref{sub:Detecci=0000F3n-del-puerto}. Windows
+may detect more than one type of port COM, do the following test to
+both. If the port assigned is higher than COM4, it\textquoteright{}s
+recommended to modify the port to one less than COM4, preferably COM1
+or COM2 as described in Section \ref{sub:Modificaci=0000F3n-del-puerto}.
+\item Execute Chronojump, select the port configuration in the Chronopic
+window. A dialog will appear asking you to click \textquotedbl{}OK\textquotedbl{}
+and after this click on the button Chronopic, shortly Chronopic should
+be detected and ready to be used with the platform connected if desired.
+\end{enumerate}
+
+\part{Using Chronojump}
+
+
+\chapter{Using Chronojump}
+
+
+\section{IMPORTANT, READ FIRST}
+
+{\large{Chronojump 1.3.9 has changed massively the graphical interface.
+Unfortunately, this manual is not updated to that change. This manual
+is refered to the 1.3.9 version. It's strongly recomended to update
+Chronojump to the last available version}}{\large \par}
+
+{\large \par}
+
+{\large \par}
+
+{\large \par}
+
+{\large \par}
+
+{\large \par}
+
+\pagebreak{}
+
+
+\section{Chronojump main window}
+
+Figure \ref{fig:Ventana-principal-de} shows Chronojump main window.
+This is divided into the following parts:
+\begin{description}
+\item [{The~menu}] where you find the access to session and help.
+\item [{Edit~subject}] provides a quick access to individual operations.
+\item [{Subject~selection}] where you can select the subject and edit
+it with the menu that appears when you click on the right button of
+the mouse.
+\item [{Chart~selected~test}] If there is a drawing of the test selected
+or targeted by the mouse, it will be shown. Also, if the program has
+expanded information on the test, displays an icon to indicate it.
+By pressing this button it will display a help window on this test
+chart containing the expanded and test information.
+\item [{Tabs}] that allow you to change the work form, at present:  Contacts
+(platform of photocell), Encoder and Server.
+\item [{Test}] type with the functionality of executing each of the tests
+on the tab or active labor module.
+\item [{Viewing~and~editing~the~tests}] shows different selectors for
+viewing and editing the jumps and runs. User Notification displays
+information about the last action.
+\item [{}] 
+\end{description}
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{chronojump_main_window_spanish}
+\par\end{centering}
+
+\caption{\label{fig:Ventana-principal-de}Chronojump main window.}
+\end{figure}
+
+
+
+\section{Chronojump Menu}
+
+In the following pictures you can see the drop down menu of the program.
+\begin{description}
+\item [{Session~Menu}] see figure \ref{fig:menu_session}.
+\item [{}] 
+\item [{}] 
+\item [{}] 
+\item [{}] 
+\item [{}] 
+\item [{Help~Menu}] see figure \ref{fig:menu_help}.
+\end{description}
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{menu_session}
+\par\end{centering}
+
+\caption{\label{fig:menu_session}Session Menu.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{menu_help}
+\par\end{centering}
+
+\caption{\label{fig:menu_help}Help Menu.}
+\end{figure}
+
+
+
+\section{Chronopic/s Connection.\label{sec:Conexi=0000F3n-de-Chronopic/s}}
+
+Is possible to connect one or more Chronopics on the menu: \emph{Tools
+/ Chronopic}. In Figure \ref{fig:Chronopic-connection} two Chronopics
+connected are shown. There is a help button for the ports by clicking
+on the \emph{Help} button window. The connection to the Chronopic
+timer is specifically addressed in section \ref{par:Chronopic:-concepto-y-configuracion}.
+
+If the first Chronopic is activated, the first circle will be green.
+You can connect more than one to perform tests in Multi Chronopic.
+When you select the port, you must click on the right button to make
+the connection. In each successful activation the red circles will
+become green.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{chronopic-connection}
+\par\end{centering}
+
+\caption{\label{fig:Chronopic-connection}Chronopic connection.}
+
+
+\noindent \centering{}The figure corresponds to the program Chronojump-in
+version for Linux operating system, which are connected with two Chronopics.
+\end{figure}
+
+
+
+\section{Database: sessions, subjects and tests}
+
+Chronojump stores all data in one database file. Thus, instead of
+collecting the information in individual files for each session, all
+information is organized in a single file to facilitate the study
+of relationships between:
+\begin{itemize}
+\item sessions
+\item persons
+\item tests (jumping, running, reaction times, pulses (rates), multi Chronopic)
+\end{itemize}
+All modifications in session, subjects and tests, will be updated
+at any time in the database. So there isn\textquoteright{}t need to
+save the information periodically and make data loss to a computer
+error. If rare case, the program crash, you wouldn\textquoteright{}t
+lose any data except sometimes the one that is being performed at
+the time.
+
+
+\subsection{Sessions}
+
+The sessions represent situations where the coach or evaluator gathers
+many athletes (subjects) for a series of tests. Every time you gather
+a group of athletes to be tested in a short space of time (usually
+one day), you should create a new session. Although the subjects to
+assess are the same as in other session, you should create a new one
+to keep adding subjects and tests in an old session. In this way,
+you can make comparisons between data.
+
+Figures \ref{fig:Nueva-sesi=0000F3n.-Alumnos} and \ref{fig:Nueva-sesi=0000F3n.-Deportistas}
+demonstrate the creation of a session.
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.6]{nueva_sesion_colegio}
+\par\end{centering}
+
+\caption{\label{fig:Nueva-sesi=0000F3n.-Alumnos}New Session. School students.}
+\end{figure}
+
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.6]{nueva_sesion_artistica_competicion}
+\par\end{centering}
+
+\caption{\label{fig:Nueva-sesi=0000F3n.-Deportistas}New Session. Rhythmic
+competitors.}
+\end{figure}
+
+
+
+\subsubsection{Creation}
+
+Click on the menu \emph{Session menu / Create session} and one window
+will be opened where you must enter the name of the session, the date
+and the sport practiced. Optionally you can also indicate the place
+where is done and even add comments.
+
+
+\subsubsection{Load}
+
+If you want to load a session already created to study, add subjects
+and / or to test, click on the \emph{Session menu / Load session}.
+It will show a list of sessions created and information of the subjects
+enrolled in each of them and the tests performed.
+
+
+\subsubsection{Edición}
+
+Click on \emph{Session menu / Edit session} to modify the parameters
+that have been inserted earlier. Normally, it\textquoteright{}s used
+the edition of sessions to add comments about the evolution.
+
+
+\subsubsection{Delete}
+
+To delete a \textbf{session and all tests} performed, click on the
+\emph{Session menu / Remove session}. A confirmation window will appear. 
+
+
+\subsection{Persons}
+
+All individuals able to perform the tests are known as subject. It\textquoteright{}s
+strongly recommended to create one subject only once in order to study
+the evolution over time. In following sessions the subject must be
+loaded.
+
+Figure \ref{fig:Creaci=0000F3n-de-un-sujeto} shows the creation of
+a person.
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.6]{\string"Captura-Nuevo saltador\string".png}
+\par\end{centering}
+
+\caption{\label{fig:Creaci=0000F3n-de-un-sujeto}Creation of a person.}
+\end{figure}
+
+
+
+\subsubsection{Current person}
+
+The subject on the left side of the main window is known as \emph{current
+person}. All tests done shall be linked to that subject. The latter
+subject created or loaded is assigned as current person. 
+
+Tests shall not start until the current person is assigned.
+
+
+\subsubsection{Creation}
+
+Click on the \emph{Person menu / Create person} or use the Create
+button to create a person. You may indicate the full name, gender,
+date of birth, height, weight, country, sport, mode and level. It\textquoteright{}s
+important to enter the full name to avoid further conflicts with other
+different persons.
+
+In order to accelerate the creation of multiple persons, click on
+the menu \emph{Subject / Create persons {[}multiple{]}}. A window
+will appear where you can create multiple subjects at once. Once created,
+if you still want to create more persons, you can click again on the
+same menu item. Figure \ref{fig:Creaci=0000F3n-de-diversos} shows
+the creation of 11 persons at once.
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.5]{Captura-add-edit-multiple-persons}
+\par\end{centering}
+
+\caption{Creation of different persons simultaneously.}
+\end{figure}
+
+
+
+\subsubsection{Load}
+
+If a person has participated in another session, and you want to evaluate
+him/her again in the current session, click on \emph{Load person},
+and enter the same subject to the new session. The program will distinguish
+between tests (jump, run, reaction times and rhythms) made by the
+same person in two or more sessions.
+
+If you created a session and you want to continue with the same person/s
+in another session click \emph{Load persons from another session}
+and check all persons who participated in the other session or multiple
+session. If you wish you can always discard any subject.
+
+Figures \ref{fig:Cargar-atletas} and \ref{fig:Cargar-atletas-otra_sesion}
+show the load of subjects.
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.5]{\string"Captura-Cargar atletas\string".png}
+\par\end{centering}
+
+\caption{\label{fig:Cargar-atletas}Load persons.}
+\end{figure}
+
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.5]{Captura-Cargar_atletas_otra_sesion}
+\par\end{centering}
+
+\caption{\label{fig:Cargar-atletas-otra_sesion}Load persons from other session.}
+\end{figure}
+
+
+
+\subsubsection{View subject tests}
+
+Click \emph{Show all tests of current person }to see all the tests
+that this person has done in the different sessions. You can also
+select other persons of the current session.
+
+
+\subsubsection{Edit}
+
+Click \emph{Edit person} or press \emph{p} (person) to modify the
+data that was entered at the same time as the creation. You can also
+add comments.
+
+
+\subsubsection{Delete}
+
+Click \emph{Delete current person} to be removed of the session. This
+operation will remove all tests from any person in the current session.
+It\textquoteright{}s important to know that the subject will not be
+removed from the database and the tests in other sessions remain intact.
+
+After deleting this subject, another subject will become the \emph{current
+person}. Otherwise any test can be provided.
+
+
+\subsection{Tests}
+
+So far Chronojump manages five types of tests: jumping, running, reaction
+times, rhythms and MultiChronopic. Later Chronojump can handle other
+tests. These tests are detected by the signals sent by the contact
+platform when the subject steps on and off it.
+
+The database stores the tests and links to other data tables.
+
+
+\chapter{Tests}
+
+At the following text, it describes the management of the five types
+of tests allowed in Chronojump software.
+
+
+\section{Jumps}
+
+There is basically two types of jumps: simple and repetitive. Chronojump
+detect a \textbf{single jump} as one phase of flight. That\textquoteright{}s
+why there are two types of simple jumps:
+\begin{enumerate}
+\item Those who start and finish on the platform (single hop).We obtain
+the variable flight time (TF) 
+\item Those who started outside the platform (drop from a height or do a
+jump before) to fall on the platform and then jump. Variables obtained:
+Contact time (TC) (time between reception and takeoff on the platform)
+and flight time (TF). Usually jumps will pursue minimum contact time
+and maximum flight time as a power indicator.
+\end{enumerate}
+A \textbf{repetitive jump} (also called reactive) is when you obtain
+more than one flight time. For example: make two consecutive jumps
+initiated on the platform in the order TF, TC, TF or start outside
+the platform and continue with the order TC, TF, TC, TF.
+
+Assuming that the body during the takeoff position is the same as
+in the landing, the flight time indicatives the height of center of
+gravity of the athlete in this jump.
+
+
+\subsection{Simple jumps execution}
+
+From the jumps tab, click the buttons:
+\begin{itemize}
+\item \emph{SJ}, Squat Jump
+\item \emph{SJ}l, Squat Jump with extra charge (extra weight)
+\item \emph{CMJ}, countermovement jump
+\item \emph{ABK}, jump with arms Abalakov
+\item \emph{DJ}, drop jump 
+\item \emph{Rocket,} Rocket Jump is simple jump similar to the squat jump
+but it starts with a full flexion of the legs.
+\end{itemize}
+Sometimes you will be asked to provide additional information as the
+extra weight of the subject (SJL) or the height of the drop (DJ). 
+
+Click on \emph{More} to get all the available of the simple jump and
+click ok on them to be executed. The jump menu also provides this
+access. The original protocol of Bosco for the \emph{DJ} test indicates
+that the arms don\textquoteright{}t participate in the jump. Instead
+many coaches ask their athletes to use the arms because is more similar
+to the techniques used in sports. The original \emph{DJ} is called
+\emph{DJna} (no arms), while the \emph{DJ} with arms is called \emph{DJ}a.
+When you start a DJ test, the program will ask whether to use arms
+or not and automatically appoint the jump properly.
+
+If Chronopic has not been connected and activated from Chronopic window,
+a jump will be simulated. In the other hand, if Chronopic is connected,
+real jump will be done. Note that for some jumps the athlete should
+be on the platform, while other jumps it\textquoteright{}s essential
+to be elsewhere. You will be notified if the athlete's situation is
+not correct. In the pop-up window it shows the progress of the jump,
+which may be stopped by clicking on the \emph{Finish} or \emph{Cancel}
+button.
+
+If you want to execute the same type of jump to various persons and
+you don\textquoteright{}t want a button (only available on the tab
+\emph{More}), you can change the subject and use the \emph{Last} button
+to allow another person to perform the same jump.
+
+
+\subsubsection{Repetitive jumps execution}
+
+Click in the button on the Repetitive jumping tab:
+\begin{itemize}
+\item \emph{RJ (j)}, Repetitive Jump (jumps) or repetitive jumping limited
+number of hops
+\item \emph{Rj (t)}, Repetitive Jump (time) or time-limited repetitive jumping
+\item \emph{Unlimited}, unlimited repetitive jumping.
+\end{itemize}
+Sometimes is necessary to provide additional information as the height
+of the initial drop, the extra weight or value of the limiting factor
+(hops or seconds). Click on \emph{More} to get a list of all the available
+of the reactive jumps and execute them clicking OK. The jump menu
+also provides access to these actions.
+
+If Chronopic has not been connected and activated from Chronopic window,
+a jump will be simulated. In the other hand, if Chronopic is connected,
+real jump will be done. Note that for some jumps the athlete should
+be on the platform, while other jumps it\textquoteright{}s essential
+to be elsewhere.
+
+If you want to execute the same type of jump to various subjects and
+you don\textquoteright{}t want a button (only available on the tab
+more), you can change the subject and use the Last button to allow
+another person to perform the same jump.
+
+
+\subsection{Auditive and visual feedback in repetitive jumps: bells }
+
+In order to add a visual and auditory feedback during execution of
+the jumps, you can set values of flight time, contact time, or the
+relationship of both. To be shown a red bell (poor performance) or
+green (good performance) together with a distinctive sound. Click
+on the \textquotedbl{}Bells\textquotedbl{} to configure these actions
+as shown in Figure \ref{fig:Campanas---feedback}.
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.6]{campanas}
+\par\end{centering}
+
+\caption{\label{fig:Campanas---feedback}Bells - auditive and visual feedback.}
+\end{figure}
+
+
+
+\subsection{Jumps view}
+
+Simple jumps are shown on the \emph{Jumps} tab and the reactive Jumps
+on the \emph{Jump Reactive} tab. In both cases, it\textquoteright{}s
+included a filter for all the possible tests or only a particular
+type.
+
+Tests are associated with the jumpers. The order of the tests presentation
+of each jumper is chronological so, the last test appears at the end
+of the list. It\textquoteright{}s included a button that allows sorting
+the tests by the type of jump and not in chronological order.
+
+All jumps are selected in the view filter. A series of values are
+presented at each hop. It\textquoteright{}s possible to change the
+view by accessing at the Preferences (more information in section
+\vref{sec:Preferencias}).
+
+You can use the \emph{magnifying glass} button (or press \emph{z})
+to facilitate the view of the tests.
+
+
+\subsection{Jumps edition}
+
+You can add comments to a jump or change the person (if you forgot
+to change the current person previously) If you select the desired
+jump and click on the Edit button on the selected jump, you can also
+find it on the menu, or by pressing the button \emph{e}.
+
+In the reactive jumps, since they are composed of a set of jumps,
+this change will affect all the jumps even if only one is selected.
+
+
+\subsection{Repair repetitive jumps}
+
+Using \emph{Repair selected} button or pressing \emph{r}, you can
+add a jump, modify a contact time or flight time or delete a jump.
+If a repetitive jump type has been defined to be limited to max \emph{n}
+jumps, or max \emph{n} seconds, this conditions will limit the repair
+functionality. When this happens, you will find an information text
+on the bottom of the window.
+
+
+\subsection{Jumps delete}
+
+To delete a jump, select it and click the \emph{Delete selected jump}
+button. Its equivalent in the menu or press \emph{d} (delete). By
+deleting the test you will be asked to confirm it if the delete confirmation
+option is activated in the \emph{Preferences} menu (more information
+in section \vref{sec:Preferencias}).
+
+Deleting a repetitive jump will delete all it's jumps.
+
+
+\subsection{Creation of new jump types}
+
+In order to adapt the software to the needs of each user, it has been
+included the function: \emph{Add jump type} (on \emph{Jumps} menu).
+This allows trainer to define easily and powerully the desired jump
+types.
+
+Created jump type will be available on database to be used at any
+session, and it will be listed clicking on the \emph{More} button
+at the \emph{Jump} or\emph{ Jump repetitive} tabs (depending on which
+kind of jump it's created). This new jump type will be also differentiated
+on statistics, graphs and reports.
+
+On creation, you should give it a distintive name and classify between
+simple or repetitive. If jump is repetitive, then you can limit is
+by jumps, time, or leave it unlimited.
+
+The limit by time or jumps options can be defined as a fixed value
+or leaved as undefined. If it's defined fixed, all new jumps of this
+type will be limited to that value; in the other hand, if the type
+is not fixed, user will be asked by limit value everytime a new jump
+is done.
+
+Last settings include: start inside or outside the platform, allow
+to jump with an extra weight, and add a description to the jump type.
+In the figure \ref{fig:Creaci=0000F3n-de-nuevo-tipo-salto} you can
+see the creation of new jump type.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{\string"Captura-Crear un tipo de salto nuevo\string".png}
+\par\end{centering}
+
+\caption{\label{fig:Creaci=0000F3n-de-nuevo-tipo-salto}Creation of a new jump
+type.}
+\end{figure}
+
+
+
+\subsubsection{Examples on creation of new jump types}
+
+Here you can find some examples on creating new jump types. The names
+of the types have been invented in this manual. The table \ref{tab:Ejemplos-de-tipos-saltos-creados}
+is also useful to understand the different variables.
+\begin{itemize}
+\item \emph{``SJ-N''} Jump like Squat Jump but the hands are on the nape
+instead of hips.
+\item \emph{``DJ-Rope2''} Jump like Drop Jump but after executing the
+Drop jump, person have to jump again doing two turns with the skipping
+rope on the air.
+\item \emph{``Triple''} Repetitive jump starting outside the platform
+and including three jumps.
+\item \emph{``50\%fatigue''} Repetitive jump that has to be done until
+arriving to 50\% of the person's fatigue. The number of seconds needed
+to be fatigued is personal and is known previously by the trainer.
+Starts inside.
+\item \emph{``RopeUnlimited''} Person has to jump the rope until trainer
+(or jumper) decides to finish. Start inside the platfom and can be
+done with an extra weight.
+\end{itemize}
+\begin{table}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+Name & Tipe & Limited by & Fixed & Start in & Additional weight\tabularnewline
+\hline 
+\hline 
+SJ-N & Simple & - & - & Yes & No\tabularnewline
+\hline 
+DJ-Rope2 & Simple & - & - & No & No\tabularnewline
+\hline 
+Triple & Repetitive & Jumps & Yes(3) & No & No\tabularnewline
+\hline 
+50\%fatigue & Repetitive & Time & No & Yes & No\tabularnewline
+\hline 
+RopeUnlimited & Repetitive & Unlimited & - & Yes & Yes\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+
+\caption{\label{tab:Ejemplos-de-tipos-saltos-creados}Examples on jump types
+created by user.}
+\end{table}
+
+
+
+\section{Runs}
+
+Running can be detected by two kind of devices:
+\begin{itemize}
+\item platform/s
+\item photocell/s
+\end{itemize}
+On a run test Chronojump detects time between detection devices. If
+the run is ``circular'', it can be used a single device (platform
+or photocell), in the other circuits, there's a need of more than
+one detection device (of any type).
+
+From now on, \emph{device in contact} means that the person is on
+the platform or blocking a photocell signal. Is important to note
+that the person should never be in contact in more than one device
+at the same time.
+
+The figure \ref{fig:Esquema-dos-plat} shows a drawing of the position
+of two platforms to measure run.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{chronojump_esquema_two_platforms}
+\par\end{centering}
+
+\caption{\label{fig:Esquema-dos-plat}Drawing of two platforms circuit to measure
+run.}
+\end{figure}
+
+
+In order to calculate average speed, user will be asked about the
+distance between platforms.
+
+Runs can be of two types: simple and repetitive. On Chronojump a \textbf{simple
+run} means that there's only one track. There are two kinds of \textbf{simple
+runs}:
+\begin{description}
+\item [{Running~from~stop}] Start on contact in a device and end in contact
+in the same or other device.
+\item [{Running~with~initial~speed}] Start before the contact, after
+a while, a contact is done and chronometer starts, then person leaves
+the detection device until it produces contact again. This allows
+to measure a run where person has an initial speed.
+\end{description}
+In both situations, the registered data is the time between one device
+and the other, also speed will be calculated.
+
+An \textbf{intervallic run} is a run where there's more than one track,
+it should be understanded as ``run along two or more tracks limited
+by devices at a fixed distance''.
+
+
+\subsection{Simple runs execution}
+
+To execute a simple run, click the following buttons on\emph{ Runs}
+tab:
+\begin{itemize}
+\item \emph{Custom} to run after introduce the track's distance
+\item \emph{20m-400m}, to run on the preselected track's distance
+\item Agility runs, this tests are available: 20 Yards, 505, Illinois, Shuttle
+Run, Zig-Zag test. The figure \ref{fig:Test-de-agilidad-505} shows
+the information available on software about the 505 test.
+\end{itemize}
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.55]{chronojump-505}
+\par\end{centering}
+
+\caption{\label{fig:Test-de-agilidad-505}505 Agility test.}
+\end{figure}
+
+
+Click on \emph{More} to see all simple runs available, and execute
+them clicking \emph{Ok}.
+
+If Chronopic has not been connected and activated from Chronopic window,
+a run will be simulated. In the other hand, if Chronopic is connected,
+real run will be done. Software allows to start run in contact with
+the device or before the contact. On the later situation, time between
+starting of the run and contact on the first device is deleted.
+
+In the pop-up window it shows the progress of the run, which may be
+stopped by clicking on the \emph{Finish} or \emph{Cancel} button.
+
+If you want to execute the same type of run to various persons and
+you don\textquoteright{}t want a button (only available on the tab
+\emph{More}), you can change the subject and use the \emph{Last} button
+to allow another person to perform the same run.
+
+
+\subsection{Executing intervallic runs}
+
+To execute an intervallic run, click the following buttons on \emph{Intervallic
+Runs} tab:
+
+\emph{By tracks}: intervallic run limited by number of tracks
+
+\emph{By time}: intervallic run limited by number of tracks
+
+\emph{Unlimited}: unlimited intervallic run
+
+At som run types, user interaction will be needed, like track distance
+and limit factor: tracks or seconds. Click on \emph{More} to get a
+list of all the available of the intervallic runs and execute them
+clicking OK. The run menu also provides access to these actions.
+
+If Chronopic has not been connected and activated from Chronopic window,
+a run will be simulated. In the other hand, if Chronopic is connected,
+real run will be done. Software allows to start run in contact with
+the device or before the contact. On the later situation, time between
+starting of the run and contact on the first device is deleted.
+
+In the pop-up window it shows the progress of the run, which may be
+stopped by clicking on the \emph{Finish} or \emph{Cancel} button.
+
+If you want to execute the same type of run to various persons and
+you don\textquoteright{}t want a button (only available on the tab
+\emph{More}), you can change the subject and use the \emph{Last} button
+to allow another person to perform the same run.
+
+
+\subsection{Feedback auditive and visual at the intervallic runs: bells}
+
+Similarly to the repetitive jumps, you can configure minimum and maximum
+values dor each track. A red bell will be shown on a bad execution,
+and a green bell on the opposite, also a distintive sound will be
+played.
+
+Configure this actions clicking on ``Bells''.
+
+
+\subsection{Runs view}
+
+Simple runs are shown on the \emph{Run} tab and the intervallic runs
+on the \emph{Run intervallic} tab. In both cases, it\textquoteright{}s
+included a filter for all the possible runs or only a particular type.
+
+Tests are associated with the runners. The shown order of the tests
+of each jumper is chronological so, the last test appears at the end
+of the list. It\textquoteright{}s included a button that allows sorting
+the tests by the type of run and not in chronological order. 
+
+It\textquoteright{}s possible to change tests view by accessing at
+the Preferences (more information in section \vref{sec:Preferencias}).
+
+You can use the \emph{magnifying glass} button (or press \emph{z})
+to facilitate the view of the tests.
+
+
+\subsection{Runs edition}
+
+You can add comments to a run or change the person (if you forgot
+to change the current person previously) If you select the desired
+run and click on the \emph{Edit} button on the selected run, you can
+also find it on the menu, or by pressing the button \emph{e}.
+
+In the intervallic runs, since they are composed of a set of runs,
+this change will affect all the runs even if only one is selected.
+
+
+\subsection{Repair intervallic runs}
+
+Using \emph{Repair selected} button or pressing \emph{r}, you can
+add a track, modify a time or delete a track. If an intervallic run
+type has been defined to be limited to max \emph{n} tracks, or max
+\emph{n} seconds, this conditions will limit the repair functionality.
+When this happens, you will find an information text on the bottom
+of the window.
+
+
+\subsection{Runs delete}
+
+To delete a run, select it and click the \emph{Delete selected run}
+button. Its equivalent in the menu or press \emph{d} (delete). By
+deleting the test you will be asked to confirm it if the delete confirmation
+option is activated in the \emph{Preferences} menu (more information
+in section \vref{sec:Preferencias}).
+
+Deleting an intervallic run will delete all it's tracks.
+
+
+\subsection{Creation of new run types}
+
+In order to adapt the software to the needs of each user, it has been
+included the function: \emph{Add run type} (on \emph{Runs} menu).
+This allows trainer to define easily and powerully the desired run
+types.
+
+Created run type will be available on database to be used at any session,
+and it will be listed clicking on the \emph{More} button at the \emph{Run}
+or\emph{ Run intervallic} tabs (depending on which kind of run it's
+created). This new run type will be also differentiated on statistics,
+graphs and reports.
+
+On creation, you should give it a distintive name and classify between
+simple or intervallic. If run type is intervallic, then you can limit
+is by tracks, time, or leave it unlimited.
+
+The limit by tracks or time options can be defined as a fixed value
+or leaved as undefined. If it's defined fixed, all new runs of this
+type will be limited to that value; in the other hand, if the type
+is not fixed, user will be asked by limit value everytime a new run
+is done.
+
+User can also fix the distances of the tracks. La ventana de creación
+de nuevo tipo de carrera concluye con la posibilidad de añadir una
+descripción textual. En las figura \ref{fig:Creaci=0000F3n-de-nuevo-tipo-carrera}
+y \ref{fig:Creaci=0000F3n-de-nuevo-tipo-carrera-variable} puede observar
+la ventana de creación de nuevos tipos de carreras.
+
+Last settings include: fix the distance of the tracks, and add a description
+to the run type. In the figure \ref{fig:Creaci=0000F3n-de-nuevo-tipo-carrera}
+you can see the creation of new run type.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.55]{run_type_add}
+\par\end{centering}
+
+\caption{\label{fig:Creaci=0000F3n-de-nuevo-tipo-carrera}Creation of a new
+run type.}
+\end{figure}
+
+
+From Chronojump version 0.9, you can create intervallic runs with
+variable track distance. This is suitable to calculate speed in the
+different tracks of agility tests. 
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.55]{run_type_add-variable}
+\par\end{centering}
+
+\caption{\label{fig:Creaci=0000F3n-de-nuevo-tipo-carrera-variable}Creation
+of a new run type with variable tracks.}
+\end{figure}
+
+
+
+\subsubsection{Examples on creation of new run types}
+
+Here you can find some examples on creating new run types. The names
+of the types have been invented in this manual. The table \ref{tab:Ejemplos-de-tipos-carreras-creados}
+is also useful to understand the different variables.
+\begin{itemize}
+\item \emph{``Sprint10''} 10 meters of sprint run.
+\item \emph{``SprintShortVariable''} Run below 20 meters, each runner
+will have run at a different distance defined by the trainer.
+\item \emph{``20{*}5''} 100 meters run in 5 tracks of 20 meters.
+\item \emph{``20{*}n''} 100 .Run 20{*}n meters (n tracks de 20 meters).
+\item \emph{``40{*}50\%fatigue''} Intervallic run where each person runs
+until 50\%fatigue is reached. Time needed to fatigue is individual
+and known by trainer. Each track has 40m.
+\item \emph{``100{*}?''} Person has to run tracks of 100m until trainer
+(or runner) decides to finish.
+\item \emph{``2 min of 20-10-7''} Agility run on 3 tracks that have to
+be repeated during 2 minutes. First track has 20m, second 10m and
+third 7m.
+\end{itemize}
+\begin{table}[H]
+\begin{centering}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+Name & Type & Limited by & Fixed & Track length\tabularnewline
+\hline 
+\hline 
+Sprint10 & Simple & - & - & Fixed(10)\tabularnewline
+\hline 
+SprintShortVariable & Simple & - & - & Variable\tabularnewline
+\hline 
+20{*}5 & Intervallic & Tracks & Yes (5) & Fixed(20)\tabularnewline
+\hline 
+20{*}n & Intervallic & Tracks & No & Fixed(20)\tabularnewline
+\hline 
+40{*}50\%fatigue & Intervallic & Time & No & Fixed(40)\tabularnewline
+\hline 
+100{*}? & Intervallic & Unlimited & - & Fixed(100)\tabularnewline
+\hline 
+2 min 20-10-7 & Intervallic & Time & Yes(120'') & Variable(20,10,7)\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+
+\caption{\label{tab:Ejemplos-de-tipos-carreras-creados}Examples on run types
+created by user.}
+\end{table}
+
+
+
+\section{Reaction time}
+
+In order to detect reaction time of the person, there's a need of
+an assistant, because Chronojump and Chronopic are still unable to
+produce random signals that can be measured accurately.
+
+
+\subsection{Protocol}
+
+Assistant will produce contact in a contact device: push-button, platform,
+photocell, ... and at any moment (when athlete is prepared), assitant
+will release the contact and instantly the Chronopic green led will
+light. At this moment, the athelete will produce contact in another
+contact device and green light will be off. The reaction time registered
+will be the time between light starts glowing and athelete produces
+contact. It's important that athlete doesn't see or hear the assistant.
+
+
+\subsection{Executing reaction time}
+
+To execute a reaction time, have the assitant producing contact in
+device, click on \emph{Execute reaction time} and follow the protocol
+described above.
+
+If Chronopic has not been connected and activated from Chronopic window,
+a reaction time will be simulated. In the other hand, if Chronopic
+is connected, real reaction time will be done.
+
+
+\subsection{Reaction times view}
+
+Reaction times are shown on the \emph{reaction time} tab. Tests are
+associated with the athletes. The shown order of the tests of each
+jumper is chronological so, the last test appears at the end of the
+list
+
+You can use the \emph{magnifying glass} button (or press \emph{z})
+to facilitate the view of the tests.
+
+
+\subsection{Reaction times edition}
+
+You can add comments to a reaction time or change the person (if you
+forgot to change the current person previously) If you select the
+desired test and click on the \emph{Edit} button on the selected test,
+you can also find it on the menu, or by pressing the button \emph{e}.
+
+
+\subsection{Reaction times delete}
+
+To delete a reaction time, select it and click the \emph{Delete selected
+reaction time} button. Its equivalent in the menu or press \emph{d}
+(delete). By deleting the test you will be asked to confirm it if
+the delete confirmation option is activated in the \emph{Preferences}
+menu (more information in section \vref{sec:Preferencias}).
+
+
+\section{Pulses (Simple rhythms)}
+
+A simple rhythm or pulse can be measured on the \emph{Pulse} tab.
+On the other hand, if a comple rhythm has to be measured, use a MultiChronopic
+as described at \vref{sub:MultiChronopic}\emph{.}
+
+There are two kind of tests:
+\begin{description}
+\item [{Free}] Person tries to be regular on the freely selected pulse.
+Evaluator will decide te moment where the test end.
+\item [{Custom}] Person has to follow a predefined tempo. If desired, the
+total duration of the test can be defined.\\
+Tempo can be defined in one of this ways:
+
+\begin{description}
+\item [{seconds}] how many seconds pass between pulsations
+\item [{ppm}] how many pulsations per minute
+\end{description}
+
+Both methods are interrelated, if eg. seconds value is changed, then
+ppm changes. As an example, 0.5 seconds are 120 ppm. Evaluator will
+decide what is more suitable.
+
+\end{description}
+
+\subsection{Ejecución de pulsos}
+
+Desde la pestaña de \emph{pulso} y con el ayudante sin tocar el pulsador
+o plataforma, haga clic en el botón: \emph{Libre}, o en el botón \emph{Personalizado.}
+
+En caso que no este conectado el Chronopic, el programa simulará un
+pulso. En la ventana emergente se mostrará la progresión del test,
+que podrá ser detenido haciendo clic en el botón \emph{Terminar} o
+cancelado con \emph{Cancelar}.
+
+
+\subsection{Pulses view}
+
+Puede usar los botones de \emph{lupa} (o la tecla \emph{z}) para facilitar
+la visualización de los tests.
+
+Pulses are shown on the \emph{pulses} tab. Tests are associated with
+the athletes. The shown order of the tests of each jumper is chronological
+so, the last test appears at the end of the list
+
+You can use the \emph{magnifying glass} button (or press \emph{z})
+to facilitate the view of the tests.
+
+
+\subsection{Pulses edit}
+
+You can add comments to a pulse or change the person (if you forgot
+to change the current person previously) If you select the desired
+test and click on the \emph{Edit} button on the selected test, you
+can also find it on the menu, or by pressing the button \emph{e}.
+
+
+\subsection{Pulses delete}
+
+To delete a pulse, select it and click the \emph{Delete selected pulse}
+button. Its equivalent in the menu or press \emph{d} (delete). By
+deleting the test you will be asked to confirm it if the delete confirmation
+option is activated in the \emph{Preferences} menu (more information
+in section \vref{sec:Preferencias}).
+
+
+\section{\label{sub:MultiChronopic}Multi Chronopic}
+
+Multi Chronopic allows any type of test that uses two, three or four
+independent measurements Chronopics. Remember that for the other tests
+it\textquoteright{}s possible to connect multiple devices to a single
+Chronopic, but it\textquoteright{}s understood that that always have
+to be in touch in one or both of them.
+
+Unlike previous tests, Multi Chronopic allows the use of several Chronopics,
+each connected to one or more detection devices, so that contact can
+be more than Chronopic at a time. Their operating depends on the program
+user, but here are some examples: 
+\begin{enumerate}
+\item Static Test running on two platforms: the aim is to assess the tempo
+of tread of the left and right foot. It\textquoteright{}s required
+that each Chronopic is connected and independent since the sportsman
+is often stepping on both platforms
+\item The study of the contact times in a volleyball jump: One foot in each
+platform, then both take off at the same time. To know various times
+is needed 2 Chronopics platforms and 2 independents ones.
+\item Plate Tapping with extra coordinative action: Construction of a device
+type detection Plate Tapping, where the tester must touch either side
+as quickly as possible with a single hand. Connect a conductive part
+to any side and to one Chronopic to record the different times. Moreover,
+if the subject should do something with his foot every 3 contacts
+we can locate a contact platform on the floor and connect it to a
+second Chronopic.
+\item Two, three or four athletes do a round trip timed race on a track:
+there is placed a platform at the beginning and final of each lane.
+A Chronopic will be connected to the beginning and end platform because
+a person can\textquoteright{}t be at both at once. Thus, if there
+are 4 subjects it will be 4 lanes, 4 Chronopic and 8 platforms. We
+will be able to measure the times and speeds of each 4 independently.
+\end{enumerate}
+
+\subsection{Synchronization}
+
+Some of these tests require a synchronization to intend that the various
+Chronopics start at the same time. However, in others the synchronization
+is not required. In the first three examples cited above, synchronization
+is required so there is no error in the comparison of time between
+a tread and the other (example 1 and 2) or from contact with the tapping
+and the tread on the ground (Example 3). This sync can be selected
+from a check box and carried out by making contact with several devices
+at once, or by touching the Test of Chronopics. In the Chronojump
+Forum \url{http://forum.chronojump.org} is described a method for
+the construction of a professional sync device.
+
+The sync in the fourth example requires discussion. If the subjects
+leave when they want and the aim is to record only the time between
+contact and the next synchronization is not required. On the other
+hand, sync is needed if we use the signal of an external evaluator,
+and when we expect to know the time between the signal (of any contact)
+and the first contact each athlete.
+
+
+\subsection{Erase first time}
+
+In some tests, the time of the first contact until the first change
+of state is not relevant.
+
+Perhaps, the subject can begin whenever he wants. If you want to compare
+the subject's ability to follow an independent press with both hands
+(two Chronopics). The time registered since the start until the first
+contact is not relevant and should be removed to avoid contaminating
+averages.
+
+
+\subsection{Port configuration}
+
+Obviously, it\textquoteright{}s imperative to set up two Chronopic
+in the window Chronopic: \emph{Tools / Chronopic}, to run the tests
+proposed.
+
+
+\subsection{Multi Chronopic results view}
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.8]{multiChronopic_mc}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-de-multiChronopic_mc}Multi Chronopic screenshot.}
+\end{figure}
+
+
+In the results window, we can observe different columns, if two Chronopic
+have been used:
+\begin{itemize}
+\item Time: The time from the beginning of the test CP1 and CP2
+\item State: Information on which change has occur in each Chronopic (if
+any) at the time point indicated in the previous column.
+\item CP1 and CP2 Change: Time elapsed since the last change of state in
+each Chronopic.
+\item IN-IN CP1 and CP2: Time elapsed since each Chronopic changed the state
+IN until he returned to the same state.
+\item OUT-OUT CP1 and CP2: Time elapsed since each Chronopic changed the
+state OUT until he returned to the same state.
+\item Description: Comments on the particular test run. 
+\end{itemize}
+In the example in Figure \ref{fig:Gr=0000E1fico-de-multiChronopic_mc}
+it shows a Multi Chronopic test duration: 0.928 seconds in which there
+are 10 state changes. Multi Chronopic 1, 2, 10n is called so because
+is used 2 Chronopics (Chronopics 1 and 2), and has 10 changes. If
+we observe the change number 5 it occurs at 0.539 seconds. This represents
+a change of status Out Chronopic 1 (no contact) within a (contact).
+As indicated in CP1 Change, 0.225 seconds have elapsed since the Chronopic
+was in its previous state (Outside) and 0.353 seconds since this was
+Chronopic (Inside) as reflected in IN-IN CP1.
+
+Also note that the column IN-IN and OUT-OUT have average values and
+standard deviation (SD).
+
+Just as the other tests, the tests are associated with the performers.
+The order of presentation of each test in each performer is chronological
+so the latter carried out by a subject appears at the bottom of the
+list of the tests. You can use the magnifying glass button (or press
+\emph{z}) to facilitate the visualization of the tests.
+
+
+\subsection{Multi Chronopic test edition and erase}
+
+You can add comments to a test or change the performer (if you forgot
+to change the current subject previously) by selecting the desired
+test and click on the \emph{Edit Multi Chronopic} button. It can also
+be done in the menu or press \emph{e}.
+
+To delete a Multi Chronopic test, select it and click the \emph{Delete
+Multi Chronopic} button selected. Its equivalent in the menu or press
+\emph{d} (delete). By deleting the test you will be asked to confirm
+it if the delete confirmation option is activated in the \emph{Preferences}
+menu (more information in section \vref{sec:Preferencias}).
+
+
+\subsection{Run analysis}
+
+In addition to the examples given we have to include a test to analyze
+the run produces by Josep Maria Padullés as part of his doctoral thesis.
+As sense devices it\textquoteright{}s used two photocells barriers
+and a track with contacts platforms.
+
+The two photocells are connected to the \textbf{first} Chronopic to
+know the time between them. The program evaluator will indicate the
+distance between them and thus it can be known the average speed.
+The track of platforms will be connected to the \textbf{second} Chronopic,
+which will give us the contact time and flight time. In this case
+the synchronization between Chronopics or deleted the first time is
+not required.
+
+From the data obtained by both Chronopics, you will get the average
+speed of the race, and the following data for each of the steps: 
+\begin{itemize}
+\item Contact times
+\item Flight Times
+\item Total Time
+\item Frequency
+\item Amplitude
+\item Height
+\item Takeoff angle 
+\end{itemize}
+You can see an example in Figure \ref{fig:Gr=0000E1fico-de-multiChronopic_ra}.
+Note that the execution button Running Analysis will be activated
+when the distance between the photocells and the two Chronopics are
+connected. 
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.8]{multiChronopic_ra}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-de-multiChronopic_ra}Multi Chronopic screenshot
+with Run Analysis results.}
+\end{figure}
+
+
+
+\chapter{Statistics and graphics}
+
+Chronojump has multiple indices to study the tests proposed. Unlike
+general spreadsheets purpose, the provision of statistical and graphics
+has been designed specifically to measure jumps and running. Figure
+\ref{fig:Ventana-de-estad=0000EDsiticas} shows the statistics window
+that appears when you click on \emph{Tools / Statistics}.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.75]{chronojump_stats_window}
+\par\end{centering}
+
+\caption{\label{fig:Ventana-de-estad=0000EDsiticas}Chronojump statistics window.}
+\end{figure}
+
+
+The current version only provides statistical Chronojump concerning
+to jumps. Future versions will also include other statistical tests.
+If you have graphics and other statistical tests, we recommend that
+you export the worksheet data as described in Section \ref{sub:Exportaci=0000F3n-a-hoja}.
+
+
+\section{Statistic type, subtype and applications}
+
+Each statistic can be classified by type, among which are:
+\begin{description}
+\item [{Simple~jumps}] which offers several ways to analyze simple jumps
+without contact time.
+\item [{Simple~jumps~with~contact~time}] which offers various ways
+to analyze simple jumps with contact time.
+\item [{Reactive~jumps}] which presents several ways to analyze repetitive
+jumps.
+\end{description}
+
+\subsection{Simple jumps}
+
+The simple statistical hop show various ways to analyze simple jumps
+without contact time, which can be classified into several subtypes:
+\begin{itemize}
+\item No index
+\item Force-velocity
+\item Elasticity rate (IE)
+\item Use of arms index (IUB)
+\item Power peak of Lewis, Harman, Sayers (2), Shetty, Canavan, Lara (5)
+\end{itemize}
+
+\subsubsection{No index}
+
+Statistical simple jump that shows all the jumps or a particular type
+as selected on the \emph{application} field.
+
+
+\subsubsection{Force-velocity}
+
+Statistical simple jump that shows the force-velocity relationship
+according to the formula
+
+\noindent \begin{center}
+$FV=\frac{SJ+(100\%%)
+}{SJ}*100$ 
+\par\end{center}
+
+SJ jumps with 100\% extra charge to the body weight, and SJ with no
+additional charge.
+
+
+\subsubsection{Elasticity index}
+
+Statistical simple jump that shows the elasticity index formula
+
+\noindent \begin{center}
+$IE=\frac{(CMJ-SJ)}{SJ}*100$
+\par\end{center}
+
+between SJ and CMJ jumps.
+
+
+\subsubsection{Use of arms index}
+
+Statistical simple jump that shows the rate of the use of arms from
+the formula
+
+\noindent \begin{center}
+$IUB=\frac{(ABK-CMJ)}{CMJ}*100$
+\par\end{center}
+
+between CMJ and ABK jumps.
+
+
+\subsubsection{Peak power}
+
+Figure \ref{fig:Estad=0000EDsticas-de-saltos-simples} is the ratio
+of power peak of the individual authors and their formulas. In the
+future, is expected to include expanded documentation for each formula
+and literature.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{chronojump_estadisticas_saltos_simples}
+\par\end{centering}
+
+\caption{\label{fig:Estad=0000EDsticas-de-saltos-simples}Statistics of simple
+jumps.}
+\end{figure}
+
+
+
+\subsection{Contact time jumps}
+
+The most important in this type of jump is the relationship between
+flight time and contact time. In many sports it\textquoteright{}s
+necessary to generate a high power (reflected in the flight time)
+in a short time (represented by the contact time). We present two
+indexes to study the relation:
+\begin{itemize}
+\item Dj Index
+\item Index Q
+\end{itemize}
+The application field in both cases refers to the type of jump that
+is applied to the statistic.
+
+
+\subsubsection{\label{sub:=0000CDndice-Dj}Dj index}
+
+Study of the relationship between time of flight / time of contact
+in a single jump from the formula
+
+\noindent \begin{center}
+$DJindex=\frac{TF-TC}{TC}*100$
+\par\end{center}
+
+
+\subsubsection{\label{sub:=0000CDndice-Q}QIndex}
+
+Study of the relationship between time of flight / time of contact
+in a single jump from the formula
+
+\noindent \begin{center}
+$QIndex=\frac{TF}{TC}$
+\par\end{center}
+
+
+\subsection{Repetitive jump}
+
+In the repetition of a jump test specified by a number of jumps, time,
+or unlimited ends when the coach or athlete decides it. It represents
+the evolution of flight time with respect to the contact time in the
+different jumps. With this objective are the following statistics: 
+\begin{itemize}
+\item Average index
+\item Power (Bosco)
+\item Evolution
+\item Mean and standard deviation using RjIndex
+\item Mean and standard deviation using QIndex
+\end{itemize}
+In all cases the application field refers to the type of jump that
+is applied to the statistic. 
+
+
+\subsubsection{\label{sub:=0000CDndice-medio}Average index}
+
+Study of the relationship of flight time / contact time in the repetitive
+jump according to the formula 
+
+\noindent \begin{center}
+$AverageIndex=\frac{TFmean-TCmean}{TCmean}*100$
+\par\end{center}
+
+
+\subsubsection{\label{sub:Potencia-(Bosco)}Power (Bosco)}
+
+Study of the relationship of flight time / contact time in the repetitive
+jump according to the formula 
+
+\noindent \begin{center}
+$Power=\frac{9.81^{2}*TFmean*jumps*totalTime}{4*jumps*(totalTime-TFmean*jumps)}$ 
+\par\end{center}
+
+
+\subsubsection{Evolution}
+
+Study of the relationship of flight time / contact time over the repetitive
+jump according to the evolution of the formula $Evolution=\frac{TF}{TC}*100$
+for each twitching.
+
+Sometimes some athletes do a jump with a very good TF / TC because
+of the execution of a low one before or afterwards. For this reason
+it has arranged the option to make the best 'n' row to get a selection
+of the best range following this index. To the right of this option
+you can find the amount of jumps you want to study. If you select
+a value of 1 then the best jump will be highlighted. 
+
+
+\subsubsection{Mean and standard deviation using RjIndex }
+
+Study Index
+
+\noindent \begin{center}
+$RjIndex=\frac{TF-TC}{TC}*100$ 
+\par\end{center}
+
+for each of the jumps of the repetitive jump test it\textquoteright{}s
+shown the average and standard deviation obtained. 
+
+
+\subsubsection{Mean and standard deviation using QIndex}
+
+Study Index
+
+\noindent \begin{center}
+$Qindex=\frac{TF}{TC}*100$ 
+\par\end{center}
+
+for each of the jumps of the repetitive jump test it\textquoteright{}s
+shown the average and standard deviation obtained.
+
+
+\section{Multisession statistics}
+
+All statistical presented except the Evolution in the repetitive jumps
+can be used for the comparison of different jumps or subjects in several
+sessions. This will submit a column for each selected session and
+facilitates comparison between the different values shown.
+
+It also includes the average and standard deviation of each row displayed.
+
+To access to the statistics multisession click on \emph{session /
+selected} and select the sessions you want to use in the window that
+appears when you click on \emph{Select}. You can select as many sessions
+as desired and is not required to display the current session between
+them.
+
+
+\section{Selection of the jumps to be shown}
+
+There are four selection modes for the jumps shown as a condition
+in the generation of statistical expectation:
+\begin{description}
+\item [{All}] shows the results of the selected statistics.
+\item [{Limit~n}] shows the first n selected statistical results.
+\item [{Average}] shows the average of each jumper in the selected statistic.
+\item [{Max~/s~of~the~jumper}] show \emph{n} maximum values of each
+jumper in the selected statistic.
+\end{description}
+Most of the statistics offers the four options. Those omitted is because
+is not a purpose generate them.
+
+
+\section{Other settings}
+
+Other related action buttons presented below. 
+
+
+\subsection{Statistics formulation}
+
+All statistics have a statement that is automatically created based
+on the selections made by the user in the statistics window. The statement
+can help you understand the statistics.
+
+
+\subsection{Genus distinction}
+
+It presents the option of distinguish between genders for the presentation
+of the results. Selecting this option you can have a dual behavior:
+\begin{itemize}
+\item When the result rows correspond to the statistical index or jumping,
+gender selection will lead automatically to the creation of a row
+for each of them.
+\item When the result rows of statistical correspond to the subjects, it
+will appear a letter at the end of the subject to indicate the gender.
+\end{itemize}
+This button can help intra and inter genus comparisons.
+
+
+\subsection{Automatic actualization}
+
+The statistics window Chronojump is designed so each change in the
+database (new jump, subject rename, delete, jump, change jumper who
+has made a jump ...) is updated directly.
+
+
+\section{Marked rows}
+
+In the first column of each row you will find a small box that allows
+you to select whether or not a row is taken into account for the graphs
+and reports generated with Chronojump. The first row contains a checkbox
+that lets you quickly select and deselect all values. Furthermore,
+we show a selection box at the left bottom that allows you to expedite
+the selection of rows based on different criteria. For more information
+on charts and reports in paragraphs check \ref{sub:Creaci=0000F3n-de-graficos}
+and \ref{sec:Generaci=0000F3n-de-Informes} respectively.
+
+
+\section{Graphic creation \label{sub:Creaci=0000F3n-de-graficos}}
+
+Chronojump can create any graphics of any of the data shown in the
+statistics window. To do this simply click on the Graph button that
+appears in the statistics window. In the figures \ref{fig:Gr=0000E1fico-stats1},
+\ref{fig:Gr=0000E1fico-stats2}, \ref{fig:Gr=0000E1fico-stats3},
+\ref{fig:Gr=0000E1fico-stats4} there are some examples of graphics
+generated.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{grafico_stats1}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-stats1}Graph example: Histogram of a height
+of jump.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{grafico_stats2}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-stats2}Box diagram of the same values.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{grafico_stats3}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-stats3}Graph stripchart of the same values.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{grafico_stats4}
+\par\end{centering}
+
+\caption{\label{fig:Gr=0000E1fico-stats4}Graph dotchart a subset of the above
+values.}
+\end{figure}
+
+
+
+\chapter{Report and export}
+
+We propose two ways to work with raw data using Chronojump. First
+of all: \emph{Reporting}, with the utility to create a web page with
+the content of the session as well as selected statistics and graphs.
+After this: \emph{Export to spreadsheet} data. Export to the tests
+program analysis with general purpose spreadsheet (spreadsheet).
+
+
+\section{Report generation\label{sec:Generaci=0000F3n-de-Informes}}
+
+Reporting on the program Chronojump is the best way to collect information,
+statistics and graphs, in one session. This information can be in
+one study or with the comparison of various.
+
+Clicking on \emph{Tools / Report}, the figure shown is Figure \ref{sec:Generaci=0000F3n-de-Informes}.
+The users have the ability to create a report in web format (HTML)
+which can include session data, the subjects who participated and
+the tests chosen. Furthermore, using the \emph{Add to report} button
+is allowed to prepare each of the statistics displayed. Do the apparition
+in the report generated and the customization that was chosen by the
+user in the statistical window. The user can also organize each of
+the statistics to do the final report.
+
+Clicking on \emph{Make Report}, you can choose the filename to save
+the HTML document. Also, you can generate a folder that will include
+all necessary images and styles to display the page properly.
+
+To print the report, we strongly recommend using the free browser
+Mozilla Firefox. In Figure \ref{fig:Ejemplo-de-informe-2} you can
+see a photo of a report.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{grafico-informe}
+\par\end{centering}
+
+\caption{\label{fig:Ejemplo-de-informe}Example of report window preparation.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{report1}
+\par\end{centering}
+
+\caption{\label{fig:Ejemplo-de-informe-2}Example of a website report.}
+\end{figure}
+
+
+
+\section{Export to a spreadsheet\label{sub:Exportaci=0000F3n-a-hoja}}
+
+Clicking on \emph{Session / Export session to CSV} to create a CSV
+file format (Comma Separated the Values) which can be easily imported
+into any spreadsheet program. This file contains the records of all
+the tests produced, but it shall not include statistical or graphics.
+
+To export to CSV we chose the semicolon character (instead of comma
+character) to separate the different columns of data. Remember to
+indicate it when you import the CSV file in the spreadsheet.
+
+
+\chapter{Share Data Server }
+
+Chronojump has a server to share data between users on Internet. The
+server will obtain valuable data from the cross of many variables.
+For this, the users may share the data Chronojump. We believe in the
+good quality and usability of the technical characteristics of the
+server.
+
+Chronojump dispone de un servidor en Internet para compartir datos
+entre los usuarios. El servidor permitirá obtener datos valiosos a
+partir del cruce de muchas variables, pero para ello es necesario
+que exista predisposición por parte de los usuarios de Chronojump
+para compartir los datos. Creemos que las características técnicas
+del servidor y su usabilidad son óptimas.
+
+\begin{comment}
+Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad
+de uso-conexión, tiempo en línea, capacidad, funcionalidad, seguridad
+y privacidad.
+\end{comment}
+
+
+
+\section{Share and use the data}
+
+The data that can be shared are the tests, subjects and sessions of
+each evaluator at any time. The evaluator may upload to the server
+any session, dismissing those athletes and tests that he doesn\textquoteright{}t
+want to share. Before upload the data to the server, check if they
+have completed the necessary data from each of the athletes as well
+as the data required from the evaluator. 
+
+
+\section{\label{sec:Calidad-de-los-datos}Data quality. Accredited assessors
+and reliable data}
+
+In order to get a lot of data, without sacrificing the quality, there
+are two types of data in terms of reliability:
+\begin{description}
+\item [{The~general~data}] that can be upload from anyone with the Chronojump
+technology. This will soon be available for many data that belongs
+to this category.
+\item [{The~reliable~data}] requires the accreditation of the evaluator
+and the justification of the session data. This deals with three different
+profiles of the evaluator: 
+
+\begin{description}
+\item [{Evaluator-trainer}] profile: person related to the field of training.
+\item [{Evaluator-researcher}] profile: person related to the academic
+field.
+\item [{Mixed~profile:}] person involved in the two areas mentioned above.
+\end{description}
+
+The process of accreditation of the assessors has not yet begun, so
+all assessors are currently uncredited and the data shared corresponds
+to general data. In the future, the new credited evaluators may wish
+to upload their data to the reliable data, even if this data has been
+uploaded without the accreditation.
+
+
+The accreditation is in charge of the Research Group: Salut, Activitat
+Física i Esport at the Blanquerna Faculty (Universitat Ramon Llull). 
+
+\end{description}
+
+\section{Server functions}
+
+Server functions can be located in the main menu, \emph{Tools / Server}.
+Below its described each of them.
+
+
+\subsection{Check connection}
+
+Allows connecting to the server. If not possible, it may be because
+the server is temporarily inoperative, your computer is not connected
+to Internet, or your Internet connection has limit on some types of
+connection.
+
+
+\subsection{\label{sub:Datos-del-evaluador}Evaluators data}
+
+This feature allows the evaluator to fill in a sheet which will be
+linked to the tests, subjects and sessions that will be shared. The
+personal information will be hidden. It\textquoteright{}s necessary
+to provide evaluation data for the following reasons:
+\begin{itemize}
+\item It\textquoteright{}s essential for uploading data.
+\item Allows knowing the nationalities, ages, equipment, evaluators\ldots{}
+\item If problems occur with some data, the administrators can contact via
+mail to the server of the evaluator.
+\end{itemize}
+As discussed in Section \ref{sec:Calidad-de-los-datos}, currently
+the accreditation is not required, so the sheet that has to be filled
+is very short. See Figures \ref{fig:server_evaluador1}, \ref{fig:server_evaluador2}
+and \ref{fig:server_evaluador3}. to check the for data window for
+the evaluators.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.5]{evaluator1}
+\par\end{centering}
+
+\caption{\label{fig:server_evaluador1}Details of the evaluator, Tab 1.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.5]{evaluator2}
+\par\end{centering}
+
+\caption{\label{fig:server_evaluador2}Details of the evaluator, Tab 2.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.5]{evaluator3}
+\par\end{centering}
+
+\caption{\label{fig:server_evaluador3}Details of the evaluator, Tab 3.}
+\end{figure}
+
+
+
+\subsection{Upload or update session to server}
+
+This is the most important function to share data. When the evaluator
+click on \emph{Tools / Server / upload (or update) session to server},
+he must follow this steps:
+\begin{enumerate}
+\item First, the evaluator will be asked to verify the data as described
+in paragraph \ref{sub:Datos-del-evaluador},
+\item then the evaluator will be asked if he wants to discard some of the
+subjects of the session (see Figure \ref{fig:server_include-discard}),
+\item then he will be asked for the confirmation,
+\item finally it shows a progress window of data to be incorporated into
+the server.
+\end{enumerate}
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{Captura-Incluir-Descartar_atletas}
+\par\end{centering}
+
+\caption{\label{fig:server_include-discard}Include / Discard subject to the
+server. }
+\end{figure}
+
+
+At any time the evaluator can re-upload the session to the server
+(update). The data that has already been uploaded will not be included
+again, but it wills so, the data created the last time. 
+
+The tests that have been simulated (not obtained from Chronopic) will
+be uploaded to the server.
+
+
+\subsection{Query the server}
+
+It has been created a window that allows average of the simple jumps,
+reactive jumps and simple runs. To access to it click on \emph{Tools
+/ Server / Query}. The query is performed clicking on the test selectors
+and the subject selectors.
+
+Below, we can observe the selectors of the query. Some of them are
+mandatory, while the most can be selected on \emph{Any} to indicate
+that this variable should not affect the result. 
+
+
+\subsubsection{Test selector}
+
+Here are the three selectors and possible values:
+\begin{description}
+\item [{Test~type:}] simple jump test, reactive jump or simple run.
+\item [{Test:}] correspond to the type of test described above.
+\item [{Variable:}] the average obtained will be different depending on
+the test selected:\end{description}
+\begin{itemize}
+\item For a simple jump test without contact time the only variable is the
+\emph{flight time}.
+\item For a single jump with contact time, the variables are: \emph{time
+of flight, contact time, Index DJ} (see \ref{sub:=0000CDndice-Dj}),
+\emph{Index Q} (see \ref{sub:=0000CDndice-Q}).
+\item For a reactive jump the possible variables are: \emph{Average Index}
+(see \ref{sub:=0000CDndice-medio}) and \emph{Power (Bosco)} (see
+\ref{sub:Potencia-(Bosco)}).
+\item For the running the only variable is the \emph{time}. 
+\end{itemize}
+
+\subsubsection{Selectors on the subject }
+
+The selectors are:
+\begin{description}
+\item [{Sex}]~
+\item [{Age:}] Refers to the age of the subject at the time the test is
+made. To calculate the age of the subject it\textquoteright{}s used
+the date of the birth.
+\item [{Country}]~
+\item [{Sport:}] Sometimes subdivided into specialty.
+\item [{Level:}] Divided into: {[}0{]} sedentary or occasional practitioner,
+{[}1{]} regular practice, {[}2{]} competition; {[}3{]} elite. 
+\end{description}
+
+\subsubsection{Evaluator selector}
+
+Any data from a particular evaluator can be chosen. This option may
+be interesting even for yourself because this way is possible to quickly
+gather information from all the jumps that have been evaluated.
+
+
+\subsubsection{Query results}
+
+When you click the search button, after a few seconds the server will
+indicate how many results have been found and which is the average.
+
+It is recommended to conduct general searches because the server has
+been created recently. As an example of search, try with simple jumps
+(Free) with most of the indicators on \emph{Any}.
+
+In Figure \ref{fig:server_query} is an example of consultation.
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{Captura-Query-server}
+\par\end{centering}
+
+\caption{\label{fig:server_query}Query the server. }
+\end{figure}
+
+
+
+\subsection{Server main statistics}
+
+It has been programmed a window to get a snapshot of the existing
+data on the server. It shows the number of evaluators, as well as
+the subjects and the various type tests. Also indicated which data
+has been uploaded by the user who runs the program.
+
+You can access to this window by clicking on \emph{Tools / Server
+/ Statistics}.
+
+
+\section{Web statistics}
+
+The web page \url{http://www.chronojump.org/server.html} shows the
+results from the crossing variables updated from the server. These
+charts are updated every time new data is included (usually automatically
+at night). The aim is to create constantly a set of charts that provide
+relevant information to anyone interested, even without using Chronojump.
+
+In Figures \ref{fig:server_graph1}, \ref{fig:server_graph2}, and
+\ref{fig:server_graph3} it\textquoteright{}s possible to check some
+examples of graphics that are obtained on the web server. 
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.7]{server_persons}
+\par\end{centering}
+
+\caption{\label{fig:server_graph1}Statistics on the web server. Population
+graphic description.}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{server_heights_by_jumps_boxplot}
+\par\end{centering}
+
+\caption{\label{fig:server_graph2}Statistics on the web server. Boxplot flight
+time depending on the type of jump and gender. }
+\end{figure}
+\begin{figure}[p]
+\begin{centering}
+\includegraphics[scale=0.6]{server_tv_by_level_sex_jumptype}
+\par\end{centering}
+
+\caption{\label{fig:server_graph3}Statistics on the web server. Graph relates
+flight time, practical level, type of jump and gender.}
+\end{figure}
+
+
+
+\section{Jumps privacy and confidentiality}
+
+The names and dates of birth of the athletes and the evaluators will
+never be shown. Even when uploading the data, the names of the subjects
+are not sent (because is not required). The date of birth will be
+included to calculate the age, but it will never be displayed. The
+comments the evaluator add to the session, subject or test are neither
+provided.
+
+
+\chapter{Preferences and using Chronojump on more than one computer\label{sec:Preferencias}}
+
+The preferences window \emph{Session / Preferences}, is divided into
+three tabs \emph{Database}, \emph{Contacts, encoder} and \emph{Camera.}
+Figure \ref{fig:Preferencias} show this tabs.
+
+\emph{Database} tab shows where you are, to open the folder, and make
+one copy of it in a directory of choice for the users. Maybe it shows
+two possible locations for the database because some Windows systems
+offer a place to store data while the program runs, and another when
+it\textquoteright{}s closed.
+
+Use this tab to have a copy of your data in order to avoid loosing
+your sessions, persons and tests on a hard disk problem or if operating
+system is reinstalled. Also you can use this tab to have Cronojump
+database in more than one computer.
+
+
+\begin{enumerate}
+\item On computer A:
+
+\begin{enumerate}
+\item Go to: \emph{Session / preferences / database / copy database}
+\item Select where to copy it (eg: your Desktop folder or a pendrive). The
+file is named \emph{chronojump.db}
+\end{enumerate}
+\item On computer B:
+
+\begin{enumerate}
+\item If Chronojump is not installed, do it.
+\item Go to \emph{Session / preferences / database / open database folder} 
+\item If you have valuable data on B, then you should rename \emph{chronojump.db}
+file in this folder or copy to any place.
+\item Copy the \emph{chronojump.db} file from A to the database folder on
+B.
+\item Close chronojump, open again, and it's done.
+\end{enumerate}
+\end{enumerate}
+\pagebreak{}
+
+\emph{Show} tab, shows the options related to information you want
+to display in the windows of data and statistics.
+
+\emph{Other} tab has three options. First refers to the number of
+decimals (recommended 3). If second option is active, then a confirmation
+window will be shown every time that user wants to delete a test.
+The last action is specific to the time that limits reactive jumps.
+If this option is checked, then a reactive jump limited by time will
+accept a jump where the person is in the air in the moment that time
+finishes. If is unchecked then this last jump will be rejected.
+
+\selectlanguage{spanish}%
+\begin{figure}[H]
+\noindent \begin{centering}
+\begin{tabular}{>{\centering}p{6cm}>{\centering}p{6cm}}
+\centering{}\includegraphics[scale=0.6]{Preferencias-1} & \centering{}\includegraphics[scale=0.6]{Preferencias-2}\tabularnewline
+\noalign{\vskip0.5cm}
+\multicolumn{2}{>{\centering}p{12cm}}{\centering{}\includegraphics[scale=0.6]{Preferencias-3}}\tabularnewline
+\end{tabular}
+\par\end{centering}
+
+\caption{\selectlanguage{british}%
+\label{fig:Preferencias}Preferences window.\selectlanguage{spanish}%
+}
+\end{figure}
+
+
+\selectlanguage{british}%
+\appendix
+
+\chapter{Chronopics prior to Chronopic 3}
+
+This appendix is only useful to users who own an old Chronopic (sold
+before March 2008).
+
+
+\section{Chronopic versions}
+
+\begin{table}[H]
+\begin{tabular}{|c|>{\centering}p{2cm}|>{\centering}p{2cm}|>{\centering}p{2.5cm}|>{\centering}p{2.5cm}|}
+\hline 
+{\small{Version}} & {\small{Launched}} & {\small{Connection}} & {\small{available at{*}}} & {\small{Price{*}}}\tabularnewline
+\hline 
+\hline 
+\textbf{\small{Chronopic3}}{\small{ (fig \ref{fig:Chronopic3})}} & {\small{March 2008}} & {\small{USB}} & {\small{Sent to all the World}} & {\small{37¤}}\tabularnewline
+\hline 
+{\small{Chronopic2-USB (fig \ref{fig:Chronopic2-USB})}} & {\small{September 2007}} & {\small{USB}} & {\small{Argentina}} & {\small{150\$ argentina}}\tabularnewline
+\hline 
+{\small{Chronopic2-Seral (fig \ref{fig:Chronopic2-Serie})}} & {\small{September 2007}} & {\small{Serial}} & {\small{Argentina}} & {\small{150\$ argentina}}\tabularnewline
+\hline 
+{\small{Chronopic1 (fig \ref{fig:Chronopic1})}} & {\small{2005}} & {\small{Serieal}} & {\small{Spain}} & {\small{70 ¤}}\tabularnewline
+\hline 
+\end{tabular}
+
+{\small{{*} Currently, only Chronopic3 is commercialized. If you want
+it, just visit Chronojump store: \url{http://www.chronojump.org/hardware_store.html}}}{\small \par}
+
+\caption{\label{tab:Versiones-de-Chronopic}Chronopic versions.}
+\end{table}
+
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[width=250pt,height=159pt]{chronopic_2_0_usb_front_mini}
+\par\end{centering}
+
+\caption{\label{fig:Chronopic2-USB}Chronopic2-USB.}
+\end{figure}
+
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[width=250pt,height=213pt]{chronopic_2_0_serial_front_mini}
+\par\end{centering}
+
+\caption{\label{fig:Chronopic2-Serie}Chronopic2-Serial.}
+\end{figure}
+
+
+\noindent 
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[width=250pt]{chronopic_foto}
+\par\end{centering}
+
+\label{fig:chronopic1}\caption{\label{fig:Chronopic1}Chronopic1.}
+\end{figure}
+
+
+\begin{comment}
+En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando
+Chronopic 2.0, este último en dos versiones: Serial y USB. Además
+de la posibilidad de uso del puerto USB, el Chronopic 2.0 es más pequeño
+y barato que el 1.0.
+\end{comment}
+
+
+
+\section{Connections in Chronopics serial}
+
+Chronopics serial require external power therefore it should be connected
+to a feeder. In addition, these Chronopics requires to be connected
+to the computer by a cable. If your computer has serial port, it\textquoteright{}s
+enough with a telephone cable serial. If it doesn\textquoteright{}t
+have USB port, you must convert to USB, it\textquoteright{}s required
+a USB-serial cable or a PCMCIA adapter or with another adapter with
+the same functionality. See figure \ref{fig:chronopic1} for an example
+of Chronopic1 connection.
+
+Serial Chronopics use 4.5 to 6 volts feeder. Is possible the purchase
+of a conventional power supply (which is connected to a power source)
+or create a homemade feeder with 3 x 1.5 volts batteries. This option
+provides the field tests in Chronopics serials.
+
+With old Chronopics series, the battery connection should automatically
+turn the light on even if the Chronopic isn\textquoteright{}t connected
+to any computer. This is a good test to know if the power is working.
+
+If it doesn't work, is recommended to connect the power to the Chronopic
+and verify that the light is on (no need of computer) If the light
+doesn\textquoteright{}t turn on, this mean that the failure is in
+the Chronopic or in the feeder. Try this again with another feeder
+or Chronopic to determine the origin of the failure. The feeder should
+be between 4.5 and 6 volts. Some feeders have two polarities, ask
+the seller and connect with the correct polarity.
+
+
+\section{\label{sub:Chronopic-puertos-serie-usb}USB and serial ports}
+
+Chronopic should be connected to the contact platform and the computer.
+PC connection is via port as shown in Table \ref{tab:Versiones-de-Chronopic}.
+
+Currently, most laptops do not have a serial port, so the USB port
+is required by most users. Users without serial port should get a
+pcmcia card or similar type to add serial port to the computer. The
+latest and favorite choice is to get a USB-serial cable. In many cities
+it\textquoteright{}s difficult to find these cables in stock if they
+haven\textquoteright{}t been previously requested. Another option
+is to buy them online.
+
+The operating system assigns names to ports, as shown in Table \ref{tab:Nombres-de-puerto-USB-y-serie}.
+
+\begin{table}[H]
+\begin{centering}
+\begin{tabular}{|c|c|>{\centering}p{5cm}|}
+\hline 
+Operating system & Port & Name\tabularnewline
+\hline 
+\hline 
+MS Windows & Serial & \textbf{COM1} or COM2\tabularnewline
+\hline 
+MS Windows & USB & COM1, COM2, COM3, ... (seen to COM27)\tabularnewline
+\hline 
+GNU/Linux & Serial & \textbf{/dev/ttyS0} or /dev/ttyS1\tabularnewline
+\hline 
+GNU/Linux & USB & \textbf{/dev/ttyUSB0}, /dev/ttyUSB1\tabularnewline
+\hline 
+\end{tabular}
+\par\end{centering}
+
+\caption{\label{tab:Nombres-de-puerto-USB-y-serie}Names of each operating
+system port.}
+
+
+\noindent \centering{}The most common names are in bold type text.
+\end{table}
+
+
+The plate-USB Chronopic2 may require a driver if Windows is not able
+to detect it. Windows should automatically assign a name (COM1. COM8
+..) to the USB port connection, but in many Windows installations
+this process is not completed therefore it\textquoteright{}s required
+the driver (According to the manufacturers is not necessary the cable
+because is automatically detected). Therefore is recommend to download
+a USB-serial driver: \url{http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip},
+or any other provided by the manufacturer or obtained by the network
+looking for \textquotedbl{}USB-serial driver \textquotedbl{}.
+
+
+\section{Chronopic3 assembly process (initial units)}
+
+Chronopic was initially distributed in two parts: the circuit and
+the elements that made up the box: methacrylate, screws and washers.
+Figure \ref{fig:Chronopic3-assembly-process} shows the assembly.
+Note: These instructions are only necessary for the first step of
+the assembly process. The latest Chronopic versions are fabric build. 
+
+\begin{figure}[p]
+\noindent \begin{centering}
+\includegraphics[scale=0.5]{chronopic_box_mount}
+\par\end{centering}
+
+\caption{\label{fig:Chronopic3-assembly-process}Chronopic3 assembly process
+(initial units).}
+\end{figure}
+
+\end{document}

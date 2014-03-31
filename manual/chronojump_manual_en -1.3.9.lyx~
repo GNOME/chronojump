@@ -1,0 +1,8767 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\begin_preamble
+\usepackage{a4wide}
+\usepackage{url}
+\pagenumbering{roman}
+
+\usepackage[T1]{fontenc}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman ae
+\font_sans cmss
+\font_typewriter default
+\font_default_family sfdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement p
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 4
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes true
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author -850000851 "Xavier Padulls,,," 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\size huge
+Chronojump
+\size default
+ Manual
+\begin_inset Newline newline
+\end_inset
+
+
+\size large
+(updated until Chronojump 0.9.2 version)
+\end_layout
+
+\begin_layout Author
+http://www.chronojump.org
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Xavier de Blas Foix.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+English translation by: Helena Olsson.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 17cm*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Licence of this document: Creative Commons Attribution-ShareAlike 3.0 Unported
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://creativecommons.org/licenses/by-sa/3.0/deed.en
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Find the last version of this document in last version of Chronojump software
+ and here:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/documents.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+frontmatter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FloatList table
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+mainmatter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Introduction: Chronojump as a free software collaborator project in sport
+ science
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+[Pending]
+\end_layout
+
+\begin_layout Section
+introduction
+\end_layout
+
+\begin_layout Subsection
+Instruments
+\end_layout
+
+\begin_layout Subsection
+Jump tests
+\end_layout
+
+\begin_layout Subsubsection
+Seargent test
+\end_layout
+
+\begin_layout Subsubsection
+Abalakov test
+\end_layout
+
+\begin_layout Subsubsection
+Bosco test
+\end_layout
+
+\begin_layout Subsubsection
+Specific jumps
+\end_layout
+
+\begin_layout Subsection
+Run tests
+\end_layout
+
+\begin_layout Subsubsection
+Simple runnings
+\end_layout
+
+\begin_layout Subsubsection
+Interval runnings
+\end_layout
+
+\begin_layout Subsubsection
+Agility circuits
+\end_layout
+
+\begin_layout Subsection
+Reaction time
+\end_layout
+
+\begin_layout Subsection
+Rhythms
+\end_layout
+
+\begin_layout Subsection
+Other tests
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Obtaining and configuring the software and the hardware
+\end_layout
+
+\begin_layout Chapter
+Obtaining the software and the hardware
+\end_layout
+
+\begin_layout Standard
+To use Chronojump technology is necessary: 
+\end_layout
+
+\begin_layout Description
+Detection
+\begin_inset space ~
+\end_inset
+
+device one or two contact platforms or photocells.
+ 
+\end_layout
+
+\begin_layout Description
+Chronopic (chronometric device responsible to receive the changes in the
+ detection device) 
+\end_layout
+
+\begin_layout Description
+Chronojump management software.
+ 
+\end_layout
+
+\begin_layout Description
+Computer with Windows
+\change_inserted -850000851 1391433183
+, OSX
+\change_unchanged
+ or Linux operating system connected to chronometer Chronopic and executing
+ the software Chronojump.
+ 
+\end_layout
+
+\begin_layout Section
+Chronojump software installation
+\end_layout
+
+\begin_layout Standard
+Chronojump is free software which works with Windows
+\change_inserted -850000851 1391433202
+, OSX
+\change_unchanged
+ and Linux operating systems.
+ To be download at the web page 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+\change_deleted -850000851 1391433292
+
+http://www.chronojump.org/software.html
+\change_inserted -850000851 1391433301
+http://chronojump.org/products.html#chronojump
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For more information consult the frequent 
+\change_inserted -850000851 1391433233
+asked 
+\change_unchanged
+questions of the software (FAQ) 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+\change_deleted -850000851 1391433353
+
+http://www.chronojump.org/faq_software.html
+\change_inserted -850000851 1391433354
+http://chronojump.org/faq_software.html
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Acquisition and construction of the detection device
+\end_layout
+
+\begin_layout Standard
+If you like to buy measuring device please check online shop at the web
+ page 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/hardware_store.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To build your own contact platform or photoelectric cell, consult at the
+ hardware section at the web page 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/documents_es.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Construcción-y-obtención-chronopic"
+
+\end_inset
+
+Acquisition and construction of the Chronopic chronometer
+\end_layout
+
+\begin_layout Standard
+If you like to buy the Chronopic chronometer, please check online shop at
+ the web page: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+\change_deleted -850000851 1391433380
+
+http://www.chronojump.org/hardware_store.html
+\change_inserted -850000851 1391433381
+http://chronojump.org/pricing.htm
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+If you want to build your own Chronopic please check the section Hardware
+ at the web page: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/documents.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For more information consult the frequent questions of the software (FAQ)
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/faq_hardware.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset CommandInset label
+LatexCommand label
+name "par:Chronopic:-concepto-y-configuracion"
+
+\end_inset
+
+ Configuring Chronopic
+\end_layout
+
+\begin_layout Standard
+Chronopic is an integrated circuit used by Chronojump to detect the test
+ done at the detection device.
+ To obtain the Chronopic please check section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Construcción-y-obtención-chronopic"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+Para más información sobre Chronopic y sobre la tarjeta previa: Skypic,
+ consulte el siguiente artículo: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.gnome.org/projects/chronojump/articles/chronojump_sistema_de_medida_con
+greso_gpul.pdf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For more information about Chronopic consult the web page: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/documents.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Current Chronopic version is Chronopic3 
+\size small
+(fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic3"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic3-metacrilato_small.jpg
+	width 250pt
+	height 188pt
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic3.png
+	width 250pt
+	height 188pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic3"
+
+\end_inset
+
+Chronopic3.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+The image above shows the 200 initial units.
+ The methacrylate was available in different colors such as yellow, orange,
+ blue or transparent.
+ The image bellow shows the second process of the assembly with 500 equal
+ units.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Chronopic connections
+\end_layout
+
+\begin_layout Standard
+Chronopic 3 is a USB powered hardware.
+ Using USB cable it receives data from PC and also power.
+ To complete the connection, this cable will also be connected to the socket.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391433844
+All Chonopics will be connected to the platform using the terminal block.
+ This terminal block will receive each of the two cables from the contacts
+ platform.
+ Chronopic3 adds an RCA jack, to be used by the terminal block, RCA, or
+ both.
+\change_inserted -850000851 1391434070
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -850000851 1391434196
+Chronopic will be connected to the contact platform or photocell barrier
+ through the RCA connection
+\begin_inset Graphics
+	filename RCA_connector.svg
+	lyxscale 3
+
+\end_inset
+
+, the terminal block
+\begin_inset Graphics
+	filename screw_connector.svg
+	lyxscale 3
+
+\end_inset
+
+ or both.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+Using
+\change_inserted -850000851 1391434303
+ Chronopic3 RCA
+\change_unchanged
+ 
+\change_deleted -850000851 1391434309
+fuse
+\change_unchanged
+ (and / or 
+\change_deleted -850000851 1391434300
+Chronopic3 RCA
+\change_inserted -850000851 1391434311
+fuse
+\change_unchanged
+) it is possible to connect 'n' networking platforms to any Chronopic.
+ This model is useful to chronometer situations where an athlete should
+ not be able to be in more than one platform at the same time.
+ Both cables of each platform must be connected to the 
+\change_inserted -850000851 1391434376
+RCA connector or the 
+\change_unchanged
+terminal block
+\change_deleted -850000851 1391434391
+ provided so the two wires of each are in a different terminal block contact
+\change_unchanged
+.
+\end_layout
+
+\begin_layout Standard
+Software allows the connection up to 4 Chronopics with an independent signal,
+ each connected to one or more sensing devices.
+ This makes possible chronometer independently various subjects, complex
+ paces or other applications.
+ 
+\end_layout
+
+\begin_layout Section
+Chronopic working process
+\end_layout
+
+\begin_layout Standard
+Chronopic detect changes in the contact platform and sends it to the computer
+ by USB cable, USB-serial or serials.
+ You can also use the test button
+\change_inserted -850000851 1391434728
+
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\change_unchanged
+ to simulate changes in the platform.
+\end_layout
+
+\begin_layout Standard
+Chronopic has a 
+\change_inserted -850000851 1391434766
+green 
+\change_unchanged
+light to indicate when the subject is on the platform 
+\change_inserted -850000851 1391434836
+or the photoelectric barrier 
+\change_unchanged
+(light stays 
+\change_deleted -850000851 1391434789
+on
+\change_inserted -850000851 1391434790
+off
+\change_unchanged
+) or outside 
+\change_deleted -850000851 1391434844
+the platform 
+\change_unchanged
+(light is 
+\change_deleted -850000851 1391434793
+off
+\change_inserted -850000851 1391434793
+on
+\change_unchanged
+).
+ 
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Chronopic-puertos-USB"
+
+\end_inset
+
+USB ports
+\end_layout
+
+\begin_layout Standard
+The operating system assigns names to ports, as shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Nombres-de-puerto-USB"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="5cm">
+<column alignment="center" valignment="top" width="4cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Operating system
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Port
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Comments
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MS Windows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+COM1, COM2, COM3, ...
+ (seen to COM27)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Driver required
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GNU/Linux
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+/dev/ttyUSB0
+\series default
+, /dev/ttyUSB1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Nombres-de-puerto-USB"
+
+\end_inset
+
+Names of each operating system port.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+The most common names are in bold type text.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The use of the driver is explained in the next section.
+\end_layout
+
+\begin_layout Subsection
+Windows USB Driver
+\end_layout
+
+\begin_layout Standard
+A driver is a small program that indicates the computer how to operate a
+ new device.
+ 
+\end_layout
+
+\begin_layout Standard
+Chronopic3 plate requires a driver to run on Windows.
+ This driver is automatically installed when you install any version later
+ than Chronojump 0.7.
+\end_layout
+
+\begin_layout Standard
+If you connect the Chronopic to the computer, and it’s detected "New hardware
+ found", then the driver is not required, in other case it will be necessary
+ to run the driver.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Uso del driver
+\end_layout
+
+\begin_layout Plain Layout
+El driver normalmente será un archivo comprimido (tipo .zip) que deberá ser
+ descomprimido y contendrá un archivo ejecutable tipo .exe en el que hay
+ que realizar doble-click.
+ Normalmente éste se instalará sin problemas, y permitirá que cuando sea
+ conectada la Chronopic a posteriori, aparezca el diálogo de 
+\begin_inset Quotes eld
+\end_inset
+
+Nuevo hardware encontrado
+\begin_inset Quotes erd
+\end_inset
+
+ y muestre que se trata de un dispositivo USB-serie (no acostumbra a ser
+ necesario el reinicio del ordenador).
+ Una vez hecho el doble click y verificado que ha funcionado correctamente,
+ el archivo .zip o .exe del driver puede ser eliminado o guardado en una carpeta
+ para futuras reinstalaciones del sistema operativo.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Chronopic3 in Linux
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Chronopic3 se detecta automáticamente en GNU/Linux con los kernels que han
+ aparecido a de la serie 2.6.24 (y suponemos que para valores superiores no
+ habrá problemas).
+\end_layout
+
+\begin_layout Plain Layout
+Por un error de Mono que hemos documentado
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+url{http://mail.
+ gnome.
+ org/ archives/ chronojump- devel- list/ 2008-January/ msg00048.html}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ y encontrado su origen 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+url{http://mail.
+ gnome.
+ org/ archives/ chronojump- devel- list/ 2008-January/ msg00050.html}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, la placa Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
+ La solución es actualizar el Kernel a 2.6.24 o superior 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Si no desea actualizar su distribución, puede seguir este ejemplo para Ubuntu
+ Hardy seguir este enlace: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+url{http://msdark.
+ atwebpages.
+ com/ actualizar-kernel -a-la-version-2624- de-ubuntu-hardy- para-ubuntu-
+ gutsy}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Linux kernels appeared since 2009 detect Chronopic plate without any problems.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Detección-del-puerto"
+
+\end_inset
+
+Detection port
+\end_layout
+
+\begin_layout Standard
+As explained in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Chronopic-puertos-serie-usb"
+
+\end_inset
+
+, is assigned a port name for the connection.
+ In case of using 
+\series bold
+Linux
+\series default
+, the port name is not usually a problem, because the names are clear and
+ the / dev/ttyUSB0 is usually correct.
+\end_layout
+
+\begin_layout Standard
+In case of using 
+\series bold
+MS Windows
+\series default
+, when Chronopic3 is connected to the USB port, the driver assigns different
+ names: COM1 ...
+ COM27 or higher.
+ In previous versions of Windows Chronojump, the port was auto detected,
+ but later version than 0.6, this is not possible.
+ In case of port serial, is typically assigned port COM1.
+\end_layout
+
+\begin_layout Standard
+We recommend the following process when the port is detected in Windows
+ because of the connection of Chronopic via USB:
+\end_layout
+
+\begin_layout Enumerate
+On the desktop or the Start menu, 
+\series bold
+right click
+\series default
+ on the icon "My Computer" Right (In Windows Vista the icon called "System")
+\end_layout
+
+\begin_layout Enumerate
+On the menu select "Properties" (last item)
+\end_layout
+
+\begin_layout Enumerate
+Go to the tab "Hardware"
+\end_layout
+
+\begin_layout Enumerate
+Select "Device Manager"
+\end_layout
+
+\begin_layout Enumerate
+Click the '+' which is to the left of "Ports COM
+\begin_inset space ~
+\end_inset
+
+&
+\begin_inset space ~
+\end_inset
+
+LPT"
+\end_layout
+
+\begin_layout Enumerate
+Will the port be indicated as COM? to the right of “USB-serial” click the
+ right mouse button and select "Properties" if this doesn’t appear, then
+ we can see the COM port assigned.
+\end_layout
+
+\begin_layout Enumerate
+The value of COM, such as "COM3" is what we have to enter in the configuration
+ of Chronopic.
+\end_layout
+
+\begin_layout Standard
+The port can change in a reboot or after plugging new USB devices.
+\end_layout
+
+\begin_layout Standard
+The antivirus Spy-doctor has been related to problems in ports connection
+ 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html
+\end_layout
+
+\end_inset
+
+.
+ We recommend to stop it.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Modificación-del-puerto"
+
+\end_inset
+
+Modification port assigned by Windows
+\end_layout
+
+\begin_layout Standard
+If the port assigned is COM5 or higher it may cause problems in some computers
+ detection.
+ If this happen, it’s recommended to assign a lower port than COM5, preferably
+ COM1 or COM2.
+\end_layout
+
+\begin_layout Standard
+To manually assign a port, repeat the steps described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Detección-del-puerto"
+
+\end_inset
+
+ to know which port is assigned, then do the following steps:
+\end_layout
+
+\begin_layout Enumerate
+Click "Port Settings".
+\end_layout
+
+\begin_layout Enumerate
+Click on "Advanced Options".
+\end_layout
+
+\begin_layout Enumerate
+Select one of the ports COM1-4 (preferably COM1 or COM2).
+\end_layout
+
+\begin_layout Enumerate
+Accept and close the assistant.
+\end_layout
+
+\begin_layout Enumerate
+Disconnect the USB cable and reconnect it after a few seconds.
+\end_layout
+
+\begin_layout Standard
+At this point it should be assigned a COM port that device that will last
+ forever.
+ Alternatively, return to perform the steps described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Detección-del-puerto"
+
+\end_inset
+
+ to verify that the change was made directly.
+ 
+\end_layout
+
+\begin_layout Standard
+En este momento ya debería tener el puerto COM asignado para siempre a dicho
+ dispositivo.
+ Opcionalmente, si quiere puede comprobar que el cambio se ha realizado
+ directamente puede volver a realizar los pasos descritos en 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Detección-del-puerto"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Chronopic solution problems
+\end_layout
+
+\begin_layout Standard
+In case of detection failure when changing Chronojump platform, we propose
+ the following battery of tests.
+ If Chronopic is not working after performing these tests, please noted
+ at the Forum 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://foro.chronojump.org
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Perform each of the tests until it’s working correctly.
+ Remember to check that the cables are connected properly.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Power Problem: The 
+\change_inserted -850000851 1391435018
+red 
+\change_unchanged
+light will turn on when you connect the USB cable (this will happen when
+ the computer is turned on
+\change_inserted -850000851 1391439803
+ except
+\change_deleted -850000851 1391439801
+,
+\change_unchanged
+ when there is a connected platform and someone stepping on it, or pushing
+ the test button
+\change_inserted -850000851 1391439839
+ 
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\change_unchanged
+).
+\end_layout
+
+\begin_layout Enumerate
+Problem networking platform: Connect the contact platform (without computer)
+ and check the Chronopic by clicking on the platform and checking if the
+ light turns on and off.
+ If the light doesn’t turn on and off, but it did in the previous step,
+ then the cables are in touch when they are connected to Chronopic.
+ Insulate them, check if they are poorly connected or if the platform has
+ a bad contact (disassemble and repair).
+\end_layout
+
+\begin_layout Enumerate
+Port problem on Windows: If the contact platform doesn’t have any problem,
+ unplug it and continue the testing only with the Chronopic.
+ Then, check if the port is detected and connect the cables to the computer,
+ the power should also be detected in the Chronopic as described in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Detección-del-puerto"
+
+\end_inset
+
+.
+ Windows may detect more than one type of port COM, do the following test
+ to both.
+ If the port assigned is higher than COM4, it’s recommended to modify the
+ port to one less than COM4, preferably COM1 or COM2 as described in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Modificación-del-puerto"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Execute Chronojump, 
+\change_deleted -850000851 1391439878
+type
+\change_inserted -850000851 1391439884
+select
+\change_unchanged
+ the port configuration in the Chronopic window.
+ A dialog will appear asking you to click "OK" and after this click on the
+ button Chronopic, shortly Chronopic should be detected and ready to be
+ used with the platform connected if desired.
+\end_layout
+
+\begin_layout Part
+Using Chronojump
+\end_layout
+
+\begin_layout Chapter
+Using Chronojump
+\end_layout
+
+\begin_layout Section
+IMPORTANT, READ FIRST
+\end_layout
+
+\begin_layout Standard
+
+\size large
+Chronojump 
+\change_deleted -850000851 1391439959
+0.9.3
+\change_inserted -850000851 1391439960
+1.3.9
+\change_unchanged
+ has changed massively the graphical interface.
+ Unfortunately, this manual is not updated to that change.
+
+\change_inserted -850000851 1391440047
+ This manual is refered to the 1.3.9 version.
+ It's strongly recomended to update Chronojump to the last available version
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391440068
+
+\size large
+All you can find in the current Chronojump Manual is useful because you
+ will know what you can do, but lots of the things are done now differently.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391440068
+
+\size large
+As Chronojump 0.9.3 is lot easier, we hope you can find the way to do what
+ you want.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391440068
+
+\size large
+Manual will be updated in the future.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391440068
+
+\size large
+Also note lots of the images are from the spanish version.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1391440068
+
+\size large
+Sorry for the inconvenience.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Chronojump main window
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Ventana-principal-de"
+
+\end_inset
+
+ shows Chronojump main window.
+ This is divided into the following parts:
+\end_layout
+
+\begin_layout Description
+The
+\begin_inset space ~
+\end_inset
+
+menu where you find the access to 
+\change_deleted -850000851 1391440404
+most of the functionalities
+\change_inserted -850000851 1391440412
+session and help
+\change_unchanged
+.
+\end_layout
+
+\begin_layout Description
+Edit
+\begin_inset space ~
+\end_inset
+
+subject provides a quick access to individual operations.
+\end_layout
+
+\begin_layout Description
+Subject
+\begin_inset space ~
+\end_inset
+
+selection where you can select the subject and edit it with the menu that
+ appears when you click on the right button of the mouse.
+\end_layout
+
+\begin_layout Description
+Chart
+\begin_inset space ~
+\end_inset
+
+selected
+\begin_inset space ~
+\end_inset
+
+test If there is a drawing of the test selected or targeted by the mouse,
+ it will be shown.
+ Also, if the program has expanded information on the test, displays an
+ icon to indicate it.
+ By pressing this button it will display a help window on this test chart
+ containing the expanded and test information.
+\end_layout
+
+\begin_layout Description
+Tabs that allow you to change the work form, 
+\change_deleted -850000851 1391440511
+actually
+\change_inserted -850000851 1391440515
+at present
+\change_unchanged
+: 
+\change_deleted -850000851 1391440536
+Jump, Simple Jump, Run, Run in sections, reaction time, pulse and multi
+ Chronopic
+\change_inserted -850000851 1391440625
+ Contacts (platform of photocell), Encoder and Server
+\change_unchanged
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391440760
+Doing
+\begin_inset space ~
+\end_inset
+
+tests
+\change_inserted -850000851 1391440766
+Test type
+\change_unchanged
+ with the functionality of executing each of the tests on the tab or active
+ labor module.
+\end_layout
+
+\begin_layout Description
+Viewing
+\begin_inset space ~
+\end_inset
+
+and
+\begin_inset space ~
+\end_inset
+
+editing
+\begin_inset space ~
+\end_inset
+
+the
+\begin_inset space ~
+\end_inset
+
+tests shows different selectors for viewing and editing the jumps and runs.
+ User Notification displays information about the last action.
+\change_deleted -850000851 1391441001
+
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441001
+Sound Turn off or on.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronojump_main_window_spanish.png
+	lyxscale 70
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ventana-principal-de"
+
+\end_inset
+
+Chronojump main window.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Chronojump Menu
+\end_layout
+
+\begin_layout Standard
+In the following pictures you can see the drop down menu of the program.
+\end_layout
+
+\begin_layout Description
+Session
+\begin_inset space ~
+\end_inset
+
+Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_session"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441201
+Person
+\begin_inset space ~
+\end_inset
+
+Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_sujeto"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441201
+Jump
+\begin_inset space ~
+\end_inset
+
+Menu see figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_salto1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_salto2"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441201
+Run
+\begin_inset space ~
+\end_inset
+
+Menu see figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_carrera1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_carrera2"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441201
+Other
+\begin_inset space ~
+\end_inset
+
+tests
+\begin_inset space ~
+\end_inset
+
+Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_other"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+
+\change_deleted -850000851 1391441201
+Tools
+\begin_inset space ~
+\end_inset
+
+Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_herramientas"
+
+\end_inset
+
+.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Description
+Help
+\begin_inset space ~
+\end_inset
+
+Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_help"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_session.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_session"
+
+\end_inset
+
+Session Menu.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_help.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_help"
+
+\end_inset
+
+Help Menu.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Chronopic/s Connection.
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Conexión-de-Chronopic/s"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Is possible to connect one or more Chronopics on the menu: 
+\emph on
+Tools / Chronopic
+\emph default
+.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic-connection"
+
+\end_inset
+
+ two Chronopics connected are shown.
+ There is a help button for the ports by clicking on the 
+\emph on
+Help
+\emph default
+ button window.
+ The connection to the Chronopic timer is specifically addressed in section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "par:Chronopic:-concepto-y-configuracion"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If the first Chronopic is activated, the first circle will be green.
+ You can connect more than one to perform tests in Multi Chronopic.
+ When you select the port, you must click on the right button to make the
+ connection.
+ In each successful activation the red circles will become green.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronopic-connection.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic-connection"
+
+\end_inset
+
+Chronopic connection.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+The figure corresponds to the program Chronojump-in version for Linux operating
+ system, which are connected with two Chronopics.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Database: sessions, subjects and tests
+\end_layout
+
+\begin_layout Standard
+Chronojump stores all data in one database file.
+ Thus, instead of collecting the information in individual files for each
+ session, all information is organized in a single file to facilitate the
+ study of relationships between:
+\end_layout
+
+\begin_layout Itemize
+sessions
+\end_layout
+
+\begin_layout Itemize
+persons
+\end_layout
+
+\begin_layout Itemize
+tests (jumping, running, reaction times, pulses (rates), multi Chronopic)
+\end_layout
+
+\begin_layout Standard
+All modifications in session, subjects and tests, will be updated at any
+ time in the database.
+ So there isn’t need to save the information periodically and make data
+ loss to a computer error.
+ If rare case, the program crash, you wouldn’t lose any data except sometimes
+ the one that is being performed at the time.
+\end_layout
+
+\begin_layout Subsection
+Sessions
+\end_layout
+
+\begin_layout Standard
+The sessions represent situations where the coach or evaluator gathers many
+ athletes (subjects) for a series of tests.
+ Every time you gather a group of athletes to be tested in a short space
+ of time (usually one day), you should create a new session.
+ Although the subjects to assess are the same as in other session, you should
+ create a new one to keep adding subjects and tests in an old session.
+ In this way, you can make comparisons between data.
+\end_layout
+
+\begin_layout Standard
+Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Nueva-sesión.-Alumnos"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Nueva-sesión.-Deportistas"
+
+\end_inset
+
+ demonstrate the creation of a session.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename nueva_sesion_colegio.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Nueva-sesión.-Alumnos"
+
+\end_inset
+
+
+\change_deleted -850000851 1391420685
+Nueva
+\change_inserted -850000851 1391420687
+New
+\change_unchanged
+ Session.
+ School students.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename nueva_sesion_artistica_competicion.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Nueva-sesión.-Deportistas"
+
+\end_inset
+
+New Session.
+ Rhythmic competitors.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Creation
+\end_layout
+
+\begin_layout Standard
+Click on the menu 
+\emph on
+Session menu / Create session
+\emph default
+ and one window will be opened where you must enter the name of the session,
+ the date and the sport practiced.
+ Optionally you can also indicate the place where is done and even add comments.
+\end_layout
+
+\begin_layout Subsubsection
+Load
+\end_layout
+
+\begin_layout Standard
+If you want to load a session already created to study, add subjects and
+ / or to test, click on the 
+\emph on
+Session menu / Load session
+\emph default
+.
+ It will show a list of sessions created and information of the subjects
+ enrolled in each of them and the tests performed.
+\end_layout
+
+\begin_layout Subsubsection
+Edición
+\end_layout
+
+\begin_layout Standard
+Click on 
+\emph on
+Session menu / Edit session
+\emph default
+ to modify the parameters that have been inserted earlier.
+ Normally, it’s used the edition of sessions to add comments about the evolution.
+\end_layout
+
+\begin_layout Subsubsection
+Delete
+\end_layout
+
+\begin_layout Standard
+To delete a 
+\series bold
+session and all tests
+\series default
+ performed, click on the 
+\emph on
+Session menu / Remove session
+\emph default
+.
+ A confirmation window will appear.
+ 
+\end_layout
+
+\begin_layout Subsection
+Persons
+\end_layout
+
+\begin_layout Standard
+All individuals able to perform the tests are known as subject.
+ It’s strongly recommended to create one subject only once in order to study
+ the evolution over time.
+ In following sessions the subject must be loaded.
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-un-sujeto"
+
+\end_inset
+
+ shows the creation of a person.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Nuevo saltador.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creación-de-un-sujeto"
+
+\end_inset
+
+Creation of a person.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Current person
+\end_layout
+
+\begin_layout Standard
+The subject on the left side of the main window is known as 
+\emph on
+current person
+\emph default
+.
+ All tests done shall be linked to that subject.
+ The latter subject created or loaded is assigned as current person.
+ 
+\end_layout
+
+\begin_layout Standard
+Tests shall not start until the current person is assigned.
+\end_layout
+
+\begin_layout Subsubsection
+Creation
+\end_layout
+
+\begin_layout Standard
+Click on the 
+\emph on
+Person menu / Create person
+\emph default
+ or use the Create button to create a person.
+ You may indicate the full name, gender, date of birth, height, weight,
+ country, sport, mode and level.
+ It’s important to enter the full name to avoid further conflicts with other
+ different persons.
+\end_layout
+
+\begin_layout Standard
+In order to accelerate the creation of multiple persons, click on the menu
+ 
+\emph on
+Subject / Create persons [multiple]
+\emph default
+.
+ A window will appear where you can create multiple subjects at once.
+ Once created, if you still want to create more persons, you can click again
+ on the same menu item.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-diversos"
+
+\end_inset
+
+ shows the creation of 11 persons at once.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-add-edit-multiple-persons.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Creation of different persons simultaneously.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Load
+\end_layout
+
+\begin_layout Standard
+If a person has participated in another session, and you want to evaluate
+ him/her again in the current session, click on 
+\emph on
+Load person
+\emph default
+, and enter the same subject to the new session.
+ The program will distinguish between tests (jump, run, reaction times and
+ rhythms) made by the same person in two or more sessions.
+\end_layout
+
+\begin_layout Standard
+If you created a session and you want to continue with the same person/s
+ in another session click 
+\emph on
+Load persons from another session
+\emph default
+ and check all persons who participated in the other session or multiple
+ session.
+ If you wish you can always discard any subject.
+\end_layout
+
+\begin_layout Standard
+Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Cargar-atletas"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Cargar-atletas-otra_sesion"
+
+\end_inset
+
+ show the load of subjects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Cargar atletas.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Cargar-atletas"
+
+\end_inset
+
+Load persons.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Captura-Cargar_atletas_otra_sesion.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Cargar-atletas-otra_sesion"
+
+\end_inset
+
+Load persons from other session.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+View subject tests
+\end_layout
+
+\begin_layout Standard
+Click 
+\emph on
+Show all tests of current person 
+\emph default
+to see all the tests that this person has done in the different sessions.
+ You can also select other persons of the current session.
+\end_layout
+
+\begin_layout Subsubsection
+Edit
+\end_layout
+
+\begin_layout Standard
+Click 
+\emph on
+Edit person
+\emph default
+ or press 
+\emph on
+p
+\emph default
+ (person) to modify the data that was entered at the same time as the creation.
+ You can also add comments.
+\end_layout
+
+\begin_layout Subsubsection
+Delete
+\end_layout
+
+\begin_layout Standard
+Click 
+\emph on
+Delete current person
+\emph default
+ to be removed of the session.
+ This operation will remove all tests from any person in the current session.
+ It’s important to know that the subject will not be removed from the database
+ and the tests in other sessions remain intact.
+\end_layout
+
+\begin_layout Standard
+After deleting this subject, another subject will become the 
+\emph on
+current person
+\emph default
+.
+ Otherwise any test can be provided.
+\end_layout
+
+\begin_layout Subsection
+Tests
+\end_layout
+
+\begin_layout Standard
+So far Chronojump manages five types of tests: jumping, running, reaction
+ times, rhythms and MultiChronopic.
+ Later Chronojump can handle other tests.
+ These tests are detected by the signals sent by the contact platform when
+ the subject steps on and off it.
+\end_layout
+
+\begin_layout Standard
+The database stores the tests and links to other data tables.
+\end_layout
+
+\begin_layout Chapter
+Tests
+\end_layout
+
+\begin_layout Standard
+At the following text, it describes the management of the five types of
+ tests allowed in Chronojump software.
+\end_layout
+
+\begin_layout Section
+Jumps
+\end_layout
+
+\begin_layout Standard
+There is basically two types of jumps: simple and repetitive.
+ Chronojump detect a 
+\series bold
+single jump
+\series default
+ as one phase of flight.
+ That’s why there are two types of simple jumps:
+\end_layout
+
+\begin_layout Enumerate
+Those who start and finish on the platform (single hop).We obtain the variable
+ flight time (TF) 
+\end_layout
+
+\begin_layout Enumerate
+Those who started outside the platform (drop from a height or do a jump
+ before) to fall on the platform and then jump.
+ Variables obtained: Contact time (TC) (time between reception and takeoff
+ on the platform) and flight time (TF).
+ Usually jumps will pursue minimum contact time and maximum flight time
+ as a power indicator.
+\end_layout
+
+\begin_layout Standard
+A 
+\series bold
+repetitive jump
+\series default
+ (also called reactive) is when you obtain more than one flight time.
+ For example: make two consecutive jumps initiated on the platform in the
+ order TF, TC, TF or start outside the platform and continue with the order
+ TC, TF, TC, TF.
+\end_layout
+
+\begin_layout Standard
+Assuming that the body during the takeoff position is the same as in the
+ landing, the flight time indicatives the height of center of gravity of
+ the athlete in this jump.
+\end_layout
+
+\begin_layout Subsection
+Simple jumps execution
+\end_layout
+
+\begin_layout Standard
+From the jumps tab, click the buttons:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+SJ
+\emph default
+, Squat Jump
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+SJ
+\emph default
+l, Squat Jump with extra charge (extra weight)
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+CMJ
+\emph default
+, countermovement jump
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+ABK
+\emph default
+, jump with arms Abalakov
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+DJ
+\emph default
+, drop jump 
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Rocket,
+\emph default
+ Rocket Jump is simple jump similar to the squat jump but it starts with
+ a full flexion of the legs.
+\end_layout
+
+\begin_layout Standard
+Sometimes you will be asked to provide additional information as the extra
+ weight of the subject (SJL) or the height of the drop (DJ).
+ 
+\end_layout
+
+\begin_layout Standard
+Click on 
+\emph on
+More
+\emph default
+ to get all the available of the simple jump and click ok on them to be
+ executed.
+ The jump menu also provides this access.
+ The original protocol of Bosco for the 
+\emph on
+DJ
+\emph default
+ test indicates that the arms don’t participate in the jump.
+ Instead many coaches ask their athletes to use the arms because is more
+ similar to the techniques used in sports.
+ The original 
+\emph on
+DJ
+\emph default
+ is called 
+\emph on
+DJna
+\emph default
+ (no arms), while the 
+\emph on
+DJ
+\emph default
+ with arms is called 
+\emph on
+DJ
+\emph default
+a.
+ When you start a DJ test, the program will ask whether to use arms or not
+ and automatically appoint the jump properly.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a jump will be simulated.
+ In the other hand, if Chronopic is connected, real jump will be done.
+ Note that for some jumps the athlete should be on the platform, while other
+ jumps it’s essential to be elsewhere.
+ You will be notified if the athlete's situation is not correct.
+ In the pop-up window it shows the progress of the jump, which may be stopped
+ by clicking on the 
+\emph on
+Finish
+\emph default
+ or 
+\emph on
+Cancel
+\emph default
+ button.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of jump to various persons and you
+ don’t want a button (only available on the tab 
+\emph on
+More
+\emph default
+), you can change the subject and use the 
+\emph on
+Last
+\emph default
+ button to allow another person to perform the same jump.
+\end_layout
+
+\begin_layout Subsubsection
+Repetitive jumps execution
+\end_layout
+
+\begin_layout Standard
+Click in the button on the Repetitive jumping tab:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+RJ (j)
+\emph default
+, Repetitive Jump (jumps) or repetitive jumping limited number of hops
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Rj (t)
+\emph default
+, Repetitive Jump (time) or time-limited repetitive jumping
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Unlimited
+\emph default
+, unlimited repetitive jumping.
+\end_layout
+
+\begin_layout Standard
+Sometimes is necessary to provide additional information as the height of
+ the initial drop, the extra weight or value of the limiting factor (hops
+ or seconds).
+ Click on 
+\emph on
+More
+\emph default
+ to get a list of all the available of the reactive jumps and execute them
+ clicking OK.
+ The jump menu also provides access to these actions.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a jump will be simulated.
+ In the other hand, if Chronopic is connected, real jump will be done.
+ Note that for some jumps the athlete should be on the platform, while other
+ jumps it’s essential to be elsewhere.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of jump to various subjects and you
+ don’t want a button (only available on the tab more), you can change the
+ subject and use the Last button to allow another person to perform the
+ same jump.
+\end_layout
+
+\begin_layout Subsection
+Auditive and visual feedback in repetitive jumps: bells 
+\end_layout
+
+\begin_layout Standard
+In order to add a visual and auditory feedback during execution of the jumps,
+ you can set values of flight time, contact time, or the relationship of
+ both.
+ To be shown a red bell (poor performance) or green (good performance) together
+ with a distinctive sound.
+ Click on the "Bells" to configure these actions as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Campanas---feedback"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename campanas.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Campanas---feedback"
+
+\end_inset
+
+Bells - auditive and visual feedback.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Jumps view
+\end_layout
+
+\begin_layout Standard
+Simple jumps are shown on the 
+\emph on
+Jumps
+\emph default
+ tab and the reactive Jumps on the 
+\emph on
+Jump Reactive
+\emph default
+ tab.
+ In both cases, it’s included a filter for all the possible tests or only
+ a particular type.
+\end_layout
+
+\begin_layout Standard
+Tests are associated with the jumpers.
+ The order of the tests presentation of each jumper is chronological so,
+ the last test appears at the end of the list.
+ It’s included a button that allows sorting the tests by the type of jump
+ and not in chronological order.
+\end_layout
+
+\begin_layout Standard
+All jumps are selected in the view filter.
+ A series of values are presented at each hop.
+ It’s possible to change the view by accessing at the Preferences (more
+ information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Jumps edition
+\end_layout
+
+\begin_layout Standard
+You can add comments to a jump or change the person (if you forgot to change
+ the current person previously) If you select the desired jump and click
+ on the Edit button on the selected jump, you can also find it on the menu,
+ or by pressing the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+In the reactive jumps, since they are composed of a set of jumps, this change
+ will affect all the jumps even if only one is selected.
+\end_layout
+
+\begin_layout Subsection
+Repair repetitive jumps
+\end_layout
+
+\begin_layout Standard
+Using 
+\emph on
+Repair selected
+\emph default
+ button or pressing 
+\emph on
+r
+\emph default
+, you can add a jump, modify a contact time or flight time or delete a jump.
+ If a repetitive jump type has been defined to be limited to max 
+\emph on
+n
+\emph default
+ jumps, or max 
+\emph on
+n
+\emph default
+ seconds, this conditions will limit the repair functionality.
+ When this happens, you will find an information text on the bottom of the
+ window.
+\end_layout
+
+\begin_layout Subsection
+Jumps delete
+\end_layout
+
+\begin_layout Standard
+To delete a jump, select it and click the 
+\emph on
+Delete selected jump
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Deleting a repetitive jump will delete all it's jumps.
+\end_layout
+
+\begin_layout Subsection
+Creation of new jump types
+\end_layout
+
+\begin_layout Standard
+In order to adapt the software to the needs of each user, it has been included
+ the function: 
+\emph on
+Add jump type
+\emph default
+ (on 
+\emph on
+Jumps
+\emph default
+ menu).
+ This allows trainer to define easily and powerully the desired jump types.
+\end_layout
+
+\begin_layout Standard
+Created jump type will be available on database to be used at any session,
+ and it will be listed clicking on the 
+\emph on
+More
+\emph default
+ button at the 
+\emph on
+Jump
+\emph default
+ or
+\emph on
+ Jump repetitive
+\emph default
+ tabs (depending on which kind of jump it's created).
+ This new jump type will be also differentiated on statistics, graphs and
+ reports.
+\end_layout
+
+\begin_layout Standard
+On creation, you should give it a distintive name and classify between simple
+ or repetitive.
+ If jump is repetitive, then you can limit is by jumps, time, or leave it
+ unlimited.
+\end_layout
+
+\begin_layout Standard
+The limit by time or jumps options can be defined as a fixed value or leaved
+ as undefined.
+ If it's defined fixed, all new jumps of this type will be limited to that
+ value; in the other hand, if the type is not fixed, user will be asked
+ by limit value everytime a new jump is done.
+\end_layout
+
+\begin_layout Standard
+Last settings include: start inside or outside the platform, allow to jump
+ with an extra weight, and add a description to the jump type.
+ In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-salto"
+
+\end_inset
+
+ you can see the creation of new jump type.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Captura-Crear un tipo de salto nuevo.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creación-de-nuevo-tipo-salto"
+
+\end_inset
+
+Creation of a new jump type.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Examples on creation of new jump types
+\end_layout
+
+\begin_layout Standard
+Here you can find some examples on creating new jump types.
+ The names of the types have been invented in this manual.
+ The table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Ejemplos-de-tipos-saltos-creados"
+
+\end_inset
+
+ is also useful to understand the different variables.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+SJ-N
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Jump like Squat Jump but the hands are on the nape instead of hips.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+DJ-Rope2
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Jump like Drop Jump but after executing the Drop jump, person have to jump
+ again doing two turns with the skipping rope on the air.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+Triple
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Repetitive jump starting outside the platform and including three jumps.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+50%fatigue
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Repetitive jump that has to be done until arriving to 50% of the person's
+ fatigue.
+ The number of seconds needed to be fatigued is personal and is known previously
+ by the trainer.
+ Starts inside.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+RopeUnlimited
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Person has to jump the rope until trainer (or jumper) decides to finish.
+ Start inside the platfom and can be done with an extra weight.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tipe
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Limited by
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Start in
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Additional weight
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SJ-N
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Simple
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+DJ-Rope2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Simple
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Triple
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Repetitive
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Jumps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes(3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+50%fatigue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Repetitive
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RopeUnlimited
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Repetitive
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unlimited
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Ejemplos-de-tipos-saltos-creados"
+
+\end_inset
+
+Examples on jump types created by user.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Runs
+\end_layout
+
+\begin_layout Standard
+Running can be detected by two kind of devices:
+\end_layout
+
+\begin_layout Itemize
+platform/s
+\end_layout
+
+\begin_layout Itemize
+photocell/s
+\end_layout
+
+\begin_layout Standard
+On a run test Chronojump detects time between detection devices.
+ If the run is 
+\begin_inset Quotes eld
+\end_inset
+
+circular
+\begin_inset Quotes erd
+\end_inset
+
+, it can be used a single device (platform or photocell), in the other circuits,
+ there's a need of more than one detection device (of any type).
+\end_layout
+
+\begin_layout Standard
+From now on, 
+\emph on
+device in contact
+\emph default
+ means that the person is on the platform or blocking a photocell signal.
+ Is important to note that the person should never be in contact in more
+ than one device at the same time.
+\end_layout
+
+\begin_layout Standard
+The figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Esquema-dos-plat"
+
+\end_inset
+
+ shows a drawing of the position of two platforms to measure run.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronojump_esquema_two_platforms.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Esquema-dos-plat"
+
+\end_inset
+
+Drawing of two platforms circuit to measure run.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to calculate average speed, user will be asked about the distance
+ between platforms.
+\end_layout
+
+\begin_layout Standard
+Runs can be of two types: simple and repetitive.
+ On Chronojump a 
+\series bold
+simple run
+\series default
+ means that there's only one track.
+ There are two kinds of 
+\series bold
+simple runs
+\series default
+:
+\end_layout
+
+\begin_layout Description
+Running
+\begin_inset space ~
+\end_inset
+
+from
+\begin_inset space ~
+\end_inset
+
+stop Start on contact in a device and end in contact in the same or other
+ device.
+\end_layout
+
+\begin_layout Description
+Running
+\begin_inset space ~
+\end_inset
+
+with
+\begin_inset space ~
+\end_inset
+
+initial
+\begin_inset space ~
+\end_inset
+
+speed Start before the contact, after a while, a contact is done and chronometer
+ starts, then person leaves the detection device until it produces contact
+ again.
+ This allows to measure a run where person has an initial speed.
+\end_layout
+
+\begin_layout Standard
+In both situations, the registered data is the time between one device and
+ the other, also speed will be calculated.
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+intervallic run
+\series default
+ is a run where there's more than one track, it should be understanded as
+ 
+\begin_inset Quotes eld
+\end_inset
+
+run along two or more tracks limited by devices at a fixed distance
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Simple runs execution
+\end_layout
+
+\begin_layout Standard
+To execute a simple run, click the following buttons on
+\emph on
+ Runs
+\emph default
+ tab:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Custom
+\emph default
+ to run after introduce the track's distance
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+20m-400m
+\emph default
+, to run on the preselected track's distance
+\end_layout
+
+\begin_layout Itemize
+Agility runs, this tests are available: 20 Yards, 505, Illinois, Shuttle
+ Run, Zig-Zag test.
+ The figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Test-de-agilidad-505"
+
+\end_inset
+
+ shows the information available on software about the 505 test.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronojump-505.png
+	lyxscale 50
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Test-de-agilidad-505"
+
+\end_inset
+
+505 Agility test.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Click on 
+\emph on
+More
+\emph default
+ to see all simple runs available, and execute them clicking 
+\emph on
+Ok
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a run will be simulated.
+ In the other hand, if Chronopic is connected, real run will be done.
+ Software allows to start run in contact with the device or before the contact.
+ On the later situation, time between starting of the run and contact on
+ the first device is deleted.
+\end_layout
+
+\begin_layout Standard
+In the pop-up window it shows the progress of the run, which may be stopped
+ by clicking on the 
+\emph on
+Finish
+\emph default
+ or 
+\emph on
+Cancel
+\emph default
+ button.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of run to various persons and you don’t
+ want a button (only available on the tab 
+\emph on
+More
+\emph default
+), you can change the subject and use the 
+\emph on
+Last
+\emph default
+ button to allow another person to perform the same run.
+\end_layout
+
+\begin_layout Subsection
+Executing intervallic runs
+\end_layout
+
+\begin_layout Standard
+To execute an intervallic run, click the following buttons on 
+\emph on
+Intervallic Runs
+\emph default
+ tab:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+By tracks
+\emph default
+: intervallic run limited by number of tracks
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+By time
+\emph default
+: intervallic run limited by number of tracks
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Unlimited
+\emph default
+: unlimited intervallic run
+\end_layout
+
+\begin_layout Standard
+At som run types, user interaction will be needed, like track distance and
+ limit factor: tracks or seconds.
+ Click on 
+\emph on
+More
+\emph default
+ to get a list of all the available of the intervallic runs and execute
+ them clicking OK.
+ The run menu also provides access to these actions.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a run will be simulated.
+ In the other hand, if Chronopic is connected, real run will be done.
+ Software allows to start run in contact with the device or before the contact.
+ On the later situation, time between starting of the run and contact on
+ the first device is deleted.
+\end_layout
+
+\begin_layout Standard
+In the pop-up window it shows the progress of the run, which may be stopped
+ by clicking on the 
+\emph on
+Finish
+\emph default
+ or 
+\emph on
+Cancel
+\emph default
+ button.
+\end_layout
+
+\begin_layout Standard
+If you want to execute the same type of run to various persons and you don’t
+ want a button (only available on the tab 
+\emph on
+More
+\emph default
+), you can change the subject and use the 
+\emph on
+Last
+\emph default
+ button to allow another person to perform the same run.
+\end_layout
+
+\begin_layout Subsection
+Feedback auditive and visual at the intervallic runs: bells
+\end_layout
+
+\begin_layout Standard
+Similarly to the repetitive jumps, you can configure minimum and maximum
+ values dor each track.
+ A red bell will be shown on a bad execution, and a green bell on the opposite,
+ also a distintive sound will be played.
+\end_layout
+
+\begin_layout Standard
+Configure this actions clicking on 
+\begin_inset Quotes eld
+\end_inset
+
+Bells
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Runs view
+\end_layout
+
+\begin_layout Standard
+Simple runs are shown on the 
+\emph on
+Run
+\emph default
+ tab and the intervallic runs on the 
+\emph on
+Run intervallic
+\emph default
+ tab.
+ In both cases, it’s included a filter for all the possible runs or only
+ a particular type.
+\end_layout
+
+\begin_layout Standard
+Tests are associated with the runners.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list.
+ It’s included a button that allows sorting the tests by the type of run
+ and not in chronological order.
+ 
+\end_layout
+
+\begin_layout Standard
+It’s possible to change tests view by accessing at the Preferences (more
+ information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Runs edition
+\end_layout
+
+\begin_layout Standard
+You can add comments to a run or change the person (if you forgot to change
+ the current person previously) If you select the desired run and click
+ on the 
+\emph on
+Edit
+\emph default
+ button on the selected run, you can also find it on the menu, or by pressing
+ the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+In the intervallic runs, since they are composed of a set of runs, this
+ change will affect all the runs even if only one is selected.
+\end_layout
+
+\begin_layout Subsection
+Repair intervallic runs
+\end_layout
+
+\begin_layout Standard
+Using 
+\emph on
+Repair selected
+\emph default
+ button or pressing 
+\emph on
+r
+\emph default
+, you can add a track, modify a time or delete a track.
+ If an intervallic run type has been defined to be limited to max 
+\emph on
+n
+\emph default
+ tracks, or max 
+\emph on
+n
+\emph default
+ seconds, this conditions will limit the repair functionality.
+ When this happens, you will find an information text on the bottom of the
+ window.
+\end_layout
+
+\begin_layout Subsection
+Runs delete
+\end_layout
+
+\begin_layout Standard
+To delete a run, select it and click the 
+\emph on
+Delete selected run
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Deleting an intervallic run will delete all it's tracks.
+\end_layout
+
+\begin_layout Subsection
+Creation of new run types
+\end_layout
+
+\begin_layout Standard
+In order to adapt the software to the needs of each user, it has been included
+ the function: 
+\emph on
+Add run type
+\emph default
+ (on 
+\emph on
+Runs
+\emph default
+ menu).
+ This allows trainer to define easily and powerully the desired run types.
+\end_layout
+
+\begin_layout Standard
+Created run type will be available on database to be used at any session,
+ and it will be listed clicking on the 
+\emph on
+More
+\emph default
+ button at the 
+\emph on
+Run
+\emph default
+ or
+\emph on
+ Run intervallic
+\emph default
+ tabs (depending on which kind of run it's created).
+ This new run type will be also differentiated on statistics, graphs and
+ reports.
+\end_layout
+
+\begin_layout Standard
+On creation, you should give it a distintive name and classify between simple
+ or intervallic.
+ If run type is intervallic, then you can limit is by tracks, time, or leave
+ it unlimited.
+\end_layout
+
+\begin_layout Standard
+The limit by tracks or time options can be defined as a fixed value or leaved
+ as undefined.
+ If it's defined fixed, all new runs of this type will be limited to that
+ value; in the other hand, if the type is not fixed, user will be asked
+ by limit value everytime a new run is done.
+\end_layout
+
+\begin_layout Standard
+User can also fix the distances of the tracks.
+ La ventana de creación de nuevo tipo de carrera concluye con la posibilidad
+ de añadir una descripción textual.
+ En las figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-carrera"
+
+\end_inset
+
+ y 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-carrera-variable"
+
+\end_inset
+
+ puede observar la ventana de creación de nuevos tipos de carreras.
+\end_layout
+
+\begin_layout Standard
+Last settings include: fix the distance of the tracks, and add a description
+ to the run type.
+ In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-nuevo-tipo-carrera"
+
+\end_inset
+
+ you can see the creation of new run type.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename run_type_add.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creación-de-nuevo-tipo-carrera"
+
+\end_inset
+
+Creation of a new run type.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From Chronojump version 0.9, you can create intervallic runs with variable
+ track distance.
+ This is suitable to calculate speed in the different tracks of agility
+ tests.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename run_type_add-variable.png
+	scale 55
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creación-de-nuevo-tipo-carrera-variable"
+
+\end_inset
+
+Creation of a new run type with variable tracks.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Examples on creation of new run types
+\end_layout
+
+\begin_layout Standard
+Here you can find some examples on creating new run types.
+ The names of the types have been invented in this manual.
+ The table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Ejemplos-de-tipos-carreras-creados"
+
+\end_inset
+
+ is also useful to understand the different variables.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+Sprint10
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ 10 meters of sprint run.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+SprintShortVariable
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Run below 20 meters, each runner will have run at a different distance
+ defined by the trainer.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+20*5
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ 100 meters run in 5 tracks of 20 meters.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+20*n
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ 100 .Run 20*n meters (n tracks de 20 meters).
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+40*50%fatigue
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Intervallic run where each person runs until 50%fatigue is reached.
+ Time needed to fatigue is individual and known by trainer.
+ Each track has 40m.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+100*?
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Person has to run tracks of 100m until trainer (or runner) decides to finish.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+2 min of 20-10-7
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ Agility run on 3 tracks that have to be repeated during 2 minutes.
+ First track has 20m, second 10m and third 7m.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Limited by
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Track length
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sprint10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Simple
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed(10)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SprintShortVariable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Simple
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20*5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intervallic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tracks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes (5)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed(20)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20*n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intervallic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Tracks
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed(20)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+40*50%fatigue
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intervallic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+No
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed(40)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+100*?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intervallic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Unlimited
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Fixed(100)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2 min 20-10-7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Intervallic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes(120'')
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable(20,10,7)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Ejemplos-de-tipos-carreras-creados"
+
+\end_inset
+
+Examples on run types created by user.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Reaction time
+\end_layout
+
+\begin_layout Standard
+In order to detect reaction time of the person, there's a need of an assistant,
+ because Chronojump and Chronopic are still unable to produce random signals
+ that can be measured accurately.
+\end_layout
+
+\begin_layout Subsection
+Protocol
+\end_layout
+
+\begin_layout Standard
+Assistant will produce contact in a contact device: push-button, platform,
+ photocell, ...
+ and at any moment (when athlete is prepared), assitant will release the
+ contact and instantly the Chronopic green led will light.
+ At this moment, the athelete will produce contact in another contact device
+ and green light will be off.
+ The reaction time registered will be the time between light starts glowing
+ and athelete produces contact.
+ It's important that athlete doesn't see or hear the assistant.
+\end_layout
+
+\begin_layout Subsection
+Executing reaction time
+\end_layout
+
+\begin_layout Standard
+To execute a reaction time, have the assitant producing contact in device,
+ click on 
+\emph on
+Execute reaction time
+\emph default
+ and follow the protocol described above.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a reaction time will be simulated.
+ In the other hand, if Chronopic is connected, real reaction time will be
+ done.
+\end_layout
+
+\begin_layout Subsection
+Reaction times view
+\end_layout
+
+\begin_layout Standard
+Reaction times are shown on the 
+\emph on
+reaction time
+\emph default
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Reaction times edition
+\end_layout
+
+\begin_layout Standard
+You can add comments to a reaction time or change the person (if you forgot
+ to change the current person previously) If you select the desired test
+ and click on the 
+\emph on
+Edit
+\emph default
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Reaction times delete
+\end_layout
+
+\begin_layout Standard
+To delete a reaction time, select it and click the 
+\emph on
+Delete selected reaction time
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Pulses (Simple rhythms)
+\end_layout
+
+\begin_layout Standard
+A simple rhythm or pulse can be measured on the 
+\emph on
+Pulse
+\emph default
+ tab.
+ On the other hand, if a comple rhythm has to be measured, use a MultiChronopic
+ as described at 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:MultiChronopic"
+
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Standard
+There are two kind of tests:
+\end_layout
+
+\begin_layout Description
+Free Person tries to be regular on the freely selected pulse.
+ Evaluator will decide te moment where the test end.
+\end_layout
+
+\begin_layout Description
+Custom Person has to follow a predefined tempo.
+ If desired, the total duration of the test can be defined.
+\begin_inset Newline newline
+\end_inset
+
+Tempo can be defined in one of this ways:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+seconds how many seconds pass between pulsations
+\end_layout
+
+\begin_layout Description
+ppm how many pulsations per minute
+\end_layout
+
+\begin_layout Standard
+Both methods are interrelated, if eg.
+ seconds value is changed, then ppm changes.
+ As an example, 0.5 seconds are 120 ppm.
+ Evaluator will decide what is more suitable.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Ejecución de pulsos
+\end_layout
+
+\begin_layout Standard
+Desde la pestaña de 
+\emph on
+pulso
+\emph default
+ y con el ayudante sin tocar el pulsador o plataforma, haga clic en el botón:
+ 
+\emph on
+Libre
+\emph default
+, o en el botón 
+\emph on
+Personalizado.
+\end_layout
+
+\begin_layout Standard
+En caso que no este conectado el Chronopic, el programa simulará un pulso.
+ En la ventana emergente se mostrará la progresión del test, que podrá ser
+ detenido haciendo clic en el botón 
+\emph on
+Terminar
+\emph default
+ o cancelado con 
+\emph on
+Cancelar
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Pulses view
+\end_layout
+
+\begin_layout Standard
+Puede usar los botones de 
+\emph on
+lupa
+\emph default
+ (o la tecla 
+\emph on
+z
+\emph default
+) para facilitar la visualización de los tests.
+\end_layout
+
+\begin_layout Standard
+Pulses are shown on the 
+\emph on
+pulses
+\emph default
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Pulses edit
+\end_layout
+
+\begin_layout Standard
+You can add comments to a pulse or change the person (if you forgot to change
+ the current person previously) If you select the desired test and click
+ on the 
+\emph on
+Edit
+\emph default
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Pulses delete
+\end_layout
+
+\begin_layout Standard
+To delete a pulse, select it and click the 
+\emph on
+Delete selected pulse
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:MultiChronopic"
+
+\end_inset
+
+Multi Chronopic
+\end_layout
+
+\begin_layout Standard
+Multi Chronopic allows any type of test that uses two, three or four independent
+ measurements Chronopics.
+ Remember that for the other tests it’s possible to connect multiple devices
+ to a single Chronopic, but it’s understood that that always have to be
+ in touch in one or both of them.
+\end_layout
+
+\begin_layout Standard
+Unlike previous tests, Multi Chronopic allows the use of several Chronopics,
+ each connected to one or more detection devices, so that contact can be
+ more than Chronopic at a time.
+ Their operating depends on the program user, but here are some examples:
+ 
+\end_layout
+
+\begin_layout Enumerate
+Static Test running on two platforms: the aim is to assess the tempo of
+ tread of the left and right foot.
+ It’s required that each Chronopic is connected and independent since the
+ sportsman is often stepping on both platforms
+\end_layout
+
+\begin_layout Enumerate
+The study of the contact times in a volleyball jump: One foot in each platform,
+ then both take off at the same time.
+ To know various times is needed 2 Chronopics platforms and 2 independents
+ ones.
+\end_layout
+
+\begin_layout Enumerate
+Plate Tapping with extra coordinative action: Construction of a device type
+ detection Plate Tapping, where the tester must touch either side as quickly
+ as possible with a single hand.
+ Connect a conductive part to any side and to one Chronopic to record the
+ different times.
+ Moreover, if the subject should do something with his foot every 3 contacts
+ we can locate a contact platform on the floor and connect it to a second
+ Chronopic.
+\end_layout
+
+\begin_layout Enumerate
+Two, three or four athletes do a round trip timed race on a track: there
+ is placed a platform at the beginning and final of each lane.
+ A Chronopic will be connected to the beginning and end platform because
+ a person can’t be at both at once.
+ Thus, if there are 4 subjects it will be 4 lanes, 4 Chronopic and 8 platforms.
+ We will be able to measure the times and speeds of each 4 independently.
+\end_layout
+
+\begin_layout Subsection
+Synchronization
+\end_layout
+
+\begin_layout Standard
+Some of these tests require a synchronization to intend that the various
+ Chronopics start at the same time.
+ However, in others the synchronization is not required.
+ In the first three examples cited above, synchronization is required so
+ there is no error in the comparison of time between a tread and the other
+ (example 1 and 2) or from contact with the tapping and the tread on the
+ ground (Example 3).
+ This sync can be selected from a check box and carried out by making contact
+ with several devices at once, or by touching the Test of Chronopics.
+ In the Chronojump Forum 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://forum.chronojump.org
+\end_layout
+
+\end_inset
+
+ is described a method for the construction of a professional sync device.
+\end_layout
+
+\begin_layout Standard
+The sync in the fourth example requires discussion.
+ If the subjects leave when they want and the aim is to record only the
+ time between contact and the next synchronization is not required.
+ On the other hand, sync is needed if we use the signal of an external evaluator
+, and when we expect to know the time between the signal (of any contact)
+ and the first contact each athlete.
+\end_layout
+
+\begin_layout Subsection
+Erase first time
+\end_layout
+
+\begin_layout Standard
+In some tests, the time of the first contact until the first change of state
+ is not relevant.
+\end_layout
+
+\begin_layout Standard
+Perhaps, the subject can begin whenever he wants.
+ If you want to compare the subject's ability to follow an independent press
+ with both hands (two Chronopics).
+ The time registered since the start until the first contact is not relevant
+ and should be removed to avoid contaminating averages.
+\end_layout
+
+\begin_layout Subsection
+Port configuration
+\end_layout
+
+\begin_layout Standard
+Obviously, it’s imperative to set up two Chronopic in the window Chronopic:
+ 
+\emph on
+Tools / Chronopic
+\emph default
+, to run the tests proposed.
+\end_layout
+
+\begin_layout Subsection
+Multi Chronopic results view
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename multiChronopic_mc.png
+	lyxscale 50
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-de-multiChronopic_mc"
+
+\end_inset
+
+Multi Chronopic screenshot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the results window, we can observe different columns, if two Chronopic
+ have been used:
+\end_layout
+
+\begin_layout Itemize
+Time: The time from the beginning of the test CP1 and CP2
+\end_layout
+
+\begin_layout Itemize
+State: Information on which change has occur in each Chronopic (if any)
+ at the time point indicated in the previous column.
+\end_layout
+
+\begin_layout Itemize
+CP1 and CP2 Change: Time elapsed since the last change of state in each
+ Chronopic.
+\end_layout
+
+\begin_layout Itemize
+IN-IN CP1 and CP2: Time elapsed since each Chronopic changed the state IN
+ until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+OUT-OUT CP1 and CP2: Time elapsed since each Chronopic changed the state
+ OUT until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+Description: Comments on the particular test run.
+ 
+\end_layout
+
+\begin_layout Standard
+In the example in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-de-multiChronopic_mc"
+
+\end_inset
+
+ it shows a Multi Chronopic test duration: 0.928 seconds in which there are
+ 10 state changes.
+ Multi Chronopic 1, 2, 10n is called so because is used 2 Chronopics (Chronopics
+ 1 and 2), and has 10 changes.
+ If we observe the change number 5 it occurs at 0.539 seconds.
+ This represents a change of status Out Chronopic 1 (no contact) within
+ a (contact).
+ As indicated in CP1 Change, 0.225 seconds have elapsed since the Chronopic
+ was in its previous state (Outside) and 0.353 seconds since this was Chronopic
+ (Inside) as reflected in IN-IN CP1.
+\end_layout
+
+\begin_layout Standard
+Also note that the column IN-IN and OUT-OUT have average values and standard
+ deviation (SD).
+\end_layout
+
+\begin_layout Standard
+Just as the other tests, the tests are associated with the performers.
+ The order of presentation of each test in each performer is chronological
+ so the latter carried out by a subject appears at the bottom of the list
+ of the tests.
+ You can use the magnifying glass button (or press 
+\emph on
+z
+\emph default
+) to facilitate the visualization of the tests.
+\end_layout
+
+\begin_layout Subsection
+Multi Chronopic test edition and erase
+\end_layout
+
+\begin_layout Standard
+You can add comments to a test or change the performer (if you forgot to
+ change the current subject previously) by selecting the desired test and
+ click on the 
+\emph on
+Edit Multi Chronopic
+\emph default
+ button.
+ It can also be done in the menu or press 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+To delete a Multi Chronopic test, select it and click the 
+\emph on
+Delete Multi Chronopic
+\emph default
+ button selected.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Run analysis
+\end_layout
+
+\begin_layout Standard
+In addition to the examples given we have to include a test to analyze the
+ run produces by Josep Maria Padullés as part of his doctoral thesis.
+ As sense devices it’s used two photocells barriers and a track with contacts
+ platforms.
+\end_layout
+
+\begin_layout Standard
+The two photocells are connected to the 
+\series bold
+first
+\series default
+ Chronopic to know the time between them.
+ The program evaluator will indicate the distance between them and thus
+ it can be known the average speed.
+ The track of platforms will be connected to the 
+\series bold
+second
+\series default
+ Chronopic, which will give us the contact time and flight time.
+ In this case the synchronization between Chronopics or deleted the first
+ time is not required.
+\end_layout
+
+\begin_layout Standard
+From the data obtained by both Chronopics, you will get the average speed
+ of the race, and the following data for each of the steps: 
+\end_layout
+
+\begin_layout Itemize
+Contact times
+\end_layout
+
+\begin_layout Itemize
+Flight Times
+\end_layout
+
+\begin_layout Itemize
+Total Time
+\end_layout
+
+\begin_layout Itemize
+Frequency
+\end_layout
+
+\begin_layout Itemize
+Amplitude
+\end_layout
+
+\begin_layout Itemize
+Height
+\end_layout
+
+\begin_layout Itemize
+Takeoff angle 
+\end_layout
+
+\begin_layout Standard
+You can see an example in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-de-multiChronopic_ra"
+
+\end_inset
+
+.
+ Note that the execution button Running Analysis will be activated when
+ the distance between the photocells and the two Chronopics are connected.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename multiChronopic_ra.png
+	lyxscale 50
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-de-multiChronopic_ra"
+
+\end_inset
+
+Multi Chronopic screenshot with Run Analysis results.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Statistics and graphics
+\end_layout
+
+\begin_layout Standard
+Chronojump has multiple indices to study the tests proposed.
+ Unlike general spreadsheets purpose, the provision of statistical and graphics
+ has been designed specifically to measure jumps and running.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Ventana-de-estadísiticas"
+
+\end_inset
+
+ shows the statistics window that appears when you click on 
+\emph on
+Tools / Statistics
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronojump_stats_window.png
+	lyxscale 50
+	scale 75
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ventana-de-estadísiticas"
+
+\end_inset
+
+Chronojump statistics window.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The current version only provides statistical Chronojump concerning to jumps.
+ Future versions will also include other statistical tests.
+ If you have graphics and other statistical tests, we recommend that you
+ export the worksheet data as described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Exportación-a-hoja"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Statistic type, subtype and applications
+\end_layout
+
+\begin_layout Standard
+Each statistic can be classified by type, among which are:
+\end_layout
+
+\begin_layout Description
+Simple
+\begin_inset space ~
+\end_inset
+
+jumps which offers several ways to analyze simple jumps without contact
+ time.
+\end_layout
+
+\begin_layout Description
+Simple
+\begin_inset space ~
+\end_inset
+
+jumps
+\begin_inset space ~
+\end_inset
+
+with
+\begin_inset space ~
+\end_inset
+
+contact
+\begin_inset space ~
+\end_inset
+
+time which offers various ways to analyze simple jumps with contact time.
+\end_layout
+
+\begin_layout Description
+Reactive
+\begin_inset space ~
+\end_inset
+
+jumps which presents several ways to analyze repetitive jumps.
+\end_layout
+
+\begin_layout Subsection
+Simple jumps
+\end_layout
+
+\begin_layout Standard
+The simple statistical hop show various ways to analyze simple jumps without
+ contact time, which can be classified into several subtypes:
+\end_layout
+
+\begin_layout Itemize
+No index
+\end_layout
+
+\begin_layout Itemize
+Force-velocity
+\end_layout
+
+\begin_layout Itemize
+Elasticity rate (IE)
+\end_layout
+
+\begin_layout Itemize
+Use of arms index (IUB)
+\end_layout
+
+\begin_layout Itemize
+Power peak of Lewis, Harman, Sayers (2), Shetty, Canavan, Lara (5)
+\end_layout
+
+\begin_layout Subsubsection
+No index
+\end_layout
+
+\begin_layout Standard
+Statistical simple jump that shows all the jumps or a particular type as
+ selected on the 
+\emph on
+application
+\emph default
+ field.
+\end_layout
+
+\begin_layout Subsubsection
+Force-velocity
+\end_layout
+
+\begin_layout Standard
+Statistical simple jump that shows the force-velocity relationship according
+ to the formula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $FV=\frac{SJ+(100\%%)
+}{SJ}*100$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+SJ jumps with 100% extra charge to the body weight, and SJ with no additional
+ charge.
+\end_layout
+
+\begin_layout Subsubsection
+Elasticity index
+\end_layout
+
+\begin_layout Standard
+Statistical simple jump that shows the elasticity index formula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $IE=\frac{(CMJ-SJ)}{SJ}*100$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+between SJ and CMJ jumps.
+\end_layout
+
+\begin_layout Subsubsection
+Use of arms index
+\end_layout
+
+\begin_layout Standard
+Statistical simple jump that shows the rate of the use of arms from the
+ formula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $IUB=\frac{(ABK-CMJ)}{CMJ}*100$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+between CMJ and ABK jumps.
+\end_layout
+
+\begin_layout Subsubsection
+Peak power
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Estadísticas-de-saltos-simples"
+
+\end_inset
+
+ is the ratio of power peak of the individual authors and their formulas.
+ In the future, is expected to include expanded documentation for each formula
+ and literature.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename chronojump_estadisticas_saltos_simples.png
+	lyxscale 50
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Estadísticas-de-saltos-simples"
+
+\end_inset
+
+Statistics of simple jumps.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Contact time jumps
+\end_layout
+
+\begin_layout Standard
+The most important in this type of jump is the relationship between flight
+ time and contact time.
+ In many sports it’s necessary to generate a high power (reflected in the
+ flight time) in a short time (represented by the contact time).
+ We present two indexes to study the relation:
+\end_layout
+
+\begin_layout Itemize
+Dj Index
+\end_layout
+
+\begin_layout Itemize
+Index Q
+\end_layout
+
+\begin_layout Standard
+The application field in both cases refers to the type of jump that is applied
+ to the statistic.
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-Dj"
+
+\end_inset
+
+Dj index
+\end_layout
+
+\begin_layout Standard
+Study of the relationship between time of flight / time of contact in a
+ single jump from the formula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $DJindex=\frac{TF-TC}{TC}*100$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-Q"
+
+\end_inset
+
+QIndex
+\end_layout
+
+\begin_layout Standard
+Study of the relationship between time of flight / time of contact in a
+ single jump from the formula
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $QIndex=\frac{TF}{TC}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Repetitive jump
+\end_layout
+
+\begin_layout Standard
+In the repetition of a jump test specified by a number of jumps, time, or
+ unlimited ends when the coach or athlete decides it.
+ It represents the evolution of flight time with respect to the contact
+ time in the different jumps.
+ With this objective are the following statistics: 
+\end_layout
+
+\begin_layout Itemize
+Average index
+\end_layout
+
+\begin_layout Itemize
+Power (Bosco)
+\end_layout
+
+\begin_layout Itemize
+Evolution
+\end_layout
+
+\begin_layout Itemize
+Mean and standard deviation using RjIndex
+\end_layout
+
+\begin_layout Itemize
+Mean and standard deviation using QIndex
+\end_layout
+
+\begin_layout Standard
+In all cases the application field refers to the type of jump that is applied
+ to the statistic.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Índice-medio"
+
+\end_inset
+
+Average index
+\end_layout
+
+\begin_layout Standard
+Study of the relationship of flight time / contact time in the repetitive
+ jump according to the formula 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $AverageIndex=\frac{TFmean-TCmean}{TCmean}*100$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Potencia-(Bosco)"
+
+\end_inset
+
+Power (Bosco)
+\end_layout
+
+\begin_layout Standard
+Study of the relationship of flight time / contact time in the repetitive
+ jump according to the formula 
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $Power=\frac{9.81^{2}*TFmean*jumps*totalTime}{4*jumps*(totalTime-TFmean*jumps)}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Evolution
+\end_layout
+
+\begin_layout Standard
+Study of the relationship of flight time / contact time over the repetitive
+ jump according to the evolution of the formula 
+\begin_inset Formula $Evolution=\frac{TF}{TC}*100$
+\end_inset
+
+ for each twitching.
+\end_layout
+
+\begin_layout Standard
+Sometimes some athletes do a jump with a very good TF / TC because of the
+ execution of a low one before or afterwards.
+ For this reason it has arranged the option to make the best 'n' row to
+ get a selection of the best range following this index.
+ To the right of this option you can find the amount of jumps you want to
+ study.
+ If you select a value of 1 then the best jump will be highlighted.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Mean and standard deviation using RjIndex 
+\end_layout
+
+\begin_layout Standard
+Study Index
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $RjIndex=\frac{TF-TC}{TC}*100$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+for each of the jumps of the repetitive jump test it’s shown the average
+ and standard deviation obtained.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Mean and standard deviation using QIndex
+\end_layout
+
+\begin_layout Standard
+Study Index
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Formula $Qindex=\frac{TF}{TC}*100$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+for each of the jumps of the repetitive jump test it’s shown the average
+ and standard deviation obtained.
+\end_layout
+
+\begin_layout Section
+Multisession statistics
+\end_layout
+
+\begin_layout Standard
+All statistical presented except the Evolution in the repetitive jumps can
+ be used for the comparison of different jumps or subjects in several sessions.
+ This will submit a column for each selected session and facilitates comparison
+ between the different values shown.
+\end_layout
+
+\begin_layout Standard
+It also includes the average and standard deviation of each row displayed.
+\end_layout
+
+\begin_layout Standard
+To access to the statistics multisession click on 
+\emph on
+session / selected
+\emph default
+ and select the sessions you want to use in the window that appears when
+ you click on 
+\emph on
+Select
+\emph default
+.
+ You can select as many sessions as desired and is not required to display
+ the current session between them.
+\end_layout
+
+\begin_layout Section
+Selection of the jumps to be shown
+\end_layout
+
+\begin_layout Standard
+There are four selection modes for the jumps shown as a condition in the
+ generation of statistical expectation:
+\end_layout
+
+\begin_layout Description
+All shows the results of the selected statistics.
+\end_layout
+
+\begin_layout Description
+Limit
+\begin_inset space ~
+\end_inset
+
+n shows the first n selected statistical results.
+\end_layout
+
+\begin_layout Description
+Average shows the average of each jumper in the selected statistic.
+\end_layout
+
+\begin_layout Description
+Max
+\begin_inset space ~
+\end_inset
+
+/s
+\begin_inset space ~
+\end_inset
+
+of
+\begin_inset space ~
+\end_inset
+
+the
+\begin_inset space ~
+\end_inset
+
+jumper show 
+\emph on
+n
+\emph default
+ maximum values of each jumper in the selected statistic.
+\end_layout
+
+\begin_layout Standard
+Most of the statistics offers the four options.
+ Those omitted is because is not a purpose generate them.
+\end_layout
+
+\begin_layout Section
+Other settings
+\end_layout
+
+\begin_layout Standard
+Other related action buttons presented below.
+ 
+\end_layout
+
+\begin_layout Subsection
+Statistics formulation
+\end_layout
+
+\begin_layout Standard
+All statistics have a statement that is automatically created based on the
+ selections made by the user in the statistics window.
+ The statement can help you understand the statistics.
+\end_layout
+
+\begin_layout Subsection
+Genus distinction
+\end_layout
+
+\begin_layout Standard
+It presents the option of distinguish between genders for the presentation
+ of the results.
+ Selecting this option you can have a dual behavior:
+\end_layout
+
+\begin_layout Itemize
+When the result rows correspond to the statistical index or jumping, gender
+ selection will lead automatically to the creation of a row for each of
+ them.
+\end_layout
+
+\begin_layout Itemize
+When the result rows of statistical correspond to the subjects, it will
+ appear a letter at the end of the subject to indicate the gender.
+\end_layout
+
+\begin_layout Standard
+This button can help intra and inter genus comparisons.
+\end_layout
+
+\begin_layout Subsection
+Automatic actualization
+\end_layout
+
+\begin_layout Standard
+The statistics window Chronojump is designed so each change in the database
+ (new jump, subject rename, delete, jump, change jumper who has made a jump
+ ...) is updated directly.
+\end_layout
+
+\begin_layout Section
+Marked rows
+\end_layout
+
+\begin_layout Standard
+In the first column of each row you will find a small box that allows you
+ to select whether or not a row is taken into account for the graphs and
+ reports generated with Chronojump.
+ The first row contains a checkbox that lets you quickly select and deselect
+ all values.
+ Furthermore, we show a selection box at the left bottom that allows you
+ to expedite the selection of rows based on different criteria.
+ For more information on charts and reports in paragraphs check 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Creación-de-graficos"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Generación-de-Informes"
+
+\end_inset
+
+ respectively.
+\end_layout
+
+\begin_layout Section
+Graphic creation 
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Creación-de-graficos"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Chronojump can create any graphics of any of the data shown in the statistics
+ window.
+ To do this simply click on the Graph button that appears in the statistics
+ window.
+ In the figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats2"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats3"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-stats4"
+
+\end_inset
+
+ there are some examples of graphics generated.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats1.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats1"
+
+\end_inset
+
+Graph example: Histogram of a height of jump.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats2.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats2"
+
+\end_inset
+
+Box diagram of the same values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats3.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats3"
+
+\end_inset
+
+Graph stripchart of the same values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico_stats4.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-stats4"
+
+\end_inset
+
+Graph dotchart a subset of the above values.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Report and export
+\end_layout
+
+\begin_layout Standard
+We propose two ways to work with raw data using Chronojump.
+ First of all: 
+\emph on
+Reporting
+\emph default
+, with the utility to create a web page with the content of the session
+ as well as selected statistics and graphs.
+ After this: 
+\emph on
+Export to spreadsheet
+\emph default
+ data.
+ Export to the tests program analysis with general purpose spreadsheet (spreadsh
+eet).
+\end_layout
+
+\begin_layout Section
+Report generation
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Generación-de-Informes"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reporting on the program Chronojump is the best way to collect information,
+ statistics and graphs, in one session.
+ This information can be in one study or with the comparison of various.
+\end_layout
+
+\begin_layout Standard
+Clicking on 
+\emph on
+Tools / Report
+\emph default
+, the figure shown is Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Generación-de-Informes"
+
+\end_inset
+
+.
+ The users have the ability to create a report in web format (HTML) which
+ can include session data, the subjects who participated and the tests chosen.
+ Furthermore, using the 
+\emph on
+Add to report
+\emph default
+ button is allowed to prepare each of the statistics displayed.
+ Do the apparition in the report generated and the customization that was
+ chosen by the user in the statistical window.
+ The user can also organize each of the statistics to do the final report.
+\end_layout
+
+\begin_layout Standard
+Clicking on 
+\emph on
+Make Report
+\emph default
+, you can choose the filename to save the HTML document.
+ Also, you can generate a folder that will include all necessary images
+ and styles to display the page properly.
+\end_layout
+
+\begin_layout Standard
+To print the report, we strongly recommend using the free browser Mozilla
+ Firefox
+\change_deleted -850000851 1392715145
+ because Internet Explorers printer is very respectful to the original
+\change_unchanged
+.
+ In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Ejemplo-de-informe-2"
+
+\end_inset
+
+ you can see a photo of a report.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename grafico-informe.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ejemplo-de-informe"
+
+\end_inset
+
+Example of report window preparation.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename report1.png
+	lyxscale 50
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Ejemplo-de-informe-2"
+
+\end_inset
+
+Example of a website report.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Export to a spreadsheet
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Exportación-a-hoja"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Clicking on 
+\emph on
+Session / Export session to CSV
+\emph default
+ to create a CSV file format (Comma Separated the Values) which can be easily
+ imported into any spreadsheet program.
+ This file contains the records of all the tests produced, but it shall
+ not include statistical or graphics.
+\end_layout
+
+\begin_layout Standard
+To export to CSV we chose the semicolon character (instead of comma character)
+ to separate the different columns of data.
+ Remember to indicate it when you import the CSV file in the spreadsheet.
+\end_layout
+
+\begin_layout Chapter
+Share Data Server 
+\end_layout
+
+\begin_layout Standard
+Chronojump has a server to share data between users on Internet.
+ The server will obtain valuable data from the cross of many variables.
+ For this, the users may share the data Chronojump.
+ We believe in the good quality and usability of the technical characteristics
+ of the server.
+\end_layout
+
+\begin_layout Standard
+Chronojump dispone de un servidor en Internet para compartir datos entre
+ los usuarios.
+ El servidor permitirá obtener datos valiosos a partir del cruce de muchas
+ variables, pero para ello es necesario que exista predisposición por parte
+ de los usuarios de Chronojump para compartir los datos.
+ Creemos que las características técnicas del servidor y su usabilidad son
+ óptimas.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
+ uso-conexión, tiempo en línea, capacidad, funcionalidad, seguridad y privacidad.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Share and use the data
+\end_layout
+
+\begin_layout Standard
+The data that can be shared are the tests, subjects and sessions of each
+ evaluator at any time.
+ The evaluator may upload to the server any session, dismissing those athletes
+ and tests that he doesn’t want to share.
+ Before upload the data to the server, check if they have completed the
+ necessary data from each of the athletes as well as the data required from
+ the evaluator.
+ 
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Calidad-de-los-datos"
+
+\end_inset
+
+Data quality.
+ Accredited assessors and reliable data
+\end_layout
+
+\begin_layout Standard
+In order to get a lot of data, without sacrificing the quality, there are
+ two types of data in terms of reliability:
+\end_layout
+
+\begin_layout Description
+The
+\begin_inset space ~
+\end_inset
+
+general
+\begin_inset space ~
+\end_inset
+
+data that can be upload from anyone with the Chronojump technology.
+ This will soon be available for many data that belongs to this category.
+\end_layout
+
+\begin_layout Description
+The
+\begin_inset space ~
+\end_inset
+
+reliable
+\begin_inset space ~
+\end_inset
+
+data requires the accreditation of the evaluator and the justification of
+ the session data.
+ This deals with three different profiles of the evaluator: 
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+Evaluator-trainer profile: person related to the field of training.
+\end_layout
+
+\begin_layout Description
+Evaluator-researcher profile: person related to the academic field.
+\end_layout
+
+\begin_layout Description
+Mixed
+\begin_inset space ~
+\end_inset
+
+profile: person involved in the two areas mentioned above.
+\end_layout
+
+\begin_layout Standard
+The process of accreditation of the assessors has not yet begun, so all
+ assessors are currently uncredited and the data shared corresponds to general
+ data.
+ In the future, the new credited evaluators may wish to upload their data
+ to the reliable data, even if this data has been uploaded without the accredita
+tion.
+\end_layout
+
+\begin_layout Standard
+The accreditation is in charge of the Research Group: Salut, Activitat Física
+ i Esport at the Blanquerna Faculty (Universitat Ramon Llull).
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Section
+Server functions
+\end_layout
+
+\begin_layout Standard
+Server functions can be located in the main menu, 
+\emph on
+Tools / Server
+\emph default
+.
+ Below its described each of them.
+\end_layout
+
+\begin_layout Subsection
+Check connection
+\end_layout
+
+\begin_layout Standard
+Allows connecting to the server.
+ If not possible, it may be because the server is temporarily inoperative,
+ your computer is not connected to Internet, or your Internet connection
+ has limit on some types of connection.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Datos-del-evaluador"
+
+\end_inset
+
+Evaluators data
+\end_layout
+
+\begin_layout Standard
+This feature allows the evaluator to fill in a sheet which will be linked
+ to the tests, subjects and sessions that will be shared.
+ The personal information will be hidden.
+ It’s necessary to provide evaluation data for the following reasons:
+\end_layout
+
+\begin_layout Itemize
+It’s essential for uploading data.
+\end_layout
+
+\begin_layout Itemize
+Allows knowing the nationalities, ages, equipment, evaluators…
+\end_layout
+
+\begin_layout Itemize
+If problems occur with some data, the administrators can contact via mail
+ to the server of the evaluator.
+\end_layout
+
+\begin_layout Standard
+As discussed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Calidad-de-los-datos"
+
+\end_inset
+
+, currently the accreditation is not required, so the sheet that has to
+ be filled is very short.
+ See Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador2"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_evaluador3"
+
+\end_inset
+
+.
+ to check the for data window for the evaluators.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator1.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador1"
+
+\end_inset
+
+Details of the evaluator, Tab 1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator2.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador2"
+
+\end_inset
+
+Details of the evaluator, Tab 2.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename evaluator3.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_evaluador3"
+
+\end_inset
+
+Details of the evaluator, Tab 3.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Upload or update session to server
+\end_layout
+
+\begin_layout Standard
+This is the most important function to share data.
+ When the evaluator click on 
+\emph on
+Tools / Server / upload (or update) session to server
+\emph default
+, he must follow this steps:
+\end_layout
+
+\begin_layout Enumerate
+First, the evaluator will be asked to verify the data as described in paragraph
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Datos-del-evaluador"
+
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Enumerate
+then the evaluator will be asked if he wants to discard some of the subjects
+ of the session (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_include-discard"
+
+\end_inset
+
+),
+\end_layout
+
+\begin_layout Enumerate
+then he will be asked for the confirmation,
+\end_layout
+
+\begin_layout Enumerate
+finally it shows a progress window of data to be incorporated into the server.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Captura-Incluir-Descartar_atletas.png
+	lyxscale 50
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_include-discard"
+
+\end_inset
+
+Include / Discard subject to the server.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At any time the evaluator can re-upload the session to the server (update).
+ The data that has already been uploaded will not be included again, but
+ it wills so, the data created the last time.
+ 
+\end_layout
+
+\begin_layout Standard
+The tests that have been simulated (not obtained from Chronopic) will be
+ uploaded to the server.
+\end_layout
+
+\begin_layout Subsection
+Query the server
+\end_layout
+
+\begin_layout Standard
+It has been created a window that allows average of the simple jumps, reactive
+ jumps and simple runs.
+ To access to it click on 
+\emph on
+Tools / Server / Query
+\emph default
+.
+ The query is performed clicking on the test selectors and the subject selectors.
+\end_layout
+
+\begin_layout Standard
+Below, we can observe the selectors of the query.
+ Some of them are mandatory, while the most can be selected on 
+\emph on
+Any
+\emph default
+ to indicate that this variable should not affect the result.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Test selector
+\end_layout
+
+\begin_layout Standard
+Here are the three selectors and possible values:
+\end_layout
+
+\begin_layout Description
+Test
+\begin_inset space ~
+\end_inset
+
+type: simple jump test, reactive jump or simple run.
+\end_layout
+
+\begin_layout Description
+Test: correspond to the type of test described above.
+\end_layout
+
+\begin_layout Description
+Variable: the average obtained will be different depending on the test selected:
+\end_layout
+
+\begin_layout Itemize
+For a simple jump test without contact time the only variable is the 
+\emph on
+flight time
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+For a single jump with contact time, the variables are: 
+\emph on
+time of flight, contact time, Index DJ
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-Dj"
+
+\end_inset
+
+), 
+\emph on
+Index Q
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-Q"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+For a reactive jump the possible variables are: 
+\emph on
+Average Index
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Índice-medio"
+
+\end_inset
+
+) and 
+\emph on
+Power (Bosco)
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Potencia-(Bosco)"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+For the running the only variable is the 
+\emph on
+time
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Selectors on the subject 
+\end_layout
+
+\begin_layout Standard
+The selectors are:
+\end_layout
+
+\begin_layout Description
+Sex
+\end_layout
+
+\begin_layout Description
+Age: Refers to the age of the subject at the time the test is made.
+ To calculate the age of the subject it’s used the date of the birth.
+\end_layout
+
+\begin_layout Description
+Country
+\end_layout
+
+\begin_layout Description
+Sport: Sometimes subdivided into specialty.
+\end_layout
+
+\begin_layout Description
+Level: Divided into: [0] sedentary or occasional practitioner, [1] regular
+ practice, [2] competition; [3] elite.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Evaluator selector
+\end_layout
+
+\begin_layout Standard
+Any data from a particular evaluator can be chosen.
+ This option may be interesting even for yourself because this way is possible
+ to quickly gather information from all the jumps that have been evaluated.
+\end_layout
+
+\begin_layout Subsubsection
+Query results
+\end_layout
+
+\begin_layout Standard
+When you click the search button, after a few seconds the server will indicate
+ how many results have been found and which is the average.
+\end_layout
+
+\begin_layout Standard
+It is recommended to conduct general searches because the server has been
+ created recently.
+ As an example of search, try with simple jumps (Free) with most of the
+ indicators on 
+\emph on
+Any
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+In Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_query"
+
+\end_inset
+
+ is an example of consultation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename Captura-Query-server.png
+	lyxscale 50
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_query"
+
+\end_inset
+
+Query the server.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Server main statistics
+\end_layout
+
+\begin_layout Standard
+It has been programmed a window to get a snapshot of the existing data on
+ the server.
+ It shows the number of evaluators, as well as the subjects and the various
+ type tests.
+ Also indicated which data has been uploaded by the user who runs the program.
+\end_layout
+
+\begin_layout Standard
+You can access to this window by clicking on 
+\emph on
+Tools / Server / Statistics
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+Web statistics
+\end_layout
+
+\begin_layout Standard
+The web page 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/server.html
+\end_layout
+
+\end_inset
+
+ shows the results from the crossing variables updated from the server.
+ These charts are updated every time new data is included (usually automatically
+ at night).
+ The aim is to create constantly a set of charts that provide relevant informati
+on to anyone interested, even without using Chronojump.
+\end_layout
+
+\begin_layout Standard
+In Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph1"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph2"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:server_graph3"
+
+\end_inset
+
+ it’s possible to check some examples of graphics that are obtained on the
+ web server.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_persons.png
+	lyxscale 50
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph1"
+
+\end_inset
+
+Statistics on the web server.
+ Population graphic description.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_heights_by_jumps_boxplot.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph2"
+
+\end_inset
+
+Statistics on the web server.
+ Boxplot flight time depending on the type of jump and gender.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename server_tv_by_level_sex_jumptype.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:server_graph3"
+
+\end_inset
+
+Statistics on the web server.
+ Graph relates flight time, practical level, type of jump and gender.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Jumps privacy and confidentiality
+\end_layout
+
+\begin_layout Standard
+The names and dates of birth of the athletes and the evaluators will never
+ be shown.
+ Even when uploading the data, the names of the subjects are not sent (because
+ is not required).
+ The date of birth will be included to calculate the age, but it will never
+ be displayed.
+ The comments the evaluator add to the session, subject or test are neither
+ provided.
+\end_layout
+
+\begin_layout Chapter
+Preferences and using Chronojump on more than one computer
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Preferencias"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The preferences window 
+\emph on
+Session / Preferences
+\emph default
+, is divided into three tabs 
+\emph on
+Database
+\emph default
+, 
+\emph on
+Contacts, encoder
+\emph default
+ and 
+\emph on
+Camera.
+
+\emph default
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Preferencias"
+
+\end_inset
+
+ show this tabs.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Database
+\emph default
+ tab shows where you are, to open the folder, and make one copy of it in
+ a directory of choice for the users.
+ Maybe it shows two possible locations for the database because some Windows
+ systems offer a place to store data while the program runs, and another
+ when it’s closed.
+\end_layout
+
+\begin_layout Standard
+Use this tab to have a copy of your data in order to avoid loosing your
+ sessions, persons and tests on a hard disk problem or if operating system
+ is reinstalled.
+ Also you can use this tab to have Cronojump database in more than one computer.
+\end_layout
+
+\begin_layout Standard
+
+\change_deleted -850000851 1393267524
+Current Chronojump version has not an synchronization tool that allows to
+ easily manage two computers daily and have your database in both.
+ The only solution now is to copy database from one system to another.
+ If you want to copy database from computer A to computer B, do the following:
+\change_unchanged
+
+\end_layout
+
+\begin_layout Enumerate
+On computer A:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Go to: 
+\emph on
+Session / preferences / database / copy database
+\end_layout
+
+\begin_layout Enumerate
+Select where to copy it (eg: your Desktop folder or a pendrive).
+ The file is named 
+\emph on
+chronojump.db
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+On computer B:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If Chronojump is not installed, do it.
+\end_layout
+
+\begin_layout Enumerate
+Go to 
+\emph on
+Session / preferences / database / open database folder
+\emph default
+ 
+\end_layout
+
+\begin_layout Enumerate
+If you have valuable data on B, then you should rename 
+\emph on
+chronojump.db
+\emph default
+ file in this folder or copy to any place.
+\end_layout
+
+\begin_layout Enumerate
+Copy the 
+\emph on
+chronojump.db
+\emph default
+ file from A to the database folder on B.
+\end_layout
+
+\begin_layout Enumerate
+Close chronojump, open again, and it's done.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Show
+\emph default
+ tab, shows the options related to information you want to display in the
+ windows of data and statistics.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Other
+\emph default
+ tab has three options.
+ First refers to the number of decimals (recommended 3).
+ If second option is active, then a confirmation window will be shown every
+ time that user wants to delete a test.
+ The last action is specific to the time that limits reactive jumps.
+ If this option is checked, then a reactive jump limited by time will accept
+ a jump where the person is in the air in the moment that time finishes.
+ If is unchecked then this last jump will be rejected.
+\end_layout
+
+\begin_layout Standard
+
+\lang spanish
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\lang spanish
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="6cm">
+<column alignment="center" valignment="top" width="6cm">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\lang spanish
+\begin_inset Graphics
+	filename Preferencias-1.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\lang spanish
+\begin_inset Graphics
+	filename Preferencias-2.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topspace="0.5cm">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="12cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\align center
+
+\lang spanish
+\begin_inset Graphics
+	filename Preferencias-3.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\lang spanish
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Preferencias"
+
+\end_inset
+
+Preferences window.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Chronopics prior to Chronopic 3
+\end_layout
+
+\begin_layout Standard
+This appendix is only useful to users who own an old Chronopic (sold before
+ March 2008).
+\end_layout
+
+\begin_layout Section
+Chronopic versions
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top" width="2.5cm">
+<column alignment="center" valignment="top" width="2.5cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Version
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Launched
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Connection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+available at*
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Price*
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\size small
+Chronopic3
+\series default
+ (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic3"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+March 2008
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="2cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Sent to all the World
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none" width="3.5cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+37€
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic2-USB (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-USB"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+September 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+150$ argentina
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic2-Seral (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic2-Serie"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+September 2007
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Serial
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Argentina
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+150$ argentina
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Chronopic1 (fig 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic1"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+2005
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Serieal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+Spain
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size small
+70 €
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\size small
+* Currently, only Chronopic3 is commercialized.
+ If you want it, just visit Chronojump store: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.chronojump.org/hardware_store.html
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Versiones-de-Chronopic"
+
+\end_inset
+
+Chronopic versions.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_2_0_usb_front_mini.jpg
+	width 250pt
+	height 159pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-USB"
+
+\end_inset
+
+Chronopic2-USB.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_2_0_serial_front_mini.jpg
+	width 250pt
+	height 213pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic2-Serie"
+
+\end_inset
+
+Chronopic2-Serial.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_foto.jpg
+	width 250pt
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:chronopic1"
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic1"
+
+\end_inset
+
+Chronopic1.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopic
+ 2.0, este último en dos versiones: Serial y USB.
+ Además de la posibilidad de uso del puerto USB, el Chronopic 2.0 es más
+ pequeño y barato que el 1.0.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Connections in Chronopics serial
+\end_layout
+
+\begin_layout Standard
+Chronopics serial require external power therefore it should be connected
+ to a feeder.
+ In addition, these Chronopics requires to be connected to the computer
+ by a cable.
+ If your computer has serial port, it’s enough with a telephone cable serial.
+ If it doesn’t have USB port, you must convert to USB, it’s required a USB-seria
+l cable or a PCMCIA adapter or with another adapter with the same functionality.
+ See figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:chronopic1"
+
+\end_inset
+
+ for an example of Chronopic1 connection.
+\end_layout
+
+\begin_layout Standard
+Serial Chronopics use 4.5 to 6 volts feeder.
+ Is possible the purchase of a conventional power supply (which is connected
+ to a power source) or create a homemade feeder with 3 x 1.5 volts batteries.
+ This option provides the field tests in Chronopics serials.
+\end_layout
+
+\begin_layout Standard
+With old Chronopics series, the battery connection should automatically
+ turn the light on even if the Chronopic isn’t connected to any computer.
+ This is a good test to know if the power is working.
+\end_layout
+
+\begin_layout Standard
+If it doesn't work, is recommended to connect the power to the Chronopic
+ and verify that the light is on (no need of computer) If the light doesn’t
+ turn on, this mean that the failure is in the Chronopic or in the feeder.
+ Try this again with another feeder or Chronopic to determine the origin
+ of the failure.
+ The feeder should be between 4.5 and 6 volts.
+ Some feeders have two polarities, ask the seller and connect with the correct
+ polarity.
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Chronopic-puertos-serie-usb"
+
+\end_inset
+
+USB and serial ports
+\end_layout
+
+\begin_layout Standard
+Chronopic should be connected to the contact platform and the computer.
+ PC connection is via port as shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Versiones-de-Chronopic"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Currently, most laptops do not have a serial port, so the USB port is required
+ by most users.
+ Users without serial port should get a pcmcia card or similar type to add
+ serial port to the computer.
+ The latest and favorite choice is to get a USB-serial cable.
+ In many cities it’s difficult to find these cables in stock if they haven’t
+ been previously requested.
+ Another option is to buy them online.
+\end_layout
+
+\begin_layout Standard
+The operating system assigns names to ports, as shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Nombres-de-puerto-USB-y-serie"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="5cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Operating system
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Port
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MS Windows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Serial
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+COM1
+\series default
+ or COM2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MS Windows
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+COM1, COM2, COM3, ...
+ (seen to COM27)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GNU/Linux
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Serial
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+/dev/ttyS0
+\series default
+ or /dev/ttyS1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GNU/Linux
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+USB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+/dev/ttyUSB0
+\series default
+, /dev/ttyUSB1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Nombres-de-puerto-USB-y-serie"
+
+\end_inset
+
+Names of each operating system port.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+The most common names are in bold type text.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The plate-USB Chronopic2 may require a driver if Windows is not able to
+ detect it.
+ Windows should automatically assign a name (COM1.
+ COM8 ..) to the USB port connection, but in many Windows installations this
+ process is not completed therefore it’s required the driver (According
+ to the manufacturers is not necessary the cable because is automatically
+ detected).
+ Therefore is recommend to download a USB-serial driver: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.serialgear.com/wd_pl2303h-hx-x_v20019v2021.zip
+\end_layout
+
+\end_inset
+
+, or any other provided by the manufacturer or obtained by the network looking
+ for "USB-serial driver ".
+\end_layout
+
+\begin_layout Section
+Chronopic3 assembly process (initial units)
+\end_layout
+
+\begin_layout Standard
+Chronopic was initially distributed in two parts: the circuit and the elements
+ that made up the box: methacrylate, screws and washers.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Chronopic3-assembly-process"
+
+\end_inset
+
+ shows the assembly.
+ Note: These instructions are only necessary for the first step of the assembly
+ process.
+ The latest Chronopic versions are fabric build.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename chronopic_box_mount.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Chronopic3-assembly-process"
+
+\end_inset
+
+Chronopic3 assembly process (initial units).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

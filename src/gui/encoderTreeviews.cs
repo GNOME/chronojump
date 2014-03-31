@@ -313,14 +313,14 @@ public partial class ChronoJumpWindow
 		"e1 range" + "\n (cm)",
 		"e1 t" + "\n (ms)",
 		"e1 fmax" + "\n (N)",
-		"e1 rfd avg" + "\n ()",
-		"e1 i" + "\n ()",
+		"e1 rfd avg" + "\n (N/s)",
+		"e1 i" + "\n (N*s/Kg)",
 		"ca range" + "\n (cm)",
 		"cl t" + "\n (ms)",
-		"cl rfd avg" + "\n ()",
-		"cl i" + "\n ()",
+		"cl rfd avg" + "\n (N/s/Kg)",
+		"cl i" + "\n (N*s/Kg)",
 		"cl f avg" + "\n (N)",
-		"cl vf" + "\n ()",
+		"cl vf" + "\n (N)",
 		"cl f max" + "\n (N)",
 		"cl s avg" + "\n (m/s)",
 		"cl s max" + "\n (m/s)",
@@ -329,7 +329,7 @@ public partial class ChronoJumpWindow
 		"e2f t" + "\n (ms)",
 		"e2f f fmax" + "\n (N)",
 		"e2f f fmax t" + "\n (ms)",
-		"e2f rfd max" + "\n ()"
+		"e2f rfd max" + "\n (N/s)"
 	};
 
 	private int createTreeViewEncoderAnalyzeNeuromuscular(string contents) {

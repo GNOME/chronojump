@@ -1860,12 +1860,6 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
 {
-	#on friction side: know displacement of the "person"
-	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
-	{
-		displacement = displacement * d / D #displacement of the axis
-	}
-
 	speed = getSpeed(displacement, smoothing) #mm/ms == m/s 
 
 	# accel will be:
@@ -2230,6 +2224,12 @@ doProcess <- function(options) {
 				position = position * 1000	#m -> mm
 				#this is to make "inverted cumsum"
 				displacement = c(0,diff(position)) #this displacement is going to be used now
+			}
+	
+			#on friction side: know displacement of the "person"
+			if(EncoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
+			{
+				displacement = displacement * diameter / diameterExt #displacement of the axis
 			}
 			
 			displacement = getDisplacementInertialBody(displacement, curvesPlot, Title)

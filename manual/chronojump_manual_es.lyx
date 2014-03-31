@@ -1,5 +1,5 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass book
@@ -11,18 +11,26 @@
 \usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options false
+\maintain_unincluded_children false
 \language spanish
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman ae
 \font_sans cmss
 \font_typewriter default
 \font_default_family sfdefault
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \float_placement p
 \paperfontsize default
 \spacing single
@@ -31,9 +39,18 @@
 \use_geometry false
 \use_amsmath 1
 \use_esint 0
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Índice
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 4
 \tocdepth 3
 \paragraph_separation skip
@@ -42,10 +59,12 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\tracking_changes false
+\tracking_changes true
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author -850000851 "Xavier Padulls,,," 
 \end_header
 
 \begin_body
@@ -144,8 +163,15 @@ thispagestyle{empty}
 \end_layout
 
 \begin_layout Standard
+\noindent
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
 
-\lyxline
+\end_inset
+
 
 \end_layout
 
@@ -330,8 +356,11 @@ gestión software Chronojump.
 \end_layout
 
 \begin_layout Description
-Ordenador con sistema operativo Windows o Linux, conectando al cronómetro
- Chronopic y ejecutando el software Chronojump.
+Ordenador con sistema operativo Windows
+\change_inserted -850000851 1390991900
+, OSX
+\change_unchanged
+ o Linux, conectando al cronómetro Chronopic y ejecutando el software Chronojump.
 \end_layout
 
 \begin_layout Section
@@ -340,14 +369,24 @@ Instalación del software Chronojump
 
 \begin_layout Standard
 El software Chronojump es libre y gratuito, funciona en los sistemas operativos
- Windows y Linux.
+ Windows
+\change_inserted -850000851 1390991920
+, OSX
+\change_unchanged
+ y Linux.
  Lo puede descargar en la página web del software Chronojump 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1390992014
+
 http://www.chronojump.org/software_es.html
+\change_inserted -850000851 1390992067
+http://chronojump.org/products.html#chronojump
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -363,7 +402,13 @@ status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1390992216
+
 http://www.chronojump.org/faq_software_es.html
+\change_inserted -850000851 1390992216
+http://chronojump.org/faq_software.html
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -383,7 +428,13 @@ status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1390992279
+
 http://www.chronojump.org/hardware_store_es.html
+\change_inserted -850000851 1390992279
+http://chronojump.org/pricing.html
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -425,7 +476,13 @@ status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1390992353
+
 http://www.chronojump.org/hardware_store_es.html
+\change_inserted -850000851 1390992353
+http://chronojump.org/pricing.html
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -532,7 +589,13 @@ http://www.chronojump.org/documents_es.html
 \end_layout
 
 \begin_layout Standard
-La versión actual de Chronopic es la Chronopic3 
+La versión actual de Chronopic es 
+\change_deleted -850000851 1391434045
+la
+\change_inserted -850000851 1391434045
+el
+\change_unchanged
+ Chronopic3 
 \size small
 (fig 
 \begin_inset CommandInset ref
@@ -617,27 +680,91 @@ Conexiones de Chronopic
 \begin_layout Standard
 Chronopic3 dispone de una entrada USB que gracias a un cable del mismo tipo
  se conectará al ordenador.
- Por ese cable la Chronopic recibirá la alimentación (toma de corriente)
- y se comunicará con el ordenador.
+ Por ese cable 
+\change_deleted -850000851 1391434033
+la
+\change_inserted -850000851 1391434034
+el
+\change_unchanged
+ Chronopic recibirá la alimentación (toma de corriente) y se comunicará
+ con el ordenador.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1390993117
 Todas las Chonopics se conectarán a la plataforma de contactos usando la
  clema de la que disponen.
  Dicha clema recibirá cada uno de los dos cables de la plataforma de contactos
  en cada una de sus dos contactos.
  Chronopic3 añade una toma RCA, de esta manera se puede usar la clema, la
  RCA o ambas.
+\change_inserted -850000851 1390993122
+
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -850000851 1391433864
+Los Chronopic se conectarán a la plataforma de contactos o fotocélulas mediante
+ la conexión RCA 
+\begin_inset Graphics
+	filename RCA_connector.svg
+	lyxscale 3
+
+\end_inset
+
+ o mediane la conexión roscada 
+\begin_inset Graphics
+	filename screw_connector.svg
+	lyxscale 3
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
- la clema (y/o el RCA en Chronopic3).
- Este modelo sirve para cronometrar en situaciones en que un deportista
- no debería poder estar en más de una plataforma a la vez.
- Se deben conectar los dos cables de todas las plataformas a la clema, siempre
- de manera que los dos cables de cada una estén en un contacto de la clema
- distinto.
+ 
+\change_deleted -850000851 1390993343
+la clema
+\change_inserted -850000851 1390993354
+la conexión RCA
+\change_unchanged
+ (y/o 
+\change_deleted -850000851 1390993364
+el RCA en Chronopic3
+\change_inserted -850000851 1391183331
+la conexión roscada
+\change_unchanged
+).
+ 
+\change_deleted -850000851 1390993541
+Este modelo
+\change_inserted -850000851 1390993543
+Chronopic
+\change_unchanged
+ sirve para cronometrar en situaciones en que un deportista no debería poder
+ estar en más de una plataforma
+\change_inserted -850000851 1390993564
+ o barrera fotoeléctrica
+\change_unchanged
+ a la vez.
+ Se deben conectar los dos cables de todas las plataformas 
+\change_deleted -850000851 1390993667
+a
+\change_unchanged
+ 
+\change_deleted -850000851 1390993649
+la clema
+\change_inserted -850000851 1390993706
+ al conector RCA ( o el conectro roscado).
+\change_deleted -850000851 1390993711
+, siempre de manera que los dos cables de cada una estén en un contacto
+ de la clema distinto.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -652,16 +779,57 @@ Funcionamiento de Chronopic
 \end_layout
 
 \begin_layout Standard
-Chronopic detecta los cambios de la plataforma de contactos y los envía
- al ordenador.
- También es posible usar el pulsador de prueba para simular los cambios
- de la plataforma.
+Chronopic detecta los cambios
+\change_inserted -850000851 1390993735
+ en el estado
+\change_unchanged
+ 
+\change_inserted -850000851 1391434509
+en el dispositivo de detección
+\change_deleted -850000851 1391434501
+de la plataforma de contactos 
+\change_unchanged
+y los envía al ordenador.
+ También es posible usar el pulsador de prueba
+\change_inserted -850000851 1391434687
+
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\change_unchanged
+ para simular los cambios 
+\change_inserted -850000851 1390993749
+de estado 
+\change_unchanged
+de la plataforma.
 \end_layout
 
 \begin_layout Standard
-Chronopic dispone de una luz que cuando está encendida indica que el sujeto
- está en la plataforma y cuando está apagada indica que está fuera de la
- misma.
+Chronopic dispone de una luz 
+\change_inserted -850000851 1390993795
+verde 
+\change_unchanged
+que cuando está 
+\change_deleted -850000851 1390993799
+encendida
+\change_inserted -850000851 1390993800
+apagada
+\change_unchanged
+ indica que el sujeto está en la plataforma 
+\change_inserted -850000851 1390993909
+i/o en la barrera fotoeléctrica 
+\change_unchanged
+y cuando está 
+\change_deleted -850000851 1390993805
+apagada
+\change_inserted -850000851 1390993808
+encendida
+\change_unchanged
+ indica que está fuera de la misma.
 \end_layout
 
 \begin_layout Section
@@ -691,7 +859,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="4">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="5cm">
@@ -871,7 +1039,13 @@ La placa Chronopic3 requiere un driver para funcionar en Windows.
 \end_layout
 
 \begin_layout Standard
-Si al conectar la Chronopic encendida al ordenador, éste indica 
+Si al conectar 
+\change_deleted -850000851 1391434025
+la
+\change_inserted -850000851 1391434026
+el
+\change_unchanged
+ Chronopic encendida al ordenador, éste indica 
 \begin_inset Quotes eld
 \end_inset
 
@@ -896,7 +1070,13 @@ El driver normalmente será un archivo comprimido (tipo .zip) que deberá ser
  descomprimido y contendrá un archivo ejecutable tipo .exe en el que hay
  que realizar doble-click.
  Normalmente éste se instalará sin problemas, y permitirá que cuando sea
- conectada la Chronopic a posteriori, aparezca el diálogo de 
+ conectada 
+\change_deleted -850000851 1391434019
+la
+\change_inserted -850000851 1391434019
+el
+\change_unchanged
+ Chronopic a posteriori, aparezca el diálogo de 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1079,8 +1259,13 @@ MS Windows
 
 \begin_layout Standard
 Así, en Windows, para detectar el puerto usado, se recomienda (una vez se
- haya conectado la Chronopic encendida al puerto USB del ordenador), seguir
- este proceso:
+ haya conectado 
+\change_deleted -850000851 1391434009
+la
+\change_inserted -850000851 1391434010
+el
+\change_unchanged
+ Chronopic encendida al puerto USB del ordenador), seguir este proceso:
 \end_layout
 
 \begin_layout Enumerate
@@ -1318,10 +1503,28 @@ Realice cada una de las pruebas hasta que encuentre cuál es el fallo.
 \end_layout
 
 \begin_layout Enumerate
-Problema de alimentación: La luz del Chronopic debe encenderse al conectar
- el de alimentación (cable USB) siempre que el ordenador esté encendido,
- no haya una plataforma conectada y alguien pisándola, o se esté pulsando
- el pulsador de prueba.
+Problema de alimentación: La luz 
+\change_inserted -850000851 1391435007
+roja 
+\change_unchanged
+del Chronopic debe encenderse al conectar el 
+\change_inserted -850000851 1390994212
+cable 
+\change_unchanged
+de alimentación (cable USB) siempre que el ordenador esté encendido, no
+ haya una plataforma conectada y alguien pisándola, o se esté pulsando el
+ pulsador de prueba
+\change_inserted -850000851 1391185573
+ (botón test 
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+)
+\change_unchanged
+.
  
 \end_layout
 
@@ -1363,8 +1566,13 @@ reference "sub:Modificación-del-puerto"
 \end_layout
 
 \begin_layout Enumerate
-Ejecute el programa Chronojump, escriba el puerto en la ventana de configuración
- de Chronopic.
+Ejecute el programa Chronojump, 
+\change_deleted -850000851 1390994328
+escriba
+\change_inserted -850000851 1390994330
+seleccione
+\change_unchanged
+ el puerto en la ventana de configuración de Chronopic.
  A continuación le aparecerá un diálogo que le pedirá que haga click en
  
 \begin_inset Quotes eld
@@ -1374,9 +1582,14 @@ aceptar
 \begin_inset Quotes erd
 \end_inset
 
- y a continuación haga click en el pulsador de Chronopic, en breve Chronopic
- debería ser detectado correctamente y está listo para ser usado con la
- plataforma conectada si lo desea.
+ y a continuación haga click en el 
+\change_deleted -850000851 1390994361
+pulsador
+\change_inserted -850000851 1390994364
+botón test
+\change_unchanged
+ de Chronopic, en breve Chronopic debería ser detectado correctamente y
+ está listo para ser usado con la plataforma conectada si lo desea.
 \end_layout
 
 \begin_layout Standard
@@ -1410,11 +1623,25 @@ IMPORTANTE, LEER PRIMERO
 \begin_layout Standard
 
 \size large
-Chronojump 0.9.3 ha cambiado su interfaz gráfica de forma sustancial.
+Chronojump 
+\change_deleted -850000851 1391070609
+0.9.3
+\change_inserted -850000851 1391070610
+1.3.9
+\change_unchanged
+ ha cambiado su interfaz gráfica de forma sustancial.
+
+\change_inserted -850000851 1391070702
+ Este manual está referido a la versión 1.3.9.
+ Se recomienda actualizar chronojump a la última versión disponible.
+
+\change_deleted -850000851 1391070632
  Desafortunadamente este manual no está actualizado a dichos cambios.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391070632
 
 \size large
 Todo cuanto puede encontrar en el presente documento le puede ser útil para
@@ -1424,6 +1651,8 @@ Todo cuanto puede encontrar en el presente documento le puede ser útil para
 
 \begin_layout Standard
 
+\change_deleted -850000851 1391070632
+
 \size large
 Debido a que Chronojump 0.9.3 es mucho más fácil de usar, esperamos que usted
  pueda adaptarse.
@@ -1431,9 +1660,13 @@ Debido a que Chronojump 0.9.3 es mucho más fácil de usar, esperamos que usted
 
 \begin_layout Standard
 
+\change_deleted -850000851 1391070632
+
 \size large
 Este manual será actualizado en el futuro.
  Disculpe las molestias.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1460,7 +1693,13 @@ reference "fig:Ventana-principal-de"
 \end_layout
 
 \begin_layout Description
-Menú donde podrá acceder de forma organizada a la mayoría de las funcionalidades.
+Menú donde podrá acceder 
+\change_deleted -850000851 1391070908
+de forma organizada a la mayoría de las funcionalidades
+\change_inserted -850000851 1391070918
+a las opciones de sesión y a la ayuda
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Description
@@ -1511,21 +1750,38 @@ seleccionado En el caso de que exista un dibujo del test seleccionado o
 
 \begin_layout Description
 Pestañas que permiten cambiar el módulo de trabajo entre los posibles, actualmen
-e: Salto, Salto simple, Carrera, Carrera con tramos, tiempo de reacción,
- pulso y multi Chronopic.
+e: 
+\change_deleted -850000851 1391071368
+Salto, Salto simple, Carrera, Carrera con tramos, tiempo de reacción, pulso
+ y multi Chronopic
+\change_inserted -850000851 1391071393
+Contactos (plataforma o fotocélulas), Codificador, Server
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391440712
 Ejecución
 \begin_inset space ~
 \end_inset
 
+
+\change_inserted -850000851 1391440729
+Tipos 
+\change_unchanged
 de
 \begin_inset space ~
 \end_inset
 
-tests con la funcionalidad de ejecutar cada uno de los tests de la pestaña
- o módulo de trabajo activa.
+tests con la funcionalidad de 
+\change_deleted -850000851 1391071555
+ejecutar
+\change_inserted -850000851 1391071602
+trabajar con
+\change_unchanged
+ cada uno de los tests de la pestaña o módulo de trabajo activa.
 \end_layout
 
 \begin_layout Description
@@ -1559,14 +1815,20 @@ al
 \end_inset
 
 usuario muestra información sobre la última acción realizada.
+\change_deleted -850000851 1391441010
+
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441010
 (Des)activar
 \begin_inset space ~
 \end_inset
 
 sonido permite activar-desactivar los sonidos.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1580,9 +1842,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename chronojump_main_window_spanish.png
-	lyxscale 50
+	lyxscale 70
 	scale 60
-	rotateAngle 90
 
 \end_inset
 
@@ -1641,6 +1902,8 @@ reference "fig:menu_session"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391074100
 Menú
 \begin_inset space ~
 \end_inset
@@ -1660,6 +1923,8 @@ reference "fig:menu_sujeto"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391074100
 Menú
 \begin_inset space ~
 \end_inset
@@ -1686,6 +1951,8 @@ reference "fig:menu_salto2"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391074100
 Menú
 \begin_inset space ~
 \end_inset
@@ -1712,6 +1979,8 @@ reference "fig:menu_carrera2"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391074100
 Menú
 \begin_inset space ~
 \end_inset
@@ -1735,6 +2004,8 @@ reference "fig:menu_other"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391074100
 Menú
 \begin_inset space ~
 \end_inset
@@ -1751,6 +2022,8 @@ reference "fig:menu_herramientas"
 \end_inset
 
 .
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
@@ -1815,6 +2088,8 @@ Menú de sesión.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074166
 \begin_inset Float figure
 placement p
 wide false
@@ -1857,6 +2132,8 @@ Menú de sujeto.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074188
 \begin_inset Float figure
 placement p
 wide false
@@ -1899,6 +2176,8 @@ Menú de salto con saltos simples desplegados.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074188
 \begin_inset Float figure
 placement p
 wide false
@@ -1980,6 +2259,8 @@ Menú de carrera con carreras simples desplegadas.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074188
 \begin_inset Float figure
 placement p
 wide false
@@ -2022,6 +2303,8 @@ Menú de carrera con carreras con tramos desplegadas.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074188
 \begin_inset Float figure
 placement p
 wide false
@@ -2064,6 +2347,8 @@ Menú de otros tests.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391074188
 \begin_inset Float figure
 placement p
 wide false
@@ -2159,10 +2444,16 @@ name "sec:Conexión-de-Chronopic/s"
 \end_layout
 
 \begin_layout Standard
-Puede conectar uno o más Chronopics usando la ventana en el menú: 
+Puede conectar uno o más Chronopics usando 
+\change_deleted -850000851 1391074249
+la ventana en el menú: 
 \emph on
 Herramientas / Chronopic
+\change_inserted -850000851 1391074260
+
 \emph default
+el botón de conexión
+\change_unchanged
 .
  En la figura 
 \begin_inset CommandInset ref
@@ -2406,7 +2697,13 @@ Creación
 \begin_layout Standard
 Haga clic en el menú 
 \emph on
-Sesión / Crear sesión
+Sesión / 
+\change_deleted -850000851 1391075676
+Crear
+\change_inserted -850000851 1391075676
+Nueva
+\change_unchanged
+ sesión
 \emph default
  y se abrirá una ventana en la que deberá introducir obligatoriamente el
  nombre de la sesión, la fecha y el deporte practicado.
@@ -2415,7 +2712,11 @@ Sesión / Crear sesión
 \end_layout
 
 \begin_layout Subsubsection
-Carga (load)
+Carga
+\change_inserted -850000851 1391075724
+r
+\change_unchanged
+ (load)
 \end_layout
 
 \begin_layout Standard
@@ -2549,7 +2850,11 @@ sujeto actual
 \end_layout
 
 \begin_layout Standard
-No se podrán ejecutar tests hasta que no se haya sido asignado el 
+No se podrán ejecutar tests hasta que no 
+\change_deleted -850000851 1391075964
+se
+\change_unchanged
+ haya sido asignado el 
 \emph on
 sujeto actual
 \emph default
@@ -2778,7 +3083,13 @@ Visualización de tests de sujeto
 \begin_layout Standard
 Haga clic en 
 \emph on
-Mostrar todos los tests del sujeto actual
+Mostrar tod
+\change_deleted -850000851 1391076144
+os los tests del sujeto actual
+\change_inserted -850000851 1391076160
+as las pruebas de este atleta
+\change_unchanged
+
 \emph default
  para ver todos los tests que ha realizado dicho sujeto en diferentes sesiones.
  También puede seleccionar otros sujetos de la sesión actual o de otras.
@@ -2791,9 +3102,23 @@ Edición
 \begin_layout Standard
 Haga clic en 
 \emph on
-Editar sujeto
+Editar 
+\change_deleted -850000851 1391076194
+sujeto
+\change_inserted -850000851 1391076207
+persona seleccionada
+\change_unchanged
+
 \emph default
- o pulse la tecla 
+ o pulse la 
+\change_deleted -850000851 1391076222
+tecla
+\change_inserted -850000851 1391076225
+Control+
+\change_deleted -850000851 1391076227
+ 
+\change_unchanged
+
 \emph on
 p
 \emph default
@@ -2836,11 +3161,42 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Hasta el momento Chronojump maneja cinco tipos de tests: saltos, carreras,
- tiempos de reacción, ritmos y MultiChronopic.
- Más adelante Chronojump podrá manejar otros tests.
+Hasta el momento Chronojump maneja 
+\change_deleted -850000851 1391076286
+cinco
+\change_inserted -850000851 1391076287
+siete
+\change_unchanged
+ tipos de tests
+\change_inserted -850000851 1391076326
+ para chronopic de contactos
+\change_unchanged
+: saltos, 
+\change_inserted -850000851 1391076336
+saltos múltiples, 
+\change_unchanged
+carreras,
+\change_inserted -850000851 1391076352
+ carreras con tramos,
+\change_unchanged
+ tiempos de reacción, 
+\change_deleted -850000851 1391076357
+ritmos
+\change_inserted -850000851 1391076358
+pulsos
+\change_unchanged
+ y MultiChronopic.
+ 
+\change_deleted -850000851 1391076386
+Más adelante Chronojump podrá manejar otros tests.
+
+\change_unchanged
  Estos tests son detectados por las señales enviadas por la plataforma de
- contactos cuando el sujeto pisa o despega de la misma.
+ contactos cuando el sujeto pisa o despega de la misma
+\change_inserted -850000851 1391076430
+ i/o las fotocélulas cuando el sujeto corta la barrera fotoelètrica
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
@@ -2924,8 +3280,17 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Se describe a continuación el manejo de los cinco tipos de tests que permite
- Chronojump.
+Se describe a continuación el manejo de los 
+\change_deleted -850000851 1391076454
+cinco
+\change_inserted -850000851 1391076455
+siete
+\change_unchanged
+ tipos de tests 
+\change_inserted -850000851 1391076464
+de contactos 
+\change_unchanged
+que permite Chronojump.
 \end_layout
 
 \begin_layout Section
@@ -2933,7 +3298,13 @@ Saltos
 \end_layout
 
 \begin_layout Standard
-Los saltos pueden ser básicamente de dos tipos: simples y repetitivos.
+Los saltos pueden ser básicamente de dos tipos: simples y 
+\change_deleted -850000851 1391076481
+repetitivos
+\change_inserted -850000851 1391076484
+múltiples
+\change_unchanged
+.
  Para Chronojump un 
 \series bold
 salto simple
@@ -2961,13 +3332,30 @@ nte realizar el salto.
 \begin_layout Standard
 Un 
 \series bold
-salto repetitivo
+salto
+\change_inserted -850000851 1391076525
+s
+\change_unchanged
+ 
+\change_deleted -850000851 1391076512
+repetitivo
+\change_inserted -850000851 1391076526
+múltiples
+\change_unchanged
+
 \series default
- (también llamado reactivo) será cualquier salto en que se obtenga más de
- un tiempo de vuelo, por ejemplo, realizar dos saltos seguidos iniciados
- desde dentro de la plataforma en una sucesión TV, TC, TV; o partiendo desde
- fuera de la plataforma iniciándose con una caída o antesalto para continuar
- con TC, TV, TC, TV.
+ (también llamado
+\change_inserted -850000851 1391076528
+s
+\change_unchanged
+ reactivo
+\change_inserted -850000851 1391076530
+s
+\change_unchanged
+) será cualquier salto en que se obtenga más de un tiempo de vuelo, por
+ ejemplo, realizar dos saltos seguidos iniciados desde dentro de la plataforma
+ en una sucesión TV, TC, TV; o partiendo desde fuera de la plataforma iniciándos
+e con una caída o antesalto para continuar con TC, TV, TC, TV.
 \end_layout
 
 \begin_layout Standard
@@ -2992,7 +3380,13 @@ Saltos:
 \emph on
 SJ
 \emph default
-, Squat Jump o salto squat
+, Squat Jump o salto 
+\change_deleted -850000851 1391077464
+squat
+\change_inserted -850000851 1391077467
+desde sentadilla
+\change_unchanged
+
 \end_layout
 
 \begin_layout Itemize
@@ -3009,6 +3403,20 @@ l, Squat Jump con carga extra (peso adicional)
 CMJ
 \emph default
 , Countermovement Jump o salto en contramovimiento
+\change_inserted -850000851 1391077551
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391077624
+CMJl, Salto con contramovimiento y carga extra
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391077728
+slCMJ, Salto con contramovimiento con una sola pierna
 \end_layout
 
 \begin_layout Itemize
@@ -3033,6 +3441,23 @@ DJ,
 Rocket,
 \emph default
  Salto tipo Squat pero partiendo de flexión completa
+\change_inserted -850000851 1391077746
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391077785
+Batida, Sólo graba el primer tiempo de contacto
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391103229
+Todos los saltos simples, Mediante este botón se tiene acceso al resto de
+ saltos soportados por chronojump
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -3071,7 +3496,13 @@ DJ
 , el protocolo original del Test de Bosco indicaba que los brazos no participaba
 n en el salto.
  En cambio, muchos entrenadores piden a sus atletas que los usen pues el
- salto es más parecido al presente en las técnicas deportivos.
+ salto es más parecido al presente en las técnicas deportiv
+\change_inserted -850000851 1391158388
+a
+\change_deleted -850000851 1391158388
+o
+\change_unchanged
+s.
  Así se ha determinado que el 
 \emph on
 DJ
@@ -3095,7 +3526,13 @@ DJ
 \end_layout
 
 \begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará un salto.
+En caso que no est
+\change_deleted -850000851 1391158404
+e
+\change_inserted -850000851 1391158407
+é
+\change_unchanged
+ conectado el Chronopic, el programa simulará un salto.
  En caso contrario el salto deberá ser ejecutado.
  Tenga en cuenta que para algunos de los saltos el deportista deberá situarse
  encima de la plataforma, mientras que para otros será imprescindible que
@@ -3114,6 +3551,8 @@ Cancelar
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391158906
 En caso de que desee ejecutar un mismo salto a diversos deportistas y que
  dicho salto no disponga de botón (sólo esté disponible en la ventana 
 \emph on
@@ -3124,6 +3563,8 @@ M
 Último
 \emph default
  para que otra persona pueda realizar el mismo salto.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsubsection
@@ -3131,10 +3572,17 @@ Ejecución de saltos repetitivos
 \end_layout
 
 \begin_layout Standard
-Para ejecutar un salto repetitivo, haga clic en los botones presentes en
- la pestaña de 
+Para ejecutar un salto repetitivo, haga clic en 
+\change_deleted -850000851 1391158540
+los botones presentes en la pestaña de 
+\change_inserted -850000851 1391158556
+botón Saltos múltiples
+\change_deleted -850000851 1391158561
+
 \emph on
-Saltos repetitivos:
+Saltos repetitivos
+\change_unchanged
+:
 \end_layout
 
 \begin_layout Itemize
@@ -3155,6 +3603,16 @@ RJ(t),
 
 \begin_layout Itemize
 Ilimitado: salto repetitivo ilimitado
+\change_inserted -850000851 1391158688
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391158769
+Hexágono: Test de agilidad RJ(hexagon)
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -3200,6 +3658,8 @@ Terminar
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391158901
 En caso de que desee ejecutar un mismo salto a diversos deportistas y que
  dicho salto no disponga de botón (sólo esté disponible en la ventana 
 \emph on
@@ -3210,6 +3670,8 @@ Más
 Último
 \emph default
  para que otra persona pueda realizar el mismo salto.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection
@@ -3290,6 +3752,8 @@ Visualización de saltos
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391159224
 Desde la pestaña de 
 \emph on
 salto
@@ -3300,8 +3764,14 @@ salto
 salto Repetitivo
 \emph default
  podrá hacer lo propio con los saltos repetitivos.
- En ambos casos se incluye un filtro para ver todos los saltos posibles
- o sólo los de un tipo determinado.
+ 
+\change_inserted -850000851 1391159288
+Tanto en la secicción de Saltos como en la de Saltos múltiples podrá hacer
+ clic en la pestaña Resultados para ver todos los datos de los datos que
+ se han realizado en una sesión
+\change_unchanged
+En ambos casos se incluye un filtro para ver todos los saltos posibles o
+ sólo los de un tipo determinado.
  
 \end_layout
 
@@ -3310,6 +3780,8 @@ Los saltos se encuentran asociados a los saltadores.
  El orden de aparición de los saltos en cada saltador es el cronológico
  de forma que el último salto realizado por un sujeto aparecerá al final
  del listado de sus saltos.
+
+\change_deleted -850000851 1391160569
  Se incluye un botón de selección titulado 
 \emph on
 por tipo
@@ -3320,11 +3792,19 @@ por tipo
 Todos los saltos
 \emph default
  es el seleccionado en el filtro de visualización.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
 En cada salto se muestran una serie de valores, puede cambiar las opciones
- de visualización accediendo a las 
+ de visualización accediendo a 
+\change_inserted -850000851 1391160715
+al menú Sesióbn -->
+\change_deleted -850000851 1391160701
+las
+\change_unchanged
+ 
 \emph on
 Preferencias
 \emph default
@@ -3363,9 +3843,17 @@ Puede añadir comentarios a un salto o cambiar el saltador que lo realizó
  (si olvidó modificar el sujeto actual previamente) seleccionando el salto
  deseado y haciendo clic en el botón de 
 \emph on
-Editar salto seleccionado,
+Editar 
+\change_deleted -850000851 1391160776
+salto 
+\change_unchanged
+seleccionado
+\change_deleted -850000851 1391160795
+,
 \emph default
- su equivalente en el menú, o la tecla 
+ su equivalente en el menú,
+\change_unchanged
+ o la tecla 
 \emph on
 e
 \emph default
@@ -3374,17 +3862,40 @@ e
 \end_layout
 
 \begin_layout Standard
-En los saltos reactivos, ya que por definición están compuestos por un conjunto
- de subsaltos, esta modificación afectará a todos los subsaltos aunque uno
- sólo sea seleccionado.
+En los saltos 
+\change_deleted -850000851 1391160820
+reactivos
+\change_inserted -850000851 1391160823
+múltiples
+\change_unchanged
+, ya que por definición están compuestos por un conjunto de subsaltos, esta
+ modificación afectará a todos los subsaltos aunque uno sólo sea seleccionado.
 \end_layout
 
 \begin_layout Subsection
-Reparación de saltos reactivos
+Reparación de saltos 
+\change_deleted -850000851 1391160812
+reactivos
+\change_inserted -850000851 1391160814
+múltiples
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
-Usando el botón de reparación de saltos reactivos o pulse la tecla 
+Usando el botón de 
+\change_deleted -850000851 1391160856
+reparación de saltos reactivos
+\change_inserted -850000851 1391160862
+Reparar seleccionados
+\change_unchanged
+ o puls
+\change_deleted -850000851 1391160868
+e
+\change_inserted -850000851 1391160869
+ando
+\change_unchanged
+ la tecla 
 \emph on
 r
 \emph default
@@ -3412,16 +3923,28 @@ Borrado de saltos
 \begin_layout Standard
 Para borrar un salto selecciónelo y haga clic en el botón 
 \emph on
-Borrar salto seleccionado
+Borrar
+\change_deleted -850000851 1391160902
+ salto
+\change_unchanged
+ seleccionado
+\change_deleted -850000851 1391160909
+
 \emph default
-, su equivalente en el menú o pulse la tecla 
+, su equivalente en el menú o
+\change_unchanged
+ pulse la tecla 
 \emph on
 d
 \emph default
  (delete).
  El borrado de saltos pedirá confirmación en caso de que la opción de confirmaci
 ón de borrado de tests esté activada en el menú de 
+\change_inserted -850000851 1391161006
+
 \emph on
+Sesión --> 
+\change_unchanged
 Preferencias
 \emph default
  (más información en el apartado 
@@ -3663,7 +4186,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="6">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -4197,6 +4720,8 @@ Ejecución de carreras simples
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391161351
 Desde la pestaña de 
 \emph on
 Carrera
@@ -4205,7 +4730,11 @@ s, o desde el menú
 \emph on
 Carreras / Ejecutar carreras simples
 \emph default
- haga clic en 
+ haga clic en
+\change_inserted -850000851 1391161385
+Haciendo clic en el botón de Carreras tendremos acceso a los
+\change_unchanged
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -4226,7 +4755,15 @@ Personalizado
 
 \begin_layout Itemize
 Carreras de agilidad, hasta el momento introducidos los tests: 20 Yardas,
- 505, Illinois, Shuttle Run, Zig-Zag test.
+ 505, Illinois, 
+\change_inserted -850000851 1391161543
+Margaria, 
+\change_unchanged
+Shuttle
+\change_deleted -850000851 1391161549
+ Run
+\change_unchanged
+, Zig-Zag test.
  La figura 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4289,11 +4826,15 @@ s seleccionándolas y haciendo clic en
 Aceptar
 \emph default
 .
+
+\change_deleted -850000851 1391161717
  El menú 
 \emph on
 Carrera
 \emph default
  le proporciona también acceso a estas acciones.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -4317,6 +4858,8 @@ Cancelar
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391161766
 En caso de que desee ejecutar una misma carrera a diversos deportistas y
  que dicha carrrera no disponga de botón (sólo esté disponible en la ventana
  
@@ -4328,6 +4871,8 @@ Más
 Último
 \emph default
  para que otra persona pueda realizar la misma carrera.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection
@@ -4335,7 +4880,13 @@ Ejecución de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-PAra ejecutar una carrera con tramos haga click en los siguientes botones
+P
+\change_inserted -850000851 1391161774
+a
+\change_deleted -850000851 1391161773
+A
+\change_unchanged
+ra ejecutar una carrera con tramos haga click en los siguientes botones
  presentes en la pestana de 
 \emph on
 Carreras con tramo
@@ -4343,15 +4894,21 @@ Carreras con tramo
 :
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \emph on
-Por pistas
+Por 
+\change_deleted -850000851 1391161804
+pistas
+\change_inserted -850000851 1391161808
+vueltas
+\change_unchanged
+
 \emph default
 : carrera con tramos limitada por el número de tramos
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \emph on
 Por tiempo
@@ -4359,12 +4916,30 @@ Por tiempo
 : carrera con tramos limitada por tiempo
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 
 \emph on
 Ilimitado
 \emph default
 : carrera con tramos ilimitada
+\change_inserted -850000851 1391162011
+
+\end_layout
+
+\begin_layout Itemize
+
+\change_inserted -850000851 1391162078
+MTGUG: prueba de 
+\begin_inset Quotes erd
+\end_inset
+
+levantarse y caminar
+\begin_inset Quotes erd
+\end_inset
+
+ de tiempo modificado
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -4380,11 +4955,15 @@ Más
 Aceptar
 \emph default
 .
+
+\change_deleted -850000851 1391162145
  El menú de 
 \emph on
 Carrera
 \emph default
  le proporciona también acceso a estas acciones.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -4413,6 +4992,8 @@ Terminar
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391162205
 En caso de que desee ejecutar una misma carrera a diversos deportistas y
  que dicho carrera no disponga de botón (sólo esté disponible en la ventana
  
@@ -4424,6 +5005,8 @@ Más
 Último
 \emph default
  para que otra persona pueda realizar la misma carrera.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Subsection
@@ -4474,11 +5057,15 @@ Las carreras se encuentran asociadas a los corredores.
  El orden de aparición de las carrerass en cada saltador es el cronológico
  de forma que la última carrera realizada por un sujeto aparecerá al final
  del listado de sus carreras.
+
+\change_deleted -850000851 1391162691
  Se incluye un botón de selección titulado 
 \emph on
 por tipo
 \emph default
-, que permite ordenar las carreras por su tipo y no por orden cronológico.
+, que permite ordenar las carreras por su tipo y no por orden cronológico
+\change_unchanged
+.
  Esta opción sólo está disponible como es obvio cuando el valor 
 \emph on
 Todas las carreras
@@ -4523,7 +5110,17 @@ Puede añadir comentarios a una carrera o cambiar el corredor que la realizó
  (si olvidó modificar el sujeto actual previamente) seleccionando la carrera
  deseada y haciendo clic en el botón de 
 \emph on
-Editar carrera seleccionada
+Editar 
+\change_deleted -850000851 1391162728
+carrera 
+\change_unchanged
+seleccionad
+\change_deleted -850000851 1391162735
+a
+\change_inserted -850000851 1391162735
+o
+\change_unchanged
+
 \emph default
 , su equivalente en el menú o la tecla 
 \emph on
@@ -4573,8 +5170,12 @@ Borrado de carreras
 Para borrar una carrera selecciónela y haga clic en el botón 
 \emph on
 Borrar carrera seleccionada
+\change_deleted -850000851 1391162768
+
 \emph default
-, su equivalente en el menú o la tecla 
+, su equivalente en el menú
+\change_unchanged
+ o la tecla 
 \emph on
 d 
 \emph default
@@ -4903,7 +5504,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="5">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -5712,7 +6313,18 @@ Algunos de estos tests requerirán de una sincronización pues se pretende
 \emph on
 Test
 \emph default
- de los Chronopics.
+ 
+\change_inserted -850000851 1391185173
+
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+ 
+\change_unchanged
+de los Chronopics.
  En el Foro de Chronojump 
 \begin_inset Flex URL
 status open
@@ -5759,8 +6371,13 @@ Configuración de los puertos
 
 \begin_layout Standard
 Como es obvio, es imprescindible configurar dos Chronopics en la ventana
- de Chronopic: Herramientas / Chronopic, para poder ejecutar los tests propuesto
-s.
+ de Chronopic
+\change_deleted -850000851 1391173111
+: Herramientas / Chronopic, 
+\change_inserted -850000851 1391173115
+ 
+\change_unchanged
+para poder ejecutar los tests propuestos.
 \end_layout
 
 \begin_layout Subsection
@@ -6152,7 +6769,11 @@ Ventana de estadísticas de Chronojump.
 \end_layout
 
 \begin_layout Standard
-La versión actual Chronojump sólo contempla estadísticos referentes a saltos.
+La versión actual Chronojump sólo contempla estadísticos referentes a saltos
+\change_inserted -850000851 1391173582
+ y carreras
+\change_unchanged
+.
  En futuras versiones se incluirán también estadísticos de otros tests.
  Si desea realizar estadísticos y gráficos de otros tests, le recomendamos
  que exporte los datos a hoja de cálculo tal y como se explica en el apartado
@@ -8309,7 +8930,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="6cm">
 <column alignment="center" valignment="top" width="6cm">
 <row>
@@ -8432,7 +9053,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="5">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="2cm">
 <column alignment="center" valignment="top" width="2cm">
@@ -8764,7 +9385,13 @@ España
 \begin_layout Plain Layout
 
 \size small
-* Actualmente sólo se comercializa la Chronopic3.
+* Actualmente sólo se comercializa 
+\change_deleted -850000851 1391433996
+la
+\change_inserted -850000851 1391433997
+el
+\change_unchanged
+ Chronopic3.
  Para conseguirla, consulte la tienda web de Chronojump 
 \begin_inset Flex URL
 status open
@@ -8956,13 +9583,25 @@ Conexiones de Chronopics serie
 \end_layout
 
 \begin_layout Standard
-Las Chronopics serie necesitan alimentación externa, por tanto deberán conectars
-e a un alimentador.
+L
+\change_deleted -850000851 1391433915
+a
+\change_inserted -850000851 1391433915
+o
+\change_unchanged
+s Chronopics serie necesitan alimentación externa, por tanto deberán conectarse
+ a un alimentador.
  Además, estas Chronopics requerirán de conectarse al ordenador por un cable.
  Si el ordenador tiene puerto serie, bastará con un cable telefónico-serie.
- Si el ordenador no tiene puerto USB, deberá convertirse a USB, para ello
- a parte del cable mencionado, será necesario un cable USB-serie o una pcmcia
- o adaptador con la misma funcionalidad.
+ Si el ordenador no tiene puerto 
+\change_deleted -850000851 1391181564
+USB
+\change_inserted -850000851 1391181565
+serie
+\change_unchanged
+, deberá convertirse a USB, para ello a parte del cable mencionado, será
+ necesario un cable USB-serie o una pcmcia o adaptador con la misma funcionalida
+d.
  Puede consultar la figura 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -8970,15 +9609,32 @@ reference "fig:chronopic1"
 
 \end_inset
 
- para un ejemplo de conexión de la Chronopic1.
+ para un ejemplo de conexión de
+\change_inserted -850000851 1391433971
+l
+\change_deleted -850000851 1391433970
+ la
+\change_unchanged
+ Chronopic1.
 \end_layout
 
 \begin_layout Standard
-En cuanto a la alimentación, las Chronopics serie se alimentan usando un
- alimentador de 4.5 a 6 voltios, pudiendo adquirirse un alimentador convencional
- (que se conecta a la corriente eléctrica) o crearse un alimentador casero
- con 3 pilas de 1,5 voltios.
- Esta opción facilita los tests de campo en las chronopics serie.
+En cuanto a la alimentación, l
+\change_inserted -850000851 1391433926
+o
+\change_deleted -850000851 1391433925
+a
+\change_unchanged
+s Chronopics serie se alimentan usando un alimentador de 4.5 a 6 voltios,
+ pudiendo adquirirse un alimentador convencional (que se conecta a la corriente
+ eléctrica) o crearse un alimentador casero con 3 pilas de 1,5 voltios.
+ Esta opción facilita los tests de campo en l
+\change_deleted -850000851 1391433935
+a
+\change_inserted -850000851 1391433935
+o
+\change_unchanged
+s chronopics serie.
  La conexión de la batería debería encender automáticamente la luz del Chronopic
 , aunque Chronopic no esté conectado a ningún ordenador.
  Esta es una buena prueba para saber si la alimentación es la correcta.
@@ -9038,7 +9694,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="5cm">
@@ -9284,7 +9940,13 @@ reference "fig:Montaje-del-Chronopic3."
 
  muestra el montaje del mismo.
  Nota: estas instrucciones son necesarias sólo para la tirada inicial, puesto
- que las Chronopics siguientes ya vienen montadas de fábrica.
+ que l
+\change_deleted -850000851 1391433941
+a
+\change_inserted -850000851 1391433941
+o
+\change_unchanged
+s Chronopics siguientes ya vienen montadas de fábrica.
 \end_layout
 
 \begin_layout Standard

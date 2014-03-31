@@ -1,5 +1,5 @@
-#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
-\lyxformat 345
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
 \begin_document
 \begin_header
 \textclass book
@@ -11,18 +11,26 @@
 \usepackage[T1]{fontenc}
 \end_preamble
 \use_default_options false
+\maintain_unincluded_children false
 \language british
+\language_package default
 \inputencoding auto
+\fontencoding global
 \font_roman ae
 \font_sans cmss
 \font_typewriter default
 \font_default_family sfdefault
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
 
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \float_placement p
 \paperfontsize default
 \spacing single
@@ -31,9 +39,18 @@
 \use_geometry false
 \use_amsmath 1
 \use_esint 0
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
+\use_indices false
 \paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 4
 \tocdepth 3
 \paragraph_separation skip
@@ -42,10 +59,12 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\tracking_changes false
+\tracking_changes true
 \output_changes false
-\author "" 
-\author "" 
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author -850000851 "Xavier Padulls,,," 
 \end_header
 
 \begin_body
@@ -61,7 +80,13 @@ Chronojump
 
 
 \size large
-(updated until Chronojump 0.9.2 version)
+(updated until Chronojump 
+\change_deleted -850000851 1395940798
+0.9.2
+\change_inserted -850000851 1395940801
+1.4.0
+\change_unchanged
+ version)
 \end_layout
 
 \begin_layout Author
@@ -156,8 +181,15 @@ thispagestyle{empty}
 \end_layout
 
 \begin_layout Standard
+\noindent
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
 
-\lyxline
+\end_inset
+
 
 \end_layout
 
@@ -324,8 +356,12 @@ Chronojump management software.
 \end_layout
 
 \begin_layout Description
-Computer with Windows or Linux operating system connected to chronometer
- Chronopic and executing the software Chronojump.
+Computer with Windows
+\change_inserted -850000851 1391433183
+, OSX
+\change_unchanged
+ or Linux operating system connected to chronometer Chronopic and executing
+ the software Chronojump.
  
 \end_layout
 
@@ -334,15 +370,24 @@ Chronojump software installation
 \end_layout
 
 \begin_layout Standard
-Chronojump is free software which works with Windows and Linux operating
- systems.
+Chronojump is free software which works with Windows
+\change_inserted -850000851 1391433202
+, OSX
+\change_unchanged
+ and Linux operating systems.
  To be download at the web page 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1391433292
+
 http://www.chronojump.org/software.html
+\change_inserted -850000851 1391433301
+http://chronojump.org/products.html#chronojump
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -351,14 +396,23 @@ http://www.chronojump.org/software.html
 \end_layout
 
 \begin_layout Standard
-For more information consult the frequent questions of the software (FAQ)
- 
+For more information consult the frequent 
+\change_inserted -850000851 1391433233
+asked 
+\change_unchanged
+questions of the software (FAQ) 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1391433353
+
 http://www.chronojump.org/faq_software.html
+\change_inserted -850000851 1391433354
+http://chronojump.org/faq_software.html
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -420,7 +474,13 @@ status open
 
 \begin_layout Plain Layout
 
+\change_deleted -850000851 1391433380
+
 http://www.chronojump.org/hardware_store.html
+\change_inserted -850000851 1391433381
+http://chronojump.org/pricing.htm
+\change_unchanged
+
 \end_layout
 
 \end_inset
@@ -615,20 +675,67 @@ Chronopic 3 is a USB powered hardware.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391433844
 All Chonopics will be connected to the platform using the terminal block.
  This terminal block will receive each of the two cables from the contacts
  platform.
  Chronopic3 adds an RCA jack, to be used by the terminal block, RCA, or
  both.
+\change_inserted -850000851 1391434070
+
 \end_layout
 
 \begin_layout Standard
-Using fuse (and / or Chronopic3 RCA) it is possible to connect 'n' networking
- platforms to any Chronopic.
+
+\change_inserted -850000851 1391434196
+Chronopic will be connected to the contact platform or photocell barrier
+ through the RCA connection
+\begin_inset Graphics
+	filename RCA_connector.svg
+	lyxscale 3
+
+\end_inset
+
+, the terminal block
+\begin_inset Graphics
+	filename screw_connector.svg
+	lyxscale 3
+
+\end_inset
+
+ or both.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Standard
+Using
+\change_inserted -850000851 1391434303
+ Chronopic3 RCA
+\change_unchanged
+ 
+\change_deleted -850000851 1391434309
+fuse
+\change_unchanged
+ (and / or 
+\change_deleted -850000851 1391434300
+Chronopic3 RCA
+\change_inserted -850000851 1391434311
+fuse
+\change_unchanged
+) it is possible to connect 'n' networking platforms to any Chronopic.
  This model is useful to chronometer situations where an athlete should
  not be able to be in more than one platform at the same time.
- Both cables of each platform must be connected to the terminal block provided
- so the two wires of each are in a different terminal block contact.
+ Both cables of each platform must be connected to the 
+\change_inserted -850000851 1391434376
+RCA connector or the 
+\change_unchanged
+terminal block
+\change_deleted -850000851 1391434391
+ provided so the two wires of each are in a different terminal block contact
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Standard
@@ -646,12 +753,46 @@ Chronopic working process
 \begin_layout Standard
 Chronopic detect changes in the contact platform and sends it to the computer
  by USB cable, USB-serial or serials.
- You can also use the test button to simulate changes in the platform.
+ You can also use the test button
+\change_inserted -850000851 1391434728
+
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\change_unchanged
+ to simulate changes in the platform.
 \end_layout
 
 \begin_layout Standard
-Chronopic has a light to indicate when the subject is on the platform (light
- stays on) or outside the platform (light is off).
+Chronopic has a 
+\change_inserted -850000851 1391434766
+green 
+\change_unchanged
+light to indicate when the subject is on the platform 
+\change_inserted -850000851 1391434836
+or the photoelectric barrier 
+\change_unchanged
+(light stays 
+\change_deleted -850000851 1391434789
+on
+\change_inserted -850000851 1391434790
+off
+\change_unchanged
+) or outside 
+\change_deleted -850000851 1391434844
+the platform 
+\change_unchanged
+(light is 
+\change_deleted -850000851 1391434793
+off
+\change_inserted -850000851 1391434793
+on
+\change_unchanged
+).
  
 \end_layout
 
@@ -687,7 +828,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="3" columns="4">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="5cm">
@@ -1241,9 +1382,30 @@ Perform each of the tests until it’s working correctly.
 \end_layout
 
 \begin_layout Enumerate
-Power Problem: The light will turn on when you connect the USB cable (this
- will happen when the computer is turned on, when there is a connected platform
- and someone stepping on it, or pushing the test button).
+Power Problem: The 
+\change_inserted -850000851 1391435018
+red 
+\change_unchanged
+light will turn on when you connect the USB cable (this will happen when
+ the computer is turned on
+\change_inserted -850000851 1391439803
+ except
+\change_deleted -850000851 1391439801
+,
+\change_unchanged
+ when there is a connected platform and someone stepping on it, or pushing
+ the test button
+\change_inserted -850000851 1391439839
+ 
+\begin_inset Graphics
+	filename test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\change_unchanged
+).
 \end_layout
 
 \begin_layout Enumerate
@@ -1284,7 +1446,13 @@ reference "sub:Modificación-del-puerto"
 \end_layout
 
 \begin_layout Enumerate
-Execute Chronojump, type the port configuration in the Chronopic window.
+Execute Chronojump, 
+\change_deleted -850000851 1391439878
+type
+\change_inserted -850000851 1391439884
+select
+\change_unchanged
+ the port configuration in the Chronopic window.
  A dialog will appear asking you to click "OK" and after this click on the
  button Chronopic, shortly Chronopic should be detected and ready to be
  used with the platform connected if desired.
@@ -1305,11 +1473,25 @@ IMPORTANT, READ FIRST
 \begin_layout Standard
 
 \size large
-Chronojump 0.9.3 has changed massively the graphical interface.
+Chronojump 
+\change_deleted -850000851 1391439959
+0.9.3
+\change_inserted -850000851 1391439960
+1.3.9
+\change_unchanged
+ has changed massively the graphical interface.
  Unfortunately, this manual is not updated to that change.
+
+\change_inserted -850000851 1391440047
+ This manual is refered to the 1.3.9 version.
+ It's strongly recomended to update Chronojump to the last available version
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391440068
 
 \size large
 All you can find in the current Chronojump Manual is useful because you
@@ -1318,12 +1500,16 @@ All you can find in the current Chronojump Manual is useful because you
 
 \begin_layout Standard
 
+\change_deleted -850000851 1391440068
+
 \size large
 As Chronojump 0.9.3 is lot easier, we hope you can find the way to do what
  you want.
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1391440068
 
 \size large
 Manual will be updated in the future.
@@ -1332,14 +1518,20 @@ Manual will be updated in the future.
 
 \begin_layout Standard
 
+\change_deleted -850000851 1391440068
+
 \size large
 Also note lots of the images are from the spanish version.
 \end_layout
 
 \begin_layout Standard
 
+\change_deleted -850000851 1391440068
+
 \size large
 Sorry for the inconvenience.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1370,7 +1562,13 @@ The
 \begin_inset space ~
 \end_inset
 
-menu where you find the access to most of the functionalities.
+menu where you find the access to 
+\change_deleted -850000851 1391440404
+most of the functionalities
+\change_inserted -850000851 1391440412
+session and help
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Description
@@ -1408,17 +1606,35 @@ test If there is a drawing of the test selected or targeted by the mouse,
 \end_layout
 
 \begin_layout Description
-Tabs that allow you to change the work form, actually: Jump, Simple Jump,
- Run, Run in sections, reaction time, pulse and multi Chronopic.
+Tabs that allow you to change the work form, 
+\change_deleted -850000851 1391440511
+actually
+\change_inserted -850000851 1391440515
+at present
+\change_unchanged
+: 
+\change_deleted -850000851 1391440536
+Jump, Simple Jump, Run, Run in sections, reaction time, pulse and multi
+ Chronopic
+\change_inserted -850000851 1391440625
+ Contacts (platform of photocell), Encoder and Server
+\change_unchanged
+.
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391440760
 Doing
 \begin_inset space ~
 \end_inset
 
-tests with the functionality of executing each of the tests on the tab or
- active labor module.
+tests
+\change_inserted -850000851 1391440766
+Test type
+\change_unchanged
+ with the functionality of executing each of the tests on the tab or active
+ labor module.
 \end_layout
 
 \begin_layout Description
@@ -1440,10 +1656,16 @@ the
 
 tests shows different selectors for viewing and editing the jumps and runs.
  User Notification displays information about the last action.
+\change_deleted -850000851 1391441001
+
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441001
 Sound Turn off or on.
+\change_unchanged
+
 \end_layout
 
 \begin_layout Standard
@@ -1457,9 +1679,8 @@ status open
 \align center
 \begin_inset Graphics
 	filename chronojump_main_window_spanish.png
-	lyxscale 50
+	lyxscale 70
 	scale 60
-	rotateAngle 90
 
 \end_inset
 
@@ -1513,6 +1734,8 @@ reference "fig:menu_session"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441201
 Person
 \begin_inset space ~
 \end_inset
@@ -1528,6 +1751,8 @@ reference "fig:menu_sujeto"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441201
 Jump
 \begin_inset space ~
 \end_inset
@@ -1550,6 +1775,8 @@ reference "fig:menu_salto2"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441201
 Run
 \begin_inset space ~
 \end_inset
@@ -1572,6 +1799,8 @@ reference "fig:menu_carrera2"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441201
 Other
 \begin_inset space ~
 \end_inset
@@ -1591,6 +1820,8 @@ reference "fig:menu_other"
 \end_layout
 
 \begin_layout Description
+
+\change_deleted -850000851 1391441201
 Tools
 \begin_inset space ~
 \end_inset
@@ -1603,6 +1834,8 @@ reference "fig:menu_herramientas"
 \end_inset
 
 .
+\change_unchanged
+
 \end_layout
 
 \begin_layout Description
@@ -1650,291 +1883,6 @@ name "fig:menu_session"
 \end_inset
 
 Session Menu.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_person.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_sujeto"
-
-\end_inset
-
-Person menu
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_jump1.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_salto1"
-
-\end_inset
-
-Jump menu with simple jumps.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_jump2.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_salto2"
-
-\end_inset
-
-Jump menu with reactive jumps.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_run1.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_carrera1"
-
-\end_inset
-
-Run menu with simple running.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_run2.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Run menu with intervallic running.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_other.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_other"
-
-\end_inset
-
-Other test menu.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement p
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename menu_tools.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:menu_herramientas"
-
-\end_inset
-
-Tools Menu.
 \end_layout
 
 \end_inset
@@ -2180,7 +2128,13 @@ name "fig:Nueva-sesión.-Alumnos"
 
 \end_inset
 
-Nueva Session.
+
+\change_deleted -850000851 1391420685
+Nueva
+\change_inserted -850000851 1391420687
+New
+\change_unchanged
+ Session.
  School students.
 \end_layout
 
@@ -2648,80 +2602,6 @@ So far Chronojump manages five types of tests: jumping, running, reaction
 
 \begin_layout Standard
 The database stores the tests and links to other data tables.
-\end_layout
-
-\begin_layout Subsection
-Diagram Database
-\end_layout
-
-\begin_layout Standard
-In Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:sqlite-diagram"
-
-\end_inset
-
- you can see a diagram of the database.
- To understand this diagram is necessary to know about relational databases.
- This includes the diagram for advanced users who are curious.
- The latest version of the diagram can be found here:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://git.gnome.org/cgit/chronojump/tree/sqlite_diagrams/chronojump_sqlite.png
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronojump_sqlite.eps
-	lyxscale 50
-	rotateAngle 90
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:sqlite-diagram"
-
-\end_inset
-
-Diagram Chronojump database.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Chapter
@@ -3379,7 +3259,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="6">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -4595,7 +4475,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="5">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
@@ -5451,7 +5331,6 @@ status open
 	filename multiChronopic_mc.png
 	lyxscale 50
 	scale 80
-	rotateAngle 90
 
 \end_inset
 
@@ -5684,7 +5563,6 @@ status open
 	filename multiChronopic_ra.png
 	lyxscale 50
 	scale 80
-	rotateAngle 90
 
 \end_inset
 
@@ -6684,7 +6562,11 @@ Make Report
 
 \begin_layout Standard
 To print the report, we strongly recommend using the free browser Mozilla
- Firefox because Internet Explorers printer is very respectful to the original.
+ Firefox
+\change_deleted -850000851 1392715145
+ because Internet Explorers printer is very respectful to the original
+\change_unchanged
+.
  In Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7145,7 +7027,7 @@ Details of the evaluator, Tab 3.
 \end_layout
 
 \begin_layout Subsection
-Upload or actualize session to server
+Upload or update session to server
 \end_layout
 
 \begin_layout Standard
@@ -7706,11 +7588,11 @@ Database
 \emph default
 , 
 \emph on
-Show
+Contacts, encoder
 \emph default
  and 
 \emph on
-Others.
+Camera.
 
 \emph default
  Figure 
@@ -7743,10 +7625,14 @@ Use this tab to have a copy of your data in order to avoid loosing your
 \end_layout
 
 \begin_layout Standard
+
+\change_deleted -850000851 1393267524
 Current Chronojump version has not an synchronization tool that allows to
  easily manage two computers daily and have your database in both.
  The only solution now is to copy database from one system to another.
  If you want to copy database from computer A to computer B, do the following:
+\change_unchanged
+
 \end_layout
 
 \begin_layout Enumerate
@@ -7853,7 +7739,7 @@ status open
 \lang spanish
 \begin_inset Tabular
 <lyxtabular version="3" rows="2" columns="2">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="6cm">
 <column alignment="center" valignment="top" width="6cm">
 <row>
@@ -7979,7 +7865,7 @@ status open
 \begin_layout Plain Layout
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="5">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="2cm">
 <column alignment="center" valignment="top" width="2cm">
@@ -8599,7 +8485,7 @@ status open
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="3">
-<features>
+<features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="0">
 <column alignment="center" valignment="top" width="5cm">

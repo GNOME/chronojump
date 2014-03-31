@@ -111,6 +111,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_analyze_side;
 	[Widget] Gtk.Image image_encoder_analyze_single;
 	[Widget] Gtk.Image image_encoder_analyze_nmp;
+	
+	[Widget] Gtk.Button button_encoder_analyze_help;
 
 
 	//[Widget] Gtk.RadioButton radiobutton_encoder_analyze_superpose;
@@ -2508,6 +2510,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 	
+		button_encoder_analyze_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
@@ -2530,6 +2533,8 @@ Log.WriteLine(str);
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 		
+		button_encoder_analyze_help.Visible = false;
+		
 		//restore 1RM Bench Press sensitiveness
 		radiobutton_encoder_analyze_max.Sensitive = true;
 		
@@ -2549,6 +2554,8 @@ Log.WriteLine(str);
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
 
+		button_encoder_analyze_help.Visible = false;
+		
 		//restore 1RM Bench Press sensitiveness
 		radiobutton_encoder_analyze_max.Sensitive = true;
 		
@@ -2565,6 +2572,7 @@ Log.WriteLine(str);
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 
+		button_encoder_analyze_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
@@ -2584,6 +2592,7 @@ Log.WriteLine(str);
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
 
+		button_encoder_analyze_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
 
 		on_combo_encoder_analyze_cross_changed (obj, args);
@@ -2603,9 +2612,9 @@ Log.WriteLine(str);
 		//separated, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = false;
-
+	
+		button_encoder_analyze_help.Visible = true;
 		label_encoder_analyze_side_max.Visible = false;
-
 		radiobutton_encoder_analyze_max.Sensitive = false;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
@@ -2630,6 +2639,22 @@ Log.WriteLine(str);
 	private void on_check_encoder_analyze_eccon_together_toggled (object obj, EventArgs args) {
 		image_encoder_analyze_eccon_together.Visible = check_encoder_analyze_eccon_together.Active;
 		image_encoder_analyze_eccon_separated.Visible = ! check_encoder_analyze_eccon_together.Active;
+	}
+	
+	private void on_button_encoder_analyze_help_clicked (object obj, EventArgs args) {
+		//currently only active on neuromuscular profile
+
+		string str = 
+			Catalog.GetString("About Neuromucular Profile") + "\n\n" +
+			Catalog.GetString("Load = Average eccentric RFD (Ratio of Force Development) (N/s)") + "\n" +
+			Catalog.GetString("Explode = Average relative concentric RFD (N/kg/s)") + "\n" +
+			Catalog.GetString("Drive = Average relative concentric Impulse (N/kg*s)") + "\n\n" +
+			Catalog.GetString("General trends to try to develop an 'equilibrated' neuromuscular profile (always add individual considerations as previous or actual injuries, sport specificity, muscular chains, etc.).") + "\n" +
+			Catalog.GetString("If one of the metrics is under developed (weak) compared with the other two, prescribe exercises that emphasize its development.") + "\n" + 
+			Catalog.GetString("If one of the metrics is over developed (extreme) compared with the other two, prescribe exercises to emphasize those, but paying attention to flexibility and relaxation of over working muscles.") + "\n\n" +
+			Catalog.GetString("Lapuente and De Blas. Adapted from Wagner:") + "\nhttp://spartapoint.com/category/spartapoint-101/";
+		
+		new DialogMessage(Constants.MessageTypes.INFO, str);
 	}
 
 

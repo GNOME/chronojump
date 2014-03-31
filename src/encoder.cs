@@ -771,23 +771,24 @@ public class EncoderConfiguration {
 			position = 0;
 			image = Constants.FileNameEncoderLinearFreeWeight;
 			code = Constants.DefaultEncoderConfigurationCode;
-			text = "Linear encoder attached to a barbell." + "\n" + "Also tests without extra load like jumps.";
+			text = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
+				Catalog.GetString("Also tests without extra load like jumps.");
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
 			type = Constants.EncoderType.LINEAR;
 			position = 1;
 			image =Constants.FileNameEncoderLinearFreeWeightInv;
 			code = "Linear inv - barbell";
-			text = "Linear encoder inverted attached to a barbell.";
+			text = Catalog.GetString("Linear encoder inverted attached to a barbell.");
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARINERTIAL) {
 			type = Constants.EncoderType.LINEAR;
 			position = 2;
 			image = Constants.FileNameEncoderLinearInertial;
 			code = "Linear - inertial machine";
-			text = "Linear encoder on inertia machine." + "\n" + 
-				"Configuration NOT Recommended! Please use a rotary encoder" + "\n" +
-				"Person has to start fully extended (on the toes).";
+			text = Catalog.GetString("Linear encoder on inertia machine.") + "\n" + 
+				Catalog.GetString("Configuration NOT Recommended! Please use a rotary encoder.") + "\n" +
+				Catalog.GetString("Person has to start fully extended (on the toes).");
 			
 			has_d = true;
 			has_inertia = true;
@@ -797,9 +798,9 @@ public class EncoderConfiguration {
 			position = 3;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1;
 			code = "Linear - barbell - moving pulley";
-			text = "Linear encoder attached to a barbell." + " " + 
-				"Barbell is connected to a weighted moving pulley." 
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Linear encoder attached to a barbell.") + " " + 
+				Catalog.GetString("Barbell is connected to a weighted moving pulley.") 
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 		
 			gearedDown = 2;
 		}
@@ -808,9 +809,9 @@ public class EncoderConfiguration {
 			position = 4;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson1Inv;
 			code = "Linear inv - barbell - moving pulley";
-			text = "Linear encoder inverted attached to a barbell." + " " + 
-				"Barbell is connected to a weighted moving pulley."
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Linear encoder inverted attached to a barbell.") + " " + 
+				Catalog.GetString("Barbell is connected to a weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 		
 			gearedDown = 2;
 		}
@@ -819,9 +820,9 @@ public class EncoderConfiguration {
 			position = 5;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2;
 			code = "Linear - barbell - pulley - moving pulley";
-			text = "Linear encoder attached to a barbell." + " " + 
-				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley."
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Linear encoder attached to a barbell.") + " " + 
+				Catalog.GetString("Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 		
 			gearedDown = 2;
 		}
@@ -830,9 +831,9 @@ public class EncoderConfiguration {
 			position = 6;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnPerson2Inv;
 			code = "Linear inv - barbell - pulley - moving pulley";
-			text = "Linear encoder inverted attached to a barbell." + " " + 
-				"Barbell is connected to a fixed pulley that is connected to a weighted moving pulley."
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Linear encoder inverted attached to a barbell.") + " " + 
+				Catalog.GetString("Barbell is connected to a fixed pulley that is connected to a weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 		
 			gearedDown = 2;
 		}
@@ -841,8 +842,8 @@ public class EncoderConfiguration {
 			position = 7;
 			image = Constants.FileNameEncoderWeightedMovPulleyOnLinearEncoder;
 			code = "Linear - moving pulley";
-			text = "Linear encoder attached to a weighted moving pulley."
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Linear encoder attached to a weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 		
 			gearedDown = 2;
 		}
@@ -851,7 +852,7 @@ public class EncoderConfiguration {
 			position = 8;
 			image = Constants.FileNameEncoderLinearOnPlane;
 			code = "Linear - inclinated plane";
-			text = "Linear encoder on a inclinated plane.";
+			text = Catalog.GetString("Linear encoder on a inclinated plane.");
 			
 			has_angle_push = true;
 			has_angle_weight = false;
@@ -861,7 +862,7 @@ public class EncoderConfiguration {
 			position = 9;
 			image = Constants.FileNameEncoderLinearOnPlaneWeightDiffAngle;
 			code = "Linear - inclinated plane different angle";
-			text = "Linear encoder on a inclinated plane moving a weight in different angle.";
+			text = Catalog.GetString("Linear encoder on a inclinated plane moving a weight in different angle.");
 			
 			has_angle_push = true;
 			has_angle_weight = true;
@@ -871,14 +872,14 @@ public class EncoderConfiguration {
 			position = 0;
 			image = Constants.FileNameEncoderFrictionSide;
 			code = "Rotary friction - pulley";
-			text = "Rotary friction encoder on pulley.";
+			text = Catalog.GetString("Rotary friction encoder on pulley.");
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXIS) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 1;
 			image = Constants.FileNameEncoderFrictionAxis;
 			code = "Rotary friction - pulley axis";
-			text = "Rotary friction encoder on pulley axis.";
+			text = Catalog.GetString("Rotary friction encoder on pulley axis.");
 
 			has_d = true;
 			has_D = true;
@@ -888,8 +889,8 @@ public class EncoderConfiguration {
 			position = 2;
 			image = Constants.FileNameEncoderFrictionSideInertial;
 			code = "Rotary friction - inertial machine side";
-			text = "Rotary friction encoder on inertial machine side." + "\n" +
-				"Person has to start fully extended (on the toes).";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine side.") + "\n" +
+				Catalog.GetString("Person has to start fully extended (on the toes).");
 
 			has_d = true;
 			has_D = true;
@@ -900,8 +901,8 @@ public class EncoderConfiguration {
 			position = 3;
 			image = Constants.FileNameEncoderFrictionAxisInertial;
 			code = "Rotary friction axis - inertial machine axis";
-			text = "Rotary friction encoder on inertial machine axis." + "\n" +
-				"Person has to start fully extended (on the toes).";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine axis.") + "\n" +
+				Catalog.GetString("Person has to start fully extended (on the toes).");
 
 			has_d = true;
 			has_inertia = true;
@@ -911,14 +912,14 @@ public class EncoderConfiguration {
 			position = 4;
 			image = Constants.FileNameEncoderFrictionWithMovPulley;
 			code = "Rotary friction - moving pulley";
-			text = "Rotary friction encoder on weighted moving pulley.";
+			text = Catalog.GetString("Rotary friction encoder on weighted moving pulley.");
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
 			image = Constants.FileNameEncoderRotaryAxisOnAxis;
 			code = "Rotary axis - pulley axis";
-			text = "Rotary axis encoder on pulley axis.";
+			text = Catalog.GetString("Rotary axis encoder on pulley axis.");
 
 			has_D = true;
 		}
@@ -927,8 +928,8 @@ public class EncoderConfiguration {
 			position = 1;
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
-			text = "Rotary axis encoder on inertial machine." + "\n" +
-				"Person has to start fully extended (on the toes).";
+			text = Catalog.GetString("Rotary axis encoder on inertial machine.") + "\n" +
+			Catalog.GetString("Person has to start fully extended (on the toes).");
 
 			has_d = true;
 			has_inertia = true;
@@ -938,8 +939,8 @@ public class EncoderConfiguration {
 			position = 2;
 			image = Constants.FileNameEncoderAxisWithMovPulley;
 			code = "Rotary axis - moving pulley";
-			text = "Rotary axis encoder on weighted moving pulley."
-				+ " " + "Mass is geared down by 2."; 
+			text = Catalog.GetString("Rotary axis encoder on weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
 			
 			gearedDown = 2;
 		}

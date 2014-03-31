@@ -4135,7 +4135,23 @@ Log.WriteLine(str);
 		}
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) {
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-			updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
+		
+			//calculations with RDotNet are not available yet on inertial	
+			if(encoderConfigurationCurrent.has_inertia) {
+				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+				layout_encoder_capture_curves_bars.SetMarkup("Realtime inertial calculations\nnot available in this version");
+				int textWidth = 1;
+				int textHeight = 1;
+				int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
+				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+						Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
+						layout_encoder_capture_curves_bars);
+
+				updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
+			} else
+				updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
+			
 			Log.Write(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		

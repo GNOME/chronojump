@@ -2646,9 +2646,9 @@ Log.WriteLine(str);
 
 		string str = 
 			Catalog.GetString("About Neuromucular Profile") + "\n\n" +
-			Catalog.GetString("Load = Average eccentric RFD (Ratio of Force Development) (N/s)") + "\n" +
-			Catalog.GetString("Explode = Average relative concentric RFD (N/kg/s)") + "\n" +
-			Catalog.GetString("Drive = Average relative concentric Impulse (N/kg*s)") + "\n\n" +
+			Catalog.GetString("Load = Average eccentric RFD (Ratio of Force Development)") + " (N/s)\n" +
+			Catalog.GetString("Explode = Average relative concentric RFD") + " (N/s/kg)\n" +
+			Catalog.GetString("Drive = Average relative concentric Impulse") + " (N*s/kg)\n\n" +
 			Catalog.GetString("General trends to try to develop an 'equilibrated' neuromuscular profile (always add individual considerations as previous or actual injuries, sport specificity, muscular chains, etc.).") + "\n" +
 			Catalog.GetString("If one of the metrics is under developed (weak) compared with the other two, prescribe exercises that emphasize its development.") + "\n" + 
 			Catalog.GetString("If one of the metrics is over developed (extreme) compared with the other two, prescribe exercises to emphasize those, but paying attention to flexibility and relaxation of over working muscles.") + "\n\n" +

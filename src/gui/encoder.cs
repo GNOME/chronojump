@@ -1620,6 +1620,7 @@ public partial class ChronoJumpWindow
 			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
+
 			if(ecconLast != "c") {
 				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
 				
@@ -1635,12 +1636,34 @@ public partial class ChronoJumpWindow
 				//duration is duration of ecc + duration of iso + duration of concentric
 				duration += (isometricDuration + curveConDuration);
 			}
+			
+			/*
+			 * at inertial signals, first curve is eccentric (can be to left or right, maybe positive or negative)
+			 * graph.R manages correctly this
+			 * But, when saved a curve, eg. concentric this can be positive or negative
+			 * (depending on the rotating sign of inertial machine at that curve)
+			 * if it's concentric, and it's full of -1,-2,... we have to change sign
+			 * if it's eccentric-concentric, and in the eccentric phase is positive, then we should change sign of both phases
+			 */
+			int inertialCheckStart = 0;
+			int inertialCheckDuration = 0;
+			if(encoderConfigurationCurrent.has_inertia) {
+				inertialCheckStart = curveStart;
+				if(ecconLast == "c")
+					inertialCheckDuration = duration;
+				else {
+					//see if sign is ok just looking if eccentric phase is negative or not
+					inertialCheckDuration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
+				}
+			}
 		
 			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
 
 			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
-			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), curveStart, duration,
+			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), 
+					curveStart, duration,
+					inertialCheckStart, inertialCheckDuration, (ecconLast == "c"), 
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);

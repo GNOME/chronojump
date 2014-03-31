@@ -523,12 +523,68 @@ public class UtilEncoder
 		((IDisposable)writer).Dispose();
 	}
 
-	public static string EncoderSaveCurve(string fileNameSignal, int start, int duration, 
+	public static string EncoderSaveCurve(string fileNameSignal, 
+			int start, int duration, 
+			int inertialCheckStart, int inertialCheckDuration, 
+			bool inertialCheckPositive, //has to be positive (true) or negative (false)
 			int sessionID, int uniqueID, string personName, string timeStamp, int curveIDMax) 
 	{
 		string contents = Util.ReadFile(fileNameSignal, false);
-		string [] startAndDuration = encoderFindPos(contents, start, duration);
+		
+			
+		/*
+		 * at inertial signals, first curve is eccentric (can be to left or right, maybe positive or negative)
+		 * graph.R manages correctly this
+		 * But, when saved a curve, eg. concentric this can be positive or negative
+		 * (depending on the rotating sign of inertial machine at that curve)
+		 * if it's concentric, and it's full of -1,-2,... we have to change sign
+		 * if it's eccentric-concentric, and in the eccentric phase is positive, then we should change sign of both phases
+		 */
+		bool reverseSign = false;
+		if(inertialCheckStart != 0 && inertialCheckDuration != 0) {
+			string [] startAndDurationCheckInertial = encoderFindPos(contents, inertialCheckStart, inertialCheckDuration);
+			string contentsCheckInertial = contents.Substring(
+					Convert.ToInt32(startAndDurationCheckInertial[0]), 
+					Convert.ToInt32(startAndDurationCheckInertial[1])-1); //-1 is for not ending file with a comma
+			
+			//see mean of contentsCheckInertial
+			int sum = 0;
+			int count = 0;
+			using (StringReader reader = new StringReader (contentsCheckInertial)) {
+				do {
+					string line = reader.ReadLine ();
+					if (line == null)
+						break;
 
+					string [] values = line.Split(new char[] {','});
+					foreach(string str in values) {
+						if (str == null || str == "" || str == " ")
+							break;
+
+						//Log.Write ("(" + str + ":");
+						int num = Convert.ToInt32(str);
+						//Log.Write (num.ToString() + ")");
+						sum += num;
+						count ++;
+					}
+				} while(true);
+				
+				if(sum == 0 || count == 0) 
+					Log.WriteLine("inertial check == 0, no data");
+				else {
+					double average = sum * 1.0 / count * 1.0;
+					Log.WriteLine("inertial check == " + average.ToString());
+					if( 
+							(average < 0 && inertialCheckPositive) ||
+							(average > 0 && ! inertialCheckPositive) ) {
+						reverseSign = true;
+					}
+				}
+			}
+		}
+
+
+		string [] startAndDuration = encoderFindPos(contents, start, duration);
 		contents = contents.Substring(
 				Convert.ToInt32(startAndDuration[0]), 
 				Convert.ToInt32(startAndDuration[1])-1); //-1 is for not ending file with a comma
@@ -538,10 +594,37 @@ public class UtilEncoder
 		//in the meantime this NA in reading in graph.R has been deleted
 		//dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 		
-
 		string fileCurve = uniqueID.ToString() + "-" + personName + "-" + 
 			(++ curveIDMax).ToString() + "-" + timeStamp + ".txt";
 		string fileCurveFull = GetEncoderSessionDataCurveDir(sessionID) + Path.DirectorySeparatorChar + fileCurve;
+
+
+		if(reverseSign) {
+			Log.WriteLine("reversingSign");
+			string contentsReversed = "";
+			string sep = "";
+			using (StringReader reader = new StringReader (contents)) {
+				do {
+					string line = reader.ReadLine ();
+					if (line == null)
+						break;
+
+					string [] values = line.Split(new char[] {','});
+					foreach(string str in values) {
+						if (str == null || str == "" || str == " ")
+							break;
+
+						//Log.Write ("(" + str + ":");
+						int num = Convert.ToInt32(str) * -1;
+						//Log.Write (num.ToString() + ")");
+						contentsReversed += sep + num.ToString();
+						sep = ", ";
+					}
+				} while(true);
+			}
+			contents = contentsReversed;
+		}
+
 		
 		TextWriter writer = File.CreateText(fileCurveFull);
 		writer.Write(contents);

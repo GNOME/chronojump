@@ -1770,6 +1770,32 @@ getDisplacement <- function(encoderConfigurationName, data, diameter, diameterEx
 	return(data)
 }
 
+fixDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
+{
+	#scanned displacement is ticks of rotary axis encoder
+	#now convert it to mm of body displacement
+	if(encoderConfigurationName == "ROTARYAXISINERTIAL") {
+		displacementMeters = displacement / 1000 #mm -> m
+		diameterMeters = diameter / 100 #cm -> m
+
+		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
+		#angle in radians
+		angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
+		position = angle * diameterMeters / 2
+		position = position * 1000	#m -> mm
+		#this is to make "inverted cumsum"
+		displacement = c(0,diff(position)) #this displacement is going to be used now
+	}
+
+	#on friction side: know displacement of the "person"
+	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
+	{
+		displacement = displacement * diameter / diameterExt #displacement of the axis
+	}
+
+	return (displacement)
+}
+
 getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
 
@@ -1888,8 +1914,8 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
 
-	print(c("displacement",displacement))
-	print(c("displacement cumsum",cumsum(displacement)))
+	#print(c("displacement",displacement))
+	#print(c("displacement cumsum",cumsum(displacement)))
 	print(c("inertia momentum",inertiaMomentum))
         #print(c("d",d))
         #print(c("mass",mass))
@@ -2095,7 +2121,12 @@ doProcess <- function(options) {
 			#this removes all NAs on a curve
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
-			dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, diameter, diameterExt)
+			if(isInertial(inputMultiData$econfName[i])) {
+				dataTempFile = fixDisplacementInertial(dataTempFile, inputMultiData$econfName[i], diameter, diameterExt)
+			} else {
+				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, diameter, diameterExt)
+			}
+
 
 			dataTempPhase=dataTempFile
 			processTimes = 1
@@ -2138,7 +2169,7 @@ doProcess <- function(options) {
 				econfD[(i+newLines)] = inputMultiData$econfD[i]
 				econfAnglePush[(i+newLines)] = inputMultiData$econfAnglePush[i]
 				econfAngleWeight[(i+newLines)] = inputMultiData$econfAngleWeight[i]
-				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]
+				econfInertia[(i+newLines)] = inputMultiData$econfInertia[i]/10000.0 #comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
 				econfGearedDown[(i+newLines)] = inputMultiData$econfGearedDown[i]
 
 				curvesHeight[(i+newLines)] = sum(dataTempPhase)
@@ -2204,28 +2235,10 @@ doProcess <- function(options) {
 
 		if(isInertial(EncoderConfigurationName)) 
 		{
-			#scanned displacement is ticks of rotary axis encoder
-			#now convert it to mm of body displacement
-			if(EncoderConfigurationName == "ROTARYAXISINERTIAL") {
-				displacementMeters = displacement / 1000 #mm -> m
-				diameterMeters = diameter / 100 #cm -> m
-
-				ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-				#angle in radians
-				angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
-				position = angle * diameterMeters / 2
-				position = position * 1000	#m -> mm
-				#this is to make "inverted cumsum"
-				displacement = c(0,diff(position)) #this displacement is going to be used now
-			}
-	
-			#on friction side: know displacement of the "person"
-			if(EncoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
-			{
-				displacement = displacement * diameter / diameterExt #displacement of the axis
-			}
+			displacement = fixDisplacementInertial(displacement, EncoderConfigurationName, diameter, diameterExt)
 			
 			displacement = getDisplacementInertialBody(displacement, curvesPlot, Title)
+
 			curvesPlot = FALSE
 		} else {
 			displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)

@@ -59,12 +59,11 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\tracking_changes true
+\tracking_changes false
 \output_changes false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author -850000851 "Xavier Padulls,,," 
 \end_header
 
 \begin_body
@@ -80,13 +79,7 @@ Chronojump
 
 
 \size large
-(updated until Chronojump 
-\change_deleted -850000851 1395940798
-0.9.2
-\change_inserted -850000851 1395940801
-1.4.0
-\change_unchanged
- version)
+(updated until Chronojump 1.4.0 version)
 \end_layout
 
 \begin_layout Author
@@ -98,7 +91,11 @@ http://www.chronojump.org
 \begin_inset Newline newline
 \end_inset
 
-Xavier de Blas Foix.
+Xavier de Blas Foix (2004-2013)
+\begin_inset Newline newline
+\end_inset
+
+Xavier Padullés Chando (2014-).
 \begin_inset Newline newline
 \end_inset
 
@@ -356,12 +353,8 @@ Chronojump management software.
 \end_layout
 
 \begin_layout Description
-Computer with Windows
-\change_inserted -850000851 1391433183
-, OSX
-\change_unchanged
- or Linux operating system connected to chronometer Chronopic and executing
- the software Chronojump.
+Computer with Windows, OSX or Linux operating system connected to chronometer
+ Chronopic and executing the software Chronojump.
  
 \end_layout
 
@@ -370,24 +363,15 @@ Chronojump software installation
 \end_layout
 
 \begin_layout Standard
-Chronojump is free software which works with Windows
-\change_inserted -850000851 1391433202
-, OSX
-\change_unchanged
- and Linux operating systems.
+Chronojump is free software which works with Windows, OSX and Linux operating
+ systems.
  To be download at the web page 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
-\change_deleted -850000851 1391433292
-
-http://www.chronojump.org/software.html
-\change_inserted -850000851 1391433301
 http://chronojump.org/products.html#chronojump
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -396,23 +380,14 @@ http://chronojump.org/products.html#chronojump
 \end_layout
 
 \begin_layout Standard
-For more information consult the frequent 
-\change_inserted -850000851 1391433233
-asked 
-\change_unchanged
-questions of the software (FAQ) 
+For more information consult the frequent asked questions of the software
+ (FAQ) 
 \begin_inset Flex URL
 status open
 
 \begin_layout Plain Layout
 
-\change_deleted -850000851 1391433353
-
-http://www.chronojump.org/faq_software.html
-\change_inserted -850000851 1391433354
 http://chronojump.org/faq_software.html
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -474,13 +449,7 @@ status open
 
 \begin_layout Plain Layout
 
-\change_deleted -850000851 1391433380
-
-http://www.chronojump.org/hardware_store.html
-\change_inserted -850000851 1391433381
 http://chronojump.org/pricing.htm
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -675,67 +644,31 @@ Chronopic 3 is a USB powered hardware.
 \end_layout
 
 \begin_layout Standard
-
-\change_deleted -850000851 1391433844
-All Chonopics will be connected to the platform using the terminal block.
- This terminal block will receive each of the two cables from the contacts
- platform.
- Chronopic3 adds an RCA jack, to be used by the terminal block, RCA, or
- both.
-\change_inserted -850000851 1391434070
-
-\end_layout
-
-\begin_layout Standard
-
-\change_inserted -850000851 1391434196
 Chronopic will be connected to the contact platform or photocell barrier
  through the RCA connection
 \begin_inset Graphics
-	filename RCA_connector.svg
-	lyxscale 3
+	filename RCA_connector.png
+	scale 3
 
 \end_inset
 
-, the terminal block
+ , the terminal block 
 \begin_inset Graphics
-	filename screw_connector.svg
-	lyxscale 3
+	filename screw_connector.png
+	scale 3
 
 \end_inset
 
  or both.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
-Using
-\change_inserted -850000851 1391434303
- Chronopic3 RCA
-\change_unchanged
- 
-\change_deleted -850000851 1391434309
-fuse
-\change_unchanged
- (and / or 
-\change_deleted -850000851 1391434300
-Chronopic3 RCA
-\change_inserted -850000851 1391434311
-fuse
-\change_unchanged
-) it is possible to connect 'n' networking platforms to any Chronopic.
+Using Chronopic3 RCA (and / or fuse) it is possible to connect 'n' networking
+ platforms to any Chronopic.
  This model is useful to chronometer situations where an athlete should
  not be able to be in more than one platform at the same time.
- Both cables of each platform must be connected to the 
-\change_inserted -850000851 1391434376
-RCA connector or the 
-\change_unchanged
-terminal block
-\change_deleted -850000851 1391434391
- provided so the two wires of each are in a different terminal block contact
-\change_unchanged
-.
+ Both cables of each platform must be connected to the RCA connector or
+ the terminal block.
 \end_layout
 
 \begin_layout Standard
@@ -753,46 +686,19 @@ Chronopic working process
 \begin_layout Standard
 Chronopic detect changes in the contact platform and sends it to the computer
  by USB cable, USB-serial or serials.
- You can also use the test button
-\change_inserted -850000851 1391434728
-
+ You can also use the test button 
 \begin_inset Graphics
-	filename test_button.svg
-	lyxscale 3
+	filename test_button.png
+	scale 3
 
 \end_inset
 
-
-\change_unchanged
- to simulate changes in the platform.
+to simulate changes in the platform.
 \end_layout
 
 \begin_layout Standard
-Chronopic has a 
-\change_inserted -850000851 1391434766
-green 
-\change_unchanged
-light to indicate when the subject is on the platform 
-\change_inserted -850000851 1391434836
-or the photoelectric barrier 
-\change_unchanged
-(light stays 
-\change_deleted -850000851 1391434789
-on
-\change_inserted -850000851 1391434790
-off
-\change_unchanged
-) or outside 
-\change_deleted -850000851 1391434844
-the platform 
-\change_unchanged
-(light is 
-\change_deleted -850000851 1391434793
-off
-\change_inserted -850000851 1391434793
-on
-\change_unchanged
-).
+Chronopic has a green light to indicate when the subject is on the platform
+ or the photoelectric barrier (light stays off) or outside (light is on).
  
 \end_layout
 
@@ -1382,29 +1288,16 @@ Perform each of the tests until it’s working correctly.
 \end_layout
 
 \begin_layout Enumerate
-Power Problem: The 
-\change_inserted -850000851 1391435018
-red 
-\change_unchanged
-light will turn on when you connect the USB cable (this will happen when
- the computer is turned on
-\change_inserted -850000851 1391439803
- except
-\change_deleted -850000851 1391439801
-,
-\change_unchanged
- when there is a connected platform and someone stepping on it, or pushing
- the test button
-\change_inserted -850000851 1391439839
+Power Problem: The red light will turn on when you connect the USB cable
+ (this will happen when the computer is turned on except when there is a
+ connected platform and someone stepping on it, or pushing the test button
  
 \begin_inset Graphics
-	filename test_button.svg
-	lyxscale 3
+	filename test_button.png
+	scale 3
 
 \end_inset
 
-
-\change_unchanged
 ).
 \end_layout
 
@@ -1446,13 +1339,7 @@ reference "sub:Modificación-del-puerto"
 \end_layout
 
 \begin_layout Enumerate
-Execute Chronojump, 
-\change_deleted -850000851 1391439878
-type
-\change_inserted -850000851 1391439884
-select
-\change_unchanged
- the port configuration in the Chronopic window.
+Execute Chronojump, select the port configuration in the Chronopic window.
  A dialog will appear asking you to click "OK" and after this click on the
  button Chronopic, shortly Chronopic should be detected and ready to be
  used with the platform connected if desired.
@@ -1464,81 +1351,6 @@ Using Chronojump
 
 \begin_layout Chapter
 Using Chronojump
-\end_layout
-
-\begin_layout Section
-IMPORTANT, READ FIRST
-\end_layout
-
-\begin_layout Standard
-
-\size large
-Chronojump 
-\change_deleted -850000851 1391439959
-0.9.3
-\change_inserted -850000851 1391439960
-1.3.9
-\change_unchanged
- has changed massively the graphical interface.
- Unfortunately, this manual is not updated to that change.
-
-\change_inserted -850000851 1391440047
- This manual is refered to the 1.3.9 version.
- It's strongly recomended to update Chronojump to the last available version
-\change_unchanged
-
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1391440068
-
-\size large
-All you can find in the current Chronojump Manual is useful because you
- will know what you can do, but lots of the things are done now differently.
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1391440068
-
-\size large
-As Chronojump 0.9.3 is lot easier, we hope you can find the way to do what
- you want.
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1391440068
-
-\size large
-Manual will be updated in the future.
- 
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1391440068
-
-\size large
-Also note lots of the images are from the spanish version.
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1391440068
-
-\size large
-Sorry for the inconvenience.
-\change_unchanged
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -1562,13 +1374,7 @@ The
 \begin_inset space ~
 \end_inset
 
-menu where you find the access to 
-\change_deleted -850000851 1391440404
-most of the functionalities
-\change_inserted -850000851 1391440412
-session and help
-\change_unchanged
-.
+menu where you find the access to session and help.
 \end_layout
 
 \begin_layout Description
@@ -1606,35 +1412,13 @@ test If there is a drawing of the test selected or targeted by the mouse,
 \end_layout
 
 \begin_layout Description
-Tabs that allow you to change the work form, 
-\change_deleted -850000851 1391440511
-actually
-\change_inserted -850000851 1391440515
-at present
-\change_unchanged
-: 
-\change_deleted -850000851 1391440536
-Jump, Simple Jump, Run, Run in sections, reaction time, pulse and multi
- Chronopic
-\change_inserted -850000851 1391440625
- Contacts (platform of photocell), Encoder and Server
-\change_unchanged
-.
+Tabs that allow you to change the work form, at present: Contacts (platform
+ of photocell), Encoder and Server.
 \end_layout
 
 \begin_layout Description
-
-\change_deleted -850000851 1391440760
-Doing
-\begin_inset space ~
-\end_inset
-
-tests
-\change_inserted -850000851 1391440766
-Test type
-\change_unchanged
- with the functionality of executing each of the tests on the tab or active
- labor module.
+Test type with the functionality of executing each of the tests on the tab
+ or active labor module.
 \end_layout
 
 \begin_layout Description
@@ -1656,16 +1440,6 @@ the
 
 tests shows different selectors for viewing and editing the jumps and runs.
  User Notification displays information about the last action.
-\change_deleted -850000851 1391441001
-
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441001
-Sound Turn off or on.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
@@ -1680,7 +1454,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_main_window_spanish.png
 	lyxscale 70
-	scale 60
+	width 100col%
 
 \end_inset
 
@@ -1710,6 +1484,13 @@ Chronojump main window.
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Chronojump Menu
 \end_layout
@@ -1731,111 +1512,6 @@ reference "fig:menu_session"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441201
-Person
-\begin_inset space ~
-\end_inset
-
-Menu see figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_sujeto"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441201
-Jump
-\begin_inset space ~
-\end_inset
-
-Menu see figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_salto1"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_salto2"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441201
-Run
-\begin_inset space ~
-\end_inset
-
-Menu see figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_carrera1"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_carrera2"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441201
-Other
-\begin_inset space ~
-\end_inset
-
-tests
-\begin_inset space ~
-\end_inset
-
-Menu see figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_other"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-
-\change_deleted -850000851 1391441201
-Tools
-\begin_inset space ~
-\end_inset
-
-Menu see figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:menu_herramientas"
-
-\end_inset
-
-.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Description
@@ -2128,13 +1804,7 @@ name "fig:Nueva-sesión.-Alumnos"
 
 \end_inset
 
-
-\change_deleted -850000851 1391420685
-Nueva
-\change_inserted -850000851 1391420687
-New
-\change_unchanged
- Session.
+New Session.
  School students.
 \end_layout
 
@@ -3693,7 +3363,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename chronojump_esquema_two_platforms.png
-	scale 60
+	width 100col%
 
 \end_inset
 
@@ -5330,7 +5000,7 @@ status open
 \begin_inset Graphics
 	filename multiChronopic_mc.png
 	lyxscale 50
-	scale 80
+	scale 60
 
 \end_inset
 
@@ -5562,7 +5232,7 @@ status open
 \begin_inset Graphics
 	filename multiChronopic_ra.png
 	lyxscale 50
-	scale 80
+	width 100col%
 
 \end_inset
 
@@ -5625,7 +5295,7 @@ status open
 \begin_inset Graphics
 	filename chronojump_stats_window.png
 	lyxscale 50
-	scale 75
+	width 100col%
 
 \end_inset
 
@@ -6562,11 +6232,7 @@ Make Report
 
 \begin_layout Standard
 To print the report, we strongly recommend using the free browser Mozilla
- Firefox
-\change_deleted -850000851 1392715145
- because Internet Explorers printer is very respectful to the original
-\change_unchanged
-.
+ Firefox.
  In Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7622,17 +7288,6 @@ Use this tab to have a copy of your data in order to avoid loosing your
  sessions, persons and tests on a hard disk problem or if operating system
  is reinstalled.
  Also you can use this tab to have Cronojump database in more than one computer.
-\end_layout
-
-\begin_layout Standard
-
-\change_deleted -850000851 1393267524
-Current Chronojump version has not an synchronization tool that allows to
- easily manage two computers daily and have your database in both.
- The only solution now is to copy database from one system to another.
- If you want to copy database from computer A to computer B, do the following:
-\change_unchanged
-
 \end_layout
 
 \begin_layout Enumerate

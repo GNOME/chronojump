@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.04";
+	static string lastChronojumpDatabaseVersion = "1.05";
 
 	public Sqlite() {
 	}
@@ -1477,6 +1477,22 @@ class Sqlite
 
 				currentVersion = "1.04";
 			}
+			if(currentVersion == "1.04") {
+				dbcon.Open();
+				
+				dbcmd.CommandText = "DELETE FROM " + Constants.EncoderTable + 
+					" WHERE encoderConfiguration LIKE \"%INERTIAL%\" AND " +
+					" signalOrCurve == \"curve\"";
+				Log.WriteLine(dbcmd.CommandText.ToString());
+				dbcmd.ExecuteNonQuery();
+
+				Log.WriteLine("Removed inertial curves, because sign was not checked on 1.04 when saving curves");
+				SqlitePreferences.Update ("databaseVersion", "1.05", true); 
+				dbcon.Close();
+
+				currentVersion = "1.05";
+			}
+		
 
 				
 		}
@@ -1618,6 +1634,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.04 - 1-05 Converted DB to 1.05 Removed inertial curves, because sign was not checked on 1.04 when saving curves
 		//1.03 - 1-04 Converted DB to 1.04 Encoder table improved
 		//1.02 - 1-03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration
 		//1.01 - 1-02 Converted DB to 1.02 Added Agility Tests: Agility-T-Test, Agility-3L3R

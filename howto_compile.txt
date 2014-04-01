@@ -30,13 +30,13 @@ compile with make && make install (like Linux and windows)
 at same shell, cd bin and execute chronojump (if shell is opened from RDP)
 
 
-when all is working fine and all is commited,
+when all is working fine and all is commited and pushed,
 use cerbero to recompile chronojump
 
 to package chronojump, first ensure that version is ok in:
 cerbero-extras/packages/chronojump.package
 
-packaging (outside the shell):
+packaging (outside the shell): (will fetch chronojump sources from git)
 cerbero-cj buildone chronojump
 cerbero-cj package chronojump
 

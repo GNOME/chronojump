@@ -685,7 +685,7 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra) {
 
 kinematicRanges <- function(singleFile, displacement, curves,
 			    massBody, massExtra, exercisePercentBodyWeight,
-			    encoderConfiguration,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
+			    encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 			    smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
@@ -696,7 +696,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 		myExPercentBodyWeight = exercisePercentBodyWeight
 			
 		#encoderConfiguration
-		myEncoderConfigurationName = EncoderConfigurationName
+		myEncoderConfigurationName = encoderConfigurationName
 		myDiameter = diameter
 		myDiameterExt = diameterExt
 		myAnglePush = anglePush
@@ -718,6 +718,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 			myInertiaMomentum = curves[i,16]
 			myGearedDown = curves[i,17]
 		}
+
 		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],
 			       myMassBody, myMassExtra, myExPercentBodyWeight,
 			       myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
@@ -2264,19 +2265,26 @@ doProcess <- function(options) {
 
 		n=length(curves[,1])
 		quitIfNoData(n, curves, OutputData1)
+		
+		print("curves before reduceCurveBySpeed")
+		print(curves)
 	
-		#reduceCurveBySpeed
-		for(i in 1:n) {
-			reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], SmoothingOneC)
-			curves[i,1] = reduceTemp[1]
-			curves[i,2] = reduceTemp[2]
+		#reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
+		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value
+		#and this produces a high acceleration there
+		if( ! isInertial(EncoderConfigurationName)) {
+			for(i in 1:n) {
+				reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], SmoothingOneC)
+				curves[i,1] = reduceTemp[1]
+				curves[i,2] = reduceTemp[2]
+			}
 		}
 		
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
-		print("curves before reduceCurveBySpeed")
+		print("curves after reduceCurveBySpeed")
 		print(curves)
 
 		

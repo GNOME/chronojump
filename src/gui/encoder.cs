@@ -2394,8 +2394,7 @@ Log.WriteLine(str);
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
 		bool signal = check_encoder_analyze_signal_or_curves.Active;
 
-		if(signal) 
-		{
+		if(signal) {
 			int rows = UtilGtk.CountRows(encoderCaptureListStore);
 
 			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
@@ -3306,8 +3305,8 @@ Log.WriteLine(str);
 		int [] noSession = 		{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		int [] noPerson = 		{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		int [] yesPerson = 		{1, 0, 1, 0, 0, 1, 1, 0, 0};
-		int [] processingCapture = 	{0, 0, 0, 0, 0, 0, 0, 1, 1};
-		int [] processingR = 		{0, 0, 0, 0, 0, 0, 0, 1, 0};
+		int [] processingCapture = 	{0, 0, 0, 0, 0, 0, 1, 1, 1};
+		int [] processingR = 		{0, 0, 0, 0, 0, 0, 1, 1, 0};
 		int [] doneNoSignal = 		{1, 1, 1, 0, 0, 1, 1, 0, 0};
 		int [] doneYesSignal = 		{1, 1, 1, 1, 0, 1, 1, 0, 0};
 		int [] selectedCurve = 		{1, 1, 1, 1, 1, 1, 1, 0, 0};

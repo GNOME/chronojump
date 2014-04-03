@@ -13310,7 +13310,6 @@ on current Chronojump version.</property>
                                                     </child>
                                                     <child>
                                                       <widget class="GtkHBox" id="hbox_encoder_user_curves">
-                                                        <property name="sensitive">False</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="spacing">6</property>
                                                         <child>

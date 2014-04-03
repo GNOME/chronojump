@@ -2683,8 +2683,11 @@ Log.WriteLine(str);
 
 
 	private bool curvesNumOkToSideCompare() {
-		if(radiobutton_encoder_analyze_data_current_signal.Active &&
-			UtilGtk.CountRows(encoderCaptureListStore) <= 12)
+		if(radiobutton_encoder_analyze_data_current_signal.Active && 
+				(
+					(ecconLast == "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 12) ||
+					(ecconLast != "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 24)
+				) )
 			return true;
 		else if(radiobutton_encoder_analyze_data_user_curves.Active &&
 				Convert.ToInt32(label_encoder_user_curves_active_num.Text) <= 12)

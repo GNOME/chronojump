@@ -180,12 +180,12 @@ public partial class ChronoJumpWindow
 		ArrayList curvesData = new ArrayList();
 		string exerciseName = "";
 		double displacedMass = 0; 
-		if(radiobutton_encoder_analyze_data_user_curves.Active) {
-			curvesData = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
-		} else {	//current signal
+		if(check_encoder_analyze_signal_or_curves.Active) {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
 			displacedMass = findMass(Constants.MassType.DISPLACED);
+		} else {						//user curves
+			curvesData = SqliteEncoder.Select(
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
 		}
 
 		string line;
@@ -205,7 +205,7 @@ public partial class ChronoJumpWindow
 				cells = fixDecimals(cells);
 				
 				
-				if(radiobutton_encoder_analyze_data_user_curves.Active) {
+				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
 					/*
 					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
 					exerciseName = eSQL.exerciseName;
@@ -512,7 +512,7 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		
-		if(radiobutton_encoder_analyze_data_current_signal.Active && findEccon(false) == "ecS") 
+		if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ecS") 
 		{
 			string phase = "e";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
@@ -522,7 +522,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
 		}
-		else if(radiobutton_encoder_analyze_data_current_signal.Active && findEccon(false) == "ceS") 
+		else if(check_encoder_analyze_signal_or_curves.Active && findEccon(false) == "ceS") 
 		{
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));

@@ -580,7 +580,6 @@ status open
 	filename chronopic3-metacrilato_small.jpg
 	width 250pt
 	height 188pt
-	keepAspectRatio
 
 \end_inset
 
@@ -644,6 +643,15 @@ Chronopic 3 is a USB powered hardware.
 \end_layout
 
 \begin_layout Standard
+<<<<<<< HEADAll Chonopics will be connected to the platform using the terminal
+ block.
+ This terminal block will receive each of the two cables from the contacts
+ platform.
+ Chronopic3 adds an RCA jack, to be used by the terminal block, RCA, or
+ both.
+\end_layout
+
+\begin_layout Standard
 Chronopic will be connected to the contact platform or photocell barrier
  through the RCA connection
 \begin_inset Graphics
@@ -693,13 +701,15 @@ Chronopic detect changes in the contact platform and sends it to the computer
 
 \end_inset
 
-to simulate changes in the platform.
+ to simulate changes in the platform.
 \end_layout
 
 \begin_layout Standard
 Chronopic has a green light to indicate when the subject is on the platform
- or the photoelectric barrier (light stays off) or outside (light is on).
- 
+ or the photoelectric barrier (light stays onoff) or outside the platform
+ (light is offon).Chronopic has a green light to indicate when the subject
+ is on the platform or the photoelectric barrier (light stays off) or outside
+ (light is on).
 \end_layout
 
 \begin_layout Section
@@ -1412,8 +1422,8 @@ test If there is a drawing of the test selected or targeted by the mouse,
 \end_layout
 
 \begin_layout Description
-Tabs that allow you to change the work form, at present: Contacts (platform
- of photocell), Encoder and Server.
+Tabs that allow you to change the work form: Contacts (platform of photocell),
+ Encoder and Server.
 \end_layout
 
 \begin_layout Description
@@ -1444,7 +1454,7 @@ tests shows different selectors for viewing and editing the jumps and runs.
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
 status open
@@ -1479,13 +1489,6 @@ Chronojump main window.
 
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -1531,7 +1534,7 @@ reference "fig:menu_help"
 
 \begin_layout Standard
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
 status open
@@ -1569,11 +1572,8 @@ Session Menu.
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
-placement p
+placement H
 wide false
 sideways false
 status open
@@ -2275,7 +2275,7 @@ The database stores the tests and links to other data tables.
 \end_layout
 
 \begin_layout Chapter
-Tests
+Contact tests
 \end_layout
 
 \begin_layout Standard
@@ -4931,7 +4931,18 @@ Some of these tests require a synchronization to intend that the various
  (example 1 and 2) or from contact with the tapping and the tread on the
  ground (Example 3).
  This sync can be selected from a check box and carried out by making contact
- with several devices at once, or by touching the Test of Chronopics.
+ with several devices at once, or by touching the Test butto
+\lang spanish
+n
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/test_button.svg
+	lyxscale 3
+
+\end_inset
+
+
+\lang british
+ of Chronopics.
  In the Chronojump Forum 
 \begin_inset Flex URL
 status open
@@ -5260,6 +5271,86 @@ Multi Chronopic screenshot with Run Analysis results.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter
+Encoder tests
+\end_layout
+
+\begin_layout Section
+Safety instruccions
+\end_layout
+
+\begin_layout Section
+Concepts
+\end_layout
+
+\begin_layout Subsection
+Database
+\end_layout
+
+\begin_layout Subsection
+Sessions
+\end_layout
+
+\begin_layout Subsection
+Persons
+\end_layout
+
+\begin_layout Subsection
+Exercices
+\end_layout
+
+\begin_layout Subsection
+Signals
+\end_layout
+
+\begin_layout Subsection
+Curves
+\end_layout
+
+\begin_layout Section
+Using the encoder
+\end_layout
+
+\begin_layout Subsection
+Chronojump main windows
+\end_layout
+
+\begin_layout Subsection
+Connecting encoder (Chronopic windows)
+\end_layout
+
+\begin_layout Subsection
+Encoder capture tab
+\end_layout
+
+\begin_layout Subsubsection
+Exercise frame
+\end_layout
+
+\begin_layout Subsubsection
+Camera record
+\end_layout
+
+\begin_layout Subsubsection
+Signal frame
+\end_layout
+
+\begin_layout Subsubsection
+Curves frame
+\end_layout
+
+\begin_layout Subsection
+Encoder analyze tab
+\end_layout
+
+\begin_layout Subsection
+Encoder settings and preferences
+\end_layout
+
+\begin_layout Section
+Examples of encoder use
 \end_layout
 
 \begin_layout Chapter

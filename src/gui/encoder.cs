@@ -3792,14 +3792,15 @@ Log.WriteLine(str);
 		int left_margin = 10;
 		int right_margin = 0;
 		int vert_margin = 35;
-		
+	
+		string title = "";	
 		//plot title	
 		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
-			mainVariable = mainVariable += " (m/s)";
+			title = mainVariable + " (m/s)";
 		else //powers
-			mainVariable = mainVariable += " (W)";
+			title = mainVariable + " (W)";
 			
-		layout_encoder_capture_curves_bars.SetMarkup(mainVariable);
+		layout_encoder_capture_curves_bars.SetMarkup(title);
 		textWidth = 1;
 		textHeight = 1;
 		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
@@ -3859,7 +3860,7 @@ Log.WriteLine(str);
 			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
-		
+	
 			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
 				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
 			else //powers

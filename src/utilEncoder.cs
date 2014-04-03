@@ -268,6 +268,9 @@ public class UtilEncoder
 			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
 			Log.WriteLine("pBin:" + pBin);
 
+			//convert accents to Unicode in order to be plotted correctly on R windows
+			title = Util.ConvertToUnicode(title);
+
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
 			es.InputData = es.InputData.Replace("\\","/");

@@ -753,12 +753,13 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	meanSpeedC = 0
 	meanPowerE = 0
 	meanPowerC = 0
-	
+
 	smoothing = 0
 	if(eccon == "c")
 		smoothing = smoothingOneC
 	else
 		smoothing = smoothingOneEC
+
 
 	#eccons ec and ecS is the same here (only show one curve)
 	#receive data as cumulative sum
@@ -873,9 +874,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#	segments(x0=speed.ext$maxindex,y0=0,x1=speed.ext$maxindex,y1=speed$y[speed.ext$maxindex],col=cols[1])
 
 	#declare variables:
-	eccentric=0
-	isometric=0
-	concentric=0
+	eccentric=NULL
+	isometric=NULL
+	concentric=NULL
 
 	if(eccon=="c") {
 		concentric=1:length(displacement)
@@ -1028,14 +1029,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	power = dynamics$power
 
 
-#print(c(knRanges$accely, max(accel$y), min(accel$y)))
-#	force <- mass*accel$y
-#	if(isJump)
-#		force <- mass*(accel$y+g)	#g:9.81 (used when movement is against gravity)
-
-#print("MAXFORCE!!!!!")
-#print(max(force))
-
 	if(draw & showForce) {
 		ylim=c(-max(abs(range(force))),max(abs(range(force))))	 #put 0 in the middle
 		if(knRanges[1] != "undefined")
@@ -1061,15 +1054,16 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*g
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
+		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
 
 		#define like this, because if eccentric == 0, length(eccentric) == 1
-		#and if eccentric is NULL, then length(eccentric == 0), but max(eccentric) produces error
-		if(eccentric == 0)
+		#and if eccentric is NULL, then length(eccentric) == 0, but max(eccentric) produces error
+		if(length(eccentric) == 0)
 			length_eccentric = 0
 		else
 			length_eccentric = length(eccentric)
 
-		if(isometric == 0)
+		if(length(isometric) == 0)
 			length_isometric = 0
 		else
 			length_isometric = length(isometric)
@@ -1077,69 +1071,39 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 		#takeoff = max(which(force>=weight))
 		#takeoff = min(which(force[concentric]<=weight)) + length_eccentric + length_isometric
-		takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
-		abline(v=takeoff,lty=1,col=cols[2]) 
-		mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
-		mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
-		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
+
+		takeoff = -1
+		if(length(which(force[concentric] <= 0)) == 0)
+			takeoff = -1
+		else {
+			takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
+			abline(v=takeoff,lty=1,col=cols[2]) 
+			mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
+			mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
+		}
 
 		if(eccon=="ec") {
+			landing = -1
 			#landing = min(which(force>=weight))
-			landing = max(which(force[eccentric]<=weight))
-			abline(v=landing,lty=1,col=cols[2]) 
-			mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
-			mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
-		}
 		
-		mtext(text=paste("jump height =", 
-				 (position[concentric[length(concentric)]] - 
-				  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
-				 "cm",sep=" "),
-		      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
-		      cex=.8,adj=0.5,col=cols[2])
-	}
-	#forceToBodyMass <- force - weight
-	#force.ext=extrema(forceToBodyMass)
-	#abline(v=force.ext$cross[,1],lty=3,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-	#text(x=(mean(force.ext$cross[1,1],force.ext$cross[1,2])+mean(force.ext$cross[2,1],force.ext$cross[2,2]))/2, y=weight, 
-	#		labels=paste("flight time:", 
-	#			mean(force.ext$cross[2,1],force.ext$cross[2,2])-mean(force.ext$cross[1,1],force.ext$cross[1,2]),"ms"), 
-	#		col=cols[2], cex=.8, adj=c(0.5,0))
-
-	#power #normalment m=massa barra + peses: 	F=m*a #com es va contra gravetat: 		F=m*a+m*g  	F=m*(a+g) #g sempre es positiva. a es negativa en la baixada de manera que en caiguda lliure F=0 #cal afegir la resistencia del encoder a la força #Potència	P=F*V #si es treballa amb el pes corporal, cal afegir-lo
-
-	#F=m*a		#bar
-	#F=(m*a)+(m*g) #jump m*(a+g) F=m*0
-
-
-
-	#power = NULL
-
-	#if(inertialType == "li" || inertialType == "ri") {
-		#Explanation rotatory encoder on inertial machine
-		#speed$y comes in mm/ms, is the same than m/s
-		#speedw in meters:
-	 #	speedw <- speed$y / diameter #m radius
-		#accel$y comes in meters
-		#accelw in meters:
-	#	accelw <- accel$y / diameter
-
-		#power = power to the inertial machine (rotatory disc) + power to the displaced body mass (lineal)
-		#power = ( inertia momentum * angular acceleration * angular velocity ) + mass(includes extra weight if any) * accel$y * speed$y  
-		#abs(speedw) because disc is rolling in the same direction and we don't have to make power to change it
-	#	power <- inertiaMomentum * accelw * speedw + mass * (accel$y +g) * speed$y
+			if(length(which(force[eccentric] <= weight)) == 0)
+				landing = -1
+			else {
+				landing = max(which(force[eccentric]<=weight))
+				abline(v=landing,lty=1,col=cols[2]) 
+				mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
+				mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
+			}
+		}
 	
-		#print("at Paint")	
-		#print(c("mass",mass))
-		#print(c("speed$y",speed$y))
-		#print(c("speedw",speedw))
-		#print(c("accel$y",accel$y))
-		#print(c("accelw",accelw))
-		#print(c("power",power))
-	#}
-	#else #(inertialType == "")
-	#	power <- force*speed$y
-
+		if(takeoff != -1)	
+			mtext(text=paste("jump height =", 
+					 (position[concentric[length(concentric)]] - 
+					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
+					 "cm",sep=" "),
+			      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
+			      cex=.8,adj=0.5,col=cols[2])
+	}
 
 
 	if(draw & showPower) {
@@ -2224,7 +2188,7 @@ doProcess <- function(options) {
 		
 		print("curves")
 		print(curves)
-		
+	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 	} else {	#singleFile == True. reads a signal file
@@ -2372,7 +2336,6 @@ doProcess <- function(options) {
 				myInertiaMomentum = curves[Jump,16]
 				myGearedDown = curves[Jump,17]
 			}
-			
 			myCurveStr = paste("curve=", Jump, ", ", myMassExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
@@ -2381,8 +2344,9 @@ doProcess <- function(options) {
 			#	myEccon="c"
 			#}
 
+
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[Jump,3],SmoothingsEC[as.numeric(Jump)],SmoothingOneC,myMassBody,myMassExtra,
+			      1,curves[Jump,3],SmoothingsEC[1],SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle

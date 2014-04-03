@@ -1966,6 +1966,13 @@ doProcess <- function(options) {
 	Height=as.numeric(options[24])
 	DecimalSeparator=options[25]
 	Title=options[26]
+
+	print(c("1 Title=",Title))
+	#unicoded titles arrive here like this "\\", convert to "\", as this is difficoult, do like this:
+	#http://stackoverflow.com/a/17787736
+	Title=parse(text = paste0("'", Title, "'"))
+	print(c("1 Title=",Title))
+
 	OperatingSystem=options[27]	#if this changes, change it also at start of this R file
 	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
 

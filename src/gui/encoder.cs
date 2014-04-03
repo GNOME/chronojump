@@ -88,8 +88,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze;
 	[Widget] Gtk.Box hbox_encoder_analyze_progress;
 	[Widget] Gtk.Button button_encoder_analyze_cancel;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_current_signal;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_data_user_curves;
 	[Widget] Gtk.Box hbox_encoder_user_curves;
 	[Widget] Gtk.Label label_encoder_user_curves_active_num;
 	[Widget] Gtk.Label label_encoder_user_curves_all_num;
@@ -101,6 +99,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_analyze_table_save;
 	[Widget] Gtk.Button button_encoder_analyze_1RM_save;
 
+	[Widget] Gtk.CheckButton check_encoder_analyze_signal_or_curves;
+	[Widget] Gtk.Image image_encoder_analyze_current_signal;
+	[Widget] Gtk.Image image_encoder_analyze_saved_curves;
+	[Widget] Gtk.Label label_encoder_analyze_current_signal;
+	[Widget] Gtk.Label label_encoder_analyze_saved_curves;
+	
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_powerbars;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_cross;
 	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_single;
@@ -635,43 +639,9 @@ public partial class ChronoJumpWindow
 
 
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
-		/*
-		 * OLD: now only first two rows: "p", and "l","li", ...
-		 *
-		 * analysisOptions, separated by ';'
-		 * 1: "p" or "-". Propulsive or all
-		 * 2: "l", "li", "rf" or "ra". Linear, linear inverted, rotatory friction, rotatory axes
-		 * 3: "i" or "-". Inertial or not
-		 * 4: inertial moment in Kgxcm^2 or "-".
-		 * 5: diameter in cm (in GUI. the rest is in meters)
-		 *
-		 * eg:
-		 * p;ra;i;100;4
-		 * p;ra;-;-;4
-		 * -;li;-;-;-
-		 *
-		 * TODO: not. 
-		 * here only do the "p"
-		 *
-		 */
-
-
 		string analysisOptions = "-";
 		if(encoderPropulsive)
 			analysisOptions = "p";
-
-		/*
-		if(checkbutton_encoder_capture_inertial.Active) {
-			if(captureOrAnalyze || radiobutton_encoder_analyze_data_current_signal.Active) 
-			{
-				if(radiobutton_encoder_capture_rotary.Active)
-					analysisOptions += ";ri";
-				else	//(radiobutton_encoder_capture_linear.Active || checkbutton_encoder_capture_inverted.Active)
-					analysisOptions += ";li";
-			} else 
-				analysisOptions += ";-";
-		}
-		*/
 
 		return analysisOptions;
 	}
@@ -1236,7 +1206,7 @@ public partial class ChronoJumpWindow
 			//force a recalculate but not save the curve (we are loading)
 			encoderCalculeCurves(encoderActions.LOAD);
 		
-			radiobutton_encoder_analyze_data_current_signal.Active = true;
+			check_encoder_analyze_signal_or_curves.Active = true;
 
 			encoderButtonsSensitive(encoderSensEnumStored);
 		} else 
@@ -1738,7 +1708,8 @@ public partial class ChronoJumpWindow
 
 		//if userCurves and no data, return
 		//TODO: fix this, because curves should be active except in the single curve mode
-		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
+		{
 			ArrayList data = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
 			if(data.Count == 0) {
@@ -2176,7 +2147,8 @@ public partial class ChronoJumpWindow
 		if(sendAnalysis == "powerBars" || sendAnalysis == "single" || sendAnalysis == "side")
 			analysisVariables = getAnalysisVariables(sendAnalysis);
 
-		if(radiobutton_encoder_analyze_data_user_curves.Active) {
+		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
+		{
 			string myEccon = "ec";
 			if(! check_encoder_analyze_eccon_together.Active)
 				myEccon = "ecS";
@@ -2403,7 +2375,7 @@ Log.WriteLine(str);
 
 		//show mass in title except if it's curves because then can be different mass
 		//string massString = "-(" + Util.ConvertToPoint(findMass(true)) + "Kg)";
-		//if(radiobutton_encoder_analyze_data_user_curves.Active)
+		//if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
 		//	massString = "";
 
 		string titleStr = Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name);
@@ -2412,70 +2384,80 @@ Log.WriteLine(str);
 			titleStr = "Neuromuscular Profile" + "-" + titleStr;
 		else {
 			//on signal show encoder exercise, but not in curves because every curve can be of a different exercise
-			if( ! radiobutton_encoder_analyze_data_user_curves.Active)
+			if(check_encoder_analyze_signal_or_curves.Active) 	//current signal
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 		}
 
 		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
 	}
 	
-	private void on_radiobutton_encoder_analyze_data_current_signal_toggled (object obj, EventArgs args) {
-		int rows = UtilGtk.CountRows(encoderCaptureListStore);
+	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
+		bool signal = check_encoder_analyze_signal_or_curves.Active;
 
-		//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
-		
-		bool analyze_sensitive = (rows > 0);
-		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
-			analyze_sensitive = curvesNumOkToSideCompare();
-			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
-		}
-		button_encoder_analyze.Sensitive = analyze_sensitive;
+		if(signal) 
+		{
+			int rows = UtilGtk.CountRows(encoderCaptureListStore);
 
-		hbox_encoder_user_curves.Sensitive = false;
+			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
 
-		if(ecconLast != "c")
-			rows = rows / 2;
+			bool analyze_sensitive = (rows > 0);
+			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+				analyze_sensitive = curvesNumOkToSideCompare();
+				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+			}
+			button_encoder_analyze.Sensitive = analyze_sensitive;
 
-		string [] activeCurvesList;
-		if(rows == 0)
- 			activeCurvesList = Util.StringToStringArray("");
+			hbox_encoder_user_curves.Visible = false;
+
+			if(ecconLast != "c")
+				rows = rows / 2;
+
+			string [] activeCurvesList;
+			if(rows == 0)
+				activeCurvesList = Util.StringToStringArray("");
+			else {
+				activeCurvesList = new String[rows];
+				for(int i=0; i < rows; i++)
+					activeCurvesList[i] = (i+1).ToString();
+			}
+
+			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+			combo_encoder_analyze_curve_num_combo.Active = 
+				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+
+			radiobutton_encoder_analyze_powerbars.Sensitive = true;
+			radiobutton_encoder_analyze_single.Sensitive = true;
+			radiobutton_encoder_analyze_side.Sensitive = true;
+			update_neuromuscular_profile_sensitiveness();
+		} 
 		else {
-			activeCurvesList = new String[rows];
-			for(int i=0; i < rows; i++)
-				activeCurvesList[i] = (i+1).ToString();
+			if(currentPerson != null) {
+				ArrayList data = SqliteEncoder.Select(
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				int activeCurvesNum = getActiveCurvesNum(data);
+				updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+			}
+
+			bool analyze_sensitive = (currentPerson != null && 
+					UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+				analyze_sensitive = curvesNumOkToSideCompare();
+				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+			}
+			button_encoder_analyze.Sensitive = analyze_sensitive;
+
+			hbox_encoder_user_curves.Visible = currentPerson != null;
+
+			radiobutton_encoder_analyze_powerbars.Sensitive = true;
+			radiobutton_encoder_analyze_single.Sensitive = true;
+			radiobutton_encoder_analyze_side.Sensitive = true;
+			update_neuromuscular_profile_sensitiveness();
 		}
-	
-		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
-		combo_encoder_analyze_curve_num_combo.Active = 
-			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
-		
-		radiobutton_encoder_analyze_powerbars.Sensitive = true;
-		radiobutton_encoder_analyze_single.Sensitive = true;
-		radiobutton_encoder_analyze_side.Sensitive = true;
-		update_neuromuscular_profile_sensitiveness();
-	}
-	private void on_radiobutton_encoder_analyze_data_user_curves_toggled (object obj, EventArgs args) {
-		if(currentPerson != null) {
-			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
-			int activeCurvesNum = getActiveCurvesNum(data);
-			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
-		}
-		
-		bool analyze_sensitive = (currentPerson != null && 
-			UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
-		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
-			analyze_sensitive = curvesNumOkToSideCompare();
-			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
-		}
-		button_encoder_analyze.Sensitive = analyze_sensitive;
-		
-		hbox_encoder_user_curves.Sensitive = currentPerson != null;
-		
-		radiobutton_encoder_analyze_powerbars.Sensitive = true;
-		radiobutton_encoder_analyze_single.Sensitive = true;
-		radiobutton_encoder_analyze_side.Sensitive = true;
-		update_neuromuscular_profile_sensitiveness();
+
+		image_encoder_analyze_current_signal.Visible 	= signal;
+		label_encoder_analyze_current_signal.Visible	= signal;
+		image_encoder_analyze_saved_curves.Visible	= ! signal;
+		label_encoder_analyze_saved_curves.Visible	= ! signal;
 	}
 
 	private string getAnalysisVariables(string encoderAnalysis) 
@@ -2645,7 +2627,7 @@ Log.WriteLine(str);
 	
 	private void update_neuromuscular_profile_sensitiveness() {
 		//neuromuscular only sensitive on signal and ecc/con
-		if(radiobutton_encoder_analyze_data_current_signal.Active &&
+		if(check_encoder_analyze_signal_or_curves.Active && 	//current signal
 				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_eccon),
 					encoderEcconTranslation) == Constants.EccentricConcentric
 		  )
@@ -2683,13 +2665,13 @@ Log.WriteLine(str);
 
 
 	private bool curvesNumOkToSideCompare() {
-		if(radiobutton_encoder_analyze_data_current_signal.Active && 
+		if(check_encoder_analyze_signal_or_curves.Active && 	//current signal
 				(
 					(ecconLast == "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 12) ||
 					(ecconLast != "c" && UtilGtk.CountRows(encoderCaptureListStore) <= 24)
 				) )
 			return true;
-		else if(radiobutton_encoder_analyze_data_user_curves.Active &&
+		else if( ! check_encoder_analyze_signal_or_curves.Active && 	//saved curves
 				Convert.ToInt32(label_encoder_user_curves_active_num.Text) <= 12)
 			return true;
 
@@ -3259,7 +3241,8 @@ Log.WriteLine(str);
 		
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 	
-		if(radiobutton_encoder_analyze_data_current_signal.Active) {
+		if(check_encoder_analyze_signal_or_curves.Active)	//current signal
+		{
 			int rows = UtilGtk.CountRows(encoderCaptureListStore);
 			if(ecconLast != "c")
 				rows = rows / 2;
@@ -3313,8 +3296,8 @@ Log.WriteLine(str);
 		//other dependencies
 		//c5 True needs 
 		//	(signal && treeviewEncoder has rows) || 
-		//	(! radiobutton_encoder_analyze_data_current_signal.Active && user has curves))
-		//c6 True needs radiobutton_encoder_analyze_data_user_curves.Active
+		//	(! check_encoder_analyze_signal_or_curves.Active && user has curves))
+		//c6 True needs ! check_encoder_analyze_signal_or_curves.Active
 
 		if(option != encoderSensEnum.PROCESSINGCAPTURE && option != encoderSensEnum.PROCESSINGR)
 			encoderSensEnumStored = option;
@@ -3377,10 +3360,10 @@ Log.WriteLine(str);
 			(
 			 Util.IntToBool(table[5]) && 
 			 (
-			  (radiobutton_encoder_analyze_data_current_signal.Active && 
+			  (check_encoder_analyze_signal_or_curves.Active &&
 			   UtilGtk.CountRows(encoderCaptureListStore) > 0) 
 			  ||
-			  (radiobutton_encoder_analyze_data_user_curves.Active && 
+			  ( ! check_encoder_analyze_signal_or_curves.Active &&
 			   Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)
 			  )
 			 );
@@ -3391,8 +3374,8 @@ Log.WriteLine(str);
 			label_encoder_analyze_side_max.Visible = false;
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
-		hbox_encoder_user_curves.Sensitive = 
-			(Util.IntToBool(table[6]) && radiobutton_encoder_analyze_data_user_curves.Active);
+		hbox_encoder_user_curves.Visible = 
+			(Util.IntToBool(table[6]) && ! check_encoder_analyze_signal_or_curves.Active);
 		
 		button_encoder_capture_cancel.Sensitive = Util.IntToBool(table[7]);
 		button_encoder_analyze_cancel.Sensitive = Util.IntToBool(table[7]);

@@ -775,6 +775,14 @@ public partial class ChronoJumpWindow
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_side);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_single);
 		UtilGtk.ColorsRadio(viewport_chronopics, radiobutton_encoder_analyze_neuromuscular_profile);
+		
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_speed);
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_accel);
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_force);
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_power);
+		
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_range);
+		UtilGtk.ColorsCheckbox(viewport_chronopics, check_encoder_analyze_show_time_to_peak_power);
 
 
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
@@ -802,6 +810,24 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_eccon_together.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeEcconSeparatedIcon);
 		image_encoder_analyze_eccon_separated.Pixbuf = pixbuf;
+
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSpeedIcon);
+		image_encoder_analyze_speed.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeAccelIcon);
+		image_encoder_analyze_accel.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeForceIcon);
+		image_encoder_analyze_force.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerIcon);
+		image_encoder_analyze_power.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeMeanIcon);
+		image_encoder_analyze_mean.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeMaxIcon);
+		image_encoder_analyze_max.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeRangeIcon);
+		image_encoder_analyze_range.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeTimeToPPIcon);
+		image_encoder_analyze_time_to_pp.Pixbuf = pixbuf;
 	}
 
 	private void loadPreferences () 

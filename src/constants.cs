@@ -398,6 +398,16 @@ public class Constants
 	public static string FileNameEncoderAnalyzeEcconTogetherIcon = "encoder-analyze-eccon-together.png";
 	public static string FileNameEncoderAnalyzeEcconSeparatedIcon = "encoder-analyze-eccon-separated.png";
 	
+	public static string FileNameEncoderAnalyzeSpeedIcon = "encoder-analyze-speed.png";
+	public static string FileNameEncoderAnalyzeAccelIcon = "encoder-analyze-accel.png";
+	public static string FileNameEncoderAnalyzeForceIcon = "encoder-analyze-force.png";
+	public static string FileNameEncoderAnalyzePowerIcon = "encoder-analyze-power.png";
+	
+	public static string FileNameEncoderAnalyzeMeanIcon = "encoder-analyze-mean.png";
+	public static string FileNameEncoderAnalyzeMaxIcon = "encoder-analyze-max.png";
+	public static string FileNameEncoderAnalyzeRangeIcon = "encoder-analyze-range.png";
+	public static string FileNameEncoderAnalyzeTimeToPPIcon = "encoder-analyze-time-to-pp.png";
+	
 	//30 colors defined
 	//see als UtilGtk that's not used by the server
 	public static string [] Colors = {

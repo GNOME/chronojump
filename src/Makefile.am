@@ -274,6 +274,14 @@ RESOURCES = \
 	../images/encoder-analyze-nmp.png,encoder-analyze-nmp.png \
 	../images/encoder-analyze-eccon-together.png,encoder-analyze-eccon-together.png \
 	../images/encoder-analyze-eccon-separated.png,encoder-analyze-eccon-separated.png \
+	../images/encoder-analyze-speed.png,encoder-analyze-speed.png \
+	../images/encoder-analyze-accel.png,encoder-analyze-accel.png \
+	../images/encoder-analyze-force.png,encoder-analyze-force.png \
+	../images/encoder-analyze-power.png,encoder-analyze-power.png \
+	../images/encoder-analyze-mean.png,encoder-analyze-mean.png \
+	../images/encoder-analyze-max.png,encoder-analyze-max.png \
+	../images/encoder-analyze-range.png,encoder-analyze-range.png \
+	../images/encoder-analyze-time-to-pp.png,encoder-analyze-time-to-pp.png \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/encoder-rotary-friction.png,encoder-rotary-friction.png \
 	../images/encoder-rotary-axis.png,encoder-rotary-axis.png \

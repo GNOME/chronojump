@@ -259,6 +259,12 @@ public class UtilGtk
 		r.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
 		r.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
 	}
+
+	public static void ColorsCheckbox(Gtk.Viewport v, Gtk.CheckButton c) {
+		c.ModifyBg(StateType.Active, v.Style.Background(StateType.Selected));
+		c.ModifyBg(StateType.Prelight, v.Style.Background(StateType.Selected));
+	}
+	
 	
 	public static void ColorsCheckOnlyPrelight(Gtk.CheckButton c) {
 		//c.ModifyBg(StateType.Normal, WHITE);

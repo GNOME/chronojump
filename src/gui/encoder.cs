@@ -123,15 +123,23 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton check_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_together;
 	[Widget] Gtk.Image image_encoder_analyze_eccon_separated;
+	
+	[Widget] Gtk.Image image_encoder_analyze_speed;
+	[Widget] Gtk.Image image_encoder_analyze_accel;
+	[Widget] Gtk.Image image_encoder_analyze_force;
+	[Widget] Gtk.Image image_encoder_analyze_power;
+	
+	[Widget] Gtk.Image image_encoder_analyze_mean;
+	[Widget] Gtk.Image image_encoder_analyze_max;
+	[Widget] Gtk.Image image_encoder_analyze_range;
+	[Widget] Gtk.Image image_encoder_analyze_time_to_pp;
 
 	[Widget] Gtk.Box hbox_encoder_analyze_curve_num;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_curve_num_combo;
 	[Widget] Gtk.Label label_encoder_analyze_side_max;
-	
-	[Widget] Gtk.Box hbox_encoder_analyze_mean_or_max;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_mean;
-	[Widget] Gtk.RadioButton radiobutton_encoder_analyze_max;
+
+	[Widget] Gtk.CheckButton check_encoder_analyze_mean_or_max;
 	
 	[Widget] Gtk.Viewport viewport_image_encoder_analyze;
 	[Widget] Gtk.Image image_encoder_analyze;
@@ -251,6 +259,7 @@ public partial class ChronoJumpWindow
 	//TODO: put also the Load as Load(mass) or viceversa, and put the units on the xlab, ylab
 	//TODO: put a save graph and a html report
 	
+
 
 	Constants.Status RInitialized;	
 	
@@ -2137,7 +2146,7 @@ public partial class ChronoJumpWindow
 				//convert: "Force / Speed" in: "cross.Force.Speed.mean"
 				string [] crossNameFull = crossName.Split(new char[] {' '});
 				analysisVariables = crossNameFull[0] + ";" + crossNameFull[2]; //[1]=="/"
-				if(radiobutton_encoder_analyze_mean.Active)
+				if(check_encoder_analyze_mean_or_max.Active)
 					analysisVariables += ";mean";
 				else
 					analysisVariables += ";max";
@@ -2506,7 +2515,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
-		hbox_encoder_analyze_mean_or_max.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis = "single";
@@ -2518,7 +2527,7 @@ Log.WriteLine(str);
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
-		radiobutton_encoder_analyze_max.Sensitive = true;
+		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -2528,7 +2537,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = true;
 		hbox_combo_encoder_analyze_cross.Visible=false;
-		hbox_encoder_analyze_mean_or_max.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis="superpose";
@@ -2540,7 +2549,7 @@ Log.WriteLine(str);
 		button_encoder_analyze_help.Visible = false;
 		
 		//restore 1RM Bench Press sensitiveness
-		radiobutton_encoder_analyze_max.Sensitive = true;
+		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		on_combo_encoder_analyze_cross_changed (obj, args);
 	}
@@ -2549,7 +2558,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
-		hbox_encoder_analyze_mean_or_max.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis = "side";
@@ -2561,7 +2570,7 @@ Log.WriteLine(str);
 		button_encoder_analyze_help.Visible = false;
 		
 		//restore 1RM Bench Press sensitiveness
-		radiobutton_encoder_analyze_max.Sensitive = true;
+		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -2569,7 +2578,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
-		hbox_encoder_analyze_mean_or_max.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=true;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="powerBars";
@@ -2580,7 +2589,7 @@ Log.WriteLine(str);
 		label_encoder_analyze_side_max.Visible = false;
 
 		//restore 1RM Bench Press sensitiveness
-		radiobutton_encoder_analyze_max.Sensitive = true;
+		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -2589,7 +2598,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=true;
-		hbox_encoder_analyze_mean_or_max.Visible=true;
+		check_encoder_analyze_mean_or_max.Visible=true;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="cross";
@@ -2608,7 +2617,7 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_curve_num.Visible=false;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false;
 		hbox_combo_encoder_analyze_cross.Visible=false;
-		hbox_encoder_analyze_mean_or_max.Visible=false;
+		check_encoder_analyze_mean_or_max.Visible=false;
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=false;
 		encoderAnalysis="neuromuscularProfile";
@@ -2619,7 +2628,7 @@ Log.WriteLine(str);
 	
 		button_encoder_analyze_help.Visible = true;
 		label_encoder_analyze_side_max.Visible = false;
-		radiobutton_encoder_analyze_max.Sensitive = false;
+		check_encoder_analyze_mean_or_max.Sensitive = false;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
 	}
@@ -2644,6 +2653,12 @@ Log.WriteLine(str);
 		image_encoder_analyze_eccon_together.Visible = check_encoder_analyze_eccon_together.Active;
 		image_encoder_analyze_eccon_separated.Visible = ! check_encoder_analyze_eccon_together.Active;
 	}
+	
+	private void on_check_encoder_analyze_mean_or_max_toggled (object obj, EventArgs args) {
+		image_encoder_analyze_mean.Visible = check_encoder_analyze_mean_or_max.Active;
+		image_encoder_analyze_max.Visible = ! check_encoder_analyze_mean_or_max.Active;
+	}
+	
 	
 	private void on_button_encoder_analyze_help_clicked (object obj, EventArgs args) {
 		//currently only active on neuromuscular profile
@@ -2916,12 +2931,12 @@ Log.WriteLine(str);
 					encoderAnalyzeCrossTranslation) == "1RM Bench Press" ||
 				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 					encoderAnalyzeCrossTranslation) == "1RM Any exercise" ) {
-			radiobutton_encoder_analyze_mean.Active = true;
-			radiobutton_encoder_analyze_max.Sensitive = false;
+			check_encoder_analyze_mean_or_max.Active = true;
+			check_encoder_analyze_mean_or_max.Sensitive = false;
 			check_encoder_analyze_eccon_together.Active = false;
 			check_encoder_analyze_eccon_together.Sensitive = false;
 		} else {
-			radiobutton_encoder_analyze_max.Sensitive = true;
+			check_encoder_analyze_mean_or_max.Sensitive = true;
 			check_encoder_analyze_eccon_together.Sensitive = true;
 		}
 	}

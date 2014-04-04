@@ -31,7 +31,7 @@
 \output_sync 0
 \bibtex_command default
 \index_command default
-\float_placement p
+\float_placement h
 \paperfontsize default
 \spacing single
 \use_hyperref false
@@ -64,6 +64,7 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
+\author -850000851 "Xavier Padulls,,," 
 \end_header
 
 \begin_body
@@ -79,7 +80,7 @@ Chronojump
 
 
 \size large
-(updated until Chronojump 1.4.0 version)
+(updated until Chronojump 1.4.1 version)
 \end_layout
 
 \begin_layout Author
@@ -4935,8 +4936,8 @@ Some of these tests require a synchronization to intend that the various
 \lang spanish
 n
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/test_button.svg
-	lyxscale 3
+	filename /home/xpadulles/chronojump/manual/test_button.png
+	scale 3
 
 \end_inset
 
@@ -5281,32 +5282,333 @@ Encoder tests
 Safety instruccions
 \end_layout
 
+\begin_layout Standard
+An encoder is a precise instrument that has to be managed ALWAYS with care.
+ Please follow this safety instructions.
+\end_layout
+
+\begin_layout Standard
+If you broke your encoder contact us at hardware@chronojump.org
+\end_layout
+
+\begin_layout Subsection
+Safety magnets
+\end_layout
+
+\begin_layout Standard
+Fix the encoder on iron or metal surface like the weights on a gym.
+ Note some gym weights are covered with rubber and have not magnet power.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/magnets.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Magnets on a metal surface
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Do not release
+\end_layout
+
+\begin_layout Standard
+Do not release the wire because it will return at high speed and will break.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/handle.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Wire handle
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Never use your fingers
+\end_layout
+
+\begin_layout Standard
+Never use your fingers on pulling the encoder.
+ The wire or the metallic ring can easily slip from your fingers, return
+ at high velocity and break.
+ Use the black plastic hook included in your encoder bag.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/never_fingers.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Wrong use
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Measure wire length
+\end_layout
+
+\begin_layout Standard
+Measure with care (not pulling with the fingers) the length of the wire
+ and the maximum range of the analysed movement.
+ Do not do tests that can exceed the wire length.
+ Note you can fix encoder to a table or other place if needed.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/measure.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Measure
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Vertical use
+\end_layout
+
+\begin_layout Standard
+Vertical use: Encoder measures distance, speed and power of the wire assuming
+ it's perpendicular to the surface.
+ If you pull/push the wire with an inclination, data will not be accurate
+ and the wire can be damaged.
+ 
+\end_layout
+
 \begin_layout Section
 Concepts
+\end_layout
+
+\begin_layout Standard
+This manual briefly describes some concepts.
+ Understanding them is important to use the software appropriately.
 \end_layout
 
 \begin_layout Subsection
 Database
 \end_layout
 
+\begin_layout Standard
+Chronojump stores all data in one database file.
+ Thus, instead of collecting the information in individual files for each
+ session, all information is organized in a single file to facilitate the
+ study of relationships between:
+\end_layout
+
+\begin_layout Itemize
+sessions
+\end_layout
+
+\begin_layout Itemize
+persons
+\end_layout
+
+\begin_layout Itemize
+exercises
+\end_layout
+
+\begin_layout Standard
+All modifications in session, persons and exercises, will be updated at
+ any time in the database.
+ So there isn’t need to save the information periodically.
+ If rare case, the program crash, you wouldn’t lose any data except sometimes
+ the exercise that is being performed at the time.
+\end_layout
+
 \begin_layout Subsection
 Sessions
+\end_layout
+
+\begin_layout Standard
+The sessions represent situations where the coach or evaluator gathers persons
+ for a series of tests.
+ Every time you gather a group of athletes to be tested in a short space
+ of time (usually one day), you should create a new session.
+ Although the persons to assess can be the same as in other session, you
+ should create a new one and load them from the other session.
+ In this way, you can make comparisons between data over time.
 \end_layout
 
 \begin_layout Subsection
 Persons
 \end_layout
 
+\begin_layout Standard
+All individuals able to perform the tests are known as persons.
+ It’s strongly recommended to create one person only once in order to study
+ the evolution over time.
+ In following sessions the person can be loaded.
+\end_layout
+
 \begin_layout Subsection
 Exercices
+\end_layout
+
+\begin_layout Standard
+Every time you want to measure, you perform an exercise.
+ Exercise has a name (e.g.
+ Bench press), an
+\change_deleted -850000851 1396596900
+d
+\change_unchanged
+ extra weight (e.g.
+ 40Kg), type of contraction (e.g.
+ concentric), laterality (e.g.
+ both limbs), recording time (e.g.
+ 45s) and others.
 \end_layout
 
 \begin_layout Subsection
 Signals
 \end_layout
 
+\begin_layout Standard
+When 
+\change_inserted -850000851 1396596925
+the 
+\change_unchanged
+person does the exercise, encoder generates 
+\change_inserted -850000851 1396596941
+a 
+\change_unchanged
+lot of data and sends it to the computer.
+ Exercise duration is defined by the user who manages the software, but
+ can be shortened if wanted.
+ All the data received is called a “signal”.
+ This signal is saved automatically when capture ends.
+ The signal is meaningless, it doesn't have any information on how many
+ repetitions of the movement has been done by the person who executed the
+ exercise.
+\end_layout
+
 \begin_layout Subsection
 Curves
+\end_layout
+
+\begin_layout Standard
+When signal is analysed, 
+\change_deleted -850000851 1396596975
+n
+\change_inserted -850000851 1396596978
+a number of
+\change_unchanged
+ curves are found.
+ This curves have the mechanical data wanted by the evaluator: start, duration,
+ speed, force, power.
+ The curves are detected by the software automatically following user criteria.
+ 
 \end_layout
 
 \begin_layout Section
@@ -5317,40 +5619,674 @@ Using the encoder
 Chronojump main windows
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/main.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Main window
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A) Starting on the top left of main window, there's a menu bar with session
+ options and help.
+ You should start your work creating a new session or loading an existing
+ one.
+\end_layout
+
+\begin_layout Standard
+B) Under the menu bar there's Chronopic information: number of Chronopics
+ connected and the button to manage them.
+ Chronopic is the microntroller used on Chronojump project to measure from
+ external devices like a contact platform, photocells or the encoder.
+ Use the Chronopic button to tell the software how Chronopic is connected.
+\end_layout
+
+\begin_layout Standard
+C) The rest of the left part of the screen is related to persons.
+ On the top you can create new persons or load from another session.
+ Below you can select the current person and finally, at the bottom you
+ can edit the person, see all it's tests and delete it.
+\end_layout
+
+\begin_layout Standard
+D) The centre-right part of the screen is for managing the tests (or exercises).
+ At the top there are two tabs: contacts and encoder.
+ Select the encoder tab.
+\end_layout
+
 \begin_layout Subsection
 Connecting encoder (Chronopic windows)
+\end_layout
+
+\begin_layout Standard
+In order to connect the encoder, click on the Chronopic button (“B”, in
+ the above image) and Chronopic window will be opened.
+ On this new window select “Encoder” and the port where Chronopic is connected.
+ If you have any problem press the help button in that window, it has little
+ and useful information.
+ After Chronopic port has been selected, just close the window.
 \end_layout
 
 \begin_layout Subsection
 Encoder capture tab
 \end_layout
 
+\begin_layout Standard
+At this tab you can see 
+\change_deleted -850000851 1396601345
+four
+\change_inserted -850000851 1396601345
+six
+\change_unchanged
+ areas: 
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted -850000851 1396603740
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\change_inserted -850000851 1396603849
+\begin_inset Graphics
+	filename encoder-manual-images/capture.png
+	lyxscale 20
+	scale 50
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\change_inserted -850000851 1396603740
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\change_inserted -850000851 1396603748
+Capture tab
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
 \begin_layout Subsubsection
-Exercise frame
+Exercise
+\end_layout
+
+\begin_layout Standard
+At exercise area there's the exercise name, information of that exercise
+ and a button to create a new exercise.
+ Clicking at the information or at the new exercise creation you will notice
+ there's a selector called “Displaced body weight (%)”.
+ This selector is important to measure the force and power, because 100%
+ of body weight is displaced during a jump, but 0% of body weight is displaced
+ in a bench press.
+ “Extra weight” selector is used to input how many Kg are moved (weight
+ bearing is not considered).
+ Summarizing, weight displacement is calculated like this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+WeightDispacement=\frac{PersonWeight*DisplacedBodyWeight}{100}+ExtraWeight
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The exercise area includes also the contraction type (eccentric-concentric
+ or concentric), the laterality, the recording time selected, the minimal
+ height, the feedback bell and the recalculate button.
+\end_layout
+
+\begin_layout Subsubsection
+Aquire
+\end_layout
+
+\begin_layout Standard
+In the acquire area a new signal can be captured or a previusly captured
+ one can be loaded.
+\end_layout
+
+\begin_layout Standard
+With the Options button the following parameters of the capture can be adjusted:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/capture_options.png
+	scale 70
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Capture options
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Recording time.
+ How long Chronojump will be capturing the signal resulting of the exercise
+\end_layout
+
+\begin_layout Itemize
+End at n inactivity seconds.
+ If the encoder don't receive any movement in the specified time Chronojump
+ will end the capuring process.
+\end_layout
+
+\begin_layout Itemize
+Minimal height is the minimum range of centimetres that a curve has.
+ E.g.
+ In a bench press, when person lifts the bar fom r the first time before
+ starting exercise (weight was in the support), this is not considered a
+ curve because it's range of movement is lower than “Minimal height” defined.
+\end_layout
+
+\begin_layout Itemize
+Displayed height.
+ The scale of the signal frame.
+ The optimal value is the range of the movement in each exercise.
+\end_layout
+
+\begin_layout Itemize
+Main variable.
+ The data displayed in the bars frame.
+ This is the variable that will be showed during the exercise capturing
+ process as a instant visual feedback.
+\end_layout
+
+\begin_layout Itemize
+Feedback.
+ This button opens the sound feedback options.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/bells.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sound feedback options
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The top right button of this frame allows to load a signal, save signal
+ again with a comment (just write comment in the area and press update),
+ or delete the signal.
+ The load signal window is used also to manage all the signals of current
+ person.
+ Right click on it to change the person who performed the exercise, add
+ a comment or delete any signal of a given person.
+\end_layout
+
+\begin_layout Standard
+Recalculate can be used after capturing or loading.
+ When user detects that some parameter has not been set correctly and want
+ to perform calculations of the signal again, user can change the selector
+ and press “recalculate”.
+ E.g.
+ 40 seconds squat has been done and the extra weight introduced was 40Kg
+ but user forgot to add the weight of the lift bar.
+ After capture, user can change 40Kg to 55Kg and then press ”recalculate”
+ in order to have the force and power calculated correctly.
 \end_layout
 
 \begin_layout Subsubsection
 Camera record
 \end_layout
 
+\begin_layout Standard
+At the right of the exercise frame there is a check box where a web cam
+ can be activated.
+ If it's active it will be used on encoder capturing.
+ The resulting video will be attached to the encoder signal and can be watched
+ using a button on signal frame.
+\end_layout
+
 \begin_layout Subsubsection
 Signal frame
+\end_layout
+
+\begin_layout Standard
+During the capture this frame will show the signal sent by the encoder.
+ Once finished Chronojump will calculate all the curves and show them in
+ the same frame with some basic graphic information.
 \end_layout
 
 \begin_layout Subsubsection
 Curves frame
 \end_layout
 
+\begin_layout Standard
+Once signal is loaded, captured or recalculated, Chronojump will find curves
+ and write their data on a table.
+ Here you can delete a curve, save the selected curve, save all or export
+ them to an spreadsheet software.
+ Most users will save only a curve, or delete a curve and the press “save
+ all”.
+ This curves can be analysed at the Encoder analyse tab.
+\end_layout
+
+\begin_layout Subsubsection
+Bars
+\end_layout
+
+\begin_layout Standard
+The bars frame shows, during the exercise, the main variable in real time.
+ This way the athlete can have an instant feedback of every execution of
+ the exersice.
+\end_layout
+
 \begin_layout Subsection
 Encoder analyze tab
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename encoder-manual-images/analyze.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Analyze tab
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Regarding the data, two things can be analysed: current signal (the signal
+ in the capture tab) or user curves.
+\end_layout
+
+\begin_layout Standard
+When “User curves” is marked, then using the “Select” button, it can be
+ discriminated the active curves and the not-active.
+ The analysis will cover only the active curves.
+ Also the “User curves” allow to make comparisons between persons (to compare
+ the different persons in this session), or between sessions (to compare
+ the evolution of a person during different sessions).
+\end_layout
+
+\begin_layout Standard
+There are five modes of analysis:
+\end_layout
+
+\begin_layout Itemize
+Power bars: Shows power, peak power, time needed to arrive to peak power
+ and range of movement.
+\end_layout
+
+\begin_layout Itemize
+Cross variables: to show relationships between variables like “Power / Load”.
+ Includes the 1RM calculation.
+ Cross variables is the only analysis that can be done on “compare” mode.
+\end_layout
+
+\begin_layout Itemize
+Side compare: to see a graph of the mechanical variables of different curves
+ all with the same axis.
+\end_layout
+
+\begin_layout Itemize
+Single curve: to see a graph of the mechanical variables of a curve.
+\end_layout
+
+\begin_layout Itemize
+Neuromuscular profile: to se the neuromuscular profile of the three best
+ jumps of a set of six.
+ At least six jumping curves are needed to performe that kind of analysis.
+\end_layout
+
+\begin_layout Standard
+The analysis starts when user click in “Analyse”.
+ After a while, a graph and a table will appear, both can be saved using
+ each save button in the lower right.
 \end_layout
 
 \begin_layout Subsection
 Encoder settings and preferences
 \end_layout
 
+\begin_layout Standard
+At preferences there are some options that are more advanced and are not
+ changed frequently.
+ Clicking at “Session / Preferences” you will see three tabs, the last one
+ is related to encoder.
+\end_layout
+
+\begin_layout Standard
+If you want to do calculations of mechanical parameters only in the propulsive
+ phase just ensure the parameter “propulsive” is active.
+ The meaning is the following: In a fast concentric movement where there's
+ little weight displaced, the brake action of the person in the final phase
+ of the movement will not be used in the calculations.
+ Nowadays most coaches prefer this option active because they noticed that
+ the comparison of mean power between a light weight and a heavy weight
+ exercise is not fair because the brake phase in the light weight exercise
+ is related to negative force and the power values get very low.
+ Then, if “propulsive” phase is active, only this is used, and not the “brake”
+ phase.
+ The other options are related to smoothing of the capture and we recommend
+ to leave them untouched.
+\end_layout
+
 \begin_layout Section
 Examples of encoder use
+\end_layout
+
+\begin_layout Standard
+At the Gym: 
+\end_layout
+
+\begin_layout Enumerate
+On the floor, at the side of the weight bar, put a gym weight (not made
+ by rubber) and encoder on the top of it (attached with the magnets).
+\end_layout
+
+\begin_layout Enumerate
+The plastic hook is attached to weight bar securely, and to encoder.
+\end_layout
+
+\begin_layout Enumerate
+Athlete1 and athlete2 start the warming up slowly and full range of movement
+ (in a different place) while evaluator prepare the software.
+\end_layout
+
+\begin_layout Enumerate
+Evaluator starts Chronojump software, loads a session prepared the day before
+ (session parameters and persons were already introduced).
+\end_layout
+
+\begin_layout Enumerate
+Evaluator connects Encoder-Chronopic to the computer using USB cable.
+\end_layout
+
+\begin_layout Enumerate
+Evaluator selects the port at Chronopic window, at the encoder tab.
+\end_layout
+
+\begin_layout Enumerate
+On main window, go to encoder, capture tab.
+\end_layout
+
+\begin_layout Enumerate
+Select exercise options: bench press, extra weight: 20Kg (10 bar + 10 gym
+ weights).
+\end_layout
+
+\begin_layout Enumerate
+Select athlete1.
+ Click on capture (“Safe” or “External”).
+ See the results but have no time to analyse them now.
+ Signal is automatically saved.
+\end_layout
+
+\begin_layout Enumerate
+Select athlete2.
+ Click on capture (“Safe” or “External”).
+ See the results but have no time to analyse them now.
+ Signal is automatically saved.
+\end_layout
+
+\begin_layout Enumerate
+Select exercise options (extra weight: 30Kg).
+ Change weight of bar + gym weights to 30Kg.
+ Then repeat [9] and [10].
+\end_layout
+
+\begin_layout Enumerate
+Repeat the process every time with 10Kg more until one repetition cannot
+ be done.
+\end_layout
+
+\begin_layout Enumerate
+Close the software and carefully detach the encoder hook from the weight
+ bar.
+ 
+\end_layout
+
+\begin_layout Standard
+Later, at home:
+\end_layout
+
+\begin_layout Standard
+Open software.
+\end_layout
+
+\begin_layout Enumerate
+Load session, select athlete1, load first signal, and “Save all” curves.
+\end_layout
+
+\begin_layout Enumerate
+Repeat [2] for all the signals of Athlete1 and Athlete2.
+\end_layout
+
+\begin_layout Enumerate
+Go to analyse tab.
+ Select User curves, compare between persons, “Power / Load”.
+\end_layout
+
+\begin_layout Enumerate
+Use the resulting values to prepare training related to power.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/example.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of encoder use
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As a general rule, if you don't know what a button does, just point it with
+ the mouse and wait, a tooltip will be shown.
+ 
+\end_layout
+
+\begin_layout Standard
+If you need more help, see Chronojump manual (you will find clicking on
+ Help), and Documents section on our website: http://chronojump.org/documents.html
+\end_layout
+
+\begin_layout Standard
+Use the forums to ask questions:
+\end_layout
+
+\begin_layout Itemize
+English forum: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://forum.chronojump.org
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+Spanish forum: 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://foro.chronojump.org
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter

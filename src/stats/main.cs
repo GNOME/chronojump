@@ -976,7 +976,14 @@ public class Stat
 		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
 			if(! acceptCheckedData(i))
 				continue;
-			rowNamesD += sep2 + "'" + Util.RemoveTilde(CurrentGraphData.XAxisNames[i].ToString()) + "'";
+			
+			string name = Util.RemoveTilde(CurrentGraphData.XAxisNames[i].ToString());	
+			
+			//convert accents to Unicode in order to be plotted correctly on R windows
+			if(UtilAll.IsWindows()) 
+				name = Util.ConvertToUnicode(name);
+
+			rowNamesD += sep2 + "'" + name  + "'";
 			sep2 = ", ";
 		}
 		

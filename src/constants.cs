@@ -386,6 +386,9 @@ public class Constants
 	public static string FileNameContactPlatformModular = "modular_platform_with_chronopic.jpg";
 	public static string FileNameInfrared = "infrared.jpg";
 	
+	public static string FileNameEncoderAnalyzeCurrentSignalIcon = "encoder-analyze-current-signal.png";
+	public static string FileNameEncoderAnalyzeSavedCurvesIcon = "encoder-analyze-saved-curves.png";
+
 	public static string FileNameEncoderAnalyzePowerbarsIcon = "encoder-analyze-powerbars.png";
 	public static string FileNameEncoderAnalyzeCrossIcon = "encoder-analyze-cross.png";
 	public static string FileNameEncoderAnalyzeSideIcon = "encoder-analyze-side.png";

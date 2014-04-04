@@ -781,6 +781,12 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_stats.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_encoder_signal_delete.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeCurrentSignalIcon);
+		image_encoder_analyze_current_signal.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeSavedCurvesIcon);
+		image_encoder_analyze_saved_curves.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzePowerbarsIcon);
 		image_encoder_analyze_powerbars.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeCrossIcon);

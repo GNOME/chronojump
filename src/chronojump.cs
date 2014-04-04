@@ -111,7 +111,8 @@ public class ChronoJump
 		Log.WriteLine("baseDir1:" + baseDirectory);
 		Log.WriteLine("envPath+rBinPath:" + envPath + Path.PathSeparator + rBinPath);
 		
-				
+		
+		
 		if(UtilAll.IsWindows())
 			Environment.SetEnvironmentVariable("GST_PLUGIN_PATH",RelativeToPrefix("lib\\gstreamer-0.10"));
 

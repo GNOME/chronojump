@@ -2649,7 +2649,7 @@ Log.WriteLine(str);
 		//currently only active on neuromuscular profile
 
 		string str = 
-			Catalog.GetString("About Neuromucular Profile") + "\n\n" +
+			Catalog.GetString("About Neuromuscular Profile") + "\n\n" +
 			Catalog.GetString("Load = Average eccentric RFD (Ratio of Force Development)") + " (N/s)\n" +
 			Catalog.GetString("Explode = Average relative concentric RFD") + " (N/s/kg)\n" +
 			Catalog.GetString("Drive = Average relative concentric Impulse") + " (N*s/kg)\n\n" +

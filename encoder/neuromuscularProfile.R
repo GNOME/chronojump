@@ -384,7 +384,7 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothi
 	}
 
 	cols <- c("red","green","blue")
-	plot(forceFirst, type="n", xlab="time (ms)", ylab="Force (N)", 
+	plot(forceFirst, type="n", xlab=paste(translate("time"),"(ms)"), ylab=paste(translate("Force"),"(N)"), 
 	     xlim=c(0,maximumLength), ylim=c(minimumForce, maximumForce))
 
 	#align curves to the right, add NAs at start
@@ -417,9 +417,9 @@ neuromuscularProfileWriteData <- function(npj, outputData1)
 	df <- data.frame(rbind(jump1,jump2,jump3))
 	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c), names(npj[[1]]$e2))
 	rownames(df) <- c(
-			  paste("jump",npj[[1]]$l.context$numJump), 
-			  paste("jump",npj[[2]]$l.context$numJump),
-			  paste("jump",npj[[3]]$l.context$numJump))
+			  paste(translate("jump"),npj[[1]]$l.context$numJump), 
+			  paste(translate("jump"),npj[[2]]$l.context$numJump),
+			  paste(translate("jump"),npj[[3]]$l.context$numJump))
 	print(df)
 
 	write.csv(df, outputData1, quote=FALSE)

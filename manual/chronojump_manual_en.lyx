@@ -5685,7 +5685,11 @@ D) The centre-right part of the screen is for managing the tests (or exercises).
 \end_layout
 
 \begin_layout Subsection
-Connecting encoder (Chronopic windows)
+Connecting encoder
+\end_layout
+
+\begin_layout Subsubsection
+Chronopic windows
 \end_layout
 
 \begin_layout Standard
@@ -5695,6 +5699,43 @@ In order to connect the encoder, click on the Chronopic button (“B”, in
  If you have any problem press the help button in that window, it has little
  and useful information.
  After Chronopic port has been selected, just close the window.
+\end_layout
+
+\begin_layout Subsubsection
+Encoder configuration
+\end_layout
+
+\begin_layout Standard
+The next step is the selection of the type of encoder, how it is atached
+ to the machine and the type of machine used in the exercise.
+\end_layout
+
+\begin_layout Standard
+Clicking on the 
+\begin_inset Quotes eld
+\end_inset
+
+Select encoder
+\begin_inset Quotes erd
+\end_inset
+
+ button a new window with selfexplanatory images will open.
+\end_layout
+
+\begin_layout Standard
+Each type of encoder has a diferent set of configurations.
+ Clicking on the arrow buttons will change the configuration for this type
+ of encoder
+\end_layout
+
+\begin_layout Standard
+There are three types of encoder:
+\end_layout
+
+\begin_layout Itemize
+Linear.
+ The most widely used encoder.
+ With this kind of encoder 10 diferent configurations are permited.
 \end_layout
 
 \begin_layout Subsection

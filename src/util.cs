@@ -1430,4 +1430,22 @@ public class Util
 		return pounds * 0.45359237;
 	}
 
+
+	/* 
+	 * used to display correcly strings on R Windows, because it doesn't support accents in plots,
+	 * but it plots correctly the unicode
+	 */
+	public static string ConvertToUnicode(string str) {
+		//http://stackoverflow.com/questions/6348022/escaping-an-unicode-string-using-backslash-notation-in-c-sharp
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		foreach (char c in str)
+		{
+			if (' ' <= c && c <= '~')
+				sb.Append(c);
+			else
+				sb.AppendFormat("\\U{0:X4}", (int)c);
+		}
+		return sb.ToString();
+	}
+
 }

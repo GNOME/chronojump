@@ -265,6 +265,8 @@ RESOURCES = \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \
+	../images/encoder-analyze-current-signal.png,encoder-analyze-current-signal.png \
+	../images/encoder-analyze-saved-curves.png,encoder-analyze-saved-curves.png \
 	../images/encoder-analyze-powerbars.png,encoder-analyze-powerbars.png \
 	../images/encoder-analyze-cross.png,encoder-analyze-cross.png \
 	../images/encoder-analyze-side.png,encoder-analyze-side.png \

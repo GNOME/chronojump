@@ -5342,7 +5342,6 @@ Do not release
 
 \begin_layout Standard
 Do not release the wire because it will return at high speed and will break.
- 
 \end_layout
 
 \begin_layout Standard
@@ -5384,15 +5383,15 @@ Wire handle
 \end_layout
 
 \begin_layout Subsection
-Never use your fingers
+Handle the carabiner with care
 \end_layout
 
 \begin_layout Standard
-Never use your fingers on pulling the encoder.
- The wire or the metallic ring can easily slip from your fingers, return
- at high velocity and break.
- Use the black plastic hook included in your encoder bag.
- 
+Allways be careful when manipulating the carabiner.
+ Ensure that it is well secured in your fingers.
+ A wrong grab could end up with a broken encoder.
+ When possible, try to put a finger inside the carabiner to avoid it slipping
+ from your fingers.
 \end_layout
 
 \begin_layout Standard
@@ -5734,8 +5733,78 @@ There are three types of encoder:
 
 \begin_layout Itemize
 Linear.
- The most widely used encoder.
- With this kind of encoder 10 diferent configurations are permited.
+\end_layout
+
+\begin_layout Itemize
+Rotary friction.
+\end_layout
+
+\begin_layout Itemize
+Rotary axis.
+\end_layout
+
+\begin_layout Standard
+Some configurations need additional parameters as angle, diameter or inertia
+ momentum.
+\end_layout
+
+\begin_layout Standard
+Chronojump implements a system to calculate the inertia momentum that allows
+ to config an encoder amopst all type of inertial machines.
+ To do follow the next steps:
+\end_layout
+
+\begin_layout Enumerate
+Click on 
+\begin_inset Quotes eld
+\end_inset
+
+calcule IM
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+\end_layout
+
+\begin_layout Enumerate
+Put the machine with the disk in a vertical plane.
+\end_layout
+
+\begin_layout Enumerate
+Secure a known weight in the external part of the disk
+\end_layout
+
+\begin_layout Enumerate
+Enter the parameters weight of the disk and distance from the center of
+ the disk.
+\end_layout
+
+\begin_layout Enumerate
+Pull the weight so that it being at 90 degrees from the vertical and release
+ it to let it oscilate.
+\end_layout
+
+\begin_layout Enumerate
+Just after releasing the weight click on capture
+\end_layout
+
+\begin_layout Standard
+A live signal will appear in the signal frame showing the oscillation of
+ the machine.
+ After the machine being still for a while Chronojump will calculate the
+ inertia momentum of the inertial machine.
+\end_layout
+
+\begin_layout Standard
+If you want to see a video of the process you can see the 
+\begin_inset CommandInset href
+LatexCommand href
+name "Calculing inertia momentum video"
+target "http://youtu.be/HK1ilOyg5Vs"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection

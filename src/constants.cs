@@ -720,4 +720,92 @@ public class Constants
 	}	
 	
 	public enum Status { ERROR, UNSTARTED, OK}	
+	
+	/*
+	 * Attention: this will be separated by ';', then no ';' sign can be here
+	 * No "\n" can be here also
+	 * check that this list has same elements than below list
+	 */
+	public static string [] EncoderEnglishWords = {
+		"jump",
+		"body speed",
+		"speed",
+		"Speed",
+		"Accel.",
+		"Force",
+		"Power",
+		"Peak Power",
+		"Distance",
+		"Time to Peak Power",
+		"time",
+		"Range",
+		"height",
+		"Weight",
+		"Load",
+		"eccentric",
+		"concentric",
+		"land",
+		"air",
+		"jump height",
+		"Curve",
+		"Not enough data.",
+		"Encoder is not connected.", 
+		"prediction",
+		"Concentric mean speed on bench press 1RM =",
+		"Estimated percentual load =",
+		"Adapted from",
+		"Mean speed in concentric propulsive phase",
+		"Sorry, no curves matched your criteria.",
+		"Need 6 jumps and 4 phases for each jump",
+		"Starting R",
+		"Loading libraries",
+		"Starting process",
+		"Curves processed",
+		"R tasks done"
+	};
+	/*
+	 * written here in order to be translated
+	 * Attention: this will be separated by ';', then no ';' sign can be here
+	 * No "\n" can be here also
+	 * if translators add one, it will be converted to ','
+	 * if translators add a "\n", it will be converted to " "
+	 * check that this list has same elements than above list
+	 */
+	public static string [] EncoderTranslatedWords = {
+		Catalog.GetString("jump"),
+		Catalog.GetString("body speed"),
+		Catalog.GetString("speed"),
+		Catalog.GetString("Speed"),
+		Catalog.GetString("Accel."),
+		Catalog.GetString("Force"),
+		Catalog.GetString("Power"),
+		Catalog.GetString("Peak Power"),
+		Catalog.GetString("Distance"),
+		Catalog.GetString("Time to Peak Power"),
+		Catalog.GetString("time"),
+		Catalog.GetString("Range"),
+		Catalog.GetString("height"),
+		Catalog.GetString("Weight"),
+		Catalog.GetString("Load"),
+		Catalog.GetString("eccentric"),
+		Catalog.GetString("concentric"),
+		Catalog.GetString("land"),
+		Catalog.GetString("air"),
+		Catalog.GetString("jump height"),
+		Catalog.GetString("Curve"),
+		Catalog.GetString("Not enough data."),
+		Catalog.GetString("Encoder is not connected."),
+		Catalog.GetString("prediction"),
+		Catalog.GetString("Concentric mean speed on bench press 1RM is"),
+		Catalog.GetString("Estimated percentual load ="),
+		Catalog.GetString("Adapted from"),
+		Catalog.GetString("Mean speed in concentric propulsive phase"),
+		Catalog.GetString("Sorry, no curves matched your criteria."),
+		Catalog.GetString("Need 6 jumps and 4 phases for each jump"),
+		Catalog.GetString("Starting R"),
+		Catalog.GetString("Loading libraries"),
+		Catalog.GetString("Starting process"),
+		Catalog.GetString("Curves processed"),
+		Catalog.GetString("R tasks done")
+	};
 }

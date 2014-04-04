@@ -339,6 +339,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 	
+	public static string ChangeChars(string str, string charIni, string charEnd) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(str);
+		myStringBuilder.Replace(charIni, charEnd);
+		return myStringBuilder.ToString();
+	}
+
+	
 	public static string GetHeightInCentimeters (string time) {
 		// s = 4.9 * (tv/2)^2
 		double timeAsDouble = Convert.ToDouble(time);
@@ -1159,6 +1167,18 @@ public class Util
 		}
 		return uniqueString;
 	}
+	
+	public static string StringArrayToStringWithQuotes (string [] myFullString, string separator) {
+		string uniqueString = "";
+		string sep = "";
+		string quote = "\"";
+		foreach (string myStr in myFullString) {
+			uniqueString += sep + quote + myStr + quote;
+			sep = separator;
+		}
+		return uniqueString;
+	}
+	
 	
 	//to create an string [] of one member
 	public static string [] StringToStringArray (string str) {

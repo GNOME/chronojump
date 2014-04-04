@@ -78,13 +78,11 @@ colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
 
 
-
-
 #--- user commands ---
 #way A. passing options to a file
 getOptionsFromFile <- function(optionsFile) {
 	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=29)
+	options=readLines(optionsCon,n=31)
 	close(optionsCon)
 	return (options)
 }
@@ -101,14 +99,26 @@ print(optionsFile)
 
 options=getOptionsFromFile(optionsFile)
 
-print(options)
+#print(options)
 
 OutputData2 = options[4] #currently used to display processing feedback
 SpecialData = options[5]
 OperatingSystem=options[27]
 EncoderConfigurationName = ""
 
-write("(1/5) Starting R", OutputData2)
+English = unlist(strsplit(options[30], "\\;"))
+Translated = unlist(strsplit(options[31], "\\;"))
+
+
+#translate
+translate <- function(englishWord) {
+	if(length(Translated[which(English == englishWord)]) == 0)
+		return (englishWord) #not found, return english word
+	else
+		return(Translated[which(English == englishWord)])
+}
+
+write(paste("(1/5)",translate("Starting R")), OutputData2)
 
 
 # This function converts top curve into bottom curve
@@ -200,10 +210,10 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 		abline(h=0, lty=2, col="gray")
 	
 		lines((1:length(position))/1000,positionPerson/10,lty=1,lwd=2)
-		
+
 		title(title, cex.main=1, font.main=1)
-		mtext("time (s) ",side=1,adj=1,line=-1)
-		mtext("height (cm) ",side=2,adj=1,line=-1)
+		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
+		mtext(paste(translate("height"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	return(displacementPerson)
 }
@@ -213,7 +223,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 	position.ext=extrema(position)
 	print("at findCurves")
 	print(position.ext)
-	
+
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
 	#TODO: fer algo per si no es detecta el minindex previ al salt
@@ -227,26 +237,26 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 
 			#tempStart at the end of minindexs
 			#tempStart = position.ext$minindex[i,2]
-			
+
 			#tempStart at the mean of minindexs
 			#this is better because has more data in order to reduceCurveBySpeed
 			#then we get similar results than pyserial_pyper.py
 			tempStart = mean(c(position.ext$minindex[i,1],position.ext$minindex[i,2]))
-			
-			
+
+
 			#end at the mean of maximum values then reduceCurveBySpeed will end it when first speed==0 at right of maxspeed 
 			tempEnd = mean(c(position.ext$maxindex[j,1],position.ext$maxindex[j,2]))
 
 			#end at the first maximum value
 			#tempEnd = position.ext$maxindex[j,1]
-			
+
 			height=position[tempEnd]-position[tempStart]
 			if(height >= min_height) { 
 				start[row] = tempStart
 				end[row]   = tempEnd
 				startH[row]= position[position.ext$minindex[i,1]]		#height at start
 				row=row+1;
-#				if(eccon=="c") { break } #c only needs one result
+				#if(eccon=="c") { break } #c only needs one result
 			} 
 			i=i+1; j=j+1
 		}
@@ -263,7 +273,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 		#when saved a row with ec-con, and there's only this curve, extrema doesn't find maxindex
 		if(length(referenceindex) == 0) {
 			start[1] = 1
-			
+
 			if(eccon=="ec" || eccon=="ecS")
 				end[1] = mean(which(position == min(position)))
 			else
@@ -283,7 +293,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 		while(j <= length(referenceindex[,1])) {
 			tempStart = mean(c(referenceindex[i,1],referenceindex[i,2]))
 			tempEnd   = mean(c(referenceindex[j,1],referenceindex[j,2]))
-		
+
 			if(eccon=="ec" || eccon=="ecS") {
 				opposite=min(position[tempStart:tempEnd]) #find min value between the two tops
 				mintop=min(c(position[tempStart],position[tempEnd])) #find wich top is lower
@@ -334,10 +344,10 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 		     xlim=c(1,length(position))/1000,		#ms -> s
 		     xlab="",ylab="",axes=T,
 		     lty=lty,col=col) 
-		
+
 		title(title, cex.main=1, font.main=1)
-		mtext("time (s) ",side=1,adj=1,line=-1)
-		mtext("height (cm) ",side=2,adj=1,line=-1)
+		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
+		mtext(paste(translate("height"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -921,8 +931,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			      side=1,at=min(isometric),adj=1,cex=.8,col=cols[1])
 			mtext(text=paste(" ", round(max(isometric),1),sep=""), 
 			      side=1,at=max(isometric),adj=0,cex=.8,col=cols[1])
-			mtext(text="eccentric ",side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
-			mtext(text=" concentric ",side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
+			mtext(text=paste(translate("eccentric")," ",sep=""),side=3,at=max(eccentric),cex=.8,adj=1,col=cols[1],line=.5)
+			mtext(text=paste(" ",translate("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
 		
@@ -1054,7 +1064,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & (!superpose || (superpose & highlight)) & exercisePercentBodyWeight == 100) {
 		weight=mass*g
 		abline(h=weight,lty=1,col=cols[2]) #body force, lower than this, person in the air (in a jump)
-		text(x=length(force),y=weight,labels="Weight (N)",cex=.8,adj=c(.5,0),col=cols[2])
+		text(x=length(force),y=weight,labels=paste(translate("Weight"),"(N)"),cex=.8,adj=c(.5,0),col=cols[2])
 
 		#define like this, because if eccentric == 0, length(eccentric) == 1
 		#and if eccentric is NULL, then length(eccentric) == 0, but max(eccentric) produces error
@@ -1078,8 +1088,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		else {
 			takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
 			abline(v=takeoff,lty=1,col=cols[2]) 
-			mtext(text="land ",side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
-			mtext(text=" air ",side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
+			mtext(text=paste(translate("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
+			mtext(text=paste(" ", translate("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
 		}
 
 		if(eccon=="ec") {
@@ -1091,13 +1101,13 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			else {
 				landing = max(which(force[eccentric]<=weight))
 				abline(v=landing,lty=1,col=cols[2]) 
-				mtext(text="air ",side=3,at=landing,cex=.8,adj=1,col=cols[2])
-				mtext(text=" land ",side=3,at=landing,cex=.8,adj=0,col=cols[2])
+				mtext(text=paste(translate("air")," ",sep=""),side=3,at=landing,cex=.8,adj=1,col=cols[2])
+				mtext(text=paste(" ",translate("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
 			}
 		}
 	
 		if(takeoff != -1)	
-			mtext(text=paste("jump height =", 
+			mtext(text=paste(translate("jump height"),"=", 
 					 (position[concentric[length(concentric)]] - 
 					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
 					 "cm",sep=" "),
@@ -1184,35 +1194,35 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#legend, axes and title
 	if(draw) {
 		if(legend & showAxes) {
-			legendText=c("Distance (mm)")
+			legendText=c(paste(translate("Distance"),"(mm)"))
 			lty=c(1)
 			lwd=c(2)
 			colors=c("black") 
 			ncol=1
 
 			if(showSpeed) {
-				legendText=c(legendText, "Speed (m/s)")
+				legendText=c(legendText, paste(translate("Speed"),"(m/s)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[1]) 
 				ncol=ncol+1
 			}
 			if(showAccel) {
-				legendText=c(legendText, "Accel. (m/s²)")
+				legendText=c(legendText, paste(translate("Accel."),"(m/s²)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,"magenta") 
 				ncol=ncol+1
 			}
 			if(showForce) {
-				legendText=c(legendText, "Force (N)")
+				legendText=c(legendText, paste(translate("Force"),"(N)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[2]) 
 				ncol=ncol+1
 			}
 			if(showPower) {
-				legendText=c(legendText, "Power (W)")
+				legendText=c(legendText, paste(translate("Power"),"(W)"))
 				lty=c(lty,1)
 				lwd=c(lwd,2)
 				colors=c(colors,cols[3]) 
@@ -1235,8 +1245,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			       cex=1, bg="white", ncol=ncol, bty="n", plot=T, xpd=NA)
 		}
 		if(showLabels) {
-			mtext("time (ms) ",side=1,adj=1,line=-1,cex=.9)
-			mtext("height (mm) ",side=2,adj=1,line=-1,cex=.9)
+			mtext(paste(translate("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
+			mtext(paste(translate("height"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
 		}
 	}
 }
@@ -1272,12 +1282,12 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	#when eccon != c show always ABS power
 	#peakPower is always ABS
 	if(Eccon == "c") {
-		powerName = "Power"
-		peakPowerName = "Peak Power (ABS)"
+		powerName = translate("Power")
+		peakPowerName = paste(translate("Peak Power"),"(ABS)")
 	}
 	else {
-		powerName = "Power (ABS)"
-		peakPowerName = "Peak Power (ABS)"
+		powerName = paste(translate("Power"),"(ABS)")
+		peakPowerName = paste(translate("Peak Power"),"(ABS)")
 	}
 
 	print("powerData")
@@ -1298,11 +1308,11 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	par(mar=c(2.5, 4, 5, marginRight))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
-			xlab="",ylab="Power (W)", 
+			xlab="",ylab=paste(translate("Power"),"(W)"), 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
-	mtext("Curve \nLoad ",side=1,at=1,adj=1,line=1,cex=.9)
-	
+	mtext(paste(translate("Curve")," \n",translate("Load")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
+
 	axisLineRight=0
 
 	#time to peak power
@@ -1319,7 +1329,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			     axes=F,xlab="",ylab="",col=pafColors[3])
 
 		axis(4, col=pafColors[3], line=axisLineRight,padj=-.5)
-		mtext("Time to peak power (ms)", side=4, line=(axisLineRight-1))
+		mtext(paste(translate("Time to Peak Power"),"(ms)"), side=4, line=(axisLineRight-1))
 		axisLineRight = axisLineRight +3
 	}
 
@@ -1332,7 +1342,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 		abline(h=min(height),lty=2, col="green")
 		#text(max(bp[,2]),max(height),max(height),adj=c(0,.5),cex=0.8)
 		axis(4, col="green", line=axisLineRight, padj=-.5)
-		mtext("Range (cm)", side=4, line=(axisLineRight-1))
+		mtext(paste(translate("Range"),"(cm)"), side=4, line=(axisLineRight-1))
 		axisLineRight = axisLineRight +3
 
 		for(i in unique(load)) { 
@@ -1361,14 +1371,14 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	graphColors=c(pafColors[1],pafColors[2])
 
 	if(showTTPP) {
-		legendText = c(legendText, "Time to Peak Power    ")
+		legendText = c(legendText, paste(translate("Time to Peak Power"),"    ",sep=""))
 		lty=c(lty,1)
 		lwd=c(lwd,2)
 		pch=c(pch,NA)
 		graphColors=c(graphColors,pafColors[3])
 	}
 	if(showRange) {
-		legendText = c(legendText, "Range")
+		legendText = c(legendText, translate("Range"))
 		lty=c(lty,1)
 		lwd=c(lwd,2)
 		pch=c(pch,NA)
@@ -1412,13 +1422,13 @@ findPosInPaf <- function(var, option) {
 
 addUnits <- function (var) {
 	if(var == "Speed")
-		return ("Speed (m/s)")
+		return (paste(translate("Speed"),"(m/s)"))
 	else if(var == "Power")
-		return ("Power (W)")
+		return (paste(translate("Power"),"(W)"))
 	else if(var == "Load") #or Mass
-		return ("Load (Kg)")
+		return (paste(translate("Load"),"(Kg)"))
 	else if(var == "Force")
-		return ("Force (N)")
+		return (paste(translate("Force"),"(N)"))
 
 	return(var)
 }
@@ -1504,7 +1514,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 			if(is.na(c.x)) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,"Not enough data.",cex=1.5)
+				text(x=0,y=0,translate("Not enough data."),cex=1.5)
 				dev.off()
 				write("1RM;-1", SpecialData)
 				write("", outputData1)
@@ -1631,7 +1641,7 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 
 	if(length(curvesSpeedInIntervalPos) == 0) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Not enough data.",cex=1.5)
+		text(x=0,y=0,translate("Not enough data."),cex=1.5)
 		dev.off()
 		write("1RM;-1", SpecialData)
 		write("", outputData1)
@@ -1641,13 +1651,16 @@ paint1RMBadillo2010 <- function (paf, title, outputData1) {
 	par(mar=c(6,5,3,4))
 
 	plot(curvesLoad,curvesSpeed, type="p",
-	     main=paste(title, "1RM prediction"),
-	     sub="\nConcentric mean speed on bench press 1RM is 0.185m/s. Estimated percentual load = 8.4326 * speed ^2 - 73.501 * speed + 112.33\nAdapted from Gonzalez-Badillo, Sanchez-Medina (2010)",
+	     main=paste(title, "1RM", translate("prediction")),
+	     sub=paste("\n",translate("Concentric mean speed on bench press 1RM =")," 0.185m/s.",
+		      translate("Estimated percentual load ="),
+		      " 8.4326 * ", translate("speed"), " ^2 - 73.501 * ", translate("speed"), " + 112.33\n",
+		      translate("Adapted from")," Gonzalez-Badillo, Sanchez-Medina (2010)"),
 	     xlim=c(min(curvesLoad),max(loadCalc[curvesSpeedInIntervalPos])),
 	     ylim=c(miny,maxy), xlab="", ylab="",axes=T)
 
 	mtext(side=1,line=2,"Kg")
-	mtext(side=2,line=3,"Mean speed in concentric propulsive phase (m/s)")
+	mtext(side=2,line=3,paste(translate("Mean speed in concentric propulsive phase"),"(m/s)"))
 	mtext(side=4,line=2,"1RM (%)")
 
 	abline(h=msp, lty=2, col="gray")
@@ -1906,7 +1919,7 @@ quitIfNoData <- function(n, curves, outputData1) {
 	#if not found curves with this data, plot a "sorry" message and exit
 	if(n == 1 & curves[1,1] == 0 & curves[1,2] == 0) {
 		plot(0,0,type="n",axes=F,xlab="",ylab="")
-		text(x=0,y=0,"Sorry, no curves matched your criteria.",cex=1.5)
+		text(x=0,y=0,translate("Sorry, no curves matched your criteria."),cex=1.5)
 		dev.off()
 		write("", outputData1)
 		quit()
@@ -1984,6 +1997,11 @@ doProcess <- function(options) {
 	if(scriptTwo != "none")
 		source(scriptTwo)
 
+	#options 30 and 31 is assigned on the top of the file to be available in all functions
+	#print(options[30])
+	#print(options[31])
+
+
 	print(File)
 	print(OutputGraph)
 	print(OutputData1)
@@ -1999,6 +2017,7 @@ doProcess <- function(options) {
 	if(length(analysisOptionsTemp) > 1) {
 		inertialType = analysisOptionsTemp[2] #values: "" || "li" || "ri"
 	}
+
 
 	#inertial cannot be propulsive
 	if(isInertial(EncoderConfigurationName))
@@ -2200,7 +2219,6 @@ doProcess <- function(options) {
 		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=File,sep=",")
-			
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
@@ -2218,7 +2236,7 @@ doProcess <- function(options) {
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
-			text(x=0,y=0,"Encoder is not connected.",cex=1.5)
+			text(x=0,y=0,translate("Encoder is not connected."),cex=1.5)
 			dev.off()
 			write("", OutputData1)
 			quit()
@@ -2301,15 +2319,15 @@ doProcess <- function(options) {
 		     		xlab="",ylab="",axes=F)
 			
 			if(isInertial(EncoderConfigurationName))
-				mtext("body speed ",side=4,adj=1,line=-1,col="green2",cex=.8)
+				mtext(translate("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
 			else
-				mtext("speed ",side=4,adj=1,line=-1,col="green2")
+				mtext(translate("speed"),side=4,adj=1,line=-1,col="green2")
 
 			abline(h=0,lty=2,col="gray")
 		}
 	}
 
-	write("(4/5) Curves processed", OutputData2)
+	write(paste("(4/5)",translate("Curves processed")), OutputData2)
 
 	if(Analysis=="single") {
 		if(Jump>0) {
@@ -2641,7 +2659,8 @@ doProcess <- function(options) {
 
 			if(n < 24) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,"Not enough data.\nNeed 6 jumps and 4 phases for each jump (ecc,con,ecc,con).",cex=1.5)
+				text(x=0,y=0,paste(translate("Not enough data."), "\n",
+						   translate("Need 6 jumps and 4 phases for each jump")," (ecc,con,ecc,con)."),cex=1.5)
 				dev.off()
 				write("", OutputData1)
 				quit()
@@ -2817,16 +2836,16 @@ doProcess <- function(options) {
 	if(Analysis != "exportCSV")
 		dev.off()
 
-	write("(5/5) R tasks done", OutputData2)
+	write(paste("(5/5)",translate("R tasks done")), OutputData2)
 
 	warnings()
 }
 
-write("(2/5) Loading libraries", OutputData2)
+write(paste("(2/5)",translate("Loading libraries")), OutputData2)
 
 loadLibraries(OperatingSystem)
 	
-write("(3/5) Starting process", OutputData2)
+write(paste("(3/5)",translate("Starting process")), OutputData2)
 
 doProcess(options)
 

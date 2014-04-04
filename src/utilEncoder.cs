@@ -283,12 +283,26 @@ public class UtilEncoder
 			operatingSystem = "Windows";
 		}
 		
+	 	//if translators add ";", it will be converted to ','
+	 	//if translators add a "\n", it will be converted to " "
+		int count = 0;
+		string temp = "";
+		string [] encoderTranslatedWordsOK = new String [Constants.EncoderTranslatedWords.Length];
+		foreach(string etw in Constants.EncoderTranslatedWords) {
+			temp = Util.ChangeChars(etw, ";", ",");
+			temp = Util.RemoveNewLine(temp, true);
+			encoderTranslatedWordsOK[count++] = temp;
+		}
+
 		//--- way A. passing options to a file
 		string scriptOptions = es.InputData + "\n" + 
 		es.OutputGraph + "\n" + es.OutputData1 + "\n" + 
 		es.OutputData2 + "\n" + es.SpecialData + "\n" + 
 		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
-		scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" ;
+		scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" +
+		Util.StringArrayToString(Constants.EncoderEnglishWords,";") + "\n" +
+		Util.StringArrayToString(encoderTranslatedWordsOK,";") + "\n";
+
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

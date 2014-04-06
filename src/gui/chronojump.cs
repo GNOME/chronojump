@@ -79,7 +79,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_reaction_times;
 	[Widget] Gtk.TreeView treeview_pulses;
 	[Widget] Gtk.TreeView treeview_multi_chronopic;
-	[Widget] Gtk.Box hbox_combo_jumps;
+	[Widget] Gtk.Box hbox_combo_select_jumps;
+	[Widget] Gtk.Box hbox_combo_result_jumps;
 	[Widget] Gtk.Box hbox_combo_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
 	[Widget] Gtk.Box hbox_combo_runs_interval;
@@ -89,7 +90,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Table table_runs;
 	[Widget] Gtk.Box hbox_runs_interval;
 	[Widget] Gtk.Box hbox_pulses;
-	[Widget] Gtk.ComboBox combo_jumps;
+	[Widget] Gtk.ComboBox combo_select_jumps;
+	[Widget] Gtk.ComboBox combo_result_jumps;
 	[Widget] Gtk.ComboBox combo_jumps_rj;
 	[Widget] Gtk.ComboBox combo_runs;
 	[Widget] Gtk.ComboBox combo_runs_interval;
@@ -480,7 +482,8 @@ public partial class ChronoJumpWindow
 		createTreeView_pulses (treeview_pulses);
 		createTreeView_multi_chronopic (treeview_multi_chronopic);
 
-		createComboJumps();
+		createComboSelectJumps();
+		createComboResultJumps();
 		createComboJumpsRj();
 		createComboRuns();
 		createComboRunsInterval();
@@ -620,31 +623,6 @@ public partial class ChronoJumpWindow
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
 		
 		
-		//jumps changes
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_free);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_sj);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_sjl);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_cmj);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_cmjl);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_slcmj);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_abk);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_dj);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rocket);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_takeoff);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_more);
-		
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_free);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_sj);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_sjl);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_cmj);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_cmjl);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_slcmj);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_abk);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_dj);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rocket);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_takeoff);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_more);
-
 		//jumpsRj changes
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_j);
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_t);
@@ -2098,16 +2076,45 @@ public partial class ChronoJumpWindow
 	 * ----------------  CREATE AND UPDATE COMBOS ---------------
 	 *  --------------------------------------------------------
 	 */
-	private void createComboJumps() {
-		combo_jumps = ComboBox.NewText ();
-		UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
-		
-		combo_jumps.Active = 0;
-		combo_jumps.Changed += new EventHandler (on_combo_jumps_changed);
+	
+	string [] selectJumpsString;
+	private void createComboSelectJumps() {
+		combo_select_jumps = ComboBox.NewText ();
+		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+		selectJumpsString = new String [jumpTypes.Length];
+		string [] jumpNamesToCombo = new String [jumpTypes.Length];
+		int i =0;
+		foreach(string jumpType in jumpTypes) {
+			string [] j = jumpType.Split(new char[] {':'});
+			string nameTranslated = Catalog.GetString(j[1]);
+			selectJumpsString[i] = 
+				j[0] + ":" + j[1] + ":" + nameTranslated + ":" +	//uniqueID, name, nameTranslated
+				j[2] + ":" + j[3] + ":" + j[4];				//startIn, weight, description
+			jumpNamesToCombo[i] = nameTranslated;
+			i++;
+		}
 
-		hbox_combo_jumps.PackStart(combo_jumps, true, true, 0);
-		hbox_combo_jumps.ShowAll();
-		combo_jumps.Sensitive = false;
+		UtilGtk.ComboUpdate(combo_select_jumps, jumpNamesToCombo, "");
+		combo_select_jumps.Active = 0;
+		combo_select_jumps.Changed += new EventHandler (on_combo_select_jumps_changed);
+
+		hbox_combo_select_jumps.PackStart(combo_select_jumps, true, true, 0);
+		hbox_combo_select_jumps.ShowAll();
+		combo_select_jumps.Sensitive = false;
+	}
+	
+	private void createComboResultJumps() {
+		combo_result_jumps = ComboBox.NewText ();
+		UtilGtk.ComboUpdate(combo_result_jumps,
+				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
+			       	"");
+		
+		combo_result_jumps.Active = 0;
+		combo_result_jumps.Changed += new EventHandler (on_combo_result_jumps_changed);
+
+		hbox_combo_result_jumps.PackStart(combo_result_jumps, true, true, 0);
+		hbox_combo_result_jumps.ShowAll();
+		combo_result_jumps.Sensitive = false;
 	}
 	
 	private void createComboJumpsRj() {
@@ -2169,8 +2176,19 @@ public partial class ChronoJumpWindow
 	}
 	*/
 
-	private void on_combo_jumps_changed(object o, EventArgs args) {
-		//combo_jumps.Changed -= new EventHandler (on_combo_jumps_changed);
+	private void on_combo_select_jumps_changed(object o, EventArgs args) {
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
+		Log.WriteLine("Selected: " + myText); 
+
+		//show extra window options
+		on_extra_window_jumps_test_changed(o, args);
+	}
+	
+	private void on_combo_result_jumps_changed(object o, EventArgs args) {
+		//combo_result_jumps.Changed -= new EventHandler (on_combo_result_jumps_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -2596,7 +2614,7 @@ public partial class ChronoJumpWindow
 				sensitiveGuiYesPerson();
 			}
 
-			on_combo_jumps_changed(combo_jumps, args);
+			on_combo_result_jumps_changed(combo_result_jumps, args);
 			on_combo_jumps_rj_changed(combo_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
 			on_combo_runs_interval_changed(combo_runs_interval, args);
@@ -2809,7 +2827,7 @@ public partial class ChronoJumpWindow
 			createTreeView_reaction_times(treeview_reaction_times);
 			createTreeView_multi_chronopic(treeview_multi_chronopic);
 			
-			on_combo_jumps_changed(combo_jumps, args);
+			on_combo_result_jumps_changed(combo_result_jumps, args);
 			on_combo_jumps_rj_changed(combo_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
 			on_combo_runs_interval_changed(combo_runs_interval, args);
@@ -3254,21 +3272,6 @@ Console.WriteLine("X");
 
 	void on_button_execute_test_clicked (object o, EventArgs args) {
 		if(radio_mode_jumps_small.Active) {
-			extra_window_jumps_weight = (double) extra_window_jumps_spinbutton_weight.Value;
-			extra_window_jumps_fall = (double) extra_window_jumps_spinbutton_fall.Value;
-			extra_window_jumps_arms = extra_window_jumps_check_dj_arms.Active;
-
-			//need to check DJ because is what happens when press DJ button
-			//need to check other because maybe we changed some option since last jump 
-			//and currentJumpType.Name is the name of last jump type, eg: DJa
-			if(currentJumpType.Name == "DJ" || 
-					currentJumpType.Name == "DJa" || currentJumpType.Name == "DJna") {
-				if(extra_window_jumps_arms)
-					currentJumpType = new JumpType("DJa");
-				else
-					currentJumpType = new JumpType("DJna");
-			}
-
 			on_normal_jump_activate(o, args);
 		}
 		else if(radio_mode_jumps_reactive_small.Active) {
@@ -3374,18 +3377,23 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
+		currentJumpType = new JumpType(jumpEnglishName);
+
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
 			if(extra_window_jumps_option == "%") 
-				jumpWeight = extra_window_jumps_weight;
+				jumpWeight = (double) extra_window_jumps_spinbutton_weight.Value;
 			else 
-				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_weight, currentPersonSession.Weight);
+				jumpWeight = Util.WeightFromKgToPercent(
+						(double) extra_window_jumps_spinbutton_weight.Value, 
+						currentPersonSession.Weight);
 		}
 		double myFall = 0;
 		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
 			myFall = 0;
 		else if( ! currentJumpType.StartIn) {
-			myFall = extra_window_jumps_fall;
+			myFall = (double) extra_window_jumps_spinbutton_fall.Value;
 		}
 
 		string description = "";
@@ -4546,7 +4554,7 @@ Console.WriteLine("X");
 		}
 		else {
 			treeview_jumps_storeReset();
-			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_jumps));
+			fillTreeView_jumps(UtilGtk.ComboGetActive(combo_result_jumps));
 		}
 
 		if(createdStatsWin) 
@@ -5198,14 +5206,18 @@ Console.WriteLine("X");
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
-			UtilGtk.ComboUpdate(combo_jumps, SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
+			UtilGtk.ComboUpdate(combo_select_jumps, 
+					SqliteJumpType.SelectJumpTypes("", "", true), ""); //without name, without filter, only select name
+			UtilGtk.ComboUpdate(combo_result_jumps, 
+					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
 		} else {
 			UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
 		}
 		updateComboStats();
-		combo_jumps.Active = 0;
+		combo_select_jumps.Active = 0;
+		combo_result_jumps.Active = 0;
 		combo_jumps_rj.Active = 0;
 	}
 
@@ -5627,7 +5639,8 @@ Console.WriteLine("X");
 		//unsensitive edit, delete, repair events because no event is initially selected
 		showHideActionEventButtons(false, "ALL");
 
-		combo_jumps.Sensitive = true;
+		combo_select_jumps.Sensitive = true;
+		combo_result_jumps.Sensitive = true;
 		combo_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;

@@ -1040,31 +1040,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.Label extra_window_label_jumps_rj_no_options;
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 
-	//labels notebook_execute	
-	[Widget] Gtk.Label label_extra_window_radio_jump_free;
-	[Widget] Gtk.Label label_extra_window_radio_jump_sj;
-	[Widget] Gtk.Label label_extra_window_radio_jump_sjl;
-	[Widget] Gtk.Label label_extra_window_radio_jump_cmj;
-	[Widget] Gtk.Label label_extra_window_radio_jump_cmjl;
-	[Widget] Gtk.Label label_extra_window_radio_jump_slcmj;
-	[Widget] Gtk.Label label_extra_window_radio_jump_abk;
-	[Widget] Gtk.Label label_extra_window_radio_jump_dj;
-	[Widget] Gtk.Label label_extra_window_radio_jump_rocket;
-	[Widget] Gtk.Label label_extra_window_radio_jump_takeoff;
-	[Widget] Gtk.Label label_extra_window_radio_jump_more;
-
-	//radio notebook_execute	
-	[Widget] Gtk.RadioButton extra_window_radio_jump_free;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_sj;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_sjl;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_cmj;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_cmjl;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_slcmj;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_abk;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_dj;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rocket;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_takeoff;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_more;
 	
 	[Widget] Gtk.Label label_extra_window_radio_jump_rj_j;
 	[Widget] Gtk.Label label_extra_window_radio_jump_rj_t;
@@ -1079,7 +1054,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_more;
 
 	//selected test labels	
-	[Widget] Gtk.Label extra_window_jumps_label_selected;
 	[Widget] Gtk.Label extra_window_jumps_rj_label_selected;
 	
 	//for RunAnalysis
@@ -1088,7 +1062,7 @@ partial class ChronoJumpWindow
 
 	//jumps
 	string extra_window_jumps_option = "Kg";
-	double extra_window_jumps_weight = 20;
+	//double extra_window_jumps_weight = 20;
 	double extra_window_jumps_fall = 20;
 	bool extra_window_jumps_arms = false;
 	
@@ -1104,17 +1078,9 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
-		if(extra_window_radio_jump_free.Active) currentJumpType = new JumpType("Free");
-		else if(extra_window_radio_jump_sj.Active) currentJumpType = new JumpType("SJ");
-		else if(extra_window_radio_jump_sjl.Active) currentJumpType = new JumpType("SJl");
-		else if(extra_window_radio_jump_cmj.Active) currentJumpType = new JumpType("CMJ");
-		else if(extra_window_radio_jump_cmjl.Active) currentJumpType = new JumpType("CMJl");
-		else if(extra_window_radio_jump_slcmj.Active) currentJumpType = new JumpType("slCMJ");
-		else if(extra_window_radio_jump_abk.Active) currentJumpType = new JumpType("ABK");
-		else if(extra_window_radio_jump_dj.Active) currentJumpType = new JumpType("DJ");
-		else if(extra_window_radio_jump_rocket.Active) currentJumpType = new JumpType("Rocket");
-		else if(extra_window_radio_jump_takeoff.Active) currentJumpType = new JumpType(Constants.TakeOffName);
-
+		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
+		currentJumpType = new JumpType(jumpEnglishName);
+		
 		extra_window_jumps_initialize(currentJumpType);
 	}
 	
@@ -1122,12 +1088,10 @@ partial class ChronoJumpWindow
 	{
 		previousJumpType = currentJumpType;
 
-		if(extra_window_radio_jump_more.Active) {
-			jumpsMoreWin = JumpsMoreWindow.Show(app1, true, currentJumpType.Name);
-			jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
-			jumpsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_cancelled);
-			jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
-		}
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, true, currentJumpType.Name);
+		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
+		jumpsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_cancelled);
+		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
 	}
 	
 	private void on_extra_window_jumps_rj_test_changed(object o, EventArgs args)
@@ -1155,8 +1119,6 @@ partial class ChronoJumpWindow
 
 	private void extra_window_jumps_initialize(JumpType myJumpType) 
 	{
-		extra_window_jumps_label_selected.Text = "<b>" + Catalog.GetString(myJumpType.Name) + "</b>";
-		extra_window_jumps_label_selected.UseMarkup = true; 
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
 		bool hasOptions = false;
@@ -1194,7 +1156,7 @@ partial class ChronoJumpWindow
 		} else 
 			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
 		
-		extra_window_jumps_spinbutton_weight.Value = extra_window_jumps_weight;
+		extra_window_jumps_spinbutton_weight.Value = 20;
 		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
 		if (extra_window_jumps_option == "Kg") {
 			extra_window_jumps_radiobutton_kg.Active = true;
@@ -1361,23 +1323,7 @@ partial class ChronoJumpWindow
 	}
 	
 	private void extra_window_jumps_toggle_desired_button_on_toolbar(JumpType type) {
-		if(type.Name == "Free") extra_window_radio_jump_free.Active = true;
-		else if(type.Name == "SJ") extra_window_radio_jump_sj.Active = true;
-		else if(type.Name == "SJl") extra_window_radio_jump_sjl.Active = true;
-		else if(type.Name == "CMJ") extra_window_radio_jump_cmj.Active = true;
-		else if(type.Name == "CMJl") extra_window_radio_jump_cmjl.Active = true;
-		else if(type.Name == "slCMJ") extra_window_radio_jump_slcmj.Active = true;
-		else if(type.Name == "ABK") extra_window_radio_jump_abk.Active = true;
-//		else if(type.Name == "DJ") extra_window_radio_jump_dj.Active = true;
-		else if(type.Name == "Rocket") extra_window_radio_jump_rocket.Active = true;
-		else if(type.Name == Constants.TakeOffName) extra_window_radio_jump_takeoff.Active = true;
-		else {
-			//don't do this:
-			//extra_window_radio_jump_more.Active = true;
-			//because it will be a loop
-			//only do:
-			extra_window_jumps_initialize(type);
-		}
+		extra_window_jumps_initialize(type);
 	}
 
 	private void extra_window_jumps_rj_toggle_desired_button_on_toolbar(JumpType type) {

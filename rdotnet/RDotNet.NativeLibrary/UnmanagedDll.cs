@@ -37,9 +37,12 @@ namespace RDotNet.NativeLibrary
             throw new ArgumentException("dllName");
          }
 
+Console.Write("going to load"); 
          IntPtr handle = LoadLibrary(dllName);
+Console.Write("return from load"); 
          if (handle == IntPtr.Zero)
          {
+Console.Write("handle pointer is zero"); 
             throw new DllNotFoundException();
          }
          SetHandle(handle);
@@ -175,14 +178,18 @@ namespace RDotNet.NativeLibrary
 #if UNIX
       private static IntPtr LoadLibrary(string filename)
       {
+        //filename = "/Library/Frameworks/R.Framework/Libraries/libR.dylib";
          const int RTLD_LAZY = 0x1;
          if (filename.StartsWith("/"))
          {
+Console.Write("AT LoadLibrary preee"); 
             return dlopen(filename, RTLD_LAZY);
          }
          var searchPaths = (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator);
          var dll = searchPaths.Select(directory => Path.Combine(directory, filename)).FirstOrDefault(File.Exists);
-         return dll == null ? IntPtr.Zero : dlopen(dll, RTLD_LAZY);
+        //var dll = "/Library/Frameworks/R.Framework/Libraries/libR.dylib";
+Console.Write("AT LoadLibrary, dll= " + dll); 
+	return dll == null ? IntPtr.Zero : dlopen(dll, RTLD_LAZY);
       }
 
       [DllImport("libdl")]

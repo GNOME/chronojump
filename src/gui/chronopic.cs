@@ -49,8 +49,6 @@ public class ChronopicWindow
 	ChronopicConnection chronopicConnectionWin;
 
 	[Widget] Gtk.Notebook notebook_main;
-	[Widget] Gtk.RadioButton radio_contacts;
-	[Widget] Gtk.RadioButton radio_encoder;
 	//[Widget] Gtk.Image image_contact_modular;
 	//[Widget] Gtk.Image image_infrared;
 
@@ -112,6 +110,7 @@ public class ChronopicWindow
 		OFF
 	}
 	bool connected;
+	string type;	//"contacts" or "encoder"
 	bool volumeOn;
 	int currentCp; //1 to 4
 	bool cancelledByUser;
@@ -196,11 +195,18 @@ public class ChronopicWindow
 		return ChronopicWindowBox;
 	}
 
-	static public ChronopicWindow View (bool volumeOn)
+	static public ChronopicWindow View (string type, bool volumeOn)
 	{
 		if (ChronopicWindowBox == null) {
 			ChronopicWindowBox = new ChronopicWindow (cpd);
 		} 
+		
+		ChronopicWindowBox.type = type;
+		
+		if(type == "contacts")
+			ChronopicWindowBox.notebook_main.CurrentPage = 0;
+		else
+			ChronopicWindowBox.notebook_main.CurrentPage = 1;
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
 		ChronopicWindowBox.checkChronopicDisconnected();
@@ -255,15 +261,6 @@ Log.WriteLine("bbb");
 		
 		//encoderPort = "";
 		//fakeButtonCancelled = new Gtk.Button();
-	}
-	
-	private void on_radio_contacts_toggled(object o, EventArgs args) {
-		if(radio_contacts.Active && notebook_main.CurrentPage == 1)
-			notebook_main.PrevPage();
-	}
-	private void on_radio_encoder_toggled(object o, EventArgs args) {
-		if(radio_encoder.Active && notebook_main.CurrentPage == 0)
-			notebook_main.NextPage();
 	}
 	
 	//check if user has disconnected chronopic or port has changed

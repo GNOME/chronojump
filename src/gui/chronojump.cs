@@ -171,6 +171,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
+	[Widget] Gtk.Label label_chronopic_encoder;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.HBox hbox_video_capture_encoder;
@@ -4311,13 +4312,19 @@ Log.WriteLine("DDD 2");
 
 		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
-		chronopicLabels(0, recreate);
+		chronopicContactsLabels(0, recreate);
 	}
 
-	private void on_chronopic_clicked (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View(volumeOn);
+	private void on_chronopic_contacts_clicked (object o, EventArgs args) {
+		chronopicWin = ChronopicWindow.View("contacts", volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
-		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_connected_or_done);
+		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_contacts_connected_or_done);
+	}
+
+	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
+		chronopicWin = ChronopicWindow.View("encoder", volumeOn);
+		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
+		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
 	}
 
 	
@@ -4343,28 +4350,46 @@ Log.WriteLine("DDD 2");
 	}
 	*/
 	
-	private void on_chronopic_window_connected_or_done (object o, EventArgs args) {
+	private void on_chronopic_window_contacts_connected_or_done (object o, EventArgs args) {
 		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
 		int cps = chronopicWin.NumConnected();
 
 		if(radio_mode_multi_chronopic_small.Active)	
 			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		
-		chronopicLabels(cps, true);
+		chronopicContactsLabels(cps, true);
+	}
+	
+	private void on_chronopic_window_encoder_connected_or_done (object o, EventArgs args) {
+		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
+
+		chronopicEncoderLabels(true);
 	}
 
-	private void chronopicLabels(int cps, bool colorize) {
-		string text = "<b>" + cps.ToString() + "</b>";
+
+	private void chronopicContactsLabels(int cps, bool colorize) {
+		//string text = "<b>" + cps.ToString() + "</b>";
+		string text = cps.ToString();
 		
-		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
-			text += ", <b>enc</b>";
-			
 		label_connected_chronopics.Text = text;
-		label_connected_chronopics.UseMarkup = true; 
+		//label_connected_chronopics.UseMarkup = true; 
 		
 		if(colorize)
 			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, 
 					(chronopicWin.Connected || chronopicWin.GetEncoderPort() != "") );
+	}
+
+	private void chronopicEncoderLabels(bool colorize) {
+		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
+			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");
+		else
+			label_chronopic_encoder.Text = Catalog.GetString("Encoder disconnected");
+		
+		/*	
+		if(colorize)
+			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, 
+					(chronopicWin.Connected || chronopicWin.GetEncoderPort() != "") );
+		*/
 	}
 
 

@@ -1073,7 +1073,7 @@ partial class ChronoJumpWindow
 	{
 		previousJumpType = currentJumpType;
 
-		jumpsMoreWin = JumpsMoreWindow.Show(app1, true, currentJumpType.Name);
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, true);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
 		jumpsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_cancelled);
 		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_update_test);
@@ -1091,7 +1091,7 @@ partial class ChronoJumpWindow
 	{
 		previousJumpRjType = currentJumpRjType;
 
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true, currentJumpRjType.Name);
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true);
 		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
 		jumpsRjMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_rj_cancelled);
 		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_update_test);
@@ -1246,21 +1246,9 @@ partial class ChronoJumpWindow
 	{
 		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
 		
-		currentJumpType = new JumpType(
-				//jumpsMoreWin.SelectedJumpType,
-				jumpsMoreWin.SelectedEventName, //type of jump
-								//SelectedEventType would be: jump, or run, ...
-				jumpsMoreWin.SelectedStartIn,
-				jumpsMoreWin.SelectedExtraWeight,
-				false,		//isRepetitive
-				false,		//jumpsLimited (false, because is not repetitive)
-				0,		//limitValue
-				false,		//unlimited
-				jumpsMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("jump", jumpsMoreWin.SelectedEventName)
-				);
-	
-		extra_window_jumps_toggle_desired_button_on_toolbar(currentJumpType);
+		currentJumpType = new JumpType(jumpsMoreWin.SelectedEventName);
+
+		extra_window_jumps_initialize(currentJumpType);
 		
 		//destroy the win for not having updating problems if a new jump type is created
 		//jumpsMoreWin = null; //don't work
@@ -1272,21 +1260,9 @@ partial class ChronoJumpWindow
 	{
 		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
 
-		currentJumpRjType = new JumpType(
-				//jumpsRjMoreWin.SelectedJumpType,
-				jumpsRjMoreWin.SelectedEventName,
-				jumpsRjMoreWin.SelectedStartIn,
-				jumpsRjMoreWin.SelectedExtraWeight,
-				true,		//isRepetitive
-				jumpsRjMoreWin.SelectedLimited,
-				jumpsRjMoreWin.SelectedLimitedValue,
-				jumpsRjMoreWin.SelectedUnlimited,
-				jumpsRjMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
-				);
-
+		currentJumpRjType = new JumpType(jumpsRjMoreWin.SelectedEventName);
 		
-		extra_window_jumps_rj_toggle_desired_button_on_toolbar(currentJumpRjType);
+		extra_window_jumps_rj_initialize(currentJumpRjType);
 	
 		//destroy the win for not having updating problems if a new jump type is created
 		jumpsRjMoreWin.Destroy();
@@ -1296,23 +1272,15 @@ partial class ChronoJumpWindow
 	private void on_more_jumps_cancelled (object o, EventArgs args) 
 	{
 		currentJumpType = previousJumpType;
-		extra_window_jumps_toggle_desired_button_on_toolbar(currentJumpType);
+		extra_window_jumps_initialize(currentJumpType);
 	}
 	
 	private void on_more_jumps_rj_cancelled (object o, EventArgs args) 
 	{
 		currentJumpRjType = previousJumpRjType;
-		extra_window_jumps_rj_toggle_desired_button_on_toolbar(currentJumpRjType);
+		extra_window_jumps_rj_initialize(currentJumpRjType);
 	}
 	
-	private void extra_window_jumps_toggle_desired_button_on_toolbar(JumpType type) {
-		extra_window_jumps_initialize(type);
-	}
-
-	private void extra_window_jumps_rj_toggle_desired_button_on_toolbar(JumpType type) {
-		extra_window_jumps_rj_initialize(type);
-	}
-
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {
 		if(myJumpType.IsRepetitive) {
 			extra_window_jumps_rj_label_weight.Visible = show;
@@ -1456,13 +1424,12 @@ public class JumpsMoreWindow : EventMoreWindow
 	private bool selectedStartIn;
 	private bool selectedExtraWeight;
 
-	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
+	public JumpsMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
-		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1478,10 +1445,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
+	static public JumpsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (JumpsMoreWindowBox == null) {
-			JumpsMoreWindowBox = new JumpsMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
+			JumpsMoreWindowBox = new JumpsMoreWindow (parent, testOrDelete);
 		}
 		JumpsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1502,6 +1469,11 @@ public class JumpsMoreWindow : EventMoreWindow
 	{
 		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
+
+		//remove typesTranslated
+		typesTranslated = new String [myJumpTypes.Length];
+		int count = 0;
+
 		foreach (string myType in myJumpTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			if(myStringFull[2] == "1") {
@@ -1523,11 +1495,14 @@ public class JumpsMoreWindow : EventMoreWindow
 			if(testOrDelete || ! tempType.IsPredefined)
 				store.AppendValues (
 						//myStringFull[0], //don't display de uniqueID
-						myStringFull[1],	//name 
+						Catalog.GetString(myStringFull[1]),	//name (translated)
 						myStringFull[2], 	//startIn
 						myStringFull[3], 	//weight
 						description
 						);
+
+			//create typesTranslated
+			typesTranslated [count++] = myStringFull[1] + ":" + Catalog.GetString(myStringFull[1]);
 		}	
 	}
 
@@ -1540,7 +1515,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		selectedDescription = "";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
+			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
 			}
@@ -1569,8 +1547,10 @@ public class JumpsMoreWindow : EventMoreWindow
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			//put selection in selected
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
+			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Yes") ) {
 				selectedStartIn = true;
 			}
@@ -1586,6 +1566,11 @@ public class JumpsMoreWindow : EventMoreWindow
 	
 	protected override void deleteTestLine() {
 		SqliteJumpType.Delete(Constants.JumpTypeTable, selectedEventName, false);
+		
+		//delete from typesTranslated
+		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
+		Log.WriteLine("row " + row);
+		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 
 	protected override string [] findTestTypesInSessions() {
@@ -1649,14 +1634,13 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	private double selectedLimitedValue;
 	private bool selectedUnlimited;
 	
-	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
+	public JumpsRjMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
-		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1676,10 +1660,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public JumpsRjMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
+	static public JumpsRjMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (JumpsRjMoreWindowBox == null) {
-			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
+			JumpsRjMoreWindowBox = new JumpsRjMoreWindow (parent, testOrDelete);
 		}
 		JumpsRjMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1697,11 +1681,16 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		tv.AppendColumn ( Catalog.GetString ("Extra weight"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Description"), new CellRendererText(), "text", count++);
 	}
-	
+
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myJumpTypes = SqliteJumpType.SelectJumpRjTypes("", false);
+
+		//remove typesTranslated
+		typesTranslated = new String [myJumpTypes.Length];
+		int count = 0;
+
 		foreach (string myType in myJumpTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			if(myStringFull[2] == "1") {
@@ -1741,13 +1730,16 @@ public class JumpsRjMoreWindow : EventMoreWindow
 			if(testOrDelete || ! tempType.IsPredefined)
 				store.AppendValues (
 						//myStringFull[0], //don't display de uniqueID
-						myStringFull[1],	//name 
+						Catalog.GetString(myStringFull[1]),	//name (translated)
 						myLimiter,		//jumps or seconds		
 						myLimiterValue,		//? or exact value
 						myStringFull[2], 	//startIn
 						myStringFull[3], 	//weight
 						description
 						);
+
+			//create typesTranslated
+			typesTranslated [count++] = myStringFull[1] + ":" + Catalog.GetString(myStringFull[1]);
 		}	
 	}
 
@@ -1764,7 +1756,9 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		selectedDescription = "";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
 			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1812,7 +1806,9 @@ public class JumpsRjMoreWindow : EventMoreWindow
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
 			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Unlimited") ) {
 				selectedUnlimited = true;
@@ -1847,6 +1843,10 @@ public class JumpsRjMoreWindow : EventMoreWindow
 	
 	protected override void deleteTestLine() {
 		SqliteJumpType.Delete(Constants.JumpRjTypeTable, selectedEventName, false);
+		
+		//delete from typesTranslated
+		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
+		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 	
 	protected override string [] findTestTypesInSessions() {

@@ -591,10 +591,12 @@ public class EventMoreWindow
 	protected string selectedEventName;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
-	public Gtk.Button button_deleted_current_test; //just to send a signal
+	public Gtk.Button button_deleted_current_test; //just to send a signal //deprecated, now signal is sent always to update combos, use button_deleted_test
+	public Gtk.Button button_deleted_test; //just to send a signal
 	
 	protected bool testOrDelete; //are we going to do a test or to delete a test type (test is true)
 	protected string selectedTestOnMainWindow;
+	protected string [] typesTranslated;
 
 	public EventMoreWindow () {
 	}
@@ -616,6 +618,7 @@ public class EventMoreWindow
 	{
 		button_selected = new Gtk.Button();
 		button_deleted_current_test = new Gtk.Button();
+		button_deleted_test = new Gtk.Button();
 		
 		createTreeView(treeview_more);
 
@@ -697,9 +700,7 @@ public class EventMoreWindow
 	{
 		deleteTestLine();
 
-		//if deleted test was the selected test, change selected test to default
-		if(selectedTestOnMainWindow == selectedEventName)
-			button_deleted_current_test.Click();
+		button_deleted_test.Click();
 
 		TreeModel model;
 		TreeIter iter;
@@ -724,6 +725,11 @@ public class EventMoreWindow
 	public Button Button_deleted_current_test
 	{
 		get { return button_deleted_current_test; }
+	}
+
+	public Button Button_deleted_test
+	{
+		get { return button_deleted_test; }
 	}
 
 	public Button Button_accept {

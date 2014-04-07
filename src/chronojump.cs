@@ -29,6 +29,9 @@ using System.Reflection; // Read Version
 using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
+using System.Linq;
+using RDotNet;
+using RDotNet.NativeLibrary;
 
 
 public class ChronoJump 
@@ -101,11 +104,30 @@ public class ChronoJump
 			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
 			Log.WriteLine("R_HOME:" + baseDirectory);
 		} else {
-			rBinPath = @"/usr/lib/R/lib";
-			Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
-			Environment.SetEnvironmentVariable("PATH", envPath + Path.PathSeparator + rBinPath);
+			switch (NativeUtility.GetPlatform()) {
+				case PlatformID.MacOSX:
+					Log.WriteLine(Environment.GetEnvironmentVariable("R_HOME"));
+					rBinPath = "/Library/Frameworks/R.Framework/Libraries";
+						Environment.SetEnvironmentVariable ("R_HOME", "/Library/Frameworks/R.Framework/Resources");
+						Environment.SetEnvironmentVariable("PATH", rBinPath + Path.PathSeparator + envPath);
+					Log.WriteLine("environments");
+					Log.WriteLine(Environment.GetEnvironmentVariable("R_HOME"));
+					Log.WriteLine(Environment.GetEnvironmentVariable("PATH"));
+					break;
+				case PlatformID.Unix:
+					rBinPath = @"/usr/lib/R/lib";
+					Environment.SetEnvironmentVariable ("R_HOME", @"/usr/lib/R");
+					Environment.SetEnvironmentVariable("PATH", envPath + Path.PathSeparator + rBinPath);
+					break;
+			}
 		}
 		
+		Log.WriteLine("Platform:" + Environment.OSVersion.Platform);
+		Log.WriteLine("Platform Mac:" + PlatformID.MacOSX);
+		Log.WriteLine("initializing rdotnet");
+		//REngine rengineProva = REngine.CreateInstance("RDotNet");
+
+		//Environment.Exit(1);
 		
 		Log.WriteLine("baseDir0:" + System.AppDomain.CurrentDomain.BaseDirectory);
 		Log.WriteLine("baseDir1:" + baseDirectory);

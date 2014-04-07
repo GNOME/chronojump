@@ -42,8 +42,10 @@ namespace RDotNet
       private REngine(string id, string dll)
          : base(dll)
       {
+Console.WriteLine("REngine 1");
          this.id = id;
          this.isRunning = false;
+Console.WriteLine("REngine 2");
       }
 
       /// <summary>
@@ -164,6 +166,7 @@ namespace RDotNet
       /// <returns>The engine.</returns>
       public static REngine CreateInstance(string id, string dll = null)
       {
+Console.WriteLine("Creating instance");
          if (id == null)
          {
             throw new ArgumentNullException("id", "Empty ID is not allowed.");
@@ -190,14 +193,17 @@ namespace RDotNet
 
                case PlatformID.Unix:
                   dll = "libR.so";
+                  //dll = "libR.dylib";
                   break;
 
                default:
                   throw new NotSupportedException();
             }
          }
+Console.WriteLine("Creating var engine");
          var engine = new REngine(id, dll);
          instances.Add(id, engine);
+Console.WriteLine("Created var engine");
          return engine;
       }
 
@@ -220,6 +226,7 @@ namespace RDotNet
       /// <param name="device">The IO device.</param>
       public void Initialize(StartupParameter parameter = null, ICharacterDevice device = null)
       {
+Console.WriteLine("at initialize");
          this.parameter = parameter ?? new StartupParameter();
          this.adapter = new CharacterDeviceAdapter(device ?? DefaultDevice);
          GetFunction<R_setStartTime>()();
@@ -238,6 +245,7 @@ namespace RDotNet
          }
          GetFunction<setup_Rmainloop>()();
          this.isRunning = true;
+Console.WriteLine("ended initialize");
       }
 
       /// <summary>

@@ -1263,14 +1263,19 @@ public class Util
 	/* eg we have an stringArray containing in a row "Letonia, Republica de" and we want to find ID
 	 * 2:Latvia, Republic of:Letonia, Republica de
 	 * we do string myString = Util.FindOnArray(':', 2, 0, "Letonoa, Republica de", stringArray);
+	 * if partToReturn == -1, then return all the string (all the row) 
 	 */
 	public static string FindOnArray(char separator, int partPassed, int partToReturn, string stringPassed, string [] stringArray) 
 	{
 		string foundString = "";
 		foreach(string myString in stringArray) {
 			string [] myStrFull = myString.Split(new char[] {separator});
-			if(myStrFull[partPassed] == stringPassed)
-				foundString = myStrFull[partToReturn];
+			if(myStrFull[partPassed] == stringPassed) {
+				if(partToReturn == -1)
+					foundString = myString;
+				else
+					foundString = myStrFull[partToReturn];
+			}
 
 		}
 		return foundString;

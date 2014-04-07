@@ -1041,21 +1041,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.CheckButton checkbutton_allow_finish_rj_after_time;
 
 	
-	[Widget] Gtk.Label label_extra_window_radio_jump_rj_j;
-	[Widget] Gtk.Label label_extra_window_radio_jump_rj_t;
-	[Widget] Gtk.Label label_extra_window_radio_jump_rj_unlimited;
-	[Widget] Gtk.Label label_extra_window_radio_jump_rj_hexagon;
-	[Widget] Gtk.Label label_extra_window_radio_jump_rj_more;
-
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_j;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_t;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_unlimited;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_hexagon;
-	[Widget] Gtk.RadioButton extra_window_radio_jump_rj_more;
-
-	//selected test labels	
-	[Widget] Gtk.Label extra_window_jumps_rj_label_selected;
-	
 	//for RunAnalysis
 	//but will be used and recorded with "fall"
 	//static double distance;
@@ -1091,16 +1076,14 @@ partial class ChronoJumpWindow
 		jumpsMoreWin = JumpsMoreWindow.Show(app1, true, currentJumpType.Name);
 		jumpsMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_accepted);
 		jumpsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_cancelled);
-		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_draw_image_test);
+		jumpsMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_update_test);
 	}
 	
 	private void on_extra_window_jumps_rj_test_changed(object o, EventArgs args)
 	{
-		if(extra_window_radio_jump_rj_j.Active) currentJumpRjType = new JumpType("RJ(j)");
-		else if(extra_window_radio_jump_rj_t.Active) currentJumpRjType = new JumpType("RJ(t)");
-		else if(extra_window_radio_jump_rj_unlimited.Active) currentJumpRjType = new JumpType("RJ(unlimited)");
-		else if(extra_window_radio_jump_rj_hexagon.Active) currentJumpRjType = new JumpType("RJ(hexagon)");
-
+		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
+		currentJumpRjType = new JumpType(jumpEnglishName);
+		
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	}
 
@@ -1108,12 +1091,10 @@ partial class ChronoJumpWindow
 	{
 		previousJumpRjType = currentJumpRjType;
 
-		if(extra_window_radio_jump_rj_more.Active) {
-			jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true, currentJumpRjType.Name);
-			jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
-			jumpsRjMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_rj_cancelled);
-			jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_draw_image_test);
-		}
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, true, currentJumpRjType.Name);
+		jumpsRjMoreWin.Button_accept.Clicked += new EventHandler(on_more_jumps_rj_accepted);
+		jumpsRjMoreWin.Button_cancel.Clicked += new EventHandler(on_more_jumps_rj_cancelled);
+		jumpsRjMoreWin.Button_selected.Clicked += new EventHandler(on_more_jumps_rj_update_test);
 	}
 
 
@@ -1177,8 +1158,6 @@ partial class ChronoJumpWindow
 	
 	private void extra_window_jumps_rj_initialize(JumpType myJumpType) 
 	{
-		extra_window_jumps_rj_label_selected.Text = "<b>" + Catalog.GetString(myJumpType.Name) + "</b>";
-		extra_window_jumps_rj_label_selected.UseMarkup = true; 
 		currentEventType = myJumpType;
 		changeTestImage(EventType.Types.JUMP.ToString(), myJumpType.Name, myJumpType.ImageFileName);
 		bool hasOptions = false;
@@ -1248,14 +1227,18 @@ partial class ChronoJumpWindow
 		SqlitePreferences.Update("allowFinishRjAfterTime", checkbutton_allow_finish_rj_after_time.Active.ToString(), false);
 	}
 
-	private void on_more_jumps_draw_image_test (object o, EventArgs args) {
+	private void on_more_jumps_update_test (object o, EventArgs args) {
 		currentEventType = new JumpType(jumpsMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsMoreWin.SelectedEventName, selectJumpsString);
+		
+		combo_select_jumps.Active = UtilGtk.ComboMakeActive(combo_select_jumps, jumpTranslatedName);	
 	}
 	
-	private void on_more_jumps_rj_draw_image_test (object o, EventArgs args) {
+	private void on_more_jumps_rj_update_test (object o, EventArgs args) {
 		currentEventType = new JumpType(jumpsRjMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
+		
+		combo_select_jumps_rj.Active = UtilGtk.ComboMakeActive(combo_select_jumps_rj, jumpTranslatedName);	
 	}
 	
 	//used from the dialogue "jumps more"
@@ -1327,17 +1310,7 @@ partial class ChronoJumpWindow
 	}
 
 	private void extra_window_jumps_rj_toggle_desired_button_on_toolbar(JumpType type) {
-		if(type.Name == "RJ(j)") extra_window_radio_jump_rj_j.Active = true;
-		else if(type.Name == "RJ(t)") extra_window_radio_jump_rj_t.Active = true;
-		else if(type.Name == "RJ(unlimited)") extra_window_radio_jump_rj_unlimited.Active = true;
-		else if(type.Name == "RJ(hexagon)") extra_window_radio_jump_rj_hexagon.Active = true;
-		else {
-			//don't do this:
-			//extra_window_radio_jump_more.Active = true;
-			//because it will be a loop
-			//only do:
-			extra_window_jumps_rj_initialize(type);
-		}
+		extra_window_jumps_rj_initialize(type);
 	}
 
 	private void extra_window_showWeightData (JumpType myJumpType, bool show) {

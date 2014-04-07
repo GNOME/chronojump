@@ -127,8 +127,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_pulses_custom;
 	[Widget] Gtk.Label label_extra_window_radio_pulses_free;
 	
-	[Widget] Gtk.Label extra_window_pulses_label_selected;
-
 	[Widget] Gtk.VBox extra_window_pulses_vbox;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_pulse_step;
 	[Widget] Gtk.SpinButton extra_window_pulses_spinbutton_ppm;
@@ -152,8 +150,6 @@ public partial class ChronoJumpWindow
 
 	private void extra_window_pulses_initialize(PulseType myPulseType) 
 	{
-		extra_window_pulses_label_selected.Text = "<b>" + Catalog.GetString(myPulseType.Name) + "</b>";
-		extra_window_pulses_label_selected.UseMarkup = true; 
 		currentEventType = myPulseType;
 		changeTestImage(EventType.Types.PULSE.ToString(), myPulseType.Name, myPulseType.ImageFileName);
 		bool hasOptions = false;

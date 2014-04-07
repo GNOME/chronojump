@@ -888,57 +888,6 @@ public class RepairRunIntervalWindow
 
 partial class ChronoJumpWindow
 {
-
-	//runs
-	//labels notebook_execute	
-	[Widget] Gtk.Label label_extra_window_radio_run_custom;
-	[Widget] Gtk.Label label_extra_window_radio_run_20m;
-	[Widget] Gtk.Label label_extra_window_radio_run_100m;
-	[Widget] Gtk.Label label_extra_window_radio_run_200m;
-	[Widget] Gtk.Label label_extra_window_radio_run_400m;
-	[Widget] Gtk.Label label_extra_window_radio_run_gesell;
-	[Widget] Gtk.Label label_extra_window_radio_run_20yard;
-	[Widget] Gtk.Label label_extra_window_radio_run_505;
-	[Widget] Gtk.Label label_extra_window_radio_run_illinois;
-	[Widget] Gtk.Label label_extra_window_radio_run_margaria;
-	[Widget] Gtk.Label label_extra_window_radio_run_shuttle;
-	[Widget] Gtk.Label label_extra_window_radio_run_zigzag;
-	[Widget] Gtk.Label label_extra_window_radio_run_more;
-	
-	//radio notebook_execute	
-	[Widget] Gtk.RadioButton extra_window_radio_run_custom;
-	[Widget] Gtk.RadioButton extra_window_radio_run_20m;
-	[Widget] Gtk.RadioButton extra_window_radio_run_100m;
-	[Widget] Gtk.RadioButton extra_window_radio_run_200m;
-	[Widget] Gtk.RadioButton extra_window_radio_run_400m;
-	[Widget] Gtk.RadioButton extra_window_radio_run_gesell;
-	[Widget] Gtk.RadioButton extra_window_radio_run_20yard;
-	[Widget] Gtk.RadioButton extra_window_radio_run_505;
-	[Widget] Gtk.RadioButton extra_window_radio_run_illinois;
-	[Widget] Gtk.RadioButton extra_window_radio_run_margaria;
-	[Widget] Gtk.RadioButton extra_window_radio_run_shuttle;
-	[Widget] Gtk.RadioButton extra_window_radio_run_zigzag;
-	[Widget] Gtk.RadioButton extra_window_radio_run_t_test;
-	[Widget] Gtk.RadioButton extra_window_radio_run_more;
-
-	//runs interval
-	//labels notebook_execute	
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_by_laps;
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_by_time;
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_unlimited;
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_mtgug;
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_rsa_test_1;
-	[Widget] Gtk.Label label_extra_window_radio_run_interval_more;
-	
-	//radio notebook_execute	
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_by_laps;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_by_time;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_unlimited;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_mtgug;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_3l3r;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_rsa_test_1;
-	[Widget] Gtk.RadioButton extra_window_radio_run_interval_more;
-
 	//options runs
 	[Widget] Gtk.Label extra_window_runs_label_distance;
 	[Widget] Gtk.SpinButton extra_window_runs_spinbutton_distance;
@@ -973,10 +922,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_runs_i_speed_start_leaving;
 	
 
-	//selected test labels	
-	[Widget] Gtk.Label extra_window_runs_label_selected;
-	[Widget] Gtk.Label extra_window_runs_interval_label_selected;
-
 	double extra_window_runs_distance = 100;
 	double extra_window_runs_interval_distance = 100;
 	double extra_window_runs_interval_limit = 10;
@@ -987,20 +932,9 @@ partial class ChronoJumpWindow
 	
 	private void on_extra_window_runs_test_changed(object o, EventArgs args)
 	{
-		if(extra_window_radio_run_custom.Active) currentRunType = new RunType("Custom");
-		else if(extra_window_radio_run_20m.Active) currentRunType = new RunType("20m");
-		else if(extra_window_radio_run_100m.Active) currentRunType = new RunType("100m");
-		else if(extra_window_radio_run_200m.Active) currentRunType = new RunType("200m");
-		else if(extra_window_radio_run_400m.Active) currentRunType = new RunType("400m");
-		else if(extra_window_radio_run_gesell.Active) currentRunType = new RunType("Gesell-DBT");
-		else if(extra_window_radio_run_20yard.Active) currentRunType = new RunType("Agility-20Yard");
-		else if(extra_window_radio_run_505.Active) currentRunType = new RunType("Agility-505");
-		else if(extra_window_radio_run_illinois.Active) currentRunType = new RunType("Agility-Illinois");
-		else if(extra_window_radio_run_margaria.Active) currentRunType = new RunType("Margaria");
-		else if(extra_window_radio_run_shuttle.Active) currentRunType = new RunType("Agility-Shuttle-Run");
-		else if(extra_window_radio_run_zigzag.Active) currentRunType = new RunType("Agility-ZigZag");
-		else if(extra_window_radio_run_t_test.Active) currentRunType = new RunType("Agility-T-Test");
-
+		string runEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_runs), selectRunsString);
+		currentRunType = new RunType(runEnglishName);
+		
 		extra_window_runs_initialize(currentRunType);
 	}
 
@@ -1008,23 +942,17 @@ partial class ChronoJumpWindow
 	{
 		previousRunType = currentRunType;
 
-		if(extra_window_radio_run_more.Active) {
-			runsMoreWin = RunsMoreWindow.Show(app1, true, currentRunType.Name);
-			runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
-			runsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_cancelled);
-			runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_draw_image_test);
-		}
+		runsMoreWin = RunsMoreWindow.Show(app1, true);
+		runsMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_accepted);
+		runsMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_cancelled);
+		runsMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_update_test);
 	}
 	
 	private void on_extra_window_runs_interval_test_changed(object o, EventArgs args)
 	{
-		if(extra_window_radio_run_interval_by_laps.Active) currentRunIntervalType = new RunType("byLaps");
-		else if(extra_window_radio_run_interval_by_time.Active) currentRunIntervalType = new RunType("byTime");
-		else if(extra_window_radio_run_interval_unlimited.Active) currentRunIntervalType = new RunType("unlimited");
-		else if(extra_window_radio_run_interval_mtgug.Active) currentRunIntervalType = new RunType("MTGUG");
-		else if(extra_window_radio_run_interval_3l3r.Active) currentRunIntervalType = new RunType("Agility-3L3R");
-		//else if(extra_window_radio_run_interval_rsa_test_1.Active) currentRunIntervalType = new RunType("RSA 8-4-R3-5");
-
+		string runEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_runs_interval), selectRunsIntervalString);
+		currentRunIntervalType = new RunType(runEnglishName);
+		
 		extra_window_runs_interval_initialize(currentRunIntervalType);
 	}
 	
@@ -1032,18 +960,14 @@ partial class ChronoJumpWindow
 	{
 		previousRunIntervalType = currentRunIntervalType;
 
-		if(extra_window_radio_run_interval_more.Active) {
-			runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true, currentRunIntervalType.Name);
-			runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
-			runsIntervalMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_interval_cancelled);
-			runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_draw_image_test);
-		}
+		runsIntervalMoreWin = RunsIntervalMoreWindow.Show(app1, true);
+		runsIntervalMoreWin.Button_accept.Clicked += new EventHandler(on_more_runs_interval_accepted);
+		runsIntervalMoreWin.Button_cancel.Clicked += new EventHandler(on_more_runs_interval_cancelled);
+		runsIntervalMoreWin.Button_selected.Clicked += new EventHandler(on_more_runs_interval_update_test);
 	}
 	
 	private void extra_window_runs_initialize(RunType myRunType) 
 	{
-		extra_window_runs_label_selected.Text = "<b>" + Catalog.GetString(myRunType.Name) + "</b>";
-		extra_window_runs_label_selected.UseMarkup = true; 
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 		bool hasOptions = false;
@@ -1072,8 +996,6 @@ partial class ChronoJumpWindow
 	
 	private void extra_window_runs_interval_initialize(RunType myRunType) 
 	{
-		extra_window_runs_interval_label_selected.Text = "<b>" + Catalog.GetString(myRunType.Name) + "</b>";
-		extra_window_runs_interval_label_selected.UseMarkup = true; 
 		currentEventType = myRunType;
 		changeTestImage(EventType.Types.RUN.ToString(), myRunType.Name, myRunType.ImageFileName);
 		bool hasOptions = false;
@@ -1113,14 +1035,18 @@ partial class ChronoJumpWindow
 		extra_window_runs_showNoOptions(myRunType, hasOptions);
 	}
 
-	private void on_more_runs_draw_image_test (object o, EventArgs args) {
+	private void on_more_runs_update_test (object o, EventArgs args) {
 		currentEventType = new RunType(runsMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+		string runTranslatedName = Util.FindOnArray(':',1,2, runsMoreWin.SelectedEventName, selectRunsString);
+		
+		combo_select_runs.Active = UtilGtk.ComboMakeActive(combo_select_runs, runTranslatedName);	
 	}
 	
-	private void on_more_runs_interval_draw_image_test (object o, EventArgs args) {
+	private void on_more_runs_interval_update_test (object o, EventArgs args) {
 		currentEventType = new RunType(runsIntervalMoreWin.SelectedEventName);
-		changeTestImage(currentEventType.Type.ToString(), currentEventType.Name, currentEventType.ImageFileName);
+		string runTranslatedName = Util.FindOnArray(':',1,2, runsIntervalMoreWin.SelectedEventName, selectRunsIntervalString);
+		
+		combo_select_runs_interval.Active = UtilGtk.ComboMakeActive(combo_select_runs_interval, runTranslatedName);	
 	}
 	
 	
@@ -1129,19 +1055,9 @@ partial class ChronoJumpWindow
 	{
 		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
 	
-		currentRunType = new RunType(
-				runsMoreWin.SelectedEventName,	//name
-				false,				//hasIntervals
-				runsMoreWin.SelectedDistance,	//distance
-				false,				//tracksLimited (false, because has not intervals)
-				0,				//fixedValue (0, because has not intervals)
-				false,				//unlimited (false, because has not intervals)
-				runsMoreWin.SelectedDescription,
-				"", // distancesstring (deactivated now, TODO: activate)
-				SqliteEvent.GraphLinkSelectFileName("run", runsMoreWin.SelectedEventName)
-				);
+		currentRunType = new RunType(runsMoreWin.SelectedEventName);
 		
-		extra_window_runs_toggle_desired_button_on_toolbar(currentRunType);
+		extra_window_runs_initialize(currentRunType);
 				
 		//destroy the win for not having updating problems if a new run type is created
 		runsMoreWin.Destroy();
@@ -1151,89 +1067,25 @@ partial class ChronoJumpWindow
 	{
 		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
 		
-		currentRunIntervalType = new RunType(
-				runsIntervalMoreWin.SelectedEventName,	//name
-				true,					//hasIntervals
-				runsIntervalMoreWin.SelectedDistance,
-				runsIntervalMoreWin.SelectedTracksLimited,
-				runsIntervalMoreWin.SelectedLimitedValue,
-				runsIntervalMoreWin.SelectedUnlimited,
-				runsIntervalMoreWin.SelectedDescription,
-				runsIntervalMoreWin.SelectedDistancesString,
-				SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, runsIntervalMoreWin.SelectedEventName)
-				);
+		currentRunIntervalType = new RunType(runsIntervalMoreWin.SelectedEventName);
 
-		/*
-		bool unlimited = false;
-		if(runsIntervalMoreWin.SelectedUnlimited)
-			unlimited = true;
-			*/
-		
-		extra_window_runs_interval_toggle_desired_button_on_toolbar(currentRunIntervalType);
+		extra_window_runs_interval_initialize(currentRunIntervalType);
 
 		//destroy the win for not having updating problems if a new runInterval type is created
 		runsIntervalMoreWin.Destroy();
-		
-		/*
-		//go to run extra if we need something to define
-		if( currentRunType.Distance == 0 || 
-				//(currentRunType.FixedValue == 0 && ! runsIntervalMoreWin.SelectedUnlimited) ) {
-				(currentRunType.FixedValue == 0 && ! unlimited) ) {
-			on_run_extra_activate(o, args);
-		} else {
-			on_run_interval_accepted(o, args);
-		}
-		*/
 	}
 	
 	//if it's cancelled (or deleted event) select desired toolbar button
 	private void on_more_runs_cancelled (object o, EventArgs args) 
 	{
 		currentRunType = previousRunType;
-		extra_window_runs_toggle_desired_button_on_toolbar(currentRunType);
+		extra_window_runs_initialize(currentRunType);
 	}
 	
 	private void on_more_runs_interval_cancelled (object o, EventArgs args) 
 	{
 		currentRunIntervalType = previousRunIntervalType;
-		extra_window_runs_interval_toggle_desired_button_on_toolbar(currentRunIntervalType);
-	}
-	
-	private void extra_window_runs_toggle_desired_button_on_toolbar(RunType type) {
-		if(type.Name == "Custom") extra_window_radio_run_custom.Active = true;
-		else if(type.Name == "20m") extra_window_radio_run_20m.Active = true;
-		else if(type.Name == "100m") extra_window_radio_run_100m.Active = true;
-		else if(type.Name == "200m") extra_window_radio_run_200m.Active = true;
-		else if(type.Name == "400m") extra_window_radio_run_400m.Active = true;
-		else if(type.Name == "Gesell-DBT") extra_window_radio_run_gesell.Active = true;
-		else if(type.Name == "Agility-20Yard") extra_window_radio_run_20yard.Active = true;
-		else if(type.Name == "Agility-505") extra_window_radio_run_505.Active = true;
-		else if(type.Name == "Agility-Illinois") extra_window_radio_run_illinois.Active = true;
-		else if(type.Name == "Margaria") extra_window_radio_run_margaria.Active = true;
-		else if(type.Name == "Agility-Shuttle-Run") extra_window_radio_run_shuttle.Active = true;
-		else if(type.Name == "Agility-ZigZag") extra_window_radio_run_zigzag.Active = true;
-		else {
-			//don't do this:
-			//extra_window_radio_run_more.Active = true;
-			//because it will be a loop
-			//only do:
-			extra_window_runs_initialize(type);
-		}
-	}
-	
-	private void extra_window_runs_interval_toggle_desired_button_on_toolbar(RunType type) {
-		if(type.Name == "byLaps") extra_window_radio_run_interval_by_laps.Active = true;
-		else if(type.Name == "byTime") extra_window_radio_run_interval_by_time.Active = true;
-		else if(type.Name == "unlimited") extra_window_radio_run_interval_unlimited.Active = true;
-		else if(type.Name == "MTGUG") extra_window_radio_run_interval_mtgug.Active = true;
-		//else if(type.Name == "RSA 8-4-R3-5") extra_window_radio_run_interval_rsa_test_1.Active = true;
-		else {
-			//don't do this:
-			//extra_window_radio_run_interval_more.Active = true;
-			//because it will be a loop
-			//only do:
-			extra_window_runs_interval_initialize(type);
-		}
+		extra_window_runs_interval_initialize(currentRunIntervalType);
 	}
 
 	private void extra_window_showDistanceData (RunType myRunType, bool show, bool sensitive ) {
@@ -1312,13 +1164,12 @@ public class RunsMoreWindow : EventMoreWindow
 	
 	private double selectedDistance;
 	
-	RunsMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
+	RunsMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", null);
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
-		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1333,10 +1184,10 @@ public class RunsMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
+	static public RunsMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (RunsMoreWindowBox == null) {
-			RunsMoreWindowBox = new RunsMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
+			RunsMoreWindowBox = new RunsMoreWindow (parent, testOrDelete);
 		}
 		RunsMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1356,6 +1207,11 @@ public class RunsMoreWindow : EventMoreWindow
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myRunTypes = SqliteRunType.SelectRunTypes("", false);
+
+		//remove typesTranslated
+		typesTranslated = new String [myRunTypes.Length];
+		int count = 0;
+
 		foreach (string myType in myRunTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			if(myStringFull[2] == "0") {
@@ -1370,12 +1226,16 @@ public class RunsMoreWindow : EventMoreWindow
 			if(testOrDelete || ! tempType.IsPredefined)
 				store.AppendValues (
 						//myStringFull[0], //don't display the uniqueID
-						myStringFull[1],	//name 
+						Catalog.GetString(myStringFull[1]),	//name 
 						myStringFull[2], 	//distance
 						description
 						);
+			
+			//create typesTranslated
+			typesTranslated [count++] = myStringFull[1] + ":" + Catalog.GetString(myStringFull[1]);
 		}	
 	}
+
 
 	protected override void onSelectionEntry (object o, EventArgs args)
 	{
@@ -1386,7 +1246,9 @@ public class RunsMoreWindow : EventMoreWindow
 		selectedDescription = "";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Not defined") ) {
 				selectedDistance = 0;
 			} else {
@@ -1414,8 +1276,10 @@ public class RunsMoreWindow : EventMoreWindow
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			//put selection in selected
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
+			
 			if( (string) model.GetValue (iter, 1) == Catalog.GetString("Not defined") ) {
 				selectedDistance = 0;
 			} else {
@@ -1430,6 +1294,11 @@ public class RunsMoreWindow : EventMoreWindow
 	
 	protected override void deleteTestLine() {
 		SqliteRunType.Delete(selectedEventName);
+		
+		//delete from typesTranslated
+		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
+		Log.WriteLine("row " + row);
+		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 
 	protected override string [] findTestTypesInSessions() {
@@ -1480,14 +1349,13 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	private bool selectedUnlimited;
 	private string selectedDistancesString;
 	
-	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
+	RunsIntervalMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		//the glade window is the same as jumps_more
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
 		gladeXML.Autoconnect(this);
 		this.parent = parent;
 		this.testOrDelete = testOrDelete;
-		this.selectedTestOnMainWindow = selectedTestOnMainWindow;
 		
 		if(!testOrDelete)
 			jumps_runs_more.Title = Catalog.GetString("Delete test type defined by user");
@@ -1503,10 +1371,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		initializeThings();
 	}
 	
-	static public RunsIntervalMoreWindow Show (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow)
+	static public RunsIntervalMoreWindow Show (Gtk.Window parent, bool testOrDelete)
 	{
 		if (RunsIntervalMoreWindowBox == null) {
-			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent, testOrDelete, selectedTestOnMainWindow);
+			RunsIntervalMoreWindowBox = new RunsIntervalMoreWindow (parent, testOrDelete);
 		}
 		RunsIntervalMoreWindowBox.jumps_runs_more.Show ();
 		
@@ -1528,6 +1396,11 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	{
 		//select data without inserting an "all jumps", and not obtain only name of jump
 		string [] myTypes = SqliteRunIntervalType.SelectRunIntervalTypes("", false);
+		
+		//remove typesTranslated
+		typesTranslated = new String [myTypes.Length];
+		int count = 0;
+
 		foreach (string myType in myTypes) {
 			string [] myStringFull = myType.Split(new char[] {':'});
 			
@@ -1565,12 +1438,15 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 			if(testOrDelete || ! tempType.IsPredefined)
 				store.AppendValues (
 						//myStringFull[0], //don't display de uniqueID
-						myStringFull[1],	//name 
+						Catalog.GetString(myStringFull[1]),	//name 
 						distance,		
 						myLimiter,		//tracks or seconds or "unlimited"
 						myLimiterValue,		//? or exact value (or '-' in unlimited)
 						description
 						);
+
+			//create typesTranslated
+			typesTranslated [count++] = myStringFull[1] + ":" + Catalog.GetString(myStringFull[1]);
 		}	
 	}
 
@@ -1588,7 +1464,9 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		selectedDistancesString = "";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
 
 			//selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			/*
@@ -1642,7 +1520,9 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 		TreeIter iter;
 
 		if (tv.Selection.GetSelected (out model, out iter)) {
-			selectedEventName = (string) model.GetValue (iter, 0);
+			string translatedName = (string) model.GetValue (iter, 0);
+			//get name in english
+			selectedEventName = Util.FindOnArray(':', 1, 0, translatedName, typesTranslated);
 			
 			//selectedDistance = Convert.ToDouble( (string) model.GetValue (iter, 1) );
 			
@@ -1679,6 +1559,10 @@ public class RunsIntervalMoreWindow : EventMoreWindow
 	
 	protected override void deleteTestLine() {
 		SqliteRunIntervalType.Delete(selectedEventName);
+		
+		//delete from typesTranslated
+		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
+		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 
 	protected override string [] findTestTypesInSessions() {

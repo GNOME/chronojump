@@ -81,7 +81,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.TreeView treeview_multi_chronopic;
 	[Widget] Gtk.Box hbox_combo_select_jumps;
 	[Widget] Gtk.Box hbox_combo_result_jumps;
-	[Widget] Gtk.Box hbox_combo_jumps_rj;
+	[Widget] Gtk.Box hbox_combo_select_jumps_rj;
+	[Widget] Gtk.Box hbox_combo_result_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_runs;
 	[Widget] Gtk.Box hbox_combo_runs_interval;
 	[Widget] Gtk.Box hbox_combo_pulses;
@@ -92,7 +93,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_pulses;
 	[Widget] Gtk.ComboBox combo_select_jumps;
 	[Widget] Gtk.ComboBox combo_result_jumps;
-	[Widget] Gtk.ComboBox combo_jumps_rj;
+	[Widget] Gtk.ComboBox combo_select_jumps_rj;
+	[Widget] Gtk.ComboBox combo_result_jumps_rj;
 	[Widget] Gtk.ComboBox combo_runs;
 	[Widget] Gtk.ComboBox combo_runs_interval;
 	[Widget] Gtk.ComboBox combo_pulses;
@@ -482,9 +484,10 @@ public partial class ChronoJumpWindow
 		createTreeView_pulses (treeview_pulses);
 		createTreeView_multi_chronopic (treeview_multi_chronopic);
 
-		createComboSelectJumps();
+		createComboSelectJumps(true);
 		createComboResultJumps();
-		createComboJumpsRj();
+		createComboSelectJumpsRj(true);
+		createComboResultJumpsRj();
 		createComboRuns();
 		createComboRunsInterval();
 		//reaction_times has no combo
@@ -623,19 +626,6 @@ public partial class ChronoJumpWindow
 		image_mode_multi_chronopic_small.Pixbuf = pixbuf;
 		
 		
-		//jumpsRj changes
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_j);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_t);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_unlimited);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_hexagon);
-		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_jump_rj_more);
-
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_j);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_t);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_unlimited);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_hexagon);
-		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_jump_rj_more);
-
 		//runs changes
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_custom);
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_run_20m);
@@ -2078,8 +2068,12 @@ public partial class ChronoJumpWindow
 	 */
 	
 	string [] selectJumpsString;
-	private void createComboSelectJumps() {
-		combo_select_jumps = ComboBox.NewText ();
+	string [] selectJumpsRjString;
+
+	private void createComboSelectJumps(bool create) {
+		if(create)
+			combo_select_jumps = ComboBox.NewText ();
+
 		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
 		selectJumpsString = new String [jumpTypes.Length];
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
@@ -2098,9 +2092,11 @@ public partial class ChronoJumpWindow
 		combo_select_jumps.Active = 0;
 		combo_select_jumps.Changed += new EventHandler (on_combo_select_jumps_changed);
 
-		hbox_combo_select_jumps.PackStart(combo_select_jumps, true, true, 0);
-		hbox_combo_select_jumps.ShowAll();
-		combo_select_jumps.Sensitive = false;
+		if(create) {
+			hbox_combo_select_jumps.PackStart(combo_select_jumps, true, true, 0);
+			hbox_combo_select_jumps.ShowAll();
+			combo_select_jumps.Sensitive = false;
+		}
 	}
 	
 	private void createComboResultJumps() {
@@ -2117,16 +2113,46 @@ public partial class ChronoJumpWindow
 		combo_result_jumps.Sensitive = false;
 	}
 	
-	private void createComboJumpsRj() {
-		combo_jumps_rj = ComboBox.NewText();
-		UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
-		
-		combo_jumps_rj.Active = 0;
-		combo_jumps_rj.Changed += new EventHandler (on_combo_jumps_rj_changed);
+	private void createComboSelectJumpsRj(bool create) {
+		if(create)
+			combo_select_jumps_rj = ComboBox.NewText ();
 
-		hbox_combo_jumps_rj.PackStart(combo_jumps_rj, true, true, 0);
-		hbox_combo_jumps_rj.ShowAll();
-		combo_jumps_rj.Sensitive = false;
+		string [] jumpTypes = SqliteJumpType.SelectJumpRjTypes("", false); //without alljumpsname, not only name
+		selectJumpsRjString = new String [jumpTypes.Length];
+		string [] jumpNamesToCombo = new String [jumpTypes.Length];
+		int i =0;
+		foreach(string jumpType in jumpTypes) {
+			string [] j = jumpType.Split(new char[] {':'});
+			string nameTranslated = Catalog.GetString(j[1]);
+			selectJumpsRjString[i] = 
+				j[0] + ":" + j[1] + ":" + nameTranslated + ":" +	//uniqueID, name, nameTranslated
+				j[2] + ":" + j[3] + ":" + j[4] + ":" +			//startIn, weight, jumpsLimited
+				j[5] + ":" + j[6];					//fixedValue, description
+			jumpNamesToCombo[i] = nameTranslated;
+			i++;
+		}
+
+		UtilGtk.ComboUpdate(combo_select_jumps_rj, jumpNamesToCombo, "");
+		combo_select_jumps_rj.Active = 0;
+		combo_select_jumps_rj.Changed += new EventHandler (on_combo_select_jumps_rj_changed);
+
+		if(create) {
+			hbox_combo_select_jumps_rj.PackStart(combo_select_jumps_rj, true, true, 0);
+			hbox_combo_select_jumps_rj.ShowAll();
+			combo_select_jumps_rj.Sensitive = false;
+		}
+	}
+	
+	private void createComboResultJumpsRj() {
+		combo_result_jumps_rj = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_result_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //only select name
+		
+		combo_result_jumps_rj.Active = 0;
+		combo_result_jumps_rj.Changed += new EventHandler (on_combo_result_jumps_rj_changed);
+
+		hbox_combo_result_jumps_rj.PackStart(combo_result_jumps_rj, true, true, 0);
+		hbox_combo_result_jumps_rj.ShowAll();
+		combo_result_jumps_rj.Sensitive = false;
 	}
 	
 	private void createComboRuns() {
@@ -2199,8 +2225,19 @@ public partial class ChronoJumpWindow
 		fillTreeView_jumps(myText);
 	}
 	
-	private void on_combo_jumps_rj_changed(object o, EventArgs args) {
-		//combo_jumps_rj.Changed -= new EventHandler (on_combo_jumps_rj_changed);
+	private void on_combo_select_jumps_rj_changed(object o, EventArgs args) {
+		ComboBox combo = o as ComboBox;
+		if (o == null)
+			return;
+		string myText = UtilGtk.ComboGetActive(combo);
+		Log.WriteLine("Selected: " + myText); 
+
+		//show extra window options
+		on_extra_window_jumps_rj_test_changed(o, args);
+	}
+	
+	private void on_combo_result_jumps_rj_changed(object o, EventArgs args) {
+		//combo_result_jumps_rj.Changed -= new EventHandler (on_combo_result_jumps_rj_changed);
 
 		ComboBox combo = o as ComboBox;
 		if (o == null)
@@ -2615,7 +2652,7 @@ public partial class ChronoJumpWindow
 			}
 
 			on_combo_result_jumps_changed(combo_result_jumps, args);
-			on_combo_jumps_rj_changed(combo_jumps_rj, args);
+			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
 			on_combo_runs_interval_changed(combo_runs_interval, args);
 			on_combo_pulses_changed(combo_pulses, args);
@@ -2828,7 +2865,7 @@ public partial class ChronoJumpWindow
 			createTreeView_multi_chronopic(treeview_multi_chronopic);
 			
 			on_combo_result_jumps_changed(combo_result_jumps, args);
-			on_combo_jumps_rj_changed(combo_jumps_rj, args);
+			on_combo_result_jumps_rj_changed(combo_result_jumps_rj, args);
 			on_combo_runs_changed(combo_runs, args);
 			on_combo_runs_interval_changed(combo_runs_interval, args);
 			on_combo_pulses_changed(combo_pulses, args);
@@ -3271,14 +3308,12 @@ Console.WriteLine("X");
 
 
 	void on_button_execute_test_clicked (object o, EventArgs args) {
-		if(radio_mode_jumps_small.Active) {
+		if(radio_mode_jumps_small.Active) 
+		{
 			on_normal_jump_activate(o, args);
 		}
-		else if(radio_mode_jumps_reactive_small.Active) {
-			extra_window_jumps_rj_limited = (double) extra_window_jumps_rj_spinbutton_limit.Value;
-			extra_window_jumps_rj_weight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
-			extra_window_jumps_rj_fall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
-
+		else if(radio_mode_jumps_reactive_small.Active) 
+		{
 			on_rj_activate(o, args);
 		}
 		else if(radio_mode_runs_small.Active) {
@@ -3539,6 +3574,9 @@ Log.WriteLine("DDD 2");
 	
 	private void on_rj_activate (object o, EventArgs args) 
 	{
+		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
+		currentJumpRjType = new JumpType(jumpEnglishName);
+
 		double progressbarLimit = 0;
 		
 		//if it's a unlimited interval run, put -1 as limit value
@@ -3548,21 +3586,23 @@ Log.WriteLine("DDD 2");
 			if(currentJumpRjType.FixedValue > 0) {
 				progressbarLimit = currentJumpRjType.FixedValue;
 			} else {
-				progressbarLimit = extra_window_jumps_rj_limited;
+				progressbarLimit = (double) extra_window_jumps_rj_spinbutton_limit.Value;
 			}
 		}
 
 		double jumpWeight = 0;
 		if(currentJumpRjType.HasWeight) {
 			if(extra_window_jumps_rj_option == "%") {
-				jumpWeight = extra_window_jumps_rj_weight;
+				jumpWeight = (double) extra_window_jumps_rj_spinbutton_weight.Value;
 			} else {
-				jumpWeight = Util.WeightFromKgToPercent(extra_window_jumps_rj_weight, currentPersonSession.Weight);
+				jumpWeight = Util.WeightFromKgToPercent(
+						(double) extra_window_jumps_rj_spinbutton_weight.Value,
+						currentPersonSession.Weight);
 			}
 		}
 		double myFall = 0;
 		if( ! currentJumpRjType.StartIn || currentJumpRjType.Name == Constants.RunAnalysisName)
-			myFall = extra_window_jumps_rj_fall;
+			myFall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
 			
 		//used by cancel and finish
 		//currentEventType = new JumpRjType();
@@ -4577,7 +4617,7 @@ Console.WriteLine("X");
 		}
 		else {
 			treeview_jumps_rj_storeReset();
-			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
+			fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_result_jumps_rj));
 		}
 
 		if(createdStatsWin) 
@@ -5206,19 +5246,23 @@ Console.WriteLine("X");
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
 		Log.WriteLine("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
-			UtilGtk.ComboUpdate(combo_select_jumps, 
-					SqliteJumpType.SelectJumpTypes("", "", true), ""); //without name, without filter, only select name
+			createComboSelectJumps(false); //this will update also the selectJumpsString
+
 			UtilGtk.ComboUpdate(combo_result_jumps, 
 					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
 		} else {
-			UtilGtk.ComboUpdate(combo_jumps_rj, SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
+			createComboSelectJumpsRj(false); //this will update also the selectJumpsRjString
+			
+			UtilGtk.ComboUpdate(combo_result_jumps_rj, 
+					SqliteJumpType.SelectJumpRjTypes(Constants.AllJumpsName, true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added reactive jump."));
 		}
 		updateComboStats();
 		combo_select_jumps.Active = 0;
 		combo_result_jumps.Active = 0;
-		combo_jumps_rj.Active = 0;
+		combo_select_jumps_rj.Active = 0;
+		combo_result_jumps_rj.Active = 0;
 	}
 
 	private void on_run_simple_type_add_activate (object o, EventArgs args) {
@@ -5287,11 +5331,35 @@ Console.WriteLine("X");
 	//----
 	
 	private void on_deleted_current_jump_type (object o, EventArgs args) {
+		//first delete if from combo
+		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsMoreWin.SelectedEventName, selectJumpsString);
+		UtilGtk.ComboDelThisValue(combo_select_jumps, jumpTranslatedName);
+		
+		//2nd delete if from global string. -1 selects all row
+		string row = Util.FindOnArray(':',1, -1, jumpsMoreWin.SelectedEventName, selectJumpsString);
+		selectJumpsString = Util.DeleteString(selectJumpsString, row);
+
+		combo_select_jumps.Active = 0;
+		combo_result_jumps.Active = 0;
+
 		extra_window_jumps_toggle_desired_button_on_toolbar(new JumpType("Free"));
 	}
+
 	private void on_deleted_current_jump_rj_type (object o, EventArgs args) {
+		//first delete if from combo
+		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
+		UtilGtk.ComboDelThisValue(combo_select_jumps_rj, jumpTranslatedName);
+		
+		//2nd delete if from global string. -1 selects all row
+		string row = Util.FindOnArray(':',1, -1, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
+		selectJumpsRjString = Util.DeleteString(selectJumpsRjString, row);
+
+		combo_select_jumps_rj.Active = 0;
+		combo_result_jumps_rj.Active = 0;
+
 		extra_window_jumps_rj_toggle_desired_button_on_toolbar(new JumpType("RJ(j)"));
 	}
+
 	private void on_deleted_current_run_type (object o, EventArgs args) {
 		extra_window_runs_toggle_desired_button_on_toolbar(new RunType("Custom"));
 	}
@@ -5323,7 +5391,7 @@ Console.WriteLine("X");
 		Log.WriteLine("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
-		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_jumps_rj));
+		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_result_jumps_rj));
 		
 		if(createdStatsWin) {
 			stats_win_fillTreeView_stats(false, false);
@@ -5641,7 +5709,8 @@ Console.WriteLine("X");
 
 		combo_select_jumps.Sensitive = true;
 		combo_result_jumps.Sensitive = true;
-		combo_jumps_rj.Sensitive = true;
+		combo_select_jumps_rj.Sensitive = true;
+		combo_result_jumps_rj.Sensitive = true;
 		combo_runs.Sensitive = true;
 		combo_runs_interval.Sensitive = true;
 		combo_pulses.Sensitive = true;

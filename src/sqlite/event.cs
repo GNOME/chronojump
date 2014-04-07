@@ -68,7 +68,8 @@ class SqliteEvent : Sqlite
 
 		return myLast;
 	}
-	
+
+	//do not use this because some graph like the takeoff.png are not in this SQL table	
 	public static string GraphLinkSelectFileName(string tableName, string eventName)
 	{
 		dbcon.Open();

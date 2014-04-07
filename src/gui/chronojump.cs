@@ -5309,13 +5309,13 @@ Console.WriteLine("X");
 	 */
 
 	private void on_jump_type_delete_simple (object o, EventArgs args) {
-		jumpsMoreWin = JumpsMoreWindow.Show(app1, false, currentJumpType.Name); //delete jump type
-		jumpsMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_jump_type);
+		jumpsMoreWin = JumpsMoreWindow.Show(app1, false); //delete jump type
+		jumpsMoreWin.Button_deleted_test.Clicked += new EventHandler(on_deleted_jump_type);
 	}
 	
 	private void on_jump_type_delete_reactive (object o, EventArgs args) {
-		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false, currentJumpRjType.Name); //delete jump type
-		jumpsRjMoreWin.Button_deleted_current_test.Clicked += new EventHandler(on_deleted_current_jump_rj_type);
+		jumpsRjMoreWin = JumpsRjMoreWindow.Show(app1, false); //delete jump type
+		jumpsRjMoreWin.Button_deleted_test.Clicked += new EventHandler(on_deleted_jump_rj_type);
 	}
 	
 	private void on_run_type_delete_simple (object o, EventArgs args) {
@@ -5330,10 +5330,11 @@ Console.WriteLine("X");
 	
 	//----
 	
-	private void on_deleted_current_jump_type (object o, EventArgs args) {
-		//first delete if from combo
-		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsMoreWin.SelectedEventName, selectJumpsString);
-		UtilGtk.ComboDelThisValue(combo_select_jumps, jumpTranslatedName);
+	private void on_deleted_jump_type (object o, EventArgs args) {
+		//first delete if from combos
+		string translatedName = Util.FindOnArray(':', 2, 1, jumpsMoreWin.SelectedEventName, selectJumpsString);
+		UtilGtk.ComboDelThisValue(combo_select_jumps, translatedName);
+		UtilGtk.ComboDelThisValue(combo_result_jumps, translatedName);
 		
 		//2nd delete if from global string. -1 selects all row
 		string row = Util.FindOnArray(':',1, -1, jumpsMoreWin.SelectedEventName, selectJumpsString);
@@ -5342,13 +5343,14 @@ Console.WriteLine("X");
 		combo_select_jumps.Active = 0;
 		combo_result_jumps.Active = 0;
 
-		extra_window_jumps_toggle_desired_button_on_toolbar(new JumpType("Free"));
+		extra_window_jumps_initialize(new JumpType("Free"));
 	}
 
-	private void on_deleted_current_jump_rj_type (object o, EventArgs args) {
-		//first delete if from combo
-		string jumpTranslatedName = Util.FindOnArray(':',1,2, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
-		UtilGtk.ComboDelThisValue(combo_select_jumps_rj, jumpTranslatedName);
+	private void on_deleted_jump_rj_type (object o, EventArgs args) {
+		//first delete if from combos
+		string translatedName = Util.FindOnArray(':', 2, 1, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
+		UtilGtk.ComboDelThisValue(combo_select_jumps_rj, translatedName);
+		UtilGtk.ComboDelThisValue(combo_result_jumps_rj, translatedName);
 		
 		//2nd delete if from global string. -1 selects all row
 		string row = Util.FindOnArray(':',1, -1, jumpsRjMoreWin.SelectedEventName, selectJumpsRjString);
@@ -5357,7 +5359,7 @@ Console.WriteLine("X");
 		combo_select_jumps_rj.Active = 0;
 		combo_result_jumps_rj.Active = 0;
 
-		extra_window_jumps_rj_toggle_desired_button_on_toolbar(new JumpType("RJ(j)"));
+		extra_window_jumps_rj_initialize(new JumpType("RJ(j)"));
 	}
 
 	private void on_deleted_current_run_type (object o, EventArgs args) {

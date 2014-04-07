@@ -591,17 +591,15 @@ public class EventMoreWindow
 	protected string selectedEventName;
 	protected string selectedDescription;
 	public Gtk.Button button_selected;
-	public Gtk.Button button_deleted_current_test; //just to send a signal //deprecated, now signal is sent always to update combos, use button_deleted_test
 	public Gtk.Button button_deleted_test; //just to send a signal
 	
 	protected bool testOrDelete; //are we going to do a test or to delete a test type (test is true)
-	protected string selectedTestOnMainWindow;
 	protected string [] typesTranslated;
 
 	public EventMoreWindow () {
 	}
 
-	public EventMoreWindow (Gtk.Window parent, bool testOrDelete, string selectedTestOnMainWindow) {
+	public EventMoreWindow (Gtk.Window parent, bool testOrDelete) {
 		/*
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "jumps_runs_more", "chronojump");
@@ -617,7 +615,6 @@ public class EventMoreWindow
 	protected void initializeThings() 
 	{
 		button_selected = new Gtk.Button();
-		button_deleted_current_test = new Gtk.Button();
 		button_deleted_test = new Gtk.Button();
 		
 		createTreeView(treeview_more);
@@ -720,11 +717,6 @@ public class EventMoreWindow
 	public Button Button_selected
 	{
 		get { return button_selected; }
-	}
-
-	public Button Button_deleted_current_test
-	{
-		get { return button_deleted_current_test; }
 	}
 
 	public Button Button_deleted_test

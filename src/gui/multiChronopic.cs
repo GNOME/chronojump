@@ -36,8 +36,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_extra_window_radio_multichronopic_start;
 	[Widget] Gtk.Label label_extra_window_radio_multichronopic_run_analysis;
 
-	[Widget] Gtk.Label extra_window_multichronopic_label_selected;
-
 	[Widget] Gtk.TextView extra_window_textview_multichronopic_need_two;
 
 	[Widget] Gtk.CheckButton extra_window_check_multichronopic_sync;
@@ -67,9 +65,6 @@ public partial class ChronoJumpWindow
 
 	private void extra_window_multichronopic_initialize(MultiChronopicType myMultiChronopicType) 
 	{
-		extra_window_multichronopic_label_selected.Text = "<b>" + 
-			Catalog.GetString(myMultiChronopicType.Name) + "</b>";
-		extra_window_multichronopic_label_selected.UseMarkup = true; 
 		currentEventType = myMultiChronopicType;
 		changeTestImage(EventType.Types.MULTICHRONOPIC.ToString(), 
 				myMultiChronopicType.Name, myMultiChronopicType.ImageFileName);

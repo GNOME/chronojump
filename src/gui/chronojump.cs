@@ -171,6 +171,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
+	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	[Widget] Gtk.Label label_chronopic_encoder;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
@@ -4375,8 +4376,9 @@ Log.WriteLine("DDD 2");
 		//label_connected_chronopics.UseMarkup = true; 
 		
 		if(colorize)
-			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, 
-					(chronopicWin.Connected || chronopicWin.GetEncoderPort() != "") );
+			UtilGtk.ChronopicColors(viewport_chronopics, 
+					label_chronopics, label_connected_chronopics, 
+					chronopicWin.Connected);
 	}
 
 	private void chronopicEncoderLabels(bool colorize) {
@@ -4385,11 +4387,10 @@ Log.WriteLine("DDD 2");
 		else
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder disconnected");
 		
-		/*	
 		if(colorize)
-			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, 
-					(chronopicWin.Connected || chronopicWin.GetEncoderPort() != "") );
-		*/
+			UtilGtk.ChronopicColors(viewport_chronopic_encoder, 
+					label_chronopic_encoder, new Gtk.Label(),
+					chronopicWin.GetEncoderPort() != "");
 	}
 
 

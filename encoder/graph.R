@@ -619,8 +619,7 @@ print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
 	concentric = 0
 	propulsiveEnd = 0
 
-#print("at kinematicsF eccon==")
-#print(eccon)
+print(c("at kinematicsF eccon==", eccon))
 
 	#search propulsiveEnd
 	if(isPropulsive) {
@@ -632,7 +631,7 @@ print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
 			eccentric = phases$eccentric
 			isometric = phases$isometric
 			concentric = phases$concentric
-			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
+			propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric)
 		} else if(eccon=="e") {
 			#not eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS
@@ -697,9 +696,11 @@ kinematicRanges <- function(singleFile, displacement, curves,
 			    massBody, massExtra, exercisePercentBodyWeight,
 			    encoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
 			    smoothingsEC, smoothingOneC, g, eccon, isPropulsive) {
+
 	n=length(curves[,1])
 	maxSpeedy=0; maxAccely=0; maxForce=0; maxPower=0
 	myEccon = eccon
+
 	for(i in 1:n) { 
 		myMassBody = massBody
 		myMassExtra = massExtra
@@ -728,7 +729,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 			myInertiaMomentum = curves[i,16]
 			myGearedDown = curves[i,17]
 		}
-
+	
 		kn=kinematicsF(displacement[curves[i,1]:curves[i,2]],
 			       myMassBody, myMassExtra, myExPercentBodyWeight,
 			       myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
@@ -743,6 +744,7 @@ kinematicRanges <- function(singleFile, displacement, curves,
 		if(max(abs(kn$power)) > maxPower)
 			maxPower = max(abs(kn$power))
 	}
+
 	return(list(
 		speedy=c(-maxSpeedy,maxSpeedy),
 		accely=c(-maxAccely,maxAccely),

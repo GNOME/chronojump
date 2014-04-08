@@ -342,7 +342,9 @@ public partial class ChronoJumpWindow
 		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
-			UtilGtk.ChronopicColors(viewport_chronopics, label_chronopics, label_connected_chronopics, false);
+			UtilGtk.ChronopicColors(viewport_chronopic_encoder, 
+					label_chronopic_encoder, new Gtk.Label(),
+					false);
 			return false;
 		}
 		return true;

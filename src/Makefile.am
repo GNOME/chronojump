@@ -138,6 +138,7 @@ SOURCES = \
 	treeViewMultiChronopic.cs\
 	util.cs\
 	utilAll.cs\
+	utilCSV.cs\
 	utilDate.cs\
 	utilEncoder.cs\
 	utilGtk.cs\

@@ -263,6 +263,8 @@ RESOURCES = \
 	../images/gtk-open.png,gtk-open.png \
 	../images/gtk-open-1.png,gtk-open-1.png \
 	../images/gtk-open-plus.png,gtk-open-plus.png \
+	../images/import-csv-noheaders.png,import-csv-noheaders.png \
+	../images/import-csv-headers.png,import-csv-headers.png \
 	../images/calendar.png,calendar.png \
 	../images/chronojump-logo-2013_320.png,chronojump-logo-2013_320.png \
 	../images/chronojump-logo-2013.png,chronojump-logo-2013.png \

@@ -1775,6 +1775,17 @@ public class PersonAddModifyWindow
 public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.Window person_multiple_infinite;
+		
+	[Widget] Gtk.RadioButton radio_csv;
+	[Widget] Gtk.RadioButton radio_manually;
+	[Widget] Gtk.Box hbox_csv;
+	[Widget] Gtk.Box hbox_manually;
+	
+	[Widget] Gtk.Image image_csv_headers;
+	[Widget] Gtk.Image image_csv_noheaders;
+	[Widget] Gtk.CheckButton check_headers;
+	[Widget] Gtk.Button button_csv_load;
+	[Widget] Gtk.Button button_csv_help;
 
 	ArrayList entries;
 	ArrayList radiosM;
@@ -1814,6 +1825,9 @@ public class PersonAddMultipleWindow {
 		if (PersonAddMultipleWindowBox == null) {
 			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession);
 		}
+		
+		PersonAddMultipleWindowBox.putNonStandardIcons ();
+
 		PersonAddMultipleWindowBox.rows = rows;
 		PersonAddMultipleWindowBox.create ();
 
@@ -1833,7 +1847,47 @@ public class PersonAddMultipleWindow {
 		PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 		PersonAddMultipleWindowBox = null;
 	}
+		
+	void putNonStandardIcons() {
+		Pixbuf pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
+		image_csv_headers.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
+		image_csv_noheaders.Pixbuf = pixbuf;
+	}
+
+	void on_check_headers_toggled (object obj, EventArgs args) {
+		image_csv_headers.Visible = (check_headers.Active == true);
+		image_csv_noheaders.Visible = (check_headers.Active == false);
+	}
 	
+	void on_radio_csv_toggled (object obj, EventArgs args) {
+		if(radio_csv.Active) {
+			hbox_csv.Sensitive = true;
+			hbox_manually.Sensitive = false;
+		}
+	}
+	void on_radio_manually_toggled (object obj, EventArgs args) {
+		if(radio_manually.Active) {
+			hbox_csv.Sensitive = false;
+			hbox_manually.Sensitive = true;
+		}
+	}
+		
+	void on_button_csv_load_clicked (object obj, EventArgs args) {
+		Log.WriteLine("csv load");
+	}
+	void on_button_csv_help_clicked (object obj, EventArgs args) {
+		Log.WriteLine("csv help");
+	}
+	void on_button_manually_create_clicked (object obj, EventArgs args) {
+		Log.WriteLine("manually create");
+	}
+	void on_button_manually_help_clicked (object obj, EventArgs args) {
+		Log.WriteLine("manually help");
+	}
+
+
 	void create() {
 		entries = new ArrayList();
 		radiosM = new ArrayList();
@@ -1856,20 +1910,27 @@ public class PersonAddMultipleWindow {
 		weightLabel.Show();
 		nameLabel.Show();
 		sexLabel.Show();
-		
+	
+		uint padding = 4;	
 
-		table_main.Attach (nameLabel, (uint) 1, (uint) 2, 0, 1);
-		table_main.Attach (sexLabel, (uint) 2, (uint) 3, 0, 1);
-		table_main.Attach (weightLabel, (uint) 3, (uint) 4, 0, 1);
+		table_main.Attach (nameLabel, (uint) 1, (uint) 2, 0, 1, 
+				Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (sexLabel, (uint) 2, (uint) 3, 0, 1, 
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
+		table_main.Attach (weightLabel, (uint) 3, (uint) 4, 0, 1, 
+				Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 		for (int count=1; count <= rows; count ++) {
 			Gtk.Label myLabel = new Gtk.Label((count).ToString());
-			table_main.Attach (myLabel, (uint) 0, (uint) 1, (uint) count, (uint) count +1);
+			table_main.Attach (myLabel, (uint) 0, (uint) 1, (uint) count, (uint) count +1, 
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 			myLabel.Show();
 			//labels.Add(myLabel);
 
 			Gtk.Entry myEntry = new Gtk.Entry();
-			table_main.Attach (myEntry, (uint) 1, (uint) 2, (uint) count, (uint) count +1);
+//			myEntry.WidthRequest = 250;
+			table_main.Attach (myEntry, (uint) 1, (uint) 2, (uint) count, (uint) count +1, 
+					Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
 			myEntry.Show();
 			entries.Add(myEntry);
 
@@ -1886,11 +1947,13 @@ public class PersonAddMultipleWindow {
 			sexBox.PackStart(myRadioM, false, false, 4);
 			sexBox.PackStart(myRadioF, false, false, 4);
 			sexBox.Show();
-			table_main.Attach (sexBox, (uint) 2, (uint) 3, (uint) count, (uint) count +1);
+			table_main.Attach (sexBox, (uint) 2, (uint) 3, (uint) count, (uint) count +1, 
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 
 
 			Gtk.SpinButton mySpin = new Gtk.SpinButton(0, 300, .1);
-			table_main.Attach (mySpin, (uint) 3, (uint) 4, (uint) count, (uint) count +1);
+			table_main.Attach (mySpin, (uint) 3, (uint) 4, (uint) count, (uint) count +1, 
+					Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, padding, padding);
 			mySpin.Show();
 			spins.Add(mySpin);
 		}

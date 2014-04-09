@@ -1776,23 +1776,34 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.Window person_multiple_infinite;
 		
+	[Widget] Gtk.Notebook notebook;
+	
 	[Widget] Gtk.RadioButton radio_csv;
 	[Widget] Gtk.RadioButton radio_manually;
 	[Widget] Gtk.Box hbox_csv;
 	[Widget] Gtk.Box hbox_manually;
+	[Widget] Gtk.SpinButton spin_manually;
+	[Widget] Gtk.Button button_manually_created;
 	
 	[Widget] Gtk.Image image_csv_headers;
 	[Widget] Gtk.Image image_csv_noheaders;
+	[Widget] Gtk.Image image_csv_headers_help;
+	[Widget] Gtk.Image image_csv_noheaders_help;
+	
 	[Widget] Gtk.CheckButton check_headers;
 	[Widget] Gtk.Button button_csv_load;
 	[Widget] Gtk.Button button_csv_help;
+	
+	[Widget] Gtk.Label label_csv_help;
 
 	ArrayList entries;
 	ArrayList radiosM;
 	ArrayList radiosF;
 	ArrayList spins;
 	int rows;
+	bool created_table;
 	
+	[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Table table_main;
 	[Widget] Gtk.Label label_sport_stuff;
 	
@@ -1820,16 +1831,14 @@ public class PersonAddMultipleWindow {
 		this.currentSession = currentSession;
 	}
 	
-	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession, int rows)
+	static public PersonAddMultipleWindow Show (Gtk.Window parent, Session currentSession)
 	{
 		if (PersonAddMultipleWindowBox == null) {
 			PersonAddMultipleWindowBox = new PersonAddMultipleWindow (parent, currentSession);
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
-
-		PersonAddMultipleWindowBox.rows = rows;
-		PersonAddMultipleWindowBox.create ();
+		PersonAddMultipleWindowBox.created_table = false;
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
 		
@@ -1852,8 +1861,10 @@ public class PersonAddMultipleWindow {
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
 		image_csv_headers.Pixbuf = pixbuf;
+		image_csv_headers_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
 		image_csv_noheaders.Pixbuf = pixbuf;
+		image_csv_noheaders_help.Pixbuf = pixbuf;
 	}
 
 	void on_check_headers_toggled (object obj, EventArgs args) {
@@ -1874,19 +1885,76 @@ public class PersonAddMultipleWindow {
 		}
 	}
 		
-	void on_button_csv_load_clicked (object obj, EventArgs args) {
-		Log.WriteLine("csv load");
-	}
-	void on_button_csv_help_clicked (object obj, EventArgs args) {
-		Log.WriteLine("csv help");
-	}
-	void on_button_manually_create_clicked (object obj, EventArgs args) {
-		Log.WriteLine("manually create");
-	}
-	void on_button_manually_help_clicked (object obj, EventArgs args) {
-		Log.WriteLine("manually help");
-	}
+	void on_button_csv_load_clicked (object obj, EventArgs args) 
+	{
+		if(created_table) {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Table has been already created."));
+			return;
+		}
 
+		Gtk.FileChooserDialog fc=
+			new Gtk.FileChooserDialog(Catalog.GetString("Select CSV file"),
+					null,
+					FileChooserAction.Open,
+					Catalog.GetString("Cancel"),ResponseType.Cancel,
+					Catalog.GetString("Load"),ResponseType.Accept
+					);
+
+		fc.Filter = new FileFilter();
+		fc.Filter.AddPattern("*.csv");
+		fc.Filter.AddPattern("*.CSV");
+		
+		if (fc.Run() == (int)ResponseType.Accept) { 
+			System.IO.FileStream file=System.IO.File.OpenRead(fc.Filename); 
+			file.Close(); 
+		
+			//once loaded table cannot be created again
+			created_table = true;
+		} 
+		
+		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+		fc.Destroy();
+	}
+	
+	
+	void on_button_csv_help_clicked (object obj, EventArgs args) 
+	{
+		label_csv_help.Text =
+			"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
+			Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n\n" +
+			Catalog.GetString("Spreadsheed need to have this structure:") + "\n" +
+			" - " + Catalog.GetString("First column should be full name of each person.") + "\n" +
+			" - " + Catalog.GetString("Second column should be the gender of the person: Use the values 1/0, or m/f, or M/F to differentiate between male and female.") + "\n" +
+			" - " + Catalog.GetString("Third column should be the weight in Kg.");
+
+		label_csv_help.UseMarkup = true;
+		notebook.CurrentPage = 1;
+	}
+	
+	void on_button_csv_help_close_clicked (object obj, EventArgs args) {
+		notebook.CurrentPage = 0;
+	}
+	
+	void on_button_manually_create_clicked (object obj, EventArgs args) 
+	{
+		if(created_table) {
+			new DialogMessage(Constants.MessageTypes.WARNING,
+					Catalog.GetString("Table has been already created."));
+			return;
+		}
+
+		rows = Convert.ToInt32(spin_manually.Value);
+
+		create();
+		scrolledwindow.Visible = true;
+
+		//once created table cannot be created again
+		//don't do this: it crashes
+		//button_manually_created.Sensitive = false;
+		//do this:
+		created_table = true;
+	}
 
 	void create() {
 		entries = new ArrayList();
@@ -1928,7 +1996,6 @@ public class PersonAddMultipleWindow {
 			//labels.Add(myLabel);
 
 			Gtk.Entry myEntry = new Gtk.Entry();
-//			myEntry.WidthRequest = 250;
 			table_main.Attach (myEntry, (uint) 1, (uint) 2, (uint) count, (uint) count +1, 
 					Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand , Gtk.AttachOptions.Shrink, padding, padding);
 			myEntry.Show();

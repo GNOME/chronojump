@@ -2650,18 +2650,7 @@ public partial class ChronoJumpWindow
 
 	//show spinbutton window asking for how many people to create	
 	private void on_person_add_multiple_clicked (object o, EventArgs args) {
-		genericWin = GenericWindow.Show(Catalog.GetString("Select number of persons to add") + "\n" + 
-				Catalog.GetString("If you want to add more than 40 persons, do this process two times.")
-				, Constants.GenericWindowShow.SPININT);
-
-		genericWin.LabelSpinInt = "";
-		genericWin.SetSpinRange(1.0, 40.0);
-		genericWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_prepared);
-	}
-	
-	private void on_person_add_multiple_prepared (object o, EventArgs args) {
-		genericWin.Button_accept.Clicked -= new EventHandler(on_person_add_multiple_prepared);
-		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession, genericWin.SpinIntSelected);
+		personAddMultipleWin = PersonAddMultipleWindow.Show(app1, currentSession);
 		personAddMultipleWin.Button_accept.Clicked += new EventHandler(on_person_add_multiple_accepted);
 	}
 	

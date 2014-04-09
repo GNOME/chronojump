@@ -1771,6 +1771,20 @@ public class PersonAddModifyWindow
 	
 }
 
+public class PersonAddMultipleTable {
+	public string name;
+	public bool maleOrFemale;
+	public double weight;
+
+	public PersonAddMultipleTable(string name, bool maleOrFemale, double weight) {
+		this.name = name;
+		this.maleOrFemale = maleOrFemale;
+		this.weight = weight;
+	}
+
+	~PersonAddMultipleTable() {}
+}
+
 //new persons multiple (infinite)
 public class PersonAddMultipleWindow {
 	
@@ -1796,10 +1810,12 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.Label label_csv_help;
 
+	//use this to read/write table
 	ArrayList entries;
 	ArrayList radiosM;
 	ArrayList radiosF;
 	ArrayList spins;
+	
 	int rows;
 	bool created_table;
 	
@@ -1904,15 +1920,72 @@ public class PersonAddMultipleWindow {
 		fc.Filter = new FileFilter();
 		fc.Filter.AddPattern("*.csv");
 		fc.Filter.AddPattern("*.CSV");
-		
+
+		ArrayList array = new ArrayList();
 		if (fc.Run() == (int)ResponseType.Accept) { 
 			System.IO.FileStream file=System.IO.File.OpenRead(fc.Filename); 
+
+			List<string> columns = new List<string>();
+			using (var reader = new CsvFileReader(fc.Filename))
+			{
+				int row = 0;
+				while (reader.ReadRow(columns))
+				{
+					string name = "";
+					bool maleOrFemale = true;
+					double weight = 0;
+					int col = 0;
+					foreach(string str in columns) {
+						//if headers are active do not process first row
+						//do not process this first row because weight can be a string
+						if(check_headers.Active && row == 0)
+							continue;
+						
+						Log.Write(":" + str);
+						if(col == 0)
+							name = str;
+						else if(col == 1) {
+							//female symbols
+							if(str == "0" || str == "f" || str == "F")
+								maleOrFemale = false;
+						}
+						else if(col == 2) {
+							try {
+								weight = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
+							} catch {
+								string message = Catalog.GetString("Error importing data.");
+								if( ! check_headers.Active && row == 0)
+									message += "\n" + Catalog.GetString("Seems there's a header row and you have not marked it.");
+
+								new DialogMessage(Constants.MessageTypes.WARNING, message);
+
+								file.Close(); 
+								//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
+								fc.Destroy();
+
+								return;
+							}
+						}
+						col ++;
+					}
+					//if headers are active do not add first row
+					if( ! (check_headers.Active && row == 0) ) {
+						PersonAddMultipleTable pamt = new PersonAddMultipleTable( name, maleOrFemale, weight);
+						array.Add(pamt);
+					}
+					
+					row ++;
+					Log.Write("\n");
+				}
+			}
+
 			file.Close(); 
-		
-			//once loaded table cannot be created again
-			created_table = true;
+
+			rows = array.Count;
+			createEmptyTable();
+			fillTableFromCSV(array);
 		} 
-		
+
 		//Don't forget to call Destroy() or the FileChooserDialog window won't get closed.
 		fc.Destroy();
 	}
@@ -1946,17 +2019,10 @@ public class PersonAddMultipleWindow {
 
 		rows = Convert.ToInt32(spin_manually.Value);
 
-		create();
-		scrolledwindow.Visible = true;
-
-		//once created table cannot be created again
-		//don't do this: it crashes
-		//button_manually_created.Sensitive = false;
-		//do this:
-		created_table = true;
+		createEmptyTable();
 	}
 
-	void create() {
+	void createEmptyTable() {
 		entries = new ArrayList();
 		radiosM = new ArrayList();
 		radiosF = new ArrayList();
@@ -2040,6 +2106,25 @@ public class PersonAddMultipleWindow {
 		label_sport_stuff.UseMarkup = true;
 
 		table_main.Show();
+		scrolledwindow.Visible = true;
+		notebook.CurrentPage = 0;
+			
+		//once loaded table cannot be created again
+		//don't do this: it crashes
+		//button_manually_created.Sensitive = false;
+		//do this:
+		created_table = true;
+	}
+		
+	void fillTableFromCSV(ArrayList array) {
+		int i = 0;
+		foreach(PersonAddMultipleTable pamt in array) {
+			((Gtk.Entry)entries[i]).Text = pamt.name;
+			((Gtk.RadioButton)radiosM[i]).Active = pamt.maleOrFemale;
+			((Gtk.RadioButton)radiosF[i]).Active = ! pamt.maleOrFemale;
+			((Gtk.SpinButton)spins[i]).Value = pamt.weight;
+			i++;
+		}
 	}
 
 	void on_button_accept_clicked (object o, EventArgs args)

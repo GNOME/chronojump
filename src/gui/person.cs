@@ -1821,7 +1821,7 @@ public class PersonAddMultipleWindow {
 	
 	[Widget] Gtk.ScrolledWindow scrolledwindow;
 	[Widget] Gtk.Table table_main;
-	[Widget] Gtk.Label label_sport_stuff;
+	[Widget] Gtk.Label label_message;
 	
 	[Widget] Gtk.Button button_accept;
 	
@@ -1834,6 +1834,8 @@ public class PersonAddMultipleWindow {
 	string errorExistsString;
 	string errorWeightString;
 	string errorRepeatedEntryString;
+	string tableAlreadyCreatedString = Catalog.GetString("Table has already been created.");
+
 	
 	PersonAddMultipleWindow (Gtk.Window parent, Session currentSession) {
 		Glade.XML gladeXML;
@@ -1904,8 +1906,8 @@ public class PersonAddMultipleWindow {
 	void on_button_csv_load_clicked (object obj, EventArgs args) 
 	{
 		if(created_table) {
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Table has been already created."));
+			label_message.Text = tableAlreadyCreatedString;
+			label_message.Visible = true;
 			return;
 		}
 
@@ -2012,8 +2014,8 @@ public class PersonAddMultipleWindow {
 	void on_button_manually_create_clicked (object obj, EventArgs args) 
 	{
 		if(created_table) {
-			new DialogMessage(Constants.MessageTypes.WARNING,
-					Catalog.GetString("Table has been already created."));
+			label_message.Text = tableAlreadyCreatedString;
+			label_message.Visible = true;
 			return;
 		}
 
@@ -2102,8 +2104,9 @@ public class PersonAddMultipleWindow {
 		if(sportStuffString.Length > 0)
 			sportStuffString = Catalog.GetString("Persons will be created with default session values") + 
 				":\n" + sportStuffString;
-		label_sport_stuff.Text = sportStuffString;
-		label_sport_stuff.UseMarkup = true;
+		label_message.Text = sportStuffString;
+		label_message.UseMarkup = true;
+		label_message.Visible = true;
 
 		table_main.Show();
 		scrolledwindow.Visible = true;

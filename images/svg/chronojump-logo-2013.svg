@@ -61,9 +61,9 @@
      inkscape:window-height="711"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.2883592"
-     inkscape:cx="153.08383"
-     inkscape:cy="-1415.8809"
+     inkscape:zoom="0.17218657"
+     inkscape:cx="1447.5214"
+     inkscape:cy="-848.66897"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -736,17 +736,17 @@
   <text
      xml:space="preserve"
      style="font-size:42.1799202px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="311.69412"
-     y="1356.7834"
+     x="263.14355"
+     y="1835.3533"
      id="text3146"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="311.69412"
-       y="1356.7834"
+       x="263.14355"
+       y="1835.3533"
        id="tspan3150">chronojump_icon_google_appd.png  143x59</tspan><tspan
        sodipodi:role="line"
-       x="311.69412"
-       y="1409.5083"
+       x="263.14355"
+       y="1888.0781"
        id="tspan3240" /></text>
   <g
      id="g3188"
@@ -3128,7 +3128,7 @@
        y="-61.366703">Same as above but with the points (platform)</tspan></text>
   <g
      id="g3473"
-     transform="translate(-91.38104,-5.2517839)"
+     transform="translate(-139.93159,473.31799)"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_google_apps.png"
      inkscape:export-xdpi="28.860001"
      inkscape:export-ydpi="28.860001">
@@ -3185,18 +3185,35 @@
      id="text3146-2"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="237.66899"
+       x="237.66898"
        y="1014.6281"
        id="tspan3150-0">chronojump_icon.png  48x48</tspan><tspan
        sodipodi:role="line"
        x="237.66899"
        y="1067.353"
-       id="tspan3240-3">then on Gimp save as .ico</tspan></text>
+       id="tspan3240-3">then on Gimp save as .ico</tspan><tspan
+       sodipodi:role="line"
+       x="237.66899"
+       y="1120.0779"
+       id="tspan3501" /><tspan
+       sodipodi:role="line"
+       x="244.38321"
+       y="1172.8029"
+       id="tspan3497">for macosx, save as chronojump_icon_512.png 512x512 </tspan><tspan
+       sodipodi:role="line"
+       x="237.66899"
+       y="1225.5277"
+       id="tspan3499">and then do (from Linux with icnsutils installed)</tspan><tspan
+       sodipodi:role="line"
+       x="237.66898"
+       y="1278.2526"
+       id="tspan3503">png2icns icon.icns chronojump_icon_512.png</tspan></text>
   <g
      id="g3520"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_flickr_header.png"
      inkscape:export-xdpi="177.02"
-     inkscape:export-ydpi="177.02">
+     inkscape:export-ydpi="177.02"
+     transform="translate(-48.550558,478.56978)">
     <rect
        y="1485.72"
        x="63.200867"
@@ -3314,33 +3331,33 @@
   <text
      xml:space="preserve"
      style="font-size:42.1799202px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="360.94962"
-     y="1914.4108"
+     x="312.39905"
+     y="2392.9805"
      id="text3146-2-3"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
-       x="360.94962"
-       y="1914.4108"
+       x="312.39905"
+       y="2392.9805"
        id="tspan3240-3-4">chronojump_flickr_header.png  1024px width</tspan></text>
   <rect
      style="fill:#0e1e46;fill-opacity:1;stroke:none"
      id="rect3495-5-9-4"
      width="520.61804"
      height="139.72549"
-     x="79.544884"
-     y="1706.6864"
+     x="30.994324"
+     y="2185.2561"
      inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_flickr_header.png"
      inkscape:export-xdpi="177.02"
      inkscape:export-ydpi="177.02" />
   <text
      xml:space="preserve"
      style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-     x="6.9357939"
-     y="1977.6873"
+     x="-41.614765"
+     y="2456.2568"
      id="text3622"
      sodipodi:linespacing="125%"><tspan
        sodipodi:role="line"
        id="tspan3624"
-       x="6.9357939"
-       y="1977.6873">better, this , only blue</tspan></text>
+       x="-41.614765"
+       y="2456.2568">better, this , only blue</tspan></text>
 </svg>

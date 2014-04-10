@@ -733,6 +733,9 @@ public class EncoderConfiguration {
 	public int inertia;
 	public int gearedDown;	//demultiplication
 
+	public string textDefault = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
+		Catalog.GetString("Also common gym tests like jumps or chin-ups.");
+
 	//this is the default values
 	public EncoderConfiguration() {
 		name = Constants.EncoderConfigurationNames.LINEAR;
@@ -740,7 +743,7 @@ public class EncoderConfiguration {
 		position = 0;
 		image = Constants.FileNameEncoderLinearFreeWeight;
 		code = Constants.DefaultEncoderConfigurationCode;
-		text = "Linear encoder attached to a barbell." + "\n" + "Also tests without extra load like jumps.";
+		text = textDefault;
 		has_d = false;
 		has_D = false;
 		has_angle_push = false;
@@ -771,8 +774,7 @@ public class EncoderConfiguration {
 			position = 0;
 			image = Constants.FileNameEncoderLinearFreeWeight;
 			code = Constants.DefaultEncoderConfigurationCode;
-			text = Catalog.GetString("Linear encoder attached to a barbell.") + "\n" + 
-				Catalog.GetString("Also tests without extra load like jumps.");
+			text = textDefault;
 		}
 		else if(name == Constants.EncoderConfigurationNames.LINEARINVERTED) {
 			type = Constants.EncoderType.LINEAR;

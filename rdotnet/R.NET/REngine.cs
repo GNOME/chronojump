@@ -230,8 +230,12 @@ Console.WriteLine("at initialize");
          this.parameter = parameter ?? new StartupParameter();
          this.adapter = new CharacterDeviceAdapter(device ?? DefaultDevice);
          GetFunction<R_setStartTime>()();
-         GetFunction<Rf_initialize_R>()(1, new[] { ID });
-         this.adapter.Install(this, this.parameter);
+
+	 //http://rdotnet.codeplex.com/SourceControl/network/forks/nakagawa_hiroyuki/rdotnetlinux/changeset/dc57f317cf7f
+	 //GetFunction<Rf_initialize_R>()(1, new[] { ID });
+	 GetFunction<Rf_initialize_R>("Rf_initialize_R")(3, new[] { ID, "--quiet", "--vanilla" });
+         
+	 this.adapter.Install(this, this.parameter);
          switch (Environment.OSVersion.Platform)
          {
             case PlatformID.Win32NT:

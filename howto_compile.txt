@@ -1,3 +1,4 @@
+-------------------------------------------------------------------
 LINUX
 -------------------------------------------------------------------
 
@@ -10,6 +11,7 @@ spanish:
 http://foro.chronojump.org/showthread.php?tid=1282&pid=2290#pid2290
 
 
+-------------------------------------------------------------------
 MACOSX
 -------------------------------------------------------------------
 
@@ -32,9 +34,12 @@ cd bin
 chronojump (enter)
 
 
-when all is working fine and all is commited and pushed
-use cerbero to recompile chronojump
-(note following commands will take last stuff from git)
+---- MacOSX packaging ----
+
+To package, first ensure that the configure.ac and src/AssemblyInfo.cs files on Linux contain the new version name, and have been pushed
+only the configure.ac is pushed
+
+Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
 to package chronojump, first ensure that version is ok in:
 cerbero-extras/packages/chronojump.package
@@ -55,6 +60,8 @@ last line of the script can be changed to:
 ./mono --config $PREFIX/etc/mono/config $PREFIX/lib/chronojump/ChronoJump.exe > /Users/<dir of the user>/log.txt 2>&1
 and executed from commandline or directly (GUI) from the installed app on /Applications
 
+
+-------------------------------------------------------------------
 WINDOWS
 -------------------------------------------------------------------
 

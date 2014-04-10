@@ -239,12 +239,14 @@ public partial class ChronoJumpWindow
 	//for writing text
 	Pango.Layout layout_encoder_capture_signal;
 	Pango.Layout layout_encoder_capture_curves_bars;
+	Pango.Layout layout_encoder_capture_curves_bars_text; //e, c
 
  
 	Gdk.GC pen_black_encoder_capture;
 	Gdk.GC pen_azul_encoder_capture;
 	Gdk.GC pen_green_encoder_capture;
 	Gdk.GC pen_red_encoder_capture;
+	Gdk.GC pen_white_encoder_capture;
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -3822,6 +3824,11 @@ Log.WriteLine(str);
 			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 			left_margin = 2;
 		}
+			
+		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 14");
+		layout_encoder_capture_curves_bars_text.FontDescription.Weight = Pango.Weight.Bold;
+		
+		string eccon = findEccon(true);
 
 		Gdk.GC my_pen;
 		int dLeft = 0;
@@ -3862,7 +3869,9 @@ Log.WriteLine(str);
 			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
-	
+
+
+			//write the result	
 			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
 				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
 			else //powers
@@ -3874,6 +3883,20 @@ Log.WriteLine(str);
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
 					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dHeight - 15, //x, y 
 					layout_encoder_capture_curves_bars);
+			//end of: write the result
+
+
+			//paint diagonal line to distinguish eccentric-concentric	
+			if (eccon == "ec" || eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1);
+			
+				if(isEven)
+					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
+							dLeft, graphHeight, dLeft + dWidth, dHeight);
+				else
+					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
+							dLeft, dHeight, dLeft + dWidth, graphHeight);
+			}
 
 			count ++;
 		}
@@ -4135,22 +4158,28 @@ Log.WriteLine(str);
 
 		layout_encoder_capture_curves_bars = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
 		layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 10");
+		
+		layout_encoder_capture_curves_bars_text = new Pango.Layout (encoder_capture_curves_bars_drawingarea.PangoContext);
+		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
 		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
 		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
+		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 	}
 
 	private bool pulseGTKEncoderCaptureAndCurves ()

@@ -2332,7 +2332,9 @@ Log.WriteLine(str);
 					fullURL = eSQL.GetFullURL(true);	//convertPathToR
 				}
 
-				writer.WriteLine(eSQL.status + "," + seriesName + "," + ex.name + "," +
+				writer.WriteLine(eSQL.status + "," + 
+						Util.ChangeChars(seriesName,","," ") + "," + //person name cannot have commas
+						ex.name + "," +
 						Util.ConvertToPoint(iteratingMassBody).ToString() + "," + 
 						Util.ConvertToPoint(Convert.ToDouble(eSQL.extraWeight)) + "," +
 						eSQL.GetDate(true) + "," + 

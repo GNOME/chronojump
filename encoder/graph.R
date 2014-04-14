@@ -915,11 +915,11 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#TODO: con-ecc is opposite
 		if(isometricUse) {
 			eccentric=1:min(speed.ext$cross[crossMinRow,1])
-			isometric=c(min(speed.ext$cross[crossMinRow,1]+1), max(speed.ext$cross[crossMinRow,2]))
+			isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
 			concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 		} else {
 			eccentric=1:mean(speed.ext$cross[crossMinRow,1])
-			#isometric=c(mean(speed.ext$cross[crossMinRow,1]+1), mean(speed.ext$cross[crossMinRow,2]))
+			#isometric=mean(speed.ext$cross[crossMinRow,1]+1);mean(speed.ext$cross[crossMinRow,2])
 			concentric=mean(speed.ext$cross[crossMinRow,2]+1):length(displacement)
 		}
 

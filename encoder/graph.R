@@ -575,7 +575,7 @@ findPropulsiveEnd <- function(accel, concentric) {
 	if(length(which(accel[concentric]<=-g)) > 0) 
 		propulsiveEnd = min(which(accel[concentric] <= -g))
 	else
-		propulsiveEnd = max(concentric)
+		propulsiveEnd = length(concentric)
 	
 return (propulsiveEnd)
 }
@@ -619,7 +619,7 @@ print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
 	concentric = 0
 	propulsiveEnd = 0
 
-print(c("at kinematicsF eccon==", eccon))
+	print(c("at kinematicsF eccon: ", eccon, " length(displacement): ",length(displacement)))
 
 	#search propulsiveEnd
 	if(isPropulsive) {
@@ -632,6 +632,7 @@ print(c("at kinematicsF eccon==", eccon))
 			isometric = phases$isometric
 			concentric = phases$concentric
 			propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric)
+			print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 		} else if(eccon=="e") {
 			#not eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS
@@ -680,7 +681,6 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra) {
 	pp_ppt <- peakPower / (peakPowerT/1000)	# ms->s
 	meanForce <- mean(kinematics$force)
 	maxForce <- max(abs(kinematics$force))
-
 
 	#here paf is generated
 	#mass is not used by pafGenerate, but used by Kg/W (loadVSPower)
@@ -952,12 +952,14 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#accel2 <- accel2 * 1000
 	#print(accel2)
 
-	#propulsive phase ends when accel is -9.8
-	if(length(which(accel$y[concentric]<=-g)) > 0 & isPropulsive) {
-		propulsiveEnd = min(which(accel$y[concentric]<=-g))
-	} else {
-		propulsiveEnd = max(concentric)
+	if(isPropulsive) {
+		propulsiveEnd = findPropulsiveEnd(accel$y, concentric)
+		if(eccon != "c")
+			propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
 	}
+
+
+	print(c("propulsiveEnd at paint", propulsiveEnd))
 
 	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
 	if(isPropulsive) {

@@ -5730,6 +5730,7 @@ Console.WriteLine("X");
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
+		hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -5770,6 +5771,7 @@ Console.WriteLine("X");
 		encoderPersonChanged();
 
 		notebook_execute.Sensitive = false;
+		hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -5788,6 +5790,7 @@ Console.WriteLine("X");
 		encoderPersonChanged();
 
 		notebook_execute.Sensitive = true;
+		hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;

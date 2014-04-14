@@ -51,6 +51,9 @@ public class ChronopicWindow
 	[Widget] Gtk.Notebook notebook_main;
 	//[Widget] Gtk.Image image_contact_modular;
 	//[Widget] Gtk.Image image_infrared;
+	
+	[Widget] Gtk.Label label_connect_contacts;
+	[Widget] Gtk.Label label_connect_encoder;
 
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
@@ -223,6 +226,13 @@ Log.WriteLine("bbb");
 	}
 
 	private void setDefaultValues() {
+		
+		label_connect_contacts.Text = "<b>" + label_connect_contacts.Text + "</b>";
+		label_connect_encoder.Text = "<b>" + label_connect_encoder.Text + "</b>";
+		label_connect_contacts.UseMarkup = true;
+		label_connect_encoder.UseMarkup = true;
+		
+		
 		checkbutton_multi_show.Active = false;
 		table_multi_chronopic.Visible = false;
 

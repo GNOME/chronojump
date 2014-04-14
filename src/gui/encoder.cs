@@ -3822,7 +3822,7 @@ Log.WriteLine(str);
 			sep = 10;
 			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 		} else	if (data.Count >= 20) {
-			sep = 1;
+			sep = 2;
 			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
 			left_margin = 2;
 		}
@@ -3849,7 +3849,23 @@ Log.WriteLine(str);
 				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / data.Count * 1.0);
 
 			dLeft = left_margin + dWidth * count;
-			dWidth = dWidth - sep;
+		
+			//dWidth = dWidth - sep to have separation between bars
+			//but if eccon != "c" then have like this: ec ec ec
+			if (eccon == "c") {
+				dWidth = dWidth - sep;
+			} else {
+				double sep_ec_mult = 1.2;
+				dWidth = Convert.ToInt32(dWidth - sep * sep_ec_mult);
+
+				if(Util.IsEven(count +1)) //par
+					dLeft = Convert.ToInt32(dLeft - sep * sep_ec_mult);
+			}
+
+			//just in case there are too much bars
+			if(dWidth < 1)
+				dWidth = 1;
+				
 
 			//select pen color for bars and sounds
 			if(mainVariableHigher != -1 && d >= mainVariableHigher) {

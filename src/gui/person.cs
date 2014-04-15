@@ -1804,7 +1804,13 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Image image_csv_headers_help;
 	[Widget] Gtk.Image image_csv_noheaders_help;
 	
+	[Widget] Gtk.Image image_name1;
+	[Widget] Gtk.Image image_name2;
+	[Widget] Gtk.Image image_name1_help;
+	[Widget] Gtk.Image image_name2_help;
+	
 	[Widget] Gtk.CheckButton check_headers;
+	[Widget] Gtk.CheckButton check_name_1_column;
 	[Widget] Gtk.Button button_csv_load;
 	[Widget] Gtk.Button button_csv_help;
 	
@@ -1877,17 +1883,30 @@ public class PersonAddMultipleWindow {
 		
 	void putNonStandardIcons() {
 		Pixbuf pixbuf;
+		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVHeadersIcon);
 		image_csv_headers.Pixbuf = pixbuf;
 		image_csv_headers_help.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVNoHeadersIcon);
 		image_csv_noheaders.Pixbuf = pixbuf;
 		image_csv_noheaders_help.Pixbuf = pixbuf;
+		
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName1Icon);
+		image_name1.Pixbuf = pixbuf;
+		image_name1_help.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameCSVName2Icon);
+		image_name2.Pixbuf = pixbuf;
+		image_name2_help.Pixbuf = pixbuf;
 	}
 
 	void on_check_headers_toggled (object obj, EventArgs args) {
 		image_csv_headers.Visible = (check_headers.Active == true);
 		image_csv_noheaders.Visible = (check_headers.Active == false);
+	}
+	
+	void on_check_name_1_column_toggled (object obj, EventArgs args) {
+		image_name1.Visible = (check_name_1_column.Active == true);
+		image_name2.Visible = (check_name_1_column.Active == false);
 	}
 	
 	void on_radio_csv_toggled (object obj, EventArgs args) {

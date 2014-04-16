@@ -1804,6 +1804,11 @@ public class PersonAddMultipleWindow {
 	[Widget] Gtk.Image image_csv_headers_help;
 	[Widget] Gtk.Image image_csv_noheaders_help;
 	
+	[Widget] Gtk.Table table_headers_1_column;
+	[Widget] Gtk.Table table_no_headers_1_column;
+	[Widget] Gtk.Table table_headers_2_columns;
+	[Widget] Gtk.Table table_no_headers_2_columns;
+	
 	[Widget] Gtk.Image image_name1;
 	[Widget] Gtk.Image image_name2;
 	[Widget] Gtk.Image image_name1_help;
@@ -1862,6 +1867,8 @@ public class PersonAddMultipleWindow {
 		}
 		
 		PersonAddMultipleWindowBox.putNonStandardIcons ();
+		PersonAddMultipleWindowBox.tablesVisibility ();
+
 		PersonAddMultipleWindowBox.created_table = false;
 
 		PersonAddMultipleWindowBox.person_multiple_infinite.Show ();
@@ -1898,15 +1905,38 @@ public class PersonAddMultipleWindow {
 		image_name2.Pixbuf = pixbuf;
 		image_name2_help.Pixbuf = pixbuf;
 	}
+	
+	void tablesVisibility() {
+		table_headers_1_column.Visible = false;
+		table_no_headers_1_column.Visible = false;
+		table_headers_2_columns.Visible = false;
+		table_no_headers_2_columns.Visible = false;
+		
+		if(check_headers.Active) {
+			if(check_name_1_column.Active)
+				table_headers_1_column.Visible = true;
+			else
+				table_headers_2_columns.Visible = true;
+		} else {
+			if(check_name_1_column.Active)
+				table_no_headers_1_column.Visible = true;
+			else
+				table_no_headers_2_columns.Visible = true;
+		}
+	}
 
 	void on_check_headers_toggled (object obj, EventArgs args) {
 		image_csv_headers.Visible = (check_headers.Active == true);
 		image_csv_noheaders.Visible = (check_headers.Active == false);
+
+		tablesVisibility();
 	}
 	
 	void on_check_name_1_column_toggled (object obj, EventArgs args) {
 		image_name1.Visible = (check_name_1_column.Active == true);
 		image_name2.Visible = (check_name_1_column.Active == false);
+		
+		tablesVisibility();
 	}
 	
 	void on_radio_csv_toggled (object obj, EventArgs args) {
@@ -2016,13 +2046,10 @@ public class PersonAddMultipleWindow {
 	{
 		label_csv_help.Text =
 			"<b>" + Catalog.GetString("Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive.") + "</b>\n\n" +
-			Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n\n" +
-			Catalog.GetString("Spreadsheed need to have this structure:") + "\n" +
-			" - " + Catalog.GetString("First column should be full name of each person.") + "\n" +
-			" - " + Catalog.GetString("Second column should be the gender of the person: Use the values 1/0, or m/f, or M/F to differentiate between male and female.") + "\n" +
-			" - " + Catalog.GetString("Third column should be the weight in Kg.");
-
+			Catalog.GetString("Open the spreadsheet with the persons data to be added.") + "\n" +
+			Catalog.GetString("Spreadsheed structure need to have this structure:");
 		label_csv_help.UseMarkup = true;
+
 		notebook.CurrentPage = 1;
 	}
 	

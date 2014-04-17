@@ -5622,6 +5622,7 @@ Console.WriteLine("X");
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
+		Log.WriteLine("Opening manual at: " + Path.GetFullPath(Util.GetManualDir())); 
 		try {
 			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
 		} catch {

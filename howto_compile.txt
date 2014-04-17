@@ -79,6 +79,7 @@ Just do 'make install' if compiled before
 
 - to build the package to be installed:
 
+copy pdfs of manual and encoder manual to win32/deps/share/doc/chronojump
 cd win32
 make installer
 

@@ -5622,7 +5622,11 @@ Console.WriteLine("X");
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
-		System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
+		try {
+			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, "Sorry, manual folder does not exist.");
+		}
 	}
 
 	private void on_menuitem_formulas_activate (object o, EventArgs args) {

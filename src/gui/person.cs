@@ -1979,28 +1979,38 @@ public class PersonAddMultipleWindow {
 			List<string> columns = new List<string>();
 			using (var reader = new CsvFileReader(fc.Filename))
 			{
+				bool headersActive = check_headers.Active;
+				bool name1Column = check_name_1_column.Active;
 				int row = 0;
 				while (reader.ReadRow(columns))
 				{
-					string name = "";
+					string fullname = "";
+					string onlyname = "";
 					bool maleOrFemale = true;
 					double weight = 0;
 					int col = 0;
 					foreach(string str in columns) {
 						//if headers are active do not process first row
 						//do not process this first row because weight can be a string
-						if(check_headers.Active && row == 0)
+						if(headersActive && row == 0)
 							continue;
 						
 						Log.Write(":" + str);
-						if(col == 0)
-							name = str;
-						else if(col == 1) {
+
+						if(col == 0) {
+							if(name1Column)
+								fullname = str;
+							else
+								onlyname = str;
+						}
+						else if(col == 1 && ! name1Column)
+							fullname = onlyname + " " + str;
+						else if( (col == 1 && name1Column) || (col == 2 && ! name1Column) ) {
 							//female symbols
 							if(str == "0" || str == "f" || str == "F")
 								maleOrFemale = false;
 						}
-						else if(col == 2) {
+						else if( (col == 2 && name1Column) || (col == 3 && ! name1Column) ) {
 							try {
 								weight = Convert.ToDouble(Util.ChangeDecimalSeparator(str));
 							} catch {
@@ -2020,8 +2030,8 @@ public class PersonAddMultipleWindow {
 						col ++;
 					}
 					//if headers are active do not add first row
-					if( ! (check_headers.Active && row == 0) ) {
-						PersonAddMultipleTable pamt = new PersonAddMultipleTable( name, maleOrFemale, weight);
+					if( ! (headersActive && row == 0) ) {
+						PersonAddMultipleTable pamt = new PersonAddMultipleTable(fullname, maleOrFemale, weight);
 						array.Add(pamt);
 					}
 					

@@ -15,6 +15,7 @@ SOURCES = \
 	gui/eventExecute.cs\
 	gui/eventGraphConfigure.cs\
 	gui/event.cs\
+	gui/executeAuto.cs\
 	gui/jump.cs\
 	gui/jumpType.cs\
 	gui/run.cs\
@@ -222,6 +223,11 @@ RESOURCES = \
 	../images/mini/mtgug.png,mini/mtgug.png \
 	../images/take_off.png,take_off.png \
 	../images/mini/take_off.png,mini/take_off.png \
+	../images/auto-by-persons.png,auto-by-persons.png \
+	../images/auto-by-tests.png,auto-by-tests.png \
+	../images/auto-by-series.png,auto-by-series.png \
+	../images/auto-person-skip.png,auto-person-skip.png \
+	../images/auto-person-remove.png,auto-person-remove.png \
 	../images/chronopic1.jpg,chronopic1.jpg \
 	../images/mini/chronopic1.jpg,mini/chronopic1.jpg \
 	../images/chronopic2.jpg,chronopic2.jpg \

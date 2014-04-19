@@ -138,6 +138,20 @@ public class UtilGtk
 		//2nd put new values
 		myCombo.AppendText (myData);
 	}
+	
+	public static void ComboUpdate(ComboBox myCombo, ArrayList array) {
+		//1stdelete combo values
+		comboDelAll(myCombo);
+
+		//2nd put new values
+		foreach (string str in array)
+			myCombo.AppendText (str);
+	}
+	
+	public static void ComboAdd(ComboBox myCombo, string str) {
+		myCombo.AppendText (str);
+	}
+
 
 	public static void ComboPackShowAndSensitive (Gtk.Box box, Gtk.ComboBox combo) {
 		box.PackStart(combo, true, true, 0);

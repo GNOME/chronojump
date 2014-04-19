@@ -37,6 +37,11 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Window app1;
 	[Widget] Gtk.MenuBar main_menu;
+	[Widget] Gtk.MenuItem menuitem_mode;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_contacts;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_encoder;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_contacts;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_encoder;
 	[Widget] Gtk.Notebook notebook_sup;
 
 	//gui for small screens
@@ -84,6 +89,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_combo_select_jumps_rj;
 	[Widget] Gtk.Box hbox_combo_select_runs;
 	[Widget] Gtk.Box hbox_combo_select_runs_interval;
+
+	//auto mode	
+	[Widget] Gtk.Box hbox_jump_types_options;
+	[Widget] Gtk.Box hbox_jump_auto_options;
+	[Widget] Gtk.Image image_auto_person_skip;
+	[Widget] Gtk.Image image_auto_person_remove;
+
 	
 	[Widget] Gtk.Box hbox_combo_result_jumps;
 	[Widget] Gtk.Box hbox_combo_result_jumps_rj;
@@ -92,6 +104,7 @@ public partial class ChronoJumpWindow
 	
 	[Widget] Gtk.Box hbox_combo_pulses;
 	[Widget] Gtk.Box hbox_jumps;
+	[Widget] Gtk.Box hbox_jumps_test;
 	[Widget] Gtk.Box hbox_jumps_rj;
 	[Widget] Gtk.Box hbox_runs;
 	[Widget] Gtk.Box hbox_runs_interval;
@@ -465,6 +478,8 @@ public partial class ChronoJumpWindow
 		//show chronojump logo on down-left area
 		changeTestImage("", "", "LOGO");
 	
+		//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Contacts (platform or photocell)"));
+	
 		//white bg
 		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 				
@@ -770,6 +785,12 @@ public partial class ChronoJumpWindow
 		image_encoder_analyze_range.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameEncoderAnalyzeTimeToPPIcon);
 		image_encoder_analyze_time_to_pp.Pixbuf = pixbuf;
+		
+		//auto mode
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonSkipIcon);
+		image_auto_person_skip.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonRemoveIcon);
+		image_auto_person_remove.Pixbuf = pixbuf;
 	}
 
 	private void loadPreferences () 
@@ -2940,9 +2961,26 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+
+	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) {
+		if(radio_menuitem_mode_contacts.Active) {
+			//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Contacts (platform or photocell)"));
+			notebook_sup.CurrentPage = 0;
+			menuitem_mode_selected_contacts.Visible = true;
+			menuitem_mode_selected_encoder.Visible = false;
+		} else {
+			//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Encoder"));
+			notebook_sup.CurrentPage = 1;
+			menuitem_mode_selected_contacts.Visible = false;
+			menuitem_mode_selected_encoder.Visible = true;
+		}
+	}
+
+
 	/*
 	 * videoOn and volumeOn
 	 */
+	
 
 	//at what tab of notebook_sup there's the video_capture
 	private int video_capture_notebook_sup = 0;
@@ -5544,6 +5582,33 @@ Console.WriteLine("X");
 		Log.WriteLine("Repair selected multichronopic");
 	}
 	
+	/* ---------------------------------------------------------
+	 * ----------------  AUTO MODE -----------------------------
+	 *  --------------------------------------------------------
+	 */
+
+	ExecuteAutoWindow executeAutoWin;
+	private void on_button_auto_start_clicked (object o, EventArgs args) {
+
+//TODO: put five buttons in a viewport than can be colorified
+
+
+		executeAutoWin = ExecuteAutoWindow.Show(app1, currentSession.UniqueID);
+		
+		hbox_jump_types_options.Visible = false;
+		hbox_jump_auto_options.Visible = true;
+	
+		sensitiveGuiAutoStartEnd (true);
+		sensitiveGuiAutoWaiting ();
+	}
+
+	private void on_button_auto_end_clicked (object o, EventArgs args) {
+		hbox_jump_types_options.Visible = true;
+		hbox_jump_auto_options.Visible = false;
+	
+		sensitiveGuiAutoStartEnd (false);
+	}
+	
 
 	/* ---------------------------------------------------------
 	 * ----------------  SOME MORE CALLBACKS---------------------
@@ -5890,6 +5955,38 @@ Console.WriteLine("X");
 			}
 		}
 	}
+	
+	/*
+	 * sensitive GUI on executeAuto methods 
+	 */
+
+	//start/end auto mode
+	private void sensitiveGuiAutoStartEnd (bool start) {
+		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
+		session_menuitem.Sensitive 	= ! start;
+		menuitem_mode.Sensitive 	= ! start;
+		help_menuitem.Sensitive 	= ! start;
+		viewport_mode_small.Sensitive 	= ! start;
+		frame_persons.Sensitive 	= ! start;
+		hbox_jumps_test.Sensitive 	= ! start;
+	}
+	
+	//waiting a test to be executed
+	private void sensitiveGuiAutoWaiting () {
+		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
+		button_activate_chronopics.Sensitive = true;
+		button_execute_test.Sensitive = true;
+		notebook_options.Sensitive = true;
+	}
+	
+	//executing a test
+	private void sensitiveGuiAutoDoing () {
+		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
+		button_activate_chronopics.Sensitive = false;
+		button_execute_test.Sensitive = false;
+		notebook_options.Sensitive = false;
+	}
+
 
 	private void showHideActionEventButtons(bool show, string type) {
 		bool success = false;

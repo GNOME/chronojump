@@ -207,7 +207,7 @@ public class Constants
 		"SQRT(2*9,81* " + Catalog.GetString("height") + "(m))";
 */
 	public static string PotencyLewisFormulaShort = Catalog.GetString("Peak power") + " (Lewis, 1974) " +
-		"\n" + Catalog.GetString("adapted (added g to have Watts)");
+		Catalog.GetString("(Watts)");
 	public static string PotencyLewisFormula = PotencyLewisFormulaShort + "\n" +
 		"(SQRT(4,9)*9,8*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ") * SQRT(" + Catalog.GetString("height") + "(m)))";
 	//see: http://www.dtic.mil/cgi-bin/GetTRDoc?AD=ADA218194&Location=U2&doc=GetTRDoc.pdf
@@ -412,6 +412,9 @@ public class Constants
 	public static string FileNameEncoderAnalyzeMaxIcon = "encoder-analyze-max.png";
 	public static string FileNameEncoderAnalyzeRangeIcon = "encoder-analyze-range.png";
 	public static string FileNameEncoderAnalyzeTimeToPPIcon = "encoder-analyze-time-to-pp.png";
+	
+	public static string FileNameAutoPersonSkipIcon = "auto-person-skip.png";
+	public static string FileNameAutoPersonRemoveIcon = "auto-person-remove.png";
 	
 	//30 colors defined
 	//see als UtilGtk that's not used by the server

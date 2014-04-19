@@ -1091,6 +1091,17 @@ public class Util
 		return returnString;
 	}
 
+	public static string [] AddArrayString(string [] initialString, string addString) {
+		string [] returnString = new string[initialString.Length + 1];
+		int i;
+		for (i=0 ; i < initialString.Length; i ++)
+			returnString[i] = initialString[i];
+			
+		returnString[i] = addString;
+
+		return returnString;
+	}
+
 	public static string [] ArrayListToString (ArrayList myArrayList) {
 		//if myArrayList is not defined, return with an empty string
 		try { 

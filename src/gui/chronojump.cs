@@ -92,9 +92,12 @@ public partial class ChronoJumpWindow
 
 	//auto mode	
 	[Widget] Gtk.Box hbox_jump_types_options;
-	[Widget] Gtk.Box hbox_jump_auto_options;
+	[Widget] Gtk.Box hbox_jump_auto_controls;
 	[Widget] Gtk.Image image_auto_person_skip;
 	[Widget] Gtk.Image image_auto_person_remove;
+	[Widget] Gtk.Button button_auto_start;
+	[Widget] Gtk.Label label_jump_auto_current_person;
+	[Widget] Gtk.Label label_jump_auto_current_test;
 
 	
 	[Widget] Gtk.Box hbox_combo_result_jumps;
@@ -412,6 +415,7 @@ public partial class ChronoJumpWindow
 		
 	EvaluatorWindow evalWin;
 	PersonNotUploadWindow personNotUploadWin; 
+	ExecuteAutoWindow executeAutoWin;
 	
 	ChronopicWindow chronopicWin;
 	
@@ -1090,10 +1094,6 @@ public partial class ChronoJumpWindow
 			//fill treeview
 			myTreeViewPersons.Fill(myPersons);
 		}
-	}
-
-	private int findRowOfCurrentPerson(Gtk.TreeView tv, TreeStore store, Person currentPerson) {
-		return myTreeViewPersons.FindRow(currentPerson.UniqueID);
 	}
 
 	private void on_treeview_persons_up (object o, EventArgs args) {
@@ -2588,7 +2588,7 @@ public partial class ChronoJumpWindow
 		
 		myTreeViewPersons.Add(currentPerson.UniqueID.ToString(), currentPerson.Name);
 
-		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
 			selectRowTreeView_persons(treeview_persons,
 					treeview_persons_store, 
@@ -2611,7 +2611,7 @@ public partial class ChronoJumpWindow
 
 		treeview_persons_storeReset();
 		fillTreeView_persons();
-		int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+		int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 		if(rowToSelect != -1) {
 			selectRowTreeView_persons(treeview_persons,
 					treeview_persons_store, 
@@ -2658,7 +2658,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 			
-			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons,
 						treeview_persons_store, 
@@ -2684,7 +2684,7 @@ public partial class ChronoJumpWindow
 			label_current_person.UseMarkup = true; 
 			treeview_persons_storeReset();
 			fillTreeView_persons();
-			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons,
 						treeview_persons_store, 
@@ -2721,7 +2721,7 @@ public partial class ChronoJumpWindow
 			treeview_persons_storeReset();
 			fillTreeView_persons();
 			
-			int rowToSelect = findRowOfCurrentPerson(treeview_persons, treeview_persons_store, currentPerson);
+			int rowToSelect = myTreeViewPersons.FindRow(currentPerson.UniqueID);
 			if(rowToSelect != -1) {
 				selectRowTreeView_persons(treeview_persons,
 						treeview_persons_store, 
@@ -3507,6 +3507,10 @@ Console.WriteLine("X");
 	//suitable for all jumps not repetitive
 	private void on_normal_jump_activate (object o, EventArgs args) 
 	{
+		if(execute_auto_doing)
+			sensitiveGuiAutoExecuteOrWait (true);
+		
+			
 		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
 		currentJumpType = new JumpType(jumpEnglishName);
 
@@ -3540,7 +3544,8 @@ Console.WriteLine("X");
 		currentEventType = currentJumpType;
 			
 		//hide jumping buttons
-		sensitiveGuiEventDoing();
+		if(! execute_auto_doing)
+			sensitiveGuiEventDoing();
 
 		//show the event doing window
 		double progressbarLimit = 3; //3 phases for show the Dj
@@ -3646,7 +3651,8 @@ Log.WriteLine("DDD 1");
 			}
 		
 			//unhide buttons for delete last jump
-			sensitiveGuiYesEvent();
+			if(! execute_auto_doing)
+				sensitiveGuiYesEvent();
 		} 
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
@@ -3656,7 +3662,12 @@ Log.WriteLine("DDD 1");
 		lastJumpIsSimple = true;
 		
 		//unhide buttons that allow jumping
-		sensitiveGuiEventDone();
+		if(execute_auto_doing) {
+			execute_auto_order_pos ++;
+			execute_auto_select();
+			sensitiveGuiAutoExecuteOrWait (false);
+		} else
+			sensitiveGuiEventDone();
 Log.WriteLine("DDD 2");
 	}
 
@@ -5587,28 +5598,64 @@ Console.WriteLine("X");
 	 *  --------------------------------------------------------
 	 */
 
-	ExecuteAutoWindow executeAutoWin;
 	private void on_button_auto_start_clicked (object o, EventArgs args) {
 
 //TODO: put five buttons in a viewport than can be colorified
 
-
 		executeAutoWin = ExecuteAutoWindow.Show(app1, currentSession.UniqueID);
-		
-		hbox_jump_types_options.Visible = false;
-		hbox_jump_auto_options.Visible = true;
-	
-		sensitiveGuiAutoStartEnd (true);
-		sensitiveGuiAutoWaiting ();
+		executeAutoWin.FakeButtonAccept.Clicked += new EventHandler(on_button_auto_start_accepted);
 	}
 
-	private void on_button_auto_end_clicked (object o, EventArgs args) {
-		hbox_jump_types_options.Visible = true;
-		hbox_jump_auto_options.Visible = false;
+	ArrayList execute_auto_order;
+	int execute_auto_order_pos;
+	bool execute_auto_doing = false;
+	private void on_button_auto_start_accepted (object o, EventArgs args) {
+		executeAutoWin.FakeButtonAccept.Clicked -= new EventHandler(on_button_auto_start_accepted);
+
+		sensitiveGuiAutoStartEnd (true);
 	
+		execute_auto_order = executeAutoWin.GetOrderedData();
+		execute_auto_order_pos = 0;
+		execute_auto_doing = true;
+
+		executeAutoWin.Close();
+
+		execute_auto_select();
+	}
+
+	private void execute_auto_select() 
+	{
+		if(execute_auto_order_pos >= execute_auto_order.Count) {
+			on_button_auto_end_clicked (new object (), new EventArgs());
+			return;
+		}
+
+		ExecuteAuto ea = (ExecuteAuto) execute_auto_order[execute_auto_order_pos];
+		int rowToSelect = myTreeViewPersons.FindRow(ea.personUniqueID);
+		if(rowToSelect != -1) {
+			//this will update also currentPerson
+			selectRowTreeView_persons(treeview_persons, treeview_persons_store, rowToSelect);
+			label_jump_auto_current_person.Text = currentPerson.Name;
+
+			//select the test
+			int rowTest = Convert.ToInt32(Util.FindOnArray(':', 0, -2, ea.testUniqueID.ToString(), selectJumpsString));
+			combo_select_jumps.Active = rowTest;
+			label_jump_auto_current_test.Text = "(" + ea.testTrName + ")";
+			
+			//put GUI on auto_waiting
+			sensitiveGuiAutoExecuteOrWait (false);
+		}
+	}
+
+	private void on_button_auto_end_clicked (object o, EventArgs args) 
+	{
 		sensitiveGuiAutoStartEnd (false);
 	}
 	
+	private void on_button_auto_order_clicked (object o, EventArgs args) {
+		executeAutoWin = ExecuteAutoWindow.ShowJustOrder(app1, execute_auto_order, execute_auto_order_pos);
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  SOME MORE CALLBACKS---------------------
@@ -5898,7 +5945,9 @@ Console.WriteLine("X");
 		encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 		
 		//hbox
-		hbox_jumps.Sensitive = false;
+		hbox_jumps_test.Sensitive = false;
+		hbox_jump_types_options.Sensitive = false;
+		
 		hbox_jumps_rj.Sensitive = false;
 		hbox_runs.Sensitive = false;
 		hbox_runs_interval.Sensitive = false;
@@ -5924,7 +5973,9 @@ Console.WriteLine("X");
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 
 		//hbox
-		hbox_jumps.Sensitive = true;
+		hbox_jumps_test.Sensitive = true;
+		hbox_jump_types_options.Sensitive = true;
+		
 		hbox_jumps_rj.Sensitive = true;
 		hbox_runs.Sensitive = true;
 		hbox_runs_interval.Sensitive = true;
@@ -5968,23 +6019,20 @@ Console.WriteLine("X");
 		help_menuitem.Sensitive 	= ! start;
 		viewport_mode_small.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
-		hbox_jumps_test.Sensitive 	= ! start;
+
+		hbox_jumps_test.Visible 	= ! start;
+		button_auto_start.Visible 	= ! start;	
+		hbox_jump_types_options.Visible = ! start;
+		hbox_jump_auto_controls.Visible  = start;
 	}
 	
-	//waiting a test to be executed
-	private void sensitiveGuiAutoWaiting () {
+	//true: executing a test; false: waiting a test to be executed
+	private void sensitiveGuiAutoExecuteOrWait (bool execute) {
 		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
-		button_activate_chronopics.Sensitive = true;
-		button_execute_test.Sensitive = true;
-		notebook_options.Sensitive = true;
-	}
-	
-	//executing a test
-	private void sensitiveGuiAutoDoing () {
-		//if automode, sensitiveGuiEventDoing, sensitiveGuiEventDone don't work
-		button_activate_chronopics.Sensitive = false;
-		button_execute_test.Sensitive = false;
-		notebook_options.Sensitive = false;
+		button_activate_chronopics.Sensitive 	= ! execute;
+		button_execute_test.Sensitive 		= ! execute;
+		notebook_options.Sensitive 		= ! execute;
+		vbox_this_test_buttons.Sensitive 	= ! execute;
 	}
 
 

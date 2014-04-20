@@ -113,6 +113,7 @@ public class UtilGtk
 		} while (myCombo.Model.IterNext (ref iter));
 	}
 
+	//for new code, better use the ComboUpdate(ComboBox, ArrayList)
 	//if there's no default value, simply pass a "" and there will be returned a 0, that's the first value of combo
 	public static int ComboUpdate(ComboBox myCombo, string [] myData, string strDefault) {
 		//1stdelete combo values
@@ -138,7 +139,8 @@ public class UtilGtk
 		//2nd put new values
 		myCombo.AppendText (myData);
 	}
-	
+
+	//more elegant method, with ArrayList	
 	public static void ComboUpdate(ComboBox myCombo, ArrayList array) {
 		//1stdelete combo values
 		comboDelAll(myCombo);

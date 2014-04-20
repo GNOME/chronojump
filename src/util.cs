@@ -1091,13 +1091,22 @@ public class Util
 		return returnString;
 	}
 
-	public static string [] AddArrayString(string [] initialString, string addString) {
+	//bool firstOrLast: true means first
+	public static string [] AddArrayString(string [] initialString, string addString, bool firstOrLast) {
 		string [] returnString = new string[initialString.Length + 1];
+
 		int i;
-		for (i=0 ; i < initialString.Length; i ++)
-			returnString[i] = initialString[i];
+		if(firstOrLast) {
+			returnString[0] = addString;
 			
-		returnString[i] = addString;
+			for (i=0 ; i < initialString.Length; i ++)
+				returnString[i+1] = initialString[i];
+		} else {
+			for (i=0 ; i < initialString.Length; i ++)
+				returnString[i] = initialString[i];
+
+			returnString[i] = addString;
+		}
 
 		return returnString;
 	}
@@ -1275,18 +1284,23 @@ public class Util
 	 * 2:Latvia, Republic of:Letonia, Republica de
 	 * we do string myString = Util.FindOnArray(':', 2, 0, "Letonoa, Republica de", stringArray);
 	 * if partToReturn == -1, then return all the string (all the row) 
+	 * if partToReturn == -2, then return the row number as string (starting by "0") 
 	 */
 	public static string FindOnArray(char separator, int partPassed, int partToReturn, string stringPassed, string [] stringArray) 
 	{
 		string foundString = "";
+		int i = 0;
 		foreach(string myString in stringArray) {
 			string [] myStrFull = myString.Split(new char[] {separator});
 			if(myStrFull[partPassed] == stringPassed) {
 				if(partToReturn == -1)
 					foundString = myString;
+				else if(partToReturn == -2)
+					foundString = i.ToString();
 				else
 					foundString = myStrFull[partToReturn];
 			}
+			i ++;
 
 		}
 		return foundString;

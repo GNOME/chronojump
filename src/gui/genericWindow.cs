@@ -271,7 +271,16 @@ public class GenericWindow
 		else //if(stuff == Constants.GenericWindowShow.TREEVIEW)
 			scrolled_window_treeview.Show();
 	}
+
+	public void SetSize(int width, int height) {
+		generic_window.SetDefaultSize(width, height);
+	}
 	
+	public void SetTreeviewSize(int width, int height) {
+		treeview.SetSizeRequest(width, height);
+	}
+
+
 	public void SetLabelError(string text) {
 		label_error.Text = text;
 		hbox_error.Show();
@@ -502,7 +511,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 			treeview.RemoveColumn (column);
 		}
 	}
-	
+
 	private void on_treeview_cursor_changed (object o, EventArgs args) 
 	{
 		TreeIter iter = new TreeIter();
@@ -511,10 +520,11 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 			SetButtonAcceptSensitive(true);
 		else
 			SetButtonAcceptSensitive(false);
-	
+
 		ShowEditRow(false);
 	}
-	
+
+	//get the selected	
 	public int TreeviewSelectedRowID() {
 		TreeIter iter = new TreeIter();
 		TreeModel myModel = treeview.Model;
@@ -523,7 +533,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		else
 			return 0;
 	}
-	
+
 	protected void createCheckboxes(TreeView tv) 
 	{
 		CellRendererToggle crt = new CellRendererToggle();
@@ -801,7 +811,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	public string GetComboSelected {
 		get { return UtilGtk.ComboGetActive(combo); }
 	}
-	
+
 
 	~GenericWindow() {}
 	

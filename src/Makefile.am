@@ -116,6 +116,7 @@ SOURCES = \
 	encoder.cs\
 	event.cs\
 	eventType.cs\
+	executeAuto.cs\
 	jump.cs\
 	jumpType.cs\
 	person.cs\

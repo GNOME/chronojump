@@ -5656,6 +5656,20 @@ Console.WriteLine("X");
 		executeAutoWin = ExecuteAutoWindow.ShowJustOrder(app1, execute_auto_order, execute_auto_order_pos);
 	}
 
+	private void on_button_auto_skip_person_clicked (object o, EventArgs args) {
+		execute_auto_order = ExecuteAuto.SkipPerson(execute_auto_order, execute_auto_order_pos, currentPerson);
+		
+		//update currentPerson and labels from current position
+		execute_auto_select();
+	}
+
+	private void on_button_auto_remove_person_clicked (object o, EventArgs args) {
+		execute_auto_order = ExecuteAuto.RemovePerson(execute_auto_order, execute_auto_order_pos, currentPerson);
+		
+		//update currentPerson and labels from current position
+		execute_auto_select();
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  SOME MORE CALLBACKS---------------------

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -81,13 +81,13 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.Image image_stats_win_graph;
 	[Widget] Gtk.Image image_stats_win_graph1;
 	[Widget] Gtk.Image image_stats_win_graph2;
-	[Widget] Gtk.Image image_stats_win_report;
-	[Widget] Gtk.Image image_stats_win_report1;
+	[Widget] Gtk.Image image_stats_win_report_open;
 	[Widget] Gtk.Image image_results;
+		
+	[Widget] Gtk.Box hbox_graph_options;
 	
 	[Widget] Gtk.Box hbox_combo_graph_type;
-	[Widget] Gtk.Label label_graph_var_x;
-	[Widget] Gtk.Label label_graph_var_y;
+	[Widget] Gtk.Box hbox_stats_variables;
 	[Widget] Gtk.Box hbox_combo_graph_var_x;
 	[Widget] Gtk.Box hbox_combo_graph_var_y;
 	[Widget] Gtk.Box hbox_combo_graph_palette;
@@ -95,7 +95,6 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.ComboBox combo_graph_var_x;
 	[Widget] Gtk.ComboBox combo_graph_var_y;
 	[Widget] Gtk.ComboBox combo_graph_palette;
-	[Widget] Gtk.Label label_transposed;
 	[Widget] Gtk.CheckButton checkbutton_transposed;
 	[Widget] Gtk.Label label_line;
 	[Widget] Gtk.SpinButton spin_line;
@@ -114,7 +113,7 @@ public partial class ChronoJumpWindow {
 	[Widget] Gtk.SpinButton spin_graph_margin_r; //right
 	[Widget] Gtk.SpinButton spin_graph_x_cex_axis; //font size of x axis
 		
-	[Widget] Gtk.HBox hbox_stats_x_axis;
+	[Widget] Gtk.Label label_stats_x_axis;
 
 	//bool statsAutomatic = true;
 	bool statsAutomatic = false;
@@ -293,9 +292,8 @@ public partial class ChronoJumpWindow {
 		image_stats_win_graph.Pixbuf = pixbuf;
 		image_stats_win_graph1.Pixbuf = pixbuf;
 		image_stats_win_graph2.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
-		image_stats_win_report.Pixbuf = pixbuf;
-		image_stats_win_report1.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "report_view.png");
+		image_stats_win_report_open.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "spreadsheet.png");
 		image_results.Pixbuf = pixbuf;
 	}
@@ -449,7 +447,6 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void showTransposed(bool show) {
-		label_transposed.Visible = show;
 		checkbutton_transposed.Visible = show;
 		checkbutton_transposed.Active = true;
 	}
@@ -460,14 +457,12 @@ public partial class ChronoJumpWindow {
 	}
 
 	private void showGraphXYStuff(bool show) {
-		label_graph_var_x.Visible = show;
-		label_graph_var_y.Visible = show;
-		hbox_combo_graph_var_x.Visible = show;
-		hbox_combo_graph_var_y.Visible = show;
+		hbox_stats_variables.Visible = show;
 	}
 			
 	private void showXAxisOptions(bool show) {
-		hbox_stats_x_axis.Visible = show;
+		label_stats_x_axis.Visible = show;
+		spin_graph_x_cex_axis.Visible = show;
 	}
 
 	private void on_combo_graph_type_changed(object o, EventArgs args) {
@@ -978,6 +973,10 @@ public partial class ChronoJumpWindow {
 	 * ----------------  STATS CALLBACKS--------------------
 	 *  --------------------------------------------------------
 	 */
+
+	private void on_button_stats_graph_options_clicked (object o, EventArgs args) {
+		hbox_graph_options.Visible = ! hbox_graph_options.Visible;
+	}
 
 	private void on_button_stats_clicked (object o, EventArgs args) {
 		fillTreeView_stats(false);

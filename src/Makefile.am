@@ -250,7 +250,7 @@ RESOURCES = \
 	../images/chronopic_128.png,chronopic_128.png \
 	../images/gpm-statistics.png,gpm-statistics.png \
 	../images/spreadsheet.png,spreadsheet.png \
-	../images/stock_task-assigned.png,stock_task-assigned.png \
+	../images/report_view.png,report_view.png \
 	../images/preferences-system.png,preferences-system.png \
 	../images/stock_delete.png,stock_delete.png \
 	../images/chronojump_icon.png,chronojump_icon.png \

@@ -123,7 +123,7 @@ public class ReportWindow {
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "gpm-statistics.png");
 		image_report_win_graph.Pixbuf = pixbuf;
-		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_task-assigned.png");
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "report_view.png");
 		image_report_win_report.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
 		image_report_delete.Pixbuf = pixbuf;

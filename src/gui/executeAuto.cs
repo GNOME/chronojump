@@ -254,6 +254,9 @@ public class ExecuteAutoWindow
 			UtilGtk.ComboAdd(combo_serie3, tc.trName);
 			combo_serie3.Active = comboSerie3Array.Count -1;
 		}
+		
+		//a test is added, sensitivize "next" button
+		button_next.Sensitive = true;
 	}
 
 	private void showSeriesStuff(bool show) 
@@ -299,6 +302,9 @@ public class ExecuteAutoWindow
 		if(notebook.CurrentPage == 0) {
 			showSeriesStuff(radio_by_series.Active);
 			notebook.NextPage();
+		
+			//next button will be sensitive when first test is added
+			button_next.Sensitive = false;
 		}
 		else if(notebook.CurrentPage == 1) {
 			ExecuteAuto.ModeTypes mode = ExecuteAuto.ModeTypes.BY_PERSONS;

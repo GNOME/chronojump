@@ -5138,6 +5138,12 @@ Console.WriteLine("X");
 			//there's no currentJump (no one jumped), then it crashed,
 			//but don't need to update widgets
 		}
+
+		//if auto mode, show last person/test again
+		if(execute_auto_doing) {
+			execute_auto_order_pos --;
+			execute_auto_select();
+		}
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
@@ -5650,6 +5656,7 @@ Console.WriteLine("X");
 	private void on_button_auto_end_clicked (object o, EventArgs args) 
 	{
 		sensitiveGuiAutoStartEnd (false);
+		execute_auto_doing = false;
 	}
 	
 	private void on_button_auto_order_clicked (object o, EventArgs args) {
@@ -6038,6 +6045,11 @@ Console.WriteLine("X");
 		button_auto_start.Visible 	= ! start;	
 		hbox_jump_types_options.Visible = ! start;
 		hbox_jump_auto_controls.Visible  = start;
+
+		//when start, put button delete_this_test as not sensitive
+		//(just for the test previous to the auto process)
+		if(start)
+			button_delete_this_test.Sensitive = false;
 	}
 	
 	//true: executing a test; false: waiting a test to be executed

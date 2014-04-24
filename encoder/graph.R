@@ -952,6 +952,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	#accel2 <- accel2 * 1000
 	#print(accel2)
 
+	#define a propulsiveEnd value because it's used also in non-propulsive curves
+	propulsiveEnd = length(displacement)
+
 	if(isPropulsive) {
 		propulsiveEnd = findPropulsiveEnd(accel$y, concentric)
 		if(eccon != "c")

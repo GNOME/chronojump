@@ -226,15 +226,27 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 		force <- mass * (accel$y + g)
 
 		position = cumsum(d)
+
+		takeoff = NULL
 		#takeoff = min(which(force <= weight))
 		takeoff = min(which(force <= 0))
-		jumpHeight = (position[length(position)] - position[takeoff]) /10
-		print(paste("Jump Height =", jumpHeight))
+		if(! is.null(takeoff)) {
+			jumpHeight = (position[length(position)] - position[takeoff]) /10
+			print(paste("Jump Height =", jumpHeight))
 
-		#store variables
-		nums[count] = i
-		heights[count] = jumpHeight
-		count = count +1
+			#store variables
+			nums[count] = i
+			heights[count] = jumpHeight
+			count = count +1
+		}
+	}
+
+	print(c("nums length",length(nums)))
+	#if less than three jumps are detected (with jump height), then return an error message
+	#this happens if the person stops in the middle of the jump, and then continues, 
+	#and jumps are supposed to be in the 1c, 3c, ... and then they change to 4c, 6c, ...
+	if(length(nums) < 3) {
+		return (-1)
 	}
 
 	df=data.frame(cbind(nums,heights))

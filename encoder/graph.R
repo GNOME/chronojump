@@ -2670,6 +2670,16 @@ doProcess <- function(options) {
 				quit()
 			}
 			npj <- neuromuscularProfileGetData(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
+
+			if(npj == -1) {
+				plot(0,0,type="n",axes=F,xlab="",ylab="")
+				text(x=0,y=0,paste(translate("Not enough data."), "\n",
+						   translate("Need at least three jumps executed on the odd concentric phases"),
+						   " (1 con, 3 con, 5 con, ...)."), cex=1.5)
+				dev.off()
+				write("", OutputData1)
+				quit()
+			}
 					    
 			np.bar.load <- mean(c(
 					      npj[[1]]$e1$rfd.avg,

@@ -4,8 +4,13 @@ Update manual, check is "updated to last version"
 
 linux stuff
 ------------
+
+remove the win32 lines on configure.ac in order to have a make dist that works
+
 sh autogen.sh
 make dist
+
+write again the win32 lines on configure.ac in order to package ok on windows
 
 git commit -a
 message: Bump version 0.9.3
@@ -19,11 +24,11 @@ ftpadmin install chronojump-0.9.3.tar.gz
 
 macosx stuff
 ------------
-download (with filezilla is very fast)
+download (with filezilla is very fast), using owncloud is nice also
 /Users/chronojump/chronojump/Chronojump-1.4.2-x86_64.dmg
 scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-mv Chrono...exe /ftp/pub/gnome/binaries/mac/chronojump
+mv Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
 signal-ftp-sync
 wait 5'
 

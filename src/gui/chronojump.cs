@@ -486,7 +486,10 @@ public partial class ChronoJumpWindow
 	
 		//white bg
 		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
-				
+	
+		//start with the Mode selector	
+		notebook_sup.CurrentPage = 4;
+
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
 		
@@ -2975,7 +2978,7 @@ public partial class ChronoJumpWindow
 			menuitem_mode_selected_encoder.Visible = true;
 		}
 	}
-
+	
 
 	/*
 	 * videoOn and volumeOn

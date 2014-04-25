@@ -51,6 +51,11 @@ cerbero-cj package chronojump
 #as in 64 bit there's problems with the video drivers  do:
 cerbero-cj package chronojump --skip-deps-build
 
+#if hard disk it's busy, reset MacOSX and do again the 
+cerbero-cj buildone chronojump
+cerbero-cj package chronojump --skip-deps-build
+
+
 #once installed package on Mac, can be tested from the terminal:
 cd /Applications/Chronojump.app/Contents/MacOS/
 and execute the script:

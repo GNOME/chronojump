@@ -4354,7 +4354,11 @@ Log.WriteLine("DDD 2");
 
 		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
-		chronopicContactsLabels(0, recreate);
+		
+		if(notebook_sup.CurrentPage == 0)
+			chronopicContactsLabels(0, recreate);
+		else //(notebook_sup.CurrentPage == 1)
+			chronopicEncoderLabels(recreate);
 	}
 
 	private void on_chronopic_contacts_clicked (object o, EventArgs args) {
@@ -4393,7 +4397,7 @@ Log.WriteLine("DDD 2");
 	*/
 	
 	private void on_chronopic_window_contacts_connected_or_done (object o, EventArgs args) {
-		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
+		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_contacts_connected_or_done);
 		int cps = chronopicWin.NumConnected();
 
 		if(radio_mode_multi_chronopic_small.Active)	
@@ -4403,7 +4407,7 @@ Log.WriteLine("DDD 2");
 	}
 	
 	private void on_chronopic_window_encoder_connected_or_done (object o, EventArgs args) {
-		//chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_connected_or_done);
+		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_encoder_connected_or_done);
 
 		chronopicEncoderLabels(true);
 	}
@@ -4423,6 +4427,8 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void chronopicEncoderLabels(bool colorize) {
+		Log.WriteLine("here");
+		Log.WriteLine(chronopicWin.GetEncoderPort());
 		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");
 		else

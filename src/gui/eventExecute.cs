@@ -1824,7 +1824,7 @@ Log.WriteLine("Preparing reactive A");
 				if(thisRunIsSimple)
 					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
 				else {
-					bool volumeOnHere = true;
+					bool volumeOnHere = volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
 					if(currentRunIntervalType.IsRSA)
 						volumeOnHere = false;

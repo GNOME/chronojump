@@ -870,7 +870,10 @@ Log.WriteLine("bbb");
 	}
 
 	public string GetEncoderPort() {
-		return encoderPort;
+		if(isWindows)
+			return UtilGtk.ComboGetActive(combo_windows_encoder);
+		else
+			return UtilGtk.ComboGetActive(combo_linux_encoder);
 	}
 
 

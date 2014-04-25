@@ -338,6 +338,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_encoder_capture_options_closed(object o, EventArgs args) {
 		Log.WriteLine("closed");
+		//update the bars graph because main variable maybe has changed
 	}
 	
 	private bool encoderCheckPort()	{
@@ -3736,14 +3737,7 @@ Log.WriteLine(str);
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				if(mainVariable == Constants.MeanSpeed)
-					captureCurvesBarsData.Add(meanSpeed);
-				else if(mainVariable == Constants.MaxSpeed)
-					captureCurvesBarsData.Add(maxSpeed);
-				else if(mainVariable == Constants.MeanPower)
-					captureCurvesBarsData.Add(meanPower);
-				else	//mainVariable == Constants.PeakPower
-					captureCurvesBarsData.Add(peakPower);
+				captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
 						true);	//capturing
@@ -3772,13 +3766,20 @@ Log.WriteLine(str);
 	}
 
 	//if we are capturing, play sounds
-	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, ArrayList data, bool capturing) {
+	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
+			ArrayList data4Variables, bool capturing) 
+	{
 		Log.WriteLine("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 	
+		ArrayList data = new ArrayList (data4Variables.Count);
+		foreach(EncoderBarsData ebd in data4Variables)
+			data.Add(ebd.GetValue(mainVariable));
+
+
 		//search max
 		double max = -100000;
 		foreach(double d in data)
@@ -3788,7 +3789,7 @@ Log.WriteLine(str);
 		foreach(double d in data)
 			if(d < min)
 				min = d;
-	
+
 		if(max == 0)
 			return;	
 
@@ -3835,9 +3836,16 @@ Log.WriteLine(str);
 		Gdk.GC my_pen;
 		int dLeft = 0;
 		int count = 0;
-		foreach(double d in data) {
+		foreach(double dFor in data) {
 			int dWidth = 0;
 			int dHeight = 0;
+
+			//if values are negative, invert it
+			//this happens specially in the speeds in eccentric
+			//we use dFor because we cannot change the iteration variable
+			double d = dFor;
+			if(d < 0)
+				d *= -1;
 
 			dHeight = Convert.ToInt32(( graphHeight - vert_margin ) * d / max * 1.0);
 			//height should be inverted 
@@ -4412,14 +4420,12 @@ Log.WriteLine(str);
 				
 				captureCurvesBarsData = new ArrayList();
 				foreach (EncoderCurve curve in encoderCaptureCurves) {
-					if(mainVariable == Constants.MeanSpeed)
-						captureCurvesBarsData.Add(Convert.ToDouble(curve.MeanSpeed));
-					else if(mainVariable == Constants.MaxSpeed)
-						captureCurvesBarsData.Add(Convert.ToDouble(curve.MaxSpeed));
-					else if(mainVariable == Constants.MeanPower)
-						captureCurvesBarsData.Add(Convert.ToDouble(curve.MeanPower));
-					else	//mainVariable == Constants.PeakPower
-						captureCurvesBarsData.Add(Convert.ToDouble(curve.PeakPower));
+					captureCurvesBarsData.Add(new EncoderBarsData(
+								Convert.ToDouble(curve.MeanSpeed), 
+								Convert.ToDouble(curve.MaxSpeed), 
+								Convert.ToDouble(curve.MeanPower), 
+								Convert.ToDouble(curve.PeakPower)
+								));
 				}
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						false);	//not capturing

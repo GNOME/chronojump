@@ -713,6 +713,32 @@ public class EncoderCaptureCurveArray {
 	~EncoderCaptureCurveArray() {}
 }
 
+public class EncoderBarsData {
+	public double MeanSpeed;
+	public double MaxSpeed;
+	public double MeanPower;
+	public double PeakPower;
+	
+	public EncoderBarsData(double meanSpeed, double maxSpeed, double meanPower, double peakPower) {
+		this.MeanSpeed = meanSpeed;
+		this.MaxSpeed  = maxSpeed;
+		this.MeanPower = meanPower;
+		this.PeakPower = peakPower;
+	}
+
+	public double GetValue (string option) {
+		if(option == Constants.MeanSpeed)
+			return MeanSpeed;
+		else if(option == Constants.MaxSpeed)
+			return MaxSpeed;
+		else if(option == Constants.MeanPower)
+			return MeanPower;
+		else // option == Constants.PeakPower
+			return PeakPower;
+	}
+	
+	~EncoderBarsData() {}
+}
 
 public class EncoderConfiguration {
 	public Constants.EncoderConfigurationNames name;

@@ -71,43 +71,9 @@ eccons=c("c","ec","ecS","ce","ceS")
 
 g = 9.81
 
-smoothingAll= 0.1
-
 colSpeed="springgreen3"; colForce="blue2"; colPower="tomato2"	#colors
 #colSpeed="black"; colForce="black"; colPower="black"		#black & white
 cols=c(colSpeed,colForce,colPower); lty=rep(1,3)	
-
-
-#--- user commands ---
-#way A. passing options to a file
-getOptionsFromFile <- function(optionsFile) {
-	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=31)
-	close(optionsCon)
-	return (options)
-}
-
-#way B. put options as arguments
-#unused because maybe command line gets too long
-#options <- commandArgs(TRUE)
-
-
-args <- commandArgs(TRUE)
-optionsFile =args[1]
-
-print(optionsFile)
-
-options=getOptionsFromFile(optionsFile)
-
-#print(options)
-
-OutputData2 = options[4] #currently used to display processing feedback
-SpecialData = options[5]
-OperatingSystem=options[27]
-EncoderConfigurationName = ""
-
-English = unlist(strsplit(options[30], "\\;"))
-Translated = unlist(strsplit(options[31], "\\;"))
 
 
 #translate
@@ -117,8 +83,6 @@ translate <- function(englishWord) {
 	else
 		return(Translated[which(English == englishWord)])
 }
-
-write(paste("(1/5)",translate("Starting R")), OutputData2)
 
 
 # This function converts top curve into bottom curve
@@ -2008,6 +1972,8 @@ doProcess <- function(options) {
 	#print(options[30])
 	#print(options[31])
 
+	#options 32 is this graph.R file and it's used in call_graph.R to call this as source (in RDotNet)
+
 
 	print(File)
 	print(OutputGraph)
@@ -2318,6 +2284,8 @@ doProcess <- function(options) {
 
 			#plot speed
 			par(new=T)	
+			
+			smoothingAll= 0.1
 			speed <- getSpeed(displacement, smoothingAll)
 			plot((1:length(displacement))/1000, speed$y, col="green2",
 		     		type="l", 
@@ -2674,7 +2642,7 @@ doProcess <- function(options) {
 			}
 			npj <- neuromuscularProfileGetData(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
 
-			if(npj == -1) {
+			if(is.double(npj) && npj == -1) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
 				text(x=0,y=0,paste(translate("Not enough data."), "\n",
 						   translate("Need at least three jumps executed on the odd concentric phases"),
@@ -2858,11 +2826,4 @@ doProcess <- function(options) {
 	warnings()
 }
 
-write(paste("(2/5)",translate("Loading libraries")), OutputData2)
-
-loadLibraries(OperatingSystem)
-	
-write(paste("(3/5)",translate("Starting process")), OutputData2)
-
-doProcess(options)
 

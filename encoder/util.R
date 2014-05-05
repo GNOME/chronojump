@@ -71,4 +71,6 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 	} 
 
 	list(minindex=minindex, maxindex=maxindex, nextreme=nextreme, cross=cross, ncross=ncross)
-}    
+}
+
+

@@ -156,7 +156,18 @@ public class UtilEncoder
 					Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureLinux);
 	}
 	
-	private static string getEncoderScriptGraph() {
+
+	/*
+	 * in RDotNet, graph.R is in memory, and call_graph.R is not called
+	 * if RDotNet is not working, then call_graph.R is called and this calls graph.R
+	 */
+
+	private static string getEncoderScriptCallGraph() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallGraph);
+	}
+
+	public static string GetEncoderScriptGraph() {
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptGraph);
 	}
@@ -260,6 +271,8 @@ public class UtilEncoder
 		string scriptNeuromuscularProfile = "none"; //cannot be blank
 		if(neuromuscularProfileDo)
 			scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
+
+		string scriptGraphR = GetEncoderScriptGraph();
 			
 		pBin="Rscript";
 		//pBin="R";
@@ -280,6 +293,7 @@ public class UtilEncoder
 			es.SpecialData = es.SpecialData.Replace("\\","/");
 			scriptUtilR = scriptUtilR.Replace("\\","/");
 			scriptNeuromuscularProfile = scriptNeuromuscularProfile.Replace("\\","/");
+			scriptGraphR = scriptGraphR.Replace("\\","/");
 			operatingSystem = "Windows";
 		}
 		
@@ -301,7 +315,8 @@ public class UtilEncoder
 		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
 		scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" +
 		Util.StringArrayToString(Constants.EncoderEnglishWords,";") + "\n" +
-		Util.StringArrayToString(encoderTranslatedWordsOK,";") + "\n";
+		Util.StringArrayToString(encoderTranslatedWordsOK,";") + "\n" + 
+		scriptGraphR + "\n";
 
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
@@ -317,13 +332,13 @@ public class UtilEncoder
 		}
 		
 		//on Windows we need the \"str\" to call without problems in path with spaces
-		pinfo.Arguments = "\"" + getEncoderScriptGraph() + "\" " + optionsFile;
+		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
 	
 		Log.WriteLine("Arguments:" + pinfo.Arguments);
 		
 		/*
 		pinfo.Arguments = "CMD BATCH --no-save '--args optionsFile=\"" + optionsFile + "\"' \"" + 
-			getEncoderScriptGraph() + "\" \"" + 
+			getEncoderScriptCallGraph() + "\" \"" + 
 			Path.GetTempPath() + "error.txt\"";
 			*/
 		
@@ -333,7 +348,7 @@ public class UtilEncoder
 			es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
 			es.Ep.ToString2(" ") + " " + title;
 		
-		pinfo.Arguments = getEncoderScriptGraph() + " " + argumentOptions;
+		pinfo.Arguments = getEncoderScriptCallGraph() + " " + argumentOptions;
 		*/
 
 		Log.WriteLine("------------- 1 ---");

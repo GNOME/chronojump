@@ -34,8 +34,8 @@ using RDotNet;
 public partial class ChronoJumpWindow 
 {
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
-	[Widget] Gtk.SpinButton spin_encoder_displaced_weight;
-	[Widget] Gtk.SpinButton spin_encoder_1RM_percent;
+	[Widget] Gtk.Label label_encoder_displaced_weight;
+	[Widget] Gtk.Label label_encoder_1RM_percent;
 
 	[Widget] Gtk.Label label_encoder_selected;	
 	
@@ -495,7 +495,7 @@ public partial class ChronoJumpWindow
 
 	void encoder_change_displaced_weight_and_1RM () {
 		//displaced weight
-		spin_encoder_displaced_weight.Value = findMass(Constants.MassType.DISPLACED);
+		label_encoder_displaced_weight.Text = (findMass(Constants.MassType.DISPLACED)).ToString();
 
 		//1RM
 		ArrayList array1RM = SqliteEncoder.Select1RM(
@@ -505,9 +505,10 @@ public partial class ChronoJumpWindow
 			load1RM = ((Encoder1RM) array1RM[0]).load1RM; //take only the first in array (will be the last uniqueID)
 
 		if(load1RM == 0 || findMass(Constants.MassType.EXTRA) == 0)
-			spin_encoder_1RM_percent.Value = 0;
+			label_encoder_1RM_percent.Text = "";
 		else
-			spin_encoder_1RM_percent.Value = 100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 );
+			label_encoder_1RM_percent.Text = Util.TrimDecimals(
+					(100 * findMass(Constants.MassType.EXTRA) / ( load1RM * 1.0 )).ToString(), 2);
 	}
 
 	void on_button_encoder_1RM_win_clicked (object o, EventArgs args) {

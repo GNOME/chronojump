@@ -1866,15 +1866,22 @@ public partial class ChronoJumpWindow
 
 		//load extrema method copied from EMD package
 		string utilRPath = UtilEncoder.GetEncoderScriptUtilR();
+		string graphRPath = UtilEncoder.GetEncoderScriptGraph();
 		
 		//On win32 R understands backlash as an escape character and 
 		//a file path uses Unix-like path separator '/'
-		if(UtilAll.IsWindows())
+		if(UtilAll.IsWindows()) {
 			utilRPath = utilRPath.Replace("\\","/");
+			graphRPath = graphRPath.Replace("\\","/");
+		}
 		Log.WriteLine(utilRPath);
+		Log.WriteLine(graphRPath);
 		
 		try {
+			//load extrema
 			rengine.Evaluate("source('" + utilRPath + "')");
+			//load more stuff and call later using RDotNet
+			rengine.Evaluate("source('" + graphRPath + "')");
 		} catch {
 			RInitialized = Constants.Status.ERROR;
 			return;

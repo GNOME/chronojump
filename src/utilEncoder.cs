@@ -255,31 +255,8 @@ public class UtilEncoder
 	}
 	*/
 	
-	//public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
-	public static void RunEncoderGraphRDotNet(REngine rengine) 
+	private static EncoderGraphROptions prepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{
-		//if RDotNet is ok, graph.R is already loaded
-		
-		rengine.Evaluate("meanPower <- mean(c(2,3,4,5,6,7,8))");
-		double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
-		Log.WriteLine(meanPower.ToString());
-		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
-	}
-	
-	public static bool RunEncoderGraph(string title, EncoderStruct es, bool neuromuscularProfileDo) 
-	{
-		CancelRScript = false;
-
-		ProcessStartInfo pinfo;
-	        Process p;
-		//If output file is not given, R will try to write in the running folder
-		//in which we may haven't got permissions
-		
-		string pBin="";
-		pinfo = new ProcessStartInfo();
-
-		string operatingSystem = "Linux";
-		
 		string scriptUtilR = GetEncoderScriptUtilR();
 
 		string scriptNeuromuscularProfile = "none"; //cannot be blank
@@ -287,14 +264,10 @@ public class UtilEncoder
 			scriptNeuromuscularProfile = GetEncoderScriptNeuromuscularProfile();
 
 		string scriptGraphR = GetEncoderScriptGraph();
-			
-		pBin="Rscript";
-		//pBin="R";
+		
+		string operatingSystem = "Linux";
+		
 		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			Log.WriteLine("pBin:" + pBin);
-
 			//convert accents to Unicode in order to be plotted correctly on R windows
 			title = Util.ConvertToUnicode(title);
 
@@ -322,16 +295,72 @@ public class UtilEncoder
 			encoderTranslatedWordsOK[count++] = temp;
 		}
 
-		//--- way A. passing options to a file
-		string scriptOptions = es.InputData + "\n" + 
-		es.OutputGraph + "\n" + es.OutputData1 + "\n" + 
-		es.OutputData2 + "\n" + es.SpecialData + "\n" + 
-		es.Ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
-		scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" +
-		Util.StringArrayToString(Constants.EncoderEnglishWords,";") + "\n" +
-		Util.StringArrayToString(encoderTranslatedWordsOK,";") + "\n" + 
-		scriptGraphR + "\n";
+		return new EncoderGraphROptions( 
+				es.InputData, es.OutputGraph, es.OutputData1, 
+				es.OutputData2, es.SpecialData, 
+				es.Ep,
+				title, operatingSystem,
+				scriptUtilR, scriptNeuromuscularProfile,
+				Util.StringArrayToString(Constants.EncoderEnglishWords,";"),
+				Util.StringArrayToString(encoderTranslatedWordsOK,";"), 
+				scriptGraphR);
+	}
 
+	/*
+	 * this method uses RDotNet
+	 */	
+	//public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	public static void RunEncoderGraphRDotNet(REngine rengine) 
+	{
+		//if RDotNet is ok, graph.R is already loaded
+		
+		/*
+		rengine.Evaluate("meanPower <- mean(c(2,3,4,5,6,7,8))");
+		double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
+		Log.WriteLine(meanPower.ToString());
+		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
+		*/
+
+		//EncoderGraphROptions roptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
+
+		//--------------------------------------------
+		//		Attention
+		//this code should be the same as call_graph.R
+		//--------------------------------------------
+
+		//TODO: pass roptions to RDotNet objects and then call graph.R
+		rengine.SetSymbol("OutputData2", roptions.outputData2);
+		rengine.SetSymbol("SpecialData", roptions.specialData);
+		rengine.SetSymbol("OperatingSystem", roptions.operatingSystem);
+
+
+	}
+
+	/*
+	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R
+	 * and has to write a Roptions.txt file
+	 */
+	public static bool RunEncoderGraph(string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	{
+		CancelRScript = false;
+
+		ProcessStartInfo pinfo;
+	        Process p;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+		
+		string pBin="";
+		pinfo = new ProcessStartInfo();
+
+		pBin="Rscript";
+		if (UtilAll.IsWindows()) {
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			Log.WriteLine("pBin:" + pBin);
+		}
+		
+
+		string scriptOptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo).ToString();
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);
@@ -349,29 +378,9 @@ public class UtilEncoder
 		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
 	
 		Log.WriteLine("Arguments:" + pinfo.Arguments);
-		
-		/*
-		pinfo.Arguments = "CMD BATCH --no-save '--args optionsFile=\"" + optionsFile + "\"' \"" + 
-			getEncoderScriptCallGraph() + "\" \"" + 
-			Path.GetTempPath() + "error.txt\"";
-			*/
-		
-		//--- way B. put options as arguments
-		/*
-		string argumentOptions = es.InputData + " " + 
-			es.OutputGraph + " " + es.OutputData1 + " " + es.OutputData2 + " " + 
-			es.Ep.ToString2(" ") + " " + title;
-		
-		pinfo.Arguments = getEncoderScriptCallGraph() + " " + argumentOptions;
-		*/
-
-		Log.WriteLine("------------- 1 ---");
-		Log.WriteLine(optionsFile.ToString());
-		Log.WriteLine("------------- 2 ---");
-		Log.WriteLine(scriptOptions.ToString());
-		Log.WriteLine("------------- 3 ---");
-		Log.WriteLine(pinfo.Arguments.ToString());
-		Log.WriteLine("------------- 4 ---");
+		Log.WriteLine("--- 1 --- " + optionsFile.ToString() + " ---");
+		Log.WriteLine("--- 2 --- " + scriptOptions + " ---");
+		Log.WriteLine("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
 		
 		string outputFileCheck = "";
 		string outputFileCheck2 = "";

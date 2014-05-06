@@ -191,6 +191,61 @@ public class EncoderStruct
 	~EncoderStruct() {}
 }
 
+public class EncoderGraphROptions
+{
+	public string inputData;
+	public string outputGraph;
+	public string outputData1;
+	public string outputData2;
+	public string specialData;
+	public EncoderParams ep;
+	public string title;
+	public string operatingSystem;
+	public string scriptUtilR;
+	public string scriptNeuromuscularProfile;
+	public string englishWords;
+	public string translatedWords;
+	public string scriptGraphR;
+	
+	public EncoderGraphROptions(
+			string inputData, string outputGraph, string outputData1, 
+			string outputData2, string specialData, 
+			EncoderParams ep,
+			string title, string operatingSystem,
+			string scriptUtilR, string scriptNeuromuscularProfile,
+			string englishWords, string translatedWords,
+			string scriptGraphR) 
+	{
+		this.inputData = inputData;
+		this.outputGraph = outputGraph;
+		this.outputData1 = outputData1;
+		this.outputData2 = outputData2;
+		this.specialData = specialData;
+		this.ep = ep;
+		this.title = title;
+		this.operatingSystem = operatingSystem;
+		this.scriptUtilR = scriptUtilR;
+		this.scriptNeuromuscularProfile = scriptNeuromuscularProfile;
+		this.englishWords = englishWords;
+		this.translatedWords = translatedWords;
+		this.scriptGraphR = scriptGraphR;
+	}
+
+	public override string ToString() {
+		return inputData + "\n" + 
+			outputGraph + "\n" + outputData1 + "\n" + 
+			outputData2 + "\n" + specialData + "\n" + 
+			ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
+			scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" +
+			englishWords + "\n" +
+			translatedWords + "\n" + 
+			scriptGraphR + "\n";
+	}
+
+	~EncoderGraphROptions() {}
+}
+
+
 //used on TreeViews capture and analyze
 public class EncoderCurve
 {

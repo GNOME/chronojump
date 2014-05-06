@@ -50,6 +50,11 @@ options <- getOptionsFromFile(optionsFile, 32)
 
 #print(options)
 
+#---------------------------------------------------------------------
+#			Attention
+#this code should be the same as utilEncoder.cs RunEncoderGraphRDotNet
+#---------------------------------------------------------------------
+
 OutputData2 <- options[4] #currently used to display processing feedback
 SpecialData <- options[5]
 OperatingSystem <- options[27]

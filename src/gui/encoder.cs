@@ -302,8 +302,17 @@ public partial class ChronoJumpWindow
 			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
-
 	}
+	
+	void on_menuitem_test_rdotnet_advanced_activate (object o, EventArgs args) 
+	{
+		if(RInitialized == Constants.Status.UNSTARTED)
+			runEncoderCaptureCsharpInitializeR();
+
+		if(RInitialized == Constants.Status.OK)
+			UtilEncoder.RunEncoderGraphRDotNet(rengine);
+	}
+	
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);
@@ -739,6 +748,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
+
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(

@@ -25,6 +25,9 @@ using System.Collections; //ArrayList
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
 
+using System.Linq;	//RDotNet
+using RDotNet;		//RDotNet
+
 //this class tries to be a space for methods that are used in different classes
 public class UtilEncoder
 {
@@ -251,6 +254,17 @@ public class UtilEncoder
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	*/
+	
+	//public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	public static void RunEncoderGraphRDotNet(REngine rengine) 
+	{
+		//if RDotNet is ok, graph.R is already loaded
+		
+		rengine.Evaluate("meanPower <- mean(c(2,3,4,5,6,7,8))");
+		double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
+		Log.WriteLine(meanPower.ToString());
+		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
+	}
 	
 	public static bool RunEncoderGraph(string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{

@@ -4427,9 +4427,11 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void chronopicEncoderLabels(bool colorize) {
-		Log.WriteLine("here");
-		Log.WriteLine(chronopicWin.GetEncoderPort());
-		if(chronopicWin.GetEncoderPort() != Util.GetDefaultPort())
+		Log.WriteLine("at chronopicEncoderLabels");
+		string encoderPort = chronopicWin.GetEncoderPort();
+		Log.WriteLine(encoderPort);
+
+		if(encoderPort != null && encoderPort != "" && encoderPort != Util.GetDefaultPort())
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");
 		else
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder disconnected");
@@ -4437,7 +4439,7 @@ Log.WriteLine("DDD 2");
 		if(colorize)
 			UtilGtk.ChronopicColors(viewport_chronopic_encoder, 
 					label_chronopic_encoder, new Gtk.Label(),
-					chronopicWin.GetEncoderPort() != "");
+					encoderPort != "");
 	}
 
 

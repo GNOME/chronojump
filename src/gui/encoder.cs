@@ -296,21 +296,12 @@ public partial class ChronoJumpWindow
 
 	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
 		if(RInitialized == Constants.Status.UNSTARTED)
-			runEncoderCaptureCsharpInitializeR();
+			UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
 		if(RInitialized == Constants.Status.OK)
 			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
-	}
-	
-	void on_menuitem_test_rdotnet_advanced_activate (object o, EventArgs args) 
-	{
-		if(RInitialized == Constants.Status.UNSTARTED)
-			runEncoderCaptureCsharpInitializeR();
-
-		if(RInitialized == Constants.Status.OK)
-			UtilEncoder.RunEncoderGraphRDotNet(rengine);
 	}
 	
 
@@ -729,10 +720,10 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderCurvesTempFileName(), 
 				UtilEncoder.GetEncoderStatusTempFileName(),
-				"",	//SpecialData
+				"none",	//SpecialData
 				ep);
 		
-		bool result = UtilEncoder.RunEncoderGraph(
+		bool result = UtilEncoder.RunEncoderGraphNoRDotNet(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
@@ -1334,10 +1325,10 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				selectedFileName, 
 				UtilEncoder.GetEncoderStatusTempFileName(),
-				"", 		//SpecialData
+				"none", 		//SpecialData
 				ep);
 
-		UtilEncoder.RunEncoderGraph(
+		UtilEncoder.RunEncoderGraphNoRDotNet(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQL.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
@@ -1842,89 +1833,6 @@ public partial class ChronoJumpWindow
 		
 	REngine rengine;
 
-	private void runEncoderCaptureCsharpInitializeR() 
-	{
-		Log.WriteLine("initializing rdotnet");
-		
-		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
-		//rsup.Interactive = false;
-		//rsup.Quiet = false;
-
-		rengine = REngine.CreateInstance("RDotNet");
-		
-		// From v1.5, REngine requires explicit initialization.
-		// You can set some parameters.
-
-		try {
-			//rengine.Initialize(rsup);
-			rengine.Initialize();
-		} catch {
-			//return false;
-			RInitialized = Constants.Status.ERROR;
-			return;
-		}
-		//Previous command, unfortunatelly localizes all GUI to english
-		//then call Catalog.Init again in order to see new windows localised		
-		//Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
-
-		/*
-		try {
-			rengine.Evaluate("library(\"EMD\")");
-		} catch {
-			return false;
-		}
-		*/
-
-		//load extrema method copied from EMD package
-		string utilRPath = UtilEncoder.GetEncoderScriptUtilR();
-		string graphRPath = UtilEncoder.GetEncoderScriptGraph();
-		
-		//On win32 R understands backlash as an escape character and 
-		//a file path uses Unix-like path separator '/'
-		if(UtilAll.IsWindows()) {
-			utilRPath = utilRPath.Replace("\\","/");
-			graphRPath = graphRPath.Replace("\\","/");
-		}
-		Log.WriteLine(utilRPath);
-		Log.WriteLine(graphRPath);
-		
-		try {
-			//load extrema
-			rengine.Evaluate("source('" + utilRPath + "')");
-			//load more stuff and call later using RDotNet
-			rengine.Evaluate("source('" + graphRPath + "')");
-		} catch {
-			RInitialized = Constants.Status.ERROR;
-			return;
-		}
-
-		
-		try {
-			// .NET Framework array to R vector.
-			NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
-			rengine.SetSymbol("group1", group1);
-			// Direct parsing from R script.
-			NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
-
-			// Test difference of mean and get the P-value.
-			GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
-			double p = testResult["p.value"].AsNumeric().First();
-
-			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
-			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
-			Console.WriteLine("P-value = {0:0.000}", p);
-		} catch {
-			RInitialized = Constants.Status.ERROR;
-			return;
-		}
-
-		Log.WriteLine("initialized rdotnet");
-		
-		RInitialized = Constants.Status.OK;
-
-		return;
-	}
-	
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
@@ -2425,7 +2333,7 @@ Log.WriteLine(str);
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 		}
 
-		UtilEncoder.RunEncoderGraph(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
+		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
 	}
 	
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
@@ -4090,14 +3998,14 @@ Log.WriteLine(str);
 
 	private void encoderThreadStart(encoderActions action) {
 		encoderProcessCancel = false;
+					
 		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			Log.WriteLine("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
-				
 				if(action == encoderActions.CAPTURE) {
 					if(RInitialized == Constants.Status.UNSTARTED)
-						runEncoderCaptureCsharpInitializeR();
+						UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
 					/* 
 					 * if error means a problem with RDotNet, not necessarily a problem with R

@@ -255,6 +255,80 @@ public class UtilEncoder
 	}
 	*/
 	
+	public static REngine RunEncoderCaptureCsharpInitializeR(REngine rengine, out Constants.Status RInitialized) 
+	{
+		Log.WriteLine("initializing rdotnet");
+		
+		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
+		//rsup.Interactive = false;
+		//rsup.Quiet = false;
+
+		rengine = REngine.CreateInstance("RDotNet");
+		
+		// From v1.5, REngine requires explicit initialization.
+		// You can set some parameters.
+
+		try {
+			//rengine.Initialize(rsup);
+			rengine.Initialize();
+		} catch {
+			RInitialized = Constants.Status.ERROR;
+			return rengine;
+		}
+		//Previous command, unfortunatelly localizes all GUI to english
+		//then call Catalog.Init again in order to see new windows localised		
+		//Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
+
+		//load extrema method copied from EMD package
+		string utilRPath = GetEncoderScriptUtilR();
+		string graphRPath = GetEncoderScriptGraph();
+		
+		//On win32 R understands backlash as an escape character and 
+		//a file path uses Unix-like path separator '/'
+		if(UtilAll.IsWindows()) {
+			utilRPath = utilRPath.Replace("\\","/");
+			graphRPath = graphRPath.Replace("\\","/");
+		}
+		Log.WriteLine(utilRPath);
+		Log.WriteLine(graphRPath);
+		
+		try {
+			//load extrema
+			rengine.Evaluate("source('" + utilRPath + "')");
+			//load more stuff and call later using RDotNet
+			rengine.Evaluate("source('" + graphRPath + "')");
+		} catch {
+			RInitialized = Constants.Status.ERROR;
+			return rengine;
+		}
+
+		try {
+			// .NET Framework array to R vector.
+			NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
+			rengine.SetSymbol("group1", group1);
+			// Direct parsing from R script.
+			NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
+
+			// Test difference of mean and get the P-value.
+			GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
+			double p = testResult["p.value"].AsNumeric().First();
+
+			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
+			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
+			Console.WriteLine("P-value = {0:0.000}", p);
+		} catch {
+			RInitialized = Constants.Status.ERROR;
+			return rengine;
+		}
+
+		Log.WriteLine("initialized rdotnet");
+		
+		RInitialized = Constants.Status.OK;
+
+		return rengine;
+	}
+	
+	
 	private static EncoderGraphROptions prepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{
 		string scriptUtilR = GetEncoderScriptUtilR();
@@ -306,22 +380,40 @@ public class UtilEncoder
 				scriptGraphR);
 	}
 
-	/*
-	 * this method uses RDotNet
-	 */	
-	//public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
-	public static void RunEncoderGraphRDotNet(REngine rengine) 
+	/*	
+	 *	Currently unused because this was called in main thread and when a pulse thread exists
+	 *	It should be without threading or in the GTK thread
+	 *	Now graph call is so fast with the call_graph.R
+	 *	then there's no need to add the complexity of calling RunEncoderGraphRDotNet outside the thread
+	 *	because the GTK thread has some interesting things that it does when it ends.
+	 *	We have enough speed now and we don't want to add more bugs
+	 *
+	public static bool RunEncoderGraph(REngine rengine, Constants.Status RInitialized,
+			string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	{
+		if(RInitialized == Constants.Status.UNSTARTED)
+			RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
+		
+		bool result = false;
+		if(RInitialized == Constants.Status.ERROR)
+			result = RunEncoderGraphNoRDotNet(title, es, neuromuscularProfileDo);
+		else if(RInitialized == Constants.Status.OK)
+			result = RunEncoderGraphRDotNet(rengine, title, es, neuromuscularProfileDo);
+
+		return result;
+	}
+
+	//this method uses RDotNet
+	public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{
 		//if RDotNet is ok, graph.R is already loaded
-		
-		/*
 		rengine.Evaluate("meanPower <- mean(c(2,3,4,5,6,7,8))");
 		double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
 		Log.WriteLine(meanPower.ToString());
 		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
-		*/
 
-		//EncoderGraphROptions roptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
+		EncoderGraphROptions roptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
+		Log.WriteLine(roptions.ToString());	
 
 		//--------------------------------------------
 		//		Attention
@@ -329,18 +421,34 @@ public class UtilEncoder
 		//--------------------------------------------
 
 		//TODO: pass roptions to RDotNet objects and then call graph.R
-		rengine.SetSymbol("OutputData2", roptions.outputData2);
-		rengine.SetSymbol("SpecialData", roptions.specialData);
-		rengine.SetSymbol("OperatingSystem", roptions.operatingSystem);
+		CharacterVector charVec;
+	
+		Log.WriteLine("-1-");	
+		string str_string = roptions.outputData2;
+		Log.WriteLine(str_string);
+		
+		charVec = rengine.CreateCharacterVector(new[] { str_string });
+		rengine.SetSymbol("OutputData2", charVec);
+	
+		Log.WriteLine("-2-");	
+		Log.WriteLine(roptions.specialData);	
+		Log.WriteLine("-3-");	
+		CharacterVector charVec2 = rengine.CreateCharacterVector(new[] { roptions.specialData });
+		rengine.SetSymbol("SpecialData", charVec2);
+		
+		Log.WriteLine(roptions.operatingSystem);	
+		charVec = rengine.CreateCharacterVector(new[] { roptions.operatingSystem });
+		rengine.SetSymbol("OperatingSystem", charVec);
 
-
+		return true;
 	}
+	*/
 
 	/*
 	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R
 	 * and has to write a Roptions.txt file
 	 */
-	public static bool RunEncoderGraph(string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	public static bool RunEncoderGraphNoRDotNet(string title, EncoderStruct es, bool neuromuscularProfileDo) 
 	{
 		CancelRScript = false;
 

@@ -1911,7 +1911,14 @@ public partial class ChronoJumpWindow
 
 
 		do {
-			byteReadedRaw = sp.ReadByte();
+			try {
+				byteReadedRaw = sp.ReadByte();
+			} catch {
+				Log.WriteLine("Maybe encoder cable is disconnected");
+				encoderProcessCancel = true;
+				break;
+			}
+
 			if(byteReadedRaw > 128)
 				byteReadedRaw = byteReadedRaw - 256;
 

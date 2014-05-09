@@ -551,6 +551,7 @@ public class EncoderSQL
 	
 		str[i++] = count.ToString();
 		str[i++] = exerciseName;
+		str[i++] = laterality;
 		str[i++] = extraWeight;
 
 		if(encoderConfigPretty)

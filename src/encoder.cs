@@ -249,16 +249,34 @@ public class EncoderGraphROptions
 //used on TreeViews capture and analyze
 public class EncoderCurve
 {
+	public bool Record;	//only on capture
+	public string N;
+	public string Series;
+	public string Exercise;
+	public double ExtraWeight;
+	public double DisplacedWeight;
+	public string Start;
+	public string Duration;
+	public string Height;
+	public string MeanSpeed;
+	public string MaxSpeed;
+	public string MaxSpeedT;
+	public string MeanPower;
+	public string PeakPower;
+	public string PeakPowerT;
+	public string PP_PPT;
+	
 	public EncoderCurve () {
 	}
 
 	//used on TreeView capture
-	public EncoderCurve (string n, 
+	public EncoderCurve (bool record, string n, 
 			string start, string duration, string height, 
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
 			string PP_PPT)
 	{
+		this.Record = record;
 		this.N = n;
 		this.Start = start;
 		this.Duration = duration;
@@ -307,22 +325,6 @@ public class EncoderCurve
 			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 			PP_PPT;
 	}
-
-	public string N;
-	public string Series;
-	public string Exercise;
-	public double ExtraWeight;
-	public double DisplacedWeight;
-	public string Start;
-	public string Duration;
-	public string Height;
-	public string MeanSpeed;
-	public string MaxSpeed;
-	public string MaxSpeedT;
-	public string MeanPower;
-	public string PeakPower;
-	public string PeakPowerT;
-	public string PP_PPT;
 }
 
 //used on TreeView

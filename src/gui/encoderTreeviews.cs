@@ -71,6 +71,7 @@ public partial class ChronoJumpWindow
 				cells = fixDecimals(cells);
 
 				encoderCaptureCurves.Add (new EncoderCurve (
+							false,				//user need to mark to save them
 							cells[0],	//id 
 							//cells[1],	//seriesName
 							//cells[2], 	//exerciseName
@@ -86,17 +87,35 @@ public partial class ChronoJumpWindow
 		}
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
+		
 		foreach (EncoderCurve curve in encoderCaptureCurves) 
 			encoderCaptureListStore.AppendValues (curve);
 
 		treeview_encoder_capture_curves.Model = encoderCaptureListStore;
 
+		/*
 		if(ecconLast == "c")
 			treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Single;
 		else
 			treeview_encoder_capture_curves.Selection.Mode = SelectionMode.Multiple;
+			*/
+		treeview_encoder_capture_curves.Selection.Mode = SelectionMode.None;
 
 		treeview_encoder_capture_curves.HeadersVisible=true;
+		
+		
+		//create first column (checkbox)	
+		CellRendererToggle crt = new CellRendererToggle();
+		crt.Visible = true;
+		crt.Activatable = true;
+		crt.Active = true;
+		crt.Toggled += ItemToggled;
+		Gtk.TreeViewColumn column = new Gtk.TreeViewColumn ();
+
+		column.Title="";
+		column.PackStart (crt, true);
+		column.SetCellDataFunc (crt, new Gtk.TreeCellDataFunc (RenderRecord));
+		treeview_encoder_capture_curves.AppendColumn (column);
 
 		int i=0;
 		foreach(string myCol in columnsString) {
@@ -105,9 +124,6 @@ public partial class ChronoJumpWindow
 			aColumn.Title=myCol;
 			aColumn.PackStart (aCell, true);
 
-			//crt1.Foreground = "red";
-			//crt1.Background = "blue";
-		
 			switch(i){	
 				case 0:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderN));
@@ -149,6 +165,44 @@ public partial class ChronoJumpWindow
 			i++;
 		}
 		return curvesCount;
+	}
+
+	void ItemToggled(object o, ToggledArgs args) {
+		TreeIter iter;
+		int column = 0;
+		if (encoderCaptureListStore.GetIterFromString (out iter, args.Path)) 
+		{
+			//get previous value
+			bool val = ((EncoderCurve) encoderCaptureListStore.GetValue (iter, column)).Record;
+
+			//change value
+			//this changes value, but checkbox will be changed on RenderRecord. Was impossible to do here.
+			((EncoderCurve) encoderCaptureListStore.GetValue (iter, column)).Record = ! val;
+		
+			//on ec, ecS need to [un]select another row
+			if (ecconLast=="ec" || ecconLast =="ecS") {
+				TreePath path = new TreePath(args.Path);
+
+				if(Util.IsEven(Convert.ToInt32(args.Path))) { //even (par) select next. If 0 ("1e"): select also 1 ("1c")
+					path.Next();
+					encoderCaptureListStore.IterNext (ref iter);
+				}
+				else {
+					path.Prev();
+					encoderCaptureListStore.GetIter (out iter, path);
+				}
+
+				//change value
+				((EncoderCurve) encoderCaptureListStore.GetValue (iter, column)).Record = ! val;
+
+				//this makes RenderRecord work on changed row without having to put mouse there
+				encoderCaptureListStore.EmitRowChanged(path,iter);
+			}
+
+			//TODO: call a function that checks how many checkboxes are active in order to change this 
+			//encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+			//encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
+		}
 	}
 
 	string [] treeviewEncoderAnalyzeHeaders = {
@@ -477,6 +531,10 @@ public partial class ChronoJumpWindow
 	{
 		return assignColor(found, higherActive, lowerActive, 
 				Convert.ToDouble(higherValue), Convert.ToDouble(lowerValue));
+	}
+	
+	private void RenderRecord (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter) {
+		(cell as Gtk.CellRendererToggle).Active = ((EncoderCurve) model.GetValue (iter, 0)).Record;
 	}
 
 	private void RenderN (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -884,7 +942,8 @@ public partial class ChronoJumpWindow
 		}
 		return 0;
 	}
-	
+
+/*	
 	private void on_treeview_encoder_capture_curves_cursor_changed (object o, EventArgs args) 
 	{
 		int lineNum = treeviewEncoderCaptureCurvesEventSelectedID();
@@ -926,6 +985,7 @@ public partial class ChronoJumpWindow
 			treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
 		}
 	}
+	*/
 	
 	// ---------helpful methods -----------
 	

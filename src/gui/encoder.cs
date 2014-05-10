@@ -278,7 +278,9 @@ public partial class ChronoJumpWindow
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
-		treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
+		//treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed;
+		//changed, now unselectable because there are the checkboxes
+
 		createEncoderCombos();
 		
 		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(

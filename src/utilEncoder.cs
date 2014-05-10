@@ -670,21 +670,6 @@ public class UtilEncoder
 		return returnStr;
 	}
 
-	public static void EncoderDeleteCurveFromSignal(string fileName, int start, int duration) {
-		string contents = Util.ReadFile(fileName, false);
-		string [] startAndDuration = encoderFindPos(contents, start, duration);
-
-		StringBuilder myStringBuilder = new StringBuilder(contents);
-		myStringBuilder.Remove(
-				Convert.ToInt32(startAndDuration[0]),
-				Convert.ToInt32(startAndDuration[1]));
-		contents = myStringBuilder.ToString();
-		
-		TextWriter writer = File.CreateText(fileName);
-		writer.Write(contents);
-		writer.Flush();
-		((IDisposable)writer).Dispose();
-	}
 
 	public static string EncoderSaveCurve(string fileNameSignal, 
 			int start, int duration, 

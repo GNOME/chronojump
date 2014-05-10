@@ -57,10 +57,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	//[Widget] Gtk.Entry entry_encoder_signal_comment;
 	[Widget] Gtk.Entry entry_encoder_curve_comment;
-	[Widget] Gtk.Button button_encoder_delete_curve;
 	[Widget] Gtk.Button button_encoder_save_curve;
-	[Widget] Gtk.Button button_encoder_save_all_curves;
 	[Widget] Gtk.Button button_encoder_export_all_curves;
+	[Widget] Gtk.Label label_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
@@ -72,6 +71,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.ComboBox combo_encoder_eccon;
 	[Widget] Gtk.Box hbox_combo_encoder_laterality;
 	[Widget] Gtk.ComboBox combo_encoder_laterality;
+	[Widget] Gtk.Box hbox_combo_encoder_capture_save_curve;
+	[Widget] Gtk.ComboBox combo_encoder_capture_save_curve;
 	[Widget] Gtk.Box hbox_combo_encoder_analyze_cross;
 	[Widget] Gtk.ComboBox combo_encoder_analyze_cross;
 	
@@ -1487,48 +1488,16 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void on_button_encoder_delete_curve_clicked (object o, EventArgs args) 
-	{
-		int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
-		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID, true);
-
-		//some start at ,5 because of the spline filtering
-		int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
-
-		int duration;
-		if( (ecconLast == "c" && selectedID == encoderCaptureCurves.Count) ||
-				(ecconLast != "c" && selectedID+1 == encoderCaptureCurves.Count) )
-			duration = -1; //until the end
-		else {
-			EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1, false);
-			if(ecconLast != "c")
-				curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+2, false);
-
-			int curveNextStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curveNext.Start)));
-			duration = curveNextStart - curveStart;
-		}
-
-		if(curve.Start != null) {
-			//Log.WriteLine(curveStart + "->" + duration);
-			UtilEncoder.EncoderDeleteCurveFromSignal(UtilEncoder.GetEncoderDataTempFileName(), curveStart, duration);
-		}
-		//force a recalculate
-		encoderCalculeCurves(encoderActions.CURVES);
-	}
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
-		Gtk.Button button = (Gtk.Button) o;
-
-		if(button == button_encoder_save_curve) {
-			int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
-			encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("curve", selectedID);
-		} else if(button == button_encoder_save_all_curves) 
-			for(int i=1; i <= UtilGtk.CountRows(encoderCaptureListStore); i++)
-				if(ecconLast == "c" || ! Util.IsEven(i)) //use only uneven (spanish: "impar") values
-					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("allCurves", i);
+		/*
+		int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
+		label_encoder_save_curve.Text = encoderSaveSignalOrCurve("curve", selectedID);
 
 		updateUserCurvesLabelsAndCombo();
+		*/
+		label_encoder_save_curve.Text = "disabled";
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
@@ -2705,8 +2674,9 @@ Log.WriteLine(str);
 	string [] encoderEcconTranslation;
 	string [] encoderLateralityTranslation;
 	string [] encoderDataCompareTranslation;
+	string [] encoderCaptureSaveTranslation;
 	string [] encoderAnalyzeCrossTranslation;
-
+	
 	protected void createEncoderCombos() {
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
@@ -2762,7 +2732,24 @@ Log.WriteLine(str);
 		UtilGtk.ComboUpdate(combo_encoder_laterality, comboLateralityOptionsTranslated, "");
 		combo_encoder_laterality.Active = UtilGtk.ComboMakeActive(combo_encoder_laterality, 
 				Catalog.GetString(comboLateralityOptions[0]));
-		
+
+		//create combo capure save curve
+		string [] comboEncoderCaptureSaveOptions = { Constants.All, Constants.None, Constants.Invert, Constants.Selected };
+		string [] comboEncoderCaptureSaveOptionsTranslated = { 
+			Catalog.GetString(Constants.All), Catalog.GetString(Constants.None), 
+			Catalog.GetString(Constants.Invert), Catalog.GetString(Constants.Selected) };
+		encoderCaptureSaveTranslation = new String [comboEncoderCaptureSaveOptions.Length];
+		for(int j=0; j < 4 ; j++)
+			encoderCaptureSaveTranslation[j] = 
+				comboEncoderCaptureSaveOptions[j] + ":" + comboEncoderCaptureSaveOptionsTranslated[j];
+		combo_encoder_capture_save_curve = ComboBox.NewText();
+		UtilGtk.ComboUpdate(combo_encoder_capture_save_curve, comboEncoderCaptureSaveOptionsTranslated, "");
+		combo_encoder_capture_save_curve.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_save_curve, 
+				Catalog.GetString(comboEncoderCaptureSaveOptionsTranslated[1])); //None
+		combo_encoder_capture_save_curve.Changed += 
+			new EventHandler(on_combo_encoder_capture_save_curve_changed );
+
+
 		//create combo analyze data compare (variables)
 		string [] comboDataCompareOptions = { 
 			"No compare", "Between persons", "Between sessions"};
@@ -2828,6 +2815,10 @@ Log.WriteLine(str);
 		hbox_encoder_analyze_data_compare.ShowAll();
 		combo_encoder_analyze_data_compare.Sensitive = true;
 		
+		hbox_combo_encoder_capture_save_curve.PackStart(combo_encoder_capture_save_curve, true, true, 0);
+		hbox_combo_encoder_capture_save_curve.ShowAll();
+		combo_encoder_capture_save_curve.Sensitive = true;
+		
 		hbox_combo_encoder_analyze_cross.PackStart(combo_encoder_analyze_cross, true, true, 0);
 		hbox_combo_encoder_analyze_cross.ShowAll(); 
 		combo_encoder_analyze_cross.Sensitive = true;
@@ -2842,6 +2833,10 @@ Log.WriteLine(str);
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
 		update_neuromuscular_profile_sensitiveness();
+	}
+	
+	void on_combo_encoder_capture_save_curve_changed (object o, EventArgs args) {
+		encoderCaptureSelect(UtilGtk.ComboGetActive(combo_encoder_capture_save_curve));
 	}
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
@@ -3245,10 +3240,10 @@ Log.WriteLine(str);
 		//c0 button_encoder_capture
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
-		//c3 button_encoder_save_all_curves, button_encoder_export_all_curves,
+		//c3 hbox_combo_encoder_capture_save_curve, button_encoder_export_all_curves,
 		//	button_encoder_delete_signal, entry_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
-		//c4 button_encoder_delete_curve , button_encoder_save_curve, entry_encoder_curve_comment
+		//c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 hbox_encoder_user_curves
 		//c7 button_encoder_capture_cancel (on capture and analyze)
@@ -3307,15 +3302,14 @@ Log.WriteLine(str);
 		
 		button_encoder_load_signal.Sensitive = Util.IntToBool(table[2]);
 		
-		button_encoder_save_all_curves.Sensitive = Util.IntToBool(table[3]);
+		hbox_combo_encoder_capture_save_curve.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
-		button_encoder_delete_curve.Sensitive = Util.IntToBool(table[4]);
 		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
-		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[3]);
+		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[4]);
 
 		bool analyze_sensitive = 
 			(

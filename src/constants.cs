@@ -635,6 +635,11 @@ public class Constants
 		JUMPS, RUNS, ENCODER
 	}
 
+	public static string All = "All";
+	public static string None = "None";
+	public static string Invert = "Invert";
+	public static string Selected = "Selected";
+
 	/*
 	 * encoder storage
 	 * chronojump / encoder / sessionID / data

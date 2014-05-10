@@ -189,6 +189,7 @@ public partial class ChronoJumpWindow
 				}
 				else {
 					path.Prev();
+					//there's no "IterPre", for this reason we use this path method:
 					encoderCaptureListStore.GetIter (out iter, path);
 				}
 
@@ -198,12 +199,56 @@ public partial class ChronoJumpWindow
 				//this makes RenderRecord work on changed row without having to put mouse there
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 			}
-
-			//TODO: call a function that checks how many checkboxes are active in order to change this 
-			//encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-			//encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
+			
+			combo_encoder_capture_save_curve.Active = UtilGtk.ComboMakeActive(
+					combo_encoder_capture_save_curve, 
+					Catalog.GetString(Constants.Selected));
+			
+			combo_encoder_capture_show_save_curve_button();
 		}
 	}
+
+	void encoderCaptureSelect(string toSelect) {
+		if(toSelect == Catalog.GetString(Constants.Selected))
+			return;
+
+		bool val = true;
+		if(toSelect == Catalog.GetString(Constants.None))
+			val = false;
+
+		TreeIter iter;
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		while(iterOk) {
+			TreePath path = encoderCaptureListStore.GetPath(iter);
+			
+			if(toSelect == Catalog.GetString(Constants.Invert))
+				val = ! ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record;
+
+			//change value
+			((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = val;
+
+			//this makes RenderRecord work on changed row without having to put mouse there
+			encoderCaptureListStore.EmitRowChanged(path,iter);
+
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
+		}
+		combo_encoder_capture_show_save_curve_button();
+	}
+	
+	void combo_encoder_capture_show_save_curve_button () {
+		TreeIter iter;
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		while(iterOk) {
+			if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
+				encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
+				return;
+			}
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
+		}
+		encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+	}
+
+
 
 	string [] treeviewEncoderAnalyzeHeaders = {
 		Catalog.GetString("Curve") + "\n",

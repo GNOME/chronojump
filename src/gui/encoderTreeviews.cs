@@ -236,6 +236,8 @@ public partial class ChronoJumpWindow
 	}
 	
 	void combo_encoder_capture_show_save_curve_button () {
+		label_encoder_save_curve.Text = "";
+
 		TreeIter iter;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		while(iterOk) {
@@ -970,67 +972,6 @@ public partial class ChronoJumpWindow
 		return curve;
 	}
 
-	private int treeviewEncoderCaptureCurvesEventSelectedID() {
-		TreeIter iter = new TreeIter();
-		TreeModel myModel = treeview_encoder_capture_curves.Model;
-		
-		if(ecconLast == "c") {
-			if (treeview_encoder_capture_curves.Selection.GetSelected (out myModel, out iter)) 
-				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_capture_curves.Model.GetValue (iter, 0))).N); //this return an int, also in ec
-		} else {
-			int selectedLength = treeview_encoder_capture_curves.Selection.GetSelectedRows().Length;
-			if(selectedLength == 1 || selectedLength == 2) { 
-				TreePath path = treeview_encoder_capture_curves.Selection.GetSelectedRows()[0];
-				myModel.GetIter(out iter, path);
-				return Convert.ToInt32(((EncoderCurve) (treeview_encoder_capture_curves.Model.GetValue (iter, 0))).N);
-			}
-		}
-		return 0;
-	}
-
-/*	
-	private void on_treeview_encoder_capture_curves_cursor_changed (object o, EventArgs args) 
-	{
-		int lineNum = treeviewEncoderCaptureCurvesEventSelectedID();
-		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-		
-		//on ecc-con select both lines
-		if(ecconLast == "c") {
-			if (lineNum > 0)
-				encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
-		} else {
-			TreeIter iter = new TreeIter();
-
-			treeview_encoder_capture_curves.CursorChanged -= on_treeview_encoder_capture_curves_cursor_changed; 
-
-			if (treeview_encoder_capture_curves.Selection.GetSelectedRows().Length == 1) 
-			{
-				treeview_encoder_capture_curves.Selection.UnselectAll();
-
-				//on even, select also previous row
-				//on odd, select also next row
-				treeview_encoder_capture_curves.Model.GetIterFirst ( out iter ) ;
-				bool isEven = (lineNum % 2 == 0); //check if it's even (in spanish "par")
-				int start = lineNum;
-				if(isEven) 
-					start = lineNum-1;
-
-				//select 1st row
-				for(int i=1; i < start; i++)
-					treeview_encoder_capture_curves.Model.IterNext (ref iter);
-				treeview_encoder_capture_curves.Selection.SelectIter(iter);
-
-				//select 2nd row
-				treeview_encoder_capture_curves.Model.IterNext (ref iter);
-				treeview_encoder_capture_curves.Selection.SelectIter(iter);
-				
-				if (treeview_encoder_capture_curves.Selection.GetSelectedRows().Length == 2) 
-					encoderButtonsSensitive(encoderSensEnum.SELECTEDCURVE);
-			}
-			treeview_encoder_capture_curves.CursorChanged += on_treeview_encoder_capture_curves_cursor_changed; 
-		}
-	}
-	*/
 	
 	// ---------helpful methods -----------
 	

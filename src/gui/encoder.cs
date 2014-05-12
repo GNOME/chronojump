@@ -1491,13 +1491,26 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
-		/*
-		int selectedID = treeviewEncoderCaptureCurvesEventSelectedID();
-		label_encoder_save_curve.Text = encoderSaveSignalOrCurve("curve", selectedID);
+		int i = 1;
+		TreeIter iter;
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		while(iterOk) {
+			//checked?
+			if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) 
+				label_encoder_save_curve.Text = encoderSaveSignalOrCurve("curve", i);
 
+			i ++;
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
+
+			//if is not "c", then there are two rows, but pass only the uneven rows (spanish: "impar")
+			//then if IsEven (par), do not use it, use the next
+			if(iterOk && ecconLast != "c" && Util.IsEven(i)) {
+				i ++;
+				iterOk = encoderCaptureListStore.IterNext (ref iter);
+			}
+		}
+		
 		updateUserCurvesLabelsAndCombo();
-		*/
-		label_encoder_save_curve.Text = "disabled";
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
@@ -1549,22 +1562,16 @@ public partial class ChronoJumpWindow
 	string encoderSaveSignalOrCurve (string mode, int selectedID) 
 	{
 		//mode is different than type. 
-		//mode can be curve, allCurves or signal
+		//mode can be curve or signal
 		//type is to print on db at type column: curve or signal + (bar or jump)
 		string signalOrCurve = "";
 		string feedback = "";
 		string fileSaved = "";
 		string path = "";
-
+		
 		if(mode == "curve") {
 			signalOrCurve = "curve";
-			decimal curveNum = (decimal) treeviewEncoderCaptureCurvesEventSelectedID(); //on c and ec: 1,2,3,4,...
-			if(ecconLast != "c")
-				curveNum = decimal.Truncate((curveNum +1) /2); //1,1,2,2,...
-			feedback = string.Format(Catalog.GetString("Curve {0} saved"), curveNum);
-		} else if(mode == "allCurves") {
-			signalOrCurve = "curve";
-			feedback = Catalog.GetString("All curves saved");
+			feedback = Catalog.GetString("Saved");
 		} else 	{	//mode == "signal"
 			signalOrCurve = "signal";
 		
@@ -1575,7 +1582,7 @@ public partial class ChronoJumpWindow
 		}
 		
 		string desc = "";
-		if(mode == "curve" || mode == "allCurves") {
+		if(mode == "curve") {
 			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
 
 			//some start at ,5 because of the spline filtering

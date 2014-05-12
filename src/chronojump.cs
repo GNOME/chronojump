@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -740,6 +740,15 @@ Console.WriteLine("--6--");
 			return false;
 	}
 
+	private bool chronojumpIsExecutingNTimesComparePids(string pidName, string pid) {
+		Process [] pids = Process.GetProcessesByName(pidName);
+
+		foreach (Process myPid in pids)
+			if (myPid.Id == Convert.ToInt32(pid))
+				return true;
+		return false;
+	}
+
 	private bool chronojumpIsExecutingNTimes() {
 		try {
 			StreamReader reader = File.OpenText(runningFileName);
@@ -749,16 +758,17 @@ Console.WriteLine("--6--");
 			//delete the '\n' that ReaderToEnd() has put
 			pid = pid.TrimEnd(new char[1] {'\n'});
 			
-			string searchName = "mono";
 			if(UtilAll.IsWindows())
-				searchName = "Chronojump";
-						
-			Process [] pids = Process.GetProcessesByName(searchName);
-			
-			foreach (Process myPid in pids)
-				if (myPid.Id == Convert.ToInt32(pid))
+				return chronojumpIsExecutingNTimesComparePids("Chronojump", pid);
+			else {
+				//in linux process was names mono, but now is named mono-sgen
+				bool found = chronojumpIsExecutingNTimesComparePids("mono", pid);
+				if(found)
 					return true;
-			return false;
+				else
+					return chronojumpIsExecutingNTimesComparePids("mono-sgen", pid);
+			}
+						
 		} catch {
 			/*
 			   if we a chronojump older that 0.8.9.8 has crashed, and now we install 0.8.9.8

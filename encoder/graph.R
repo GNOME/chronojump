@@ -530,14 +530,24 @@ findECPhases <- function(displacement,speed) {
 		concentric=concentric))
 }
 
-#TODO: this can have problems if there's an initial brake when lifting and this goes under -9.8
-#better use extrema, and if there's more than one minindex:
-#take the last minindex and it's previous maxindex
-#go from that maxindex to the minindex and on the first moment that goes under -9.8 assign propulsiveEnd there
-#Also use more this funcion (eg on paint)
-findPropulsiveEnd <- function(accel, concentric) {
-	if(length(which(accel[concentric]<=-g)) > 0) 
-		propulsiveEnd = min(which(accel[concentric] <= -g))
+findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric) {
+	if(length(which(accel[concentric]<=-g)) > 0) {
+		#this can be a problem because some people does an strange countermovement at start of concentric movement
+		#this people moves arms down and legs go up
+		#at this moment acceleration can be lower than -g
+		#if this happens, propulsiveEnd will be very early and detected jump will be very high
+		#propulsiveEnd = min(which(accel[concentric] <= -g))
+		#is exactly the same problem than findTakeOff, see that method for further help
+		#another option can be using extrema
+
+		accelCon = accel[concentric]
+		df=data.frame(accelCon <= -g, accelCon, abs(1:length(accelCon)-maxSpeedTInConcentric))
+		colnames(df)=c("belowG","accel","dist")
+		df2 = subset(df,subset=df$belowG)
+	
+		df2row = min(which(df2$dist == min(df2$dist)))
+		propulsiveEnd = as.integer(rownames(df2)[df2row])
+	}
 	else
 		propulsiveEnd = length(concentric)
 	
@@ -571,10 +581,10 @@ print(c(" smoothing:",smoothing))
 	else
 		accel=list(y=rep(0,length(displacement)))
 
-print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
-print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))
-print(c(" |ms|",round(mean(abs(speed$y)),5)," |ma|:",round(mean(abs(accel$y)),5)))
-print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
+	#print(c(" ms",round(mean(speed$y),5)," ma",round(mean(accel$y),5)))
+	#print(c(" Ms",round(max(speed$y),5)," Ma",round(max(accel$y),5)))
+	#print(c(" |ms|",round(mean(abs(speed$y)),5)," |ma|:",round(mean(abs(accel$y)),5)))
+	#print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
 
 	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 	accel$y <- accel$y * 1000 
@@ -589,14 +599,22 @@ print(c(" |Ms|",round(max(abs(speed$y)),5)," |Ma|",round(max(abs(accel$y)),5)))
 	if(isPropulsive) {
 		if(eccon=="c") {
 			concentric=1:length(displacement)
-			propulsiveEnd = findPropulsiveEnd(accel$y,concentric)
+			
+			maxSpeedT <- min(which(speed$y == max(speed$y)))
+			maxSpeedTInConcentric = maxSpeedT
+			
+			propulsiveEnd = findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
 		} else if(eccon=="ec") {
 			phases=findECPhases(displacement,speed$y)
 			eccentric = phases$eccentric
 			isometric = phases$isometric
 			concentric = phases$concentric
-			propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric)
-			print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
+			
+			maxSpeedT <- min(which(speed$y == max(speed$y)))
+			maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
+			
+			propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
+			#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 		} else if(eccon=="e") {
 			#not eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS
@@ -901,6 +919,10 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			mtext(text=paste(" ",translate("concentric"),sep=""),side=3,at=min(concentric),cex=.8,adj=0,col=cols[1],line=.5)
 		}
 	}
+	
+	maxSpeedTInConcentric = maxSpeedT
+	if(eccon != "c")
+		maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
 		
 	#on rotatory inertial, concentric-eccentric, use speed as ABS)
 	#if(inertialType == "ri" && eccon == "ce")
@@ -920,7 +942,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	propulsiveEnd = length(displacement)
 
 	if(isPropulsive) {
-		propulsiveEnd = findPropulsiveEnd(accel$y, concentric)
+		propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric)
 		if(eccon != "c")
 			propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
 	}
@@ -1027,7 +1049,6 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 	}
 
-	
 	#mark when it's air and land
 	#if it was a eccon concentric-eccentric, will be useful to calculate flight time
 	#but this eccon will be not done
@@ -1061,8 +1082,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			forceConcentric = force[concentric]
 			print(c("forceConcentric",forceConcentric))
 
-			#2 get maxSpeedT but relative to concentric, not all the ecc-con
-			maxSpeedTInConcentric = maxSpeedT - (length_eccentric + length_isometric)
+			#2 get takeoff using maxSpeedT but relative to concentric, not all the ecc-con
 			
 			takeoff = findTakeOff(forceConcentric, maxSpeedTInConcentric)
 
@@ -1088,14 +1108,16 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 				mtext(text=paste(" ",translate("land")," ",sep=""),side=3,at=landing,cex=.8,adj=0,col=cols[2])
 			}
 		}
-	
-		if(is.double(takeoff) && takeoff == -1)
+
+		print(c(is.numeric(takeoff), takeoff))
+		if(is.numeric(takeoff) && takeoff != -1) {
 			mtext(text=paste(translate("jump height"),"=", 
 					 (position[concentric[length(concentric)]] - 
 					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,
 					 "cm",sep=" "),
 			      side=3, at=( takeoff + (length_eccentric + length(concentric)) )/2,
 			      cex=.8,adj=0.5,col=cols[2])
+		}
 	}
 
 

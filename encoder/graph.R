@@ -1057,7 +1057,19 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(length(which(force[concentric] <= 0)) == 0)
 			takeoff = -1
 		else {
-			takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
+			#1 get force only in concentric phase
+			forceConcentric = force[concentric]
+			print(c("forceConcentric",forceConcentric))
+
+			#2 get maxSpeedT but relative to concentric, not all the ecc-con
+			maxSpeedTInConcentric = maxSpeedT - (length_eccentric + length_isometric)
+			
+			takeoff = findTakeOff(forceConcentric, maxSpeedTInConcentric)
+
+			#3 add eccentric and isometric
+			takeoff = takeoff + length_eccentric + length_isometric
+			print(c("takeoff",takeoff))
+			
 			abline(v=takeoff,lty=1,col=cols[2]) 
 			mtext(text=paste(translate("land")," ",sep=""),side=3,at=takeoff,cex=.8,adj=1,col=cols[2])
 			mtext(text=paste(" ", translate("air"), " ",sep=""),side=3,at=takeoff,cex=.8,adj=0,col=cols[2])
@@ -1077,7 +1089,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			}
 		}
 	
-		if(takeoff != -1)	
+		if(is.double(takeoff) && takeoff == -1)
 			mtext(text=paste(translate("jump height"),"=", 
 					 (position[concentric[length(concentric)]] - 
 					  position[concentric[(takeoff - length_eccentric - length_isometric)]])/10,

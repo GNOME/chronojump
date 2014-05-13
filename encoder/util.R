@@ -74,3 +74,54 @@ extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 }
 
 
+findTakeOff <- function(forceConcentric, maxSpeedTInConcentric) 
+{
+	#this can be a problem because some people does an strange countermovement at start of concentric movement
+	#this people moves arms down and legs go up
+	#at this moment can be a force == 0, and with this method can be detected as takeoff
+	#if this happens, takeoff will be very early and detected jump will be very high
+	#takeoff = min(which(force[concentric]<=0)) + length_eccentric + length_isometric
+
+	#then: find the force == 0 in concentric that is closer to max speed time
+
+	#------- example ------
+	#force=c(2000,1800,1600,1000,400,100,-10,-25,-5,150,400,600,200,11,-20,-60,-120,-40,5,150)
+	#maxSpeedT=17
+
+	#df=data.frame(force<0,force,abs(1:length(force)-maxSpeedT))
+	#colnames(df)=c("belowZero","force","dist")
+
+	#df2 = subset(df,subset=df$belowZero)
+	#> df2
+	#	   belowZero force dist
+	#	7       TRUE   -10   10
+	#	8       TRUE   -25    9
+	#	9       TRUE    -5    8
+	#	15      TRUE   -20    2
+	#	16      TRUE   -60    1
+	#	17      TRUE  -120    0
+	#	18      TRUE   -40    1
+
+	#min(which(df2$dist == min(df2$dist)))
+	#[1] 6
+	#------- end of example ------
+
+	#1 create df dataFrame with forceData and it's distance to maxSpeedT
+	df=data.frame(forceConcentric < 0, forceConcentric, abs(1:length(forceConcentric)-maxSpeedTInConcentric))
+	colnames(df)=c("belowZero","force","dist")
+
+	#2 create df2 with only the rows where force is below or equal zero
+	df2 = subset(df,subset=df$belowZero)
+
+	#print("df2")
+	#print(df2)
+
+	#3 find takeoff as the df2 row with less distance to maxSpeedT
+	df2row = min(which(df2$dist == min(df2$dist)))
+	takeoff = as.integer(rownames(df2)[df2row])
+
+	#print(c("takeoff",takeoff))
+
+	return(takeoff)
+}
+

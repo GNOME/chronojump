@@ -424,9 +424,12 @@ public class GenericWindow
 		textview.Buffer = tb;
 	}
 	
+	bool activateRowAcceptsWindow;
 	//data is an ArrayList of strings[], each string [] is a row, each of its strings is a column
 	public void SetTreeview(string [] columnsString, bool addCheckbox, 
-			ArrayList data, ArrayList myNonSensitiveRows, Constants.ContextMenu contextMenu) 
+			ArrayList data, ArrayList myNonSensitiveRows, Constants.ContextMenu contextMenu,
+			bool activateRowAcceptsWindow	//this param makes button_accept the window if 'enter' on a row or double click
+			) 
 	{
 		//adjust window to be bigger
 		generic_window.Resizable = true;
@@ -447,6 +450,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa1");
 Log.WriteLine("aaaaaaaaaaaaaaaa2");	
 
 		genericWinContextMenu = contextMenu;
+		this.activateRowAcceptsWindow = activateRowAcceptsWindow;
 
 		treeview.CursorChanged += on_treeview_cursor_changed; 
 		if(contextMenu == Constants.ContextMenu.EDITDELETE) {
@@ -603,6 +607,21 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 			}
 		}
 	}
+	
+	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	{
+		if(activateRowAcceptsWindow) {
+			TreeView tv = (TreeView) o;
+			TreeModel model;
+			TreeIter iter;
+
+			if (tv.Selection.GetSelected (out model, out iter)) {
+				//activate on_button_accept_clicked()
+				button_accept.Activate();
+			}
+		}
+	}
+	
 
 	private void on_treeview_button_release_event (object o, ButtonReleaseEventArgs args) {
 		//TreeviewSelectedUniqueID = -1;

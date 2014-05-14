@@ -24151,6 +24151,7 @@ One serie can contain several tests.</property>
                   <widget class="GtkTreeView" id="treeview">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <signal name="row_activated" handler="on_row_double_clicked" swapped="no"/>
                   </widget>
                 </child>
               </widget>

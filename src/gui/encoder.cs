@@ -1502,8 +1502,8 @@ public partial class ChronoJumpWindow
 			i ++;
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 
-			//if is not "c", then there are two rows, but pass only the uneven rows (spanish: "impar")
-			//then if IsEven (par), do not use it, use the next
+			//if is not "c", then there are two rows, but pass only the odd rows
+			//then if IsEven, do not use it, use the next
 			if(iterOk && ecconLast != "c" && Util.IsEven(i)) {
 				i ++;
 				iterOk = encoderCaptureListStore.IterNext (ref iter);

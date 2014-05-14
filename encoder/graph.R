@@ -177,7 +177,7 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 
 		title(title, cex.main=1, font.main=1)
 		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translate("height"),"(cm)"),side=2,adj=1,line=-1)
+		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	return(displacementPerson)
 }
@@ -311,7 +311,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 
 		title(title, cex.main=1, font.main=1)
 		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translate("height"),"(cm)"),side=2,adj=1,line=-1)
+		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
 	}
 	return(as.data.frame(cbind(start,end,startH)))
 }
@@ -1251,7 +1251,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		}
 		if(showLabels) {
 			mtext(paste(translate("time"),"(ms)"),side=1,adj=1,line=-1,cex=.9)
-			mtext(paste(translate("height"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
+			mtext(paste(translate("displacement"),"(mm)"),side=2,adj=1,line=-1,cex=.9)
 		}
 	}
 }

@@ -821,7 +821,7 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_done);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_show_curves_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_encoder_show_curves_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_show_curves_row_delete_pre);
 
 		//used when we don't need to read data, 
 		//and we want to ensure next window will be created at needed size
@@ -908,6 +908,15 @@ public partial class ChronoJumpWindow
 		updateUserCurvesLabelsAndCombo();
 	}
 	
+	protected void on_encoder_show_curves_row_delete_pre (object o, EventArgs args) {
+		if(askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this curve?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
+		} else
+			on_encoder_show_curves_row_delete (o, args);
+	}
+	
 	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
 		Log.WriteLine("row delete at show curves");
 
@@ -921,6 +930,7 @@ public partial class ChronoJumpWindow
 			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 			updateUserCurvesLabelsAndCombo();
 		}
+		genericWin.Delete_row_accepted();
 	}
 	
 	
@@ -1186,7 +1196,7 @@ public partial class ChronoJumpWindow
 		genericWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_accepted);
 		genericWin.Button_row_edit.Clicked += new EventHandler(on_encoder_load_signal_row_edit);
 		genericWin.Button_row_edit_apply.Clicked += new EventHandler(on_encoder_load_signal_row_edit_apply);
-		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
+		genericWin.Button_row_delete.Clicked += new EventHandler(on_encoder_load_signal_row_delete_pre);
 
 		genericWin.ShowNow();
 	}
@@ -1271,6 +1281,15 @@ public partial class ChronoJumpWindow
 		genericWin.ShowEditRow(false);
 	}
 	
+	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
+		if(askDeletion) {
+			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"Are you sure you want to delete this signal?"), "", "");
+			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
+		} else
+			on_encoder_load_signal_row_delete (o, args);
+	}
+	
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
 		Log.WriteLine("row delete at load signal");
 
@@ -1290,6 +1309,7 @@ public partial class ChronoJumpWindow
 			//genericWin selected row is deleted, unsensitive the "load" button
 			genericWin.SetButtonAcceptSensitive(false);
 		}
+		genericWin.Delete_row_accepted();
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 

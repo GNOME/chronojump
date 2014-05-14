@@ -670,11 +670,14 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	}
 
 	private void on_delete_selected_clicked (object o, EventArgs args) {
-		//remove selected row from treeview
-		store = UtilGtk.RemoveRow(treeview, store);
-
 		//activate button to manage on gui/encoder.cs in order to delete from SQL
 		button_row_delete.Click();
+	}
+
+	//if confirmed deletion, this will be called
+	public void Delete_row_accepted() {
+		//remove selected row from treeview
+		store = UtilGtk.RemoveRow(treeview, store);
 	}
 
 	

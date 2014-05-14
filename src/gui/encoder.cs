@@ -544,7 +544,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("If there is more than one value for an exercise,\nthe used value is the top one."),
 				bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE, false);
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
@@ -798,7 +798,7 @@ public partial class ChronoJumpWindow
 				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
 				bigArray);
 
-		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE);
+		genericWin.SetTreeview(columnsString, true, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, false);
 		genericWin.AddOptionsToComboCheckBoxesOptions(encoderExercisesNames);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
@@ -1005,7 +1005,7 @@ public partial class ChronoJumpWindow
 				string.Format(Catalog.GetString("Select persons to compare to {0}."), 
 					currentPerson.Name), bigArray);
 
-		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE);
+		genericWin.SetTreeview(columnsString, true, data, nonSensitiveRows, Constants.ContextMenu.NONE, false);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -1104,7 +1104,7 @@ public partial class ChronoJumpWindow
 			dataConverted.Add(encPS.ToStringArray());
 		}
 
-		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE);
+		genericWin.SetTreeview(columnsString, true, dataConverted, nonSensitiveRows, Constants.ContextMenu.NONE, false);
 		genericWin.CreateComboCheckBoxes();
 		genericWin.MarkActiveCurves(checkboxes);
 		genericWin.ShowButtonCancel(false);
@@ -1176,7 +1176,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
 
-		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE);
+		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, true);
 	
 		//find all persons in current session
 		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);

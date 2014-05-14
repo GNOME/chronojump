@@ -3730,7 +3730,7 @@ Log.WriteLine(str);
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
 			ArrayList data4Variables, bool capturing) 
 	{
-		Log.WriteLine("at plotCurvesGraphDoPlot");
+		//Log.WriteLine("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;

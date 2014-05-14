@@ -39,17 +39,17 @@ public partial class ChronoJumpWindow
 		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
 
 		string [] columnsString = {
-			Catalog.GetString("Curve") + "\n",
+			Catalog.GetString("n") + "\n",
 			Catalog.GetString("Start") + "\n (s)",
 			Catalog.GetString("Duration") + "\n (s)",
-			Catalog.GetString("Range") + "\n (cm)",
-			Catalog.GetString("MeanSpeed") + "\n (m/s)",
-			Catalog.GetString("MaxSpeed") + "\n (m/s)",
-			Catalog.GetString("MaxSpeedTime") + "\n (s)",
-			Catalog.GetString("MeanPower") + "\n (W)",
-			Catalog.GetString("PeakPower") + "\n (W)",
-			Catalog.GetString("PeakPowerTime") + "\n (s)",
-			Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
+			Catalog.GetString("Distance") + "\n (cm)",
+			"v" + "\n (m/s)",
+			"vmax" + "\n (m/s)",
+			"t->vmax" + "\n (s)",
+			"p" + "\n (W)",
+			"pmax" + "\n (W)",
+			"t->pmax" + "\n (s)",
+			"pmax/t->pmax" + "\n (W/s)"
 		};
 
 		encoderCaptureCurves = new ArrayList ();
@@ -260,14 +260,14 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Displaced weight") + "\n (Kg)",
 		Catalog.GetString("Start") + "\n (s)",
 		Catalog.GetString("Duration") + "\n (s)",
-		Catalog.GetString("Range") + "\n (cm)",
-		Catalog.GetString("MeanSpeed") + "\n (m/s)",
-		Catalog.GetString("MaxSpeed") + "\n (m/s)",
-		Catalog.GetString("MaxSpeedTime") + "\n (s)",
-		Catalog.GetString("MeanPower") + "\n (W)",
-		Catalog.GetString("PeakPower") + "\n (W)",
-		Catalog.GetString("PeakPowerTime") + "\n (s)",
-		Catalog.GetString("PeakPower/PPT") + "\n (W/s)"
+		Catalog.GetString("Distance") + "\n (cm)",
+		"v" + "\n (m/s)",
+		"vmax" + "\n (m/s)",
+		"t->vmax" + "\n (s)",
+		"p" + "\n (W)",
+		"pmax" + "\n (W)",
+		"t->pmax" + "\n (s)",
+		"pmax/t->pmax" + "\n (W/s)"
 	};
 
 	bool lastTreeviewEncoderAnalyzeIsNeuromuscular = false;
@@ -762,7 +762,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,9,3),Convert.ToDouble(curve.MeanPower));
+			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,9,1),Convert.ToDouble(curve.MeanPower));
 	}
 
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -780,7 +780,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,9,3),Convert.ToDouble(curve.PeakPower));
+			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,9,1),Convert.ToDouble(curve.PeakPower));
 	}
 
 	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

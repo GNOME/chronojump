@@ -68,7 +68,7 @@ public class ConfirmWindowJumpRun
 		ConfirmWindowJumpRunBox.confirm_window.Hide();
 		ConfirmWindowJumpRunBox = null;
 	}
-	
+
 	protected void on_delete_selected_jump_delete_event (object o, DeleteEventArgs args)
 	{
 		ConfirmWindowJumpRunBox.confirm_window.Hide();

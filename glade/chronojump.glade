@@ -5518,6 +5518,12 @@ Second Chronopic to platforms.</property>
                                                     <child>
                                                       <placeholder/>
                                                     </child>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -6106,6 +6112,12 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -6854,6 +6866,12 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -7335,6 +7353,12 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -14333,6 +14357,7 @@ Evaluator can use real name or nickname.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15122,6 +15147,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15167,6 +15193,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15387,6 +15414,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15449,6 +15477,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15909,6 +15938,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -15967,6 +15997,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -16220,6 +16251,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -16363,6 +16395,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_close_button_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -16475,6 +16508,7 @@ Just select and then close this window.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -16666,6 +16700,12 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -17068,6 +17108,12 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -17850,6 +17896,18 @@ by you</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -19299,6 +19357,7 @@ comments</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -20295,6 +20354,7 @@ comments</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -21002,6 +21062,7 @@ comments</property>
                         <property name="receives_default">True</property>
                         <property name="use_stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                        <accelerator key="Escape" signal="clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -21406,6 +21467,7 @@ comments</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_closebutton_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -21487,6 +21549,7 @@ comments</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -22522,6 +22585,7 @@ comments</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -22977,6 +23041,7 @@ comments</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -23503,6 +23568,7 @@ One serie can contain several tests.</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -24184,6 +24250,7 @@ One serie can contain several tests.</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -24712,6 +24779,7 @@ options</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -24794,6 +24862,7 @@ options</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -24956,6 +25025,7 @@ options</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_accept_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -25378,6 +25448,42 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -25403,6 +25509,7 @@ options</property>
                         <property name="receives_default">False</property>
                         <property name="use_stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                        <accelerator key="Escape" signal="clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -26439,6 +26546,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -26638,6 +26746,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -26696,6 +26805,7 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -27165,6 +27275,12 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -27610,6 +27726,12 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -28770,6 +28892,7 @@ show elevation as:</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -29392,6 +29515,12 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -29418,6 +29547,12 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -29526,6 +29661,12 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -29790,6 +29931,7 @@ show elevation as:</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -30108,6 +30250,7 @@ show elevation as:</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -32650,6 +32793,7 @@ show elevation as:</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -33409,6 +33553,7 @@ show elevation as:</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -34081,6 +34226,7 @@ suitable for agility tests and RSA)</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -34681,6 +34827,7 @@ suitable for agility tests and RSA)</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -34807,6 +34954,7 @@ suitable for agility tests and RSA)</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -35253,6 +35401,7 @@ times</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_close_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -35334,6 +35483,7 @@ times</property>
                         <property name="tooltip" translatable="yes">Cancel connection with server</property>
                         <property name="use_stock">True</property>
                         <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                        <accelerator key="Escape" signal="clicked"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -35613,6 +35763,7 @@ times</property>
                 <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>

@@ -3759,7 +3759,10 @@ Log.WriteLine(str);
 
 		int left_margin = 10;
 		int right_margin = 0;
-		int vert_margin = 35;
+		int top_margin = 35;
+		int bottom_margin = 18;
+		//bars will be plotted here
+		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
 	
 		string title = "";	
 		//plot title	
@@ -3808,9 +3811,10 @@ Log.WriteLine(str);
 			if(d < 0)
 				d *= -1;
 
-			dHeight = Convert.ToInt32(( graphHeight - vert_margin ) * d / max * 1.0);
-			//height should be inverted 
-			dHeight = graphHeight - dHeight;
+			dHeight = Convert.ToInt32(graphHeightSafe * d / max * 1.0);
+			int dBottom = graphHeight - bottom_margin;
+			int dTop = dBottom - dHeight;
+
 
 			if (data.Count == 1)	//do not fill all the screen with only one bar
 				dWidth = Convert.ToInt32((graphWidth - left_margin - right_margin) / 2.0); 
@@ -3830,6 +3834,26 @@ Log.WriteLine(str);
 				if(Util.IsEven(count +1)) //par
 					dLeft = Convert.ToInt32(dLeft - sep * sep_ec_mult);
 			}
+			
+			//add text on the bottom
+			if (eccon == "c" || Util.IsEven(count +1)) { //par
+				int startX = Convert.ToInt32(dLeft + dWidth/2);
+				string bottomText = (count +1).ToString();
+				if (eccon != "c") {
+					startX = dLeft;
+					bottomText = ((count +1) / 2).ToString();
+				}
+
+				layout_encoder_capture_curves_bars.SetMarkup(bottomText);
+				textWidth = 1;
+				textHeight = 1;
+				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+						Convert.ToInt32( startX - textWidth/2), //x
+						Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2), //y 
+						layout_encoder_capture_curves_bars);
+			}
+
 
 			//just in case there are too much bars
 			if(dWidth < 1)
@@ -3853,7 +3877,7 @@ Log.WriteLine(str);
 				my_pen = pen_azul_encoder_capture;
 
 			//paint bar:	
-			Rectangle rect = new Rectangle(dLeft, dHeight, dWidth, graphHeight);
+			Rectangle rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 
@@ -3868,10 +3892,9 @@ Log.WriteLine(str);
 			textHeight = 1;
 			layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
 			encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dHeight - 15, //x, y 
+					Convert.ToInt32( (dLeft + dWidth/2) - textWidth/2), dTop - 15, //x, y 
 					layout_encoder_capture_curves_bars);
 			//end of: write the result
-
 
 			//paint diagonal line to distinguish eccentric-concentric	
 			if (eccon == "ec" || eccon == "ecS") {
@@ -3879,10 +3902,10 @@ Log.WriteLine(str);
 			
 				if(isEven)
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
-							dLeft, graphHeight, dLeft + dWidth, dHeight);
+							dLeft, dBottom, dLeft + dWidth, dTop);
 				else
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
-							dLeft, dHeight, dLeft + dWidth, graphHeight);
+							dLeft, dTop, dLeft + dWidth, dBottom);
 			}
 
 			count ++;

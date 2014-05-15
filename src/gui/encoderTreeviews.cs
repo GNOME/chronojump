@@ -205,6 +205,8 @@ public partial class ChronoJumpWindow
 					Catalog.GetString(Constants.Selected));
 			
 			combo_encoder_capture_show_save_curve_button();
+			
+			callPlotCurvesGraphDoPlot();
 		}
 	}
 
@@ -233,6 +235,8 @@ public partial class ChronoJumpWindow
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		combo_encoder_capture_show_save_curve_button();
+			
+		callPlotCurvesGraphDoPlot();
 	}
 	
 	void combo_encoder_capture_show_save_curve_button () {

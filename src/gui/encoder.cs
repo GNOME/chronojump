@@ -248,6 +248,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_green_encoder_capture;
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_white_encoder_capture;
+	Gdk.GC pen_yellow_encoder_capture;
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -3797,9 +3798,14 @@ Log.WriteLine(str);
 		
 		string eccon = findEccon(true);
 
+		Rectangle rect;
 		Gdk.GC my_pen;
 		int dLeft = 0;
 		int count = 0;
+	
+		//to show saved curves on DoPlot	
+		TreeIter iter;
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		foreach(double dFor in data) {
 			int dWidth = 0;
 			int dHeight = 0;
@@ -3848,9 +3854,19 @@ Log.WriteLine(str);
 				textWidth = 1;
 				textHeight = 1;
 				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+				int myX = Convert.ToInt32( startX - textWidth/2);
+				int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
+				
+				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
+				if(iterOk)
+					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
+						rect = new Rectangle(myX -2, myY -2, textWidth +4, textHeight +4);
+						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+					}
+				
+				//write the text
 				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-						Convert.ToInt32( startX - textWidth/2), //x
-						Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2), //y 
+						myX, myY,
 						layout_encoder_capture_curves_bars);
 			}
 
@@ -3877,7 +3893,7 @@ Log.WriteLine(str);
 				my_pen = pen_azul_encoder_capture;
 
 			//paint bar:	
-			Rectangle rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
+			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(my_pen, true, rect);
 			encoder_capture_curves_bars_pixmap.DrawRectangle(pen_black_encoder_capture, false, rect);
 
@@ -3909,10 +3925,22 @@ Log.WriteLine(str);
 			}
 
 			count ++;
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		//end plot bars
 		
 		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
+	}
+
+	private void callPlotCurvesGraphDoPlot() {
+		if(captureCurvesBarsData.Count > 0) {
+			string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+			double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+			double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+			plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+					false);	//not capturing
+		} else
+			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 	}
 
 	int encoder_capture_curves_allocationXOld;
@@ -3931,14 +3959,7 @@ Log.WriteLine(str);
 		{
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 
-			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						false);	//not capturing
-			} else
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+			callPlotCurvesGraphDoPlot();
 			
 			encoder_capture_curves_sizeChanged = false;
 		}
@@ -3962,15 +3983,8 @@ Log.WriteLine(str);
 			encoder_capture_curves_bars_pixmap = new Gdk.Pixmap (
 					encoder_capture_curves_bars_drawingarea.GdkWindow, allocation.Width, allocation.Height, -1);
 			
-			if(captureCurvesBarsData.Count > 0) {
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
-						false);	//not capturing
-			} else
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-
+			callPlotCurvesGraphDoPlot();
+			
 			encoder_capture_curves_sizeChanged = false;
 		}
 
@@ -4177,6 +4191,7 @@ Log.WriteLine(str);
 		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
@@ -4184,12 +4199,14 @@ Log.WriteLine(str);
 		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
+		colormap.AllocColor (ref UtilGtk.YELLOW,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
+		pen_yellow_encoder_capture.Foreground = UtilGtk.YELLOW;
 	}
 
 	private bool pulseGTKEncoderCaptureAndCurves ()

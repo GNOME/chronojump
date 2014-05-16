@@ -874,7 +874,7 @@ public class EncoderConfiguration {
 			code = "Linear - inertial machine";
 			text = Catalog.GetString("Linear encoder on inertia machine.") + "\n" + 
 				Catalog.GetString("Configuration NOT Recommended! Please use a rotary encoder.") + "\n" +
-				Catalog.GetString("Person has to start fully extended (on the toes).");
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*";
 			
 			has_d = true;
 			has_inertia = true;
@@ -976,7 +976,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderFrictionSideInertial;
 			code = "Rotary friction - inertial machine side";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine side.") + "\n" +
-				Catalog.GetString("Person has to start fully extended (on the toes).");
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*";
 
 			has_d = true;
 			has_D = true;
@@ -988,7 +988,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderFrictionAxisInertial;
 			code = "Rotary friction axis - inertial machine axis";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine axis.") + "\n" +
-				Catalog.GetString("Person has to start fully extended (on the toes).");
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*";
 
 			has_d = true;
 			has_inertia = true;
@@ -1015,7 +1015,7 @@ public class EncoderConfiguration {
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine.") + "\n" +
-			Catalog.GetString("Person has to start fully extended (on the toes).");
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*";
 
 			has_d = true;
 			has_inertia = true;

@@ -1288,11 +1288,11 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	#peakPower is always ABS
 	if(Eccon == "c") {
 		powerName = translate("Power")
-		peakPowerName = paste(translate("Peak Power"),"(ABS)")
+		peakPowerName = translate("Peak Power")
 	}
 	else {
-		powerName = paste(translate("Power"),"(ABS)")
-		peakPowerName = paste(translate("Peak Power"),"(ABS)")
+		powerName = translate("Power")
+		peakPowerName = translate("Peak Power")
 	}
 
 	print("powerData")
@@ -2836,7 +2836,7 @@ doProcess <- function(options) {
 						    kn$speedy, kn$accely, kn$force, kn$power))
 		}
 
-		rownames(df) = c("MEAN (ABS)", "MAX", "TIME TO MAX", "RANGE", 1:maxLength)
+		rownames(df) = c("MEAN", "MAX", "TIME TO MAX", "RANGE", 1:maxLength)
 		colnames(df) = namesNums
 
 		#TODO: time

@@ -3026,8 +3026,15 @@ Log.WriteLine(str);
 				encoderExercisesTranslationAndBodyPWeight);
 		if(Util.IsNumber(found, false))
 			return Convert.ToInt32(found);
-		else
-			return -1;
+		else {
+			//try untranslated
+			found = Util.FindOnArray(':', 1, 3, name, 
+					encoderExercisesTranslationAndBodyPWeight);
+			if(Util.IsNumber(found, false))
+				return Convert.ToInt32(found);
+			else
+				return -1;
+		}
 	}
 	int getExercisePercentBodyWeightFromCombo () {
 		return getExercisePercentBodyWeightFromName (UtilGtk.ComboGetActive(combo_encoder_exercise));

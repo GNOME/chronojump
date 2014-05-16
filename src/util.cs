@@ -926,6 +926,40 @@ public class Util
 		}
 	}
 
+	//returns int [] of encoder signal or curve
+	//currently used on db conversion 1.05 -> 1.06
+	public static int [] ReadFileAsInts(string fileName)
+	{
+		string contents;
+		try {
+			StreamReader reader = File.OpenText(fileName);
+			contents = reader.ReadToEnd ();
+			reader.Close();
+		} catch {
+			return new int [] {};
+		}
+	
+		//create ints file bigger enought to hold all possible values 	
+		int [] ints = new int [contents.Length];
+		int count = 0;
+		for(int i=0; i < contents.Length; i++) {
+			if(Char.IsDigit(contents[i])) {
+				ints[count] = Convert.ToInt32(contents[i]);
+				if(i > 0 && contents[i-1] == '-')
+					ints[count] *= -1;
+				
+				count ++;
+			}
+		}
+		
+		//create int [] with the needed sized
+		int [] intsCut = new int [count];
+		for(int i=0; i < count; i ++)
+			intsCut[i] = ints[i];
+
+		return intsCut;
+	}
+
 
 	public static void RunRScript(string rScript){
 		//CancelRScript = false;

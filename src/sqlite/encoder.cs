@@ -295,6 +295,34 @@ class SqliteEncoder : Sqlite
 	}
 
 	
+	protected internal static void createTableEncoderSignalCurve()
+	{
+		dbcmd.CommandText = 
+			"CREATE TABLE " + Constants.EncoderSignalCurveTable + " ( " +
+			"signalID INT, " +
+			"curveID INT, " +
+			"eccon TEXT, " +	//"c", "ecS", "ceS"
+			"msCentral INT, " +
+		       	"future1 TEXT )";
+		dbcmd.ExecuteNonQuery();
+	}
+	
+	public static void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, string eccon, int msCentral)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
+			" (signalID, curveID, eccon, msCentral, future1) VALUES (" + 
+			signalID + ", " + curveID + ", '" + eccon + "', " + msCentral + ", '')";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if(! dbconOpened)
+			dbcon.Close();
+	}
+	
+	
 
 	/*
 	 * EncoderExercise stuff
@@ -624,10 +652,10 @@ class SqliteEncoder : Sqlite
 
 		int c;
 		for(int s=0; s < signalInts.Length; s ++) {
-			for(c=0; c < curveInts.Length; c ++) {
+			for(c=0; c < curveInts.Length && (s + c < signalInts.Length); c ++)
 				if(signalInts[s + c] != curveInts[c])
 					break;
-			}
+			
 			if(c == curveInts.Length) {
 				Log.WriteLine("Start at: " + s);
 				Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
@@ -636,6 +664,29 @@ class SqliteEncoder : Sqlite
 		}
 
 		return -1;
+	}
+
+	public static void ConvertTo1_06()
+	{
+		//TODO: do it on sqlite main in order to see the conversion progressbar
+		ArrayList signals = Select(true, -1, -1, -1, "signal", false);
+		ArrayList curves = Select(true, -1, -1, -1, "curve", false);
+
+		//in 1.05 curves can be related to signals only by date
+		foreach(EncoderSQL c in curves) {
+			foreach(EncoderSQL s in signals) {
+				if(s.GetDate(false) == c.GetDate(false)) {
+					 Log.WriteLine(s.sessionID.ToString() + "-" + c.sessionID.ToString());
+					 int msCentral = FindCurveInSignal(s.GetFullURL(false), c.GetFullURL(false));
+					 if(msCentral == -1)
+						 Log.WriteLine("TODO: NEED CREATE SIGNAL: " + s.GetDate(false));
+					 else
+						 Log.WriteLine(msCentral.ToString());
+				}
+			}
+		}
+		
+		//when insert, check duplicates, orphanes and merge curves commentaries
 	}
 	
 

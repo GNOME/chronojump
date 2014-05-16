@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.05";
+	static string lastChronojumpDatabaseVersion = "1.06";
 
 	public Sqlite() {
 	}
@@ -1492,6 +1492,19 @@ class Sqlite
 
 				currentVersion = "1.05";
 			}
+			if(currentVersion == "1.05") {
+				dbcon.Open();
+
+				SqliteEncoder.ConvertTo1_06();
+
+				//Log.WriteLine("Curves are now related to signals ");
+				//SqlitePreferences.Update ("databaseVersion", "1.06", true); 
+				
+				dbcon.Close();
+
+				//currentVersion = "1.06";
+			}
+		
 		
 
 				
@@ -1609,6 +1622,7 @@ class Sqlite
 		//encoder	
 		creationRate ++;
 		SqliteEncoder.createTableEncoder();
+		SqliteEncoder.createTableEncoderSignalCurve();
 		SqliteEncoder.createTableEncoderExercise();
 		SqliteEncoder.initializeTableEncoderExercise();
 		SqliteEncoder.createTable1RM();
@@ -1634,6 +1648,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.05 - 1-06 Converted DB to 1.06 Curves are now related to signals
 		//1.04 - 1-05 Converted DB to 1.05 Removed inertial curves, because sign was not checked on 1.04 when saving curves
 		//1.03 - 1-04 Converted DB to 1.04 Encoder table improved
 		//1.02 - 1-03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration

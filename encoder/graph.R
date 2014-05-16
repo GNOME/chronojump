@@ -1316,6 +1316,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			xlab="",ylab=paste(translate("Power"),"(W)"), 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
+	box()
 	mtext(paste(translate("Curve")," \n",translate("Load")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
 
 	axisLineRight=0
@@ -1612,6 +1613,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		axis(4,col=colBalls)
 		mtext(varY, side=4, line=3, col=colBalls)
 	}
+	box()
 
 }
 

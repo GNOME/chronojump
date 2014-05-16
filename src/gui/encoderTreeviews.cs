@@ -261,7 +261,7 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Series") + "\n",
 		Catalog.GetString("Exercise") + "\n",
 		Catalog.GetString("Extra weight") + "\n (Kg)",
-		Catalog.GetString("Displaced weight") + "\n (Kg)",
+		Catalog.GetString("Total weight") + "\n (Kg)",
 		Catalog.GetString("Start") + "\n (s)",
 		Catalog.GetString("Duration") + "\n (s)",
 		Catalog.GetString("Distance") + "\n (cm)",
@@ -284,10 +284,10 @@ public partial class ChronoJumpWindow
 		//write exercise and extra weight data
 		ArrayList curvesData = new ArrayList();
 		string exerciseName = "";
-		double displacedMass = 0; 
+		double totalMass = 0; 
 		if(check_encoder_analyze_signal_or_curves.Active) {	//current signal
 			exerciseName = UtilGtk.ComboGetActive(combo_encoder_exercise);
-			displacedMass = findMass(Constants.MassType.DISPLACED);
+			totalMass = findMass(Constants.MassType.DISPLACED);
 		} else {						//user curves
 			curvesData = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", true);
@@ -312,20 +312,25 @@ public partial class ChronoJumpWindow
 				
 				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
 					/*
+					 * better don't do this to avoid calling SQL in both treads
 					EncoderSQL eSQL = (EncoderSQL) curvesData[curvesCount];
 					exerciseName = eSQL.exerciseName;
-					displacedMass = eSQL.extraWeight;
+					totalMass = eSQL.extraWeight;
 					*/
 					exerciseName = cells[2];
-					displacedMass = Convert.ToDouble(cells[4]);
+					//cells[3]: massBody
+					//cells[4]: massExtra
+
+					totalMass = Convert.ToDouble(cells[3]) * getExercisePercentBodyWeightFromName (exerciseName) / 100.0
+						+ Convert.ToDouble(cells[4]);
 				}
 
 				encoderAnalyzeCurves.Add (new EncoderCurve (
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
-						       	massWithoutPerson(displacedMass, exerciseName),
-							displacedMass,
+							Convert.ToDouble(cells[4]),
+							totalMass,
 							cells[5], cells[6], cells[7], 
 							cells[8], cells[9], cells[10], 
 							cells[11], cells[12], cells[13],

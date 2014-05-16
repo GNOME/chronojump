@@ -740,6 +740,7 @@ public class Constants
 		FIRST, AVERAGE, LAST
 	}
 	
+	//DISPLACED means: total
 	public enum MassType {
 		BODY, EXTRA, DISPLACED
 	}	

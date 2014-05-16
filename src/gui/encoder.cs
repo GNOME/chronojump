@@ -2343,21 +2343,12 @@ Log.WriteLine(str);
 
 		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
 	}
-	
+
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
 		bool signal = check_encoder_analyze_signal_or_curves.Active;
 
 		if(signal) {
 			int rows = UtilGtk.CountRows(encoderCaptureListStore);
-
-			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
-
-			bool analyze_sensitive = (rows > 0);
-			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
-				analyze_sensitive = curvesNumOkToSideCompare();
-				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
-			}
-			button_encoder_analyze.Sensitive = analyze_sensitive;
 
 			hbox_encoder_user_curves.Visible = false;
 
@@ -2390,14 +2381,6 @@ Log.WriteLine(str);
 				updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 			}
 
-			bool analyze_sensitive = (currentPerson != null && 
-					UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
-			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
-				analyze_sensitive = curvesNumOkToSideCompare();
-				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
-			}
-			button_encoder_analyze.Sensitive = analyze_sensitive;
-
 			hbox_encoder_user_curves.Visible = currentPerson != null;
 
 			radiobutton_encoder_analyze_powerbars.Sensitive = true;
@@ -2405,6 +2388,8 @@ Log.WriteLine(str);
 			radiobutton_encoder_analyze_side.Sensitive = true;
 			update_neuromuscular_profile_sensitiveness();
 		}
+			
+		button_encoder_analyze_sensitiveness();
 
 		image_encoder_analyze_current_signal.Visible 	= signal;
 		label_encoder_analyze_current_signal.Visible	= signal;
@@ -2474,6 +2459,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 
 	/*
@@ -2496,6 +2482,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		on_combo_encoder_analyze_cross_changed (obj, args);
+		button_encoder_analyze_sensitiveness();
 	}
 	*/
 	private void on_radiobutton_encoder_analyze_side_toggled (object obj, EventArgs args) {
@@ -2517,6 +2504,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 	private void on_radiobutton_encoder_analyze_powerbars_toggled (object obj, EventArgs args) {
 		hbox_encoder_analyze_curve_num.Visible=false;
@@ -2536,6 +2524,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 	
 	private void on_radiobutton_encoder_analyze_cross_toggled (object obj, EventArgs args) {
@@ -2555,6 +2544,7 @@ Log.WriteLine(str);
 		on_combo_encoder_analyze_cross_changed (obj, args);
 
 		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 	
 	private void on_radiobutton_encoder_analyze_neuromuscular_profile_toggled (object obj, EventArgs args) {
@@ -2575,6 +2565,7 @@ Log.WriteLine(str);
 		check_encoder_analyze_mean_or_max.Sensitive = false;
 		
 		encoderButtonsSensitive(encoderSensEnumStored);
+		button_encoder_analyze_sensitiveness();
 	}
 	
 	private void update_neuromuscular_profile_sensitiveness() {
@@ -3247,6 +3238,7 @@ Log.WriteLine(str);
 		}
 	
 		encoderButtonsSensitive(encoderSensEnum.YESPERSON);
+		button_encoder_analyze_sensitiveness();
 		treeviewEncoderCaptureRemoveColumns();
 		if(encoder_capture_curves_bars_pixmap != null) 
 			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -3365,6 +3357,31 @@ Log.WriteLine(str);
 		
 		button_encoder_capture_finish.Sensitive = Util.IntToBool(table[8]);
 	}
+	
+	private void button_encoder_analyze_sensitiveness() {
+		bool analyze_sensitive = false;
+		bool signal = check_encoder_analyze_signal_or_curves.Active;
+		if(signal) {
+			int rows = UtilGtk.CountRows(encoderCaptureListStore);
+			
+			//button_encoder_analyze.Sensitive = encoderTimeStamp != null;
+			
+			analyze_sensitive = (rows > 0);
+			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+				analyze_sensitive = curvesNumOkToSideCompare();
+				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+			}
+		} else {
+			analyze_sensitive = (currentPerson != null && 
+					UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo) != "");
+			if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
+				analyze_sensitive = curvesNumOkToSideCompare();
+				label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
+			}
+		}
+		button_encoder_analyze.Sensitive = analyze_sensitive;
+	}
+
 
 	/* end of sensitivity stuff */	
 	

@@ -586,6 +586,57 @@ class SqliteEncoder : Sqlite
 
 		return array;
 	}
+
+
+	/* 
+	 * database conversions	
+	 */
+
+	//convert from DB 1.05 to 1.06
+	//1.06 have curves connected to signals
+	//as curves detection on every signal can change depending on smoothing, minimal_height, ...
+	//1.06 needs to know where the curve is located in the signal
+	//starting ms is not reliable because changes with smoothing
+	//use central millisecond.
+	//
+	//this method will find where the central millisecond of a curve is located in a signal
+	//and this will be stored in 1.06 in new EncoderSignalCurve table
+	//signalID,curveID,contraction(c,ecS,ceS),msCentral
+	//encoder table will continue with signals and curves because we don't want to break things now
+	//
+	//as explained, following method is only used in conversions from 1.05 to 1.06
+	//newly saved curves in 1.06 will write msCentral in EncoderSignalCurve table without needing this method
+	public static int FindCurveInSignal(string signalFile, string curveFile) 
+	{
+		int [] signalInts = Util.ReadFileAsInts(signalFile);
+		/*	
+		Log.WriteLine("found INTS");
+		for(int i=0; i < signalInts.Length; i ++)
+			Log.Write(signalInts[i] + " ");
+		*/	
+
+		int [] curveInts = Util.ReadFileAsInts(curveFile);
+		/*
+		Log.WriteLine("found INTS");
+		for(int i=0; i < curveInts.Length; i ++)
+			Log.Write(curveInts[i] + " ");
+		*/
+
+		int c;
+		for(int s=0; s < signalInts.Length; s ++) {
+			for(c=0; c < curveInts.Length; c ++) {
+				if(signalInts[s + c] != curveInts[c])
+					break;
+			}
+			if(c == curveInts.Length) {
+				Log.WriteLine("Start at: " + s);
+				Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
+				return s + Convert.ToInt32(c / 2);
+			}
+		}
+
+		return -1;
+	}
 	
 
 }

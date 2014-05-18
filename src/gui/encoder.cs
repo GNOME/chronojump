@@ -250,7 +250,7 @@ public partial class ChronoJumpWindow
 	Gdk.GC pen_green_encoder_capture;
 	Gdk.GC pen_red_encoder_capture;
 	Gdk.GC pen_white_encoder_capture;
-	Gdk.GC pen_yellow_encoder_capture;
+	Gdk.GC pen_selected_encoder_capture;
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -3937,13 +3937,14 @@ Log.WriteLine(str);
 				textHeight = 1;
 				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
 				int myX = Convert.ToInt32( startX - textWidth/2);
-				int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
+				//int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
+				int myY = Convert.ToInt32(dTop + dHeight + (bottom_margin /2) - textHeight/2);
 				
 				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
 				if(iterOk)
 					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
-						rect = new Rectangle(myX -2, myY -2, textWidth +4, textHeight +4);
-						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+						rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
+						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_selected_encoder_capture, false, rect);
 					}
 				
 				//write the text
@@ -4225,7 +4226,7 @@ Log.WriteLine(str);
 		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_yellow_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
@@ -4233,14 +4234,16 @@ Log.WriteLine(str);
 		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
-		colormap.AllocColor (ref UtilGtk.YELLOW,true,true);
+		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
 		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
 		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
-		pen_yellow_encoder_capture.Foreground = UtilGtk.YELLOW;
+		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
+
+		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 	}
 
 	private bool pulseGTKEncoderCaptureAndCurves ()

@@ -44,6 +44,8 @@ public partial class ChronoJumpWindow
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
+	[Widget] Gtk.Box hbox_encoder_capture_wait;
+	[Widget] Gtk.Box hbox_encoder_capture_doing;
 	[Widget] Gtk.Button button_encoder_capture;
 	[Widget] Gtk.Button button_encoder_bells;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
@@ -364,7 +366,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderCheckPort())
 			return;
-		
+
 		/*
 		 * DEPRECATED
 		string analysisOptions = getEncoderAnalysisOptions(true);
@@ -754,7 +756,7 @@ public partial class ChronoJumpWindow
 		int count = 0;
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.status;
-			Log.WriteLine(checkboxes[count-1]);
+			//Log.WriteLine(checkboxes[count-1]);
 			dataPrint.Add(es.ToStringArray(count,true,false,true));
 		}
 	
@@ -3785,7 +3787,7 @@ Log.WriteLine(str);
 		int left_margin = 10;
 		int right_margin = 0;
 		int top_margin = 35;
-		int bottom_margin = 18;
+		int bottom_margin = 20;
 		//bars will be plotted here
 		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
 	
@@ -3864,42 +3866,11 @@ Log.WriteLine(str);
 				if(Util.IsEven(count +1)) //par
 					dLeft = Convert.ToInt32(dLeft - sep * sep_ec_mult);
 			}
-			
-			//add text on the bottom
-			if (eccon == "c" || Util.IsEven(count +1)) { //par
-				int startX = Convert.ToInt32(dLeft + dWidth/2);
-				string bottomText = (count +1).ToString();
-				if (eccon != "c") {
-					startX = dLeft;
-					bottomText = ((count +1) / 2).ToString();
-				}
-
-				layout_encoder_capture_curves_bars.SetMarkup(bottomText);
-				textWidth = 1;
-				textHeight = 1;
-				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-				int myX = Convert.ToInt32( startX - textWidth/2);
-				int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
-				
-				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
-				if(iterOk)
-					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
-						rect = new Rectangle(myX -2, myY -2, textWidth +4, textHeight +4);
-						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
-					}
-				
-				//write the text
-				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-						myX, myY,
-						layout_encoder_capture_curves_bars);
-			}
-
-
 			//just in case there are too much bars
 			if(dWidth < 1)
 				dWidth = 1;
-				
 
+			
 			//select pen color for bars and sounds
 			if(mainVariableHigher != -1 && d >= mainVariableHigher) {
 				my_pen = pen_green_encoder_capture;
@@ -3947,6 +3918,37 @@ Log.WriteLine(str);
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 
 							dLeft, dTop, dLeft + dWidth, dBottom);
 			}
+			
+			//add text on the bottom
+			if (eccon == "c" || Util.IsEven(count +1)) { //par
+				int startX = Convert.ToInt32(dLeft + dWidth/2);
+				string bottomText = (count +1).ToString();
+				if (eccon != "c") {
+					startX = dLeft;
+					bottomText = ((count +1) / 2).ToString();
+				}
+
+				layout_encoder_capture_curves_bars.SetMarkup(bottomText);
+				textWidth = 1;
+				textHeight = 1;
+				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+				int myX = Convert.ToInt32( startX - textWidth/2);
+				int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
+				
+				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
+				if(iterOk)
+					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
+						rect = new Rectangle(myX -2, myY -2, textWidth +4, textHeight +4);
+						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_yellow_encoder_capture, true, rect);
+					}
+				
+				//write the text
+				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+						myX, myY,
+						layout_encoder_capture_curves_bars);
+			}
+
+
 
 			count ++;
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
@@ -4142,6 +4144,9 @@ Log.WriteLine(str);
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharpIM));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureIM));
 				}
+				
+				hbox_encoder_capture_wait.Visible = false;
+				hbox_encoder_capture_doing.Visible = true;
 
 				Log.WriteLine("DDDDDDDDDDDDDDD");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
@@ -4149,6 +4154,7 @@ Log.WriteLine(str);
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
+			
 				createChronopicWindow(true);
 				return;
 			}
@@ -4488,6 +4494,9 @@ Log.WriteLine(str);
 			button_encoder_analyze_image_save.Sensitive = false;
 			button_encoder_analyze_table_save.Sensitive = false;
 			button_encoder_analyze_1RM_save.Sensitive = false;
+		
+			hbox_encoder_capture_wait.Visible = true;
+			hbox_encoder_capture_doing.Visible = false;
 
 		} else { //ANALYZE
 			if(encoderProcessCancel) {

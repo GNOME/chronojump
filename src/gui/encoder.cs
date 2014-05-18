@@ -302,7 +302,7 @@ public partial class ChronoJumpWindow
 
 	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
 		if(RInitialized == Constants.Status.UNSTARTED)
-			UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
+			rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
 		if(RInitialized == Constants.Status.OK)
 			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
@@ -4100,7 +4100,7 @@ Log.WriteLine(str);
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
 					if(RInitialized == Constants.Status.UNSTARTED)
-						UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
+						rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
 					/* 
 					 * if error means a problem with RDotNet, not necessarily a problem with R

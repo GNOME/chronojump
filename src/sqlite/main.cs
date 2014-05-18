@@ -1507,6 +1507,10 @@ class Sqlite
 					conversionRate ++;
 					conversionSubRateTotal = curves.Count;
 					conversionSubRate = 1;
+							
+					//needed to know if there are duplicates
+					ArrayList curvesStored = new ArrayList();
+
 					foreach(EncoderSQL c in curves) {
 						conversionSubRate ++;
 						if(s.GetDate(false) == c.GetDate(false) && s.eccon == c.eccon) {
@@ -1517,14 +1521,34 @@ class Sqlite
 							if(msCentral == -1)
 								signalID = -1; //mark as an orphaned curve (without signal)
 
-							SqliteEncoder.SignalCurveInsert(true, 
-									signalID, Convert.ToInt32(c.uniqueID), c.eccon, msCentral);
-
-							//duplicates will be found on signal load, 
-							//because there we can see and delete if two curves of the same eccon overlap
-							//if they overlap is because:
-							//- they are saved two times (same msCentral), or
-							//- they are saved two times with different smoothing (different msCentral)
+							/*
+							 * about duplicated curves from 1.05 and before:
+							 * There are two kind of duplicates, in both, eccon is the same, and they overlap.
+							 *
+							 * Overlapings situations:
+							 * - they are saved two times (same msCentral), or
+							 * - they are saved two times with different smoothing (different msCentral)
+							 *
+							 * from now on (1.06) there will be no more duplicates
+							 * about the old duplicated curves, is the user problem,
+							 * except the curves of the first kind, that we know exactly that they are duplicated
+							 */
+							
+							//curves come sorted by UniqueID DESC
+							//if does not exist: insert in encoderSignalCurve
+							bool exists = false;
+							foreach(int ms in curvesStored)
+								if(ms == msCentral)
+									exists = true;
+							if(exists) {
+								//delete this (newer will not be deleted)
+								Sqlite.Delete(true, 
+										Constants.EncoderTable, Convert.ToInt32(c.uniqueID));
+							} else {
+								curvesStored.Add(msCentral);
+								SqliteEncoder.SignalCurveInsert(true, 
+										signalID, Convert.ToInt32(c.uniqueID), msCentral);
+							}
 						}
 					}
 				}

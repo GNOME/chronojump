@@ -327,6 +327,29 @@ public class EncoderCurve
 	}
 }
 
+//related to encoderSignalCurve table
+public class EncoderSignalCurve {
+	public int uniqueID;
+	public int signalID;
+	public int curveID;
+	public int msCentral;
+	
+	public EncoderSignalCurve(int uniqueID, int signalID, int curveID, int msCentral) {
+		this.uniqueID = uniqueID;
+		this.signalID = signalID;
+		this.curveID = curveID;
+		this.msCentral = msCentral;
+	}
+	
+	public string ToString() {
+		return uniqueID.ToString() + ":" + signalID.ToString() + ":" + 
+			curveID.ToString() + ":" + msCentral.ToString();
+	}
+	
+	~EncoderSignalCurve() {}
+}
+
+
 //used on TreeView
 public class EncoderNeuromuscularData
 {

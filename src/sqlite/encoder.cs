@@ -184,7 +184,7 @@ class SqliteEncoder : Sqlite
 			andString + Constants.EncoderTable + ".exerciseID = " + 
 				Constants.EncoderExerciseTable + ".uniqueID " +
 				onlyActiveString +
-			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
+			" ORDER BY substr(filename,-23,19), uniqueID DESC "; //'filename,-23,19' contains the date of capture signal
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -294,6 +294,9 @@ class SqliteEncoder : Sqlite
 		return array;
 	}
 
+	/*
+	 * EncoderSignalCurve
+	 */
 	
 	protected internal static void createTableEncoderSignalCurve()
 	{
@@ -302,20 +305,19 @@ class SqliteEncoder : Sqlite
 			"uniqueID INTEGER PRIMARY KEY, " +
 			"signalID INT, " +
 			"curveID INT, " +
-			"eccon TEXT, " +	//"c", "ecS", "ceS"
 			"msCentral INT, " +
 		       	"future1 TEXT )";
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, string eccon, int msCentral)
+	public static void SignalCurveInsert(bool dbconOpened, int signalID, int curveID, int msCentral)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
-			" (uniqueID, signalID, curveID, eccon, msCentral, future1) " + 
-			"VALUES (NULL, " + signalID + ", " + curveID + ", '" + eccon + "', " + msCentral + ", '')";
+			" (uniqueID, signalID, curveID, msCentral, future1) " + 
+			"VALUES (NULL, " + signalID + ", " + curveID + ", " + msCentral + ", '')";
 		//Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
@@ -323,6 +325,71 @@ class SqliteEncoder : Sqlite
 			dbcon.Close();
 	}
 	
+
+	//signalID == -1 (any signal)
+	//curveID == -1 (any curve)
+	public static ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID)
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		string signalIDstr = "";
+		if(signalID != -1)
+			signalIDstr = " signalID == " + signalID;
+		
+		string curveIDstr = "";
+		if(curveID != -1)
+			curveIDstr = " curveID == " + curveID;
+
+		string whereStr = "";
+		if(signalID != -1 || curveID != -1)
+			whereStr = " WHERE ";
+		
+		string andStr = "";
+		if(signalID != -1 && curveID != -1)
+			andStr = " AND ";
+
+		dbcmd.CommandText = 
+			"SELECT uniqueID, signalID, curveID, msCentral " +
+			" FROM " + Constants.EncoderSignalCurveTable + 
+			whereStr + signalIDstr + andStr + curveIDstr;
+		
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		while(reader.Read()) {
+			EncoderSignalCurve esc = new EncoderSignalCurve(
+					Convert.ToInt32(reader[0].ToString()),
+					Convert.ToInt32(reader[1].ToString()),
+					Convert.ToInt32(reader[2].ToString()),
+					Convert.ToInt32(reader[3].ToString()));
+			
+			array.Add(esc);
+		}
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return array;
+	}
+
+	public static void DeleteSignalCurveWithCurveID(bool dbconOpened, int curveID)
+	{
+		if( ! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
+			" WHERE curveID == " + curveID.ToString();
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
+	}
+
 	
 
 	/*

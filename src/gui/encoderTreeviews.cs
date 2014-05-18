@@ -210,7 +210,7 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void encoderCaptureSelect(string toSelect) {
+	void encoderCaptureSelectByCombo(string toSelect) {
 		if(toSelect == Catalog.GetString(Constants.Selected))
 			return;
 
@@ -232,6 +232,30 @@ public partial class ChronoJumpWindow
 			//this makes RenderRecord work on changed row without having to put mouse there
 			encoderCaptureListStore.EmitRowChanged(path,iter);
 
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
+		}
+		combo_encoder_capture_show_save_curve_button();
+			
+		callPlotCurvesGraphDoPlot();
+	}
+	
+	//saved curves (when load), or recently deleted curves should modify the encoderCapture treeview
+	void encoderCaptureSelectBySavedCurves(int msCentral, bool selectIt) {
+		TreeIter iter;
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		while(iterOk) {
+			TreePath path = encoderCaptureListStore.GetPath(iter);
+			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
+			
+			if(Convert.ToDouble(curve.Start) <= msCentral && 
+					Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= msCentral) 
+			{
+				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = selectIt;
+			
+				//this makes RenderRecord work on changed row without having to put mouse there
+				encoderCaptureListStore.EmitRowChanged(path,iter);
+			}
+			
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		combo_encoder_capture_show_save_curve_button();

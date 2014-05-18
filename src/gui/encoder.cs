@@ -928,6 +928,13 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("row delete at show curves");
 
 		int uniqueID = genericWin.TreeviewSelectedUniqueID;
+
+		delete_encoder_curve(uniqueID);
+
+		genericWin.Delete_row_accepted();
+	}
+
+	void delete_encoder_curve(int uniqueID) {
 		Log.WriteLine(uniqueID.ToString());
 
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false)[0];
@@ -941,13 +948,14 @@ public partial class ChronoJumpWindow
 			SqliteEncoder.DeleteSignalCurveWithCurveID(false, 
 					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
 			//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
-			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
-			if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
-				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
+			if(escArray.Count > 0) {
+				EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
+				if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
+					encoderCaptureSelectBySavedCurves(esc.msCentral, false);
+			}
 
 			updateUserCurvesLabelsAndCombo();
 		}
-		genericWin.Delete_row_accepted();
 	}
 	
 	
@@ -1528,6 +1536,7 @@ public partial class ChronoJumpWindow
 
 	void on_button_encoder_save_clicked (object o, EventArgs args) 
 	{
+	/*
 		int i = 1;
 		TreeIter iter;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
@@ -1548,6 +1557,7 @@ public partial class ChronoJumpWindow
 		}
 		
 		updateUserCurvesLabelsAndCombo();
+	*/
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
@@ -4483,9 +4493,18 @@ Log.WriteLine(str);
 				foreach(EncoderSignalCurve esc in linkedCurves)
 					Log.WriteLine(esc.ToString());
 
+				string eccon = findEccon(true);
+				int curveCount = 0;
+				EncoderCurve curvePre;
 				foreach (EncoderCurve curve in encoderCaptureCurves) {
+					curvePre = curve;
+					if(eccon == "ecS" && Util.IsEven(curveCount)) {
+							curvePre = curve;
+							curveCount ++;
+							continue;
+					}
 					foreach(EncoderSignalCurve esc in linkedCurves) {
-						if(Convert.ToDouble(curve.Start) <= esc.msCentral && 
+						if(Convert.ToDouble(curvePre.Start) <= esc.msCentral && 
 								Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= esc.msCentral)
 						{
 							Log.WriteLine(curve.Start + " is saved");
@@ -4494,6 +4513,8 @@ Log.WriteLine(str);
 						}
 					}
 				}
+
+
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						false);	//not capturing

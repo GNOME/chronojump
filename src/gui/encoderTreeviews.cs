@@ -170,14 +170,22 @@ public partial class ChronoJumpWindow
 	void ItemToggled(object o, ToggledArgs args) {
 		TreeIter iter;
 		int column = 0;
+		int i = 1;
 		if (encoderCaptureListStore.GetIterFromString (out iter, args.Path)) 
 		{
+			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, column);
 			//get previous value
-			bool val = ((EncoderCurve) encoderCaptureListStore.GetValue (iter, column)).Record;
+			bool val = curve.Record;
 
 			//change value
 			//this changes value, but checkbox will be changed on RenderRecord. Was impossible to do here.
 			((EncoderCurve) encoderCaptureListStore.GetValue (iter, column)).Record = ! val;
+
+			//save the curve
+			if(! val)
+				label_encoder_save_curve.Text = encoderSaveSignalOrCurve("curve", i++);
+//			else
+//TODO				delete_encoder_curve(curve.uniqueID);
 		
 			//on ec, ecS need to [un]select another row
 			if (ecconLast=="ec" || ecconLast =="ecS") {
@@ -242,20 +250,41 @@ public partial class ChronoJumpWindow
 	//saved curves (when load), or recently deleted curves should modify the encoderCapture treeview
 	void encoderCaptureSelectBySavedCurves(int msCentral, bool selectIt) {
 		TreeIter iter;
+		TreeIter iterPre;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		while(iterOk) {
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 			
-			if(Convert.ToDouble(curve.Start) <= msCentral && 
-					Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= msCentral) 
-			{
-				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = selectIt;
-			
-				//this makes RenderRecord work on changed row without having to put mouse there
-				encoderCaptureListStore.EmitRowChanged(path,iter);
+			bool found = false;
+			string eccon = findEccon(true);
+			if(eccon == "c") {
+				if(Convert.ToDouble(curve.Start) <= msCentral && 
+						Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= msCentral) 
+				{
+					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = selectIt;
+
+					//this makes RenderRecord work on changed row without having to put mouse there
+					encoderCaptureListStore.EmitRowChanged(path,iter);
+				}
 			}
-			
+			else { // if(eccon == "ecS")
+				iterPre = iter; //to point at the "e" curve
+				iterOk = encoderCaptureListStore.IterNext (ref iter);
+				EncoderCurve curve2 = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
+
+				if(Convert.ToDouble(curve.Start) <= msCentral && 
+						Convert.ToDouble(curve2.Start) + Convert.ToDouble(curve2.Duration) >= msCentral) 
+				{
+					((EncoderCurve) encoderCaptureListStore.GetValue (iterPre, 0)).Record = selectIt;
+					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = selectIt;
+
+					//this makes RenderRecord work on changed row without having to put mouse there
+					encoderCaptureListStore.EmitRowChanged(path,iterPre);
+					encoderCaptureListStore.EmitRowChanged(path,iter);
+				}
+			}
+
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		combo_encoder_capture_show_save_curve_button();

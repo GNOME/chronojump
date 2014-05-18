@@ -216,7 +216,7 @@ public partial class ChronoJumpWindow
 	 * CAPTURE_EXTERNAL is deprecated (from Python)
 	 *
 	 * difference between:
-	 * CURVES: calcule and recalculate, autosaves the curve at end
+	 * CURVES: calcule and recalculate, autosaves the signal at end
 	 * LOAD curves does snot
 	 *
 	 * CAPTURE_IM records to get the inertia moment but does not calculate curves in R and not updates the treeview
@@ -935,6 +935,16 @@ public partial class ChronoJumpWindow
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk)  {
 			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
+			
+			ArrayList escArray = SqliteEncoder.SelectSignalCurve(false, 
+						-1, Convert.ToInt32(uniqueID)); //signal, curve
+			SqliteEncoder.DeleteSignalCurveWithCurveID(false, 
+					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
+			//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
+			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
+			if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
+				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
+
 			updateUserCurvesLabelsAndCombo();
 		}
 		genericWin.Delete_row_accepted();
@@ -2861,7 +2871,7 @@ Log.WriteLine(str);
 	}
 	
 	void on_combo_encoder_capture_save_curve_changed (object o, EventArgs args) {
-		encoderCaptureSelect(UtilGtk.ComboGetActive(combo_encoder_capture_save_curve));
+		encoderCaptureSelectByCombo(UtilGtk.ComboGetActive(combo_encoder_capture_save_curve));
 	}
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)
@@ -4465,6 +4475,26 @@ Log.WriteLine(str);
 								Convert.ToDouble(curve.PeakPower)
 								));
 				}
+
+				//find the saved curves
+				ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
+						Convert.ToInt32(encoderSignalUniqueID), -1); //signal, curve
+				Log.WriteLine("SAVED CURVES FOUND");
+				foreach(EncoderSignalCurve esc in linkedCurves)
+					Log.WriteLine(esc.ToString());
+
+				foreach (EncoderCurve curve in encoderCaptureCurves) {
+					foreach(EncoderSignalCurve esc in linkedCurves) {
+						if(Convert.ToDouble(curve.Start) <= esc.msCentral && 
+								Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= esc.msCentral)
+						{
+							Log.WriteLine(curve.Start + " is saved");
+							encoderCaptureSelectBySavedCurves(esc.msCentral, true);
+							break;
+						}
+					}
+				}
+
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						false);	//not capturing
 		

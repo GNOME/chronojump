@@ -1494,15 +1494,48 @@ class Sqlite
 			}
 			if(currentVersion == "1.05") {
 				dbcon.Open();
+		
+				SqliteEncoder.createTableEncoderSignalCurve();
 
-				SqliteEncoder.ConvertTo1_06();
+				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", false);
+				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", false);
+				int signalID;
+				conversionRateTotal = signals.Count;
+				conversionRate = 1;
+				//in 1.05 curves can be related to signals only by date
+				foreach(EncoderSQL s in signals) {
+					conversionRate ++;
+					conversionSubRateTotal = curves.Count;
+					conversionSubRate = 1;
+					foreach(EncoderSQL c in curves) {
+						conversionSubRate ++;
+						if(s.GetDate(false) == c.GetDate(false) && s.eccon == c.eccon) {
+							int msCentral = SqliteEncoder.FindCurveInSignal(
+									s.GetFullURL(false), c.GetFullURL(false));
 
-				//Log.WriteLine("Curves are now related to signals ");
-				//SqlitePreferences.Update ("databaseVersion", "1.06", true); 
+							signalID = Convert.ToInt32(s.uniqueID);
+							if(msCentral == -1)
+								signalID = -1; //mark as an orphaned curve (without signal)
+
+							SqliteEncoder.SignalCurveInsert(true, 
+									signalID, Convert.ToInt32(c.uniqueID), c.eccon, msCentral);
+
+							//duplicates will be found on signal load, 
+							//because there we can see and delete if two curves of the same eccon overlap
+							//if they overlap is because:
+							//- they are saved two times (same msCentral), or
+							//- they are saved two times with different smoothing (different msCentral)
+						}
+					}
+				}
+
+				conversionSubRate ++;
+				conversionRate ++;
+				Log.WriteLine("Curves are now linked to signals");
+				SqlitePreferences.Update ("databaseVersion", "1.06", true); 
 				
 				dbcon.Close();
-
-				//currentVersion = "1.06";
+				currentVersion = "1.06";
 			}
 		
 		
@@ -1648,7 +1681,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
-		//1.05 - 1-06 Converted DB to 1.06 Curves are now related to signals
+		//1.05 - 1-06 Converted DB to 1.06 Curves are now linked to signals
 		//1.04 - 1-05 Converted DB to 1.05 Removed inertial curves, because sign was not checked on 1.04 when saving curves
 		//1.03 - 1-04 Converted DB to 1.04 Encoder table improved
 		//1.02 - 1-03 Converted DB to 1.03 Updated encoder exercise, angle is now on encoder configuration

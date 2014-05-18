@@ -47,7 +47,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box hbox_encoder_capture_doing;
 	[Widget] Gtk.Button button_encoder_capture;
-	[Widget] Gtk.Button button_encoder_bells;
+	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] Gtk.Button button_encoder_capture_cancel;
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
@@ -347,6 +347,10 @@ public partial class ChronoJumpWindow
 		//update the bars graph because main variable maybe has changed
 	}
 	
+	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
+		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
+	}
+
 	private bool encoderCheckPort()	{
 		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -4589,7 +4593,6 @@ public class EncoderCaptureOptionsWindow {
 	[Widget] public Gtk.SpinButton spin_encoder_capture_curves_height_range;
 	[Widget] Gtk.Box hbox_combo_main_variable;
 	[Widget] Gtk.ComboBox combo_main_variable;
-	[Widget] Gtk.Image image_encoder_bell;
 	[Widget] public Gtk.CheckButton check_show_start_and_duration;
 	[Widget] Gtk.Button button_close;
 	
@@ -4612,10 +4615,6 @@ public class EncoderCaptureOptionsWindow {
 		UtilGtk.IconWindow(encoder_capture_options);
 		
 		FakeButtonClose = new Gtk.Button();
-		
-		//putNonStandardIcons
-		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell.png");
-		image_encoder_bell.Pixbuf = pixbuf;
 	}
 
 	
@@ -4683,10 +4682,6 @@ public class EncoderCaptureOptionsWindow {
 		}
 			
 		return -1;
-	}
-
-	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
 	}
 
 	protected virtual void on_button_close_clicked (object o, EventArgs args)

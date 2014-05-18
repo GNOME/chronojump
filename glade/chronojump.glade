@@ -441,23 +441,59 @@
                                       <widget class="GtkHBox" id="hbox126">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">2</property>
+                                        <property name="spacing">6</property>
                                         <child>
-                                          <widget class="GtkButton" id="button_person_add_single">
+                                          <widget class="GtkHBox" id="hbox77">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="can_default">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">New person</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <signal name="clicked" handler="on_person_add_single_activate" swapped="no"/>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">2</property>
                                             <child>
-                                              <widget class="GtkImage" id="image_persons_new_1">
+                                              <widget class="GtkButton" id="button_person_add_single">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="stock">gtk-new</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="can_default">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">New person</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_person_add_single_activate" swapped="no"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_persons_new_1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-new</property>
+                                                  </widget>
+                                                </child>
                                               </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="button_person_add_multiple">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="can_default">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">New persons (multiple)</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_person_add_multiple_clicked" swapped="no"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_persons_new_plus">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-new</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                           <packing>
@@ -467,75 +503,63 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkButton" id="button_person_add_multiple">
+                                          <widget class="GtkHBox" id="hbox78">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="can_default">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">New persons (multiple)</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <signal name="clicked" handler="on_person_add_multiple_clicked" swapped="no"/>
+                                            <property name="can_focus">False</property>
+                                            <property name="spacing">2</property>
                                             <child>
-                                              <widget class="GtkImage" id="image_persons_new_plus">
+                                              <widget class="GtkButton" id="button_recuperate_person">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="stock">gtk-new</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="can_default">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Load person</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_recuperate_person_clicked" swapped="no"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_persons_open_1">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-open</property>
+                                                  </widget>
+                                                </child>
                                               </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkButton" id="button_recuperate_persons_from_session">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="can_default">True</property>
+                                                <property name="receives_default">True</property>
+                                                <property name="has_tooltip">True</property>
+                                                <property name="tooltip" translatable="yes">Load persons from other session</property>
+                                                <property name="use_action_appearance">False</property>
+                                                <signal name="clicked" handler="on_recuperate_persons_from_session_clicked" swapped="no"/>
+                                                <child>
+                                                  <widget class="GtkImage" id="image_persons_open_plus">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="stock">gtk-open</property>
+                                                  </widget>
+                                                </child>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkButton" id="button_recuperate_person">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="can_default">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">Load person</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <signal name="clicked" handler="on_recuperate_person_clicked" swapped="no"/>
-                                            <child>
-                                              <widget class="GtkImage" id="image_persons_open_1">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="stock">gtk-open</property>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkButton" id="button_recuperate_persons_from_session">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="can_default">True</property>
-                                            <property name="receives_default">True</property>
-                                            <property name="has_tooltip">True</property>
-                                            <property name="tooltip" translatable="yes">Load persons from other session</property>
-                                            <property name="use_action_appearance">False</property>
-                                            <signal name="clicked" handler="on_recuperate_persons_from_session_clicked" swapped="no"/>
-                                            <child>
-                                              <widget class="GtkImage" id="image_persons_open_plus">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="stock">gtk-open</property>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">3</property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -11825,7 +11849,7 @@ on current Chronojump version.</property>
                                                         <property name="width_request">170</property>
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_capture_options">
                                                             <property name="visible">True</property>
@@ -11853,7 +11877,6 @@ on current Chronojump version.</property>
                                                         </child>
                                                         <child>
                                                           <widget class="GtkButton" id="button_encoder_capture">
-                                                            <property name="width_request">160</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="can_default">True</property>
@@ -11902,6 +11925,30 @@ on current Chronojump version.</property>
                                                             <property name="position">1</property>
                                                           </packing>
                                                         </child>
+                                                        <child>
+                                                          <widget class="GtkButton" id="button_encoder_bells">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">True</property>
+                                                            <property name="has_tooltip">True</property>
+                                                            <property name="tooltip" translatable="yes">Feedback</property>
+                                                            <property name="use_action_appearance">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <signal name="clicked" handler="on_button_encoder_bells_clicked" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkImage" id="image_encoder_bell">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-missing-image</property>
+                                                            </widget>
+                                                            </child>
+                                                          </widget>
+                                                          <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                          </packing>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -11913,10 +11960,9 @@ on current Chronojump version.</property>
                                                       <widget class="GtkHBox" id="hbox_encoder_capture_doing">
                                                         <property name="width_request">170</property>
                                                         <property name="can_focus">False</property>
-                                                        <property name="spacing">6</property>
+                                                        <property name="spacing">4</property>
                                                         <child>
                                                           <widget class="GtkProgressBar" id="encoder_pulsebar_capture">
-                                                            <property name="width_request">110</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="activity_mode">True</property>
@@ -11924,7 +11970,7 @@ on current Chronojump version.</property>
                                                             <property name="pulse_step">0.050000000000000003</property>
                                                           </widget>
                                                           <packing>
-                                                            <property name="expand">False</property>
+                                                            <property name="expand">True</property>
                                                             <property name="fill">True</property>
                                                             <property name="position">0</property>
                                                           </packing>
@@ -11999,7 +12045,7 @@ on current Chronojump version.</property>
                                                   <widget class="GtkHBox" id="hbox58">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="spacing">10</property>
+                                                    <property name="spacing">4</property>
                                                     <child>
                                                       <widget class="GtkButton" id="button_encoder_load_signal">
                                                         <property name="visible">True</property>
@@ -12018,7 +12064,7 @@ on current Chronojump version.</property>
                                                         </child>
                                                       </widget>
                                                       <packing>
-                                                        <property name="expand">True</property>
+                                                        <property name="expand">False</property>
                                                         <property name="fill">True</property>
                                                         <property name="position">0</property>
                                                       </packing>
@@ -12049,27 +12095,6 @@ on current Chronojump version.</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <widget class="GtkButton" id="button_encoder_export_all_curves">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">True</property>
-                                                        <property name="receives_default">True</property>
-                                                        <property name="use_action_appearance">False</property>
-                                                        <signal name="clicked" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
-                                                        <child>
-                                                          <widget class="GtkImage" id="image41">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="stock">gtk-convert</property>
-                                                          </widget>
-                                                        </child>
-                                                      </widget>
-                                                      <packing>
-                                                        <property name="expand">False</property>
-                                                        <property name="fill">True</property>
-                                                        <property name="position">2</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
                                                       <widget class="GtkButton" id="button_encoder_delete_signal">
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
@@ -12090,6 +12115,29 @@ on current Chronojump version.</property>
                                                       <packing>
                                                         <property name="expand">False</property>
                                                         <property name="fill">True</property>
+                                                        <property name="pack_type">end</property>
+                                                        <property name="position">2</property>
+                                                      </packing>
+                                                    </child>
+                                                    <child>
+                                                      <widget class="GtkButton" id="button_encoder_export_all_curves">
+                                                        <property name="visible">True</property>
+                                                        <property name="can_focus">True</property>
+                                                        <property name="receives_default">True</property>
+                                                        <property name="use_action_appearance">False</property>
+                                                        <signal name="clicked" handler="on_button_encoder_export_all_curves_clicked" swapped="no"/>
+                                                        <child>
+                                                          <widget class="GtkImage" id="image41">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="stock">gtk-convert</property>
+                                                          </widget>
+                                                        </child>
+                                                      </widget>
+                                                      <packing>
+                                                        <property name="expand">False</property>
+                                                        <property name="fill">True</property>
+                                                        <property name="pack_type">end</property>
                                                         <property name="position">3</property>
                                                       </packing>
                                                     </child>
@@ -20070,7 +20118,7 @@ comments</property>
           <widget class="GtkTable" id="table7">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="n_rows">7</property>
+            <property name="n_rows">6</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">12</property>
             <property name="row_spacing">8</property>
@@ -20316,55 +20364,6 @@ comments</property>
               <packing>
                 <property name="top_attach">4</property>
                 <property name="bottom_attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Feedback</property>
-              </widget>
-              <packing>
-                <property name="top_attach">6</property>
-                <property name="bottom_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkHBox" id="hbox1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <widget class="GtkButton" id="button_encoder_bells">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">Bells</property>
-                    <property name="use_action_appearance">False</property>
-                    <property name="xalign">0</property>
-                    <signal name="clicked" handler="on_button_encoder_bells_clicked" swapped="no"/>
-                    <child>
-                      <widget class="GtkImage" id="image_encoder_bell">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="stock">gtk-missing-image</property>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">6</property>
-                <property name="bottom_attach">7</property>
-                <property name="x_options">GTK_FILL</property>
               </packing>
             </child>
             <child>

@@ -261,6 +261,14 @@ public class UtilGtk
 	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background
 	
+	public static Gdk.Color SELECTED = GetBackgroundColorSelected();
+
+
+	public static Gdk.Color GetBackgroundColorSelected() {
+		Gtk.Style regularLabel = Gtk.Rc.GetStyle (new Gtk.Label());
+
+		return regularLabel.Background (StateType.Selected);
+	}
 
 	public static void ColorsMenuLabel(Gtk.Viewport v, Gtk.Label l) {
 		l.ModifyFg(StateType.Active, v.Style.Foreground(StateType.Selected));
@@ -319,7 +327,7 @@ public class UtilGtk
 			l2.ModifyFg(StateType.Normal, WHITE);
 		}
 	}
-
+	
 	/*
 	 *
 	 * PRETTY THINGS

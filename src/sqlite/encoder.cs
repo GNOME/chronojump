@@ -299,6 +299,7 @@ class SqliteEncoder : Sqlite
 	{
 		dbcmd.CommandText = 
 			"CREATE TABLE " + Constants.EncoderSignalCurveTable + " ( " +
+			"uniqueID INTEGER PRIMARY KEY, " +
 			"signalID INT, " +
 			"curveID INT, " +
 			"eccon TEXT, " +	//"c", "ecS", "ceS"
@@ -313,9 +314,9 @@ class SqliteEncoder : Sqlite
 			dbcon.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
-			" (signalID, curveID, eccon, msCentral, future1) VALUES (" + 
-			signalID + ", " + curveID + ", '" + eccon + "', " + msCentral + ", '')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+			" (uniqueID, signalID, curveID, eccon, msCentral, future1) " + 
+			"VALUES (NULL, " + signalID + ", " + curveID + ", '" + eccon + "', " + msCentral + ", '')";
+		//Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
@@ -657,37 +658,13 @@ class SqliteEncoder : Sqlite
 					break;
 			
 			if(c == curveInts.Length) {
-//				Log.WriteLine("Start at: " + s);
-//				Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
+				//Log.WriteLine("Start at: " + s);
+				//Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
 				return s + Convert.ToInt32(c / 2);
 			}
 		}
 
 		return -1;
 	}
-
-	public static void ConvertTo1_06()
-	{
-		//TODO: do it on sqlite main in order to see the conversion progressbar
-		ArrayList signals = Select(true, -1, -1, -1, "signal", false);
-		ArrayList curves = Select(true, -1, -1, -1, "curve", false);
-
-		//in 1.05 curves can be related to signals only by date
-		foreach(EncoderSQL c in curves) {
-			foreach(EncoderSQL s in signals) {
-				if(s.GetDate(false) == c.GetDate(false)) {
-//					 Log.WriteLine(s.sessionID.ToString());
-					 int msCentral = FindCurveInSignal(s.GetFullURL(false), c.GetFullURL(false));
-					 if(msCentral == -1)
-						 Log.WriteLine("TODO: NEED CREATE SIGNAL: " + s.GetDate(false));
-					 else
-						 Log.WriteLine(msCentral.ToString());
-				}
-			}
-		}
-		
-		//when insert, check duplicates, orphanes and merge curves commentaries
-	}
-	
 
 }

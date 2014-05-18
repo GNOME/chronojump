@@ -201,7 +201,7 @@ class SqliteEncoder : Sqlite
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
 			econf.FromSQL(strFull);
 			
-			Log.WriteLine(econf.ToString(":", true));
+			//Log.WriteLine(econf.ToString(":", true));
 			es = new EncoderSQL (
 					reader[0].ToString(),			//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID	
@@ -657,8 +657,8 @@ class SqliteEncoder : Sqlite
 					break;
 			
 			if(c == curveInts.Length) {
-				Log.WriteLine("Start at: " + s);
-				Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
+//				Log.WriteLine("Start at: " + s);
+//				Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
 				return s + Convert.ToInt32(c / 2);
 			}
 		}
@@ -676,7 +676,7 @@ class SqliteEncoder : Sqlite
 		foreach(EncoderSQL c in curves) {
 			foreach(EncoderSQL s in signals) {
 				if(s.GetDate(false) == c.GetDate(false)) {
-					 Log.WriteLine(s.sessionID.ToString() + "-" + c.sessionID.ToString());
+//					 Log.WriteLine(s.sessionID.ToString());
 					 int msCentral = FindCurveInSignal(s.GetFullURL(false), c.GetFullURL(false));
 					 if(msCentral == -1)
 						 Log.WriteLine("TODO: NEED CREATE SIGNAL: " + s.GetDate(false));

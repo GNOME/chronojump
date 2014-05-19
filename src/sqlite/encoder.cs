@@ -145,8 +145,13 @@ class SqliteEncoder : Sqlite
 	//personID can be -1 to get all on that session
 	//sessionID can be -1 to get all sessions
 	//signalOrCurve can be "all"
+	
+	//orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
+	//in that conversion, we want first the last ones, and later the previous
+	//	(to delete them if they are old copies)
 	public static ArrayList Select (bool dbconOpened, 
-			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
+			int uniqueID, int personID, int sessionID, string signalOrCurve, 
+			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -177,6 +182,10 @@ class SqliteEncoder : Sqlite
 		if(onlyActive)
 			onlyActiveString = " AND " + Constants.EncoderTable + ".status = 'active' ";
 
+		string orderIDstr = "";
+		if(! orderIDascendent)
+			orderIDstr = " DESC";
+
 		dbcmd.CommandText = "SELECT " + 
 			Constants.EncoderTable + ".*, " + Constants.EncoderExerciseTable + ".name FROM " + 
 			Constants.EncoderTable  + ", " + Constants.EncoderExerciseTable  + 
@@ -184,7 +193,8 @@ class SqliteEncoder : Sqlite
 			andString + Constants.EncoderTable + ".exerciseID = " + 
 				Constants.EncoderExerciseTable + ".uniqueID " +
 				onlyActiveString +
-			" ORDER BY substr(filename,-23,19), uniqueID DESC "; //'filename,-23,19' contains the date of capture signal
+			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
+			"uniqueID " + orderIDstr; 
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -318,7 +328,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
 			" (uniqueID, signalID, curveID, msCentral, future1) " + 
 			"VALUES (NULL, " + signalID + ", " + curveID + ", " + msCentral + ", '')";
-		//Log.WriteLine(dbcmd.CommandText.ToString());
+		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
@@ -328,31 +338,38 @@ class SqliteEncoder : Sqlite
 
 	//signalID == -1 (any signal)
 	//curveID == -1 (any curve)
-	public static ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID)
+	//if msStart and msEnd != -1 (means find a curve with msCentral contained between both values)
+	public static ArrayList SelectSignalCurve (bool dbconOpened, int signalID, int curveID, double msStart, double msEnd)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
+		string whereStr = "";
+		if(signalID != -1 || curveID != -1 || msStart != -1)
+			whereStr = " WHERE ";
+		
 		string signalIDstr = "";
 		if(signalID != -1)
 			signalIDstr = " signalID == " + signalID;
 		
 		string curveIDstr = "";
-		if(curveID != -1)
+		if(curveID != -1) {
 			curveIDstr = " curveID == " + curveID;
+			if(signalID != -1)
+				curveIDstr = " AND" + curveIDstr;
+		}
 
-		string whereStr = "";
-		if(signalID != -1 || curveID != -1)
-			whereStr = " WHERE ";
-		
-		string andStr = "";
-		if(signalID != -1 && curveID != -1)
-			andStr = " AND ";
+		string msCentralstr = "";
+		if(msStart != -1) {
+			msCentralstr = " msCentral >= " + msStart + " AND msCentral <= " + msEnd;
+			if(signalID != -1 || curveID != -1)
+				msCentralstr = " AND" + msCentralstr;
+		}
 
 		dbcmd.CommandText = 
 			"SELECT uniqueID, signalID, curveID, msCentral " +
 			" FROM " + Constants.EncoderSignalCurveTable + 
-			whereStr + signalIDstr + andStr + curveIDstr;
+			whereStr + signalIDstr + curveIDstr + msCentralstr;
 		
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		

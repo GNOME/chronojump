@@ -630,7 +630,7 @@ class SqliteSession : Sqlite
 
 		//delete encoder signal and curves (and it's videos)
 		ArrayList encoderArray = SqliteEncoder.Select(true, -1, -1, 
-				Convert.ToInt32(uniqueID), "signal", false);
+				Convert.ToInt32(uniqueID), "signal", false, true);
 		foreach(EncoderSQL eSQL in encoderArray) {
 			Util.FileDelete(eSQL.GetFullURL(false));	//signal, don't convertPathToR
 			if(eSQL.future2 != "")
@@ -638,7 +638,7 @@ class SqliteSession : Sqlite
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
 		}
 		encoderArray = SqliteEncoder.Select(true, -1, -1, 
-				Convert.ToInt32(uniqueID), "curve", false);
+				Convert.ToInt32(uniqueID), "curve", false, true);
 		foreach(EncoderSQL eSQL in encoderArray) {
 			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 			/* commented: curve has no video
@@ -646,6 +646,7 @@ class SqliteSession : Sqlite
 				Util.FileDelete(eSQL.future2);
 			*/
 			Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));
+			SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID));
 		}
 				
 		

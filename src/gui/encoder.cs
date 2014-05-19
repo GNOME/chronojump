@@ -58,10 +58,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_capture_open;
 	[Widget] Gtk.ProgressBar encoder_pulsebar_capture;
 	//[Widget] Gtk.Entry entry_encoder_signal_comment;
-	[Widget] Gtk.Entry entry_encoder_curve_comment;
-	[Widget] Gtk.Button button_encoder_save_curve;
+	//[Widget] Gtk.Entry entry_encoder_curve_comment;
+	//[Widget] Gtk.Button button_encoder_save_curve;
 	[Widget] Gtk.Button button_encoder_export_all_curves;
-	[Widget] Gtk.Label label_encoder_save_curve;
+	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
@@ -753,7 +753,8 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+				false, true);
 
 		ArrayList dataPrint = new ArrayList();
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
@@ -846,7 +847,8 @@ public partial class ChronoJumpWindow
 		string [] checkboxes = genericWin.GetCheckboxesStatus(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+				false, true);
 
 		//update on database the curves that have been selected/deselected
 		int count = 0;
@@ -890,7 +892,7 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("row edit apply at show curves");
 
 		int curveID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false, true)[0];
 
 		//if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
@@ -937,14 +939,15 @@ public partial class ChronoJumpWindow
 	void delete_encoder_curve(int uniqueID) {
 		Log.WriteLine(uniqueID.ToString());
 
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false, true)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk)  {
 			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 			
 			ArrayList escArray = SqliteEncoder.SelectSignalCurve(false, 
-						-1, Convert.ToInt32(uniqueID)); //signal, curve
+						-1, Convert.ToInt32(uniqueID),	//signal, curve
+						-1, -1); 			//msStart, msEnd
 			SqliteEncoder.DeleteSignalCurveWithCurveID(false, 
 					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
 			//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
@@ -980,7 +983,8 @@ public partial class ChronoJumpWindow
 		foreach(Person p in dataPre) {
 			if(p.UniqueID != currentPerson.UniqueID) {
 				ArrayList eSQLarray = SqliteEncoder.Select(
-						false, -1, p.UniqueID, currentSession.UniqueID, "curve", false); 
+						false, -1, p.UniqueID, currentSession.UniqueID, "curve", 
+						false, true);
 				string [] s = { p.UniqueID.ToString(), "", p.Name,
 					getActiveCurvesNum(eSQLarray).ToString(), eSQLarray.Count.ToString()
 			       	};
@@ -1166,7 +1170,8 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "signal", 
+				false, true);
 
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
@@ -1235,7 +1240,8 @@ public partial class ChronoJumpWindow
 		genericWin.HideAndNull();
 
 		ArrayList data = SqliteEncoder.Select(
-				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, "signal", false);
+				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, "signal", 
+				false, true);
 
 		bool success = false;
 		foreach(EncoderSQL eSQL in data) {	//it will run only one time
@@ -1282,7 +1288,7 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("row edit apply at load signal");
 			
 		int curveID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", false, true)[0];
 		
 		//if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
@@ -1325,7 +1331,8 @@ public partial class ChronoJumpWindow
 		if(uniqueID == Convert.ToInt32(encoderSignalUniqueID))
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
-			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", false)[0];
+			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
+					false, uniqueID, 0, 0, "", false, true)[0];
 			//remove the file
 			bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 			if(deletedOk)  
@@ -1518,7 +1525,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false)[0];
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false, true)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk) {
@@ -1533,33 +1540,6 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-
-	void on_button_encoder_save_clicked (object o, EventArgs args) 
-	{
-	/*
-		int i = 1;
-		TreeIter iter;
-		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
-		while(iterOk) {
-			//checked?
-			if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) 
-				label_encoder_save_curve.Text = encoderSaveSignalOrCurve("curve", i);
-
-			i ++;
-			iterOk = encoderCaptureListStore.IterNext (ref iter);
-
-			//if is not "c", then there are two rows, but pass only the odd rows
-			//then if IsEven, do not use it, use the next
-			if(iterOk && ecconLast != "c" && Util.IsEven(i)) {
-				i ++;
-				iterOk = encoderCaptureListStore.IterNext (ref iter);
-			}
-		}
-		
-		updateUserCurvesLabelsAndCombo();
-	*/
-	}
-
 	private int getActiveCurvesNum(ArrayList curvesArray) {
 		int countActiveCurves = 0;
 		foreach(EncoderSQL es in curvesArray) 
@@ -1571,11 +1551,14 @@ public partial class ChronoJumpWindow
 
 	private void updateUserCurvesLabelsAndCombo() {
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+				false, true);
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 		updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+	
+		button_encoder_analyze_sensitiveness();
 	}
 	
 	private string [] getActiveCheckboxesList(string [] checkboxes, int activeCurvesNum) {
@@ -1673,7 +1656,8 @@ public partial class ChronoJumpWindow
 				}
 			}
 		
-			desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
+			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
+			desc = "";
 
 			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
@@ -1682,6 +1666,11 @@ public partial class ChronoJumpWindow
 					inertialCheckStart, inertialCheckDuration, (ecconLast == "c"), 
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
+
+			SqliteEncoder.SignalCurveInsert(false, 
+					Convert.ToInt32(encoderSignalUniqueID), curveIDMax +1,
+					Convert.ToInt32(curveStart + (duration /2)));
+
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
 			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
@@ -1703,6 +1692,8 @@ public partial class ChronoJumpWindow
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
 		eSQL.description = desc;
+		if(mode == "curve")
+			eSQL.status = "active";
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
 
@@ -1757,7 +1748,8 @@ public partial class ChronoJumpWindow
 		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
 		{
 			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+					false, true);
 			if(data.Count == 0) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry, no curves selected."));
@@ -2147,7 +2139,8 @@ public partial class ChronoJumpWindow
 			//onlyActive is false to have all the curves
 			//this is a need for "single" to select on display correct curve
 			data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+				false, true);
 			
 			//if compare persons, select curves for other persons and add
 			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
@@ -2157,8 +2150,8 @@ public partial class ChronoJumpWindow
 					dataPre = SqliteEncoder.Select(
 						false, -1, 
 						Util.FetchID(encoderCompareInterperson[i].ToString()),
-						currentSession.UniqueID, 
-						"curve", true);
+						currentSession.UniqueID, "curve", 
+						true, true);
 					//this curves are added to data, data included currentPerson, currentSession
 					foreach(EncoderSQL eSQL in dataPre) 
 						data.Add(eSQL);
@@ -2171,7 +2164,7 @@ public partial class ChronoJumpWindow
 						false, -1,
 						currentPerson.UniqueID, 
 						Util.FetchID(encoderCompareIntersession[i].ToString()),
-						"curve", true);
+						"curve", true, true);
 					//this curves are added to data, data included currentPerson, currentSession
 					foreach(EncoderSQL eSQL in dataPre) 
 						data.Add(eSQL);
@@ -2402,7 +2395,8 @@ Log.WriteLine(str);
 		else {
 			if(currentPerson != null) {
 				ArrayList data = SqliteEncoder.Select(
-						false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+						"curve", false, true);
 				int activeCurvesNum = getActiveCurvesNum(data);
 				updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 			}
@@ -2779,18 +2773,18 @@ Log.WriteLine(str);
 				Catalog.GetString(comboLateralityOptions[0]));
 
 		//create combo capure save curve
-		string [] comboEncoderCaptureSaveOptions = { Constants.All, Constants.None, Constants.Invert, Constants.Selected };
+		string [] comboEncoderCaptureSaveOptions = { Constants.All, Constants.None, Constants.Selected };
 		string [] comboEncoderCaptureSaveOptionsTranslated = { 
 			Catalog.GetString(Constants.All), Catalog.GetString(Constants.None), 
-			Catalog.GetString(Constants.Invert), Catalog.GetString(Constants.Selected) };
+			Catalog.GetString(Constants.Selected) };
 		encoderCaptureSaveTranslation = new String [comboEncoderCaptureSaveOptions.Length];
-		for(int j=0; j < 4 ; j++)
+		for(int j=0; j < 3 ; j++)
 			encoderCaptureSaveTranslation[j] = 
 				comboEncoderCaptureSaveOptions[j] + ":" + comboEncoderCaptureSaveOptionsTranslated[j];
 		combo_encoder_capture_save_curve = ComboBox.NewText();
 		UtilGtk.ComboUpdate(combo_encoder_capture_save_curve, comboEncoderCaptureSaveOptionsTranslated, "");
 		combo_encoder_capture_save_curve.Active = UtilGtk.ComboMakeActive(combo_encoder_capture_save_curve, 
-				Catalog.GetString(comboEncoderCaptureSaveOptionsTranslated[1])); //None
+				Catalog.GetString(comboEncoderCaptureSaveOptionsTranslated[2])); //SELECTED
 		combo_encoder_capture_save_curve.Changed += 
 			new EventHandler(on_combo_encoder_capture_save_curve_changed );
 
@@ -3242,7 +3236,8 @@ Log.WriteLine(str);
 	//called when a person changes
 	private void encoderPersonChanged() {
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", false);
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+				false, true);
 		
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
@@ -3296,7 +3291,7 @@ Log.WriteLine(str);
 		//c3 hbox_combo_encoder_capture_save_curve, button_encoder_export_all_curves,
 		//	button_encoder_delete_signal, entry_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
-		//c4 button_encoder_save_curve, entry_encoder_curve_comment
+		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 hbox_encoder_user_curves
 		//c7 button_encoder_capture_cancel (on capture and analyze)
@@ -3361,8 +3356,8 @@ Log.WriteLine(str);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
-		button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
-		entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[4]);
+		//button_encoder_save_curve.Sensitive = Util.IntToBool(table[4]);
+		//entry_encoder_curve_comment.Sensitive = Util.IntToBool(table[4]);
 
 		bool analyze_sensitive = 
 			(
@@ -4488,7 +4483,8 @@ Log.WriteLine(str);
 
 				//find the saved curves
 				ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
-						Convert.ToInt32(encoderSignalUniqueID), -1); //signal, curve
+						Convert.ToInt32(encoderSignalUniqueID), //signal
+						-1, -1, -1);				//curve, msStart,msEnd
 				Log.WriteLine("SAVED CURVES FOUND");
 				foreach(EncoderSignalCurve esc in linkedCurves)
 					Log.WriteLine(esc.ToString());

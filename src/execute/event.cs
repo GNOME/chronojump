@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -118,6 +118,10 @@ public class EventExecute
 	protected Gtk.Button fakeButtonUpdateGraph;
 	protected Gtk.Button fakeButtonFinished;
 	protected Gtk.Button fakeButtonEventEnded;
+	//this should be a safer way, because will be called when thread has dyed, then will be the last action in the GTK thread.
+	//suitable for calling sensitiveGuiEventDone without problems
+	//sensitiveGuiEventDone causes problems on changing (or even reading) properties of gtk stuff outside of gtk thread
+	protected Gtk.Button fakeButtonThreadDyed;
 	
 	//for cancelling from chronojump.cs
 	protected bool cancel;
@@ -229,6 +233,7 @@ public class EventExecute
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
+			fakeButtonThreadDyed.Click();
 			Log.Write("dying");
 
 			return false;
@@ -512,6 +517,10 @@ public class EventExecute
 
 	public Gtk.Button FakeButtonEventEnded {
 		get { return fakeButtonEventEnded; }
+	}
+	
+	public Gtk.Button FakeButtonThreadDyed {
+		get { return fakeButtonThreadDyed; }
 	}
 
 	//public Gtk.Button FakeButtonRunATouchPlatform {

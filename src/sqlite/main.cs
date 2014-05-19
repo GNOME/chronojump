@@ -1497,8 +1497,8 @@ class Sqlite
 		
 				SqliteEncoder.createTableEncoderSignalCurve();
 
-				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", false);
-				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", false);
+				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", false, false);
+				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", false, false);
 				int signalID;
 				conversionRateTotal = signals.Count;
 				conversionRate = 1;
@@ -1534,7 +1534,7 @@ class Sqlite
 							 * except the curves of the first kind, that we know exactly that they are duplicated
 							 */
 							
-							//curves come sorted by UniqueID DESC
+							//curves come sorted by UniqueID DESC (selected with orderIDascendent = false)
 							//if does not exist: insert in encoderSignalCurve
 							bool exists = false;
 							foreach(int ms in curvesStored)

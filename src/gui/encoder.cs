@@ -4481,6 +4481,17 @@ Log.WriteLine(str);
 								));
 				}
 
+
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
+						false);	//not capturing
+		
+				//autosave signal (but not in load)
+				if(action == encoderActions.CURVES)
+					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0); //this updates encoderSignalUniqueID
+				else
+					encoder_pulsebar_capture.Text = "";
+				
+				
 				//find the saved curves
 				ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
 						Convert.ToInt32(encoderSignalUniqueID), //signal
@@ -4510,16 +4521,6 @@ Log.WriteLine(str);
 					}
 				}
 
-
-
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
-						false);	//not capturing
-		
-				//autosave signal (but not in load)
-				if(action == encoderActions.CURVES)
-					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0);
-				else
-					encoder_pulsebar_capture.Text = "";
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 

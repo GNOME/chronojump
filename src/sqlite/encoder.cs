@@ -361,7 +361,7 @@ class SqliteEncoder : Sqlite
 
 		string msCentralstr = "";
 		if(msStart != -1) {
-			msCentralstr = " msCentral >= " + msStart + " AND msCentral <= " + msEnd;
+			msCentralstr = " msCentral >= " + Util.ConvertToPoint(msStart) + " AND msCentral <= " + Util.ConvertToPoint(msEnd);
 			if(signalID != -1 || curveID != -1)
 				msCentralstr = " AND" + msCentralstr;
 		}

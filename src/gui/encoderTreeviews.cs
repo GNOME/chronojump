@@ -171,7 +171,8 @@ public partial class ChronoJumpWindow
 	void saveOrDeleteCurveFromCaptureTreeView(int rowNum, EncoderCurve curve, bool save) 
 	{
 		if(save)
-			label_encoder_curve_action.Text = encoderSaveSignalOrCurve("curve", rowNum +1);
+			//label_encoder_curve_action.Text = encoderSaveSignalOrCurve("curve", rowNum +1);
+			encoderSaveSignalOrCurve("curve", rowNum +1);
 		else {
 			if(ecconLast == "c" || Util.IsEven(rowNum)) {
 				double msStart = Convert.ToDouble(curve.Start);
@@ -192,7 +193,7 @@ public partial class ChronoJumpWindow
 				foreach(EncoderSignalCurve esc in signalCurves)
 					delete_encoder_curve(esc.curveID);
 
-				label_encoder_curve_action.Text = Catalog.GetString("Removed");
+				//label_encoder_curve_action.Text = Catalog.GetString("Removed");
 			}
 		}
 	}
@@ -213,6 +214,14 @@ public partial class ChronoJumpWindow
 			//save or delete the curve
 			int rowNum = Convert.ToInt32(args.Path); //starts at zero
 			saveOrDeleteCurveFromCaptureTreeView(rowNum, curve, ! val);
+			
+			string message = "";
+			if(! val)
+				message = Catalog.GetString("Saved");
+			else
+				message = Catalog.GetString("Removed");
+			label_encoder_curve_action.Text = message + " " + (rowNum +1).ToString();
+
 
 			//on ec, ecS need to [un]select another row
 			if (ecconLast=="ec" || ecconLast =="ecS") {
@@ -256,6 +265,8 @@ public partial class ChronoJumpWindow
 			val = false;
 
 		int i = 0;
+		string sep = "";
+		string messageRows = "";
 		TreeIter iter;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		while(iterOk) {
@@ -264,19 +275,33 @@ public partial class ChronoJumpWindow
 			//invert disabled
 			//if(toSelect == Catalog.GetString(Constants.Invert))
 			//	val = ! ((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record;
-
-			//change value
-			((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = val;
-
-			//this makes RenderRecord work on changed row without having to put mouse there
-			encoderCaptureListStore.EmitRowChanged(path,iter);
 			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
-			saveOrDeleteCurveFromCaptureTreeView(i++, curve, val);
+			if(curve.Record != val) { 
+				//change value
+				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = val;
 
+				//this makes RenderRecord work on changed row without having to put mouse there
+				encoderCaptureListStore.EmitRowChanged(path,iter);
+
+				saveOrDeleteCurveFromCaptureTreeView(i, curve, val);
+
+				messageRows += sep + (i+1).ToString();
+				sep = ", ";
+			}
+
+			i ++;
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		//combo_encoder_capture_show_save_curve_button();
+			
+		string message = "";
+		if(val)
+			message = Catalog.GetString("Saved");
+		else
+			message = Catalog.GetString("Removed");
+		label_encoder_curve_action.Text = message + " " + messageRows;
+
 			
 		updateUserCurvesLabelsAndCombo();
 			
@@ -818,7 +843,7 @@ public partial class ChronoJumpWindow
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,10:0.000}",Convert.ToDouble(curve.MeanSpeed));
+			String.Format("{0,8:0.000}",Convert.ToDouble(curve.MeanSpeed));
 	}
 
 	private void RenderMaxSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -837,7 +862,7 @@ public partial class ChronoJumpWindow
 
 		//no need of UtilGtk.TVNumPrint, always has 1 digit on left of decimal
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format("{0,10:0.000}",Convert.ToDouble(curve.MaxSpeed));
+			String.Format("{0,8:0.000}",Convert.ToDouble(curve.MaxSpeed));
 	}
 	
 	private void RenderMaxSpeedT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -845,7 +870,7 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double time = Convert.ToDouble(curve.MaxSpeedT)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(time.ToString(),7,3),time);
+			String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
 	}
 
 	private void RenderMeanPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -863,7 +888,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,9,1),Convert.ToDouble(curve.MeanPower));
+			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanPower));
 	}
 
 	private void RenderPeakPower (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -881,7 +906,7 @@ public partial class ChronoJumpWindow
 			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
 
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,9,1),Convert.ToDouble(curve.PeakPower));
+			String.Format(UtilGtk.TVNumPrint(curve.PeakPower,7,1),Convert.ToDouble(curve.PeakPower));
 	}
 
 	private void RenderPeakPowerT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -889,7 +914,7 @@ public partial class ChronoJumpWindow
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		double myPPT = Convert.ToDouble(curve.PeakPowerT)/1000; //ms->s
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),7,3),myPPT);
+			String.Format(UtilGtk.TVNumPrint(myPPT.ToString(),5,3),myPPT);
 	}
 
 	private void RenderPP_PPT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

@@ -3169,13 +3169,12 @@ public partial class ChronoJumpWindow
 
 	private void on_cancel_clicked (object o, EventArgs args) 
 	{
+		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
+
 		Console.WriteLine("cancel clicked one");
 
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
-
-		//unhide event buttons for next event
-		sensitiveGuiEventDone();
 
 		if(chronopicWin.Connected)
 			checkCancelTotally(o, args);
@@ -3197,9 +3196,6 @@ public partial class ChronoJumpWindow
 
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
-
-		//unhide event buttons for next event
-		sensitiveGuiEventDone();
 
 		if(chronopicWin.Connected)
 			checkCancelMultiTotally(o, args);
@@ -3268,7 +3264,9 @@ public partial class ChronoJumpWindow
 		currentEventExecute.Finish = true;
 		
 		//unhide event buttons for next event
+Log.WriteLine("calling sensitiveGuiEventDone from on_finish_clicked");
 		sensitiveGuiEventDone();
+Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
 
 		if(chronopicWin.Connected)
 			checkFinishTotally(o, args);
@@ -3291,10 +3289,6 @@ public partial class ChronoJumpWindow
 
 		currentEventExecute.Finish = true;
 		
-		//unhide event buttons for next event
-		Console.WriteLine("RR0");
-		sensitiveGuiEventDone();
-
 		//runA is not called for this, because it ends different
 		//and there's a message on gui/eventExecute.cs for runA	
 		Console.WriteLine("RR1");
@@ -3602,6 +3596,7 @@ Console.WriteLine("X");
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 	
 
@@ -3670,9 +3665,16 @@ Log.WriteLine("DDD 1");
 			execute_auto_order_pos ++;
 			execute_auto_select();
 			sensitiveGuiAutoExecuteOrWait (false);
-		} else
-			sensitiveGuiEventDone();
+		}
 Log.WriteLine("DDD 2");
+	}
+		
+	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
+	{
+		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
+		Log.WriteLine(" cantouch1 ");
+		sensitiveGuiEventDone();
+		Log.WriteLine(" cantouch3 ");
 	}
 
 
@@ -3764,6 +3766,7 @@ Log.WriteLine("DDD 2");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_jump_rj_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 		
 	private void on_jump_rj_finished (object o, EventArgs args) 
@@ -3829,10 +3832,6 @@ Log.WriteLine("DDD 2");
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
-
-
-		//unhide buttons that allow jumping
-		sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -3926,6 +3925,7 @@ Log.WriteLine("DDD 2");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 	
 	private void on_run_finished (object o, EventArgs args)
@@ -3966,9 +3966,6 @@ Log.WriteLine("DDD 2");
 		}
 		
 		lastRunIsSimple = true;
-		
-		//unhide buttons that allow jumping, running
-		sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4056,6 +4053,7 @@ Log.WriteLine("DDD 2");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_run_interval_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
 
@@ -4112,10 +4110,6 @@ Log.WriteLine("DDD 2");
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
-
-		
-		//unhide buttons that allow jumping, running
-		sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4172,6 +4166,7 @@ Log.WriteLine("DDD 2");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_reaction_time_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}	
 
 
@@ -4208,9 +4203,6 @@ Log.WriteLine("DDD 2");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
-		
-		//unhide buttons that allow jumping
-		sensitiveGuiEventDone();
 	}
 
 
@@ -4283,6 +4275,7 @@ Log.WriteLine("DDD 2");
 			new EventHandler(on_event_execute_update_graph_in_progress_clicked);
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_pulse_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
 	private void on_pulse_finished (object o, EventArgs args) 
@@ -4335,9 +4328,6 @@ Log.WriteLine("DDD 2");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
-		
-		//unhide buttons that allow jumping, running
-		sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4539,6 +4529,7 @@ Log.WriteLine("DDD 2");
 		currentEventExecute.FakeButtonEventEnded.Clicked += new EventHandler(on_event_execute_EventEnded);
 //		currentEventExecute.FakeButtonRunATouchPlatform.Clicked += new EventHandler(on_event_execute_RunATouchPlatform);
 		currentEventExecute.FakeButtonFinished.Clicked += new EventHandler(on_multi_chronopic_finished);
+		currentEventExecute.FakeButtonThreadDyed.Clicked += new EventHandler(on_test_finished_can_touch_gtk);
 	}
 
 	bool multiFinishing;
@@ -4604,11 +4595,6 @@ Console.WriteLine("X");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
-		
-		//unhide buttons that allow doing another test
-		Console.WriteLine("RR3");
-		sensitiveGuiEventDone();
-		Console.WriteLine("RR4");
 	}
 		
 
@@ -5996,6 +5982,8 @@ Console.WriteLine("X");
 	}
    
 	private void sensitiveGuiEventDone () {
+		Log.Write(" sensitiveGuiEventDone start ");
+
 		session_menuitem.Sensitive = true;
 		help_menuitem.Sensitive = true;
 		viewport_mode_small.Sensitive = true;
@@ -6038,6 +6026,7 @@ Console.WriteLine("X");
 					break;
 			}
 		}
+		Log.Write(" sensitiveGuiEventDone end ");
 	}
 	
 	/*

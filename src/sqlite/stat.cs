@@ -1135,7 +1135,7 @@ Log.WriteLine(intervalSpeeds);
 		}
 		else if (indexType == Constants.PotencyShettyFormulaShort) {
 			moreSelect = 
-				ini + "((1925.72 * 100 * " + jumpHeightInM + ") + (14.74 * (" + totalWeight + ")) - 66.3)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
+				ini + "((1925.72 * " + jumpHeightInM + ") + (14.74 * (" + totalWeight + ")) - 666.3)" + end + ", 1, "; //the "1" is for selecting something for compatibility with potencyLewis that needs to select two things
 		}
 		else if (indexType == Constants.PotencyCanavanFormulaShort) {
 			moreSelect = 

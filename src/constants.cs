@@ -255,11 +255,12 @@ public class Constants
 	public static string PotencySayersCMJFormula = PotencySayersCMJFormulaShort + "\n" +
 		"(51.9*" + Catalog.GetString("height") + "(cm))" +
 	        "+ (48.9*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -2007";
-	
+
+	//http://www.ncbi.nlm.nih.gov/pubmed/14658372	
 	public static string PotencyShettyFormulaShort = Catalog.GetString("Peak power") + " (Shetty, 2002)";
 	public static string PotencyShettyFormula = PotencyShettyFormulaShort + "\n" +
-		"(1925.72*" + Catalog.GetString("height") + "(cm))" +
-	        "+ (14.74*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -66.3";
+		"(1925.72*" + Catalog.GetString("height") + "(m))" +
+	        "+ (14.74*(" + Catalog.GetString("body weight") + "+" + Catalog.GetString("extra weight") + ")) -666.3";
 	
 	public static string PotencyCanavanFormulaShort = Catalog.GetString("Peak power") + " (Canavan, 2004)";
 	public static string PotencyCanavanFormula = PotencyCanavanFormulaShort + "\n" +

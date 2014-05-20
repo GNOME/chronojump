@@ -1315,7 +1315,7 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), "", "");
+						"Are you sure you want to delete this signal?"), Catalog.GetString("Related curves will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
 		} else
 			on_encoder_load_signal_row_delete (o, args);
@@ -1324,24 +1324,54 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
 		Log.WriteLine("row delete at load signal");
 
-		int uniqueID = genericWin.TreeviewSelectedUniqueID;
-		Log.WriteLine(uniqueID.ToString());
+		int signalID = genericWin.TreeviewSelectedUniqueID;
+		Log.WriteLine(signalID.ToString());
 
 		//if it's current signal use the delete signal from the gui interface that updates gui
-		if(uniqueID == Convert.ToInt32(encoderSignalUniqueID))
+		if(signalID == Convert.ToInt32(encoderSignalUniqueID))
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-					false, uniqueID, 0, 0, "", false, true)[0];
-			//remove the file
-			bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
-			if(deletedOk)  
-				Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
+					false, signalID, 0, 0, "signal", false, true)[0];
+		
+			//delete signal and related curves (both from SQL and files)
+			encoderSignalDelete(eSQL.GetFullURL(false), signalID);	//don't convertPathToR
 
 			//genericWin selected row is deleted, unsensitive the "load" button
 			genericWin.SetButtonAcceptSensitive(false);
 		}
 		genericWin.Delete_row_accepted();
+	}
+
+	void encoderSignalDelete (string signalURL, int signalID) 
+	{
+		//remove signal file
+		bool deletedOk = Util.FileDelete(signalURL);
+
+		//delete signal from encoder table
+		Sqlite.Delete(false, Constants.EncoderTable, signalID);
+
+		//find related curves using encoderSignalCurve table
+		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(
+				false, signalID, -1, -1, -1);	//DBopened, signal, curve, msStart, msEnd
+		
+		//delete related curves: files and records from encoder table
+		foreach(EncoderSignalCurve esc in linkedCurves) 
+		{
+			//select related curves to find URL
+			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
+					false, esc.curveID, -1, -1, "curve", false, true)[0];
+			
+			//delete file
+			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
+
+			//delete curve from encoder table
+			Sqlite.Delete(false, Constants.EncoderTable, esc.curveID);
+		}
+		
+		//delete related records from encoderSignalCurve table
+		Sqlite.DeleteSelectingField(false, Constants.EncoderSignalCurveTable, 
+				"signalID", signalID.ToString());
 	}
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
@@ -1516,7 +1546,7 @@ public partial class ChronoJumpWindow
 	{
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), "", "");
+						"Are you sure you want to delete this signal?"), Catalog.GetString("Related curves will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
 		} else
 			on_button_encoder_delete_signal_accepted (o, args);
@@ -1525,19 +1555,18 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false, true)[0];
-		//remove the file
-		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
-		if(deletedOk) {
-			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(encoderSignalUniqueID));
-			encoderSignalUniqueID = "-1";
-			image_encoder_capture.Sensitive = false;
-			treeviewEncoderCaptureRemoveColumns();
-			UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-			encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
-			//entry_encoder_signal_comment.Text = "";
-		}
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "signal", false, true)[0];
+
+		//delete signal and related curves (both from SQL and files)
+		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
+
+		encoderSignalUniqueID = "-1";
+		image_encoder_capture.Sensitive = false;
+		treeviewEncoderCaptureRemoveColumns();
+		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+		encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
+		//entry_encoder_signal_comment.Text = "";
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {

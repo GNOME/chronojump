@@ -2519,6 +2519,21 @@ Console.WriteLine("5" + tableName);
 		if( ! dbconOpened)
 			dbcon.Close();
 	}
+	
+	public static void DeleteSelectingField(bool dbconOpened, string tableName, string fieldName, string id)
+	{
+		if( ! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "Delete FROM " + tableName +
+			" WHERE " + fieldName + " == " + id;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
+	}
+
 
 	public static void DeleteFromName(bool dbconOpened, string tableName, string name)
 	{

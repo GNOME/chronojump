@@ -140,6 +140,7 @@ class SqliteEncoder : Sqlite
 	
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];
+	//don't care for the 0, 0 , because selection will be based on the myUniqueID and only one row will be returned
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	//personID can be -1 to get all on that session

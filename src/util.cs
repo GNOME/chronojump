@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2012   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -887,10 +887,14 @@ public class Util
 	public static bool FileDelete(string fileName) {
 		try {
 			if(File.Exists(fileName)) {
+				Log.WriteLine("Deleting " + fileName + " ...");
 				File.Delete(fileName);
+				Log.WriteLine("Deleted");
 				return true;
 			}
-		} catch {}
+		} catch {
+			Log.WriteLine("Problem deleting");
+		}
 		return false;
 	}
 	

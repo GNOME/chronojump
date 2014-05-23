@@ -762,7 +762,7 @@ public partial class ChronoJumpWindow
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.status;
 			//Log.WriteLine(checkboxes[count-1]);
-			dataPrint.Add(es.ToStringArray(count,true,false,true));
+			dataPrint.Add(es.ToStringArray(count,true,false,true,true));
 		}
 	
 		string [] columnsString = {
@@ -772,6 +772,7 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("Exercise"),
 			"RL",
 			Catalog.GetString("Extra weight"),
+			Catalog.GetString("Mean Power"),
 			Catalog.GetString("Encoder"),
 			Catalog.GetString("Contraction"),
 			Catalog.GetString("Date"),
@@ -1176,7 +1177,7 @@ public partial class ChronoJumpWindow
 		ArrayList dataPrint = new ArrayList();
 		int count = 1;
 		foreach(EncoderSQL es in data) 
-			dataPrint.Add(es.ToStringArray(count++,false,true,true));
+			dataPrint.Add(es.ToStringArray(count++,false,true,true,false));
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
@@ -1635,14 +1636,15 @@ public partial class ChronoJumpWindow
 			signalOrCurve = "signal";
 		
 			//check if data is ok (maybe encoder was not connected, then don't save this signal)
-			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
-			if(curve.N == null) 
+			EncoderCurve curveExist = treeviewEncoderCaptureCurvesGetCurve(1, false);
+			if(curveExist.N == null) 
 				return "";
 		}
 		
+		EncoderCurve curve = new EncoderCurve();
 		string desc = "";
 		if(mode == "curve") {
-			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
+			curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
 
 			//some start at ,5 because of the spline filtering
 			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
@@ -1690,12 +1692,15 @@ public partial class ChronoJumpWindow
 
 			Log.WriteLine(curveStart + "->" + duration);
 			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
+			
+			//save raw file to hard disk
 			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), 
 					curveStart, duration,
 					inertialCheckStart, inertialCheckDuration, (ecconLast == "c"), 
 					currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 
+			//save it to SQL (encoderSignalCurve table)
 			SqliteEncoder.SignalCurveInsert(false, 
 					Convert.ToInt32(encoderSignalUniqueID), curveIDMax +1,
 					Convert.ToInt32(curveStart + (duration /2)));
@@ -1721,15 +1726,17 @@ public partial class ChronoJumpWindow
 		eSQL.filename = fileSaved;
 		eSQL.url = path;
 		eSQL.description = desc;
-		if(mode == "curve")
+		if(mode == "curve") {
 			eSQL.status = "active";
+			eSQL.future1 = curve.MeanPower;
+		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
 
 		
 		//if is a signal that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
-		//on curves, always insert, because it can be done with different smoothing, different params
+		//This also saves curves
 		if(myID == "-1") {
 			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
 			if(mode == "signal") {

@@ -56,7 +56,8 @@ class SqliteEncoder : Sqlite
 			"status TEXT, " +	//"active", "inactive"
 			"videoURL TEXT, " +	//URL of video of signals
 			"encoderConfiguration TEXT, " +	//text separated by ':'
-		       	"future1 TEXT, " + 
+		       	"future1 TEXT, " +	//Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
+						//(as string with '.' because future1 was created as TEXT)
 		       	"future2 TEXT, " + 
 		       	"future3 TEXT )";
 		dbcmd.ExecuteNonQuery();

@@ -87,7 +87,7 @@ class SqliteEncoder : Sqlite
 			es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + 
 			"', '" + es.status + "', '" + es.videoURL + "', '" + 
 			es.encoderConfiguration.ToString(":",true) + "', '" + 
-			es.future1 + "', '" + es.future2 + "', '" + es.future3 + "')";
+			Util.ConvertToPoint(es.future1) + "', '" + es.future2 + "', '" + es.future3 + "')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
@@ -127,7 +127,7 @@ class SqliteEncoder : Sqlite
 				"', status = '" + es.status + 
 				"', videoURL = '" + es.videoURL + 
 				"', encoderConfiguration = '" + es.encoderConfiguration.ToString(":",true) + 
-				"', future1 = '" + es.future1 + 
+				"', future1 = '" + Util.ConvertToPoint(es.future1) + 
 				"', future2 = '" + es.future2 + 
 				"', future3 = '" + es.future3 + 
 				"' WHERE uniqueID == " + es.uniqueID ;
@@ -231,7 +231,7 @@ class SqliteEncoder : Sqlite
 					reader[13].ToString(),			//status
 					reader[14].ToString(),			//videoURL
 					econf,					//encoderConfiguration
-					reader[16].ToString(),			//future1
+					Util.ChangeDecimalSeparator(reader[16].ToString()),	//future1 (meanPower on curves)
 					reader[17].ToString(),			//future2
 					reader[18].ToString(),			//future3
 					reader[19].ToString()			//EncoderExercise.name

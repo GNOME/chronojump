@@ -1641,15 +1641,17 @@ public partial class ChronoJumpWindow
 				return "";
 		}
 		
-		EncoderCurve curve = new EncoderCurve();
+		string meanPowerStr = "";
 		string desc = "";
 		if(mode == "curve") {
-			curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
+			EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(selectedID,true);
 
 			//some start at ,5 because of the spline filtering
 			int curveStart = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Start)));
 
 			int duration = Convert.ToInt32(decimal.Truncate(Convert.ToDecimal(curve.Duration)));
+
+			meanPowerStr = curve.MeanPower;
 
 			if(ecconLast != "c") {
 				EncoderCurve curveNext = treeviewEncoderCaptureCurvesGetCurve(selectedID+1,false);
@@ -1665,6 +1667,8 @@ public partial class ChronoJumpWindow
 
 				//duration is duration of ecc + duration of iso + duration of concentric
 				duration += (isometricDuration + curveConDuration);
+			
+				meanPowerStr = curveNext.MeanPower; //take power of concentric phase
 			}
 			
 			/*
@@ -1728,7 +1732,7 @@ public partial class ChronoJumpWindow
 		eSQL.description = desc;
 		if(mode == "curve") {
 			eSQL.status = "active";
-			eSQL.future1 = curve.MeanPower;
+			eSQL.future1 = meanPowerStr;
 		}
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;

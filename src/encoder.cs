@@ -522,7 +522,7 @@ public class EncoderSQL
 		this.status = status;
 		this.videoURL = videoURL;
 		this.encoderConfiguration = encoderConfiguration;
-		this.future1 = future1;
+		this.future1 = future1;	//on signals: meanPower
 		this.future2 = future2;
 		this.future3 = future3;
 		this.exerciseName = exerciseName;
@@ -559,11 +559,14 @@ public class EncoderSQL
 		return str;
 	}
 
-	public string [] ToStringArray (int count, bool checkboxes, bool video, bool encoderConfigPretty) {
+	//showMeanPower is used in curves, but not in signal
+	public string [] ToStringArray (int count, bool checkboxes, bool video, bool encoderConfigPretty, bool showMeanPower) {
 		int all = 9;
 		if(checkboxes)
 			all ++;
 		if(video)
+			all++;
+		if(showMeanPower)
 			all++;
 
 
@@ -578,6 +581,9 @@ public class EncoderSQL
 		str[i++] = exerciseName;
 		str[i++] = laterality;
 		str[i++] = extraWeight;
+		
+		if(showMeanPower)
+			str[i++] = future1;
 
 		if(encoderConfigPretty)
 			str[i++] = encoderConfiguration.ToStringPretty();

@@ -234,7 +234,7 @@ public class JumpType : EventType
 		this.description = description;
 		this.imageFileName = imageFileName;
 
-		//we can obtain values like has Weight
+		//we can obtain values like has Weight and has Fall
 		isPredefined = FindIfIsPredefined();
 	}
 
@@ -243,7 +243,7 @@ public class JumpType : EventType
 		get { return startIn; }
 		set { startIn = value; }
 	}
-	
+
 	public bool HasWeight
 	{
 		get { 
@@ -257,6 +257,23 @@ public class JumpType : EventType
 			}
 		}
 		set { hasWeight = value; }
+	}
+	
+	public bool HasFall
+	{
+		get { 
+			if(name == Constants.TakeOffName || name == Constants.TakeOffWeightName)
+				return false;
+
+			if(isPredefined) {
+				return ! startIn; 
+			} else {
+				if(isRepetitive)
+					return SqliteJumpType.HasFall("jumpRjType", name);
+				else
+					return SqliteJumpType.HasFall("jumpType", name);
+			}
+		}
 	}
 	
 	public bool IsRepetitive

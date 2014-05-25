@@ -1450,6 +1450,10 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	colBalls = NULL
 	bgBalls = NULL
 
+	isPowerLoad = FALSE
+	if(varX == "Load" && varY == "Power")
+		isPowerLoad = TRUE
+
 	varX = addUnits(varX)
 	varY = addUnits(varY)
 
@@ -1551,9 +1555,29 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			#lines(10:100 ,fit2line, col="red") #puts line on plot
 		}
 		else {
-			#x vector should contain at least 4 different values
-			if(length(unique(x)) >= 4)
-				lines(smooth.spline(x,y,df=4),col=colBalls,lwd=2)
+			if(length(unique(x)) >= 3) {
+				fit = lm(y ~ x + I(x^2))
+				x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
+				y1 <- fit$coefficient[3]*x1^2 + fit$coefficient[2]*x1 + fit$coefficient[1]
+				lines(x1,y1)
+				print(fit)
+				print("----")
+				print(summary(fit))
+	
+				if(isPowerLoad) {
+					#xmax <-  -b / 2a
+					xmax <- - fit$coefficient[2] / (2 * fit$coefficient[3])
+
+					#pmax <- ax^2 +bx +c
+					pmax <- xmax^2 * fit$coefficient[3] + xmax * fit$coefficient[2] + fit$coefficient[1]
+
+					abline(v=xmax,lty=3)
+					points(xmax, pmax, pch=1, cex=3)
+					mtext(paste("pmax = ", round(pmax,1), " W", sep=""),side=3,at=xmax, cex = .8)
+					mtext(paste("mass = ", round(xmax,1), " Kg", sep=""),side=1,at=xmax, cex = .8)
+				}
+
+			}
 		}
 		
 		title(title, cex.main=1, font.main=2)

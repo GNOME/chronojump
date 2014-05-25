@@ -2278,16 +2278,19 @@ Log.WriteLine("AT ANALYZE");
 			double iteratingMassBody = -1;
 			int countSeries = 1;
 
+			Sqlite.Open();	
 			foreach(EncoderSQL eSQL in data) {
 				foreach(EncoderExercise eeSearch in eeArray)
 					if(eSQL.exerciseID == eeSearch.uniqueID)
 						ex = eeSearch;
 
+Log.Write(" AT ANALYZE 1.1 ");
 				//massBody change if we are comparing different persons or sessions
 				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
 					iteratingMassBody = SqlitePersonSession.SelectAttribute(
-							false, eSQL.personID, eSQL.sessionID, Constants.Weight);
+							true, eSQL.personID, eSQL.sessionID, Constants.Weight);
 				}
+Log.Write(" AT ANALYZE 1.2 ");
 
 				//seriesName
 				string seriesName = "";
@@ -2303,7 +2306,7 @@ Log.WriteLine("AT ANALYZE");
 						encoderDataCompareTranslation) == "Between sessions") 
 				{
 					foreach(string str in encoderCompareIntersession) {
-Log.WriteLine(str);
+						Log.WriteLine(str);
 						if(Util.FetchID(str) == eSQL.sessionID)
 							seriesName = Util.FetchName(str);
 					}
@@ -2344,7 +2347,9 @@ Log.WriteLine(str);
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
-			//Sqlite.Close();	
+Log.Write(" AT ANALYZE 2 ");
+			Sqlite.Close();	
+
 		} else {	//current signal
 			if(encoderAnalysis == "cross" && crossName == "1RM Any exercise") {
 				//get speed1RM (from combo)

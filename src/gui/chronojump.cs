@@ -3508,9 +3508,9 @@ Console.WriteLine("X");
 		if(execute_auto_doing)
 			sensitiveGuiAutoExecuteOrWait (true);
 		
-			
-		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
-		currentJumpType = new JumpType(jumpEnglishName);
+		//currentJumpType is already defined in selecting name from combo or from jumpsMoreWin
+		//string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
+		//currentJumpType = new JumpType(jumpEnglishName);
 
 		double jumpWeight = 0;
 		if(currentJumpType.HasWeight) {
@@ -3522,9 +3522,7 @@ Console.WriteLine("X");
 						currentPersonSession.Weight);
 		}
 		double myFall = 0;
-		if(currentJumpType.Name == Constants.TakeOffName || currentJumpType.Name == Constants.TakeOffWeightName)
-			myFall = 0;
-		else if( ! currentJumpType.StartIn) {
+		if(currentJumpType.HasFall) {
 			myFall = (double) extra_window_jumps_spinbutton_fall.Value;
 		}
 

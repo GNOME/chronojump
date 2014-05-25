@@ -1064,8 +1064,25 @@ partial class ChronoJumpWindow
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
 		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
-		currentJumpType = new JumpType(jumpEnglishName);
-		
+	
+		//note some tests are predefined and some other are user created and SQL database has to be checked
+		//to check fall and height create first a jump type and see it	
+		JumpType jType = new JumpType(jumpEnglishName);
+
+		//then create jumptype with all options
+		currentJumpType = new JumpType(
+				jumpEnglishName, 		//type of jump
+								//SelectedEventType would be: jump, or run, ...
+				! jType.HasFall,
+				jType.HasWeight,
+				false,				//isRepetitive
+				false,				//jumpsLimited (false, because is not repetitive)
+				0,				//limitValue
+				false,				//unlimited
+				"",				//description
+				SqliteEvent.GraphLinkSelectFileName("jump", jumpEnglishName)
+				);
+	
 		extra_window_jumps_initialize(currentJumpType);
 	}
 	
@@ -1110,13 +1127,11 @@ partial class ChronoJumpWindow
 		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
-		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
-				myJumpType.Name == Constants.TakeOffWeightName) 
-			extra_window_showFallData(myJumpType, false);	
-		else {
+		if(myJumpType.HasFall) {
 			hasOptions = true;
 			extra_window_showFallData(myJumpType, true);
-		}
+		} else
+			extra_window_showFallData(myJumpType, false);	
 		
 		if(myJumpType.Name == "DJa" || myJumpType.Name == "DJna") { 
 			//on DJa and DJna (coming from More jumps) need to show technique data but not change
@@ -1246,7 +1261,18 @@ partial class ChronoJumpWindow
 	{
 		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
 		
-		currentJumpType = new JumpType(jumpsMoreWin.SelectedEventName);
+		currentJumpType = new JumpType(
+				jumpsMoreWin.SelectedEventName, //type of jump
+								//SelectedEventType would be: jump, or run, ...
+				jumpsMoreWin.SelectedStartIn,
+				jumpsMoreWin.SelectedExtraWeight,
+				false,				//isRepetitive
+				false,				//jumpsLimited (false, because is not repetitive)
+				0,				//limitValue
+				false,				//unlimited
+				jumpsMoreWin.SelectedDescription,
+				SqliteEvent.GraphLinkSelectFileName("jump", jumpsMoreWin.SelectedEventName)
+				);
 
 		extra_window_jumps_initialize(currentJumpType);
 		

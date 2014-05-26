@@ -822,6 +822,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected curve") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.ShowEditRow(false);
+		genericWin.CommentColumn = 10;
 		
 		genericWin.ShowButtonCancel(false);
 		genericWin.SetButtonAcceptSensitive(true);
@@ -1219,6 +1220,7 @@ public partial class ChronoJumpWindow
 		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected signal") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.ShowEditRow(false);
+		genericWin.CommentColumn = 9;
 	
 		genericWin.ShowButtonCancel(true);
 		genericWin.SetButtonAcceptLabel(Catalog.GetString("Load"));

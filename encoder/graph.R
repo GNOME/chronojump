@@ -1426,7 +1426,7 @@ findPosInPaf <- function(var, option) {
 	return(pos)
 }
 
-addUnits <- function (var) {
+addUnitsAndTranslate <- function (var) {
 	if(var == "Speed")
 		return (paste(translate("Speed"),"(m/s)"))
 	else if(var == "Power")
@@ -1437,6 +1437,16 @@ addUnits <- function (var) {
 		return (paste(translate("Force"),"(N)"))
 
 	return(var)
+}
+
+#if num is >= 0, plot '+'.
+#else plot ''. (because the number will be displayed as negative)
+#this is to avoid having a '+ -'
+plotSign <- function (num) {
+	if(num >= 0)
+		return('+')
+	else
+		return('')
 }
 
 #option: mean or max
@@ -1454,8 +1464,8 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	if(varX == "Load" && varY == "Power")
 		isPowerLoad = TRUE
 
-	varX = addUnits(varX)
-	varY = addUnits(varY)
+	varXut = addUnitsAndTranslate(varX)
+	varYut = addUnitsAndTranslate(varY)
 
 	#if only one series
 	if(length(unique(seriesName)) == 1) {
@@ -1492,7 +1502,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			bgBalls="pink"
 		}
 		
-		plot(x,y, xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+		plot(x,y, xlab=varXut, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	
 		if(do1RM != FALSE & do1RM != "0") {	
 			speed1RM = as.numeric(do1RM)
@@ -1533,11 +1543,10 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 			load1RM = ( speed1RM - c.intercept ) / c.x
 
-			#plot(x,y, xlim=c(min(x),load1RM), ylim=c(speed1RM, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 			maxX=max(x)
 			if(load1RM > maxX)
 				maxX=load1RM
-			plot(x,y, xlim=c(min(x),maxX), ylim=c(0, max(y)), xlab=varX, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
+			plot(x,y, xlim=c(min(x),maxX), ylim=c(0, max(y)), xlab=varXut, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 			abline(fit,col="red")
 			abline(h=speed1RM,col="gray",lty=2)
 			abline(v=load1RM,col="gray",lty=2)
@@ -1557,26 +1566,48 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		else {
 			if(length(unique(x)) >= 3) {
 				fit = lm(y ~ x + I(x^2))
+		
+				coef.a <- fit$coefficient[3]
+				coef.b <- fit$coefficient[2]
+				coef.c <- fit$coefficient[1]
+
 				x1 <- seq(min(x),max(x), (max(x) - min(x))/1000)
-				y1 <- fit$coefficient[3]*x1^2 + fit$coefficient[2]*x1 + fit$coefficient[1]
+				y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
 				lines(x1,y1)
-				print(fit)
-				print("----")
-				print(summary(fit))
+
+				#plot de function expression
+				varXplot = varX
+				if(varXplot == "Load")
+					varXplot = "Mass"
+
+				#Speed,Power graph
+				functionAt = max(x)
+				functionAdj = 1
+				if(isAlone == "LEFT") {
+					functionAt = min(x)
+					functionAdj = 0
+				}
+
+				mtext(paste(
+					    varYut, " = ", 
+					    round(coef.a,4), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
+					    round(coef.b,4), " * ", varXplot, " ", plotSign(coef.c), " ", 
+					    round(coef.c,4), sep="")
+				      , side=3, at=functionAt, adj=functionAdj, cex = .9)
+				#end of plot de function expression
 	
 				if(isPowerLoad) {
 					#xmax <-  -b / 2a
-					xmax <- - fit$coefficient[2] / (2 * fit$coefficient[3])
+					xmax <- - coef.b / (2 * coef.a)
 
 					#pmax <- ax^2 +bx +c
-					pmax <- xmax^2 * fit$coefficient[3] + xmax * fit$coefficient[2] + fit$coefficient[1]
+					pmax <- xmax^2 * coef.a + xmax * coef.b + coef.c
 
 					abline(v=xmax,lty=3)
 					points(xmax, pmax, pch=1, cex=3)
-					mtext(paste("pmax = ", round(pmax,1), " W", sep=""),side=3,at=xmax, cex = .8)
-					mtext(paste("mass = ", round(xmax,1), " Kg", sep=""),side=1,at=xmax, cex = .8)
+					mtext(paste("pmax = ", round(pmax,1), " W", sep=""),side=3,at=xmax, cex = .9)
+					mtext(paste("mass = ", round(xmax,1), " Kg", sep=""),side=1,at=xmax, cex = .9, line = -1)
 				}
-
 			}
 		}
 		
@@ -1591,7 +1622,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#in x axis move a little every series to right in order to compare
 		seqX = seq(0,length(unique(seriesName))-1,by=1)-(length(unique(seriesName))-1)/2
 
-		plot(x,y, xlab=varX, ylab="", type="n", axes=F)
+		plot(x,y, xlab=varXut, ylab="", type="n", axes=F)
 		for(i in 1:length(seriesName)) {
 			thisSerie = which(seriesName == unique(seriesName)[i])
 			colBalls[thisSerie] = uniqueColors[i]
@@ -1608,7 +1639,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		}
 	
 		#difficult to create a title in series graphs
-		title(paste(varX,"/",varY), cex.main=1, font.main=2)
+		title(paste(varXut,"/",varYut), cex.main=1, font.main=2)
 			
 		#plot legend on top exactly out
 		#http://stackoverflow.com/a/7322792
@@ -1626,16 +1657,16 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	if(isAlone == "ALONE") {
 		axis(1)
 		axis(2)
-		mtext(varY, side=2, line=3)
+		mtext(varYut, side=2, line=3)
 		#box()
 	} else if(isAlone == "LEFT") {
 		axis(1)
 		axis(2,col=colBalls)
-		mtext(varY, side=2, line=3, col=colBalls)
+		mtext(varYut, side=2, line=3, col=colBalls)
 		#box()
 	} else { #"RIGHT"
 		axis(4,col=colBalls)
-		mtext(varY, side=4, line=3, col=colBalls)
+		mtext(varYut, side=4, line=3, col=colBalls)
 	}
 	box()
 

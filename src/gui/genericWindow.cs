@@ -100,6 +100,7 @@ public class GenericWindow
 	//and we want to ensure next window will be created at needed size
 	public bool DestroyOnAccept;
 	public int TreeviewSelectedUniqueID;
+	private int commentColumn;
 
 	public GenericWindow ()
 	{
@@ -667,7 +668,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		TreeModel model;
 		TreeIter iter = new TreeIter();
 		treeview.Selection.GetSelected (out model, out iter);
-		entry_edit_row.Text = (string) model.GetValue (iter, 8);
+		entry_edit_row.Text = (string) model.GetValue (iter, commentColumn);
 
 		button_row_edit.Click();
 	}
@@ -680,7 +681,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		TreeModel model;
 		TreeIter iter = new TreeIter();
 		treeview.Selection.GetSelected (out model, out iter);
-		store.SetValue (iter, 8, entry_edit_row.Text);
+		store.SetValue (iter, commentColumn, entry_edit_row.Text);
 	}
 	
 
@@ -758,6 +759,10 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	public Button Button_row_edit_apply {
 		set { hbox_combo_button = value; }
 		get { return hbox_combo_button; }
+	}
+	
+	public int CommentColumn {
+		set { commentColumn = value; }
 	}
 		
 	public Button Button_row_delete {

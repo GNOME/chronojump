@@ -4548,25 +4548,35 @@ Log.Write(" AT ANALYZE 2 ");
 					Log.WriteLine(esc.ToString());
 
 				string eccon = findEccon(true);
+
 				int curveCount = 0;
-				EncoderCurve curvePre;
-				foreach (EncoderCurve curve in encoderCaptureCurves) {
-					curvePre = curve;
-					if(eccon == "ecS" && Util.IsEven(curveCount)) {
-							curvePre = curve;
+				double curveStart = 0;
+				double curveEnd = 0;
+				foreach (EncoderCurve curve in encoderCaptureCurves) 
+				{
+					if(eccon == "c") {
+						curveStart = Convert.ToDouble(curve.Start);
+						curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
+					} else { //eccon == "ecS"
+					       if(Util.IsEven(curveCount)) {
+							curveStart = Convert.ToDouble(curve.Start);
 							curveCount ++;
 							continue;
+					       } else
+							curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
 					}
+					
 					foreach(EncoderSignalCurve esc in linkedCurves) {
-						if(Convert.ToDouble(curvePre.Start) <= esc.msCentral && 
-								Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration) >= esc.msCentral)
+						if(curveStart <= esc.msCentral && curveEnd >= esc.msCentral)
 						{
 							Log.WriteLine(curve.Start + " is saved");
 							encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 							break;
 						}
 					}
+					curveCount ++;
 				}
+
 
 			}
 

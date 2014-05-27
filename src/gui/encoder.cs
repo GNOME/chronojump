@@ -206,10 +206,10 @@ public partial class ChronoJumpWindow
 	 * but this combo values can be changed by the user, and the he could click on save curve,
 	 * then power values (results of curves on graph.R) can be saved with bad weight, exerciseID, ...
 	 *
-	 * Now, with lastEncoderSQL, saved curves and export curves will take the weight, exerciseID, ...
+	 * Now, with lastEncoderSQLSignal, saved curves and export curves will take the weight, exerciseID, ...
 	 * last capture, recalculate and load. Better usability
 	 */
-	EncoderSQL lastEncoderSQL;
+	EncoderSQL lastEncoderSQLSignal;
 
 	/*
 	 * CAPTURE is the capture from csharp (not from external python)
@@ -685,7 +685,7 @@ public partial class ChronoJumpWindow
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
 		//see explanation on the top of this file
-		lastEncoderSQL = new EncoderSQL(
+		lastEncoderSQLSignal = new EncoderSQL(
 				"-1",
 				currentPerson.UniqueID,
 				currentSession.UniqueID,
@@ -1386,17 +1386,17 @@ public partial class ChronoJumpWindow
 	{
 		string analysisOptions = getEncoderAnalysisOptions(true);
 
-		string displacedMass = Util.ConvertToPoint( lastEncoderSQL.extraWeight + (
-					getExercisePercentBodyWeightFromName(lastEncoderSQL.exerciseName) *
+		string displacedMass = Util.ConvertToPoint( lastEncoderSQLSignal.extraWeight + (
+					getExercisePercentBodyWeightFromName(lastEncoderSQLSignal.exerciseName) *
 					currentPersonSession.Weight
 					) );	
 		
 		EncoderParams ep = new EncoderParams(
-				lastEncoderSQL.minHeight, 
-				getExercisePercentBodyWeightFromName (lastEncoderSQL.exerciseName),
+				lastEncoderSQLSignal.minHeight, 
+				getExercisePercentBodyWeightFromName (lastEncoderSQLSignal.exerciseName),
 				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
 				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
-				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQL because there is (true)
+				findEccon(false), //do not force ecS (ecc-conc separated) //not taken from lastEncoderSQLSignal because there is (true)
 				"exportCSV",
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
@@ -1420,7 +1420,7 @@ public partial class ChronoJumpWindow
 
 		UtilEncoder.RunEncoderGraphNoRDotNet(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
-				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQL.exerciseName) + 
+				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
 				encoderStruct,
 				false); //do not use neuromuscularProfile script
@@ -1725,8 +1725,8 @@ public partial class ChronoJumpWindow
 		if(mode == "signal")
 			myID = encoderSignalUniqueID;
 
-		//assign values from lastEncoderSQL (last calculate curves or reload), and change new things
-		EncoderSQL eSQL = lastEncoderSQL;
+		//assign values from lastEncoderSQLSignal (last calculate curves or reload), and change new things
+		EncoderSQL eSQL = lastEncoderSQLSignal;
 		eSQL.uniqueID = myID;
 		eSQL.signalOrCurve = signalOrCurve;
 		eSQL.filename = fileSaved;
@@ -4538,6 +4538,36 @@ Log.Write(" AT ANALYZE 2 ");
 				else
 					encoder_pulsebar_capture.Text = "";
 				
+
+				string eccon = findEccon(true);
+
+					
+				/*
+				 * (1) if found curves of this signal
+				 * (2) and this curves are with different eccon
+				 * (3) delete the curves (encoder table)
+				 * (4) and also delete from (encoderSignalCurves table)
+				 * (5) update analyze labels and combos
+				 */
+				bool deletedUserCurves = false;
+				EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(false, 
+						Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false, true)[0];
+
+				ArrayList data = SqliteEncoder.Select(
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+						false, true);
+				foreach(EncoderSQL eSQL in data) {
+					if(
+							currentSignalSQL.GetDate(false) == eSQL.GetDate(false) && 		// (1)
+							findEccon(true) != eSQL.eccon) {					// (2)
+						Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (3)
+						SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (4)
+						deletedUserCurves = true;
+					}
+				}
+				if(deletedUserCurves)
+					updateUserCurvesLabelsAndCombo();		// (5)
+				
 				
 				//find the saved curves
 				ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
@@ -4546,8 +4576,6 @@ Log.Write(" AT ANALYZE 2 ");
 				Log.WriteLine("SAVED CURVES FOUND");
 				foreach(EncoderSignalCurve esc in linkedCurves)
 					Log.WriteLine(esc.ToString());
-
-				string eccon = findEccon(true);
 
 				int curveCount = 0;
 				double curveStart = 0;

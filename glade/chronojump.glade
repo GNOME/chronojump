@@ -11547,6 +11547,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-info</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -11570,6 +11571,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-add</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -11797,6 +11799,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-dialog-info</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                             </widget>
@@ -11866,6 +11869,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-preferences</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -11897,6 +11901,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-apply</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -11940,6 +11945,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-missing-image</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -11992,6 +11998,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -12018,6 +12025,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-goto-last</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>
@@ -12060,6 +12068,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-open</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -12085,6 +12094,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-refresh</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -12109,6 +12119,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-delete</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -12131,6 +12142,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-convert</property>
+                                                            <property name="icon-size">2</property>
                                                           </widget>
                                                         </child>
                                                       </widget>
@@ -13344,6 +13356,7 @@ on current Chronojump version.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="stock">gtk-cancel</property>
+                                                            <property name="icon-size">2</property>
                                                             </widget>
                                                             </child>
                                                           </widget>

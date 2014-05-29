@@ -513,7 +513,15 @@ findECPhases <- function(displacement,speed) {
 	eccentric = 0
 	isometric = 0
 	concentric = 0
-				
+
+	#temporary fix problem of found MinSpeedEnd at right
+	if(searchMinSpeedEnd > searchMaxSpeedIni)
+		return(list(
+			    eccentric=0,
+			    isometric=0,
+			    concentric=0))
+
+
 	isometricUse = TRUE
 	if(isometricUse) {
 		eccentric=1:min(speed.ext$cross[crossMinRow,1])
@@ -609,12 +617,17 @@ print(c(" smoothing:",smoothing))
 			eccentric = phases$eccentric
 			isometric = phases$isometric
 			concentric = phases$concentric
-			
-			maxSpeedT <- min(which(speed$y == max(speed$y)))
-			maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
-			
-			propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
-			#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
+	
+			#temporary fix problem of found MinSpeedEnd at right
+			if(eccentric == 0 && isometric == 0 && concentric == 0)
+				propulsiveEnd = length(displacement)
+			else {
+				maxSpeedT <- min(which(speed$y == max(speed$y)))
+				maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
+
+				propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
+				#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
+			}
 		} else if(eccon=="e") {
 			#not eccon="e" because not propulsive calculations on eccentric
 		} else { #ecS

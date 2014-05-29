@@ -304,6 +304,9 @@ public partial class ChronoJumpWindow
 				sep = ", ";
 			}
 			i ++;
+			if(ecconLast != "c")
+				i ++;
+
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		//combo_encoder_capture_show_save_curve_button();

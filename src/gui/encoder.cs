@@ -1318,7 +1318,7 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), Catalog.GetString("Related curves will also be deleted."), "");
+						"Are you sure you want to delete this signal?"), Catalog.GetString("Saved curves related to this signal will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
 		} else
 			on_encoder_load_signal_row_delete (o, args);
@@ -1549,7 +1549,7 @@ public partial class ChronoJumpWindow
 	{
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), Catalog.GetString("Related curves will also be deleted."), "");
+						"Are you sure you want to delete this signal?"), Catalog.GetString("Saved curves related to this signal will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
 		} else
 			on_button_encoder_delete_signal_accepted (o, args);

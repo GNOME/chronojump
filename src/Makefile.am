@@ -194,6 +194,8 @@ RESOURCES = \
 	../images/mini/jump_max.png,mini/jump_max.png \
 	../images/jump_dj.png,jump_dj.png\
 	../images/mini/jump_dj.png,mini/jump_dj.png \
+	../images/jump_dj_a.png,jump_dj_a.png\
+	../images/mini/jump_dj_a.png,mini/jump_dj_a.png \
 	../images/jump_rocket.png,jump_rocket.png \
 	../images/mini/jump_rocket.png,mini/jump_rocket.png \
 	../images/jump_rj.png,jump_rj.png \

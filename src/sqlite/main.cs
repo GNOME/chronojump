@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.06";
+	static string lastChronojumpDatabaseVersion = "1.07";
 
 	public Sqlite() {
 	}
@@ -1561,6 +1561,18 @@ class Sqlite
 				dbcon.Close();
 				currentVersion = "1.06";
 			}
+			if(currentVersion == "1.06") {
+				dbcon.Open();
+			
+				Update(true, Constants.GraphLinkTable, "graphFileName", "jump_dj.png", "jump_dj_a.png",
+						"eventName", "DJa");
+				
+				Log.WriteLine("Added jump_dj_a.png");
+				SqlitePreferences.Update ("databaseVersion", "1.07", true); 
+				dbcon.Close();
+
+				currentVersion = "1.07";
+			}
 		
 		
 
@@ -1705,6 +1717,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.06 - 1-07 Converted DB to 1.07 Added jump_dj_a.png
 		//1.05 - 1-06 Converted DB to 1.06 Curves are now linked to signals
 		//1.04 - 1-05 Converted DB to 1.05 Removed inertial curves, because sign was not checked on 1.04 when saving curves
 		//1.03 - 1-04 Converted DB to 1.04 Encoder table improved

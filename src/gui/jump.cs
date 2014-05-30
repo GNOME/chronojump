@@ -1099,8 +1099,15 @@ partial class ChronoJumpWindow
 	private void on_extra_window_jumps_rj_test_changed(object o, EventArgs args)
 	{
 		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
-		currentJumpRjType = new JumpType(jumpEnglishName);
 		
+		currentJumpRjType = new JumpType(jumpEnglishName);
+		if(! currentJumpRjType.IsPredefined) {
+			currentJumpRjType = SqliteJumpType.SelectAndReturnJumpRjType(
+					jumpEnglishName, false);
+			currentJumpRjType.ImageFileName = 
+				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpEnglishName);
+		}
+
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	}
 
@@ -1207,13 +1214,11 @@ partial class ChronoJumpWindow
 		} else 
 			extra_window_showWeightData(myJumpType, false);	
 
-		if(myJumpType.StartIn || myJumpType.Name == Constants.TakeOffName || 
-				myJumpType.Name == Constants.TakeOffWeightName)
-			extra_window_showFallData(myJumpType, false);	
-		else {
+		if(myJumpType.HasFall || myJumpType.Name == Constants.RunAnalysisName) {
 			extra_window_showFallData(myJumpType, true);	
 			hasOptions = true;
-		}
+		} else
+			extra_window_showFallData(myJumpType, false);
 		
 		extra_window_jumps_rj_spinbutton_weight.Value = extra_window_jumps_rj_weight;
 		extra_window_jumps_rj_spinbutton_fall.Value = extra_window_jumps_rj_fall;
@@ -1286,7 +1291,17 @@ partial class ChronoJumpWindow
 	{
 		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
 
-		currentJumpRjType = new JumpType(jumpsRjMoreWin.SelectedEventName);
+		currentJumpRjType = new JumpType(
+				jumpsRjMoreWin.SelectedEventName,
+				jumpsRjMoreWin.SelectedStartIn,
+				jumpsRjMoreWin.SelectedExtraWeight,
+				true, //isRepetitive
+				jumpsRjMoreWin.SelectedLimited,
+				jumpsRjMoreWin.SelectedLimitedValue,
+				jumpsRjMoreWin.SelectedUnlimited,
+				jumpsRjMoreWin.SelectedDescription,
+				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
+				);
 		
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	

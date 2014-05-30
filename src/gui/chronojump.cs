@@ -3684,8 +3684,9 @@ Log.WriteLine("DDD 2");
 	
 	private void on_rj_activate (object o, EventArgs args) 
 	{
-		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
-		currentJumpRjType = new JumpType(jumpEnglishName);
+		//currentJumpRjType is already defined in selecting name from combo or from jumpsMoreWin
+		//string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
+		//currentJumpRjType = new JumpType(jumpEnglishName);
 
 		double progressbarLimit = 0;
 		
@@ -3711,7 +3712,7 @@ Log.WriteLine("DDD 2");
 			}
 		}
 		double myFall = 0;
-		if( ! currentJumpRjType.StartIn || currentJumpRjType.Name == Constants.RunAnalysisName)
+		if( currentJumpRjType.HasFall || currentJumpRjType.Name == Constants.RunAnalysisName)
 			myFall = (double) extra_window_jumps_rj_spinbutton_fall.Value;
 			
 		//used by cancel and finish

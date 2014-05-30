@@ -87,6 +87,7 @@ public partial class EventType
 	public string ImageFileName
 	{
 		get { return imageFileName; }
+		set { imageFileName = value; }
 	}
 	
 	public string LongDescription

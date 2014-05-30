@@ -20080,7 +20080,7 @@ comments</property>
     </child>
   </widget>
   <widget class="GtkWindow" id="encoder_capture_options">
-    <property name="visible">True</property>
+    <property name="visible">False</property>
     <property name="can_focus">False</property>
     <property name="border_width">10</property>
     <property name="title" translatable="yes">Encoder capture options</property>

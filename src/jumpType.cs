@@ -150,7 +150,7 @@ public class JumpType : EventType
 			jumpsLimited 	= false;
 			fixedValue 	= 0;
 			description	= Catalog.GetString("DJ Jump using arms");
-			imageFileName = "jump_dj.png";
+			imageFileName = "jump_dj_a.png";
 		} else if(name == "DJna") { //DJ Not using arms
 			startIn 	= false;
 			hasWeight 	= false;

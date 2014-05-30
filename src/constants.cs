@@ -136,6 +136,7 @@ public class Constants
 	public const string RunIntervalTypeTable = "runIntervalType";
 	public const string PulseTypeTable = "pulseType";
 	public const string ReactionTimeTypeTable = "reactionTimeType";
+	public const string GraphLinkTable = "graphLinkTable";
 
 	public const string UndefinedDefault = "Undefined";
 	public const string Any = "Any";

@@ -188,7 +188,7 @@ public partial class ChronoJumpWindow {
 		Catalog.GetString("No indexes"), 
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
-		Constants.IubIndexFormula,
+		Constants.ArmsUseIndexFormula,
 		Constants.IRnaIndexFormula,
 		Constants.IRaIndexFormula,
 		Catalog.GetString(Constants.SubtractionBetweenTests),
@@ -655,7 +655,7 @@ public partial class ChronoJumpWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJ, SJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;
-			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IubIndexFormula) {
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.ArmsUseIndexFormula) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "ABK, CMJ");
 				combo_stats_stat_apply_to.Active = 0;
 				combo_stats_stat_apply_to.Sensitive = false;

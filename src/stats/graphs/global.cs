@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -142,7 +142,7 @@ public class GraphGlobal : StatGlobal
 				} else { 
 					if(myValueBefore.StartsWith("DjIndex") ||  
 							myValueBefore.StartsWith("RjIndex") || myValueBefore.StartsWith(Constants.RJPotencyBoscoName) || 
-							myValueBefore == "IE" || myValueBefore == "IUB") {
+							myValueBefore == "IE" || myValueBefore == Constants.ArmsUseIndexName) {
 						serieIndex.SerieData.Add(myValue);
 						//serieTv.SerieData.Add("-");
 					} else if(myValueBefore.StartsWith("IndexQ") || myValueBefore == "FV") {
@@ -172,7 +172,7 @@ public class GraphGlobal : StatGlobal
 
 					if(valueNoSex.StartsWith("DjIndex") || valueNoSex.StartsWith("IndexQ") || 
 							valueNoSex.StartsWith("RjIndex") || valueNoSex.StartsWith(Constants.RJPotencyBoscoName) || 
-							valueNoSex == "IE" || valueNoSex == "IUB" || valueNoSex == "FV" ) {
+							valueNoSex == "IE" || valueNoSex == Constants.ArmsUseIndexName || valueNoSex == "FV" ) {
 						mySerie.IsLeftAxis = false;
 					} else {
 						mySerie.IsLeftAxis = true;

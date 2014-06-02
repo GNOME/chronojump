@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -42,11 +42,11 @@ public class GraphJumpIndexes : StatJumpIndexes
 		
 		this.dataColumns = 3; //for Simplesession (index, jump1, jump2)
 		
-		this.indexType = indexType; //"IE" or "IUB" or "IR"
+		this.indexType = indexType; //"IE" or Constants.ArmsUseIndexName or "IR"
 		if(indexType == "IE") {
 			jump1="CMJ";
 			jump2="SJ";
-		} else if(indexType == "IUB") {
+		} else if(indexType == Constants.ArmsUseIndexName) {
 			jump1="ABK";
 			jump2="CMJ";
 		} else if(indexType == "IRna") { //reactivity DJna
@@ -77,8 +77,8 @@ public class GraphJumpIndexes : StatJumpIndexes
 			//CurrentGraphData.GraphTitle = this.ToString();
 			if(indexType == "IE")
 				CurrentGraphData.GraphTitle = Constants.IeIndexFormula;
-			else if(indexType == "IUB") 
-				CurrentGraphData.GraphTitle = Constants.IubIndexFormula;
+			else if(indexType == Constants.ArmsUseIndexName) 
+				CurrentGraphData.GraphTitle = Constants.ArmsUseIndexFormula;
 			else if(indexType == "IRna") 
 				CurrentGraphData.GraphTitle = Constants.IRnaIndexFormula;
 			else // indexType == "IRa"

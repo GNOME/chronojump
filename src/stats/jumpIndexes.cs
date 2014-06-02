@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -45,11 +45,11 @@ public class StatJumpIndexes : Stat
 		completeConstruction (myStatTypeStruct, treeview);
 		
 		this.dataColumns = 3;	//for simplesession (IE, cmj, sj)
-		this.indexType = indexType; //"IE", "IUB", "IRna", "IRa"
+		this.indexType = indexType; //"IE", Constants.ArmsUseIndexName, "IRna", "IRa"
 		if(indexType == "IE") {
 			jump1="CMJ";
 			jump2="SJ";
-		} else if(indexType == "IUB") {
+		} else if(indexType == Constants.ArmsUseIndexName) {
 			jump1="ABK";
 			jump2="CMJ";
 		} else if(indexType == "IRna") { //reactivity no arms
@@ -136,8 +136,8 @@ public class StatJumpIndexes : Stat
 		}
 
 		string indexString = "IE [(cmj-sj)/sj * 100]";
-		if(indexType == "IUB") {
-			indexString = "IUB [(abk-cmj)/cmj * 100]";
+		if(indexType == Constants.ArmsUseIndexName) {
+			indexString = Constants.ArmsUseIndexName + " [(abk-cmj)/cmj * 100]";
 		} else if(indexType == "IRna") {
 			indexString = "IRna [(djna-cmj)/cmj * 100]";
 		} else if(indexType == "IRa") {

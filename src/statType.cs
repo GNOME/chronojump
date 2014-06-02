@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -238,8 +238,8 @@ public class StatType {
 					indexType = "subtraction";
 				else if(statisticSubType == Constants.IeIndexFormula) 
 					indexType = "IE";
-				else if(statisticSubType == Constants.IubIndexFormula) 
-					indexType = "IUB";
+				else if(statisticSubType == Constants.ArmsUseIndexFormula) 
+					indexType = "Arms Use Index";
 				else if(statisticSubType == Constants.IRnaIndexFormula) 
 					indexType = "IRna";
 				else if(statisticSubType == Constants.IRaIndexFormula) 
@@ -268,7 +268,7 @@ public class StatType {
 						myStat = new GraphJumpSimpleSubtraction(myStatTypeStruct); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
-				} else if(indexType == "IE" || indexType == "IUB" || 
+				} else if(indexType == "IE" || indexType == Constants.ArmsUseIndexName || 
 						indexType == "IRna" || indexType == "IRa") {
 					if(graph) 
 						myStat = new GraphJumpIndexes (myStatTypeStruct, indexType);

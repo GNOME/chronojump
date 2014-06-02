@@ -325,6 +325,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	//saved curves (when load), or recently deleted curves should modify the encoderCapture treeview
+	//used also on bells close
 	void encoderCaptureSelectBySavedCurves(int msCentral, bool selectIt) {
 		TreeIter iter;
 		TreeIter iterPre;

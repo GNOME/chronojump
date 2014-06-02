@@ -81,9 +81,11 @@ public class Constants
 	
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
-	public const string IubIndexFormula = "IUB (abk-cmj)/cmj *100";
 	public const string IRnaIndexFormula = "IRna (djna-cmj)/cmj *100";
 	public const string IRaIndexFormula = "IRa (dja-cmj)/cmj *100";
+	
+	public const string ArmsUseIndexFormula = "Arms Use Index (abk-cmj)/cmj *100";
+	public const string ArmsUseIndexName = "Arms Use Index";
 
 	public const string SubtractionBetweenTests = "Subtraction between tests";
 

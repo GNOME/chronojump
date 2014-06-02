@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -83,46 +83,6 @@ public class StatGlobal : Stat
 
 	public override void PrepareData() 
 	{
-		/*
-		string sessionString = obtainSessionSqlString(sessions, "jump");
-				
-		//it's better (nicer, cleaner, easier) to leave all the AVGSD as 'false'
-		processDataMultiSession ( SqliteStat.GlobalNormal(sessionString, operation, showSex, 
-					personID, heightPreferred), 
-				false, sessions.Count );
-		
-		//session string must be different for indexes
-		sessionString = obtainSessionSqlStringIndexes(sessions);
-		
-		processDataMultiSession ( SqliteStat.GlobalIndexes("IE", "CMJ", "SJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalIndexes("IUB", "ABK", "CMJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalIndexes("FV", "SJl", "SJ", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		
-		sessionString = obtainSessionSqlString(sessions, "jump");
-		processDataMultiSession ( SqliteStat.GlobalOthers("DjIndex", "(100*((tv-tc)/tc))", "jump", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		processDataMultiSession ( SqliteStat.GlobalOthers("IndexQ", "(tv/tc)", "jump", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		
-		sessionString = obtainSessionSqlString(sessions, "jumpRj");
-		processDataMultiSession ( SqliteStat.GlobalOthers("RjIndex", "(100*((tvavg-tcavg)/tcavg))", "jumpRj", 
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-		//processDataMultiSession ( SqliteStat.GlobalOthers("RjPotency", 
-		processDataMultiSession ( SqliteStat.GlobalOthers(Constants.RJPotencyBoscoName, 
-					"(9.81*9.81 * tvavg*jumps * time / (4*jumps*(time - tvavg*jumps)) )", "jumpRj",
-					sessionString, operation, showSex, personID),
-				false, sessions.Count );
-				*/
-	
 	}
 
 	public override string ToString () 

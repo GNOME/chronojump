@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -35,7 +35,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected bool showDjIndex;
 	
 	protected string jumperName = Catalog.GetString("Jumper");
-	protected string weightName = Catalog.GetString("Weight");
+	protected string weightName = Catalog.GetString("Extra weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
 	protected string powerName = Catalog.GetString("Power") + "\n(" + Catalog.GetString("see Preferences") +")";

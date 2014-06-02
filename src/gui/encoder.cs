@@ -4568,43 +4568,8 @@ Log.Write(" AT ANALYZE 2 ");
 				if(deletedUserCurves)
 					updateUserCurvesLabelsAndCombo();		// (5)
 				
-				
-				//find the saved curves
-				ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
-						Convert.ToInt32(encoderSignalUniqueID), //signal
-						-1, -1, -1);				//curve, msStart,msEnd
-				Log.WriteLine("SAVED CURVES FOUND");
-				foreach(EncoderSignalCurve esc in linkedCurves)
-					Log.WriteLine(esc.ToString());
 
-				int curveCount = 0;
-				double curveStart = 0;
-				double curveEnd = 0;
-				foreach (EncoderCurve curve in encoderCaptureCurves) 
-				{
-					if(eccon == "c") {
-						curveStart = Convert.ToDouble(curve.Start);
-						curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
-					} else { //eccon == "ecS"
-					       if(Util.IsEven(curveCount)) {
-							curveStart = Convert.ToDouble(curve.Start);
-							curveCount ++;
-							continue;
-					       } else
-							curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
-					}
-					
-					foreach(EncoderSignalCurve esc in linkedCurves) {
-						if(curveStart <= esc.msCentral && curveEnd >= esc.msCentral)
-						{
-							Log.WriteLine(curve.Start + " is saved");
-							encoderCaptureSelectBySavedCurves(esc.msCentral, true);
-							break;
-						}
-					}
-					curveCount ++;
-				}
-
+				findAndMarkSavedCurves();
 
 			}
 
@@ -4680,6 +4645,45 @@ Log.Write(" AT ANALYZE 2 ");
 		treeview_encoder_capture_curves.Sensitive = true;
 		Util.FileDelete(UtilEncoder.GetEncoderStatusTempFileName());
 	}
+
+	private void findAndMarkSavedCurves() {
+		//find the saved curves
+		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
+				Convert.ToInt32(encoderSignalUniqueID), //signal
+				-1, -1, -1);				//curve, msStart,msEnd
+		//Log.WriteLine("SAVED CURVES FOUND");
+		//foreach(EncoderSignalCurve esc in linkedCurves)
+		//	Log.WriteLine(esc.ToString());
+
+		int curveCount = 0;
+		double curveStart = 0;
+		double curveEnd = 0;
+		foreach (EncoderCurve curve in encoderCaptureCurves) 
+		{
+			if(findEccon(true) == "c") {
+				curveStart = Convert.ToDouble(curve.Start);
+				curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
+			} else { //eccon == "ecS"
+				if(Util.IsEven(curveCount)) {
+					curveStart = Convert.ToDouble(curve.Start);
+					curveCount ++;
+					continue;
+				} else
+					curveEnd = Convert.ToDouble(curve.Start) + Convert.ToDouble(curve.Duration);
+			}
+
+			foreach(EncoderSignalCurve esc in linkedCurves) {
+				if(curveStart <= esc.msCentral && curveEnd >= esc.msCentral)
+				{
+					Log.WriteLine(curve.Start + " is saved");
+					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
+					break;
+				}
+			}
+			curveCount ++;
+		}
+	}
+
 	
 	/* end of thread stuff */
 	

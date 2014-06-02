@@ -5809,7 +5809,9 @@ Console.WriteLine("X");
 		EncoderCurve curve = treeviewEncoderCaptureCurvesGetCurve(1, false);
 		if(curve.N != null) {
 			string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
-			encoderUpdateTreeViewCapture(contents);
+			encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
+			
+			findAndMarkSavedCurves();
 			
 			//also update the bars plot (to show colors depending on bells changes)
 			if(captureCurvesBarsData.Count > 0) {

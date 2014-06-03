@@ -931,20 +931,27 @@ partial class ChronoJumpWindow
 
 
 	//creates and if is not predefined, checks database to gather all the data
-	private RunType createRunType(string name) {
+	//simple == true  for normal runs, and false for intervallic
+	private RunType createRunType(string name, bool simple) {
 		RunType t = new RunType(name);
 		
 		if(! t.IsPredefined) {
-			t = SqliteRunType.SelectAndReturnRunType(name, false);
-			t.ImageFileName = SqliteEvent.GraphLinkSelectFileName("run", name);
+			if(simple) {
+				t = SqliteRunType.SelectAndReturnRunType(name, false);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName("run", name);
+			} else {
+				t = SqliteRunIntervalType.SelectAndReturnRunIntervalType(name, false);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName("runInterval", name);
+			}
 		}
 		return t;
 	}
 	
+	
 	private void on_extra_window_runs_test_changed(object o, EventArgs args)
 	{
 		string runEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_runs), selectRunsString);
-		currentRunType = createRunType(runEnglishName);
+		currentRunType = createRunType(runEnglishName, true);
 		
 		extra_window_runs_initialize(currentRunType);
 	}
@@ -962,7 +969,7 @@ partial class ChronoJumpWindow
 	private void on_extra_window_runs_interval_test_changed(object o, EventArgs args)
 	{
 		string runEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_runs_interval), selectRunsIntervalString);
-		currentRunIntervalType = new RunType(runEnglishName);
+		currentRunIntervalType = createRunType(runEnglishName, false);
 		
 		extra_window_runs_interval_initialize(currentRunIntervalType);
 	}
@@ -1066,7 +1073,7 @@ partial class ChronoJumpWindow
 	{
 		runsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_accepted);
 	
-		currentRunType = createRunType(runsMoreWin.SelectedEventName);
+		currentRunType = createRunType(runsMoreWin.SelectedEventName, true);
 		
 		extra_window_runs_initialize(currentRunType);
 				
@@ -1078,7 +1085,7 @@ partial class ChronoJumpWindow
 	{
 		runsIntervalMoreWin.Button_accept.Clicked -= new EventHandler(on_more_runs_interval_accepted);
 		
-		currentRunIntervalType = new RunType(runsIntervalMoreWin.SelectedEventName);
+		currentRunIntervalType = createRunType(runsIntervalMoreWin.SelectedEventName, false);
 
 		extra_window_runs_interval_initialize(currentRunIntervalType);
 

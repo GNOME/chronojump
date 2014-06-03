@@ -1061,27 +1061,29 @@ partial class ChronoJumpWindow
 	private JumpType previousJumpType; //used on More to turnback if cancel or delete event is pressed
 	private JumpType previousJumpRjType; //used on More to turnback if cancel or delete event is pressed
 	
+	
+	//creates and if is not predefined, checks database to gather all the data
+	//simple == true  for normal jumps, and false for reactive
+	private JumpType createJumpType(string name, bool simple) {
+		JumpType t = new JumpType(name);
+		
+		if(! t.IsPredefined) {
+			if(simple) {
+				t = SqliteJumpType.SelectAndReturnJumpType(name, false);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpTable, name);
+			} else {
+				t = SqliteJumpType.SelectAndReturnJumpRjType(name, false);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.JumpRjTable, name);
+			}
+		}
+		return t;
+	}
+	
+	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
 		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps), selectJumpsString);
-	
-		//note some tests are predefined and some other are user created and SQL database has to be checked
-		//to check fall and height create first a jump type and see it	
-		JumpType jType = new JumpType(jumpEnglishName);
-
-		//then create jumptype with all options
-		currentJumpType = new JumpType(
-				jumpEnglishName, 		//type of jump
-								//SelectedEventType would be: jump, or run, ...
-				! jType.HasFall,
-				jType.HasWeight,
-				false,				//isRepetitive
-				false,				//jumpsLimited (false, because is not repetitive)
-				0,				//limitValue
-				false,				//unlimited
-				"",				//description
-				SqliteEvent.GraphLinkSelectFileName("jump", jumpEnglishName)
-				);
+		currentJumpType = createJumpType(jumpEnglishName, true);
 	
 		extra_window_jumps_initialize(currentJumpType);
 	}
@@ -1099,14 +1101,7 @@ partial class ChronoJumpWindow
 	private void on_extra_window_jumps_rj_test_changed(object o, EventArgs args)
 	{
 		string jumpEnglishName = Util.FindOnArray(':',2,1, UtilGtk.ComboGetActive(combo_select_jumps_rj), selectJumpsRjString);
-		
-		currentJumpRjType = new JumpType(jumpEnglishName);
-		if(! currentJumpRjType.IsPredefined) {
-			currentJumpRjType = SqliteJumpType.SelectAndReturnJumpRjType(
-					jumpEnglishName, false);
-			currentJumpRjType.ImageFileName = 
-				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpEnglishName);
-		}
+		currentJumpRjType = createJumpType(jumpEnglishName, false);
 
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	}
@@ -1266,18 +1261,7 @@ partial class ChronoJumpWindow
 	{
 		jumpsMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_accepted);
 		
-		currentJumpType = new JumpType(
-				jumpsMoreWin.SelectedEventName, //type of jump
-								//SelectedEventType would be: jump, or run, ...
-				jumpsMoreWin.SelectedStartIn,
-				jumpsMoreWin.SelectedExtraWeight,
-				false,				//isRepetitive
-				false,				//jumpsLimited (false, because is not repetitive)
-				0,				//limitValue
-				false,				//unlimited
-				jumpsMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("jump", jumpsMoreWin.SelectedEventName)
-				);
+		currentJumpType = createJumpType(jumpsMoreWin.SelectedEventName, true);
 
 		extra_window_jumps_initialize(currentJumpType);
 		
@@ -1291,17 +1275,7 @@ partial class ChronoJumpWindow
 	{
 		jumpsRjMoreWin.Button_accept.Clicked -= new EventHandler(on_more_jumps_rj_accepted);
 
-		currentJumpRjType = new JumpType(
-				jumpsRjMoreWin.SelectedEventName,
-				jumpsRjMoreWin.SelectedStartIn,
-				jumpsRjMoreWin.SelectedExtraWeight,
-				true, //isRepetitive
-				jumpsRjMoreWin.SelectedLimited,
-				jumpsRjMoreWin.SelectedLimitedValue,
-				jumpsRjMoreWin.SelectedUnlimited,
-				jumpsRjMoreWin.SelectedDescription,
-				SqliteEvent.GraphLinkSelectFileName("jumpRj", jumpsRjMoreWin.SelectedEventName)
-				);
+		currentJumpRjType = createJumpType(jumpsRjMoreWin.SelectedEventName, false);
 		
 		extra_window_jumps_rj_initialize(currentJumpRjType);
 	

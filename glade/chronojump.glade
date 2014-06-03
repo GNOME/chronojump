@@ -4009,12 +4009,11 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="spacing">4</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_runs_prevent_double_contact_first">
-                                                            <property name="label" translatable="yes">Take first contact (recommended)</property>
+                                                            <property name="label" translatable="yes">Take first contact</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_action_appearance">False</property>
-                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             </widget>
                                                             <packing>
@@ -4041,11 +4040,12 @@ It starts before and arrives there with some speed.</property>
                                                             </child>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="radio_runs_prevent_double_contact_last">
-                                                            <property name="label" translatable="yes">Take last contact</property>
+                                                            <property name="label" translatable="yes">Take last contact (recommended)</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="use_action_appearance">False</property>
+                                                            <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             <property name="group">radio_runs_prevent_double_contact_first</property>
                                                             </widget>

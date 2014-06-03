@@ -938,10 +938,10 @@ partial class ChronoJumpWindow
 		if(! t.IsPredefined) {
 			if(simple) {
 				t = SqliteRunType.SelectAndReturnRunType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName("run", name);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.RunTable, name);
 			} else {
 				t = SqliteRunIntervalType.SelectAndReturnRunIntervalType(name, false);
-				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName("runInterval", name);
+				t.ImageFileName = SqliteEvent.GraphLinkSelectFileName(Constants.RunIntervalTable, name);
 			}
 		}
 		return t;

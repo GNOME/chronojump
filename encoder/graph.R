@@ -1605,8 +1605,13 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 					    varYut, " = ", 
 					    round(coef.a,4), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
 					    round(coef.b,4), " * ", varXplot, " ", plotSign(coef.c), " ", 
-					    round(coef.c,4), sep="")
-				      , side=3, at=functionAt, adj=functionAdj, cex = .9)
+					    round(coef.c,4), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
+				mtext(paste(
+					    "R² = ", round(summary(fit)$r.squared,4),
+					    "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4)
+					    #,
+					    #"; p = ", round(summary(fit)$r.squared),4,
+					    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
 				#end of plot de function expression
 	
 				if(isPowerLoad) {

@@ -1462,6 +1462,26 @@ plotSign <- function (num) {
 		return('')
 }
 
+getModelPValueWithStars <- function(model) {
+	p.value = round(getModelPValue(model),6)
+	stars = ""
+	if(p.value <= 0.0001)
+		stars = "***"
+	else if(p.value <= 0.001)
+		stars = "**"
+	else if(p.value <= 0.05)
+		stars = "*"
+	else if(p.value <= 0.01)
+		stars = "."
+	return(paste(p.value, " ", stars, sep=""))
+}
+#http://r.789695.n4.nabble.com/extract-the-p-value-tp3933973p3934011.html
+getModelPValue <- function(model) {
+	stopifnot(inherits(model, "lm"))
+	s <- summary.lm(model)
+	pf(s$fstatistic[1L], s$fstatistic[2L], s$fstatistic[3L], lower.tail = FALSE)
+} 
+
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod, outputData1) {
 	x = (paf[,findPosInPaf(varX, option)])
@@ -1588,12 +1608,12 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 				y1 <- coef.a *x1^2 + coef.b * x1 + coef.c
 				lines(x1,y1)
 
-				#plot de function expression
+				#start plot the function expression, R^2 and p
 				varXplot = varX
 				if(varXplot == "Load")
 					varXplot = "Mass"
 
-				#Speed,Power graph
+				#for Speed,Power graph
 				functionAt = max(x)
 				functionAdj = 1
 				if(isAlone == "LEFT") {
@@ -1608,11 +1628,10 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 					    round(coef.c,4), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
 				mtext(paste(
 					    "R² = ", round(summary(fit)$r.squared,4),
-					    "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4)
-					    #,
-					    #"; p = ", round(summary(fit)$r.squared),4,
+					    "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4),
+					    "; p = ", getModelPValueWithStars(fit)
 					    , sep=""), side =3, line=0, at=functionAt, adj=functionAdj, cex=.9)
-				#end of plot de function expression
+				#end of plot the function expression, R^2 and p
 	
 				if(isPowerLoad) {
 					#xmax <-  -b / 2a

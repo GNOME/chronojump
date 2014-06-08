@@ -2563,13 +2563,12 @@ public partial class ChronoJumpWindow
 
 	
 	private void on_export_session_activate(object o, EventArgs args) {
-		if (o == (object) menuitem_export_csv) {
-			new ExportSessionCSV(currentSession, app1, prefsDigitsNumber);
-		} else if (o == (object) menuitem_export_xml) {
-			new ExportSessionXML(currentSession, app1, prefsDigitsNumber);
-		} else {
-			Log.WriteLine("Error exporting");
-		}
+		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Encoder data will not be exported."), "", "");
+		confirmWin.Button_accept.Clicked += new EventHandler(on_export_session_accepted);
+	}
+
+	private void on_export_session_accepted(object o, EventArgs args) {
+		new ExportSessionCSV(currentSession, app1, prefsDigitsNumber);
 	}
 
 	

@@ -1464,6 +1464,11 @@ plotSign <- function (num) {
 
 getModelPValueWithStars <- function(model) {
 	p.value = round(getModelPValue(model),6)
+	
+	#don't plot stars if p.value is nan because there's too few data
+	if(is.nan(p.value))
+		return (p.value)
+
 	stars = ""
 	if(p.value <= 0.0001)
 		stars = "***"

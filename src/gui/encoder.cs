@@ -290,7 +290,7 @@ public partial class ChronoJumpWindow
 		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
 		//			SqlitePreferences.Select("inertialmomentum")));
 		
-		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create();
+		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
 
 		captureCurvesBarsData = new ArrayList(0);
@@ -4758,9 +4758,11 @@ public class EncoderCaptureOptionsWindow {
 	}
 
 	
-	static public EncoderCaptureOptionsWindow Create () {
+	static public EncoderCaptureOptionsWindow Create (RepetitiveConditionsWindow repetitiveConditionsWin) {
 		if (EncoderCaptureOptionsWindowBox == null)
 			EncoderCaptureOptionsWindowBox = new EncoderCaptureOptionsWindow ();
+		
+		EncoderCaptureOptionsWindowBox.repetitiveConditionsWin = repetitiveConditionsWin;
 		
 		return EncoderCaptureOptionsWindowBox;
 	}

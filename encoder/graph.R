@@ -1485,7 +1485,51 @@ getModelPValue <- function(model) {
 	stopifnot(inherits(model, "lm"))
 	s <- summary.lm(model)
 	pf(s$fstatistic[1L], s$fstatistic[2L], s$fstatistic[3L], lower.tail = FALSE)
-} 
+}
+
+#http://stackoverflow.com/a/6234664
+#see if two labels overlap
+stroverlap <- function(x1,y1,s1, x2,y2,s2) {
+	print(c(x1,y1,s1, x2,y2,s2))
+	sh1 <- strheight(s1)
+	sw1 <- strwidth(s1)
+	sh2 <- strheight(s2)
+	sw2 <- strwidth(s2)
+
+	overlap <- FALSE
+	if (x1<x2) 
+		overlap <- x1 + sw1 > x2
+	else
+		overlap <- x2 + sw2 > x1
+
+	if (y1<y2)
+		overlap <- overlap && (y1 +sh1>y2)
+	else
+		overlap <- overlap && (y2+sh2>y1)
+
+	return(overlap)
+}
+#check all labels to see if newPoint overlaps one of them
+stroverlapArray <- function(newPoint, points) {
+	overlap = FALSE
+			
+	#print(c("at Array newPoint, points",newPoint, points))
+	if(length(points$x) == 1)	#if there's only one row
+		return (stroverlap(
+			      as.numeric(newPoint[1]), as.numeric(newPoint[2]), newPoint[3],
+			      as.numeric(points$x), as.numeric(points$y), points$curveNum ))
+	
+	#as.numeric is needed because ec-con uses "1e" in third element, and then three elements are strings
+
+	for(i in 1:length(points$x)) {	#for every row
+		overlap = stroverlap(
+			      as.numeric(newPoint[1]), as.numeric(newPoint[2]), newPoint[3],
+			      as.numeric(points$x[i]), as.numeric(points$y[i]), points$curveNum[i])
+		if(overlap)
+			return (TRUE)
+	}
+	return (FALSE)
+}
 
 #option: mean or max
 paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod, outputData1) {
@@ -1504,35 +1548,15 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 	varXut = addUnitsAndTranslate(varX)
 	varYut = addUnitsAndTranslate(varY)
+	
+	#nums.print.df = NULL
+	nums.print = NULL
 
 	#if only one series
 	if(length(unique(seriesName)) == 1) {
-		myNums = rownames(paf)
-		if(Eccon=="ecS" || Eccon=="ceS") {
-			if(singleFile) {
-				myEc=c("c","e")
-				if(Eccon=="ceS")
-					myEc=c("e","c")
-				myNums = as.numeric(rownames(paf))
-				myNums = paste(trunc((myNums+1)/2),myEc[((myNums%%2)+1)],sep="")
-			}
-		}
-
-		#problem with balls is that two values two close looks bad
-		#suboption="balls"
-		suboption="side"
-		if(suboption == "balls") {
-			cexBalls = 3
-			cexNums = 1
-			adjHor = 0.5
-			nums=myNums
-		} else if (suboption == "side") {
-			cexBalls = 1.8
-			cexNums = 1
-			adjHor = 0
-			nums=paste("  ", myNums)
-		}
-
+		cexBalls = 1.8
+		cexNums = 1
+		adjHor = 0
 		colBalls="blue"
 		bgBalls="lightBlue"
 		if(isAlone == "RIGHT") {
@@ -1542,6 +1566,32 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		
 		plot(x,y, xlab=varXut, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	
+
+		newPoint = c(x[1], y[1], 1) #TODO: do also for ecc-con
+		nums.print = data.frame(rbind(newPoint))
+		colnames(nums.print) = c("x","y","curveNum")
+	
+		#done after data.frame definition in order to don't mess up with string columns	
+		if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile)
+			nums.print$curveNum = "1e"
+		
+		for(i in 2:length(x)) {
+			name = i
+			if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
+				myEc=c("c","e")
+				if(Eccon=="ceS")
+					myEc=c("e","c")
+				name = paste(trunc((name+1)/2),myEc[((name%%2)+1)],sep="")
+			}
+
+			newPoint = c(x[i], y[i], name) #TODO: do also for ecc-con
+			
+			overlaps = stroverlapArray(newPoint, nums.print)
+			if(! overlaps)
+				nums.print = rbind(nums.print, newPoint)
+		}
+
+
 		if(do1RM != FALSE & do1RM != "0") {	
 			speed1RM = as.numeric(do1RM)
 
@@ -1654,7 +1704,8 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		}
 		
 		title(title, cex.main=1, font.main=2)
-		text(x,y,nums,adj=c(adjHor,.5),cex=cexNums)
+		
+		text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
 		
 
 	} else { #more than one series

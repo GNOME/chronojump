@@ -1697,13 +1697,15 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 					abline(v=xmax,lty=3)
 					points(xmax, pmax, pch=1, cex=3)
-					mtext(paste("pmax = ", round(pmax,1), " W", sep=""),side=3,at=xmax, cex = .9)
-					mtext(paste("mass = ", round(xmax,1), " Kg", sep=""),side=1,at=xmax, cex = .9, line = -1)
+
+					#this check is to not have title overlaps on 'speed,power / load' graph
+					if(title != "")
+					   title = paste(title, " (pmax = ", round(pmax,1), " W with ", round(xmax,1), " Kg)", sep="")
 				}
 			}
 		}
 		
-		title(title, cex.main=1, font.main=2)
+		title(title, cex.main=1, font.main=2, line=3)
 		
 		text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
 		
@@ -2782,22 +2784,24 @@ doProcess <- function(options) {
 			print(AnalysisVariables[3])
 
 			if(AnalysisVariables[1] == "Speed,Power") {
-				par(mar=c(5,4,4,5))
+				par(mar=c(5,4,5,5))
 				analysisVertVars = unlist(strsplit(AnalysisVariables[1], "\\,"))
 				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[1], 
-						    AnalysisVariables[3], "LEFT", Title,
+						    AnalysisVariables[3], "LEFT", "",
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
 				par(new=T)
 				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[2], 
-						    AnalysisVariables[3], "RIGHT", "",
+						    AnalysisVariables[3], "RIGHT", Title,
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
-			} else
+			} else {
+				par(mar=c(5,4,5,2))
 				paintCrossVariables(paf, AnalysisVariables[2], AnalysisVariables[1], 
 						    AnalysisVariables[3], "ALONE", Title,
 						    singleFile,Eccon,mySeries, 
 						    FALSE, FALSE, OutputData1) 
+			}
 		}
 		else if(Analysis == "1RMAnyExercise") {
 			mySeries = "1"

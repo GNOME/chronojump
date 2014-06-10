@@ -5539,6 +5539,9 @@ Second Chronopic to platforms.</property>
                                                     <child>
                                                       <placeholder/>
                                                     </child>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -6127,6 +6130,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -6869,6 +6875,9 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -7350,6 +7359,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -16226,7 +16238,7 @@ Just select and then close this window.</property>
     <property name="border_width">8</property>
     <property name="title" translatable="yes">Test image and description</property>
     <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
+    <property name="type_hint">normal</property>
     <signal name="delete_event" handler="on_delete_event" swapped="no"/>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="vbox100">
@@ -16707,6 +16719,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -17096,6 +17111,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -17875,6 +17893,12 @@ by you</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -25357,6 +25381,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -27145,6 +27187,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -27603,6 +27648,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -27689,6 +27737,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                           </packing>
                         </child>
                         <child>
+                          <placeholder/>
+                        </child>
+                        <child>
                           <widget class="GtkLabel" id="label_database_temp">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
@@ -27699,9 +27750,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="fill">False</property>
                             <property name="position">3</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                         <child>
                           <widget class="GtkButton" id="button_db_folder_open">
@@ -29521,6 +29569,9 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -29547,6 +29598,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -29652,6 +29706,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

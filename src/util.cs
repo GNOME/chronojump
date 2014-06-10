@@ -692,6 +692,19 @@ public class Util
 	public static bool IsEven(int myInt) {
 		return (myInt % 2 == 0); //check if it's even (in spanish "par")
 	}
+	
+	/********** start of LocalApplicationData path ************/
+	
+	//parent of database, multimedia and encoder
+	public static string GetParentDir() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump");
+	}
+	
+	/********** end of LocalApplicationData path ************/
+	
+	/********** start of database paths ************/
 
 	public static string GetReallyOldDatabaseDir() {
 		return Environment.GetEnvironmentVariable("HOME")+ Path.DirectorySeparatorChar + ".chronojump";
@@ -719,6 +732,7 @@ public class Util
 		return Path.Combine(Path.GetTempPath(), "Chronojump");
 	}
 
+	/********** end of database paths ************/
 	
 	/********** start of multimedia paths ************/
 
@@ -883,7 +897,15 @@ public class Util
 			Log.WriteLine("Error, chronojump.db file doesn't exist!");
 		}
 	}
-	
+
+	//http://stackoverflow.com/a/58779	
+	public static void CopyFilesRecursively(DirectoryInfo source, DirectoryInfo target) {
+		foreach (DirectoryInfo dir in source.GetDirectories())
+			CopyFilesRecursively(dir, target.CreateSubdirectory(dir.Name));
+		foreach (FileInfo file in source.GetFiles())
+			file.CopyTo(Path.Combine(target.FullName, file.Name));
+	}
+
 	public static bool FileDelete(string fileName) {
 		try {
 			if(File.Exists(fileName)) {

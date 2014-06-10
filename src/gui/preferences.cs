@@ -24,10 +24,11 @@ using Gdk;
 using Gtk;
 using Glade;
 //using Gnome;
-using GLib; //for Value
+//using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using Mono.Unix;
+using System.Threading;
 
 public class PreferencesWindow {
 	
@@ -36,6 +37,19 @@ public class PreferencesWindow {
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
 	[Widget] Gtk.Label label_logs;
+	
+	[Widget] Gtk.Button button_db_folder_open;
+
+	//this three are unneded because cannot be unchecked
+	//[Widget] Gtk.CheckButton check_backup_sessions;
+	//[Widget] Gtk.CheckButton check_backup_persons;
+	//[Widget] Gtk.CheckButton check_backup_contact_tests;
+	[Widget] Gtk.CheckButton check_backup_encoder_tests;
+	[Widget] Gtk.CheckButton check_backup_multimedia;
+	
+	[Widget] Gtk.Button button_db_backup;
+	[Widget] Gtk.Box hbox_backup_doing;
+	[Widget] Gtk.ProgressBar pulsebar;
 
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_height;
@@ -79,8 +93,11 @@ public class PreferencesWindow {
 	[Widget] Gtk.ComboBox combo_camera;
 
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Button button_cancel;
 	
 	static PreferencesWindow PreferencesWindowBox;
+	
+	private Thread thread;
 
 	//language when window is called. If changes, then change data in sql and show 
 	//dialogMessage
@@ -311,8 +328,13 @@ public class PreferencesWindow {
 	
 	void on_preferences_delete_event (object o, DeleteEventArgs args)
 	{
-		PreferencesWindowBox.preferences.Hide();
-		PreferencesWindowBox = null;
+		//do not hide/exit if copyiing
+		if (thread.IsAlive)
+			args.RetVal = true;
+		else {
+			PreferencesWindowBox.preferences.Hide();
+			PreferencesWindowBox = null;
+		}
 	}
 	
 	void on_button_db_folder_open_clicked (object o, EventArgs args)
@@ -327,7 +349,15 @@ public class PreferencesWindow {
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
 	}
-	
+
+	void on_check_backup_multimedia_clicked(object o, EventArgs args) {
+		check_backup_encoder_tests.Active = check_backup_multimedia.Active;
+	}	
+	void on_check_backup_encoder_tests_clicked(object o, EventArgs args) {
+		check_backup_multimedia.Active = check_backup_encoder_tests.Active;
+	}	
+
+
 	string fileDB;
 	string fileCopy;
 	Gtk.FileChooserDialog fc;
@@ -360,23 +390,53 @@ public class PreferencesWindow {
 
 		if (fc.Run() == (int)ResponseType.Accept) 
 		{
-			fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
+			//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
+			if(check_backup_encoder_tests.Active || check_backup_multimedia.Active)
+				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump";
+			else
+				fileCopy = fc.Filename + Path.DirectorySeparatorChar + "chronojump_copy.db";
+
 			try {
 				fc.Hide ();
-				if (File.Exists(fileCopy)) {
-					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
-								fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
+			
+				bool exists = false;
+				if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) {
+					if(Directory.Exists(fileCopy)) {
+						Log.WriteLine(string.Format("Directory {0} exists, created at {1}", 
+									fileCopy, Directory.GetCreationTime(fileCopy)));
+						exists = true;
+					}
+				} else {
+					if (File.Exists(fileCopy)) {
+						Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+									fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
+						exists = true;
+					}
+				}
+
+				if(exists) {
 					Log.WriteLine("Overwrite...");
-					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), "", fileCopy);
+					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", fileCopy);
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
-					File.Copy(fileDB, fileCopy);
-					string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-					new DialogMessage(Constants.MessageTypes.INFO, myString);
+					//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
+					if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) 
+					{
+						thread = new Thread(new ThreadStart(copyRecursive));
+						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		
+						backup_doing_sensitive_start_end(true);	
+						thread.Start(); 
+					} else {
+						File.Copy(fileDB, fileCopy);
+					
+						string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+						new DialogMessage(Constants.MessageTypes.INFO, myString);
+					}
 				}
 			} 
 			catch {
-				string myString = string.Format(Catalog.GetString("Cannot copy to file {0} "), fileCopy);
+				string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
 				new DialogMessage(Constants.MessageTypes.WARNING, myString);
 			}
 		}
@@ -393,17 +453,67 @@ public class PreferencesWindow {
 	private void on_overwrite_file_accepted(object o, EventArgs args)
 	{
 		try {
-			File.Delete(fileCopy);
-			File.Copy(fileDB, fileCopy);
-			fc.Hide ();
-			string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
-			new DialogMessage(Constants.MessageTypes.INFO, myString);
+			//if encoder_tests or multimedia, then copy the folder. If not checked, then copy only the db file
+			if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) {
+				Directory.Delete(fileCopy, true);
+				thread = new Thread(new ThreadStart(copyRecursive));
+				GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		
+				backup_doing_sensitive_start_end(true);	
+				thread.Start(); 
+			} else {
+				File.Delete(fileCopy);
+				File.Copy(fileDB, fileCopy);
+						
+				fc.Hide ();
+				string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+				new DialogMessage(Constants.MessageTypes.INFO, myString);
+			}
 		} catch {
-			string myString = string.Format(Catalog.GetString("Cannot copy to file {0} "), fileCopy);
+			string myString = string.Format(Catalog.GetString("Cannot copy to {0} "), fileCopy);
 			new DialogMessage(Constants.MessageTypes.WARNING, myString);
 		}
 	}
+	
+	private void copyRecursive() {
+		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir()), new DirectoryInfo(fileCopy));
+	}
+	
+	private bool PulseGTK ()
+	{
+		if ( ! thread.IsAlive ) {
+			Log.Write("dying");
+			
+			endPulse();
+
+			return false;
+		}
+	
+		pulsebar.Pulse();
+		Thread.Sleep (50);
+		//Log.Write(thread.ThreadState.ToString());
+		return true;
+	}
+
+	private void endPulse() {
+		pulsebar.Fraction = 1;
+		backup_doing_sensitive_start_end(false);
+		fc.Hide ();
+		string myString = string.Format(Catalog.GetString("Copied to {0}"), fileCopy);
+		new DialogMessage(Constants.MessageTypes.INFO, myString);
+	}
+	
+	private void backup_doing_sensitive_start_end(bool start) 
+	{
+		hbox_backup_doing.Visible = start;
+	
+		button_db_backup.Sensitive = ! start;
+		button_db_folder_open.Sensitive = ! start;
 		
+		button_cancel.Sensitive = ! start;
+		button_accept.Sensitive = ! start;
+	}
+
 
 	void on_button_accept_clicked (object o, EventArgs args)
 	{

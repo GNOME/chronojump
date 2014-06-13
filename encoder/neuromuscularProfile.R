@@ -344,9 +344,9 @@ neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 
 	barplot(main=title, c(load100,explode100,drive100),col=topo.colors(3),ylim=c(0,100),
 		names.arg=c(
-			    paste("Load\n",round(load,2)," -> ",round(load100,2),"%",sep=""),
-			    paste("Explode\n",round(explode,2)," -> ",round(explode100,2),"%",sep=""),
-			    paste("Drive\n",round(drive,2)," -> ",round(drive100,2),"%",sep="")
+			    paste("Load (avg RFD ecc)\n",round(load,2)," -> ",round(load100,2),"%",sep=""),
+			    paste("Explode (avg rel. RFD con)\n",round(explode,2)," -> ",round(explode100,2),"%",sep=""),
+			    paste("Drive (avg rel. Impulse con)\n",round(drive,2)," -> ",round(drive100,2),"%",sep="")
 		))
 	
 	#show small text related to graph result and how to train

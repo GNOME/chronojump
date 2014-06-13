@@ -34,7 +34,16 @@
 \float_placement h
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -80,7 +89,7 @@ Chronojump
 
 
 \size large
-(updated until Chronojump 1.4.1 version)
+(updated until Chronojump 1.4.3 version)
 \end_layout
 
 \begin_layout Author
@@ -1728,7 +1737,7 @@ sessions
 \end_layout
 
 \begin_layout Itemize
-persons
+people
 \end_layout
 
 \begin_layout Itemize
@@ -1923,7 +1932,7 @@ Session menu / Remove session
 \end_layout
 
 \begin_layout Subsection
-Persons
+subjects
 \end_layout
 
 \begin_layout Standard
@@ -2018,18 +2027,76 @@ Person menu / Create person
  You may indicate the full name, gender, date of birth, height, weight,
  country, sport, mode and level.
  It’s important to enter the full name to avoid further conflicts with other
- different persons.
+ different subjects.
 \end_layout
 
 \begin_layout Standard
-In order to accelerate the creation of multiple persons, click on the menu
+In order to accelerate the creation of multiple subjects, click on the menu
  
 \emph on
-Subject / Create persons [multiple]
+Subject / Create subjects [multiple]
 \emph default
 .
  A window will appear where you can create multiple subjects at once.
- Once created, if you still want to create more persons, you can click again
+ You can choose between 
+\emph on
+Add entries from CSV (spreadsheet)
+\emph default
+ or 
+\emph on
+Add entries manually
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+In the first case you will need a coma separated value file (.csv) previously
+ created with the information of the name, surname, genre and weight in
+ diferent fields.
+ The format of the file can be specified with headers 
+\begin_inset Graphics
+	filename import_headers.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ or without it 
+\begin_inset Graphics
+	filename import_no_headers.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
+ Additionally you can have a file with a single column for the full name
+ 
+\begin_inset Graphics
+	filename import_1_field.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ or two columns for the name and surname 
+\begin_inset Graphics
+	filename import_2_fields.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the second case, you can create manually a set of subjects as shown in
+ the figure.
+\end_layout
+
+\begin_layout Standard
+Once created, if you still want to create more subjects, you can click again
  on the same menu item.
  Figure 
 \begin_inset CommandInset ref
@@ -2038,7 +2105,7 @@ reference "fig:Creación-de-diversos"
 
 \end_inset
 
- shows the creation of 11 persons at once.
+ shows the creation of 11 subjects at once.
 \end_layout
 
 \begin_layout Standard
@@ -2064,7 +2131,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Creation of different persons simultaneously.
+Creation of different subjects simultaneously.
 \end_layout
 
 \end_inset
@@ -2096,9 +2163,9 @@ Load person
 If you created a session and you want to continue with the same person/s
  in another session click 
 \emph on
-Load persons from another session
+Load subjects from another session
 \emph default
- and check all persons who participated in the other session or multiple
+ and check all subjects who participated in the other session or multiple
  session.
  If you wish you can always discard any subject.
 \end_layout
@@ -2150,7 +2217,7 @@ name "fig:Cargar-atletas"
 
 \end_inset
 
-Load persons.
+Load subjects.
 \end_layout
 
 \end_inset
@@ -2192,7 +2259,7 @@ name "fig:Cargar-atletas-otra_sesion"
 
 \end_inset
 
-Load persons from other session.
+Load subjects from other session.
 \end_layout
 
 \end_inset
@@ -2215,7 +2282,7 @@ Click
 Show all tests of current person 
 \emph default
 to see all the tests that this person has done in the different sessions.
- You can also select other persons of the current session.
+ You can also select other subjects of the current session.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2448,7 +2515,7 @@ Cancel
 \end_layout
 
 \begin_layout Standard
-If you want to execute the same type of jump to various persons and you
+If you want to execute the same type of jump to various subjects and you
  don’t want a button (only available on the tab 
 \emph on
 More
@@ -3584,8 +3651,8 @@ Cancel
 \end_layout
 
 \begin_layout Standard
-If you want to execute the same type of run to various persons and you don’t
- want a button (only available on the tab 
+If you want to execute the same type of run to various subjects and you
+ don’t want a button (only available on the tab 
 \emph on
 More
 \emph default
@@ -3667,8 +3734,8 @@ Cancel
 \end_layout
 
 \begin_layout Standard
-If you want to execute the same type of run to various persons and you don’t
- want a button (only available on the tab 
+If you want to execute the same type of run to various subjects and you
+ don’t want a button (only available on the tab 
 \emph on
 More
 \emph default
@@ -5511,7 +5578,7 @@ sessions
 \end_layout
 
 \begin_layout Itemize
-persons
+subjects
 \end_layout
 
 \begin_layout Itemize
@@ -5519,7 +5586,7 @@ exercises
 \end_layout
 
 \begin_layout Standard
-All modifications in session, persons and exercises, will be updated at
+All modifications in session, subjects and exercises, will be updated at
  any time in the database.
  So there isn’t need to save the information periodically.
  If rare case, the program crash, you wouldn’t lose any data except sometimes
@@ -5531,21 +5598,21 @@ Sessions
 \end_layout
 
 \begin_layout Standard
-The sessions represent situations where the coach or evaluator gathers persons
+The sessions represent situations where the coach or evaluator gathers subjects
  for a series of tests.
  Every time you gather a group of athletes to be tested in a short space
  of time (usually one day), you should create a new session.
- Although the persons to assess can be the same as in other session, you
+ Although the subjects to assess can be the same as in other session, you
  should create a new one and load them from the other session.
  In this way, you can make comparisons between data over time.
 \end_layout
 
 \begin_layout Subsection
-Persons
+subjects
 \end_layout
 
 \begin_layout Standard
-All individuals able to perform the tests are known as persons.
+All individuals able to perform the tests are known as subjects.
  It’s strongly recommended to create one person only once in order to study
  the evolution over time.
  In following sessions the person can be loaded.
@@ -5671,8 +5738,8 @@ B) Under the menu bar there's Chronopic information: number of Chronopics
 \end_layout
 
 \begin_layout Standard
-C) The rest of the left part of the screen is related to persons.
- On the top you can create new persons or load from another session.
+C) The rest of the left part of the screen is related to subjects.
+ On the top you can create new subjects or load from another session.
  Below you can select the current person and finally, at the bottom you
  can edit the person, see all it's tests and delete it.
 \end_layout
@@ -5750,8 +5817,8 @@ Some configurations need additional parameters as angle, diameter or inertia
 
 \begin_layout Standard
 Chronojump implements a system to calculate the inertia momentum that allows
- to config an encoder amopst all type of inertial machines.
- To do follow the next steps:
+ to config an encoder in almost all type of inertial machines.
+ To do so, follow the next steps:
 \end_layout
 
 \begin_layout Enumerate
@@ -5909,7 +5976,15 @@ WeightDispacement=\frac{PersonWeight*DisplacedBodyWeight}{100}+ExtraWeight
 \begin_layout Standard
 The exercise area includes also the contraction type (eccentric-concentric
  or concentric), the laterality, the recording time selected, the minimal
- height, the feedback bell and the recalculate button.
+ height, the feedback bell 
+\begin_inset Graphics
+	filename bell_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ and the recalculate button.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5917,12 +5992,35 @@ Aquire
 \end_layout
 
 \begin_layout Standard
-In the acquire area a new signal can be captured or a previusly captured
- one can be loaded.
+In the acquire area a new signal can be captured 
+\begin_inset Graphics
+	filename capture_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ or a previusly captured one can be loaded 
+\begin_inset Graphics
+	filename load_signal_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-With the Options button the following parameters of the capture can be adjusted:
+With the Options button 
+\begin_inset Graphics
+	filename signal_settings_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ the following parameters of the capture or loaded signal can be adjusted:
 \end_layout
 
 \begin_layout Standard
@@ -5990,7 +6088,7 @@ Main variable.
  process as a instant visual feedback.
 \end_layout
 
-\begin_layout Itemize
+\begin_layout Standard
 Feedback.
  This button opens the sound feedback options.
 \end_layout
@@ -6031,9 +6129,16 @@ Sound feedback options
 \end_layout
 
 \begin_layout Standard
-The top right button of this frame allows to load a signal, save signal
- again with a comment (just write comment in the area and press update),
- or delete the signal.
+The load button 
+\begin_inset Graphics
+	filename load_signal_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ of this frame allows to load a signal, save signal again with a comment
+ (just write comment in the area and press update), or delete the signal.
  The load signal window is used also to manage all the signals of current
  person.
  Right click on it to change the person who performed the exercise, add
@@ -6042,9 +6147,17 @@ The top right button of this frame allows to load a signal, save signal
 
 \begin_layout Standard
 Recalculate can be used after capturing or loading.
- When user detects that some parameter has not been set correctly and want
+ When user detects that some parameter has not been set correctly and wants
  to perform calculations of the signal again, user can change the selector
- and press “recalculate”.
+ and press “recalculate” 
+\begin_inset Graphics
+	filename recalculate.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
  E.g.
  40 seconds squat has been done and the extra weight introduced was 40Kg
  but user forgot to add the weight of the lift bar.
@@ -6149,8 +6262,8 @@ Regarding the data, two things can be analysed: current signal (the signal
 When “User curves” is marked, then using the “Select” button, it can be
  discriminated the active curves and the not-active.
  The analysis will cover only the active curves.
- Also the “User curves” allow to make comparisons between persons (to compare
- the different persons in this session), or between sessions (to compare
+ Also the “User curves” allow to make comparisons between subjects (to compare
+ the different subjects in this session), or between sessions (to compare
  the evolution of a person during different sessions).
 \end_layout
 
@@ -6159,28 +6272,67 @@ There are five modes of analysis:
 \end_layout
 
 \begin_layout Itemize
-Power bars: Shows power, peak power, time needed to arrive to peak power
- and range of movement.
+Power bars 
+\begin_inset Graphics
+	filename analyze_power_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Shows power, peak power, time needed to arrive to peak power and range
+ of movement.
 \end_layout
 
 \begin_layout Itemize
-Cross variables: to show relationships between variables like “Power / Load”.
+Cross variables 
+\begin_inset Graphics
+	filename analyze_cross_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: to show relationships between variables like “Power / Load”.
  Includes the 1RM calculation.
  Cross variables is the only analysis that can be done on “compare” mode.
 \end_layout
 
 \begin_layout Itemize
-Side compare: to see a graph of the mechanical variables of different curves
- all with the same axis.
+Side compare 
+\begin_inset Graphics
+	filename analyze_sidecompare_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: to see a graph of the mechanical variables of different curves all with
+ the same axis.
 \end_layout
 
 \begin_layout Itemize
-Single curve: to see a graph of the mechanical variables of a curve.
+Single curve 
+\begin_inset Graphics
+	filename analyze_singlecurve_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: to see a graph of the mechanical variables of a curve.
 \end_layout
 
 \begin_layout Itemize
-Neuromuscular profile: to se the neuromuscular profile of the three best
- jumps of a set of six.
+Neuromuscular profile 
+\begin_inset Graphics
+	filename analyze_nmp.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: to se the neuromuscular profile of the three best jumps of a set of six.
  At least six jumping curves are needed to performe that kind of analysis.
 \end_layout
 
@@ -6241,7 +6393,7 @@ Athlete1 and athlete2 start the warming up slowly and full range of movement
 
 \begin_layout Enumerate
 Evaluator starts Chronojump software, loads a session prepared the day before
- (session parameters and persons were already introduced).
+ (session parameters and subjects were already introduced).
 \end_layout
 
 \begin_layout Enumerate
@@ -6310,7 +6462,7 @@ Repeat [2] for all the signals of Athlete1 and Athlete2.
 
 \begin_layout Enumerate
 Go to analyse tab.
- Select User curves, compare between persons, “Power / Load”.
+ Select User curves, compare between subjects, “Power / Load”.
 \end_layout
 
 \begin_layout Enumerate
@@ -8422,7 +8574,7 @@ Database
 
 \begin_layout Standard
 Use this tab to have a copy of your data in order to avoid loosing your
- sessions, persons and tests on a hard disk problem or if operating system
+ sessions, subjects and tests on a hard disk problem or if operating system
  is reinstalled.
  Also you can use this tab to have Cronojump database in more than one computer.
 \end_layout

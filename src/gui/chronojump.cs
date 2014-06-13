@@ -2978,6 +2978,18 @@ public partial class ChronoJumpWindow
 			menuitem_mode_selected_encoder.Visible = true;
 		}
 	}
+	private void on_button_selector_start_contacts_clicked(object o, EventArgs args) {
+		//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Contacts (platform or photocell)"));
+		notebook_sup.CurrentPage = 0;
+		menuitem_mode_selected_contacts.Visible = true;
+		menuitem_mode_selected_encoder.Visible = false;
+	}
+	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) {
+		//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Encoder"));
+		notebook_sup.CurrentPage = 1;
+		menuitem_mode_selected_contacts.Visible = false;
+		menuitem_mode_selected_encoder.Visible = true;
+	}
 	
 
 	/*

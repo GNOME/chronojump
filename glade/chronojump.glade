@@ -5542,6 +5542,9 @@ Second Chronopic to platforms.</property>
                                                     <child>
                                                       <placeholder/>
                                                     </child>
+                                                    <child>
+                                                      <placeholder/>
+                                                    </child>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">True</property>
@@ -6130,6 +6133,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -6878,6 +6884,9 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -7359,6 +7368,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -14093,11 +14105,11 @@ Evaluator can use real name or nickname.</property>
                                         <property name="can_focus">False</property>
                                         <property name="spacing">20</property>
                                         <child>
-                                          <widget class="GtkImage" id="image40">
+                                          <widget class="GtkLabel" id="label_selector_start">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="stock">gtk-go-up</property>
-                                            <property name="icon-size">6</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Please, select mode:</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -14106,56 +14118,50 @@ Evaluator can use real name or nickname.</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label_selector_start">
+                                          <widget class="GtkAlignment" id="alignment12">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Please, select Mode in the menu</property>
+                                            <property name="left_padding">20</property>
+                                            <child>
+                                              <widget class="GtkVBox" id="vbox87">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="spacing">20</property>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_selector_start_contacts">
+                                                    <property name="label" translatable="yes">Contacts (platform or photocell)</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_selector_start_contacts_clicked" swapped="no"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkButton" id="button_selector_start_encoder">
+                                                    <property name="label" translatable="yes">Encoder</property>
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">True</property>
+                                                    <signal name="clicked" handler="on_button_selector_start_encoder_clicked" swapped="no"/>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkVBox" id="vbox87">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">20</property>
-                                            <child>
-                                              <widget class="GtkLabel" id="label32">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
-                                                <property name="xpad">50</property>
-                                                <property name="label" translatable="yes">Contacts  (platform or photocell)</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label34">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="xalign">0</property>
-                                                <property name="xpad">50</property>
-                                                <property name="label" translatable="yes">Encoder</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="expand">False</property>
-                                                <property name="fill">False</property>
-                                                <property name="position">1</property>
-                                              </packing>
-                                            </child>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -16722,6 +16728,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -17111,6 +17120,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -17893,6 +17905,12 @@ by you</property>
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -25399,6 +25417,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -27190,6 +27226,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -27635,6 +27674,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -29572,6 +29614,9 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -29598,6 +29643,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -29706,6 +29754,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

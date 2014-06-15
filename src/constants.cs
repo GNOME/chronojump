@@ -421,6 +421,10 @@ public class Constants
 	public static string FileNameAutoPersonSkipIcon = "auto-person-skip.png";
 	public static string FileNameAutoPersonRemoveIcon = "auto-person-remove.png";
 	
+	public static string FileNameSelectorJumps = "chronojump-jumps-small.png";
+	public static string FileNameSelectorRuns = "chronojump-runs-small.png";
+	public static string FileNameSelectorEncoder = "chronojump-encoder-small.jpg";
+	
 	//30 colors defined
 	//see als UtilGtk that's not used by the server
 	public static string [] Colors = {

@@ -48,11 +48,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.MenuItem menuitem_mode_selected_runs;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_encoder;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
+	
+	[Widget] Gtk.Notebook notebook_start; //use to display the start images to select different modes
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.Notebook notebook_sup_contacts;
 
 	[Widget] Gtk.Label label_version;
 	[Widget] Gtk.Image image_logo;
+	[Widget] Gtk.Image image_selector_start_jumps;
+	[Widget] Gtk.Image image_selector_start_runs;
+	[Widget] Gtk.Image image_selector_start_encoder;
 
 	//gui for small screens
 	[Widget] Gtk.RadioButton radio_mode_jumps_small;
@@ -497,7 +502,7 @@ public partial class ChronoJumpWindow
 		eventbox_image_test.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 	
 		//start with the Mode selector	
-		notebook_sup.CurrentPage = 4;
+		notebook_start.CurrentPage = 0;
 
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
@@ -810,6 +815,13 @@ public partial class ChronoJumpWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonRemoveIcon);
 		image_auto_person_remove.Pixbuf = pixbuf;
 				
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorJumps);
+		image_selector_start_jumps.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorRuns);
+		image_selector_start_runs.Pixbuf = pixbuf;
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameSelectorEncoder);
+		image_selector_start_encoder.Pixbuf = pixbuf;
+
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
 		image_logo.Pixbuf = pixbuf;
 	}
@@ -2977,6 +2989,22 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+
+	/*
+	 * menu test selectors
+	 */
+
+	private void on_menuitem_mode_main_menu_activate (object o, EventArgs args) {
+		notebook_start.CurrentPage = 0;
+		
+		session_menuitem.Visible = false;
+		menuitem_mode.Visible = false;
+		
+		menuitem_mode_selected_jumps.Visible = false;
+		menuitem_mode_selected_runs.Visible = false;
+		menuitem_mode_selected_encoder.Visible = false;
+		menuitem_mode_selected_other.Visible = false;
+	}	
 	
 	enum menuitem_modes { JUMPS, RUNS, ENCODER, OTHER }
 	private void select_menuitem_mode_toggled(menuitem_modes m) 
@@ -3005,6 +3033,13 @@ public partial class ChronoJumpWindow
 			menuitem_mode_selected_other.Visible = true;
 			radio_mode_reaction_times_small.Active = true;
 		}
+
+		//show the program
+		notebook_start.CurrentPage = 1;
+
+		//it's not visible at startup
+		session_menuitem.Visible = true;
+		menuitem_mode.Visible = true;
 	}
 
 	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) 
@@ -3033,6 +3068,11 @@ public partial class ChronoJumpWindow
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) {
 		select_menuitem_mode_toggled(menuitem_modes.OTHER);
 	}
+	
+	/*
+	 * end of menu test selectors
+	 */
+
 	
 
 	/*

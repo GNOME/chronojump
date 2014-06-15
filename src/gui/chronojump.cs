@@ -38,14 +38,20 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Window app1;
 	[Widget] Gtk.MenuBar main_menu;
 	[Widget] Gtk.MenuItem menuitem_mode;
-	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_contacts;
+	
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_jumps;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_runs;
 	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_encoder;
-	[Widget] Gtk.MenuItem menuitem_mode_selected_contacts;
+	[Widget] Gtk.RadioMenuItem radio_menuitem_mode_other;
+
+	[Widget] Gtk.MenuItem menuitem_mode_selected_jumps;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_runs;
 	[Widget] Gtk.MenuItem menuitem_mode_selected_encoder;
+	[Widget] Gtk.MenuItem menuitem_mode_selected_other;
 	[Widget] Gtk.Notebook notebook_sup;
+	[Widget] Gtk.Notebook notebook_sup_contacts;
 
 	//gui for small screens
-	[Widget] Gtk.Viewport viewport_mode_small;
 	[Widget] Gtk.RadioButton radio_mode_jumps_small;
 	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
 	[Widget] Gtk.RadioButton radio_mode_runs_small;
@@ -630,7 +636,6 @@ public partial class ChronoJumpWindow
 		/*
 		 * gui for small screens
 		 */
-		//viewport_mode_small.ModifyBg(StateType.Normal, UtilGtk.WHITE);
 
 		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_small);
 		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_reactive_small);
@@ -2964,31 +2969,61 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	
+	enum menuitem_modes { JUMPS, RUNS, ENCODER, OTHER }
+	private void select_menuitem_mode_toggled(menuitem_modes m) 
+	{
+		menuitem_mode_selected_jumps.Visible = false;
+		menuitem_mode_selected_runs.Visible = false;
+		menuitem_mode_selected_encoder.Visible = false;
+		menuitem_mode_selected_other.Visible = false;
 
-	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) {
-		if(radio_menuitem_mode_contacts.Active) {
-			//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Contacts (platform or photocell)"));
+		if(m == menuitem_modes.JUMPS) {
 			notebook_sup.CurrentPage = 0;
-			menuitem_mode_selected_contacts.Visible = true;
-			menuitem_mode_selected_encoder.Visible = false;
-		} else {
-			//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Encoder"));
+			notebook_sup_contacts.CurrentPage = 0;
+			menuitem_mode_selected_jumps.Visible = true;
+			radio_mode_jumps_small.Active = true;
+		} else if(m == menuitem_modes.RUNS) {
+			notebook_sup.CurrentPage = 0;
+			notebook_sup_contacts.CurrentPage = 1;
+			menuitem_mode_selected_runs.Visible = true;
+			radio_mode_runs_small.Active = true;
+		} else if(m == menuitem_modes.ENCODER) {
 			notebook_sup.CurrentPage = 1;
-			menuitem_mode_selected_contacts.Visible = false;
 			menuitem_mode_selected_encoder.Visible = true;
+		} else {	//m == menuitem_modes.OTHER (contacts / other)
+			notebook_sup.CurrentPage = 0;
+			notebook_sup_contacts.CurrentPage = 2;
+			menuitem_mode_selected_other.Visible = true;
+			radio_mode_reaction_times_small.Active = true;
 		}
 	}
-	private void on_button_selector_start_contacts_clicked(object o, EventArgs args) {
-		//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Contacts (platform or photocell)"));
-		notebook_sup.CurrentPage = 0;
-		menuitem_mode_selected_contacts.Visible = true;
-		menuitem_mode_selected_encoder.Visible = false;
+
+	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) 
+	{
+		menuitem_modes m;
+		if(radio_menuitem_mode_jumps.Active)
+			m = menuitem_modes.JUMPS;
+		else if(radio_menuitem_mode_runs.Active)
+			m = menuitem_modes.RUNS;
+		else if(radio_menuitem_mode_encoder.Active)
+			m = menuitem_modes.ENCODER;
+		else // if(radio_menuitem_mode_other.Active)
+			m = menuitem_modes.OTHER;
+
+		select_menuitem_mode_toggled(m);
+	}
+	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) {
+		select_menuitem_mode_toggled(menuitem_modes.JUMPS);
+	}
+	private void on_button_selector_start_runs_clicked(object o, EventArgs args) {
+		select_menuitem_mode_toggled(menuitem_modes.RUNS);
 	}
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) {
-		//menuitem_mode = new MenuItem(Catalog.GetString("Mode") + ": " + Catalog.GetString("Encoder"));
-		notebook_sup.CurrentPage = 1;
-		menuitem_mode_selected_contacts.Visible = false;
-		menuitem_mode_selected_encoder.Visible = true;
+		select_menuitem_mode_toggled(menuitem_modes.ENCODER);
+	}
+	private void on_button_selector_start_other_clicked(object o, EventArgs args) {
+		select_menuitem_mode_toggled(menuitem_modes.OTHER);
 	}
 	
 
@@ -5967,8 +6002,9 @@ Console.WriteLine("X");
 	
 	private void sensitiveGuiEventDoing () {
 		session_menuitem.Sensitive = false;
+		menuitem_mode.Sensitive = false;
+		notebook_sup_contacts.Sensitive = false;
 		help_menuitem.Sensitive = false;
-		viewport_mode_small.Sensitive = false;
 		frame_persons.Sensitive = false;
 		
 		button_execute_test.Sensitive = false;
@@ -5997,8 +6033,9 @@ Console.WriteLine("X");
 		Log.Write(" sensitiveGuiEventDone start ");
 
 		session_menuitem.Sensitive = true;
+		menuitem_mode.Sensitive = true;
+		notebook_sup_contacts.Sensitive = true;
 		help_menuitem.Sensitive = true;
-		viewport_mode_small.Sensitive = true;
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
@@ -6051,7 +6088,6 @@ Console.WriteLine("X");
 		session_menuitem.Sensitive 	= ! start;
 		menuitem_mode.Sensitive 	= ! start;
 		help_menuitem.Sensitive 	= ! start;
-		viewport_mode_small.Sensitive 	= ! start;
 		frame_persons.Sensitive 	= ! start;
 
 		hbox_jumps_test.Visible 	= ! start;

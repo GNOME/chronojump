@@ -51,6 +51,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Notebook notebook_sup;
 	[Widget] Gtk.Notebook notebook_sup_contacts;
 
+	[Widget] Gtk.Label label_version;
+	[Widget] Gtk.Image image_logo;
+
 	//gui for small screens
 	[Widget] Gtk.RadioButton radio_mode_jumps_small;
 	[Widget] Gtk.RadioButton radio_mode_jumps_reactive_small;
@@ -587,6 +590,8 @@ public partial class ChronoJumpWindow
 		//presentationInit();
 
 		videoCaptureInitialize();
+		
+		label_version.Text = progVersion; 
 	}
 	
 
@@ -804,6 +809,9 @@ public partial class ChronoJumpWindow
 		image_auto_person_skip.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameAutoPersonRemoveIcon);
 		image_auto_person_remove.Pixbuf = pixbuf;
+				
+		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameLogo);
+		image_logo.Pixbuf = pixbuf;
 	}
 
 	private void loadPreferences () 

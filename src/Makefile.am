@@ -36,7 +36,6 @@ SOURCES = \
 	gui/dialogImageTest.cs\
 	gui/language.cs\
 	gui/repetitiveConditions.cs\
-	gui/chronopicConnection.cs\
 	gui/convertWeight.cs\
 	gui/genericWindow.cs\
 	gui/splash.cs\

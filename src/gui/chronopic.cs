@@ -46,7 +46,7 @@ public class ChronopicWindow
 {
 	[Widget] Gtk.Window chronopic_window;
 	static ChronopicWindow ChronopicWindowBox;
-	ChronopicConnection chronopicConnectionWin;
+	//ChronopicConnection chronopicConnectionWin;
 
 	[Widget] Gtk.Notebook notebook_main;
 	//[Widget] Gtk.Image image_contact_modular;
@@ -87,6 +87,12 @@ public class ChronopicWindow
 	[Widget] Gtk.Table table_multi_chronopic;
 	//[Widget] Gtk.Button button_reload;
 	
+	//frame_connections
+	[Widget] Gtk.Frame frame_connection;
+	[Widget] Gtk.Label label_title;
+	[Widget] Gtk.ProgressBar progressbar;
+	[Widget] Gtk.Button button_cancel;
+	
 	[Widget] Gtk.Image chronopic_image;
 	[Widget] Gtk.TextView textview_ports_found_explanation;
 
@@ -117,6 +123,9 @@ public class ChronopicWindow
 	bool volumeOn;
 	int currentCp; //1 to 4
 	bool cancelledByUser;
+		
+	//in order to cancel before close window
+	static bool connecting;
 
 	//cp1	
 	Chronopic cp;
@@ -490,31 +499,59 @@ Log.WriteLine("bbb");
 	{
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
 			fakeConnectionButton.Click();
+			pulseEnd();
 			Log.Write("dying");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
-		chronopicConnectionWin = ChronopicConnection.Show();
-		chronopicConnectionWin.Pulse();
+		//chronopicConnectionWin = ChronopicConnection.Show();
+		//chronopicConnectionWin.Pulse();
+		progressbar.Pulse();
 		
 		Thread.Sleep (50);
 		Log.Write(thread.ThreadState.ToString());
 		return true;
+	}
+
+	private void pulseEnd() {
+		button_cancel.Sensitive = false;
+		connecting = false;
 	}
 			
 	private void updateChronopicWin(bool state, string message) {
 		Log.WriteLine("updateChronopicWin-1");
 
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
-		chronopicConnectionWin = ChronopicConnection.Show();
+		//chronopicConnectionWin = ChronopicConnection.Show();
 
 		Log.WriteLine("updateChronopicWin-2");
-		if(state)
-			chronopicConnectionWin.Connected(message);
+		if(state) {
+			//chronopicConnectionWin.Connected(message);
+			sensitivityConnected(message);
+			progressbar.Fraction = 1.0;
+		}
 		else
-			chronopicConnectionWin.Disconnected(message);
+			//chronopicConnectionWin.Disconnected(message);
+			sensitivityDisconnected(message);
 		
 		needUpdateChronopicWin = false;
+	}
+	
+	private void sensitivityConnected(string message) {
+		Log.WriteLine("CONNECTED!!");
+		label_title.Text = message;
+		label_title.UseMarkup = true;
+		button_cancel.Sensitive = false;
+	}
+
+	private void sensitivityDisconnected(string message) {
+		Log.WriteLine("DISCONNECTED!!");
+		label_title.Text = message;
+		button_cancel.Sensitive = false;
+	}
+		
+	private void on_button_help_ports_clicked (object o, EventArgs args) {
+		new HelpPorts();
 	}
 
 	//chronopic init should not touch  gtk, for the threads
@@ -589,7 +626,6 @@ Log.WriteLine("bbb");
 				connected = false;
 			}
 		}
-//		return myCp;
 	}
 	
 	private void on_checkbutton_multi_show_clicked(object o, EventArgs args) {
@@ -645,16 +681,16 @@ Log.WriteLine("bbb");
 
 
 	void prepareChronopicConnection() {
-		chronopicConnectionWin = ChronopicConnection.Show();
-		chronopicConnectionWin.LabelFeedBackReset();
-
-//		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
+		frame_connection.Visible = true;
+		
+		button_cancel.Sensitive = true;
+		cancelledByUser = false;
 		
 		fakeConnectionButton = new Gtk.Button();
 		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
 
+		connecting = true;
 		needUpdateChronopicWin = false;
-		cancelledByUser = false;
 		thread = new Thread(new ThreadStart(waitChronopicStart));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
@@ -663,8 +699,6 @@ Log.WriteLine("bbb");
 	static Chronopic cpDoing;	
 	protected void waitChronopicStart () 
 	{
-		chronopicConnectionWin.Button_cancel.Clicked += new EventHandler(on_chronopic_cancelled);
-
 		if(currentCp == 1) {
 		//	simulated = false;
 		//	SqlitePreferences.Update("simulated", simulated.ToString(), false);
@@ -807,9 +841,11 @@ Log.WriteLine("bbb");
 	}
 
 
-	private void on_chronopic_cancelled (object o, EventArgs args) {
+	private void on_button_cancel_clicked (object o, EventArgs args) {
 		Log.WriteLine("cancelled-----");
 		//fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
+		
+		button_cancel.Sensitive = false;
 		
 		cpDoing.AbortFlush = true;
 		cancelledByUser = true;
@@ -833,23 +869,22 @@ Log.WriteLine("bbb");
 	
 	void on_button_close_clicked (object o, EventArgs args)
 	{
+		if(connecting)
+			button_cancel.Click();
+
 		Log.WriteLine("CLOSE");
 		fakeWindowDone.Click();
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
 
-	/*	
-	private void on_button_reload_clicked (object o, EventArgs args) {
-		Log.WriteLine("RELOAD");
-		fakeWindowReload.Click();
-		//ChronopicWindowBox.chronopic_window.Hide();
-	}
-	*/
-
 	void on_delete_event (object o, DeleteEventArgs args)
 	{
 		//nice: this makes windows no destroyed, then it works like button_close
 		fakeWindowDone.Click();
+		
+		if(connecting)
+			button_cancel.Click();
+
 		args.RetVal = true;
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
@@ -901,13 +936,6 @@ Log.WriteLine("bbb");
 	public Button FakeWindowDone {
 		get { return fakeWindowDone; }
 	}
-	
-	/*	
-	public Button FakeWindowReload
-	{
-		get { return fakeWindowReload; }
-	}
-	*/
 
 	//public Gtk.Button FakeButtonCancelled {
 	//	get { return fakeButtonCancelled; }

@@ -3041,16 +3041,16 @@ public partial class ChronoJumpWindow
 		select_menuitem_mode_toggled(m);
 	}
 	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) {
-		select_menuitem_mode_toggled(menuitem_modes.JUMPS);
+		radio_menuitem_mode_jumps.Active = true;
 	}
 	private void on_button_selector_start_runs_clicked(object o, EventArgs args) {
-		select_menuitem_mode_toggled(menuitem_modes.RUNS);
+		radio_menuitem_mode_runs.Active = true;
 	}
 	private void on_button_selector_start_encoder_clicked(object o, EventArgs args) {
-		select_menuitem_mode_toggled(menuitem_modes.ENCODER);
+		radio_menuitem_mode_encoder.Active = true;
 	}
 	private void on_button_selector_start_other_clicked(object o, EventArgs args) {
-		select_menuitem_mode_toggled(menuitem_modes.OTHER);
+		radio_menuitem_mode_other.Active = true;
 	}
 	
 	/*

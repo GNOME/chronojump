@@ -3725,6 +3725,8 @@ Log.WriteLine("DDD 1");
 				showUpdateStatsAndHideData(true);
 			}
 		
+			lastJumpIsSimple = true;
+		
 			//unhide buttons for delete last jump
 			if(! execute_auto_doing)
 				sensitiveGuiYesEvent();
@@ -3733,9 +3735,10 @@ Log.WriteLine("DDD 1");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
-
-		lastJumpIsSimple = true;
 		
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
+
 		//unhide buttons that allow jumping
 		if(execute_auto_doing) {
 			execute_auto_order_pos ++;
@@ -3751,6 +3754,9 @@ Log.WriteLine("DDD 2");
 		Log.WriteLine(" cantouch1 ");
 		sensitiveGuiEventDone();
 		Log.WriteLine(" cantouch3 ");
+
+		if ( ! currentEventExecute.Cancel )
+			event_execute_progressbar_time.Fraction = 1; 
 	}
 
 
@@ -3907,6 +3913,9 @@ Log.WriteLine("DDD 2");
 			createChronopicWindow(true);
 		}
 		
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
+		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 	}
@@ -4031,6 +4040,8 @@ Log.WriteLine("DDD 2");
 				showUpdateStatsAndHideData(true);
 			}
 		
+			lastRunIsSimple = true;
+
 			//unhide buttons for delete last jump
 			sensitiveGuiYesEvent();
 
@@ -4042,7 +4053,8 @@ Log.WriteLine("DDD 2");
 			createChronopicWindow(true);
 		}
 		
-		lastRunIsSimple = true;
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4185,6 +4197,9 @@ Log.WriteLine("DDD 2");
 			createChronopicWindow(true);
 		}
 		
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
+		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 	}
@@ -4280,6 +4295,10 @@ Log.WriteLine("DDD 2");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
+		
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
+		
 	}
 
 
@@ -4405,6 +4424,9 @@ Log.WriteLine("DDD 2");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
+		
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4672,6 +4694,8 @@ Console.WriteLine("X");
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 		}
+		if (currentEventExecute.Cancel)
+			sensitiveGuiEventDone();
 	}
 		
 

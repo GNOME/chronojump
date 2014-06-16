@@ -78,6 +78,7 @@ class SqlitePreferences : Sqlite
 		Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString());
 		Insert ("inertialmomentum", "0.01");
 		Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
+		Insert ("RGraphsTranslate", "True");
 	}
 
 	public static void Insert(string myName, string myValue)

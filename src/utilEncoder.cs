@@ -329,7 +329,7 @@ public class UtilEncoder
 	}
 	
 	
-	private static EncoderGraphROptions prepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	private static EncoderGraphROptions prepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
 	{
 		string scriptUtilR = GetEncoderScriptUtilR();
 
@@ -363,11 +363,16 @@ public class UtilEncoder
 		int count = 0;
 		string temp = "";
 		string [] encoderTranslatedWordsOK = new String [Constants.EncoderTranslatedWords.Length];
-		foreach(string etw in Constants.EncoderTranslatedWords) {
-			temp = Util.ChangeChars(etw, ";", ",");
-			temp = Util.RemoveNewLine(temp, true);
-			encoderTranslatedWordsOK[count++] = temp;
-		}
+
+		//if ! translate, then just print the english words
+		if(translate) {
+			foreach(string etw in Constants.EncoderTranslatedWords) {
+				temp = Util.ChangeChars(etw, ";", ",");
+				temp = Util.RemoveNewLine(temp, true);
+				encoderTranslatedWordsOK[count++] = temp;
+			}
+		} else
+			encoderTranslatedWordsOK = Constants.EncoderEnglishWords;
 
 		return new EncoderGraphROptions( 
 				es.InputData, es.OutputGraph, es.OutputData1, 
@@ -448,7 +453,7 @@ public class UtilEncoder
 	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R
 	 * and has to write a Roptions.txt file
 	 */
-	public static bool RunEncoderGraphNoRDotNet(string title, EncoderStruct es, bool neuromuscularProfileDo) 
+	public static bool RunEncoderGraphNoRDotNet(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
 	{
 		CancelRScript = false;
 
@@ -468,7 +473,7 @@ public class UtilEncoder
 		}
 		
 
-		string scriptOptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo).ToString();
+		string scriptOptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo, translate).ToString();
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

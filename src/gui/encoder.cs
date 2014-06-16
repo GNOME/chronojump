@@ -738,7 +738,9 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 				es,
-				false); //do not use neuromuscularProfile script
+				false,	//do not use neuromuscularProfile script
+				RGraphsTranslate
+				); 
 				
 		if(result)
 			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
@@ -1423,7 +1425,9 @@ public partial class ChronoJumpWindow
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
 				encoderStruct,
-				false); //do not use neuromuscularProfile script
+				false, 			//do not use neuromuscularProfile script
+				RGraphsTranslate
+				);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
@@ -2407,7 +2411,9 @@ Log.Write(" AT ANALYZE 2 ");
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 		}
 
-		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, encoderAnalysis == "neuromuscularProfile");
+		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, 
+				encoderAnalysis == "neuromuscularProfile",
+				RGraphsTranslate);
 	}
 
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {

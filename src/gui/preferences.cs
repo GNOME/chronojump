@@ -84,6 +84,9 @@ public class PreferencesWindow {
 			
 	[Widget] Gtk.RadioButton radio_export_latin;
 	[Widget] Gtk.RadioButton radio_export_non_latin;
+	
+	[Widget] Gtk.RadioButton radio_graphs_translate;
+	[Widget] Gtk.RadioButton radio_graphs_no_translate;
 
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
@@ -126,7 +129,7 @@ public class PreferencesWindow {
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool encoderPropulsive, double encoderSmoothCon,
 			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod,
-			string CSVExportDecimalSeparator)
+			string CSVExportDecimalSeparator, bool RGraphsTranslate)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -243,6 +246,11 @@ public class PreferencesWindow {
 
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
+		
+		if(RGraphsTranslate)
+			PreferencesWindowBox.radio_graphs_translate.Active = true;
+		else
+			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;
@@ -549,6 +557,9 @@ public class PreferencesWindow {
 			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
 		else
 			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
+		
+		SqlitePreferences.Update("RGraphsTranslate", 
+				PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
 	
 		string encoder1RMMethod = "";	
 		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)

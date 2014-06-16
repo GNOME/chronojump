@@ -360,6 +360,7 @@ public partial class ChronoJumpWindow
 	private static bool heightPreferred;
 	private static bool metersSecondsPreferred;
 	private static string CSVExportDecimalSeparator; //"COMMA" or "POINT"
+	private static bool RGraphsTranslate;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -951,6 +952,8 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 
 		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
+		
+		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True";
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
@@ -2831,7 +2834,7 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("language"),
 				encoderPropulsive, encoderSmoothCon,
 				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod"),
-				CSVExportDecimalSeparator 
+				CSVExportDecimalSeparator, RGraphsTranslate
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2917,6 +2920,8 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("encoderSmoothCon") ) );
 		
 		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
+		
+		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True"; 
 
 		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {

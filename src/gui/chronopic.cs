@@ -683,6 +683,9 @@ Log.WriteLine("bbb");
 	void prepareChronopicConnection() {
 		frame_connection.Visible = true;
 		
+		label_title.Text = Catalog.GetString("Please touch the platform or click Chronopic <i>TEST</i> button");
+		label_title.UseMarkup = true;
+			
 		button_cancel.Sensitive = true;
 		cancelledByUser = false;
 		

@@ -647,22 +647,6 @@ public partial class ChronoJumpWindow
 		 * gui for small screens
 		 */
 
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_jumps_reactive_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_runs_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_runs_intervallic_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_reaction_times_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_pulses_small);
-		UtilGtk.ColorsMenuLabel(viewport_chronopics, label_mode_multi_chronopic_small);
-
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_jumps_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_jumps_reactive_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_runs_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_runs_intervallic_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_reaction_times_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_pulses_small);
-		UtilGtk.ColorsRadio(viewport_chronopics, radio_mode_multi_chronopic_small);
-
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumps);
 		image_mode_jumps_small.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + Constants.FileNameJumpsRJ);

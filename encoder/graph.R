@@ -1586,7 +1586,9 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 			newPoint = c(x[i], y[i], name) #TODO: do also for ecc-con
 			
-			overlaps = stroverlapArray(newPoint, nums.print)
+			overlaps = FALSE
+			if( ! ( is.na(x[i]) && is.na(y[i]) ) )
+				overlaps = stroverlapArray(newPoint, nums.print)
 			if(! overlaps)
 				nums.print = rbind(nums.print, newPoint)
 		}

@@ -165,6 +165,7 @@ win32/Makefile
 rdotnet/Makefile
 rdotnet/R.NET/Makefile
 rdotnet/RDotNet.NativeLibrary/Makefile
+deb-pkg.sh
 ])
 
 AC_OUTPUT

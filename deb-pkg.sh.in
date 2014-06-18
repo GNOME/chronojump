@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Creates a debian package for chronojump and uploads it to the ppa
+# USAGE: $./deb-pkg.sh 1
+
+if [ $# -ne 1 ]
+then
+  echo "Usage: `basename $0` DEB_VERSION"
+  exit 1
+fi
+
+ORIG_DIR="`pwd`"
+BUILD_DIR="$ORIG_DIR/build-deb"
+PKG_NAME=@PACKAGE@
+PKG_VERSION=@VERSION@
+DEB_VERSION=$1
+PPA=ylatuya/ppa
+
+package () {
+	DIST=$1 				# karmic
+	DEB_RELEASE=$DIST$DEB_VERSION 		# karmic
+	RELEASE=$PKG_NAME-$PKG_VERSION 		# longomatch-x.y.z
+	TARBALL=$RELEASE.tar.gz 		# longomatch-x.y.z.tar.gz
+	ORIG=$RELEASE~$DEB_RELEASE.orig.tar.gz 	# longomatch-x.y.z~karmicw.orig.tar.gz
+	DEST=$RELEASE~$DEB_RELEASE  		# longomatch-x.y.z~karmicw
+
+	cd $ORIG_DIR
+	mkdir -p $BUILD_DIR
+	echo "Copy $TARBALL to $BUILD_DIR/$ORIG"
+	cp $TARBALL $BUILD_DIR/$ORIG
+	echo `pwd $BUILD_DIR`
+	cd $BUILD_DIR
+	echo "Extract $ORIG"
+	tar xvzf $ORIG
+	echo "Move $RELEASE to $DEST"
+	mv $RELEASE $DEST
+	echo "Copy debian folder to $DEST"
+	cp -R ../debian $DEST/
+	cd $DEST
+	rm debian/changelog
+	echo "Create changelog dch --create --empty -v $PKG_VERSION~$DEB_RELEASE  --package $PKG_NAME --distribution $DIST"
+	dch --create -v $PKG_VERSION~$DEB_RELEASE  --package $PKG_NAME --distribution $DIST
+	dpkg-buildpackage -S
+	cd $BUILD_DIR
+	dput ppa:$PPA $PKG_NAME\_$PKG_VERSION~$DEB_RELEASE\_source.changes
+}
+
+for dist in trusty saucy; do
+	package $dist
+done

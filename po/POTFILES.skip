@@ -1,3 +1,4 @@
 src/chronojump.desktop.in
 src/chronojump_mini_validate.cs
 glade/chronojump_copia.glade
+src/platform.cs

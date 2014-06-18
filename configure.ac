@@ -137,6 +137,8 @@ AC_SUBST(CESARPLAYER_LIBS)
 
 AC_CONFIG_FILES([
 Makefile
+build/Makefile
+build/m4/Makefile
 build/m4/shave/shave
 build/m4/shave/shave-libtool
 chronopic-firmware/Makefile

@@ -117,7 +117,7 @@ void presenta()
 /*----------------*/
 int main (int argc, char **argv)
 {
-  unsigned char cad_estado[3];
+  char cad_estado[4];
   char cad_tiempo[80];
   double t;
   int estado;

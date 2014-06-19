@@ -108,7 +108,6 @@ void presenta()
 /*----------------*/
 int main (int argc, char **argv)
 {
-  char cad[80];
   int i;
   int serial_fd;
   int ok;
@@ -155,12 +154,11 @@ int main (int argc, char **argv)
           estado_automata=1;
           toff=t;
            //-- Sacar informacion sobre el evento ocurrido
-           sprintf (cad,"Periodo: %7.2f ms, Freq: %2.3f Hz. ",ton+toff,
+           printf ("Periodo: %7.2f ms, Freq: %2.3f Hz. ",ton+toff,
                     1000/(ton+toff));
            //sprintf (cad,"%X %X %X",trama[2],trama[3],trama[4]);
-           printf (cad);
-           for (i=0; i<strlen(cad); i++)
-             printf ("\b");
+           //for (i=0; i<strlen(cad); i++)
+           //  printf ("\b");
            fflush(stdout);
         }
       case 1:  //-- Estado ON

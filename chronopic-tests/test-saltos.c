@@ -99,7 +99,6 @@ void presenta()
 /*----------------*/
 int main (int argc, char **argv)
 {
-  char cad[80];
   int serial_fd;
   int ok;
   double t;
@@ -187,8 +186,7 @@ int main (int argc, char **argv)
           toff=t;
           
           //-- Imprimir informacion
-          sprintf (cad,"Tiempo: %8.1f ms\n",toff);
-          printf (cad);
+          printf ("Tiempo: %8.1f ms\n",toff);
         }
       case 1:  //-- Estado ON. Usuario estaba de la plataforma
         

@@ -187,7 +187,7 @@ int chronopic_estado(int serial_fd, int *estado)
   struct timeval timeout;
   int status;
   int ret;
-  int n;
+
   
   // Construir la trama del servicio de estado
   trama[0]='E';
@@ -206,7 +206,7 @@ int chronopic_estado(int serial_fd, int *estado)
   
   switch(ret) {
     case 1 : //--Datos listos 
-      n=read (serial_fd, respuesta, 10);
+      read (serial_fd, respuesta, 10);
       if (respuesta[0]=='E') {
         status=1;
         *estado=(int)respuesta[1];

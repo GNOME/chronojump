@@ -7,7 +7,6 @@ CesarPlayer/Utils/Device.cs
 CesarPlayer/Utils/MediaFile.cs
 CesarPlayer/Utils/PreviewMediaFile.cs
 glade/chronojump.glade
-glade/chronojump.ui
 libcesarplayer/bacon-video-widget-gst-0.10.c
 libcesarplayer/video-utils.c
 src/chronojump.cs

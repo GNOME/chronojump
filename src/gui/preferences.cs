@@ -36,7 +36,6 @@ public class PreferencesWindow {
 
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
-	[Widget] Gtk.Label label_logs;
 	
 	[Widget] Gtk.Button button_db_folder_open;
 
@@ -121,7 +120,6 @@ public class PreferencesWindow {
 		//database and log files stuff
 		label_database.Text = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
-		//label_logs.Text = Log.GetDir();
 	}
 	
 	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
@@ -364,6 +362,20 @@ public class PreferencesWindow {
 	void on_check_backup_encoder_tests_clicked(object o, EventArgs args) {
 		check_backup_multimedia.Active = check_backup_encoder_tests.Active;
 	}	
+	
+	
+	void on_button_logs_folder_open_clicked (object o, EventArgs args)
+	{
+		string dir = Util.GetLogsDir();
+		Log.WriteLine(dir);
+
+		if(new System.IO.DirectoryInfo(dir).Exists)
+			System.Diagnostics.Process.Start(dir); 
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Constants.LogNotFound + "\n\n" + dir);
+	}
+
 
 
 	string fileDB;

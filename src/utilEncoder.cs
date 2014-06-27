@@ -645,7 +645,7 @@ public class UtilEncoder
 				if(digits==start) {
 					startPos = i;
 					//but digit can be negative, check previous char if it was a '-'
-					if(contents[i-1] == '-')
+					if(i>0 && contents[i-1] == '-')
 						startPos = i-1;
 					//duration == -1 means: until the end
 					if(duration == -1) {
@@ -661,7 +661,7 @@ public class UtilEncoder
 						break;
 					}
 				}
-				if(startPos > 0 && digits == start + duration) 
+				if(i>0 && digits == start + duration)
 					durationPos = i-startPos;
 			}
 		}

@@ -1923,6 +1923,8 @@ public class PersonAddMultipleWindow {
 			else
 				table_no_headers_2_columns.Visible = true;
 		}
+		
+		button_accept.Sensitive = false;
 	}
 
 	void on_check_headers_toggled (object obj, EventArgs args) {
@@ -2173,6 +2175,8 @@ public class PersonAddMultipleWindow {
 		//button_manually_created.Sensitive = false;
 		//do this:
 		created_table = true;
+	
+		button_accept.Sensitive = true;
 	}
 		
 	void fillTableFromCSV(ArrayList array) {

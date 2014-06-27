@@ -4595,7 +4595,7 @@ Log.Write(" AT ANALYZE 2 ");
 				Log.WriteLine("imResultText = |" + imResultText + "|");
 
 				if(imResultText == "NA" || imResultText == "")
-					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing");
+					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing. Maybe need more oscillations.");
 				else {
 					//script calculates Kg*m^2 -> GUI needs Kg*cm^2
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (

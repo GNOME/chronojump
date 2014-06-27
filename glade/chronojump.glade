@@ -34538,7 +34538,7 @@ options</property>
                     <property name="can_focus">False</property>
                     <child>
                       <widget class="GtkRadioButton" id="radiobutton_limited_tracks">
-                        <property name="label" translatable="yes">tracks (m)</property>
+                        <property name="label" translatable="yes">tracks</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>

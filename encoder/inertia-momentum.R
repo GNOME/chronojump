@@ -37,32 +37,43 @@
 
 calculate <- function (displacement, mass, length)
 {
+	print("at inertia-momentum.R calculate")
+
 	#cumulative movement of the encoder
 	x <- cumsum(displacement)
+	print(c("x",x))
 
 	#time in milliseconds
 	t <- seq(1,length(displacement))
+	print(c("t",t))
 
 	#all the information about local maximums and minimums and crossings
 	ex <- extrema(x)
+	print(c("ex",ex))
 
 	#times where the maximums are found in milliseconds
 	tmax <- rowMeans(ex$maxindex)
+	print(c("tmax",tmax))
 
 	#the last maximum is discarded
 	tmax <- tmax[1:(length(tmax)-1)]
+	print(c("tmax",tmax))
 
 	#Periods of the oscillations
 	T <- diff(tmax[1:length(tmax)])
+	print(c("T",T))
 
 	#Coefficients of a Logarithmic regression
 	logT <- lm( log(T) ~ I(log(tmax[1:(length(tmax)-1)])))
+	print(c("logT",logT))
 
 	#The final period of the oscillation in seconds
 	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tmax[length(tmax)]))/1000
+	print(c("finalT",finalT))
 
 	#Inertia momentum using the pendulus formula
 	I <- ( (finalT / (2 * pi))^2 ) * mass * 9.81 * length - (mass * length^2)
+	print(c("I",I))
 
 	return(as.numeric(I))
 }

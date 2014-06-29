@@ -14,6 +14,7 @@ deploy:
 	cp -r ../rdotnet/Rdll/i386/* dist/bin/i386/
 	mkdir dist/bin/x64
 	cp -r ../rdotnet/Rdll/x64/* dist/bin/x64/
+	cp logchronojump.bat dist/bin/
 	
 
 

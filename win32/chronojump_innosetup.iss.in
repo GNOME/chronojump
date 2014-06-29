@@ -52,6 +52,7 @@ Source: "./chronojump_icon.ico"; DestDir: "{app}\share\chronojump\images\"
 
 [Icons]
 Name: "{group}\Chronojump "; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump debug "; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}\bin"
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 Name: "{group}\Chronopic Firmware Recorder "; Filename: "{app}\bin\chronopic-firmwarecord-dir\chronopic-firmwarecord.exe"; WorkingDir: "{app}\bin\chronopic-firmwarecord-dir"
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"

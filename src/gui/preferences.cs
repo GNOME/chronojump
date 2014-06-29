@@ -368,12 +368,24 @@ public class PreferencesWindow {
 	{
 		string dir = Util.GetLogsDir();
 		Log.WriteLine(dir);
-
-		if(new System.IO.DirectoryInfo(dir).Exists)
+		
+		if( ! new System.IO.DirectoryInfo(dir).Exists) {
+			try {
+				Directory.CreateDirectory (dir);
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Cannot create directory.") + "\n\n" + dir);
+				return;
+			}
+		}
+		
+		try {
 			System.Diagnostics.Process.Start(dir); 
-		else
+		}
+		catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Constants.LogNotFound + "\n\n" + dir);
+					Constants.DirectoryCannotOpen + "\n\n" + dir);
+		}
 	}
 
 

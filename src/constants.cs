@@ -569,7 +569,7 @@ public class Constants
 	};
 	
 	public static string DatabaseNotFound = Catalog.GetString("Error. Cannot find database.");
-	public static string LogNotFound = Catalog.GetString("Error. Cannot find logs directory.");
+	public static string DirectoryCannotOpen = Catalog.GetString("Error. Cannot open directory.");
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";

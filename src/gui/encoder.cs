@@ -4532,7 +4532,7 @@ Log.Write(" AT ANALYZE 2 ");
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				
+			
 				captureCurvesBarsData = new ArrayList();
 				foreach (EncoderCurve curve in encoderCaptureCurves) {
 					captureCurvesBarsData.Add(new EncoderBarsData(
@@ -4552,40 +4552,51 @@ Log.Write(" AT ANALYZE 2 ");
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0); //this updates encoderSignalUniqueID
 				else
 					encoder_pulsebar_capture.Text = "";
-				
+		
 
-				string eccon = findEccon(true);
-
-					
 				/*
-				 * (1) if found curves of this signal
-				 * (2) and this curves are with different eccon
-				 * (3) delete the curves (encoder table)
-				 * (4) and also delete from (encoderSignalCurves table)
-				 * (5) update analyze labels and combos
+				 * if we captured, but encoderSignalUniqueID has not been changed on encoderSaveSignalOrCurve
+				 * because there are no curves (problems detecting, or minimal height so big
+				 * then do not continue
+				 * because with a value of -1 there will be problems in 
+				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), ...)
 				 */
-				bool deletedUserCurves = false;
-				EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(false, 
-						Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false, true)[0];
+				Log.Write(" encoderSignalUniqueID:" + encoderSignalUniqueID);
+				if(encoderSignalUniqueID != "-1")
+				{
 
-				ArrayList data = SqliteEncoder.Select(
-						false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
-						false, true);
-				foreach(EncoderSQL eSQL in data) {
-					if(
-							currentSignalSQL.GetDate(false) == eSQL.GetDate(false) && 		// (1)
-							findEccon(true) != eSQL.eccon) {					// (2)
-						Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (3)
-						SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (4)
-						deletedUserCurves = true;
+					string eccon = findEccon(true);
+
+					/*
+					 * (1) if found curves of this signal
+					 * (2) and this curves are with different eccon
+					 * (3) delete the curves (encoder table)
+					 * (4) and also delete from (encoderSignalCurves table)
+					 * (5) update analyze labels and combos
+					 */
+					bool deletedUserCurves = false;
+					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(false, 
+							Convert.ToInt32(encoderSignalUniqueID), 0, 0, "", false, true)[0];
+
+
+					ArrayList data = SqliteEncoder.Select(
+							false, -1, currentPerson.UniqueID, currentSession.UniqueID, "curve", 
+							false, true);
+					foreach(EncoderSQL eSQL in data) {
+						if(
+								currentSignalSQL.GetDate(false) == eSQL.GetDate(false) && 		// (1)
+								findEccon(true) != eSQL.eccon) {					// (2)
+									Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (3)
+									SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (4)
+									deletedUserCurves = true;
+								}
 					}
+					if(deletedUserCurves)
+						updateUserCurvesLabelsAndCombo();		// (5)
+
+
+					findAndMarkSavedCurves();
 				}
-				if(deletedUserCurves)
-					updateUserCurvesLabelsAndCombo();		// (5)
-				
-
-				findAndMarkSavedCurves();
-
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 

@@ -335,7 +335,7 @@ public class PreferencesWindow {
 	void on_preferences_delete_event (object o, DeleteEventArgs args)
 	{
 		//do not hide/exit if copyiing
-		if (thread.IsAlive)
+		if (thread != null && thread.IsAlive)
 			args.RetVal = true;
 		else {
 			PreferencesWindowBox.preferences.Hide();

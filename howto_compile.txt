@@ -42,7 +42,7 @@ only the configure.ac is pushed
 Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
 to package chronojump, first ensure that version is ok in:
-cerbero-extras/packages/chronojump.package
+cerbero/cerbero-extras/packages/chronojump/chronojump.package
 
 packaging (outside the shell): (will fetch chronojump sources from git)
 cerbero-cj buildone chronojump
@@ -84,7 +84,9 @@ Just do 'make install' if compiled before
 
 - to build the package to be installed:
 
-copy pdfs of manual and encoder manual to win32/deps/share/doc/chronojump
+copy all PDFs:
+cp manual/*.pdf win32/deps/share/doc/chronojump/.
+
 cd win32
 make installer
 

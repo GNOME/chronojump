@@ -491,6 +491,8 @@ Console.WriteLine("--6--");
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
+				errorWin.Show_button_open_docs_folder();
+				errorWin.Button_accept_label(Catalog.GetString("Close this window"));
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
 			}
 		} else {
@@ -664,12 +666,8 @@ Console.WriteLine("--6--");
 
 
 		messageChrashedBefore = "\n" +
-			string.Format(Catalog.GetString("Chronojump {0} crashed before. If this problem persist, please, report it at forums:"), progVersion) + 
-			"\nhttp://chronojump.org\n\n" + Catalog.GetString("Remember to describe on Chronojump software forum how crash happened.") +
-		       //"\n" + Catalog.GetString("Optionally, you can include this file:") + "\n\n" +
-			//Log.GetLast() +
-			//windowsTextLog +
-			"\n\n" +	
+			string.Format(Catalog.GetString("Chronojump {0} crashed before."), progVersion) + "\n\n" +
+			Catalog.GetString("Please, open docs folder and follow instructions on 'chronojump_crash.pdf' in order to be fixed fast.") + "\n\n" +
 			Catalog.GetString("Your help is needed.") + "\n";
 
 	

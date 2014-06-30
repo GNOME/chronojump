@@ -34,6 +34,7 @@ public class ErrorWindow
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_open_database_folder;
+	[Widget] Gtk.Button button_open_docs_folder;
 
 	string table;
 	static ErrorWindow ErrorWindowBox;
@@ -81,7 +82,6 @@ public class ErrorWindow
 	public void Show_button_open_database_folder () {
 		button_open_database_folder.Show();
 	}
-	
 	private void on_button_open_database_folder_clicked (object o, EventArgs args)
 	{
 		string database_url = Util.GetDatabaseDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
@@ -96,6 +96,26 @@ public class ErrorWindow
 			System.Diagnostics.Process.Start(Util.GetDatabaseTempDir()); 
 		else
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.DatabaseNotFound);
+	}
+
+	public void Show_button_open_docs_folder () {
+		button_open_docs_folder.Show();
+	}
+	private void on_button_open_docs_folder_clicked (object o, EventArgs args)
+	{
+		Log.WriteLine("Opening docs at: " + Path.GetFullPath(Util.GetManualDir())); 
+		try {
+			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
+		} catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					"Sorry, folder does not exist." + "\n\n" +
+					Path.GetFullPath(Util.GetManualDir())
+					);
+		}
+	}
+
+	public void Button_accept_label (string str) {
+		button_accept.Label = str;
 	}
 
 	protected void on_button_accept_clicked (object o, EventArgs args)

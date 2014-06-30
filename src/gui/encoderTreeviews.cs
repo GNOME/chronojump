@@ -252,24 +252,16 @@ public partial class ChronoJumpWindow
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 			}
 			
-			combo_encoder_capture_save_curve.Active = UtilGtk.ComboMakeActive(
-					combo_encoder_capture_save_curve, 
-					Catalog.GetString(Constants.Selected));
-			
 			updateUserCurvesLabelsAndCombo();
 
 			callPlotCurvesGraphDoPlot();
 		}
 	}
 
-	void encoderCaptureSelectByCombo(string toSelect) {
-		if(toSelect == Catalog.GetString(Constants.Selected))
-			return;
-
-		bool val = true;
-		if(toSelect == Catalog.GetString(Constants.None))
-			val = false;
-
+	
+	//allNone: true (save all), false (unsave all)
+	void encoderCaptureSaveCurvesAllNone(bool allNone)
+	{
 		int i = 0; //on "c": i is every row; on other eccons: i is every two rows
 		string sep = "";
 		string messageRows = "";
@@ -279,22 +271,22 @@ public partial class ChronoJumpWindow
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
-			if(curve.Record != val) { 
+			if(curve.Record != allNone) { 
 				//change value
-				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = val;
+				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = allNone;
 
 				//this makes RenderRecord work on changed row without having to put mouse there
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 
 				//on "ecS" don't pass the 2nd row, pass always the first
-				saveOrDeleteCurveFromCaptureTreeView(i, curve, val);
+				saveOrDeleteCurveFromCaptureTreeView(i, curve, allNone);
 				
 				if(ecconLast != "c") {
 					path.Next();
 					encoderCaptureListStore.IterNext (ref iter);
 				
 					//change value
-					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = val;
+					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = allNone;
 
 					//this makes RenderRecord work on changed row without having to put mouse there
 					encoderCaptureListStore.EmitRowChanged(path,iter);
@@ -312,7 +304,7 @@ public partial class ChronoJumpWindow
 		//combo_encoder_capture_show_save_curve_button();
 			
 		string message = "";
-		if(val)
+		if(allNone)
 			message = Catalog.GetString("Saved");
 		else
 			message = Catalog.GetString("Removed");

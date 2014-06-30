@@ -338,7 +338,7 @@
                     <property name="can_focus">False</property>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_manual">
-                        <property name="label">_Manual</property>
+                        <property name="label">_Documents</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="use_stock">False</property>

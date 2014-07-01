@@ -6158,14 +6158,114 @@ Once signal is loaded, captured or recalculated, Chronojump will find curves
  This curves can be analysed at the Encoder analyse tab.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/save_curve.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Saving and deleting curves
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+To save or delete a curve just click on the checkbox 
+\begin_inset Quotes eld
+\end_inset
+
+Saved
+\begin_inset Quotes erd
+\end_inset
+
+ of the curve you want to save or delete.
+\end_layout
+
+\begin_layout Standard
+In excentric-concentric mode, saving a excentreic (concentric) curve will
+ also save the corresponding concentric (excentric) curve of the exercise.
+\end_layout
+
 \begin_layout Subsubsection
-Bars
+Bars frame
 \end_layout
 
 \begin_layout Standard
 The bars frame shows, during the exercise, the main variable in real time.
  This way the athlete can have an instant feedback of every execution of
  the exersice.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename encoder-manual-images/power_bars.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Poweb bars
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The descending white line in the bar indicates an excentric curve.
+ An ascending line, a concentric.
+\end_layout
+
+\begin_layout Standard
+The saved curves apears with a framed number below.
 \end_layout
 
 \begin_layout Subsection
@@ -6344,27 +6444,25 @@ Attach a known weight to known distance from the center of the disk.
  This way the disk will be unbalanced and after lifting and living the weight
  it will start to oscilate like a pendulus.
 \begin_inset Float figure
-placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/Disk.png
+	filename encoder-manual-images/Disk.png
 	lyxscale 12
 	scale 12
 
 \end_inset
 
 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Reference weight
 \end_layout
 
 \end_inset
@@ -6390,6 +6488,13 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/select.png
+
+\end_inset
+
 
 \end_layout
 
@@ -6397,12 +6502,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/select.png
-
-\end_inset
-
-
+Select encoder button
 \end_layout
 
 \end_inset
@@ -6438,15 +6538,21 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/encoder-manual-images/encoder_type.png
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Parameters of the inertial machine
 \end_layout
 
 \end_inset
@@ -6481,15 +6587,18 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/encoder-manual-images/calculus.png
 
 \end_inset
 
 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Parameters for calculating the IM
 \end_layout
 
 \end_inset
@@ -6523,9 +6632,8 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/encoder-manual-images/oscilation.png
 	lyxscale 66
@@ -6534,6 +6642,10 @@ status open
 \end_inset
 
 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Capturing the oscilation
 \end_layout
 
 \end_inset
@@ -6679,9 +6791,8 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
+\noindent
+\align center
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/encoder-manual-images/Disk_load.png
 	lyxscale 12
@@ -6690,6 +6801,10 @@ status open
 \end_inset
 
 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Reference weight in a loaded disk
 \end_layout
 
 \end_inset

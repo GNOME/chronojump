@@ -73,7 +73,6 @@
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author -850000851 "Xavier Padulls,,," 
 \end_header
 
 \begin_body
@@ -89,7 +88,7 @@ Chronojump
 
 
 \size large
-(updated until Chronojump 1.4.3 version)
+(updated until Chronojump 1.4.4 version)
 \end_layout
 
 \begin_layout Author
@@ -1528,11 +1527,26 @@ reference "fig:menu_session"
 \end_layout
 
 \begin_layout Description
-Help
+Mode
 \begin_inset space ~
 \end_inset
 
 Menu see figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:menu_mode"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Help
+\begin_inset space ~
+\end_inset
+
+Menu (Top-right corner of the window) see figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:menu_help"
@@ -1572,6 +1586,43 @@ name "fig:menu_session"
 \end_inset
 
 Session Menu.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_mode.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_mode"
+
+\end_inset
+
+Mode Menu.
 \end_layout
 
 \end_inset
@@ -2190,6 +2241,7 @@ reference "fig:Cargar-atletas-otra_sesion"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2232,6 +2284,7 @@ Load subjects.
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -5394,10 +5447,6 @@ Magnets on a metal surface
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -5408,7 +5457,8 @@ Do not release
 \end_layout
 
 \begin_layout Standard
-Do not release the wire because it will return at high speed and will break.
+Do not release the wire when it is extended because it will return at high
+ speed and will break.
 \end_layout
 
 \begin_layout Standard
@@ -5437,10 +5487,6 @@ Wire handle
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -5625,11 +5671,7 @@ Exercices
 \begin_layout Standard
 Every time you want to measure, you perform an exercise.
  Exercise has a name (e.g.
- Bench press), an
-\change_deleted -850000851 1396596900
-d
-\change_unchanged
- extra weight (e.g.
+ Bench press), an extra weight (e.g.
  40Kg), type of contraction (e.g.
  concentric), laterality (e.g.
  both limbs), recording time (e.g.
@@ -5641,15 +5683,8 @@ Signals
 \end_layout
 
 \begin_layout Standard
-When 
-\change_inserted -850000851 1396596925
-the 
-\change_unchanged
-person does the exercise, encoder generates 
-\change_inserted -850000851 1396596941
-a 
-\change_unchanged
-lot of data and sends it to the computer.
+When the person does the exercise, encoder generates a lot of data and sends
+ it to the computer.
  Exercise duration is defined by the user who manages the software, but
  can be shortened if wanted.
  All the data received is called a “signal”.
@@ -5664,13 +5699,7 @@ Curves
 \end_layout
 
 \begin_layout Standard
-When signal is analysed, 
-\change_deleted -850000851 1396596975
-n
-\change_inserted -850000851 1396596978
-a number of
-\change_unchanged
- curves are found.
+When signal is analysed, a number of curves are found.
  This curves have the mechanical data wanted by the evaluator: start, duration,
  speed, force, power.
  The curves are detected by the software automatically following user criteria.
@@ -5836,18 +5865,10 @@ Encoder capture tab
 \end_layout
 
 \begin_layout Standard
-At this tab you can see 
-\change_deleted -850000851 1396601345
-four
-\change_inserted -850000851 1396601345
-six
-\change_unchanged
- areas: 
+At this tab you can see six areas: 
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted -850000851 1396603740
 \begin_inset Float figure
 placement H
 wide false
@@ -5857,8 +5878,6 @@ status open
 \begin_layout Plain Layout
 \noindent
 \align center
-
-\change_inserted -850000851 1396603849
 \begin_inset Graphics
 	filename encoder-manual-images/capture.png
 	lyxscale 20
@@ -5867,38 +5886,22 @@ status open
 \end_inset
 
 
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted -850000851 1396603740
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\change_inserted -850000851 1396603748
 Capture tab
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
 
-\change_unchanged
-
-\end_layout
-
-\begin_layout Plain Layout
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -6194,10 +6197,6 @@ Saving and deleting curves
 \end_layout
 
 \begin_layout Standard
-
-\end_layout
-
-\begin_layout Standard
 To save or delete a curve just click on the checkbox 
 \begin_inset Quotes eld
 \end_inset
@@ -6298,10 +6297,6 @@ Analyze tab
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -6470,10 +6465,6 @@ Reference weight
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -6507,10 +6498,6 @@ Select encoder button
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -6560,10 +6547,6 @@ Parameters of the inertial machine
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -6583,10 +6566,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -6603,10 +6582,6 @@ Parameters for calculating the IM
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -6787,10 +6762,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
@@ -6809,10 +6780,6 @@ Reference weight in a loaded disk
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 

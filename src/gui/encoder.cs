@@ -3831,18 +3831,21 @@ Log.Write(" AT ANALYZE 2 ");
 			data.Add(ebd.GetValue(mainVariable));
 
 
-		//search max
+		//search max, min, avg
 		double max = -100000;
-		foreach(double d in data)
+		double min = 100000;
+		double sum = 0;
+		
+		foreach(double d in data) {
 			if(d > max)
 				max = d;
-		double min = 100000;
-		foreach(double d in data)
 			if(d < min)
 				min = d;
-
-		if(max == 0)
+			sum += d;
+		}
+		if(max <= 0)
 			return;	
+		
 
 		int textWidth = 1;
 		int textHeight = 1;
@@ -3854,28 +3857,13 @@ Log.Write(" AT ANALYZE 2 ");
 		//bars will be plotted here
 		int graphHeightSafe = graphHeight - (top_margin + bottom_margin);
 	
-		string title = "";	
-		//plot title	
-		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
-			title = mainVariable + " (m/s)";
-		else //powers
-			title = mainVariable + " (W)";
-			
-		layout_encoder_capture_curves_bars.SetMarkup(title);
-		textWidth = 1;
-		textHeight = 1;
-		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-				layout_encoder_capture_curves_bars);
-		//end plot title	
 			
 
 		//plot bars
 		int sep = 20;	//between reps
 		if (data.Count >= 10 && data.Count < 20) {
 			sep = 10;
-			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
+			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 9");
 		} else	if (data.Count >= 20) {
 			sep = 2;
 			layout_encoder_capture_curves_bars.FontDescription = Pango.FontDescription.FromString ("Courier 7");
@@ -3894,6 +3882,11 @@ Log.Write(" AT ANALYZE 2 ");
 	
 		//to show saved curves on DoPlot	
 		TreeIter iter;
+		
+		//sum saved curves to do avg
+		double sumSaved = 0; 
+		double countSaved = 0;
+		
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
 		foreach(double dFor in data) {
 			int dWidth = 0;
@@ -3996,7 +3989,6 @@ Log.Write(" AT ANALYZE 2 ");
 				textHeight = 1;
 				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
 				int myX = Convert.ToInt32( startX - textWidth/2);
-				//int myY = Convert.ToInt32(graphHeight - (bottom_margin /2) - textHeight/2);
 				int myY = Convert.ToInt32(dTop + dHeight + (bottom_margin /2) - textHeight/2);
 				
 				//plot a rectangle if this curve it is checked (in the near future checked will mean saved)
@@ -4004,6 +3996,10 @@ Log.Write(" AT ANALYZE 2 ");
 					if(((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record) {
 						rect = new Rectangle(myX -2, myY -1, textWidth +4, graphHeight - (myY -1) -1);
 						encoder_capture_curves_bars_pixmap.DrawRectangle(pen_selected_encoder_capture, false, rect);
+
+						//average of saved values
+						sumSaved += dFor;
+						countSaved ++;
 					}
 				
 				//write the text
@@ -4018,7 +4014,44 @@ Log.Write(" AT ANALYZE 2 ");
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		//end plot bars
+	
+
+		//plot title
+		string units = "";
+		int decimals;
 		
+		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed) {
+			units = "m/s";
+			decimals = 2;
+		}
+		else { //powers
+			units =  "W";
+			decimals = 1;
+		}
+		
+		//add avg and avg of saved values
+		string title = mainVariable + " [X = " + 
+			Util.TrimDecimals( (sum / data.Count), decimals) + 
+			" " + units;
+
+		if(countSaved > 0)
+			title += "; X" + Catalog.GetString("saved") + " = " + 
+				Util.TrimDecimals( (sumSaved / countSaved), decimals) + 
+				" " + units;
+			
+		title += "]";
+
+		layout_encoder_capture_curves_bars.SetMarkup(title);
+		textWidth = 1;
+		textHeight = 1;
+		layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+		encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+				Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
+				layout_encoder_capture_curves_bars);
+
+		//end plot title	
+		
+
 		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
 	}
 

@@ -5,12 +5,8 @@ Update manual, check is "updated to last version"
 linux stuff
 ------------
 
-remove the win32 lines on configure.ac in order to have a make dist that works
-
 sh autogen.sh
 make dist
-
-write again the win32 lines on configure.ac in order to package ok on windows
 
 git commit -a
 message: Bump version 0.9.3

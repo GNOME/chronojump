@@ -325,7 +325,7 @@ IMAGES = $(top_srcdir)/images/chronojump-logo-2013.png \
          $(top_srcdir)/images/chronojump-logo-2013_320.png \
          $(top_srcdir)/images/report_web_style.css
 
-LOGO = $(top_srcdir)/images/svg/chronojump-logo-2013.svg
+LOGO = $(top_srcdir)/images/svg/chronojump_icon.svg
 
 bin_SCRIPTS = chronojump
 

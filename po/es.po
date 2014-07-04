@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-06-17 10:21+0000\n"
-"PO-Revision-Date: 2014-06-20 12:47+0200\n"
+"POT-Creation-Date: 2014-07-01 10:54+0000\n"
+"PO-Revision-Date: 2014-07-04 12:11+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
@@ -122,7 +122,6 @@ msgid "Open server website (on browser)"
 msgstr "Navegar por la web del servidor"
 
 #: ../glade/chronojump.glade.h:17
-#| msgid "Mode:"
 msgid "_Mode:"
 msgstr "_Modo:"
 
@@ -143,7 +142,7 @@ msgstr "Saltos"
 msgid "Runs"
 msgstr "Carreras"
 
-#: ../glade/chronojump.glade.h:20 ../src/constants.cs:816
+#: ../glade/chronojump.glade.h:20 ../src/constants.cs:817
 #: ../src/exportSession.cs:275 ../src/treeViewJump.cs:41
 msgid "Power"
 msgstr "Potencia"
@@ -177,12 +176,10 @@ msgid "_About"
 msgstr "Acerca _de"
 
 #: ../glade/chronojump.glade.h:28
-#| msgid "Please select a level"
 msgid "Please, select mode:"
 msgstr "Seleccione el modo:"
 
 #: ../glade/chronojump.glade.h:29
-#| msgid "Contact time"
 msgid "Contact platform"
 msgstr "Plataforma de contacto"
 
@@ -192,12 +189,10 @@ msgid "Photocells"
 msgstr "fotocélulas"
 
 #: ../glade/chronojump.glade.h:31
-#| msgid "Encoder"
 msgid "Encoders"
 msgstr "Codificadores"
 
 #: ../glade/chronojump.glade.h:32
-#| msgid "_Other tests"
 msgid "Other tests"
 msgstr "Otras pruebas"
 
@@ -258,25 +253,21 @@ msgid "<b>Persons</b>"
 msgstr "<b>Atletas</b>"
 
 #: ../glade/chronojump.glade.h:47
-#| msgid "Simple jumps"
 msgid "Simple Jumps"
 msgstr "Saltos simples"
 
 #: ../glade/chronojump.glade.h:48
-#| msgid "All multiple Jumps"
 msgid "Multiple Jumps"
 msgstr "Saltos múltiples"
 
 #: ../glade/chronojump.glade.h:49
-#| msgid "Simple runs"
 msgid "Simple Runs"
 msgstr "Carreras simples"
 
 #: ../glade/chronojump.glade.h:50
-#, fuzzy
 #| msgid "Intervallic runs"
 msgid "Intervallic Runs"
-msgstr "carrera con tramos"
+msgstr "Carreras con tramos"
 
 #: ../glade/chronojump.glade.h:51 ../src/exportSession.cs:187
 #: ../src/report.cs:193
@@ -284,13 +275,13 @@ msgid "Reaction times"
 msgstr "Tiempos de reacción"
 
 #: ../glade/chronojump.glade.h:52 ../src/exportSession.cs:189
-#: ../src/gui/chronojump.cs:4355 ../src/gui/person.cs:2436
+#: ../src/gui/chronojump.cs:4355 ../src/gui/person.cs:2440
 #: ../src/gui/session.cs:735 ../src/report.cs:196
 msgid "Pulses"
 msgstr "Pulsos"
 
 #: ../glade/chronojump.glade.h:53 ../src/exportSession.cs:191
-#: ../src/gui/person.cs:2437 ../src/gui/session.cs:736
+#: ../src/gui/person.cs:2441 ../src/gui/session.cs:736
 msgid "MultiChronopic"
 msgstr "MultiChronopic"
 
@@ -323,7 +314,6 @@ msgid "End Auto"
 msgstr "Terminar el modo automático"
 
 #: ../glade/chronojump.glade.h:61
-#| msgid "Changed to simulated mode"
 msgid "End automatic mode"
 msgstr "Terminar el modo automático"
 
@@ -499,9 +489,9 @@ msgstr "Caída"
 msgid "Both"
 msgstr "Ambas"
 
-#: ../glade/chronojump.glade.h:103 ../src/constants.cs:818
+#: ../glade/chronojump.glade.h:103 ../src/constants.cs:819
 #: ../src/exportSession.cs:484 ../src/gui/encoderTreeviews.cs:45
-#: ../src/gui/encoderTreeviews.cs:403 ../src/gui/run.cs:1220
+#: ../src/gui/encoderTreeviews.cs:395 ../src/gui/run.cs:1220
 #: ../src/gui/run.cs:1407 ../src/gui/runType.cs:129
 #: ../src/stats/graphs/runSimple.cs:66 ../src/stats/graphs/runSimple.cs:75
 #: ../src/stats/runSimple.cs:53 ../src/treeViewRun.cs:56
@@ -576,7 +566,6 @@ msgid "ms"
 msgstr "ms"
 
 #: ../glade/chronojump.glade.h:119
-#| msgid "Take last contact"
 msgid "Take first contact"
 msgstr "Considerar el primer contacto"
 
@@ -585,7 +574,6 @@ msgid "Take average"
 msgstr "Considerar la media"
 
 #: ../glade/chronojump.glade.h:121
-#| msgid "Take first contact (recommended)"
 msgid "Take last contact (recommended)"
 msgstr "Considerar el último contacto (recomendado)"
 
@@ -683,8 +671,8 @@ msgstr "Distancia total"
 #: ../src/exportSession.cs:277 ../src/exportSession.cs:379
 #: ../src/exportSession.cs:487 ../src/exportSession.cs:542
 #: ../src/exportSession.cs:633 ../src/exportSession.cs:675
-#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:3168
-#: ../src/gui/encoder.cs:3217 ../src/gui/jump.cs:1480 ../src/gui/jump.cs:1697
+#: ../src/exportSession.cs:735 ../src/gui/encoder.cs:3150
+#: ../src/gui/encoder.cs:3199 ../src/gui/jump.cs:1480 ../src/gui/jump.cs:1697
 #: ../src/gui/person.cs:123 ../src/gui/run.cs:1221 ../src/gui/run.cs:1410
 #: ../src/runType.cs:192 ../src/runType.cs:228 ../src/runType.cs:269
 #: ../src/runType.cs:298 ../src/treeViewEvent.cs:39
@@ -876,7 +864,7 @@ msgstr "Último tramo"
 msgid "AVG"
 msgstr "Promedio"
 
-#: ../glade/chronojump.glade.h:166 ../src/constants.cs:813
+#: ../glade/chronojump.glade.h:166 ../src/constants.cs:814
 #: ../src/exportSession.cs:486 ../src/stats/graphs/runIntervallic.cs:75
 #: ../src/stats/graphs/runSimple.cs:65 ../src/stats/graphs/runSimple.cs:73
 #: ../src/stats/graphs/runSimple.cs:82 ../src/stats/runIntervallic.cs:65
@@ -1057,7 +1045,6 @@ msgid "statistic's description"
 msgstr "descripción de la estadística"
 
 #: ../glade/chronojump.glade.h:207
-#| msgid "Variable"
 msgid "Variables"
 msgstr "Variables"
 
@@ -1078,7 +1065,6 @@ msgid "Graph"
 msgstr "Pintar gráfico"
 
 #: ../glade/chronojump.glade.h:212
-#| msgid "Info"
 msgid "Informe"
 msgstr "Informe"
 
@@ -1174,7 +1160,7 @@ msgstr "Conectar codificador"
 
 #: ../glade/chronojump.glade.h:235 ../src/gui/encoder.cs:536
 #: ../src/gui/encoder.cs:774 ../src/gui/encoder.cs:1188
-#: ../src/gui/encoderTreeviews.cs:398
+#: ../src/gui/encoderTreeviews.cs:390
 msgid "Exercise"
 msgstr "Ejercicio"
 
@@ -1187,24 +1173,22 @@ msgid "Add new exercise"
 msgstr "Añadir ejercicio nuevo"
 
 #: ../glade/chronojump.glade.h:238
-#| msgid "Contraction"
 msgid "Type of contraction"
 msgstr "Tipo de contracción"
 
 #: ../glade/chronojump.glade.h:239
 msgid "Right, Left or both (RL)"
-msgstr ""
+msgstr "Derecha, izquierda o ambas (DI)"
 
 #: ../glade/chronojump.glade.h:240
 msgid "Extra mass"
 msgstr ""
 
-#: ../glade/chronojump.glade.h:241 ../src/gui/person.cs:2092
+#: ../glade/chronojump.glade.h:241 ../src/gui/person.cs:2094
 msgid "Kg"
 msgstr "Kg"
 
 #: ../glade/chronojump.glade.h:242
-#| msgid "Total Time"
 msgid "Total mass"
 msgstr "Masa total"
 
@@ -1213,7 +1197,6 @@ msgid "1RM window"
 msgstr "Ventana 1RM"
 
 #: ../glade/chronojump.glade.h:244
-#| msgid "Or press 'space'"
 msgid "Or press 'CTRL + space'"
 msgstr "O pulse «CTRL + espacio»"
 
@@ -1254,147 +1237,159 @@ msgid "Signal"
 msgstr "Señal"
 
 #: ../glade/chronojump.glade.h:254
+msgid "Save"
+msgstr "Guardar"
+
+#. put none in combo
+#: ../glade/chronojump.glade.h:255 ../src/gui/genericWindow.cs:341
+#: ../src/gui/genericWindow.cs:400 ../src/gui/person.cs:318
+#: ../src/gui/person.cs:450 ../src/gui/stats.cs:213 ../src/gui/stats.cs:969
+#: ../src/stats/main.cs:234
+msgid "None"
+msgstr "Ninguno"
+
+#: ../glade/chronojump.glade.h:256
 msgid "Curves (select them to save)"
 msgstr "Curvas (selecciónelas para guardarlas)"
 
-#: ../glade/chronojump.glade.h:255
+#: ../glade/chronojump.glade.h:257
 msgid "Data:"
 msgstr "Datos:"
 
-#: ../glade/chronojump.glade.h:256
+#: ../glade/chronojump.glade.h:258
 msgid "Current signal"
 msgstr "Señal actual"
 
-#: ../glade/chronojump.glade.h:257
+#: ../glade/chronojump.glade.h:259
 msgid "Saved curves"
 msgstr "Curvas guardadas"
 
-#: ../glade/chronojump.glade.h:258
+#: ../glade/chronojump.glade.h:260
 msgid "("
 msgstr "("
 
-#: ../glade/chronojump.glade.h:259 ../src/gui/encoder.cs:772
+#: ../glade/chronojump.glade.h:261 ../src/gui/encoder.cs:772
 msgid "Active"
 msgstr "Activar"
 
-#: ../glade/chronojump.glade.h:260
+#: ../glade/chronojump.glade.h:262
 msgid "/"
 msgstr "/"
 
-#: ../glade/chronojump.glade.h:261
+#: ../glade/chronojump.glade.h:263
 msgid ")"
 msgstr ")"
 
-#: ../glade/chronojump.glade.h:262
+#: ../glade/chronojump.glade.h:264
 msgid "Select"
 msgstr "Seleccionar"
 
-#: ../glade/chronojump.glade.h:263
+#: ../glade/chronojump.glade.h:265
 msgid "Compare to"
 msgstr "Comparar con"
 
-#: ../glade/chronojump.glade.h:264
+#: ../glade/chronojump.glade.h:266
 msgid "Mode:"
 msgstr "Modo:"
 
-#: ../glade/chronojump.glade.h:265
+#: ../glade/chronojump.glade.h:267
 msgid "Powerbars"
 msgstr "Barras de potencia"
 
-#: ../glade/chronojump.glade.h:266
+#: ../glade/chronojump.glade.h:268
 msgid "Cross variables"
 msgstr "Cruzar variables"
 
-#: ../glade/chronojump.glade.h:267
+#: ../glade/chronojump.glade.h:269
 msgid "Side compare"
 msgstr "Comparar lateral"
 
-#: ../glade/chronojump.glade.h:268
+#: ../glade/chronojump.glade.h:270
 msgid "Single curve"
 msgstr "Curva simple"
 
-#: ../glade/chronojump.glade.h:269
+#: ../glade/chronojump.glade.h:271
 msgid "Neuromuscular profile"
 msgstr "Perfil neuromuscular"
 
-#: ../glade/chronojump.glade.h:270
+#: ../glade/chronojump.glade.h:272
 msgid "Eccentric-concentric together"
 msgstr "Excéntrico-concéntrico juntos"
 
-#: ../glade/chronojump.glade.h:271
+#: ../glade/chronojump.glade.h:273
 msgid "Eccentric-concentric separated"
 msgstr "Excéntrico-concéntrico separados"
 
-#: ../glade/chronojump.glade.h:272
+#: ../glade/chronojump.glade.h:274
 msgid "Analyze mean values"
 msgstr "Analizar los valores medios"
 
-#: ../glade/chronojump.glade.h:273
+#: ../glade/chronojump.glade.h:275
 msgid "Analyze max values"
 msgstr "Analizar los valores máximos"
 
-#: ../glade/chronojump.glade.h:274
+#: ../glade/chronojump.glade.h:276
 msgid "Side compare allows a maximum of 12 graphs."
 msgstr "La comparativa lateral permite un máximo de 12 gráficas."
 
-#: ../glade/chronojump.glade.h:275
+#: ../glade/chronojump.glade.h:277
 msgid "Max. 12 graphs"
 msgstr "12 gráficas máximo"
 
-#: ../glade/chronojump.glade.h:276
+#: ../glade/chronojump.glade.h:278
 msgid "Curve number"
 msgstr "Número de curva"
 
-#: ../glade/chronojump.glade.h:277
+#: ../glade/chronojump.glade.h:279
 msgid "Show range"
 msgstr "Mostrar rango"
 
-#: ../glade/chronojump.glade.h:278
+#: ../glade/chronojump.glade.h:280
 msgid "Show Time to Peak Power"
 msgstr "Mostrar el tiempo de pico de potencia"
 
-#: ../glade/chronojump.glade.h:279
+#: ../glade/chronojump.glade.h:281
 msgid "Show speed"
 msgstr "Mostrar la velocidad"
 
-#: ../glade/chronojump.glade.h:280
+#: ../glade/chronojump.glade.h:282
 msgid "Show acceleration"
 msgstr "Mostrar la aceleración"
 
-#: ../glade/chronojump.glade.h:281
+#: ../glade/chronojump.glade.h:283
 msgid "Show force"
 msgstr "Mostrar la fuerza"
 
-#: ../glade/chronojump.glade.h:282
+#: ../glade/chronojump.glade.h:284
 msgid "Show power"
 msgstr "Mostrar potencia"
 
-#: ../glade/chronojump.glade.h:283 ../src/gui/encoder.cs:1443
+#: ../glade/chronojump.glade.h:285 ../src/gui/encoder.cs:1443
 msgid "Save image"
 msgstr "Guardar imagen"
 
-#: ../glade/chronojump.glade.h:284
+#: ../glade/chronojump.glade.h:286
 msgid "Save 1RM value"
 msgstr "Guardar valor 1RM"
 
-#: ../glade/chronojump.glade.h:285
+#: ../glade/chronojump.glade.h:287
 msgid "Show graph"
 msgstr "Mostrar gráfica"
 
-#: ../glade/chronojump.glade.h:286 ../src/gui/encoder.cs:1445
+#: ../glade/chronojump.glade.h:288 ../src/gui/encoder.cs:1445
 msgid "Save table"
 msgstr "Guardar tabla"
 
-#: ../glade/chronojump.glade.h:287
+#: ../glade/chronojump.glade.h:289
 msgid "Show table"
 msgstr "Mostrar tabla"
 
-#: ../glade/chronojump.glade.h:288 ../src/gui/encoder.cs:778
+#: ../glade/chronojump.glade.h:290 ../src/gui/encoder.cs:778
 #: ../src/gui/encoder.cs:1191
 msgid "Encoder"
 msgstr "Codificador"
 
-#: ../glade/chronojump.glade.h:289
+#: ../glade/chronojump.glade.h:291
 msgid ""
 "Chronojump has a server in order to share data between users.\n"
 "Data is collected by users contributions and server generates statistics and "
@@ -1408,11 +1403,11 @@ msgstr ""
 "Cualquiera puede ver las estadísticas y las gráficas, y realizar consultas "
 "al servidor de forma sencilla."
 
-#: ../glade/chronojump.glade.h:292
+#: ../glade/chronojump.glade.h:294
 msgid "Check data"
 msgstr "Comprobar datos"
 
-#: ../glade/chronojump.glade.h:293
+#: ../glade/chronojump.glade.h:295
 msgid ""
 "Privacy is respected:\n"
 "- Names, comments, photos and videos are not uploaded.\n"
@@ -1428,45 +1423,43 @@ msgstr ""
 "Las pruebas simuladas se descartarán.\n"
 "El evaluador puede usar su nombre real o un alias."
 
-#: ../glade/chronojump.glade.h:299
+#: ../glade/chronojump.glade.h:301
 msgid "Share data!"
 msgstr "Comparta sus datos"
 
-#: ../glade/chronojump.glade.h:300
+#: ../glade/chronojump.glade.h:302
 msgid "Server actions"
 msgstr "Acciones del servidor"
 
-#: ../glade/chronojump.glade.h:301
+#: ../glade/chronojump.glade.h:303
 msgid "Chronopic window"
 msgstr "Ventana de Chronopic"
 
-#: ../glade/chronojump.glade.h:302
-#| msgid "Contacts (platform or photocell)"
+#: ../glade/chronojump.glade.h:304
 msgid "Connect platform or photocells"
 msgstr "Conectar plataforma o fotocélulas"
 
-#: ../glade/chronojump.glade.h:303
+#: ../glade/chronojump.glade.h:305
 msgid "Connect"
 msgstr "Conectar"
 
-#: ../glade/chronojump.glade.h:304
+#: ../glade/chronojump.glade.h:306
 msgid "<b>Main Chronopic</b> (used on all tests)"
 msgstr "<b>Chronopic principal</b> (usado en todas las pruebas)"
 
-#: ../glade/chronojump.glade.h:305
+#: ../glade/chronojump.glade.h:307
 msgid "Show"
 msgstr "Mostrar"
 
-#: ../glade/chronojump.glade.h:306
+#: ../glade/chronojump.glade.h:308
 msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr "<b>Adicionales</b> (pueden ser usados en MultiChronopic)"
 
-#: ../glade/chronojump.glade.h:307
-#| msgid "<b>Conditions</b>"
+#: ../glade/chronojump.glade.h:309
 msgid "<b>Connection</b>"
 msgstr "<b>Conexión</b>"
 
-#: ../glade/chronojump.glade.h:308
+#: ../glade/chronojump.glade.h:310
 msgid ""
 "Contacts\n"
 "(platform or photocell)"
@@ -1474,7 +1467,7 @@ msgstr ""
 "Contactos\n"
 "(plataforma o fotocélulas)"
 
-#: ../glade/chronojump.glade.h:310
+#: ../glade/chronojump.glade.h:312
 msgid ""
 "Select the port where Chronopic is connected.\n"
 "\n"
@@ -1488,19 +1481,19 @@ msgstr ""
 "\n"
 "Simplemente selecciónelo y cierre esta ventana."
 
-#: ../glade/chronojump.glade.h:315
+#: ../glade/chronojump.glade.h:317
 msgid "Chronopic"
 msgstr "Chronopic"
 
-#: ../glade/chronojump.glade.h:316
+#: ../glade/chronojump.glade.h:318
 msgid "ChronoJump - Confirm"
 msgstr "ChronoJump - Confirmar"
 
-#: ../glade/chronojump.glade.h:317
+#: ../glade/chronojump.glade.h:319
 msgid "Convert weight of tests"
 msgstr "Convertir el peso de las pruebas"
 
-#: ../glade/chronojump.glade.h:319
+#: ../glade/chronojump.glade.h:321
 #, no-c-format
 msgid ""
 "Weight of jumps is stored as a '%' of jumper's weight. As the weight of "
@@ -1509,87 +1502,87 @@ msgstr ""
 "El peso de los salto se almacena en «%» del peso del saltador. Como el peso "
 "del saltador ha cambiado, debe cambiar el nuevo peso del salto."
 
-#: ../glade/chronojump.glade.h:320
+#: ../glade/chronojump.glade.h:322
 msgid "Old jumper weight"
 msgstr "Antiguo peso del saltador"
 
-#: ../glade/chronojump.glade.h:321
+#: ../glade/chronojump.glade.h:323
 msgid "New jumper weight"
 msgstr "Nuevo peso del saltador"
 
-#: ../glade/chronojump.glade.h:322
+#: ../glade/chronojump.glade.h:324
 msgid "About"
 msgstr "Acerca de"
 
-#: ../glade/chronojump.glade.h:323
+#: ../glade/chronojump.glade.h:325
 msgid "<b>Chronojump CEO's</b>"
 msgstr "<b>CEO de Chronojump</b>"
 
-#: ../glade/chronojump.glade.h:324
+#: ../glade/chronojump.glade.h:326
 msgid "<b>Software</b>"
 msgstr "<b>Software</b>"
 
-#: ../glade/chronojump.glade.h:325
+#: ../glade/chronojump.glade.h:327
 msgid "<b>Hardware: Chronopic</b>"
 msgstr "<b>Hardware: Chronopic</b>"
 
-#: ../glade/chronojump.glade.h:326
+#: ../glade/chronojump.glade.h:328
 msgid "<b>Hardware: Devices</b>"
 msgstr "<b>Hardware: dispositivos</b>"
 
-#: ../glade/chronojump.glade.h:327
+#: ../glade/chronojump.glade.h:329
 msgid "<b>Mathematics and Statistics support</b>"
 msgstr "<b>Soporte de matemáticas y estadísticas</b>"
 
-#: ../glade/chronojump.glade.h:328
+#: ../glade/chronojump.glade.h:330
 msgid "<b>OpenCV</b>"
 msgstr "<b>OpenCV</b>"
 
-#: ../glade/chronojump.glade.h:329
+#: ../glade/chronojump.glade.h:331
 msgid "Developers"
 msgstr "desarrolladores"
 
-#: ../glade/chronojump.glade.h:330
+#: ../glade/chronojump.glade.h:332
 msgid "Documenters"
 msgstr "Documentadores"
 
-#: ../glade/chronojump.glade.h:331
+#: ../glade/chronojump.glade.h:333
 msgid "Translators"
 msgstr "traductores"
 
-#: ../glade/chronojump.glade.h:332
+#: ../glade/chronojump.glade.h:334
 msgid "Chronopic port help"
 msgstr "Ayuda del puerto de Chronopic"
 
-#: ../glade/chronojump.glade.h:333 ../src/gui/helpPorts.cs:100
+#: ../glade/chronojump.glade.h:335 ../src/gui/helpPorts.cs:100
 msgid "Check Chronopic port"
 msgstr "Comprobar puerto de Chronopic"
 
-#: ../glade/chronojump.glade.h:334 ../src/gui/helpPorts.cs:116
+#: ../glade/chronojump.glade.h:336 ../src/gui/helpPorts.cs:116
 msgid "Force Chronopic port to COM1 - COM4"
 msgstr "Forzar puerto de Chronopic a COM1 - COM4"
 
-#: ../glade/chronojump.glade.h:335
+#: ../glade/chronojump.glade.h:337
 msgid "Test image and description"
 msgstr "Imagen de prueba y descripción"
 
-#: ../glade/chronojump.glade.h:336
+#: ../glade/chronojump.glade.h:338
 msgid "Message"
 msgstr "Mensaje"
 
-#: ../glade/chronojump.glade.h:337
+#: ../glade/chronojump.glade.h:339
 msgid "Server stats"
 msgstr "Estadísticas del servidor"
 
-#: ../glade/chronojump.glade.h:338
+#: ../glade/chronojump.glade.h:340
 msgid "Evaluators"
 msgstr "Evaluadores"
 
-#: ../glade/chronojump.glade.h:339
+#: ../glade/chronojump.glade.h:341
 msgid "In server"
 msgstr "En el servidor"
 
-#: ../glade/chronojump.glade.h:340
+#: ../glade/chronojump.glade.h:342
 msgid ""
 "Uploaded\n"
 "by you"
@@ -1597,73 +1590,73 @@ msgstr ""
 "Subido \n"
 "por usted"
 
-#: ../glade/chronojump.glade.h:342
+#: ../glade/chronojump.glade.h:344
 msgid "Sessions"
 msgstr "Sesiones"
 
-#: ../glade/chronojump.glade.h:343 ../src/exportSession.cs:174
+#: ../glade/chronojump.glade.h:345 ../src/exportSession.cs:174
 #: ../src/gui/session.cs:725 ../src/report.cs:158
 msgid "Persons"
 msgstr "Atletas"
 
-#: ../glade/chronojump.glade.h:344
+#: ../glade/chronojump.glade.h:346
 msgid "General data"
 msgstr "Datos generales"
 
-#: ../glade/chronojump.glade.h:345 ../src/exportSession.cs:179
+#: ../glade/chronojump.glade.h:347 ../src/exportSession.cs:179
 #: ../src/report.cs:168 ../src/report.cs:171
 msgid "Reactive jumps"
 msgstr "Saltos reactivos"
 
-#: ../glade/chronojump.glade.h:346
+#: ../glade/chronojump.glade.h:348
 msgid "Intervallic runs"
 msgstr "carrera con tramos"
 
-#: ../glade/chronojump.glade.h:347
+#: ../glade/chronojump.glade.h:349
 msgid "Tests"
 msgstr "Pruebas"
 
-#: ../glade/chronojump.glade.h:348 ../src/gui/chronojump.cs:1171
+#: ../glade/chronojump.glade.h:350 ../src/gui/chronojump.cs:1171
 msgid "Edit"
 msgstr "Editar"
 
-#: ../glade/chronojump.glade.h:349
+#: ../glade/chronojump.glade.h:351
 msgid "Flight time"
 msgstr "Tiempo de vuelo"
 
-#: ../glade/chronojump.glade.h:350 ../src/gui/encoder.cs:776
-#: ../src/gui/encoder.cs:1190 ../src/gui/encoderTreeviews.cs:399
+#: ../glade/chronojump.glade.h:352 ../src/gui/encoder.cs:776
+#: ../src/gui/encoder.cs:1190 ../src/gui/encoderTreeviews.cs:391
 #: ../src/gui/jump.cs:1479 ../src/gui/jump.cs:1696
 #: ../src/stats/graphs/sjCmjAbkPlus.cs:66 ../src/stats/sjCmjAbkPlus.cs:57
 #: ../src/treeViewJump.cs:38
 msgid "Extra weight"
 msgstr "Peso extra"
 
-#: ../glade/chronojump.glade.h:351
+#: ../glade/chronojump.glade.h:353
 msgid "Identifier"
 msgstr "Identificador"
 
-#: ../glade/chronojump.glade.h:352
+#: ../glade/chronojump.glade.h:354
 msgid "Contact time"
 msgstr "Tiempo de contacto"
 
-#: ../glade/chronojump.glade.h:353
+#: ../glade/chronojump.glade.h:355
 msgid "<b>Simulated</b>"
 msgstr "<b>Simulado</b>"
 
-#: ../glade/chronojump.glade.h:354
+#: ../glade/chronojump.glade.h:356
 msgid "Knee angle"
 msgstr "Ángulo de la rodilla"
 
-#: ../glade/chronojump.glade.h:355
+#: ../glade/chronojump.glade.h:357
 msgid "Mistakes"
 msgstr "Errores"
 
-#: ../glade/chronojump.glade.h:356
+#: ../glade/chronojump.glade.h:358
 msgid "Video available"
 msgstr "Vídeo disponible"
 
-#: ../glade/chronojump.glade.h:357 ../src/constants.cs:596
+#: ../glade/chronojump.glade.h:359 ../src/constants.cs:597
 #: ../src/encoder.cs:598 ../src/gui/jump.cs:1495 ../src/gui/jump.cs:1500
 #: ../src/gui/jump.cs:1537 ../src/gui/jump.cs:1540 ../src/gui/jump.cs:1569
 #: ../src/gui/jump.cs:1572 ../src/gui/jump.cs:1712 ../src/gui/jump.cs:1717
@@ -1672,26 +1665,26 @@ msgstr "Vídeo disponible"
 msgid "Yes"
 msgstr "Sí"
 
-#: ../glade/chronojump.glade.h:358 ../src/constants.cs:595
+#: ../glade/chronojump.glade.h:360 ../src/constants.cs:596
 #: ../src/encoder.cs:600 ../src/gui/jump.cs:1497 ../src/gui/jump.cs:1502
 #: ../src/gui/jump.cs:1714 ../src/gui/jump.cs:1719
 msgid "No"
 msgstr "No"
 
-#: ../glade/chronojump.glade.h:359
+#: ../glade/chronojump.glade.h:361
 msgid "Play video"
 msgstr "Reproducir vídeo"
 
-#: ../glade/chronojump.glade.h:360
+#: ../glade/chronojump.glade.h:362
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:361 ../src/gui/encoderTreeviews.cs:43
-#: ../src/gui/encoderTreeviews.cs:401
+#: ../glade/chronojump.glade.h:363 ../src/gui/encoderTreeviews.cs:43
+#: ../src/gui/encoderTreeviews.cs:393
 msgid "Start"
 msgstr "Salida"
 
-#: ../glade/chronojump.glade.h:362
+#: ../glade/chronojump.glade.h:364
 msgid ""
 "Description /\n"
 "comments"
@@ -1699,82 +1692,82 @@ msgstr ""
 "Descripción / \n"
 "Comentarios"
 
-#: ../glade/chronojump.glade.h:364
+#: ../glade/chronojump.glade.h:366
 msgid "Sit to stand"
 msgstr "Sentarse para levantarse"
 
-#: ../glade/chronojump.glade.h:365
+#: ../glade/chronojump.glade.h:367
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr ""
 "Capaz de levantarse sin usar las manos en una acción preparada y controlada."
 
-#: ../glade/chronojump.glade.h:366
+#: ../glade/chronojump.glade.h:368
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr ""
 "Capaz de levantarse usando las manos en una acción preparada y controlada."
 
-#: ../glade/chronojump.glade.h:367
+#: ../glade/chronojump.glade.h:369
 msgid "Able to stand up using hands after multiple attempts."
 msgstr "Capaz de levantarse usando las manos después de varios intentos."
 
-#: ../glade/chronojump.glade.h:368
+#: ../glade/chronojump.glade.h:370
 msgid "Needs or asks for help."
 msgstr "Necesita o pide ayuda."
 
-#: ../glade/chronojump.glade.h:369
+#: ../glade/chronojump.glade.h:371
 msgid "Undefined."
 msgstr "Indefinido."
 
-#: ../glade/chronojump.glade.h:370
+#: ../glade/chronojump.glade.h:372
 msgid "MTGUG Questionnaire 1"
 msgstr "Cuestionario MTGUG 1"
 
-#: ../glade/chronojump.glade.h:371
+#: ../glade/chronojump.glade.h:373
 msgid "Kick ball"
 msgstr "Patear pelota"
 
-#: ../glade/chronojump.glade.h:372
+#: ../glade/chronojump.glade.h:374
 msgid "Able to kick ball without losing balance."
 msgstr "Capaz de dar una patada a una pelota sin perder el equilibrio."
 
-#: ../glade/chronojump.glade.h:373
+#: ../glade/chronojump.glade.h:375
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr ""
 "Capaz de dar una patada a una pelota pero necesita un paso para recobrar el "
 "equilibrio."
 
-#: ../glade/chronojump.glade.h:374
+#: ../glade/chronojump.glade.h:376
 msgid "Able to kick ball with difficulty finding balance."
 msgstr ""
 "Capaz de dar una patada a una pelota con dificultad para encontrar el "
 "equilibrio."
 
-#: ../glade/chronojump.glade.h:375
+#: ../glade/chronojump.glade.h:377
 msgid "Walk whilst counting backwards from 15 to 0"
 msgstr "Caminar mientras se cuenta hacia atrás de 15 a 0"
 
-#: ../glade/chronojump.glade.h:376
+#: ../glade/chronojump.glade.h:378
 msgid "Able to coordinate walking with counting without making a mistake."
 msgstr "Capaz de coordinar pasear y contar sin cometer errores."
 
-#: ../glade/chronojump.glade.h:377
+#: ../glade/chronojump.glade.h:379
 msgid "Able to coordinate walking with counting with one mistake."
 msgstr "Capaz de coordinar pasear y contar con un error."
 
-#: ../glade/chronojump.glade.h:378
+#: ../glade/chronojump.glade.h:380
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
 msgstr "Coordinación pobre entre andar y contar con más de un error."
 
-#: ../glade/chronojump.glade.h:379
+#: ../glade/chronojump.glade.h:381
 msgid "Needs help or cannot perform the counting task."
 msgstr "Necesita ayuda o no puede realizar la tarea de conteo."
 
-#: ../glade/chronojump.glade.h:380
+#: ../glade/chronojump.glade.h:382
 msgid "Go around back of cone"
 msgstr "Ir alrededor de un cono"
 
-#: ../glade/chronojump.glade.h:381
+#: ../glade/chronojump.glade.h:383
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
@@ -1782,11 +1775,11 @@ msgstr ""
 "Capaz de ir alrededor de un cono sin tocarlo, sin salir del área marcada "
 "pero reduciendo el paso."
 
-#: ../glade/chronojump.glade.h:382
+#: ../glade/chronojump.glade.h:384
 msgid "Able to go around with obvious signs of insecurity."
 msgstr "Capaz de ir alrededor con signos obvios de inseguridad."
 
-#: ../glade/chronojump.glade.h:383
+#: ../glade/chronojump.glade.h:385
 msgid ""
 "Able to go around the cone without touching it, without going outside the  "
 "marked area, and keeping up the pace."
@@ -1794,11 +1787,11 @@ msgstr ""
 "Capaz de ir alrededor de un cono sin tocarlo, sin salir del área marcada y "
 "manteniendo el paso."
 
-#: ../glade/chronojump.glade.h:384
+#: ../glade/chronojump.glade.h:386
 msgid "Step into circles"
 msgstr "Caminar en los círculos"
 
-#: ../glade/chronojump.glade.h:385
+#: ../glade/chronojump.glade.h:387
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
@@ -1806,7 +1799,7 @@ msgstr ""
 "Capaz de andar, metiendo cada pie en cada círculo sin tocarlos y sin perder "
 "el equilibrio."
 
-#: ../glade/chronojump.glade.h:386
+#: ../glade/chronojump.glade.h:388
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
@@ -1814,7 +1807,7 @@ msgstr ""
 "Capaz de andar, metiendo cada pie en cada círculo, tocando uno o necesitando "
 "un paso adicional fuera de los anillos para recobrar el equilibrio."
 
-#: ../glade/chronojump.glade.h:387
+#: ../glade/chronojump.glade.h:389
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
@@ -1822,131 +1815,131 @@ msgstr ""
 "Capaz de andar, metiendo cada pie en cada círculo, tocándo más de uno o "
 "necesitando más de un paso adicional para recuperar el equilibrio."
 
-#: ../glade/chronojump.glade.h:388
+#: ../glade/chronojump.glade.h:390
 msgid "Sit back down"
 msgstr "Sentarse"
 
-#: ../glade/chronojump.glade.h:389
+#: ../glade/chronojump.glade.h:391
 msgid "Able to sit down smoothly without using hands."
 msgstr "Capaz de sentarse suavemente sin usar las manos."
 
-#: ../glade/chronojump.glade.h:390
+#: ../glade/chronojump.glade.h:392
 msgid "Able to sit down sharply without using hands."
 msgstr "Capaz de sentarse bruscamente sin usar las manos."
 
-#: ../glade/chronojump.glade.h:391
+#: ../glade/chronojump.glade.h:393
 msgid "Able to sit down using hands."
 msgstr "Capaz de sentarse usando las manos."
 
-#: ../glade/chronojump.glade.h:392
+#: ../glade/chronojump.glade.h:394
 msgid "slCMJ"
 msgstr "slCMJ"
 
-#: ../glade/chronojump.glade.h:393
+#: ../glade/chronojump.glade.h:395
 msgid "Encoder capture options"
 msgstr "Opciones de captura del codificador"
 
-#: ../glade/chronojump.glade.h:394
+#: ../glade/chronojump.glade.h:396
 msgid "Safe"
 msgstr "Seguro"
 
-#: ../glade/chronojump.glade.h:395
+#: ../glade/chronojump.glade.h:397
 msgid "Recording time"
 msgstr "Tiempo de grabación"
 
-#: ../glade/chronojump.glade.h:396
+#: ../glade/chronojump.glade.h:398
 msgid "Minimal height"
 msgstr "Altura mínima"
 
-#: ../glade/chronojump.glade.h:397
+#: ../glade/chronojump.glade.h:399
 msgid "s"
 msgstr "s"
 
-#: ../glade/chronojump.glade.h:398
+#: ../glade/chronojump.glade.h:400
 msgid "Displayed positive and negative height"
 msgstr "Altura positiva o negativa mostrada"
 
-#: ../glade/chronojump.glade.h:399
+#: ../glade/chronojump.glade.h:401
 msgid "Displayed height"
 msgstr "Altura mostrada"
 
-#: ../glade/chronojump.glade.h:400
+#: ../glade/chronojump.glade.h:402
 msgid "Main variable"
 msgstr "Variables principal"
 
-#: ../glade/chronojump.glade.h:401
+#: ../glade/chronojump.glade.h:403
 msgid "End at n inactivity seconds"
 msgstr "Terminar tras n segundos de inactividad"
 
-#: ../glade/chronojump.glade.h:402
+#: ../glade/chronojump.glade.h:404
 msgid "Show start and duration of each curve"
 msgstr "Mostrar el inicio y la duración de cada curva"
 
-#: ../glade/chronojump.glade.h:403
+#: ../glade/chronojump.glade.h:405
 msgid "Select encoder configuration"
 msgstr "Seleccionar la configuración del codificador"
 
-#: ../glade/chronojump.glade.h:404
+#: ../glade/chronojump.glade.h:406
 msgid "Linear"
 msgstr "Lineal"
 
-#: ../glade/chronojump.glade.h:405
+#: ../glade/chronojump.glade.h:407
 msgid "Rotary friction"
 msgstr "Fricción de rotación"
 
-#: ../glade/chronojump.glade.h:406
+#: ../glade/chronojump.glade.h:408
 msgid "Rotary axis"
 msgstr "Eje de rotación"
 
-#: ../glade/chronojump.glade.h:407
+#: ../glade/chronojump.glade.h:409
 msgid "Push angle"
 msgstr "Ángulo de empuje"
 
-#: ../glade/chronojump.glade.h:408
+#: ../glade/chronojump.glade.h:410
 msgid "Weight angle"
 msgstr "Ángulo del peso"
 
-#: ../glade/chronojump.glade.h:409
+#: ../glade/chronojump.glade.h:411
 msgid "Inertia"
 msgstr "Inercia"
 
-#: ../glade/chronojump.glade.h:410
+#: ../glade/chronojump.glade.h:412
 msgid "Calcule inertial momentum"
 msgstr "Calcular momento de la inercia"
 
-#: ../glade/chronojump.glade.h:411
+#: ../glade/chronojump.glade.h:413
 msgid "Calcule IM"
 msgstr "Calcular IM"
 
-#: ../glade/chronojump.glade.h:412
+#: ../glade/chronojump.glade.h:414
 msgid "Accuracy"
 msgstr "Precisión"
 
-#: ../glade/chronojump.glade.h:413
+#: ../glade/chronojump.glade.h:415
 msgid "grams"
 msgstr "gramos"
 
-#: ../glade/chronojump.glade.h:414
+#: ../glade/chronojump.glade.h:416
 msgid "ChronoJump - Error"
 msgstr "ChronoJump - Error"
 
-#: ../glade/chronojump.glade.h:415
+#: ../glade/chronojump.glade.h:417
 msgid "ChronoJump"
 msgstr "ChronoJump"
 
-#: ../glade/chronojump.glade.h:416
+#: ../glade/chronojump.glade.h:418
 msgid "Evaluator server data"
 msgstr "Evaluador. Datos del servidor"
 
-#: ../glade/chronojump.glade.h:417
+#: ../glade/chronojump.glade.h:419
 msgid "Please fill these values."
 msgstr "Por favor, introduzca estos datos."
 
-#: ../glade/chronojump.glade.h:418
+#: ../glade/chronojump.glade.h:420
 msgid "E-mail will never be shown in public."
 msgstr "El correo-e nunca se mostrará en público."
 
-#: ../glade/chronojump.glade.h:419 ../src/exportSession.cs:208
+#: ../glade/chronojump.glade.h:421 ../src/exportSession.cs:208
 #: ../src/exportSession.cs:223 ../src/gui/jump.cs:1477 ../src/gui/jump.cs:1692
 #: ../src/gui/person.cs:120 ../src/gui/run.cs:1219 ../src/gui/run.cs:1406
 #: ../src/gui/server.cs:164 ../src/gui/session.cs:722
@@ -1954,83 +1947,83 @@ msgstr "El correo-e nunca se mostrará en público."
 msgid "Name"
 msgstr "Nombre"
 
-#: ../glade/chronojump.glade.h:420
+#: ../glade/chronojump.glade.h:422
 msgid "E-mail"
 msgstr "Correo-e"
 
-#: ../glade/chronojump.glade.h:421
+#: ../glade/chronojump.glade.h:423
 msgid "change"
 msgstr "cambio"
 
-#: ../glade/chronojump.glade.h:422
+#: ../glade/chronojump.glade.h:424
 msgid "Country"
 msgstr "País"
 
-#: ../glade/chronojump.glade.h:423
+#: ../glade/chronojump.glade.h:425
 msgid "Accredited"
 msgstr "Acreditado"
 
-#: ../glade/chronojump.glade.h:424
+#: ../glade/chronojump.glade.h:426
 msgid "more info"
 msgstr "más información"
 
-#: ../glade/chronojump.glade.h:425
+#: ../glade/chronojump.glade.h:427
 msgid "Date of birth"
 msgstr "Fecha de nacimiento"
 
-#: ../glade/chronojump.glade.h:426 ../src/exportSession.cs:211
+#: ../glade/chronojump.glade.h:428 ../src/exportSession.cs:211
 #: ../src/exportSession.cs:228 ../src/gui/session.cs:742
 #: ../src/gui/session.cs:962 ../src/report.cs:243 ../src/runType.cs:197
 #: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Comentarios"
 
-#: ../glade/chronojump.glade.h:427
+#: ../glade/chronojump.glade.h:429
 msgid "Evaluator data"
 msgstr "Datos del evaluador"
 
-#: ../glade/chronojump.glade.h:428
+#: ../glade/chronojump.glade.h:430
 msgid "Select your Chronometer"
 msgstr "Seleccionar su cronómetro"
 
-#: ../glade/chronojump.glade.h:429 ../src/constants.cs:518
+#: ../glade/chronojump.glade.h:431 ../src/constants.cs:518
 #: ../src/constants.cs:549 ../src/gui/person.cs:1296 ../src/gui/person.cs:1312
 msgid "Undefined"
 msgstr "Indefinido"
 
-#: ../glade/chronojump.glade.h:430
+#: ../glade/chronojump.glade.h:432
 msgid "Chronopic 1"
 msgstr "Chronopic 1"
 
-#: ../glade/chronojump.glade.h:431
+#: ../glade/chronojump.glade.h:433
 msgid "Chronopic 2"
 msgstr "Chronopic 2"
 
-#: ../glade/chronojump.glade.h:432
+#: ../glade/chronojump.glade.h:434
 msgid "Chronopic 3"
 msgstr "Chronopic 3"
 
-#: ../glade/chronojump.glade.h:433
+#: ../glade/chronojump.glade.h:435
 msgid "Other. Specify:"
 msgstr "Otros, especificar:"
 
-#: ../glade/chronojump.glade.h:434
+#: ../glade/chronojump.glade.h:436
 msgid "Expand image and show description"
 msgstr "Expandir imagen y mostrar descripción"
 
-#: ../glade/chronojump.glade.h:435
+#: ../glade/chronojump.glade.h:437
 msgid "To buy or build Chronopic see website:"
 msgstr "Para comprar o construir un Chronopic ver la página web:"
 
-#: ../glade/chronojump.glade.h:436
+#: ../glade/chronojump.glade.h:438
 msgid "Chronometer"
 msgstr "Cronómetro"
 
-#: ../glade/chronojump.glade.h:437
+#: ../glade/chronojump.glade.h:439
 msgid "Select the device you currently use"
 msgstr "Seleccionar el dispositivo que usa actualmente"
 
-#: ../glade/chronojump.glade.h:438
+#: ../glade/chronojump.glade.h:440
 msgid ""
 "Contact platform\n"
 "(tempered steel)"
@@ -2038,7 +2031,7 @@ msgstr ""
 "Platforma de contactos\n"
 "(varillas de acero)"
 
-#: ../glade/chronojump.glade.h:440
+#: ../glade/chronojump.glade.h:442
 msgid ""
 "Contact platform\n"
 "(circuit board)"
@@ -2046,175 +2039,168 @@ msgstr ""
 "Plataforma de contactos\n"
 "(placa de circuito impreso)"
 
-#: ../glade/chronojump.glade.h:442
+#: ../glade/chronojump.glade.h:444
 msgid "Infrared"
 msgstr "Infrarrojos"
 
-#: ../glade/chronojump.glade.h:443
+#: ../glade/chronojump.glade.h:445
 msgid "To buy or build these devices see website:"
 msgstr "Para comprar o construir estos dispositivos ver la página web:"
 
-#: ../glade/chronojump.glade.h:444
+#: ../glade/chronojump.glade.h:446
 msgid "Device"
 msgstr "Dispositivo"
 
-#: ../glade/chronojump.glade.h:445
+#: ../glade/chronojump.glade.h:447
 msgid "Configure graph"
 msgstr "Configurar gráfico"
 
-#: ../glade/chronojump.glade.h:446
+#: ../glade/chronojump.glade.h:448
 msgid "Maximum"
 msgstr "Máximo"
 
-#: ../glade/chronojump.glade.h:447
+#: ../glade/chronojump.glade.h:449
 msgid "Minimum"
 msgstr "Mínimo"
 
-#: ../glade/chronojump.glade.h:448
+#: ../glade/chronojump.glade.h:450
 msgid "auto"
 msgstr "auto"
 
-#: ../glade/chronojump.glade.h:449
+#: ../glade/chronojump.glade.h:451
 msgid "Vertical Axe"
 msgstr "Eje vertical"
 
-#: ../glade/chronojump.glade.h:450
+#: ../glade/chronojump.glade.h:452
 msgid "Show black guide"
 msgstr "Mostrar la guía negra"
 
-#: ../glade/chronojump.glade.h:451
+#: ../glade/chronojump.glade.h:453
 msgid "Show green guide"
 msgstr "Mostrar la guía verde"
 
-#: ../glade/chronojump.glade.h:452
+#: ../glade/chronojump.glade.h:454
 msgid "Guides"
 msgstr "Guías"
 
-#: ../glade/chronojump.glade.h:453
+#: ../glade/chronojump.glade.h:455
 msgid "Paint a circle at end"
 msgstr "Pintar un círculo al final"
 
-#: ../glade/chronojump.glade.h:454
+#: ../glade/chronojump.glade.h:456
 msgid "Show grid (on repetitive tests)"
 msgstr "Mostrar la rejilla (en pruebas múltiples)"
 
-#: ../glade/chronojump.glade.h:455
+#: ../glade/chronojump.glade.h:457
 msgid "Show time"
 msgstr "Mostrar el tiempo"
 
-#: ../glade/chronojump.glade.h:456
+#: ../glade/chronojump.glade.h:458
 msgid "Automatic mode"
 msgstr "Modo automático"
 
-#: ../glade/chronojump.glade.h:457
-#| msgid "person"
+#: ../glade/chronojump.glade.h:459
 msgid "By persons"
 msgstr "Por atletas"
 
-#: ../glade/chronojump.glade.h:458
-#| msgid "All tests"
+#: ../glade/chronojump.glade.h:460
 msgid "By tests"
 msgstr "Por pruebas"
 
-#: ../glade/chronojump.glade.h:459
-#| msgid "Series"
+#: ../glade/chronojump.glade.h:461
 msgid "By series"
 msgstr "Por series"
 
-#: ../glade/chronojump.glade.h:460
+#: ../glade/chronojump.glade.h:462
 msgid ""
 "First person perform all the tests,\n"
 "second person perform all the tests ..."
 msgstr ""
 
-#: ../glade/chronojump.glade.h:462
+#: ../glade/chronojump.glade.h:464
 msgid ""
 "All the persons perform first test,\n"
 "all the persons perform second test ..."
 msgstr ""
 
-#: ../glade/chronojump.glade.h:464
+#: ../glade/chronojump.glade.h:466
 msgid ""
 "All the persons perform first serie,\n"
 "all the persons perform second serie ...\n"
 "One serie can contain several tests."
 msgstr ""
 
-#: ../glade/chronojump.glade.h:467
+#: ../glade/chronojump.glade.h:469
 msgid "Mode"
 msgstr "Modo"
 
-#: ../glade/chronojump.glade.h:468
+#: ../glade/chronojump.glade.h:470
 msgid "page 1"
 msgstr "página 1"
 
-#: ../glade/chronojump.glade.h:469
-#| msgid "Series"
+#: ../glade/chronojump.glade.h:471
 msgid "Serie 1"
 msgstr "Serie 1"
 
-#: ../glade/chronojump.glade.h:470
-#| msgid "Series"
+#: ../glade/chronojump.glade.h:472
 msgid "Serie 2"
 msgstr "Serie 2"
 
-#: ../glade/chronojump.glade.h:471
-#| msgid "Series"
+#: ../glade/chronojump.glade.h:473
 msgid "Serie 3"
 msgstr "Serie 3"
 
-#: ../glade/chronojump.glade.h:472
-#| msgid "Select next person"
+#: ../glade/chronojump.glade.h:474
 msgid "Select exercises"
 msgstr "Seleccionar ejercicios"
 
-#: ../glade/chronojump.glade.h:473
+#: ../glade/chronojump.glade.h:475
 msgid "page 2"
 msgstr "página 2"
 
-#: ../glade/chronojump.glade.h:474
+#: ../glade/chronojump.glade.h:476
 msgid "page 3"
 msgstr "página 3"
 
-#: ../glade/chronojump.glade.h:475
+#: ../glade/chronojump.glade.h:477
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../glade/chronojump.glade.h:476
+#: ../glade/chronojump.glade.h:478
 msgid "Feet"
 msgstr "Pies"
 
-#: ../glade/chronojump.glade.h:477
+#: ../glade/chronojump.glade.h:479
 msgid "Inches"
 msgstr "Pulgadas"
 
-#: ../glade/chronojump.glade.h:478 ../src/gui/encoder.cs:781
+#: ../glade/chronojump.glade.h:480 ../src/gui/encoder.cs:781
 #: ../src/gui/encoder.cs:1195 ../src/gui/report.cs:143
 msgid "Comment"
 msgstr "Comentario"
 
-#: ../glade/chronojump.glade.h:479
+#: ../glade/chronojump.glade.h:481
 msgid "Create new Jump Type"
 msgstr "Crear un tipo de salto nuevo"
 
-#: ../glade/chronojump.glade.h:480
+#: ../glade/chronojump.glade.h:482
 msgid "Create a new jump type in the database"
 msgstr "Crear un tipo de salto nuevo en la base de datos"
 
-#: ../glade/chronojump.glade.h:481 ../src/gui/jump.cs:1478
+#: ../glade/chronojump.glade.h:483 ../src/gui/jump.cs:1478
 #: ../src/gui/jump.cs:1695
 msgid "Start inside"
 msgstr "Comienza dentro"
 
-#: ../glade/chronojump.glade.h:482
+#: ../glade/chronojump.glade.h:484
 msgid "yes"
 msgstr "sí"
 
-#: ../glade/chronojump.glade.h:483
+#: ../glade/chronojump.glade.h:485
 msgid "no"
 msgstr "no"
 
-#: ../glade/chronojump.glade.h:484
+#: ../glade/chronojump.glade.h:486
 msgid ""
 "Main\n"
 "options"
@@ -2222,113 +2208,112 @@ msgstr ""
 "Opciones\n"
 "principales"
 
-#: ../glade/chronojump.glade.h:486
+#: ../glade/chronojump.glade.h:488
 msgid "Limited by "
 msgstr "Limitado por "
 
-#: ../glade/chronojump.glade.h:487
+#: ../glade/chronojump.glade.h:489
 msgid "value"
 msgstr "valor"
 
-#: ../glade/chronojump.glade.h:488 ../src/gui/jump.cs:1185
+#: ../glade/chronojump.glade.h:490 ../src/gui/jump.cs:1185
 #: ../src/gui/queryServer.cs:777
 msgid "jumps"
 msgstr "saltos"
 
-#: ../glade/chronojump.glade.h:489 ../src/constants.cs:820
+#: ../glade/chronojump.glade.h:491 ../src/constants.cs:821
 msgid "time"
 msgstr "tiempo"
 
-#: ../glade/chronojump.glade.h:490
+#: ../glade/chronojump.glade.h:492
 msgid "simple"
 msgstr "simple"
 
-#: ../glade/chronojump.glade.h:491
+#: ../glade/chronojump.glade.h:493
 msgid "repetitive"
 msgstr "repetitivo"
 
-#: ../glade/chronojump.glade.h:492
+#: ../glade/chronojump.glade.h:494
 msgid "fixed: "
 msgstr "fijo"
 
-#: ../glade/chronojump.glade.h:493
+#: ../glade/chronojump.glade.h:495
 msgid "All tests"
 msgstr "Todas las pruebas"
 
-#: ../glade/chronojump.glade.h:494
+#: ../glade/chronojump.glade.h:496
 msgid "Delete type"
 msgstr "Borrar tipo"
 
-#: ../glade/chronojump.glade.h:495
+#: ../glade/chronojump.glade.h:497
 msgid "Chronojump language select"
 msgstr "Selección de idioma de Chronojump"
 
-#: ../glade/chronojump.glade.h:496
+#: ../glade/chronojump.glade.h:498
 msgid "Please select <b>Chronojump</b> language"
 msgstr "Seleccione el idioma de <b>Chronojump</b>"
 
-#: ../glade/chronojump.glade.h:497
+#: ../glade/chronojump.glade.h:499
 msgid "Add multiple persons"
 msgstr "Añadir múltiples atletas"
 
-#: ../glade/chronojump.glade.h:498
+#: ../glade/chronojump.glade.h:500
 msgid "Add entries from CSV (spreadsheet)"
 msgstr "Añadir entradas desde CSV (hoja de cálculo)"
 
-#: ../glade/chronojump.glade.h:499
+#: ../glade/chronojump.glade.h:501
 msgid "CSV file has headers"
 msgstr "El archivo CSV tiene cabeceras"
 
-#: ../glade/chronojump.glade.h:500
+#: ../glade/chronojump.glade.h:502
 msgid "CSV file does not have headers"
 msgstr "El archivo CSV no tiene cabeceras"
 
-#: ../glade/chronojump.glade.h:501
+#: ../glade/chronojump.glade.h:503
 msgid "Full name in one column"
 msgstr "Nombre completo en una columna"
 
-#: ../glade/chronojump.glade.h:502
+#: ../glade/chronojump.glade.h:504
 msgid "Full name in two columns"
 msgstr "Nombre completo en dos columnas"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:505
 msgid "Open CSV file"
 msgstr "Abrir archivo CSV"
 
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:506
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:507
 msgid "Add entries manually"
 msgstr "Añadir entradas manualmente"
 
-#: ../glade/chronojump.glade.h:506
+#: ../glade/chronojump.glade.h:508
 msgid "Create table"
 msgstr "Crear tabla"
 
-#: ../glade/chronojump.glade.h:507 ../src/gui/person.cs:2089
+#: ../glade/chronojump.glade.h:509 ../src/gui/person.cs:2091
 msgid "Full name"
 msgstr "Nombre completo"
 
-#: ../glade/chronojump.glade.h:508
+#: ../glade/chronojump.glade.h:510
 msgid "Genre"
 msgstr "Sexo"
 
 #. decimals
-#: ../glade/chronojump.glade.h:509 ../src/constants.cs:823
+#: ../glade/chronojump.glade.h:511 ../src/constants.cs:824
 #: ../src/exportSession.cs:226 ../src/exportSession.cs:255
-#: ../src/exportSession.cs:353 ../src/gui/person.cs:2091
+#: ../src/exportSession.cs:353 ../src/gui/person.cs:2093
 #: ../src/stats/graphs/potency.cs:84 ../src/stats/graphs/sjCmjAbkPlus.cs:83
 msgid "Weight"
 msgstr "Peso"
 
-#: ../glade/chronojump.glade.h:510
-#| msgid "5"
+#: ../glade/chronojump.glade.h:512
 msgid "75"
 msgstr "75"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:513
 msgid ""
 "This can be changed using the buttons on the top of this window.\n"
 "\n"
@@ -2341,40 +2326,39 @@ msgstr ""
 "Para diferencia entre masculino y femenino, use los valores 1/0, m/f o M/F "
 "en la columna de género."
 
-#: ../glade/chronojump.glade.h:514
+#: ../glade/chronojump.glade.h:516
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
 msgstr "Guardar la hoja de cálculo como CSV (valores separados por comas)."
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:517
 msgid "Mark if CSV file has header row or not."
 msgstr "Marcar si el archivo CSV tiene fila de cabecera o no"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:518
 msgid "Open CSV file."
 msgstr "Abrir archivo CSV."
 
-#: ../glade/chronojump.glade.h:517
+#: ../glade/chronojump.glade.h:519
 msgid "This help."
 msgstr "Esta ayuda."
 
-#: ../glade/chronojump.glade.h:518
-#| msgid "Full name"
+#: ../glade/chronojump.glade.h:520
 msgid "Full name in 1 column"
 msgstr "Nombre completo en una columna"
 
-#: ../glade/chronojump.glade.h:519
+#: ../glade/chronojump.glade.h:521
 msgid "Full name in 2 columns"
 msgstr "Nombre completo en dos columnas"
 
-#: ../glade/chronojump.glade.h:520
+#: ../glade/chronojump.glade.h:522
 msgid "Full name in one column or in two (name/surname)."
 msgstr "Nombre completo en una columna o en dos (nombre/apellido)."
 
-#: ../glade/chronojump.glade.h:521
+#: ../glade/chronojump.glade.h:523
 msgid "Load persons"
 msgstr "Cargar atletas"
 
-#: ../glade/chronojump.glade.h:522
+#: ../glade/chronojump.glade.h:524
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
@@ -2382,163 +2366,167 @@ msgstr ""
 "Seleccione los atletas que desee cargar.\n"
 "(No se muestran los atletas cargados ya en la sesión actual)"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:526
 msgid "From session"
 msgstr "De la sesión"
 
-#: ../glade/chronojump.glade.h:525
+#: ../glade/chronojump.glade.h:527
 msgid "Check"
 msgstr "Marcar"
 
-#: ../glade/chronojump.glade.h:526
+#: ../glade/chronojump.glade.h:528
 msgid "Search filter"
 msgstr "Filtro de búsqueda"
 
-#: ../glade/chronojump.glade.h:527 ../src/gui/encoder.cs:1228
-#: ../src/gui/person.cs:1968
+#: ../glade/chronojump.glade.h:529 ../src/gui/encoder.cs:1228
+#: ../src/gui/person.cs:1970
 msgid "Load"
 msgstr "Cargar"
 
-#: ../glade/chronojump.glade.h:528
+#: ../glade/chronojump.glade.h:530
 msgid "Show all tests of a person"
 msgstr "Mostrar todas las pruebas de un atleta"
 
-#: ../glade/chronojump.glade.h:529
+#: ../glade/chronojump.glade.h:531
 msgid "show only persons in current session"
 msgstr "mostrar sólo atletas de la sesión actual"
 
-#: ../glade/chronojump.glade.h:530 ../src/gui/person.cs:971
+#: ../glade/chronojump.glade.h:532 ../src/gui/person.cs:971
 msgid "New jumper"
 msgstr "Nuevo saltador"
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:533
 msgid "Please fill these values. <b>Bold</b> titles are required."
 msgstr ""
 "Por favor, introduzca estos datos. Los parámetros en <b>negrita</b> son "
 "requeridos."
 
-#: ../glade/chronojump.glade.h:532 ../src/exportSession.cs:224
-#: ../src/gui/person.cs:121 ../src/gui/person.cs:2090
+#: ../glade/chronojump.glade.h:534 ../src/exportSession.cs:224
+#: ../src/gui/person.cs:121 ../src/gui/person.cs:2092
 msgid "Sex"
 msgstr "Sexo"
 
-#: ../glade/chronojump.glade.h:533 ../src/exportSession.cs:224
+#: ../glade/chronojump.glade.h:535 ../src/exportSession.cs:224
 #: ../src/gui/person.cs:122
 msgid "Date of Birth"
 msgstr "Fecha nacimiento"
 
-#: ../glade/chronojump.glade.h:534
+#: ../glade/chronojump.glade.h:536
 msgid "man"
 msgstr "hombre"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:537
 msgid "woman"
 msgstr "mujer"
 
-#: ../glade/chronojump.glade.h:536
+#: ../glade/chronojump.glade.h:538
 msgid "Change date"
 msgstr "Cambiar fecha"
 
-#: ../glade/chronojump.glade.h:537
+#: ../glade/chronojump.glade.h:539
 msgid "Take snapshot"
 msgstr "Capturar pantalla"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:540
 msgid "Data of person"
 msgstr "Datos del atleta"
 
-#: ../glade/chronojump.glade.h:539 ../src/exportSession.cs:227
-#: ../src/gui/person.cs:2154 ../src/gui/session.cs:726
+#: ../glade/chronojump.glade.h:541 ../src/exportSession.cs:227
+#: ../src/gui/person.cs:2156 ../src/gui/session.cs:726
 msgid "Sport"
 msgstr "Deporte"
 
-#: ../glade/chronojump.glade.h:540 ../src/exportSession.cs:227
-#: ../src/gui/person.cs:2156 ../src/gui/session.cs:727
+#: ../glade/chronojump.glade.h:542 ../src/exportSession.cs:227
+#: ../src/gui/person.cs:2158 ../src/gui/session.cs:727
 msgid "Speciallity"
 msgstr "Especialidad"
 
-#: ../glade/chronojump.glade.h:541 ../src/exportSession.cs:228
-#: ../src/gui/person.cs:2158 ../src/gui/session.cs:728
+#: ../glade/chronojump.glade.h:543 ../src/exportSession.cs:228
+#: ../src/gui/person.cs:2160 ../src/gui/session.cs:728
 msgid "Level"
 msgstr "Nivel"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:544
 msgid "Add new sport"
 msgstr "Añadir deporte nuevo"
 
-#: ../glade/chronojump.glade.h:543
+#: ../glade/chronojump.glade.h:545
 msgid "Use metric units"
 msgstr "Usar unidades métricas"
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:546
 msgid "Data of person in this session"
 msgstr "Datos del atleta en esta sesión"
 
-#: ../glade/chronojump.glade.h:545
+#: ../glade/chronojump.glade.h:547
 msgid "Preferences"
 msgstr "_Preferencias"
 
-#: ../glade/chronojump.glade.h:546
+#: ../glade/chronojump.glade.h:548
 msgid "Open database folder"
 msgstr "Abrir carpeta de base de datos"
 
-#: ../glade/chronojump.glade.h:547
-#| msgid "Encoder curves"
+#: ../glade/chronojump.glade.h:549
 msgid "Encoder tests"
 msgstr "Pruebas del codificador"
 
-#: ../glade/chronojump.glade.h:548
+#: ../glade/chronojump.glade.h:550
 msgid "Images and Videos"
 msgstr "Imágenes y vídeos"
 
-#: ../glade/chronojump.glade.h:549
+#: ../glade/chronojump.glade.h:551
 #, fuzzy
 #| msgid "Contact time"
 msgid "Contact tests"
 msgstr "Tiempo de contacto"
 
-#: ../glade/chronojump.glade.h:550
+#: ../glade/chronojump.glade.h:552
 msgid "Backup database"
 msgstr "Respaldar la base de datos"
 
-#: ../glade/chronojump.glade.h:551
+#: ../glade/chronojump.glade.h:553
 msgid "Make a copy of the database"
 msgstr "Realizar una copia de la base de datos"
 
-#: ../glade/chronojump.glade.h:552 ../src/gui/encoder.cs:4273
-#: ../src/gui/encoder.cs:4447
+#: ../glade/chronojump.glade.h:554 ../src/gui/encoder.cs:4288
+#: ../src/gui/encoder.cs:4462
 msgid "Please, wait."
 msgstr "Espere."
 
-#: ../glade/chronojump.glade.h:553
+#: ../glade/chronojump.glade.h:555
+#| msgid "Open database folder"
+msgid "Open logs folder"
+msgstr "Abrir carpeta de registros"
+
+#: ../glade/chronojump.glade.h:556
 msgid "Database"
 msgstr "Base de datos"
 
-#: ../glade/chronojump.glade.h:554
+#: ../glade/chronojump.glade.h:557
 msgid "Show height"
 msgstr "Mostrar la altura"
 
-#: ../glade/chronojump.glade.h:555
+#: ../glade/chronojump.glade.h:558
 msgid "Show initial speed"
 msgstr "Mostrar la velocidad inicial"
 
-#: ../glade/chronojump.glade.h:556
+#: ../glade/chronojump.glade.h:559
 msgid "Show knee angle"
 msgstr "Mostrar ángulo de la rodilla"
 
-#: ../glade/chronojump.glade.h:557
+#: ../glade/chronojump.glade.h:560
 msgid "Show indexes between TF and TC"
 msgstr "Mostrar los índices entre TV y TC"
 
-#: ../glade/chronojump.glade.h:558
+#: ../glade/chronojump.glade.h:561
 msgid "QIndex"
 msgstr "Indice Q"
 
-#: ../glade/chronojump.glade.h:559
+#: ../glade/chronojump.glade.h:562
 msgid "DjIndex"
 msgstr "Índice Dj"
 
-#: ../glade/chronojump.glade.h:560
+#: ../glade/chronojump.glade.h:563
 msgid ""
 "On statistics\n"
 "show elevation as:"
@@ -2546,342 +2534,341 @@ msgstr ""
 "En las estadísticas\n"
 "mostrar elevación como:"
 
-#: ../glade/chronojump.glade.h:562
+#: ../glade/chronojump.glade.h:565
 msgid "Speed units:"
 msgstr "Unidades de velocidad:"
 
-#: ../glade/chronojump.glade.h:563
+#: ../glade/chronojump.glade.h:566
 msgid "Weight units:"
 msgstr "Unidades de peso:"
 
-#: ../glade/chronojump.glade.h:564
+#: ../glade/chronojump.glade.h:567
 msgid "Height (cm)"
 msgstr "Altura (cm)"
 
-#: ../glade/chronojump.glade.h:565
+#: ../glade/chronojump.glade.h:568
 msgid "Contacts"
 msgstr "Contactos"
 
-#: ../glade/chronojump.glade.h:566
+#: ../glade/chronojump.glade.h:569
 msgid "Propulsive"
 msgstr "Propulsivo"
 
-#: ../glade/chronojump.glade.h:567
+#: ../glade/chronojump.glade.h:570
 msgid "On concentric evaluate only propulsive phase"
 msgstr "En concéntrico, evaluar sólo la fase propulsiva"
 
-#: ../glade/chronojump.glade.h:568
+#: ../glade/chronojump.glade.h:571
 msgid "On inertial machines this option is not used."
 msgstr "Esta opción no se usa en máquinas inerciales."
 
-#: ../glade/chronojump.glade.h:569
+#: ../glade/chronojump.glade.h:572
 msgid "Smooth"
 msgstr "Suave"
 
-#: ../glade/chronojump.glade.h:570
+#: ../glade/chronojump.glade.h:573
 msgid "Recommended:"
 msgstr "Recomendado:"
 
-#: ../glade/chronojump.glade.h:571
+#: ../glade/chronojump.glade.h:574
 msgid "Smoothing"
 msgstr "Suavizado"
 
-#: ../glade/chronojump.glade.h:572
+#: ../glade/chronojump.glade.h:575
 msgid "Non weighted"
 msgstr "Sin peso"
 
-#: ../glade/chronojump.glade.h:573
+#: ../glade/chronojump.glade.h:576
 msgid "Weighted"
 msgstr "Pesado"
 
-#: ../glade/chronojump.glade.h:574
+#: ../glade/chronojump.glade.h:577
 msgid "Weighted^2"
 msgstr "Pesado^2"
 
-#: ../glade/chronojump.glade.h:575
+#: ../glade/chronojump.glade.h:578
 msgid "Weighted^3"
 msgstr "Pesado^3"
 
-#: ../glade/chronojump.glade.h:576
+#: ../glade/chronojump.glade.h:579
 msgid "Recommended: Weighted^2"
 msgstr "Recomendados: pesado^2"
 
-#: ../glade/chronojump.glade.h:577
+#: ../glade/chronojump.glade.h:580
 msgid "1RM prediction"
 msgstr "Predicción 1RM"
 
-#: ../glade/chronojump.glade.h:578
+#: ../glade/chronojump.glade.h:581
 msgid "Select the camera"
 msgstr "Seleccionar la cámara"
 
-#: ../glade/chronojump.glade.h:579
+#: ../glade/chronojump.glade.h:582
 msgid "Camera"
 msgstr "Cámara"
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:583
 msgid "Ask for confirm test deletion"
 msgstr "Preguntar antes de eliminar pruebas"
 
-#: ../glade/chronojump.glade.h:581
+#: ../glade/chronojump.glade.h:584
 msgid "Ask user if really wants to delete a test"
 msgstr "Preguntar al usuario si realmente quiere borrar la prueba"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:585
 msgid "Decimal number"
 msgstr "Número de decimales"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:586
 msgid "Export to spreadsheet"
 msgstr "Exportar a hoja de cálculo"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:587
 msgid "Latin"
 msgstr "Latino"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:588
 msgid "Non-Latin"
 msgstr "No latino"
 
-#: ../glade/chronojump.glade.h:586
+#: ../glade/chronojump.glade.h:589
 msgid "Translate statistics graphs"
 msgstr "Traducir los gráficos de estadísticas"
 
-#: ../glade/chronojump.glade.h:587
-#| msgid "Translators"
+#: ../glade/chronojump.glade.h:590
 msgid "Translate"
 msgstr "Traducir"
 
-#: ../glade/chronojump.glade.h:588
+#: ../glade/chronojump.glade.h:591
 msgid "Do not translate"
 msgstr "No traducir"
 
-#: ../glade/chronojump.glade.h:589
+#: ../glade/chronojump.glade.h:592
 msgid "Query to server"
 msgstr "Consulta al servidor"
 
-#: ../glade/chronojump.glade.h:590
+#: ../glade/chronojump.glade.h:593
 msgid "Perform a query to the server."
 msgstr "Realizar consulta al servidor."
 
-#: ../glade/chronojump.glade.h:591
+#: ../glade/chronojump.glade.h:594
 msgid "Type of test"
 msgstr "Tipo de prueba"
 
-#: ../glade/chronojump.glade.h:592
+#: ../glade/chronojump.glade.h:595
 msgid "Variable"
 msgstr "Variable"
 
-#: ../glade/chronojump.glade.h:593
+#: ../glade/chronojump.glade.h:596
 msgid "Test variables"
 msgstr "Variables de la prueba"
 
-#: ../glade/chronojump.glade.h:594
+#: ../glade/chronojump.glade.h:597
 msgid "Continent"
 msgstr "Continente"
 
-#: ../glade/chronojump.glade.h:595
+#: ../glade/chronojump.glade.h:598
 msgid "And"
 msgstr "Y"
 
-#: ../glade/chronojump.glade.h:596
+#: ../glade/chronojump.glade.h:599
 msgid "Age"
 msgstr "Edad"
 
-#: ../glade/chronojump.glade.h:597
+#: ../glade/chronojump.glade.h:600
 msgid "Person variables"
 msgstr "Variables de atletas"
 
-#: ../glade/chronojump.glade.h:598
+#: ../glade/chronojump.glade.h:601
 msgid "Evaluator"
 msgstr "Evaluador"
 
-#: ../glade/chronojump.glade.h:599
+#: ../glade/chronojump.glade.h:602
 msgid "Show query"
 msgstr "Mostrar consulta"
 
-#: ../glade/chronojump.glade.h:600
+#: ../glade/chronojump.glade.h:603
 msgid "Results:"
 msgstr "Resultados:"
 
-#: ../glade/chronojump.glade.h:601
+#: ../glade/chronojump.glade.h:604
 msgid "Average:"
 msgstr "Media"
 
-#: ../glade/chronojump.glade.h:602
+#: ../glade/chronojump.glade.h:605
 msgid "Query"
 msgstr "Consulta"
 
-#: ../glade/chronojump.glade.h:603
+#: ../glade/chronojump.glade.h:606
 msgid "Notes"
 msgstr "Notas"
 
-#: ../glade/chronojump.glade.h:604
+#: ../glade/chronojump.glade.h:607
 msgid "Totaltime"
 msgstr "Tiempo total"
 
-#: ../glade/chronojump.glade.h:605
+#: ../glade/chronojump.glade.h:608
 msgid "Configure feedback"
 msgstr "Configurar retroalimentación"
 
-#: ../glade/chronojump.glade.h:606
+#: ../glade/chronojump.glade.h:609
 msgid "Select conditions for beep signals"
 msgstr "Seleccionar condiciones para las campanas"
 
-#: ../glade/chronojump.glade.h:607
+#: ../glade/chronojump.glade.h:610
 msgid "show best TF / TC"
 msgstr "mostrar el mejor TV / TC"
 
-#: ../glade/chronojump.glade.h:608
+#: ../glade/chronojump.glade.h:611
 msgid "show worst TF / TC"
 msgstr "mostrar el peor TV / TC"
 
-#: ../glade/chronojump.glade.h:609
+#: ../glade/chronojump.glade.h:612
 msgid "show best time"
 msgstr "mostrar el mejor tiempo"
 
-#: ../glade/chronojump.glade.h:610
+#: ../glade/chronojump.glade.h:613
 msgid "show worst time"
 msgstr "mostrar el peor tiempo"
 
-#: ../glade/chronojump.glade.h:611
+#: ../glade/chronojump.glade.h:614
 msgid "Best and worst values"
 msgstr "Valores mejores y peores"
 
-#: ../glade/chronojump.glade.h:612
+#: ../glade/chronojump.glade.h:615
 msgid "Bell good"
 msgstr "Campana buena"
 
-#: ../glade/chronojump.glade.h:613
+#: ../glade/chronojump.glade.h:616
 msgid "Bell bad"
 msgstr "Campana mala"
 
-#: ../glade/chronojump.glade.h:614
+#: ../glade/chronojump.glade.h:617
 msgid "<b>Time</b> (s)"
 msgstr "<b>Tiempo</b> (s)"
 
-#: ../glade/chronojump.glade.h:615
+#: ../glade/chronojump.glade.h:618
 msgid ">="
 msgstr ">="
 
-#: ../glade/chronojump.glade.h:616
+#: ../glade/chronojump.glade.h:619
 msgid "<b>Peak power</b> (W)"
 msgstr "<b>Pico de potencia</b> (W)"
 
-#: ../glade/chronojump.glade.h:617
+#: ../glade/chronojump.glade.h:620
 msgid "<b>Mean power</b> (W)"
 msgstr "<b>Potencia media</b> (W)"
 
-#: ../glade/chronojump.glade.h:618
+#: ../glade/chronojump.glade.h:621
 msgid "<b>Mean speed</b> (m/s)"
 msgstr "<b>Velocidad media</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:619
+#: ../glade/chronojump.glade.h:622
 msgid "<b>Max speed</b> (m/s)"
 msgstr "<b>Velocidad máxima</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:620
+#: ../glade/chronojump.glade.h:623
 msgid "<b>Height</b> (cm)"
 msgstr "<b>Altura</b> (cm)"
 
-#: ../glade/chronojump.glade.h:621
+#: ../glade/chronojump.glade.h:624
 msgid "Conditions"
 msgstr "Condiciones"
 
-#: ../glade/chronojump.glade.h:622
+#: ../glade/chronojump.glade.h:625
 msgid "\"Good\" bell"
 msgstr "Campana \"buena\""
 
-#: ../glade/chronojump.glade.h:623
+#: ../glade/chronojump.glade.h:626
 msgid "\"Bad\" bell"
 msgstr "Campana \"mala\""
 
-#: ../glade/chronojump.glade.h:624
+#: ../glade/chronojump.glade.h:627
 msgid "test!"
 msgstr "¡prueba!"
 
-#: ../glade/chronojump.glade.h:625
+#: ../glade/chronojump.glade.h:628
 msgid "test bells"
 msgstr "probar campanas"
 
-#: ../glade/chronojump.glade.h:626
+#: ../glade/chronojump.glade.h:629
 msgid "Chronojump Report window"
 msgstr "Ventana de informes de Chronojump"
 
-#: ../glade/chronojump.glade.h:627
+#: ../glade/chronojump.glade.h:630
 msgid "Select data for HTML report"
 msgstr "Seleccionar datos para informe HTML"
 
-#: ../glade/chronojump.glade.h:628
+#: ../glade/chronojump.glade.h:631
 msgid "show..."
 msgstr "mostrar..."
 
-#: ../glade/chronojump.glade.h:629 ../src/constants.cs:331
+#: ../glade/chronojump.glade.h:632 ../src/constants.cs:331
 #: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Simple"
 
-#: ../glade/chronojump.glade.h:630 ../src/gui/convertWeight.cs:62
+#: ../glade/chronojump.glade.h:633 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
 msgid "Reactive"
 msgstr "Reactivo"
 
-#: ../glade/chronojump.glade.h:631
+#: ../glade/chronojump.glade.h:634
 msgid "Intervallic"
 msgstr "Con tramos"
 
-#: ../glade/chronojump.glade.h:632
+#: ../glade/chronojump.glade.h:635
 msgid "Include tracks"
 msgstr "incluir tramos"
 
-#: ../glade/chronojump.glade.h:633
+#: ../glade/chronojump.glade.h:636
 msgid "Include individual"
 msgstr "Incluir individuales"
 
-#: ../glade/chronojump.glade.h:634
+#: ../glade/chronojump.glade.h:637
 msgid "Data"
 msgstr "Datos"
 
-#: ../glade/chronojump.glade.h:635
+#: ../glade/chronojump.glade.h:638
 msgid "general data"
 msgstr "datos generales"
 
-#: ../glade/chronojump.glade.h:636
+#: ../glade/chronojump.glade.h:639
 msgid "Up"
 msgstr "Arriba"
 
-#: ../glade/chronojump.glade.h:637
+#: ../glade/chronojump.glade.h:640
 msgid "Down"
 msgstr "Abajo"
 
-#: ../glade/chronojump.glade.h:638
+#: ../glade/chronojump.glade.h:641
 msgid "See graph"
 msgstr "Ver gráfica"
 
-#: ../glade/chronojump.glade.h:639
+#: ../glade/chronojump.glade.h:642
 msgid "Add comment"
 msgstr "Añadir comentario"
 
-#: ../glade/chronojump.glade.h:640
+#: ../glade/chronojump.glade.h:643
 msgid "Remove"
 msgstr "Borrar"
 
-#: ../glade/chronojump.glade.h:641
+#: ../glade/chronojump.glade.h:644
 msgid "statistics data"
 msgstr "datos de estadísticas"
 
-#: ../glade/chronojump.glade.h:642
+#: ../glade/chronojump.glade.h:645
 msgid "Make report"
 msgstr "Crear informe"
 
-#: ../glade/chronojump.glade.h:643
+#: ../glade/chronojump.glade.h:646
 msgid "Create new Run Type"
 msgstr "Crea un tipo de carrera nueva"
 
-#: ../glade/chronojump.glade.h:644
+#: ../glade/chronojump.glade.h:647
 msgid "Create a new run type in the database"
 msgstr "Crea un tipo de carrera nueva en la base de datos"
 
-#: ../glade/chronojump.glade.h:645
+#: ../glade/chronojump.glade.h:648
 msgid ""
 "Limited by\n"
 "(how it finishes)"
@@ -2889,31 +2876,31 @@ msgstr ""
 "Limitado por\n"
 "(cómo termina)"
 
-#: ../glade/chronojump.glade.h:647
-msgid "tracks (m)"
-msgstr "tramos (m)"
+#: ../glade/chronojump.glade.h:650 ../src/gui/run.cs:1034
+msgid "tracks"
+msgstr "tramos"
 
-#: ../glade/chronojump.glade.h:648
+#: ../glade/chronojump.glade.h:651
 msgid "time (s)"
 msgstr "tiempo (s)"
 
-#: ../glade/chronojump.glade.h:649
+#: ../glade/chronojump.glade.h:652
 msgid "intervallic"
 msgstr "con tramos"
 
-#: ../glade/chronojump.glade.h:650
+#: ../glade/chronojump.glade.h:653
 msgid "Variable (user will select distance at each test)"
 msgstr "Variable (el evaluador seleccionará la distancia en cada prueba)"
 
-#: ../glade/chronojump.glade.h:651
+#: ../glade/chronojump.glade.h:654
 msgid "Fixed (distance will be always the same)"
 msgstr "Fija (la distancia siempre será la misma)"
 
-#: ../glade/chronojump.glade.h:652
+#: ../glade/chronojump.glade.h:655
 msgid "(m)"
 msgstr "(m)"
 
-#: ../glade/chronojump.glade.h:653
+#: ../glade/chronojump.glade.h:656
 msgid ""
 "Different (each track have different distance\n"
 "suitable for agility tests and RSA)"
@@ -2921,19 +2908,19 @@ msgstr ""
 "Diferente (cada pista tiene diferente distancia\n"
 "ideal para pruebas de agilidad y RSA)"
 
-#: ../glade/chronojump.glade.h:655
+#: ../glade/chronojump.glade.h:658
 msgid "Number of different tracks"
 msgstr "Número de pistas diferentes"
 
-#: ../glade/chronojump.glade.h:656
+#: ../glade/chronojump.glade.h:659
 msgid "Help RSA"
 msgstr "Ayuda RSA"
 
-#: ../glade/chronojump.glade.h:657
+#: ../glade/chronojump.glade.h:660
 msgid "Distance of each track"
 msgstr "Distancia de cada pista"
 
-#: ../glade/chronojump.glade.h:658
+#: ../glade/chronojump.glade.h:661
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
@@ -2941,47 +2928,47 @@ msgstr ""
 "Por favor, introduzca los datos\n"
 "(los parámetros en negrita son requeridos)"
 
-#: ../glade/chronojump.glade.h:660 ../src/exportSession.cs:209
-#: ../src/gui/person.cs:2429 ../src/gui/session.cs:723
+#: ../glade/chronojump.glade.h:663 ../src/exportSession.cs:209
+#: ../src/gui/person.cs:2433 ../src/gui/session.cs:723
 #: ../src/gui/session.cs:960 ../src/report.cs:242
 msgid "Place"
 msgstr "Lugar"
 
-#: ../glade/chronojump.glade.h:661 ../src/exportSession.cs:210
+#: ../glade/chronojump.glade.h:664 ../src/exportSession.cs:210
 #: ../src/gui/encoder.cs:780 ../src/gui/encoder.cs:1193
 #: ../src/gui/session.cs:724 ../src/gui/session.cs:961 ../src/report.cs:242
 msgid "Date"
 msgstr "Fecha"
 
-#: ../glade/chronojump.glade.h:662
+#: ../glade/chronojump.glade.h:665
 msgid "Different"
 msgstr "Diferente"
 
-#: ../glade/chronojump.glade.h:663
+#: ../glade/chronojump.glade.h:666
 msgid "All the same"
 msgstr "Todos por igual"
 
-#: ../glade/chronojump.glade.h:664
+#: ../glade/chronojump.glade.h:667
 msgid "Person's data"
 msgstr "Datos de los atletas"
 
-#: ../glade/chronojump.glade.h:665
+#: ../glade/chronojump.glade.h:668
 msgid "Load session"
 msgstr "Cargar sesión"
 
-#: ../glade/chronojump.glade.h:666
+#: ../glade/chronojump.glade.h:669
 msgid "Show data of encoder tests"
 msgstr "Mostrar los datos de las pruebas del codificador"
 
-#: ../glade/chronojump.glade.h:667
+#: ../glade/chronojump.glade.h:670
 msgid "Show data of jump and run tests"
 msgstr "Mostrar los datos de las pruebas de salto y carrera"
 
-#: ../glade/chronojump.glade.h:668
+#: ../glade/chronojump.glade.h:671
 msgid "Upload session to server"
 msgstr "Subir sesión al servidor"
 
-#: ../glade/chronojump.glade.h:669 ../src/gui/person.cs:2432
+#: ../glade/chronojump.glade.h:672 ../src/gui/person.cs:2436
 msgid ""
 "Jumps\n"
 "reactive"
@@ -2989,7 +2976,7 @@ msgstr ""
 "Saltos\n"
 "reactivos"
 
-#: ../glade/chronojump.glade.h:671
+#: ../glade/chronojump.glade.h:674
 msgid ""
 "Runs\n"
 "intervallic"
@@ -2997,7 +2984,7 @@ msgstr ""
 "Carreras con\n"
 "tramos"
 
-#: ../glade/chronojump.glade.h:673
+#: ../glade/chronojump.glade.h:676
 msgid ""
 "Reaction\n"
 "times"
@@ -3005,19 +2992,19 @@ msgstr ""
 "Tiempos de\n"
 "reacción"
 
-#: ../glade/chronojump.glade.h:675
+#: ../glade/chronojump.glade.h:678
 msgid "Multi Chronopic"
 msgstr "MultiChronopic"
 
-#: ../glade/chronojump.glade.h:676
+#: ../glade/chronojump.glade.h:679
 msgid "Names will be hidden"
 msgstr "Los nombres serán ocultados"
 
-#: ../glade/chronojump.glade.h:677
+#: ../glade/chronojump.glade.h:680
 msgid "Codes:"
 msgstr "Códigos:"
 
-#: ../glade/chronojump.glade.h:678
+#: ../glade/chronojump.glade.h:681
 msgid ""
 "<i>U</i> Uploaded.\n"
 "<i>E</i> Not uploaded. Already Exists.\n"
@@ -3027,45 +3014,45 @@ msgstr ""
 "<i>E</i> No subido, ya Existía.\n"
 "<i>S</i> No subido, prueba Simulada."
 
-#: ../glade/chronojump.glade.h:681
+#: ../glade/chronojump.glade.h:684
 msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
 msgstr ""
 "Gracias por su tiempo.  Las gráficas se actualizarán en el servidor a las "
 "3h7min UTC."
 
-#: ../glade/chronojump.glade.h:682
+#: ../glade/chronojump.glade.h:685
 msgid "Loading Chronojump..."
 msgstr "Cargando Chronojump..."
 
-#: ../glade/chronojump.glade.h:683
+#: ../glade/chronojump.glade.h:686
 msgid "Cancel connection with server"
 msgstr "Cancelar la conexión con el servidor"
 
-#: ../glade/chronojump.glade.h:684
+#: ../glade/chronojump.glade.h:687
 msgid "Select sessions for statistics"
 msgstr "Seleccionar sesiones para las estadísticas"
 
-#: ../glade/chronojump.glade.h:685
+#: ../glade/chronojump.glade.h:688
 msgid "unselected"
 msgstr "no seleccionado"
 
-#: ../glade/chronojump.glade.h:686
+#: ../glade/chronojump.glade.h:689
 msgid "selected"
 msgstr "seleccionado"
 
-#: ../glade/chronojump.glade.h:687
+#: ../glade/chronojump.glade.h:690
 msgid "select ->"
 msgstr "seleccionar ->"
 
-#: ../glade/chronojump.glade.h:688
+#: ../glade/chronojump.glade.h:691
 msgid "<- unselect"
 msgstr "<- deseleccionar"
 
-#: ../glade/chronojump.glade.h:689
+#: ../glade/chronojump.glade.h:692
 msgid "all"
 msgstr "todos"
 
-#: ../glade/chronojump.glade.h:690
+#: ../glade/chronojump.glade.h:693
 msgid "none"
 msgstr "ninguno"
 
@@ -3364,62 +3351,64 @@ msgstr "ChronoJump ha fallado anteriormente"
 msgid "Please, update to new version: "
 msgstr "Por favor, actualice a la nueva versión:"
 
-#: ../src/chronojump.cs:487 ../src/chronojump.cs:843 ../src/chronojump.cs:851
+#: ../src/chronojump.cs:487 ../src/chronojump.cs:841 ../src/chronojump.cs:849
 msgid "Chronojump will exit now."
 msgstr "Chronojump finalizará ahora."
 
-#: ../src/chronojump.cs:667
+#: ../src/chronojump.cs:495
+#| msgid "Chronopic window"
+msgid "Close this window"
+msgstr "Cerrar esta ventana"
+
+#: ../src/chronojump.cs:669
 #, csharp-format
+#| msgid "Chronojump crashed before."
+msgid "Chronojump {0} crashed before."
+msgstr "ChronoJump {0} ha fallado anteriormente"
+
+#: ../src/chronojump.cs:670
 msgid ""
-"Chronojump {0} crashed before. If this problem persist, please, report it at "
-"forums:"
+"Please, open docs folder and follow instructions on 'chronojump_crash.pdf' "
+"in order to be fixed fast."
 msgstr ""
-"Chronojump {0} ha fallado anteriormente. Si este problema persiste, por "
-"favor informe en los foros:"
 
-#: ../src/chronojump.cs:668
-msgid "Remember to describe on Chronojump software forum how crash happened."
-msgstr ""
-"Recuerde explicar como sucedió en fallo en el foro de Chronojump (apartado "
-"de Software)."
-
-#: ../src/chronojump.cs:673
+#: ../src/chronojump.cs:671
 msgid "Your help is needed."
 msgstr "Necesitamos su ayuda."
 
-#: ../src/chronojump.cs:810
+#: ../src/chronojump.cs:808
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "No se puede mover la carpeta de la base de datos de {0} a {1}"
 
-#: ../src/chronojump.cs:812
+#: ../src/chronojump.cs:810
 msgid "Trying to move/copy each file now"
 msgstr "Tratando ahora de mover/copiar archivo a archivo"
 
-#: ../src/chronojump.cs:841
+#: ../src/chronojump.cs:839
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "No se puede exportar la carpeta {0} "
 
-#: ../src/chronojump.cs:842 ../src/chronojump.cs:850
+#: ../src/chronojump.cs:840 ../src/chronojump.cs:848
 msgid "Please, do it manually."
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:849
+#: ../src/chronojump.cs:847
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "No se puede copiar {0} archivos desde {1} hacia {2}"
 
-#: ../src/chronojump.cs:857
+#: ../src/chronojump.cs:855
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "No se puede mover {0} archivos de {1} a {2}"
 
-#: ../src/chronojump.cs:858
+#: ../src/chronojump.cs:856
 msgid "Please, do it manually"
 msgstr "Por favor, hágalo manualmente"
 
-#: ../src/chronojump.cs:864
+#: ../src/chronojump.cs:862
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "La base de datos se encuentra ahora aquí: {0}"
@@ -3624,7 +3613,6 @@ msgid "Peak power"
 msgstr "Pico de potencia"
 
 #: ../src/constants.cs:214
-#| msgid "watts"
 msgid "(Watts)"
 msgstr "(vatios)"
 
@@ -3673,7 +3661,7 @@ msgstr "Estudiantes universitarias femeninas"
 
 #. *4.0 for having double division
 #. CurrentGraphData.GraphTitle = this.ToString();
-#: ../src/constants.cs:317 ../src/constants.cs:817
+#: ../src/constants.cs:317 ../src/constants.cs:818
 #: ../src/stats/graphs/potency.cs:61 ../src/stats/graphs/potency.cs:71
 #: ../src/stats/graphs/potency.cs:81 ../src/stats/graphs/potency.cs:91
 #: ../src/stats/potency.cs:60
@@ -3869,157 +3857,160 @@ msgstr "Comprobando nueva versión"
 msgid "Preparing main Window"
 msgstr "Preparando ventana principal"
 
-#: ../src/constants.cs:571
-msgid "Error. Cannot find database"
-msgstr "Error. No se encuentra la base de datos"
+#: ../src/constants.cs:571 ../src/gui/preferences.cs:410
+msgid "Error. Cannot find database."
+msgstr "Error. No se encuentra la base de datos."
 
-#: ../src/constants.cs:598
+#: ../src/constants.cs:572
+#| msgid "Error. Cannot find database."
+msgid "Error. Cannot open directory."
+msgstr "Error. No se puede abrir la carpeta."
+
+#: ../src/constants.cs:599
 msgid "In"
 msgstr "Dentro"
 
-#: ../src/constants.cs:599
+#: ../src/constants.cs:600
 msgid "Out"
 msgstr "Fuera"
 
-#: ../src/constants.cs:633
+#: ../src/constants.cs:634
 msgid "Sorry, this multimedia file does not exists."
 msgstr "Disculpe, este archivo multimedia no existe."
 
-#: ../src/constants.cs:638
+#: ../src/constants.cs:639
 msgid "Running start. Started with initial speed."
 msgstr "Comienza carrera con velocidad inicial."
 
-#: ../src/constants.cs:639
+#: ../src/constants.cs:640
 msgid "Standing start. Started without initial speed."
 msgstr "Comienza carrera sin velocidad inicial."
 
-#: ../src/constants.cs:641
+#: ../src/constants.cs:642
 msgid "Sorry, no cameras found."
 msgstr "No se han encontrado cámaras."
 
-#: ../src/constants.cs:810 ../src/gui/jump.cs:69
+#: ../src/constants.cs:811 ../src/gui/jump.cs:69
 msgid "jump"
 msgstr "salto"
 
-#: ../src/constants.cs:811
+#: ../src/constants.cs:812
 msgid "body speed"
 msgstr "velocidad del cuerpo"
 
-#: ../src/constants.cs:812
+#: ../src/constants.cs:813
 msgid "speed"
 msgstr "velocidad"
 
-#: ../src/constants.cs:814
+#: ../src/constants.cs:815
 msgid "Accel."
 msgstr "Acelerador"
 
-#: ../src/constants.cs:815
+#: ../src/constants.cs:816
 msgid "Force"
 msgstr "Fuerza"
 
-#: ../src/constants.cs:819
+#: ../src/constants.cs:820
 msgid "Time to Peak Power"
 msgstr "Tiempo de pico de potencia"
 
-#: ../src/constants.cs:821
+#: ../src/constants.cs:822
 msgid "Range"
 msgstr "Rango"
 
-#: ../src/constants.cs:822
-#| msgid "Distance"
+#: ../src/constants.cs:823
 msgid "distance"
 msgstr "distancia"
 
-#: ../src/constants.cs:824
+#: ../src/constants.cs:825
 msgid "Mass"
 msgstr "Masa"
 
-#: ../src/constants.cs:825
+#: ../src/constants.cs:826
 msgid "eccentric"
 msgstr "excéntrico"
 
-#: ../src/constants.cs:826
+#: ../src/constants.cs:827
 msgid "concentric"
 msgstr "concéntrico"
 
-#: ../src/constants.cs:827
+#: ../src/constants.cs:828
 #, fuzzy
 #| msgid "Poland"
 msgid "land"
 msgstr "Polonia"
 
-#: ../src/constants.cs:828
+#: ../src/constants.cs:829
 msgid "air"
 msgstr "aire"
 
-#: ../src/constants.cs:829
-#| msgid "Old jumper weight"
+#: ../src/constants.cs:830
 msgid "jump height"
 msgstr "altura del salto"
 
 #. checkboxes
-#: ../src/constants.cs:830 ../src/gui/encoder.cs:773
-#: ../src/gui/encoderTreeviews.cs:396
+#: ../src/constants.cs:831 ../src/gui/encoder.cs:773
+#: ../src/gui/encoderTreeviews.cs:388
 msgid "Curve"
 msgstr "Curva"
 
-#: ../src/constants.cs:831 ../src/gui/encoder.cs:3062
+#: ../src/constants.cs:832 ../src/gui/encoder.cs:3044
 msgid "Not enough data."
 msgstr "No hay datos suficientes."
 
-#: ../src/constants.cs:832
+#: ../src/constants.cs:833
 msgid "Encoder is not connected."
 msgstr "El codificador no está conectado."
 
-#: ../src/constants.cs:833
+#: ../src/constants.cs:834
 msgid "prediction"
 msgstr "predicción"
 
-#: ../src/constants.cs:834
+#: ../src/constants.cs:835
 msgid "Concentric mean speed on bench press 1RM is"
 msgstr ""
 
-#: ../src/constants.cs:835
+#: ../src/constants.cs:836
 msgid "Estimated percentual load ="
 msgstr "Carga percentual estimada ="
 
-#: ../src/constants.cs:836
+#: ../src/constants.cs:837
 msgid "Adapted from"
 msgstr "Adaptado desde"
 
-#: ../src/constants.cs:837
+#: ../src/constants.cs:838
 msgid "Mean speed in concentric propulsive phase"
 msgstr "Velocidad principal en la fase propulsiva concéntrica"
 
-#: ../src/constants.cs:838
+#: ../src/constants.cs:839
 msgid "Sorry, no curves matched your criteria."
 msgstr "No hay curvas que coincidan con su criterio."
 
-#: ../src/constants.cs:839
+#: ../src/constants.cs:840
 msgid "Need 6 jumps and 4 phases for each jump"
 msgstr ""
 
-#: ../src/constants.cs:840
+#: ../src/constants.cs:841
 msgid "Need at least three jumps executed on the odd concentric phases"
 msgstr ""
 
-#: ../src/constants.cs:841
+#: ../src/constants.cs:842
 msgid "Starting R"
 msgstr "Iniciando R"
 
-#: ../src/constants.cs:842
+#: ../src/constants.cs:843
 msgid "Loading libraries"
 msgstr "Cargando bibliotecas"
 
-#: ../src/constants.cs:843
+#: ../src/constants.cs:844
 msgid "Starting process"
 msgstr "Iniciando proceso"
 
-#: ../src/constants.cs:844
+#: ../src/constants.cs:845
 msgid "Curves processed"
 msgstr "Curvas procesadas"
 
-#: ../src/constants.cs:845
+#: ../src/constants.cs:846
 msgid "R tasks done"
 msgstr "Tareas de R hechas"
 
@@ -4036,7 +4027,7 @@ msgid "Concentric-eccentric"
 msgstr "Concéntrico-excéntrico"
 
 #. demultiplication
-#: ../src/encoder.cs:849 ../src/encoder.cs:916 ../src/encoder.cs:938
+#: ../src/encoder.cs:849 ../src/encoder.cs:917 ../src/encoder.cs:939
 msgid "Linear encoder attached to a barbell."
 msgstr ""
 
@@ -4044,7 +4035,7 @@ msgstr ""
 msgid "Also common gym tests like jumps or chin-ups."
 msgstr ""
 
-#: ../src/encoder.cs:897 ../src/encoder.cs:927 ../src/encoder.cs:949
+#: ../src/encoder.cs:897 ../src/encoder.cs:928 ../src/encoder.cs:950
 msgid "Linear encoder inverted attached to a barbell."
 msgstr ""
 
@@ -4056,74 +4047,81 @@ msgstr "Codificador lineal en la máquina de inercia"
 msgid "Configuration NOT Recommended! Please use a rotary encoder."
 msgstr ""
 
-#: ../src/encoder.cs:906 ../src/encoder.cs:1008 ../src/encoder.cs:1020
-#: ../src/encoder.cs:1047
+#: ../src/encoder.cs:906 ../src/encoder.cs:1009 ../src/encoder.cs:1022
+#: ../src/encoder.cs:1050
 msgid "Person has to start fully extended (on the toes)."
 msgstr ""
 
-#: ../src/encoder.cs:917 ../src/encoder.cs:928
+#: ../src/encoder.cs:907 ../src/encoder.cs:1010 ../src/encoder.cs:1023
+#: ../src/encoder.cs:1051
+msgid ""
+"On inertial machines, 'd' means the average diameter where the pull-push "
+"string is rolled"
+msgstr ""
+
+#: ../src/encoder.cs:918 ../src/encoder.cs:929
 msgid "Barbell is connected to a weighted moving pulley."
 msgstr ""
 
-#: ../src/encoder.cs:918 ../src/encoder.cs:929 ../src/encoder.cs:940
-#: ../src/encoder.cs:951 ../src/encoder.cs:961 ../src/encoder.cs:1058
+#: ../src/encoder.cs:919 ../src/encoder.cs:930 ../src/encoder.cs:941
+#: ../src/encoder.cs:952 ../src/encoder.cs:962 ../src/encoder.cs:1062
 msgid "Mass is geared down by 2."
 msgstr ""
 
-#: ../src/encoder.cs:939 ../src/encoder.cs:950
+#: ../src/encoder.cs:940 ../src/encoder.cs:951
 msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
 "moving pulley."
 msgstr ""
 
-#: ../src/encoder.cs:960
+#: ../src/encoder.cs:961
 msgid "Linear encoder attached to a weighted moving pulley."
 msgstr ""
 
-#: ../src/encoder.cs:970
+#: ../src/encoder.cs:971
 msgid "Linear encoder on a inclinated plane."
 msgstr "Codificador lineal en un plano inclinado"
 
-#: ../src/encoder.cs:980
+#: ../src/encoder.cs:981
 msgid ""
 "Linear encoder on a inclinated plane moving a weight in different angle."
 msgstr ""
 
-#: ../src/encoder.cs:990
+#: ../src/encoder.cs:991
 #, fuzzy
 #| msgid "Rotary friction"
 msgid "Rotary friction encoder on pulley."
 msgstr "Fricción de rotación"
 
-#: ../src/encoder.cs:997
+#: ../src/encoder.cs:998
 msgid "Rotary friction encoder on pulley axis."
 msgstr ""
 
-#: ../src/encoder.cs:1007
+#: ../src/encoder.cs:1008
 msgid "Rotary friction encoder on inertial machine side."
 msgstr ""
 
-#: ../src/encoder.cs:1019
+#: ../src/encoder.cs:1021
 #, fuzzy
 #| msgid "Diameter of inertia machine axis"
 msgid "Rotary friction encoder on inertial machine axis."
 msgstr "Diámetro del eje de la máquina de inercia"
 
-#: ../src/encoder.cs:1030
+#: ../src/encoder.cs:1033
 msgid "Rotary friction encoder on weighted moving pulley."
 msgstr ""
 
-#: ../src/encoder.cs:1037
+#: ../src/encoder.cs:1040
 msgid "Rotary axis encoder on pulley axis."
 msgstr ""
 
-#: ../src/encoder.cs:1046
+#: ../src/encoder.cs:1049
 #, fuzzy
 #| msgid "Diameter of inertia machine axis"
 msgid "Rotary axis encoder on inertial machine."
 msgstr "Diámetro del eje de la máquina de inercia"
 
-#: ../src/encoder.cs:1057
+#: ../src/encoder.cs:1061
 msgid "Rotary axis encoder on weighted moving pulley."
 msgstr ""
 
@@ -4257,7 +4255,7 @@ msgid "Export session in format "
 msgstr "Exportar sesión en formato "
 
 #: ../src/exportSession.cs:77 ../src/gui/encoder.cs:1459
-#: ../src/gui/person.cs:1967 ../src/gui/preferences.cs:395
+#: ../src/gui/person.cs:1969 ../src/gui/preferences.cs:419
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -4696,7 +4694,6 @@ msgid "Deleted session and all its tests."
 msgstr "Se ha borrado la sesión y todas sus pruebas."
 
 #: ../src/gui/chronojump.cs:2576
-#| msgid "Encoder is not connected."
 msgid "Encoder data will not be exported."
 msgstr "Los datos del codificador no se exportarán."
 
@@ -5002,7 +4999,7 @@ msgstr ""
 "Nuevo peso\n"
 "opción 2"
 
-#: ../src/gui/encoder.cs:357 ../src/gui/encoder.cs:4238
+#: ../src/gui/encoder.cs:357 ../src/gui/encoder.cs:4253
 msgid "Chronopic port is not configured."
 msgstr "El puerto de Chronopic no está configurado."
 
@@ -5038,7 +5035,6 @@ msgid "Missing data."
 msgstr "Faltan datos."
 
 #: ../src/gui/encoder.cs:777
-#| msgid "MeanPower"
 msgid "Mean Power"
 msgstr "Potencia media"
 
@@ -5074,7 +5070,6 @@ msgid "name"
 msgstr "nombre"
 
 #: ../src/gui/encoder.cs:927
-#| msgid "Are you sure you want to delete this signal?"
 msgid "Are you sure you want to delete this curve?"
 msgstr "¿Seguro que quiere eliminar esta curva?"
 
@@ -5101,7 +5096,7 @@ msgid "Select persons to compare to {0}."
 msgstr "Seleccionar atletas para comparar con {0}."
 
 #. checkboxes
-#: ../src/gui/encoder.cs:1113 ../src/gui/person.cs:2428
+#: ../src/gui/encoder.cs:1113 ../src/gui/person.cs:2432
 msgid "Session name"
 msgstr "Nombre de Sesión"
 
@@ -5130,7 +5125,7 @@ msgstr "Seleccionar las señales del atleta {0} en esta sesión."
 msgid "Change the owner of selected signal"
 msgstr "Cambiar el propietario de la señal seleccionada"
 
-#: ../src/gui/encoder.cs:1283 ../src/gui/encoder.cs:4731
+#: ../src/gui/encoder.cs:1283 ../src/gui/encoder.cs:4757
 msgid "Sorry, file not found"
 msgstr "Archivo no encontrado"
 
@@ -5146,8 +5141,8 @@ msgstr ""
 msgid "Export session in format CSV"
 msgstr "Exportar sesión en formato CSV"
 
-#: ../src/gui/encoder.cs:1511 ../src/gui/encoder.cs:3004
-#: ../src/gui/encoder.cs:3050
+#: ../src/gui/encoder.cs:1511 ../src/gui/encoder.cs:2986
+#: ../src/gui/encoder.cs:3032
 #, csharp-format
 msgid "Cannot save file {0} "
 msgstr "No se puede guardar el archivo {0} "
@@ -5157,8 +5152,7 @@ msgid "Signal deleted"
 msgstr "Señal eliminada"
 
 #: ../src/gui/encoder.cs:1640 ../src/gui/encoderTreeviews.cs:115
-#: ../src/gui/encoderTreeviews.cs:234 ../src/gui/encoderTreeviews.cs:316
-#| msgid "Saved."
+#: ../src/gui/encoderTreeviews.cs:234 ../src/gui/encoderTreeviews.cs:308
 msgid "Saved"
 msgstr "Guardado"
 
@@ -5176,15 +5170,15 @@ msgstr "Señal actualizada"
 msgid "Sorry, no curves selected."
 msgstr "No hay curvas seleccionadas."
 
-#: ../src/gui/encoder.cs:1814 ../src/gui/encoder.cs:2881
+#: ../src/gui/encoder.cs:1814 ../src/gui/encoder.cs:2864
 msgid "Speed,Power / Load"
 msgstr "Velocidad, potencia / carga"
 
-#: ../src/gui/encoder.cs:1816 ../src/gui/encoder.cs:2883
+#: ../src/gui/encoder.cs:1816 ../src/gui/encoder.cs:2866
 msgid "1RM Bench Press"
 msgstr "1RM press de banca"
 
-#: ../src/gui/encoder.cs:1818 ../src/gui/encoder.cs:2883
+#: ../src/gui/encoder.cs:1818 ../src/gui/encoder.cs:2866
 msgid "1RM Any exercise"
 msgstr "1RM cualquier ejercicio"
 
@@ -5266,92 +5260,92 @@ msgstr ""
 msgid "Lapuente and De Blas. Adapted from Wagner:"
 msgstr "Lapuente y De Blas. Adaptado de Wagner:"
 
-#: ../src/gui/encoder.cs:2827
+#: ../src/gui/encoder.cs:2826
 msgid "RL"
 msgstr "RL"
 
-#: ../src/gui/encoder.cs:2827
+#: ../src/gui/encoder.cs:2826
 msgid "R"
 msgstr "R"
 
-#: ../src/gui/encoder.cs:2827
+#: ../src/gui/encoder.cs:2826
 msgid "L"
 msgstr "L"
 
-#: ../src/gui/encoder.cs:2858
+#: ../src/gui/encoder.cs:2841
 msgid "No compare"
 msgstr "No comparar"
 
-#: ../src/gui/encoder.cs:2859
+#: ../src/gui/encoder.cs:2842
 msgid "Between persons"
 msgstr "Entre atletas"
 
-#: ../src/gui/encoder.cs:2860
+#: ../src/gui/encoder.cs:2843
 msgid "Between sessions"
 msgstr "Entre sesiones"
 
-#: ../src/gui/encoder.cs:2880
+#: ../src/gui/encoder.cs:2863
 msgid "Speed / Load"
 msgstr "Velocidad / carga"
 
-#: ../src/gui/encoder.cs:2880
+#: ../src/gui/encoder.cs:2863
 msgid "Force / Load"
 msgstr "Fuerza / carga"
 
-#: ../src/gui/encoder.cs:2881
+#: ../src/gui/encoder.cs:2864
 msgid "Power / Load"
 msgstr "Potencia / carga"
 
-#: ../src/gui/encoder.cs:2882
+#: ../src/gui/encoder.cs:2865
 msgid "Force / Speed"
 msgstr "Fuerza / velocidad"
 
-#: ../src/gui/encoder.cs:2882
+#: ../src/gui/encoder.cs:2865
 msgid "Power / Speed"
 msgstr "Potencia / velocidad"
 
-#: ../src/gui/encoder.cs:3072
+#: ../src/gui/encoder.cs:3054
 msgid "Saved."
 msgstr "Guardado"
 
-#: ../src/gui/encoder.cs:3074
+#: ../src/gui/encoder.cs:3056
 #, csharp-format
 msgid "1RM found: {0} Kg."
 msgstr "Encontrado 1RM: {0} Kg."
 
-#: ../src/gui/encoder.cs:3075
+#: ../src/gui/encoder.cs:3057
 #, csharp-format
 msgid "Displaced body weight in this exercise: {0}%."
 msgstr "Peso corporal desplazado en el ejercicio: {0}%"
 
-#: ../src/gui/encoder.cs:3077
+#: ../src/gui/encoder.cs:3059
 #, csharp-format
 msgid "Saved 1RM without displaced body weight: {0} Kg."
 msgstr "1RM guardado sin peso corporal desplazado: {0} Kg."
 
-#: ../src/gui/encoder.cs:3164
+#: ../src/gui/encoder.cs:3146
 msgid "Encoder exercise name:"
 msgstr "Nombre del ejercicio del codificador:"
 
-#: ../src/gui/encoder.cs:3165 ../src/gui/encoder.cs:3214
+#: ../src/gui/encoder.cs:3147 ../src/gui/encoder.cs:3196
 msgid "Displaced body weight"
 msgstr "Peso corporal desplazado"
 
 #. done this because IsEditable does not affect the cursors
-#: ../src/gui/encoder.cs:3167
+#: ../src/gui/encoder.cs:3149
 msgid "Resistance"
 msgstr "Resistencia"
 
-#: ../src/gui/encoder.cs:3169 ../src/gui/encoder.cs:3218
+#: ../src/gui/encoder.cs:3151 ../src/gui/encoder.cs:3200
 msgid "Speed at 1RM"
 msgstr "Velocidad a 1RM"
 
 #. don't show now
-#: ../src/gui/encoder.cs:3213
+#: ../src/gui/encoder.cs:3195
 msgid "Write the name of the encoder exercise:"
 msgstr "Escriba el nombre del codificador del ejercicio:"
 
-#: ../src/gui/encoder.cs:3216
+#: ../src/gui/encoder.cs:3198
 msgid "Ressitance"
 msgstr "Resistencia"
 
@@ -5364,32 +5358,37 @@ msgstr "Resistencia"
 #. genericWin.SetSpin3Range(0,90);
 #. genericWin.SetSpin3Value(90);
 #.
-#: ../src/gui/encoder.cs:3229
+#: ../src/gui/encoder.cs:3211
 msgid "Add"
 msgstr "Añadir"
 
-#: ../src/gui/encoder.cs:3256
+#: ../src/gui/encoder.cs:3238
 msgid "Error: Missing name of exercise."
 msgstr "Error: falta el nombre del ejercicio"
 
-#: ../src/gui/encoder.cs:3259
+#: ../src/gui/encoder.cs:3241
 #, csharp-format
 msgid "Error: An exercise named '{0}' already exists."
 msgstr "Error: ya existe un ejercicio llamado «{0}»."
 
-#: ../src/gui/encoder.cs:4504 ../src/stats/main.cs:1484
+#: ../src/gui/encoder.cs:4038
+#| msgid "Saved"
+msgid "saved"
+msgstr "guardado"
+
+#: ../src/gui/encoder.cs:4519 ../src/stats/main.cs:1484
 msgid "Sorry. Error doing graph."
 msgstr "Lo sentimos. Ha ocurrido un error al hacer el gráfico."
 
-#: ../src/gui/encoder.cs:4505
+#: ../src/gui/encoder.cs:4520
 msgid "Maybe R or EMD are not installed."
 msgstr "Puede que R o EMD no estén instalados."
 
-#: ../src/gui/encoder.cs:4512 ../src/gui/encoder.cs:4623
+#: ../src/gui/encoder.cs:4527 ../src/gui/encoder.cs:4649
 msgid "Cancelled"
 msgstr "Cancelado"
 
-#: ../src/gui/encoder.cs:4517
+#: ../src/gui/encoder.cs:4532
 msgid "Finished"
 msgstr "Terminado"
 
@@ -5409,25 +5408,22 @@ msgstr ""
 "Disculpe las molestias."
 
 #: ../src/gui/encoderTreeviews.cs:42
-#| msgid "no"
 msgid "n"
 msgstr "n"
 
-#: ../src/gui/encoderTreeviews.cs:44 ../src/gui/encoderTreeviews.cs:402
+#: ../src/gui/encoderTreeviews.cs:44 ../src/gui/encoderTreeviews.cs:394
 msgid "Duration"
 msgstr "Duración"
 
-#: ../src/gui/encoderTreeviews.cs:236 ../src/gui/encoderTreeviews.cs:318
-#| msgid "Remove"
+#: ../src/gui/encoderTreeviews.cs:236 ../src/gui/encoderTreeviews.cs:310
 msgid "Removed"
 msgstr "Eliminado"
 
-#: ../src/gui/encoderTreeviews.cs:397
+#: ../src/gui/encoderTreeviews.cs:389
 msgid "Series"
 msgstr "Series"
 
-#: ../src/gui/encoderTreeviews.cs:400
-#| msgid "Extra weight"
+#: ../src/gui/encoderTreeviews.cs:392
 msgid "Total weight"
 msgstr "Peso total"
 
@@ -5476,21 +5472,12 @@ msgid "Platforms"
 msgstr "Plataformas"
 
 #: ../src/gui/executeAuto.cs:287
-#| msgid "Series"
 msgid "Serie"
 msgstr "Serie"
 
 #: ../src/gui/executeAuto.cs:323
-#| msgid "Accel."
 msgid "Accept"
 msgstr "Aceptar"
-
-#. put none in combo
-#: ../src/gui/genericWindow.cs:341 ../src/gui/genericWindow.cs:400
-#: ../src/gui/person.cs:318 ../src/gui/person.cs:450 ../src/gui/stats.cs:213
-#: ../src/gui/stats.cs:969 ../src/stats/main.cs:234
-msgid "None"
-msgstr "Ninguno"
 
 #: ../src/gui/genericWindow.cs:342 ../src/gui/genericWindow.cs:391
 #: ../src/gui/stats.cs:214 ../src/stats/main.cs:239
@@ -5800,44 +5787,43 @@ msgstr "Seleccione un nivel"
 msgid "Table has already been created."
 msgstr "Ya se ha creado la tabla."
 
-#: ../src/gui/person.cs:1964
+#: ../src/gui/person.cs:1966
 msgid "Select CSV file"
 msgstr "Seleccionar archivo CSV"
 
-#: ../src/gui/person.cs:2017
+#: ../src/gui/person.cs:2019
 msgid "Error importing data."
 msgstr "Error al importar los datos."
 
-#: ../src/gui/person.cs:2019
+#: ../src/gui/person.cs:2021
 msgid "Seems there's a header row and you have not marked it."
 msgstr "Parece ser que hay una fila de cabecera y que no la ha marcado."
 
-#: ../src/gui/person.cs:2058
+#: ../src/gui/person.cs:2060
 msgid ""
 "Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive."
 msgstr ""
 "Importar atletas desde una hoja de cálculo. Ej. Excel, LibreOffice, Google "
 "Drive."
 
-#: ../src/gui/person.cs:2059
+#: ../src/gui/person.cs:2061
 msgid "Open the spreadsheet with the persons data to be added."
 msgstr "Abrir la hoja de cálculo con los datos de los atletas que añadir."
 
-#: ../src/gui/person.cs:2060
-#, fuzzy
+#: ../src/gui/person.cs:2062
 #| msgid "Spreadsheed need to have this structure:"
 msgid "Spreadsheed structure need to have this structure:"
 msgstr "La hora de cálculo debe tener esta estructura:"
 
-#: ../src/gui/person.cs:2161
+#: ../src/gui/person.cs:2163
 msgid "Persons will be created with default session values"
 msgstr "Los atletas serán creados con los valores predeterminados de la sesión"
 
-#: ../src/gui/person.cs:2430
+#: ../src/gui/person.cs:2434
 msgid "Date\n"
 msgstr "Fecha\n"
 
-#: ../src/gui/person.cs:2431
+#: ../src/gui/person.cs:2435
 msgid ""
 "Jumps\n"
 "simple"
@@ -5845,7 +5831,7 @@ msgstr ""
 "Saltos\n"
 "simples"
 
-#: ../src/gui/person.cs:2433
+#: ../src/gui/person.cs:2437
 msgid ""
 "Runs\n"
 "simple"
@@ -5853,7 +5839,7 @@ msgstr ""
 "Carreras\n"
 "simples"
 
-#: ../src/gui/person.cs:2434
+#: ../src/gui/person.cs:2438
 msgid ""
 "Runs\n"
 "interval"
@@ -5861,7 +5847,7 @@ msgstr ""
 "Carreras con\n"
 "tramos"
 
-#: ../src/gui/person.cs:2435
+#: ../src/gui/person.cs:2439
 msgid ""
 "Reaction\n"
 "time"
@@ -5869,33 +5855,33 @@ msgstr ""
 "Tiempo de\n"
 "reacción"
 
-#: ../src/gui/person.cs:2438 ../src/gui/session.cs:739
+#: ../src/gui/person.cs:2442 ../src/gui/session.cs:739
 msgid "Encoder signals"
 msgstr "Señales del codificador"
 
-#: ../src/gui/person.cs:2439 ../src/gui/session.cs:740
+#: ../src/gui/person.cs:2443 ../src/gui/session.cs:740
 msgid "Encoder curves"
 msgstr "Curvas del codificador"
 
-#: ../src/gui/preferences.cs:318
+#: ../src/gui/preferences.cs:316
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "En la pestaña de resultados de saltos, la potencia se calcula dependiendo "
 "del tipo de salto:"
 
-#: ../src/gui/preferences.cs:320
+#: ../src/gui/preferences.cs:318
 msgid "Jumps with TC & TF: Bosco Relative Power (W/Kg)"
 msgstr "Saltos con TC y TF: Potencia de Bosco relativa (W/Kg)"
 
-#: ../src/gui/preferences.cs:322
+#: ../src/gui/preferences.cs:320
 msgid "P = 24.6 * (Total time + Flight time) / Contact time"
 msgstr "P = 24.6 * (Tiempo total+ tiempo de vuelo) / Tiempo de contacto"
 
-#: ../src/gui/preferences.cs:324
+#: ../src/gui/preferences.cs:322
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Saltos sin TC: potencia de Lewis Peak 1974 (W)"
 
-#: ../src/gui/preferences.cs:326
+#: ../src/gui/preferences.cs:324
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -5903,36 +5889,35 @@ msgstr ""
 "P = SQRT(4.9) * 9.8 * (peso del cuerpo+peso adicional) * SQRT(altura del "
 "salto en metros)"
 
-#: ../src/gui/preferences.cs:328
+#: ../src/gui/preferences.cs:326
 msgid "If you want to use other formulas, go to Statistics."
 msgstr "Si quiere usar otras fórmulas, vaya a Estadísticas."
 
-#: ../src/gui/preferences.cs:386
-msgid "Error. Cannot find database."
-msgstr "Error. No se encuentra la base de datos."
+#: ../src/gui/preferences.cs:377
+#| msgid "Cannot create directory {0}"
+msgid "Cannot create directory."
+msgstr "No se puede crear la carpeta."
 
-#: ../src/gui/preferences.cs:392
+#: ../src/gui/preferences.cs:416
 msgid "Copy database to:"
 msgstr "Copiar base de datos a:"
 
-#: ../src/gui/preferences.cs:396
+#: ../src/gui/preferences.cs:420
 msgid "Copy"
 msgstr "Copiar"
 
-#: ../src/gui/preferences.cs:427
-#| msgid "Are you sure you want to overwrite file: "
+#: ../src/gui/preferences.cs:451
 msgid "Are you sure you want to overwrite: "
 msgstr "Está seguro de que desea sobrescribir: "
 
-#: ../src/gui/preferences.cs:441 ../src/gui/preferences.cs:477
-#: ../src/gui/preferences.cs:510
+#: ../src/gui/preferences.cs:465 ../src/gui/preferences.cs:501
+#: ../src/gui/preferences.cs:534
 #, csharp-format
 msgid "Copied to {0}"
 msgstr "Copiado a {0}"
 
-#: ../src/gui/preferences.cs:447 ../src/gui/preferences.cs:481
+#: ../src/gui/preferences.cs:471 ../src/gui/preferences.cs:505
 #, csharp-format
-#| msgid "Cannot copy to file {0} "
 msgid "Cannot copy to {0} "
 msgstr "No se puede copiar a {0} "
 
@@ -6066,10 +6051,6 @@ msgstr ""
 #: ../src/gui/run.cs:1002
 msgid "Millimeters."
 msgstr "Milímetros"
-
-#: ../src/gui/run.cs:1034
-msgid "tracks"
-msgstr "tramos"
 
 #: ../src/gui/run.cs:1236 ../src/gui/run.cs:1270 ../src/gui/run.cs:1301
 #: ../src/gui/run.cs:1427 ../src/gui/run.cs:1496 ../src/gui/run.cs:1548
@@ -6320,16 +6301,6 @@ msgstr ""
 #: ../src/jumpType.cs:215
 msgid "Triple jump"
 msgstr "Tripe salto"
-
-#: ../src/platform.cs:50
-#, csharp-format
-msgid "Error, state '{0}' non valid"
-msgstr "Error, el estado '{0}' no es válido"
-
-#: ../src/platform.cs:56
-#, csharp-format
-msgid "State: {0}, lastChange {1}"
-msgstr "Estado: {0}, último cambio {1}"
 
 #: ../src/pulseType.cs:45
 msgid "Pulse free"
@@ -8519,6 +8490,31 @@ msgstr "Diferencia"
 msgid "Runner"
 msgstr "Corredor"
 
+#~ msgid "tracks (m)"
+#~ msgstr "tramos (m)"
+
+#~ msgid ""
+#~ "Chronojump {0} crashed before. If this problem persist, please, report it "
+#~ "at forums:"
+#~ msgstr ""
+#~ "Chronojump {0} ha fallado anteriormente. Si este problema persiste, por "
+#~ "favor informe en los foros:"
+
+#~ msgid ""
+#~ "Remember to describe on Chronojump software forum how crash happened."
+#~ msgstr ""
+#~ "Recuerde explicar como sucedió en fallo en el foro de Chronojump "
+#~ "(apartado de Software)."
+
+#~ msgid "Error. Cannot find database"
+#~ msgstr "Error. No se encuentra la base de datos"
+
+#~ msgid "Error, state '{0}' non valid"
+#~ msgstr "Error, el estado '{0}' no es válido"
+
+#~ msgid "State: {0}, lastChange {1}"
+#~ msgstr "Estado: {0}, último cambio {1}"
+
 #~ msgid ""
 #~ "Jumps\n"
 #~ "multiples"
@@ -9134,9 +9130,6 @@ msgstr "Corredor"
 
 #~ msgid "Add an optional description"
 #~ msgstr "Añadir una descripción opcional"
-
-#~ msgid "Save"
-#~ msgstr "Guardar"
 
 #~ msgid "<b>Power</b> (W)"
 #~ msgstr "<b>Potencia</b> (W)"

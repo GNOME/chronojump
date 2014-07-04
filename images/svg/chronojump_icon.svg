@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="184"
+   height="184"
+   id="svg3480"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Nou document 2">
+  <defs
+     id="defs3482" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="92.714286"
+     inkscape:cy="317.71429"
+     inkscape:document-units="px"
+     inkscape:current-layer="capa1"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="712"
+     inkscape:window-x="0"
+     inkscape:window-y="26"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3485">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="capa1"
+     transform="translate(-282.28571,-666.07647)">
+    <g
+       id="g3188"
+       transform="translate(-11.884818,-75.380075)"
+       inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon_512.png"
+       inkscape:export-xdpi="250.42999"
+       inkscape:export-ydpi="250.42999">
+      <rect
+         inkscape:export-ydpi="23.48"
+         inkscape:export-xdpi="23.48"
+         inkscape:export-filename="/home/xavier/informatica/progs_meus/chronojump/chronojump/images/chronojump_icon.png"
+         y="741.45654"
+         x="294.17053"
+         height="184"
+         width="184"
+         id="rect3495-5-0"
+         style="fill:#0e1e46;fill-opacity:1;stroke:none" />
+      <path
+         sodipodi:nodetypes="cccccccccccccccc"
+         id="path3623-5-9-4-0"
+         d="m 304.74354,785.98407 c 24.74309,42.67617 72.71125,-34.34424 77.11373,-35.86926 4.05166,-5.09329 21.37122,-11.30482 42.54546,21.52155 3.54779,4.52495 13.87866,7.96082 19.14549,-2.56208 -0.83399,0.97825 -8.13916,-6.35703 -12.76363,-10.24837 5.5067,2.2748 10.23437,0.79616 17.01817,9.22353 4.88131,0.18291 10.8986,1.01769 18.61369,6.66143 5.80344,6.60931 -11.3135,4.38495 -18.08188,6.14901 -12.76363,7.31156 -11.20095,21.09152 -20.74091,17.93464 -6.22488,19.12621 -11.4519,19.57509 -14.89095,15.88496 14.54841,-12.1148 6.81291,-17.88921 0,-17.93463 -9.53026,2.51352 -8.13645,16.50951 -2.12723,35.35684 17.37277,-0.11059 29.4273,6.16064 42.01373,6.66143 -9.8367,7.00306 -16.20877,-2.39127 -45.20466,-0.51241 -7.20882,-27.27293 -23.43735,-51.28665 -46.80004,-49.19213 -43.71194,32.91886 -49.68217,16.27125 -55.84097,-3.07451 z"
+         style="fill:#e7be19;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <g
+         transform="matrix(0.97698976,0,0,0.97698976,8.8858845,73.947282)"
+         id="g3182">
+        <text
+           xml:space="preserve"
+           style="font-size:43.44813919px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+           x="386.11078"
+           y="821.37799"
+           id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="386.11078"
+             y="821.37799"
+             style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+             id="tspan3157">CHRONO</tspan></text>
+        <text
+           xml:space="preserve"
+           style="font-size:43.44813919px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+           x="386.11078"
+           y="866.2356"
+           id="text2985-7-8-9-6-2-8-5-7-4-5-8-4-9-3-2-5-2-6-0-3-4-3-6-6-4-3-9-1-8-0-3-2-8-1-4"
+           sodipodi:linespacing="125%"><tspan
+             sodipodi:role="line"
+             x="386.11078"
+             y="866.2356"
+             style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;text-align:center;text-anchor:middle;fill:#ffffff;fill-opacity:1;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Medium"
+             id="tspan3157-9">JUMP</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -9,4 +9,4 @@ GenericName=Jump test control system
 Comment=A measurement, management and statistics sport testing tool
 Comment[es]=Herramienta de medidas, gestión y estadísticas de salto deportivo
 Categories= Education;Science;Sports;
-Icon=@prefix@/share/icons/hicolor/48x48/apps/chronojump.png
+Icon=@prefix@/share/icons/hicolor/scalable/apps/chronojump_icon.svg

@@ -14,7 +14,7 @@ BUILD_DIR="$ORIG_DIR/build-deb"
 PKG_NAME=@PACKAGE@
 PKG_VERSION=@VERSION@
 DEB_VERSION=$1
-PPA=ylatuya/ppa
+PPA=u-info-x/chronojump-ppa
 
 package () {
 	DIST=$1 				# karmic

@@ -22,14 +22,17 @@ create deb package
 -----
 1st time)
 sudo apt-get install devscripts dput debhelper cdbs mono-devel cli-common-dev libdistro-info-perl
-export DEBEMAIL="support@chronojump.org"
+
 GPG key (add random)
 apt-get install rng-tools
 rngd -r /dev/urandom
 GPG generate key:
 gpg --gen-key
+(use the values on DEBFULLNAME and DEBEMAIL, see below)
 
 create package)
+export DEBFULLNAME="Xavier de Blas"
+export DEBEMAIL="info@chronojump.org"
 ./deb-pkg.sh 1
 
 macosx stuff

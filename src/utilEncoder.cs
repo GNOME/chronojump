@@ -143,9 +143,18 @@ public class UtilEncoder
 		string origin = url + Path.DirectorySeparatorChar + fileName;
 		string dest = GetEncoderDataTempFileName();
 		if(File.Exists(origin)) {
-			File.Copy(origin, dest, true);
+			try {
+				File.Copy(origin, dest, true);
+			} catch {
+				new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
+				Log.WriteLine(Constants.FileCopyProblem);
+				return false;
+			}
 			return true;
 		}
+
+		new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
+		Log.WriteLine(Constants.FileNotFound);
 		return false;
 	}
 	

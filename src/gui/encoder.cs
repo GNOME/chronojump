@@ -1279,8 +1279,7 @@ public partial class ChronoJumpWindow
 			check_encoder_analyze_signal_or_curves.Active = true;
 
 			encoderButtonsSensitive(encoderSensEnumStored);
-		} else 
-			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, file not found"));
+		}
 	}
 	
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {

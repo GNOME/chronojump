@@ -570,6 +570,8 @@ public class Constants
 	
 	public static string DatabaseNotFound = Catalog.GetString("Error. Cannot find database.");
 	public static string DirectoryCannotOpen = Catalog.GetString("Error. Cannot open directory.");
+	public static string FileNotFound = Catalog.GetString("Error. File not found.");
+	public static string FileCopyProblem = Catalog.GetString("Error. Cannot copy file.");
 
 	public static string ChronopicDefaultPortWindows = "COM?";
 	public static string ChronopicDefaultPortLinux = "/dev/ttyUSB?";

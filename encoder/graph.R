@@ -1463,7 +1463,8 @@ plotSign <- function (num) {
 }
 
 getModelPValueWithStars <- function(model) {
-	p.value = round(getModelPValue(model),6)
+	#p.value = round(getModelPValue(model),6)
+	p.value = getModelPValue(model)
 	
 	#don't plot stars if p.value is nan because there's too few data
 	if(is.nan(p.value))
@@ -1478,13 +1479,48 @@ getModelPValueWithStars <- function(model) {
 		stars = "*"
 	else if(p.value <= 0.01)
 		stars = "."
-	return(paste(p.value, " ", stars, sep=""))
+	return(paste(round.scientific(p.value), " ", stars, sep=""))
 }
 #http://r.789695.n4.nabble.com/extract-the-p-value-tp3933973p3934011.html
 getModelPValue <- function(model) {
 	stopifnot(inherits(model, "lm"))
 	s <- summary.lm(model)
 	pf(s$fstatistic[1L], s$fstatistic[2L], s$fstatistic[3L], lower.tail = FALSE)
+}
+
+#R returns zero on rounding if the exponent is bigger than the decimals of rounding. Eg:
+#> round(0.0002,3)
+#[1] 0
+#> round(0.0002,4)
+#[1] 2e-04
+#> round(-0.0002,3)
+#[1] 0
+#> round(-0.0002,4)
+#[1] -2e-04
+round.scientific <- function(x) {
+	print(c("at round.scientic",x))
+	if(x == 0)
+		return(0)
+
+	negative = FALSE
+	#the floor(log(10(x)) returns NaN if it's negative
+	if(x < 0) {
+		negative = TRUE
+		x = x * -1
+	}
+
+	#http://r.789695.n4.nabble.com/Built-in-function-for-extracting-mantissa-and-exponent-of-a-numeric-td4670116.html
+	e <- floor(log10(x))
+	m <- x/10^e
+
+	if(negative)
+		m = m * -1
+
+	dec = 2
+	if(e == 0)
+		return(round(m,dec))
+	else
+		return(paste(round(m,dec),"e",e,sep=""))
 }
 
 #http://stackoverflow.com/a/6234664
@@ -1680,9 +1716,9 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 
 				mtext(paste(
 					    varYut, " = ", 
-					    round(coef.a,4), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
-					    round(coef.b,4), " * ", varXplot, " ", plotSign(coef.c), " ", 
-					    round(coef.c,4), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
+					    round.scientific(coef.a), " * ", varXplot, "^2 ", plotSign(coef.b), " ",  
+					    round.scientific(coef.b), " * ", varXplot, " ", plotSign(coef.c), " ", 
+					    round.scientific(coef.c), sep=""), side=3, line=1, at=functionAt, adj=functionAdj, cex = .9)
 				mtext(paste(
 					    "R² = ", round(summary(fit)$r.squared,4),
 					    "; R² (adjusted) = ", round(summary(fit)$adj.r.squared,4),

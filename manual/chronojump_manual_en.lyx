@@ -1377,6 +1377,12 @@ Chronojump main window
 \end_layout
 
 \begin_layout Standard
+When chronojump is opened you will be asked the mode you want to work with.
+ Chronojump has 4 modes and in each one there is a lot of diferent tests.
+ 
+\end_layout
+
+\begin_layout Standard
 Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2396,16 +2402,12 @@ The database stores the tests and links to other data tables.
 \end_layout
 
 \begin_layout Chapter
-Contact tests
+Jump tests
 \end_layout
 
 \begin_layout Standard
 At the following text, it describes the management of the five types of
  tests allowed in Chronojump software.
-\end_layout
-
-\begin_layout Section
-Jumps
 \end_layout
 
 \begin_layout Standard
@@ -2435,7 +2437,7 @@ Those who started outside the platform (drop from a height or do a jump
 \begin_layout Standard
 A 
 \series bold
-repetitive jump
+multiple jump
 \series default
  (also called reactive) is when you obtain more than one flight time.
  For example: make two consecutive jumps initiated on the platform in the
@@ -2449,12 +2451,17 @@ Assuming that the body during the takeoff position is the same as in the
  the athlete in this jump.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Simple jumps execution
 \end_layout
 
 \begin_layout Standard
-From the jumps tab, click the buttons:
+From the Simple Jumps button, you can select from the drop-down list the
+ following options:
+\end_layout
+
+\begin_layout Itemize
+Free, normal jump without restriccions
 \end_layout
 
 \begin_layout Itemize
@@ -2470,7 +2477,7 @@ SJ
 \emph on
 SJ
 \emph default
-l, Squat Jump with extra charge (extra weight)
+l, Squat Jump with extra load (extra weight)
 \end_layout
 
 \begin_layout Itemize
@@ -2482,6 +2489,10 @@ CMJ
 \end_layout
 
 \begin_layout Itemize
+CMJl, coutermovement jump with extra load (extra weight)
+\end_layout
+
+\begin_layout Itemize
 
 \emph on
 ABK
@@ -2490,11 +2501,23 @@ ABK
 \end_layout
 
 \begin_layout Itemize
+ABKl, jump with arms Abalakov with extra load (extra weight)
+\end_layout
+
+\begin_layout Itemize
+Max
+\end_layout
+
+\begin_layout Itemize
 
 \emph on
-DJ
+D
 \emph default
-, drop jump 
+Ja, drop jump with arms using
+\end_layout
+
+\begin_layout Itemize
+DJna, drop jump without arms using
 \end_layout
 
 \begin_layout Itemize
@@ -2504,6 +2527,14 @@ Rocket,
 \emph default
  Rocket Jump is simple jump similar to the squat jump but it starts with
  a full flexion of the legs.
+\end_layout
+
+\begin_layout Itemize
+TakeOff
+\end_layout
+
+\begin_layout Itemize
+TakeOffWeight
 \end_layout
 
 \begin_layout Standard
@@ -2580,7 +2611,7 @@ Last
  button to allow another person to perform the same jump.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Section
 Repetitive jumps execution
 \end_layout
 
@@ -2591,7 +2622,7 @@ Click in the button on the Repetitive jumping tab:
 \begin_layout Itemize
 
 \emph on
-RJ (j)
+RJ(j)
 \emph default
 , Repetitive Jump (jumps) or repetitive jumping limited number of hops
 \end_layout
@@ -2599,7 +2630,7 @@ RJ (j)
 \begin_layout Itemize
 
 \emph on
-Rj (t)
+Rj(t)
 \emph default
 , Repetitive Jump (time) or time-limited repetitive jumping
 \end_layout
@@ -2607,9 +2638,18 @@ Rj (t)
 \begin_layout Itemize
 
 \emph on
-Unlimited
+RJ(unlimited
 \emph default
-, unlimited repetitive jumping.
+), unlimited repetitive jumping.
+\end_layout
+
+\begin_layout Itemize
+RJ(hexagon), reactive jump on an hexagon until three full revolutions are
+ done.
+\end_layout
+
+\begin_layout Itemize
+Triple jump, triple jump starting from a falling height
 \end_layout
 
 \begin_layout Standard
@@ -2640,7 +2680,7 @@ If you want to execute the same type of jump to various subjects and you
  same jump.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Auditive and visual feedback in repetitive jumps: bells 
 \end_layout
 
@@ -2754,7 +2794,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Jumps edition
 \end_layout
 
@@ -2774,7 +2814,7 @@ In the reactive jumps, since they are composed of a set of jumps, this change
  will affect all the jumps even if only one is selected.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Repair repetitive jumps
 \end_layout
 
@@ -2801,7 +2841,7 @@ n
  window.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Jumps delete
 \end_layout
 
@@ -2835,7 +2875,7 @@ reference "sec:Preferencias"
 Deleting a repetitive jump will delete all it's jumps.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Creation of new jump types
 \end_layout
 
@@ -2941,7 +2981,7 @@ Creation of a new jump type.
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Section
 Examples on creation of new jump types
 \end_layout
 
@@ -3423,7 +3463,7 @@ Examples on jump types created by user.
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Chapter
 Runs
 \end_layout
 
@@ -3587,7 +3627,7 @@ run along two or more tracks limited by devices at a fixed distance
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Simple runs execution
 \end_layout
 
@@ -3716,7 +3756,7 @@ Last
  button to allow another person to perform the same run.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Executing intervallic runs
 \end_layout
 
@@ -3799,7 +3839,7 @@ Last
  button to allow another person to perform the same run.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Feedback auditive and visual at the intervallic runs: bells
 \end_layout
 
@@ -3822,7 +3862,7 @@ Bells
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Runs view
 \end_layout
 
@@ -3873,7 +3913,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Runs edition
 \end_layout
 
@@ -3897,7 +3937,7 @@ In the intervallic runs, since they are composed of a set of runs, this
  change will affect all the runs even if only one is selected.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Repair intervallic runs
 \end_layout
 
@@ -3924,7 +3964,7 @@ n
  window.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Runs delete
 \end_layout
 
@@ -3958,7 +3998,7 @@ reference "sec:Preferencias"
 Deleting an intervallic run will delete all it's tracks.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Creation of new run types
 \end_layout
 
@@ -4129,7 +4169,7 @@ Creation of a new run type with variable tracks.
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Examples on creation of new run types
 \end_layout
 
@@ -4666,722 +4706,6 @@ name "tab:Ejemplos-de-tipos-carreras-creados"
 \end_inset
 
 Examples on run types created by user.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Reaction time
-\end_layout
-
-\begin_layout Standard
-In order to detect reaction time of the person, there's a need of an assistant,
- because Chronojump and Chronopic are still unable to produce random signals
- that can be measured accurately.
-\end_layout
-
-\begin_layout Subsection
-Protocol
-\end_layout
-
-\begin_layout Standard
-Assistant will produce contact in a contact device: push-button, platform,
- photocell, ...
- and at any moment (when athlete is prepared), assitant will release the
- contact and instantly the Chronopic green led will light.
- At this moment, the athelete will produce contact in another contact device
- and green light will be off.
- The reaction time registered will be the time between light starts glowing
- and athelete produces contact.
- It's important that athlete doesn't see or hear the assistant.
-\end_layout
-
-\begin_layout Subsection
-Executing reaction time
-\end_layout
-
-\begin_layout Standard
-To execute a reaction time, have the assitant producing contact in device,
- click on 
-\emph on
-Execute reaction time
-\emph default
- and follow the protocol described above.
-\end_layout
-
-\begin_layout Standard
-If Chronopic has not been connected and activated from Chronopic window,
- a reaction time will be simulated.
- In the other hand, if Chronopic is connected, real reaction time will be
- done.
-\end_layout
-
-\begin_layout Subsection
-Reaction times view
-\end_layout
-
-\begin_layout Standard
-Reaction times are shown on the 
-\emph on
-reaction time
-\emph default
- tab.
- Tests are associated with the athletes.
- The shown order of the tests of each jumper is chronological so, the last
- test appears at the end of the list
-\end_layout
-
-\begin_layout Standard
-You can use the 
-\emph on
-magnifying glass
-\emph default
- button (or press 
-\emph on
-z
-\emph default
-) to facilitate the view of the tests.
-\end_layout
-
-\begin_layout Subsection
-Reaction times edition
-\end_layout
-
-\begin_layout Standard
-You can add comments to a reaction time or change the person (if you forgot
- to change the current person previously) If you select the desired test
- and click on the 
-\emph on
-Edit
-\emph default
- button on the selected test, you can also find it on the menu, or by pressing
- the button 
-\emph on
-e
-\emph default
-.
-\end_layout
-
-\begin_layout Subsection
-Reaction times delete
-\end_layout
-
-\begin_layout Standard
-To delete a reaction time, select it and click the 
-\emph on
-Delete selected reaction time
-\emph default
- button.
- Its equivalent in the menu or press 
-\emph on
-d
-\emph default
- (delete).
- By deleting the test you will be asked to confirm it if the delete confirmation
- option is activated in the 
-\emph on
-Preferences
-\emph default
- menu (more information in section 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sec:Preferencias"
-
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Section
-Pulses (Simple rhythms)
-\end_layout
-
-\begin_layout Standard
-A simple rhythm or pulse can be measured on the 
-\emph on
-Pulse
-\emph default
- tab.
- On the other hand, if a comple rhythm has to be measured, use a MultiChronopic
- as described at 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sub:MultiChronopic"
-
-\end_inset
-
-
-\emph on
-.
-\end_layout
-
-\begin_layout Standard
-There are two kind of tests:
-\end_layout
-
-\begin_layout Description
-Free Person tries to be regular on the freely selected pulse.
- Evaluator will decide te moment where the test end.
-\end_layout
-
-\begin_layout Description
-Custom Person has to follow a predefined tempo.
- If desired, the total duration of the test can be defined.
-\begin_inset Newline newline
-\end_inset
-
-Tempo can be defined in one of this ways:
-\end_layout
-
-\begin_deeper
-\begin_layout Description
-seconds how many seconds pass between pulsations
-\end_layout
-
-\begin_layout Description
-ppm how many pulsations per minute
-\end_layout
-
-\begin_layout Standard
-Both methods are interrelated, if eg.
- seconds value is changed, then ppm changes.
- As an example, 0.5 seconds are 120 ppm.
- Evaluator will decide what is more suitable.
-\end_layout
-
-\end_deeper
-\begin_layout Subsection
-Ejecución de pulsos
-\end_layout
-
-\begin_layout Standard
-Desde la pestaña de 
-\emph on
-pulso
-\emph default
- y con el ayudante sin tocar el pulsador o plataforma, haga clic en el botón:
- 
-\emph on
-Libre
-\emph default
-, o en el botón 
-\emph on
-Personalizado.
-\end_layout
-
-\begin_layout Standard
-En caso que no este conectado el Chronopic, el programa simulará un pulso.
- En la ventana emergente se mostrará la progresión del test, que podrá ser
- detenido haciendo clic en el botón 
-\emph on
-Terminar
-\emph default
- o cancelado con 
-\emph on
-Cancelar
-\emph default
-.
-\end_layout
-
-\begin_layout Subsection
-Pulses view
-\end_layout
-
-\begin_layout Standard
-Puede usar los botones de 
-\emph on
-lupa
-\emph default
- (o la tecla 
-\emph on
-z
-\emph default
-) para facilitar la visualización de los tests.
-\end_layout
-
-\begin_layout Standard
-Pulses are shown on the 
-\emph on
-pulses
-\emph default
- tab.
- Tests are associated with the athletes.
- The shown order of the tests of each jumper is chronological so, the last
- test appears at the end of the list
-\end_layout
-
-\begin_layout Standard
-You can use the 
-\emph on
-magnifying glass
-\emph default
- button (or press 
-\emph on
-z
-\emph default
-) to facilitate the view of the tests.
-\end_layout
-
-\begin_layout Subsection
-Pulses edit
-\end_layout
-
-\begin_layout Standard
-You can add comments to a pulse or change the person (if you forgot to change
- the current person previously) If you select the desired test and click
- on the 
-\emph on
-Edit
-\emph default
- button on the selected test, you can also find it on the menu, or by pressing
- the button 
-\emph on
-e
-\emph default
-.
-\end_layout
-
-\begin_layout Subsection
-Pulses delete
-\end_layout
-
-\begin_layout Standard
-To delete a pulse, select it and click the 
-\emph on
-Delete selected pulse
-\emph default
- button.
- Its equivalent in the menu or press 
-\emph on
-d
-\emph default
- (delete).
- By deleting the test you will be asked to confirm it if the delete confirmation
- option is activated in the 
-\emph on
-Preferences
-\emph default
- menu (more information in section 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sec:Preferencias"
-
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:MultiChronopic"
-
-\end_inset
-
-Multi Chronopic
-\end_layout
-
-\begin_layout Standard
-Multi Chronopic allows any type of test that uses two, three or four independent
- measurements Chronopics.
- Remember that for the other tests it’s possible to connect multiple devices
- to a single Chronopic, but it’s understood that that always have to be
- in touch in one or both of them.
-\end_layout
-
-\begin_layout Standard
-Unlike previous tests, Multi Chronopic allows the use of several Chronopics,
- each connected to one or more detection devices, so that contact can be
- more than Chronopic at a time.
- Their operating depends on the program user, but here are some examples:
- 
-\end_layout
-
-\begin_layout Enumerate
-Static Test running on two platforms: the aim is to assess the tempo of
- tread of the left and right foot.
- It’s required that each Chronopic is connected and independent since the
- sportsman is often stepping on both platforms
-\end_layout
-
-\begin_layout Enumerate
-The study of the contact times in a volleyball jump: One foot in each platform,
- then both take off at the same time.
- To know various times is needed 2 Chronopics platforms and 2 independents
- ones.
-\end_layout
-
-\begin_layout Enumerate
-Plate Tapping with extra coordinative action: Construction of a device type
- detection Plate Tapping, where the tester must touch either side as quickly
- as possible with a single hand.
- Connect a conductive part to any side and to one Chronopic to record the
- different times.
- Moreover, if the subject should do something with his foot every 3 contacts
- we can locate a contact platform on the floor and connect it to a second
- Chronopic.
-\end_layout
-
-\begin_layout Enumerate
-Two, three or four athletes do a round trip timed race on a track: there
- is placed a platform at the beginning and final of each lane.
- A Chronopic will be connected to the beginning and end platform because
- a person can’t be at both at once.
- Thus, if there are 4 subjects it will be 4 lanes, 4 Chronopic and 8 platforms.
- We will be able to measure the times and speeds of each 4 independently.
-\end_layout
-
-\begin_layout Subsection
-Synchronization
-\end_layout
-
-\begin_layout Standard
-Some of these tests require a synchronization to intend that the various
- Chronopics start at the same time.
- However, in others the synchronization is not required.
- In the first three examples cited above, synchronization is required so
- there is no error in the comparison of time between a tread and the other
- (example 1 and 2) or from contact with the tapping and the tread on the
- ground (Example 3).
- This sync can be selected from a check box and carried out by making contact
- with several devices at once, or by touching the Test butto
-\lang spanish
-n
-\begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/test_button.png
-	scale 3
-
-\end_inset
-
-
-\lang british
- of Chronopics.
- In the Chronojump Forum 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://forum.chronojump.org
-\end_layout
-
-\end_inset
-
- is described a method for the construction of a professional sync device.
-\end_layout
-
-\begin_layout Standard
-The sync in the fourth example requires discussion.
- If the subjects leave when they want and the aim is to record only the
- time between contact and the next synchronization is not required.
- On the other hand, sync is needed if we use the signal of an external evaluator
-, and when we expect to know the time between the signal (of any contact)
- and the first contact each athlete.
-\end_layout
-
-\begin_layout Subsection
-Erase first time
-\end_layout
-
-\begin_layout Standard
-In some tests, the time of the first contact until the first change of state
- is not relevant.
-\end_layout
-
-\begin_layout Standard
-Perhaps, the subject can begin whenever he wants.
- If you want to compare the subject's ability to follow an independent press
- with both hands (two Chronopics).
- The time registered since the start until the first contact is not relevant
- and should be removed to avoid contaminating averages.
-\end_layout
-
-\begin_layout Subsection
-Port configuration
-\end_layout
-
-\begin_layout Standard
-Obviously, it’s imperative to set up two Chronopic in the window Chronopic:
- 
-\emph on
-Tools / Chronopic
-\emph default
-, to run the tests proposed.
-\end_layout
-
-\begin_layout Subsection
-Multi Chronopic results view
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename multiChronopic_mc.png
-	lyxscale 50
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Gráfico-de-multiChronopic_mc"
-
-\end_inset
-
-Multi Chronopic screenshot.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-In the results window, we can observe different columns, if two Chronopic
- have been used:
-\end_layout
-
-\begin_layout Itemize
-Time: The time from the beginning of the test CP1 and CP2
-\end_layout
-
-\begin_layout Itemize
-State: Information on which change has occur in each Chronopic (if any)
- at the time point indicated in the previous column.
-\end_layout
-
-\begin_layout Itemize
-CP1 and CP2 Change: Time elapsed since the last change of state in each
- Chronopic.
-\end_layout
-
-\begin_layout Itemize
-IN-IN CP1 and CP2: Time elapsed since each Chronopic changed the state IN
- until he returned to the same state.
-\end_layout
-
-\begin_layout Itemize
-OUT-OUT CP1 and CP2: Time elapsed since each Chronopic changed the state
- OUT until he returned to the same state.
-\end_layout
-
-\begin_layout Itemize
-Description: Comments on the particular test run.
- 
-\end_layout
-
-\begin_layout Standard
-In the example in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Gráfico-de-multiChronopic_mc"
-
-\end_inset
-
- it shows a Multi Chronopic test duration: 0.928 seconds in which there are
- 10 state changes.
- Multi Chronopic 1, 2, 10n is called so because is used 2 Chronopics (Chronopics
- 1 and 2), and has 10 changes.
- If we observe the change number 5 it occurs at 0.539 seconds.
- This represents a change of status Out Chronopic 1 (no contact) within
- a (contact).
- As indicated in CP1 Change, 0.225 seconds have elapsed since the Chronopic
- was in its previous state (Outside) and 0.353 seconds since this was Chronopic
- (Inside) as reflected in IN-IN CP1.
-\end_layout
-
-\begin_layout Standard
-Also note that the column IN-IN and OUT-OUT have average values and standard
- deviation (SD).
-\end_layout
-
-\begin_layout Standard
-Just as the other tests, the tests are associated with the performers.
- The order of presentation of each test in each performer is chronological
- so the latter carried out by a subject appears at the bottom of the list
- of the tests.
- You can use the magnifying glass button (or press 
-\emph on
-z
-\emph default
-) to facilitate the visualization of the tests.
-\end_layout
-
-\begin_layout Subsection
-Multi Chronopic test edition and erase
-\end_layout
-
-\begin_layout Standard
-You can add comments to a test or change the performer (if you forgot to
- change the current subject previously) by selecting the desired test and
- click on the 
-\emph on
-Edit Multi Chronopic
-\emph default
- button.
- It can also be done in the menu or press 
-\emph on
-e
-\emph default
-.
-\end_layout
-
-\begin_layout Standard
-To delete a Multi Chronopic test, select it and click the 
-\emph on
-Delete Multi Chronopic
-\emph default
- button selected.
- Its equivalent in the menu or press 
-\emph on
-d
-\emph default
- (delete).
- By deleting the test you will be asked to confirm it if the delete confirmation
- option is activated in the 
-\emph on
-Preferences
-\emph default
- menu (more information in section 
-\begin_inset CommandInset ref
-LatexCommand vref
-reference "sec:Preferencias"
-
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Subsection
-Run analysis
-\end_layout
-
-\begin_layout Standard
-In addition to the examples given we have to include a test to analyze the
- run produces by Josep Maria Padullés as part of his doctoral thesis.
- As sense devices it’s used two photocells barriers and a track with contacts
- platforms.
-\end_layout
-
-\begin_layout Standard
-The two photocells are connected to the 
-\series bold
-first
-\series default
- Chronopic to know the time between them.
- The program evaluator will indicate the distance between them and thus
- it can be known the average speed.
- The track of platforms will be connected to the 
-\series bold
-second
-\series default
- Chronopic, which will give us the contact time and flight time.
- In this case the synchronization between Chronopics or deleted the first
- time is not required.
-\end_layout
-
-\begin_layout Standard
-From the data obtained by both Chronopics, you will get the average speed
- of the race, and the following data for each of the steps: 
-\end_layout
-
-\begin_layout Itemize
-Contact times
-\end_layout
-
-\begin_layout Itemize
-Flight Times
-\end_layout
-
-\begin_layout Itemize
-Total Time
-\end_layout
-
-\begin_layout Itemize
-Frequency
-\end_layout
-
-\begin_layout Itemize
-Amplitude
-\end_layout
-
-\begin_layout Itemize
-Height
-\end_layout
-
-\begin_layout Itemize
-Takeoff angle 
-\end_layout
-
-\begin_layout Standard
-You can see an example in Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Gráfico-de-multiChronopic_ra"
-
-\end_inset
-
-.
- Note that the execution button Running Analysis will be activated when
- the distance between the photocells and the two Chronopics are connected.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename multiChronopic_ra.png
-	lyxscale 50
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Gráfico-de-multiChronopic_ra"
-
-\end_inset
-
-Multi Chronopic screenshot with Run Analysis results.
 \end_layout
 
 \end_inset
@@ -6990,6 +6314,726 @@ status open
 \begin_layout Plain Layout
 
 http://foro.chronojump.org
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Other tests
+\end_layout
+
+\begin_layout Section
+Reaction time
+\end_layout
+
+\begin_layout Standard
+In order to detect reaction time of the person, there's a need of an assistant,
+ because Chronojump and Chronopic are still unable to produce random signals
+ that can be measured accurately.
+\end_layout
+
+\begin_layout Subsection
+Protocol
+\end_layout
+
+\begin_layout Standard
+Assistant will produce contact in a contact device: push-button, platform,
+ photocell, ...
+ and at any moment (when athlete is prepared), assitant will release the
+ contact and instantly the Chronopic green led will light.
+ At this moment, the athelete will produce contact in another contact device
+ and green light will be off.
+ The reaction time registered will be the time between light starts glowing
+ and athelete produces contact.
+ It's important that athlete doesn't see or hear the assistant.
+\end_layout
+
+\begin_layout Subsection
+Executing reaction time
+\end_layout
+
+\begin_layout Standard
+To execute a reaction time, have the assitant producing contact in device,
+ click on 
+\emph on
+Execute reaction time
+\emph default
+ and follow the protocol described above.
+\end_layout
+
+\begin_layout Standard
+If Chronopic has not been connected and activated from Chronopic window,
+ a reaction time will be simulated.
+ In the other hand, if Chronopic is connected, real reaction time will be
+ done.
+\end_layout
+
+\begin_layout Subsection
+Reaction times view
+\end_layout
+
+\begin_layout Standard
+Reaction times are shown on the 
+\emph on
+reaction time
+\emph default
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Reaction times edition
+\end_layout
+
+\begin_layout Standard
+You can add comments to a reaction time or change the person (if you forgot
+ to change the current person previously) If you select the desired test
+ and click on the 
+\emph on
+Edit
+\emph default
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Reaction times delete
+\end_layout
+
+\begin_layout Standard
+To delete a reaction time, select it and click the 
+\emph on
+Delete selected reaction time
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Pulses (Simple rhythms)
+\end_layout
+
+\begin_layout Standard
+A simple rhythm or pulse can be measured on the 
+\emph on
+Pulse
+\emph default
+ tab.
+ On the other hand, if a comple rhythm has to be measured, use a MultiChronopic
+ as described at 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sub:MultiChronopic"
+
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Standard
+There are two kind of tests:
+\end_layout
+
+\begin_layout Description
+Free Person tries to be regular on the freely selected pulse.
+ Evaluator will decide te moment where the test end.
+\end_layout
+
+\begin_layout Description
+Custom Person has to follow a predefined tempo.
+ If desired, the total duration of the test can be defined.
+\begin_inset Newline newline
+\end_inset
+
+Tempo can be defined in one of this ways:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+seconds how many seconds pass between pulsations
+\end_layout
+
+\begin_layout Description
+ppm how many pulsations per minute
+\end_layout
+
+\begin_layout Standard
+Both methods are interrelated, if eg.
+ seconds value is changed, then ppm changes.
+ As an example, 0.5 seconds are 120 ppm.
+ Evaluator will decide what is more suitable.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Ejecución de pulsos
+\end_layout
+
+\begin_layout Standard
+Desde la pestaña de 
+\emph on
+pulso
+\emph default
+ y con el ayudante sin tocar el pulsador o plataforma, haga clic en el botón:
+ 
+\emph on
+Libre
+\emph default
+, o en el botón 
+\emph on
+Personalizado.
+\end_layout
+
+\begin_layout Standard
+En caso que no este conectado el Chronopic, el programa simulará un pulso.
+ En la ventana emergente se mostrará la progresión del test, que podrá ser
+ detenido haciendo clic en el botón 
+\emph on
+Terminar
+\emph default
+ o cancelado con 
+\emph on
+Cancelar
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Pulses view
+\end_layout
+
+\begin_layout Standard
+Puede usar los botones de 
+\emph on
+lupa
+\emph default
+ (o la tecla 
+\emph on
+z
+\emph default
+) para facilitar la visualización de los tests.
+\end_layout
+
+\begin_layout Standard
+Pulses are shown on the 
+\emph on
+pulses
+\emph default
+ tab.
+ Tests are associated with the athletes.
+ The shown order of the tests of each jumper is chronological so, the last
+ test appears at the end of the list
+\end_layout
+
+\begin_layout Standard
+You can use the 
+\emph on
+magnifying glass
+\emph default
+ button (or press 
+\emph on
+z
+\emph default
+) to facilitate the view of the tests.
+\end_layout
+
+\begin_layout Subsection
+Pulses edit
+\end_layout
+
+\begin_layout Standard
+You can add comments to a pulse or change the person (if you forgot to change
+ the current person previously) If you select the desired test and click
+ on the 
+\emph on
+Edit
+\emph default
+ button on the selected test, you can also find it on the menu, or by pressing
+ the button 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Pulses delete
+\end_layout
+
+\begin_layout Standard
+To delete a pulse, select it and click the 
+\emph on
+Delete selected pulse
+\emph default
+ button.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:MultiChronopic"
+
+\end_inset
+
+Multi Chronopic
+\end_layout
+
+\begin_layout Standard
+Multi Chronopic allows any type of test that uses two, three or four independent
+ measurements Chronopics.
+ Remember that for the other tests it’s possible to connect multiple devices
+ to a single Chronopic, but it’s understood that that always have to be
+ in touch in one or both of them.
+\end_layout
+
+\begin_layout Standard
+Unlike previous tests, Multi Chronopic allows the use of several Chronopics,
+ each connected to one or more detection devices, so that contact can be
+ more than Chronopic at a time.
+ Their operating depends on the program user, but here are some examples:
+ 
+\end_layout
+
+\begin_layout Enumerate
+Static Test running on two platforms: the aim is to assess the tempo of
+ tread of the left and right foot.
+ It’s required that each Chronopic is connected and independent since the
+ sportsman is often stepping on both platforms
+\end_layout
+
+\begin_layout Enumerate
+The study of the contact times in a volleyball jump: One foot in each platform,
+ then both take off at the same time.
+ To know various times is needed 2 Chronopics platforms and 2 independents
+ ones.
+\end_layout
+
+\begin_layout Enumerate
+Plate Tapping with extra coordinative action: Construction of a device type
+ detection Plate Tapping, where the tester must touch either side as quickly
+ as possible with a single hand.
+ Connect a conductive part to any side and to one Chronopic to record the
+ different times.
+ Moreover, if the subject should do something with his foot every 3 contacts
+ we can locate a contact platform on the floor and connect it to a second
+ Chronopic.
+\end_layout
+
+\begin_layout Enumerate
+Two, three or four athletes do a round trip timed race on a track: there
+ is placed a platform at the beginning and final of each lane.
+ A Chronopic will be connected to the beginning and end platform because
+ a person can’t be at both at once.
+ Thus, if there are 4 subjects it will be 4 lanes, 4 Chronopic and 8 platforms.
+ We will be able to measure the times and speeds of each 4 independently.
+\end_layout
+
+\begin_layout Subsection
+Synchronization
+\end_layout
+
+\begin_layout Standard
+Some of these tests require a synchronization to intend that the various
+ Chronopics start at the same time.
+ However, in others the synchronization is not required.
+ In the first three examples cited above, synchronization is required so
+ there is no error in the comparison of time between a tread and the other
+ (example 1 and 2) or from contact with the tapping and the tread on the
+ ground (Example 3).
+ This sync can be selected from a check box and carried out by making contact
+ with several devices at once, or by touching the Test butto
+\lang spanish
+n
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/test_button.png
+	scale 3
+
+\end_inset
+
+
+\lang british
+ of Chronopics.
+ In the Chronojump Forum 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://forum.chronojump.org
+\end_layout
+
+\end_inset
+
+ is described a method for the construction of a professional sync device.
+\end_layout
+
+\begin_layout Standard
+The sync in the fourth example requires discussion.
+ If the subjects leave when they want and the aim is to record only the
+ time between contact and the next synchronization is not required.
+ On the other hand, sync is needed if we use the signal of an external evaluator
+, and when we expect to know the time between the signal (of any contact)
+ and the first contact each athlete.
+\end_layout
+
+\begin_layout Subsection
+Erase first time
+\end_layout
+
+\begin_layout Standard
+In some tests, the time of the first contact until the first change of state
+ is not relevant.
+\end_layout
+
+\begin_layout Standard
+Perhaps, the subject can begin whenever he wants.
+ If you want to compare the subject's ability to follow an independent press
+ with both hands (two Chronopics).
+ The time registered since the start until the first contact is not relevant
+ and should be removed to avoid contaminating averages.
+\end_layout
+
+\begin_layout Subsection
+Port configuration
+\end_layout
+
+\begin_layout Standard
+Obviously, it’s imperative to set up two Chronopic in the window Chronopic:
+ 
+\emph on
+Tools / Chronopic
+\emph default
+, to run the tests proposed.
+\end_layout
+
+\begin_layout Subsection
+Multi Chronopic results view
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename multiChronopic_mc.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-de-multiChronopic_mc"
+
+\end_inset
+
+Multi Chronopic screenshot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the results window, we can observe different columns, if two Chronopic
+ have been used:
+\end_layout
+
+\begin_layout Itemize
+Time: The time from the beginning of the test CP1 and CP2
+\end_layout
+
+\begin_layout Itemize
+State: Information on which change has occur in each Chronopic (if any)
+ at the time point indicated in the previous column.
+\end_layout
+
+\begin_layout Itemize
+CP1 and CP2 Change: Time elapsed since the last change of state in each
+ Chronopic.
+\end_layout
+
+\begin_layout Itemize
+IN-IN CP1 and CP2: Time elapsed since each Chronopic changed the state IN
+ until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+OUT-OUT CP1 and CP2: Time elapsed since each Chronopic changed the state
+ OUT until he returned to the same state.
+\end_layout
+
+\begin_layout Itemize
+Description: Comments on the particular test run.
+ 
+\end_layout
+
+\begin_layout Standard
+In the example in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-de-multiChronopic_mc"
+
+\end_inset
+
+ it shows a Multi Chronopic test duration: 0.928 seconds in which there are
+ 10 state changes.
+ Multi Chronopic 1, 2, 10n is called so because is used 2 Chronopics (Chronopics
+ 1 and 2), and has 10 changes.
+ If we observe the change number 5 it occurs at 0.539 seconds.
+ This represents a change of status Out Chronopic 1 (no contact) within
+ a (contact).
+ As indicated in CP1 Change, 0.225 seconds have elapsed since the Chronopic
+ was in its previous state (Outside) and 0.353 seconds since this was Chronopic
+ (Inside) as reflected in IN-IN CP1.
+\end_layout
+
+\begin_layout Standard
+Also note that the column IN-IN and OUT-OUT have average values and standard
+ deviation (SD).
+\end_layout
+
+\begin_layout Standard
+Just as the other tests, the tests are associated with the performers.
+ The order of presentation of each test in each performer is chronological
+ so the latter carried out by a subject appears at the bottom of the list
+ of the tests.
+ You can use the magnifying glass button (or press 
+\emph on
+z
+\emph default
+) to facilitate the visualization of the tests.
+\end_layout
+
+\begin_layout Subsection
+Multi Chronopic test edition and erase
+\end_layout
+
+\begin_layout Standard
+You can add comments to a test or change the performer (if you forgot to
+ change the current subject previously) by selecting the desired test and
+ click on the 
+\emph on
+Edit Multi Chronopic
+\emph default
+ button.
+ It can also be done in the menu or press 
+\emph on
+e
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+To delete a Multi Chronopic test, select it and click the 
+\emph on
+Delete Multi Chronopic
+\emph default
+ button selected.
+ Its equivalent in the menu or press 
+\emph on
+d
+\emph default
+ (delete).
+ By deleting the test you will be asked to confirm it if the delete confirmation
+ option is activated in the 
+\emph on
+Preferences
+\emph default
+ menu (more information in section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Preferencias"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Run analysis
+\end_layout
+
+\begin_layout Standard
+In addition to the examples given we have to include a test to analyze the
+ run produced by Josep Maria Padullés as part of his doctoral thesis.
+ As sense devices it’s used two photocells barriers and a track with contacts
+ platforms.
+\end_layout
+
+\begin_layout Standard
+The two photocells are connected to the 
+\series bold
+first
+\series default
+ Chronopic to know the time between them.
+ The program evaluator will indicate the distance between them and thus
+ it can be known the average speed.
+ The track of platforms will be connected to the 
+\series bold
+second
+\series default
+ Chronopic, which will give us the contact time and flight time.
+ In this case the synchronization between Chronopics or deleted the first
+ time is not required.
+\end_layout
+
+\begin_layout Standard
+From the data obtained by both Chronopics, you will get the average speed
+ of the race, and the following data for each of the steps: 
+\end_layout
+
+\begin_layout Itemize
+Contact times
+\end_layout
+
+\begin_layout Itemize
+Flight Times
+\end_layout
+
+\begin_layout Itemize
+Total Time
+\end_layout
+
+\begin_layout Itemize
+Frequency
+\end_layout
+
+\begin_layout Itemize
+Amplitude
+\end_layout
+
+\begin_layout Itemize
+Height
+\end_layout
+
+\begin_layout Itemize
+Takeoff angle 
+\end_layout
+
+\begin_layout Standard
+You can see an example in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Gráfico-de-multiChronopic_ra"
+
+\end_inset
+
+.
+ Note that the execution button Running Analysis will be activated when
+ the distance between the photocells and the two Chronopics are connected.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename multiChronopic_ra.png
+	lyxscale 50
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Gráfico-de-multiChronopic_ra"
+
+\end_inset
+
+Multi Chronopic screenshot with Run Analysis results.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset

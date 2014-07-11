@@ -595,7 +595,7 @@ public class Util
 
 		double tt = tc + tf; //totalTime
 
-		return 24.06 * ( tt * tf ) / (Double)tc;
+		return 24.6 * ( tt + tf ) / (Double)tc;
 	}
 				
 	//only Lewis now

@@ -939,160 +939,6 @@ If you connect the Chronopic to the computer, and it’s detected "New hardware
  to run the driver.
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-Uso del driver
-\end_layout
-
-\begin_layout Plain Layout
-El driver normalmente será un archivo comprimido (tipo .zip) que deberá ser
- descomprimido y contendrá un archivo ejecutable tipo .exe en el que hay
- que realizar doble-click.
- Normalmente éste se instalará sin problemas, y permitirá que cuando sea
- conectada la Chronopic a posteriori, aparezca el diálogo de 
-\begin_inset Quotes eld
-\end_inset
-
-Nuevo hardware encontrado
-\begin_inset Quotes erd
-\end_inset
-
- y muestre que se trata de un dispositivo USB-serie (no acostumbra a ser
- necesario el reinicio del ordenador).
- Una vez hecho el doble click y verificado que ha funcionado correctamente,
- el archivo .zip o .exe del driver puede ser eliminado o guardado en una carpeta
- para futuras reinstalaciones del sistema operativo.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-Chronopic3 in Linux
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-Chronopic3 se detecta automáticamente en GNU/Linux con los kernels que han
- aparecido a de la serie 2.6.24 (y suponemos que para valores superiores no
- habrá problemas).
-\end_layout
-
-\begin_layout Plain Layout
-Por un error de Mono que hemos documentado
-\begin_inset Foot
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
- 
-\backslash
-url{http://mail.
- gnome.
- org/ archives/ chronojump- devel- list/ 2008-January/ msg00048.html}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
- y encontrado su origen 
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-url{http://mail.
- gnome.
- org/ archives/ chronojump- devel- list/ 2008-January/ msg00050.html}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-, la placa Chronopic3 no puede conectarse a Chronojump en los Kernels 2.6.20-2.6.23.
- La solución es actualizar el Kernel a 2.6.24 o superior 
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-Si no desea actualizar su distribución, puede seguir este ejemplo para Ubuntu
- Hardy seguir este enlace: 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-url{http://msdark.
- atwebpages.
- com/ actualizar-kernel -a-la-version-2624- de-ubuntu-hardy- para-ubuntu-
- gutsy}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Comment
-status collapsed
-
-\begin_layout Plain Layout
-Linux kernels appeared since 2009 detect Chronopic plate without any problems.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -2158,7 +2004,7 @@ Once created, if you still want to create more subjects, you can click again
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:Creación-de-diversos"
+reference "fig:Creation of multiple subjects"
 
 \end_inset
 
@@ -2167,6 +2013,7 @@ reference "fig:Creación-de-diversos"
 
 \begin_layout Standard
 \begin_inset Float figure
+placement H
 wide false
 sideways false
 status open
@@ -2175,7 +2022,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename Captura-add-edit-multiple-persons.png
+	filename Captura-Cargar atletas.png
 	lyxscale 50
 	scale 50
 
@@ -2188,7 +2035,13 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Creation of different subjects simultaneously.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Creation of multiple subjects"
+
+\end_inset
+
+Load subjects.
 \end_layout
 
 \end_inset

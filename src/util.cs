@@ -205,7 +205,7 @@ public class Util
 			string [] valuesListFull = valuesList.Split(new char[] {':'});
 			
 			for(int i=0; i<count; i++) {
-				summatory += System.Math.Pow ( (Convert.ToDouble(valuesListFull[i]) - avg), 2);
+				summatory += Math.Pow ( (Convert.ToDouble(valuesListFull[i]) - avg), 2);
 			}
 
 			/*
@@ -586,8 +586,10 @@ public class Util
 		return initialSpeed.ToString();
 	}
 	
-	public static double GetDjPower (double tc, double tf) 
+	public static double GetDjPower (double tc, double tf, double mass, double fallHeight) 
 	{
+		/*
+		 * old method
 		//relative potency in Watts/Kg
 		//Bosco. Pendent to find if published
 
@@ -596,6 +598,16 @@ public class Util
 		double tt = tc + tf; //totalTime
 
 		return 24.6 * ( tt + tf ) / (Double)tc;
+		*/
+
+		//new method (proposal by Xavier Padullés)
+		//Calcule the potential energies before (mass * g * fallHeight) and after the jump (mass * g * tv^2 * 1.226)
+		//and divide by the time during force is produced
+		double g = 9.81;
+		double tt = tc + tf; //totalTime
+		fallHeight = fallHeight / 100.0; //cm -> m
+		
+		return mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
 	}
 				
 	//only Lewis now

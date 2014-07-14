@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -299,6 +299,7 @@ public class ExportSession
 				else
 					myWeight = weightInKg.ToString();
 		
+				double fall = Convert.ToDouble(myStr[7]);
 				double tc = Convert.ToDouble(myStr[6]);
 				double tf = Convert.ToDouble(myStr[5]);
 
@@ -306,7 +307,7 @@ public class ExportSession
 				string power = "-";
 				if(tf > 0) {	
 					if(tc > 0) 		//dj
-						power = Util.TrimDecimals(Util.GetDjPower(tc, tf).ToString(), dec);
+						power = Util.TrimDecimals(Util.GetDjPower(tc, tf, personWeight, fall).ToString(), dec);
 					else 			//it's a normal jump without tc
 						power = Util.TrimDecimals(Util.GetPower(tf, personWeight, weightInKg).ToString(), dec);
 				}

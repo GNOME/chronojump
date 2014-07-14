@@ -217,7 +217,7 @@ public class TreeViewJumps : TreeViewEvent
 			//calculate jumps with tf
 			if(newJump.Tv > 0) {	
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
-					myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv).ToString(), pDN);
+					myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv, personWeight, newJump.Fall).ToString(), pDN);
 				else {			//it's a normal jump without tc
 					//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
 					//but we do not calculate again person weight, because if it changes treeview is created again

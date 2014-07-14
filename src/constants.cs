@@ -74,10 +74,12 @@ public class Constants
 	public static string ChronojumpWebsite = "http://www.chronojump.org";
 	
 	//formulas
-	public static string DjIndexFormula = "Dj Index (tv-tc)/tc *100)";
-	public static string QIndexFormula = "Q index (tv/tc)";
+	public static string DjIndexFormula = "Dj Index: (tv-tc)/tc *100)";
+	public static string QIndexFormula = "Q index: (tv/tc)";
+	public static string DjPowerFormula = "Dj Power: mass*g*(fallHeight+1.226*(tv^2)) / (tc+tv)";
 	public static string DjIndexFormulaOnly = "(tv-tc)*100/(tc*1.0)"; //*1.0 for having double division
 	public static string QIndexFormulaOnly = "tv/(tc*1.0)"; //*1.0 for having double division
+	public static string DjPowerFormulaOnly = PersonSessionTable + ".weight * 9.81 * (fall/100.0 + 1.226 * (tv*tv) ) / ((tc+tv)*1.0)";
 	
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";

@@ -174,7 +174,8 @@ public partial class ChronoJumpWindow {
 	
 	private static string [] comboStatsSubTypeWithTCOptions = {
 		Constants.DjIndexFormula,
-		Constants.QIndexFormula
+		Constants.QIndexFormula,
+		Constants.DjPowerFormula
 	};
 	
 	private static string [] comboStatsSubTypeReactiveOptions = {

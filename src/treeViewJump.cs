@@ -209,7 +209,7 @@ public class TreeViewJumps : TreeViewEvent
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 
 		
-		
+		Log.WriteLine("personWeight: " + personWeight.ToString());		
 
 
 		if (showPower)  {

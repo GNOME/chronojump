@@ -330,6 +330,15 @@ public class StatType {
 				else 
 					myStat = new StatDjQ(myStatTypeStruct, treeview_stats);
 							//heightPreferred is not used, check this
+			
+			} else if(statisticSubType == Constants.DjPowerFormula)
+			{
+				if(graph) 
+					myStat = new GraphDjPower (myStatTypeStruct);
+							//heightPreferred is not used, check this
+				else 
+					myStat = new StatDjPower(myStatTypeStruct, treeview_stats);
+							//heightPreferred is not used, check this
 			}
 		}
 		else if(statisticType == Constants.TypeJumpsReactive) {

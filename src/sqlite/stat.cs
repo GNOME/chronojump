@@ -254,7 +254,7 @@ class SqliteStat : Sqlite
 		}
 	}
 
-	//dj index, Q index, ... (indexType)
+	//dj index, Q index, Dj Power ( ... (indexType)
 	public static ArrayList DjIndexes (string indexType, string sessionString, bool multisession, string operationString, string jumpType, bool showSex)
 	{
 		string tp = Constants.PersonTable;
@@ -264,6 +264,8 @@ class SqliteStat : Sqlite
 			formula = Constants.DjIndexFormulaOnly;
 		} else if (indexType == "indexQ") {
 			formula = Constants.QIndexFormulaOnly;
+		} else if (indexType == "djPower") {
+			formula = Constants.DjPowerFormulaOnly;
 		}
 		string ini = "";
 		string end = "";
@@ -275,16 +277,28 @@ class SqliteStat : Sqlite
 			end = ")";
 		}
 		
+		//djPower needs personWeight on that session
+		string sep = "";
+		string tps = "";
+		string personSessionString = "";
+		string selectWeight = "";
+		if (indexType == "djPower") {
+			sep = ", ";
+			tps = Constants.PersonSessionTable;
+			personSessionString = " AND " + tp + ".uniqueID == " + tps + ".personID ";
+			selectWeight = ", " + tps + ".weight";
+		}
+		
 		string orderByString = "ORDER BY ";
 		string moreSelect = "";
-		moreSelect = ini + formula + end + " AS myIndex, jump.tv, jump.tc, jump.fall";
+		moreSelect = ini + formula + end + " AS myIndex, jump.tv, jump.tc, jump.fall" + selectWeight;
 		
 		//manage allJumps
-		string fromString = " FROM jump, " + tp + " ";
+		string fromString = " FROM jump, " + tp + sep + tps + " ";
 		string jumpTypeString = " AND jump.type == '" + jumpType + "' ";
 		if(jumpType == Constants.AllJumpsName) {
 			moreSelect = moreSelect + ", jump.type ";
-			fromString = " FROM jump, " + tp + ", jumpType ";
+			fromString = " FROM jump, " + tp + sep + tps + ", jumpType ";
 			jumpTypeString = " AND jumpType.startIn == 0 AND jump.Type == jumpType.name "; 
 		}
 
@@ -297,13 +311,14 @@ class SqliteStat : Sqlite
 		}
 		//if multisession, order by person.name, sessionID for being able to present results later
 		if(multisession) {
-			orderByString = orderByString + tp + ".name, sessionID, ";
+			orderByString = orderByString + tp + ".name, jump.sessionID, ";
 		}
 		
 		dbcon.Open();
-		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, sessionID, " + moreSelect +
+		dbcmd.CommandText = "SELECT " + tp + ".name, " + tp + ".sex, jump.sessionID, " + moreSelect +
 			fromString +
 			sessionString +
+			personSessionString +
 			jumpTypeString +
 			" AND jump.personID == " + tp + ".uniqueID " +
 			groupByString +
@@ -322,6 +337,7 @@ class SqliteStat : Sqlite
 		string returnTvString = "";
 		string returnTcString = "";
 		string returnFallString = "";
+		string returnWeightString = "";
 		ArrayList myArray = new ArrayList(2);
 		while(reader.Read()) {
 			if(showSex) {
@@ -344,6 +360,11 @@ class SqliteStat : Sqlite
 				returnTvString = ":" + Util.ChangeDecimalSeparator(reader[4].ToString());
 				returnTcString = ":" + Util.ChangeDecimalSeparator(reader[5].ToString());
 				returnFallString = ":" + reader[6].ToString();
+				
+				returnWeightString = "";
+				if (indexType == "djPower")
+					returnWeightString = ":" + Util.ChangeDecimalSeparator(reader[7].ToString());
+
 			}
 
 			myArray.Add (reader[0].ToString() + showSexString + showJumpTypeString +
@@ -352,7 +373,8 @@ class SqliteStat : Sqlite
 					returnHeightString + 			//height
 					returnTvString + 			//tv
 					returnTcString + 			//tc
-					returnFallString			//fall
+					returnFallString +			//fall
+					returnWeightString
 				    );
 		}
 		reader.Close();

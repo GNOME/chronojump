@@ -50,6 +50,7 @@ SOURCES = \
 	stats/sjCmjAbk.cs\
 	stats/sjCmjAbkPlus.cs\
 	stats/djIndex.cs\
+	stats/djPower.cs\
 	stats/djQ.cs\
 	stats/jumpSimpleSubtraction.cs\
 	stats/rjIndex.cs\
@@ -68,6 +69,7 @@ SOURCES = \
 	stats/graphs/sjCmjAbk.cs\
 	stats/graphs/sjCmjAbkPlus.cs\
 	stats/graphs/djIndex.cs\
+	stats/graphs/djPower.cs\
 	stats/graphs/djQ.cs\
 	stats/graphs/rjIndex.cs\
 	stats/graphs/rjPotencyBosco.cs\

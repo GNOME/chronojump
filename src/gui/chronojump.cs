@@ -3718,6 +3718,7 @@ Log.WriteLine("DDD 1");
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, video cannot be stored."));
 
+			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
 			if(weightPercentPreferred)
 				myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			else {

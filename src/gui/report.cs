@@ -50,6 +50,8 @@ public class ReportWindow {
 	[Widget] Gtk.Image image_report_win_report;
 	[Widget] Gtk.Image image_report_delete;
 	
+	[Widget] Gtk.VButtonBox right_buttons;
+	
 	GenericWindow genericWin;
 	
 	static ReportWindow ReportWindowBox;
@@ -177,7 +179,8 @@ public class ReportWindow {
 					myStringFull[8]		//comment
 					);
 		}
-
+			
+		right_buttons.Sensitive = false;
 	}
 
 	string arrayToString(ArrayList myArrayList) {
@@ -241,6 +244,7 @@ public class ReportWindow {
 		// you get the iter and the model if something is selected
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selected = true;
+			right_buttons.Sensitive = true;
 		}
 	}
 	
@@ -381,6 +385,7 @@ public class ReportWindow {
 
 			if (treeview1.Selection.GetSelected (out model, out iter1)) {
 				store.Remove(ref iter1);
+				right_buttons.Sensitive = false;
 			}
 		}
 	}

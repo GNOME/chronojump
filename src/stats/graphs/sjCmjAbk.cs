@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -61,23 +61,23 @@ public class GraphSjCmjAbk : StatSjCmjAbk
 			serieTv = new GraphSerie();
 			serieHeight = new GraphSerie();
 				
-			serieTv.Title = Catalog.GetString("TF");
-			serieHeight.Title = Catalog.GetString("Height");
+			serieTv.Title = translateYesNo("TF");
+			serieHeight.Title = translateYesNo("Height");
 			
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
-			CurrentGraphData.LabelRight = Catalog.GetString("Height") + "(cm)";
+			CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
+			CurrentGraphData.LabelRight = translateYesNo("Height") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
+				CurrentGraphData.LabelLeft = translateYesNo("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+				CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			}
 			CurrentGraphData.LabelRight = "";
 		}

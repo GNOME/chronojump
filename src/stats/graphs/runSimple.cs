@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -62,24 +62,24 @@ public class GraphRunSimple : StatRunSimple
 			serieDistance = new GraphSerie();
 			serieTime = new GraphSerie();
 				
-			serieSpeed.Title = Catalog.GetString("Speed");
-			serieDistance.Title = Catalog.GetString("Distance");
-			serieTime.Title = Catalog.GetString("Time");;
+			serieSpeed.Title = translateYesNo("Speed");
+			serieDistance.Title = translateYesNo("Distance");
+			serieTime.Title = translateYesNo("Time");;
 			
 			serieSpeed.IsLeftAxis = true;
 			serieDistance.IsLeftAxis = false;
 			serieTime.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("Speed") + "(m/s)";
+			CurrentGraphData.LabelLeft = translateYesNo("Speed") + "(m/s)";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Distance") + "(m), " +
-				Catalog.GetString("Time") + "(s)";
+				translateYesNo("Distance") + "(m), " +
+				translateYesNo("Time") + "(s)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Speed") + "(s)";
+			CurrentGraphData.LabelLeft = translateYesNo("Speed") + "(s)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -66,18 +66,18 @@ public class GraphRjAVGSD : StatRjAVGSD
 		serieSD = new GraphSerie();
 		serieJumps = new GraphSerie();
 
-		serieAVG.Title = Catalog.GetString("AVG");
-		serieSD.Title = Catalog.GetString("SD");
-		serieJumps.Title = Catalog.GetString("Jumps");
+		serieAVG.Title = translateYesNo("AVG");
+		serieSD.Title = translateYesNo("SD");
+		serieJumps.Title = translateYesNo("Jumps");
 
 		serieAVG.IsLeftAxis = true;
 		serieSD.IsLeftAxis = true;
 		serieJumps.IsLeftAxis = false;
 
 		CurrentGraphData.LabelLeft = 
-			Catalog.GetString("AVG") + ", " +
-			Catalog.GetString("SD");
-		CurrentGraphData.LabelRight = Catalog.GetString("Jumps");
+			translateYesNo("AVG") + ", " +
+			translateYesNo("SD");
+		CurrentGraphData.LabelRight = translateYesNo("Jumps");
 
 		CurrentGraphData.IsRightAxisInteger = true;
 	}

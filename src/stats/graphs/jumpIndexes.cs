@@ -100,16 +100,16 @@ public class GraphJumpIndexes : StatJumpIndexes
 			serieJump1.IsLeftAxis = false;
 			serieJump2.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
 			CurrentGraphData.LabelRight =
-				jump1 + " " + Catalog.GetString("TF") + "(s), " + 
-				jump2 + " " + Catalog.GetString("TF") + "(s)";
+				jump1 + " " + translateYesNo("TF") + "(s), " + 
+				jump2 + " " + translateYesNo("TF") + "(s)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

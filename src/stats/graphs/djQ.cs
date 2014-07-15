@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -66,11 +66,11 @@ public class GraphDjQ : StatDjQ
 			serieTv = new GraphSerie();
 			serieFall = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Q Index");
-			serieHeight.Title = Catalog.GetString("Height");
-			serieTc.Title = Catalog.GetString("TC");
-			serieTv.Title = Catalog.GetString("TF");
-			serieFall.Title = Catalog.GetString("Fall");
+			serieIndex.Title = translateYesNo("Q Index");
+			serieHeight.Title = translateYesNo("Height");
+			serieTc.Title = translateYesNo("TC");
+			serieTv.Title = translateYesNo("TF");
+			serieFall.Title = translateYesNo("Fall");
 			
 			serieIndex.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
@@ -79,18 +79,18 @@ public class GraphDjQ : StatDjQ
 			serieFall.IsLeftAxis = false;
 
 			CurrentGraphData.LabelLeft = 
-				Catalog.GetString("TC") + "(s), " +
-				Catalog.GetString("TF") + "(s)";
+				translateYesNo("TC") + "(s), " +
+				translateYesNo("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Index") + "(%), " +
-				Catalog.GetString("Height") + "(cm), " +
-				Catalog.GetString("Fall") + "(cm)";
+				translateYesNo("Index") + "(%), " +
+				translateYesNo("Height") + "(cm), " +
+				translateYesNo("Fall") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

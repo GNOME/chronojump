@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -47,8 +47,8 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 		test1 = applyTos[0];
 		test2 = applyTos[1];
 		
-		columnsString[0] = "Jumper";
-		columnsString[1] = Catalog.GetString("ResultPercent");
+		columnsString[0] = translateYesNo("Jumper");
+		columnsString[1] = translateYesNo("ResultPercent");
 		columnsString[2] = test1;
 		columnsString[3] = test2;
 		
@@ -72,7 +72,7 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 			serieJump1 = new GraphSerie();
 			serieJump2 = new GraphSerie();
 				
-			serieResultPercent.Title = Catalog.GetString("Result") + " %";
+			serieResultPercent.Title = translateYesNo("Result") + " %";
 			serieJump1.Title = test1;
 			serieJump2.Title = test2;
 		
@@ -80,16 +80,16 @@ public class GraphJumpSimpleSubtraction : StatJumpSimpleSubtraction
 			serieJump1.IsLeftAxis = false;
 			serieJump2.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + " %"; 
+			CurrentGraphData.LabelLeft = translateYesNo("Result") + " %"; 
 			CurrentGraphData.LabelRight = 
-				test1 + " " + Catalog.GetString("TF") + "(s), " + 
-				test2 + " " + Catalog.GetString("TF") + "(s)";
+				test1 + " " + translateYesNo("TF") + "(s), " + 
+				test2 + " " + translateYesNo("TF") + "(s)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Result") + " %";
+			CurrentGraphData.LabelLeft = translateYesNo("Result") + " %";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

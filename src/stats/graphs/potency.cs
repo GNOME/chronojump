@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -58,7 +58,7 @@ public class GraphPotency : StatPotency
 			CurrentGraphData.GraphTitle = "";
 		} else {
 			//CurrentGraphData.GraphTitle = this.ToString();
-			CurrentGraphData.GraphTitle = Catalog.GetString("Peak Power");
+			CurrentGraphData.GraphTitle = translateYesNo("Peak Power");
 		}
 		
 		if(sessions.Count == 1) {
@@ -68,28 +68,28 @@ public class GraphPotency : StatPotency
 			serieExtraWeight = new GraphSerie();
 			serieHeight = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Peak Power");
-			seriePersonWeight.Title = Catalog.GetString("Person's Weight");
-			serieExtraWeight.Title = Catalog.GetString("Extra Weight") + " (Kg)";
-			serieHeight.Title = Catalog.GetString("Height");
+			serieIndex.Title = translateYesNo("Peak Power");
+			seriePersonWeight.Title = translateYesNo("Person's Weight");
+			serieExtraWeight.Title = translateYesNo("Extra Weight") + " (Kg)";
+			serieHeight.Title = translateYesNo("Height");
 			
 			serieIndex.IsLeftAxis = true;
 			seriePersonWeight.IsLeftAxis = false;
 			serieExtraWeight.IsLeftAxis = false;
 			serieHeight.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("Peak Power") + 
-				"(" + Catalog.GetString("watts") + ")";
+			CurrentGraphData.LabelLeft = translateYesNo("Peak Power") + 
+				"(" + translateYesNo("watts") + ")";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Weight") + "(kg), " + 
-				Catalog.GetString("Height") + "(cm)";
+				translateYesNo("Weight") + "(kg), " + 
+				translateYesNo("Height") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Peak Power") + 
-				"(" + Catalog.GetString("watts") + ")";
+			CurrentGraphData.LabelLeft = translateYesNo("Peak Power") + 
+				"(" + translateYesNo("watts") + ")";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

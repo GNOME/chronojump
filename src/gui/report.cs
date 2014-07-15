@@ -326,7 +326,8 @@ public class ReportWindow {
 						rj_evolution_mark_consecutives,
 						graphROptions,
 						true,	//graph
-						false  //always false in this class
+						false,  //always false in this class
+						report.GraphTranslate
 						);
 				myStatType.ChooseStat();
 			}

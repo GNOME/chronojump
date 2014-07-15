@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -72,9 +72,9 @@ public class GraphRjEvolution : StatRjEvolution
 		}
 		
 		
-		CurrentGraphData.LabelLeft = Catalog.GetString("Time") + "(s)";
+		CurrentGraphData.LabelLeft = translateYesNo("Time") + "(s)";
 		CurrentGraphData.LabelRight = "";
-		CurrentGraphData.LabelBottom = Catalog.GetString("Jumps");
+		CurrentGraphData.LabelBottom = translateYesNo("Jumps");
 	}
 
 	protected override void printData (string [] statValues) 

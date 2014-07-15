@@ -57,11 +57,18 @@ public class GraphJumpIndexes : StatJumpIndexes
 			jump2="CMJ";
 		}
 		
-		
 		columnsString[0] = "Jumper";
 		columnsString[1] = indexType;
+		
 		columnsString[2] = jump1;
+
+
+		if(useHeightsOnJumpIndexes)
+			columnsString[2] = jump1 + " (" + translateYesNo("height") + ")";
+
 		columnsString[3] = jump2;
+		if(useHeightsOnJumpIndexes)
+			columnsString[3] = jump2 + " (" + translateYesNo("height") + ")";
 		
 		if (statsJumpsType == 2) {
 			this.operation = "MAX";
@@ -101,9 +108,15 @@ public class GraphJumpIndexes : StatJumpIndexes
 			serieJump2.IsLeftAxis = false;
 
 			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
+			
 			CurrentGraphData.LabelRight =
 				jump1 + " " + translateYesNo("TF") + "(s), " + 
 				jump2 + " " + translateYesNo("TF") + "(s)";
+			if(useHeightsOnJumpIndexes)
+				CurrentGraphData.LabelRight =
+					jump1 + " " + translateYesNo("height") + "(m), " + 
+					jump2 + " " + translateYesNo("height") + "(m)";
+
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});

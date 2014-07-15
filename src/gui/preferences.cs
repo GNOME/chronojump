@@ -87,6 +87,10 @@ public class PreferencesWindow {
 	[Widget] Gtk.RadioButton radio_graphs_translate;
 	[Widget] Gtk.RadioButton radio_graphs_no_translate;
 
+	[Widget] Gtk.RadioButton radio_use_heights_on_jump_indexes;
+	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
+
+
 //	[Widget] Gtk.Box hbox_language_row;
 //	[Widget] Gtk.Box hbox_combo_language;
 //	[Widget] Gtk.ComboBox combo_language;
@@ -127,7 +131,7 @@ public class PreferencesWindow {
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool encoderPropulsive, double encoderSmoothCon,
 			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod,
-			string CSVExportDecimalSeparator, bool RGraphsTranslate)
+			string CSVExportDecimalSeparator, bool RGraphsTranslate, bool useHeightsOnJumpIndexes)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -249,6 +253,12 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
 			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
+		
+		if(useHeightsOnJumpIndexes)
+			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
+		else
+			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
+
 
 		PreferencesWindowBox.preferences.Show ();
 		return PreferencesWindowBox;
@@ -593,6 +603,9 @@ public class PreferencesWindow {
 		
 		SqlitePreferences.Update("RGraphsTranslate", 
 				PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
+		
+		SqlitePreferences.Update("useHeightsOnJumpIndexes", 
+				PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
 	
 		string encoder1RMMethod = "";	
 		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)

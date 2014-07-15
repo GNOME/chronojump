@@ -79,6 +79,7 @@ public class Stat
 	protected string reportString;
 	
 	protected bool graphTranslate = true;
+	protected bool useHeightsOnJumpIndexes;
 
 
 	//for toString() in every stat
@@ -122,6 +123,7 @@ public class Stat
 		this.gRO = myStatTypeStruct.GRO;
 		this.toReport = myStatTypeStruct.ToReport;
 		this.graphTranslate = myStatTypeStruct.GraphTranslate;
+		this.useHeightsOnJumpIndexes = myStatTypeStruct.UseHeightsOnJumpIndexes;
 		
 		this.treeview = treeview;
 		

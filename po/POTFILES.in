@@ -62,10 +62,12 @@ src/sqlite/speciallity.cs
 src/sqlite/sport.cs
 src/sqlite/stat.cs
 src/stats/djIndex.cs
+src/stats/djPower.cs
 src/stats/djQ.cs
 src/stats/fv.cs
 src/stats/global.cs
 src/stats/graphs/djIndex.cs
+src/stats/graphs/djPower.cs
 src/stats/graphs/djQ.cs
 src/stats/graphs/fv.cs
 src/stats/graphs/global.cs

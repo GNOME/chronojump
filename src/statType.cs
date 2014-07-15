@@ -41,13 +41,14 @@ public class StatTypeStruct
 	public GraphROptions GRO;
 	
 	public bool ToReport;
+	public bool GraphTranslate;
 	
 	public StatTypeStruct (string statisticApplyTo, 
 			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
 			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
 			ArrayList markedRows, 
 			GraphROptions gRO,
-			bool toReport)
+			bool toReport, bool graphTranslate)
 	{
 		this.StatisticApplyTo = statisticApplyTo;
 		this.SendSelectedSessions =  sendSelectedSessions;
@@ -60,6 +61,7 @@ public class StatTypeStruct
 		this.MarkedRows = markedRows;
 		this.GRO = gRO;
 		this.ToReport = toReport;
+		this.GraphTranslate = graphTranslate;
 	}
 }
 
@@ -76,6 +78,7 @@ public class StatType {
 
 	bool graph;
 	bool toReport;
+	bool graphTranslate;
 	TextWriter writer;
 	string fileName;
 	int statCount; //optimal to create name of each graph on report: 1: 1.png; 2: 2.png
@@ -108,7 +111,7 @@ public class StatType {
 			ArrayList markedRows,  
 			int evolution_mark_consecutives, 
 			GraphROptions gRO,
-			bool graph, bool toReport)
+			bool graph, bool toReport, bool graphTranslate)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
 		this.statisticType = statisticType;
@@ -122,6 +125,7 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
+		this.graphTranslate = graphTranslate;
 
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
@@ -129,7 +133,7 @@ public class StatType {
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
 				markedRows, 
 				gRO,
-				toReport);
+				toReport, graphTranslate);
 
 		myStat = new Stat(); //create an instance of myStat
 
@@ -163,7 +167,7 @@ public class StatType {
 			ArrayList markedRows, 
 			int evolution_mark_consecutives, 
 			GraphROptions gRO,
-			bool graph, bool toReport, TextWriter writer, string fileName,
+			bool graph, bool toReport, bool graphTranslate, TextWriter writer, string fileName,
 			int statCount 
 			)
 	{
@@ -177,6 +181,7 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
+		this.graphTranslate = graphTranslate;
 		this.writer = writer;
 		this.fileName = fileName;
 		this.statCount = statCount;
@@ -187,7 +192,7 @@ public class StatType {
 				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
 				markedRows, 
 				gRO,
-				toReport);
+				toReport, graphTranslate);
 
 		myStat = new Stat(); //create and instance of myStat
 	}

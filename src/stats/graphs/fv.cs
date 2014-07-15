@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -71,8 +71,8 @@ public class GraphFv : StatFv
 			serieJump2 = new GraphSerie();
 				
 			serieIndex.Title = indexType;
-			serieJump1.Title = jump1 + " (" + Catalog.GetString("height") + ")";
-			serieJump2.Title = jump2 + " (" + Catalog.GetString("height") + ")";
+			serieJump1.Title = jump1 + " (" + translateYesNo("height") + ")";
+			serieJump2.Title = jump2 + " (" + translateYesNo("height") + ")";
 			
 			serieIndex.IsLeftAxis = false;
 			serieJump1.IsLeftAxis = true;
@@ -80,15 +80,15 @@ public class GraphFv : StatFv
 
 			//this index is measured in height of CdG (not in tv)
 			CurrentGraphData.LabelLeft = 
-				jump1 + " " + Catalog.GetString("Height") + "(cm), " + 
-				jump2 + " " + Catalog.GetString("Height") + "(cm)";
-			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
+				jump1 + " " + translateYesNo("Height") + "(cm), " + 
+				jump2 + " " + translateYesNo("Height") + "(cm)";
+			CurrentGraphData.LabelRight = translateYesNo("Index") + "(%)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

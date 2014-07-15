@@ -869,7 +869,8 @@ public partial class ChronoJumpWindow {
 				evolution_mark_consecutives,
 				graphROptions,
 				graph,
-				toReport  //always false in this class
+				toReport,  //always false in this class
+				RGraphsTranslate
 				);
 
 		//if we just made a graph, store is not made, 

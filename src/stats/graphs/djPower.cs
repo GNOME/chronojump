@@ -68,12 +68,12 @@ public class GraphDjPower : StatDjPower
 			serieFall = new GraphSerie();
 			serieWeight = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Dj Index");
-			serieHeight.Title = Catalog.GetString("Height");
-			serieTc.Title = Catalog.GetString("TC");
-			serieTv.Title = Catalog.GetString("TF");
-			serieFall.Title = Catalog.GetString("Fall");
-			serieWeight.Title = Catalog.GetString("Weight");
+			serieIndex.Title = translateYesNo("Dj Index");
+			serieHeight.Title = translateYesNo("Height");
+			serieTc.Title = translateYesNo("TC");
+			serieTv.Title = translateYesNo("TF");
+			serieFall.Title = translateYesNo("Fall");
+			serieWeight.Title = translateYesNo("Weight");
 			
 			serieIndex.IsLeftAxis = false;
 			serieHeight.IsLeftAxis = false;
@@ -83,19 +83,19 @@ public class GraphDjPower : StatDjPower
 			serieWeight.IsLeftAxis = false;
 
 			CurrentGraphData.LabelLeft = 
-				Catalog.GetString("TC") + "(s), " +
-				Catalog.GetString("TF") + "(s)";
+				translateYesNo("TC") + "(s), " +
+				translateYesNo("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Index") + "(%), " +
-				Catalog.GetString("Height") + "(cm), " +
-				Catalog.GetString("Fall") + "(cm), " +
-				Catalog.GetString("Weight") + "(Kg)";
+				translateYesNo("Index") + "(%), " +
+				translateYesNo("Height") + "(cm), " +
+				translateYesNo("Fall") + "(cm), " +
+				translateYesNo("Weight") + "(Kg)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Power") + "(W)";
+			CurrentGraphData.LabelLeft = translateYesNo("Power") + "(W)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

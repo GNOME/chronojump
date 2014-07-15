@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -41,6 +41,7 @@ public class Report : ExportSession
 	public bool ShowIntervalRunsWithSubruns;
 	public bool ShowReactionTimes;
 	public bool ShowPulses;
+	private bool graphTranslate = true;
 	
 	bool toReport = true;
 
@@ -365,6 +366,7 @@ public class Report : ExportSession
 					graphROptions,
 					false, 			//graph
 					toReport,
+					graphTranslate,
 					writer,
 					"",
 					statCount
@@ -394,6 +396,7 @@ public class Report : ExportSession
 					graphROptions,
 					true, 			//graph
 					toReport,
+					graphTranslate,
 					writer,
 					fileName,		//fileName for exporting there
 					statCount
@@ -427,6 +430,11 @@ public class Report : ExportSession
 
 	public string Progversion {
 		set { progversion = value; }
+	}
+
+	public bool GraphTranslate {
+		set { graphTranslate = value; }
+		get { return graphTranslate; }
 	}
 	
 	~Report() {}

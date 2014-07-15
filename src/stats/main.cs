@@ -77,6 +77,8 @@ public class Stat
 
 	protected bool toReport = false;
 	protected string reportString;
+	
+	protected bool graphTranslate = true;
 
 
 	//for toString() in every stat
@@ -119,6 +121,7 @@ public class Stat
 		
 		this.gRO = myStatTypeStruct.GRO;
 		this.toReport = myStatTypeStruct.ToReport;
+		this.graphTranslate = myStatTypeStruct.GraphTranslate;
 		
 		this.treeview = treeview;
 		
@@ -128,6 +131,13 @@ public class Stat
 		iter = new TreeIter();
 
 		personsWithData = new ArrayList();
+	}
+
+	protected string translateYesNo(string str) {
+		if(graphTranslate)
+			return Catalog.GetString(str);
+		else
+			return str;
 	}
 	
 	void createCheckboxes(TreeView tv) 

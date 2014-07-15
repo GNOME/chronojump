@@ -63,34 +63,34 @@ public class GraphGlobal : StatGlobal
 			serieIndex = new GraphSerie();
 			serieTv = new GraphSerie();
 	
-			serieIndex.Title = Catalog.GetString("Value");
+			serieIndex.Title = translateYesNo("Value");
 			if(heightPreferred) {
-				serieTv.Title = Catalog.GetString("Height");
+				serieTv.Title = translateYesNo("Height");
 			} else {
-				serieTv.Title = Catalog.GetString("TF");
+				serieTv.Title = translateYesNo("TF");
 			}
 			
 			serieIndex.IsLeftAxis = false;
 			serieTv.IsLeftAxis = true;
 
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
+				CurrentGraphData.LabelLeft = translateYesNo("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+				CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			}
-			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelRight = translateYesNo("Index") + "(%)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
+				CurrentGraphData.LabelLeft = translateYesNo("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+				CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			}
 			//CurrentGraphData.LabelRight = "";
-			CurrentGraphData.LabelRight = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelRight = translateYesNo("Index") + "(%)";
 		}
 	}
 

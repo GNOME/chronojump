@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -72,14 +72,14 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieTime = new GraphSerie();
 			serieFall = new GraphSerie();
 				
-			serieIndex.Title = Catalog.GetString("Index");
-			serieTc.Title = Catalog.GetString("TC") + " (" + Catalog.GetString("AVG") + ")";
-			serieTv.Title = Catalog.GetString("TF") + " (" + Catalog.GetString("AVG") + ")";
-			//serieJumps.Title = Catalog.GetString("Jumps") + " *10";
-			//serieTime.Title = Catalog.GetString("Time") + " *10";
-			serieJumps.Title = Catalog.GetString("Jumps");
-			serieTime.Title = Catalog.GetString("Time");
-			serieFall.Title = Catalog.GetString("Fall");
+			serieIndex.Title = translateYesNo("Index");
+			serieTc.Title = translateYesNo("TC") + " (" + translateYesNo("AVG") + ")";
+			serieTv.Title = translateYesNo("TF") + " (" + translateYesNo("AVG") + ")";
+			//serieJumps.Title = translateYesNo("Jumps") + " *10";
+			//serieTime.Title = translateYesNo("Time") + " *10";
+			serieJumps.Title = translateYesNo("Jumps");
+			serieTime.Title = translateYesNo("Time");
+			serieFall.Title = translateYesNo("Fall");
 			
 			serieIndex.IsLeftAxis = false;
 			serieTc.IsLeftAxis = true;
@@ -89,19 +89,19 @@ public class GraphRjPotencyBosco : StatRjPotencyBosco
 			serieFall.IsLeftAxis = false;
 
 			CurrentGraphData.LabelLeft = 
-				Catalog.GetString("TC") + "(s), " +
-				Catalog.GetString("TF") + "(s)";
+				translateYesNo("TC") + "(s), " +
+				translateYesNo("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Index") + "(%), " +
-				Catalog.GetString("Jumps") + ", " + 
-				Catalog.GetString("Time") + "(s), " + 
-				Catalog.GetString("Fall") + "(cm)";
+				translateYesNo("Index") + "(%), " +
+				translateYesNo("Jumps") + ", " + 
+				translateYesNo("Time") + "(s), " + 
+				translateYesNo("Fall") + "(cm)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
-			CurrentGraphData.LabelLeft = Catalog.GetString("Index") + "(%)";
+			CurrentGraphData.LabelLeft = translateYesNo("Index") + "(%)";
 			CurrentGraphData.LabelRight = "";
 		}
 	}

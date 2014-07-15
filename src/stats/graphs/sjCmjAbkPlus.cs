@@ -63,33 +63,33 @@ public class GraphSjCmjAbkPlus : StatSjCmjAbkPlus
 			serieHeight = new GraphSerie();
 			serieWeight = new GraphSerie();
 				
-			string weightName = Catalog.GetString("Extra weight");
+			string weightName = translateYesNo("Extra weight");
 		
 			if(weightPercentPreferred)
 				weightName += " %";
 			else
 				weightName += " Kg";
-			serieTv.Title = Catalog.GetString("TF");
-			serieHeight.Title = Catalog.GetString("Height");
+			serieTv.Title = translateYesNo("TF");
+			serieHeight.Title = translateYesNo("Height");
 			serieWeight.Title = weightName;
 			
 			serieTv.IsLeftAxis = true;
 			serieHeight.IsLeftAxis = false;
 			serieWeight.IsLeftAxis = false;
 
-			CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+			CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			CurrentGraphData.LabelRight = 
-				Catalog.GetString("Height") + "(cm), " +
-				Catalog.GetString("Weight") + "(Kg)";
+				translateYesNo("Height") + "(cm), " +
+				translateYesNo("Weight") + "(Kg)";
 		} else {
 			for(int i=0; i < sessions.Count ; i++) {
 				string [] stringFullResults = sessions[i].ToString().Split(new char[] {':'});
 				CurrentGraphData.XAxisNames.Add(stringFullResults[1].ToString());
 			}
 			if(heightPreferred) {
-				CurrentGraphData.LabelLeft = Catalog.GetString("Height") + "(cm)";
+				CurrentGraphData.LabelLeft = translateYesNo("Height") + "(cm)";
 			} else {
-				CurrentGraphData.LabelLeft = Catalog.GetString("TF") + "(s)";
+				CurrentGraphData.LabelLeft = translateYesNo("TF") + "(s)";
 			}
 			CurrentGraphData.LabelRight = "";
 		}

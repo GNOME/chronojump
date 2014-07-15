@@ -962,6 +962,7 @@ public partial class ChronoJumpWindow
 		report.HeightPreferred = heightPreferred;
 		report.WeightStatsPercent = weightPercentPreferred;
 		report.Progversion = progVersion;
+		report.GraphTranslate = RGraphsTranslate;
 
 
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -2947,6 +2948,7 @@ public partial class ChronoJumpWindow
 			report.PrefsDigitsNumber = prefsDigitsNumber;
 			report.HeightPreferred = heightPreferred;
 			report.WeightStatsPercent = weightPercentPreferred;
+			report.GraphTranslate = RGraphsTranslate;
 			
 			
 			createTreeView_jumps (treeview_jumps);

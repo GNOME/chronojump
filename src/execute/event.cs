@@ -92,6 +92,7 @@ public class EventExecute
 	//It starts when the first event is detected
 	//protected System.Timers.Timer timerClock = new System.Timers.Timer();    
 	protected double timerCount; // every 50 milliseconds: 
+	protected DateTime timerStart; // used as timestamp to count better 
 
 	protected Random rand;
 	protected bool simulated;
@@ -257,6 +258,7 @@ public class EventExecute
 		//put onTimer count to 0 for moving the time progressBar (activiy mode)	
 		//also in simulated, allows to change platform state
 		timerCount = 0;
+		timerStart = DateTime.UtcNow;
 	}
 		
 	//onTimer allow to update progressbar_time every 50 milliseconds
@@ -264,7 +266,14 @@ public class EventExecute
 	//protected void onTimer( Object source, ElapsedEventArgs e )
 	protected virtual void onTimer( )
 	{
-		timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
+		//this is not ok because not always is called every 50 milliseconds and then timer gets outdated
+		//timerCount = timerCount + .05; //0,05 segons == 50 milliseconds, time between each call of onTimer
+	
+		//used Utc.Now because is lot faster:
+		//http://stackoverflow.com/questions/28637/is-datetime-now-the-best-way-to-measure-a-functions-performance	
+		DateTime timerNow = DateTime.UtcNow;
+		TimeSpan ts = timerNow.Subtract(timerStart);
+		timerCount = ts.TotalSeconds; 
 		
 		/* this will be good for not continue counting the time on eventWindow when event has finished
 		 * this will help to sync chronopic data with the timerCount data

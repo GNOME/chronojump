@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.08";
+	static string lastChronojumpDatabaseVersion = "1.09";
 
 	public Sqlite() {
 	}
@@ -1584,6 +1584,17 @@ class Sqlite
 
 				currentVersion = "1.08";
 			}
+			if(currentVersion == "1.08") {
+				dbcon.Open();
+			
+				Log.WriteLine("Added option on preferences to useHeightsOnJumpIndexes (default) or not");
+				
+				SqlitePreferences.Insert ("useHeightsOnJumpIndexes", "True"); 
+				SqlitePreferences.Update ("databaseVersion", "1.09", true); 
+				dbcon.Close();
+
+				currentVersion = "1.09";
+			}
 		
 		
 
@@ -1728,6 +1739,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.08 - 1.09 Converted DB to 1.09 Added option on preferences to useHeightsOnJumpIndexes (default) or not
 		//1.07 - 1.08 Converted DB to 1.08 Added translate statistics graph option to preferences
 		//1.06 - 1.07 Converted DB to 1.07 Added jump_dj_a.png
 		//1.05 - 1.06 Converted DB to 1.06 Curves are now linked to signals

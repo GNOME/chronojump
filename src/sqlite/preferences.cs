@@ -79,6 +79,7 @@ class SqlitePreferences : Sqlite
 		Insert ("inertialmomentum", "0.01");
 		Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
 		Insert ("RGraphsTranslate", "True");
+		Insert ("useHeightsOnJumpIndexes", "True");
 	}
 
 	public static void Insert(string myName, string myValue)

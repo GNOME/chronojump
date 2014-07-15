@@ -42,6 +42,7 @@ public class Report : ExportSession
 	public bool ShowReactionTimes;
 	public bool ShowPulses;
 	private bool graphTranslate = true;
+	private bool useHeightsOnJumpIndexes = true;
 	
 	bool toReport = true;
 
@@ -367,6 +368,7 @@ public class Report : ExportSession
 					false, 			//graph
 					toReport,
 					graphTranslate,
+					useHeightsOnJumpIndexes,
 					writer,
 					"",
 					statCount
@@ -397,6 +399,7 @@ public class Report : ExportSession
 					true, 			//graph
 					toReport,
 					graphTranslate,
+					useHeightsOnJumpIndexes,
 					writer,
 					fileName,		//fileName for exporting there
 					statCount
@@ -435,6 +438,11 @@ public class Report : ExportSession
 	public bool GraphTranslate {
 		set { graphTranslate = value; }
 		get { return graphTranslate; }
+	}
+	
+	public bool UseHeightsOnJumpIndexes {
+		set { useHeightsOnJumpIndexes = value; }
+		get { return useHeightsOnJumpIndexes; }
 	}
 	
 	~Report() {}

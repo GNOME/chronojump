@@ -361,6 +361,7 @@ public partial class ChronoJumpWindow
 	private static bool metersSecondsPreferred;
 	private static string CSVExportDecimalSeparator; //"COMMA" or "POINT"
 	private static bool RGraphsTranslate;
+	private static bool useHeightsOnJumpIndexes;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -952,6 +953,8 @@ public partial class ChronoJumpWindow
 		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
 		
 		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True";
+		
+		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
@@ -963,6 +966,7 @@ public partial class ChronoJumpWindow
 		report.WeightStatsPercent = weightPercentPreferred;
 		report.Progversion = progVersion;
 		report.GraphTranslate = RGraphsTranslate;
+		report.UseHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
 
 
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -2833,7 +2837,7 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("language"),
 				encoderPropulsive, encoderSmoothCon,
 				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod"),
-				CSVExportDecimalSeparator, RGraphsTranslate
+				CSVExportDecimalSeparator, RGraphsTranslate, useHeightsOnJumpIndexes
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2921,6 +2925,8 @@ public partial class ChronoJumpWindow
 		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
 		
 		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True"; 
+		
+		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
 
 		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {
@@ -2949,6 +2955,7 @@ public partial class ChronoJumpWindow
 			report.HeightPreferred = heightPreferred;
 			report.WeightStatsPercent = weightPercentPreferred;
 			report.GraphTranslate = RGraphsTranslate;
+			report.UseHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
 			
 			
 			createTreeView_jumps (treeview_jumps);

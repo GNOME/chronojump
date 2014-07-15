@@ -870,7 +870,8 @@ public partial class ChronoJumpWindow {
 				graphROptions,
 				graph,
 				toReport,  //always false in this class
-				RGraphsTranslate
+				RGraphsTranslate,
+				useHeightsOnJumpIndexes
 				);
 
 		//if we just made a graph, store is not made, 

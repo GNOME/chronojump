@@ -327,7 +327,8 @@ public class ReportWindow {
 						graphROptions,
 						true,	//graph
 						false,  //always false in this class
-						report.GraphTranslate
+						report.GraphTranslate,
+						report.UseHeightsOnJumpIndexes
 						);
 				myStatType.ChooseStat();
 			}

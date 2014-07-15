@@ -870,31 +870,29 @@ Log.WriteLine(intervalSpeeds);
 		return myArray;
 	}
 
-	public static ArrayList JumpIndexes (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex)
+	//1.4.7 useHeights is the new default, because this indexes should use height instead of TV that has been used by default since now
+	public static ArrayList JumpIndexes (string sessionString, bool multisession, string ini, string end, string jump1, string jump2, bool showSex, bool useHeights)
 	{
 		string tp = Constants.PersonTable;
 
-		//What's this? TODO: check old versions of this file
-		/*
-		string ini2 = "";
-		if(ini == "MAX(") {
-			ini2 = "MIN(";
-		} else if (ini == "AVG("){
-			ini2 = "AVG(";
-		}
-		*/
-			
 		string orderByString = "ORDER BY ";
 		string moreSelect = ""; 
+
+		string j1value = "j1.tv";
+		string j2value = "j2.tv";
+		if(useHeights) {
+			j1value = "j1.tv * j1.tv * 1.226";
+			j2value = "j2.tv * j2.tv * 1.226";
+		}
 		
 		//*1.0 for having double division
 		if(ini == "MAX(") {
 			//search MAX of two jumps, not max index!!
-			moreSelect = " ( MAX(j1.tv) - MAX(j2.tv) )*100/(MAX(j2.tv)*1.0) AS myIndex, " +
-				"MAX(j1.tv), MAX(j2.tv) ";
+			moreSelect = " ( MAX(" + j1value + ") - MAX(" + j2value + ") )*100/(MAX(" + j2value + ")*1.0) AS myIndex, " +
+				"MAX(" + j1value + "), MAX(" + j2value + ") ";
 		} else if(ini == "AVG(") {
-			moreSelect = " ( AVG(j1.tv) - AVG(j2.tv) )*100/(AVG(j2.tv)*1.0) AS myIndex, " +
-				"AVG(j1.tv), AVG(j2.tv)";
+			moreSelect = " ( AVG(" + j1value + ") - AVG(" + j2value + ") )*100/(AVG(" + j2value + ")*1.0) AS myIndex, " +
+				"AVG(" + j1value + "), AVG(" + j2value + ")";
 		}
 
 		//if we use AVG or MAX, then we have to group by the results

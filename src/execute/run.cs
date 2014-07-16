@@ -968,7 +968,7 @@ public class RunIntervalExecute : RunExecute
 			needUpdateGraph = true;
 
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
-		}		
+		}
 	}
 
 /*

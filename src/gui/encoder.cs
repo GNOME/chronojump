@@ -2915,10 +2915,13 @@ Log.Write(" AT ANALYZE 2 ");
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNone(true);
+		encoderCaptureSaveCurvesAllNoneBest(CurvesSaveOp.ALL);
+	}
+	void on_button_encoder_capture_curves_best_clicked (object o, EventArgs args) {
+		encoderCaptureSaveCurvesAllNoneBest(CurvesSaveOp.BEST);
 	}
 	void on_button_encoder_capture_curves_none_clicked (object o, EventArgs args) {
-		encoderCaptureSaveCurvesAllNone(false);
+		encoderCaptureSaveCurvesAllNoneBest(CurvesSaveOp.NONE);
 	}
 
 	void on_combo_encoder_analyze_data_compare_changed (object o, EventArgs args)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -129,15 +129,16 @@ public class TreeViewRunsInterval : TreeViewRuns
 		else
 			speedName += "\n(Km/h)";
 
-		string timeName = Catalog.GetString("Time") + "\n(s)";
+		string lapTimeName = Catalog.GetString("Lap time") + "\n(s)";
+		string splitTimeName = Catalog.GetString("Split time") + "\n(s)";
 		
 		treeviewHasTwoLevels = true;
 		dataLineNamePosition = 0; //position of name in the data to be printed
 		dataLineTypePosition = 4; //position of type in the data to be printed
 		allEventsName = Constants.AllRunsName;
-		eventIDColumn = 4;
+		eventIDColumn = 5; //column where the uniqueID of event will be (and will be hidded)
 		
-		columnsString = new string[]{runnerName, speedName, timeName, descriptionName};
+		columnsString = new string[]{runnerName, speedName, lapTimeName, splitTimeName, descriptionName};
 		store = getStore(columnsString.Length +1); //+1 because, eventID is not show in last col
 		treeview.Model = store;
 		prepareHeaders(columnsString);
@@ -175,18 +176,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		string [] myData = new String [getColsNum()];
 		int count = 0;
 		myData[count++] = myTypeComplet;
-		myData[count++] = "";
-		myData[count++] = "";
-/*
-		myData[count++] = Util.TrimDecimals(Util.GetSpeed(
-					newRunI.DistanceTotal.ToString(),
-					newRunI.TimeTotal.ToString(),
-					metersSecondsPreferred), 
-				pDN);
-		myData[count++] = Util.TrimDecimals( 
-				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
-							, pDN );
-*/
+		myData[count++] = "";		//speed
+		myData[count++] = "";		//lapTime 
+		myData[count++] = "";		//splitTime
 		myData[count++] = newRunI.Description;
 		myData[count++] = newRunI.UniqueID.ToString();
 		return myData;
@@ -227,13 +219,24 @@ public class TreeViewRunsInterval : TreeViewRuns
 					, pDN );
 		}
 
-		myData[count++] = Util.TrimDecimals( timeInterval, pDN );
+		myData[count++] = Util.TrimDecimals( timeInterval, pDN ); //lapTime
+		
+		myData[count++] = Util.TrimDecimals( getSplitTime(newRunI.IntervalTimesString, lineCount), pDN ); //splitTime
 		myData[count++] = "";
 		
-		//myData[count++] = newRunI.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 
 		return myData;
+	}
+
+	private double getSplitTime(string intervalTimesString, int lineCount) 
+	{
+		string [] myStringFull = intervalTimesString.Split(new char[] {'='});
+		double splitTime = 0;
+		for (int i=0; i <= lineCount; i++)
+			splitTime += Convert.ToDouble(myStringFull[i]);
+
+		return splitTime;
 	}
 	
 	protected override int getNumOfSubEvents(System.Object myObject)
@@ -252,10 +255,10 @@ public class TreeViewRunsInterval : TreeViewRuns
 		int count = 0;
 		myData[count++] = Catalog.GetString("Total");
 		myData[count++] = "";
-		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN );
-		myData[count++] = "";
+		myData[count++] = Util.TrimDecimals( newRunI.TimeTotal.ToString(), pDN ); //lapTime
+		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//description
 		
-		//myData[count++] = newRunI.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
@@ -275,9 +278,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 		myData[count++] = Util.TrimDecimals( 
 				Util.GetAverage(newRunI.IntervalTimesString).ToString()	//AVG of intervalTimesString
 							, pDN );
-		myData[count++] = "";
+		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//description
 
-		//myData[count++] = newRunI.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;
@@ -295,9 +298,9 @@ public class TreeViewRunsInterval : TreeViewRuns
 					Util.GetTotalTime(newRunI.IntervalTimesString),
 					Util.GetNumberOfJumps(newRunI.IntervalTimesString, false)).ToString(),
 				pDN);
-		myData[count++] = "";
+		myData[count++] = "";							//splitTime
+		myData[count++] = "";							//description
 		
-		//myData[count++] = newRunI.UniqueID.ToString(); 
 		myData[count++] = "-1"; //mark to non select here, select first line 
 		
 		return myData;

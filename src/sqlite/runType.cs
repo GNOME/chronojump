@@ -311,7 +311,7 @@ class SqliteRunIntervalType : SqliteRunType
 	protected internal static new void initializeTable()
 	{
 		string [] iniRunTypes = {
-			//name:distance:tracksLimited:fixedValue:unlimited:description
+			//name:distance:tracksLimited:fixedValue:unlimited:description:distancesString
 			"byLaps:0:1:0:0:Run n laps x distance:",
 			"byTime:0:0:0:0:Make max laps in n seconds:",
 			"unlimited:0:0:0:1:Continue running in n distance:",	//suppose limited by time
@@ -343,7 +343,7 @@ class SqliteRunIntervalType : SqliteRunType
 	protected internal static void addRSA()
 	{
 		string [] iniRunTypes = {
-			//name:distance:tracksLimited:fixedValue:unlimited:description
+			//name:distance:tracksLimited:fixedValue:unlimited:description:distancesString
 			"RSA Aziz 2000 40, R30 x 8:-1:1:16:0:RSA Aziz et al. 2000:40-R30",
 			"RSA Balsom 15, R30 x 40:-1:1:80:0:RSA Balsom et al. 1992:15-R30",
 			"RSA Balsom 30, R30 x 20:-1:1:40:0:RSA Balsom et al. 1992:30-R30",
@@ -352,6 +352,7 @@ class SqliteRunIntervalType : SqliteRunType
 			"RSA Fitzsimons 40, R24 x 6:-1:1:12:0:RSA Fitzsimons et al. 1993:40-R24",
 			"RSA Gaitanos 6, R30 x 10:-1:1:20:0:RSA Gaitanos et al. 1991:6-R30",
 			"RSA Hamilton 6, R30 x 10:-1:1:20:0:RSA Hamilton et al. 1991:6-R30",
+			"RSA RAST 35, R10 x 6:-1:1:12:0:RSA RAST Test:35-R10",			//this is added on DB 1.10
 			"RSA Mujica 15, R24 x 6:-1:1:12:0:RSA Mujica et al. 2000:15-R24",
 			"RSA Wadley 20, R17 x 12:-1:1:24:0:RSA Wadley and Le Rossignol 1998:20-R17",
 			"RSA Wragg 34.2, R25 x 7:-1:1:14:0:RSA Wragg et al. 2000:34.2-R25"

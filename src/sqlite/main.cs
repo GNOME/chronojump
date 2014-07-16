@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.09";
+	static string lastChronojumpDatabaseVersion = "1.10";
 
 	public Sqlite() {
 	}
@@ -478,6 +478,7 @@ class Sqlite
 			bool needToConvertPersonToSport = false;
 			bool jumpFallAsDouble = false;
 	 		bool runAndRunIntervalInitialSpeedAdded = false;
+			bool addedRSA = false;
 
 			SqliteJumpRj sqliteJumpRjObject = new SqliteJumpRj();
 			SqliteRunInterval sqliteRunIntervalObject = new SqliteRunInterval();
@@ -1199,6 +1200,7 @@ class Sqlite
 				
 				//add know RSAs
 				SqliteRunIntervalType.addRSA();
+				addedRSA = true;
 
 				Log.WriteLine("Deleted fake RSA test and added known RSA tests.");
 				
@@ -1595,6 +1597,36 @@ class Sqlite
 
 				currentVersion = "1.09";
 			}
+			if(currentVersion == "1.09") {
+				dbcon.Open();
+			
+				Log.WriteLine("Added RSA RAST on runType");
+
+				/*
+				 * addRSA() contains RAST since 1.10
+				 * database started at 1.10 or more contains RAST
+				 * database started before 0.87 adds RAST on the addRSA() method
+				 * satabase started after 0.87 adds RAST now
+				 */
+				if(! addedRSA) {
+					RunType type = new RunType();
+					type.Name = "RSA RAST 35, R10 x 6";
+					type.Distance = -1;
+					type.TracksLimited = true;
+					type.FixedValue = 12;
+					type.Unlimited = false;
+					type.Description = "RSA RAST Test";
+					type.DistancesString = "35-R10";
+					
+					SqliteRunIntervalType.Insert(type, Constants.RunIntervalTypeTable, true);
+					addedRSA = true;
+				}
+				
+				SqlitePreferences.Update ("databaseVersion", "1.10", true); 
+				dbcon.Close();
+
+				currentVersion = "1.10";
+			}
 		
 		
 
@@ -1739,6 +1771,7 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.09 - 1.10 Converted DB to 1.10 Added RSA RAST on runType
 		//1.08 - 1.09 Converted DB to 1.09 Added option on preferences to useHeightsOnJumpIndexes (default) or not
 		//1.07 - 1.08 Converted DB to 1.08 Added translate statistics graph option to preferences
 		//1.06 - 1.07 Converted DB to 1.07 Added jump_dj_a.png

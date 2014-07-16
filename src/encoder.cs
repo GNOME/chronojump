@@ -247,6 +247,7 @@ public class EncoderGraphROptions
 
 
 //used on TreeViews capture and analyze
+//in ec and ecS there are two separated curves, unfortunately, here is not known if it's ecc or con
 public class EncoderCurve
 {
 	public bool Record;	//only on capture
@@ -325,7 +326,38 @@ public class EncoderCurve
 			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 			PP_PPT;
 	}
+	
+	~EncoderCurve() {}
 }
+
+
+//to know which is the best curve in a signal...
+public class EncoderSignal
+{
+	private ArrayList curves;
+
+	public EncoderSignal (ArrayList curves) {
+		this.curves = curves;
+	}
+
+	//this can be an eccentric or concentric curve
+	public int FindPosOfBestMeanPower() {
+		double bestMeanPower = 0;
+		int bestMeanPowerPos = 0;
+		int i = 0;
+		foreach(EncoderCurve curve in curves) {
+			if(Convert.ToDouble(curve.MeanPower) > bestMeanPower) {
+				bestMeanPower = Convert.ToDouble(curve.MeanPower);
+				bestMeanPowerPos = i;
+			}
+			i++;
+		}
+		return bestMeanPowerPos;
+	}
+	
+	~EncoderSignal() {}
+}
+
 
 //related to encoderSignalCurve table
 public class EncoderSignalCurve {

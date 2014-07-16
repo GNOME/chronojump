@@ -258,35 +258,66 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	enum CurvesSaveOp { ALL, NONE, BEST }
 	
 	//allNone: true (save all), false (unsave all)
-	void encoderCaptureSaveCurvesAllNone(bool allNone)
+	void encoderCaptureSaveCurvesAllNoneBest(CurvesSaveOp saveOption)
 	{
-		int i = 0; //on "c": i is every row; on other eccons: i is every two rows
+		int bestRow = 0;
+		if(saveOption == CurvesSaveOp.BEST) {
+			//get the concentric curves
+			EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
+			bestRow = encoderSignal.FindPosOfBestMeanPower();
+			
+			//convert from c to ec. eg.
+			//three concentric curves: c[0], c[1], c[2]
+			//coming from three ecc-con: e[0], c[1], e[2], c[3], e[4], c[5]
+			//if from first list, c[2] is the best, then on second list it will be the ec curve: e[4],c[5]
+			//always multiply *2
+			if(ecconLast != "c")
+				bestRow *= 2;
+		}
+
+
+		int i = 0; //on "c" and ! "c": i is every row
 		string sep = "";
 		string messageRows = "";
+		
 		TreeIter iter;
 		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		if(! iterOk)
+			return;
+
+		bool changeTo;
 		while(iterOk) {
 			TreePath path = encoderCaptureListStore.GetPath(iter);
 			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
-			if(curve.Record != allNone) { 
+			if(
+					(! curve.Record && saveOption == CurvesSaveOp.ALL) ||
+					(! curve.Record && saveOption == CurvesSaveOp.BEST && i == bestRow) ||
+					(curve.Record && saveOption == CurvesSaveOp.BEST && i != bestRow) ||
+					(curve.Record && saveOption == CurvesSaveOp.NONE) ) 
+			{ 
+				changeTo = ! curve.Record;
+				
+				Log.WriteLine(i.ToString() + " was: " + curve.Record.ToString() + "; will be: " + (! curve.Record).ToString());
+
 				//change value
-				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = allNone;
+				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = changeTo;
 
 				//this makes RenderRecord work on changed row without having to put mouse there
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 
 				//on "ecS" don't pass the 2nd row, pass always the first
-				saveOrDeleteCurveFromCaptureTreeView(i, curve, allNone);
+				saveOrDeleteCurveFromCaptureTreeView(i, curve, changeTo);
 				
 				if(ecconLast != "c") {
 					path.Next();
 					encoderCaptureListStore.IterNext (ref iter);
 				
 					//change value
-					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = allNone;
+					((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = changeTo;
 
 					//this makes RenderRecord work on changed row without having to put mouse there
 					encoderCaptureListStore.EmitRowChanged(path,iter);
@@ -294,7 +325,16 @@ public partial class ChronoJumpWindow
 					
 				messageRows += sep + (i+1).ToString();
 				sep = ", ";
+			} else {
+				//if we don't change rows
+				//but is ec
+				//the advance now one row (the 'e')
+				//and later it will advance the 'c'
+				if(ecconLast != "c") {
+					encoderCaptureListStore.IterNext (ref iter);
+				}
 			}
+
 			i ++;
 			if(ecconLast != "c")
 				i ++;
@@ -304,10 +344,10 @@ public partial class ChronoJumpWindow
 		//combo_encoder_capture_show_save_curve_button();
 			
 		string message = "";
-		if(allNone)
-			message = Catalog.GetString("Saved");
-		else
+		if(saveOption == CurvesSaveOp.NONE)
 			message = Catalog.GetString("Removed");
+		else
+			message = Catalog.GetString("Saved");
 		label_encoder_curve_action.Text = message + " " + messageRows;
 
 			
@@ -1110,6 +1150,39 @@ public partial class ChronoJumpWindow
 		return curve;
 	}
 
+	private enum AllEccCon { ALL, ECC, CON }
+
+	private ArrayList treeviewEncoderCaptureCurvesGetCurves(AllEccCon option) 
+	{
+		TreeIter iter;
+		ArrayList curves = new ArrayList();
+			
+		bool iterOk = encoderCaptureListStore.GetIterFirst(out iter);
+		if(! iterOk)
+			return curves;
+
+		bool oddRow = true;
+		while(iterOk) {
+			if(ecconLast != "c" && option == AllEccCon.CON && oddRow) {
+				oddRow = ! oddRow;
+				iterOk = encoderCaptureListStore.IterNext (ref iter);
+				continue;
+			}
+			if(ecconLast != "c" && option == AllEccCon.ECC && ! oddRow) {
+				oddRow = ! oddRow;
+				iterOk = encoderCaptureListStore.IterNext (ref iter);
+				continue;
+			}
+				
+			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
+			curves.Add(curve);
+
+			oddRow = ! oddRow;
+			iterOk = encoderCaptureListStore.IterNext (ref iter);
+		}
+
+		return curves;
+	}
 	
 	// ---------helpful methods -----------
 	

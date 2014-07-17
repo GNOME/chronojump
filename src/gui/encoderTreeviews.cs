@@ -258,13 +258,11 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	enum CurvesSaveOp { ALL, NONE, BEST }
-	
 	//allNone: true (save all), false (unsave all)
-	void encoderCaptureSaveCurvesAllNoneBest(CurvesSaveOp saveOption)
+	void encoderCaptureSaveCurvesAllNoneBest(Constants.EncoderAutoSaveCurve saveOption)
 	{
 		int bestRow = 0;
-		if(saveOption == CurvesSaveOp.BEST) {
+		if(saveOption == Constants.EncoderAutoSaveCurve.BESTMEANPOWER) {
 			//get the concentric curves
 			EncoderSignal encoderSignal = new EncoderSignal(treeviewEncoderCaptureCurvesGetCurves(AllEccCon.CON));
 			bestRow = encoderSignal.FindPosOfBestMeanPower();
@@ -294,10 +292,10 @@ public partial class ChronoJumpWindow
 			
 			EncoderCurve curve = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 			if(
-					(! curve.Record && saveOption == CurvesSaveOp.ALL) ||
-					(! curve.Record && saveOption == CurvesSaveOp.BEST && i == bestRow) ||
-					(curve.Record && saveOption == CurvesSaveOp.BEST && i != bestRow) ||
-					(curve.Record && saveOption == CurvesSaveOp.NONE) ) 
+					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.ALL) ||
+					(! curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BESTMEANPOWER && i == bestRow) ||
+					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.BESTMEANPOWER && i != bestRow) ||
+					(curve.Record && saveOption == Constants.EncoderAutoSaveCurve.NONE) ) 
 			{ 
 				changeTo = ! curve.Record;
 				
@@ -344,7 +342,7 @@ public partial class ChronoJumpWindow
 		//combo_encoder_capture_show_save_curve_button();
 			
 		string message = "";
-		if(saveOption == CurvesSaveOp.NONE)
+		if(saveOption == Constants.EncoderAutoSaveCurve.NONE)
 			message = Catalog.GetString("Removed");
 		else
 			message = Catalog.GetString("Saved");

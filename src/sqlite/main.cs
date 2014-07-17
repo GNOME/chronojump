@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.10";
+	static string lastChronojumpDatabaseVersion = "1.11";
 
 	public Sqlite() {
 	}
@@ -164,7 +164,7 @@ class Sqlite
 		try{
 			Log.WriteLine(string.Format("Trying database in ... " + connectionString));
 
-//			dbcon = new SqliteConnection();
+		//dbcon = new SqliteConnection();
 			*/
 		/*
 			dbcon.ConnectionString = connectionString;
@@ -174,7 +174,7 @@ class Sqlite
 			try {
 				Log.WriteLine(string.Format("Trying database in ... " + connectionStringTemp));
 
-//				dbcon = new SqliteConnection();
+		//dbcon = new SqliteConnection();
 				dbcon.ConnectionString = connectionStringTemp;
 				dbcmd = dbcon.CreateCommand();
 			} catch { 
@@ -241,20 +241,20 @@ class Sqlite
 		Log.WriteLine("creating file...");
 		Log.WriteLine(connectionString);
 		
-	//	if(!Directory.Exists(home)) {
-	//		Directory.CreateDirectory (home);
-	//	}
+		//	if(!Directory.Exists(home)) {
+		//		Directory.CreateDirectory (home);
+		//	}
 
-//		try {	
-			dbcon.Open();
-			/*
-		} catch {
-			dbcon.Close();
-			dbcon.ConnectionString = connectionStringTemp;
-			dbcmd = dbcon.CreateCommand();
-			dbcon.Open();
-		}
-		*/
+		//try {	
+		dbcon.Open();
+		/*
+		   } catch {
+		   dbcon.Close();
+		   dbcon.ConnectionString = connectionStringTemp;
+		   dbcmd = dbcon.CreateCommand();
+		   dbcon.Open();
+		   }
+		   */
 		dbcon.Close();
 	}
 	
@@ -1626,6 +1626,17 @@ class Sqlite
 				dbcon.Close();
 
 				currentVersion = "1.10";
+			}
+			if(currentVersion == "1.10") {
+				dbcon.Open();
+			
+				Log.WriteLine("Added option on autosave curves on capture (all/bestmeanpower/none)");
+				
+				SqlitePreferences.Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString()); 
+				SqlitePreferences.Update ("databaseVersion", "1.11", true); 
+				dbcon.Close();
+
+				currentVersion = "1.11";
 			}
 		
 		

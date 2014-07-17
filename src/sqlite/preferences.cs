@@ -80,6 +80,7 @@ class SqlitePreferences : Sqlite
 		Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
 		Insert ("RGraphsTranslate", "True");
 		Insert ("useHeightsOnJumpIndexes", "True");
+		Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString()); 
 	}
 
 	public static void Insert(string myName, string myValue)

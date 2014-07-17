@@ -362,6 +362,7 @@ public partial class ChronoJumpWindow
 	private static string CSVExportDecimalSeparator; //"COMMA" or "POINT"
 	private static bool RGraphsTranslate;
 	private static bool useHeightsOnJumpIndexes;
+	private static Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -955,6 +956,14 @@ public partial class ChronoJumpWindow
 		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True";
 		
 		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
+
+		string temp = SqlitePreferences.Select("encoderAutoSaveCurve");
+		if(temp == Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString())
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTMEANPOWER;
+		else if(temp == Constants.EncoderAutoSaveCurve.ALL.ToString())
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
+		else
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
@@ -2837,7 +2846,8 @@ public partial class ChronoJumpWindow
 				SqlitePreferences.Select("language"),
 				encoderPropulsive, encoderSmoothCon,
 				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod"),
-				CSVExportDecimalSeparator, RGraphsTranslate, useHeightsOnJumpIndexes
+				CSVExportDecimalSeparator, RGraphsTranslate, useHeightsOnJumpIndexes,
+				encoderAutoSaveCurve
 				);
 		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
@@ -2927,6 +2937,15 @@ public partial class ChronoJumpWindow
 		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True"; 
 		
 		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
+		
+		string temp = SqlitePreferences.Select("encoderAutoSaveCurve");
+		if(temp == Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString())
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTMEANPOWER;
+		else if(temp == Constants.EncoderAutoSaveCurve.ALL.ToString())
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
+		else
+			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
+
 
 		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {

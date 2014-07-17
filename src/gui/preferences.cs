@@ -89,6 +89,10 @@ public class PreferencesWindow {
 
 	[Widget] Gtk.RadioButton radio_use_heights_on_jump_indexes;
 	[Widget] Gtk.RadioButton radio_do_not_use_heights_on_jump_indexes;
+	
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_bestmeanpower;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_all;
+	[Widget] Gtk.RadioButton radio_encoder_auto_save_curve_none;
 
 
 //	[Widget] Gtk.Box hbox_language_row;
@@ -131,7 +135,9 @@ public class PreferencesWindow {
 			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
 			string language, bool encoderPropulsive, double encoderSmoothCon,
 			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod,
-			string CSVExportDecimalSeparator, bool RGraphsTranslate, bool useHeightsOnJumpIndexes)
+			string CSVExportDecimalSeparator, bool RGraphsTranslate, bool useHeightsOnJumpIndexes,
+			Constants.EncoderAutoSaveCurve encoderAutoSaveCurve
+			)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
@@ -258,6 +264,13 @@ public class PreferencesWindow {
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
 			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
+			
+		if(encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_bestmeanpower.Active = true;
+		else if(encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
+			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
+		else
+			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
 
 
 		PreferencesWindowBox.preferences.Show ();
@@ -606,6 +619,13 @@ public class PreferencesWindow {
 		
 		SqlitePreferences.Update("useHeightsOnJumpIndexes", 
 				PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
+		
+		if(PreferencesWindowBox.radio_encoder_auto_save_curve_bestmeanpower.Active)
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), true);
+		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active)
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
+		else
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
 	
 		string encoder1RMMethod = "";	
 		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)

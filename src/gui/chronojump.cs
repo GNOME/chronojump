@@ -565,6 +565,10 @@ public partial class ChronoJumpWindow
 		//don't know why Glade is not doing this
 		spinbutton_runs_prevent_double_contact.Value=1000;
 		spinbutton_runs_i_prevent_double_contact.Value=1000;
+			
+		radio_runs_prevent_double_contact_last.Active = true;
+		radio_runs_i_prevent_double_contact_average.Active = true;
+
 
 		//We have no session, mark some widgets as ".Sensitive = false"
 		sensitiveGuiNoSession();

@@ -2276,7 +2276,7 @@ public partial class ChronoJumpWindow
 			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
 						
-Log.WriteLine("AT ANALYZE");
+			Log.WriteLine("AT ANALYZE");
 
 			int iteratingPerson = -1;
 			int iteratingSession = -1;
@@ -2289,13 +2289,13 @@ Log.WriteLine("AT ANALYZE");
 					if(eSQL.exerciseID == eeSearch.uniqueID)
 						ex = eeSearch;
 
-Log.Write(" AT ANALYZE 1.1 ");
+				Log.Write(" AT ANALYZE 1.1 ");
 				//massBody change if we are comparing different persons or sessions
 				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
 					iteratingMassBody = SqlitePersonSession.SelectAttribute(
 							true, eSQL.personID, eSQL.sessionID, Constants.Weight);
 				}
-Log.Write(" AT ANALYZE 1.2 ");
+				Log.Write(" AT ANALYZE 1.2 ");
 
 				//seriesName
 				string seriesName = "";
@@ -2352,7 +2352,7 @@ Log.Write(" AT ANALYZE 1.2 ");
 			}
 			writer.Flush();
 			((IDisposable)writer).Dispose();
-Log.Write(" AT ANALYZE 2 ");
+			Log.Write(" AT ANALYZE 2 ");
 			Sqlite.Close();	
 
 		} else {	//current signal
@@ -4098,7 +4098,7 @@ Log.Write(" AT ANALYZE 2 ");
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-//		Log.WriteLine("EXPOSE");
+		//Log.WriteLine("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
@@ -4156,7 +4156,7 @@ Log.Write(" AT ANALYZE 2 ");
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-//		Log.WriteLine("EXPOSE");
+		//Log.WriteLine("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
 		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 

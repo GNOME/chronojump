@@ -229,6 +229,8 @@ public partial class ChronoJumpWindow
 
 			saveOrDeleteCurveFromCaptureTreeView(rowNum, curve, ! val);
 			
+			/* temporarily removed message
+			 *
 			string message = "";
 			if(! val)
 				message = Catalog.GetString("Saved");
@@ -238,6 +240,7 @@ public partial class ChronoJumpWindow
 				label_encoder_curve_action.Text = message + " " + (rowNum +1).ToString();
 			else
 				label_encoder_curve_action.Text = message + " " + (decimal.Truncate((rowNum +1) /2) +1).ToString();
+				*/
 
 
 			//on ec, ecS need to [un]select second row
@@ -299,8 +302,6 @@ public partial class ChronoJumpWindow
 			{ 
 				changeTo = ! curve.Record;
 				
-				Log.WriteLine(i.ToString() + " was: " + curve.Record.ToString() + "; will be: " + (! curve.Record).ToString());
-
 				//change value
 				((EncoderCurve) encoderCaptureListStore.GetValue (iter, 0)).Record = changeTo;
 
@@ -340,13 +341,16 @@ public partial class ChronoJumpWindow
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
 		//combo_encoder_capture_show_save_curve_button();
-			
+		
+		/* temporarily removed message
+		 *
 		string message = "";
 		if(saveOption == Constants.EncoderAutoSaveCurve.NONE)
 			message = Catalog.GetString("Removed");
 		else
 			message = Catalog.GetString("Saved");
 		label_encoder_curve_action.Text = message + " " + messageRows;
+		*/
 
 			
 		updateUserCurvesLabelsAndCombo();

@@ -6114,8 +6114,11 @@ Console.WriteLine("X");
 		frame_persons.Sensitive = true;
 
 		button_execute_test.Sensitive = true;
-		
-		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
+	
+		if(encoderCaptureCurves != null && encoderCaptureCurves.Count > 0)
+			encoderButtonsSensitive(encoderSensEnum.DONEYESSIGNAL);
+		else
+			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 
 		//hbox
 		hbox_jumps_test.Sensitive = true;

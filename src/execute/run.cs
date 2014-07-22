@@ -113,8 +113,8 @@ public class RunExecute : EventExecute
 	
 	public override void Manage()
 	{
-Log.WriteLine("MANAGE!!!!");
-			
+		Log.WriteLine("MANAGE!!!!");
+
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 
@@ -122,9 +122,9 @@ Log.WriteLine("MANAGE!!!!");
 			platformState = Chronopic.Plataforma.ON;
 		else
 			platformState = chronopicInitialValue(cp);
-
-Log.WriteLine("MANAGE(b)!!!!");
 		
+		Log.WriteLine("MANAGE(b)!!!!");
+
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
 		if (platformState==Chronopic.Plataforma.ON) {
@@ -176,13 +176,12 @@ Log.WriteLine("MANAGE(b)!!!!");
 		cancel = false;
 		totallyCancelled = false;
 
-
-Log.WriteLine("MANAGE(2)!!!!");
+		Log.WriteLine("MANAGE(2)!!!!");
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
-Log.WriteLine("MANAGE(3)!!!!");
+		Log.WriteLine("MANAGE(3)!!!!");
 	}
 	
 	protected override void waitEvent ()
@@ -205,7 +204,7 @@ Log.WriteLine("MANAGE(3)!!!!");
 			
 			//if (ok) {
 			if (ok && !cancel) {
-//Log.WriteLine("timestamp:" + timestamp);
+				//Log.WriteLine("timestamp:" + timestamp);
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -970,8 +969,8 @@ public class RunIntervalExecute : RunExecute
 			needEndEvent = true; //used for hiding some buttons on eventWindow, and also for updateTimeProgressBar here
 		}
 	}
-
-/*
+	
+	/*
 	public string IntervalTimesString
 	{
 		get { return intervalTimesString; }
@@ -1022,8 +1021,7 @@ public class RunIntervalExecute : RunExecute
 			//	return (distanceTotal / timeTotal) * 3.6 ; 
 		}
 	}
-*/
-	
+	*/
 		
 		
 	~RunIntervalExecute() {}

@@ -321,6 +321,9 @@ Log.WriteLine("bbb");
 					myCPD.Add(b);
 				}
 				Create (myCPD, encoderPort, true, volumeOn);
+				
+				connected = false;
+				
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("One or more Chronopics have been disconnected.") + "\n" + 
 						Catalog.GetString("Please connect again, and configure on Chronopic window."));
@@ -934,6 +937,7 @@ Log.WriteLine("bbb");
 	//connected to a Chronopic	
 	public bool Connected {
 		get { return connected; }
+		set { connected = value; }
 	}
 	
 	public Button FakeWindowDone {

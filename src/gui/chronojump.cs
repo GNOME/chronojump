@@ -3704,7 +3704,7 @@ Console.WriteLine("X");
 		
 		if( currentJumpType.StartIn ) 
 			currentEventExecute.Manage();
-		 else 
+		else 
 			currentEventExecute.ManageFall();
 		
 		thisJumpIsSimple = true; //used by: on_event_execute_update_graph_in_progress_clicked
@@ -3776,6 +3776,7 @@ Log.WriteLine("DDD 1");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -3953,6 +3954,7 @@ Log.WriteLine("DDD 2");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -4093,6 +4095,7 @@ Log.WriteLine("DDD 2");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -4237,6 +4240,7 @@ Log.WriteLine("DDD 2");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -4336,6 +4340,7 @@ Log.WriteLine("DDD 2");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -4465,6 +4470,7 @@ Log.WriteLine("DDD 2");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		
 		if (currentEventExecute.Cancel)
@@ -4735,6 +4741,7 @@ Console.WriteLine("X");
 		else if( currentEventExecute.ChronopicDisconnected ) {
 			Log.WriteLine("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
+			chronopicWin.Connected = false;
 		}
 		if (currentEventExecute.Cancel)
 			sensitiveGuiEventDone();

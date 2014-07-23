@@ -130,9 +130,15 @@ public class UtilEncoder
 				fileName = uniqueID.ToString() + "-" + personName + "-" +
 						timeStamp + ".txt";
 				
-				File.Copy(GetEncoderDataTempFileName(), 
-						GetEncoderSessionDataSignalDir(sessionID) + 
-						Path.DirectorySeparatorChar + fileName, true);
+				try {
+					File.Copy(GetEncoderDataTempFileName(), 
+							GetEncoderSessionDataSignalDir(sessionID) + 
+							Path.DirectorySeparatorChar + fileName, true);
+				} catch {
+					new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
+					Log.WriteLine(Constants.FileCopyProblem);
+					return "";
+				}
 //			}
 		}
 		return fileName;

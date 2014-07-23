@@ -770,7 +770,7 @@ public partial class ChronoJumpWindow
 		string [] columnsString = {
 			Catalog.GetString("ID"),
 			Catalog.GetString("Active"),	//checkboxes
-			Catalog.GetString("Curve"),
+			Catalog.GetString("Repetition"),
 			Catalog.GetString("Exercise"),
 			"RL",
 			Catalog.GetString("Extra weight"),
@@ -803,9 +803,9 @@ public partial class ChronoJumpWindow
 		}
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Saved curves of athlete {0} on this session."), 
+				string.Format(Catalog.GetString("Saved repetitions of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
-				Catalog.GetString("Activate the curves you want to use clicking on first column.") + "\n" +
+				Catalog.GetString("Activate the repetitions you want to use clicking on first column.") + "\n" +
 				Catalog.GetString("If you want to edit or delete a row, right click on it.") + "\n",
 				bigArray);
 
@@ -821,7 +821,7 @@ public partial class ChronoJumpWindow
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
 		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected curve") + 
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected repetition") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.ShowEditRow(false);
 		genericWin.CommentColumn = 10;
@@ -924,7 +924,7 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_show_curves_row_delete_pre (object o, EventArgs args) {
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this curve?"), "", "");
+						"Are you sure you want to delete this repetition?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
 		} else
 			on_encoder_show_curves_row_delete (o, args);
@@ -1019,8 +1019,8 @@ public partial class ChronoJumpWindow
 			Catalog.GetString("ID"),
 			"",				//checkboxes
 			Catalog.GetString("Person name"),
-			Catalog.GetString("Selected\ncurves"),
-			Catalog.GetString("All\ncurves")
+			Catalog.GetString("Selected\nrepetitions"),
+			Catalog.GetString("All\nrepetitions")
 		};
 
 		ArrayList bigArray = new ArrayList();
@@ -1112,8 +1112,8 @@ public partial class ChronoJumpWindow
 			"",				//checkboxes
 			Catalog.GetString("Session name"),
 			Catalog.GetString("Session date"),
-			Catalog.GetString("Selected\ncurves"),
-			Catalog.GetString("All\ncurves")
+			Catalog.GetString("Selected\nrepetitions"),
+			Catalog.GetString("All\nrepetitions")
 		};
 
 		ArrayList bigArray = new ArrayList();
@@ -1128,7 +1128,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a2);
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Compare curves of {0} from this session with the following sessions."), 
+				string.Format(Catalog.GetString("Compare repetitions of {0} from this session with the following sessions."), 
 					currentPerson.Name), bigArray);
 
 		//convert data from array of EncoderPersonCurvesInDB to array of strings []
@@ -1184,7 +1184,7 @@ public partial class ChronoJumpWindow
 		
 		string [] columnsString = {
 			Catalog.GetString("ID"),
-			Catalog.GetString("Signal"),
+			Catalog.GetString("Set"),
 			Catalog.GetString("Exercise"),
 			"RL",
 			Catalog.GetString("Extra weight"),
@@ -1206,7 +1206,7 @@ public partial class ChronoJumpWindow
 		bigArray.Add(a2);
 		
 		genericWin = GenericWindow.Show(false,	//don't show now
-				string.Format(Catalog.GetString("Select signal of athlete {0} on this session."), 
+				string.Format(Catalog.GetString("Select set of athlete {0} on this session."), 
 					currentPerson.Name) + "\n" + 
 				Catalog.GetString("If you want to edit or delete a row, right click on it."), bigArray);
 
@@ -1219,7 +1219,7 @@ public partial class ChronoJumpWindow
 	        foreach	(Person p in personsPre)
 			persons[count++] = p.UniqueID.ToString() + ":" + p.Name;
 		genericWin.SetComboValues(persons, currentPerson.UniqueID + ":" + currentPerson.Name);
-		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected signal") + 
+		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.ShowEditRow(false);
 		genericWin.CommentColumn = 9;
@@ -1319,7 +1319,7 @@ public partial class ChronoJumpWindow
 	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), Catalog.GetString("Saved curves related to this signal will also be deleted."), "");
+						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
 		} else
 			on_encoder_load_signal_row_delete (o, args);
@@ -1552,7 +1552,7 @@ public partial class ChronoJumpWindow
 	{
 		if(askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
-						"Are you sure you want to delete this signal?"), Catalog.GetString("Saved curves related to this signal will also be deleted."), "");
+						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
 		} else
 			on_button_encoder_delete_signal_accepted (o, args);
@@ -1571,7 +1571,7 @@ public partial class ChronoJumpWindow
 		treeviewEncoderCaptureRemoveColumns();
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-		encoder_pulsebar_capture.Text = Catalog.GetString("Signal deleted");
+		encoder_pulsebar_capture.Text = Catalog.GetString("Set deleted");
 		//entry_encoder_signal_comment.Text = "";
 	}
 
@@ -1755,7 +1755,7 @@ public partial class ChronoJumpWindow
 			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
-				feedback = Catalog.GetString("Signal saved");
+				feedback = Catalog.GetString("Set saved");
 			
 				button_video_play_this_test_encoder.Sensitive = false;
 				//copy video	
@@ -1780,7 +1780,7 @@ public partial class ChronoJumpWindow
 		else {
 			//only signal is updated
 			SqliteEncoder.Update(false, eSQL); //Adding on SQL
-			feedback = Catalog.GetString("Signal updated");
+			feedback = Catalog.GetString("Set updated");
 		}
 		
 		return feedback;
@@ -1802,7 +1802,7 @@ public partial class ChronoJumpWindow
 					false, true);
 			if(data.Count == 0) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("Sorry, no curves selected."));
+						Catalog.GetString("Sorry, no repetitions selected."));
 				return;
 			}
 		
@@ -1823,7 +1823,7 @@ public partial class ChronoJumpWindow
 					)) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						Catalog.GetString("Sorry, this graph is not supported yet.") +
-						"\n\nUser curves - compare - cross variables" +
+						"\n\nSaved repetitions - compare - cross variables" +
 						"\n- Speed,Power / Load" +
 						"\n- 1RM Bench Press" +
 						"\n- 1RM Any exercise"

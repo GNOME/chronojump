@@ -427,7 +427,7 @@ public partial class ChronoJumpWindow
 
 
 	string [] treeviewEncoderAnalyzeHeaders = {
-		Catalog.GetString("Curve") + "\n",
+		Catalog.GetString("Repetition") + "\n",
 		Catalog.GetString("Series") + "\n",
 		Catalog.GetString("Exercise") + "\n",
 		Catalog.GetString("Extra weight") + "\n (Kg)",

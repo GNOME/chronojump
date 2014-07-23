@@ -788,7 +788,7 @@ public class Constants
 		"land",
 		"air",
 		"jump height",
-		"Curve",
+		"Repetition",
 		"Not enough data.",
 		"Encoder is not connected.", 
 		"prediction",
@@ -796,13 +796,13 @@ public class Constants
 		"Estimated percentual load =",
 		"Adapted from",
 		"Mean speed in concentric propulsive phase",
-		"Sorry, no curves matched your criteria.",
+		"Sorry, no repetitions matched your criteria.",
 		"Need 6 jumps and 4 phases for each jump",
 		"Need at least three jumps executed on the odd concentric phases",
 		"Starting R",
 		"Loading libraries",
 		"Starting process",
-		"Curves processed",
+		"Repetitions processed",
 		"R tasks done"
 	};
 	/*
@@ -834,7 +834,7 @@ public class Constants
 		Catalog.GetString("land"),
 		Catalog.GetString("air"),
 		Catalog.GetString("jump height"),
-		Catalog.GetString("Curve"),
+		Catalog.GetString("Repetition"),
 		Catalog.GetString("Not enough data."),
 		Catalog.GetString("Encoder is not connected."),
 		Catalog.GetString("prediction"),
@@ -842,13 +842,13 @@ public class Constants
 		Catalog.GetString("Estimated percentual load ="),
 		Catalog.GetString("Adapted from"),
 		Catalog.GetString("Mean speed in concentric propulsive phase"),
-		Catalog.GetString("Sorry, no curves matched your criteria."),
+		Catalog.GetString("Sorry, no repetitions matched your criteria."),
 		Catalog.GetString("Need 6 jumps and 4 phases for each jump"),
 		Catalog.GetString("Need at least three jumps executed on the odd concentric phases"),
 		Catalog.GetString("Starting R"),
 		Catalog.GetString("Loading libraries"),
 		Catalog.GetString("Starting process"),
-		Catalog.GetString("Curves processed"),
+		Catalog.GetString("Repetitions processed"),
 		Catalog.GetString("R tasks done")
 	};
 }

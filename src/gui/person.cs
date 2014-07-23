@@ -2439,8 +2439,8 @@ public class PersonShowAllEventsWindow {
 		tv.AppendColumn ( Catalog.GetString ("Reaction\ntime"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("Pulses"), new CellRendererText(), "text", count++);
 		tv.AppendColumn ( Catalog.GetString ("MultiChronopic"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Encoder signals"), new CellRendererText(), "text", count++);
-		tv.AppendColumn ( Catalog.GetString ("Encoder curves"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Encoder sets"), new CellRendererText(), "text", count++);
+		tv.AppendColumn ( Catalog.GetString ("Encoder repetitions"), new CellRendererText(), "text", count++);
 	}
 	
 	protected void fillTreeView (Gtk.TreeView tv, TreeStore store, int personID) {

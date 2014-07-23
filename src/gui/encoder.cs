@@ -1721,6 +1721,11 @@ public partial class ChronoJumpWindow
 
 			fileSaved = UtilEncoder.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
+			
+			//there was a problem copying
+			if(fileSaved == "")
+				return "";
+
 			path = UtilEncoder.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
 

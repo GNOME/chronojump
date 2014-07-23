@@ -3534,6 +3534,13 @@ Console.WriteLine("X");
 			on_normal_run_activate(o, args);
 		}
 		else if(radio_mode_runs_intervallic_small.Active) {
+			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
+			if(currentRunIntervalType.IsRSA && !chronopicWin.Connected) {
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						Catalog.GetString("Sorry, RSA tests cannot be simulated."));
+				return;
+			}
+
 			extra_window_runs_interval_distance = (double) extra_window_runs_interval_spinbutton_distance.Value;
 			extra_window_runs_interval_limit = extra_window_runs_interval_spinbutton_limit.Value;
 			

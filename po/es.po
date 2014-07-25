@@ -15,15 +15,15 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-07-23 12:50+0000\n"
-"PO-Revision-Date: 2014-07-24 13:25+0200\n"
-"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
+"PO-Revision-Date: 2014-07-25 14:00+0100\n"
+"Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -2529,10 +2529,9 @@ msgid "How to calculate these statistics:"
 msgstr "Cómo calcular estas estadísticas:"
 
 #: ../glade/chronojump.glade.h:571
-#, fuzzy
 #| msgid "Average Index"
 msgid "Arms Use Index"
-msgstr "Índice medio"
+msgstr "Índice de Utilización de Brazos"
 
 #: ../glade/chronojump.glade.h:572
 msgid "Use height"
@@ -3958,10 +3957,9 @@ msgid "concentric"
 msgstr "concéntrico"
 
 #: ../src/constants.cs:834
-#, fuzzy
 #| msgid "Poland"
 msgid "land"
-msgstr "Polonia"
+msgstr "Tierra"
 
 #: ../src/constants.cs:835
 msgid "air"
@@ -3992,7 +3990,7 @@ msgstr "predicción"
 
 #: ../src/constants.cs:841
 msgid "Concentric mean speed on bench press 1RM is"
-msgstr ""
+msgstr "La velocidad media en la fase concéntrica del press de banca 1RM es"
 
 #: ../src/constants.cs:842
 msgid "Estimated percentual load ="
@@ -4018,6 +4016,8 @@ msgstr "Se necesitan 6 saltos y 4 fases para cada salto"
 #: ../src/constants.cs:847
 msgid "Need at least three jumps executed on the odd concentric phases"
 msgstr ""
+"Necesita un mínimo de tres saltos ejecutados en las fases concéntricas "
+"impares"
 
 #: ../src/constants.cs:848
 msgid "Starting R"
@@ -4055,15 +4055,15 @@ msgstr "Concéntrico-excéntrico"
 #. demultiplication
 #: ../src/encoder.cs:881 ../src/encoder.cs:949 ../src/encoder.cs:971
 msgid "Linear encoder attached to a barbell."
-msgstr ""
+msgstr "Encoder lineal conectado a la barra."
 
 #: ../src/encoder.cs:882
 msgid "Also common gym tests like jumps or chin-ups."
-msgstr ""
+msgstr "También tests comunes de gimnasio como dominadas o saltos."
 
 #: ../src/encoder.cs:929 ../src/encoder.cs:960 ../src/encoder.cs:982
 msgid "Linear encoder inverted attached to a barbell."
-msgstr ""
+msgstr "Encoder lineal invertido conectado a la barra."
 
 #: ../src/encoder.cs:936
 msgid "Linear encoder on inertia machine."
@@ -4076,7 +4076,7 @@ msgstr "Configuración no recomendada. Use un codificador rotatorio."
 #: ../src/encoder.cs:938 ../src/encoder.cs:1041 ../src/encoder.cs:1054
 #: ../src/encoder.cs:1082
 msgid "Person has to start fully extended (on the toes)."
-msgstr ""
+msgstr "El atleta debe estar en extensión completa (de puntillas)."
 
 #: ../src/encoder.cs:939 ../src/encoder.cs:1042 ../src/encoder.cs:1055
 #: ../src/encoder.cs:1083
@@ -4084,21 +4084,25 @@ msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
 msgstr ""
+"En las máquinas inerciales, 'd' se refiere al diámetro medio donde se "
+"enrolla la cuerda de tirón-empuje."
 
 #: ../src/encoder.cs:950 ../src/encoder.cs:961
 msgid "Barbell is connected to a weighted moving pulley."
-msgstr ""
+msgstr "La barra se conecta a una polea móvil ponderada."
 
 #: ../src/encoder.cs:951 ../src/encoder.cs:962 ../src/encoder.cs:973
 #: ../src/encoder.cs:984 ../src/encoder.cs:994 ../src/encoder.cs:1094
 msgid "Mass is geared down by 2."
-msgstr ""
+msgstr "La masa se divide por dos."
 
 #: ../src/encoder.cs:972 ../src/encoder.cs:983
 msgid ""
 "Barbell is connected to a fixed pulley that is connected to a weighted "
 "moving pulley."
 msgstr ""
+"La barra se conecta a una polea fija que está conectada a una pesa móvil "
+"ponderada."
 
 #: ../src/encoder.cs:993
 msgid "Linear encoder attached to a weighted moving pulley."
@@ -5242,15 +5246,15 @@ msgstr "Acerca del perfil neuromuscular"
 
 #: ../src/gui/encoder.cs:2680
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
-msgstr ""
+msgstr "Load = RFD (Ratio of Force Development) excéntrico medio"
 
 #: ../src/gui/encoder.cs:2681
 msgid "Explode = Average relative concentric RFD"
-msgstr ""
+msgstr "Eplode = Promedio del RFD concéntrico relativo"
 
 #: ../src/gui/encoder.cs:2682
 msgid "Drive = Average relative concentric Impulse"
-msgstr ""
+msgstr "Eplode = Promedio del impulso concéntrico relativo"
 
 #: ../src/gui/encoder.cs:2683
 msgid ""
@@ -5258,12 +5262,17 @@ msgid ""
 "(always add individual considerations as previous or actual injuries, sport "
 "specificity, muscular chains, etc.)."
 msgstr ""
+"Recomendaciones para intentar desarrollar un perfil neuromuscular "
+"'equilibrado' (hay que tener en cuenta también las lesiones actuales o "
+"anteriores, especificidad del deporte, cadenas musculares, etc.)."
 
 #: ../src/gui/encoder.cs:2684
 msgid ""
 "If one of the metrics is under developed (weak) compared with the other two, "
 "prescribe exercises that emphasize its development."
 msgstr ""
+"Si una de las métricas es baja comparada con las otras dos, prescribir "
+"ejercicios que enfaticen su desarrollo."
 
 #: ../src/gui/encoder.cs:2685
 msgid ""
@@ -5271,6 +5280,9 @@ msgid ""
 "two, prescribe exercises to emphasize those, but paying attention to "
 "flexibility and relaxation of over working muscles."
 msgstr ""
+"Si una de las métricas está muy por encima respecto las otras dos, "
+"prescribir ejercicios para mejorar las otras, pero cuidando la flexibilidad "
+"y relajación de los músculos que hacen el sobreesfuerzo."
 
 #: ../src/gui/encoder.cs:2687
 msgid "General guidelines to improve the neuromuscular profile:"
@@ -5287,16 +5299,22 @@ msgstr ""
 #: ../src/gui/encoder.cs:2690
 msgid "Then switch to exercises that develop eccentric force in short time."
 msgstr ""
+"Entonces cambiar a ejercicios que desarrollen la fuerza excéntrica en "
+"tiempos cortos."
 
 #: ../src/gui/encoder.cs:2692
 msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
 msgstr ""
+"Explode: Realizar ejercicios que desarrollen la fuerza en tiempo corto y "
+"máxima fuerza."
 
 #: ../src/gui/encoder.cs:2693
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
+"Drive: Realizar ejercicios donde la fuerza se desarrolle a lo largo de más "
+"tiempo."
 
 #: ../src/gui/encoder.cs:2695
 msgid "Analysis uses the best three jumps using 'jump height' criterion."
@@ -8361,6 +8379,8 @@ msgid ""
 "{0} in Dj Power [mass * g * (fallHeight + 1.226 * (tv^2) ) / (tc+tv)] "
 "applied to {1} on {2}"
 msgstr ""
+"{0} en Dj Power [masa * g * (altura de caída + 1.226 * (tv^2) ) / (tc+tv)] "
+"aplicado a {1} on {2}"
 
 #: ../src/stats/djQ.cs:32
 msgid "Q Index"
@@ -8960,715 +8980,3 @@ msgstr "Tiempo fraccionado"
 
 #~ msgid "Capturing"
 #~ msgstr "Capturando"
-
-#~| msgid "From session"
-#~ msgid "Processing"
-#~ msgstr "Procesando"
-
-#~ msgid "Body angle"
-#~ msgstr "Ángulo del cuerpo"
-
-#~ msgid "Recording"
-#~ msgstr "Grabando"
-
-#~| msgid "0 seconds"
-#~ msgid "Record 10 seconds"
-#~ msgstr "Grabar 10 segundos"
-
-#~ msgid "Help on encoder types"
-#~ msgstr "Ayuda sobre tipos de codificadores"
-
-#~ msgid "Load encoder configuration"
-#~ msgstr "Cargar configuración del codificador"
-
-#~ msgid "Save encoder configuration"
-#~ msgstr "Guardar la configuración del codificador"
-
-#~ msgid "Linear encoder (default)"
-#~ msgstr "Codificador lineal (predeterminado)"
-
-#~ msgid "Rotary"
-#~ msgstr "Rotatorio"
-
-#~ msgid "Rotary encoder"
-#~ msgstr "Codificador rotatorio"
-
-#~ msgid "Inverted"
-#~ msgstr "Invertido"
-
-#~ msgid "Friction"
-#~ msgstr "Fricción"
-
-#~ msgid "Axis"
-#~ msgstr "Ejes"
-
-#~ msgid "Inertial machine (Yoyo, VersaPulley)"
-#~ msgstr "Máquina inercial (Yoyo, VersaPulley)"
-
-#~ msgid "Diameter"
-#~ msgstr "Diámetro"
-
-#~ msgid "External"
-#~ msgstr "Externo"
-
-#~ msgid "Type:"
-#~ msgstr "Tipo:"
-
-#~ msgid "Update signal (save it again if changed)"
-#~ msgstr "Actualizar señal (guardarla otra vez si ha cambiado)"
-
-#~ msgid "Inertia Momentum"
-#~ msgstr "Momento de la inercia"
-
-#~ msgid "Chonojump"
-#~ msgstr "Chronojump"
-
-#~ msgid "0.6"
-#~ msgstr "0.6"
-
-#~ msgid "0.7"
-#~ msgstr "0.7"
-
-#~ msgid "Finish"
-#~ msgstr "Terminar"
-
-#~ msgid "Exported to {0}"
-#~ msgstr "Exportada a {0}"
-
-#~ msgid "Sorry, photos are disabled on this version."
-#~ msgstr "Disculpe, las fotos están desactivadas en esta versión."
-
-#~ msgid ""
-#~ "On jumps results tab, power is calculated depending on jump type:\n"
-#~ "\n"
-#~ "Jumps with TC & TF: Bosco Relative Power (W/Kg)\n"
-#~ "P = 24.6 * (Total time + Flight time) / Contact time\n"
-#~ "\n"
-#~ "Jumps without TC: Lewis Peak Power 1974 (W)\n"
-#~ "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
-#~ "meters)\n"
-#~ "\n"
-#~ "If you want to use other formulas, go to Statistics."
-#~ msgstr ""
-#~ "En la ventana de resultados, la potencia se calcula dependiendo del tipo "
-#~ "de salto:\n"
-#~ "\n"
-#~ "Saltos con TC y TV: Potencia Relativa de Bosco (W/Kg)\n"
-#~ "P = 24.6 * (Tiempo total + Tiempo de vuelo) / Tiempo de contacto\n"
-#~ "\n"
-#~ "Saltos sin TC: Lewis Peak Power 1974 (W)\n"
-#~ "P = SQRT(4.9) * 9.8 * (peso corporal+peso extra) * SQRT(altura de salto "
-#~ "en metros)\n"
-#~ "\n"
-#~ "Si desea usar otras fórmulas, vaya a Estadísticas."
-
-#~ msgid "hiddennothing"
-#~ msgstr "no ocultar nada"
-
-#~ msgid "Separated"
-#~ msgstr "Separadas"
-
-#~ msgid "RSA test 1"
-#~ msgstr "Test RSA 1"
-
-#~ msgid "Capture from encoder"
-#~ msgstr "Capturar del codificador"
-
-#~ msgid "Chronopic is on one of these ports"
-#~ msgstr "Chronopic se encuentra en uno de los siguientes puertos"
-
-#~ msgid ""
-#~ "This dialog explains which ports are suitable to be connected with "
-#~ "Chronopic"
-#~ msgstr ""
-#~ "Este diálogo explica qué puertos son apropiados para conectar con "
-#~ "Chronopic"
-
-#~ msgid "Detection"
-#~ msgstr "Detección"
-
-#~ msgid "Logs directory"
-#~ msgstr "Carpeta del registro"
-
-#~ msgid "Exported to file: "
-#~ msgstr "Exportado al archivo: "
-
-#~| msgid "Input length oj jump in centimeters"
-#~ msgid "Input length of jump in centimeters"
-#~ msgstr "Longitud de la entrada en centímetros"
-
-#~ msgid "COM3 use to be the correct port (if available)."
-#~ msgstr "COM3 suele ser el puerto correcto (si está disponible)."
-
-#~ msgid ""
-#~ "If you want a safer port, press help button and press 'Force Chronopic to "
-#~ "port COM1 - COM4'."
-#~ msgstr ""
-#~ "Si desea usar un puerto más seguro, pulse el botón de ayuda y pulse "
-#~ "'Forzar Chronopic a los puertos COM1 - COM4'."
-
-#~ msgid ""
-#~ "These are USB devices like Chronopic but also pendrives, USB printers..."
-#~ msgstr ""
-#~ "Estos son dispositivos USB como Chronopic, pero también pendrives, "
-#~ "impresoras USB..."
-
-#~ msgid "Edit selected person (p)"
-#~ msgstr "Editar atleta seleccionado (p)"
-
-#~ msgid "All reactive Jumps"
-#~ msgstr "Todos los saltos reactivos"
-
-#~ msgid "Person AVG"
-#~ msgstr "Media personal"
-
-#~ msgid "Session AVG"
-#~ msgstr "Media de sesión"
-
-#~ msgid "Jump Reactive"
-#~ msgstr "Salto reactivo"
-
-#~ msgid "Multimedia"
-#~ msgstr "Multimedia"
-
-#~ msgid "Execute query"
-#~ msgstr "Realizar consulta"
-
-#~ msgid "Experimental webcam record has been disabled."
-#~ msgstr "Se ha desactivado la grabación por webcam."
-
-#~ msgid "Sound activated."
-#~ msgstr "Sonido activado."
-
-#~ msgid "No Sound."
-#~ msgstr "Sin sonidos."
-
-#~ msgid "Enabled test video recording and person's snapshots."
-#~ msgstr "Activada la grabación de las pruebas y fotografías de los atletas."
-
-#~ msgid "Disabled video and snapshots."
-#~ msgstr "Desactivado el vídeo y las fotografías."
-
-#~ msgid "Proceed"
-#~ msgstr "Proceder"
-
-#~ msgid "Connected Chronopics"
-#~ msgstr "Chronopic conectados"
-
-#~ msgid "Configure Chronopic/s"
-#~ msgstr "Configurar Chronopic/s"
-
-#~ msgid "Configure connection with external hardware."
-#~ msgstr "Configurar la conexión con el hardware."
-
-#~| msgid "<b>Chronopic connection</b>"
-#~ msgid "Chronopic connection"
-#~ msgstr "Conexión de Chronopic"
-
-#~ msgid ""
-#~ "Track distance\n"
-#~ "(between platforms)"
-#~ msgstr ""
-#~ "Distancia del tramo\n"
-#~ "(entre plataformas)"
-
-#~ msgid "<b>Results</b>"
-#~ msgstr "<b>Resultados</b>"
-
-#~ msgid "<b>Exercise</b>"
-#~ msgstr "<b>Ejercicio</b>"
-
-#~ msgid "<b>Signal</b>"
-#~ msgstr "<b>Señal</b>"
-
-#~ msgid "<b>Data</b>"
-#~ msgstr "<b>Datos</b>"
-
-#~ msgid "<b>Mode</b>"
-#~ msgstr "<b>Modo</b>"
-
-#~ msgid "<b>Info</b>"
-#~ msgstr "<b>Información</b>"
-
-#~ msgid "<b>Help</b>"
-#~ msgstr "<b>Ayuda</b>"
-
-#~ msgid "<b>Tests</b>"
-#~ msgstr "<b>Pruebas</b>"
-
-#, fuzzy
-#~| msgid "<b>TC</b>"
-#~ msgid "<b>slCMJ</b>"
-#~ msgstr "<b>TC</b>"
-
-#~ msgid "<b>Vertical Axe</b>"
-#~ msgstr "<b>Eje vertical</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>Otro</b>"
-
-#~ msgid "<b>Name</b>"
-#~ msgstr "<b>Nombre</b>"
-
-#~ msgid "<b>Full name</b>"
-#~ msgstr "<b>Nombre completo</b>"
-
-#~ msgid "<b>Sex</b>"
-#~ msgstr "<b>Sexo</b>"
-
-#~ msgid "<b>Date of Birth</b>"
-#~ msgstr "<b>Fecha nacimiento</b>"
-
-#~ msgid "<b>Weight</b>"
-#~ msgstr "<b>Peso</b>"
-
-#~ msgid "<b>Speciallity</b>"
-#~ msgstr "<b>Especialidad</b>"
-
-#~ msgid "<b>Level</b>"
-#~ msgstr "<b>Nivel</b>"
-
-#~ msgid "<b>Evaluator</b>"
-#~ msgstr "<b>Evaluador</b>"
-
-#~ msgid "<b>TF</b>"
-#~ msgstr "<b>TV</b>"
-
-#~ msgid "<b>TC</b>"
-#~ msgstr "<b>TC</b>"
-
-#~ msgid "label"
-#~ msgstr "etiqueta"
-
-#~ msgid ""
-#~ "Translator, there's a glossary that will help you in Chronojump "
-#~ "translation:\n"
-#~ " http://svn.gnome.org/svn/chronojump/trunk/glossary/"
-#~ "chronojump_glossary_for_translators.html"
-#~ msgstr ""
-#~ "Traductor, existe un glosario que le ayudará en la traducción de "
-#~ "Chronojump:\n"
-#~ " http://svn.gnome.org/svn/chronojump/trunk/glossary/"
-#~ "chronojump_glossary_for_translators.html"
-
-#~ msgid "Recalculate"
-#~ msgstr "Recalcular"
-
-#~ msgid "Load / Power"
-#~ msgstr "Carga / potencia"
-
-#~ msgid "Superpose"
-#~ msgstr "Superponer"
-
-#~ msgid "Ecc-conc phases"
-#~ msgstr "Fases ecc-conc"
-
-#~ msgid "pulse extra data"
-#~ msgstr "Datos extra del pulso"
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "Add an optional description"
-#~ msgstr "Añadir una descripción opcional"
-
-#~ msgid "<b>Power</b> (W)"
-#~ msgstr "<b>Potencia</b> (W)"
-
-#~ msgid "<b>Main options</b>"
-#~ msgstr "<b>Opciones principales</b>"
-
-#~ msgid "Conditions in repetive test"
-#~ msgstr "Condiciones en una prueba repetitiva"
-
-#~ msgid "<b>persons</b>"
-#~ msgstr "<b>atletas</b>"
-
-#~ msgid "Work in progress"
-#~ msgstr "Trabajo en progreso"
-
-#~ msgid ""
-#~ "Simulated tests will be discarded.\n"
-#~ "Evaluator can use real name or nickname."
-#~ msgstr ""
-#~ "Las pruebas simuladas serán descartadas.\n"
-#~ "El evaluador puede usar un nombre real o un nick."
-
-#~ msgid "Typical serial serial ports on GNU/Linux:"
-#~ msgstr "Puertos serie típicos en GNU/Linux:"
-
-#~ msgid ""
-#~ "Attention, current version of Chronojump gets hanged on exit\n"
-#~ "if user has cancelled detection of Chronopic."
-#~ msgstr ""
-#~ "Atención, la versión actual de Chronojump se bloquea al salir\n"
-#~ "si el usuario ha cancelado la detección de Chronopic,"
-
-#~ msgid "Sorry, you will have to close Chronojump using CTRL + ALT + DEL."
-#~ msgstr "Lo sentimos, deberá cerrar Chronojump usando CTRL + ALT + SUP."
-
-#~ msgid "Jumps: Simple"
-#~ msgstr "Saltos: Simple"
-
-#~ msgid ""
-#~ "<b>Simulated\n"
-#~ "Test</b>"
-#~ msgstr ""
-#~ "<b>Prueba\n"
-#~ "simulada</b>"
-
-#~ msgid "Abalakov Jump (CounterMovement using arms)"
-#~ msgstr "Salto Abalakov (contramovimiento usando los brazos)"
-
-#~ msgid "Chronojump Statistics window"
-#~ msgstr "Ventana de estadísticas de ChronoJump"
-
-#~ msgid "Custom pulse"
-#~ msgstr "Personalizar pulso"
-
-#~ msgid "Delete intervallic run type"
-#~ msgstr "Borrar tipo de carrera con tramos "
-
-#~ msgid "Delete reactive jump type"
-#~ msgstr "Borrar tipo de salto reactivo"
-
-#~ msgid "Delete selected RJ jump"
-#~ msgstr "Borrar salto RJ seleccionado"
-
-#~ msgid "Delete selected intervallic run"
-#~ msgstr "Borrar la carrera con tramos"
-
-#~ msgid "Delete selected jump"
-#~ msgstr "Borrar salto seleccionado"
-
-#~ msgid "Delete selected run"
-#~ msgstr "Borrar carrera seleccionada"
-
-#~ msgid "Delete simple run type"
-#~ msgstr "Borrar tipo de carrera simple"
-
-#~ msgid "Description:"
-#~ msgstr "Descripción:"
-
-#~ msgid "Edit selected RJ jump"
-#~ msgstr "Editar salto RJ seleccionado"
-
-#~ msgid "Edit selected intervallic run"
-#~ msgstr "Editar la carrera con tramos seleccionada"
-
-#~ msgid "Edit selected jump"
-#~ msgstr "Editar salto seleccionado"
-
-#~ msgid "Edit selected run"
-#~ msgstr "Editar carrera seleccionada"
-
-#~ msgid "Execute intervallic runs"
-#~ msgstr "Ejecutar carreras con tramos"
-
-#~ msgid "Execute reactive jump"
-#~ msgstr "Ejecutar salto reactivo"
-
-#~ msgid "Execute simple jump"
-#~ msgstr "Ejecutar salto simple"
-
-#~ msgid "Execute simple run"
-#~ msgstr "Ejecutar carrera simple"
-
-#~ msgid "Extra data for this jump"
-#~ msgstr "Datos extra para este salto"
-
-#~ msgid "Extra data for this pulse"
-#~ msgstr "Datos extra para este pulso"
-
-#~ msgid "Extra data for this run"
-#~ msgstr "Datos extra para esta carrera"
-
-#~ msgid "Free pulse"
-#~ msgstr "Pulso libre"
-
-#~ msgid "Gesell Dynamic balance test"
-#~ msgstr "Test de equlibrio dinámico de Gesell"
-
-#~ msgid "Goto server website"
-#~ msgstr "Ir a la página web del servidor"
-
-#~ msgid "Jumper's bests"
-#~ msgstr "Máximo/s del saltador"
-
-#~ msgid "Maximum Jump (like Abalakov but with free technique)"
-#~ msgstr "Salto máximo (como Abalakov pero con técnica libre)"
-
-#~ msgid "More"
-#~ msgstr "Más"
-
-#~ msgid "More intervallic runs"
-#~ msgstr "Más carreras con tramos"
-
-#~ msgid "More reactive jumps"
-#~ msgstr "Más saltos reactivos"
-
-#~ msgid "Multi Chronopic start"
-#~ msgstr "MultiChronopic inicio"
-
-#~ msgid "RJ(unlimited)"
-#~ msgstr "RJ(ilimitado)"
-
-#~ msgid "Repair selected RJ jump"
-#~ msgstr "Reparar salto reactivo seleccionado"
-
-#~ msgid "Repair selected intervallic run"
-#~ msgstr "Reparar carrera con tramos seleccionada"
-
-#~ msgid "Repeat last"
-#~ msgstr "Repetir anterior"
-
-#~ msgid "Report"
-#~ msgstr "Informe"
-
-#~ msgid "S_tats"
-#~ msgstr "Estadísticas"
-
-#~ msgid "Show/Hide margins"
-#~ msgstr "Ver/Ocultar márgenes"
-
-#~ msgid "Sync"
-#~ msgstr "Sincronizar"
-
-#~ msgid "T"
-#~ msgstr "T"
-
-#~ msgid "_Custom"
-#~ msgstr "_Personalizado"
-
-#~ msgid "_Delete current person from this session"
-#~ msgstr "_Borrar el sujeto actual de esta sesión"
-
-#~ msgid "_Edit current person"
-#~ msgstr "_Editar atleta actual"
-
-#~ msgid "_Jump"
-#~ msgstr "Sa_lto"
-
-#~ msgid "_Person"
-#~ msgstr "A_tleta"
-
-#~ msgid "_Run"
-#~ msgstr "_Carrera"
-
-#~ msgid "_Show all tests of current person"
-#~ msgstr "_Mostrar todas las pruebas del atleta actual"
-
-#~ msgid "_Tools"
-#~ msgstr "_Herramientas"
-
-#~ msgid "always"
-#~ msgstr "siempre"
-
-#~ msgid "define desired pulse step"
-#~ msgstr "definir el paso del pulso deseado"
-
-#~ msgid "jump extra data"
-#~ msgstr "Datos extra del salto"
-
-#~ msgid "run extra data"
-#~ msgstr "Datos extra de la carrera"
-
-#~ msgid "start managing pulses freely"
-#~ msgstr "empezar a gestionar pulsos libremente"
-
-#~ msgid "AVG TF"
-#~ msgstr "TV promedio"
-
-#~ msgid "AVG TC"
-#~ msgstr "TC promedio"
-
-#~ msgid "AVG Speed"
-#~ msgstr "velocidad media"
-
-#~ msgid "Ready."
-#~ msgstr "Preparado."
-
-#~ msgid "Successfully added"
-#~ msgstr "Añadido satisfactoriamente"
-
-#~ msgid "Execute Jump"
-#~ msgstr "Ejecutar salto"
-
-#~ msgid "Execute Reactive Jump"
-#~ msgstr "Ejecutar salto reactivo"
-
-#~ msgid "Execute Run"
-#~ msgstr "Ejecutar prueba"
-
-#~ msgid "Execute Intervallic Run"
-#~ msgstr "Ejecutar carreras con tramos"
-
-#~ msgid "Execute Reaction Time"
-#~ msgstr "Ejecutar tiempo de reacción"
-
-#~ msgid "Execute Multi Chronopic"
-#~ msgstr "Ejecutar MultiChronopic"
-
-#~ msgid "Deleted jump"
-#~ msgstr "Borrar salto"
-
-#~ msgid "Deleted reactive jump"
-#~ msgstr "Borrado salto reactivo"
-
-#~ msgid "Deleted selected run"
-#~ msgstr "Borrar carrera con tramos"
-
-#~ msgid "Deleted intervallic run"
-#~ msgstr "Borrada carrera con tramos "
-
-#~ msgid "Deleted reaction time"
-#~ msgstr "Borrado tiempo de reacción"
-
-#~ msgid "Deleted pulse"
-#~ msgstr "Borrar pulso"
-
-#~ msgid "Deleted multi chronopic"
-#~ msgstr "Borrado test MultiChronopic"
-
-#~ msgid ""
-#~ "If you have previously used the modem via a serial port (in a GNU/Linux "
-#~ "session, and you selected serial port), Chronojump will crash."
-#~ msgstr ""
-#~ "Si ha usado el módem por el puerto serie antes (en la misma sesión de GNU/"
-#~ "Linux) Chronojump se bloqueará."
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "On Windows we recommend to remove and connect USB or serial cable from "
-#~ "the computer after every unsuccessful port test."
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "En Windows se recomienda quitar y conectar un cable USB o serie del "
-#~ "equipo después de cada prueba de puerto fallida."
-
-#~ msgid ""
-#~ "\n"
-#~ "... And after cancelling Chronopic detection."
-#~ msgstr ""
-#~ "\n"
-#~ "... y después cancelar la detección de Chronopic."
-
-#~ msgid ""
-#~ "\n"
-#~ "\n"
-#~ "... Later, when you close Chronojump it will probably get frozen. If this "
-#~ "happens, let's press CTRL+C on the black screen."
-#~ msgstr ""
-#~ "\n"
-#~ "\n"
-#~ "... Después, cuando cierre Chronojump, probablemente se quedará colgado. "
-#~ "Si esto sucede, pulse CTRL+C en la pantalla negra."
-
-#~ msgid "More information on <b>Chronojump Manual</b> at section:"
-#~ msgstr "Más información en el <b>Manual de Chronojump</b> en la sección:"
-
-#~ msgid ""
-#~ "\n"
-#~ "This jump type is fixed to {0} seconds, totaltime cannot be greater."
-#~ msgstr ""
-#~ "\n"
-#~ "Este tipo de salto está fijado a {0} segundos, el tiempo total no puede "
-#~ "ser superior."
-
-#~ msgid ""
-#~ "\n"
-#~ "This run type is fixed to {0} seconds, totaltime cannot be greater."
-#~ msgstr ""
-#~ "\n"
-#~ "Este tipo de carrera está fijado a {0} segundos, el tiempo total no puede "
-#~ "ser superior."
-
-#~ msgid ""
-#~ "Statistics support on knee angle detection and server ready reckoners."
-#~ msgstr ""
-#~ "Soporte en las estadísticas en detección del ángulo de rodilla e índices "
-#~ "poblacionales del servidor"
-
-#~ msgid "Prefer height over TF"
-#~ msgstr "Preferir altura antes que TV"
-
-#~ msgid "Prefer m/s over Km/h"
-#~ msgstr "Preferir m/s antes que Km/h"
-
-#~ msgid "Prefer weight in % over Kg"
-#~ msgstr "Preferir peso en % antes que Kg"
-
-#~ msgid "<b>Database directory</b>"
-#~ msgstr "<b>Carpeta de la base de datos</b>"
-
-#~ msgid "<i>Thanks for your time.</i>"
-#~ msgstr "<i>Gracias por su tiempo.</i>"
-
-#~ msgid "Chronopic port"
-#~ msgstr "Puerto de Chronopic"
-
-#~ msgid "Confiable"
-#~ msgstr "De confianza"
-
-#~ msgid "Crash application (debug purpose)"
-#~ msgstr ""
-#~ "Finalizar aplicación de forma brusca (para pruebas de los desarrolladores)"
-
-#~ msgid "Ping"
-#~ msgstr "Ping"
-
-#~ msgid "See also:"
-#~ msgstr "Ver también:"
-
-#~ msgid "_Chronopic"
-#~ msgstr "_Chronopic"
-
-#~ msgid "_Edit session"
-#~ msgstr "_Editar sesión"
-
-#~ msgid "_File"
-#~ msgstr "_Archivo"
-
-#~ msgid "_Load person"
-#~ msgstr "_Cargar atleta"
-
-#~ msgid "_Load session"
-#~ msgstr "_Cargar sesión"
-
-#~ msgid "_Manual"
-#~ msgstr "Manual"
-
-#~ msgid "_New person"
-#~ msgstr "atleta _nuevo"
-
-#~ msgid "_Preferences"
-#~ msgstr "Prefere_ncias"
-
-#~ msgid "_Quit"
-#~ msgstr "_Salir"
-
-#~ msgid "_View"
-#~ msgstr "_Vista"
-
-#~ msgid "Reactive AVG SD"
-#~ msgstr "DE reactivo (promedio)"
-
-#~ msgid "You need to configurate the Chronopic port at preferences."
-#~ msgstr "Debe configurar el puerto de Chronopic en las preferencias."
-
-#~ msgid "There's a copy of Chronojump Manual at:"
-#~ msgstr "Hay una copia del Manual de Chronojump en:"
-
-#~ msgid "M"
-#~ msgstr "H"
-
-#~ msgid "Index *100"
-#~ msgstr "Indice *100"
-
-#~ msgid "TF(AVG)"
-#~ msgstr "TV (promedio)"
-
-#~ msgid "TC(AVG)"
-#~ msgstr "TC (promedio)"

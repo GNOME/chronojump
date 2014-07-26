@@ -24,14 +24,15 @@ g = 9.81
 
 #comes with every jump of the three best (in flight time)
 #e1, c, e2 are displacements
-neuromuscularProfileJump <- function(l.context, e1, c, e2, mass, smoothingC)
+
+neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 {
-	#          /\
-	#         /  \ 
-	# _     c/    \e2
-	#  \    /      \
-	# e1\  /        \
-	#    \/          \
+	#          /
+	#         /
+	# _     c/
+	#  \    /
+	# e1\  /
+	#    \/
 	
 	weight <- mass * g
 
@@ -50,8 +51,8 @@ neuromuscularProfileJump <- function(l.context, e1, c, e2, mass, smoothingC)
 	e1.maxspeed.pos <- mean(which(abs(e1.speed$y) == max(abs(e1.speed$y))))
 	e1f <- e1[e1.maxspeed.pos:length(e1)]
 
-print(c("e max speed.t",e1.maxspeed.pos))
-print(c("length e1",length(e1)))
+	print(c("e max speed.t",e1.maxspeed.pos))
+	print(c("length e1",length(e1)))
 
 	#e1f.t duration of e1f (ms)
 	e1f.t <- length(e1f)
@@ -63,8 +64,8 @@ print(c("length e1",length(e1)))
 	e1f.force <- mass * (e1f.accel$y + g)
 	e1f.fmax <- max(e1f.force)
 
-print(c("e1f.t",e1f.t))
-print(c("mean(e1f.force)",mean(e1f.force)))
+	print(c("e1f.t",e1f.t))
+	print(c("mean(e1f.force)",mean(e1f.force)))
 
 	#e1f.rdf.avg
 	#average force on e1f / e1f.t (s)
@@ -124,8 +125,8 @@ print(c("mean(e1f.force)",mean(e1f.force)))
 	cl.accel$y <- cl.accel$y * 1000
 	cl.force <- mass * (cl.accel$y + g)
 
-print(c("cl.t",cl.t))
-print(c("mean clforce",mean(cl.force)))
+	print(c("cl.t",cl.t))
+	print(c("mean clforce",mean(cl.force)))
 
 	cl.rfd.avg <- mean(cl.force) / (cl.t / 1000) / mass
 	
@@ -168,44 +169,7 @@ print(c("mean clforce",mean(cl.force)))
 		       cl.p.avg = cl.p.avg, cl.p.max = cl.p.max
 		       )
 
-	#----------------
-	#3.- e2 variables
-	#----------------
-
-	#get landing
-	e2.speed <- getSpeed(e2, smoothingC)
-	e2.accel = getAcceleration(e2.speed) 
-	#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
-	e2.accel$y <- e2.accel$y * 1000
-	e2.force <- mass * (e2.accel$y + g)
-	e2.land.pos = max(which(e2.force <= weight))
-
-	#e2f (when force is done)
-	#is the same as contact phase (land on eccentric)
-	e2f <- e2[e2.land.pos:length(e2)]
-	
-	#e2f.t duration of e2f
-	e2f.t <- length(e2f) 
-
-	#for these variables, we use e2 instead of e2f because there's lot more force on e2f
-	#so there's no need to use e2f
-	#e2f.f.max = max force on e2f
-	e2f.f.max <- max(e2.force)
-
-	#e2fFmaxt = duration from land to max force
-	e2f.f.max.t <- min(which(e2.force == e2f.f.max)) - e2.land.pos
-
-	#e2f.rfd.max = e2f.f.max / e2f.f.max.t (s)
-	e2f.rfd.max <- e2f.f.max / (e2f.f.max.t / 1000)
-
-	e2.list = list(
-		      e2f.t = e2f.t,
-		      e2f.f.max  = e2f.f.max,
-		      e2f.f.max.t  = e2f.f.max.t,
-		      e2f.rfd.max  = e2f.rfd.max
-		      )
-
-	return (list(l.context = l.context, e1 = e1.list, c = c.list, e2 = e2.list))
+	return (list(l.context = l.context, e1 = e1.list, c = c.list))
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
@@ -213,12 +177,12 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 {
 	weight=mass*g
 
-	#get the maxheight of the 6 jumps
-	#sequence is e,c,e,c for every jump. There are 6 jumps. Need the first c of every jump
+	#get the maxheight of the jumps
+	#sequence is e,c for every jump. Need the c of every jump
 	nums = NULL
 	heights = NULL
 	count = 1
-	for(i in seq(2,22,length=6)) {
+	for(i in seq(2,length(curves[,1]),by=2)) {
 		d = displacement[curves[i,1]:curves[i,2]]
 		speed <- getSpeed(d, smoothingC)
 		
@@ -241,10 +205,13 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 			jumpHeight = (position[length(position)] - position[takeoff]) /10
 			print(paste("Jump Height =", jumpHeight))
 
-			#store variables
-			nums[count] = i
-			heights[count] = jumpHeight
-			count = count +1
+			if(! is.na(jumpHeight)) {
+				#store variables
+				print(c("Jump accepted count,i,height",count,i,jumpHeight))
+				nums[count] = i
+				heights[count] = jumpHeight
+				count = count +1
+			}
 		}
 	}
 
@@ -267,11 +234,14 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 	npj <- list()
 	count = 1
 	for(i in df$nums[bests]) {
-		numJump <- ((i-2)/4)+1 #this gets the concentric phase num and calculates which jump is
+		numJump <- i / 2 #this calculates which jump is this concentric phase
+
+		print(c("numJump",numJump,"height",heights[which(df$nums == i)]))
+
 		l.context <- list(numJump  = numJump,
-				  jumpHeight = heights[numJump], 
-				  start.e1 = curves[(i-1),1],	#start of all (start of e1)
-				  end.e2   = curves[(i+1),2],	#end of all (end of e2)
+				  jumpHeight = heights[which(df$nums == i)], 
+				  start.e1 = curves[(i-1),1],	#start of e1
+				  end.e1   = curves[(i-1),2],	#end of e1
 				  start.c  = curves[i,1],	#start of c
 				  end.c    = curves[i,2]	#end of c
 				  )
@@ -279,7 +249,6 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 							 l.context,
 							 displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
 							 displacement[curves[(i),1]:curves[(i),2]],	#c
-							 displacement[curves[(i+1),1]:curves[(i+1),2]],	#e2
 							 mass, smoothingC)
 		count = count +1
 		
@@ -355,9 +324,9 @@ neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothingC)
 {
 	#plot
-	#curve e1,c,e2 distance,speed,force /time of best jump
-	#curve e1,c,e2 force/time  (of the three best jumps)
-	#to plot e1,c,e2 curves, just sent to paint() the xmin:xmax from start e1 to end of e2
+	#curve e1,c distance,speed,force /time of best jump
+	#curve e1,c force/time  (of the three best jumps)
+	#to plot e1,c curves, just sent to paint() the xmin:xmax from start e1 to end of c
 
 	minimumForce = 0
 	maximumForce = 0
@@ -368,7 +337,7 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothi
 	l.force.max.c.pos = NULL
 
 	for(i in 1:3) {
-		d = displacement[as.integer(l.context[[i]]$start.e1):as.integer(l.context[[i]]$end.e2)]
+		d = displacement[as.integer(l.context[[i]]$start.e1):as.integer(l.context[[i]]$end.c)]
 		speed <- getSpeed(d, smoothingC)
 
 		accel = getAcceleration(speed) 
@@ -429,12 +398,12 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothi
 neuromuscularProfileWriteData <- function(npj, outputData1)
 {	
 	#values of first, 2nd and 3d jumps
-	jump1 <- as.numeric(c(npj[[1]]$e1, npj[[1]]$c, npj[[1]]$e2))
-	jump2 <- as.numeric(c(npj[[2]]$e1, npj[[2]]$c, npj[[2]]$e2))
-	jump3 <- as.numeric(c(npj[[3]]$e1, npj[[3]]$c, npj[[3]]$e2))
+	jump1 <- as.numeric(c(npj[[1]]$e1, npj[[1]]$c))
+	jump2 <- as.numeric(c(npj[[2]]$e1, npj[[2]]$c))
+	jump3 <- as.numeric(c(npj[[3]]$e1, npj[[3]]$c))
 
 	df <- data.frame(rbind(jump1,jump2,jump3))
-	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c), names(npj[[1]]$e2))
+	colnames(df) <- c(paste("e1.",names(npj[[1]]$e1),sep=""), names(npj[[1]]$c))
 	rownames(df) <- c(
 			  paste(translate("jump"),npj[[1]]$l.context$numJump), 
 			  paste(translate("jump"),npj[[2]]$l.context$numJump),

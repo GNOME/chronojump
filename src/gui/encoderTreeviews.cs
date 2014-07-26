@@ -606,11 +606,7 @@ public partial class ChronoJumpWindow
 		"cl s avg" + "\n (m/s)",
 		"cl s max" + "\n (m/s)",
 		"cl p avg" + "\n (W)",
-		"cl p max" + "\n (W)",
-		"e2f t" + "\n (ms)",
-		"e2f f fmax" + "\n (N)",
-		"e2f f fmax t" + "\n (ms)",
-		"e2f rfd max" + "\n (N/s)"
+		"cl p max" + "\n (W)"
 	};
 
 	private int createTreeViewEncoderAnalyzeNeuromuscular(string contents) {
@@ -709,18 +705,6 @@ public partial class ChronoJumpWindow
 					break;
 				case 16:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_cl_p_max));
-					break;
-				case 17:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e2f_t));
-					break;
-				case 18:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e2f_f_max));
-					break;
-				case 19:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e2f_f_max_t));
-					break;
-				case 20:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (Render_e2f_rfd_max));
 					break;
 			}
 			
@@ -1082,30 +1066,6 @@ public partial class ChronoJumpWindow
 	{
 		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = nm.cl_p_max.ToString();
-	}
-	
-	private void Render_e2f_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = nm.e2f_t.ToString();
-	}
-
-	private void Render_e2f_f_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = nm.e2f_f_max.ToString();
-	}
-
-	private void Render_e2f_f_max_t (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = nm.e2f_f_max_t.ToString();
-	}
-
-	private void Render_e2f_rfd_max (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-	{
-		EncoderNeuromuscularData nm = (EncoderNeuromuscularData) model.GetValue (iter, 0);
-		(cell as Gtk.CellRendererText).Text = nm.e2f_rfd_max.ToString();
 	}
 
 

@@ -406,11 +406,6 @@ public class EncoderNeuromuscularData
 	public double cl_p_avg;
 	public double cl_p_max;
 
-	public int e2f_t;
-	public double e2f_f_max;
-	public int e2f_f_max_t;
-	public double e2f_rfd_max;
-
 	public EncoderNeuromuscularData () {
 	}
 
@@ -420,8 +415,7 @@ public class EncoderNeuromuscularData
 			int e1_range, int e1_t, double e1_fmax, double e1_rfd_avg, double e1_i,
 			int ca_range, int cl_t, double cl_rfd_avg, double cl_i, 
 			double cl_f_avg, double cl_vf, double cl_f_max, 
-			double cl_s_avg, double cl_s_max, double cl_p_avg, double cl_p_max, 
-			int e2f_t, double e2f_f_max, int e2f_f_max_t, double e2f_rfd_max
+			double cl_s_avg, double cl_s_max, double cl_p_avg, double cl_p_max
 			)
 	{
 		this.n = n;
@@ -441,10 +435,6 @@ public class EncoderNeuromuscularData
 		this.cl_s_max = cl_s_max;
 		this.cl_p_avg = cl_p_avg;
 		this.cl_p_max = cl_p_max;
-		this.e2f_t = e2f_t;
-		this.e2f_f_max = e2f_f_max;
-		this.e2f_f_max_t = e2f_f_max_t;
-		this.e2f_rfd_max = e2f_rfd_max;
 	}
 
 	//reading contents file from graph.R
@@ -471,10 +461,6 @@ public class EncoderNeuromuscularData
 		this.cl_s_max 	= Convert.ToDouble(cells[14]);
 		this.cl_p_avg 	= Convert.ToDouble(cells[15]);
 		this.cl_p_max 	= Convert.ToDouble(cells[16]);
-		this.e2f_t 	= Convert.ToInt32(cells[17]);
-		this.e2f_f_max 	= Convert.ToDouble(cells[18]);
-		this.e2f_f_max_t = Convert.ToInt32(cells[19]);
-		this.e2f_rfd_max = Convert.ToDouble(cells[20]);
 	}
 
 	public string ToCSV() {
@@ -487,9 +473,7 @@ public class EncoderNeuromuscularData
 			cl_rfd_avg.ToString() + sep + cl_i.ToString() + sep + 
 			cl_f_avg.ToString() + sep + cl_vf.ToString() + sep + cl_f_max.ToString() + sep + 
 			cl_s_avg.ToString() + sep + cl_s_max.ToString() + sep + 
-			cl_p_avg.ToString() + sep + cl_p_max.ToString() + sep + 
-			e2f_t.ToString() + sep + e2f_f_max.ToString() + sep + 
-			e2f_f_max_t.ToString() + sep + e2f_rfd_max;
+			cl_p_avg.ToString() + sep + cl_p_max.ToString();
 	}
 }
 

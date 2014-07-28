@@ -14,16 +14,16 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-23 12:50+0000\n"
-"PO-Revision-Date: 2014-07-25 14:00+0100\n"
-"Last-Translator: Xavier de Blas <xaviblas@gmail.com>\n"
+"POT-Creation-Date: 2014-07-25 12:04+0000\n"
+"PO-Revision-Date: 2014-07-28 17:30+0200\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../CesarPlayer/Capturer/FakeCapturer.cs:81
 msgid "Fake live source"
@@ -1184,17 +1184,14 @@ msgid "Finish capture"
 msgstr "Terminar captura"
 
 #: ../glade/chronojump.glade.h:252
-#| msgid "Loaded"
 msgid "Load set"
 msgstr "Cargar serie"
 
 #: ../glade/chronojump.glade.h:253
-#| msgid "Recalculate signal with changed parameters"
 msgid "Recalculate set with changed parameters"
 msgstr "Recalcular la serie con los parámetros modificados"
 
 #: ../glade/chronojump.glade.h:254
-#| msgid "Delete first"
 msgid "Delete set"
 msgstr "Eliminar serie"
 
@@ -1203,7 +1200,6 @@ msgid "capture"
 msgstr "capturar"
 
 #: ../glade/chronojump.glade.h:256 ../src/gui/encoder.cs:1187
-#| msgid "Sex"
 msgid "Set"
 msgstr "Serie"
 
@@ -1224,7 +1220,6 @@ msgid "None"
 msgstr "Ninguno"
 
 #: ../glade/chronojump.glade.h:260
-#| msgid "Curves (select them to save)"
 msgid "Repetitions (select them to save)"
 msgstr "Repeticiones (selecciónelas para guardarlas)"
 
@@ -1233,12 +1228,10 @@ msgid "Data:"
 msgstr "Datos:"
 
 #: ../glade/chronojump.glade.h:262
-#| msgid "Current stream"
 msgid "Current set"
 msgstr "Serie actual"
 
 #: ../glade/chronojump.glade.h:263
-#| msgid "Saved curves"
 msgid "Saved repetitions"
 msgstr "Repeticiones guardadas"
 
@@ -1283,7 +1276,6 @@ msgid "Side compare"
 msgstr "Comparar lateral"
 
 #: ../glade/chronojump.glade.h:274
-#| msgid "Single curve"
 msgid "Single repetition"
 msgstr "Repetición única"
 
@@ -1316,7 +1308,6 @@ msgid "Max. 12 graphs"
 msgstr "12 gráficas máximo"
 
 #: ../glade/chronojump.glade.h:282
-#| msgid "Reaction time"
 msgid "Repetition number"
 msgstr "Número de repetición"
 
@@ -1851,7 +1842,6 @@ msgid "End at n inactivity seconds"
 msgstr "Terminar tras n segundos de inactividad"
 
 #: ../glade/chronojump.glade.h:408
-#| msgid "Show start and duration of each curve"
 msgid "Show start and duration of each repetition"
 msgstr "Mostrar el inicio y la duración de cada repetición"
 
@@ -2462,7 +2452,6 @@ msgid "Images and Videos"
 msgstr "Imágenes y vídeos"
 
 #: ../glade/chronojump.glade.h:555
-#| msgid "Contact time"
 msgid "Contact tests"
 msgstr "Pruebas de contacto"
 
@@ -2492,7 +2481,6 @@ msgid "Initial speed"
 msgstr "Velocidad inicial"
 
 #: ../glade/chronojump.glade.h:562
-#| msgid "Show indexes between TF and TC"
 msgid "Indexes between TF and TC"
 msgstr "Índices entre TF y TC"
 
@@ -2529,9 +2517,8 @@ msgid "How to calculate these statistics:"
 msgstr "Cómo calcular estas estadísticas:"
 
 #: ../glade/chronojump.glade.h:571
-#| msgid "Average Index"
 msgid "Arms Use Index"
-msgstr "Índice de Utilización de Brazos"
+msgstr "Índice de uso de brazos"
 
 #: ../glade/chronojump.glade.h:572
 msgid "Use height"
@@ -3957,7 +3944,6 @@ msgid "concentric"
 msgstr "concéntrico"
 
 #: ../src/constants.cs:834
-#| msgid "Poland"
 msgid "land"
 msgstr "Tierra"
 
@@ -3972,7 +3958,6 @@ msgstr "altura del salto"
 #. checkboxes
 #: ../src/constants.cs:837 ../src/gui/encoder.cs:773
 #: ../src/gui/encoderTreeviews.cs:430
-#| msgid "Competition"
 msgid "Repetition"
 msgstr "Repetición"
 
@@ -4005,7 +3990,6 @@ msgid "Mean speed in concentric propulsive phase"
 msgstr "Velocidad principal en la fase propulsiva concéntrica"
 
 #: ../src/constants.cs:845
-#| msgid "Sorry, no curves matched your criteria."
 msgid "Sorry, no repetitions matched your criteria."
 msgstr "No hay repeticiones que coincidan con su criterio."
 
@@ -4032,7 +4016,6 @@ msgid "Starting process"
 msgstr "Iniciando proceso"
 
 #: ../src/constants.cs:851
-#| msgid "Curves processed"
 msgid "Repetitions processed"
 msgstr "Repeticiones procesadas"
 
@@ -4055,19 +4038,19 @@ msgstr "Concéntrico-excéntrico"
 #. demultiplication
 #: ../src/encoder.cs:881 ../src/encoder.cs:949 ../src/encoder.cs:971
 msgid "Linear encoder attached to a barbell."
-msgstr "Encoder lineal conectado a la barra."
+msgstr "Codificador lineal conectado a la barra."
 
 #: ../src/encoder.cs:882
 msgid "Also common gym tests like jumps or chin-ups."
-msgstr "También tests comunes de gimnasio como dominadas o saltos."
+msgstr "También pruebas comunes de gimnasio como dominadas o saltos."
 
 #: ../src/encoder.cs:929 ../src/encoder.cs:960 ../src/encoder.cs:982
 msgid "Linear encoder inverted attached to a barbell."
-msgstr "Encoder lineal invertido conectado a la barra."
+msgstr "Codificador lineal invertido conectado a la barra."
 
 #: ../src/encoder.cs:936
 msgid "Linear encoder on inertia machine."
-msgstr "Codificador lineal en la máquina de inercia"
+msgstr "Codificador lineal en la máquina de inercia."
 
 #: ../src/encoder.cs:937
 msgid "Configuration NOT Recommended! Please use a rotary encoder."
@@ -4084,7 +4067,7 @@ msgid ""
 "On inertial machines, 'd' means the average diameter where the pull-push "
 "string is rolled"
 msgstr ""
-"En las máquinas inerciales, 'd' se refiere al diámetro medio donde se "
+"En las máquinas inerciales, «d» se refiere al diámetro medio donde se "
 "enrolla la cuerda de tirón-empuje."
 
 #: ../src/encoder.cs:950 ../src/encoder.cs:961
@@ -4120,7 +4103,6 @@ msgstr ""
 "diferente."
 
 #: ../src/encoder.cs:1023
-#| msgid "Rotary friction"
 msgid "Rotary friction encoder on pulley."
 msgstr "Codificador de fricción por rotación de la polea."
 
@@ -4133,7 +4115,6 @@ msgid "Rotary friction encoder on inertial machine side."
 msgstr "Codificador de fricción de rotación en la máquina de inercia."
 
 #: ../src/encoder.cs:1053
-#| msgid "Diameter of inertia machine axis"
 msgid "Rotary friction encoder on inertial machine axis."
 msgstr ""
 "Codificador de fricción por rotación sobre el eje de la máquina de inercia."
@@ -4147,7 +4128,6 @@ msgid "Rotary axis encoder on pulley axis."
 msgstr "Codificador de eje rotatorio en el eje de la polea."
 
 #: ../src/encoder.cs:1081
-#| msgid "Diameter of inertia machine axis"
 msgid "Rotary axis encoder on inertial machine."
 msgstr "Codificador del eje de rotación de la máquina de inercia."
 
@@ -4792,7 +4772,6 @@ msgid "Then press this button:\n"
 msgstr "Pulsar este botón:\n"
 
 #: ../src/gui/chronojump.cs:3540
-#| msgid "Sorry, video cannot be stored."
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "No se pueden simular las pruebas RSA"
 
@@ -5080,12 +5059,10 @@ msgstr "Contracción"
 #. don't show now
 #: ../src/gui/encoder.cs:806
 #, csharp-format
-#| msgid "Saved curves of athlete {0} on this session."
 msgid "Saved repetitions of athlete {0} on this session."
 msgstr "Repeticiones guardadas del atleta {0} en esta sesión."
 
 #: ../src/gui/encoder.cs:808
-#| msgid "Activate the curves you want to use clicking on first column."
 msgid "Activate the repetitions you want to use clicking on first column."
 msgstr ""
 "Active las repeticiones que quiere usar pulsando en la primera columna."
@@ -5096,7 +5073,6 @@ msgstr ""
 "Si quiere editar o eliminar una fila, pulse con el botón derecho sobre ella."
 
 #: ../src/gui/encoder.cs:824
-#| msgid "Change the owner of selected curve"
 msgid "Change the owner of selected repetition"
 msgstr "Cambiar el propietario de la repetición seleccionada"
 
@@ -5109,14 +5085,10 @@ msgid "name"
 msgstr "nombre"
 
 #: ../src/gui/encoder.cs:927
-#| msgid "Are you sure you want to delete this curve?"
 msgid "Are you sure you want to delete this repetition?"
 msgstr "¿Seguro que quiere eliminar esta repetición?"
 
 #: ../src/gui/encoder.cs:1022 ../src/gui/encoder.cs:1115
-#| msgid ""
-#| "Selected\n"
-#| "curves"
 msgid ""
 "Selected\n"
 "repetitions"
@@ -5125,7 +5097,6 @@ msgstr ""
 "seleccionadas"
 
 #: ../src/gui/encoder.cs:1023 ../src/gui/encoder.cs:1116
-#| msgid "repetitive"
 msgid ""
 "All\n"
 "repetitions"
@@ -5151,7 +5122,6 @@ msgstr "Fecha de la sesión"
 #. don't show now
 #: ../src/gui/encoder.cs:1131
 #, csharp-format
-#| msgid "Compare curves of {0} from this session with the following sessions."
 msgid ""
 "Compare repetitions of {0} from this session with the following sessions."
 msgstr ""
@@ -5165,17 +5135,14 @@ msgstr "Vídeo"
 #. don't show now
 #: ../src/gui/encoder.cs:1209
 #, csharp-format
-#| msgid "Select signal of athlete {0} on this session."
 msgid "Select set of athlete {0} on this session."
 msgstr "Seleccionar las series del atleta {0} en esta sesión."
 
 #: ../src/gui/encoder.cs:1222
-#| msgid "Change the owner of selected curve"
 msgid "Change the owner of selected set"
 msgstr "Cambiar el propietario de la serie seleccionada"
 
 #: ../src/gui/encoder.cs:1322 ../src/gui/encoder.cs:1555
-#| msgid "Are you sure you want to delete this curve?"
 msgid "Are you sure you want to delete this set?"
 msgstr "¿Seguro que quiere eliminar esta serie?"
 
@@ -5195,7 +5162,6 @@ msgid "Cannot save file {0} "
 msgstr "No se puede guardar el archivo {0} "
 
 #: ../src/gui/encoder.cs:1574
-#| msgid "Signal deleted"
 msgid "Set deleted"
 msgstr "Serie eliminada"
 
@@ -5204,19 +5170,16 @@ msgid "Saved"
 msgstr "Guardado"
 
 #: ../src/gui/encoder.cs:1758
-#| msgid "saved"
 msgid "Set saved"
 msgstr "Serie guardada"
 
 #. only signal is updated
 #. Adding on SQL
 #: ../src/gui/encoder.cs:1783
-#| msgid "Signal updated"
 msgid "Set updated"
 msgstr "Serie actualizada"
 
 #: ../src/gui/encoder.cs:1805
-#| msgid "Sorry, no curves selected."
 msgid "Sorry, no repetitions selected."
 msgstr "No hay repeticiones seleccionadas."
 
@@ -5246,15 +5209,16 @@ msgstr "Acerca del perfil neuromuscular"
 
 #: ../src/gui/encoder.cs:2680
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
-msgstr "Load = RFD (Ratio of Force Development) excéntrico medio"
+msgstr ""
+"Load = Promedio de la RFD (tasa de desarrollo de la fuerza) excéntrica media"
 
 #: ../src/gui/encoder.cs:2681
 msgid "Explode = Average relative concentric RFD"
-msgstr "Eplode = Promedio del RFD concéntrico relativo"
+msgstr "Explosión = Promedio de la RFD concéntrica relativa"
 
 #: ../src/gui/encoder.cs:2682
 msgid "Drive = Average relative concentric Impulse"
-msgstr "Eplode = Promedio del impulso concéntrico relativo"
+msgstr "Drive = Promedio del impulso concéntrico relativo"
 
 #: ../src/gui/encoder.cs:2683
 msgid ""
@@ -5263,7 +5227,7 @@ msgid ""
 "specificity, muscular chains, etc.)."
 msgstr ""
 "Recomendaciones para intentar desarrollar un perfil neuromuscular "
-"'equilibrado' (hay que tener en cuenta también las lesiones actuales o "
+"«equilibrado» (hay que tener en cuenta también las lesiones actuales o "
 "anteriores, especificidad del deporte, cadenas musculares, etc.)."
 
 #: ../src/gui/encoder.cs:2684
@@ -5282,7 +5246,7 @@ msgid ""
 msgstr ""
 "Si una de las métricas está muy por encima respecto las otras dos, "
 "prescribir ejercicios para mejorar las otras, pero cuidando la flexibilidad "
-"y relajación de los músculos que hacen el sobreesfuerzo."
+"y relajación de los músculos que hacen el sobresfuerzo."
 
 #: ../src/gui/encoder.cs:2687
 msgid "General guidelines to improve the neuromuscular profile:"
@@ -5307,13 +5271,13 @@ msgid ""
 "Explode: Perform exercises that develop force in short time, and maximum "
 "force."
 msgstr ""
-"Explode: Realizar ejercicios que desarrollen la fuerza en tiempo corto y "
+"Explosión: realizar ejercicios que desarrollen la fuerza en tiempo corto y "
 "máxima fuerza."
 
 #: ../src/gui/encoder.cs:2693
 msgid "Drive: Perform exercises where force is developed during more time."
 msgstr ""
-"Drive: Realizar ejercicios donde la fuerza se desarrolle a lo largo de más "
+"Drive: realizar ejercicios donde la fuerza se desarrolle a lo largo de más "
 "tiempo."
 
 #: ../src/gui/encoder.cs:2695
@@ -5923,12 +5887,10 @@ msgstr ""
 "reacción"
 
 #: ../src/gui/person.cs:2442 ../src/gui/session.cs:739
-#| msgid "Encoder tests"
 msgid "Encoder sets"
 msgstr "Series del codificador"
 
 #: ../src/gui/person.cs:2443 ../src/gui/session.cs:740
-#| msgid "Encoder capture options"
 msgid "Encoder repetitions"
 msgstr "Repeticiones del codificador"
 
@@ -5942,12 +5904,10 @@ msgstr ""
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 #: ../src/gui/preferences.cs:344
-#| msgid "Simple with TC"
 msgid "Jumps with TC & TF:"
 msgstr "Saltos con TC y TF:"
 
 #: ../src/gui/preferences.cs:344
-#| msgid "Use Chronojump faster"
 msgid "Developed by Chronojump team"
 msgstr "Desarrollado por el equipo de Chronojump"
 
@@ -5965,7 +5925,6 @@ msgid "mass"
 msgstr "masa"
 
 #: ../src/gui/preferences.cs:351
-#| msgid "Falling height"
 msgid "falling height"
 msgstr "altura de caída"
 
@@ -8581,12 +8540,10 @@ msgid "Runner"
 msgstr "Corredor"
 
 #: ../src/treeViewRun.cs:132
-#| msgid "By time"
 msgid "Lap time"
 msgstr "Tiempo de vuelta"
 
 #: ../src/treeViewRun.cs:133
-#| msgid "Flight time"
 msgid "Split time"
 msgstr "Tiempo fraccionado"
 

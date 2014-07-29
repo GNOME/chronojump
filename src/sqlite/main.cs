@@ -1499,8 +1499,8 @@ class Sqlite
 		
 				SqliteEncoder.createTableEncoderSignalCurve();
 
-				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", false, false);
-				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", false, false);
+				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", EncoderSQL.Eccons.ALL, false, false);
+				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, false);
 				int signalID;
 				conversionRateTotal = signals.Count;
 				conversionRate = 1;

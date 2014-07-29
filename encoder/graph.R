@@ -2858,21 +2858,13 @@ doProcess <- function(options) {
 		else if(Analysis == "neuromuscularProfile") {
 			#only signal, it's a jump, use mass of the body (100%) + mass Extra if any
 
-			if(n < 24) {
-				plot(0,0,type="n",axes=F,xlab="",ylab="")
-				text(x=0,y=0,paste(translate("Not enough data."), "\n",
-						   translate("Need 6 jumps and 4 phases for each jump")," (ecc,con,ecc,con)."),cex=1.5)
-				dev.off()
-				write("", OutputData1)
-				quit()
-			}
-			npj <- neuromuscularProfileGetData(displacement, curves, (MassBody + MassExtra), SmoothingOneC)
+			npj <- neuromuscularProfileGetData(singleFile, displacement, curves, (MassBody + MassExtra), SmoothingOneC)
 
 			if(is.double(npj) && npj == -1) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
 				text(x=0,y=0,paste(translate("Not enough data."), "\n",
-						   translate("Need at least three jumps executed on the odd concentric phases"),
-						   " (1 con, 3 con, 5 con, ...)."), cex=1.5)
+						   translate("Need at least three jumps")),
+						   cex=1.5)
 				dev.off()
 				write("", OutputData1)
 				quit()
@@ -2899,10 +2891,13 @@ doProcess <- function(options) {
 			neuromuscularProfilePlotBars(Title, np.bar.load, np.bar.explode, np.bar.drive)
 			
 			par(mar=c(4,4,1,4))
+
 			neuromuscularProfilePlotOther(
 						      displacement, #curves,
 						      list(npj[[1]]$l.context, npj[[2]]$l.context, npj[[3]]$l.context),
-						      (MassBody + MassExtra), SmoothingOneC)
+						      list(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass),
+						      SmoothingOneC)
+
 			#TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
 			par(mfrow=c(1,1))
 

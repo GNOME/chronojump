@@ -461,7 +461,8 @@ public partial class ChronoJumpWindow
 		} else {						//user curves
 			curvesData = SqliteEncoder.Select(
 					false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
-					"curve", true, true);
+					"curve", EncoderSQL.Eccons.ALL, 
+					true, true);
 		}
 
 		string line;

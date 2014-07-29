@@ -34,7 +34,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	# e1\  /
 	#    \/
 	
-	weight <- mass * g
+	#weight <- mass * g
 
 
 	#----------------
@@ -169,13 +169,13 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 		       cl.p.avg = cl.p.avg, cl.p.max = cl.p.max
 		       )
 
-	return (list(l.context = l.context, e1 = e1.list, c = c.list))
+	return (list(l.context = l.context, e1 = e1.list, c = c.list, mass = mass))
 }
 
 #Manuel Lapuente analysis of 6 separate ABKs (e1, c, e2)
-neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
+neuromuscularProfileGetData <- function(singleFile, displacement, curves, mass, smoothingC)
 {
-	weight=mass*g
+	#weight=mass*g
 
 	#get the maxheight of the jumps
 	#sequence is e,c for every jump. Need the c of every jump
@@ -189,8 +189,16 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 		accel = getAcceleration(speed) 
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 		accel$y <- accel$y * 1000
+	
 		
-		force <- mass * (accel$y + g)
+		myMass = mass	
+		if(! singleFile) {
+			myMassBody = curves[i,5]
+			myMassExtra = curves[i,6]
+			myMass = myMassBody + myMassExtra
+		}
+
+		force <- myMass * (accel$y + g)
 
 		position = cumsum(d)
 
@@ -245,11 +253,19 @@ neuromuscularProfileGetData <- function(displacement, curves, mass, smoothingC)
 				  start.c  = curves[i,1],	#start of c
 				  end.c    = curves[i,2]	#end of c
 				  )
+		
+		myMass = mass	
+		if(! singleFile) {
+			myMassBody = curves[i,5]
+			myMassExtra = curves[i,6]
+			myMass = myMassBody + myMassExtra
+		}
+
 		npj[[count]] <- neuromuscularProfileJump(
 							 l.context,
 							 displacement[curves[(i-1),1]:curves[(i-1),2]],	#e1
 							 displacement[curves[(i),1]:curves[(i),2]],	#c
-							 mass, smoothingC)
+							 myMass, smoothingC)
 		count = count +1
 		
 	}
@@ -321,7 +337,7 @@ neuromuscularProfilePlotBars <- function(title, load, explode, drive)
 	#show small text related to graph result and how to train
 }
 
-neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothingC)
+neuromuscularProfilePlotOther <- function(displacement, l.context, l.mass, smoothingC)
 {
 	#plot
 	#curve e1,c distance,speed,force /time of best jump
@@ -344,7 +360,9 @@ neuromuscularProfilePlotOther <- function(displacement, l.context, mass, smoothi
 		#speed comes in mm/ms when derivate to accel its mm/ms^2 to convert it to m/s^2 need to *1000 because it's quadratic
 		accel$y <- accel$y * 1000
 
+		mass <- l.mass[[i]]
 		force <- mass * (accel$y + g)
+
 		if(i == 1)
 			forceFirst <- force
 		else if(i == 2)

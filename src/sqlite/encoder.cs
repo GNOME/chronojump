@@ -140,7 +140,7 @@ class SqliteEncoder : Sqlite
 	}
 	
 	//pass uniqueID value and then will return one record. do like this:
-	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "", false, true)[0];
+	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
 	//don't care for the 0, 0 , because selection will be based on the myUniqueID and only one row will be returned
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
@@ -151,8 +151,9 @@ class SqliteEncoder : Sqlite
 	//orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
 	//in that conversion, we want first the last ones, and later the previous
 	//	(to delete them if they are old copies)
-	public static ArrayList Select (bool dbconOpened, 
-			int uniqueID, int personID, int sessionID, string signalOrCurve, 
+	public static ArrayList Select (
+			bool dbconOpened, int uniqueID, int personID, int sessionID, 
+			string signalOrCurve, EncoderSQL.Eccons ecconSelect,	
 			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
@@ -174,7 +175,11 @@ class SqliteEncoder : Sqlite
 				selectStr = personIDStr + sessionIDStr;
 			else
 				selectStr = personIDStr + sessionIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+		
+			if(ecconSelect != EncoderSQL.Eccons.ALL)
+				selectStr += " AND " + Constants.EncoderTable + ".eccon = '" + EncoderSQL.Eccons.ecS.ToString() + "'";
 		}
+			
 
 		string andString = "";
 		if(selectStr != "")

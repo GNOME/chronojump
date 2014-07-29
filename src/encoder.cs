@@ -550,7 +550,10 @@ public class EncoderSQL
 		else
 			ecconLong = Catalog.GetString("Concentric-eccentric");
 	}
-	
+
+	//used on encoder table
+	public enum Eccons { ALL, ecS, ceS, c } 
+
 	public string GetDate(bool pretty) {
 		int pointPos = filename.LastIndexOf('.');
 		int dateLength = 19; //YYYY-MM-DD_hh-mm-ss

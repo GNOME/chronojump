@@ -21,8 +21,13 @@
 from distutils.core import setup
 import sys
 import shutil
+import os
+import tempfile
 
 sys.argv = [sys.argv[0], 'py2exe']
+
+sys.stdout = open(os.path.join(tempfile.gettempdir(), 'chronopic-firmwarecord-setup-stdout.log'),"w")
+sys.stderr = open(os.path.join(tempfile.gettempdir(), 'chronopic-firmwarecord-setup-stderr.log'),"w")
 
 try:
     import py2exe

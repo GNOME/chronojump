@@ -106,6 +106,9 @@ class MyFrame(wx.Frame):
         self.sizer_4_staticbox = wx.StaticBox(self.panel_1, -1, "Firmware Chronopic")
         self.frame_1_statusbar = self.CreateStatusBar(1, 0)
         self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
+        self.button_firmware_jumps = wx.Button(self.panel_1, -1, "J", style=wx.BU_EXACTFIT)
+        self.button_firmware_runs = wx.Button(self.panel_1, -1, "R", style=wx.BU_EXACTFIT)
+        self.button_firmware_led = wx.Button(self.panel_1, -1, "L", style=wx.BU_EXACTFIT)
         self.button_2 = wx.Button(self.panel_1, -1, "Search / Buscar", style=wx.BU_EXACTFIT)
         self.button_7 = wx.Button(self.panel_1, -1, "Record / Grabar", style=wx.BU_EXACTFIT)
         self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN)
@@ -120,6 +123,10 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.boton_grabar, self.button_7)
         self.Bind(wx.EVT_BUTTON, self.boton_cancelar, self.button_6)
         self.Bind(wx.EVT_BUTTON, self.boton_ayuda, self.button_8)
+        
+        self.Bind(wx.EVT_BUTTON, self.button_open_jumps, self.button_firmware_jumps)
+        self.Bind(wx.EVT_BUTTON, self.button_open_runs, self.button_firmware_runs)
+        self.Bind(wx.EVT_BUTTON, self.button_open_led, self.button_firmware_led)
         # end wxGlade
         #--------------------------------------------
         # Fin del codigo generado automaticamente
@@ -165,6 +172,9 @@ class MyFrame(wx.Frame):
         sizer_3.Add(self.button_8, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
         sizer_4_copy = wx.StaticBoxSizer(self.sizer_4_copy_staticbox, wx.HORIZONTAL)
         sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
+        sizer_4.Add(self.button_firmware_jumps, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        sizer_4.Add(self.button_firmware_runs, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        sizer_4.Add(self.button_firmware_led, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizer_4.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
         sizer_4.Add(self.button_2, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
         sizer_3.Add(sizer_4, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
@@ -195,6 +205,7 @@ class MyFrame(wx.Frame):
     #-- Funcion de retrollamada del boton de exploracion de ficheros  
     #------------------------------------------------------------------
     def boton_abrir(self, event): # wxGlade: MyFrame.<event_handler>
+        print "boton_abrir"
         print DATADIR 
         #-- Abrir un dialogo de busqueda de ficheros
         filechooser = wx.FileDialog(self, "Load Firmware Hex",
@@ -216,6 +227,23 @@ class MyFrame(wx.Frame):
           
         else: #-- No se ha seleccionado ninguno
           print "Cancel..."
+          
+        print "C" 
+        
+    def button_open_jumps(self, event): # wxGlade: MyFrame.<event_handler>
+        print "button_open_jumps"
+        print DATADIR 
+        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_50ms.hex'))
+        
+    def button_open_runs(self, event): # wxGlade: MyFrame.<event_handler>
+        print "button_open_runs"
+        print DATADIR 
+        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_10ms.hex'))
+        
+    def button_open_led(self, event): # wxGlade: MyFrame.<event_handler>
+        print "button_open_led"
+        print DATADIR 
+        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'ledp.hex'))
         
         
     #-----------------------------------------------------------------

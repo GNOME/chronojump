@@ -103,13 +103,13 @@ class MyFrame(wx.Frame):
         self.panel_1 = wx.Panel(self, -1)
         self.sizer_4_copy_staticbox = wx.StaticBox(self.panel_1, -1, "Port / Puerto")
         self.sizer_2_staticbox = wx.StaticBox(self.panel_1, -1, "Process / Proceso")
-        self.sizer_4_staticbox = wx.StaticBox(self.panel_1, -1, "Firmware Chronopic")
+        self.sizer_firmware_staticbox = wx.StaticBox(self.panel_1, -1, "Select Firmware for Chronopic")
         self.frame_1_statusbar = self.CreateStatusBar(1, 0)
         self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
-        self.button_firmware_jumps = wx.Button(self.panel_1, -1, "J", style=wx.BU_EXACTFIT)
-        self.button_firmware_runs = wx.Button(self.panel_1, -1, "R", style=wx.BU_EXACTFIT)
-        self.button_firmware_led = wx.Button(self.panel_1, -1, "L", style=wx.BU_EXACTFIT)
-        self.button_2 = wx.Button(self.panel_1, -1, "Search / Buscar", style=wx.BU_EXACTFIT)
+        self.button_firmware_jumps = wx.Button(self.panel_1, -1, "Jumps", style=wx.BU_EXACTFIT)
+        self.button_firmware_runs = wx.Button(self.panel_1, -1, "Runs", style=wx.BU_EXACTFIT)
+        self.button_firmware_led = wx.Button(self.panel_1, -1, "Led (test)", style=wx.BU_EXACTFIT)
+        #self.button_2 = wx.Button(self.panel_1, -1, "Search / Buscar", style=wx.BU_EXACTFIT)
         self.button_7 = wx.Button(self.panel_1, -1, "Record / Grabar", style=wx.BU_EXACTFIT)
         self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN)
         self.gauge_1 = wx.Gauge(self.panel_1, -1, 100)
@@ -119,7 +119,7 @@ class MyFrame(wx.Frame):
         self.__set_properties()
         self.__do_layout()
 
-        self.Bind(wx.EVT_BUTTON, self.boton_abrir, self.button_2)
+        #self.Bind(wx.EVT_BUTTON, self.boton_abrir, self.button_2)
         self.Bind(wx.EVT_BUTTON, self.boton_grabar, self.button_7)
         self.Bind(wx.EVT_BUTTON, self.boton_cancelar, self.button_6)
         self.Bind(wx.EVT_BUTTON, self.boton_ayuda, self.button_8)
@@ -160,7 +160,7 @@ class MyFrame(wx.Frame):
         frame_1_statusbar_fields = ["Firmwares in Chronojump\\share\\Chronojump\\firmware"]
         for i in range(len(frame_1_statusbar_fields)):
             self.frame_1_statusbar.SetStatusText(frame_1_statusbar_fields[i], i)
-        self.text_ctrl_2.SetMinSize((250, 27))
+        self.text_ctrl_2.SetMinSize((450, 27))
         self.combo_box_1.SetMinSize((250,30))
         # end wxGlade
 
@@ -171,15 +171,28 @@ class MyFrame(wx.Frame):
         sizer_2 = wx.StaticBoxSizer(self.sizer_2_staticbox, wx.VERTICAL)
         sizer_3.Add(self.button_8, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
         sizer_4_copy = wx.StaticBoxSizer(self.sizer_4_copy_staticbox, wx.HORIZONTAL)
-        sizer_4 = wx.StaticBoxSizer(self.sizer_4_staticbox, wx.HORIZONTAL)
-        sizer_4.Add(self.button_firmware_jumps, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_4.Add(self.button_firmware_runs, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_4.Add(self.button_firmware_led, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_4.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_4.Add(self.button_2, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_3.Add(sizer_4, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
+        
+        sizer_firmware = wx.StaticBoxSizer(self.sizer_firmware_staticbox, wx.VERTICAL)
+        sizer_firmware_row_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_firmware_row_1_1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_firmware_row_1_2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer_firmware_row_2 = wx.BoxSizer(wx.HORIZONTAL)
+        
+        sizer_firmware_row_1_1.Add(self.button_firmware_jumps, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        sizer_firmware_row_1_1.Add(self.button_firmware_runs, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE|wx.LEFT, 5)
+        sizer_firmware_row_1.Add(sizer_firmware_row_1_1, 1, wx.ALIGN_LEFT|wx.LEFT|wx.TOP, 5) #proportion 1 to fill space
+        
+        sizer_firmware_row_1_2.Add(self.button_firmware_led, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_RIGHT, 5)
+        sizer_firmware_row_1.Add(sizer_firmware_row_1_2, 0, wx.ALIGN_RIGHT|wx.RIGHT|wx.TOP, 5) #proportion 0 to be at right
+        
+        sizer_firmware_row_2.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+        #sizer_firmware_row_2.Add(self.button_2, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
+        sizer_firmware.Add(sizer_firmware_row_1, 0, wx.EXPAND, 5)
+        sizer_firmware.Add(sizer_firmware_row_2, 0, wx.ALL|wx.EXPAND, 5)
+        sizer_3.Add(sizer_firmware, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
+        
         sizer_4_copy.Add(self.combo_box_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5)
-        sizer_4_copy.Add(self.button_7, 0, wx.ALIGN_CENTER_VERTICAL, 0)
+        sizer_4_copy.Add(self.button_7, 0, wx.ALIGN_CENTER_VERTICAL|wx.LEFT, 5)
         sizer_3.Add(sizer_4_copy, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
         sizer_2.Add(self.gauge_1, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ADJUST_MINSIZE, 4)
         sizer_2.Add((20, 10), 0, wx.ADJUST_MINSIZE, 0)

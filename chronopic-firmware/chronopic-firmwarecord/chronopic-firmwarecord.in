@@ -26,10 +26,14 @@ import wx
 import sys
 import os
 import platform
+import tempfile
+
+sys.stdout = open(os.path.join(tempfile.gettempdir(), 'chronopic-firmwarecord-stdout.log'),"w")
+sys.stderr = open(os.path.join(tempfile.gettempdir(), 'chronopic-firmwarecord-stderr.log'),"w")
 
 if platform.system() == 'Windows':
     LIBDIR = os.path.abspath(os.path.join('..', 'lib'))
-    DATADIR = os.path.abspath(os.path.join('..', 'share'))
+    DATADIR = os.path.abspath(os.path.join('../..', 'share'))
     sys.path = ['..'] + sys.path
 else:
     LIBDIR = '@expanded_libdir@'

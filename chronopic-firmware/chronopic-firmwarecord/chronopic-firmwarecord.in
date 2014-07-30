@@ -191,14 +191,16 @@ class MyFrame(wx.Frame):
     #-- Funcion de retrollamada del boton de exploracion de ficheros  
     #------------------------------------------------------------------
     def boton_abrir(self, event): # wxGlade: MyFrame.<event_handler>
-       
+        print DATADIR 
         #-- Abrir un dialogo de busqueda de ficheros
         filechooser = wx.FileDialog(self, "Load Firmware Hex",
                                     os.path.join(DATADIR, 'chronojump', 'firmware'), wildcard = "*.hex;*.HEX")
 
+        print "A" 
         #-- Esperar a que el usuario seleccione el fichero
         opcion = filechooser.ShowModal()
         
+        print "B" 
         #-- Segun la opcion...
         if opcion == wx.ID_OK:
         

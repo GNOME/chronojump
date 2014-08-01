@@ -57,7 +57,15 @@ public class EncoderConfigurationWindow {
 	[Widget] Gtk.SpinButton spin_im_weight;
 	[Widget] Gtk.SpinButton spin_im_length;
 	//[Widget] Gtk.SpinButton spin_im_duration;
-	[Widget] Gtk.Label label_im_progress;
+	[Widget] Gtk.Label label_im_result_disc;
+	[Widget] Gtk.Label label_im_result_weights;
+	[Widget] Gtk.Label label_im_result_total;
+	[Widget] Gtk.Table table_im_machine_result;
+	[Widget] Gtk.Box vbox_im_weights_and_total;
+	[Widget] Gtk.SpinButton spin_im_weights_n;
+	[Widget] Gtk.SpinButton spin_im_weights_weight;
+	[Widget] Gtk.Table table_im_weights_and_total_result;
+	[Widget] Gtk.Label label_im_feedback;
 	[Widget] Gtk.Button button_encoder_capture_inertial_do;
 	[Widget] Gtk.Button button_encoder_capture_inertial_cancel;
 	//[Widget] Gtk.Button button_encoder_capture_inertial_finish;
@@ -256,7 +264,7 @@ public class EncoderConfigurationWindow {
 		button_encoder_capture_inertial_cancel.Sensitive = true;
 		//button_encoder_capture_inertial_finish.Sensitive = true;
 		
-		label_im_progress.Text = "Capturing";
+		label_im_feedback.Text = "Capturing";
 		capturing = true;
 	}
 
@@ -274,17 +282,21 @@ public class EncoderConfigurationWindow {
 		//button_encoder_capture_inertial_finish.Sensitive = false;
 			
 		if(imResult == 0)
-			label_im_progress.Text = message;
+			label_im_feedback.Text = message;
 		else {
-			label_im_progress.Text = imResult.ToString() + " Kg*cm^2";
+			label_im_result_disc.Text = imResult.ToString();
 			spin_inertia.Value = imResult;
+			label_im_feedback.Text = "";
+
+			table_im_machine_result.Visible = true;
+			vbox_im_weights_and_total.Visible = true;
 		}
 		capturing = false;
 	}
 	
 	void on_button_encoder_capture_inertial_cancel_clicked (object o, EventArgs args) {
 		//signal is raised and managed in gui/encoder.cs
-		label_im_progress.Text = "Cancelled"; 
+		label_im_feedback.Text = "Cancelled"; 
 		capturing = false;
 	}
 	/*
@@ -293,6 +305,22 @@ public class EncoderConfigurationWindow {
 	}
 	*/
 	
+	void on_button_encoder_calcule_inertial_weights_clicked (object o, EventArgs args) {
+		int n = Convert.ToInt32(spin_im_weights_n.Value);
+		double weightInKg = spin_im_weights_weight.Value / 1000.0;
+		double length = spin_im_length.Value;
+
+		//IM of all the weights = n * (weight * length^2) Kg*cm^2
+		double im_weights = n * ( weightInKg * Math.Pow(length,2) );
+		
+		label_im_result_weights.Text = im_weights.ToString();	
+		double im_total = Convert.ToDouble(label_im_result_disc.Text) + im_weights;
+		label_im_result_total.Text = im_total.ToString();	
+		spin_inertia.Value = im_total;
+		
+		table_im_weights_and_total_result.Visible = true;
+	}
+		
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		EncoderConfigurationWindowBox.encoder_configuration.Hide();
@@ -329,9 +357,6 @@ public class EncoderConfigurationWindow {
 	//	get { return button_encoder_capture_inertial_finish; }
 	//}
 	
-	public string Label_im_progress_text {
-		set { label_im_progress.Text = value; }
-	}
 	
 	public double Spin_im_weight {
 		get { return spin_im_weight.Value; }

@@ -1880,9 +1880,6 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(),
 				chronopicWin.GetEncoderPort() );
 
-		//TODO: call this on GUI (updatePulseBars...)
-		//encoder_configuration_win.Label_im_progress_text = Catalog.GetString("Processing");
-		
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
 

@@ -350,7 +350,10 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool encoderCheckPort()	{
-		if(chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) {
+		if(
+				chronopicWin.GetEncoderPort() == "" ||
+				chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) 
+		{
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
 			/*

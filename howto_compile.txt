@@ -41,8 +41,9 @@ only the configure.ac is pushed
 
 Following cerbero commands will take stuff from git, then all have to be commited and pushed
 
-to package chronojump, first ensure that version is ok in:
+*** to package chronojump, first ensure that version is ok in:
 cerbero/cerbero-extras/packages/chronojump/chronojump.package
+***
 
 packaging (outside the shell): (will fetch chronojump sources from git)
 cerbero-cj buildone chronojump
@@ -51,10 +52,20 @@ cerbero-cj package chronojump
 #as in 64 bit there's problems with the video drivers  do:
 cerbero-cj package chronojump --skip-deps-build
 
-#if hard disk it's busy, reset MacOSX and do again the 
+#if hard disk it's busy, reset MacOSX, and free space:
+
+empty trash folder.
+Find and delete big files:
+du -h -d 1
+delete the pkg, dmg and the "user"/Library/Caches
+also run top command to see stuck processes and kill them
+
+do again the 
 cerbero-cj buildone chronojump
 cerbero-cj package chronojump --skip-deps-build
 
+the 'package chronojump' command should be fast (specially the hdiutil part, if it's slow or the progress is not displayed: "........" CTRL-C reset, top, kill processes and try again both commands
+)
 
 #once installed package on Mac, can be tested from the terminal:
 cd /Applications/Chronojump.app/Contents/MacOS/

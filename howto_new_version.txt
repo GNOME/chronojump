@@ -42,6 +42,8 @@ download (with filezilla is very fast), using owncloud is nice also
 scp -l 8192 Chronojump...dmg xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 mv Chrono...dmg /ftp/pub/gnome/binaries/mac/chronojump
+cd /ftp/pub/gnome/binaries/mac/chronojump
+chmod +r ...dmg
 signal-ftp-sync
 wait 5'
 
@@ -51,8 +53,9 @@ See: howto_compile.txt
 
 scp -l 8192 Chronojump...exe xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-chmod +rx Chrono...exe
 mv Chrono...exe /ftp/pub/gnome/binaries/win32/chronojump
+cd /ftp/pub/gnome/binaries/win32/chronojump
+chmod +rx Chrono...exe
 signal-ftp-sync
 wait 5'
 

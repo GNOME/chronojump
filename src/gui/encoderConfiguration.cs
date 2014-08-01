@@ -284,7 +284,7 @@ public class EncoderConfigurationWindow {
 		if(imResult == 0)
 			label_im_feedback.Text = message;
 		else {
-			label_im_result_disc.Text = imResult.ToString();
+			label_im_result_disc.Text = Util.TrimDecimals(imResult, 2);
 			spin_inertia.Value = imResult;
 			label_im_feedback.Text = "";
 
@@ -313,9 +313,9 @@ public class EncoderConfigurationWindow {
 		//IM of all the weights = n * (weight * length^2) Kg*cm^2
 		double im_weights = n * ( weightInKg * Math.Pow(length,2) );
 		
-		label_im_result_weights.Text = im_weights.ToString();	
+		label_im_result_weights.Text = Util.TrimDecimals(im_weights, 2);
 		double im_total = Convert.ToDouble(label_im_result_disc.Text) + im_weights;
-		label_im_result_total.Text = im_total.ToString();	
+		label_im_result_total.Text = Util.TrimDecimals(im_total, 2);
 		spin_inertia.Value = im_total;
 		
 		table_im_weights_and_total_result.Visible = true;

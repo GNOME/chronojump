@@ -5816,21 +5816,11 @@ Inertia momentum of the disk with attached weights.
 \end_layout
 
 \begin_layout Standard
-For this process we recommend to calculate first the IM of the disk following
- the section 
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-6.4.2
-\end_layout
-
-\end_inset
-
- of this documents.
- After that if you want to know the IM of the machine with some attached
- weights you must calculate the IM that every weight will add to the machine.
- To do so you must use this formula
+After calculating the IM of the disk, you will be asked to enter the number
+ of additional weights and the mass of them.
+ Chronojump will give you the inertia momentum added by each additional
+ weight and the total inertia momentum.
+ Chronojump uses the following formulae.
 \end_layout
 
 \begin_layout Standard
@@ -5867,7 +5857,7 @@ Where:
 \end_layout
 
 \begin_layout Standard
-Finally, you must add the IM of the disk to the IM of the weights.
+And the inertia momentum of the disk with the attatched weights
 \end_layout
 
 \begin_layout Standard
@@ -5903,67 +5893,6 @@ Where:
 
  is the number of weights added to the disk.
  - is the inertia momentum of each weight calculated above
-\end_layout
-
-\begin_layout Subsection
-Using Chronojump to calculate directly the IM of the disc with some attached
- weights
-\end_layout
-
-\begin_layout Standard
-Attention, this is not the method recommended by the Chronojump team.
- As the manual calculation of the IM of the weights is much more accurate
- we don't recommend to use this method.
-\end_layout
-
-\begin_layout Standard
-This method can be useful if you don't want to make the manual calculus,
- or if you want to check your calculus.
-\end_layout
-
-\begin_layout Standard
-You can calculate the IM of your configuration adding an extra weight that
- unbalance the disk.
- As the normal use of the inertial machines requires a balanced configuration
- of the extra weights you attach to the disk, the center gravity of the
- disk and the weights should be on the center of the disk.
- Adding an extra reference weight will unbalance the system and, as in the
- section 1, you can make oscillate it and measure this oscillation with
- the encoder to know the IM of the disk and the weights 
-\series bold
-without
-\series default
- the attached reference weight.
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/Disk_load.png
-	lyxscale 12
-	scale 12
-
-\end_inset
-
-
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Reference weight in a loaded disk
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section

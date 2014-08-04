@@ -4856,7 +4856,7 @@ Every time you want to measure, you perform an exercise.
 \end_layout
 
 \begin_layout Subsection
-Signals
+Sets (formerly signals)
 \end_layout
 
 \begin_layout Standard
@@ -4864,22 +4864,22 @@ When the person does the exercise, encoder generates a lot of data and sends
  it to the computer.
  Exercise duration is defined by the user who manages the software, but
  can be shortened if wanted.
- All the data received is called a “signal”.
- This signal is saved automatically when capture ends.
- The signal is meaningless, it doesn't have any information on how many
- repetitions of the movement has been done by the person who executed the
- exercise.
+ All the data received is called a “set”.
+ This set is saved automatically when capture ends.
+ The set is meaningless, it doesn't have any information on how many repetitions
+ of the movement has been done by the person who executed the exercise.
 \end_layout
 
 \begin_layout Subsection
-Curves
+Repetitions (formerly repetitions)
 \end_layout
 
 \begin_layout Standard
-When signal is analysed, a number of curves are found.
- This curves have the mechanical data wanted by the evaluator: start, duration,
- speed, force, power.
- The curves are detected by the software automatically following user criteria.
+When set is analysed, a number of repetitions are found.
+ This repetitions have the mechanical data wanted by the evaluator: start,
+ duration, speed, force, power.
+ The repetitions are detected by the software automatically following user
+ criteria.
  
 \end_layout
 
@@ -5129,7 +5129,7 @@ Aquire
 \end_layout
 
 \begin_layout Standard
-In the acquire area a new signal can be captured 
+In the acquire area a new set can be captured 
 \begin_inset Graphics
 	filename capture_button.png
 	lyxscale 75
@@ -5157,7 +5157,7 @@ With the Options button
 
 \end_inset
 
- the following parameters of the capture or loaded signal can be adjusted:
+ the following parameters of the capture or loaded set can be adjusted:
 \end_layout
 
 \begin_layout Standard
@@ -5195,7 +5195,7 @@ Capture options
 
 \begin_layout Itemize
 Recording time.
- How long Chronojump will be capturing the signal resulting of the exercise
+ How long Chronojump will be capturing the set resulting of the exercise
 \end_layout
 
 \begin_layout Itemize
@@ -5205,16 +5205,17 @@ End at n inactivity seconds.
 \end_layout
 
 \begin_layout Itemize
-Minimal height is the minimum range of centimetres that a curve has.
+Minimal height is the minimum range of centimetres that a repetition has.
  E.g.
  In a bench press, when person lifts the bar fom r the first time before
  starting exercise (weight was in the support), this is not considered a
- curve because it's range of movement is lower than “Minimal height” defined.
+ repetition because it's range of movement is lower than “Minimal height”
+ defined.
 \end_layout
 
 \begin_layout Itemize
 Displayed height.
- The scale of the signal frame.
+ The scale of the set frame.
  The optimal value is the range of the movement in each exercise.
 \end_layout
 
@@ -5274,18 +5275,17 @@ The load button
 
 \end_inset
 
- of this frame allows to load a signal, save signal again with a comment
- (just write comment in the area and press update), or delete the signal.
- The load signal window is used also to manage all the signals of current
- person.
+ of this frame allows to load a set, save set again with a comment (just
+ write comment in the area and press update), or delete the set.
+ The load set window is used also to manage all the sets of current person.
  Right click on it to change the person who performed the exercise, add
- a comment or delete any signal of a given person.
+ a comment or delete any set of a given person.
 \end_layout
 
 \begin_layout Standard
 Recalculate can be used after capturing or loading.
  When user detects that some parameter has not been set correctly and wants
- to perform calculations of the signal again, user can change the selector
+ to perform calculations of the set again, user can change the selector
  and press “recalculate” 
 \begin_inset Graphics
 	filename recalculate.png
@@ -5310,32 +5310,32 @@ Camera record
 At the right of the exercise frame there is a check box where a web cam
  can be activated.
  If it's active it will be used on encoder capturing.
- The resulting video will be attached to the encoder signal and can be watched
- using a button on signal frame.
+ The resulting video will be attached to the encoder set and can be watched
+ using a button on set frame.
 \end_layout
 
 \begin_layout Subsubsection
-Signal frame
+set frame
 \end_layout
 
 \begin_layout Standard
-During the capture this frame will show the signal sent by the encoder.
- Once finished Chronojump will calculate all the curves and show them in
- the same frame with some basic graphic information.
+During the capture this frame will show the set sent by the encoder.
+ Once finished Chronojump will calculate all the repetitions and show them
+ in the same frame with some basic graphic information.
 \end_layout
 
 \begin_layout Subsubsection
-Curves frame
+repetitions frame
 \end_layout
 
 \begin_layout Standard
-Once signal is loaded, captured or recalculated, Chronojump will find curves
+Once set is loaded, captured or recalculated, Chronojump will find repetitions
  and write their data on a table.
- Here you can delete a curve, save the selected curve, save all or export
- them to an spreadsheet software.
- Most users will save only a curve, or delete a curve and the press “save
- all”.
- This curves can be analysed at the Encoder analyse tab.
+ Here you can delete a repetition, save the selected repetition, save all
+ or export them to an spreadsheet software.
+ Most users will save only a repetition, or delete a repetition and the
+ press “save all”.
+ This repetitions can be analysed at the Encoder analyse tab.
 \end_layout
 
 \begin_layout Standard
@@ -5360,7 +5360,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Saving and deleting curves
+Saving and deleting repetitions
 \end_layout
 
 \end_inset
@@ -5374,7 +5374,7 @@ Saving and deleting curves
 \end_layout
 
 \begin_layout Standard
-To save or delete a curve just click on the checkbox 
+To save or delete a repetition just click on the checkbox 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5382,12 +5382,13 @@ Saved
 \begin_inset Quotes erd
 \end_inset
 
- of the curve you want to save or delete.
+ of the repetition you want to save or delete.
 \end_layout
 
 \begin_layout Standard
-In excentric-concentric mode, saving a excentreic (concentric) curve will
- also save the corresponding concentric (excentric) curve of the exercise.
+In excentric-concentric mode, saving a excentreic (concentric) repetition
+ will also save the corresponding concentric (excentric) repetition of the
+ exercise.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5436,12 +5437,12 @@ Poweb bars
 \end_layout
 
 \begin_layout Standard
-The descending white line in the bar indicates an excentric curve.
+The descending white line in the bar indicates an excentric repetition.
  An ascending line, a concentric.
 \end_layout
 
 \begin_layout Standard
-The saved curves apears with a framed number below.
+The saved repetitions apears with a framed number below.
 \end_layout
 
 \begin_layout Subsection
@@ -5483,17 +5484,17 @@ Analyze tab
 \end_layout
 
 \begin_layout Standard
-Regarding the data, two things can be analysed: current signal (the signal
- in the capture tab) or user curves.
+Regarding the data, two things can be analysed: current set (the set in
+ the capture tab) or user repetitions.
 \end_layout
 
 \begin_layout Standard
-When “User curves” is marked, then using the “Select” button, it can be
- discriminated the active curves and the not-active.
- The analysis will cover only the active curves.
- Also the “User curves” allow to make comparisons between subjects (to compare
- the different subjects in this session), or between sessions (to compare
- the evolution of a person during different sessions).
+When “User repetitions” is marked, then using the “Select” button, it can
+ be discriminated the active repetitions and the not-active.
+ The analysis will cover only the active repetitions.
+ Also the “User repetitions” allow to make comparisons between subjects
+ (to compare the different subjects in this session), or between sessions
+ (to compare the evolution of a person during different sessions).
 \end_layout
 
 \begin_layout Standard
@@ -5536,12 +5537,12 @@ Side compare
 
 \end_inset
 
-: to see a graph of the mechanical variables of different curves all with
- the same axis.
+: to see a graph of the mechanical variables of different repetitions all
+ with the same axis.
 \end_layout
 
 \begin_layout Itemize
-Single curve 
+Single repetition 
 \begin_inset Graphics
 	filename analyze_singlecurve_button.png
 	lyxscale 75
@@ -5549,7 +5550,7 @@ Single curve
 
 \end_inset
 
-: to see a graph of the mechanical variables of a curve.
+: to see a graph of the mechanical variables of a repetition.
 \end_layout
 
 \begin_layout Itemize
@@ -5562,7 +5563,7 @@ Neuromuscular profile
 \end_inset
 
 : to se the neuromuscular profile of the three best jumps of a set of six.
- At least six jumping curves are needed to performe that kind of analysis.
+ At least six jumping repetitions are needed to performe that kind of analysis.
 \end_layout
 
 \begin_layout Standard
@@ -6040,14 +6041,14 @@ Select exercise options: bench press, extra weight: 20Kg (10 bar + 10 gym
 Select athlete1.
  Click on capture (“Safe” or “External”).
  See the results but have no time to analyse them now.
- Signal is automatically saved.
+ set is automatically saved.
 \end_layout
 
 \begin_layout Enumerate
 Select athlete2.
  Click on capture (“Safe” or “External”).
  See the results but have no time to analyse them now.
- Signal is automatically saved.
+ set is automatically saved.
 \end_layout
 
 \begin_layout Enumerate
@@ -6076,16 +6077,16 @@ Open software.
 \end_layout
 
 \begin_layout Enumerate
-Load session, select athlete1, load first signal, and “Save all” curves.
+Load session, select athlete1, load first set, and “Save all” repetitions.
 \end_layout
 
 \begin_layout Enumerate
-Repeat [2] for all the signals of Athlete1 and Athlete2.
+Repeat [2] for all the sets of Athlete1 and Athlete2.
 \end_layout
 
 \begin_layout Enumerate
 Go to analyse tab.
- Select User curves, compare between subjects, “Power / Load”.
+ Select User repetitions, compare between subjects, “Power / Load”.
 \end_layout
 
 \begin_layout Enumerate
@@ -8009,7 +8010,7 @@ Chronojump dispone de un servidor en Internet para compartir datos entre
 
 \begin_layout Standard
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Creemos que el servidor de Chronojump es óptimo en cuanto a facilidad de
@@ -9663,7 +9664,7 @@ Chronopic1.
 
 \begin_layout Standard
 \begin_inset Note Comment
-status collapsed
+status open
 
 \begin_layout Plain Layout
 En septiembre de 2007, existe el Chronopic 1.0 y se está desarrollando Chronopic

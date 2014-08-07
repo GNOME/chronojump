@@ -1,0 +1,7 @@
+export NUNIT_DLL="/usr/lib/mono/gac/nunit.framework/2.6.0.0__96d09a1eb7f44a77/nunit.framework.dll"
+export DIR="../../src"
+
+gmcs -debug -t:library -r:Mono.Data.Sqlite -r:Mono.Posix -r:System -r:System.Data -r:$NUNIT_DLL -out:encoder.dll encoderTests.cs $DIR/encoder.cs $DIR/constants.cs $DIR/utilDate.cs $DIR/log.cs $DIR/utilAll.cs $DIR/util.cs
+
+#execute: without the 4.0 there's a CLR error
+nunit-console -framework=4.0 encoder.dll

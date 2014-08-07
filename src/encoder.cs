@@ -68,61 +68,6 @@ public class EncoderParams
 	{
 	}
 
-	/*
-	//to encoder capture
-	//RunEncoderCapturePython: pyserial_pyper.py and pyserial_pyper_windows.py . This will be deprecated soon 
-	public EncoderParams(int time, int minHeight, int exercisePercentBodyWeight, string mass, 
-			string smoothCon, string eccon, string analysisOptions,
-			double heightHigherCondition, double heightLowerCondition, 
-			double meanSpeedHigherCondition, double meanSpeedLowerCondition, 
-			double maxSpeedHigherCondition, double maxSpeedLowerCondition, 
-			int powerHigherCondition, int powerLowerCondition, 
-			int peakPowerHigherCondition, int peakPowerLowerCondition,
-			string mainVariable//, bool inverted)
-		)
-	{
-		this.time = time;
-		this.minHeight = minHeight;
-		this.exercisePercentBodyWeight = exercisePercentBodyWeight;
-		this.mass = mass;
-		this.smoothCon = smoothCon;
-		this.eccon = eccon;
-		this.analysisOptions = analysisOptions;
-		this.heightHigherCondition = heightHigherCondition;
-		this.heightLowerCondition = heightLowerCondition;
-		this.meanSpeedHigherCondition = meanSpeedHigherCondition;
-		this.meanSpeedLowerCondition = meanSpeedLowerCondition;
-		this.maxSpeedHigherCondition = maxSpeedHigherCondition;
-		this.maxSpeedLowerCondition = maxSpeedLowerCondition;
-		this.powerHigherCondition = powerHigherCondition;
-		this.powerLowerCondition = powerLowerCondition;
-		this.peakPowerHigherCondition = peakPowerHigherCondition;
-		this.peakPowerLowerCondition = peakPowerLowerCondition;
-		this.mainVariable = mainVariable;
-		//this.inverted = inverted;
-	}
-
-	//to encoder capture
-	//RunEncoderCapturePython: pyserial_pyper.py and pyserial_pyper_windows.py . This will be deprecated soon 
-	public string ToString1 () 
-	{
-		string analysisOptionsPrint = analysisOptions;
-		if(analysisOptionsPrint == "")
-			analysisOptionsPrint = "none";
-
-		return time.ToString() + " " + minHeight.ToString() + " " + exercisePercentBodyWeight.ToString() + 
-			" " + mass.ToString() + " " + smoothCon + " " + eccon + " " + analysisOptionsPrint +
-			" " + heightHigherCondition.ToString() +	" " + heightLowerCondition.ToString() +
-			" " + Util.ConvertToPoint(meanSpeedHigherCondition.ToString()) + 	
-			" " + Util.ConvertToPoint(meanSpeedLowerCondition.ToString()) +
-			" " + Util.ConvertToPoint(maxSpeedHigherCondition.ToString()) + 	
-			" " + Util.ConvertToPoint(maxSpeedLowerCondition.ToString()) +
-			" " + powerHigherCondition.ToString() + 	" " + powerLowerCondition.ToString() +
-			" " + peakPowerHigherCondition.ToString() + 	" " + peakPowerLowerCondition.ToString() +
-			" " + mainVariable //+ " " + Util.BoolToInt(inverted).ToString();
-		;
-	}
-	*/
 	
 	//to graph.R	
 	public EncoderParams(int minHeight, int exercisePercentBodyWeight, string massBody, string massExtra, 
@@ -624,7 +569,7 @@ public class EncoderSQL
 	}
 
 	//uniqueID:name
-	public void ChangePerson(string newIDAndName) {
+	public EncoderSQL ChangePerson(string newIDAndName) {
 		int newPersonID = Util.FetchID(newIDAndName);
 		string newPersonName = Util.FetchName(newIDAndName);
 		string newFilename = filename;
@@ -670,9 +615,17 @@ public class EncoderSQL
 		if(success)
 			filename = newFilename;
 
-		//SqliteUpdate
-		SqliteEncoder.Update(false, this);
+		//will update SqliteEncoder
+		return (this);
 	}
+
+
+	//used in NUnit
+	public string Filename
+	{
+		set { filename = value; }
+	}
+
 }
 
 
@@ -889,9 +842,9 @@ public class EncoderConfiguration {
 		gearedDown = 1;
 	}
 
-	/* note: if this changes, change also in:
-	 * UtilEncoder.EncoderConfigurationList(enum encoderType)
-	 */
+	// note: if this changes, change also in:
+	// UtilEncoder.EncoderConfigurationList(enum encoderType)
+	
 	public EncoderConfiguration(Constants.EncoderConfigurationNames name) {
 		this.name = name;
 		has_d = false;
@@ -1142,5 +1095,4 @@ public class EncoderConfiguration {
 
 		return code + str_d + str_D + str_anglePush + str_angleWeight + str_inertia + str_gearedDown;
 	}
-	
 }

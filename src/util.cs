@@ -873,7 +873,7 @@ public class Util
 
 	public static string GetPrefixDir(){
 		string baseDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "..");
-		if (!Directory.Exists(Path.Combine (baseDirectory, "lib", "chronojump"))) {
+		if (! Directory.Exists(Path.Combine(baseDirectory, "lib" + Path.DirectorySeparatorChar + "chronojump"))) {
 			baseDirectory = System.IO.Path.Combine(baseDirectory, "..");
 		}
 		return baseDirectory;

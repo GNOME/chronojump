@@ -919,7 +919,9 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
-			eSQL.ChangePerson(genericWin.GetComboSelected);
+			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
+			SqliteEncoder.Update(false, eSQLChangedPerson);
+
 			genericWin.RemoveSelectedRow();
 		}
 
@@ -1318,7 +1320,9 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
-			eSQL.ChangePerson(genericWin.GetComboSelected);
+			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
+			SqliteEncoder.Update(false, eSQLChangedPerson);
+			
 			genericWin.RemoveSelectedRow();
 		}
 

@@ -3485,7 +3485,7 @@ public partial class ChronoJumpWindow
 			if(graphSignal)
 				updateEncoderCaptureGraphPaint(); 
 			if(calcCurves)
-				updateEncoderCaptureGraphRCalc(plotCurvesBars); 
+				updateEncoderCaptureGraphRCalcPre(plotCurvesBars); 
 		}
 	}
 	
@@ -3562,6 +3562,18 @@ public partial class ChronoJumpWindow
 	string encoderCaptureStringR;
 	double massDisplacedEncoder = 0;
 	ArrayList captureCurvesBarsData;
+	static bool updatingEncoderCaptureGraphRCalc;
+	
+	private void updateEncoderCaptureGraphRCalcPre(bool plotCurvesBars) 
+	{
+		Log.WriteLine(" PERFORMING CALCULATIONS A ");
+	
+		//check if this helps to show bars on slow computers
+		if(! updatingEncoderCaptureGraphRCalc) {
+			updateEncoderCaptureGraphRCalc(plotCurvesBars);
+			updatingEncoderCaptureGraphRCalc = false;
+		}
+	}
 	
 	private void updateEncoderCaptureGraphRCalc(bool plotCurvesBars) 
 	{
@@ -3572,6 +3584,9 @@ public partial class ChronoJumpWindow
 			return;
 		if(ecca.ecc.Count <= ecca.curvesDone) 
 			return;
+		
+		updatingEncoderCaptureGraphRCalc = true;
+		Log.WriteLine(" PERFORMING CALCULATIONS B ");
 
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
 		Log.Write("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
@@ -4251,6 +4266,7 @@ public partial class ChronoJumpWindow
 
 				if(action == encoderActions.CAPTURE) {
 					captureCurvesBarsData = new ArrayList();
+					updatingEncoderCaptureGraphRCalc = false;
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 				}

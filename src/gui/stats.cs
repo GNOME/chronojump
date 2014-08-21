@@ -859,19 +859,19 @@ public partial class ChronoJumpWindow {
 				statisticApplyTo,
 				treeview_stats,
 				sendSelectedSessions, 
-				prefsDigitsNumber, 
+				preferences.digitsNumber, 
 				checkbutton_stats_sex.Active,  
 				statsJumpsType,
 				limit, 
-				heightPreferred,
-				weightPercentPreferred, 
+				preferences.heightPreferred,
+				preferences.weightStatsPercent, 
 				markedRows,
 				evolution_mark_consecutives,
 				graphROptions,
 				graph,
 				toReport,  //always false in this class
-				RGraphsTranslate,
-				useHeightsOnJumpIndexes
+				preferences.RGraphsTranslate,
+				preferences.useHeightsOnJumpIndexes
 				);
 
 		//if we just made a graph, store is not made, 

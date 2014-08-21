@@ -32,7 +32,7 @@ using System.Threading;
 
 public class PreferencesWindow {
 	
-	[Widget] Gtk.Window preferences;
+	[Widget] Gtk.Window preferences_win;
 
 	[Widget] Gtk.Label label_database;
 	[Widget] Gtk.Label label_database_temp;
@@ -107,6 +107,7 @@ public class PreferencesWindow {
 	
 	static PreferencesWindow PreferencesWindowBox;
 	
+	private Preferences preferences; //stored to update SQL if anything changed
 	private Thread thread;
 
 	//language when window is called. If changes, then change data in sql and show 
@@ -116,11 +117,11 @@ public class PreferencesWindow {
 
 	PreferencesWindow () {
 		Glade.XML gladeXML;
-		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences", "chronojump");
+		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "preferences_win", "chronojump");
 		gladeXML.Autoconnect(this);
 		
 		//put an icon to window
-		UtilGtk.IconWindow(preferences);
+		UtilGtk.IconWindow(preferences_win);
 
 		label_database.Visible = false;
 		label_database_temp.Visible = false;
@@ -130,18 +131,13 @@ public class PreferencesWindow {
 		label_database_temp.Text = Util.GetDatabaseTempDir() + System.IO.Path.DirectorySeparatorChar  + "chronojump.db";
 	}
 	
-	static public PreferencesWindow Show (int digitsNumber, bool showHeight, bool showPower,  
-			bool showInitialSpeed, bool showAngle, bool showQIndex, bool showDjIndex,
-			bool askDeletion, bool weightStatsPercent, bool heightPreferred, bool metersSecondsPreferred, 
-			string language, bool encoderPropulsive, double encoderSmoothCon,
-			string [] videoDevices, int videoDeviceNum, string encoder1RMMethod,
-			string CSVExportDecimalSeparator, bool RGraphsTranslate, bool useHeightsOnJumpIndexes,
-			Constants.EncoderAutoSaveCurve encoderAutoSaveCurve
-			)
+	static public PreferencesWindow Show (Preferences preferences)
 	{
 		if (PreferencesWindowBox == null) {
 			PreferencesWindowBox = new PreferencesWindow ();
 		}
+
+		PreferencesWindowBox.preferences = preferences;
 
 		//PreferencesWindowBox.languageIni = language;
 		//if(UtilAll.IsWindows())
@@ -149,17 +145,18 @@ public class PreferencesWindow {
 		//else 
 			PreferencesWindowBox.hideLanguageStuff();
 
-			PreferencesWindowBox.createComboCamera(videoDevices, videoDeviceNum);
+			PreferencesWindowBox.createComboCamera(UtilVideo.GetVideoDevices(), preferences.videoDeviceNum);
 		
 		string [] decs = {"1", "2", "3"};
-		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(decs, digitsNumber.ToString());
+		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
+				decs, preferences.digitsNumber.ToString());
 
-		if(showHeight) 
+		if(preferences.showHeight) 
 			PreferencesWindowBox.checkbutton_height.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_height.Active = false; 
 		
-		if(showPower) {
+		if(preferences.showPower) {
 			PreferencesWindowBox.checkbutton_power.Active = true; 
 			PreferencesWindowBox.button_help_power.Sensitive = true;
 		} else {
@@ -167,20 +164,20 @@ public class PreferencesWindow {
 			PreferencesWindowBox.button_help_power.Sensitive = false;
 		}
 		
-		if(showInitialSpeed)  
+		if(preferences.showInitialSpeed)  
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_initial_speed.Active = false; 
 		
-		if(showAngle)  
+		if(preferences.showAngle)  
 			PreferencesWindowBox.checkbutton_angle.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_angle.Active = false; 
 		
 
-		if(showQIndex || showDjIndex) { 
+		if(preferences.showQIndex || preferences.showDjIndex) { 
 			PreferencesWindowBox.checkbutton_show_tv_tc_index.Active = true; 
-			if(showQIndex) {
+			if(preferences.showQIndex) {
 				PreferencesWindowBox.radiobutton_show_q_index.Active = true; 
 				PreferencesWindowBox.radiobutton_show_dj_index.Active = false; 
 			} else {
@@ -193,87 +190,71 @@ public class PreferencesWindow {
 			PreferencesWindowBox.hbox_indexes.Hide();
 		}
 
-		if(askDeletion)  
+		if(preferences.askDeletion)  
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = true; 
 		else 
 			PreferencesWindowBox.checkbutton_ask_deletion.Active = false; 
 		
 
-		if(weightStatsPercent)  
+		if(preferences.weightStatsPercent)  
 			PreferencesWindowBox.radio_weight_percent.Active = true; 
 		else 
 			PreferencesWindowBox.radio_weight_kg.Active = true; 
 		
 
-		if(heightPreferred)  
+		if(preferences.heightPreferred)  
 			PreferencesWindowBox.radio_elevation_height.Active = true; 
 		else 
 			PreferencesWindowBox.radio_elevation_tf.Active = true; 
 		
 
-		if(metersSecondsPreferred)  
+		if(preferences.metersSecondsPreferred)  
 			PreferencesWindowBox.radio_speed_ms.Active = true; 
 		else 
 			PreferencesWindowBox.radio_speed_km.Active = true; 
 
 
-		if(CSVExportDecimalSeparator == "COMMA")
+		if(preferences.CSVExportDecimalSeparator == "COMMA")
 			PreferencesWindowBox.radio_export_latin.Active = true; 
 		else
 			PreferencesWindowBox.radio_export_non_latin.Active = true; 
 
 	
 		//encoder	
-		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = encoderPropulsive;
-		PreferencesWindowBox.spin_encoder_smooth_con.Value = encoderSmoothCon;
+		PreferencesWindowBox.checkbutton_encoder_propulsive.Active = preferences.encoderPropulsive;
+		PreferencesWindowBox.spin_encoder_smooth_con.Value = preferences.encoderSmoothCon;
 
-		if(encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED.ToString())
+		if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.NONWEIGHTED)
 			PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active = true;
-		else if(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED.ToString())
+		else if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED)
 			PreferencesWindowBox.radio_encoder_1RM_weighted.Active = true;
-		else if(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED2.ToString())
+		else if(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED2)
 			PreferencesWindowBox.radio_encoder_1RM_weighted2.Active = true;
-		else //(encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED3.ToString())
+		else //(preferences.encoder1RMMethod == Constants.Encoder1RMMethod.WEIGHTED3)
 			PreferencesWindowBox.radio_encoder_1RM_weighted3.Active = true;
-		/*
-		switch(encoder1RMMethod) {
-			case Constants.Encoder1RMMethod.NONWEIGHTED.ToString():
-				PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active = true;
-				break;
-			case Constants.Encoder1RMMethod.WEIGHTED.ToString():
-				PreferencesWindowBox.radio_encoder_1RM_weighted.Active = true;
-				break;
-			case Constants.Encoder1RMMethod.WEIGHTED2.ToString():
-				PreferencesWindowBox.radio_encoder_1RM_weighted2.Active = true;
-				break;
-			case Constants.Encoder1RMMethod.WEIGHTED3.ToString():
-				PreferencesWindowBox.radio_encoder_1RM_weighted3.Active = true;
-				break;
-		}
-		*/
 
 		//done here and not in glade to be shown with the decimal point of user language	
 		PreferencesWindowBox.label_encoder_con.Text = (0.7).ToString();
 		
-		if(RGraphsTranslate)
+		if(preferences.RGraphsTranslate)
 			PreferencesWindowBox.radio_graphs_translate.Active = true;
 		else
 			PreferencesWindowBox.radio_graphs_no_translate.Active = true;
 		
-		if(useHeightsOnJumpIndexes)
+		if(preferences.useHeightsOnJumpIndexes)
 			PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active = true;
 		else
 			PreferencesWindowBox.radio_do_not_use_heights_on_jump_indexes.Active = true;
 			
-		if(encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER)
+		if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_bestmeanpower.Active = true;
-		else if(encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
+		else if(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL)
 			PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active = true;
 		else
 			PreferencesWindowBox.radio_encoder_auto_save_curve_none.Active = true;
 
 
-		PreferencesWindowBox.preferences.Show ();
+		PreferencesWindowBox.preferences_win.Show ();
 		return PreferencesWindowBox;
 	}
 	
@@ -360,7 +341,7 @@ public class PreferencesWindow {
 	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		PreferencesWindowBox.preferences.Hide();
+		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
 	}
 	
@@ -370,7 +351,7 @@ public class PreferencesWindow {
 		if (thread != null && thread.IsAlive)
 			args.RetVal = true;
 		else {
-			PreferencesWindowBox.preferences.Hide();
+			PreferencesWindowBox.preferences_win.Hide();
 			PreferencesWindowBox = null;
 		}
 	}
@@ -446,7 +427,7 @@ public class PreferencesWindow {
 			fileDB = label_database_temp.Text;
 
 		fc = new Gtk.FileChooserDialog(Catalog.GetString("Copy database to:"),
-				preferences,
+				preferences_win,
 				FileChooserAction.SelectFolder,
 				Catalog.GetString("Cancel"),ResponseType.Cancel,
 				Catalog.GetString("Copy"),ResponseType.Accept
@@ -579,86 +560,159 @@ public class PreferencesWindow {
 	}
 
 
+	//change stuff in Sqlite and in preferences object that will be retrieved by GetPreferences
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
 		Sqlite.Open();
 
-		SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
-		SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), true);
-		SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
-		SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
-		SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
+		if( preferences.digitsNumber != Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals)) ) {
+			SqlitePreferences.Update("digitsNumber", UtilGtk.ComboGetActive(combo_decimals), true);
+			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
+		}
+		
+		
+		if( preferences.showHeight != PreferencesWindowBox.checkbutton_height.Active ) {
+			SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), true);
+			preferences.showHeight = PreferencesWindowBox.checkbutton_height.Active;
+		}
+
+		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
+			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
+			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
+		}
+		
+		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {
+			SqlitePreferences.Update("showInitialSpeed", PreferencesWindowBox.checkbutton_initial_speed.Active.ToString(), true);
+			preferences.showInitialSpeed = PreferencesWindowBox.checkbutton_initial_speed.Active;
+		}
+
+		if( preferences.showAngle != PreferencesWindowBox.checkbutton_angle.Active ) {
+			SqlitePreferences.Update("showAngle", PreferencesWindowBox.checkbutton_angle.Active.ToString(), true);
+			preferences.showAngle = PreferencesWindowBox.checkbutton_angle.Active;
+		}
 		
 		if(PreferencesWindowBox.checkbutton_show_tv_tc_index.Active) {
 			SqlitePreferences.Update("showQIndex", PreferencesWindowBox.radiobutton_show_q_index.Active.ToString(), true);
 			SqlitePreferences.Update("showDjIndex", PreferencesWindowBox.radiobutton_show_dj_index.Active.ToString(), true);
+			preferences.showQIndex = PreferencesWindowBox.radiobutton_show_q_index.Active;
+			preferences.showDjIndex = PreferencesWindowBox.radiobutton_show_dj_index.Active;
 		} else {
 			SqlitePreferences.Update("showQIndex", "False", true);
 			SqlitePreferences.Update("showDjIndex", "False", true);
+			preferences.showQIndex = false;
+			preferences.showDjIndex = false; 
 		}
 		
 		
-		SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
-		SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
-		SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), true);
-		SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
-		
-		SqlitePreferences.Update("encoderPropulsive", 
-				PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
-		SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
-				(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
-		SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
-		
-		if(PreferencesWindowBox.radio_export_latin.Active)
-			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
-		else
-			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
-		
-		SqlitePreferences.Update("RGraphsTranslate", 
-				PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
-		
-		SqlitePreferences.Update("useHeightsOnJumpIndexes", 
-				PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
-		
-		if(PreferencesWindowBox.radio_encoder_auto_save_curve_bestmeanpower.Active)
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), true);
-		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active)
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
-		else
-			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
-	
-		string encoder1RMMethod = "";	
-		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED.ToString();
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED.ToString();
-		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2.ToString();
-		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
-			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3.ToString();
-		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod, true);
-	
-		Sqlite.Close();
-		
-		/*
-		if(UtilAll.IsWindows()) {
-			//if language has changed
-			if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
-				string myLanguage = SqlitePreferences.Select("language");
-				if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
-					//if language exists in sqlite preferences update it
-					SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
-				} else {
-					//else: create it
-					SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
-				}
+		if( preferences.askDeletion != PreferencesWindowBox.checkbutton_ask_deletion.Active ) {
+			SqlitePreferences.Update("askDeletion", PreferencesWindowBox.checkbutton_ask_deletion.Active.ToString(), true);
+			preferences.askDeletion = PreferencesWindowBox.checkbutton_ask_deletion.Active;
+		}
 
-				new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."), true);
-			}
+		if( preferences.weightStatsPercent != PreferencesWindowBox.radio_weight_percent.Active ) {
+			SqlitePreferences.Update("weightStatsPercent", PreferencesWindowBox.radio_weight_percent.Active.ToString(), true);
+			preferences.weightStatsPercent = PreferencesWindowBox.radio_weight_percent.Active;
+		}
+
+		if( preferences.heightPreferred != PreferencesWindowBox.radio_elevation_height.Active ) {
+			SqlitePreferences.Update("heightPreferred", PreferencesWindowBox.radio_elevation_height.Active.ToString(), true);
+			preferences.heightPreferred = PreferencesWindowBox.radio_elevation_height.Active;
+		}
+
+		if( preferences.metersSecondsPreferred != PreferencesWindowBox.radio_speed_ms.Active ) {
+			SqlitePreferences.Update("metersSecondsPreferred", PreferencesWindowBox.radio_speed_ms.Active.ToString(), true);
+			preferences.metersSecondsPreferred = PreferencesWindowBox.radio_speed_ms.Active;
+		}
+
+		
+		
+		if( preferences.encoderPropulsive != PreferencesWindowBox.checkbutton_encoder_propulsive.Active ) {
+			SqlitePreferences.Update("encoderPropulsive", 
+					PreferencesWindowBox.checkbutton_encoder_propulsive.Active.ToString(), true);
+			preferences.encoderPropulsive = PreferencesWindowBox.checkbutton_encoder_propulsive.Active;
+		}
+
+		if( preferences.encoderSmoothCon != (double) PreferencesWindowBox.spin_encoder_smooth_con.Value ) {
+			SqlitePreferences.Update("encoderSmoothCon", Util.ConvertToPoint( 
+						(double) PreferencesWindowBox.spin_encoder_smooth_con.Value), true);
+			preferences.encoderSmoothCon = (double) PreferencesWindowBox.spin_encoder_smooth_con.Value;
+		}
+		
+		if( preferences.videoDeviceNum != UtilGtk.ComboGetActivePos(combo_camera) ) {
+			SqlitePreferences.Update("videoDevice", UtilGtk.ComboGetActivePos(combo_camera).ToString(), true);
+			preferences.videoDeviceNum = UtilGtk.ComboGetActivePos(combo_camera);
+		}
+		
+
+		if(PreferencesWindowBox.radio_export_latin.Active) {
+			SqlitePreferences.Update("CSVExportDecimalSeparator","COMMA", true); 
+			preferences.CSVExportDecimalSeparator = "COMMA";
+		}
+		else {
+			SqlitePreferences.Update("CSVExportDecimalSeparator","POINT", true); 
+			preferences.CSVExportDecimalSeparator = "POINT";
+		}
+	
+
+		if( preferences.RGraphsTranslate != PreferencesWindowBox.radio_graphs_translate.Active ) {
+			SqlitePreferences.Update("RGraphsTranslate", 
+					PreferencesWindowBox.radio_graphs_translate.Active.ToString(), true);
+			preferences.RGraphsTranslate = PreferencesWindowBox.radio_graphs_translate.Active;
+		}
+
+		if( preferences.useHeightsOnJumpIndexes != PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active ) {
+			SqlitePreferences.Update("useHeightsOnJumpIndexes", 
+					PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active.ToString(), true);
+			preferences.useHeightsOnJumpIndexes = PreferencesWindowBox.radio_use_heights_on_jump_indexes.Active;
+		}
+
+		if(PreferencesWindowBox.radio_encoder_auto_save_curve_bestmeanpower.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTMEANPOWER;
+		}
+		else if(PreferencesWindowBox.radio_encoder_auto_save_curve_all.Active) {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.ALL.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
+		}
+		else {
+			SqlitePreferences.Update("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.NONE.ToString(), true);
+			preferences.encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
+		}
+
+		Constants.Encoder1RMMethod encoder1RMMethod;
+		if(PreferencesWindowBox.radio_encoder_1RM_nonweighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.NONWEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED;
+		else if(PreferencesWindowBox.radio_encoder_1RM_weighted2.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED2;
+		else // (PreferencesWindowBox.radio_encoder_1RM_weighted3.Active)
+			encoder1RMMethod = Constants.Encoder1RMMethod.WEIGHTED3;
+
+		SqlitePreferences.Update("encoder1RMMethod", encoder1RMMethod.ToString(), true);
+		preferences.encoder1RMMethod = encoder1RMMethod;
+
+		Sqlite.Close();
+
+		/*
+		   if(UtilAll.IsWindows()) {
+		//if language has changed
+		if(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language) != languageIni) {
+		string myLanguage = SqlitePreferences.Select("language");
+		if ( myLanguage != null && myLanguage != "" && myLanguage != "0") {
+		//if language exists in sqlite preferences update it
+		SqlitePreferences.Update("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
+		} else {
+		//else: create it
+		SqlitePreferences.Insert("language", Util.GetLanguageCodeFromName(UtilGtk.ComboGetActive(PreferencesWindowBox.combo_language)));
+		}
+
+		new DialogMessage(Catalog.GetString("Restart Chronojump to operate completely on your language."), true);
+		}
 		}
 		*/
 
-		PreferencesWindowBox.preferences.Hide();
+		PreferencesWindowBox.preferences_win.Hide();
 		PreferencesWindowBox = null;
 	}
 
@@ -666,6 +720,11 @@ public class PreferencesWindow {
 	{
 		set { button_accept = value; }
 		get { return button_accept;  }
+	}
+
+	public Preferences GetPreferences 
+	{
+		get { return preferences;  }
 	}
 
 }

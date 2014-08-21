@@ -130,5 +130,90 @@ class SqlitePreferences : Sqlite
 
 		return myReturn;
 	}
+	
+	public static Preferences SelectAll () 
+	{
+		dbcon.Open();
+		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		Preferences preferences = new Preferences();
+
+		while(reader.Read()) {
+	 		//these are sent to preferences window
+			if(reader[0].ToString() == "digitsNumber")
+				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "showHeight")
+				preferences.showHeight = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showPower")
+				preferences.showPower = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showInitialSpeed")
+				preferences.showInitialSpeed = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showAngle")
+				preferences.showAngle = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showQIndex")
+				preferences.showQIndex = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showDjIndex")
+				preferences.showDjIndex = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "askDeletion")
+				preferences.askDeletion = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "weightStatsPercent")
+				preferences.weightStatsPercent = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "heightPreferred")
+				preferences.heightPreferred = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "metersSecondsPreferred")
+				preferences.metersSecondsPreferred = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderPropulsive")
+				preferences.encoderPropulsive = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderSmoothCon")
+				preferences.encoderSmoothCon = Convert.ToDouble(
+						Util.ChangeDecimalSeparator(reader[1].ToString()));
+			else if(reader[0].ToString() == "videoDevice")
+				preferences.videoDeviceNum = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "CSVExportDecimalSeparator")
+				preferences.CSVExportDecimalSeparator = reader[1].ToString();
+			else if(reader[0].ToString() == "RGraphsTranslate")
+				preferences.RGraphsTranslate = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "useHeightsOnJumpIndexes")
+				preferences.useHeightsOnJumpIndexes = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "encoderAutoSaveCurve")
+				preferences.encoderAutoSaveCurve = (Constants.EncoderAutoSaveCurve) 
+					Enum.Parse(typeof(Constants.EncoderAutoSaveCurve), reader[1].ToString()); 
+			else if(reader[0].ToString() == "encoder1RMMethod")
+				preferences.encoder1RMMethod = (Constants.Encoder1RMMethod) 
+					Enum.Parse(typeof(Constants.Encoder1RMMethod), reader[1].ToString()); 
+	 		//these are NOT sent to preferences window
+			else if(reader[0].ToString() == "allowFinishRjAfterTime")
+				preferences.allowFinishRjAfterTime = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "volumeOn")
+				preferences.volumeOn = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "videoOn")
+				preferences.videoOn = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "evaluatorServerID")
+				preferences.evaluatorServerID = Convert.ToInt32(reader[1].ToString());
+			else if(reader[0].ToString() == "versionAvailable")
+				preferences.versionAvailable = reader[1].ToString();
+			else if(reader[0].ToString() == "runSpeedStartArrival")
+				preferences.runSpeedStartArrival = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "runISpeedStartArrival")
+				preferences.runISpeedStartArrival = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "machineID")
+				preferences.machineID = reader[1].ToString();
+			else if(reader[0].ToString() == "multimediaStorage")
+				preferences.multimediaStorage = (Constants.MultimediaStorage) 
+					Enum.Parse(typeof(Constants.MultimediaStorage), reader[1].ToString()); 
+			else if(reader[0].ToString() == "databaseVersion")
+				preferences.databaseVersion = reader[1].ToString();
+		}
+
+		reader.Close();
+		dbcon.Close();
+
+		return preferences;
+	}
 }
 

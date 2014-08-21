@@ -278,7 +278,7 @@ public partial class ChronoJumpWindow
 		eventHasEnded = false;
 
 		checkbutton_video.Sensitive = false;
-		if(videoOn) {
+		if(preferences.videoOn) {
 			capturer.ClickRec();
 			//label_video_feedback.Text = Catalog.GetString("Recording");
 			label_video_feedback.Text = "Rec.";
@@ -1002,52 +1002,52 @@ Log.WriteLine("Preparing reactive A");
 			double tcNow, double tcPerson, double tcSession) 
 	{
 		if(tcNow > 0) {
-			event_execute_label_jump_simple_tc_now.Text = "<b>" + Util.TrimDecimals(tcNow.ToString(), prefsDigitsNumber) + "</b>";
+			event_execute_label_jump_simple_tc_now.Text = "<b>" + Util.TrimDecimals(tcNow.ToString(), preferences.digitsNumber) + "</b>";
 			event_execute_label_jump_simple_tc_now.UseMarkup = true; 
 			
-			event_execute_label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), prefsDigitsNumber);
-			event_execute_label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), prefsDigitsNumber);
+			event_execute_label_jump_simple_tc_person.Text = Util.TrimDecimals(tcPerson.ToString(), preferences.digitsNumber);
+			event_execute_label_jump_simple_tc_session.Text = Util.TrimDecimals(tcSession.ToString(), preferences.digitsNumber);
 		} else {
 			event_execute_label_jump_simple_tc_now.Text = "";
 			event_execute_label_jump_simple_tc_person.Text = "";
 			event_execute_label_jump_simple_tc_session.Text = "";
 		}
-		event_execute_label_jump_simple_tf_now.Text = "<b>" + Util.TrimDecimals(tvNow.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_jump_simple_tf_now.Text = "<b>" + Util.TrimDecimals(tvNow.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_simple_tf_now.UseMarkup = true; 
 
-		event_execute_label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), prefsDigitsNumber);
-		event_execute_label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), prefsDigitsNumber);
+		event_execute_label_jump_simple_tf_person.Text = Util.TrimDecimals(tvPerson.ToString(), preferences.digitsNumber);
+		event_execute_label_jump_simple_tf_session.Text = Util.TrimDecimals(tvSession.ToString(), preferences.digitsNumber);
 		
 		//current height is calculated from tvNow
 		//heightPerson and heightSession is calculated for every jump, then done the AVG, then send here
 		event_execute_label_jump_simple_height_now.Text = "<b>" + Util.TrimDecimals(
-				Util.GetHeightInCentimeters(tvNow.ToString()) , prefsDigitsNumber) + "</b>";
+				Util.GetHeightInCentimeters(tvNow.ToString()) , preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_simple_height_now.UseMarkup = true; 
 		
-		event_execute_label_jump_simple_height_person.Text = Util.TrimDecimals(heightPerson.ToString(), prefsDigitsNumber);
-		event_execute_label_jump_simple_height_session.Text = Util.TrimDecimals(heightSession.ToString(), prefsDigitsNumber);
+		event_execute_label_jump_simple_height_person.Text = Util.TrimDecimals(heightPerson.ToString(), preferences.digitsNumber);
+		event_execute_label_jump_simple_height_session.Text = Util.TrimDecimals(heightSession.ToString(), preferences.digitsNumber);
 	}
 	
 	private void printLabelsRunSimple (double timeNow, double timePerson, double timeSession, double speedNow, double speedPerson, double speedSession) {
-		event_execute_label_run_simple_time_now.Text = "<b>" + Util.TrimDecimals(timeNow.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_run_simple_time_now.Text = "<b>" + Util.TrimDecimals(timeNow.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_simple_time_now.UseMarkup = true; 
 		
-		event_execute_label_run_simple_time_person.Text = Util.TrimDecimals(timePerson.ToString(), prefsDigitsNumber);
-		event_execute_label_run_simple_time_session.Text = Util.TrimDecimals(timeSession.ToString(), prefsDigitsNumber);
+		event_execute_label_run_simple_time_person.Text = Util.TrimDecimals(timePerson.ToString(), preferences.digitsNumber);
+		event_execute_label_run_simple_time_session.Text = Util.TrimDecimals(timeSession.ToString(), preferences.digitsNumber);
 		
-		event_execute_label_run_simple_speed_now.Text = "<b>" + Util.TrimDecimals(speedNow.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_run_simple_speed_now.Text = "<b>" + Util.TrimDecimals(speedNow.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_simple_speed_now.UseMarkup = true; 
 		
-		event_execute_label_run_simple_speed_person.Text = Util.TrimDecimals(speedPerson.ToString(), prefsDigitsNumber);
-		event_execute_label_run_simple_speed_session.Text = Util.TrimDecimals(speedSession.ToString(), prefsDigitsNumber);
+		event_execute_label_run_simple_speed_person.Text = Util.TrimDecimals(speedPerson.ToString(), preferences.digitsNumber);
+		event_execute_label_run_simple_speed_session.Text = Util.TrimDecimals(speedSession.ToString(), preferences.digitsNumber);
 	}
 	
 	private void printLabelsReactionTime (double timeNow, double timePerson, double timeSession) {
-		event_execute_label_reaction_time_now.Text =  "<b>" + Util.TrimDecimals(timeNow.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_reaction_time_now.Text =  "<b>" + Util.TrimDecimals(timeNow.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_reaction_time_now.UseMarkup = true; 
 
-		event_execute_label_reaction_time_person.Text = Util.TrimDecimals(timePerson.ToString(), prefsDigitsNumber);
-		event_execute_label_reaction_time_session.Text = Util.TrimDecimals(timeSession.ToString(), prefsDigitsNumber);
+		event_execute_label_reaction_time_person.Text = Util.TrimDecimals(timePerson.ToString(), preferences.digitsNumber);
+		event_execute_label_reaction_time_session.Text = Util.TrimDecimals(timeSession.ToString(), preferences.digitsNumber);
 	}
 	
 	//used on simple tests
@@ -1374,22 +1374,22 @@ Log.WriteLine("Preparing reactive A");
 		 * these Log.writeLines are useful to don't "get the thread dead"
 		 * without them , sometimes drawingarea is not painted
 		 */
-		event_execute_label_jump_reactive_tc_now.Text = "<b>" + Util.TrimDecimals(lastTc.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_jump_reactive_tc_now.Text = "<b>" + Util.TrimDecimals(lastTc.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_reactive_tc_now.UseMarkup = true; 
 		
-		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), prefsDigitsNumber);
+		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), preferences.digitsNumber);
 
-		event_execute_label_jump_reactive_tf_now.Text = "<b>" + Util.TrimDecimals(lastTv.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_jump_reactive_tf_now.Text = "<b>" + Util.TrimDecimals(lastTv.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_reactive_tf_now.UseMarkup = true; 
 		
-		event_execute_label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), prefsDigitsNumber);
+		event_execute_label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), preferences.digitsNumber);
 		if(lastTc > 0) {
-			event_execute_label_jump_reactive_tf_tc_now.Text = "<b>" + Util.TrimDecimals((lastTv/lastTc).ToString(), prefsDigitsNumber) + "</b>";
+			event_execute_label_jump_reactive_tf_tc_now.Text = "<b>" + Util.TrimDecimals((lastTv/lastTc).ToString(), preferences.digitsNumber) + "</b>";
 			event_execute_label_jump_reactive_tf_tc_now.UseMarkup = true; 
 		} else
 			event_execute_label_jump_reactive_tf_tc_now.Text = "0";
 		if(avgTC > 0)
-			event_execute_label_jump_reactive_tf_tc_avg.Text = Util.TrimDecimals((avgTV/avgTC).ToString(), prefsDigitsNumber);
+			event_execute_label_jump_reactive_tf_tc_avg.Text = Util.TrimDecimals((avgTV/avgTC).ToString(), preferences.digitsNumber);
 		else
 			event_execute_label_jump_reactive_tf_tc_avg.Text = "0";
 	}
@@ -1501,15 +1501,15 @@ Log.WriteLine("Preparing reactive A");
 			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 		}
 		
-		event_execute_label_run_interval_time_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_run_interval_time_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_time_now.UseMarkup = true; 
 
-		event_execute_label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), prefsDigitsNumber);
+		event_execute_label_run_interval_time_avg.Text = Util.TrimDecimals(avgTime.ToString(), preferences.digitsNumber);
 		
-		event_execute_label_run_interval_speed_now.Text = "<b>" + Util.TrimDecimals((distance / lastTime).ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_run_interval_speed_now.Text = "<b>" + Util.TrimDecimals((distance / lastTime).ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_run_interval_speed_now.UseMarkup = true; 
 		
-		event_execute_label_run_interval_speed_avg.Text = Util.TrimDecimals((distanceTotal / Util.GetTotalTime(timesString)).ToString(), prefsDigitsNumber);
+		event_execute_label_run_interval_speed_avg.Text = Util.TrimDecimals((distanceTotal / Util.GetTotalTime(timesString)).ToString(), preferences.digitsNumber);
 	}
 
 	private void paintPulse (Gtk.DrawingArea drawingarea, double lastTime, string timesString, double avgTime, int pulses, 
@@ -1564,10 +1564,10 @@ Log.WriteLine("Preparing reactive A");
 			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 		}
 		
-		event_execute_label_pulse_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), prefsDigitsNumber) + "</b>";
+		event_execute_label_pulse_now.Text = "<b>" + Util.TrimDecimals(lastTime.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_pulse_now.UseMarkup = true; 
 		
-		event_execute_label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), prefsDigitsNumber);
+		event_execute_label_pulse_avg.Text = Util.TrimDecimals(avgTime.ToString(), preferences.digitsNumber);
 	}
 
 	double multiChronopicGetX(int ancho, double time, double timeOld, double timeTotal) {
@@ -1842,14 +1842,14 @@ Log.WriteLine("Preparing reactive A");
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.lastTc,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tvString,
 							currentEventExecute.PrepareEventGraphJumpReactiveObject.tcString,
-							volumeOn, repetitiveConditionsWin);
+							preferences.volumeOn, repetitiveConditionsWin);
 				}
 				break;
 			case EventType.Types.RUN:
 				if(thisRunIsSimple)
 					PrepareRunSimpleGraph(currentEventExecute.PrepareEventGraphRunSimpleObject);
 				else {
-					bool volumeOnHere = volumeOn;
+					bool volumeOnHere = preferences.volumeOn;
 					//do not play good or bad sounds at RSA because we need to hear the GO sound
 					if(currentRunIntervalType.IsRSA)
 						volumeOnHere = false;
@@ -1895,7 +1895,7 @@ Log.WriteLine("Preparing reactive A");
 		eventHasEnded = true;
 
 		checkbutton_video.Sensitive = true;
-		if(videoOn) {	
+		if(preferences.videoOn) {	
 			label_video_feedback.Text = "";
 			capturer.ClickStop();
 			videoCapturePrepare(false); //if error, show message
@@ -2021,7 +2021,7 @@ Log.WriteLine("Preparing reactive A");
 		hideButtons();
 		
 		checkbutton_video.Sensitive = true;
-		if(videoOn) {
+		if(preferences.videoOn) {
 			//it will be recorded on temp, but chronojump will move it to chronojump/multimedia folders
 			label_video_feedback.Text = "";
 			capturer.ClickStop();

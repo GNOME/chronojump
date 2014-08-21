@@ -15,6 +15,7 @@ SOURCES = \
 	../src/run.cs\
 	../src/person.cs\
 	../src/personSession.cs\
+	../src/preferences.cs\
 	../src/pulse.cs\
 	../src/reactionTime.cs\
 	../src/session.cs\

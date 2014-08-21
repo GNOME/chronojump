@@ -132,6 +132,7 @@ SOURCES = \
 	multiChronopicType.cs\
 	session.cs\
 	exportSession.cs\
+	preferences.cs\
 	treeViewEvent.cs\
 	treeViewPerson.cs\
 	treeViewJump.cs\

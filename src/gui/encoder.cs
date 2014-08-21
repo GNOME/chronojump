@@ -188,12 +188,6 @@ public partial class ChronoJumpWindow
 	private static bool encoderProcessProblems;
 	private static bool encoderProcessFinish;
 
-	//smooth preferences on Sqlite since 1.3.7
-	bool encoderPropulsive;
-	double encoderSmoothCon;
-
-	//bool capturingRotaryInertial;
-		
 	EncoderCaptureOptionsWindow encoderCaptureOptionsWin;
 	EncoderConfigurationWindow encoder_configuration_win;
 
@@ -337,7 +331,7 @@ public partial class ChronoJumpWindow
 	}
 		
 	void on_button_encoder_capture_options_clicked (object o, EventArgs args) {
-		encoderCaptureOptionsWin.View(repetitiveConditionsWin, volumeOn);
+		encoderCaptureOptionsWin.View(repetitiveConditionsWin, preferences.volumeOn);
 	}
 	
 	private void on_encoder_capture_options_closed(object o, EventArgs args) {
@@ -346,7 +340,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_button_encoder_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, volumeOn);
+		repetitiveConditionsWin.View(Constants.BellModes.ENCODER, preferences.volumeOn);
 	}
 
 	private bool encoderCheckPort()	{
@@ -669,7 +663,7 @@ public partial class ChronoJumpWindow
 
 	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
 		string analysisOptions = "-";
-		if(encoderPropulsive)
+		if(preferences.encoderPropulsive)
 			analysisOptions = "p";
 
 		return analysisOptions;
@@ -718,13 +712,11 @@ public partial class ChronoJumpWindow
 				"none",				//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
 				encoderConfigurationCurrent,
-				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
+				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 			       	0, 			//curve is not used here
 				image_encoder_width, image_encoder_height,
-				CSVExportDecimalSeparator 
+				preferences.CSVExportDecimalSeparator 
 				);
-
-		//capturingRotaryInertial = false;
 
 		EncoderStruct es = new EncoderStruct(
 				UtilEncoder.GetEncoderDataTempFileName(), 
@@ -740,7 +732,7 @@ public partial class ChronoJumpWindow
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
 				es,
 				false,	//do not use neuromuscularProfile script
-				RGraphsTranslate
+				preferences.RGraphsTranslate
 				); 
 				
 		if(result)
@@ -930,7 +922,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_show_curves_row_delete_pre (object o, EventArgs args) {
-		if(askDeletion) {
+		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this repetition?"), "", "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_show_curves_row_delete);
@@ -1330,7 +1322,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_load_signal_row_delete_pre (object o, EventArgs args) {
-		if(askDeletion) {
+		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_encoder_load_signal_row_delete);
@@ -1415,11 +1407,11 @@ public partial class ChronoJumpWindow
 				"none",						//analysisVariables (not needed in create curves). Cannot be blank
 				analysisOptions,
 				encoderConfigurationCurrent,
-				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
+				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 				-1,
 				image_encoder_width,
 				image_encoder_height,
-				CSVExportDecimalSeparator 
+				preferences.CSVExportDecimalSeparator 
 				);
 
 		string dataFileName = UtilEncoder.GetEncoderDataTempFileName();
@@ -1438,7 +1430,7 @@ public partial class ChronoJumpWindow
 					"-(" + displacedMass + "Kg)",
 				encoderStruct,
 				false, 			//do not use neuromuscularProfile script
-				RGraphsTranslate
+				preferences.RGraphsTranslate
 				);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
@@ -1563,7 +1555,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_delete_signal_clicked (object o, EventArgs args) 
 	{
-		if(askDeletion) {
+		if(preferences.askDeletion) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 						"Are you sure you want to delete this set?"), Catalog.GetString("Saved repetitions related to this set will also be deleted."), "");
 			confirmWin.Button_accept.Clicked += new EventHandler(on_button_encoder_delete_signal_accepted);
@@ -1773,7 +1765,7 @@ public partial class ChronoJumpWindow
 			
 				button_video_play_this_test_encoder.Sensitive = false;
 				//copy video	
-				if(videoOn) {
+				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
 								Constants.TestTypes.ENCODER, 
 								Convert.ToInt32(encoderSignalUniqueID))) {
@@ -2290,11 +2282,11 @@ public partial class ChronoJumpWindow
 					analysisVariables,
 					analysisOptions,
 					encoderConfigurationCurrent,
-					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
+					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 
 					image_encoder_height,
-					CSVExportDecimalSeparator 
+					preferences.CSVExportDecimalSeparator 
 					);
 
 
@@ -2407,11 +2399,11 @@ public partial class ChronoJumpWindow
 					analysisVariables, 
 					analysisOptions,
 					encoderConfigurationCurrent,
-					Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
+					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					Convert.ToInt32(UtilGtk.ComboGetActive(combo_encoder_analyze_curve_num_combo)),
 					image_encoder_width,
 					image_encoder_height,
-					CSVExportDecimalSeparator 
+					preferences.CSVExportDecimalSeparator 
 					);
 			
 			dataFileName = UtilEncoder.GetEncoderDataTempFileName();
@@ -2442,7 +2434,7 @@ public partial class ChronoJumpWindow
 
 		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, 
 				encoderAnalysis == "neuromuscularProfile",
-				RGraphsTranslate);
+				preferences.RGraphsTranslate);
 	}
 
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
@@ -3750,7 +3742,7 @@ public partial class ChronoJumpWindow
 			//propulsive stuff
 			int propulsiveEnd = curveToRreduced.Length;
 			rengine.Evaluate("g <- 9.81");
-			if(encoderPropulsive) {
+			if(preferences.encoderPropulsive) {
 				//check if propulsive phase ends
 				Log.WriteLine("accel$y");
 				//rengine.Evaluate("print(accel$y)");
@@ -3963,14 +3955,14 @@ public partial class ChronoJumpWindow
 			if(mainVariableHigher != -1 && d >= mainVariableHigher) {
 				my_pen = pen_green_encoder_capture;
 				//play sound if value is high, volumeOn == true, is last value, capturing
-				if(volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
+				if(preferences.volumeOn && count == data.Count -1 && capturing)
+					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn);
 			}
 			else if(mainVariableLower != -1 && d <= mainVariableLower) {
 				my_pen = pen_red_encoder_capture;
 				//play sound if value is low, volumeOn == true, is last value, capturing
-				if(volumeOn && count == data.Count -1 && capturing)
-					Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
+				if(preferences.volumeOn && count == data.Count -1 && capturing)
+					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn);
 			}
 			else
 				my_pen = pen_azul_encoder_capture;
@@ -4601,14 +4593,14 @@ public partial class ChronoJumpWindow
 					bool needToAutoSaveCurve = false;
 					if(
 							encoderSignalUniqueID == "-1" &&	//if we just captured
-							(encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
-							encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER) )
+							(preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.ALL ||
+							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER) )
 						needToAutoSaveCurve = true;
 
 					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
-						encoderCaptureSaveCurvesAllNoneBest(encoderAutoSaveCurve);
+						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve);
 
 				} else
 					encoder_pulsebar_capture.Text = "";
@@ -4780,7 +4772,7 @@ public partial class ChronoJumpWindow
 	private void encoderStartVideoRecord() {
 		Log.WriteLine("Starting video");
 		checkbutton_video_encoder.Sensitive = false;
-		if(videoOn) {
+		if(preferences.videoOn) {
 			capturer.ClickRec();
 			label_video_feedback_encoder.Text = "Rec.";
 		}
@@ -4790,7 +4782,7 @@ public partial class ChronoJumpWindow
 	private void encoderStopVideoRecord() {
 		Log.WriteLine("Stopping video");
 		checkbutton_video_encoder.Sensitive = true;
-		if(videoOn) {
+		if(preferences.videoOn) {
 			label_video_feedback_encoder.Text = "";
 			capturer.ClickStop();
 			videoCapturePrepare(false); //if error, show message

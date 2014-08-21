@@ -315,8 +315,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Image image_encoder_signal_delete;
 
 	Random rand;
-	bool volumeOn;
-	bool videoOn;
 
 	//persons
 	private TreeStore treeview_persons_store;
@@ -345,24 +343,7 @@ public partial class ChronoJumpWindow
 	private TreeStore treeview_multi_chronopic_store;
 	private TreeViewMultiChronopic myTreeViewMultiChronopic;
 	
-
-
-	//preferences variables
-	private static int prefsDigitsNumber;
-	private static bool showHeight;
-	private static bool showPower;
-	private static bool showInitialSpeed;
-	private static bool showAngle;
-	private static bool showQIndex;
-	private static bool showDjIndex;
-	private static bool askDeletion;
-	private static bool weightPercentPreferred;
-	private static bool heightPreferred;
-	private static bool metersSecondsPreferred;
-	private static string CSVExportDecimalSeparator; //"COMMA" or "POINT"
-	private static bool RGraphsTranslate;
-	private static bool useHeightsOnJumpIndexes;
-	private static Constants.EncoderAutoSaveCurve encoderAutoSaveCurve;
+	private Preferences preferences;
 
 	private static Person currentPerson;
 	private static Session currentSession;
@@ -395,6 +376,7 @@ public partial class ChronoJumpWindow
 	private static Report report;
 
 	//windows needed
+	PreferencesWindow preferencesWin;
 	//LanguageWindow languageWin;
 	SessionAddEditWindow sessionAddEditWin;
 	//SessionEditWindow sessionEditWin;
@@ -817,170 +799,72 @@ public partial class ChronoJumpWindow
 
 	private void loadPreferences () 
 	{
+		preferences = Preferences.LoadAllFromSqlite();
+
 		Log.WriteLine (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
-					SqlitePreferences.Select("databaseVersion") ));
+					preferences.databaseVersion));
 
-		//chronopicPort = SqlitePreferences.Select("chronopicPort");
-
-		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") );
-
-		checkbutton_allow_finish_rj_after_time.Active = ( SqlitePreferences.Select("allowFinishRjAfterTime") == "True" );
-
-		if ( SqlitePreferences.Select("showHeight") == "True" ) 
-			showHeight = true;
-		else 
-			showHeight = false;
-
-		if ( SqlitePreferences.Select("showPower") == "True" ) 
-			showPower = true;
-		else 
-			showPower = false;
-
-		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
-			showInitialSpeed = true;
-		else 
-			showInitialSpeed = false;
-
-		if ( SqlitePreferences.Select("showAngle") == "True" ) 
-			showAngle = true;
-		else 
-			showAngle = false;
+		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
 
 
-		//only one of showQIndex or showDjIndex can be true. Also none of them
-		if ( SqlitePreferences.Select("showQIndex") == "True" ) 
-			showQIndex = true;
-		else 
-			showQIndex = false;
-
-
-		if ( SqlitePreferences.Select("showDjIndex") == "True" ) 
-			showDjIndex = true;
-		else 
-			showDjIndex = false;
-
-
-
-		if ( SqlitePreferences.Select("simulated") == "True" ) {
-			//			simulated = true;
-			//menuitem_simulated.Active = true;
-
-			//			cpRunning = false;
-		} else {
-			//			simulated = false;
-
-			//			cpRunning = true;
-		}
-
-		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
-			askDeletion = true;
-		else 
-			askDeletion = false;
-
-
-		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
-			weightPercentPreferred = true;
-		else 
-			weightPercentPreferred = false;
-
-
-		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
-			heightPreferred = true;
-		else 
-			heightPreferred = false;
-
-
-		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) 
-			metersSecondsPreferred = true;
-		else 
-			metersSecondsPreferred = false;
-
-		//---- volume ----
-		if ( SqlitePreferences.Select("volumeOn") == "True" ) 
-			volumeOn = true;
-		else 
-			volumeOn = false;
-		
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume);
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_volume_encoder);
 		
 		//don't raise the signal	
 		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
-		checkbutton_volume.Active = volumeOn;
+		checkbutton_volume.Active = preferences.volumeOn;
 		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
 		//don't raise the signal	
 		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
-		checkbutton_volume_encoder.Active = volumeOn;
+		checkbutton_volume_encoder.Active = preferences.volumeOn;
 		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
 		
-		changeVolumeButtons(volumeOn);
+		changeVolumeButtons(preferences.volumeOn);
 
 		//---- video ----
-		if ( SqlitePreferences.Select("videoOn") == "True" ) 
-			videoOn = true;
-		else 
-			videoOn = false;
 
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video);
 		UtilGtk.ColorsCheckOnlyPrelight(checkbutton_video_encoder);
 		
 		//don't raise the signal	
 		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
-		checkbutton_video.Active = videoOn;
+		checkbutton_video.Active = preferences.videoOn;
 		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
 		//don't raise the signal	
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
-		checkbutton_video_encoder.Active = videoOn;
+		checkbutton_video_encoder.Active = preferences.videoOn;
 		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
 		
-		changeVideoButtons(videoOn);
+		changeVideoButtons(preferences.videoOn);
 
 
 		//load preferences, update radios, but not update database
 		update_sqlite_at_runs_speed_radios = false;
 
-		if ( SqlitePreferences.Select("runSpeedStartArrival") == "True" ) 
+		if (preferences.runSpeedStartArrival) 
 			radio_runs_speed_start_arrival.Active = true;
 		else
 			radio_runs_speed_start_leaving.Active = true;
 
-		if ( SqlitePreferences.Select("runISpeedStartArrival") == "True" ) 
+		if (preferences.runISpeedStartArrival) 
 			radio_runs_i_speed_start_arrival.Active = true;
 		else
 			radio_runs_i_speed_start_leaving.Active = true;
 		
 		update_sqlite_at_runs_speed_radios = true;
 
-		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
-		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
-				SqlitePreferences.Select("encoderSmoothCon") ) );
-
-		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
-		
-		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True";
-		
-		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
-
-		string temp = SqlitePreferences.Select("encoderAutoSaveCurve");
-		if(temp == Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString())
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTMEANPOWER;
-		else if(temp == Constants.EncoderAutoSaveCurve.ALL.ToString())
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
-		else
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
 
 		//change language works on windows. On Linux let's change the locale
 		//if(UtilAll.IsWindows())
 		//	languageChange();
 
 		//pass to report
-		report.PrefsDigitsNumber = prefsDigitsNumber;
-		report.HeightPreferred = heightPreferred;
-		report.WeightStatsPercent = weightPercentPreferred;
+		report.PrefsDigitsNumber = preferences.digitsNumber;
+		report.HeightPreferred = preferences.heightPreferred;
+		report.WeightStatsPercent = preferences.weightStatsPercent;
+		report.GraphTranslate = preferences.RGraphsTranslate;
+		report.UseHeightsOnJumpIndexes = preferences.useHeightsOnJumpIndexes;
 		report.Progversion = progVersion;
-		report.GraphTranslate = RGraphsTranslate;
-		report.UseHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
-
 
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
 	}
@@ -1265,7 +1149,7 @@ public partial class ChronoJumpWindow
 		if(connectedAndCanI(Constants.ServerActionQuery)) {
 			ChronojumpServer myServer = new ChronojumpServer();
 			QueryServerWindow.Show(
-					prefsDigitsNumber,
+					preferences.digitsNumber,
 					myServer.SelectEvaluators(true)
 					);
 		}
@@ -1510,7 +1394,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_jumps (Gtk.TreeView tv) {
 		//myTreeViewJumps is a TreeViewJumps instance
-		myTreeViewJumps = new TreeViewJumps( tv, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
+		myTreeViewJumps = new TreeViewJumps(tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_cursor_changed; 
@@ -1536,7 +1420,7 @@ public partial class ChronoJumpWindow
 	private void treeview_jumps_storeReset() {
 		myTreeViewJumps.RemoveColumns();
 		
-		myTreeViewJumps = new TreeViewJumps( treeview_jumps, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumps.ExpandState );
+		myTreeViewJumps = new TreeViewJumps(treeview_jumps, preferences, myTreeViewJumps.ExpandState);
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
@@ -1588,7 +1472,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void createTreeView_jumps_rj (Gtk.TreeView tv) {
-		myTreeViewJumpsRj = new TreeViewJumpsRj( tv, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
+		myTreeViewJumpsRj = new TreeViewJumpsRj (tv, preferences, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_jumps_rj_cursor_changed; 
@@ -1616,7 +1500,7 @@ public partial class ChronoJumpWindow
 
 	private void treeview_jumps_rj_storeReset() {
 		myTreeViewJumpsRj.RemoveColumns();
-		myTreeViewJumpsRj = new TreeViewJumpsRj( treeview_jumps_rj, showHeight, showInitialSpeed, showQIndex, showDjIndex, prefsDigitsNumber, weightPercentPreferred, metersSecondsPreferred, myTreeViewJumpsRj.ExpandState );
+		myTreeViewJumpsRj = new TreeViewJumpsRj (treeview_jumps_rj, preferences, myTreeViewJumpsRj.ExpandState);
 	}
 
 	private void on_treeview_jumps_rj_cursor_changed (object o, EventArgs args) {
@@ -1675,7 +1559,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_runs (Gtk.TreeView tv) {
 		//myTreeViewRuns is a TreeViewRuns instance
-		myTreeViewRuns = new TreeViewRuns( tv, prefsDigitsNumber, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
+		myTreeViewRuns = new TreeViewRuns (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_runs_cursor_changed; 
@@ -1699,7 +1583,7 @@ public partial class ChronoJumpWindow
 	
 	private void treeview_runs_storeReset() {
 		myTreeViewRuns.RemoveColumns();
-		myTreeViewRuns = new TreeViewRuns( treeview_runs, prefsDigitsNumber, metersSecondsPreferred, myTreeViewRuns.ExpandState );
+		myTreeViewRuns = new TreeViewRuns(treeview_runs, preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRuns.ExpandState);
 	}
 
 	private void on_treeview_runs_cursor_changed (object o, EventArgs args) {
@@ -1751,7 +1635,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_runs_interval (Gtk.TreeView tv) {
 		//myTreeViewRunsInterval is a TreeViewRunsInterval instance
-		myTreeViewRunsInterval = new TreeViewRunsInterval( tv, prefsDigitsNumber, metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED );
+		myTreeViewRunsInterval = new TreeViewRunsInterval (tv, preferences.digitsNumber, preferences.metersSecondsPreferred, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_runs_interval_cursor_changed; 
@@ -1776,8 +1660,8 @@ public partial class ChronoJumpWindow
 
 	private void treeview_runs_interval_storeReset() {
 		myTreeViewRunsInterval.RemoveColumns();
-		myTreeViewRunsInterval = new TreeViewRunsInterval( treeview_runs_interval,  
-				prefsDigitsNumber, metersSecondsPreferred, myTreeViewRunsInterval.ExpandState );
+		myTreeViewRunsInterval = new TreeViewRunsInterval (treeview_runs_interval,  
+				preferences.digitsNumber, preferences.metersSecondsPreferred, myTreeViewRunsInterval.ExpandState);
 	}
 
 	private void on_treeview_runs_interval_cursor_changed (object o, EventArgs args) {
@@ -1836,7 +1720,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_reaction_times (Gtk.TreeView tv) {
 		//myTreeViewReactionTimes is a TreeViewReactionTimes instance
-		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+		myTreeViewReactionTimes = new TreeViewReactionTimes( tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_reaction_times_cursor_changed; 
@@ -1860,7 +1744,7 @@ public partial class ChronoJumpWindow
 	
 	private void treeview_reaction_times_storeReset() {
 		myTreeViewReactionTimes.RemoveColumns();
-		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, prefsDigitsNumber, myTreeViewReactionTimes.ExpandState );
+		myTreeViewReactionTimes = new TreeViewReactionTimes( treeview_reaction_times, preferences.digitsNumber, myTreeViewReactionTimes.ExpandState );
 	}
 
 	private void on_treeview_reaction_times_cursor_changed (object o, EventArgs args) {
@@ -1912,7 +1796,7 @@ public partial class ChronoJumpWindow
 
 	private void createTreeView_pulses (Gtk.TreeView tv) {
 		//myTreeViewPulses is a TreeViewPulses instance
-		myTreeViewPulses = new TreeViewPulses( tv, prefsDigitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
+		myTreeViewPulses = new TreeViewPulses( tv, preferences.digitsNumber, TreeViewEvent.ExpandStates.MINIMIZED );
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
 		tv.CursorChanged += on_treeview_pulses_cursor_changed; 
@@ -1937,7 +1821,7 @@ public partial class ChronoJumpWindow
 
 	private void treeview_pulses_storeReset() {
 		myTreeViewPulses.RemoveColumns();
-		myTreeViewPulses = new TreeViewPulses( treeview_pulses, prefsDigitsNumber, myTreeViewPulses.ExpandState );
+		myTreeViewPulses = new TreeViewPulses( treeview_pulses, preferences.digitsNumber, myTreeViewPulses.ExpandState );
 	}
 
 	private void on_treeview_pulses_cursor_changed (object o, EventArgs args) {
@@ -1997,10 +1881,10 @@ public partial class ChronoJumpWindow
 	private void createTreeView_multi_chronopic (Gtk.TreeView tv) {
 		//myTreeViewMultiChronopic is a TreeViewMultiChronopic instance
 		if(definedSession)
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, 
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
 					TreeViewEvent.ExpandStates.MINIMIZED, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
 		else
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, prefsDigitsNumber, 
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( tv, preferences.digitsNumber, 
 					TreeViewEvent.ExpandStates.MINIMIZED, 2);
 
 		//the glade cursor_changed does not work on mono 1.2.5 windows
@@ -2027,10 +1911,10 @@ public partial class ChronoJumpWindow
 	private void treeview_multi_chronopic_storeReset() {
 		myTreeViewMultiChronopic.RemoveColumns();
 		if(definedSession)
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
 					myTreeViewMultiChronopic.ExpandState, SqliteMultiChronopic.MaxCPs(currentSession.UniqueID) );
 		else
-			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, prefsDigitsNumber, 
+			myTreeViewMultiChronopic = new TreeViewMultiChronopic( treeview_multi_chronopic, preferences.digitsNumber, 
 					myTreeViewMultiChronopic.ExpandState, 2);
 	}
 
@@ -2596,7 +2480,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_export_session_accepted(object o, EventArgs args) {
-		new ExportSessionCSV(currentSession, app1, prefsDigitsNumber);
+		new ExportSessionCSV(currentSession, app1, preferences.digitsNumber);
 	}
 
 	
@@ -2607,7 +2491,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_recuperate_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, prefsDigitsNumber, checkbutton_video);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber, checkbutton_video);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
@@ -2654,7 +2538,7 @@ public partial class ChronoJumpWindow
 	private void on_person_add_single_activate (object o, EventArgs args) {
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
 				currentSession, new Person(-1), 
-				prefsDigitsNumber, checkbutton_video, false); //don't comes from recuperate window
+				preferences.digitsNumber, checkbutton_video, false); //don't comes from recuperate window
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -2736,9 +2620,9 @@ public partial class ChronoJumpWindow
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		Log.WriteLine("modify person");
 
-		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, prefsDigitsNumber);
+		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, preferences.digitsNumber);
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
-				prefsDigitsNumber, checkbutton_video, false); //don't comes from recuperate window
+				preferences.digitsNumber, checkbutton_video, false); //don't comes from recuperate window
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	
@@ -2818,16 +2702,6 @@ public partial class ChronoJumpWindow
 	 *  --------------------------------------------------------
 	 */
 
-	/*
-	private void on_menuitem_view_stats_activate(object o, EventArgs args) {
-		statsWin = StatsWindow.Show(app1, currentSession, 
-				prefsDigitsNumber, weightPercentPreferred, heightPreferred, 
-				report, reportWin);
-		createdStatsWin = true;
-		stats_win_initializeSession();
-	}
-	*/
-	
 	//edit
 	private void on_cut1_activate (object o, EventArgs args) {
 	}
@@ -2841,117 +2715,15 @@ public partial class ChronoJumpWindow
 
 	private void on_preferences_activate (object o, EventArgs args) 
 	{
-		string [] videoDevices = UtilVideo.GetVideoDevices();
-
-		PreferencesWindow myWin = PreferencesWindow.Show(
-				prefsDigitsNumber, showHeight, showPower, showInitialSpeed, showAngle, showQIndex, showDjIndex, 
-				askDeletion, weightPercentPreferred, heightPreferred, metersSecondsPreferred,
-				//System.Threading.Thread.CurrentThread.CurrentUICulture.ToString(),
-				SqlitePreferences.Select("language"),
-				encoderPropulsive, encoderSmoothCon,
-				videoDevices, videoDeviceNum, SqlitePreferences.Select("encoder1RMMethod"),
-				CSVExportDecimalSeparator, RGraphsTranslate, useHeightsOnJumpIndexes,
-				encoderAutoSaveCurve
-				);
-		myWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
+		preferencesWin = PreferencesWindow.Show(preferences);
+		
+		preferencesWin.Button_accept.Clicked += new EventHandler(on_preferences_accepted);
 	}
 
-	private void on_preferences_accepted (object o, EventArgs args) {
-		prefsDigitsNumber = Convert.ToInt32 ( SqlitePreferences.Select("digitsNumber") ); 
+	private void on_preferences_accepted (object o, EventArgs args) 
+	{
+		preferences = preferencesWin.GetPreferences;
 
-		//string myPort = SqlitePreferences.Select("chronopicPort");
-
-		//chronopicPort cannot change while chronopic is running.
-		//user change the port, and the clicks on radiobutton on platform menu
-
-		//if(myPort != chronopicPort && cpRunning) {
-		//	string message = "";
-		//	bool success = chronopicInit (myPort, out message);
-		//}
-
-		//chronopicPort = myPort;
-	
-		
-		if ( SqlitePreferences.Select("askDeletion") == "True" ) 
-			askDeletion = true;
-		 else 
-			askDeletion = false;
-		
-	
-		if ( SqlitePreferences.Select("weightStatsPercent") == "True" ) 
-			weightPercentPreferred = true;
-		 else 
-			weightPercentPreferred = false;
-		
-
-		if ( SqlitePreferences.Select("showHeight") == "True" ) 
-			showHeight = true;
-		 else 
-			showHeight = false;
-		
-		if ( SqlitePreferences.Select("showPower") == "True" ) 
-			showPower = true;
-		 else 
-			showPower = false;
-		
-
-		if ( SqlitePreferences.Select("showInitialSpeed") == "True" ) 
-			showInitialSpeed = true;
-		 else 
-			showInitialSpeed = false;
-		
-		if ( SqlitePreferences.Select("showAngle") == "True" ) 
-			showAngle = true;
-		 else 
-			showAngle = false;
-		
-
-		//update showQIndex or showDjIndex
-		if ( SqlitePreferences.Select("showQIndex") == "True" ) 
-			showQIndex = true;
-		 else 
-			showQIndex = false;
-		
-			
-		if ( SqlitePreferences.Select("showDjIndex") == "True" ) 
-			showDjIndex = true;
-		 else 
-			showDjIndex = false;
-		
-			
-		//update heightPreferred
-		if ( SqlitePreferences.Select("heightPreferred") == "True" ) 
-			heightPreferred = true;
-		 else 
-			heightPreferred = false;
-		
-
-		//update metersSecondsPreferred
-		if ( SqlitePreferences.Select("metersSecondsPreferred") == "True" ) 
-			metersSecondsPreferred = true;
-		 else 
-			metersSecondsPreferred = false;
-		
-		encoderPropulsive = SqlitePreferences.Select("encoderPropulsive") == "True"; 
-		encoderSmoothCon = Convert.ToDouble ( Util.ChangeDecimalSeparator (
-				SqlitePreferences.Select("encoderSmoothCon") ) );
-		
-		CSVExportDecimalSeparator = SqlitePreferences.Select("CSVExportDecimalSeparator");
-		
-		RGraphsTranslate = SqlitePreferences.Select("RGraphsTranslate") == "True"; 
-		
-		useHeightsOnJumpIndexes = SqlitePreferences.Select("useHeightsOnJumpIndexes") == "True";
-		
-		string temp = SqlitePreferences.Select("encoderAutoSaveCurve");
-		if(temp == Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString())
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.BESTMEANPOWER;
-		else if(temp == Constants.EncoderAutoSaveCurve.ALL.ToString())
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.ALL;
-		else
-			encoderAutoSaveCurve = Constants.EncoderAutoSaveCurve.NONE;
-
-
-		videoDeviceNum = Convert.ToInt32(SqlitePreferences.Select("videoDevice"));
 		if(checkbutton_video.Active) {
 			videoCapturePrepare(false); //if error, show message
 		}
@@ -2962,23 +2734,23 @@ public partial class ChronoJumpWindow
 		
 
 		if(repetitiveConditionsWin != null)
-			repetitiveConditionsWin.VolumeOn = volumeOn;
+			repetitiveConditionsWin.VolumeOn = preferences.volumeOn;
 
 		try {
 			if(createdStatsWin) {
-				//statsWin.PrefsDigitsNumber = prefsDigitsNumber;
-				//statsWin.WeightStatsPercent = weightPercentPreferred;
-				//statsWin.HeightPreferred = heightPreferred;
+				//statsWin.PrefsDigitsNumber = preferences.digitsNumber;
+				//statsWin.WeightStatsPercent = preferences.weightStatsPercent;
+				//statsWin.HeightPreferred = preferences.heightPreferred;
 
 				stats_win_fillTreeView_stats(false, true);
 			}
 
 			//pass to report
-			report.PrefsDigitsNumber = prefsDigitsNumber;
-			report.HeightPreferred = heightPreferred;
-			report.WeightStatsPercent = weightPercentPreferred;
-			report.GraphTranslate = RGraphsTranslate;
-			report.UseHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
+			report.PrefsDigitsNumber = preferences.digitsNumber;
+			report.HeightPreferred = preferences.heightPreferred;
+			report.WeightStatsPercent = preferences.weightStatsPercent;
+			report.GraphTranslate = preferences.RGraphsTranslate;
+			report.UseHeightsOnJumpIndexes = preferences.useHeightsOnJumpIndexes;
 			
 			
 			createTreeView_jumps (treeview_jumps);
@@ -3205,36 +2977,36 @@ public partial class ChronoJumpWindow
 	
 	private void on_checkbutton_video_clicked(object o, EventArgs args) {
 		if(checkbutton_video.Active) {
-			videoOn = true;
+			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
 		} else {
-			videoOn = false;
+			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
 		}
 		//change encoder checkbox but don't raise the signal	
 		checkbutton_video_encoder.Clicked -= new EventHandler(on_checkbutton_video_encoder_clicked);
-		checkbutton_video_encoder.Active = videoOn;
+		checkbutton_video_encoder.Active = preferences.videoOn;
 		checkbutton_video_encoder.Clicked += new EventHandler(on_checkbutton_video_encoder_clicked);
 		
-		changeVideoButtons(videoOn);
+		changeVideoButtons(preferences.videoOn);
 		
 		videoCapturePrepare(true); //if error, show message
 	}
 
 	private void on_checkbutton_video_encoder_clicked(object o, EventArgs args) {
 		if(checkbutton_video_encoder.Active) {
-			videoOn = true;
+			preferences.videoOn = true;
 			SqlitePreferences.Update("videoOn", "True", false);
 		} else {
-			videoOn = false;
+			preferences.videoOn = false;
 			SqlitePreferences.Update("videoOn", "False", false);
 		}
 		//change contacts checkbox but don't raise the signal	
 		checkbutton_video.Clicked -= new EventHandler(on_checkbutton_video_clicked);
-		checkbutton_video.Active = videoOn;
+		checkbutton_video.Active = preferences.videoOn;
 		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
 		
-		changeVideoButtons(videoOn);
+		changeVideoButtons(preferences.videoOn);
 		
 		videoCapturePrepare(true); //if error, show message
 	}
@@ -3252,34 +3024,34 @@ public partial class ChronoJumpWindow
 	
 	private void on_checkbutton_volume_clicked(object o, EventArgs args) {
 		if(checkbutton_volume.Active) {
-			volumeOn = true;
+			preferences.volumeOn = true;
 			SqlitePreferences.Update("volumeOn", "True", false);
 		} else {
-			volumeOn = false;
+			preferences.volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);
 		}
 		//change encoder checkbox but don't raise the signal	
 		checkbutton_volume_encoder.Clicked -= new EventHandler(on_checkbutton_volume_encoder_clicked);
-		checkbutton_volume_encoder.Active = volumeOn;
+		checkbutton_volume_encoder.Active = preferences.volumeOn;
 		checkbutton_volume_encoder.Clicked += new EventHandler(on_checkbutton_volume_encoder_clicked);
 		
-		changeVolumeButtons(volumeOn);
+		changeVolumeButtons(preferences.volumeOn);
 	}
 
 	private void on_checkbutton_volume_encoder_clicked(object o, EventArgs args) {
 		if(checkbutton_volume_encoder.Active) {
-			volumeOn = true;
+			preferences.volumeOn = true;
 			SqlitePreferences.Update("volumeOn", "True", false);
 		} else {
-			volumeOn = false;
+			preferences.volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);
 		}
 		//change encoder checkbox but don't raise the signal	
 		checkbutton_volume.Clicked -= new EventHandler(on_checkbutton_volume_clicked);
-		checkbutton_volume.Active = volumeOn;
+		checkbutton_volume.Active = preferences.volumeOn;
 		checkbutton_volume.Clicked += new EventHandler(on_checkbutton_volume_clicked);
 		
-		changeVolumeButtons(volumeOn);
+		changeVolumeButtons(preferences.volumeOn);
 	}
 	/*
 	 * cancel and finish
@@ -3699,7 +3471,7 @@ Console.WriteLine("X");
 
 		currentEventExecute = new JumpExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpType.Name, myFall, jumpWeight,
-				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber, volumeOn,
+				chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				progressbarLimit, egd, description);
 
 
@@ -3752,13 +3524,13 @@ Log.WriteLine("DDD 1");
 			}
 
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if (! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP, currentJump.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, 
 							Catalog.GetString("Sorry, video cannot be stored."));
 
 			myTreeViewJumps.PersonWeight = currentPersonSession.Weight;
-			if(weightPercentPreferred)
+			if(preferences.weightStatsPercent)
 				myTreeViewJumps.Add(currentPerson.Name, currentJump);
 			else {
 				Jump myJump = new Jump();
@@ -3881,8 +3653,8 @@ Log.WriteLine("DDD 2");
 		currentEventExecute = new JumpRjExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentJumpRjType.Name, myFall, jumpWeight, 
 				progressbarLimit, currentJumpRjType.JumpsLimited, 
-				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber,
-				checkbutton_allow_finish_rj_after_time.Active, volumeOn, 
+				chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber,
+				checkbutton_allow_finish_rj_after_time.Active, preferences.volumeOn, 
 				repetitiveConditionsWin, progressbarLimit, egd
 				);
 		
@@ -3915,7 +3687,7 @@ Log.WriteLine("DDD 2");
 			currentJumpRj = (JumpRj) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.JUMP_RJ, currentJumpRj.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
@@ -3930,7 +3702,7 @@ Log.WriteLine("DDD 2");
 				}
 			}
 
-			if(weightPercentPreferred)
+			if(preferences.weightStatsPercent)
 				myTreeViewJumpsRj.Add(currentPerson.Name, currentJumpRj);
 			else {
 				JumpRj myJump = new JumpRj();
@@ -4044,7 +3816,7 @@ Log.WriteLine("DDD 2");
 				currentPerson.UniqueID, currentSession.UniqueID, 
 				currentRunType.Name, myDistance, 
 				chronopicWin.CP, event_execute_label_message, app1,
-				prefsDigitsNumber, metersSecondsPreferred, volumeOn, 
+				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, 
 				progressbarLimit, egd,
 				checkbutton_runs_prevent_double_contact.Active, 
 				(int) spinbutton_runs_prevent_double_contact.Value,
@@ -4076,11 +3848,11 @@ Log.WriteLine("DDD 2");
 			currentRun = (Run) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN, currentRun.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 			
-			currentRun.MetersSecondsPreferred = metersSecondsPreferred;
+			currentRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
 			myTreeViewRuns.Add(currentPerson.Name, currentRun);
 			
@@ -4174,7 +3946,7 @@ Log.WriteLine("DDD 2");
 				currentPerson.UniqueID, currentSession.UniqueID, currentRunIntervalType.Name, 
 				distanceInterval, progressbarLimit, currentRunIntervalType.TracksLimited, 
 				chronopicWin.CP, event_execute_label_message, app1,
-				prefsDigitsNumber, metersSecondsPreferred, volumeOn, repetitiveConditionsWin, 
+				preferences.digitsNumber, preferences.metersSecondsPreferred, preferences.volumeOn, repetitiveConditionsWin, 
 				progressbarLimit, egd,
 				checkbutton_runs_i_prevent_double_contact.Active, 
 				(int) spinbutton_runs_i_prevent_double_contact.Value,
@@ -4209,11 +3981,11 @@ Log.WriteLine("DDD 2");
 			currentRunInterval = (RunInterval) currentEventExecute.EventDone;
 
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RUN_I, currentRunInterval.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
-			currentRunInterval.MetersSecondsPreferred = metersSecondsPreferred;
+			currentRunInterval.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 
 			//if user clicked in finish earlier
 			if(currentEventExecute.Finish) {
@@ -4298,7 +4070,7 @@ Log.WriteLine("DDD 2");
 
 		currentEventExecute = new ReactionTimeExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, 
-				chronopicWin.CP, event_execute_label_message, app1, prefsDigitsNumber, volumeOn,
+				chronopicWin.CP, event_execute_label_message, app1, preferences.digitsNumber, preferences.volumeOn,
 				progressbarLimit, egd
 				);
 
@@ -4328,7 +4100,7 @@ Log.WriteLine("DDD 2");
 			currentReactionTime = (ReactionTime) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.RT, currentReactionTime.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 			
@@ -4413,7 +4185,7 @@ Log.WriteLine("DDD 2");
 		currentEventExecute = new PulseExecute(currentPerson.UniqueID, currentPerson.Name, 
 				currentSession.UniqueID, currentPulseType.Name, pulseStep, totalPulses, 
 				chronopicWin.CP, event_execute_label_message, 
-				app1, prefsDigitsNumber, volumeOn, egd
+				app1, preferences.digitsNumber, preferences.volumeOn, egd
 				);
 		
 		if(!chronopicWin.Connected)	
@@ -4455,7 +4227,7 @@ Log.WriteLine("DDD 2");
 			currentPulse = (Pulse) currentEventExecute.EventDone;
 			
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, Constants.TestTypes.PULSE, currentPulse.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
 
@@ -4497,7 +4269,7 @@ Log.WriteLine("DDD 2");
 			cpd.Add(a);
 		}
 
-		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, volumeOn);
+		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, preferences.volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		
 		if(notebook_sup.CurrentPage == 0)
@@ -4507,13 +4279,13 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void on_chronopic_contacts_clicked (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View("contacts", volumeOn);
+		chronopicWin = ChronopicWindow.View("contacts", preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_contacts_connected_or_done);
 	}
 
 	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View("encoder", volumeOn);
+		chronopicWin = ChronopicWindow.View("encoder", preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
 	}
@@ -4537,7 +4309,7 @@ Log.WriteLine("DDD 2");
 		//createChronopicWindow(true);
 
 		//show it
-		chronopicWin = ChronopicWindow.View(volumeOn);
+		chronopicWin = ChronopicWindow.View(preferences.volumeOn);
 	}
 	*/
 	
@@ -4721,7 +4493,7 @@ Console.WriteLine("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
 Console.WriteLine("W");
 			//move video file if exists
-			if(videoOn)
+			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, 
 							Constants.TestTypes.MULTICHRONOPIC, currentMultiChronopic.UniqueID))
 					new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, video cannot be stored."));
@@ -4769,7 +4541,7 @@ Console.WriteLine("X");
 					else
 						PrepareJumpReactiveGraph(
 								Util.GetLast(currentJumpRj.TvString), Util.GetLast(currentJumpRj.TcString),
-								currentJumpRj.TvString, currentJumpRj.TcString, volumeOn, repetitiveConditionsWin);
+								currentJumpRj.TvString, currentJumpRj.TcString, preferences.volumeOn, repetitiveConditionsWin);
 					break;
 				case EventType.Types.RUN:
 					if(lastRunIsSimple) 
@@ -4789,7 +4561,7 @@ Console.WriteLine("X");
 								currentRunInterval.IntervalTimesString, 
 								distanceTotal,
 								runType.DistancesString,
-								volumeOn, repetitiveConditionsWin);
+								preferences.volumeOn, repetitiveConditionsWin);
 					}
 					break;
 				case EventType.Types.PULSE:
@@ -4842,7 +4614,7 @@ Console.WriteLine("X");
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
-			editJumpWin = EditJumpWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
+			editJumpWin = EditJumpWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
 			editJumpWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_accepted);
 		}
 	}
@@ -4858,7 +4630,7 @@ Console.WriteLine("X");
 			eventOldPerson = myJump.PersonID;
 		
 			//4.- edit this jump
-			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, weightPercentPreferred, prefsDigitsNumber);
+			editJumpRjWin = EditJumpRjWindow.Show(app1, myJump, preferences.weightStatsPercent, preferences.digitsNumber);
 			editJumpRjWin.Button_accept.Clicked += new EventHandler(on_edit_selected_jump_rj_accepted);
 		}
 	}
@@ -4870,7 +4642,7 @@ Console.WriteLine("X");
 
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
-			if(! weightPercentPreferred) {
+			if(! preferences.weightStatsPercent) {
 				double personWeight = SqlitePersonSession.SelectAttribute(
 						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
@@ -4893,7 +4665,7 @@ Console.WriteLine("X");
 		
 		//if person changed, fill treeview again, if not, only update it's line
 		if(eventOldPerson == myJump.PersonID) {
-			if(! weightPercentPreferred) {
+			if(! preferences.weightStatsPercent) {
 				double personWeight = SqlitePersonSession.SelectAttribute(
 						false, myJump.PersonID, currentSession.UniqueID, Constants.Weight);
 				myJump.Weight = Util.WeightFromPercentToKg(myJump.Weight, personWeight);
@@ -4917,11 +4689,11 @@ Console.WriteLine("X");
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- obtain the data of the selected run
 			Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
-			myRun.MetersSecondsPreferred = metersSecondsPreferred;
+			myRun.MetersSecondsPreferred = preferences.metersSecondsPreferred;
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
-			editRunWin = EditRunWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
+			editRunWin = EditRunWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
 			editRunWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_accepted);
 		}
 	}
@@ -4937,7 +4709,7 @@ Console.WriteLine("X");
 			eventOldPerson = myRun.PersonID;
 		
 			//4.- edit this run
-			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber, metersSecondsPreferred);
+			editRunIntervalWin = EditRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber, preferences.metersSecondsPreferred);
 			editRunIntervalWin.Button_accept.Clicked += new EventHandler(on_edit_selected_run_interval_accepted);
 		}
 	}
@@ -4987,7 +4759,7 @@ Console.WriteLine("X");
 			eventOldPerson = myRT.PersonID;
 		
 			//4.- edit this event
-			editReactionTimeWin = EditReactionTimeWindow.Show(app1, myRT, prefsDigitsNumber);
+			editReactionTimeWin = EditReactionTimeWindow.Show(app1, myRT, preferences.digitsNumber);
 			editReactionTimeWin.Button_accept.Clicked += new EventHandler(on_edit_selected_reaction_time_accepted);
 		}
 	}
@@ -5017,7 +4789,7 @@ Console.WriteLine("X");
 			eventOldPerson = myPulse.PersonID;
 		
 			//4.- edit this event
-			editPulseWin = EditPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
+			editPulseWin = EditPulseWindow.Show(app1, myPulse, preferences.digitsNumber);
 			editPulseWin.Button_accept.Clicked += new EventHandler(on_edit_selected_pulse_accepted);
 		}
 	}
@@ -5047,7 +4819,7 @@ Console.WriteLine("X");
 			eventOldPerson = mc.PersonID;
 		
 			//4.- edit this jump
-			editMultiChronopicWin = EditMultiChronopicWindow.Show(app1, mc, prefsDigitsNumber);
+			editMultiChronopicWin = EditMultiChronopicWindow.Show(app1, mc, preferences.digitsNumber);
 			editMultiChronopicWin.Button_accept.Clicked += new EventHandler(on_edit_selected_multi_chronopic_accepted);
 		}
 	}
@@ -5243,7 +5015,7 @@ Console.WriteLine("X");
 		Log.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this jump?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_accepted);
 			} else {
@@ -5259,7 +5031,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this jump?"), 
 						 Catalog.GetString("Attention: Deleting a Reactive subjump will delete the whole jump"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_jump_rj_accepted);
@@ -5331,7 +5103,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a jump and not a person
 		if (myTreeViewRuns.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show(Catalog.GetString("Do you want to delete this run?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_accepted);
 			} else {
@@ -5348,7 +5120,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this run?"), 
 						 Catalog.GetString("Attention: Deleting a Intervallic subrun will delete the whole run"));
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_run_interval_accepted);
@@ -5411,7 +5183,7 @@ Console.WriteLine("X");
 		Log.WriteLine(myTreeViewReactionTimes.EventSelectedID.ToString());
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_reaction_time_accepted);
 			} else {
@@ -5448,7 +5220,7 @@ Console.WriteLine("X");
 		Log.WriteLine(myTreeViewPulses.EventSelectedID.ToString());
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show("Do you want to delete this test?", "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_pulse_accepted);
 			} else {
@@ -5483,7 +5255,7 @@ Console.WriteLine("X");
 		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
-			if (askDeletion) {
+			if (preferences.askDeletion) {
 				confirmWinJumpRun = ConfirmWindowJumpRun.Show( Catalog.GetString("Do you want to delete this test?"), "");
 				confirmWinJumpRun.Button_accept.Clicked += new EventHandler(on_delete_selected_multi_chronopic_accepted);
 			} else {
@@ -5683,7 +5455,7 @@ Console.WriteLine("X");
 			JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
 			//4.- edit this jump
-			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, prefsDigitsNumber);
+			repairJumpRjWin = RepairJumpRjWindow.Show(app1, myJump, preferences.digitsNumber);
 			repairJumpRjWin.Button_accept.Clicked += new EventHandler(on_repair_selected_jump_rj_accepted);
 		}
 	}
@@ -5710,7 +5482,7 @@ Console.WriteLine("X");
 			RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 		
 			//4.- edit this run
-			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, prefsDigitsNumber);
+			repairRunIntervalWin = RepairRunIntervalWindow.Show(app1, myRun, preferences.digitsNumber);
 			repairRunIntervalWin.Button_accept.Clicked += new EventHandler(on_repair_selected_run_interval_accepted);
 		}
 	}
@@ -5737,7 +5509,7 @@ Console.WriteLine("X");
 			Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 		
 			//4.- edit this pulse
-			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, prefsDigitsNumber);
+			repairPulseWin = RepairPulseWindow.Show(app1, myPulse, preferences.digitsNumber);
 			repairPulseWin.Button_accept.Clicked += new EventHandler(on_repair_selected_pulse_accepted);
 		}
 	}
@@ -5953,11 +5725,11 @@ Console.WriteLine("X");
 	}
 		
 	private void on_button_rj_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, volumeOn);
+		repetitiveConditionsWin.View(Constants.BellModes.JUMPS, preferences.volumeOn);
 	}
 
 	private void on_button_time_bells_clicked(object o, EventArgs args) {
-		repetitiveConditionsWin.View(Constants.BellModes.RUNS, volumeOn);
+		repetitiveConditionsWin.View(Constants.BellModes.RUNS, preferences.volumeOn);
 	}
 	
 	private void on_repetitive_conditions_closed(object o, EventArgs args) {

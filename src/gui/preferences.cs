@@ -521,7 +521,7 @@ public class PreferencesWindow {
 	}
 	
 	private void copyRecursive() {
-		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir()), new DirectoryInfo(fileCopy));
+		Util.CopyFilesRecursively(new DirectoryInfo(Util.GetParentDir(false)), new DirectoryInfo(fileCopy));
 	}
 	
 	private bool PulseGTK ()

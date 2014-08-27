@@ -49,12 +49,12 @@ class SqliteEncoder : Sqlite
 			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
 			"signalOrCurve TEXT, " + //"signal" or "curve"
 			"filename TEXT, " +
-			"url TEXT, " +
+			"url TEXT, " +		//URL of data of signals and curves. stored as relative
 			"time INT, " +
 			"minHeight INT, " +
 			"description TEXT, " +
 			"status TEXT, " +	//"active", "inactive"
-			"videoURL TEXT, " +	//URL of video of signals
+			"videoURL TEXT, " +	//URL of video of signals. stored as relative
 			"encoderConfiguration TEXT, " +	//text separated by ':'
 		       	"future1 TEXT, " +	//Since 1.4.4 (DB 1.06) this stores last meanPower detected on a curve 
 						//(as string with '.' because future1 was created as TEXT)
@@ -84,8 +84,10 @@ class SqliteEncoder : Sqlite
 			es.exerciseID + ", '" + es.eccon + "', '" +
 			es.laterality + "', '" + es.extraWeight + "', '" +
 			es.signalOrCurve + "', '" + es.filename + "', '" +
-			es.url + "', " + es.time + ", " + es.minHeight + ", '" + es.description + 
-			"', '" + es.status + "', '" + es.videoURL + "', '" + 
+			removeURLpath(es.url) + "', " + 
+			es.time + ", " + es.minHeight + ", '" + es.description + 
+			"', '" + es.status + "', '" + 
+			removeURLpath(es.videoURL) + "', '" + 
 			es.encoderConfiguration.ToString(":",true) + "', '" + 
 			Util.ConvertToPoint(es.future1) + "', '" + es.future2 + "', '" + es.future3 + "')";
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -120,7 +122,7 @@ class SqliteEncoder : Sqlite
 				"', extraWeight = '" + es.extraWeight +
 				"', signalOrCurve = '" + es.signalOrCurve +
 				"', filename = '" + es.filename +
-				"', url = '" + es.url +
+				"', url = '" + removeURLpath(es.url) +
 				"', time = " + es.time +
 				", minHeight = " + es.minHeight +
 				", description = '" + es.description + 
@@ -229,7 +231,7 @@ class SqliteEncoder : Sqlite
 					reader[6].ToString(),			//extraWeight
 					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename
-					reader[9].ToString(),			//url
+					addURLpath(reader[9].ToString()),	//url
 					Convert.ToInt32(reader[10].ToString()),	//time
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
 					reader[12].ToString(),			//description
@@ -413,8 +415,24 @@ class SqliteEncoder : Sqlite
 		if( ! dbconOpened)
 			dbcon.Close();
 	}
+	//url and videoURL stored path is relative to be able to move data between computers
+	//then SELECT: makes it abolute (addURLpath)
+	//INSERT and UPDATE: makes it relative (removeURLpath)
+	private static string addURLpath(string url) {
+		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		if( ! url.StartsWith(parentDir) )
+			url = parentDir + url; 
 
-	
+		return url;
+	}
+	private static string removeURLpath(string url) {
+		string parentDir = Util.GetParentDir(true); //add final '/' or '\'
+		if( url.StartsWith(parentDir) )
+			url = url.Replace(parentDir, ""); 
+
+		return url;
+	}
+
 
 	/*
 	 * EncoderExercise stuff

@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.11";
+	static string lastChronojumpDatabaseVersion = "1.12";
 
 	public Sqlite() {
 	}
@@ -1638,9 +1638,17 @@ class Sqlite
 
 				currentVersion = "1.11";
 			}
-		
-		
+			if(currentVersion == "1.11") {
+				dbcon.Open();
+			
+				Log.WriteLine("URLs from absolute to relative)");
+				
+				SqliteOldConvert.ConvertAbsolutePathsToRelative(); 
+				SqlitePreferences.Update ("databaseVersion", "1.12", true); 
+				dbcon.Close();
 
+				currentVersion = "1.12";
+			}
 				
 		}
 
@@ -1782,6 +1790,8 @@ class Sqlite
 		SqliteCountry.initialize();
 		
 		//changes [from - to - desc]
+		//1.11 - 1.12 Converted DB to 1.12 URLs from absolute to relative
+		//1.10 - 1.11 Converted DB to 1.11 Added option on autosave curves on capture (all/bestmeanpower/none)
 		//1.09 - 1.10 Converted DB to 1.10 Added RSA RAST on runType
 		//1.08 - 1.09 Converted DB to 1.09 Added option on preferences to useHeightsOnJumpIndexes (default) or not
 		//1.07 - 1.08 Converted DB to 1.08 Added translate statistics graph option to preferences

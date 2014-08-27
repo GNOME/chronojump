@@ -708,10 +708,16 @@ public class Util
 	/********** start of LocalApplicationData path ************/
 	
 	//parent of database, multimedia and encoder
-	public static string GetParentDir() {
-		return Path.Combine(
+	//if withFinalSeparator, then return a '\' or '/' at the end
+	public static string GetParentDir(bool withFinalSeparator) {
+		string path = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 				"Chronojump");
+
+		if(withFinalSeparator)
+			path += Path.DirectorySeparatorChar;
+
+		return path;
 	}
 	
 	/********** end of LocalApplicationData path ************/
@@ -801,6 +807,7 @@ public class Util
 		}
 	}
 
+	//returns absolute path, but in encoder this URL is stored in database as relative to be able to move data between computers
 	public static string GetVideoFileName (int sessionID, Constants.TestTypes testType, int uniqueID) {
 		return GetVideoSessionDir(sessionID) + Path.DirectorySeparatorChar + 
 			testType.ToString() + "-" + uniqueID.ToString() +

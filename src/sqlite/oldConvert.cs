@@ -29,6 +29,33 @@ using Mono.Data.Sqlite;
 class SqliteOldConvert : Sqlite
 {
 
+	//to be easier to move data between computers, absolute paths have to be converted to relative
+	//DB 1.11 -> 1.12
+	//dbcon is already opened
+	public static void ConvertAbsolutePathsToRelative () 
+	{
+		//get parentDir with the final '/' or '\'
+		string parentDir = Util.GetParentDir(true);
+
+		ConvertAbsolutePathsToRelativeDo(parentDir, "encoder", "videoURL");
+		ConvertAbsolutePathsToRelativeDo(parentDir, "encoder", "url");
+
+		//URLs of videos of contact tests: jump, run,... are not in the database
+		//URLs of images of person77			 are not in the database
+	}
+	public static void ConvertAbsolutePathsToRelativeDo (string parentDir, string table, string column) {
+		//eg. dbcmd.CommandText = "UPDATE encoder SET videoURL = replace( videoURL, '/home/user/.local/share/Chronojump/', '' ) " + 
+		//	"WHERE videoURL LIKE '/home/user/.local/share/Chronojump/%'";
+
+		dbcmd.CommandText = "UPDATE " + table + " SET " + column + " = replace( " + column + ", '" + parentDir + "', '' ) " + 
+			"WHERE " + column + " LIKE '" + parentDir + "%'";
+
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+	}	
+
+
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];
 	//or

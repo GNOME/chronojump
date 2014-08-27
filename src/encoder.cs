@@ -433,12 +433,12 @@ public class EncoderSQL
 	public string extraWeight;
 	public string signalOrCurve;
 	public string filename;
-	public string url;
+	public string url;	//URL of data of signals and curves. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	public int time;
 	public int minHeight;
 	public string description;
 	public string status;	//active or inactive curves
-	public string videoURL;	//URL of video of signals
+	public string videoURL;	//URL of video of signals. Stored in DB as relative. Used in software as absolute. See SqliteEncoder
 	
 	//encoderConfiguration conversions
 	//in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)

@@ -231,12 +231,12 @@ class SqliteEncoder : Sqlite
 					reader[6].ToString(),			//extraWeight
 					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename
-					addURLpath(reader[9].ToString()),	//url
+					addURLpath(fixOSpath(reader[9].ToString())),	//url
 					Convert.ToInt32(reader[10].ToString()),	//time
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
 					reader[12].ToString(),			//description
 					reader[13].ToString(),			//status
-					reader[14].ToString(),			//videoURL
+					addURLpath(fixOSpath(reader[14].ToString())),	//videoURL
 					econf,					//encoderConfiguration
 					Util.ChangeDecimalSeparator(reader[16].ToString()),	//future1 (meanPower on curves)
 					reader[17].ToString(),			//future2
@@ -414,6 +414,15 @@ class SqliteEncoder : Sqlite
 		
 		if( ! dbconOpened)
 			dbcon.Close();
+	}
+	
+	//when select from database, ensure path separators are ok for this platform
+	//useful if person moved database between diff OS
+	private static string fixOSpath(string url) {
+		if(UtilAll.IsWindows())
+			return url.Replace("/","\\");
+		else
+			return url.Replace("\\","/");
 	}
 	//url and videoURL stored path is relative to be able to move data between computers
 	//then SELECT: makes it abolute (addURLpath)

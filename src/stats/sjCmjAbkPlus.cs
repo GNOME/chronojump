@@ -53,7 +53,7 @@ public class StatSjCmjAbkPlus : Stat
 			store = getStore(dataColumns +1); //jumper, height, TF, weight (this col has characters '%' and 'Kg') solved in sqlite
 		}
 		
-		weightPercentPreferred = myStatTypeStruct.WeightStatsPercent;
+		weightPercentPreferred = myStatTypeStruct.preferences.weightStatsPercent;
 		string weightName = Catalog.GetString("Extra weight");
 		if(weightPercentPreferred)
 			weightName += " %";

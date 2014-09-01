@@ -852,26 +852,22 @@ public partial class ChronoJumpWindow {
 		button_add_to_report.Sensitive = true;
 
 		GraphROptions graphROptions = fillGraphROptions();
-		
+	
 		myStatType = new StatType(
 				statisticType,
 				statisticSubType,
 				statisticApplyTo,
 				treeview_stats,
 				sendSelectedSessions, 
-				preferences.digitsNumber, 
 				checkbutton_stats_sex.Active,  
 				statsJumpsType,
 				limit, 
-				preferences.heightPreferred,
-				preferences.weightStatsPercent, 
 				markedRows,
 				evolution_mark_consecutives,
 				graphROptions,
 				graph,
 				toReport,  //always false in this class
-				preferences.RGraphsTranslate,
-				preferences.useHeightsOnJumpIndexes
+				preferences
 				);
 
 		//if we just made a graph, store is not made, 

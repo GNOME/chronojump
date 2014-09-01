@@ -41,19 +41,17 @@ public class ExportSession
 	protected static Gtk.Window app1;
 	protected string fileName;
 	
-	protected int prefsDigitsNumber;
-	public bool heightPreferred;
-	public bool weightStatsPercent;
+	public Preferences preferences;
 					
 	protected string spreadsheetString;
 
 	public ExportSession() {
 	}
 
-	public ExportSession(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
+	public ExportSession(Session mySession, Gtk.Window app1, Preferences preferences) 
 	{
 		this.mySession = mySession;
-		this.prefsDigitsNumber = prefsDigitsNumber;
+		this.preferences = preferences;
 		
 		spreadsheetString = "";
 
@@ -250,10 +248,10 @@ public class ExportSession
 
 	protected void printJumps(string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 		
 		string weightName = Catalog.GetString("Weight");
-		if(weightStatsPercent)
+		if(preferences.weightStatsPercent)
 			weightName += " %";
 		else
 			weightName += " Kg";
@@ -294,7 +292,7 @@ public class ExportSession
 							personWeight);
 
 				string myWeight = "";
-				if(weightStatsPercent)
+				if(preferences.weightStatsPercent)
 					myWeight = myStr[8];
 				else
 					myWeight = weightInKg.ToString();
@@ -302,8 +300,7 @@ public class ExportSession
 				double fall = Convert.ToDouble(myStr[7]);
 				double tc = Convert.ToDouble(myStr[6]);
 				double tf = Convert.ToDouble(myStr[5]);
-
-
+				
 				string power = "-";
 				if(tf > 0) {	
 					if(tc > 0) 		//dj
@@ -320,7 +317,7 @@ public class ExportSession
 						Util.TrimDecimals(myWeight, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
 						power + ":" +  
-						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  //true: m/s
+						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
 						Util.SimulatedTestNoYes(Convert.ToInt32(myStr[11]))		//jump.simulated
@@ -336,7 +333,7 @@ public class ExportSession
 
 	protected void printJumpsRj(bool showSubjumps, string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
@@ -352,7 +349,7 @@ public class ExportSession
 			}
 
 			string weightName = Catalog.GetString("Weight");
-			if(weightStatsPercent)
+			if(preferences.weightStatsPercent)
 				weightName += " %";
 			else
 				weightName += " Kg";
@@ -387,7 +384,7 @@ public class ExportSession
 			string [] myStr = jump.Split(new char[] {':'});
 			
 			string myWeight = "";
-			if(weightStatsPercent)
+			if(preferences.weightStatsPercent)
 				myWeight = myStr[8];
 			else
 				myWeight = Util.WeightFromPercentToKg(
@@ -407,11 +404,13 @@ public class ExportSession
 					Util.TrimDecimals(myStr[6], dec) + ":" +  		//jumpRj.tcMax 
 					Util.TrimDecimals(myStr[5], dec) + ":" + 		//jumpRj.tvMax
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  	//Max height
-					Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], true), dec) + ":" +  	//Max initial speed (true:m/s)
+					Util.TrimDecimals(Util.GetInitialSpeed(
+							myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  	//Max initial speed (true:m/s)
 					Util.TrimDecimals(myStr[11], dec) + ":" +  		//jumpRj.tcAvg
 					Util.TrimDecimals(myStr[10], dec) + ":" + 		//jumpRj.tvAvg
 					Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[10]), dec) + ":" +  //Avg height
-					Util.TrimDecimals(Util.GetInitialSpeed(myStr[10], true), dec) + ":" +  	//Avg Initial speed (true:m/s)
+					Util.TrimDecimals(Util.GetInitialSpeed(
+							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
@@ -471,7 +470,7 @@ public class ExportSession
 	
 	protected void printRuns(string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 		
 		if(myRuns.Length > 0) {
 			printTitles(title); 
@@ -513,7 +512,7 @@ public class ExportSession
 	
 	protected void printRunsInterval(bool showSubruns, string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 
 		ArrayList myData = new ArrayList(1);
 		bool isFirstHeader = true;
@@ -620,7 +619,7 @@ public class ExportSession
 	
 	protected void printReactionTimes(string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 		
 		if(myReactionTimes.Length > 0) {
 			printTitles(title); 
@@ -656,7 +655,7 @@ public class ExportSession
 	//no need of bool because all the info is in the sub values
 	protected void printPulses(string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 		
 		ArrayList myData = new ArrayList(1);
 		
@@ -718,7 +717,7 @@ public class ExportSession
 	
 	protected void printMCs(string title)
 	{
-		int dec=prefsDigitsNumber; //decimals
+		int dec=preferences.digitsNumber; //decimals
 		
 		ArrayList myData = new ArrayList(1);
 		
@@ -844,18 +843,7 @@ public class ExportSession
 	{
 		((IDisposable)writer).Dispose();
 	}
-	
-	public int PrefsDigitsNumber {
-		set { prefsDigitsNumber = value; }
-	}
-	
-	public bool HeightPreferred {
-		set { heightPreferred = value; }
-	}
-	
-	public bool WeightStatsPercent {
-		set { weightStatsPercent = value; }
-	}
+
 
 	~ExportSession() {}
 }
@@ -864,10 +852,10 @@ public class ExportSession
 public class ExportSessionCSV : ExportSession 
 {
 
-	public ExportSessionCSV(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
+	public ExportSessionCSV(Session mySession, Gtk.Window app1, Preferences preferences) 
 	{
 		this.mySession = mySession;
-		this.prefsDigitsNumber = prefsDigitsNumber;
+		this.preferences = preferences;
 	
 		spreadsheetString = Constants.SpreadsheetString;
 
@@ -920,11 +908,11 @@ public class ExportSessionXML : ExportSession
 {
 	private XmlTextWriter xr;
 		
-	public ExportSessionXML(Session mySession, Gtk.Window app1, int prefsDigitsNumber) 
-	//public ExportXML(Session mySession, Gtk.Window app1) 
+	public ExportSessionXML(Session mySession, Gtk.Window app1, Preferences preferences) 
 	{
 		this.mySession = mySession;
-		this.prefsDigitsNumber = prefsDigitsNumber;
+		this.preferences = preferences;
+		
 		//this.app1 = app1;
 		
 		//xr = new XmlTextWriter(fileExport, null);

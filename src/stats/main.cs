@@ -109,11 +109,11 @@ public class Stat
 	{
 		//TODO: check, this is weird...
 		this.sessions = myStatTypeStruct.SendSelectedSessions;
-		pDN = myStatTypeStruct.PrefsDigitsNumber;
+		pDN = myStatTypeStruct.preferences.digitsNumber;
 		this.showSex = myStatTypeStruct.Sex_active;
 		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
-		this.heightPreferred = myStatTypeStruct.HeightPreferred;
-		this.weightStatsPercent = myStatTypeStruct.WeightStatsPercent;
+		this.heightPreferred = myStatTypeStruct.preferences.heightPreferred;
+		this.weightStatsPercent = myStatTypeStruct.preferences.weightStatsPercent;
 		this.statsJumpsType = myStatTypeStruct.StatsJumpsType;
 		this.limit = myStatTypeStruct.Limit;
 		this.jumpType = myStatTypeStruct.StatisticApplyTo;
@@ -122,8 +122,8 @@ public class Stat
 		
 		this.gRO = myStatTypeStruct.GRO;
 		this.toReport = myStatTypeStruct.ToReport;
-		this.graphTranslate = myStatTypeStruct.GraphTranslate;
-		this.useHeightsOnJumpIndexes = myStatTypeStruct.UseHeightsOnJumpIndexes;
+		this.graphTranslate = myStatTypeStruct.preferences.RGraphsTranslate;
+		this.useHeightsOnJumpIndexes = myStatTypeStruct.preferences.useHeightsOnJumpIndexes;
 		
 		this.treeview = treeview;
 		

@@ -41,8 +41,6 @@ public class Report : ExportSession
 	public bool ShowIntervalRunsWithSubruns;
 	public bool ShowReactionTimes;
 	public bool ShowPulses;
-	private bool graphTranslate = true;
-	private bool useHeightsOnJumpIndexes = true;
 	
 	bool toReport = true;
 
@@ -73,27 +71,6 @@ public class Report : ExportSession
 		mySession = SqliteSession.Select(sessionID.ToString());
 	}
 
-/*	
-	public Report(int sessionID, bool showCurrentSessionData, bool showCurrentSessionJumpers, 
-			bool showSimpleJumps, bool showReactiveJumps, bool showSimpleRuns, bool showIntervalRuns,
-			bool showReactionTimes, bool showPulses, ArrayList statisticsData) 
-	{
-		this.sessionID = sessionID;
-		this.ShowCurrentSessionData = showCurrentSessionData;
-		this.ShowCurrentSessionJumpers = showCurrentSessionJumpers;
-		this.ShowSimpleJumps = showSimpleJumps;
-		this.ShowReactiveJumps = showReactiveJumps;
-		this.ShowSimpleRuns = showSimpleRuns;
-		this.ShowIntervalRuns = showIntervalRuns;
-		this.ShowReactionTimes = showReactionTimes;
-		this.ShowPulses = showPulses;
-		this.StatisticsData = statisticsData;
-		
-		spreadsheetString = "";
-
-		mySession = SqliteSession.Select(sessionID.ToString());
-	}
-	*/
 
 	public void PrepareFile () {
 		checkFile("report");
@@ -356,19 +333,15 @@ public class Report : ExportSession
 					subType, 		//statisticSubType
 					strFull[2], 		//statisticApplyTo
 					sendSelectedSessions, 
-					prefsDigitsNumber,
 					showSex, 	
 					statsJumpsType,
 					limit, 	
-					heightPreferred,
-					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					graphROptions,
 					false, 			//graph
 					toReport,
-					graphTranslate,
-					useHeightsOnJumpIndexes,
+					preferences,
 					writer,
 					"",
 					statCount
@@ -387,19 +360,15 @@ public class Report : ExportSession
 					subType, 		//statisticSubType
 					strFull[2], 		//statisticApplyTo
 					sendSelectedSessions, 
-					prefsDigitsNumber,
 					showSex, 	
 					statsJumpsType,
 					limit, 	
-					heightPreferred,
-					weightStatsPercent,
 					arrayListMarkedRows,
 					rj_evolution_mark_consecutives,
 					graphROptions,
 					true, 			//graph
 					toReport,
-					graphTranslate,
-					useHeightsOnJumpIndexes,
+					preferences,
 					writer,
 					fileName,		//fileName for exporting there
 					statCount
@@ -435,16 +404,6 @@ public class Report : ExportSession
 		set { progversion = value; }
 	}
 
-	public bool GraphTranslate {
-		set { graphTranslate = value; }
-		get { return graphTranslate; }
-	}
-	
-	public bool UseHeightsOnJumpIndexes {
-		set { useHeightsOnJumpIndexes = value; }
-		get { return useHeightsOnJumpIndexes; }
-	}
-	
 	~Report() {}
 	   
 }

@@ -30,40 +30,32 @@ public class StatTypeStruct
 {
 	public string StatisticApplyTo;
 	public ArrayList SendSelectedSessions;
-	public int PrefsDigitsNumber;
 	public bool Sex_active;
 	public int StatsJumpsType;
 	public int Limit;
-	public bool HeightPreferred;
-	public bool WeightStatsPercent; 
 	
 	public ArrayList MarkedRows;
 	public GraphROptions GRO;
 	
 	public bool ToReport;
-	public bool GraphTranslate;
-	public bool UseHeightsOnJumpIndexes;
+		
+	public Preferences preferences;
 	
 	public StatTypeStruct (string statisticApplyTo, 
-			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			ArrayList markedRows, 
-			GraphROptions gRO,
-			bool toReport, bool graphTranslate, bool useHeightsOnJumpIndexes)
+			ArrayList sendSelectedSessions, bool sex_active, 
+			int statsJumpsType, int limit, 
+			ArrayList markedRows, GraphROptions gRO,
+			bool toReport, Preferences preferences)
 	{
 		this.StatisticApplyTo = statisticApplyTo;
 		this.SendSelectedSessions =  sendSelectedSessions;
-		this.PrefsDigitsNumber =  prefsDigitsNumber;
 		this.Sex_active = sex_active;
 		this.StatsJumpsType = statsJumpsType;
 		this.Limit = limit;
-		this.HeightPreferred = heightPreferred;
-		this.WeightStatsPercent = weightStatsPercent;
 		this.MarkedRows = markedRows;
 		this.GRO = gRO;
 		this.ToReport = toReport;
-		this.GraphTranslate = graphTranslate;
-		this.UseHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
+		this.preferences = preferences;
 	}
 }
 
@@ -80,8 +72,7 @@ public class StatType {
 
 	bool graph;
 	bool toReport;
-	bool graphTranslate;
-	bool useHeightsOnJumpIndexes;
+	Preferences preferences;
 	
 	TextWriter writer;
 	string fileName;
@@ -110,12 +101,9 @@ public class StatType {
 	
 	//comes from gui/stats.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo, Gtk.TreeView treeview_stats,
-			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent,
-			ArrayList markedRows,  
-			int evolution_mark_consecutives, 
-			GraphROptions gRO,
-			bool graph, bool toReport, bool graphTranslate, bool useHeightsOnJumpIndexes)
+			ArrayList sendSelectedSessions, bool sex_active, int statsJumpsType, int limit, 
+			ArrayList markedRows, int evolution_mark_consecutives, GraphROptions gRO,
+			bool graph, bool toReport, Preferences preferences)
 	{
 		//some of this will disappear when we use myStatTypeStruct in all classes:
 		this.statisticType = statisticType;
@@ -129,16 +117,14 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
-		this.graphTranslate = graphTranslate;
-		this.useHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
+		this.preferences = preferences;
 
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
-				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				markedRows, 
-				gRO,
-				toReport, graphTranslate, useHeightsOnJumpIndexes);
+				sendSelectedSessions, sex_active, 
+				statsJumpsType, limit, 
+				markedRows, gRO,
+				toReport, preferences);
 
 		myStat = new Stat(); //create an instance of myStat
 
@@ -167,12 +153,10 @@ public class StatType {
 	
 	//comes from report.cs
 	public StatType (string statisticType, string statisticSubType, string statisticApplyTo,
-			ArrayList sendSelectedSessions, int prefsDigitsNumber, bool sex_active, 
-			int statsJumpsType, int limit, bool heightPreferred, bool weightStatsPercent, 
-			ArrayList markedRows, 
-			int evolution_mark_consecutives, 
-			GraphROptions gRO,
-			bool graph, bool toReport, bool graphTranslate, bool useHeightsOnJumpIndexes, 
+			ArrayList sendSelectedSessions, bool sex_active, 
+			int statsJumpsType, int limit, 
+			ArrayList markedRows, int evolution_mark_consecutives, GraphROptions gRO,
+			bool graph, bool toReport, Preferences preferences, 
 			TextWriter writer, string fileName,
 			int statCount 
 			)
@@ -187,8 +171,7 @@ public class StatType {
 		
 		this.graph = graph;
 		this.toReport = toReport;
-		this.graphTranslate = graphTranslate;
-		this.useHeightsOnJumpIndexes = useHeightsOnJumpIndexes;
+		this.preferences = preferences;
 
 		this.writer = writer;
 		this.fileName = fileName;
@@ -196,11 +179,10 @@ public class StatType {
 		
 		myStatTypeStruct = new StatTypeStruct (
 				statisticApplyTo,
-				sendSelectedSessions, prefsDigitsNumber, sex_active, 
-				statsJumpsType, limit, heightPreferred, weightStatsPercent, 
-				markedRows, 
-				gRO,
-				toReport, graphTranslate, useHeightsOnJumpIndexes);
+				sendSelectedSessions, sex_active, 
+				statsJumpsType, limit, 
+				markedRows, gRO,
+				toReport, preferences);
 
 		myStat = new Stat(); //create and instance of myStat
 	}

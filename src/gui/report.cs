@@ -320,19 +320,15 @@ public class ReportWindow {
 						statRow[2], 		//statisticApplyTo,
 						treeviewFake, 
 						sendSelectedSessions, 
-						3, 			//prefsDigitsNumber, don't care, it's a graph
 						showSex,
 						statsJumpsType, 
 						limit, 	
-						report.heightPreferred, 
-						report.weightStatsPercent, 
 						arrayListMarkedRows,
 						rj_evolution_mark_consecutives,
 						graphROptions,
 						true,	//graph
 						false,  //always false in this class
-						report.GraphTranslate,
-						report.UseHeightsOnJumpIndexes
+						report.preferences
 						);
 				myStatType.ChooseStat();
 			}

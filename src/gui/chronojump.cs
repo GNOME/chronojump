@@ -859,11 +859,7 @@ public partial class ChronoJumpWindow
 		//	languageChange();
 
 		//pass to report
-		report.PrefsDigitsNumber = preferences.digitsNumber;
-		report.HeightPreferred = preferences.heightPreferred;
-		report.WeightStatsPercent = preferences.weightStatsPercent;
-		report.GraphTranslate = preferences.RGraphsTranslate;
-		report.UseHeightsOnJumpIndexes = preferences.useHeightsOnJumpIndexes;
+		report.preferences = preferences;
 		report.Progversion = progVersion;
 
 		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
@@ -2480,7 +2476,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_export_session_accepted(object o, EventArgs args) {
-		new ExportSessionCSV(currentSession, app1, preferences.digitsNumber);
+		new ExportSessionCSV(currentSession, app1, preferences);
 	}
 
 	
@@ -2746,11 +2742,7 @@ public partial class ChronoJumpWindow
 			}
 
 			//pass to report
-			report.PrefsDigitsNumber = preferences.digitsNumber;
-			report.HeightPreferred = preferences.heightPreferred;
-			report.WeightStatsPercent = preferences.weightStatsPercent;
-			report.GraphTranslate = preferences.RGraphsTranslate;
-			report.UseHeightsOnJumpIndexes = preferences.useHeightsOnJumpIndexes;
+			report.preferences = preferences;
 			
 			
 			createTreeView_jumps (treeview_jumps);

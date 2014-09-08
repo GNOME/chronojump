@@ -715,21 +715,22 @@ public class RunIntervalExecute : RunExecute
 					} else {
 						if(checkDoubleContact && timestampDCn > 0)
 							timestampDCContactTimes += timestamp;
-						else {
+						else 
 							  lastTc = timestamp/1000.0;
-
-							  //RSA
-							  double RSAseconds = Util.GetRunIVariableDistancesThisRowIsRSA(
-										distancesString, Convert.ToInt32(tracks));
-							  if(RSAseconds > 0) {
-								    RSABellDone = false;
-								    needShowCountDown = true;
-							  } else {
-								    needShowCountDown = false;
-								    feedbackMessage = "";
-								    needShowFeedbackMessage = true;
-							  }
+						
+						
+						//RSA
+						double RSAseconds = Util.GetRunIVariableDistancesThisRowIsRSA(
+								distancesString, Convert.ToInt32(tracks));
+						if(RSAseconds > 0) {
+							RSABellDone = false;
+							needShowCountDown = true;
+						} else {
+							needShowCountDown = false;
+							feedbackMessage = "";
+							needShowFeedbackMessage = true;
 						}
+
 					}
 
 						

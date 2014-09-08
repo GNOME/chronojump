@@ -362,6 +362,7 @@ public class Constants
 	public static string GraphTypeStripchart = "Stripchart";
 	public static string [] GraphTypes = { GraphTypeBoxplot, GraphTypeHistogram, GraphTypeBarplot, GraphTypeLines, 
 		GraphTypeXY, GraphTypeDotchart, GraphTypeStripchart };
+	public static string [] GraphTypesMultisession = { GraphTypeBarplot, GraphTypeLines };
 	public static string GraphPaletteGray = "gray.colors";
 	public static string GraphPaletteBlack = Catalog.GetString("black only");
 	public static string [] GraphPalettes = { GraphPaletteBlack, GraphPaletteGray, "rainbow", 

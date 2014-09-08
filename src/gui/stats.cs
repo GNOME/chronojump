@@ -730,6 +730,9 @@ public partial class ChronoJumpWindow {
 			checkbutton_transposed.Sensitive = false;
 			UtilGtk.ComboUpdate(combo_graph_type, Util.StringToStringArray(Constants.GraphTypeLines), "");
 			combo_graph_type.Active=0;
+		} else if (radiobutton_selected_sessions.Active) {
+			//on multi session use only barplot and lines
+			combo_graph_type.Active = UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypesMultisession, Constants.GraphTypeLines);
 		} else {
 			//hbox_mark_consecutives.Hide();
 			checkbutton_transposed.Active = false;
@@ -1167,17 +1170,24 @@ public partial class ChronoJumpWindow {
 			//single session can have all graph types
 			combo_graph_type.Active = UtilGtk.ComboUpdate(
 					combo_graph_type, Constants.GraphTypes, UtilGtk.ComboGetActive(combo_graph_type));
+			//except
+			if ( UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Catalog.GetString("Evolution") ||
+					UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) {
+				notebook_stats_win_options.Show();
+				checkbutton_transposed.Active = true;
+				checkbutton_transposed.Sensitive = false;
+				UtilGtk.ComboUpdate(combo_graph_type, Util.StringToStringArray(Constants.GraphTypeLines), "");
+				combo_graph_type.Active=0;
+			} else
+				notebook_stats_win_options.Hide();
 		} 
 		else if (o == (object) radiobutton_selected_sessions ) 
 		{
 			Log.WriteLine("selected");
 			button_stats_select_sessions.Sensitive = true;
 			
-			//multi session cannot have XY and dotchart
-			string [] types = Util.DeleteString(Constants.GraphTypes, Constants.GraphTypeXY);
-			types = Util.DeleteString(types, Constants.GraphTypeDotchart);
-			combo_graph_type.Active = UtilGtk.ComboUpdate(
-					combo_graph_type, types, UtilGtk.ComboGetActive(combo_graph_type));
+			//multi session use only barplot and lines
+			combo_graph_type.Active = UtilGtk.ComboUpdate(combo_graph_type, Constants.GraphTypesMultisession, Constants.GraphTypeLines);
 		}
 		update_stats_widgets_sensitiveness();
 		showUpdateStatsAndHideData(true);

@@ -918,7 +918,9 @@ public class Stat
 		string xyFirstFound = "";
 		int count = 0; //this counts accepted series
 		int countCols=0;
+		int countRows=0; //on multisession, names of persons come in rows. Use this to discard some rows if unselected on treeview (! markedRows)
 		foreach(GraphSerie serie in GraphSeries) {
+			Log.WriteLine("serie:" + serie.Title);
 			if(
 					side == Sides.LEFT && ! serie.IsLeftAxis ||
 					side == Sides.RIGHT && serie.IsLeftAxis) {
@@ -928,6 +930,12 @@ public class Stat
 			//don't plot AVG row on multisession
 			if(sessions.Count > 1 && serie.Title == Catalog.GetString("AVG"))
 				continue;
+
+			//on multisession, names of persons come in rows. Use this to discard some rows if unselected on treeview (! markedRows)
+			if(sessions.Count > 1 && ! acceptCheckedData(countRows)) {
+				countRows ++;
+				continue;
+			}
 
 			//on XY only take two vars
 			if(gro.Type == Constants.GraphTypeXY) {
@@ -952,16 +960,19 @@ public class Stat
 			string sep = "";
 			countCols=0;
 			foreach(string val in serie.SerieData) {
+				Log.Write(" val:" + val);
 				bool use = true;
-				if(! acceptCheckedData(countCols)) 
+
+				//on simplesession, cols are persons. See if they are discarded on markedRows
+				if(sessions.Count == 1 && ! acceptCheckedData(countCols))
 					use = false;
 
 				//don't plot AVG col on multisession
-				if(sessions.Count > 1 && countCols == serie.SerieData.Count) 
+				if(sessions.Count > 1 && countCols == serie.SerieData.Count)
 					use = false;
 				
 				//don't plot SD col on multisession
-				if(sessions.Count > 1 && countCols +1 == serie.SerieData.Count) 
+				if(sessions.Count > 1 && countCols +1 == serie.SerieData.Count)
 					use = false;
 
 				countCols++;
@@ -980,13 +991,15 @@ public class Stat
 			colNamesD += sepSerie + "'" + Util.RemoveTilde(serie.Title)  + "'";
 			sepSerie = ", ";
 			count ++;
+			countRows ++;
 		}
 
 		string rowNamesD = "rownames(data) <- c("; //rowNamesDataString
 		//create rows
 		string sep2 = "";
 		for(int i=0; i < CurrentGraphData.XAxisNames.Count; i++) {
-			if(! acceptCheckedData(i))
+			//on simplesession, cols are persons. See if they are discarded on markedRows
+			if(sessions.Count == 1 && ! acceptCheckedData(i))
 				continue;
 			
 			string name = Util.RemoveTilde(CurrentGraphData.XAxisNames[i].ToString());	

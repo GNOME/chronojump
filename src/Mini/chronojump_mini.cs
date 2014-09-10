@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2005  Juan Gonzalez Gomez
+ * Copyright (C) 2014  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -161,6 +162,10 @@ class ChronoJumpMini {
 			System.Environment.Exit(-1);
 		}
 		Console.WriteLine(string.Format(Catalog.GetString("Platform state: {0}"), estado_plataforma));
+
+
+		Console.WriteLine("Automatic variables: ");
+	        cp.Read_variables_automatic();
 
 
 		//-- Establecer el estado inicial del automata

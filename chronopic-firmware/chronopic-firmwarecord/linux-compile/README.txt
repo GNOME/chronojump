@@ -15,6 +15,12 @@ cd LibIris/libiris-1.2
 sudo python setup.py install
 
 
+In **** 64 bits **** systems, installing libiris, can make run the chronopic-firmwarecord
+
+
+
+
+
 ---- more stuff
 
 - If needed, there's a there's a python-libstargate package, maybe works

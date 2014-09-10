@@ -75,14 +75,14 @@ class myDragDrog(wx.FileDropTarget):
   def OnDropFiles(self,x,y, filenames):
   
     #-- Obtener el nombre del fichero (el primero de la lista)
-    file = filenames[0]
+    #file = filenames[0]
    
     #-- Meter el fichero en el entry "fichero .hex"
-    self.frame.text_ctrl_2.SetValue(file)
+    #self.frame.text_ctrl_2.SetValue(file)
     
     #-- Activar la grabacion....
-    self.frame.update()
-    self.frame.download()
+    #self.frame.update()
+    #self.frame.download()
     
     return True
 
@@ -103,12 +103,13 @@ class MyFrame(wx.Frame):
         self.panel_1 = wx.Panel(self, -1)
         self.sizer_4_copy_staticbox = wx.StaticBox(self.panel_1, -1, "Port / Puerto")
         self.sizer_2_staticbox = wx.StaticBox(self.panel_1, -1, "Process / Proceso")
-        self.sizer_firmware_staticbox = wx.StaticBox(self.panel_1, -1, "Select / Seleccionar Firmware")
+        #self.sizer_firmware_staticbox = wx.StaticBox(self.panel_1, -1, "Select / Seleccionar Firmware")
         self.frame_1_statusbar = self.CreateStatusBar(1, 0)
-        self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
-        self.button_firmware_jumps = wx.Button(self.panel_1, -1, "Jumps / Saltos", style=wx.BU_EXACTFIT)
-        self.button_firmware_runs = wx.Button(self.panel_1, -1, "Runs / Carreras", style=wx.BU_EXACTFIT)
-        self.button_firmware_led = wx.Button(self.panel_1, -1, "Led (test)", style=wx.BU_EXACTFIT)
+        #self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
+        #self.button_firmware_auto = wx.Button(self.panel_1, -1, "Automatic", style=wx.BU_EXACTFIT)
+        #self.button_firmware_jumps = wx.Button(self.panel_1, -1, "Jumps / Saltos", style=wx.BU_EXACTFIT)
+        #self.button_firmware_runs = wx.Button(self.panel_1, -1, "Runs / Carreras", style=wx.BU_EXACTFIT)
+        #self.button_firmware_led = wx.Button(self.panel_1, -1, "Led (test)", style=wx.BU_EXACTFIT)
         #self.button_2 = wx.Button(self.panel_1, -1, "Search / Buscar", style=wx.BU_EXACTFIT)
         self.button_7 = wx.Button(self.panel_1, -1, "Record / Grabar", style=wx.BU_EXACTFIT)
         self.combo_box_1 = wx.ComboBox(self.panel_1, -1, choices=[], style=wx.CB_DROPDOWN)
@@ -124,9 +125,10 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.boton_cancelar, self.button_6)
         self.Bind(wx.EVT_BUTTON, self.boton_ayuda, self.button_8)
         
-        self.Bind(wx.EVT_BUTTON, self.button_open_jumps, self.button_firmware_jumps)
-        self.Bind(wx.EVT_BUTTON, self.button_open_runs, self.button_firmware_runs)
-        self.Bind(wx.EVT_BUTTON, self.button_open_led, self.button_firmware_led)
+        #self.Bind(wx.EVT_BUTTON, self.button_open_auto, self.button_firmware_auto)
+        #self.Bind(wx.EVT_BUTTON, self.button_open_jumps, self.button_firmware_jumps)
+        #self.Bind(wx.EVT_BUTTON, self.button_open_runs, self.button_firmware_runs)
+        #self.Bind(wx.EVT_BUTTON, self.button_open_led, self.button_firmware_led)
         # end wxGlade
         #--------------------------------------------
         # Fin del codigo generado automaticamente
@@ -137,10 +139,10 @@ class MyFrame(wx.Frame):
         self.app=app;
         
         #-- Para configurar para el drag-and-drop
-        test = myDragDrog(self)
-        self.SetDropTarget(test)
-        self.text_ctrl_2.SetDropTarget(myDragDrog(self))
-        self.combo_box_1.SetDropTarget(myDragDrog(self))
+        #test = myDragDrog(self)
+        #self.SetDropTarget(test)
+        #self.text_ctrl_2.SetDropTarget(myDragDrog(self))
+        #self.combo_box_1.SetDropTarget(myDragDrog(self))
         
         #-- Establecer la habilitacion de los widgets
         #-- Todos menos el boton de cancelar estan activos inicialmente
@@ -161,8 +163,9 @@ class MyFrame(wx.Frame):
         frame_1_statusbar_fields = [""]
         for i in range(len(frame_1_statusbar_fields)):
             self.frame_1_statusbar.SetStatusText(frame_1_statusbar_fields[i], i)
-        self.text_ctrl_2.SetMinSize((450, 27))
+        #self.text_ctrl_2.SetMinSize((450, 27))
         self.combo_box_1.SetMinSize((250,30))
+        self.frame_1_statusbar.SetStatusText("Record Automatic Firmware / Grabar Firmware Automático", 0)
         # end wxGlade
 
     def __do_layout(self):
@@ -173,24 +176,25 @@ class MyFrame(wx.Frame):
         sizer_3.Add(self.button_8, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
         sizer_4_copy = wx.StaticBoxSizer(self.sizer_4_copy_staticbox, wx.HORIZONTAL)
         
-        sizer_firmware = wx.StaticBoxSizer(self.sizer_firmware_staticbox, wx.VERTICAL)
-        sizer_firmware_row_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_firmware_row_1_1 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_firmware_row_1_2 = wx.BoxSizer(wx.HORIZONTAL)
-        sizer_firmware_row_2 = wx.BoxSizer(wx.HORIZONTAL)
+        #sizer_firmware = wx.StaticBoxSizer(self.sizer_firmware_staticbox, wx.VERTICAL)
+        #sizer_firmware_row_1 = wx.BoxSizer(wx.HORIZONTAL)
+        #sizer_firmware_row_1_1 = wx.BoxSizer(wx.HORIZONTAL)
+        #sizer_firmware_row_1_2 = wx.BoxSizer(wx.HORIZONTAL)
+        #sizer_firmware_row_2 = wx.BoxSizer(wx.HORIZONTAL)
         
-        sizer_firmware_row_1_1.Add(self.button_firmware_jumps, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
-        sizer_firmware_row_1_1.Add(self.button_firmware_runs, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE|wx.LEFT, 5)
-        sizer_firmware_row_1.Add(sizer_firmware_row_1_1, 1, wx.ALIGN_LEFT|wx.LEFT|wx.TOP, 5) #proportion 1 to fill space
+        #sizer_firmware_row_1_1.Add(self.button_firmware_auto, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        #sizer_firmware_row_1_1.Add(self.button_firmware_jumps, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 5)
+        #sizer_firmware_row_1_1.Add(self.button_firmware_runs, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE|wx.LEFT, 5)
+        #sizer_firmware_row_1.Add(sizer_firmware_row_1_1, 1, wx.ALIGN_LEFT|wx.LEFT|wx.TOP, 5) #proportion 1 to fill space
         
-        sizer_firmware_row_1_2.Add(self.button_firmware_led, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_RIGHT, 5)
-        sizer_firmware_row_1.Add(sizer_firmware_row_1_2, 0, wx.ALIGN_RIGHT|wx.RIGHT|wx.TOP, 5) #proportion 0 to be at right
+        #sizer_firmware_row_1_2.Add(self.button_firmware_led, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_RIGHT, 5)
+        #sizer_firmware_row_1.Add(sizer_firmware_row_1_2, 0, wx.ALIGN_RIGHT|wx.RIGHT|wx.TOP, 5) #proportion 0 to be at right
         
-        sizer_firmware_row_2.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
+        #sizer_firmware_row_2.Add(self.text_ctrl_2, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5)
         #sizer_firmware_row_2.Add(self.button_2, 0, wx.ALIGN_CENTER_VERTICAL|wx.ADJUST_MINSIZE, 0)
-        sizer_firmware.Add(sizer_firmware_row_1, 0, wx.EXPAND, 5)
-        sizer_firmware.Add(sizer_firmware_row_2, 0, wx.ALL|wx.EXPAND, 5)
-        sizer_3.Add(sizer_firmware, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
+        #sizer_firmware.Add(sizer_firmware_row_1, 0, wx.EXPAND, 5)
+        #sizer_firmware.Add(sizer_firmware_row_2, 0, wx.ALL|wx.EXPAND, 5)
+        #sizer_3.Add(sizer_firmware, 0, wx.LEFT|wx.RIGHT|wx.TOP|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
         
         sizer_4_copy.Add(self.combo_box_1, 0, wx.TOP|wx.BOTTOM|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5)
         sizer_4_copy.Add(self.button_7, 0, wx.ALIGN_CENTER_VERTICAL|wx.LEFT, 5)
@@ -237,27 +241,32 @@ class MyFrame(wx.Frame):
           fichero = filechooser.GetPath()
          
           #-- Meter el fichero en el entry "fichero .hex"
-          self.text_ctrl_2.SetValue(fichero)
+          #self.text_ctrl_2.SetValue(fichero)
           
         else: #-- No se ha seleccionado ninguno
           print "Cancel..."
           
         print "C" 
         
-    def button_open_jumps(self, event): # wxGlade: MyFrame.<event_handler>
-        print "button_open_jumps"
-        print DATADIR 
-        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_50ms.hex'))
+    #def button_open_auto(self, event): # wxGlade: MyFrame.<event_handler>
+    #    print "button_open_auto"
+    #    print DATADIR 
+    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-automatic.hex'))
         
-    def button_open_runs(self, event): # wxGlade: MyFrame.<event_handler>
-        print "button_open_runs"
-        print DATADIR 
-        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_10ms.hex'))
+    #def button_open_jumps(self, event): # wxGlade: MyFrame.<event_handler>
+    #    print "button_open_jumps"
+    #    print DATADIR 
+    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_50ms.hex'))
         
-    def button_open_led(self, event): # wxGlade: MyFrame.<event_handler>
-        print "button_open_led"
-        print DATADIR 
-        self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'ledp.hex'))
+    #def button_open_runs(self, event): # wxGlade: MyFrame.<event_handler>
+    #    print "button_open_runs"
+    #    print DATADIR 
+    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic_firmware_10ms.hex'))
+        
+    #def button_open_led(self, event): # wxGlade: MyFrame.<event_handler>
+    #    print "button_open_led"
+    #    print DATADIR 
+    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'ledp.hex'))
         
         
     #-----------------------------------------------------------------
@@ -271,7 +280,8 @@ class MyFrame(wx.Frame):
         self.cancelar = True  
        
     def boton_ayuda(self, event): # wxGlade: MyFrame.<event_handler>
-        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nFirmwares are in Chronojump installation folder, \\share\\Chronojump\\firmware\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nLos firmwares estan en la carpeta de instalacion de Chronojump, \\share\\Chronojump\\firmware\nPuede abrir Chronojump para ver qué en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
+        #dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nFirmwares are in Chronojump installation folder, \\share\\Chronojump\\firmware\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nLos firmwares estan en la carpeta de instalacion de Chronojump, \\share\\Chronojump\\firmware\nPuede abrir Chronojump para ver qué en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
+        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change your old Chronopic firmware to the new Automatic firmware. This new firmware allows to change the configuration automatically if user is performing jumps or runs.\nThis firmware does not work for encoder.\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nEsta herramienta sirve para cambiar el antiguo firmware del Chronopic por el nuevo firmware Automatico. Este nuevo firmware se configura automáticamente para saltos o carreras según sea necesario.\nEste firmware no sirve para el encoder.\nPuede abrir Chronojump para ver en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
 	dlg.ShowModal()
 
     def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>
@@ -314,8 +324,9 @@ class MyFrame(wx.Frame):
       #-- Abrir y parsear el fichero .hex
       #----------------------------------------
       #-- Obtener el nombre
-      file = str(self.text_ctrl_2.GetLineText(0))
-      
+      #file = str(self.text_ctrl_2.GetLineText(0))
+      file = os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-automatic.hex')
+
       #-- Si no hay ningun fichero especificado: Error
       if file=="":
         self.frame_1_statusbar.SetStatusText("Fichero .hex no especificado", 0)

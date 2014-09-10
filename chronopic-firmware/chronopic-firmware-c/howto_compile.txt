@@ -1,5 +1,6 @@
 sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-4MHz.c
 sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-20MHz.c
+sdcc -mpic14 -p16f876a -Wl-m -Wl-ainhx8m chronopic-firmware-automatic.c
 
 then record with chronopic-firmwarecord
 
@@ -9,8 +10,12 @@ https://bugs.launchpad.net/ubuntu/+source/sdcc/+bug/1077918
 that makes compiling with pics impossible.
 Solution is to manually (dpkg -i) install lenny packages:
 
-http://archive.debian.net/lenny/i386/sdcc/download
 http://archive.debian.net/lenny/electronics/sdcc-libraries
+
+32 bits:
+http://archive.debian.net/lenny/i386/sdcc/download
+64 bits:
+http://archive.debian.net/lenny/amd64/sdcc/download
 
 this sdcc-libraries (2.8.0) has 
 pic16f876a.h

@@ -20,12 +20,6 @@ History:
              modify ISR and MAIN LOOP's if --> else if
              limit COUNTDEBOUNCE overflow in INTERRUPT(isr)
 	     assembler is more efficient than C
-  2011-05-25 change crystal from 4 to 20 MHz
-             let SPBRG = 0X81
-  2011-07-23 add new function of encoder.
-  2011-07-30 complete every 1 ms send 1 byte to PC, detect if encoder turn clockwise or counterclockwise
-  2011-08-09 version 5 set baud rate = 625000.
-  2012-04-02 change the baud rate = 115200, set default function = encoder.
   2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'V' for getting version, ex: 2.1\n
   	     if PC send command 'a' get debounce time , ex:0x01
 	     if PC send command 'bx' for setting debounce time, x is from byte value 0~255(\x0 ~ \xFF) 
@@ -34,8 +28,8 @@ History:
 */
 
 //-- this PIC is going to be used:
-//#include <pic16f876A.h>
-#include <pic16f876a.h>
+//#include <pic16f876A.h> 	//sdcc for Windows
+#include <pic16f876a.h>		//sdcc for Linux
 
 
 //*****************************************
@@ -55,17 +49,12 @@ unsigned char RSTATUS = 'E';  // Response of the status frame
 
 //-- Initialization value of the TIMER0 to have TICKS with a duration of 10ms
 //-- It's used for the debouncing time
-//4M:D9   20M:3D
-//unsigned char TICK = 0x3D; //wade
-unsigned char TICK = 0xD9; //xavi
+unsigned char TICK = 0xD9;
 
 //-- Value of the debouncing time (in units of 10 milliseconds)
 //-- This value can be changed, in order to select the most suitable
 //-- Signals with a duration lower than this value are considered spurious
-//unsigned char DEBOUNCE_TIME = 0x05;
-//0x14
-//unsigned char DEBOUNCE_TIME = 0x14; //wade
-unsigned char DEBOUNCE_TIME = 0x05; //xavi
+unsigned char DEBOUNCE_TIME = 0x05;
 
 //-- Status of main automaton
 unsigned char STAT_WAITING_EVENT = 0x00;
@@ -114,8 +103,7 @@ unsigned char my_char;
 
 //-- wade's addition variables
 unsigned char i = 0, j = 0;
-//unsigned char option = 1;     // option: 0 button enable, 1 encoder enable //wade
-unsigned char option = 0;     // option: 0 button enable, 1 encoder enable //xavi
+unsigned char option = 0;     // option: 0 button enable, 1 encoder enable
 unsigned char command_port_scanning = 'J';	// for port scanning, it will return 'J'
 unsigned char command_get_version = 'V';	// for getting version, it will return '2.1'
 unsigned char command_get_debounce_time = 'a';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
@@ -123,10 +111,8 @@ unsigned char command_set_debounce_time = 'b';	// for getting debounce time, it 
 //unsigned char command_start_send_encoder_value = 'c';	// starting continued send encoder's value
 //unsigned char command_stop_send_encoder_value = 'd';	// stopping continued send encoder's value
 
-//char version_major = '2'; //wade
-//char version_minor = '1'; //wade
-char version_major = '1'; //xavi
-char version_minor = '1'; //xavi
+char version_major = '1';
+char version_minor = '1';
 
 //-- encoder's valus
 //char encoder_count = 0; //wade
@@ -136,88 +122,90 @@ char version_minor = '1'; //xavi
 // Find the interruption cause
 void isr(void) __interrupt 0
 {
-    //while (!TXIF);
+	//while (!TXIF);
 	//TXREG = 0xaa;
-    if (option == 0)
-    {
-	//******************************************************
-	//* Routine of interruption of timer0
-	//* timer0 is used to control debouncing time
-	//* A change on input signal is stable if time it's at minimum equal to debouncing time
-	//* This timer is working all the time.
-	//* Main automaton know when there's valid information
-	//******************************************************  
-	// Cause by timer0
-	if (T0IF == 1)
-	{	
-	    T0IF = 0;		 // Remove overflow flag
-	    TMR0 = TICK;		 //-- Execute timer again inside a click
-	    if (COUNTDEBOUNCE > 0)	 // wade : limit COUNTDEBOUNCE overflow
-		COUNTDEBOUNCE--;	 //-- Decrese debouncing counter
-	    //while (!TXIF); //wade
-	    //TXREG = COUNTDEBOUNCE; //wade
-	}
-	//****************************************************
-	// Routine of port B interruption
-	// Called everytime that's a change on bit RB4
-	// This is the main part.
-        // Everytime that's a change on input signal,
-	// it's timestamp is recorded on variable (TIMESTAMP, 3 bytes)
-        // and we start debouncing time phase
-	//****************************************************    
-        // Caused by a change on B port
-	else if (RBIF == 1)
-        {
-	    if (reset == 1)
-	    {
-		//-- It's the first event after reset
-		//-- Put counter on zero and go to status reset=0
-		TMR1HH = 0;
-		TMR1H = 0;
-		TMR1L = 0;
-		reset = 0;
-		}
-	    //-- Store the value of chronometer on TIMESTAMP
-	    //-- This is the timestamp of this event
-	    TIMESTAMP_HH = TMR1HH;
-	    TIMESTAMP_H = TMR1H;
-	    TIMESTAMP_L = TMR1L;
-	    //-- Initialize timer 1
-	    TMR1HH = 0;
-	    TMR1H = 0;
-	    TMR1L = 0;
-	    //-- Initialize debouncing counter
-	    COUNTDEBOUNCE =  DEBOUNCE_TIME;
 
-	    //-- start debouncing status
-	    status = STAT_DEBOUNCE;
-	    //-- start debouncing timer on a tick
-	    TMR0 = TICK;
-	    //-- Remove interruption flag
-	    RBIF = 0;
-	    //-- Inhabilite B port interruption
-	    // wade : take care
-	    RBIE = 0;	
-	}
-	//********************************************************
-	//* Routine of interruption of timer1
-	//* timer 1 controls the cronometring
-	//* This routine is invoked when there's an overflow
-	//* Timer 1 gets extended with 1 more byte: TMR1HH
-	//********************************************************
-	// Caused by timer1
-	else if (TMR1IF == 1)
+	if (option == 0) 
 	{
-	    TMR1IF = 0;  // Remove overflow flag
-	    if (TMR1HH != 0xFF)
-	    {
-		//-- Overflow control
-		//-- Check if counter has arrived to it's maximum value
-		//-- If it's maximum, then not increment
-		TMR1HH++;
-	    }   
-	}
-    } // end of (option == 0)
+
+		//******************************************************
+		//* Routine of interruption of timer0
+		//* timer0 is used to control debouncing time
+		//* A change on input signal is stable if time it's at minimum equal to debouncing time
+		//* This timer is working all the time.
+		//* Main automaton know when there's valid information
+		//******************************************************  
+		// Cause by timer0
+		if (T0IF == 1)
+		{	
+			T0IF = 0;		 // Remove overflow flag
+			TMR0 = TICK;		 //-- Execute timer again inside a click
+			if (COUNTDEBOUNCE > 0)	 // wade : limit COUNTDEBOUNCE overflow
+				COUNTDEBOUNCE--;	 //-- Decrese debouncing counter
+			//while (!TXIF); //wade
+			//TXREG = COUNTDEBOUNCE; //wade
+		}
+		//****************************************************
+		// Routine of port B interruption
+		// Called everytime that's a change on bit RB4
+		// This is the main part.
+		// Everytime that's a change on input signal,
+		// it's timestamp is recorded on variable (TIMESTAMP, 3 bytes)
+		// and we start debouncing time phase
+		//****************************************************    
+		// Caused by a change on B port
+		else if (RBIF == 1)
+		{
+			if (reset == 1)
+			{
+				//-- It's the first event after reset
+				//-- Put counter on zero and go to status reset=0
+				TMR1HH = 0;
+				TMR1H = 0;
+				TMR1L = 0;
+				reset = 0;
+			}
+			//-- Store the value of chronometer on TIMESTAMP
+			//-- This is the timestamp of this event
+			TIMESTAMP_HH = TMR1HH;
+			TIMESTAMP_H = TMR1H;
+			TIMESTAMP_L = TMR1L;
+			//-- Initialize timer 1
+			TMR1HH = 0;
+			TMR1H = 0;
+			TMR1L = 0;
+			//-- Initialize debouncing counter
+			COUNTDEBOUNCE =  DEBOUNCE_TIME;
+
+			//-- start debouncing status
+			status = STAT_DEBOUNCE;
+			//-- start debouncing timer on a tick
+			TMR0 = TICK;
+			//-- Remove interruption flag
+			RBIF = 0;
+			//-- Inhabilite B port interruption
+			// wade : take care
+			RBIE = 0;	
+		}
+		//********************************************************
+		//* Routine of interruption of timer1
+		//* timer 1 controls the cronometring
+		//* This routine is invoked when there's an overflow
+		//* Timer 1 gets extended with 1 more byte: TMR1HH
+		//********************************************************
+		// Caused by timer1
+		else if (TMR1IF == 1)
+		{
+			TMR1IF = 0;  // Remove overflow flag
+			if (TMR1HH != 0xFF)
+			{
+				//-- Overflow control
+				//-- Check if counter has arrived to it's maximum value
+				//-- If it's maximum, then not increment
+				TMR1HH++;
+			}   
+		}
+	} // end of (option == 0)
 }
 
 //---------------------------------------
@@ -226,21 +214,17 @@ void isr(void) __interrupt 0
 //---------------------------------------
 void sci_configuration()
 {
-    // wade : start
-    // formula: Baud = Frequency / ( 16(x+1) )
-    // SPBRG = 0X19;   // crystal:  4MHz Speed: 9600 baud 
-    // SPBRG = 0X81;   // crystal: 20MHz Speed: 9600 baud
-    // SPBRG = 0X0A;   // crystal: 20MHz Speed: 115200 baud
-    // SPBRG = 0X01;   // crystal: 20MHz Speed: 625000
-    if (option == 0)
-	//SPBRG = 0X81;   // Speed: 9600 baud //wade
-	SPBRG = 0X19;   // Speed: 9600 baud //xavi
-    else
-	SPBRG = 0X0A;   // Speed: 115200 baud
+	// wade : start
+	// formula: Baud = Frequency / ( 16(x+1) )
+	// SPBRG = 0X19;   // crystal:  4MHz Speed: 9600 baud 
+	// SPBRG = 0X81;   // crystal: 20MHz Speed: 9600 baud
+	// SPBRG = 0X0A;   // crystal: 20MHz Speed: 115200 baud
+	// SPBRG = 0X01;   // crystal: 20MHz Speed: 625000
+	SPBRG = 0X19;   // Speed: 9600 baud
 
-    // wade : end
-    TXSTA = 0X24;   // Configure transmitter
-    RCSTA = 0X90;   // Configure receiver
+	// wade : end
+	TXSTA = 0X24;   // Configure transmitter
+	RCSTA = 0X90;   // Configure receiver
 }
 
 //**************************************************
@@ -416,27 +400,8 @@ void main(void)
     //-----------------------------
     //-- Pins I/O: RB0,RB4 inputs, all the other are outputs
     // 2012-04-02 wade: start
-    //if (option == 0)
-	//TRISB = 0x11;
-    TRISB = 0x11; //xavi
+    TRISB = 0x11;
     
-    /*
-    // encoder Mode
-    //-- Pins I/O: RB0,RB2 inputs, all the other are outputs
-    // 2012-04-02 wade:start
-    TRISB = 0x05;
-    // 2012-04-02 wade:end
-    if (option == 1)
-    {
-        // wade : for testing
-    	TRISA = 0x00;
-    	RA0 = 1;
-	// wade : for testing
-    	TRISB = 0x05;
-    	RBIE = 0;
-    	RB1 = 1;
-    }
-    */
     // 2012-04-02 wade: end
     //-- Pull-ups of port B enabled
     //-- Prescaler of timer0 at 256
@@ -514,12 +479,7 @@ void main(void)
     //--------------------------
     //- Interruption TIMER 0
     //--------------------------
-    //T0IE = 1;	// Activate interruption overflow TMR0
-    /// wade : start
-    //T0IE = 0;	// Inactivate interruption overflow TMR0 //wade
-    T0IE = 1;	// Activate interruption overflow TMR0 //xavi
-
-    // wade : end
+    T0IE = 1;	// Activate interruption overflow TMR0
    
     //--------------------------
     //- Interruption INT RB0

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2005  Juan Gonzalez Gomez
+ * Copyright (C) 2014  Xavier de Blas <xaviblas@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -148,6 +149,47 @@ Console.Write("4");
 
 		return true;
 	}   
+	
+
+	//for "automatic" firmware 1.1: debounce can change, get version, port scanning
+	public void Read_variables_automatic()
+	{
+		Console.Write(" ReadVarAutoStart ");
+
+		if (sp == null)
+			sp.Open(); 
+		
+		Console.Write(" ReadVarAutoOpened ");
+
+		//byte[] answer = new byte[1];
+		
+		Console.WriteLine("---------------------------");
+
+		sp.Write("V");
+		Console.WriteLine("Version: " + sp.ReadLine());
+
+		sp.Write("J");
+		Console.WriteLine("Port scanning (should return 'J'): " + sp.ReadLine());
+
+		sp.Write("a");
+		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+
+		Console.WriteLine("Changing to 10 ms");
+		sp.Write("b\x01");
+
+		sp.Write("a");
+		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+
+		Console.WriteLine("Changing to 50 ms");
+		sp.Write("b\x05");
+
+		sp.Write("a");
+		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+
+		Console.WriteLine("---------------------------");
+
+		Console.Write(" ReadVarAutoEnd ");
+	}
 
 	//----------------------------------------
 	//-- Obtener el estado de la plataforma

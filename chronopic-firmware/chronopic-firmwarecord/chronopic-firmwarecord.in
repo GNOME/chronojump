@@ -479,20 +479,43 @@ class MyFrame(wx.Frame):
 #-- Funcion para obtener  la lista de puerto serie
 #-- Esto depende de la plataforma en la que se ejecute
 #---------------------------------------------------------
+#def getSerialPorts():
+#
+#  #-- Windows
+#  if os.name == 'nt':
+#    
+#    #-- Se usan los nueve primeros puertos serie
+#    return ["COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"]
+#    
+#  #-- Linux  
+#  elif os.name == 'posix':
+#    return ["/dev/ttyUSB0","/dev/ttyUSB1"]
+#
+#  else:
+#    return []
+
+#Adapted from: http://stackoverflow.com/a/11398450
 def getSerialPorts():
+    import glob
 
-  #-- Windows
-  if os.name == 'nt':
-    
-    #-- Se usan los nueve primeros puertos serie
-    return ["COM1","COM2","COM3","COM4","COM5","COM6","COM7","COM8","COM9"]
-    
-  #-- Linux  
-  elif os.name == 'posix':
-    return ["/dev/ttyUSB0","/dev/ttyUSB1"]
-
-  else:
-    return []
+    system_name = platform.system()
+    if system_name == "Windows":
+        # Scan for available ports.
+        available = []
+        for i in range(12):
+            try:
+                s = serial.Serial(i)
+                available.append(i)
+                s.close()
+            except serial.SerialException:
+                pass
+        return available
+    elif system_name == "Darwin":
+        # Mac
+        return glob.glob('/dev/tty.usbserial*')
+    else:
+        # Assume Linux or something else
+        return glob.glob('/dev/ttyUSB*')
 
 
 class MyApp(wx.App):

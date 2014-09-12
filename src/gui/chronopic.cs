@@ -707,8 +707,11 @@ Log.WriteLine("bbb");
 	{
 		if(cp == null)
 			Log.WriteLine("cp == NULL");
-		else
-			label_auto_check_version.Text = cp.Read_variables_automatic_version();
+		else {
+			//label_auto_check_version.Text = cp.Read_variables_automatic_version();
+			ChronopicAuto ca = new ChronopicAutoVersion();
+			label_auto_check_version.Text = ca.Read(sp);
+		}
 	}	
 	
 	private void on_button_auto_check_debounce_clicked (object o, EventArgs args)

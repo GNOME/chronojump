@@ -162,6 +162,16 @@ Console.Write("4");
 		
 		Console.WriteLine("ReadVarAutoOpened");
 
+		try {
+			sp.Write("J");
+			Console.WriteLine("Port scanning (should return 'J'): " + (char) sp.ReadByte());
+		} catch {
+			this.error=ErrorType.Timeout;
+			Console.WriteLine("Timeout. This is not Chronopic-Automatic-Firmware");
+			return;
+		}
+
+		
 		sp.Write("V");
 		Console.WriteLine("Version: " + 
 				(char) sp.ReadByte() +
@@ -169,9 +179,6 @@ Console.Write("4");
 				(char) sp.ReadByte() 
 			       	);
 
-		sp.Write("J");
-		Console.WriteLine("Port scanning (should return 'J'): " + (char) sp.ReadByte());
-		
 		int debounce = 0;
 
 		sp.Write("a");

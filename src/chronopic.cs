@@ -33,16 +33,16 @@ public class Chronopic {
 	public enum ErrorType
 	{
 		Ok = 0,        //-- OK. No hay error
-		   Timeout = 1,   //-- Error por Timeout
-		   Invalid = 2,   //-- Error por recibir caracter invalido
+		Timeout = 1,   //-- Error por Timeout
+		Invalid = 2,   //-- Error por recibir caracter invalido
 	}
 
 	//-- Estado de la plataforma
 	public enum Plataforma : int
 	{
 		ON = 1,
-		   OFF = 0,
-		   UNKNOW = -1,
+		OFF = 0,
+		UNKNOW = -1,
 	}
 
 	//******************************
@@ -150,8 +150,6 @@ Console.Write("4");
 		return true;
 	}   
 	
-
-	//for "automatic" firmware 1.1: debounce can change, get version, port scanning
 	public void Read_variables_automatic()
 	{
 		Console.WriteLine("---------------------------");
@@ -202,28 +200,7 @@ Console.Write("4");
 		Console.WriteLine("---------------------------");
 
 	}
-	
-	public string Read_variables_automatic_version() 
-	{
-		if (sp == null) {
-			sp.Open();
-		}	
-	
-		string version = "";	
-		try {
-			sp.Write("V");
-			int major = (char) sp.ReadByte() - '0'; 
-			sp.ReadByte(); 		//.
-			int minor = (char) sp.ReadByte() - '0'; 
-			version = major.ToString() + "." + minor.ToString();
-		} catch {
-			this.error=ErrorType.Timeout;
-			Console.WriteLine("Timeout. This is not Chronopic-Automatic-Firmware");
-			version = "Error";
-		}
-		
-		return version;
-	}
+
 
 
 	//----------------------------------------
@@ -435,3 +412,49 @@ Console.Write(" o3 ");
 	private ErrorType error = ErrorType.Ok;
 
 }
+
+
+//methods specific of the Automatic firmware
+//for "automatic" firmware 1.1: debounce can change, get version, port scanning
+public abstract class ChronopicAuto 
+{
+	protected SerialPort sp;
+	protected internal abstract string ReadValue();	
+
+	//'template method'
+	public string Read(SerialPort sp) 
+	{
+		this.sp = sp;
+
+		if (sp == null) {
+			sp.Open();
+		}
+
+		string str = "";	
+
+		try {
+			str = ReadValue();
+		} catch {
+			//this.error=ErrorType.Timeout;
+			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
+			str = "Error";
+		}
+		
+		return str;
+	}
+}
+
+public class ChronopicAutoVersion : ChronopicAuto
+{
+	protected internal override string ReadValue() 
+	{
+		sp.Write("V");
+		int major = (char) sp.ReadByte() - '0'; 
+		sp.ReadByte(); 		//.
+		int minor = (char) sp.ReadByte() - '0'; 
+		return major.ToString() + "." + minor.ToString();
+	}
+}
+
+//go on with the rest of classes
+

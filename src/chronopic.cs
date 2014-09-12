@@ -154,41 +154,46 @@ Console.Write("4");
 	//for "automatic" firmware 1.1: debounce can change, get version, port scanning
 	public void Read_variables_automatic()
 	{
-		Console.Write(" ReadVarAutoStart ");
+		Console.WriteLine("---------------------------");
+		Console.WriteLine("ReadVarAutoStart");
 
 		if (sp == null)
 			sp.Open(); 
 		
-		Console.Write(" ReadVarAutoOpened ");
-
-		//byte[] answer = new byte[1];
-		
-		Console.WriteLine("---------------------------");
+		Console.WriteLine("ReadVarAutoOpened");
 
 		sp.Write("V");
-		Console.WriteLine("Version: " + sp.ReadLine());
+		Console.WriteLine("Version: " + 
+				(char) sp.ReadByte() +
+				(char) sp.ReadByte() +
+				(char) sp.ReadByte() 
+			       	);
 
 		sp.Write("J");
-		Console.WriteLine("Port scanning (should return 'J'): " + sp.ReadLine());
+		Console.WriteLine("Port scanning (should return 'J'): " + (char) sp.ReadByte());
+		
+		int debounce = 0;
 
 		sp.Write("a");
-		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+		debounce = ( sp.ReadByte() - '0' ) * 10;
+		Console.WriteLine("\nCurrent debounce time: " + debounce.ToString());
 
-		Console.WriteLine("Changing to 10 ms");
+		Console.WriteLine("Changing to 10 ms ... ");
 		sp.Write("b\x01");
 
 		sp.Write("a");
-		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+		debounce = ( sp.ReadByte() - '0' ) * 10;
+		Console.WriteLine("Current debounce time: " + debounce.ToString());
 
-		Console.WriteLine("Changing to 50 ms");
+		Console.WriteLine("Changing to 50 ms ... ");
 		sp.Write("b\x05");
 
 		sp.Write("a");
-		Console.WriteLine("debounce time (need to *10): " + sp.ReadLine());
+		debounce = ( sp.ReadByte() - '0' ) * 10;
+		Console.WriteLine("Current debounce time: " + debounce.ToString());
 
 		Console.WriteLine("---------------------------");
 
-		Console.Write(" ReadVarAutoEnd ");
 	}
 
 	//----------------------------------------

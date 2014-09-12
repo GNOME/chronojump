@@ -96,6 +96,15 @@ public class ChronopicWindow
 	[Widget] Gtk.Image chronopic_image;
 	[Widget] Gtk.TextView textview_ports_found_explanation;
 
+	//Automatic firmware stuff
+	[Widget] Gtk.CheckButton check_show_automatic;
+	[Widget] Gtk.Table table_chronopic_auto;
+	[Widget] Gtk.SpinButton spin_auto_change_debounce;
+	[Widget] Gtk.Label label_auto_check_auto;
+	[Widget] Gtk.Label label_auto_check_version;
+	[Widget] Gtk.Label label_auto_check_debounce;
+	[Widget] Gtk.Label label_auto_change_debounce;
+
 	//chronopic connection thread
 	Thread thread;
 	bool needUpdateChronopicWin;
@@ -681,6 +690,35 @@ Log.WriteLine("bbb");
 		Console.WriteLine("Closing sp");
 		sp.Close();
 	}
+
+
+	// Chronopic Automatic Firmware ---------------
+	
+	private void on_checkbutton_show_automatic_clicked (object o, EventArgs args) 
+	{
+		table_chronopic_auto.Visible = check_show_automatic.Active;
+	}
+
+	private void on_button_auto_check_auto_clicked (object o, EventArgs args)
+	{
+	}	
+
+	private void on_button_auto_check_version_clicked (object o, EventArgs args)
+	{
+		if(cp == null)
+			Log.WriteLine("cp == NULL");
+		else
+			label_auto_check_version.Text = cp.Read_variables_automatic_version();
+	}	
+	
+	private void on_button_auto_check_debounce_clicked (object o, EventArgs args)
+	{
+	}	
+
+	private void on_button_auto_change_debounce_clicked (object o, EventArgs args)
+	{
+	}	
+	// end of Chronopic Automatic Firmware ---------------
 
 
 	void prepareChronopicConnection() {

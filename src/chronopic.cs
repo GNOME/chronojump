@@ -202,6 +202,29 @@ Console.Write("4");
 		Console.WriteLine("---------------------------");
 
 	}
+	
+	public string Read_variables_automatic_version() 
+	{
+		if (sp == null) {
+			sp.Open();
+		}	
+	
+		string version = "";	
+		try {
+			sp.Write("V");
+			int major = (char) sp.ReadByte() - '0'; 
+			sp.ReadByte(); 		//.
+			int minor = (char) sp.ReadByte() - '0'; 
+			version = major.ToString() + "." + minor.ToString();
+		} catch {
+			this.error=ErrorType.Timeout;
+			Console.WriteLine("Timeout. This is not Chronopic-Automatic-Firmware");
+			version = "Error";
+		}
+		
+		return version;
+	}
+
 
 	//----------------------------------------
 	//-- Obtener el estado de la plataforma

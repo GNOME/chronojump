@@ -257,7 +257,7 @@ void sci_sendline(unsigned char my_w)
     while (!TXIF);
     TXREG = my_w;
     while (!TXIF);
-    TXREG = '\n';
+    //TXREG = '\n';
 }
 
 
@@ -274,7 +274,7 @@ void send_version()
     while (!TXIF);
     TXREG = version_minor;
     while (!TXIF);
-    TXREG = '\n';
+    //TXREG = '\n';
 }
 
 void send_error()
@@ -284,7 +284,7 @@ void send_error()
     while (!TXIF);
     TXREG = '1';
     while (!TXIF);
-    TXREG = '\n';
+    //TXREG = '\n';
 }
 
 
@@ -538,7 +538,7 @@ void main(void)
 		if (my_char == FSTATUS)
 			status_serv();
 	    	else if (my_char == command_port_scanning)	// 'J'
-			sci_sendline(command_port_scanning);
+			sci_sendchar(command_port_scanning);
 		else if (my_char == command_get_version)	// 'V'
 			send_version();
 		else if (my_char == command_get_debounce_time)	// 'a'

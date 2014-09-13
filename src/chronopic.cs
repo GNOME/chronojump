@@ -472,20 +472,15 @@ public class ChronopicAutoCheck : ChronopicAuto
 	protected internal override string Communicate() 
 	{
 		sp.Write("J");
-		bool isChronopicAuto = ( (char) sp.ReadByte() == 'J'); 
-		return isChronopicAuto.ToString();
-	}
-}
-
-public class ChronopicAutoVersion : ChronopicAuto
-{
-	protected internal override string Communicate() 
-	{
-		sp.Write("V");
-		int major = (char) sp.ReadByte() - '0'; 
-		sp.ReadByte(); 		//.
-		int minor = (char) sp.ReadByte() - '0'; 
-		return major.ToString() + "." + minor.ToString();
+		bool isChronopicAuto = ( (char) sp.ReadByte() == 'J');
+		if (isChronopicAuto) {
+			sp.Write("V");
+			int major = (char) sp.ReadByte() - '0'; 
+			sp.ReadByte(); 		//.
+			int minor = (char) sp.ReadByte() - '0'; 
+			return "Yes! v" + major.ToString() + "." + minor.ToString();
+		}
+		return "Please update it\nwith Chronopic-firmwarecord";
 	}
 }
 
@@ -495,7 +490,7 @@ public class ChronopicAutoCheckDebounce : ChronopicAuto
 	{
 		sp.Write("a");
 		int debounce = ( sp.ReadByte() - '0' ) * 10;
-		return debounce.ToString();
+		return debounce.ToString() + " ms";
 	}
 }
 
@@ -509,7 +504,7 @@ public class ChronopicAutoChangeDebounce : ChronopicAuto
 		byte[] bytesToSend = new byte[2] { 0x62, BitConverter.GetBytes(debounce)[0] }; //b, 05
 		sp.Write(bytesToSend,0,2);
 		
-		return "Changed to " + sendNum.ToString();
+		return "Changed to " + sendNum.ToString() + " ms";
 	}
 }
 

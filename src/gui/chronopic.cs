@@ -83,7 +83,7 @@ public class ChronopicWindow
 	[Widget] Gtk.Button button_connect_cp3;
 	[Widget] Gtk.Button button_connect_cp4;
 	
-	[Widget] Gtk.CheckButton checkbutton_multi_show;
+	[Widget] Gtk.CheckButton check_multichronopic_show;
 	[Widget] Gtk.Table table_multi_chronopic;
 	//[Widget] Gtk.Button button_reload;
 	
@@ -97,11 +97,10 @@ public class ChronopicWindow
 	[Widget] Gtk.TextView textview_ports_found_explanation;
 
 	//Automatic firmware stuff
-	[Widget] Gtk.CheckButton check_show_automatic;
+	[Widget] Gtk.CheckButton check_multitest_show;
 	[Widget] Gtk.Table table_chronopic_auto;
 	[Widget] Gtk.SpinButton spin_auto_change_debounce;
-	[Widget] Gtk.Label label_auto_check_auto;
-	[Widget] Gtk.Label label_auto_check_version;
+	[Widget] Gtk.Label label_auto_check;
 	[Widget] Gtk.Label label_auto_check_debounce;
 	[Widget] Gtk.Label label_auto_change_debounce;
 
@@ -251,8 +250,11 @@ Log.WriteLine("bbb");
 		label_connect_encoder.UseMarkup = true;
 		
 		
-		checkbutton_multi_show.Active = false;
+		check_multichronopic_show.Active = false;
 		table_multi_chronopic.Visible = false;
+		
+		check_multitest_show.Active = false;
+		check_multitest_show.Sensitive = false;
 
 		if(isWindows) {
 			combo_linux1.Hide();
@@ -554,12 +556,14 @@ Log.WriteLine("bbb");
 		label_title.Text = message;
 		label_title.UseMarkup = true;
 		button_cancel.Sensitive = false;
+		check_multitest_show.Sensitive = true;
 	}
 
 	private void sensitivityDisconnected(string message) {
 		Log.WriteLine("DISCONNECTED!!");
 		label_title.Text = message;
 		button_cancel.Sensitive = false;
+		check_multitest_show.Sensitive = false;
 	}
 		
 	private void on_button_help_ports_clicked (object o, EventArgs args) {
@@ -640,8 +644,8 @@ Log.WriteLine("bbb");
 		}
 	}
 	
-	private void on_checkbutton_multi_show_clicked(object o, EventArgs args) {
-		table_multi_chronopic.Visible = checkbutton_multi_show.Active;
+	private void on_check_multichronopic_show_clicked(object o, EventArgs args) {
+		table_multi_chronopic.Visible = check_multichronopic_show.Active;
 	}
 
 	private void on_button_connect_cp_clicked (object o, EventArgs args) {
@@ -694,23 +698,17 @@ Log.WriteLine("bbb");
 
 	// Chronopic Automatic Firmware ---------------
 	
-	private void on_checkbutton_show_automatic_clicked (object o, EventArgs args) 
+	private void on_check_multitest_show_clicked (object o, EventArgs args) 
 	{
-		table_chronopic_auto.Visible = check_show_automatic.Active;
+		table_chronopic_auto.Visible = check_multitest_show.Active;
 	}
 
 	private void on_button_auto_check_auto_clicked (object o, EventArgs args)
 	{
 		ChronopicAuto ca = new ChronopicAutoCheck();
-		label_auto_check_auto.Text = ca.Read(sp);
+		label_auto_check.Text = ca.Read(sp);
 	}	
 
-	private void on_button_auto_check_version_clicked (object o, EventArgs args)
-	{
-		ChronopicAuto ca = new ChronopicAutoVersion();
-		label_auto_check_version.Text = ca.Read(sp);
-	}	
-	
 	private void on_button_auto_check_debounce_clicked (object o, EventArgs args)
 	{
 		ChronopicAuto ca = new ChronopicAutoCheckDebounce();
@@ -722,11 +720,19 @@ Log.WriteLine("bbb");
 		ChronopicAuto ca = new ChronopicAutoChangeDebounce();
 		label_auto_change_debounce.Text = ca.Write(sp, (int) spin_auto_change_debounce.Value);
 	}	
+	
+	private void on_button_auto_help_clicked (object o, EventArgs args) 
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				"50 ms recommended for jumps." + "\n" + 
+				"10 ms recommended for runs.");
+	}
 
 	// end of Chronopic Automatic Firmware ---------------
 
 
 	void prepareChronopicConnection() {
+		check_multitest_show.Sensitive = false;
 		frame_connection.Visible = true;
 		
 		label_title.Text = Catalog.GetString("Please touch the platform or click Chronopic <i>TEST</i> button");

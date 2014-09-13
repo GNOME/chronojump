@@ -701,26 +701,28 @@ Log.WriteLine("bbb");
 
 	private void on_button_auto_check_auto_clicked (object o, EventArgs args)
 	{
+		ChronopicAuto ca = new ChronopicAutoCheck();
+		label_auto_check_auto.Text = ca.Read(sp);
 	}	
 
 	private void on_button_auto_check_version_clicked (object o, EventArgs args)
 	{
-		if(cp == null)
-			Log.WriteLine("cp == NULL");
-		else {
-			//label_auto_check_version.Text = cp.Read_variables_automatic_version();
-			ChronopicAuto ca = new ChronopicAutoVersion();
-			label_auto_check_version.Text = ca.Read(sp);
-		}
+		ChronopicAuto ca = new ChronopicAutoVersion();
+		label_auto_check_version.Text = ca.Read(sp);
 	}	
 	
 	private void on_button_auto_check_debounce_clicked (object o, EventArgs args)
 	{
+		ChronopicAuto ca = new ChronopicAutoCheckDebounce();
+		label_auto_check_debounce.Text = ca.Read(sp);
 	}	
 
 	private void on_button_auto_change_debounce_clicked (object o, EventArgs args)
 	{
+		ChronopicAuto ca = new ChronopicAutoChangeDebounce();
+		label_auto_change_debounce.Text = ca.Write(sp, (int) spin_auto_change_debounce.Value);
 	}	
+
 	// end of Chronopic Automatic Firmware ---------------
 
 

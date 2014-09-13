@@ -419,21 +419,44 @@ Console.Write(" o3 ");
 public abstract class ChronopicAuto 
 {
 	protected SerialPort sp;
-	protected internal abstract string ReadValue();	
+	protected int sendNum;
+	protected internal abstract string Communicate();
+	private string str;
+
+	private void make(SerialPort sp) 
+	{
+		this.sp = sp;
+
+		if (sp == null) 
+			sp.Open();
+
+		str = "";
+	}
 
 	//'template method'
 	public string Read(SerialPort sp) 
 	{
-		this.sp = sp;
-
-		if (sp == null) {
-			sp.Open();
-		}
-
-		string str = "";	
-
+		make(sp);
+		
 		try {
-			str = ReadValue();
+			str = Communicate();
+		} catch {
+			//this.error=ErrorType.Timeout;
+			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
+			str = "Error";
+		}
+		
+		return str;
+	}
+	
+	//'template method'
+	public string Write(SerialPort sp, int num) 
+	{
+		make(sp);
+		sendNum = num;
+		
+		try {
+			str = Communicate();
 		} catch {
 			//this.error=ErrorType.Timeout;
 			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
@@ -444,9 +467,19 @@ public abstract class ChronopicAuto
 	}
 }
 
+public class ChronopicAutoCheck : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		sp.Write("J");
+		bool isChronopicAuto = ( (char) sp.ReadByte() == 'J'); 
+		return isChronopicAuto.ToString();
+	}
+}
+
 public class ChronopicAutoVersion : ChronopicAuto
 {
-	protected internal override string ReadValue() 
+	protected internal override string Communicate() 
 	{
 		sp.Write("V");
 		int major = (char) sp.ReadByte() - '0'; 
@@ -456,5 +489,28 @@ public class ChronopicAutoVersion : ChronopicAuto
 	}
 }
 
-//go on with the rest of classes
+public class ChronopicAutoCheckDebounce : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		sp.Write("a");
+		int debounce = ( sp.ReadByte() - '0' ) * 10;
+		return debounce.ToString();
+	}
+}
+
+public class ChronopicAutoChangeDebounce : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		int debounce = sendNum / 10;		//50 -> 5
+		
+		//byte[] bytesToSend = new byte[2] { 0x62, 0x05 }; //b, 05 //this works
+		byte[] bytesToSend = new byte[2] { 0x62, BitConverter.GetBytes(debounce)[0] }; //b, 05
+		sp.Write(bytesToSend,0,2);
+		
+		return "Changed to " + sendNum.ToString();
+	}
+}
+
 

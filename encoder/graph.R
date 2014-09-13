@@ -2294,9 +2294,24 @@ doProcess <- function(options) {
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
+		
+		#in neuromuscular, when sending individual repetititions,
+		#if all are concentric, csv has a header but not datarows
+		#it will be better to do not allow to plot graph from Chronojump,
+		#but meanwhile we can check like this:
+		if(length(inputMultiData[,1]) == 0) {
+			plot(0,0,type="n",axes=F,xlab="",ylab="")
+			text(x=0,y=0,translate("Not enough data."),
+			     cex=1.5)
+			dev.off()
+			write("", OutputData1)
+			quit()
+		}
+			
 		for(i in 1:length(inputMultiData[,1])) { 
 			#plot only active curves
 			status = as.vector(inputMultiData$status[i])
+
 			if(status != "active") {
 				newLines=newLines-1; 
 				countLines=countLines+1;

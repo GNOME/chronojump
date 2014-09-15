@@ -3176,7 +3176,10 @@ public partial class ChronoJumpWindow
 		genericWin.SetSpin3Range(ex.weightAngle,ex.weightAngle); //done this because IsEditable does not affect the cursors
 		*/
 		genericWin.ShowButtonCancel(false);
-
+		
+		genericWin.ShowButtonDelete(true);
+		genericWin.Button_delete.Clicked += new EventHandler(on_button_encoder_exercise_delete);
+		
 		genericWin.nameOld = ex.name;
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
@@ -3291,6 +3294,20 @@ public partial class ChronoJumpWindow
 			genericWin.HideAndNull();
 			Log.WriteLine("done");
 		}
+	}
+	
+	void on_button_encoder_exercise_delete (object o, EventArgs args) {
+		//TODO:
+		//select if there is encoder stuff with this encoder exercise	
+		//	TRUE: DialogMessage WARNING, or confirmWindow or confirmWindowJumpRun saying that there are tests on session X by person Y. Accept and exit
+		//	FALSE: confirmWindow or confirmWindowJumpRun saying that there are no tests. Confirm delete or cancel
+		//		CONFIRM: 
+		//			delete encoder, encoderSignalCurve, encoder1RM table records with this exercise. 
+		//			delete row from encoderExercise
+		//		CANCEL: close
+
+		new DialogMessage(Constants.MessageTypes.WARNING, 
+				"TODO: Message on deleting exercise.");
 	}
 
 

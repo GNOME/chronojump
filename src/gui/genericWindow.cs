@@ -102,6 +102,9 @@ public class GenericWindow
 	public int TreeviewSelectedUniqueID;
 	private int commentColumn;
 
+	//used on encoder edit exercise
+	public string nameOld;
+
 	public GenericWindow ()
 	{
 		Glade.XML gladeXML;
@@ -183,21 +186,25 @@ public class GenericWindow
 		if(stuff == Constants.GenericWindowShow.ENTRY) {
 			entry.Show();
 			entry.IsEditable = editable;
+			entry.Sensitive = editable;
 			entry.Text = text;
 		}
 		else if(stuff == Constants.GenericWindowShow.ENTRY2) {
 			hbox_entry2.Show();
 			entry2.IsEditable = editable;
+			entry2.Sensitive = editable;
 			entry2.Text = text;
 		}
 		else if(stuff == Constants.GenericWindowShow.ENTRY3) {
 			hbox_entry3.Show();
 			entry3.IsEditable = editable;
+			entry3.Sensitive = editable;
 			entry3.Text = text;
 		}
 		else if(stuff == Constants.GenericWindowShow.SPININT) {
 			hbox_spin_int.Show();
 			spin_int.IsEditable = editable;
+			spin_int.Sensitive = editable;
 		}
 		else if(stuff == Constants.GenericWindowShow.SPINDOUBLE) {
 			spin_double.Show();

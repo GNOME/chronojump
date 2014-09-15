@@ -528,18 +528,19 @@ class SqliteEncoder : Sqlite
 		}
 	}
 
-	public static void UpdateExercise(bool dbconOpened, string name, int percentBodyWeight, 
+	public static void UpdateExercise(bool dbconOpened, string nameOld, string name, int percentBodyWeight, 
 			string ressistance, string description, string speed1RM)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + " SET " +
-				" percentBodyWeight = " + percentBodyWeight +
+				" name = '" + name +
+				"', percentBodyWeight = " + percentBodyWeight +
 				", ressistance = '" + ressistance +
 				"', description = '" + description +
 				"', future1 = '" + speed1RM +
-				"' WHERE name = '" + name + "'" ;
+				"' WHERE name = '" + nameOld + "'" ;
 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

@@ -3121,7 +3121,8 @@ public partial class ChronoJumpWindow
 	// ---------end of helpful methods -----------
 
 
-	void on_button_encoder_exercise_info_clicked (object o, EventArgs args) 
+	//info is now info and edit (all values can be changed), and detete (there's delete button)
+	void on_button_encoder_exercise_edit_clicked (object o, EventArgs args) 
 	{
 		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 				false, getExerciseIDFromCombo(), false)[0];
@@ -3135,25 +3136,29 @@ public partial class ChronoJumpWindow
 		ArrayList a5 = new ArrayList();
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(ex.name);
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.name);
 		bigArray.Add(a1);
 
-		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(false); a2.Add("");
+		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
 		bigArray.Add(a2);
 		
-		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(false); a3.Add(ex.ressistance);
+		a3.Add(Constants.GenericWindowShow.ENTRY2); a3.Add(true); a3.Add(ex.ressistance);
 		bigArray.Add(a3);
 		
-		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(false); a4.Add(ex.description);
+		a4.Add(Constants.GenericWindowShow.ENTRY3); a4.Add(true); a4.Add(ex.description);
 		bigArray.Add(a4);
 		
-		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");	//alowed to change
+		a5.Add(Constants.GenericWindowShow.HBOXSPINDOUBLE2); a5.Add(true); a5.Add("");
 		bigArray.Add(a5);
 		
 		
 		genericWin = GenericWindow.Show(false, Catalog.GetString("Encoder exercise name:"), bigArray);
 		genericWin.LabelSpinInt = Catalog.GetString("Displaced body weight") + " (%)";
-		genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
+		
+		//genericWin.SetSpinRange(ex.percentBodyWeight, ex.percentBodyWeight); //done this because IsEditable does not affect the cursors
+		genericWin.SetSpinRange(0, 100);
+		genericWin.SetSpinValue(ex.percentBodyWeight);
+		
 		genericWin.LabelEntry2 = Catalog.GetString("Resistance");
 		genericWin.LabelEntry3 = Catalog.GetString("Description");
 		genericWin.LabelSpinDouble2 = Catalog.GetString("Speed at 1RM");
@@ -3167,8 +3172,10 @@ public partial class ChronoJumpWindow
 		genericWin.SetSpin3Range(ex.weightAngle,ex.weightAngle); //done this because IsEditable does not affect the cursors
 		*/
 		genericWin.ShowButtonCancel(false);
+
+		genericWin.nameOld = ex.name;
 		
-		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_info_accepted);
+		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
 		genericWin.ShowNow();
 	}
 
@@ -3224,9 +3231,9 @@ public partial class ChronoJumpWindow
 		genericWin.ShowNow();
 	}
 	
-	void on_button_encoder_exercise_info_accepted (object o, EventArgs args) {
+	void on_button_encoder_exercise_edit_accepted (object o, EventArgs args) {
 		encoder_exercise_edit(false);
-		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_info_accepted);
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
 	}
 	void on_button_encoder_exercise_add_accepted (object o, EventArgs args) {
 		encoder_exercise_edit(true);
@@ -3254,7 +3261,7 @@ public partial class ChronoJumpWindow
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);
 			else
-				SqliteEncoder.UpdateExercise(false, name, genericWin.SpinIntSelected, 
+				SqliteEncoder.UpdateExercise(false, genericWin.nameOld, name, genericWin.SpinIntSelected, 
 						genericWin.Entry2Selected, genericWin.Entry3Selected,
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);

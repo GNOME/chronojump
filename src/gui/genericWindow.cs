@@ -69,6 +69,7 @@ public class GenericWindow
 	[Widget] Gtk.TreeView treeview;
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Button button_cancel;
+	[Widget] Gtk.Button button_delete; //currently only on encoder exercise edit
 	
 	//treeview fake buttons
 	[Widget] Gtk.Button button_row_edit;
@@ -343,7 +344,7 @@ public class GenericWindow
 	}
 
 	
-	protected string [] comboCheckBoxesOptions = {
+	private string [] comboCheckBoxesOptions = {
 		Catalog.GetString("All"),
 		Catalog.GetString("None"),
 		Catalog.GetString("Invert"),
@@ -372,7 +373,7 @@ public class GenericWindow
 			UtilGtk.ComboMakeActive(comboCheckBoxesOptions, Catalog.GetString("Selected"));
 	}
 	
-	protected void on_combo_all_none_selected_changed(object o, EventArgs args) {
+	private void on_combo_all_none_selected_changed(object o, EventArgs args) {
 		string myText = UtilGtk.ComboGetActive(combo_all_none_selected);
 			
 		if (myText != "" & myText != Catalog.GetString("Selected")) {
@@ -384,7 +385,7 @@ public class GenericWindow
 		}
 	}
 	
-	protected void markSelected(string selected) {
+	private void markSelected(string selected) {
 		Gtk.TreeIter iter;
 		bool okIter = store.GetIterFirst(out iter);
 		if(okIter) {
@@ -546,7 +547,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 			return 0;
 	}
 
-	protected void createCheckboxes(TreeView tv) 
+	private void createCheckboxes(TreeView tv) 
 	{
 		CellRendererToggle crt = new CellRendererToggle();
 		crt.Visible = true;
@@ -593,7 +594,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		}
 	}
 
-	protected void ItemToggled(object o, ToggledArgs args) {
+	private void ItemToggled(object o, ToggledArgs args) {
 		int column = 1;
 		TreeIter iter;
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
@@ -707,6 +708,15 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		store = UtilGtk.RemoveRow(treeview, store);
 	}
 
+	public void ShowButtonDelete(bool show) {
+		button_delete.Visible = show;
+	}
+	
+	private void on_button_delete_clicked (object o, EventArgs args)
+	{
+		GenericWindowBox.generic_window.Hide();
+		GenericWindowBox = null;
+	}
 	
 	public void SetButtonAcceptLabel(string str) {
 		button_accept.Label=str;
@@ -724,13 +734,13 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		button_cancel.Visible = show;
 	}
 
-	protected void on_button_cancel_clicked (object o, EventArgs args)
+	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;
 	}
 	
-	protected void on_delete_event (object o, DeleteEventArgs args)
+	private void on_delete_event (object o, DeleteEventArgs args)
 	{
 		args.RetVal = true;
 			
@@ -738,7 +748,7 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		GenericWindowBox = null;
 	}
 
-	protected void on_button_accept_clicked (object o, EventArgs args)
+	private void on_button_accept_clicked (object o, EventArgs args)
 	{
 		if(HideOnAccept)
 			GenericWindowBox.generic_window.Hide();
@@ -752,6 +762,12 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		GenericWindowBox.generic_window.Hide();
 		GenericWindowBox = null;
 	}
+	
+	public Button Button_delete {
+		set { button_delete = value; }
+		get { return button_delete; }
+	}
+		
 
 	public Button Button_accept {
 		set { button_accept = value; }

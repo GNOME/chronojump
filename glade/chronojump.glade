@@ -25662,7 +25662,23 @@ One serie can contain several tests.</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">10</property>
-            <property name="layout_style">spread</property>
+            <property name="layout_style">edge</property>
+            <child>
+              <widget class="GtkButton" id="button_delete">
+                <property name="label">gtk-remove</property>
+                <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="on_button_delete_clicked" swapped="no"/>
+                <accelerator key="Escape" signal="clicked"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
             <child>
               <widget class="GtkButton" id="button_cancel">
                 <property name="label">gtk-cancel</property>
@@ -25677,7 +25693,7 @@ One serie can contain several tests.</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">0</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -25693,7 +25709,7 @@ One serie can contain several tests.</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>

@@ -423,20 +423,28 @@ public abstract class ChronopicAuto
 	protected internal abstract string Communicate();
 	private string str;
 
-	private void make(SerialPort sp) 
+	private bool make(SerialPort sp) 
 	{
 		this.sp = sp;
 
 		if (sp == null) 
-			sp.Open();
+			return false;
+		
+		if (sp != null) 
+			if (sp.IsOpen)
+				sp.Close(); //close to ensure no bytes are comming
+
+		sp.Open();
 
 		str = "";
+		return true;
 	}
 
 	//'template method'
 	public string Read(SerialPort sp) 
 	{
-		make(sp);
+		if ( ! make(sp) )
+			return "Error sp == null";
 		
 		try {
 			str = Communicate();
@@ -452,7 +460,9 @@ public abstract class ChronopicAuto
 	//'template method'
 	public string Write(SerialPort sp, int num) 
 	{
-		make(sp);
+		if ( ! make(sp) )
+			return "Error sp == null";
+		
 		sendNum = num;
 		
 		try {

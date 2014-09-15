@@ -685,6 +685,19 @@ public class EncoderExercise
 		this.speed1RM = speed1RM;
 	}
 
+	public bool IsPredefined() {
+		if(
+				name == "Bench press" ||
+				name == "Squat" ||
+				name == "Free" ||
+				name == "Jump" ||
+				name == "Inclinated plane" ||
+				name == "Inclinated plane BW" )
+			return true;
+		else 
+			return false;
+	}
+
 	~EncoderExercise() {}
 }
 

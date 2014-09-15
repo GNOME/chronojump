@@ -3135,8 +3135,12 @@ public partial class ChronoJumpWindow
 		ArrayList a4 = new ArrayList();
 		ArrayList a5 = new ArrayList();
 
+		string exerciseName = ex.name;
+		if(ex.IsPredefined())
+			exerciseName = Catalog.GetString(ex.name);
+
 		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(ex.name);
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(exerciseName);
 		bigArray.Add(a1);
 
 		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");

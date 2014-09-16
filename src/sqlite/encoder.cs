@@ -142,20 +142,21 @@ class SqliteEncoder : Sqlite
 	}
 	
 	//pass uniqueID value and then will return one record. do like this:
-	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
-	//don't care for the 0, 0 , because selection will be based on the myUniqueID and only one row will be returned
+	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
+	//don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned
 	//or
 	//pass uniqueID==-1 and personID, sessionID, signalOrCurve values, and will return some records
 	//personID can be -1 to get all on that session
 	//sessionID can be -1 to get all sessions
+	//exerciseID can be -1 to get all exercises
 	//signalOrCurve can be "all"
 	
 	//orderIDascendent is good for all the situations except when we want to convert from 1.05 to 1.06
 	//in that conversion, we want first the last ones, and later the previous
 	//	(to delete them if they are old copies)
 	public static ArrayList Select (
-			bool dbconOpened, int uniqueID, int personID, int sessionID, 
-			string signalOrCurve, EncoderSQL.Eccons ecconSelect,	
+			bool dbconOpened, int uniqueID, int personID, int sessionID, int exerciseID,
+			string signalOrCurve, EncoderSQL.Eccons ecconSelect,
 			bool onlyActive, bool orderIDascendent)
 	{
 		if(! dbconOpened)
@@ -169,14 +170,18 @@ class SqliteEncoder : Sqlite
 		if(sessionID != -1)
 			sessionIDStr = " sessionID = " + sessionID + " AND ";
 
+		string exerciseIDStr = "";
+		if(exerciseID != -1)
+			exerciseIDStr = " exerciseID = " + exerciseID + " AND ";
+
 		string selectStr = "";
 		if(uniqueID != -1)
 			selectStr = Constants.EncoderTable + ".uniqueID = " + uniqueID;
 		else {
 			if(signalOrCurve == "all")
-				selectStr = personIDStr + sessionIDStr;
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr;
 			else
-				selectStr = personIDStr + sessionIDStr + " signalOrCurve = '" + signalOrCurve + "'";
+				selectStr = personIDStr + sessionIDStr + exerciseIDStr + " signalOrCurve = '" + signalOrCurve + "'";
 		
 			if(ecconSelect != EncoderSQL.Eccons.ALL)
 				selectStr += " AND " + Constants.EncoderTable + ".eccon = '" + EncoderSQL.Eccons.ecS.ToString() + "'";
@@ -595,6 +600,47 @@ class SqliteEncoder : Sqlite
 						);
 				array.Add(ex);
 			}
+		}
+
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return array;
+	}
+
+
+	public static ArrayList SelectEncoderRowsOfAnExercise(bool dbconOpened, int exerciseID) 
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "select count(*), " + 
+			Constants.PersonTable + ".name, " +
+			Constants.SessionTable + ".name, " + 
+			Constants.SessionTable + ".date " + 
+			" FROM " + Constants.EncoderTable + ", " + Constants.PersonTable + ", " + Constants.SessionTable +
+			" WHERE exerciseID == " + exerciseID + 
+			" AND " + Constants.PersonTable + ".uniqueID == " + Constants.EncoderTable + ".personID " +
+		        " AND " + Constants.SessionTable + ".uniqueID == " + Constants.EncoderTable + ".sessionID " + 
+			" GROUP BY sessionID, personID";
+			
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+
+		ArrayList array = new ArrayList();
+		int count = 0;
+		while(reader.Read()) {
+			array.Add(new string [] {
+					count.ToString(),
+					reader[0].ToString(), //count
+					reader[1].ToString(), //person name
+					reader[2].ToString(), //session name
+					reader[3].ToString()  //session date
+			});
+			count ++;
 		}
 
 		reader.Close();

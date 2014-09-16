@@ -104,6 +104,7 @@ public class GenericWindow
 	private int commentColumn;
 
 	//used on encoder edit exercise
+	public int uniqueID;
 	public string nameOld;
 
 	public GenericWindow ()
@@ -128,6 +129,7 @@ public class GenericWindow
 		foreach(ArrayList widgetArray in array)
 			GenericWindowBox.showWidgetsPowerful(widgetArray);
 
+		GenericWindowBox.generic_window.Resizable = false;
 		GenericWindowBox.label_header.Text = textHeader;
 		//maybe more things have to be done before showing
 		if(showNow)
@@ -691,7 +693,18 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 		treeview.Selection.GetSelected (out model, out iter);
 		store.SetValue (iter, commentColumn, entry_edit_row.Text);
 	}
-	
+
+	//this method is only used when try to delete an encoder exercise,
+	//and cannot because there are encoder rows done with this exercise.
+	//Just unsensitive some stuff now in order to not be able to change them
+	public void DeletingExerciseHideSomeWidgets() {
+		hbox_spin_int.Hide();
+		hbox_entry2.Hide();
+		hbox_entry3.Hide();
+		hbox_spin_double2.Hide();
+
+		SetButtonAcceptLabel(Catalog.GetString("Close"));
+	}	
 
 	public void RemoveSelectedRow () {
 		store = UtilGtk.RemoveRow(treeview, store);
@@ -706,6 +719,14 @@ Log.WriteLine("aaaaaaaaaaaaaaaa2");
 	public void Delete_row_accepted() {
 		//remove selected row from treeview
 		store = UtilGtk.RemoveRow(treeview, store);
+	}
+	
+	public void ShowTextview() {
+		scrolled_window_textview.Show();
+	}
+
+	public void ShowTreeview() {
+		scrolled_window_treeview.Show();
 	}
 
 	public void ShowButtonDelete(bool show) {

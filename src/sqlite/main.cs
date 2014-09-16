@@ -1499,8 +1499,8 @@ class Sqlite
 		
 				SqliteEncoder.createTableEncoderSignalCurve();
 
-				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, "signal", EncoderSQL.Eccons.ALL, false, false);
-				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, false);
+				ArrayList signals = SqliteEncoder.Select(true, -1, -1, -1, -1, "signal", EncoderSQL.Eccons.ALL, false, false);
+				ArrayList curves = SqliteEncoder.Select(true, -1, -1, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, false);
 				int signalID;
 				conversionRateTotal = signals.Count;
 				conversionRate = 1;
@@ -2633,6 +2633,20 @@ Console.WriteLine("5" + tableName);
 
 		dbcmd.CommandText = "Delete FROM " + tableName +
 			" WHERE name == '" + name + "'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		if( ! dbconOpened)
+			dbcon.Close();
+	}
+
+	public static void DeleteFromAnInt(bool dbconOpened, string tableName, string colName, int id)
+	{
+		if( ! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "Delete FROM " + tableName +
+			" WHERE " + colName + " == " + id;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		

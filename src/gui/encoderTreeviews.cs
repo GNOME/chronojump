@@ -460,7 +460,7 @@ public partial class ChronoJumpWindow
 			totalMass = findMass(Constants.MassType.DISPLACED);
 		} else {						//user curves
 			curvesData = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 					"curve", EncoderSQL.Eccons.ALL, 
 					true, true);
 		}

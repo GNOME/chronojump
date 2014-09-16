@@ -748,7 +748,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_analyze_data_select_curves_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 
@@ -845,7 +845,7 @@ public partial class ChronoJumpWindow
 		string [] checkboxes = genericWin.GetCheckboxesStatus(1, false);
 
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 
@@ -892,7 +892,7 @@ public partial class ChronoJumpWindow
 
 		int curveID = genericWin.TreeviewSelectedUniqueID;
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, curveID, 0, 0, 
+				false, curveID, 0, 0, -1,
 				"", EncoderSQL.Eccons.ALL, 
 				false, true)[0];
 
@@ -943,7 +943,7 @@ public partial class ChronoJumpWindow
 	void delete_encoder_curve(int uniqueID) {
 		Log.WriteLine(uniqueID.ToString());
 
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk)  {
@@ -987,7 +987,7 @@ public partial class ChronoJumpWindow
 		foreach(Person p in dataPre) {
 			if(p.UniqueID != currentPerson.UniqueID) {
 				ArrayList eSQLarray = SqliteEncoder.Select(
-						false, -1, p.UniqueID, currentSession.UniqueID, 
+						false, -1, p.UniqueID, currentSession.UniqueID, -1, 
 						"curve", EncoderSQL.Eccons.ALL, 
 						false, true);
 				string [] s = { p.UniqueID.ToString(), "", p.Name,
@@ -1175,7 +1175,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_load_signal_clicked (object o, EventArgs args) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"signal", EncoderSQL.Eccons.ALL, 
 				false, true);
 
@@ -1247,7 +1247,7 @@ public partial class ChronoJumpWindow
 		genericWin.HideAndNull();
 
 		ArrayList data = SqliteEncoder.Select(
-				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, uniqueID, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"signal", EncoderSQL.Eccons.ALL, 
 				false, true);
 
@@ -1295,7 +1295,7 @@ public partial class ChronoJumpWindow
 		Log.WriteLine("row edit apply at load signal");
 			
 		int curveID = genericWin.TreeviewSelectedUniqueID;
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		
 		//if changed comment, update SQL, and update treeview
 		//first remove conflictive characters
@@ -1341,7 +1341,7 @@ public partial class ChronoJumpWindow
 			on_button_encoder_delete_signal_accepted (o, args);
 		else {
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-					false, signalID, 0, 0, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
+					false, signalID, 0, 0, -1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
 		
 			//delete signal and related curves (both from SQL and files)
 			encoderSignalDelete(eSQL.GetFullURL(false), signalID);	//don't convertPathToR
@@ -1369,7 +1369,7 @@ public partial class ChronoJumpWindow
 		{
 			//select related curves to find URL
 			EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-					false, esc.curveID, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
+					false, esc.curveID, -1, -1, -1, "curve", EncoderSQL.Eccons.ALL, false, true)[0];
 			
 			//delete file
 			Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
@@ -1566,7 +1566,7 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_delete_signal_accepted (object o, EventArgs args) 
 	{
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
-				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
+				false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1, "signal", EncoderSQL.Eccons.ALL, false, true)[0];
 
 		//delete signal and related curves (both from SQL and files)
 		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
@@ -1591,7 +1591,7 @@ public partial class ChronoJumpWindow
 
 	private void updateUserCurvesLabelsAndCombo() {
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 		int activeCurvesNum = getActiveCurvesNum(data);
@@ -1804,7 +1804,7 @@ public partial class ChronoJumpWindow
 		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
 		{
 			ArrayList data = SqliteEncoder.Select(
-					false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+					false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
 					"curve", EncoderSQL.Eccons.ALL, 
 					false, true);
 
@@ -2199,7 +2199,7 @@ public partial class ChronoJumpWindow
 			//onlyActive is false to have all the curves
 			//this is a need for "single" to select on display correct curve
 			data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
 				"curve", ecconSelect, 
 				false, true);
 
@@ -2214,7 +2214,8 @@ public partial class ChronoJumpWindow
 						dataPre = SqliteEncoder.Select(
 								false, -1, 
 								Util.FetchID(encoderCompareInterperson[i].ToString()),
-								currentSession.UniqueID,
+								currentSession.UniqueID, 
+								-1,
 							       	"curve", EncoderSQL.Eccons.ALL, 
 								true, true);
 						//this curves are added to data, data included currentPerson, currentSession
@@ -2229,6 +2230,7 @@ public partial class ChronoJumpWindow
 								false, -1,
 								currentPerson.UniqueID, 
 								Util.FetchID(encoderCompareIntersession[i].ToString()),
+								-1,
 								"curve", EncoderSQL.Eccons.ALL,
 							       	true, true);
 						//this curves are added to data, data included currentPerson, currentSession
@@ -2468,7 +2470,7 @@ public partial class ChronoJumpWindow
 		else {
 			if(currentPerson != null) {
 				ArrayList data = SqliteEncoder.Select(
-						false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+						false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 						"curve", EncoderSQL.Eccons.ALL,
 					       	false, true);
 				int activeCurvesNum = getActiveCurvesNum(data);
@@ -3140,7 +3142,10 @@ public partial class ChronoJumpWindow
 			exerciseName = Catalog.GetString(ex.name);
 
 		//0 is the widgget to show; 1 is the editable; 2 id default value
-		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(true); a1.Add(exerciseName);
+
+		//name cannot be changed because we have to detect if new name already exists, check problems with translations,
+		//but most important, if user can change name and then click delete, it will be a mess to confirm that the type "newname" or "oldname" will be deleted
+		a1.Add(Constants.GenericWindowShow.ENTRY); a1.Add(false); a1.Add(exerciseName);
 		bigArray.Add(a1);
 
 		a2.Add(Constants.GenericWindowShow.SPININT); a2.Add(true); a2.Add("");
@@ -3181,6 +3186,7 @@ public partial class ChronoJumpWindow
 		genericWin.Button_delete.Clicked += new EventHandler(on_button_encoder_exercise_delete);
 		
 		genericWin.nameOld = ex.name;
+		genericWin.uniqueID = ex.uniqueID;
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
 		genericWin.ShowNow();
@@ -3246,7 +3252,7 @@ public partial class ChronoJumpWindow
 		encoder_exercise_edit(true);
 		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_add_accepted);
 	}
-	
+			
 	void encoder_exercise_edit (bool adding) 
 	{
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
@@ -3296,27 +3302,62 @@ public partial class ChronoJumpWindow
 		}
 	}
 	
-	void on_button_encoder_exercise_delete (object o, EventArgs args) {
-		//TODO:
-		//select if there is encoder stuff with this encoder exercise	
-		//	TRUE: DialogMessage WARNING, or confirmWindow or confirmWindowJumpRun saying that there are tests on session X by person Y. Accept and exit
-		//	FALSE: confirmWindow or confirmWindowJumpRun saying that there are no tests. Confirm delete or cancel
-		//		CONFIRM: 
-		//			delete encoder, encoderSignalCurve, encoder1RM table records with this exercise. 
-		//			delete row from encoderExercise
-		//		CANCEL: close
+	void on_button_encoder_exercise_delete (object o, EventArgs args) 
+	{
+		ArrayList array = SqliteEncoder.SelectEncoderRowsOfAnExercise(false, genericWin.uniqueID); //dbconOpened, exerciseID
 
-		new DialogMessage(Constants.MessageTypes.WARNING, 
-				"TODO: Message on deleting exercise.");
+		if(array.Count > 0) {
+			//there are some records of this exercise on encoder table, do not delete
+			genericWin.SetTextview(
+					Catalog.GetString("Sorry, this exercise cannot be deleted.") + "\n" +
+					Catalog.GetString("Please delete first the following repetitions:"));
+
+			ArrayList nonSensitiveRows = new ArrayList();
+			for(int i=0; i < array.Count; i ++)
+				nonSensitiveRows.Add(i);
+
+			genericWin.SetTreeview(
+					new string [] {
+					"count",	//not shown, unused
+					Catalog.GetString("Repetitions"), Catalog.GetString("Person"),
+					Catalog.GetString("Session"), Catalog.GetString("Date") }, 
+					false, array, nonSensitiveRows, Constants.ContextMenu.NONE, false);
+
+			genericWin.ShowTextview();
+			genericWin.ShowTreeview();
+			genericWin.ShowButtonDelete(false);
+			genericWin.DeletingExerciseHideSomeWidgets();
+		
+			genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_edit_accepted);
+			genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_do_not_delete);
+		} else {
+			//encoder table has not records of this exercise
+			//delete exercise
+			Sqlite.Delete(false, Constants.EncoderExerciseTable, genericWin.uniqueID);
+			//delete 1RM records of this exercise
+			Sqlite.DeleteFromAnInt(false, Constants.Encoder1RMTable, "exerciseID", genericWin.uniqueID);
+
+			genericWin.HideAndNull();
+				
+			combo_encoder_exercise.Active = 0;
+
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));
+		}
 	}
 
+	//accept does not save changes, just closes window
+	void on_button_encoder_exercise_do_not_delete (object o, EventArgs args) {
+		genericWin.Button_accept.Clicked -= new EventHandler(on_button_encoder_exercise_do_not_delete);
+		genericWin.HideAndNull();
+	}
+	
 
 	/* sensitivity stuff */	
 			
 	//called when a person changes
 	private void encoderPersonChanged() {
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 		
@@ -4656,13 +4697,13 @@ public partial class ChronoJumpWindow
 					 */
 					bool deletedUserCurves = false;
 					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(
-							false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, 
+							false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1,
 							"", EncoderSQL.Eccons.ALL, 
 							false, true)[0];
 
 
 					ArrayList data = SqliteEncoder.Select(
-							false, -1, currentPerson.UniqueID, currentSession.UniqueID, 
+							false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 							"curve", EncoderSQL.Eccons.ALL,  
 							false, true);
 					foreach(EncoderSQL eSQL in data) {

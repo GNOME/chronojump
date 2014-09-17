@@ -19,6 +19,7 @@
  */
 
 using System;
+using Gdk;
 using Gtk;
 using Glade;
 //using Gnome;
@@ -86,6 +87,8 @@ public class GenericWindow
 	[Widget] Gtk.Label label_spin_double2;
 	[Widget] Gtk.SpinButton spin_double2;
 	
+	[Widget] Gtk.Image image_delete;
+	
 	private ArrayList nonSensitiveRows;
 
 	static GenericWindow GenericWindowBox;
@@ -131,7 +134,13 @@ public class GenericWindow
 
 		GenericWindowBox.generic_window.Resizable = false;
 		GenericWindowBox.label_header.Text = textHeader;
-		//maybe more things have to be done before showing
+		
+		Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_delete.png");
+		GenericWindowBox.image_delete.Pixbuf = pixbuf;
+
+		GenericWindowBox.label_header.Text = textHeader;
+		
+		
 		if(showNow)
 			GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;
@@ -150,6 +159,7 @@ public class GenericWindow
 		GenericWindowBox.hideWidgets();
 		GenericWindowBox.showWidget(stuff);
 
+		GenericWindowBox.generic_window.Resizable = false;
 		GenericWindowBox.label_header.Text = textHeader;
 		GenericWindowBox.generic_window.Show ();
 		GenericWindowBox.HideOnAccept = true;

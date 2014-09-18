@@ -106,7 +106,7 @@ class MyFrame(wx.Frame):
         #self.sizer_firmware_staticbox = wx.StaticBox(self.panel_1, -1, "Select / Seleccionar Firmware")
         self.frame_1_statusbar = self.CreateStatusBar(1, 0)
         #self.text_ctrl_2 = wx.TextCtrl(self.panel_1, -1, "")
-        #self.button_firmware_auto = wx.Button(self.panel_1, -1, "Automatic", style=wx.BU_EXACTFIT)
+        #self.button_firmware_auto = wx.Button(self.panel_1, -1, "Multitest", style=wx.BU_EXACTFIT)
         #self.button_firmware_jumps = wx.Button(self.panel_1, -1, "Jumps / Saltos", style=wx.BU_EXACTFIT)
         #self.button_firmware_runs = wx.Button(self.panel_1, -1, "Runs / Carreras", style=wx.BU_EXACTFIT)
         #self.button_firmware_led = wx.Button(self.panel_1, -1, "Led (test)", style=wx.BU_EXACTFIT)
@@ -165,7 +165,7 @@ class MyFrame(wx.Frame):
             self.frame_1_statusbar.SetStatusText(frame_1_statusbar_fields[i], i)
         #self.text_ctrl_2.SetMinSize((450, 27))
         self.combo_box_1.SetMinSize((250,30))
-        self.frame_1_statusbar.SetStatusText("Record Automatic Firmware / Grabar Firmware Automático", 0)
+        self.frame_1_statusbar.SetStatusText("Record Multitest Firmware / Grabar Firmware Multitest", 0)
         # end wxGlade
 
     def __do_layout(self):
@@ -251,7 +251,7 @@ class MyFrame(wx.Frame):
     #def button_open_auto(self, event): # wxGlade: MyFrame.<event_handler>
     #    print "button_open_auto"
     #    print DATADIR 
-    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-automatic.hex'))
+    #    self.text_ctrl_2.SetValue(os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-multitest.hex'))
         
     #def button_open_jumps(self, event): # wxGlade: MyFrame.<event_handler>
     #    print "button_open_jumps"
@@ -281,7 +281,7 @@ class MyFrame(wx.Frame):
        
     def boton_ayuda(self, event): # wxGlade: MyFrame.<event_handler>
         #dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change Chronopic Firmware whenever you want. It's recommended 50ms for jumps and 10ms for runs.\nTesting: 'ledp.hex' can be recorded and then green led will blink.\nFirmwares are in Chronojump installation folder, \\share\\Chronojump\\firmware\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nCon esta herramienta puede cambiar el Firmware de Chronopic tantas veces como quiera. Se recomienda 50ms para saltos, 10 ms para carreras.\nSi desea testear la herramienta, puede grabar el archivo 'ledp.hex' y verá como la luz verde parpadea.\nLos firmwares estan en la carpeta de instalacion de Chronojump, \\share\\Chronojump\\firmware\nPuede abrir Chronojump para ver qué en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
-        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change your old Chronopic firmware to the new Automatic firmware. This new firmware allows to change the configuration automatically if user is performing jumps or runs.\nThis firmware does not work for encoder.\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nEsta herramienta sirve para cambiar el antiguo firmware del Chronopic por el nuevo firmware Automatico. Este nuevo firmware se configura automáticamente para saltos o carreras según sea necesario.\nEste firmware no sirve para el encoder.\nPuede abrir Chronojump para ver en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
+        dlg = wx.MessageDialog(self, "ENGLISH\n\nWith this tool you can change your old Chronopic firmware to the new Multitest firmware. This new firmware allows to change the configuration automatically if user is performing jumps or runs.\nThis firmware does not work for encoder.\nYou can open Chronojump software to see what is the port, but don't press 'Connect' button there, because port cannot be opened by two applications.\nIf you need more help please check forum:\nhttp://forum.chronojump.org\n\n\nESPAÑOL\n\nEsta herramienta sirve para cambiar el antiguo firmware del Chronopic por el nuevo firmware Multitest. Este nuevo firmware se configura automáticamente para saltos o carreras según sea necesario.\nEste firmware no sirve para el encoder.\nPuede abrir Chronojump para ver en qué puerto aparece Chronopic, pero no pulse el botón 'Conectar' en Chronojump porque un puerto no puede ser abierto por dos aplicaciones.\nSi necesita más ayuda, por favor use el foro:\nhttp://foro.chronojump.org\n\nChronopic-Firmwarecord is based on PyDownloader.", "PyDownloader Help", wx.OK)
 	dlg.ShowModal()
 
     def boton_eco(self, event): # wxGlade: MyFrame.<event_handler>
@@ -325,7 +325,7 @@ class MyFrame(wx.Frame):
       #----------------------------------------
       #-- Obtener el nombre
       #file = str(self.text_ctrl_2.GetLineText(0))
-      file = os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-automatic.hex')
+      file = os.path.join(DATADIR, 'chronojump', 'firmware', 'chronopic-firmware-multitest.hex')
 
       #-- Si no hay ningun fichero especificado: Error
       if file=="":

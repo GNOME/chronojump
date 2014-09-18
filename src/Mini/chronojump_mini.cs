@@ -164,8 +164,8 @@ class ChronoJumpMini {
 		Console.WriteLine(string.Format(Catalog.GetString("Platform state: {0}"), estado_plataforma));
 
 
-		Console.WriteLine("Automatic variables: ");
-	        cp.Read_variables_automatic();
+		//Console.WriteLine("Automatic variables: ");
+	        //cp.Read_variables_automatic();
 
 
 		//-- Establecer el estado inicial del automata

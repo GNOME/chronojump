@@ -500,6 +500,7 @@ def getSerialPorts():
 
     system_name = platform.system()
     if system_name == "Windows":
+        import serial
         # Scan for available ports.
         available = []
         for i in range(12):

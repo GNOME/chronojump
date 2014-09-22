@@ -509,7 +509,7 @@ def getSerialPorts():
             try:
                 print " ok? "
                 s = serial.Serial(i)
-                available.append(i)
+                available.append("COM" + str(i+1))
                 s.close()
                 print " yes "
             except serial.SerialException:

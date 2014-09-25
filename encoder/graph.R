@@ -538,18 +538,33 @@ findECPhases <- function(displacement,speed) {
 		concentric=concentric))
 }
 
-findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric) {
-	if(length(which(accel[concentric]<=-g)) > 0) {
-		#this can be a problem because some people does an strange countermovement at start of concentric movement
+findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
+			     encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight) {
+
+	propulsiveEndsAt <- -g
+
+	if(encoderConfigurationName == "LINEARONPLANE") {
+		#propulsive phase ends at: -g*sin(alfa)
+		propulsiveEndsAt <- -g * sin(anglePush * pi / 180)
+	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+		#propulsive phase ends at: (massExtra + massBody * sin(alfa)) * -g / (massExtra + massBody)
+		
+		massBodyUsed <- getMassBodyByExercise(massBody, exercisePercentBodyWeight)
+		propulsiveEndsAt <- (massExtra + massBodyUsed * sin (anglePush * pi / 180)) * -g / (massExtra + massBodyUsed)
+	}
+
+	if(length(which(accel[concentric] <= propulsiveEndsAt)) > 0) {
+		#this:
+		#	propulsiveEnd = min(which(accel[concentric] <= -g))
+		#can be a problem because some people does an strange countermovement at start of concentric movement
 		#this people moves arms down and legs go up
 		#at this moment acceleration can be lower than -g
 		#if this happens, propulsiveEnd will be very early and detected jump will be very high
-		#propulsiveEnd = min(which(accel[concentric] <= -g))
 		#is exactly the same problem than findTakeOff, see that method for further help
 		#another option can be using extrema
 
 		accelCon = accel[concentric]
-		df=data.frame(accelCon <= -g, accelCon, abs(1:length(accelCon)-maxSpeedTInConcentric))
+		df=data.frame(accelCon <= propulsiveEndsAt, accelCon, abs(1:length(accelCon)-maxSpeedTInConcentric))
 		colnames(df)=c("belowG","accel","dist")
 		df2 = subset(df,subset=df$belowG)
 	
@@ -611,7 +626,8 @@ print(c(" smoothing:",smoothing))
 			maxSpeedT <- min(which(speed$y == max(speed$y)))
 			maxSpeedTInConcentric = maxSpeedT
 			
-			propulsiveEnd = findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
+			propulsiveEnd = findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric,
+							  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
 		} else if(eccon=="ec") {
 			phases=findECPhases(displacement,speed$y)
 			eccentric = phases$eccentric
@@ -625,7 +641,9 @@ print(c(" smoothing:",smoothing))
 				maxSpeedT <- min(which(speed$y == max(speed$y)))
 				maxSpeedTInConcentric = maxSpeedT - (length(eccentric) + length(isometric))
 
-				propulsiveEnd = length(eccentric) + length(isometric) + findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric)
+				propulsiveEnd = length(eccentric) + length(isometric) + 
+						findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric, 
+								  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
 				#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 			}
 		} else if(eccon=="e") {
@@ -955,7 +973,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	propulsiveEnd = length(displacement)
 
 	if(isPropulsive) {
-		propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric)
+		propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric,
+						  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
 		if(eccon != "c")
 			propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
 	}

@@ -492,7 +492,7 @@ Console.WriteLine("--6--");
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Show_button_open_docs_folder();
-				errorWin.Button_accept_label(Catalog.GetString("Close this window"));
+				errorWin.Button_accept_label(Catalog.GetString("Open Chronojump"));
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
 			}
 		} else {

@@ -539,7 +539,8 @@ findECPhases <- function(displacement,speed) {
 }
 
 findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
-			     encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight) {
+			     encoderConfigurationName, anglePush, angleWeight, 
+			     massBody, massExtra, exercisePercentBodyWeight) {
 
 	propulsiveEndsAt <- -g
 
@@ -547,10 +548,10 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 		#propulsive phase ends at: -g*sin(alfa)
 		propulsiveEndsAt <- -g * sin(anglePush * pi / 180)
 	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-		#propulsive phase ends at: (massExtra + massBody * sin(alfa)) * -g / (massExtra + massBody)
-		
 		massBodyUsed <- getMassBodyByExercise(massBody, exercisePercentBodyWeight)
-		propulsiveEndsAt <- (massExtra + massBodyUsed * sin (anglePush * pi / 180)) * -g / (massExtra + massBodyUsed)
+		
+		#propulsive phase ends at: [massBodyUsed*sin(anglePush) + massExtra*sin(angleWeight)] / (massBodyUsed + massExtra)
+		propulsiveEndsAt <- (massBodyUsed * sin(anglePush * pi / 180) + massExtra * sin(angleWeight * pi / 180)) / (massBodyUsed + massExtra)
 	}
 
 	if(length(which(accel[concentric] <= propulsiveEndsAt)) > 0) {
@@ -627,7 +628,8 @@ print(c(" smoothing:",smoothing))
 			maxSpeedTInConcentric = maxSpeedT
 			
 			propulsiveEnd = findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric,
-							  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
+							  encoderConfigurationName, anglePush, angleWeight, 
+							  massBody, massExtra, exercisePercentBodyWeight)
 		} else if(eccon=="ec") {
 			phases=findECPhases(displacement,speed$y)
 			eccentric = phases$eccentric
@@ -643,7 +645,8 @@ print(c(" smoothing:",smoothing))
 
 				propulsiveEnd = length(eccentric) + length(isometric) + 
 						findPropulsiveEnd(accel$y,concentric,maxSpeedTInConcentric, 
-								  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
+								  encoderConfigurationName, anglePush, angleWeight, 
+								  massBody, massExtra, exercisePercentBodyWeight)
 				#print(c("lengths: ", length(eccentric), length(isometric), findPropulsiveEnd(accel$y,concentric), propulsiveEnd))
 			}
 		} else if(eccon=="e") {
@@ -974,7 +977,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	if(isPropulsive) {
 		propulsiveEnd = findPropulsiveEnd(accel$y, concentric, maxSpeedTInConcentric,
-						  encoderConfigurationName, anglePush, massBody, massExtra, exercisePercentBodyWeight)
+						  encoderConfigurationName, anglePush, angleWeight, 
+						  massBody, massExtra, exercisePercentBodyWeight)
 		if(eccon != "c")
 			propulsiveEnd = length(eccentric) + length(isometric) + propulsiveEnd
 	}

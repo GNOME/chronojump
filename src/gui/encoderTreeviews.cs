@@ -601,7 +601,7 @@ public partial class ChronoJumpWindow
 		"cl t" + "\n (ms)",
 		"cl rfd avg" + "\n (N/s/Kg)",
 		"cl i" + "\n (N*s/Kg)",
-		"cl f avg" + "\n (N)",
+		"cl f avg" + "\n (N/Kg)",
 		"cl vf" + "\n (N)",
 		"cl f max" + "\n (N)",
 		"cl s avg" + "\n (m/s)",

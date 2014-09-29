@@ -721,11 +721,17 @@ Log.WriteLine("bbb");
 		label_auto_change_debounce.Text = ca.Write(sp, (int) spin_auto_change_debounce.Value);
 	}	
 	
-	private void on_button_auto_help_clicked (object o, EventArgs args) 
+	private void on_button_auto_check_help_clicked (object o, EventArgs args) 
 	{
 		new DialogMessage(Constants.MessageTypes.INFO, 
 				"50 ms recommended for jumps." + "\n" + 
 				"10 ms recommended for runs.");
+	}
+
+	private void on_button_auto_change_help_clicked (object o, EventArgs args) 
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				"Minimum value will be 50 ms again when user unplugs USB cable.");
 	}
 
 	// end of Chronopic Automatic Firmware ---------------

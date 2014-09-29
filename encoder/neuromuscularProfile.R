@@ -133,7 +133,7 @@ neuromuscularProfileJump <- function(l.context, e1, c, mass, smoothingC)
 	#cl.i = average force on cl * cl.t (s) / mass (Kg) #impulse #bars DRIVE
 	cl.i <- mean(cl.force) * (cl.t / 1000) / mass
 
-	#cl.f.avg = average force on cl / mass (Kg)
+	#cl.f.avg = average force on cl / mass (N/Kg)
 	cl.f.avg <- mean(cl.force) / mass
 
 	#cl.vf (vF -> valley Force)

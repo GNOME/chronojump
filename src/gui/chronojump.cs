@@ -67,6 +67,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton radio_mode_reaction_times_small;
 	[Widget] Gtk.RadioButton radio_mode_pulses_small;
 	[Widget] Gtk.RadioButton radio_mode_multi_chronopic_small;
+	[Widget] Gtk.RadioButton radio_mode_encoder_capture_small;
+	[Widget] Gtk.RadioButton radio_mode_encoder_analyze_small;
 	[Widget] Gtk.Image image_mode_jumps_small;
 	[Widget] Gtk.Image image_mode_jumps_reactive_small;
 	[Widget] Gtk.Image image_mode_runs_small;
@@ -925,6 +927,17 @@ public partial class ChronoJumpWindow
 		if(radio_mode_multi_chronopic_small.Active) 
 			notebooks_change(6);
 	}
+	
+	public void on_radio_mode_encoder_capture_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_encoder_capture_small.Active) 
+			notebook_encoder_sup.CurrentPage = 0;
+	}
+
+	public void on_radio_mode_encoder_analyze_small_toggled (object obj, EventArgs args) {
+		if(radio_mode_encoder_analyze_small.Active) 
+			notebook_encoder_sup.CurrentPage = 1;
+	}
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  TREEVIEW (generic) --------------------

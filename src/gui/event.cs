@@ -84,6 +84,7 @@ public class EditEventWindow
 	[Widget] protected Gtk.Label label_video_yes;
 	[Widget] protected Gtk.Label label_video_no;
 	[Widget] protected Gtk.Button button_video_watch;
+	[Widget] protected Gtk.Button button_video_url;
 	protected string videoFileName = "";
 	
 	[Widget] protected Gtk.Entry entry_description;
@@ -150,7 +151,7 @@ public class EditEventWindow
 		EditEventWindowBox.edit_event.Show ();
 
 		return EditEventWindowBox;
-}
+	}
 	
 	protected virtual void initializeValues () {
 		typeOfTest = Constants.TestTypes.JUMP;
@@ -298,17 +299,19 @@ public class EditEventWindow
 			label_video_yes.Visible = true;
 			label_video_no.Visible = false;
 			button_video_watch.Sensitive = true;
+			button_video_url.Sensitive = true;
 		} else {
 			label_video_yes.Visible = false;
 			label_video_no.Visible = true;
 			button_video_watch.Sensitive = false;
+			button_video_url.Sensitive = false;
 		}
 	}
 
 	private void on_button_video_watch_clicked (object o, EventArgs args) {
 		if(File.Exists(videoFileName)) { 
 			Log.WriteLine("Exists and clicked " + videoFileName);
-			
+
 			PlayerBin player = new PlayerBin();
 			player.Open(videoFileName);
 
@@ -320,6 +323,12 @@ public class EditEventWindow
 			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
 			player.Play(); 
 		}
+	}
+
+	private void on_button_video_url_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Catalog.GetString("Video available here:") + "\n\n" +
+				videoFileName);
 	}
 	
 	protected void fillWindowTitleAndLabelHeader() {

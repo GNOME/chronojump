@@ -225,6 +225,12 @@ class SqliteEncoder : Sqlite
 				Enum.Parse(typeof(Constants.EncoderConfigurationNames), strFull[0]) );
 			econf.FromSQL(strFull);
 			
+			//if there's no video, will be "".
+			//if there's video, will be with full path
+			string videoURL = "";
+			if(reader[14].ToString() != "")
+				videoURL = addURLpath(fixOSpath(reader[14].ToString()));
+			
 			//Log.WriteLine(econf.ToString(":", true));
 			es = new EncoderSQL (
 					reader[0].ToString(),			//uniqueID
@@ -241,7 +247,7 @@ class SqliteEncoder : Sqlite
 					Convert.ToInt32(reader[11].ToString()),	//minHeight
 					reader[12].ToString(),			//description
 					reader[13].ToString(),			//status
-					addURLpath(fixOSpath(reader[14].ToString())),	//videoURL
+					videoURL,				//videoURL
 					econf,					//encoderConfiguration
 					Util.ChangeDecimalSeparator(reader[16].ToString()),	//future1 (meanPower on curves)
 					reader[17].ToString(),			//future2

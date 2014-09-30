@@ -551,7 +551,7 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 		massBodyUsed <- getMassBodyByExercise(massBody, exercisePercentBodyWeight)
 		
 		#propulsive phase ends at: [massBodyUsed*sin(anglePush) + massExtra*sin(angleWeight)] / (massBodyUsed + massExtra)
-		propulsiveEndsAt <- (massBodyUsed * sin(anglePush * pi / 180) + massExtra * sin(angleWeight * pi / 180)) / (massBodyUsed + massExtra)
+		propulsiveEndsAt <- -g * (massBodyUsed * sin(anglePush * pi / 180) + massExtra * sin(angleWeight * pi / 180)) / (massBodyUsed + massExtra)
 	}
 
 	if(length(which(accel[concentric] <= propulsiveEndsAt)) > 0) {

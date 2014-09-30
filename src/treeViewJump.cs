@@ -306,6 +306,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = Util.TrimDecimals(newJumpRj.Fall.ToString(), pDN);
 		if (preferences.showHeight)  
 			myData[count++] = "";
+		if (preferences.showPower)
+			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";
 		if (preferences.showQIndex)
@@ -346,6 +348,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; 
 		if (preferences.showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
+		if (preferences.showPower)
+			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(
 						thisTv, preferences.metersSecondsPreferred), pDN);
@@ -378,6 +382,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; //fall
 		if (preferences.showHeight)  
 			myData[count++] = ""; 
+		if (preferences.showPower)
+			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = ""; 
 		if (preferences.showQIndex || preferences.showDjIndex) 
@@ -423,6 +429,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 					Util.GetHeightInCentimeters(
 						tvAVGDouble.ToString())
 					, pDN);
+		if (preferences.showPower)
+			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(
 					Util.GetInitialSpeed(
@@ -476,6 +484,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; //fall
 
 		if (preferences.showHeight)  
+			myData[count++] = "";
+		if (preferences.showPower)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";

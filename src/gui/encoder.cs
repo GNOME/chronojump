@@ -2920,6 +2920,10 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
+		treeview_encoder_capture_curves.Sensitive = false;
+		hbox_encoder_capture_curves_save_all_none.Sensitive = false;
+
+		//will be true again when loading a new encoder test or capturing
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {

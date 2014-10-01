@@ -108,7 +108,7 @@ public class GenericWindow
 
 	//used on encoder edit exercise
 	public int uniqueID;
-	public string nameOld;
+	public string nameUntranslated;
 
 	public GenericWindow ()
 	{

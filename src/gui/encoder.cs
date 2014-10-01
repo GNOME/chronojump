@@ -2788,20 +2788,7 @@ public partial class ChronoJumpWindow
 	protected void createEncoderCombos() {
 		//create combo exercises
 		combo_encoder_exercise = ComboBox.NewText ();
-		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
-		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
-		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
-		int i =0;
-		foreach(EncoderExercise ex in encoderExercises) {
-			string nameTranslated = Catalog.GetString(ex.name);
-			encoderExercisesTranslationAndBodyPWeight[i] = 
-				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
-			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
-			i++;
-		}
-		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
-		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
-				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
+		createEncoderComboExercise();
 		combo_encoder_exercise.Changed += new EventHandler (on_combo_encoder_exercise_changed);
 		
 		/* ConcentricEccentric
@@ -2916,6 +2903,24 @@ public partial class ChronoJumpWindow
 		hbox_combo_encoder_analyze_curve_num_combo.ShowAll(); 
 		combo_encoder_analyze_curve_num_combo.Sensitive = true;
 		hbox_combo_encoder_analyze_curve_num_combo.Visible = false; //do not show hbox at start
+	}
+	
+	//this is called also when an exercise is deleted to update the combo and the string []
+	protected void createEncoderComboExercise() {
+		ArrayList encoderExercises = SqliteEncoder.SelectEncoderExercises(false, -1, false);
+		encoderExercisesTranslationAndBodyPWeight = new String [encoderExercises.Count];
+		string [] exerciseNamesToCombo = new String [encoderExercises.Count];
+		int i =0;
+		foreach(EncoderExercise ex in encoderExercises) {
+			string nameTranslated = Catalog.GetString(ex.name);
+			encoderExercisesTranslationAndBodyPWeight[i] = 
+				ex.uniqueID + ":" + ex.name + ":" + nameTranslated + ":" + ex.percentBodyWeight;
+			exerciseNamesToCombo[i] = Catalog.GetString(ex.name);
+			i++;
+		}
+		UtilGtk.ComboUpdate(combo_encoder_exercise, exerciseNamesToCombo, "");
+		combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, 
+				Catalog.GetString(((EncoderExercise) encoderExercises[0]).name));
 	}
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
@@ -3189,7 +3194,7 @@ public partial class ChronoJumpWindow
 		genericWin.ShowButtonDelete(true);
 		genericWin.Button_delete.Clicked += new EventHandler(on_button_encoder_exercise_delete);
 		
-		genericWin.nameOld = ex.name;
+		genericWin.nameUntranslated = ex.name;
 		genericWin.uniqueID = ex.uniqueID;
 		
 		genericWin.Button_accept.Clicked += new EventHandler(on_button_encoder_exercise_edit_accepted);
@@ -3278,7 +3283,7 @@ public partial class ChronoJumpWindow
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);
 			else
-				SqliteEncoder.UpdateExercise(false, genericWin.nameOld, name, genericWin.SpinIntSelected, 
+				SqliteEncoder.UpdateExercise(false, genericWin.nameUntranslated, name, genericWin.SpinIntSelected, 
 						genericWin.Entry2Selected, genericWin.Entry3Selected,
 						Util.ConvertToPoint(genericWin.SpinDouble2Selected)
 						);
@@ -3308,6 +3313,13 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_exercise_delete (object o, EventArgs args) 
 	{
+		EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
+				false, genericWin.uniqueID, false)[0];
+		if(ex.IsPredefined()) {
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Sorry, predefined exercises cannot be deleted."));
+			return;
+		}
+
 		ArrayList array = SqliteEncoder.SelectEncoderRowsOfAnExercise(false, genericWin.uniqueID); //dbconOpened, exerciseID
 
 		if(array.Count > 0) {
@@ -3343,6 +3355,7 @@ public partial class ChronoJumpWindow
 
 			genericWin.HideAndNull();
 				
+			createEncoderComboExercise();
 			combo_encoder_exercise.Active = 0;
 
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Exercise deleted."));

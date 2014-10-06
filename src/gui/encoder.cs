@@ -3026,22 +3026,28 @@ public partial class ChronoJumpWindow
 			//this overwrites if needed
 			TextWriter writer = File.CreateText(destination);
 
+			string sep = " ";
+			if (preferences.CSVExportDecimalSeparator == "COMMA")
+				sep = ";";
+			else
+				sep = ",";
+
 			if(lastTreeviewEncoderAnalyzeIsNeuromuscular) {
 				//write header
 				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							treeviewEncoderAnalyzeNeuromuscularHeaders, ";"), false));
+							treeviewEncoderAnalyzeNeuromuscularHeaders, sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewNeuromuscular(encoderAnalyzeListStore);
 				foreach (EncoderNeuromuscularData nm in array)
-					writer.WriteLine(nm.ToCSV());
+					writer.WriteLine(nm.ToCSV(preferences.CSVExportDecimalSeparator));
 			} else {
 				//write header
 				writer.WriteLine(Util.RemoveNewLine(Util.StringArrayToString(
-							treeviewEncoderAnalyzeHeaders, ";"), false));
+							treeviewEncoderAnalyzeHeaders, sep), false));
 				//write curves rows
 				ArrayList array = getTreeViewCurves(encoderAnalyzeListStore);
 				foreach (EncoderCurve ec in array)
-					writer.WriteLine(ec.ToCSV());
+					writer.WriteLine(ec.ToCSV(preferences.CSVExportDecimalSeparator));
 			}
 			
 			writer.Flush();

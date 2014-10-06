@@ -44,6 +44,14 @@ public class Util
 		myStringBuilder.Replace(",", ".");
 		return myStringBuilder.ToString();
 	}
+	
+	public static string ConvertToComma (string myString)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace(".", ",");
+		return myStringBuilder.ToString();
+	}
+
 
 	//when we do a query to the server, it returns avg as "0,54" because it's latin localized
 	//if client is on english machine, need to convert this to "0.54"

@@ -261,15 +261,28 @@ public class EncoderCurve
 		this.PP_PPT = PP_PPT;	//PeakPower / PeakPowerTime
 	}
 
-	public string ToCSV() {
-		string sep = ";";
-		return 
+	public string ToCSV(string decimalSeparator) {
+		//latin:	2,3 ; 2,5
+		//non-latin:	2.3 , 2.5
+
+		string sep = ":::";
+		string str = 
 			N + sep + Series + sep + Exercise + sep + 
 			ExtraWeight + sep + DisplacedWeight + sep + 
 			Start + sep + Duration + sep + Height + sep + 
 			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 
 			MeanPower + sep + PeakPower + sep + PeakPowerT + sep + 
 			PP_PPT;
+		
+		if(decimalSeparator == "COMMA")
+			str = Util.ConvertToComma(str);
+		else
+			str = Util.ConvertToPoint(str);
+			
+		if(decimalSeparator == "COMMA")
+			return Util.ChangeChars(str, ":::", ";");
+		else
+			return Util.ChangeChars(str, ":::", ",");
 	}
 	
 	~EncoderCurve() {}
@@ -408,9 +421,12 @@ public class EncoderNeuromuscularData
 		this.cl_p_max 	= Convert.ToDouble(cells[16]);
 	}
 
-	public string ToCSV() {
-		string sep = ";";
-		return 
+	public string ToCSV(string decimalSeparator) {
+		//latin:	2,3 ; 2,5
+		//non-latin:	2.3 , 2.5
+
+		string sep = ":::";
+		string str = 
 			n + sep + e1_range.ToString() + sep + 
 			e1_t.ToString() + sep + e1_fmax.ToString() + sep + 
 			e1_rfd_avg.ToString() + sep + e1_i.ToString() + sep + 
@@ -419,6 +435,16 @@ public class EncoderNeuromuscularData
 			cl_f_avg.ToString() + sep + cl_vf.ToString() + sep + cl_f_max.ToString() + sep + 
 			cl_s_avg.ToString() + sep + cl_s_max.ToString() + sep + 
 			cl_p_avg.ToString() + sep + cl_p_max.ToString();
+
+		if(decimalSeparator == "COMMA")
+			str = Util.ConvertToComma(str);
+		else
+			str = Util.ConvertToPoint(str);
+			
+		if(decimalSeparator == "COMMA")
+			return Util.ChangeChars(str, ":::", ";");
+		else
+			return Util.ChangeChars(str, ":::", ",");
 	}
 }
 

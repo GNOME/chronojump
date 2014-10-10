@@ -221,24 +221,27 @@ public class ExecuteAutoWindow
 	private void createTreeviewSeries() 
 	{
 		treeviewSerie1Array = new ArrayList(0);
-		store_serie1 = new TreeStore(typeof (string));
+		store_serie1 = new TreeStore(typeof (string), typeof (string));
 		treeview_serie1.Model = store_serie1;
 		treeview_serie1.HeadersVisible=false;
 		UtilGtk.CreateCols(treeview_serie1, store_serie1, "", 0, true);
+		UtilGtk.CreateCols(treeview_serie1, store_serie1, "", 1, true);
 		treeview_serie1.Selection.Mode = SelectionMode.None;
 		
 		treeviewSerie2Array = new ArrayList(0);
-		store_serie2 = new TreeStore(typeof (string));
+		store_serie2 = new TreeStore(typeof (string), typeof (string));
 		treeview_serie2.Model = store_serie2;
 		treeview_serie2.HeadersVisible=false;
 		UtilGtk.CreateCols(treeview_serie2, store_serie2, "", 0, true);
+		UtilGtk.CreateCols(treeview_serie2, store_serie2, "", 1, true);
 		treeview_serie2.Selection.Mode = SelectionMode.None;
 		
 		treeviewSerie3Array = new ArrayList(0);
-		store_serie3 = new TreeStore(typeof (string));
+		store_serie3 = new TreeStore(typeof (string), typeof (string));
 		treeview_serie3.Model = store_serie3;
 		treeview_serie3.HeadersVisible=false;
 		UtilGtk.CreateCols(treeview_serie3, store_serie3, "", 0, true);
+		UtilGtk.CreateCols(treeview_serie3, store_serie3, "", 1, true);
 		treeview_serie3.Selection.Mode = SelectionMode.None;
 	}
 	
@@ -251,15 +254,18 @@ public class ExecuteAutoWindow
 		if(o == (object) button_add1) 
 		{
 			treeviewSerie1Array.Add(tc);
-			UtilGtk.TreeviewAddRow(treeview_serie1, store_serie1, tc.trName);
+			UtilGtk.TreeviewAddRow(treeview_serie1, store_serie1, 
+					new String [] { treeviewSerie1Array.Count.ToString(), tc.trName } );
 		} else if(o == (object) button_add2) 
 		{
 			treeviewSerie2Array.Add(tc);
-			UtilGtk.TreeviewAddRow(treeview_serie2, store_serie2, tc.trName);
+			UtilGtk.TreeviewAddRow(treeview_serie2, store_serie2, 
+					new String [] { treeviewSerie2Array.Count.ToString(), tc.trName } );
 		} else 
 		{	//button_add3
 			treeviewSerie3Array.Add(tc);
-			UtilGtk.TreeviewAddRow(treeview_serie3, store_serie3, tc.trName);
+			UtilGtk.TreeviewAddRow(treeview_serie3, store_serie3, 
+					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName } );
 		}
 		
 		//a test is added, sensitivize "next" button

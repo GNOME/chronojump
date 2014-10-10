@@ -60,6 +60,9 @@ public class ExecuteAutoWindow
 	[Widget] Gtk.TreeView treeview_serie2;
 	[Widget] Gtk.TreeView treeview_serie3;
 	
+	[Widget] Gtk.Entry entry_save;
+	[Widget] Gtk.Button button_save;
+	
 	//3rd tab
 	[Widget] Gtk.TreeView treeview;
 
@@ -270,6 +273,21 @@ public class ExecuteAutoWindow
 		
 		//a test is added, sensitivize "next" button
 		button_next.Sensitive = true;
+	}
+
+
+	private void on_entry_save_changed(object o, EventArgs args) 
+	{
+		button_save.Sensitive = (entry_save.Text.ToString().Length > 0);
+	}
+
+	private void on_button_save_clicked(object o, EventArgs args) 
+	{
+		//si no existeix a la BD amab aquest nom...
+		new DialogMessage(Constants.MessageTypes.INFO, string.Format(
+					//Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
+					"will save this stuff: '{0}'", 
+					entry_save.Text.ToString()));
 	}
 
 	//true means "by series" (shows more stuff)

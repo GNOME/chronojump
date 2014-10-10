@@ -23,6 +23,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -74,6 +75,7 @@ public class ExecuteAutoWindow
 	Gtk.Window parent;
 	int sessionID;
 
+	ExecuteAuto.ModeTypes mode;
 	ArrayList orderedData;
 	
 	public Gtk.Button FakeButtonAccept; //to return orderedData
@@ -271,6 +273,8 @@ public class ExecuteAutoWindow
 					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName } );
 		}
 		
+		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save.Text.ToString().Length > 0);
+		
 		//a test is added, sensitivize "next" button
 		button_next.Sensitive = true;
 	}
@@ -278,16 +282,27 @@ public class ExecuteAutoWindow
 
 	private void on_entry_save_changed(object o, EventArgs args) 
 	{
-		button_save.Sensitive = (entry_save.Text.ToString().Length > 0);
+		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save.Text.ToString().Length > 0);
 	}
 
 	private void on_button_save_clicked(object o, EventArgs args) 
 	{
 		//si no existeix a la BD amab aquest nom...
-		new DialogMessage(Constants.MessageTypes.INFO, string.Format(
-					//Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
-					"will save this stuff: '{0}'", 
-					entry_save.Text.ToString()));
+		//new DialogMessage(Constants.MessageTypes.INFO, string.Format(
+		//			//Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
+		//			"will save this stuff: '{0}'", 
+		//			entry_save.Text.ToString()));
+
+		ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(entry_save.Text.ToString(), mode, 
+				getTrComboInts(treeviewSerie1Array), getTrComboInts(treeviewSerie2Array), getTrComboInts(treeviewSerie3Array));
+		eaSQL.SaveToSQL();
+	}
+
+	private List<int> getTrComboInts(ArrayList arrayTrCombo) {
+		List<int> IDs = new List<int>();
+	        foreach(TrCombo tr in arrayTrCombo)
+			IDs.Add(tr.id);
+		return IDs;
 	}
 
 	//true means "by series" (shows more stuff)
@@ -340,6 +355,12 @@ public class ExecuteAutoWindow
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
 		if(notebook.CurrentPage == 0) {
+			mode = ExecuteAuto.ModeTypes.BY_PERSONS;
+			if(radio_by_tests.Active)
+				mode = ExecuteAuto.ModeTypes.BY_TESTS;
+			else if(radio_by_series.Active)
+				mode = ExecuteAuto.ModeTypes.BY_SERIES;
+
 			showSeriesStuff(radio_by_series.Active);
 			notebook.NextPage();
 		
@@ -347,12 +368,6 @@ public class ExecuteAutoWindow
 			button_next.Sensitive = false;
 		}
 		else if(notebook.CurrentPage == 1) {
-			ExecuteAuto.ModeTypes mode = ExecuteAuto.ModeTypes.BY_PERSONS;
-			if(radio_by_tests.Active)
-				mode = ExecuteAuto.ModeTypes.BY_TESTS;
-			else if(radio_by_series.Active)
-				mode = ExecuteAuto.ModeTypes.BY_SERIES;
-
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);

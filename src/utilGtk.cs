@@ -234,6 +234,18 @@ public class UtilGtk
 		return tv;
 	}
 
+	//this is used only in a row with only one column
+	public static void TreeviewAddRow(Gtk.TreeView tv, TreeStore store, string row) {
+		TreeIter iter = new TreeIter();
+		bool iterOk = store.GetIterFirst(out iter);
+			
+		iter = store.AppendValues(row);
+
+		//scroll treeview if needed
+		TreePath path = store.GetPath (iter);
+		tv.ScrollToCell (path, null, true, 0, 0);
+
+	}
 
 
 	/*

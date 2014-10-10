@@ -47,22 +47,25 @@ public class ExecuteAutoWindow
 	//2nd tab
 	[Widget] Gtk.Box hbox_combo_select;
 	[Widget] Gtk.ComboBox combo_select;
-	[Widget] Gtk.Box hbox_combo_serie1;
-	[Widget] Gtk.ComboBox combo_serie1;
-	[Widget] Gtk.Box hbox_combo_serie2;
-	[Widget] Gtk.ComboBox combo_serie2;
-	[Widget] Gtk.Box hbox_combo_serie3;
-	[Widget] Gtk.ComboBox combo_serie3;
 	[Widget] Gtk.Button button_add1;
 	[Widget] Gtk.Button button_add2;
 	[Widget] Gtk.Button button_add3;
 	[Widget] Gtk.Label label_serie1;
 	[Widget] Gtk.Label label_serie2;
 	[Widget] Gtk.Label label_serie3;
+	[Widget] Gtk.ScrolledWindow scrolled_win_serie1;
+	[Widget] Gtk.ScrolledWindow scrolled_win_serie2;
+	[Widget] Gtk.ScrolledWindow scrolled_win_serie3;
+	[Widget] Gtk.TreeView treeview_serie1;
+	[Widget] Gtk.TreeView treeview_serie2;
+	[Widget] Gtk.TreeView treeview_serie3;
 	
 	//3rd tab
 	[Widget] Gtk.TreeView treeview;
 
+	TreeStore store_serie1;
+	TreeStore store_serie2;
+	TreeStore store_serie3;
 	
 	static ExecuteAutoWindow ExecuteAutoWindowBox;
 	Gtk.Window parent;
@@ -137,7 +140,7 @@ public class ExecuteAutoWindow
 		label_series_info.Visible = false;
 
 		createComboSelect();
-		createComboSeries();
+		createTreeviewSeries();
 	}
 
 	private void initializeShowJustOrder(int rowNumber) {
@@ -211,27 +214,34 @@ public class ExecuteAutoWindow
 	}
 
 	
-	ArrayList comboSerie1Array;
-	ArrayList comboSerie2Array;
-	ArrayList comboSerie3Array;
+	ArrayList treeviewSerie1Array;
+	ArrayList treeviewSerie2Array;
+	ArrayList treeviewSerie3Array;
 
-	private void createComboSeries() {
-		combo_serie1 = ComboBox.NewText ();
-		hbox_combo_serie1.PackStart(combo_serie1, true, true, 0);
-		hbox_combo_serie1.ShowAll();
-		comboSerie1Array = new ArrayList(0);
-
-		combo_serie2 = ComboBox.NewText ();
-		hbox_combo_serie2.PackStart(combo_serie2, true, true, 0);
-		hbox_combo_serie2.ShowAll();
-		comboSerie2Array = new ArrayList(0);
-
-		combo_serie3 = ComboBox.NewText ();
-		hbox_combo_serie3.PackStart(combo_serie3, true, true, 0);
-		hbox_combo_serie3.ShowAll();
-		comboSerie3Array = new ArrayList(0);
+	private void createTreeviewSeries() 
+	{
+		treeviewSerie1Array = new ArrayList(0);
+		store_serie1 = new TreeStore(typeof (string));
+		treeview_serie1.Model = store_serie1;
+		treeview_serie1.HeadersVisible=false;
+		UtilGtk.CreateCols(treeview_serie1, store_serie1, "", 0, true);
+		treeview_serie1.Selection.Mode = SelectionMode.None;
+		
+		treeviewSerie2Array = new ArrayList(0);
+		store_serie2 = new TreeStore(typeof (string));
+		treeview_serie2.Model = store_serie2;
+		treeview_serie2.HeadersVisible=false;
+		UtilGtk.CreateCols(treeview_serie2, store_serie2, "", 0, true);
+		treeview_serie2.Selection.Mode = SelectionMode.None;
+		
+		treeviewSerie3Array = new ArrayList(0);
+		store_serie3 = new TreeStore(typeof (string));
+		treeview_serie3.Model = store_serie3;
+		treeview_serie3.HeadersVisible=false;
+		UtilGtk.CreateCols(treeview_serie3, store_serie3, "", 0, true);
+		treeview_serie3.Selection.Mode = SelectionMode.None;
 	}
-
+	
 	private void on_button_add_exercise_clicked(object o, EventArgs args) 
 	{
 		int selectedPos = UtilGtk.ComboGetActivePos(combo_select);
@@ -240,36 +250,42 @@ public class ExecuteAutoWindow
 
 		if(o == (object) button_add1) 
 		{
-			comboSerie1Array.Add(tc);
-			UtilGtk.ComboAdd(combo_serie1, tc.trName);
-			combo_serie1.Active = comboSerie1Array.Count -1;
+			treeviewSerie1Array.Add(tc);
+			UtilGtk.TreeviewAddRow(treeview_serie1, store_serie1, tc.trName);
 		} else if(o == (object) button_add2) 
 		{
-			comboSerie2Array.Add(tc);
-			UtilGtk.ComboAdd(combo_serie2, tc.trName);
-			combo_serie2.Active = comboSerie2Array.Count -1;
+			treeviewSerie2Array.Add(tc);
+			UtilGtk.TreeviewAddRow(treeview_serie2, store_serie2, tc.trName);
 		} else 
 		{	//button_add3
-			comboSerie3Array.Add(tc);
-			UtilGtk.ComboAdd(combo_serie3, tc.trName);
-			combo_serie3.Active = comboSerie3Array.Count -1;
+			treeviewSerie3Array.Add(tc);
+			UtilGtk.TreeviewAddRow(treeview_serie3, store_serie3, tc.trName);
 		}
 		
 		//a test is added, sensitivize "next" button
 		button_next.Sensitive = true;
 	}
 
+	//true means "by series" (shows more stuff)
 	private void showSeriesStuff(bool show) 
 	{
 		button_add2.Visible = show;
 		button_add3.Visible = show;
 
-		hbox_combo_serie2.Visible = show;
-		hbox_combo_serie3.Visible = show;
-
 		label_serie1.Visible = show;
 		label_serie2.Visible = show;
 		label_serie3.Visible = show;
+
+		if(! show)
+			treeview_serie1.SetSizeRequest(150,120);
+		else {
+			treeview_serie1.SetSizeRequest(150,80);
+			treeview_serie2.SetSizeRequest(150,80);
+			treeview_serie3.SetSizeRequest(150,80);
+		}
+		
+		scrolled_win_serie2.Visible = show;
+		scrolled_win_serie3.Visible = show;
 	}
 	
 	TreeStore store;
@@ -315,7 +331,7 @@ public class ExecuteAutoWindow
 
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
-					comboSerie1Array, comboSerie2Array, comboSerie3Array);
+					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);
 			
 			createTreeview(radio_by_series.Active);
 			fillTreeview();

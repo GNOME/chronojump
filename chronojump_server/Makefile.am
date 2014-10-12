@@ -10,6 +10,7 @@ SOURCES = \
 	../src/utilAll.cs\
 	../src/utilDate.cs\
 	../src/encoder.cs\
+	../src/executeAuto.cs\
 	../src/event.cs\
 	../src/jump.cs\
 	../src/run.cs\

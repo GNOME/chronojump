@@ -21,6 +21,7 @@
 using System;
 using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
+using Mono.Unix;
 
 public class ExecuteAuto {
 	public enum ModeTypes { BY_PERSONS, BY_TESTS, BY_SETS }
@@ -119,7 +120,7 @@ public class ExecuteAuto {
 }
 
 //sequence saved or loaded on SQL
-public class ExecuteAutoSQL 
+public class ExecuteAutoSQL
 {
 	public string name;
 	private ExecuteAuto.ModeTypes mode;
@@ -139,7 +140,6 @@ public class ExecuteAutoSQL
 		this.serie3IDs = serie3IDs;
 	}
 
-
 	private string serieIDsToStr(List<int> serieIDs) 
 	{
 		string str = "";
@@ -151,6 +151,23 @@ public class ExecuteAutoSQL
 		return str;
 	}
 
+	//just used to display name of jumpTypes on executeAuto load treeview	
+	private string serieIDsToStrName(List<int> serieIDs, string [] jumpTypes) 
+	{
+		string str = "";
+		string sep = "";
+		foreach(int i in serieIDs) {
+			foreach(string jumpType in jumpTypes) {
+				string [] j = jumpType.Split(new char[] {':'});
+				if(i == Convert.ToInt32(j[0]))
+					str += sep + Catalog.GetString(j[1]);
+			}
+			sep = ", ";
+		}
+		return str;
+	}
+
+
 	public bool SaveToSQL() 
 	{
 		if(Sqlite.Exists(false, Constants.ExecuteAutoTable, name))
@@ -161,7 +178,62 @@ public class ExecuteAutoSQL
 			
 		return true; //saved
 	}
+	
+	public static List<int> SerieIDsFromStr(string str) 
+	{
+		if(str == null || str == "")
+			return new List<int>();
+
+		Log.WriteLine("SerieIDsFromStr");
+		Log.WriteLine(str);
+		string [] strFull = str.Split(new char[] {':'});
+		
+		List <int>l = new List <int>();
+		foreach(string s in strFull) {
+			l.Add(Convert.ToInt32(s));
+		}
+		return l;
+	}
+
+	public string[] ToLoadTreeview(string [] jumpTypes) 
+	{
+		return new string [] { name, mode.ToString(), description,
+				serieIDsToStrName(serie1IDs, jumpTypes), 
+				serieIDsToStrName(serie2IDs, jumpTypes), 
+				serieIDsToStrName(serie3IDs, jumpTypes) };
+	}
 
 	~ExecuteAutoSQL() {}	
 }
 
+
+/*
+ * TrCombo (Translatable Combo)
+ * use this with an arraylist instead of strings [], and the Util.FindOnArray
+ * see implementation on ExecuteAutoWindow
+ */
+
+public class TrCombo {
+	public int id; 		//uniqueID
+	public string eName;	//englishName
+	public string trName;	//translatedName
+	public ArrayList options;
+
+	/*
+	public TrCombo() {
+	}
+	*/
+
+	public TrCombo(int id, string eName, string trName, ArrayList options) {
+		this.id = id;
+		this.eName = eName;
+		this.trName = trName;
+		this.options = options;
+	}
+
+	public override string ToString() {
+		return id + ":" + eName + ":" + trName + ":" + Util.ArrayListToSingleString(options, ":"); 
+	}
+
+	~TrCombo() {}
+}

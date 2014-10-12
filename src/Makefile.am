@@ -116,9 +116,9 @@ SOURCES = \
 	AssemblyInfo.cs\
 	chronojump.cs\
 	encoder.cs\
+	executeAuto.cs\
 	event.cs\
 	eventType.cs\
-	executeAuto.cs\
 	jump.cs\
 	jumpType.cs\
 	person.cs\

@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.12";
+	static string lastChronojumpDatabaseVersion = "1.13";
 
 	public Sqlite() {
 	}
@@ -1649,6 +1649,17 @@ class Sqlite
 
 				currentVersion = "1.12";
 			}
+			if(currentVersion == "1.12") {
+				dbcon.Open();
+			
+				Log.WriteLine("Added ExecuteAuto table");
+				
+				SqliteExecuteAuto.createTableExecuteAuto();
+				SqlitePreferences.Update ("databaseVersion", "1.13", true); 
+				dbcon.Close();
+
+				currentVersion = "1.13";
+			}
 				
 		}
 
@@ -1788,8 +1799,11 @@ class Sqlite
 		creationRate ++;
 		SqliteCountry.createTable();
 		SqliteCountry.initialize();
+				
+		SqliteExecuteAuto.createTableExecuteAuto();
 		
 		//changes [from - to - desc]
+		//1.12 - 1.13 Converted DB to 1.13 Added ExecuteAuto table
 		//1.11 - 1.12 Converted DB to 1.12 URLs from absolute to relative
 		//1.10 - 1.11 Converted DB to 1.11 Added option on autosave curves on capture (all/bestmeanpower/none)
 		//1.09 - 1.10 Converted DB to 1.10 Added RSA RAST on runType

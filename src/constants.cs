@@ -132,6 +132,7 @@ public class Constants
 	public const string EncoderSignalCurveTable = "encoderSignalCurve";
 	public const string EncoderExerciseTable = "encoderExercise";
 	public const string Encoder1RMTable = "encoder1RM";
+	public const string ExecuteAutoTable = "executeAuto";
 
 	//tests types
 	public const string JumpTypeTable = "jumpType";

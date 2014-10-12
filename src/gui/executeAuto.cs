@@ -37,10 +37,10 @@ public class ExecuteAutoWindow
 	//1st tab
 	[Widget] Gtk.RadioButton radio_by_persons;
 	[Widget] Gtk.RadioButton radio_by_tests;
-	[Widget] Gtk.RadioButton radio_by_series;
+	[Widget] Gtk.RadioButton radio_by_sets;
 	[Widget] Gtk.Image image_auto_by_persons;
 	[Widget] Gtk.Image image_auto_by_tests;
-	[Widget] Gtk.Image image_auto_by_series;
+	[Widget] Gtk.Image image_auto_by_sets;
 	[Widget] Gtk.Label label_persons_info;
 	[Widget] Gtk.Label label_tests_info;
 	[Widget] Gtk.Label label_series_info;
@@ -61,7 +61,8 @@ public class ExecuteAutoWindow
 	[Widget] Gtk.TreeView treeview_serie2;
 	[Widget] Gtk.TreeView treeview_serie3;
 	
-	[Widget] Gtk.Entry entry_save;
+	[Widget] Gtk.Entry entry_save_name;
+	[Widget] Gtk.Entry entry_save_description;
 	[Widget] Gtk.Button button_save;
 	
 	//3rd tab
@@ -135,11 +136,11 @@ public class ExecuteAutoWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "auto-by-tests.png");
 		image_auto_by_tests.Pixbuf = pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "auto-by-series.png");
-		image_auto_by_series.Pixbuf = pixbuf;
+		image_auto_by_sets.Pixbuf = pixbuf;
 		
 		
 		image_auto_by_tests.Sensitive = false;
-		image_auto_by_series.Sensitive = false;
+		image_auto_by_sets.Sensitive = false;
 		label_persons_info.Visible = true;
 		label_tests_info.Visible = false;
 		label_series_info.Visible = false;
@@ -152,7 +153,7 @@ public class ExecuteAutoWindow
 
 		//know if "serie" has to be plotted or not
 		ExecuteAuto eaFirst = (ExecuteAuto) orderedData[0];
-		createTreeview(eaFirst.serieID != -1);	//BY_SERIES != -1
+		createTreeview(eaFirst.serieID != -1);	//BY_SETS != -1
 		fillTreeview();
 	
 		//set the selected
@@ -177,11 +178,11 @@ public class ExecuteAutoWindow
 	private void on_radio_mode_toggled(object o, EventArgs args) {
 		image_auto_by_persons.Sensitive = radio_by_persons.Active;
 		image_auto_by_tests.Sensitive = radio_by_tests.Active;
-		image_auto_by_series.Sensitive = radio_by_series.Active;
+		image_auto_by_sets.Sensitive = radio_by_sets.Active;
 
 		label_persons_info.Visible = radio_by_persons.Active;
 		label_tests_info.Visible = radio_by_tests.Active;
-		label_series_info.Visible = radio_by_series.Active;
+		label_series_info.Visible = radio_by_sets.Active;
 	}
 
 	
@@ -273,29 +274,29 @@ public class ExecuteAutoWindow
 					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName } );
 		}
 		
-		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save.Text.ToString().Length > 0);
+		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save_name.Text.ToString().Length > 0);
 		
 		//a test is added, sensitivize "next" button
 		button_next.Sensitive = true;
 	}
 
 
-	private void on_entry_save_changed(object o, EventArgs args) 
+	private void on_entry_save_name_changed(object o, EventArgs args) 
 	{
-		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save.Text.ToString().Length > 0);
+		button_save.Sensitive = (treeviewSerie1Array.Count > 0 && entry_save_name.Text.ToString().Length > 0);
 	}
 
 	private void on_button_save_clicked(object o, EventArgs args) 
 	{
-		//si no existeix a la BD amab aquest nom...
-		//new DialogMessage(Constants.MessageTypes.INFO, string.Format(
-		//			//Catalog.GetString("Sorry, this sport '{0}' already exists in database"), 
-		//			"will save this stuff: '{0}'", 
-		//			entry_save.Text.ToString()));
-
-		ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(entry_save.Text.ToString(), mode, 
+		ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(entry_save_name.Text.ToString(), mode, entry_save_description.Text.ToString(), 
 				getTrComboInts(treeviewSerie1Array), getTrComboInts(treeviewSerie2Array), getTrComboInts(treeviewSerie3Array));
-		eaSQL.SaveToSQL();
+		bool saved = eaSQL.SaveToSQL();
+		
+		if(saved)
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Saved"));
+		else
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					String.Format(Catalog.GetString("Sorry, this sequence '{0}' already exists in database"), eaSQL.name));
 	}
 
 	private List<int> getTrComboInts(ArrayList arrayTrCombo) {
@@ -328,8 +329,8 @@ public class ExecuteAutoWindow
 	}
 	
 	TreeStore store;
-	private void createTreeview(bool by_series) {
-		if(by_series)
+	private void createTreeview(bool by_sets) {
+		if(by_sets)
 			store = new TreeStore(typeof (string), typeof (string), typeof (string)); //serie, person, test
 		else
 			store = new TreeStore(typeof (string), typeof (string));		//person, test
@@ -338,7 +339,7 @@ public class ExecuteAutoWindow
 		treeview.HeadersVisible=true;
 
 		int i = 0;
-		if(by_series) {
+		if(by_sets) {
 			UtilGtk.CreateCols(treeview, store, Catalog.GetString("Serie"), i++, true);
 		}
 
@@ -358,10 +359,10 @@ public class ExecuteAutoWindow
 			mode = ExecuteAuto.ModeTypes.BY_PERSONS;
 			if(radio_by_tests.Active)
 				mode = ExecuteAuto.ModeTypes.BY_TESTS;
-			else if(radio_by_series.Active)
-				mode = ExecuteAuto.ModeTypes.BY_SERIES;
+			else if(radio_by_sets.Active)
+				mode = ExecuteAuto.ModeTypes.BY_SETS;
 
-			showSeriesStuff(radio_by_series.Active);
+			showSeriesStuff(radio_by_sets.Active);
 			notebook.NextPage();
 		
 			//next button will be sensitive when first test is added
@@ -372,7 +373,7 @@ public class ExecuteAutoWindow
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);
 			
-			createTreeview(radio_by_series.Active);
+			createTreeview(radio_by_sets.Active);
 			fillTreeview();
 
 			button_next.Label = Catalog.GetString("Accept");

@@ -23,10 +23,10 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 
 public class ExecuteAuto {
-	public enum ModeTypes { BY_PERSONS, BY_TESTS, BY_SERIES }
+	public enum ModeTypes { BY_PERSONS, BY_TESTS, BY_SETS }
 	private ModeTypes mode;
 	
-	public int serieID;	//only in BY_SERIES (in BY_PERSONS or BY_TESTS, value is -1)
+	public int serieID;	//only in BY_SETS (in BY_PERSONS or BY_TESTS, value is -1)
 	public int personUniqueID;
 	public string personName;
 	public int testUniqueID;
@@ -118,21 +118,22 @@ public class ExecuteAuto {
 	~ExecuteAuto() {}	
 }
 
+//sequence saved or loaded on SQL
 public class ExecuteAutoSQL 
 {
-	private string name;
+	public string name;
 	private ExecuteAuto.ModeTypes mode;
+	private string description;
 	private List<int> serie1IDs;
 	private List<int> serie2IDs;
 	private List<int> serie3IDs;
-	//private string future1;
-	//private string future2;
-	//private string future3;
 	
-	public ExecuteAutoSQL(string name, ExecuteAuto.ModeTypes mode, List<int> serie1IDs, List<int> serie2IDs, List<int> serie3IDs) 
+	public ExecuteAutoSQL(string name, ExecuteAuto.ModeTypes mode, string description, 
+			List<int> serie1IDs, List<int> serie2IDs, List<int> serie3IDs) 
 	{
 		this.name = name;
 		this.mode = mode;
+		this.description = description;
 		this.serie1IDs = serie1IDs;
 		this.serie2IDs = serie2IDs;
 		this.serie3IDs = serie3IDs;
@@ -149,13 +150,16 @@ public class ExecuteAutoSQL
 		}
 		return str;
 	}
-	public void SaveToSQL() 
-	{
-		Log.WriteLine(name + "\n" + mode + "\n" + serieIDsToStr(serie1IDs) + "\n" + serieIDsToStr(serie2IDs) + "\n" + serieIDsToStr(serie3IDs));
-		
-		//TODO: send this to SQL, and add there the future1, future2, future3 strs
-		//SqliteExecuteAuto.Save(false, name, mode, serieIDsToStr(serie1IDs), serieIDsToStr(serie2IDs), serieIDsToStr(serie3IDs));
 
+	public bool SaveToSQL() 
+	{
+		if(Sqlite.Exists(false, Constants.ExecuteAutoTable, name))
+			return false; //not saved because name exists
+
+		SqliteExecuteAuto.Insert(false, name, mode.ToString(), description, 
+				serieIDsToStr(serie1IDs), serieIDsToStr(serie2IDs), serieIDsToStr(serie3IDs));
+			
+		return true; //saved
 	}
 
 	~ExecuteAutoSQL() {}	

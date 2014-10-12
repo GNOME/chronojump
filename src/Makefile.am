@@ -85,6 +85,7 @@ SOURCES = \
 	sqlite/preferences.cs\
 	sqlite/session.cs\
 	sqlite/encoder.cs\
+	sqlite/executeAuto.cs\
 	sqlite/jump.cs\
 	sqlite/jumpRj.cs\
 	sqlite/jumpType.cs\

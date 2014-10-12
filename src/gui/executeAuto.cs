@@ -26,15 +26,18 @@ using System.Collections; //ArrayList
 using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
-
 public class ExecuteAutoWindow
 {
 	[Widget] Gtk.Window execute_auto;
-	[Widget] Gtk.Notebook notebook;
+	[Widget] Gtk.Notebook notebook_main;
 	[Widget] Gtk.Button button_cancel;
 	[Widget] Gtk.Button button_next;
 
 	//1st tab
+	[Widget] Gtk.RadioButton radio_load;
+	[Widget] Gtk.RadioButton radio_new;
+	[Widget] Gtk.Notebook notebook_load_or_new;
+	[Widget] Gtk.TreeView treeview_load;
 	[Widget] Gtk.RadioButton radio_by_persons;
 	[Widget] Gtk.RadioButton radio_by_tests;
 	[Widget] Gtk.RadioButton radio_by_sets;
@@ -61,16 +64,19 @@ public class ExecuteAutoWindow
 	[Widget] Gtk.TreeView treeview_serie2;
 	[Widget] Gtk.TreeView treeview_serie3;
 	
+	[Widget] Gtk.Box vbox_save;
 	[Widget] Gtk.Entry entry_save_name;
 	[Widget] Gtk.Entry entry_save_description;
 	[Widget] Gtk.Button button_save;
 	
 	//3rd tab
-	[Widget] Gtk.TreeView treeview;
+	[Widget] Gtk.TreeView treeview_result;
 
+	TreeStore store_load;
 	TreeStore store_serie1;
 	TreeStore store_serie2;
 	TreeStore store_serie3;
+	TreeStore store_result;
 	
 	static ExecuteAutoWindow ExecuteAutoWindowBox;
 	Gtk.Window parent;
@@ -126,7 +132,7 @@ public class ExecuteAutoWindow
 	}
 	
 	private void initialize() {
-		notebook.CurrentPage = 0;
+		notebook_main.CurrentPage = 0;
 		radio_by_persons.Active = true;
 
 		Pixbuf pixbuf;
@@ -145,34 +151,110 @@ public class ExecuteAutoWindow
 		label_tests_info.Visible = false;
 		label_series_info.Visible = false;
 
+		createTreeviewLoad();
+		fillTreeviewLoad();
+
 		createComboSelect();
 		createTreeviewSeries();
 	}
+	
+	void on_radio_load_toggled (object obj, EventArgs args) {
+		if(radio_load.Active) {
+			notebook_load_or_new.CurrentPage = 0;
+			vbox_save.Visible = false;
+		} else {
+			notebook_load_or_new.CurrentPage = 1;
+			vbox_save.Visible = true;
+		}
+	}
+	void on_radio_new_toggled (object obj, EventArgs args) {
+		if(radio_new.Active) {
+			notebook_load_or_new.CurrentPage = 1;
+			vbox_save.Visible = true;
+		} else {
+			notebook_load_or_new.CurrentPage = 0;
+			vbox_save.Visible = false;
+		}
+	}
+
+	private void createTreeviewLoad() {
+		store_load = new TreeStore(typeof (string), typeof (string), typeof(string), 	//name, mode, desc
+				typeof (string), typeof (string), typeof (string));		//serie1 jumps, serie2 jumps, serie3jumps
+	
+		treeview_load.Model = store_load;
+		treeview_load.HeadersVisible=true;
+
+		int i = 0;
+		UtilGtk.CreateCols(treeview_load, store_load, Catalog.GetString("Name"), i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, Catalog.GetString("Mode"), i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, Catalog.GetString("Description"), i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, "Tests (1)", i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, "Tests (2)", i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, "Tests (3)", i++, true);
+		
+		treeview_load.Selection.Changed += onLoadSelectionEntry;
+	}
+	
+	private void fillTreeviewLoad() {
+		List<ExecuteAutoSQL> sequences = SqliteExecuteAuto.SelectAll(false);
+		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+
+		foreach (ExecuteAutoSQL eaSQL in sequences)
+			store_load.AppendValues (eaSQL.ToLoadTreeview(jumpTypes));
+	}
+	
+	private void onLoadSelectionEntry (object o, EventArgs args)
+	{
+		TreeModel model;
+		TreeIter iter;
+		//selected = "-1";
+
+		if (((TreeSelection)o).GetSelected(out model, out iter)) {
+			//selected = (string)model.GetValue (iter, 0);
+			button_next.Sensitive = true;
+		}
+	}
+
+	void on_load_row_double_clicked (object o, Gtk.RowActivatedArgs args)
+	{
+		TreeModel model;
+		TreeIter iter;
+
+		if (treeview_load.Selection.GetSelected (out model, out iter)) {
+			//put selection in selected
+			//selected = (string) model.GetValue (iter, 0);
+
+			//activate on_button_accept_clicked()
+			button_next.Activate();
+		}
+	}
+	
+
 
 	private void initializeShowJustOrder(int rowNumber) {
 
 		//know if "serie" has to be plotted or not
 		ExecuteAuto eaFirst = (ExecuteAuto) orderedData[0];
-		createTreeview(eaFirst.serieID != -1);	//BY_SETS != -1
-		fillTreeview();
+		createTreeviewResult(eaFirst.serieID != -1);	//BY_SETS != -1
+		fillTreeviewResult();
 	
 		//set the selected
 		TreeIter iter;
-		bool iterOk = store.GetIterFirst(out iter);
+		bool iterOk = store_result.GetIterFirst(out iter);
 		if(iterOk) {
 			int count = 0;
 			while (count < rowNumber) {
-				store.IterNext(ref iter);
+				store_result.IterNext(ref iter);
 				count ++;
 			}
-			treeview.Selection.SelectIter(iter);
+			treeview_result.Selection.SelectIter(iter);
 		}
 
 
 		button_cancel.Label = Catalog.GetString("Close");
 		button_next.Visible = false;
 
-		notebook.CurrentPage = 2;
+		notebook_main.CurrentPage = 2;
 	}
 	
 	private void on_radio_mode_toggled(object o, EventArgs args) {
@@ -328,34 +410,33 @@ public class ExecuteAutoWindow
 		scrolled_win_serie3.Visible = show;
 	}
 	
-	TreeStore store;
-	private void createTreeview(bool by_sets) {
+	private void createTreeviewResult(bool by_sets) {
 		if(by_sets)
-			store = new TreeStore(typeof (string), typeof (string), typeof (string)); //serie, person, test
+			store_result = new TreeStore(typeof (string), typeof (string), typeof (string)); //serie, person, test
 		else
-			store = new TreeStore(typeof (string), typeof (string));		//person, test
+			store_result = new TreeStore(typeof (string), typeof (string));		//person, test
 	
-		treeview.Model = store;
-		treeview.HeadersVisible=true;
+		treeview_result.Model = store_result;
+		treeview_result.HeadersVisible=true;
 
 		int i = 0;
 		if(by_sets) {
-			UtilGtk.CreateCols(treeview, store, Catalog.GetString("Serie"), i++, true);
+			UtilGtk.CreateCols(treeview_result, store_result, Catalog.GetString("Serie"), i++, true);
 		}
 
-		UtilGtk.CreateCols(treeview, store, Catalog.GetString("Person"), i++, true);
-		UtilGtk.CreateCols(treeview, store, Catalog.GetString("Test"), i++, true);
+		UtilGtk.CreateCols(treeview_result, store_result, Catalog.GetString("Person"), i++, true);
+		UtilGtk.CreateCols(treeview_result, store_result, Catalog.GetString("Test"), i++, true);
 	}
 	
-	private void fillTreeview() {
+	private void fillTreeviewResult() {
 		foreach (ExecuteAuto ea in orderedData)
-			store.AppendValues (ea.AsStringArray());
+			store_result.AppendValues (ea.AsStringArray());
 	}
 	
 	
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
-		if(notebook.CurrentPage == 0) {
+		if(notebook_main.CurrentPage == 0) {
 			mode = ExecuteAuto.ModeTypes.BY_PERSONS;
 			if(radio_by_tests.Active)
 				mode = ExecuteAuto.ModeTypes.BY_TESTS;
@@ -363,26 +444,26 @@ public class ExecuteAutoWindow
 				mode = ExecuteAuto.ModeTypes.BY_SETS;
 
 			showSeriesStuff(radio_by_sets.Active);
-			notebook.NextPage();
+			notebook_main.NextPage();
 		
 			//next button will be sensitive when first test is added
 			button_next.Sensitive = false;
 		}
-		else if(notebook.CurrentPage == 1) {
+		else if(notebook_main.CurrentPage == 1) {
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);
 			
-			createTreeview(radio_by_sets.Active);
-			fillTreeview();
+			createTreeviewResult(radio_by_sets.Active);
+			fillTreeviewResult();
 
 			button_next.Label = Catalog.GetString("Accept");
 			if(orderedData.Count == 0)
 				button_next.Sensitive = false;
 
-			notebook.NextPage();
+			notebook_main.NextPage();
 		}
-		else {	// notebook.CurrentPage == 2
+		else {	// notebook_main.CurrentPage == 2
 			FakeButtonAccept.Click(); //signal to read orderedData
 		}
 	}

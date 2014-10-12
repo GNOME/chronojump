@@ -303,35 +303,3 @@ public class UpdateProgressBar {
 
 	~UpdateProgressBar() {}
 }
-
-
-/*
- * TrCombo (Translatable Combo)
- * use this with an arraylist instead of strings [], and the Util.FindOnArray
- * see implementation on ExecuteAutoWindow
- */
-
-public class TrCombo {
-	public int id; 		//uniqueID
-	public string eName;	//englishName
-	public string trName;	//translatedName
-	public ArrayList options;
-
-	/*
-	public TrCombo() {
-	}
-	*/
-
-	public TrCombo(int id, string eName, string trName, ArrayList options) {
-		this.id = id;
-		this.eName = eName;
-		this.trName = trName;
-		this.options = options;
-	}
-
-	public override string ToString() {
-		return id + ":" + eName + ":" + trName + ":" + Util.ArrayListToSingleString(options, ":"); 
-	}
-
-	~TrCombo() {}
-}

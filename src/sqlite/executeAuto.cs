@@ -22,8 +22,8 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Data.Sqlite;
-
 
 class SqliteExecuteAuto : Sqlite
 {
@@ -77,4 +77,37 @@ class SqliteExecuteAuto : Sqlite
 			dbcon.Close();
 	}
 
+	public static List<ExecuteAutoSQL> SelectAll(bool dbconOpened) 
+	//public static ArrayList SelectAll(bool dbconOpened) 
+	{
+		if(! dbconOpened)
+			dbcon.Open();
+
+		dbcmd.CommandText = "SELECT * from " + Constants.ExecuteAutoTable; 
+		Log.WriteLine(dbcmd.CommandText.ToString());
+
+		SqliteDataReader reader;
+		reader = dbcmd.ExecuteReader();
+		
+		List<ExecuteAutoSQL> sequences = new List<ExecuteAutoSQL>();
+		//ArrayList sequences = new ArrayList();
+		int i;
+		while(reader.Read()) {
+			i=1; //start at name
+			ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(
+					reader[i++].ToString(), //name
+					(ExecuteAuto.ModeTypes) Enum.Parse(typeof(ExecuteAuto.ModeTypes), reader[i++].ToString()), //mode
+					reader[i++].ToString(), //description
+					ExecuteAutoSQL.SerieIDsFromStr(reader[i++].ToString()), //serie1IDs
+					ExecuteAutoSQL.SerieIDsFromStr(reader[i++].ToString()), //serie2IDs
+					ExecuteAutoSQL.SerieIDsFromStr(reader[i++].ToString())  //serie3IDs
+					);
+			sequences.Add(eaSQL);
+		}
+		reader.Close();
+		if(! dbconOpened)
+			dbcon.Close();
+
+		return sequences;
+	}
 }	

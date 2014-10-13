@@ -177,9 +177,12 @@ public class ExecuteAutoWindow
 		}
 	}
 
+	int store_load_uniqueID_col = 6;
 	private void createTreeviewLoad() {
-		store_load = new TreeStore(typeof (string), typeof (string), typeof(string), 	//name, mode, desc
-				typeof (string), typeof (string), typeof (string));		//serie1 jumps, serie2 jumps, serie3jumps
+		store_load = new TreeStore(
+				typeof (string), typeof (string), typeof(string),  //name, mode, desc
+				typeof (string), typeof (string), typeof (string), //serie1 jumps, serie2 jumps, serie3jumps
+				typeof (string)); 	//uniqueID (hidden)
 	
 		treeview_load.Model = store_load;
 		treeview_load.HeadersVisible=true;
@@ -191,6 +194,7 @@ public class ExecuteAutoWindow
 		UtilGtk.CreateCols(treeview_load, store_load, "Tests (1)", i++, true);
 		UtilGtk.CreateCols(treeview_load, store_load, "Tests (2)", i++, true);
 		UtilGtk.CreateCols(treeview_load, store_load, "Tests (3)", i++, true);
+		UtilGtk.CreateCols(treeview_load, store_load, "uniqueID", store_load_uniqueID_col, false);
 		
 		treeview_load.Selection.Changed += onLoadSelectionEntry;
 	}
@@ -228,7 +232,32 @@ public class ExecuteAutoWindow
 			button_next.Activate();
 		}
 	}
+
+	private void on_treeview_load_button_release_event (object o, ButtonReleaseEventArgs args) {
+		Gdk.EventButton e = args.Event;
+		Gtk.TreeView myTv = (Gtk.TreeView) o;
+		if (e.Button == 3) {
+			Menu myMenu = new Menu ();
+			Gtk.MenuItem myItem;
+
+			myItem = new MenuItem (Catalog.GetString("Delete selected")); 
+			myItem.Activated += on_delete_selected_row_clicked;
+			myMenu.Attach( myItem, 0, 1, 0, 1 );
+
+			myMenu.Popup();
+			myMenu.ShowAll();
+		}
+	}
 	
+	private void on_delete_selected_row_clicked (object o, EventArgs args) {
+		int uniqueID = UtilGtk.GetSelectedRowUniqueID(
+					treeview_load, store_load, store_load_uniqueID_col);
+		
+		if(uniqueID > 0) {
+			Sqlite.Delete(false, Constants.ExecuteAutoTable, uniqueID);
+			store_load = UtilGtk.RemoveRow(treeview_load, store_load);
+		}
+	}
 
 
 	private void initializeShowJustOrder(int rowNumber) {
@@ -370,7 +399,7 @@ public class ExecuteAutoWindow
 
 	private void on_button_save_clicked(object o, EventArgs args) 
 	{
-		ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(entry_save_name.Text.ToString(), mode, entry_save_description.Text.ToString(), 
+		ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(-1, entry_save_name.Text.ToString(), mode, entry_save_description.Text.ToString(), 
 				getTrComboInts(treeviewSerie1Array), getTrComboInts(treeviewSerie2Array), getTrComboInts(treeviewSerie3Array));
 		bool saved = eaSQL.SaveToSQL();
 		

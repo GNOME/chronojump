@@ -216,6 +216,16 @@ public class UtilGtk
 		return (val1-val2);
 	}
 	
+	public static int GetSelectedRowUniqueID (Gtk.TreeView tv, Gtk.TreeStore store, int uniqueIDcol) {
+		TreeModel model;
+		TreeIter iter1;
+
+		if (tv.Selection.GetSelected (out model, out iter1)) {
+			 return Convert.ToInt32(model.GetValue(iter1, uniqueIDcol));
+		}
+		return -1;
+	}
+
 	public static Gtk.TreeStore RemoveRow (Gtk.TreeView tv, Gtk.TreeStore store) {
 		TreeModel model;
 		TreeIter iter1;

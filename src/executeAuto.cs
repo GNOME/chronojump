@@ -122,6 +122,7 @@ public class ExecuteAuto {
 //sequence saved or loaded on SQL
 public class ExecuteAutoSQL
 {
+	public int uniqueID;
 	public string name;
 	private ExecuteAuto.ModeTypes mode;
 	private string description;
@@ -129,9 +130,10 @@ public class ExecuteAutoSQL
 	private List<int> serie2IDs;
 	private List<int> serie3IDs;
 	
-	public ExecuteAutoSQL(string name, ExecuteAuto.ModeTypes mode, string description, 
+	public ExecuteAutoSQL(int uniqueID, string name, ExecuteAuto.ModeTypes mode, string description, 
 			List<int> serie1IDs, List<int> serie2IDs, List<int> serie3IDs) 
 	{
+		this.uniqueID = uniqueID;
 		this.name = name;
 		this.mode = mode;
 		this.description = description;
@@ -200,7 +202,9 @@ public class ExecuteAutoSQL
 		return new string [] { name, mode.ToString(), description,
 				serieIDsToStrName(serie1IDs, jumpTypes), 
 				serieIDsToStrName(serie2IDs, jumpTypes), 
-				serieIDsToStrName(serie3IDs, jumpTypes) };
+				serieIDsToStrName(serie3IDs, jumpTypes),
+				uniqueID.ToString()
+		};
 	}
 
 	~ExecuteAutoSQL() {}	

@@ -25098,7 +25098,7 @@ comments</property>
                         <property name="receives_default">False</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_radio_load_toggled" swapped="no"/>
+                        <signal name="toggled" handler="on_radio_load_new_toggled" swapped="no"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -25115,7 +25115,7 @@ comments</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">radio_load</property>
-                        <signal name="toggled" handler="on_radio_new_toggled" swapped="no"/>
+                        <signal name="toggled" handler="on_radio_load_new_toggled" swapped="no"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -25135,6 +25135,7 @@ comments</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="show_tabs">False</property>
+                    <property name="show_border">False</property>
                     <child>
                       <widget class="GtkFrame" id="frame3">
                         <property name="visible">True</property>
@@ -25154,7 +25155,7 @@ comments</property>
                                 <property name="height_request">120</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="hadjustment">0 0 400 40 360 400</property>
+                                <property name="hadjustment">0 0 404 40.400000000000006 363.60000000000002 404</property>
                                 <property name="hscrollbar_policy">automatic</property>
                                 <property name="vscrollbar_policy">automatic</property>
                                 <child>
@@ -25919,6 +25920,7 @@ One set can contain several tests.</property>
               <widget class="GtkButton" id="button_next">
                 <property name="label" translatable="yes">Next</property>
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <signal name="clicked" handler="on_button_next_clicked" swapped="no"/>

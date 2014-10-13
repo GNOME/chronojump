@@ -158,25 +158,23 @@ public class ExecuteAutoWindow
 		createTreeviewSeries();
 	}
 	
-	void on_radio_load_toggled (object obj, EventArgs args) {
+	void on_radio_load_new_toggled (object obj, EventArgs args) {
 		if(radio_load.Active) {
 			notebook_load_or_new.CurrentPage = 0;
 			vbox_save.Visible = false;
+		
+			button_next.Sensitive = 
+				(UtilGtk.GetSelectedRowUniqueID(
+					treeview_load, store_load, store_load_uniqueID_col) > 0);
 		} else {
 			notebook_load_or_new.CurrentPage = 1;
 			vbox_save.Visible = true;
-		}
-	}
-	void on_radio_new_toggled (object obj, EventArgs args) {
-		if(radio_new.Active) {
-			notebook_load_or_new.CurrentPage = 1;
-			vbox_save.Visible = true;
-		} else {
-			notebook_load_or_new.CurrentPage = 0;
-			vbox_save.Visible = false;
+			button_next.Sensitive = true;
 		}
 	}
 
+	//----- treeeview_load (start)
+	
 	int store_load_uniqueID_col = 6;
 	private void createTreeviewLoad() {
 		store_load = new TreeStore(
@@ -211,10 +209,8 @@ public class ExecuteAutoWindow
 	{
 		TreeModel model;
 		TreeIter iter;
-		//selected = "-1";
 
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
-			//selected = (string)model.GetValue (iter, 0);
 			button_next.Sensitive = true;
 		}
 	}
@@ -256,9 +252,12 @@ public class ExecuteAutoWindow
 		if(uniqueID > 0) {
 			Sqlite.Delete(false, Constants.ExecuteAutoTable, uniqueID);
 			store_load = UtilGtk.RemoveRow(treeview_load, store_load);
+			button_next.Sensitive = false; 
 		}
 	}
 
+	//----- treeeview_load (end)
+	
 
 	private void initializeShowJustOrder(int rowNumber) {
 

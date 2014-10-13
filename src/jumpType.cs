@@ -24,7 +24,7 @@ using Mono.Unix;
 
 public class JumpType : EventType
 {
-	protected bool startIn;
+	protected bool startIn; //in the special case of Dj where falling height is calculated using a previous jump, startIn is false (but starts in)
 	protected bool hasWeight;
 	protected bool isRepetitive;
 	protected bool jumpsLimited;

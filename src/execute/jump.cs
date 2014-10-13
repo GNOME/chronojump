@@ -57,7 +57,7 @@ public class JumpExecute : EventExecute
 		this.personName = personName;
 		this.sessionID = sessionID;
 		this.type = type;
-		this.fall = fall;
+		this.fall = fall; //-1 means has to be calculated with a previous jump
 		this.weight = weight;
 		
 		this.cp = cp;
@@ -149,8 +149,8 @@ public class JumpExecute : EventExecute
 		} 
 		else if (platformState==Chronopic.Plataforma.OFF) {
 			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are OUT, come inside and press the 'accept' button"), "", "");
+			confirmWin = ConfirmWindow.Show(Catalog.GetString(
+						"You are OUT, please enter the platform, prepare for jump and press the 'accept' button"), "", "");
 
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
@@ -170,18 +170,43 @@ public class JumpExecute : EventExecute
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
 
-		if (simulated) 
-			platformState = Chronopic.Plataforma.OFF;
+		if (simulated) {
+			if(fall != -1)
+				platformState = Chronopic.Plataforma.OFF;
+			else
+				platformState = Chronopic.Plataforma.ON;
+		}
 		else
 			platformState = chronopicInitialValue(cp);
 
+
+
+		if (platformState != Chronopic.Plataforma.OFF &&
+				platformState != Chronopic.Plataforma.ON) 
+		{
+			//UNKNOW (Chronopic disconnected, port changed, ...)
+			chronopicHasBeenDisconnected();
+			return;
+		}
 		
-		if (platformState==Chronopic.Plataforma.OFF) {
-			feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
+		//if we are outside
+		//or we are inside, but with fall == -1 (calculate fall using a previous jump (start inside))
+		if (
+				( platformState == Chronopic.Plataforma.OFF && fall != -1 ) ||
+				( platformState == Chronopic.Plataforma.ON  && fall == -1 )
+				) 
+		{
+			if(fall != -1) {
+				feedbackMessage = Catalog.GetString("You are OUT, JUMP when prepared!");
+				loggedState = States.OFF;
+			} else {
+				feedbackMessage = Catalog.GetString("You are IN, JUMP when prepared!");
+				loggedState = States.ON;
+			}
+
 			needShowFeedbackMessage = true; 
 			Util.PlaySound(Constants.SoundTypes.CAN_START, volumeOn);
 
-			loggedState = States.OFF;
 
 			//useful also for tracking the jump phases
 			tc = 0;
@@ -191,19 +216,28 @@ public class JumpExecute : EventExecute
 			totallyCancelled = false;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
-			//mark now that we have arrived:
-			if (simulated)
-				platformState = Chronopic.Plataforma.ON;
+			if (simulated) {
+				if(fall != -1)
+					platformState = Chronopic.Plataforma.ON; //mark now that we have arrived:
+				else
+					platformState = Chronopic.Plataforma.OFF; //mark now that we have jumped
+			}
 			
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 			thread.Start(); 
 		} 
-		else if (platformState==Chronopic.Plataforma.ON) {
-			ConfirmWindow confirmWin;		
-			confirmWin = ConfirmWindow.Show( 
-					Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button"), "", "");
+		else  
+		{
+			ConfirmWindow confirmWin;
+
+			string message = Catalog.GetString("You are IN, please leave the platform, and press the 'accept' button");
+			if(fall == -1)
+				message = Catalog.GetString("You are OUT, please enter the platform, prepare for jump and press the 'accept' button");
+
+			confirmWin = ConfirmWindow.Show(message, "", "");
+
 			Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
 			//we call again this function
@@ -211,9 +245,6 @@ public class JumpExecute : EventExecute
 			
 			//if confirmWin.Button_cancel is pressed return
 			confirmWin.Button_cancel.Clicked += new EventHandler(cancel_event_before_start);
-		}
-		else { //UNKNOW (Chronopic disconnected, port changed, ...)
-			chronopicHasBeenDisconnected();
 		}
 	}
 	
@@ -231,19 +262,51 @@ public class JumpExecute : EventExecute
 		bool success = false;
 		
 		bool ok;
+		int phase = 0;
 		
 		do {
 			if(simulated)
 				ok = true;
 			else 
 				ok = cp.Read_event(out timestamp, out platformState);
+
+
+			/*
+			 *           \()/            \()/
+			 *            \/              \/
+			 *   _()_     /\     _()_     /\     _()_
+			 *    \/              \/              \/
+			 * ___/\______________/\______________/\___ 
+			 *
+			 *  GraphA  graphB  graphC  graphD  graphE
+			 *  unused  jumps   lands   jumps   lands
+			 *
+			 *    ______start_______             end 
+			 *
+			 *    DJ      DJ      SJ
+			 * hasFall  hasFall
+			 * fall -1
+			 *
+			 */
 			
 			//if (ok) 
 			if (ok && !cancel) {
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) 
 				{
 					//has landed
-					if(hasFall && tc == 0) {
+					if(hasFall && tc == 0) 
+					{
+						//**** graphC **** 
+
+						if(fall == -1) {
+							if(simulated)
+								timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
+
+							//calculate the fall height using flight time
+							double tvPreJump = timestamp / 1000.0;
+							fall = Convert.ToDouble(Util.GetHeightInCentimeters(tvPreJump.ToString()));
+						}
+
 						//jump with fall, landed first time
 						initializeTimer();
 
@@ -252,14 +315,15 @@ public class JumpExecute : EventExecute
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //jumpsLimited: percentageMode
-								1 //it's a drop: phase 1/3
+								++phase
 								);
 						needUpdateEventProgressBar = true;
 		
 						feedbackMessage = "";
 						needShowFeedbackMessage = true; 
+
 					} else {
-						//jump with fall: second landed; or without fall first landing
+						//**** graphE **** jump with fall: second landed; or without fall first landing
 					
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
@@ -271,30 +335,25 @@ public class JumpExecute : EventExecute
 
 						success = true;
 						
-						//update event progressbar
-						double percentageToPass = 2; //normal jump has two phases
-						if(hasFall)
-							percentageToPass = 3; //drop jump has three phases
-							
 						//app1.ProgressBarEventOrTimePreExecution(
 						//don't do it, put a boolean value and let the PulseGTK do it
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
-								percentageToPass
+								++phase
 								);
 						needUpdateEventProgressBar = true;
 					}
-					
 					loggedState = States.ON;
 				}
 				else if (platformState == Chronopic.Plataforma.OFF && loggedState == States.ON) 
 				{
-			
 					//it's out, was inside (= has jumped)
-					
-					if(hasFall) {
-						
+				
+					//fall != -1 because if it was == -1, it will change once touching floor for the first time	
+					if(hasFall && fall != -1) {
+						//**** graphD **** 
+
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
@@ -317,10 +376,13 @@ public class JumpExecute : EventExecute
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
-								2 //it's a drop jump: phase 2/3
+								++phase
 								);
 						needUpdateEventProgressBar = true;
 					} else {
+						//**** graphD (if normal jump) **** 
+						//**** graphB (if hasFall and fall == -1) **** 
+
 						initializeTimer();
 						
 						//update event progressbar
@@ -329,7 +391,7 @@ public class JumpExecute : EventExecute
 						updateProgressBar = new UpdateProgressBar (
 								true, //isEvent
 								true, //percentageMode
-								1 //normal jump, phase 1/2
+								++phase
 								);
 						needUpdateEventProgressBar = true;
 						
@@ -339,7 +401,6 @@ public class JumpExecute : EventExecute
 
 					//change the automata state
 					loggedState = States.OFF;
-
 				}
 			}
 //Log.WriteLine("PREEXIT");

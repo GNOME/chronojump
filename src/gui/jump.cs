@@ -998,11 +998,12 @@ partial class ChronoJumpWindow
 {
 	//options jumps
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
+	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_predefined;
+	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_calculate;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
 	[Widget] Gtk.Label extra_window_jumps_label_weight;
-	[Widget] Gtk.Label extra_window_jumps_label_fall;
 	[Widget] Gtk.Label extra_window_jumps_label_cm;
 	[Widget] Gtk.Label extra_window_jumps_label_dj_arms;
 	[Widget] Gtk.CheckButton extra_window_jumps_check_dj_arms;
@@ -1323,8 +1324,13 @@ partial class ChronoJumpWindow
 			extra_window_jumps_rj_label_fall.Visible = show;
 			extra_window_jumps_rj_spinbutton_fall.Visible = show;
 			extra_window_jumps_rj_label_cm.Visible = show;
+		
+			//only on simple jumps	
+			extra_window_jumps_radio_dj_fall_predefined.Visible = false;
+			extra_window_jumps_radio_dj_fall_calculate.Visible = false;
 		} else {
-			extra_window_jumps_label_fall.Visible = show;
+			extra_window_jumps_radio_dj_fall_predefined.Visible = show;
+			extra_window_jumps_radio_dj_fall_calculate.Visible = show;
 			extra_window_jumps_spinbutton_fall.Visible = show;
 			extra_window_jumps_label_cm.Visible = show;
 		}

@@ -93,8 +93,9 @@ class SqliteExecuteAuto : Sqlite
 		//ArrayList sequences = new ArrayList();
 		int i;
 		while(reader.Read()) {
-			i=1; //start at name
+			i=0;
 			ExecuteAutoSQL eaSQL = new ExecuteAutoSQL(
+					Convert.ToInt32(reader[i++].ToString()), //uniqueID
 					reader[i++].ToString(), //name
 					(ExecuteAuto.ModeTypes) Enum.Parse(typeof(ExecuteAuto.ModeTypes), reader[i++].ToString()), //mode
 					reader[i++].ToString(), //description

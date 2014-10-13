@@ -28,7 +28,8 @@ public class Jump : Event
 {
 	protected double tv;
 	protected double tc;
-	protected double fall;
+	protected double fall;	//-1 if start inside to detect the fall. This is a special case where there are two flight times, but 1st is only used to detect fall-
+				//when jump finishes, fall is calculated and 2nd flight time is stored. It becomes a jump with one TC and one TF
 	protected double weight; //always write in % (not kg or %) then sqlite can do avgs
 
 	//for not checking always in database

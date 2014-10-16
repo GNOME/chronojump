@@ -3598,7 +3598,8 @@ Log.WriteLine("DDD 2");
 	{
 		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
 		Log.WriteLine(" cantouch1 ");
-		sensitiveGuiEventDone();
+		if(! execute_auto_doing)
+			sensitiveGuiEventDone();
 		Log.WriteLine(" cantouch3 ");
 
 		if ( ! currentEventExecute.Cancel )

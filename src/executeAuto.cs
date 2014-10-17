@@ -206,6 +206,20 @@ public class ExecuteAutoSQL
 				uniqueID.ToString()
 		};
 	}
+	
+	public ExecuteAuto.ModeTypes Mode {
+		get { return mode; }
+	}
+
+	public List<int> Serie1IDs {
+		get { return serie1IDs; }
+	}
+	public List<int> Serie2IDs {
+		get { return serie2IDs; }
+	}
+	public List<int> Serie3IDs {
+		get { return serie3IDs; }
+	}
 
 	~ExecuteAutoSQL() {}	
 }

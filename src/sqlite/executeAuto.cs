@@ -77,20 +77,25 @@ class SqliteExecuteAuto : Sqlite
 			dbcon.Close();
 	}
 
-	public static List<ExecuteAutoSQL> SelectAll(bool dbconOpened) 
-	//public static ArrayList SelectAll(bool dbconOpened) 
+
+	//uniqueID == -1 selects all ExecuteAutoSQLs
+	//uniqueID > 0 selects one ExecuteAutoSQL
+	public static List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
 	{
 		if(! dbconOpened)
 			dbcon.Open();
 
-		dbcmd.CommandText = "SELECT * from " + Constants.ExecuteAutoTable; 
+		string whereStr = "";
+		if(uniqueID != -1)
+			whereStr = " WHERE uniqueID == " + uniqueID;
+
+		dbcmd.CommandText = "SELECT * from " + Constants.ExecuteAutoTable + whereStr; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
 		List<ExecuteAutoSQL> sequences = new List<ExecuteAutoSQL>();
-		//ArrayList sequences = new ArrayList();
 		int i;
 		while(reader.Read()) {
 			i=0;

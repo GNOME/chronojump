@@ -84,7 +84,8 @@ public class ExecuteAutoWindow
 
 	ExecuteAuto.ModeTypes mode;
 	ArrayList orderedData;
-	
+	string [] jumpTypes;
+
 	public Gtk.Button FakeButtonAccept; //to return orderedData
 	
 	public ExecuteAutoWindow (Gtk.Window parent) {
@@ -151,6 +152,8 @@ public class ExecuteAutoWindow
 		label_tests_info.Visible = false;
 		label_series_info.Visible = false;
 
+		jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+
 		createTreeviewLoad();
 		fillTreeviewLoad();
 
@@ -198,8 +201,7 @@ public class ExecuteAutoWindow
 	}
 	
 	private void fillTreeviewLoad() {
-		List<ExecuteAutoSQL> sequences = SqliteExecuteAuto.SelectAll(false);
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+		List<ExecuteAutoSQL> sequences = SqliteExecuteAuto.Select(false, -1);
 
 		foreach (ExecuteAutoSQL eaSQL in sequences)
 			store_load.AppendValues (eaSQL.ToLoadTreeview(jumpTypes));
@@ -256,6 +258,31 @@ public class ExecuteAutoWindow
 		}
 	}
 
+	private void loadDo () {
+		TreeModel model;
+		TreeIter iter;
+		
+		if (treeview_load.Selection.GetSelected (out model, out iter)) {
+			int uniqueID = UtilGtk.GetSelectedRowUniqueID(
+					treeview_load, store_load, store_load_uniqueID_col);
+			
+			if(uniqueID > 0) {
+				ExecuteAutoSQL eaSQL = SqliteExecuteAuto.Select(false, uniqueID)[0];
+				
+				foreach(int i in eaSQL.Serie1IDs)
+					button_simulate_exercise_clicked(i, 1); //first treeview
+				
+				mode = eaSQL.Mode;
+				if(mode == ExecuteAuto.ModeTypes.BY_SETS) {
+					foreach(int i in eaSQL.Serie2IDs)
+						button_simulate_exercise_clicked(i, 2);
+					foreach(int i in eaSQL.Serie3IDs)
+						button_simulate_exercise_clicked(i, 3);
+				}
+			}
+		}
+	}
+
 	//----- treeeview_load (end)
 	
 
@@ -301,7 +328,6 @@ public class ExecuteAutoWindow
 	private void createComboSelect() {
 		combo_select = ComboBox.NewText ();
 
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
 		selectArray = new ArrayList(jumpTypes.Length);
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
 		int i =0;
@@ -360,25 +386,49 @@ public class ExecuteAutoWindow
 		UtilGtk.CreateCols(treeview_serie3, store_serie3, "", 1, true);
 		treeview_serie3.Selection.Mode = SelectionMode.None;
 	}
-	
+
+
+	private void button_simulate_exercise_clicked(int uniqueID, int treeviewNum) {
+		int count = 0;
+		foreach(TrCombo tc in selectArray) {
+			if(tc.id == uniqueID)
+				on_button_add_exercise_do(count, treeviewNum);
+			count ++;
+		}
+	}
+
 	private void on_button_add_exercise_clicked(object o, EventArgs args) 
 	{
+		int treeviewNum;
+		if(o == (object) button_add1) 
+			treeviewNum = 1;
+		else if(o == (object) button_add2) 
+			treeviewNum = 2;
+		else
+			treeviewNum = 3;
+
 		int selectedPos = UtilGtk.ComboGetActivePos(combo_select);
+		on_button_add_exercise_do(selectedPos, treeviewNum);
+	}
+	//can be done manually by clicking on add
+	//or automatically when loading sequence
+	private void on_button_add_exercise_do(int selectedPos, int treeviewNum)
+	{	
 		TrCombo tc = (TrCombo) selectArray[selectedPos];
 		//Log.WriteLine(tc.ToString());
 
-		if(o == (object) button_add1) 
+		if(treeviewNum == 1) 
 		{
 			treeviewSerie1Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie1, store_serie1, 
 					new String [] { treeviewSerie1Array.Count.ToString(), tc.trName } );
-		} else if(o == (object) button_add2) 
+		} else if(treeviewNum == 2) 
 		{
 			treeviewSerie2Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie2, store_serie2, 
 					new String [] { treeviewSerie2Array.Count.ToString(), tc.trName } );
 		} else 
-		{	//button_add3
+		{	//treeviewNum == 3
 			treeviewSerie3Array.Add(tc);
 			UtilGtk.TreeviewAddRow(treeview_serie3, store_serie3, 
 					new String [] { treeviewSerie3Array.Count.ToString(), tc.trName } );
@@ -465,24 +515,28 @@ public class ExecuteAutoWindow
 	private void on_button_next_clicked (object o, EventArgs args)
 	{
 		if(notebook_main.CurrentPage == 0) {
-			mode = ExecuteAuto.ModeTypes.BY_PERSONS;
-			if(radio_by_tests.Active)
-				mode = ExecuteAuto.ModeTypes.BY_TESTS;
-			else if(radio_by_sets.Active)
-				mode = ExecuteAuto.ModeTypes.BY_SETS;
+			if(radio_load.Active)
+				loadDo(); //this also defines the 'mode' variable
+			else {
+				mode = ExecuteAuto.ModeTypes.BY_PERSONS;
+				if(radio_by_tests.Active)
+					mode = ExecuteAuto.ModeTypes.BY_TESTS;
+				else if(radio_by_sets.Active)
+					mode = ExecuteAuto.ModeTypes.BY_SETS;
 
-			showSeriesStuff(radio_by_sets.Active);
+				//next button will be sensitive when first test is added
+				button_next.Sensitive = false;
+			}
+
+			showSeriesStuff(mode == ExecuteAuto.ModeTypes.BY_SETS);
 			notebook_main.NextPage();
-		
-			//next button will be sensitive when first test is added
-			button_next.Sensitive = false;
 		}
 		else if(notebook_main.CurrentPage == 1) {
 			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);
 			
-			createTreeviewResult(radio_by_sets.Active);
+			createTreeviewResult(mode == ExecuteAuto.ModeTypes.BY_SETS);
 			fillTreeviewResult();
 
 			button_next.Label = Catalog.GetString("Accept");

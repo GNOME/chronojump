@@ -1047,7 +1047,7 @@ partial class ChronoJumpWindow
 	//static double distance;
 
 	//jumps
-	string extra_window_jumps_option = "Kg";
+	string extra_window_jumps_option = "%";
 	//double extra_window_jumps_weight = 20;
 	double extra_window_jumps_fall = 20;
 	bool extra_window_jumps_arms = false;
@@ -1155,7 +1155,7 @@ partial class ChronoJumpWindow
 		} else 
 			extra_window_showTechniqueArmsData(false, false); //visible, sensitive
 		
-		extra_window_jumps_spinbutton_weight.Value = 20;
+		extra_window_jumps_spinbutton_weight.Value = 100;
 		extra_window_jumps_spinbutton_fall.Value = extra_window_jumps_fall;
 		if (extra_window_jumps_option == "Kg") {
 			extra_window_jumps_radiobutton_kg.Active = true;

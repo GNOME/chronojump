@@ -38,8 +38,6 @@ public class EditJumpWindow : EditEventWindow
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_mode_lateral;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_right;
-	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_left;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_this_limb;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_opposite;
 	[Widget] private Gtk.RadioButton jumps_radiobutton_single_leg_dominance_unknown;
@@ -90,7 +88,7 @@ public class EditJumpWindow : EditEventWindow
 
 		EditJumpWindowBox.fillDialog (myEvent);
 		
-		if(myEvent.Type == "slCMJ")
+		if(myEvent.Type == "slCMJleft" || myEvent.Type == "slCMJright")
 			EditJumpWindowBox.fillSingleLeg (myEvent.Description);
 		
 		EditJumpWindowBox.edit_event.Show ();
@@ -201,23 +199,21 @@ public class EditJumpWindow : EditEventWindow
 
 	private bool slCMJDescriptionIsValid(string description) {
 		string [] d = description.Split(new char[] {' '});
-		if(d.Length != 6)
+		if(d.Length != 5)
 			return false;
 		if(! Util.IsNumber(d[4], false))
 			return false;
 		if(d[0] != "Vertical" && d[0] != "Horizontal" && d[0] != "Lateral")
 			return false;
-		if(d[1] != "Right" && d[1] != "Left")
+		if(d[1] != "This" && d[1] != "Opposite" && d[1] != "Unknown")
 			return false;
-		if(d[2] != "This" && d[2] != "Opposite" && d[2] != "Unknown")
-			return false;
-		if(d[3] != "This" && d[3] != "Opposite" && d[3] != "Both")
+		if(d[2] != "This" && d[2] != "Opposite" && d[2] != "Both")
 			return false;
 
 		return true;
 	}
 	private string slCMJDescriptionDefault() {
-		string descDefault = "Vertical Right This This 0 90";
+		string descDefault = "Vertical This This 0 90";
 		entry_description.Text = descDefault;
 		return descDefault;
 	}
@@ -243,26 +239,22 @@ public class EditJumpWindow : EditEventWindow
 			case "Horizontal":
 				jumps_radiobutton_single_leg_mode_horizontal.Active = true;
 				jumps_spinbutton_single_leg_distance.Sensitive = true;
-				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
-				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[5]);
+				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[3]);
+				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[4]);
 				break;
 			case "Lateral":
 				jumps_radiobutton_single_leg_mode_lateral.Active = true;
 				jumps_spinbutton_single_leg_distance.Sensitive = true;
-				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[4]);
-				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[5]);
+				jumps_spinbutton_single_leg_distance.Value = Convert.ToInt32(d[3]);
+				jumps_spinbutton_single_leg_jump_angle.Value = Convert.ToInt32(d[4]);
 				break;
 		}
 		switch(d[1]) {
-			case "Right": jumps_radiobutton_single_leg_right.Active = true; break;
-			case "Left": jumps_radiobutton_single_leg_left.Active = true; break;
-		}
-		switch(d[2]) {
 			case "This": jumps_radiobutton_single_leg_dominance_this_limb.Active = true; break;
 			case "Opposite": jumps_radiobutton_single_leg_dominance_opposite.Active = true; break;
 			case "Unknown": jumps_radiobutton_single_leg_dominance_unknown.Active = true; break;
 		}
-		switch(d[3]) {
+		switch(d[2]) {
 			case "This": jumps_radiobutton_single_leg_fall_this_limb.Active = true; break;
 			case "Opposite": jumps_radiobutton_single_leg_fall_opposite.Active = true; break;
 			case "Both": jumps_radiobutton_single_leg_fall_both.Active = true; break;
@@ -280,7 +272,7 @@ public class EditJumpWindow : EditEventWindow
 
 			if(jumps_radiobutton_single_leg_mode_vertical.Active) {
 				d[0] = "Vertical";	
-				d[4] = "0";	
+				d[3] = "0";	//distance
 			}
 			else if(jumps_radiobutton_single_leg_mode_horizontal.Active)
 				d[0] = "Horizontal";
@@ -288,7 +280,7 @@ public class EditJumpWindow : EditEventWindow
 				d[0] = "Lateral";
 			
 			entry_description.Text = 
-				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -300,13 +292,15 @@ public class EditJumpWindow : EditEventWindow
 				description = slCMJDescriptionDefault();
 			string [] d = description.Split(new char[] {' '});
 
-			if(jumps_radiobutton_single_leg_right.Active)
-				d[1] = "Right";	
+			if(jumps_radiobutton_single_leg_dominance_this_limb.Active)
+				d[1] = "This";	
+			else if(jumps_radiobutton_single_leg_dominance_opposite.Active)
+				d[1] = "Opposite";
 			else
-				d[1] = "Left";
+				d[1] = "Unknown";
 
 			entry_description.Text = 
-				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -318,35 +312,15 @@ public class EditJumpWindow : EditEventWindow
 				description = slCMJDescriptionDefault();
 			string [] d = description.Split(new char[] {' '});
 
-			if(jumps_radiobutton_single_leg_dominance_this_limb.Active)
+			if(jumps_radiobutton_single_leg_fall_this_limb.Active)
 				d[2] = "This";	
-			else if(jumps_radiobutton_single_leg_dominance_opposite.Active)
+			else if(jumps_radiobutton_single_leg_fall_opposite.Active)
 				d[2] = "Opposite";
 			else
-				d[2] = "Unknown";
+				d[2] = "Both";
 
 			entry_description.Text = 
-				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
-			fillSingleLeg(entry_description.Text);
-		}
-	}
-
-	protected override void on_radio_single_leg_4_toggled(object o, EventArgs args) {
-		if(toggleRaisesSignal) {
-			string description = entry_description.Text;
-			if(! slCMJDescriptionIsValid(description))
-				description = slCMJDescriptionDefault();
-			string [] d = description.Split(new char[] {' '});
-
-			if(jumps_radiobutton_single_leg_fall_this_limb.Active)
-				d[3] = "This";	
-			else if(jumps_radiobutton_single_leg_fall_opposite.Active)
-				d[3] = "Opposite";
-			else
-				d[3] = "Both";
-
-			entry_description.Text = 
-				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -359,14 +333,14 @@ public class EditJumpWindow : EditEventWindow
 			string [] d = description.Split(new char[] {' '});
 
 			int distance = Convert.ToInt32(jumps_spinbutton_single_leg_distance.Value);
-			d[4] = distance.ToString();
+			d[3] = distance.ToString();
 			
-			d[5] = Util.CalculateJumpAngle(
+			d[4] = Util.CalculateJumpAngle(
 					Convert.ToDouble(Util.GetHeightInCentimeters(entryTv)), 
 					distance ).ToString();
 
 			entry_description.Text = 
-				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4] + " " + d[5];
+				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -405,9 +379,9 @@ public class EditJumpWindow : EditEventWindow
 			entry_weight_value.Sensitive = false;
 		}
 		
-		frame_jumps_single_leg.Visible = myJumpType.Name == "slCMJ";
-		entry_description.Sensitive = myJumpType.Name != "slCMJ";
-		if(myJumpType.Name == "slCMJ") {
+		frame_jumps_single_leg.Visible = (myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright");
+		entry_description.Sensitive = (myJumpType.Name != "slCMJleft" && myJumpType.Name != "slCMJright");
+		if(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright") {
 			fillSingleLeg(entry_description.Text);
 		}
 	}
@@ -1016,8 +990,6 @@ partial class ChronoJumpWindow
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_vertical;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_horizontal;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_mode_lateral;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_right;
-	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_left;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_this_limb;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_opposite;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_single_leg_dominance_unknown;
@@ -1163,8 +1135,8 @@ partial class ChronoJumpWindow
 			extra_window_jumps_radiobutton_weight.Active = true;
 		}
 
-		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJ");
-		if(myJumpType.Name == "slCMJ") {
+		extra_window_showSingleLegStuff(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright");
+		if(myJumpType.Name == "slCMJleft" || myJumpType.Name == "slCMJright") {
 			hasOptions = true;
 			frame_extra_window_jumps_single_leg_input.Sensitive = false;
 			extra_window_jumps_spin_single_leg_distance.Value = 0;
@@ -1391,9 +1363,6 @@ partial class ChronoJumpWindow
 		if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active) str = "Vertical";
 		else if(extra_window_jumps_radiobutton_single_leg_mode_horizontal.Active) str = "Horizontal";
 		else str = "Lateral";
-		
-		if(extra_window_jumps_radiobutton_single_leg_right.Active) str += " Right";
-		else str += " Left";
 		
 		if(extra_window_jumps_radiobutton_single_leg_dominance_this_limb.Active) str += " This";
 		else if(extra_window_jumps_radiobutton_single_leg_dominance_opposite.Active) str += " Opposite";

@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.13";
+	static string lastChronojumpDatabaseVersion = "1.14";
 
 	public Sqlite() {
 	}
@@ -1664,7 +1664,17 @@ class Sqlite
 
 				currentVersion = "1.13";
 			}
-				
+			if(currentVersion == "1.13") {
+				dbcon.Open();
+			
+				Log.WriteLine("slCMJ -> slCMJleft, slCMJright");
+
+				SqliteOldConvert.slCMJDivide();
+				SqlitePreferences.Update ("databaseVersion", "1.14", true); 
+				dbcon.Close();
+
+				currentVersion = "1.14";
+			}
 		}
 
 		//if changes are made here, remember to change also in CreateTables()

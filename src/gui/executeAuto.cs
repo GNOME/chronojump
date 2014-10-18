@@ -152,7 +152,7 @@ public class ExecuteAutoWindow
 		label_tests_info.Visible = false;
 		label_series_info.Visible = false;
 
-		jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+		jumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
 
 		createTreeviewLoad();
 		fillTreeviewLoad();

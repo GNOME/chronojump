@@ -403,7 +403,7 @@ public class QueryServerWindow
 		}
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.JumpSimpleName))
 			UtilGtk.ComboUpdate(combo_tests, 
-					SqliteJumpType.SelectJumpTypes("", "", true), "");
+					SqliteJumpType.SelectJumpTypes(false, "", "", true), "");
 		else if (UtilGtk.ComboGetActive(combo_test_types) == Catalog.GetString(Constants.JumpReactiveName))
 			UtilGtk.ComboUpdate(combo_tests, 
 					SqliteJumpType.SelectJumpRjTypes("", true), "");

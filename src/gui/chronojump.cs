@@ -2012,7 +2012,7 @@ public partial class ChronoJumpWindow
 		if(create)
 			combo_select_jumps = ComboBox.NewText ();
 
-		string [] jumpTypes = SqliteJumpType.SelectJumpTypes("", "", false); //without alljumpsname, without filter, not only name
+		string [] jumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false); //without alljumpsname, without filter, not only name
 		selectJumpsString = new String [jumpTypes.Length];
 		string [] jumpNamesToCombo = new String [jumpTypes.Length];
 		int i =0;
@@ -2132,7 +2132,7 @@ public partial class ChronoJumpWindow
 	private void createComboResultJumps() {
 		combo_result_jumps = ComboBox.NewText ();
 		UtilGtk.ComboUpdate(combo_result_jumps,
-				SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
+				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), //with alljumpsname, without filter, only select name
 			       	"");
 		
 		combo_result_jumps.Active = 0;
@@ -5337,7 +5337,7 @@ Console.WriteLine("X");
 			createComboSelectJumps(false); //this will update also the selectJumpsString
 
 			UtilGtk.ComboUpdate(combo_result_jumps, 
-					SqliteJumpType.SelectJumpTypes(Constants.AllJumpsName, "", true), ""); //without filter, only select name
+					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "", true), ""); //without filter, only select name
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Added simple jump."));
 		} else {
 			createComboSelectJumpsRj(false); //this will update also the selectJumpsRjString

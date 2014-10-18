@@ -186,7 +186,7 @@ class SqliteJumpType : Sqlite
 		}
 	}
 
-	public static string[] SelectJumpTypes(string allJumpsName, string filter, bool onlyName) 
+	public static string[] SelectJumpTypes(bool dbconOpened, string allJumpsName, string filter, bool onlyName) 
 	{
 		//allJumpsName: add and "allJumpsName" value
 		//filter: 
@@ -199,8 +199,10 @@ class SqliteJumpType : Sqlite
 		string whereString = "";
 		if(filter == "TC") { whereString = " WHERE startIn == 0 "; }
 		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
-		
-		dbcon.Open();
+	
+		if(! dbconOpened)	
+			dbcon.Open();
+
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpTypeTable + " " +
 			whereString +
@@ -231,7 +233,9 @@ class SqliteJumpType : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+
+		if(! dbconOpened)	
+			dbcon.Close();
 
 		int numRows;
 		if(allJumpsName != "") {

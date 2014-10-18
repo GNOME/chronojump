@@ -125,9 +125,9 @@ public class EditJumpWindow : EditEventWindow
 		Jump myJump = (Jump) myEvent;
 		string [] myTypes;
 		if (myJump.TypeHasFall) {
-			myTypes = SqliteJumpType.SelectJumpTypes("", "TC", true); //don't show allJumpsName row, TC jumps, only select name
+			myTypes = SqliteJumpType.SelectJumpTypes(false, "", "TC", true); //don't show allJumpsName row, TC jumps, only select name
 		} else {
-			myTypes = SqliteJumpType.SelectJumpTypes("", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
+			myTypes = SqliteJumpType.SelectJumpTypes(false, "", "nonTC", true); //don't show allJumpsName row, nonTC jumps, only select name
 		}
 		return myTypes;
 	}
@@ -1489,7 +1489,7 @@ public class JumpsMoreWindow : EventMoreWindow
 	protected override void fillTreeView (Gtk.TreeView tv, TreeStore store) 
 	{
 		//select data without inserting an "all jumps", without filter, and not obtain only name of jump
-		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes("", "", false);
+		string [] myJumpTypes = SqliteJumpType.SelectJumpTypes(false, "", "", false);
 
 		//remove typesTranslated
 		typesTranslated = new String [myJumpTypes.Length];

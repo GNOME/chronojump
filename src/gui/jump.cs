@@ -273,6 +273,7 @@ public class EditJumpWindow : EditEventWindow
 			if(jumps_radiobutton_single_leg_mode_vertical.Active) {
 				d[0] = "Vertical";	
 				d[3] = "0";	//distance
+				d[4] = "90";
 			}
 			else if(jumps_radiobutton_single_leg_mode_horizontal.Active)
 				d[0] = "Horizontal";

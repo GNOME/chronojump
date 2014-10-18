@@ -88,11 +88,24 @@ class SqliteExecuteAuto : Sqlite
 			new ExecuteAutoSQL( -1, "Chronojump profile", ExecuteAuto.ModeTypes.BY_PERSONS, "Complete profile using jumps",
 					new List<int> { jList.FindID("SJ"), jList.FindID("SJl"), jList.FindID("CMJ"), jList.FindID("ABK"), jList.FindID("DJa") },
 					new List<int>{}, 
-					new List<int>{} ),
+					new List<int>{}
+					),
 			
-			//new ExecuteAutoSQL( -1, "Bilateral tests", ExecuteAuto.ModeTypes.BY_PERSONS, "Bilateral / Unilateral measurements with jumps",
-			//		new List<int> {TODO: ints hereCMJ_R, CMJ_}, new List<int>{}, new List<int>{} ),
-			//TODO: add the BY_SERIES
+			new ExecuteAutoSQL( -1, "Bilateral profile by persons", ExecuteAuto.ModeTypes.BY_PERSONS, "Bilateral / Unilateral tests",
+					new List<int> { 
+						jList.FindID("slCMJright"), jList.FindID("slCMJleft"), jList.FindID("CMJ"), 
+						jList.FindID("slCMJleft"), jList.FindID("CMJ"), jList.FindID("slCMJright"), 
+						jList.FindID("CMJ"), jList.FindID("slCMJleft"), jList.FindID("slCMJright"), 
+					},
+					new List<int>{}, 
+					new List<int>{}
+					),
+			
+			new ExecuteAutoSQL( -1, "Bilateral profile by sets", ExecuteAuto.ModeTypes.BY_SETS, "Bilateral / Unilateral tests",
+					new List<int> { jList.FindID("slCMJright"), jList.FindID("slCMJleft"), jList.FindID("CMJ") },
+					new List<int> { jList.FindID("CMJ"), jList.FindID("slCMJleft"), jList.FindID("slCMJright") },
+					new List<int> { jList.FindID("slCMJleft"), jList.FindID("CMJ"), jList.FindID("slCMJright") }
+					)
 		};
 
 		foreach(ExecuteAutoSQL eaSQL in eaSQLlist) {

@@ -142,7 +142,7 @@ public class ExecuteAutoSQL
 		this.serie3IDs = serie3IDs;
 	}
 
-	private string serieIDsToStr(List<int> serieIDs) 
+	public string SerieIDsToStr(List<int> serieIDs) 
 	{
 		string str = "";
 		string sep = "";
@@ -175,8 +175,7 @@ public class ExecuteAutoSQL
 		if(Sqlite.Exists(false, Constants.ExecuteAutoTable, name))
 			return false; //not saved because name exists
 
-		SqliteExecuteAuto.Insert(false, name, mode.ToString(), description, 
-				serieIDsToStr(serie1IDs), serieIDsToStr(serie2IDs), serieIDsToStr(serie3IDs));
+		SqliteExecuteAuto.Insert(false, this);
 			
 		return true; //saved
 	}
@@ -209,6 +208,10 @@ public class ExecuteAutoSQL
 	
 	public ExecuteAuto.ModeTypes Mode {
 		get { return mode; }
+	}
+	
+	public string Description {
+		get { return description; }
 	}
 
 	public List<int> Serie1IDs {

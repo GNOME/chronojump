@@ -12,6 +12,7 @@ SOURCES = \
 	../src/encoder.cs\
 	../src/executeAuto.cs\
 	../src/event.cs\
+	../src/genericObjects.cs\
 	../src/jump.cs\
 	../src/run.cs\
 	../src/person.cs\

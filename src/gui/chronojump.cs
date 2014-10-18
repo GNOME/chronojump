@@ -3447,7 +3447,7 @@ Console.WriteLine("X");
 		}
 
 		string description = "";
-		if(currentJumpType.Name == "slCMJ") {
+		if(currentJumpType.Name == "slCMJleft" || currentJumpType.Name == "slCMJright") {
 			description = slCMJString(); 
 
 			frame_extra_window_jumps_single_leg_input.Sensitive = false;
@@ -3532,7 +3532,7 @@ Log.WriteLine("DDD 1");
 		if ( ! currentEventExecute.Cancel ) {
 			currentJump = (Jump) currentEventExecute.EventDone;
 		
-			if(currentJumpType.Name == "slCMJ") {
+			if(currentJumpType.Name == "slCMJleft" || currentJumpType.Name == "slCMJright") {
 				if(extra_window_jumps_radiobutton_single_leg_mode_vertical.Active)
 					currentJump.Description += " 0 90";
 				else {

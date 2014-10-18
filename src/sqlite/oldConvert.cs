@@ -55,6 +55,34 @@ class SqliteOldConvert : Sqlite
 
 	}	
 
+	//convert slCMJ to slCMJleft, slCMJright
+	//DB 1.13 -> DB 1.14
+	public static void slCMJDivide() {
+		//it's a conversion, dbcon is opened
+
+		//changes on jumpType table
+		SqliteJumpType.Delete(Constants.JumpTypeTable, "slCMJ", true);
+		SqliteJumpType.JumpTypeInsert("slCMJleft:1:0:Single-leg CMJ jump", true);
+		SqliteJumpType.JumpTypeInsert("slCMJright:1:0:Single-leg CMJ jump", true);
+
+
+		//changes on jump table
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJleft' WHERE description LIKE '%Left%'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJright' WHERE description LIKE '%Right%'";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Left', '')";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+		
+		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Right', '')";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
 
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, "")[0];

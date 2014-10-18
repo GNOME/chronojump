@@ -57,7 +57,7 @@ class SqliteExecuteAuto : Sqlite
 	 * class methods
 	 */
 	
-	public static void Insert(bool dbconOpened, string name, string mode, string description, string serie1IDs, string serie2IDs, string serie3IDs)
+	public static void Insert(bool dbconOpened, ExecuteAutoSQL eaSQL)
 	{
 		if(! dbconOpened)
 			dbcon.Open();
@@ -67,8 +67,10 @@ class SqliteExecuteAuto : Sqlite
 			" serie1IDs, serie2IDs, serie3IDs, " + 
 			" future1, future2, future3)" +
 			" VALUES ( NULL, '" +
-			name + "', '" + mode + "', '" + description + "', '" +
-			serie1IDs + "', '" + serie2IDs + "', '" + serie3IDs + "', " + 
+			eaSQL.name + "', '" + eaSQL.Mode.ToString() + "', '" + eaSQL.Description + "', '" +
+			eaSQL.SerieIDsToStr(eaSQL.Serie1IDs) + "', '" + 
+			eaSQL.SerieIDsToStr(eaSQL.Serie2IDs) + "', '" + 
+			eaSQL.SerieIDsToStr(eaSQL.Serie3IDs) + "', " + 
 			"'', '', '')"; //future1, future2, future3
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -77,9 +79,31 @@ class SqliteExecuteAuto : Sqlite
 			dbcon.Close();
 	}
 
+	protected internal static void addChronojumpProfileAndBilateral()
+	{
+		string [] jumps = SqliteJumpType.SelectJumpTypes(true, "", "", false);
+		IDNameList jList = new IDNameList(jumps,':');
+
+		List <ExecuteAutoSQL> eaSQLlist = new List<ExecuteAutoSQL> {
+			new ExecuteAutoSQL( -1, "Chronojump profile", ExecuteAuto.ModeTypes.BY_PERSONS, "Complete profile using jumps",
+					new List<int> { jList.FindID("SJ"), jList.FindID("SJl"), jList.FindID("CMJ"), jList.FindID("ABK"), jList.FindID("DJa") },
+					new List<int>{}, 
+					new List<int>{} ),
+			
+			//new ExecuteAutoSQL( -1, "Bilateral tests", ExecuteAuto.ModeTypes.BY_PERSONS, "Bilateral / Unilateral measurements with jumps",
+			//		new List<int> {TODO: ints hereCMJ_R, CMJ_}, new List<int>{}, new List<int>{} ),
+			//TODO: add the BY_SERIES
+		};
+
+		foreach(ExecuteAutoSQL eaSQL in eaSQLlist) {
+			Insert(true, eaSQL);
+		}
+	}
+
+
 
 	//uniqueID == -1 selects all ExecuteAutoSQLs
-	//uniqueID > 0 selects one ExecuteAutoSQL
+	//uniqueID > 0 selects one ExecuteAutoSQL	
 	public static List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
 	{
 		if(! dbconOpened)

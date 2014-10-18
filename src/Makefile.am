@@ -119,6 +119,7 @@ SOURCES = \
 	executeAuto.cs\
 	event.cs\
 	eventType.cs\
+	genericObjects.cs\
 	jump.cs\
 	jumpType.cs\
 	person.cs\

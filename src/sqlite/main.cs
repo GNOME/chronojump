@@ -458,6 +458,10 @@ class Sqlite
 
 		currentVersion = SqlitePreferences.Select("databaseVersion");
 
+//dbcon.Open();
+//SqliteExecuteAuto.addChronojumpProfileAndBilateral();
+//dbcon.Close();
+
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));
 

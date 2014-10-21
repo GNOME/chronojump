@@ -450,6 +450,8 @@ class Sqlite
 	}
 
 	public static bool ConvertToLastChronojumpDBVersion() {
+		Log.WriteLine("SelectChronojumpProfile ()");
+		SqliteStat.SelectChronojumpProfile ();
 
 		//if(checkIfIsSqlite2())
 		//	convertSqlite2To3();
@@ -457,10 +459,6 @@ class Sqlite
 		addChronopicPortNameIfNotExists();
 
 		currentVersion = SqlitePreferences.Select("databaseVersion");
-
-//dbcon.Open();
-//SqliteExecuteAuto.addChronojumpProfileAndBilateral();
-//dbcon.Close();
 
 		//Log.WriteLine("lastDB: {0}", Convert.ToDouble(lastChronojumpDatabaseVersion));
 		//Log.WriteLine("currentVersion: {0}", Convert.ToDouble(currentVersion));
@@ -2552,6 +2550,47 @@ Console.WriteLine("5" + tableName);
 			myReaderStr[i] = reader[i].ToString();
 		return myReaderStr;
 	}
+
+	protected static IDNameList fillIDNameList(string selectStr) 
+	{
+		//select personID and jump type 'SJ' mean
+		dbcmd.CommandText = selectStr;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		IDNameList list = new IDNameList();
+		while(reader.Read()) {
+			IDName idname = new IDName( Convert.ToInt32(reader[0].ToString()),
+						reader[1].ToString());
+			Log.WriteLine(idname.ToString());
+			
+			list.Add(new IDName( Convert.ToInt32(reader[0].ToString()),
+						reader[1].ToString() ));
+		}
+		reader.Close();
+		return list;
+	}
+
+	protected static IDDoubleList fillIDDoubleList(string selectStr) 
+	{
+		//select personID and jump type 'SJ' mean
+		dbcmd.CommandText = selectStr;
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		IDDoubleList list = new IDDoubleList();
+		while(reader.Read()) {
+			list.Add(new IDDouble( Convert.ToInt32(reader[0].ToString()),
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[1].ToString())) ));
+		}
+		reader.Close();
+		return list;
+	}
+
 
 	/* methods for different classes */
 

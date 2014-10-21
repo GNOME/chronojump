@@ -82,8 +82,9 @@ class SqliteExecuteAuto : Sqlite
 	protected internal static void addChronojumpProfileAndBilateral()
 	{
 		string [] jumps = SqliteJumpType.SelectJumpTypes(true, "", "", false);
-		IDNameList jList = new IDNameList(jumps,':');
 
+		IDNameList jList = new IDNameList(jumps,':');
+		
 		List <ExecuteAutoSQL> eaSQLlist = new List<ExecuteAutoSQL> {
 			new ExecuteAutoSQL( -1, "Chronojump profile", ExecuteAuto.ModeTypes.BY_PERSONS, "Complete profile using jumps",
 					new List<int> { jList.FindID("SJ"), jList.FindID("SJl"), jList.FindID("CMJ"), jList.FindID("ABK"), jList.FindID("DJa") },
@@ -107,7 +108,11 @@ class SqliteExecuteAuto : Sqlite
 					new List<int> { jList.FindID("slCMJleft"), jList.FindID("CMJ"), jList.FindID("slCMJright") }
 					)
 		};
-
+		
+		foreach(IDName idName in jList.l) {
+			Log.WriteLine(idName.ToString());
+		}
+		
 		foreach(ExecuteAutoSQL eaSQL in eaSQLlist) {
 			Insert(true, eaSQL);
 		}

@@ -22,6 +22,7 @@ using System;
 using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 using Mono.Data.Sqlite;
 
@@ -1376,6 +1377,37 @@ Log.WriteLine(intervalSpeeds);
 		dbcon.Close();
 		return myArray;
 	}
+
+	public static void SelectChronojumpProfile ()
+	{
+		dbcon.Open();
+		
+		//select personID and personName (IDNameList)
+		IDNameList idNameList = fillIDNameList( 
+				"SELECT personSession77.personID, person77.name FROM personSession77, person77 " +
+				"WHERE personSession77.sessionID==7 AND personSession77.personID = person77.uniqueID");
 	
+		//prepare big arraylist
+		ArrayList array = new ArrayList();
+
+		//select personID and jump type 'SJ' mean
+		IDDoubleList idDoubleListSJ = fillIDDoubleList( 
+				"SELECT personID, AVG(tv) FROM jump WHERE type=='SJ' AND sessionID==7 GROUP BY personID");
+		array.Add(idDoubleListSJ);
 	
+
+		//select personID and jump type 'CMJ' mean
+		IDDoubleList idDoubleListCMJ = fillIDDoubleList( 
+				"SELECT personID, AVG(tv) FROM jump WHERE type=='CMJ' AND sessionID==7 GROUP BY personID");
+		array.Add(idDoubleListCMJ);
+	
+		//print all	
+		IDNameIDDoubleListOfLists superlist = new IDNameIDDoubleListOfLists(idNameList, array);
+		Log.WriteLine("superlist");
+		Log.WriteLine( Util.StringArrayToString(superlist.GetStringArray(),"\n") );
+		Log.WriteLine("end of superlist");
+		
+		dbcon.Close();
+	}
+
 }

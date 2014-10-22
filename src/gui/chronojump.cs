@@ -4629,7 +4629,7 @@ Console.WriteLine("X");
 	int eventOldPerson;
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
-		notebooks_change(0);
+		//notebooks_change(0); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4645,7 +4645,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebooks_change(1);
+		//notebooks_change(1); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4707,7 +4707,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
-		notebooks_change(2);
+		//notebooks_change(2); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -4724,7 +4724,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
-		notebooks_change(3);
+		//notebooks_change(3); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
@@ -4774,7 +4774,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebooks_change(4);
+		//notebooks_change(4); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected reaction time");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
@@ -4804,7 +4804,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
-		notebooks_change(5);
+		//notebooks_change(5); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
@@ -4834,7 +4834,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebooks_change(6);
+		//notebooks_change(6); see "notebooks_change sqlite problem"
 		Log.WriteLine("Edit selected multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -5033,7 +5033,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
-		notebooks_change(0);
+		//notebooks_change(0); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -5050,7 +5050,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebooks_change(1);
+		//notebooks_change(1); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -5121,7 +5121,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
-		notebooks_change(2);
+		//notebooks_change(2); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this run (normal)");
 		
 		//1.- check that there's a line selected
@@ -5139,7 +5139,7 @@ Console.WriteLine("X");
 		
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
-		notebooks_change(3);
+		//notebooks_change(3); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
@@ -5200,7 +5200,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
-		notebooks_change(4);
+		//notebooks_change(4); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this reaction time");
 		
 		//1.- check that there's a line selected
@@ -5237,7 +5237,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
-		notebooks_change(5);
+		//notebooks_change(5); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this pulse");
 		
 		//1.- check that there's a line selected
@@ -5274,7 +5274,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebooks_change(6);
+		//notebooks_change(6); see "notebooks_change sqlite problem"
 		Log.WriteLine("delete this multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
@@ -5471,7 +5471,7 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {
-		notebooks_change(1);
+		//notebooks_change(1); see "notebooks_change sqlite problem"
 		Log.WriteLine("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
@@ -5497,7 +5497,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
-		notebooks_change(3);
+		//notebooks_change(3); see "notebooks_change sqlite problem"
 		Log.WriteLine("Repair selected subrun");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
@@ -5524,7 +5524,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
-		notebooks_change(5);
+		//notebooks_change(5); see "notebooks_change sqlite problem"
 		Log.WriteLine("Repair selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a pulse and not a person 
@@ -5547,7 +5547,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
-		notebooks_change(6);
+		//notebooks_change(6); see "notebooks_change sqlite problem"
 		Log.WriteLine("Repair selected multichronopic");
 	}
 	
@@ -5689,6 +5689,13 @@ Console.WriteLine("X");
 			button_execute_test.Sensitive = myTreeViewPersons.IsThereAnyRecord();
 		}
 
+		//Attention: "notebooks_change sqlite problem"
+		//This will call stats_win_change_test_type
+		//that will call on_combo_stats_type_changed
+		//that will call updateComboStats
+		//and that will call Sqlite.
+		//This is dangerous because it can crash when notebooks_change is called after deleting a test
+		//jsut disable notebooks change in that situation
 		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
 	

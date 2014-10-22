@@ -852,11 +852,7 @@ public class PersonAddModifyWindow
 	[Widget] Gtk.ComboBox combo_countries;
 	
 	[Widget] Gtk.Image image_name;
-	[Widget] Gtk.Image image_date;
 	[Widget] Gtk.Image image_weight;
-	[Widget] Gtk.Image image_sport;
-	[Widget] Gtk.Image image_speciallity;
-	[Widget] Gtk.Image image_level;
 	
 	[Widget] Gtk.Button button_zoom;
 	[Widget] Gtk.Image image_photo_mini;
@@ -930,7 +926,6 @@ public class PersonAddModifyWindow
 		
 		createComboSports();
 		createComboSpeciallities(-1);
-		image_speciallity.Hide();
 		label_speciallity.Hide();
 		combo_speciallities.Hide();
 		createComboLevels();
@@ -1087,36 +1082,16 @@ public class PersonAddModifyWindow
 			image_weight.Show();
 			allOk = false;
 		}
-				
+	
+		/*		
 		if(dateTime != DateTime.MinValue)
 			image_date.Hide();
 		else {
 			image_date.Show();
 			allOk = false;
 		}
+		*/
 
-		if(UtilGtk.ComboGetActive(combo_sports) != Catalog.GetString(Constants.SportUndefined))
-			image_sport.Hide();
-		else {
-			image_sport.Show();
-			allOk = false;
-		}
-
-		if (! label_speciallity.Visible || 
-				UtilGtk.ComboGetActive(combo_speciallities) != Catalog.GetString(Constants.SpeciallityUndefined))
-			image_speciallity.Hide();
-		else {
-			image_speciallity.Show();
-			allOk = false;
-		}
-				
-		if(Util.FetchID(UtilGtk.ComboGetActive(combo_levels)) != Constants.LevelUndefinedID)
-			image_level.Hide();
-		else {
-			image_level.Show();
-			allOk = false;
-		}
-				
 		//countries is not required to create a person here, but will be required for server
 		//&& 
 		//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
@@ -1591,18 +1566,18 @@ public class PersonAddModifyWindow
 
 		if(personExists) 
 			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-		else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
-			errorMessage += Catalog.GetString("Please select an sport");
+		//else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
+		//	errorMessage += Catalog.GetString("Please select an sport");
 
 		//here sport shouldn't be undefined, then check 
 		//if it has speciallities and if they are selected
-		else if (sport.HasSpeciallities && 
-				UtilGtk.ComboGetActive(combo_speciallities) == Catalog.GetString(Constants.SpeciallityUndefined))
-			errorMessage += Catalog.GetString("Please select an speciallity");
-		else if (UtilGtk.ComboGetActive(combo_levels) ==
-				Constants.LevelUndefinedID.ToString() + ":" + 
-			       	Catalog.GetString(Constants.LevelUndefined))
-			errorMessage += Catalog.GetString("Please select a level");
+		//else if (sport.HasSpeciallities && 
+		//		UtilGtk.ComboGetActive(combo_speciallities) == Catalog.GetString(Constants.SpeciallityUndefined))
+		//	errorMessage += Catalog.GetString("Please select an speciallity");
+		//else if (UtilGtk.ComboGetActive(combo_levels) ==
+		//		Constants.LevelUndefinedID.ToString() + ":" + 
+		//	       	Catalog.GetString(Constants.LevelUndefined))
+		//	errorMessage += Catalog.GetString("Please select a level");
 		else {
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {

@@ -213,7 +213,7 @@ public class EditJumpWindow : EditEventWindow
 		return true;
 	}
 	private string slCMJDescriptionDefault() {
-		string descDefault = "Vertical This This 0 90";
+		string descDefault = "Vertical Unknown Both 0 90";
 		entry_description.Text = descDefault;
 		return descDefault;
 	}
@@ -298,7 +298,7 @@ public class EditJumpWindow : EditEventWindow
 			else if(jumps_radiobutton_single_leg_dominance_opposite.Active)
 				d[1] = "Opposite";
 			else
-				d[1] = "Unknown";
+				d[1] = "Unknown"; //default since 1.4.8
 
 			entry_description.Text = 
 				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
@@ -318,7 +318,7 @@ public class EditJumpWindow : EditEventWindow
 			else if(jumps_radiobutton_single_leg_fall_opposite.Active)
 				d[2] = "Opposite";
 			else
-				d[2] = "Both";
+				d[2] = "Both"; //default since 1.4.8
 
 			entry_description.Text = 
 				d[0] + " " + d[1] + " " + d[2] + " " + d[3] + " " + d[4];
@@ -1367,11 +1367,11 @@ partial class ChronoJumpWindow
 		
 		if(extra_window_jumps_radiobutton_single_leg_dominance_this_limb.Active) str += " This";
 		else if(extra_window_jumps_radiobutton_single_leg_dominance_opposite.Active) str += " Opposite";
-		else str += " Unknown";
+		else str += " Unknown"; //default since 1.4.8
 
 		if(extra_window_jumps_radiobutton_single_leg_fall_this_limb.Active) str += " This";
 		else if(extra_window_jumps_radiobutton_single_leg_fall_opposite.Active) str += " Opposite";
-		else str += " Both";
+		else str += " Both"; //default since 1.4.8
 
 		return str;
 	}

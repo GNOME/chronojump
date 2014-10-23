@@ -3569,12 +3569,11 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_this_limb">
-                                                            <property name="label" translatable="yes">This limb</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_unknown">
+                                                            <property name="label" translatable="yes">Unknown</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             </widget>
@@ -3585,13 +3584,14 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_opposite">
-                                                            <property name="label" translatable="yes">Opposite</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_this_limb">
+                                                            <property name="label" translatable="yes">This limb</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_this_limb</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -3600,13 +3600,13 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_unknown">
-                                                            <property name="label" translatable="yes">Unknown</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_dominance_opposite">
+                                                            <property name="label" translatable="yes">Opposite</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_this_limb</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_dominance_unknown</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -3658,12 +3658,11 @@ weight</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="spacing">6</property>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_this_limb">
-                                                            <property name="label" translatable="yes">This limb</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_both">
+                                                            <property name="label" translatable="yes">Both</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
-                                                            <property name="xalign">0</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">True</property>
                                                             </widget>
@@ -3674,13 +3673,14 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_opposite">
-                                                            <property name="label" translatable="yes">Opposite</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_this_limb">
+                                                            <property name="label" translatable="yes">This limb</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
+                                                            <property name="xalign">0</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_this_limb</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -3689,13 +3689,13 @@ weight</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_both">
-                                                            <property name="label" translatable="yes">Both</property>
+                                                            <widget class="GtkRadioButton" id="extra_window_jumps_radiobutton_single_leg_fall_opposite">
+                                                            <property name="label" translatable="yes">Opposite</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">True</property>
                                                             <property name="receives_default">False</property>
                                                             <property name="draw_indicator">True</property>
-                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_this_limb</property>
+                                                            <property name="group">extra_window_jumps_radiobutton_single_leg_fall_both</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -6251,6 +6251,9 @@ Second Chronopic to platforms.</property>
                                                         <child>
                                                           <placeholder/>
                                                         </child>
+                                                        <child>
+                                                          <placeholder/>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -6839,6 +6842,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -7791,6 +7797,9 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -8272,6 +8281,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -18109,6 +18121,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -18498,6 +18513,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -19609,6 +19627,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -19631,6 +19652,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -21226,12 +21250,11 @@ comments</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_this_limb">
-                                <property name="label" translatable="yes">This limb</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_unknown">
+                                <property name="label" translatable="yes">Unknown</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
@@ -21243,13 +21266,14 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_opposite">
-                                <property name="label" translatable="yes">Opposite</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_this_limb">
+                                <property name="label" translatable="yes">This limb</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">jumps_radiobutton_single_leg_dominance_this_limb</property>
+                                <property name="group">jumps_radiobutton_single_leg_dominance_unknown</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
                               </widget>
                               <packing>
@@ -21259,13 +21283,13 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_unknown">
-                                <property name="label" translatable="yes">Unknown</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_dominance_opposite">
+                                <property name="label" translatable="yes">Opposite</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">jumps_radiobutton_single_leg_dominance_this_limb</property>
+                                <property name="group">jumps_radiobutton_single_leg_dominance_unknown</property>
                                 <signal name="toggled" handler="on_radio_single_leg_2_toggled" swapped="no"/>
                               </widget>
                               <packing>
@@ -21319,12 +21343,11 @@ comments</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_this_limb">
-                                <property name="label" translatable="yes">This limb</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_both">
+                                <property name="label" translatable="yes">Both</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
@@ -21336,13 +21359,14 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_opposite">
-                                <property name="label" translatable="yes">Opposite</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_this_limb">
+                                <property name="label" translatable="yes">This limb</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
+                                <property name="xalign">0</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">jumps_radiobutton_single_leg_fall_this_limb</property>
+                                <property name="group">jumps_radiobutton_single_leg_fall_both</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
                               </widget>
                               <packing>
@@ -21352,13 +21376,13 @@ comments</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_both">
-                                <property name="label" translatable="yes">Both</property>
+                              <widget class="GtkRadioButton" id="jumps_radiobutton_single_leg_fall_opposite">
+                                <property name="label" translatable="yes">Opposite</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="draw_indicator">True</property>
-                                <property name="group">jumps_radiobutton_single_leg_fall_this_limb</property>
+                                <property name="group">jumps_radiobutton_single_leg_fall_both</property>
                                 <signal name="toggled" handler="on_radio_single_leg_3_toggled" swapped="no"/>
                               </widget>
                               <packing>
@@ -28351,6 +28375,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -29743,6 +29785,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                   <placeholder/>
                                 </child>
                                 <child>
+                                  <placeholder/>
+                                </child>
+                                <child>
                                   <widget class="GtkLabel" id="label19">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
@@ -29921,9 +29966,6 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                     <property name="x_options">GTK_EXPAND | GTK_SHRINK | GTK_FILL</property>
                                     <property name="y_options">GTK_FILL</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <placeholder/>
                                 </child>
                               </widget>
                               <packing>
@@ -30235,6 +30277,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -30285,6 +30330,15 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                         <property name="n_columns">3</property>
                         <property name="column_spacing">6</property>
                         <property name="row_spacing">4</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                         <child>
                           <placeholder/>
                         </child>
@@ -30641,6 +30695,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -33304,6 +33361,9 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -33330,6 +33390,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -33540,6 +33603,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

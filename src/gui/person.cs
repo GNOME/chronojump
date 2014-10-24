@@ -964,7 +964,7 @@ public class PersonAddModifyWindow
 
 		if(adding) {
 			person_win.Title = Catalog.GetString ("New jumper");
-			button_accept.Sensitive = false;
+			//button_accept.Sensitive = false;
 		} else 
 			person_win.Title = Catalog.GetString ("Edit jumper");
 	}
@@ -1097,10 +1097,17 @@ public class PersonAddModifyWindow
 		//UtilGtk.ComboGetActive(combo_continents) != Catalog.GetString(Constants.ContinentUndefined) &&
 		//UtilGtk.ComboGetActive(combo_countries) != Catalog.GetString(Constants.CountryUndefined)
 			
+		/*
 		if(allOk)
 			button_accept.Sensitive = true;
 		else
 			button_accept.Sensitive = false;
+		*/
+		/*
+		Always true because there's problems detecting the spinbutton change (when inserting data directly on entry)
+		and there's an error message after if there's missing data	
+		*/
+		button_accept.Sensitive = true;
 	}
 		
 	void on_radiobutton_man_toggled (object o, EventArgs args)
@@ -1556,28 +1563,29 @@ public class PersonAddModifyWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		bool personExists;
-		if(adding)
-			personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(entry1.Text));
-		else
-			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(entry1.Text));
-
 		string errorMessage = "";
 
-		if(personExists) 
-			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry1.Text) );
-		//else if (sport.Name == Catalog.GetString(Constants.SportUndefined)) 
-		//	errorMessage += Catalog.GetString("Please select an sport");
+		//Check if person name exists and weight is > 0
+		string personName = entry1.Text;
+		if(personName == "")
+			errorMessage += "\n" + Catalog.GetString("Please, write the name of the person.");
+		if((double) spinbutton_weight.Value == 0)
+			errorMessage += "\n" + Catalog.GetString("Please, complete the weight of the person.");
+		if(errorMessage.Length > 0) {
+			ErrorWindow.Show(errorMessage);
+			return;
+		}
 
-		//here sport shouldn't be undefined, then check 
-		//if it has speciallities and if they are selected
-		//else if (sport.HasSpeciallities && 
-		//		UtilGtk.ComboGetActive(combo_speciallities) == Catalog.GetString(Constants.SpeciallityUndefined))
-		//	errorMessage += Catalog.GetString("Please select an speciallity");
-		//else if (UtilGtk.ComboGetActive(combo_levels) ==
-		//		Constants.LevelUndefinedID.ToString() + ":" + 
-		//	       	Catalog.GetString(Constants.LevelUndefined))
-		//	errorMessage += Catalog.GetString("Please select a level");
+
+		bool personExists;
+		if(adding)
+			personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(personName));
+		else
+			personExists = SqlitePerson.ExistsAndItsNotMe (currentPerson.UniqueID, Util.RemoveTilde(personName));
+
+		if(personExists) 
+			errorMessage += string.Format(Catalog.GetString("Person: '{0}' exists. Please, use another name"), 
+					Util.RemoveTildeAndColonAndDot(personName) );
 		else {
 			//if weight has changed
 			if(!adding && (double) spinbutton_weight.Value != weightIni) {

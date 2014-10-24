@@ -65,7 +65,10 @@ public class TreeViewJumps : TreeViewEvent
 		else
 			weightName += "\n(Kg)";
 
-		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName }; //Note: if this changes, check the '5's in obtainColumnsString
+		string [] columnsStringPre = { jumperName, 
+			Catalog.GetString("TC") + "\n(s)", 
+			Catalog.GetString("TF") + "\n(s)", 
+			weightName, fallName }; //Note: if this changes, check the '5's in obtainColumnsString
 
 		columnsString = obtainColumnsString(columnsStringPre);
 	
@@ -252,7 +255,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 		else
 			weightName += "\n(Kg)";
 
-		string [] columnsStringPre = { jumperName, "TC\n(s)", "TF\n(s)", weightName, fallName };
+		string [] columnsStringPre = { jumperName, 
+			Catalog.GetString("TC") + "\n(s)", 
+			Catalog.GetString("TF") + "\n(s)", 
+			weightName, fallName };
 		columnsString = obtainColumnsString(columnsStringPre);
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 

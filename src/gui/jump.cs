@@ -973,8 +973,11 @@ partial class ChronoJumpWindow
 {
 	//options jumps
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_weight;
+	[Widget] Gtk.Box extra_window_jumps_vbox_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_predefined;
 	[Widget] Gtk.RadioButton extra_window_jumps_radio_dj_fall_calculate;
+	[Widget] Gtk.Label extra_window_jumps_label_dj_start_inside;
+	[Widget] Gtk.Label extra_window_jumps_label_dj_start_outside;
 	[Widget] Gtk.SpinButton extra_window_jumps_spinbutton_fall;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_kg;
 	[Widget] Gtk.RadioButton extra_window_jumps_radiobutton_weight;
@@ -1052,7 +1055,16 @@ partial class ChronoJumpWindow
 		}
 		return t;
 	}
-	
+
+
+	private void on_extra_window_jumps_radio_dj_fall_calculate_toggled (object o, EventArgs args) {
+		extra_window_jumps_label_dj_start_inside.Visible = true;
+		extra_window_jumps_label_dj_start_outside.Visible = false;
+	}
+	private void on_extra_window_jumps_radio_dj_fall_predefined_toggled (object o, EventArgs args) {
+		extra_window_jumps_label_dj_start_inside.Visible = false;
+		extra_window_jumps_label_dj_start_outside.Visible = true;
+	}
 	
 	private void on_extra_window_jumps_test_changed(object o, EventArgs args)
 	{
@@ -1299,14 +1311,9 @@ partial class ChronoJumpWindow
 			extra_window_jumps_rj_label_cm.Visible = show;
 		
 			//only on simple jumps	
-			extra_window_jumps_radio_dj_fall_predefined.Visible = false;
-			extra_window_jumps_radio_dj_fall_calculate.Visible = false;
-		} else {
-			extra_window_jumps_radio_dj_fall_predefined.Visible = show;
-			extra_window_jumps_radio_dj_fall_calculate.Visible = show;
-			extra_window_jumps_spinbutton_fall.Visible = show;
-			extra_window_jumps_label_cm.Visible = show;
-		}
+			extra_window_jumps_vbox_fall.Visible = false;
+		} else 
+			extra_window_jumps_vbox_fall.Visible = show;
 	}
 	
 	private void extra_window_showLimitData (bool show) {

@@ -1377,30 +1377,59 @@ Log.WriteLine(intervalSpeeds);
 		dbcon.Close();
 		return myArray;
 	}
-
-	public static void SelectChronojumpProfile ()
+	
+	/*
+	maximum values of each jump!!!!
+	all with heights
+	SJ100		F Max
+	SJ-SJ100 	F Expl
+	CMJ-SJ 		Cap. Elastica (hability)
+	ABK-CMJ 	Cap. Braços (hability)
+	DJ		F Reactiu-reflexa
+	*/
+	public static void SelectChronojumpProfile (string sessionID)
 	{
 		dbcon.Open();
 		
 		//select personID and personName (IDNameList)
 		IDNameList idNameList = fillIDNameList( 
 				"SELECT personSession77.personID, person77.name FROM personSession77, person77 " +
-				"WHERE personSession77.sessionID==7 AND personSession77.personID = person77.uniqueID");
+				"WHERE personSession77.sessionID == " + sessionID +
+				" AND personSession77.personID == person77.uniqueID");
+
+
+		//select personID and each index (using IDDoubleLists)
+		IDDoubleList listFMax = fillIDDoubleList( 
+				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) FROM jump WHERE type=='SJl' AND jump.weight=100 " +
+				" AND sessionID == " + sessionID + " GROUP BY personID");
 	
-		//prepare big arraylist
+		IDDoubleList listFEXpl = fillIDDoubleList( 
+				"SELECT personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"FROM jump WHERE j1.type == 'SJ' AND j2.type == 'SJl' AND j2.weight=100 " +
+				" AND sessionID == " + sessionID + " GROUP BY personID");
+
+		IDDoubleList listCElast = fillIDDoubleList( 
+				"SELECT personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"FROM jump WHERE j1.type == 'CMJ' AND j2.type == 'SJ' " +
+				" AND sessionID == " + sessionID + " GROUP BY personID");
+	
+		IDDoubleList listCElast = fillIDDoubleList( 
+				"SELECT personID, MAX(j1.tv * j1.tv * 1.226) - MAX(j2.tv * j2.tv * 1.226) AS myIndex " +
+				"FROM jump WHERE j1.type == 'ABK' AND j2.type == 'CMJ' " +
+				" AND sessionID == " + sessionID + " GROUP BY personID");
+
+		IDDoubleList listFReact = fillIDDoubleList( 
+				"SELECT personID, MAX(jump.tv * jump.tv * 1.226) FROM jump WHERE type=='DJa' " +
+				" AND sessionID == " + sessionID + " GROUP BY personID");
+	
+		
 		ArrayList array = new ArrayList();
+		array.Add(listFMax);
+		array.Add(listFExpl);
+		array.Add(listCElast);
+		array.Add(listCElast);
+		array.Add(listFReact);
 
-		//select personID and jump type 'SJ' mean
-		IDDoubleList idDoubleListSJ = fillIDDoubleList( 
-				"SELECT personID, AVG(tv) FROM jump WHERE type=='SJ' AND sessionID==7 GROUP BY personID");
-		array.Add(idDoubleListSJ);
-	
-
-		//select personID and jump type 'CMJ' mean
-		IDDoubleList idDoubleListCMJ = fillIDDoubleList( 
-				"SELECT personID, AVG(tv) FROM jump WHERE type=='CMJ' AND sessionID==7 GROUP BY personID");
-		array.Add(idDoubleListCMJ);
-	
 		//print all	
 		IDNameIDDoubleListOfLists superlist = new IDNameIDDoubleListOfLists(idNameList, array);
 		Log.WriteLine("superlist");

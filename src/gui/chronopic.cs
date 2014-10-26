@@ -193,7 +193,7 @@ public class ChronopicWindow
 	}
 	
 	//recreate is used when a Chronopic was disconnected
-	//port names com from gui/chronojump.cs to this method (myCpd)
+	//port names come from gui/chronojump.cs to this method (myCpd)
 	static public ChronopicWindow Create (ArrayList myCpd, string myEncoderPort, bool recreate, bool volumeOn)
 	{
 		if (ChronopicWindowBox != null && recreate) {
@@ -222,14 +222,15 @@ public class ChronopicWindow
 		} 
 		
 		ChronopicWindowBox.type = type;
+		ChronopicWindowBox.volumeOn = volumeOn;
 		
-		if(type == "contacts")
+		if(type == "contacts") {
 			ChronopicWindowBox.notebook_main.CurrentPage = 0;
+			ChronopicWindowBox.checkChronopicDisconnected(); //encoder does not need this because there's no connection
+		}
 		else
 			ChronopicWindowBox.notebook_main.CurrentPage = 1;
 		
-		ChronopicWindowBox.volumeOn = volumeOn;
-		ChronopicWindowBox.checkChronopicDisconnected();
 		ChronopicWindowBox.createCombos();
 
 		//ports info comes from gui/chronojump.cs to Create mehod

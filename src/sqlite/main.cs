@@ -92,10 +92,12 @@ class Sqlite
 	//because lots of similar transactions have to be done
 	public static void Open()
 	{
+		Log.WriteLine("SQL ON");
 		dbcon.Open();
 	}
 	public static void Close()
 	{
+		Log.WriteLine("SQL OFF");
 		dbcon.Close();
 	}
 

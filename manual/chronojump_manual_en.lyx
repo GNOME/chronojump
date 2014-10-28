@@ -2451,17 +2451,162 @@ Cancel
  button.
 \end_layout
 
+\begin_layout Subsection
+Automatic mode
+\end_layout
+
 \begin_layout Standard
-If you want to execute the same type of jump to various subjects and you
- don’t want a button (only available on the tab 
+In order to accelerate the process of testing multiple subjects you can
+ click on the 
 \emph on
-More
+Automatic mode
 \emph default
-), you can change the subject and use the 
+ button.
+ This mode allows you to perform tests creating or loading sequences of
+ diferent jumps or people.
+\end_layout
+
+\begin_layout Standard
+Defining the sequence can be done either loading a preconfigured one (
 \emph on
-Last
+Load sequence
 \emph default
- button to allow another person to perform the same jump.
+) or creating a new one (
+\emph on
+Create new sequence).
+\end_layout
+
+\begin_layout Standard
+When a new sequence is created the order of the test must be defined.
+ There are three different options:
+\end_layout
+
+\begin_layout Itemize
+By persons: Each person of the session performs all the tests before changing
+ to the next person.
+ Example: 
+\emph on
+Chronojump profile
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+By tests: Each test in the sequence is perfomed by all the people in the
+ session before changing to the next test.
+ Example: 
+\emph on
+Bilateral profile by persons
+\end_layout
+
+\begin_layout Itemize
+By sets: Each person of the session performs the first set of tests before
+ changing to the second set of tests.
+ It can be defined up to 3 different sets of tests.
+ Example: 
+\emph on
+Bilateral profile by sets
+\end_layout
+
+\begin_layout Standard
+To define a new sequence click on the type of sequence it is about to be
+ created and click on the 
+\emph on
+Next 
+\emph default
+button.
+ Then, in the new window, the order of the tests can be defined.
+ If the 
+\emph on
+By sets
+\emph default
+ option was selected, each set must be defined separately.
+\end_layout
+
+\begin_layout Standard
+After defining the sequence, it can be saved clicking on the 
+\emph on
+Save
+\emph default
+ button.
+\end_layout
+
+\begin_layout Standard
+Once the 
+\emph on
+Next
+\emph default
+ button is pressed a new windows will show the whole sequence indicating
+ the order of the person and the test.
+\end_layout
+
+\begin_layout Standard
+When the 
+\emph on
+Accept
+\emph default
+ button is pressed the automatic mode is activated.
+ In this mode the person frame will be disabled and the name of the next
+ jumper and what test is going to be done will be shown in the upper left
+ corner of the Capure frame.
+ The selection of the test will also disappear, not allowing to change
+\end_layout
+
+\begin_layout Standard
+After performing each jump test, the person and the test will change automatical
+ly.
+\end_layout
+
+\begin_layout Standard
+Clicking on the 
+\emph on
+See order
+\emph default
+ button
+\begin_inset Graphics
+	filename automatic_list.png
+
+\end_inset
+
+ the whole sequence of the test can be viewed.
+\end_layout
+
+\begin_layout Standard
+To skip all the tests of a person and execute it at the end of the sequence
+ click on the 
+\emph on
+Skip
+\emph default
+ 
+\begin_inset Graphics
+	filename automatic_skip.png
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To delete a person from the sequence click on 
+\emph on
+Remove
+\emph default
+ button 
+\begin_inset Graphics
+	filename automatic_delete.png
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Clicking on the 
+\emph on
+End automatic mode
+\emph default
+ will return to the normal way of work of Chronojump, allowing you to select
+ the person and the test to be performed.
 \end_layout
 
 \begin_layout Section
@@ -5902,7 +6047,7 @@ Encoder settings and preferences
 \begin_layout Standard
 At preferences there are some options that are more advanced and are not
  changed frequently.
- Clicking at “Session / Preferences” you will see three tabs, the last one
+ Clicking at “Session / Preferences” you will see three tabs, third one
  is related to encoder.
 \end_layout
 
@@ -5918,8 +6063,41 @@ If you want to do calculations of mechanical parameters only in the propulsive
  is related to negative force and the power values get very low.
  Then, if “propulsive” phase is active, only this is used, and not the “brake”
  phase.
- The other options are related to smoothing of the capture and we recommend
+\end_layout
+
+\begin_layout Standard
+On 
+\emph on
+Save repetitions automatically on capture 
+\emph default
+can be selected what repetition must be saved when perfoming a new exercise.
+ By default the repetitions with the best mean power will be saved, but
+ it can be changed to 
+\emph on
+Save all
+\emph default
+ the repetitions or 
+\emph on
+Do not save 
+\emph default
+any repetition of the exercise.
+\end_layout
+
+\begin_layout Standard
+The next options are related to smoothing of the capture and we recommend
  to leave them untouched.
+\end_layout
+
+\begin_layout Standard
+In the 
+\emph on
+1RM prediction,
+\emph default
+ the method to get the linear regression can be selected.
+ The exponent in the weight means that the larger is the mass of the point
+ used the larger is the weight used for the regression.
+ The function of the weight can be zero (non wighted), one (linear), two
+ (quadratic) or three (cubic).
 \end_layout
 
 \begin_layout Section

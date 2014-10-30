@@ -231,6 +231,8 @@ public class StatType {
 				string indexType = "";
 				if(statisticSubType == Catalog.GetString(Constants.SubtractionBetweenTests))
 					indexType = "subtraction";
+				else if(statisticSubType == Constants.ChronojumpProfile) 
+					indexType = "ChronojumpProfile";
 				else if(statisticSubType == Constants.IeIndexFormula) 
 					indexType = "IE";
 				else if(statisticSubType == Constants.ArmsUseIndexFormula) 
@@ -263,6 +265,12 @@ public class StatType {
 						myStat = new GraphJumpSimpleSubtraction(myStatTypeStruct); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
+				} if(indexType == "ChronojumpProfile") {
+					if(graph) 
+						//myStat = new GraphChronojumpProfile(myStatTypeStruct); 
+						Log.WriteLine("TODO");
+					else 
+						myStat = new StatChronojumpProfile(myStatTypeStruct, treeview_stats); 
 				} else if(indexType == "IE" || indexType == Constants.ArmsUseIndexName || 
 						indexType == "IRna" || indexType == "IRa") {
 					if(graph) 

@@ -157,5 +157,33 @@ public class IDNameIDDoubleListOfLists
 		}
 		return str;
 	}
+	
+	public ArrayList GetArray() {
+		ArrayList array = new ArrayList();
+		int i = 0;
+		foreach(IDName iname in lname.l)
+			//array.Add(iname.ToString());
+			array.Add(iname.Name);
+
+		//read every list
+		foreach(IDDoubleList ldoublelist in ldoublelistoflists) {
+			Log.WriteLine(ldoublelist.ToString());
+
+			//find if exists a record on this list for the uniqueID on lname
+			i = 0;
+			foreach(IDName iname in lname.l) {
+				double d = ldoublelist.FindDouble(iname.UniqueID);
+				if(d == -1)
+					array[i++] += ":" + "-";
+				else
+					array[i++] += ":" + d.ToString();
+			}
+		}
+		Log.WriteLine("printing at GetArray()");
+		foreach(string str in array)
+			Log.WriteLine(str);
+
+		return array;
+	}
 }
 

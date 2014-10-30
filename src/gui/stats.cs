@@ -188,6 +188,7 @@ public partial class ChronoJumpWindow {
 	
 	private static string [] comboStatsSubTypeSimpleOptions = {
 		Catalog.GetString("No indexes"), 
+		Constants.ChronojumpProfile,
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.ArmsUseIndexFormula,
@@ -654,6 +655,10 @@ public partial class ChronoJumpWindow {
 					SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "nonTC", true), ""); //only select name
 				combo_stats_stat_apply_to.Sensitive = true;
 				combo_stats_stat_apply_to.Active = 0;
+			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.ChronojumpProfile) {
+				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "SJ, SJl 100%, CMJ, ABK, DJa");
+				combo_stats_stat_apply_to.Active = 0;
+				combo_stats_stat_apply_to.Sensitive = false;
 			} else if (UtilGtk.ComboGetActive(combo_stats_stat_subtype) == Constants.IeIndexFormula) {
 				UtilGtk.ComboUpdate(combo_stats_stat_apply_to, "CMJ, SJ");
 				combo_stats_stat_apply_to.Active = 0;
@@ -1079,6 +1084,15 @@ public partial class ChronoJumpWindow {
 			//make no sensitive
 			radiobutton_stats_jumps_limit.Sensitive = false;
 			radiobutton_stats_jumps_person_bests.Sensitive = false;
+			radiobutton_stats_jumps_person_average.Sensitive = false;
+		}
+		else if(statisticType == Constants.TypeJumpsSimple && statisticSubType == Constants.ChronojumpProfile) {
+			//on Chronojump profile only best jumps are used
+			radiobutton_stats_jumps_person_bests.Active = true;
+			//make no sensitive
+			spin_stats_jumps_person_bests.Sensitive = false;
+			radiobutton_stats_jumps_all.Sensitive = false;
+			radiobutton_stats_jumps_limit.Sensitive = false;
 			radiobutton_stats_jumps_person_average.Sensitive = false;
 		}
 		else if(statisticType == Constants.TypeSessionSummary || 

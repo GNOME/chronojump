@@ -46,6 +46,7 @@ SOURCES = \
 	gui/usefulObjects.cs\
 	statType.cs\
 	stats/main.cs\
+	stats/chronojumpProfile.cs\
 	stats/global.cs\
 	stats/sjCmjAbk.cs\
 	stats/sjCmjAbkPlus.cs\

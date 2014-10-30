@@ -453,7 +453,6 @@ class Sqlite
 
 	public static bool ConvertToLastChronojumpDBVersion() {
 		Log.WriteLine("SelectChronojumpProfile ()");
-		SqliteStat.SelectChronojumpProfile ();
 
 		//if(checkIfIsSqlite2())
 		//	convertSqlite2To3();

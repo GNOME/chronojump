@@ -81,6 +81,7 @@ public class Constants
 	public static string QIndexFormulaOnly = "tv/(tc*1.0)"; //*1.0 for having double division
 	public static string DjPowerFormulaOnly = PersonSessionTable + ".weight * 9.81 * (fall/100.0 + 1.226 * (tv*tv) ) / ((tc+tv)*1.0)";
 	
+	public static string ChronojumpProfile = Catalog.GetString("Chronojump profile");
 	public const string FvIndexFormula = "F/V sj+(100%)/sj *100";
 	public const string IeIndexFormula = "IE (cmj-sj)/sj *100";
 	public const string IRnaIndexFormula = "IRna (djna-cmj)/cmj *100";

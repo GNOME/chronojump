@@ -61,6 +61,7 @@ src/sqlite/session.cs
 src/sqlite/speciallity.cs
 src/sqlite/sport.cs
 src/sqlite/stat.cs
+src/stats/chronojumpProfile.cs
 src/stats/djIndex.cs
 src/stats/djPower.cs
 src/stats/djQ.cs

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2011   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -56,7 +56,7 @@ class SqlitePersonSession : Sqlite
 			string comments) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -79,7 +79,7 @@ class SqlitePersonSession : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 		return myLast;
 	}
 	
@@ -88,7 +88,7 @@ class SqlitePersonSession : Sqlite
 	public static double SelectAttribute(bool dbconOpened, int personID, int sessionID, string attribute)
 	{
 		if( ! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonSessionTable +
 		       	" WHERE personID == " + personID + 
@@ -106,7 +106,7 @@ class SqlitePersonSession : Sqlite
 		}
 		reader.Close();
 		if( ! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myReturn;
 	}
@@ -115,7 +115,7 @@ class SqlitePersonSession : Sqlite
 	//select doubles
 	public static double SelectAttribute(int personID, string attribute)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + ", sessionID FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID + 
@@ -132,13 +132,13 @@ class SqlitePersonSession : Sqlite
 			myReturn = Convert.ToDouble(Util.ChangeDecimalSeparator(reader[0].ToString()));
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myReturn;
 	}
 	
 	public static void Update(PersonSession ps)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET personID = " + ps.PersonID + 
 			", sessionID = " + ps.SessionID + 
@@ -151,13 +151,13 @@ class SqlitePersonSession : Sqlite
 			"' WHERE uniqueID == " + ps.UniqueID;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	//double
 	public static void UpdateAttribute(int personID, int sessionID, string attribute, double attrValue)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonSessionTable + 
 			" SET " + attribute + " = " + Util.ConvertToPoint(attrValue) + 
 			" WHERE personID = " + personID +
@@ -165,12 +165,12 @@ class SqlitePersonSession : Sqlite
 			;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	public static bool PersonSelectExistsInSession(int myPersonID, int mySessionID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
@@ -186,7 +186,7 @@ class SqlitePersonSession : Sqlite
 			exists = true;
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return exists;
 	}
 
@@ -204,7 +204,7 @@ class SqlitePersonSession : Sqlite
 		if(sessionID == -1)
 			sessionIDString = " ORDER BY sessionID DESC limit 1";
 
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + tps +
 			" WHERE personID == " + personID + 
 			sessionIDString;
@@ -230,7 +230,7 @@ class SqlitePersonSession : Sqlite
 		}
 		
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return ps;
 	}
 	
@@ -242,7 +242,7 @@ class SqlitePersonSession : Sqlite
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 		
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".*" +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + tps + ".sessionID == " + sessionID + 
@@ -268,7 +268,7 @@ class SqlitePersonSession : Sqlite
 			myArray.Add (person);
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myArray;
 	}
 	
@@ -281,7 +281,7 @@ class SqlitePersonSession : Sqlite
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 		
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".*, " + tps + ".weight, sport.name, speciallity.name " +
 			"FROM " + tp + ", " + tps + ", sport, speciallity " +
 			" WHERE " + tps + ".sessionID == " + sessionID + 
@@ -324,7 +324,7 @@ class SqlitePersonSession : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] myJumpers = new string[count];
 		
@@ -348,7 +348,7 @@ class SqlitePersonSession : Sqlite
 	
 	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 
 		//1.- first delete in personSession77 at this session
 
@@ -454,13 +454,13 @@ class SqlitePersonSession : Sqlite
 		//4.- TODO: delete videos
 
 
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	public static bool PersonExistsInPS(bool dbconOpened, int personID)
 	{
 		if( ! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID;
@@ -480,7 +480,7 @@ class SqlitePersonSession : Sqlite
 		reader.Close();
 		
 		if( ! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return exists;
 	}

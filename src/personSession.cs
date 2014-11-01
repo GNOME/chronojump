@@ -63,7 +63,7 @@ public partial class PersonSession {
 	//this adds to database
 	public PersonSession(int personID, int sessionID,
 			double height, double weight, int sportID, 
-			int speciallityID, int practice, string comments)
+			int speciallityID, int practice, string comments, bool dbconOpened)
 	{
 		comments = Util.RemoveTildeAndColon(comments);
 
@@ -79,7 +79,7 @@ public partial class PersonSession {
 		//insert in the personSession table
 		//when insert as personSession we don't know uniqueID
 		uniqueID = -1;
-		int insertedID = this.InsertAtDB(false, Constants.PersonSessionTable);
+		int insertedID = this.InsertAtDB(dbconOpened, Constants.PersonSessionTable);
 		uniqueID = insertedID;
 
 		Log.WriteLine(this.ToString());

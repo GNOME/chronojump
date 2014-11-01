@@ -1644,7 +1644,7 @@ public class PersonAddModifyWindow
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
-					Constants.ServerUndefinedID);
+					Constants.ServerUndefinedID, false); //dbconOpened
 					
 			currentPersonSession = new PersonSession (
 					currentPerson.UniqueID, currentSession.UniqueID, 
@@ -1652,7 +1652,7 @@ public class PersonAddModifyWindow
 					sport.UniqueID, 
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-					textview_ps_comments.Buffer.Text);
+					textview_ps_comments.Buffer.Text, false); //dbconOpened
 		} else {
 			//here we update rows in the database
 			currentPerson = new Person (currentPerson.UniqueID, entry1.Text, sex, dateTime, 
@@ -1674,7 +1674,7 @@ public class PersonAddModifyWindow
 						sport.UniqueID, 
 						Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 						Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-						textview_ps_comments.Buffer.Text);
+						textview_ps_comments.Buffer.Text, false); //dbconOpened
 			else {
 				//don't come from recuperate
 				//we only need to update personSession
@@ -2180,8 +2180,10 @@ public class PersonAddMultipleWindow {
 		errorRepeatedEntryString = "";
 		personsCreatedCount = 0;
 
+		Sqlite.Open();
 		for (int i = 0; i < rows; i ++) 
 			checkEntries(i, ((Gtk.Entry)entries[i]).Text.ToString(), (int) ((Gtk.SpinButton)spins[i]).Value);
+		Sqlite.Close();
 	
 		checkAllEntriesAreDifferent();
 
@@ -2198,9 +2200,9 @@ public class PersonAddMultipleWindow {
 		}
 	}
 		
-	void checkEntries(int count, string name, double weight) {
+	private void checkEntries(int count, string name, double weight) {
 		if(name.Length > 0) {
-			bool personExists = Sqlite.Exists (false, Constants.PersonTable, Util.RemoveTilde(name));
+			bool personExists = Sqlite.Exists (true, Constants.PersonTable, Util.RemoveTilde(name));
 			if(personExists) {
 				errorExistsString += "[" + (count+1) + "] " + name + "\n";
 			}
@@ -2250,6 +2252,7 @@ public class PersonAddMultipleWindow {
 	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
 	void prepareAllNonBlankRows() 
 	{
+		Sqlite.Open();
 		//the last is the first for having the first value inserted as currentPerson
 		for (int i = rows -1; i >= 0; i --) 
 			if(((Gtk.Entry)entries[i]).Text.ToString().Length > 0)
@@ -2257,9 +2260,10 @@ public class PersonAddMultipleWindow {
 						((Gtk.Entry)entries[i]).Text.ToString(), 
 						((Gtk.RadioButton)radiosM[i]).Active, 
 		 				(double) ((Gtk.SpinButton)spins[i]).Value);
+		Sqlite.Close();
 	}
 
-	void insertPerson (string name, bool male, double weight) 
+	private void insertPerson (string name, bool male, double weight) 
 	{
 		string sex = Constants.F;
 		if(male) { sex = Constants.M; }
@@ -2271,7 +2275,7 @@ public class PersonAddMultipleWindow {
 				Constants.RaceUndefinedID,
 				Constants.CountryUndefinedID,
 				"", 			//description
-				Constants.ServerUndefinedID);
+				Constants.ServerUndefinedID, true); //dbconOpened
 				
 
 		new PersonSession (
@@ -2280,7 +2284,7 @@ public class PersonAddMultipleWindow {
 				currentSession.PersonsSportID,
 				currentSession.PersonsSpeciallityID,
 				currentSession.PersonsPractice,
-				""); 			//comments
+				"", true); 			//comments, dbconOpened
 
 		personsCreatedCount ++;
 	}

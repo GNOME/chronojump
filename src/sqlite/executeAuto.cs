@@ -60,7 +60,7 @@ class SqliteExecuteAuto : Sqlite
 	public static void Insert(bool dbconOpened, ExecuteAutoSQL eaSQL)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "INSERT INTO " + Constants.ExecuteAutoTable +  
 			" (uniqueID, name, mode, description, " +
@@ -76,7 +76,7 @@ class SqliteExecuteAuto : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 
 	protected internal static void addChronojumpProfileAndBilateral()
@@ -125,7 +125,7 @@ class SqliteExecuteAuto : Sqlite
 	public static List<ExecuteAutoSQL> Select(bool dbconOpened, int uniqueID) 
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string whereStr = "";
 		if(uniqueID != -1)
@@ -154,7 +154,7 @@ class SqliteExecuteAuto : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return sequences;
 	}

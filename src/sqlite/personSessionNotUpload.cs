@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -46,7 +46,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 
 	public static ArrayList SelectAll(int sessionID)
 	 {
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT personID FROM " + Constants.PersonNotUploadTable +
 			" WHERE sessionID == " + sessionID;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -60,30 +60,30 @@ class SqlitePersonSessionNotUpload : Sqlite
 			myArray.Add (reader[0].ToString());
 		
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myArray;
 	 }
 
 	public static void Add(int personID, int sessionID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "INSERT INTO " + Constants.PersonNotUploadTable +  
 			" (personID, sessionID)" +
 			" VALUES (" + personID + ", " + sessionID +")";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
-		dbcon.Close();
+		Sqlite.Close();
 	 }
 
 	public static void Delete(int personID, int sessionID)
 	 {
-		 dbcon.Open();
+		 Sqlite.Open();
 		 dbcmd.CommandText = "Delete FROM " + Constants.PersonNotUploadTable +
 			 " WHERE personID == " + personID + " AND sessionID == " + sessionID;
 		 Log.WriteLine(dbcmd.CommandText.ToString());
 		 dbcmd.ExecuteNonQuery();
-		 dbcon.Close();
+		 Sqlite.Close();
 	 }
 
 }

@@ -66,7 +66,7 @@ public partial class Person {
 	//used when we create new person 
 	//we don't know uniqueID
 	public Person(string name, string sex, DateTime dateBorn, int race, int countryID, string description,
-			int serverUniqueID) 
+			int serverUniqueID, bool dbconOpened) 
 	{
 		name = Util.RemoveTildeAndColon(name);
 		description = Util.RemoveTildeAndColon(description);
@@ -82,7 +82,7 @@ public partial class Person {
 		//insert in the person table
 		//when insert as person we don't know uniqueID
 		uniqueID = -1;
-		int insertedID = this.InsertAtDB(false, Constants.PersonTable);
+		int insertedID = this.InsertAtDB(dbconOpened, Constants.PersonTable);
 
 		//we need uniqueID for personSession
 		uniqueID = insertedID;

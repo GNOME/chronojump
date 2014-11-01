@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2010   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -55,8 +55,9 @@ class SqlitePerson : Sqlite
 	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
 			int race, int countryID, string description, int serverUniqueID)
 	{
+		Log.WriteLine("going to insert");
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -77,7 +78,7 @@ class SqlitePerson : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -85,7 +86,7 @@ class SqlitePerson : Sqlite
 	//This is like SqlitePersonSession.Selectbut this returns a Person
 	public static Person Select(int uniqueID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -109,7 +110,7 @@ class SqlitePerson : Sqlite
 					);
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return p;
 	}
 		
@@ -117,7 +118,7 @@ class SqlitePerson : Sqlite
 	//select strings
 	public static string SelectAttribute(int uniqueID, string attribute)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -132,14 +133,14 @@ class SqlitePerson : Sqlite
 			myReturn = reader[0].ToString();
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myReturn;
 	}
 		
 	//currently only used on server
 	public static ArrayList SelectAllPersons() 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.PersonTable; 
 		
 		SqliteDataReader reader;
@@ -151,7 +152,7 @@ class SqlitePerson : Sqlite
 			myArray.Add ("(" + reader[0].ToString() + ") " + reader[1].ToString());
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		return myArray;
 	}
@@ -172,7 +173,7 @@ class SqlitePerson : Sqlite
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
 
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".uniqueID " +
 			" FROM " + tp + "," + tps +
 			" WHERE " + tps + ".sessionID == " + except + 
@@ -187,7 +188,7 @@ class SqlitePerson : Sqlite
 			arrayExcept.Add (reader[0].ToString());
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		
 		//2
 		//sort no case sensitive when we sort by name
@@ -197,7 +198,7 @@ class SqlitePerson : Sqlite
 			sortedBy = tp + ".uniqueID" ; 
 		}
 		
-		dbcon.Open();
+		Sqlite.Open();
 		if(inSession == -1) {
 			string nameLike = "";
 			if(searchFilterName != "")
@@ -252,7 +253,7 @@ finishForeach:
 		}
 
 		reader2.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		return arrayReturn;
 	}
@@ -273,7 +274,7 @@ finishForeach:
 		
 		string tps = Constants.PersonSessionTable;
 	
-		dbcon.Open();
+		Sqlite.Open();
 		
 		//session where this person is loaded
 		dbcmd.CommandText = "SELECT sessionID, session.Name, session.Place, session.Date " + 
@@ -397,7 +398,7 @@ finishForeach:
 	
 
 
-		dbcon.Close();
+		Sqlite.Close();
 		
 	
 		ArrayList arrayAll = new ArrayList(2);
@@ -526,7 +527,7 @@ finishForeach:
 	
 	public static bool ExistsAndItsNotMe(int uniqueID, string personName)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
 			" WHERE LOWER(" + Constants.PersonTable + ".name) == LOWER('" + personName + "')" +
 			" AND uniqueID != " + uniqueID ;
@@ -545,14 +546,14 @@ finishForeach:
 		//Log.WriteLine("exists = {0}", exists.ToString());
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return exists;
 	}
 	
 	
 	public static void Update(Person myPerson)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PersonTable + 
 			" SET name = '" + myPerson.Name + 
 			"', sex = '" + myPerson.Sex +
@@ -564,7 +565,7 @@ finishForeach:
 			" WHERE uniqueID == " + myPerson.UniqueID;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 }

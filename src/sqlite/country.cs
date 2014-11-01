@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -63,7 +63,7 @@ class SqliteCountry : Sqlite
 	public static int Insert(bool dbconOpened, string code, string nameEnglish, string continent)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.CountryTable + 
 			//" (uniqueID, code, name, continent) VALUES (NULL, '" + code + "', '" + 
@@ -82,14 +82,14 @@ class SqliteCountry : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
 
 	public static string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == '" + continent + "'";
 		
@@ -104,7 +104,7 @@ class SqliteCountry : Sqlite
 					reader[1].ToString() + ":" + 
 					Catalog.GetString(reader[1].ToString()));
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		int count = 0;
 		string [] myReturn;
@@ -124,7 +124,7 @@ class SqliteCountry : Sqlite
 	
 	public static string [] Select(int uniqueID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -142,7 +142,7 @@ class SqliteCountry : Sqlite
 		myReturn[3] = reader[3].ToString(); //continent
 		
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myReturn;
 	}
 

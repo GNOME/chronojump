@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -66,7 +66,7 @@ class SqlitePulseType : Sqlite
 	{
 		string [] myStr = myPulse.Split(new char[] {':'});
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + Constants.PulseTypeTable +  
 				" (uniqueID, name, fixedPulse, totalPulsesNum, description)" +
@@ -76,7 +76,7 @@ class SqlitePulseType : Sqlite
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 	}
 	
@@ -85,7 +85,7 @@ class SqlitePulseType : Sqlite
 		//allPulsesName: add and "allPulsesName" value
 		//onlyName: return only type name
 	
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.PulseTypeTable + 
 			" ORDER BY uniqueID";
@@ -115,7 +115,7 @@ class SqlitePulseType : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		int numRows;
 		if(allPulsesName != "") {
@@ -139,7 +139,7 @@ class SqlitePulseType : Sqlite
 
 	public static PulseType SelectAndReturnPulseType(string typeName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.PulseTypeTable +
 			" WHERE name  = '" + typeName +
@@ -160,7 +160,7 @@ class SqlitePulseType : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		return myPulseType;
 	}

@@ -154,7 +154,7 @@ class SqliteJumpType : Sqlite
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
 				" (uniqueID, name, startIn, weight, description)" +
@@ -164,7 +164,7 @@ class SqliteJumpType : Sqlite
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 	}
 
@@ -172,7 +172,7 @@ class SqliteJumpType : Sqlite
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
 				" (uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
@@ -183,7 +183,7 @@ class SqliteJumpType : Sqlite
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 	}
 
@@ -202,7 +202,7 @@ class SqliteJumpType : Sqlite
 		else if(filter == "nonTC") { whereString = " WHERE startIn == 1 "; }
 	
 		if(! dbconOpened)	
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpTypeTable + " " +
@@ -236,7 +236,7 @@ class SqliteJumpType : Sqlite
 		reader.Close();
 
 		if(! dbconOpened)	
-			dbcon.Close();
+			Sqlite.Close();
 
 		int numRows;
 		if(allJumpsName != "") {
@@ -260,7 +260,7 @@ class SqliteJumpType : Sqlite
 
 	public static string[] SelectJumpRjTypes(string allJumpsName, bool onlyName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpRjTypeTable + " " +
 			" ORDER BY uniqueID";
@@ -292,7 +292,7 @@ class SqliteJumpType : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		int numRows;
 		if(allJumpsName != "") {
@@ -315,7 +315,7 @@ class SqliteJumpType : Sqlite
 	public static JumpType SelectAndReturnJumpType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpTypeTable + " " +
 			" WHERE name  = '" + typeName +
@@ -339,7 +339,7 @@ class SqliteJumpType : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myJumpType;
 	}
@@ -347,7 +347,7 @@ class SqliteJumpType : Sqlite
 	public static JumpType SelectAndReturnJumpRjType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.JumpRjTypeTable + " " +
 			" WHERE name  = '" + typeName +
@@ -382,7 +382,7 @@ class SqliteJumpType : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myJumpType;
 	}
@@ -390,7 +390,7 @@ class SqliteJumpType : Sqlite
 	//tableName is jumpType or jumpRjType
 	public static bool HasWeight(string tableName, string typeName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT weight " +
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
@@ -411,14 +411,14 @@ class SqliteJumpType : Sqlite
 			}
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return hasWeight;
 	}
 
 	//we know if it has fall if it starts in 
 	public static bool HasFall(string tableName, string typeName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT startIn " +
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
@@ -436,41 +436,41 @@ class SqliteJumpType : Sqlite
 			}
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return hasFall;
 	}
 
 	//updates name	
 	public static void Update(string nameOld, string nameNew)
 	{
-		//dbcon.Open();
+		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
 			"' WHERE name == '" + nameOld + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		//dbcon.Close();
+		//Sqlite.Close();
 	}
 
 	public static void UpdateOther(string column, string typeName, string newValue)
 	{
-		//dbcon.Open();
+		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = '" + newValue + 
 			"' WHERE name == '" + typeName + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		//dbcon.Close();
+		//Sqlite.Close();
 	}
 	
 	public static void Delete(string tableName, string name, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + tableName + 
 			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 
 }	

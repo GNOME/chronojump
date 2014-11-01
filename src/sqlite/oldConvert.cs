@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2013   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -95,7 +95,7 @@ class SqliteOldConvert : Sqlite
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string personIDStr = "";
 		if(personID != -1)
@@ -170,7 +170,7 @@ class SqliteOldConvert : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return array;
 	}
@@ -242,7 +242,7 @@ class SqliteOldConvert : Sqlite
 			int uniqueID, int personID, int sessionID, string signalOrCurve, bool onlyActive)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string personIDStr = "";
 		if(personID != -1)
@@ -312,7 +312,7 @@ class SqliteOldConvert : Sqlite
 		}
 		reader.Close();
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return array;
 	}

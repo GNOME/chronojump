@@ -85,18 +85,18 @@ class SqlitePreferences : Sqlite
 
 	public static void Insert(string myName, string myValue)
 	{
-		//dbcon.Open();
+		//Sqlite.Open();
 		dbcmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
 			" (name, value) VALUES ('" + 
 			myName + "', '" + myValue + "')" ;
 		dbcmd.ExecuteNonQuery();
-		//dbcon.Close();
+		//Sqlite.Close();
 	}
 
 	public static void Update(string myName, string myValue, bool dbconOpened)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = '" + myValue + 
@@ -105,12 +105,12 @@ class SqlitePreferences : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 
 	public static string Select (string myName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == '" + myName + "'" ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -126,14 +126,14 @@ class SqlitePreferences : Sqlite
 			myReturn = reader[0].ToString();
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		return myReturn;
 	}
 	
 	public static Preferences SelectAll () 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
@@ -211,7 +211,7 @@ class SqlitePreferences : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		return preferences;
 	}

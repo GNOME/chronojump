@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -50,7 +50,7 @@ class SqliteEvent : Sqlite
 	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened)
 	{
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
@@ -63,7 +63,7 @@ class SqliteEvent : Sqlite
 		dbcmd.CommandText = myString;
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 
 		return myLast;
@@ -72,7 +72,7 @@ class SqliteEvent : Sqlite
 	//do not use this because some graph like the takeoff.png are not in this SQL table	
 	public static string GraphLinkSelectFileName(string tableName, string eventName)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == '" + tableName + "' AND eventName =='" + eventName + "'";
 		
@@ -88,7 +88,7 @@ class SqliteEvent : Sqlite
 		}
 	
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return returnString;
 	}
 		
@@ -97,7 +97,7 @@ class SqliteEvent : Sqlite
 	public static void UpdateSimulated(bool dbconOpened, string tableName, int uniqueID, int simulated)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = " + simulated + 
 			" WHERE uniqueID == " + uniqueID ;
@@ -105,7 +105,7 @@ class SqliteEvent : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 
 	//convertSimulate and simulateConvertToNegative as a part of db conversion to 0.60

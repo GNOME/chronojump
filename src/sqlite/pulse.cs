@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -60,7 +60,7 @@ class SqlitePulse : Sqlite
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double fixedPulse, int totalPulsesNum, string timeString, string description, int simulated)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 	
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -80,7 +80,7 @@ class SqlitePulse : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -95,7 +95,7 @@ class SqlitePulse : Sqlite
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, pulse.* " +
 			" FROM " + tp + ", pulse " +
 			" WHERE " + tp + ".uniqueID == pulse.personID" + 
@@ -130,7 +130,7 @@ class SqlitePulse : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] myPulses = new string[count];
 		count =0;
@@ -144,7 +144,7 @@ class SqlitePulse : Sqlite
 	public static Pulse SelectPulseData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -159,20 +159,20 @@ class SqlitePulse : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 		return myPulse;
 	}
 
 	public static void Update(int pulseID, int personID, string description)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.PulseTable + 
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + pulseID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 }

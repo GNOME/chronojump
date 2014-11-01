@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -67,7 +67,7 @@ class SqliteServer : Sqlite
 	public static int InsertPing(bool dbconOpened, int evaluatorID, string cjVersion, string osVersion, string ip, DateTime date)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string uniqueID = "NULL";
 
@@ -90,7 +90,7 @@ class SqliteServer : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -99,7 +99,7 @@ class SqliteServer : Sqlite
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string uniqueID = "NULL";
 
@@ -128,7 +128,7 @@ class SqliteServer : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -137,7 +137,7 @@ class SqliteServer : Sqlite
 			int countryID, string chronometer, string device, string comments, bool confiable)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ServerEvaluatorTable + " " +
 			" SET code = '" + code +
 			"' , name = '" + name +
@@ -153,7 +153,7 @@ class SqliteServer : Sqlite
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 	
 	
@@ -161,7 +161,7 @@ class SqliteServer : Sqlite
 	//if confiable is read on client, it will be also checked on server
 	public static ServerEvaluator SelectEvaluator(int myUniqueID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		
@@ -187,13 +187,13 @@ class SqliteServer : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myEval;
 	}
 	
 	public static string [] SelectEvaluators(bool addAnyString)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + 
 			Constants.ServerEvaluatorTable + ".uniqueID, " + 
 			Constants.ServerEvaluatorTable + ".name " +
@@ -212,12 +212,12 @@ class SqliteServer : Sqlite
 			evals.Add(reader[0].ToString() + ":" + reader[1].ToString());
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return Util.ArrayListToString(evals);
 	}
 	
 	public static string Query(string str) {
-		dbcon.Open();
+		Sqlite.Open();
 
 		dbcmd.CommandText = str; 
 		Log.WriteLine(dbcmd.CommandText.ToString());
@@ -231,14 +231,14 @@ class SqliteServer : Sqlite
 		}
 		
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return myReturn;
 	}
 
 	public static string [] Stats() {
 		ArrayList stats = new ArrayList();
 			
-		dbcon.Open();
+		Sqlite.Open();
 
 		/*
 		 * is good to add the string stuff like "Pings" 
@@ -258,7 +258,7 @@ class SqliteServer : Sqlite
 		stats.Add("Pulses:" + Sqlite.Count(Constants.PulseTable, true).ToString());
 		stats.Add("MultiChronopic:" + Sqlite.Count(Constants.MultiChronopicTable, true).ToString());
 		
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;
@@ -270,7 +270,7 @@ class SqliteServer : Sqlite
 	public static string [] StatsMine() {
 		ArrayList stats = new ArrayList();
 			
-		dbcon.Open();
+		Sqlite.Open();
 
 		/*
 		 * is good to add the string stuff like "Pings" 
@@ -288,7 +288,7 @@ class SqliteServer : Sqlite
 		stats.Add("Pulses:" + Sqlite.CountCondition(Constants.PulseTable, true, "simulated", ">", "0").ToString());
 		stats.Add("MultiChronopic:" + Sqlite.CountCondition(Constants.MultiChronopicTable, true, "simulated", ">", "0").ToString());
 		
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] statsString = Util.ArrayListToString(stats);
 		return statsString;

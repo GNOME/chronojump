@@ -30,9 +30,9 @@ public class StatChronojumpProfile : Stat
 	protected string [] columnsString = { 
 		Catalog.GetString("Jumper"), 
 		Catalog.GetString("F max"), 
-		Catalog.GetString("F explossive"), 
-		Catalog.GetString("Cap. Elast"),
-		Catalog.GetString("Cap. Arms"), 
+		Catalog.GetString("F explosive"), 
+		Catalog.GetString("Elastic cap."),
+		Catalog.GetString("Arms use."), 
 		Catalog.GetString("F reactive") };
 	
 	//if this is not present i have problems like (No overload for method `xxx' takes `0' arguments) with some inherited classes

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -58,7 +58,7 @@ class SqliteSpeciallity : Sqlite
 	public static int Insert(bool dbconOpened, int sportID, string speciallityName)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
 			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", '" + speciallityName + "')"; 
@@ -73,7 +73,7 @@ class SqliteSpeciallity : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -83,7 +83,7 @@ class SqliteSpeciallity : Sqlite
 		if(uniqueID == -1)
 			return "";
 
-		dbcon.Open();
+		Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -97,7 +97,7 @@ class SqliteSpeciallity : Sqlite
 		string speciallityName = reader[0].ToString(); //name
 	
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		//return uniqueID + ":" + Catalog.GetString(speciallityName);
 		return Catalog.GetString(speciallityName);
 	}
@@ -108,7 +108,7 @@ class SqliteSpeciallity : Sqlite
 		if(sportFilter != -1)
 			whereString = " WHERE sportID == " + sportFilter;
 
-		dbcon.Open();
+		Sqlite.Open();
 		SqliteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
@@ -131,7 +131,7 @@ class SqliteSpeciallity : Sqlite
 			count ++;
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] myReturn = new string[count];
 		count = 0;
@@ -202,7 +202,7 @@ class SqliteSpeciallity : Sqlite
 	public static void InsertUndefined(bool dbconOpened)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
 			" (uniqueID, sportID, name) VALUES (-1, -1, \"\")"; 
@@ -211,6 +211,6 @@ class SqliteSpeciallity : Sqlite
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 	}
 }

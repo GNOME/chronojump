@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -59,7 +59,7 @@ class SqliteSport : Sqlite
 	public static int Insert(bool dbconOpened, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -79,14 +79,14 @@ class SqliteSport : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
 
 	public static Sport Select(int uniqueID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SportTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -106,13 +106,13 @@ class SqliteSport : Sqlite
 				);
 	
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return mySport;
 	}
 		
 	public static int SelectID(string name)
 	{
-		//dbcon.Open();
+		//Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == '" + name + "'";
 		
@@ -125,14 +125,14 @@ class SqliteSport : Sqlite
 		int myID = Convert.ToInt32(reader[0]);
 		reader.Close();
 		
-		//dbcon.Close();
+		//Sqlite.Close();
 		
 		return myID;
 	}
 
 	public static string [] SelectAll() 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		SqliteDataReader reader;
 		ArrayList myArray = new ArrayList(2);
 		int count = 0;
@@ -156,7 +156,7 @@ class SqliteSport : Sqlite
 			count ++;
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] myReturn = new string[count];
 		count = 0;

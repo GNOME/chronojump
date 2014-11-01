@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -67,7 +67,7 @@ class SqliteJump : Sqlite
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double tv, double tc, double fall, double weight, string description, double angle, int simulated)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -89,7 +89,7 @@ class SqliteJump : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -100,7 +100,7 @@ class SqliteJump : Sqlite
 	public static string[] SelectJumps(bool dbconOpened, int sessionID, int personID, string filterWeight, string filterType) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
@@ -165,7 +165,7 @@ class SqliteJump : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 
 		string [] myJumps = new string[count];
@@ -180,7 +180,7 @@ class SqliteJump : Sqlite
 	public static Jump SelectJumpData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM jump WHERE uniqueID == " + uniqueID;
 		
@@ -196,7 +196,7 @@ class SqliteJump : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myJump;
 	}
@@ -204,7 +204,7 @@ class SqliteJump : Sqlite
 
 	public static void Update(int jumpID, string type, string tv, string tc, string fall, int personID, double weight, string description, double angle)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jump SET personID = " + personID + 
 			", type = '" + type +
 			"', tv = " + Util.ConvertToPoint(tv) +
@@ -216,27 +216,27 @@ class SqliteJump : Sqlite
 			" WHERE uniqueID == " + jumpID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	public static void UpdateWeight(string tableName, int uniqueID, double weight)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET weight = " + Util.ConvertToPoint(weight) + 
 			" WHERE uniqueID == " + uniqueID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	public static void UpdateDescription(string tableName, int uniqueID, string description)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + tableName + " SET description = '" + description + 
 			"' WHERE uniqueID == " + uniqueID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 	//onle for change SJ+ CMJ+ and ABK+ to SJl...

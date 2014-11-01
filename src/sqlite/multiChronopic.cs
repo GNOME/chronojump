@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -77,7 +77,7 @@ class SqliteMultiChronopic : Sqlite
 			string description, int simulated)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -107,7 +107,7 @@ class SqliteMultiChronopic : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -121,7 +121,7 @@ class SqliteMultiChronopic : Sqlite
 		if(personID != -1)
 			filterPersonString = " AND " + tp + ".uniqueID == " + personID;
 
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT " + tp + ".name, multiChronopic.* " +
 			" FROM " + tp + ", multiChronopic " +
 			" WHERE " + tp + ".uniqueID == multiChronopic.personID" + 
@@ -168,7 +168,7 @@ class SqliteMultiChronopic : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		string [] myEvents = new string[count];
 		count =0;
@@ -182,7 +182,7 @@ class SqliteMultiChronopic : Sqlite
 	public static MultiChronopic SelectMultiChronopicData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -198,13 +198,13 @@ class SqliteMultiChronopic : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 		return mc;
 	}
 
 	public static int MaxCPs(int sessionID)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		int maxCPs = 2;
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
@@ -228,20 +228,20 @@ class SqliteMultiChronopic : Sqlite
 		}
 		
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return maxCPs;
 	}
 
 	public static void Update(int eventID, int personID, string vars, string description)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.MultiChronopicTable + " SET personID = " + personID + 
 			", vars = '" + vars + 		//vars is distance on runAnalysis
 			"', description = '" + description +
 			"' WHERE uniqueID == " + eventID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 }

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -60,7 +60,7 @@ class SqliteRun : Sqlite
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double distance, double time, string description, int simulated, bool initialSpeed)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -81,7 +81,7 @@ class SqliteRun : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -92,7 +92,7 @@ class SqliteRun : Sqlite
 	public static string[] SelectRuns(bool dbconOpened, int sessionID, int personID, string filterType) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -145,7 +145,7 @@ class SqliteRun : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		string [] myRuns = new string[count];
 		count =0;
@@ -159,7 +159,7 @@ class SqliteRun : Sqlite
 	public static Run SelectRunData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -175,13 +175,13 @@ class SqliteRun : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 		return myRun;
 	}
 		
 	public static void Update(int runID, string type, string distance, string time, int personID, string description)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.RunTable + 
 			" SET personID = " + personID + 
 			", type = '" + type +
@@ -191,7 +191,7 @@ class SqliteRun : Sqlite
 			"' WHERE uniqueID == " + runID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 }

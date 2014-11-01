@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -58,7 +58,7 @@ class SqliteReactionTime : Sqlite
 	public static int Insert(bool dbconOpened, string tableName, string uniqueID, int personID, int sessionID, string type, double time, string description, int simulated)
 	{
 		if(! dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
@@ -78,7 +78,7 @@ class SqliteReactionTime : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myLast;
 	}
@@ -87,7 +87,7 @@ class SqliteReactionTime : Sqlite
 	public static string[] SelectReactionTimes(bool dbconOpened, int sessionID, int personID) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		string tp = Constants.PersonTable;
 
@@ -129,7 +129,7 @@ class SqliteReactionTime : Sqlite
 		reader.Close();
 		
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		string [] myEvents = new string[count];
 		count =0;
@@ -143,7 +143,7 @@ class SqliteReactionTime : Sqlite
 	public static ReactionTime SelectReactionTimeData(int uniqueID, bool dbconOpened)
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -159,13 +159,13 @@ class SqliteReactionTime : Sqlite
 	
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 		return myRT;
 	}
 		
 	public static void Update(int eventID, string type, string time, int personID, string description)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "UPDATE " + Constants.ReactionTimeTable + " SET personID = " + personID + 
 			", type = '" + type +
 			"', time = " + Util.ConvertToPoint(time) +
@@ -173,7 +173,7 @@ class SqliteReactionTime : Sqlite
 			"' WHERE uniqueID == " + eventID ;
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 }

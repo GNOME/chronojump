@@ -102,7 +102,7 @@ class SqliteRunType : Sqlite
 	{
 		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, description)" +
@@ -122,7 +122,7 @@ class SqliteRunType : Sqlite
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 		return myLast;
 	}
@@ -130,7 +130,7 @@ class SqliteRunType : Sqlite
 	public static RunType SelectAndReturnRunType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name  = '" + typeName +
@@ -154,7 +154,7 @@ class SqliteRunType : Sqlite
 
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myRunType;
 	}
@@ -166,7 +166,7 @@ class SqliteRunType : Sqlite
 	
 		string whereString = "";
 		
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunTypeTable +
 			whereString +
@@ -196,7 +196,7 @@ class SqliteRunType : Sqlite
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		int numRows;
 		if(allRunsName != "") {
@@ -220,7 +220,7 @@ class SqliteRunType : Sqlite
 
 	public static double Distance (string typeName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT distance " +
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name == '" + typeName + "'";
@@ -236,7 +236,7 @@ class SqliteRunType : Sqlite
 			distance = Convert.ToDouble(reader[0].ToString());
 		}
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 		return distance;
 	}
 	
@@ -262,12 +262,12 @@ class SqliteRunType : Sqlite
 
 	public static void Delete(string name)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
 			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 
@@ -377,12 +377,12 @@ class SqliteRunIntervalType : SqliteRunType
 	//public static void RunIntervalTypeInsert(string myRun, bool dbconOpened)
 	public static new int Insert(RunType t, string tableName, bool dbconOpened)
 	{
-		//done here for not having twho dbconsOpened
+		//done here for not having twho Sqlite.Opened
 		//double distance = t.Distance;
 
 		//string [] myStr = myRun.Split(new char[] {':'});
 		if(! dbconOpened) {
-			dbcon.Open();
+			Sqlite.Open();
 		}
 		dbcmd.CommandText = "INSERT INTO " + tableName + 
 				" (uniqueID, name, distance, tracksLimited, fixedValue, unlimited, description, distancesString)" +
@@ -406,14 +406,14 @@ class SqliteRunIntervalType : SqliteRunType
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 
 		if(! dbconOpened) {
-			dbcon.Close();
+			Sqlite.Close();
 		}
 		return myLast;
 	}
 
 	public static string[] SelectRunIntervalTypes(string allRunsName, bool onlyName) 
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
 			" ORDER BY uniqueID";
@@ -446,7 +446,7 @@ class SqliteRunIntervalType : SqliteRunType
 		}
 
 		reader.Close();
-		dbcon.Close();
+		Sqlite.Close();
 
 		int numRows;
 		if(allRunsName != "") {
@@ -469,7 +469,7 @@ class SqliteRunIntervalType : SqliteRunType
 	public static RunType SelectAndReturnRunIntervalType(string typeName, bool dbconOpened) 
 	{
 		if(!dbconOpened)
-			dbcon.Open();
+			Sqlite.Open();
 		dbcmd.CommandText = "SELECT * " +
 			" FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name  = '" + typeName +
@@ -502,7 +502,7 @@ class SqliteRunIntervalType : SqliteRunType
 
 		reader.Close();
 		if(!dbconOpened)
-			dbcon.Close();
+			Sqlite.Close();
 
 		return myRunType;
 	}
@@ -520,12 +520,12 @@ class SqliteRunIntervalType : SqliteRunType
 	
 	public static void Delete(string name)
 	{
-		dbcon.Open();
+		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name == '" + name + "'";
 		Log.WriteLine(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
-		dbcon.Close();
+		Sqlite.Close();
 	}
 
 

@@ -55,6 +55,8 @@ public class ChronopicWindow
 	[Widget] Gtk.Label label_connect_contacts;
 	[Widget] Gtk.Label label_connect_encoder;
 
+	[Widget] Gtk.Frame frame_supplementary;
+
 	[Widget] Gtk.Image image_cp1_yes;
 	[Widget] Gtk.Image image_cp1_no;
 	[Widget] Gtk.Image image_cp2_yes;
@@ -127,7 +129,6 @@ public class ChronopicWindow
 		OFF
 	}
 	bool connected;
-	string type;	//"contacts" or "encoder"
 	bool volumeOn;
 	int currentCp; //1 to 4
 	bool cancelledByUser;
@@ -153,6 +154,8 @@ public class ChronopicWindow
 	Chronopic.Plataforma platformState4;
 
 	States loggedState;		//log of last state
+	
+	public enum ChronojumpMode { JUMPORRUN, ENCODER, OTHER };
 	
 
 	public ChronopicWindow(ArrayList myCpd)
@@ -215,20 +218,22 @@ public class ChronopicWindow
 		return ChronopicWindowBox;
 	}
 
-	static public ChronopicWindow View (string type, bool volumeOn)
+	static public ChronopicWindow View (ChronojumpMode cmode, bool volumeOn)
 	{
 		if (ChronopicWindowBox == null) {
 			ChronopicWindowBox = new ChronopicWindow (cpd);
 		} 
 		
-		ChronopicWindowBox.type = type;
 		ChronopicWindowBox.volumeOn = volumeOn;
 		
-		if(type == "contacts") {
+		if(cmode == ChronojumpMode.JUMPORRUN || cmode == ChronojumpMode.OTHER) {
 			ChronopicWindowBox.notebook_main.CurrentPage = 0;
 			ChronopicWindowBox.checkChronopicDisconnected(); //encoder does not need this because there's no connection
+		
+			ChronopicWindowBox.frame_supplementary.Visible = 
+				(cmode == ChronojumpMode.OTHER); //can have multichronopic
 		}
-		else
+		else	//cmode == ChronojumpMode.ENCODER)
 			ChronopicWindowBox.notebook_main.CurrentPage = 1;
 		
 		ChronopicWindowBox.createCombos();

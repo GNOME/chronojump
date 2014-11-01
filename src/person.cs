@@ -45,6 +45,7 @@ public partial class Person {
 
 	//suitable when we load a person from the database for being the current Person
 	//we know uniqueID
+	//used also in class PersonSessionTransaction where we define the uniqueID 
 	public Person(int uniqueID, string name, string sex, DateTime dateBorn, 
 		       int race, int countryID, string description, int serverUniqueID) 
 	{
@@ -61,7 +62,7 @@ public partial class Person {
 		this.description = description;
 		this.serverUniqueID = serverUniqueID; //remember don't do this on server
 	}
-	
+
 	//typical constructor
 	//used when we create new person 
 	//we don't know uniqueID
@@ -113,6 +114,15 @@ public partial class Person {
 	{
 		return "[uniqueID: " + uniqueID + "]" + name + ", " + ", " + sex + ", " + dateBorn.ToShortDateString() + ", " + description;
 	}
+	
+	public string ToSQLInsertString()
+	{
+		return uniqueID.ToString() + ", '"  + name + "', '" + sex + "', '" + 
+			UtilDate.ToSql(dateBorn) + "', " + race + ", " + countryID + ", '" +
+			description + "', '', '', " +  //future1, future2
+			serverUniqueID;
+	}
+	
 	
 	public override bool Equals(object evalString)
 	{

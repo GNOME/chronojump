@@ -24,6 +24,7 @@ using System.IO;
 using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
 using Mono.Unix;
+using System.Collections.Generic; //List<T>
 
 
 class SqlitePersonSession : Sqlite
@@ -61,6 +62,9 @@ class SqlitePersonSession : Sqlite
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
 
+		// -----------------------
+		//ATTENTION: if this changes, change the PersonSession.ToSQLInsertString()
+		// -----------------------
 		dbcmd.CommandText = "INSERT INTO " + Constants.PersonSessionTable + 
 			"(uniqueID, personID, sessionID, height, weight, " + 
 			"sportID, speciallityID, practice, comments, future1, future2)" + 
@@ -487,3 +491,43 @@ class SqlitePersonSession : Sqlite
 
 }
 
+
+//used to insert person and personSession in a single translation
+class SqlitePersonSessionTransaction : Sqlite
+{
+	public SqlitePersonSessionTransaction(List <Person> persons, List <PersonSession> personSessions) 
+	{
+		Log.WriteLine("Starting transaction");
+		Sqlite.Open();
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+				
+				foreach(Person p in persons) {
+					dbcmdTr.CommandText = 
+						"INSERT INTO " + Constants.PersonTable +
+						" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) " + 
+						" VALUES (" + p.ToSQLInsertString() + ")";
+					Log.WriteLine(dbcmdTr.CommandText.ToString());
+					dbcmdTr.ExecuteNonQuery();
+				}
+				foreach(PersonSession ps in personSessions) {
+					dbcmdTr.CommandText = 
+						"INSERT INTO " + Constants.PersonSessionTable +
+						"(uniqueID, personID, sessionID, height, weight, " + 
+						"sportID, speciallityID, practice, comments, future1, future2)" + 
+						" VALUES (" + ps.ToSQLInsertString() + ")";
+					Log.WriteLine(dbcmdTr.CommandText.ToString());
+					dbcmdTr.ExecuteNonQuery();
+				}
+			}
+			tr.Commit();
+		}
+
+		Sqlite.Close();
+		Log.WriteLine("Ended transaction");
+	}
+}

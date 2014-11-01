@@ -2193,7 +2193,7 @@ public class PersonAddMultipleWindow {
 		if (combinedErrorString.Length > 0) {
 			ErrorWindow.Show(combinedErrorString);
 		} else {
-			prepareAllNonBlankRows();
+			processAllNonBlankRows();
 		
 			PersonAddMultipleWindowBox.person_multiple_infinite.Hide();
 			PersonAddMultipleWindowBox = null;
@@ -2250,45 +2250,58 @@ public class PersonAddMultipleWindow {
 
 	//inserts all the rows where name is not blank
 	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
-	void prepareAllNonBlankRows() 
+	void processAllNonBlankRows() 
 	{
-		Sqlite.Open();
-		//the last is the first for having the first value inserted as currentPerson
-		for (int i = rows -1; i >= 0; i --) 
-			if(((Gtk.Entry)entries[i]).Text.ToString().Length > 0)
-				insertPerson (
-						((Gtk.Entry)entries[i]).Text.ToString(), 
-						((Gtk.RadioButton)radiosM[i]).Active, 
-		 				(double) ((Gtk.SpinButton)spins[i]).Value);
-		Sqlite.Close();
-	}
+		int maxPUniqueID = Sqlite.Max(Constants.PersonTable, "uniqueID", false);
+		int pID = maxPUniqueID + 1;
+		int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
+		int psID = maxPSUniqueID + 1;
+		string sex = "";
+		double weight = 0;
+				
+		List <Person> persons = new List<Person>();
+		List <PersonSession> personSessions = new List<PersonSession>();
 
-	private void insertPerson (string name, bool male, double weight) 
-	{
-		string sex = Constants.F;
-		if(male) { sex = Constants.M; }
-
-		//now dateTime is undefined until user changes it
 		DateTime dateTime = DateTime.MinValue;
 
-		currentPerson = new Person ( name, sex, dateTime, 
-				Constants.RaceUndefinedID,
-				Constants.CountryUndefinedID,
-				"", 			//description
-				Constants.ServerUndefinedID, true); //dbconOpened
+		//the last is the first for having the first value inserted as currentPerson
+		for (int i = rows -1; i >= 0; i --) 
+			if(((Gtk.Entry)entries[i]).Text.ToString().Length > 0) 
+			{
+				sex = Constants.F;
+				if(((Gtk.RadioButton)radiosM[i]).Active) { sex = Constants.M; }
+
+				currentPerson = new Person(
+							pID ++,
+							((Gtk.Entry)entries[i]).Text.ToString(), //name
+							sex,
+							dateTime,
+							Constants.RaceUndefinedID,
+							Constants.CountryUndefinedID,
+							"", 					//description
+							Constants.ServerUndefinedID
+							);
 				
+				persons.Add(currentPerson);
+						
+				weight = (double) ((Gtk.SpinButton)spins[i]).Value;
+				personSessions.Add(new PersonSession(
+							psID ++,
+							currentPerson.UniqueID, currentSession.UniqueID, 
+							0, weight, 		//height, weight	
+							currentSession.PersonsSportID,
+							currentSession.PersonsSpeciallityID,
+							currentSession.PersonsPractice,
+							"") 			//comments
+						);
 
-		new PersonSession (
-				currentPerson.UniqueID, currentSession.UniqueID, 
-				0, weight, 		//height, weight	
-				currentSession.PersonsSportID,
-				currentSession.PersonsSpeciallityID,
-				currentSession.PersonsPractice,
-				"", true); 			//comments, dbconOpened
-
-		personsCreatedCount ++;
-	}
+				personsCreatedCount ++;
+			}
 	
+		//do the transaction	
+		SqlitePersonSessionTransaction psTr = new SqlitePersonSessionTransaction(persons, personSessions);
+	}
+
 	public Button Button_accept 
 	{
 		set {

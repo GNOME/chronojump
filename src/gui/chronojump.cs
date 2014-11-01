@@ -4390,13 +4390,17 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void on_chronopic_contacts_clicked (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View("contacts", preferences.volumeOn);
+		ChronopicWindow.ChronojumpMode cmode = ChronopicWindow.ChronojumpMode.JUMPORRUN;
+		if(radio_menuitem_mode_other.Active)
+			cmode = ChronopicWindow.ChronojumpMode.OTHER;
+
+		chronopicWin = ChronopicWindow.View(cmode, preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_contacts_connected_or_done);
 	}
 
 	private void on_chronopic_encoder_clicked (object o, EventArgs args) {
-		chronopicWin = ChronopicWindow.View("encoder", preferences.volumeOn);
+		chronopicWin = ChronopicWindow.View(ChronopicWindow.ChronojumpMode.ENCODER, preferences.volumeOn);
 		//chronopicWin.FakeWindowReload.Clicked += new EventHandler(chronopicWindowReload);
 		chronopicWin.FakeWindowDone.Clicked += new EventHandler(on_chronopic_window_encoder_connected_or_done);
 	}

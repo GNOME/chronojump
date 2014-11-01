@@ -99,6 +99,14 @@ public partial class PersonSession {
 	{
 		return "[uniqueID: " + uniqueID + "]," + personID + ", " + ", " + sessionID + ", " + height + ", " + weight + ", " + sportID + ", " + speciallityID + ", " + practice + ", " + comments;
 	}
+	
+	public string ToSQLInsertString()
+	{
+		return uniqueID.ToString() + ", " + personID + ", " + sessionID + ", " + 
+			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
+			sportID + ", " + speciallityID + ", " + practice + ", '" + 
+			comments + "', '', ''"; 
+	}
 
 	//some "set"s are needed. If not data of personSession does not arrive to the server
 
@@ -151,4 +159,3 @@ public partial class PersonSession {
 	~PersonSession() {}
 	   
 }
-

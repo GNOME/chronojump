@@ -62,6 +62,9 @@ class SqlitePerson : Sqlite
 		if(uniqueID == "-1")
 			uniqueID = "NULL";
 
+		// -----------------------
+		//ATTENTION: if this changes, change the Person.ToSQLInsertString()
+		// -----------------------
 		string myString = "INSERT INTO " + Constants.PersonTable + 
 			" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) VALUES (" + uniqueID + ", '" +
 			name + "', '" + sex + "', '" + UtilDate.ToSql(dateBorn) + "', " + 

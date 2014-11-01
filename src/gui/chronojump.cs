@@ -200,6 +200,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Box hbox_chronopics;
 	[Widget] Gtk.Label label_chronopics;
 	[Widget] Gtk.Label label_connected_chronopics;
+	[Widget] Gtk.Label label_chronopics_multitest;
 	[Widget] Gtk.Image image_simulated_warning;
 	//[Widget] Gtk.TextView textview_message_connected_chronopics;
 	//[Widget] Gtk.Image image_connected_chronopics;
@@ -2850,6 +2851,70 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		session_menuitem.Visible = true;
 		menuitem_mode.Visible = true;
+		
+		change_multitest_firmware(m);
+	}
+
+	//change debounce time automatically on change menuitem mode (if multitest firmware)
+	private void change_multitest_firmware(menuitem_modes m) {
+		label_chronopics_multitest.Text = "";
+		
+		if(! chronopicWin.Connected)
+			return;
+		if(m == menuitem_modes.POWER)
+		       return;
+
+		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
+		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
+		if(! UtilAll.IsWindows ()) {
+			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
+				Log.WriteLine("Chronopic has been disconnected");
+				createChronopicWindow(true);
+				chronopicWin.Connected = false;
+				return;
+			}
+		}
+
+		Chronopic.Plataforma ps;
+		bool ok = (chronopicWin.CP).Read_platform(out ps);
+		if(!ok) {
+			Log.WriteLine("Chronopic has been disconnected");
+			createChronopicWindow(true);
+			chronopicWin.Connected = false;
+		        return;
+		}
+
+	
+		ChronopicAuto ca;	
+		try {
+			ca = new ChronopicAutoCheck();
+			string chronopicVersion = ca.Read(chronopicWin.SP);
+		} catch {
+			Log.WriteLine("Could not read from Chronopic");
+			return;
+		}
+		
+		if(ca.IsChronopicAuto) {
+			try {
+				int debounceChange = 50;
+				if(m == menuitem_modes.RUNS)
+					debounceChange = 10;
+
+				//write change
+				ca = new ChronopicAutoChangeDebounce();
+				ca.Write(chronopicWin.SP, debounceChange);
+				
+				//read if ok
+				ca = new ChronopicAutoCheckDebounce();
+				string ms = ca.Read(chronopicWin.SP);
+				if(ms == "50 ms")
+					label_chronopics_multitest.Text = "[" + Catalog.GetString("Jumps") + "]";
+				else if(ms == "10 ms")
+					label_chronopics_multitest.Text = "[" + Catalog.GetString("Runs") + "]";
+			} catch {
+				Log.WriteLine("Could not change debounce");
+			}
+		}
 	}
 
 	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) 
@@ -3310,7 +3375,25 @@ Console.WriteLine("X");
 	}
 
 
-	void on_button_execute_test_clicked (object o, EventArgs args) {
+	void on_button_execute_test_clicked (object o, EventArgs args) 
+	{
+		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
+		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
+		if(! UtilAll.IsWindows() && chronopicWin.Connected) {
+			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
+				Log.WriteLine("Chronopic has been disconnected");
+				createChronopicWindow(true);
+				chronopicWin.Connected = false;
+				return;
+			}
+		}
+
+		on_button_execute_test_accepted(o, args);
+	}
+	
+	void on_button_execute_test_accepted (object o, EventArgs args) 
+	{
+
 		if(radio_mode_jumps_small.Active) 
 		{
 			on_normal_jump_activate(o, args);
@@ -4301,6 +4384,9 @@ Log.WriteLine("DDD 2");
 			chronopicContactsLabels(0, recreate);
 		else //(notebook_sup.CurrentPage == 1)
 			chronopicEncoderLabels(recreate);
+		
+		if(recreate)	
+			label_chronopics_multitest.Text = "";
 	}
 
 	private void on_chronopic_contacts_clicked (object o, EventArgs args) {
@@ -4344,6 +4430,12 @@ Log.WriteLine("DDD 2");
 
 		if(radio_mode_multi_chronopic_small.Active)	
 			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
+		
+		//this performs a: change_multitest_firmware(m);
+		if(cps > 0)
+			on_radio_menuitem_mode_toggled(new object(), new EventArgs ());
+		else 
+			label_chronopics_multitest.Text = "";
 		
 		chronopicContactsLabels(cps, true);
 	}

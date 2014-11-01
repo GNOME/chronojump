@@ -295,7 +295,10 @@ Log.WriteLine("bbb");
 	}
 	
 	//check if user has disconnected chronopic or port has changed
-	private void checkChronopicDisconnected() {
+	private void checkChronopicDisconnected() 
+	{
+		bool errorFound = false;
+	
 		foreach(ChronopicPortData a in cpd) {
 			Chronopic myCP;
 			Chronopic.Plataforma myPS;
@@ -308,38 +311,51 @@ Log.WriteLine("bbb");
 			} else if(a.Num == 3) {
 				myCP = cp3;
 				myPS = platformState3;
-			} else { //if(a.Num == 4) {
+			} else {
 				myCP = cp4;
 				myPS = platformState4;
 			}
 			
-			int errorCount = 0;
 			bool ok = false;	
 			if(a.Connected) {
-				//try {
+				string myPort = a.Port;
+
+				//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
+				//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
+				if(! isWindows) {
+					if(! File.Exists(myPort)) {
+						Log.WriteLine("port does not exists: " + myPort);
+						errorFound = true;
+					}
+				}
+			
+				if(! errorFound) {
+					//try {
 					ok = myCP.Read_platform(out myPS);
-				//} catch { 
-				//	Log.WriteLine("catch at 1"); 
-				//}
-				if(!ok) {
-					Log.WriteLine("false at 1");
-					errorCount ++;
+					//} catch { 
+					//	Log.WriteLine("catch at 1"); 
+					//}
+					if(!ok) {
+						Log.WriteLine("false at 1");
+						errorFound = true;
+					}
 				}
 			}
-			if(errorCount > 0) {
-				ArrayList myCPD = new ArrayList();
-				for(int i=1; i<=4;i++) {
-					ChronopicPortData b = new ChronopicPortData(i,"",false);
-					myCPD.Add(b);
-				}
-				Create (myCPD, encoderPort, true, volumeOn);
-				
-				connected = false;
-				
-				new DialogMessage(Constants.MessageTypes.WARNING, 
-						Catalog.GetString("One or more Chronopics have been disconnected.") + "\n" + 
-						Catalog.GetString("Please connect again, and configure on Chronopic window."));
+		}
+			
+		if(errorFound) {
+			ArrayList myCPD = new ArrayList();
+			for(int i=1; i<=4; i++) {
+				ChronopicPortData b = new ChronopicPortData(i,"",false);
+				myCPD.Add(b);
 			}
+			Create (myCPD, encoderPort, true, volumeOn);
+
+			connected = false;
+
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Catalog.GetString("One or more Chronopics have been disconnected.") + "\n" + 
+					Catalog.GetString("Please connect again, and configure on Chronopic window."));
 		}
 	}
 	
@@ -966,6 +982,10 @@ Log.WriteLine("bbb");
 		return count;
 	}
 
+	public string GetContactsFirstPort() {
+		return ((ChronopicPortData) cpd[0]).Port;
+	}
+
 	public string GetEncoderPort() {
 		if(isWindows)
 			return UtilGtk.ComboGetActive(combo_windows_encoder);
@@ -989,6 +1009,15 @@ Log.WriteLine("bbb");
 	public Chronopic CP4 {
 		get { return cp4; }
 	}
+	
+	public SerialPort SP {
+		get { return sp; }
+	}
+	
+	public Chronopic.Plataforma PlatformState {	//on (in platform), off (jumping), or unknow
+		get { return platformState; }
+	}
+
 
 	//connected to a Chronopic	
 	public bool Connected {

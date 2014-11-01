@@ -420,6 +420,7 @@ public abstract class ChronopicAuto
 {
 	protected SerialPort sp;
 	protected int sendNum;
+	public bool IsChronopicAuto;
 	protected internal abstract string Communicate();
 	private string str;
 
@@ -482,8 +483,8 @@ public class ChronopicAutoCheck : ChronopicAuto
 	protected internal override string Communicate() 
 	{
 		sp.Write("J");
-		bool isChronopicAuto = ( (char) sp.ReadByte() == 'J');
-		if (isChronopicAuto) {
+		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
+		if (IsChronopicAuto) {
 			sp.Write("V");
 			int major = (char) sp.ReadByte() - '0'; 
 			sp.ReadByte(); 		//.

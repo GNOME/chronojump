@@ -141,6 +141,41 @@ class SqliteEncoder : Sqlite
 			Sqlite.Close();
 	}
 	
+	public static int UpdateTransaction(ArrayList data, string [] checkboxes)
+	{
+		int count = 0;
+		int countActive = 0;
+
+		Log.WriteLine("Starting transaction");
+		Sqlite.Open();
+		
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+	
+				foreach(EncoderSQL eSQL in data) {
+					if(eSQL.status != checkboxes[count]) {
+						eSQL.status = checkboxes[count];
+
+						SqliteEncoder.Update(true, eSQL);
+					}
+
+					count ++;
+
+					if(eSQL.status == "active") 
+						countActive ++;
+				}
+			}
+			tr.Commit();
+		}
+
+		Sqlite.Close();
+		Log.WriteLine("Ended transaction");
+		return countActive;
+	}
+	
 	//pass uniqueID value and then will return one record. do like this:
 	//EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, myUniqueID, 0, 0, 0, "", EncoderSQL.Eccons.ALL, false, true)[0];
 	//don't care for the 0, 0, 0  because selection will be based on the myUniqueID and only one row will be returned

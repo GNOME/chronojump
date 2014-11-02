@@ -850,22 +850,8 @@ public partial class ChronoJumpWindow
 				false, true);
 
 		//update on database the curves that have been selected/deselected
-		int count = 0;
-		int countActive = 0;
-
-		Sqlite.Open();
-		foreach(EncoderSQL eSQL in data) {
-			if(eSQL.status != checkboxes[count]) {
-				eSQL.status = checkboxes[count];
-				SqliteEncoder.Update(true, eSQL);
-			}
-			
-			count ++;
-
-			if(eSQL.status == "active") 
-				countActive ++;
-		}
-		Sqlite.Close();
+		//doing it as a transaction: FAST
+		int countActive = SqliteEncoder.UpdateTransaction(data, checkboxes);
 
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();

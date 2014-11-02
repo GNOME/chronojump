@@ -104,8 +104,18 @@ class SqliteEncoder : Sqlite
 
 		return myLast;
 	}
-	
+
+	//normal Update call dbcmd will be used	
 	public static void Update(bool dbconOpened, EncoderSQL es)
+	{
+		update(dbconOpened, es, dbcmd);
+	}
+	//Transaction Update call dbcmdTr will be used	
+	public static void Update(bool dbconOpened, EncoderSQL es, SqliteCommand dbcmdTr) 
+	{
+		update(dbconOpened, es, dbcmdTr);
+	}
+	private static void update(bool dbconOpened, EncoderSQL es, SqliteCommand mycmd)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -113,7 +123,7 @@ class SqliteEncoder : Sqlite
 		if(es.uniqueID == "-1")
 			es.uniqueID = "NULL";
 
-		dbcmd.CommandText = "UPDATE " + Constants.EncoderTable + " SET " +
+		mycmd.CommandText = "UPDATE " + Constants.EncoderTable + " SET " +
 				" personID = " + es.personID +
 				", sessionID = " + es.sessionID +
 				", exerciseID = " + es.exerciseID +
@@ -134,8 +144,8 @@ class SqliteEncoder : Sqlite
 				"', future3 = '" + es.future3 + 
 				"' WHERE uniqueID == " + es.uniqueID ;
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		Log.WriteLine(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
 			Sqlite.Close();
@@ -159,7 +169,7 @@ class SqliteEncoder : Sqlite
 					if(eSQL.status != checkboxes[count]) {
 						eSQL.status = checkboxes[count];
 
-						SqliteEncoder.Update(true, eSQL);
+						SqliteEncoder.Update(true, eSQL, dbcmdTr);
 					}
 
 					count ++;

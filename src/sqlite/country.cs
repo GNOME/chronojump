@@ -48,19 +48,30 @@ class SqliteCountry : Sqlite
 	{
 		conversionSubRateTotal = countries.Length;
 		conversionSubRate = 0;
-		foreach(string myString in countries) {
-			//put in db only english name
-			string [] strFull = myString.Split(new char[] {':'});
-			Insert(
-					true,   		//dbconOpened
-					strFull[3], 		//code
-					strFull[1], 		//name (english)
-					strFull[0]		//continent
-			      );
-			conversionSubRate ++;
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+	
+				foreach(string myString in countries) {
+					//put in db only english name
+					string [] strFull = myString.Split(new char[] {':'});
+					Insert(
+							true,   		//dbconOpened
+							dbcmdTr,
+							strFull[3], 		//code
+							strFull[1], 		//name (english)
+							strFull[0]		//continent
+					      );
+					conversionSubRate ++;
+				}
+			}
+			tr.Commit();
 		}
 	}
-	public static int Insert(bool dbconOpened, string code, string nameEnglish, string continent)
+	public static void Insert(bool dbconOpened, SqliteCommand mycmd, string code, string nameEnglish, string continent)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -72,19 +83,20 @@ class SqliteCountry : Sqlite
 			" (uniqueID, code, name, continent) VALUES (NULL, \"" + code + "\", \"" + 
 			nameEnglish + "\", \"" + continent + "\")";
 
-		dbcmd.CommandText = myString;
-		dbcmd.ExecuteNonQuery();
+		mycmd.CommandText = myString;
+		Log.WriteLine(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
+		/*
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
 		myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
+		mycmd.CommandText = myString;
 		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+		*/
 
 		if(! dbconOpened)
 			Sqlite.Close();
-
-		return myLast;
 	}
 
 	public static string [] SelectCountriesOfAContinent(string continent, bool insertUndefined)

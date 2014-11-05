@@ -1009,6 +1009,11 @@ public class Stat
 				name = Util.ConvertToUnicode(name);
 
 			rowNamesD += sep2 + "'" + name  + "'";
+
+			//each four values add a \n to not have a "long line" problem in sending data to R
+			if((i+1) % 4 == 0)
+				rowNamesD += "\n";
+			
 			sep2 = ", ";
 		}
 		

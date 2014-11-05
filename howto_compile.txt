@@ -84,6 +84,7 @@ WINDOWS
 ----- 2014 -------------
 
 - to compile:
+(from remmina)(if there's any problem with the keyboard, just go outside of Linux GUI using CTRL+ALT+F1 and return)
 
 chronojump-shell
 cd chronojump

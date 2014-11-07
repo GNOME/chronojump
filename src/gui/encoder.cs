@@ -577,6 +577,8 @@ public partial class ChronoJumpWindow
 		Log.WriteLine(uniqueID.ToString());
 
 		Sqlite.Delete(false, Constants.Encoder1RMTable, Convert.ToInt32(uniqueID));
+		
+		genericWin.Delete_row_accepted();
 	}
 	
 	//action can be CURVES_AC (After Capture) (where signal does not exists, need to define it)

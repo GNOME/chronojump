@@ -1353,7 +1353,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
 	box()
-	mtext(paste(translate("Curve")," \n",translate("Mass")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
+	mtext(paste(translate("Repetition")," \n",translate("Mass")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
 
 	axisLineRight=0
 
@@ -2564,7 +2564,7 @@ doProcess <- function(options) {
 		}
 	}
 
-	write(paste("(4/5)",translate("Curves processed")), OutputData2)
+	write(paste("(4/5)",translate("Repetitions processed")), OutputData2)
 
 	if(Analysis=="single") {
 		if(Jump>0) {

@@ -503,6 +503,11 @@ public partial class ChronoJumpWindow
 		//put videoOn as false before loading preferences to start always without the camera
 		//this is good if camera produces crash
 		SqlitePreferences.Update("videoOn", "False", false);
+		
+		//on Linux put volumeOn on false on start because there's a bug on Mono and audio
+		//https://github.com/mono/mono/pull/1376
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			SqlitePreferences.Update("volumeOn", "False", false);
 
 		//preferencesLoaded is a fix to a gtk#-net-windows-bug where radiobuttons raise signals
 		//at initialization of chronojump and gives problems if this signals are raised while preferences are loading
@@ -3110,6 +3115,14 @@ public partial class ChronoJumpWindow
 		if(checkbutton_volume.Active) {
 			preferences.volumeOn = true;
 			SqlitePreferences.Update("volumeOn", "True", false);
+			
+			//on Linux put volumeOn on false on start because there's a bug on Mono and audio
+			//https://github.com/mono/mono/pull/1376
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					"There's an audio problem with Mono on Linux.\n" +
+					"We recommend to have sound disabled. More info:\n" +
+					"https://github.com/mono/mono/pull/1376"
+					);
 		} else {
 			preferences.volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);

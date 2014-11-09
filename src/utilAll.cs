@@ -45,6 +45,20 @@ public class UtilAll
 		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
 		return osString;
 	}
+
+	public enum OperatingSystems { WINDOWS, LINUX, MACOSX };
+
+	public static OperatingSystems GetOSEnum() 
+	{
+		string os = GetOS();
+		if(os.ToUpper().StartsWith("WIN"))
+			return OperatingSystems.WINDOWS;
+		else if(os.ToUpper().StartsWith("MAC"))
+			return OperatingSystems.MACOSX;
+		else
+			return OperatingSystems.LINUX;
+	}
+
 	
 	public static string GetApplicationDataDir() {
 		return Path.Combine(

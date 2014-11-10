@@ -188,7 +188,7 @@ public partial class ChronoJumpWindow {
 	
 	private static string [] comboStatsSubTypeSimpleOptions = {
 		Catalog.GetString("No indexes"), 
-		Constants.ChronojumpProfile,
+		//Constants.ChronojumpProfile,
 		Constants.FvIndexFormula,
 		Constants.IeIndexFormula, 
 		Constants.ArmsUseIndexFormula,

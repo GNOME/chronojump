@@ -4994,8 +4994,9 @@ public class EncoderCaptureOptionsWindow {
 	private void on_button_inactivity_help_clicked (object o, EventArgs args)
 	{
 		new DialogMessage(Constants.MessageTypes.INFO, 
-				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n" +
-				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).")
+				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n\n" +
+				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).") + "\n" +
+				Catalog.GetString("This will let the person to have more time to start movement.")
 				);
 	}
 

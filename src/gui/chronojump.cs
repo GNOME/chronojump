@@ -2591,14 +2591,14 @@ public partial class ChronoJumpWindow
 							Util.GetPhotoFileName(false, currentPerson.UniqueID));
 				} catch {
 					File.Copy(Util.GetPhotoTempFileName(false), 
-							Util.GetPhotoFileName(false, currentPerson.UniqueID));
+							Util.GetPhotoFileName(false, currentPerson.UniqueID), true);
 				}
 				try {
 					File.Move(Util.GetPhotoTempFileName(true), 
 							Util.GetPhotoFileName(true, currentPerson.UniqueID));
 				} catch {
-					File.Move(Util.GetPhotoTempFileName(true), 
-							Util.GetPhotoFileName(true, currentPerson.UniqueID));
+					File.Copy(Util.GetPhotoTempFileName(true), 
+							Util.GetPhotoFileName(true, currentPerson.UniqueID), true);
 				}
 			}
 			

@@ -740,7 +740,10 @@ Log.WriteLine("bbb");
 	private void on_button_auto_change_debounce_clicked (object o, EventArgs args)
 	{
 		ChronopicAuto ca = new ChronopicAutoChangeDebounce();
-		label_auto_change_debounce.Text = ca.Write(sp, (int) spin_auto_change_debounce.Value);
+		ca.Write(sp, (int) spin_auto_change_debounce.Value);
+		
+		ca = new ChronopicAutoCheckDebounce();
+		label_auto_change_debounce.Text = ca.Read(sp);
 	}	
 	
 	private void on_button_auto_check_help_clicked (object o, EventArgs args) 

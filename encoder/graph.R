@@ -889,8 +889,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		abline(v=maxSpeedT, col=cols[1])
 		points(maxSpeedT, max(speed$y),col=cols[1])
 		mtext(text=paste(round(max(speed$y),2),"m/s",sep=""),side=3,
-		      at=maxSpeedT,cex=.8,col=cols[1], line=.5)
-		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1])
+		      at=maxSpeedT,cex=.8,col=cols[1], line=.2)
+		mtext(text=maxSpeedT,side=1,at=maxSpeedT,cex=.8,col=cols[1],line=-.2)
 	}
 
 
@@ -1043,8 +1043,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 				plot(startX:length(accel$y),accel$y[startX:length(accel$y)],type="l",
 				     xlim=c(1,length(displacement)),ylim=ylim,xlab="",ylab="",col="darkblue",lty=2,lwd=3,axes=F)
 		}
-			
-		if(isPropulsive) {
+		
+		#show propulsive stuff if line if differentiation is relevant (propulsivePhase ends before the end of the movement)
+		if(isPropulsive & propulsiveEnd < length(displacement)) {
 			#propulsive stuff
 			segments(0,-9.81,length(accel$y),-9.81,lty=3,col="magenta")
 			#abline(v=propulsiveEnd,lty=3,col="magenta") 
@@ -1212,8 +1213,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	if(draw & !superpose & showPower) {
 		abline(v=peakPowerT, col=cols[3])
 		points(peakPowerT, max(power),col=cols[3])
-		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3])
-		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3])
+		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3],line=-.2)
+		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3],line=.2)
 	}
 	#time to arrive to peak power negative on con-ecc
 	if(eccon=="ce") {

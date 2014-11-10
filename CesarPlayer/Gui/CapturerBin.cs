@@ -64,6 +64,9 @@ namespace LongoMatch.Gui
 			captureProps.OutputFile = "";
 			captureProps.CaptureSourceType = CaptureSourceType.System;
 			Type = CapturerType.Fake;
+				
+			snapshotbutton.Visible = false;
+			timelabel.Visible = false;
 		}		
 		
 		public CapturerType Type {
@@ -167,9 +170,6 @@ namespace LongoMatch.Gui
 			if (capturer != null) {
 				capturer.Run();
 				SetButtonsVisibility();
-			} else {
-				snapshotbutton.Visible = false;
-				timelabel.Visible = false;
 			}
 		}
 

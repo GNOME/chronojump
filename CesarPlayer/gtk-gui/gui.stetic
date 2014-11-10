@@ -419,6 +419,7 @@
                 <child>
                   <widget class="Gtk.Button" id="snapshotbutton">
                     <property name="MemberName" />
+		    <property name="Visible">False</property>
                     <property name="CanFocus">True</property>
                     <property name="Type">TextAndIcon</property>
                     <property name="Icon">stock:stock_about Button</property>
@@ -444,6 +445,7 @@
             <child>
               <widget class="Gtk.Label" id="timelabel">
                 <property name="MemberName" />
+		<property name="Visible">False</property>
                 <property name="Xalign">1</property>
                 <property name="LabelProp">Time: 0:00:00</property>
               </widget>

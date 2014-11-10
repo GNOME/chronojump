@@ -452,7 +452,7 @@ public abstract class ChronopicAuto
 		} catch {
 			//this.error=ErrorType.Timeout;
 			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
-			str = "Error";
+			str = "Error / not Multitest firmware";
 		}
 		
 		return str;
@@ -471,7 +471,7 @@ public abstract class ChronopicAuto
 		} catch {
 			//this.error=ErrorType.Timeout;
 			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
-			str = "Error";
+			str = "Error / not Multitest firmware";
 		}
 		
 		return str;

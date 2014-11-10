@@ -1959,7 +1959,6 @@ public partial class ChronoJumpWindow
 		int directionCompleted = -1;	// +1 or -1
 		int previousFrameChange = 0;
 		int lastNonZero = 0;
-		bool firstCurve = true;
 
 		//this will be used to stop encoder automatically	
 		int consecutiveZeros = -1;		
@@ -1998,8 +1997,13 @@ public partial class ChronoJumpWindow
 				//but it has to be moved a little bit first, just to give time to the people
 				//if(consecutiveZeros >= consecutiveZerosMax && sum > 0) #Not OK becuase sum maybe is 0: +1,+1,-1,-1
 				//if(consecutiveZeros >= consecutiveZerosMax && ecca.ecc.Count > 0) #Not ok because when ecca is created, ecc.Count == 1
-				//lastNonZero > 0 means something different than 0 has been readed 
-				if(consecutiveZeros >= consecutiveZerosMax && lastNonZero > 0)	
+				//
+				//process ends 
+				//when a curve has been found and then there are n seconds of inactivity, or
+				//when a curve has not been found and then there are 2*n seconds of inactivity
+				if(
+						(ecca.curvesAccepted > 0 && consecutiveZeros >= consecutiveZerosMax) ||
+						(ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
 				{
 					encoderProcessFinish = true;
 					Log.WriteLine("SHOULD FINISH");
@@ -4985,6 +4989,14 @@ public class EncoderCaptureOptionsWindow {
 		}
 			
 		return -1;
+	}
+	
+	private void on_button_inactivity_help_clicked (object o, EventArgs args)
+	{
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				Catalog.GetString("If a repetition has been found, test will end at selected inactivity seconds.") + "\n" +
+				Catalog.GetString("If a repetition has not been found, test will end at selected inactivity seconds (x2).")
+				);
 	}
 
 	protected virtual void on_button_close_clicked (object o, EventArgs args)

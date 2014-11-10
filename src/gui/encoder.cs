@@ -3670,8 +3670,9 @@ public partial class ChronoJumpWindow
 		string eccon = findEccon(true);
 			
 		Log.Write(" uECGRC0 ");
+		Log.Write("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
+				"; operation: " + (ecc.endFrame - ecc.startFrame).ToString() );
 		
-		//if eccon == "c" only up phase
 		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
 				(ecc.endFrame - ecc.startFrame) > 0 ) 
 		{
@@ -3688,7 +3689,8 @@ public partial class ChronoJumpWindow
 			
 			//check height in a fast way first to discard curves soon
 			//only process curves with height >= min_height
-			height = height / 10; //cm -> mm
+			height = Math.Abs(height / 10); //mm -> cm
+			Log.Write(" height: " + height.ToString());
 			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
 				ecca.curvesDone ++;
 				return;	
@@ -3713,8 +3715,7 @@ public partial class ChronoJumpWindow
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
 
-			rengine.Evaluate("speedCut$y=abs(speedCut$y)");
-			
+
 			if(ecc.up) { //concentric
 				rengine.Evaluate("speedT1 <- min(which(speedCut$y == max(speedCut$y)))");
 				rengine.Evaluate("speedT2 <- max(which(speedCut$y == max(speedCut$y)))");
@@ -3810,7 +3811,7 @@ public partial class ChronoJumpWindow
 			
 			//check height now in a more accurate way than before
 			height = rengine.GetSymbol("range").AsNumeric().First();
-			height = height / 10; //cm -> mm
+			height = Math.Abs(height / 10); //mm -> cm
 
 			//only process curves with height >= min_height
 			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
@@ -3824,9 +3825,9 @@ public partial class ChronoJumpWindow
 			rengine.Evaluate("accel$y <- accel$y * 1000"); //input data is in mm, conversion to m
 
 			//propulsive stuff
-			int propulsiveEnd = curveToRreduced.Length;
+			//int propulsiveEnd = curveToRreduced.Length;
 			rengine.Evaluate("g <- 9.81");
-			if(preferences.encoderPropulsive) {
+			if(ecc.up && preferences.encoderPropulsive) {
 				//check if propulsive phase ends
 				Log.WriteLine("accel$y");
 				//rengine.Evaluate("print(accel$y)");
@@ -3835,7 +3836,7 @@ public partial class ChronoJumpWindow
 				Log.WriteLine(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
 				if(propulsiveStuffAtRight > 0) {
 					rengine.Evaluate("propulsiveEnd <- min(which(accel$y <= -g))");
-					propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
+					int propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
 
 					rengine.Evaluate("curveToRreduced <- curveToRreduced[1:propulsiveEnd]");
 					rengine.Evaluate("speed$y <- speed$y[1:propulsiveEnd]");

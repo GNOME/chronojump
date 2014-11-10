@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.15";
+	static string lastChronojumpDatabaseVersion = "1.16";
 
 	public Sqlite() {
 	}
@@ -1697,6 +1697,17 @@ class Sqlite
 
 				currentVersion = "1.15";
 			}
+			if(currentVersion == "1.15") {
+				Sqlite.Open();
+			
+				Log.WriteLine("Cyprus moved to Europe");
+
+				Update(true, Constants.CountryTable, "continent", "Asia", "Europe", "code", "CYP"); 
+				SqlitePreferences.Update ("databaseVersion", "1.16", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.16";
+			}
 	
 		}
 
@@ -1841,6 +1852,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.15 - 1.16 Converted DB to 1.16 Cyprus moved to Europe
 		//1.14 - 1.15 Converted DB to 1.15 added Chronojump profile and bilateral profile
 		//1.13 - 1.14 Converted DB to 1.14 slCMJ -> slCMJleft, slCMJright
 		//1.12 - 1.13 Converted DB to 1.13 Added ExecuteAuto table

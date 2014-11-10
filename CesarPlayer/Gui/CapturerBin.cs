@@ -167,6 +167,9 @@ namespace LongoMatch.Gui
 			if (capturer != null) {
 				capturer.Run();
 				SetButtonsVisibility();
+			} else {
+				snapshotbutton.Visible = false;
+				timelabel.Visible = false;
 			}
 		}
 

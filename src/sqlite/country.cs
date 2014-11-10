@@ -266,7 +266,6 @@ class SqliteCountry : Sqlite
 		"Asia:" + "China:" + Catalog.GetString("China") + ":" + "CHN",
 		"Asia:" + "Christmas Island:" + Catalog.GetString("Christmas Island") + ":" + "CXR",
 		"Asia:" + "Cocos (Keeling) Islands:" + Catalog.GetString("Cocos (Keeling) Islands") + ":" + "CCK",
-		"Asia:" + "Cyprus:" + Catalog.GetString("Cyprus") + ":" + "CYP",
 		"Asia:" + "Georgia:" + Catalog.GetString("Georgia") + ":" + "GEO",
 		"Asia:" + "Hong Kong:" + Catalog.GetString("Hong Kong") + ":" + "HKG",
 		"Asia:" + "India:" + Catalog.GetString("India") + ":" + "IND",
@@ -317,6 +316,7 @@ class SqliteCountry : Sqlite
 		"Europe:" + "Bosnia and Herzegovina:" + Catalog.GetString("Bosnia and Herzegovina") + ":" + "BIH",
 		"Europe:" + "Bulgaria:" + Catalog.GetString("Bulgaria") + ":" + "BGR",
 		"Europe:" + "Croatia:" + Catalog.GetString("Croatia") + ":" + "HRV",
+		"Europe:" + "Cyprus:" + Catalog.GetString("Cyprus") + ":" + "CYP",
 		"Europe:" + "Czech Republic:" + Catalog.GetString("Czech Republic") + ":" + "CZE",
 		"Europe:" + "Denmark:" + Catalog.GetString("Denmark") + ":" + "DNK",
 		"Europe:" + "Estonia:" + Catalog.GetString("Estonia") + ":" + "EST",
@@ -481,7 +481,8 @@ class SqliteCountry : Sqlite
 	:'<,'>s/\(.*\),\(.*\):\(.*\),\(.*\))\(.*$\)/\1:\3")\5/
 
 	except: congo, korea, Dominica
-	
+
+	1.16 Cyprus has been moved from Asia to Europe	
 	*/
 
 }

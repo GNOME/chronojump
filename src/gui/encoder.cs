@@ -2367,6 +2367,9 @@ public partial class ChronoJumpWindow
 				countSeries ++;
 			}
 			writer.Flush();
+			Log.Write(" closing writer ");
+			writer.Close();
+			Log.Write(" disposing writer ");
 			((IDisposable)writer).Dispose();
 			Log.Write(" AT ANALYZE 2 ");
 			Sqlite.Close();	

@@ -1504,6 +1504,7 @@ public class Stat
 		TextWriter writer = File.CreateText(rScript);
 		writer.Write(rString);
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 		
 		Util.RunRScript(rScript);

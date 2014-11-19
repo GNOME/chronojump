@@ -494,6 +494,7 @@ public class UtilEncoder
 		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 		
 		if (UtilAll.IsWindows()) {
@@ -613,6 +614,7 @@ public class UtilEncoder
 		TextWriter writer = File.CreateText(optionsFile);
 		writer.Write(scriptOptions);
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 		
 		if (UtilAll.IsWindows()) {
@@ -797,6 +799,7 @@ public class UtilEncoder
 		TextWriter writer = File.CreateText(fileCurveFull);
 		writer.Write(contents);
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 
 		return fileCurve;

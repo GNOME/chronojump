@@ -727,6 +727,7 @@ Console.WriteLine("--6--");
 		TextWriter writer = File.CreateText(runningFileName);
 		writer.WriteLine(Process.GetCurrentProcess().Id);
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
 

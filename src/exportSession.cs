@@ -841,6 +841,7 @@ public class ExportSession
 	
 	protected void closeWriter ()
 	{
+		writer.Close();
 		((IDisposable)writer).Dispose();
 	}
 

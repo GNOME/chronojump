@@ -2118,6 +2118,7 @@ public partial class ChronoJumpWindow
 		}
 
 		writer.Flush();
+		writer.Close();
 		((IDisposable)writer).Dispose();
 
 		return true;
@@ -3046,6 +3047,7 @@ public partial class ChronoJumpWindow
 			}
 			
 			writer.Flush();
+			writer.Close();
 			((IDisposable)writer).Dispose();
 		} catch {
 			string myString = string.Format(

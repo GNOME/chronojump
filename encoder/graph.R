@@ -523,6 +523,9 @@ findECPhases <- function(displacement,speed) {
 
 
 	isometricUse = TRUE
+
+	print("at findECPhases")
+
 	if(isometricUse) {
 		eccentric=1:min(speed.ext$cross[crossMinRow,1])
 		isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
@@ -925,11 +928,25 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			time2 = min(which(speed$y == min(speed$y)))
 			labelsXeXc = c("Xc","Xe")
 		}
+
+		print(c("eccon",eccon))
+		print(c("time1",time1))
+		print(c("time2",time2))
 		crossMinRow=which(speed.ext$cross[,1] > time1 & speed.ext$cross[,1] < time2)
 		
 		isometricUse = TRUE
 		#TODO: con-ecc is opposite
+	
+		print("at paint")
+		
 		if(isometricUse) {
+			print("at isometricUse")
+			print("speed.ext$cross")
+			print(speed.ext$cross)
+			print("crossMinRow")
+			print(crossMinRow)
+			print("speed.ext$cross[crossMinRow,1]")
+			print(speed.ext$cross[crossMinRow,1])
 			eccentric=1:min(speed.ext$cross[crossMinRow,1])
 			isometric=min(speed.ext$cross[crossMinRow,1]+1):max(speed.ext$cross[crossMinRow,2])
 			concentric=max(speed.ext$cross[crossMinRow,2]+1):length(displacement)

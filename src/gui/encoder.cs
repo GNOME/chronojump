@@ -2276,7 +2276,7 @@ public partial class ChronoJumpWindow
 					sendAnalysis,
 					analysisVariables,
 					analysisOptions,
-					encoderConfigurationCurrent,
+					new EncoderConfiguration(),
 					Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
 					myCurveNum,
 					image_encoder_width, 

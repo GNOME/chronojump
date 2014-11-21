@@ -1167,9 +1167,10 @@ Power Problem: The red light will turn on when you connect the USB cable
 \end_layout
 
 \begin_layout Enumerate
-Problem networking platform: Connect the contact platform (without computer)
- and check the Chronopic by clicking on the platform and checking if the
- light turns on and off.
+Problem networking platform: Connect the contact platform to Chronopic and
+ the Chronopic to the computer (no need to open chronojump)and check the
+ Chronopic by clicking on the platform and checking if the light turns on
+ and off.
  If the light doesn’t turn on and off, but it did in the previous step,
  then the cables are in touch when they are connected to Chronopic.
  Insulate them, check if they are poorly connected or if the platform has

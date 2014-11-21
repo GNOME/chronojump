@@ -1381,8 +1381,8 @@ Problema de alimentación: La luz roja del Chronopic debe encenderse al conectar
 
 \begin_layout Enumerate
 Problema de plataforma de contactos: Conecte la plataforma de contactos
- (sin necesidad de ordenador) al Chronopic y verifique que pulsando en la
- plataforma, la luz se enciende y se apaga.
+ al Chronopic y el Chronopic al ordenador (sin necesidad de abrir Chronojump)
+ y verifique que pulsando en la plataforma, la luz se enciende y se apaga.
  Si no se enciende y apaga, pero sí lo hacía en el paso anterior, entonces
  los cables de la plataforma de contacto se están tocando al ser conectados
  al Chronopic (aíslelos), o están mal conectados, o la plataforma de contacto

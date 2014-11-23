@@ -265,7 +265,7 @@ public class StatType {
 						myStat = new GraphJumpSimpleSubtraction(myStatTypeStruct); 
 					else 
 						myStat = new StatJumpSimpleSubtraction(myStatTypeStruct, treeview_stats); 
-				} if(indexType == "ChronojumpProfile") {
+				} else if(indexType == "ChronojumpProfile") {
 					if(graph) 
 						//myStat = new GraphChronojumpProfile(myStatTypeStruct); 
 						Log.WriteLine("TODO");
@@ -413,7 +413,7 @@ public class StatType {
 			new EventHandler(on_fake_button_rows_selected_clicked);
 		myStat.FakeButtonNoRowsSelected.Clicked += 
 			new EventHandler(on_fake_button_no_rows_selected_clicked);
-				
+
 		myStat.PrepareData();
 
 		if(toReport) {

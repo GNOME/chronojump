@@ -334,47 +334,62 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 	} else {
 		#on every curve...
 		for(i in 1:n) {
-			eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
+			#maybe the global eccon == "ec" or "ce" but the individual eccon of each curve is "c", then just do the same as above
+			if(curves[i,8] == "c")
+				smoothings[i] = 0
+			else {
+				eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
 
-			#get the position
-			position=cumsum(displacement[curves[i,1]:curves[i,2]])
+				#get the position
+				position=cumsum(displacement[curves[i,1]:curves[i,2]])
 
-			#analyze the "c" phase
-			#Note dividing phases can be done using the speed,
-			#but there's no need of this small difference here 
-			start = 0
-			end = 0
-			if(eccon=="ec") {
-				start = mean(which(position == min(position)))
-				end = length(position) -1
-				#the -1 is because the line below: "concentric=" will fail in curves[i,1]+end
-				#and will add an NA
-			} else { #(eccon=="ce")
+				#analyze the "c" phase
+				#Note dividing phases can be done using the speed,
+				#but there's no need of this small difference here 
 				start = 0
-				end = mean(which(position == max(position)))
+				end = 0
+				if(eccon=="ec") {
+					start = mean(which(position == min(position)))
+					end = length(position) -1
+					#the -1 is because the line below: "concentric=" will fail in curves[i,1]+end
+					#and will add an NA
+				} else { #(eccon=="ce")
+					start = 0
+					end = mean(which(position == max(position)))
+				}
+				print("start, end")
+				print(c(start, end))
+
+				concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
+
+				#get max speed at "c"
+				print("calling speed 1")
+				print("unique(concentric)")
+				print(unique(concentric))
+				print("concentric")
+				print(concentric)
+				speed <- getSpeed(concentric, smoothingOneC)
+				print("called")
+				maxSpeedC=max(speed$y)
+
+				#find max speed at "ec" that's similar to maxSpeedC
+				smoothingOneEC = smoothingOneC
+				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
+					print("calling speed 2")
+					speed <- getSpeed(eccentric.concentric, j)
+					print("called")
+					smoothingOneEC = j
+					maxSpeedEC=max(speed$y)
+					print(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)))
+					if(maxSpeedEC >= maxSpeedC)
+						break
+				}
+
+				#use smoothingOneEC
+				smoothings[i] = smoothingOneEC
+
+				print(smoothings[i])
 			}
-
-			concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
-
-			#get max speed at "c"
-			speed <- getSpeed(concentric, smoothingOneC)
-			maxSpeedC=max(speed$y)
-
-			#find max speed at "ec" that's similar to maxSpeedC
-			smoothingOneEC = smoothingOneC
-			for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
-				speed <- getSpeed(eccentric.concentric, j)
-				smoothingOneEC = j
-				maxSpeedEC=max(speed$y)
-				print(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)))
-				if(maxSpeedEC >= maxSpeedC)
-					break
-			}
-
-			#use smoothingOneEC
-			smoothings[i] = smoothingOneEC
-			
-			print(smoothings[i])
 		}
 	}
 		
@@ -2006,7 +2021,7 @@ fixDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	{
 		displacement = displacement * diameter / diameterExt #displacement of the axis
 	}
-
+	
 	return (displacement)
 }
 

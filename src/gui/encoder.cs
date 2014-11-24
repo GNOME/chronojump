@@ -306,8 +306,15 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);
 		encoder_configuration_win.Button_accept.Clicked += new EventHandler(on_encoder_configuration_win_accepted);
+
+		//unregister eventHandler first, then register. This avoids to have registered twice
+		try {
+			encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked -= 
+				new EventHandler(on_encoder_configuration_win_capture_inertial_do);
+		} catch { }
 		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked += 
 			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
+
 		encoder_configuration_win.Button_encoder_capture_inertial_cancel.Clicked += 
 			new EventHandler(on_button_encoder_cancel_clicked);
 		//encoder_configuration_win.Button_encoder_capture_inertial_finish.Clicked += 
@@ -321,12 +328,8 @@ public partial class ChronoJumpWindow
 		label_encoder_selected.Text = encoderConfigurationCurrent.code;
 	}
 	
-	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) {
-		//need this "-=" in order to do not open the port two times on function:
-		//on_button_encoder_capture_calcule_im();
-		encoder_configuration_win.Button_encoder_capture_inertial_do.Clicked -= 
-			new EventHandler(on_encoder_configuration_win_capture_inertial_do);
-		
+	void on_encoder_configuration_win_capture_inertial_do (object o, EventArgs args) 
+	{
 		on_button_encoder_capture_calcule_im();
 	}
 		

@@ -592,12 +592,12 @@ public partial class ChronoJumpWindow
 
 	string [] treeviewEncoderAnalyzeNeuromuscularHeaders = {
 		"n" + "\n",
-		"e1 range" + "\n (cm)",
+		"e1 range" + "\n (mm)",
 		"e1 t" + "\n (ms)",
 		"e1 fmax" + "\n (N)",
 		"e1 rfd avg" + "\n (N/s)",
 		"e1 i" + "\n (N*s/Kg)",
-		"ca range" + "\n (cm)",
+		"ca range" + "\n (mm)",
 		"cl t" + "\n (ms)",
 		"cl rfd avg" + "\n (N/s/Kg)",
 		"cl i" + "\n (N*s/Kg)",

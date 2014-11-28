@@ -2252,10 +2252,26 @@ public class PersonAddMultipleWindow {
 	//all this names doesn't match with other in the database, and the weights are > 0 ( checked in checkEntries() )
 	void processAllNonBlankRows() 
 	{
-		int maxPUniqueID = Sqlite.Max(Constants.PersonTable, "uniqueID", false);
-		int pID = maxPUniqueID + 1;
-		int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
-		int psID = maxPSUniqueID + 1;
+		int pID;
+		int countPersons = Sqlite.Count(Constants.PersonTable, false);
+		if(countPersons == 0)
+			pID = 1;
+		else {
+			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
+			int maxPUniqueID = Sqlite.Max(Constants.PersonTable, "uniqueID", false);
+			pID = maxPUniqueID + 1;
+		}
+
+		int psID;
+		int countPersonSessions = Sqlite.Count(Constants.PersonSessionTable, false);
+		if(countPersonSessions == 0)
+			psID = 1;
+		else {
+			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
+			int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
+			psID = maxPSUniqueID + 1;
+		}
+		
 		string sex = "";
 		double weight = 0;
 				

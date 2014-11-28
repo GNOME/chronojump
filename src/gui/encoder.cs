@@ -1697,7 +1697,13 @@ public partial class ChronoJumpWindow
 			desc = "";
 
 			Log.WriteLine(curveStart + "->" + duration);
-			int curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
+		
+			int curveIDMax;
+			int countCurveIDs = Sqlite.Count(Constants.EncoderTable, false);
+			if(countCurveIDs == 0)
+				curveIDMax = 0;
+			else
+				curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
 			
 			//save raw file to hard disk
 			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), 

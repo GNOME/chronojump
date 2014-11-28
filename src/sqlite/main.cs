@@ -2631,6 +2631,7 @@ Console.WriteLine("5" + tableName);
 		reader = dbcmd.ExecuteReader();
 		
 		int myReturn = 0;
+		//caution because it there are no values, a whiteline or NULL can be returned and can fail in this Convert.ToInt32
 		if(reader.Read()) 
 			myReturn = Convert.ToInt32(reader[0].ToString());
 		reader.Close();

@@ -3395,24 +3395,12 @@ public partial class ChronoJumpWindow
 		
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
 	
-		if(check_encoder_analyze_signal_or_curves.Active)	//current signal
+		if(check_encoder_analyze_signal_or_curves.Active)	//current set (signal)
 		{
-			int rows = UtilGtk.CountRows(encoderCaptureListStore);
-			if(ecconLast != "c")
-				rows = rows / 2;
-			string [] activeCurvesList;
-			if(rows == 0)
- 				activeCurvesList = Util.StringToStringArray("");
-			else {
-				activeCurvesList = new String[rows];
-				for(int i=0; i < rows; i++)
-					activeCurvesList[i] = (i+1).ToString();
-			}
-	
-			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
-			combo_encoder_analyze_curve_num_combo.Active = 
-				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
-		} else {	//current signal
+			//when person changes, current signal is not loaded, 
+			//then combo_encoder_analyze_curve_num_combo has to be empty
+			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, new string [] {}, "");
+		} else {	//saved repetitions
 			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 		}
 	

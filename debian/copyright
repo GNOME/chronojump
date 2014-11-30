@@ -1,7 +1,7 @@
 Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=59
 Name: Chronojump
-Maintainer: Andoni Morales Alastruey <ylatuya@gmail.com>
-Upstream-Maintainer: Xavier de Blas <xaviblas@gmail.com>
+Maintainer: Xavier de Blas <info@chronojump.org>
+Upstream-Maintainer: Xavier de Blas <info@chronojump.org>
 Source: http://ftp.gnome.org/pub/GNOME/sources/chronojump/
 
 Files: *

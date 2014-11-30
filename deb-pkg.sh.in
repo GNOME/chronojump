@@ -45,6 +45,8 @@ package () {
 	dput ppa:$PPA $PKG_NAME\_$PKG_VERSION~$DEB_RELEASE\_source.changes
 }
 
-for dist in trusty saucy; do
-	package $dist
-done
+#saucy is deprecated
+#for dist in trusty saucy; do
+#	package $dist
+#done
+package trusty

@@ -1,7 +1,7 @@
 Source: chronojump
 Section: science
 Priority: extra
-Maintainer: Andoni Morales Alastruey <ylatuya@gmail.com>
+Maintainer: Xavier de Blas <info@chronojump.org>
 Build-Depends: debhelper (>= 5), autotools-dev, cdbs,
  pkg-config, mono-devel, libgtk2.0-cil-dev, libglade2.0-cil-dev,
  libmono-sqlite2.0-cil, libmono-winforms2.0-cil, cli-common-dev,

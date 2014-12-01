@@ -35,6 +35,21 @@ export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
 ./deb-pkg.sh 1
 
+--- upload deb package on raspbian ---
+needs this ~/.dput.cf
+
+[chronojump-ppa]
+fqdn = ppa.launchpad.net
+method = ftp
+incoming = ~u-info-x/chronojump-ppa/ubuntu/
+login = anonymous
+allow_unsigned_uploads = 0
+
+and upload like this:
+dput chronojump-ppa build-deb/chronojump..._source.changes
+
+--- end of upload deb package on raspbian ---
+
 macosx stuff
 ------------
 download (with filezilla is very fast), using owncloud is nice also

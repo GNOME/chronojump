@@ -2110,8 +2110,12 @@ Tests
 \end_layout
 
 \begin_layout Standard
-At the following text, it describes the management of the five types of
- tests allowed in Chronojump software.
+At the following text, it describes the management of the all types of tests
+ allowed in Chronojump software.
+\end_layout
+
+\begin_layout Section
+Jump tests
 \end_layout
 
 \begin_layout Standard
@@ -2153,10 +2157,6 @@ multiple jump
 Assuming that the body during the takeoff position is the same as in the
  landing, the flight time indicatives the height of center of gravity of
  the athlete in this jump.
-\end_layout
-
-\begin_layout Section
-Jump tests
 \end_layout
 
 \begin_layout Subsection
@@ -2209,11 +2209,11 @@ ABK
 \end_layout
 
 \begin_layout Itemize
-ABKl, jump with arms Abalakov with extra load (extra weight)
-\end_layout
 
-\begin_layout Itemize
-Max
+\emph on
+ABKl
+\emph default
+, jump with arms Abalakov with extra load (extra weight)
 \end_layout
 
 \begin_layout Itemize
@@ -2238,11 +2238,36 @@ Rocket,
 \end_layout
 
 \begin_layout Itemize
+
+\emph on
 TakeOff
+\emph default
+, only records the contact time
 \end_layout
 
 \begin_layout Itemize
+
+\emph on
 TakeOffWeight
+\emph default
+, take off with extra load.
+ It only records the contact time
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+slCMJleft
+\emph default
+, left leg countermovement jump.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+slCMJright
+\emph default
+, right leg countermovement jump.
 \end_layout
 
 \begin_layout Standard
@@ -2252,14 +2277,7 @@ Sometimes you will be asked to provide additional information as the extra
 \end_layout
 
 \begin_layout Standard
-Click on 
-\emph on
-More
-\emph default
- to get all the available of the simple jump and click ok on them to be
- executed.
- The jump menu also provides this access.
- The original protocol of Bosco for the 
+The original protocol of Bosco for the 
 \emph on
 DJ
 \emph default
@@ -2294,7 +2312,7 @@ If Chronopic has not been connected and activated from Chronopic window,
  Note that for some jumps the athlete should be on the platform, while other
  jumps it’s essential to be elsewhere.
  You will be notified if the athlete's situation is not correct.
- In the pop-up window it shows the progress of the jump, which may be stopped
+ The progress barr shows the progress of the jump, which may be stopped
  by clicking on the 
 \emph on
 Finish
@@ -2337,8 +2355,12 @@ When a new sequence is created the order of the test must be defined.
 \end_layout
 
 \begin_layout Itemize
-By persons: Each person of the session performs all the tests before changing
- to the next person.
+
+\emph on
+By persons
+\emph default
+: Each person of the session performs all the tests before changing to the
+ next person.
  Example: 
 \emph on
 Chronojump profile
@@ -2347,16 +2369,24 @@ Chronojump profile
 \end_layout
 
 \begin_layout Itemize
-By tests: Each test in the sequence is perfomed by all the people in the
- session before changing to the next test.
+
+\emph on
+By tests
+\emph default
+: Each test in the sequence is perfomed by all the people in the session
+ before changing to the next test.
  Example: 
 \emph on
 Bilateral profile by persons
 \end_layout
 
 \begin_layout Itemize
-By sets: Each person of the session performs the first set of tests before
- changing to the second set of tests.
+
+\emph on
+By sets
+\emph default
+: Each person of the session performs the first set of tests before changing
+ to the second set of tests.
  It can be defined up to 3 different sets of tests.
  Example: 
 \emph on
@@ -2497,12 +2527,25 @@ RJ(unlimited
 \end_layout
 
 \begin_layout Itemize
-RJ(hexagon), reactive jump on an hexagon until three full revolutions are
- done.
+
+\emph on
+RJ(hexagon)
+\emph default
+, reactive jump on an hexagon until three full revolutions are done.
 \end_layout
 
 \begin_layout Itemize
-Triple jump, triple jump starting from a falling height
+
+\emph on
+Triple jump
+\emph default
+, triple jump starting from a falling height
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Unlimited multiple jump with extra load
 \end_layout
 
 \begin_layout Standard
@@ -2563,7 +2606,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename campanas.png
+	filename campanas_es.png
 	lyxscale 50
 	scale 60
 
@@ -2595,7 +2638,7 @@ Bells - auditive and visual feedback.
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
 Jumps view
 \end_layout
 
@@ -4765,12 +4808,12 @@ Measure
 \end_layout
 
 \begin_layout Subsubsection
-Vertical use
+Perpendicular use
 \end_layout
 
 \begin_layout Standard
-Vertical use: Encoder measures distance, speed and power of the wire assuming
- it's perpendicular to the surface.
+Perpendicular use: Encoder measures distance, speed and power of the wire
+ assuming it's perpendicular to the surface.
  If you pull/push the wire with an inclination, data will not be accurate
  and the wire can be damaged.
  
@@ -4790,10 +4833,10 @@ Database
 \end_layout
 
 \begin_layout Standard
-Chronojump stores all data in one database file.
+Chronojump stores data in one database file.
  Thus, instead of collecting the information in individual files for each
- session, all information is organized in a single file to facilitate the
- study of relationships between:
+ session, most of the information is organized in a single file to facilitate
+ the study of relationships between:
 \end_layout
 
 \begin_layout Itemize
@@ -5223,7 +5266,7 @@ Displayed height.
 Main variable.
  The data displayed in the bars frame.
  This is the variable that will be showed during the exercise capturing
- process as a instant visual feedback.
+ process as an instant visual feedback.
 \end_layout
 
 \begin_layout Standard
@@ -5484,8 +5527,27 @@ Analyze tab
 \end_layout
 
 \begin_layout Standard
-Regarding the data, two things can be analysed: current set (the set in
- the capture tab) or user repetitions.
+Regarding the data, two things can be analysed: current set 
+\lang spanish
+
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/set_button.png
+
+\end_inset
+
+
+\lang british
+(the set in the capture tab) or user repetitions 
+\lang spanish
+
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/repetition_button.png
+
+\end_inset
+
+
+\lang british
+.
 \end_layout
 
 \begin_layout Standard
@@ -5562,7 +5624,7 @@ Neuromuscular profile
 
 \end_inset
 
-: to se the neuromuscular profile of the three best jumps of a set of six.
+: to see the neuromuscular profile of the three best jumps of a set of six.
  At least six jumping repetitions are needed to performe that kind of analysis.
 \end_layout
 
@@ -5819,7 +5881,7 @@ Inertia momentum of the disk with attached weights.
 After calculating the IM of the disk, you will be asked to enter the number
  of additional weights and the mass of them.
  Chronojump will give you the inertia momentum added by each additional
- weight and the total inertia momentum.
+ weight and the total inertia momentum (disk + weights).
  Chronojump uses the following formulae.
 \end_layout
 
@@ -5838,7 +5900,7 @@ Where:
 \begin_inset Formula $I_{w}$
 \end_inset
 
- is the Inertia momentum that each disk will add to the system.
+ is the Inertia momentum that each weigth will add to the system.
 \end_layout
 
 \begin_layout Itemize
@@ -5902,8 +5964,8 @@ Encoder settings and preferences
 \begin_layout Standard
 At preferences there are some options that are more advanced and are not
  changed frequently.
- Clicking at “Session / Preferences” you will see three tabs, third one
- is related to encoder.
+ Clicking at “Session / Preferences” you will see five tabs, third one is
+ related to encoder.
 \end_layout
 
 \begin_layout Standard
@@ -6085,51 +6147,6 @@ Example of encoder use
 \end_inset
 
 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-As a general rule, if you don't know what a button does, just point it with
- the mouse and wait, a tooltip will be shown.
- 
-\end_layout
-
-\begin_layout Standard
-If you need more help, see Chronojump manual (you will find clicking on
- Help), and Documents section on our website: http://chronojump.org/documents.html
-\end_layout
-
-\begin_layout Standard
-Use the forums to ask questions:
-\end_layout
-
-\begin_layout Itemize
-English forum: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://forum.chronojump.org
-\end_layout
-
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Itemize
-Spanish forum: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://foro.chronojump.org
 \end_layout
 
 \end_inset

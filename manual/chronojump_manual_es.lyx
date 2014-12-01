@@ -332,11 +332,20 @@ de
 \begin_inset space ~
 \end_inset
 
-detección una o más plataforma de contactos o fotocélulas.
+detección una o más plataforma de contactos o fotocélulas o encoder.
 \end_layout
 
 \begin_layout Description
-Dispositivo
+Chronopic (Dispositivo
+\begin_inset space ~
+\end_inset
+
+cronométrico que se encarga de cronometrar los cambios de estado del dispositivo
+ de detección)
+\end_layout
+
+\begin_layout Description
+Chronojump Software
 \begin_inset space ~
 \end_inset
 
@@ -344,20 +353,7 @@ de
 \begin_inset space ~
 \end_inset
 
-cronometrado cronómetro Chronopic que se encarga de cronometrar los cambios
- de estado del dispositivo de detección.
-\end_layout
-
-\begin_layout Description
-Software
-\begin_inset space ~
-\end_inset
-
-de
-\begin_inset space ~
-\end_inset
-
-gestión software Chronojump.
+gestión.
 \end_layout
 
 \begin_layout Description
@@ -378,7 +374,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/products.html#chronojump
+http://chronojump.org/software_es.html
 \end_layout
 
 \end_inset
@@ -414,7 +410,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/pricing.html
+http://chronojump.org/pricing_es.html
 \end_layout
 
 \end_inset
@@ -456,7 +452,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/pricing.html
+http://chronojump.org/pricing_es.html
 \end_layout
 
 \end_inset
@@ -554,7 +550,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://www.chronojump.org/documents_es.html
+http://chronojump.org/documents_es.html#hardware
 \end_layout
 
 \end_inset
@@ -580,20 +576,6 @@ reference "fig:Chronopic3"
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic3-metacrilato_small.jpg
-	width 250pt
-	height 188pt
-	keepAspectRatio
-
-\end_inset
-
-
-\end_layout
 
 \begin_layout Plain Layout
 \noindent
@@ -626,16 +608,6 @@ Chronopic3.
 
 \end_layout
 
-\begin_layout Plain Layout
-\noindent
-\align center
-La imagen superior corresponde a la tirada inicial de 200 unidades, en que
- los metacrilatos estaban disponibles en color amarillo, naranja, azul o
- transparente.
- La imagen inferior corresponde al segundo proceso de fabricación, en que
- se producieron 500 unidades iguales.
-\end_layout
-
 \end_inset
 
 
@@ -646,8 +618,8 @@ Conexiones de Chronopic
 \end_layout
 
 \begin_layout Standard
-Chronopic3 dispone de una entrada USB que gracias a un cable del mismo tipo
- se conectará al ordenador.
+Chronopic 3 dispone de una entrada USB que gracias a un cable del mismo
+ tipo se conectará al ordenador.
  Por ese cable el Chronopic recibirá la alimentación (toma de corriente)
  y se comunicará con el ordenador.
 \end_layout
@@ -912,7 +884,7 @@ Un driver es un pequeño programa que le indica al ordenador cómo debe funciona
 \end_layout
 
 \begin_layout Standard
-La placa Chronopic3 requiere un driver para funcionar en Windows.
+La placa Chronopic requiere un driver para funcionar en Windows.
  Este driver se instala automáticamente al instalar cualquier versión de
  Chronojump a partir de la 0,7.
 \end_layout
@@ -1083,180 +1055,6 @@ Los kernels de Linux aparecidos a partir del año 2009, detectan la placa
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Detección-del-puerto"
-
-\end_inset
-
-Detección del puerto
-\end_layout
-
-\begin_layout Standard
-Se asignará un nombre de puerto a la conexión que diferirá en función del
- sistema operativo:
-\end_layout
-
-\begin_layout Standard
-En el caso de 
-\series bold
-Linux
-\series default
- el nombre de puerto no suele ser problema, pues los nombres son claros
- y la opción /dev/ttyUSB0 suele ser la correcta.
- 
-\end_layout
-
-\begin_layout Standard
-En el caso de 
-\series bold
-MS Windows
-\series default
- en que se conecte Chronopic3 al puerto USB, el driver asigna unos nombres
- con mayor variabilidad: COM1...
- COM27 o superior.
- En versiones anteriores de Chronojump para Windows, el puerto se auto detectaba
-, pero a partir de la versión 0.6, y por un cambio de los programas usados,
- esto no es posible.
- Por otro lado, si el puerto es serie, se suele asignar el puerto COM1.
-\end_layout
-
-\begin_layout Standard
-Así, en Windows, para detectar el puerto usado, se recomienda (una vez se
- haya conectado el Chronopic encendida al puerto USB del ordenador), seguir
- este proceso:
-\end_layout
-
-\begin_layout Enumerate
-En el escritorio o en el menú Inicio, hacer clic en el icono de 
-\begin_inset Quotes eld
-\end_inset
-
-Mi PC
-\begin_inset Quotes erd
-\end_inset
-
- con el botón 
-\series bold
-derecho
-\series default
- (En Windows Vista dicho icono se llama 
-\begin_inset Quotes eld
-\end_inset
-
-Sistema
-\begin_inset Quotes erd
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Enumerate
-En el menú que aparece, seleccionar 
-\begin_inset Quotes eld
-\end_inset
-
-Propiedades
-\begin_inset Quotes erd
-\end_inset
-
- (última opción)
-\end_layout
-
-\begin_layout Enumerate
-Ir a la pestaña de 
-\begin_inset Quotes eld
-\end_inset
-
-Hardware
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Seleccionar 
-\begin_inset Quotes eld
-\end_inset
-
-Administrador de dispositivos
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-Clic en el '+' que hay a la izquierda de 
-\begin_inset Quotes eld
-\end_inset
-
-Puertos COM
-\begin_inset space ~
-\end_inset
-
-&
-\begin_inset space ~
-\end_inset
-
-LPT
-\begin_inset Quotes erd
-\end_inset
-
-
-\end_layout
-
-\begin_layout Enumerate
-El puerto será el que se indique como COM? a la derecha de la línea que
- dice USB-serial.
- Si esa línea no lo dice, hacer clic en la misma con el botón derecho y
- seleccionar 
-\begin_inset Quotes eld
-\end_inset
-
-Propiedades
-\begin_inset Quotes erd
-\end_inset
-
- y entonces podremos ver el puerto COM asignado
-\end_layout
-
-\begin_layout Enumerate
-El valor de COM, por ejemplo 
-\begin_inset Quotes eld
-\end_inset
-
-COM3
-\begin_inset Quotes erd
-\end_inset
-
- es el que deberemos introducir en la configuración del Chronopic.
-\end_layout
-
-\begin_layout Standard
-El nombre de puerto podría cambiar en después de reiniciar el ordenador
- o conectar otros periféricos USB.
-\end_layout
-
-\begin_layout Standard
-Se ha detectado que el antivirus spy-doctor interfiere en la asignación
- de puertos 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html
-\end_layout
-
-\end_inset
-
-.
- Se recomienda desactivar éste.
 \end_layout
 
 \begin_layout Section
@@ -1645,6 +1443,14 @@ Menú
 \begin_inset space ~
 \end_inset
 
+Modo 
+\end_layout
+
+\begin_layout Description
+Menú
+\begin_inset space ~
+\end_inset
+
 de
 \begin_inset space ~
 \end_inset
@@ -1699,6 +1505,52 @@ Menú de sesión.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement p
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename menu_modo.png
+	lyxscale 50
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:menu_mode"
+
+\end_inset
+
+Menú de modo.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+http://chronojump.org/documents_es.html#hardware
 \end_layout
 
 \begin_layout Standard
@@ -1801,7 +1653,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename chronopic-connection.png
+	filename chronopic-connection_es.png
 	lyxscale 50
 	scale 60
 
@@ -1860,7 +1712,8 @@ sujetos
 \end_layout
 
 \begin_layout Enumerate
-tests (saltos, carreras, tiempos de reacción, pulsos (ritmos), multi Chronopic)
+tests (saltos, carreras, potencia, tiempos de reacción, pulsos (ritmos),
+ multi Chronopic)
 \end_layout
 
 \begin_layout Standard
@@ -2179,7 +2032,69 @@ Sujeto / Crear sujetos [multiple]
 \emph default
  y se le presentará una ventana en la que podrá crear multiples sujetos
  a la vez.
- Una vez creados, si aún desea crear más sujetos, podrá volver a hacer clic
+ Podrá seleccionar entre 
+\emph on
+Añadir entradas desde CSV 
+\emph default
+o 
+\emph on
+Añadir entradas manualmente.
+\end_layout
+
+\begin_layout Standard
+En el primer caso usted necesitará un archivo separado por comas (.csv) creado
+ previamente con la información del nombre apellido, género, y peso en diferente
+s campos.
+ El formato del archovo se puede especificar con las cabeceras 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/import_headers.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ o sin ellas 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/import_no_headers.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
+ Además puede tener una sola columna para el nombre completo 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/import_1_field.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ o dos columnas para el nombre y apellido 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/import_2_fields.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+En el segundo caso podrá crear un conjunto de sujetos como se muestra en
+ la figura 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Creación-de-diversos"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Una vez creados, si aún desea crear más sujetos, podrá volver a hacer clic
  en el mismo elemento de menú.
  La figura 
 \begin_inset CommandInset ref
@@ -2244,8 +2159,8 @@ Si un sujeto participó en otra sesión, y desea que también sea evaluado
 cargar sujeto
 \emph default
 , para inscribir la misma persona a la nueva sesión.
- El programa distinguirá entre los tests (saltos y carreras, tiempos de
- reacción y ritmos) realizados por la misma persona en dos o más sesiones.
+ El programa distinguirá entre los tests (saltos y carreras, potencia, tiempos
+ de reacción y ritmos) realizados por la misma persona en dos o más sesiones.
  
 \end_layout
 
@@ -2445,8 +2360,7 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Se describe a continuación el manejo de los siete tipos de tests de contactos
- que permite Chronojump.
+Se describe a continuación el manejo de todos los tests que permite Chronojump.
 \end_layout
 
 \begin_layout Section

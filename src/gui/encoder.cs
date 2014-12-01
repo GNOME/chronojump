@@ -2179,9 +2179,11 @@ public partial class ChronoJumpWindow
 			if(! check_encoder_analyze_eccon_together.Active)
 				myEccon = "ecS";
 			int myCurveNum = -1;
+Log.Write(" A ");
 			if(sendAnalysis == "single")
 				myCurveNum = Convert.ToInt32(UtilGtk.ComboGetActive(
 							combo_encoder_analyze_curve_num_combo));
+Log.Write(" A ");
 
 			
 			dataFileName = UtilEncoder.GetEncoderGraphInputMulti();
@@ -2268,13 +2270,16 @@ public partial class ChronoJumpWindow
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 						false , exerciseOld, false)[0];
 				
+Log.Write(" A ");
 					sendAnalysis = "1RMAnyExercise";
 				        analysisVariables = Util.ConvertToPoint(exTemp.speed1RM) + ";" +
 						SqlitePreferences.Select("encoder1RMMethod");
 					analysisOptions = "p";
+Log.Write(" A ");
 				}
 			}
 
+Log.Write(" A ");
 			//-1 because data will be different on any curve
 			ep = new EncoderParams(
 					-1, 
@@ -2363,6 +2368,7 @@ public partial class ChronoJumpWindow
 					fullURL = eSQL.GetFullURL(true);	//convertPathToR
 				}
 
+Log.Write(" A ");
 				writer.WriteLine(eSQL.status + "," + 
 						Util.ChangeChars(seriesName,","," ") + "," + //person name cannot have commas
 						ex.name + "," +
@@ -2390,12 +2396,15 @@ public partial class ChronoJumpWindow
 				EncoderExercise ex = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
 						false, getExerciseIDFromCombo(), false)[0];
 				
+Log.Write(" A ");
 				sendAnalysis = "1RMAnyExercise";
 			        analysisVariables = Util.ConvertToPoint(ex.speed1RM) + ";" + 
 					SqlitePreferences.Select("encoder1RMMethod");
 				analysisOptions = "p";
+Log.Write(" A ");
 			}
 
+Log.Write(" A ");
 			ep = new EncoderParams(
 					(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 					getExercisePercentBodyWeightFromCombo (),
@@ -2412,6 +2421,7 @@ public partial class ChronoJumpWindow
 					image_encoder_height,
 					preferences.CSVExportDecimalSeparator 
 					);
+Log.Write(" A ");
 			
 			dataFileName = UtilEncoder.GetEncoderDataTempFileName();
 		}

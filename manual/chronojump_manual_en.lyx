@@ -83,12 +83,6 @@
 Chronojump
 \size default
  Manual
-\begin_inset Newline newline
-\end_inset
-
-
-\size large
-(updated until Chronojump 1.4.4 version)
 \end_layout
 
 \begin_layout Author
@@ -347,7 +341,7 @@ Detection
 \begin_inset space ~
 \end_inset
 
-device one or two contact platforms or photocells.
+device one or more contact platforms or photocells or one encoder.
  
 \end_layout
 
@@ -380,7 +374,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://chronojump.org/products.html#chronojump
+http://chronojump.org/software.html
 \end_layout
 
 \end_inset
@@ -432,7 +426,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://www.chronojump.org/documents_es.html
+http://chronojump.org/documents.html
 \end_layout
 
 \end_inset
@@ -474,7 +468,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://www.chronojump.org/documents.html
+http://chronojump.org/documents.html#hardware
 \end_layout
 
 \end_inset
@@ -555,7 +549,7 @@ status open
 
 \begin_layout Plain Layout
 
-http://www.chronojump.org/documents.html
+http://chronojump.org/documents.html#hardware
 \end_layout
 
 \end_inset
@@ -581,19 +575,6 @@ reference "fig:Chronopic3"
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-\noindent
-\align center
-\begin_inset Graphics
-	filename chronopic3-metacrilato_small.jpg
-	width 250pt
-	height 188pt
-
-\end_inset
-
-
-\end_layout
 
 \begin_layout Plain Layout
 \noindent
@@ -626,16 +607,6 @@ Chronopic3.
 
 \end_layout
 
-\begin_layout Plain Layout
-\noindent
-\align center
-The image above shows the 200 initial units.
- The methacrylate was available in different colors such as yellow, orange,
- blue or transparent.
- The image bellow shows the second process of the assembly with 500 equal
- units.
-\end_layout
-
 \end_inset
 
 
@@ -649,15 +620,6 @@ Chronopic connections
 Chronopic 3 is a USB powered hardware.
  Using USB cable it receives data from PC and also power.
  To complete the connection, this cable will also be connected to the socket.
-\end_layout
-
-\begin_layout Standard
-<<<<<<< HEADAll Chonopics will be connected to the platform using the terminal
- block.
- This terminal block will receive each of the two cables from the contacts
- platform.
- Chronopic3 adds an RCA jack, to be used by the terminal block, RCA, or
- both.
 \end_layout
 
 \begin_layout Standard
@@ -680,7 +642,7 @@ Chronopic will be connected to the contact platform or photocell barrier
 \end_layout
 
 \begin_layout Standard
-Using Chronopic3 RCA (and / or fuse) it is possible to connect 'n' networking
+Using Chronopic RCA (and / or fuse) it is possible to connect 'n' networking
  platforms to any Chronopic.
  This model is useful to chronometer situations where an athlete should
  not be able to be in more than one platform at the same time.
@@ -715,10 +677,7 @@ Chronopic detect changes in the contact platform and sends it to the computer
 
 \begin_layout Standard
 Chronopic has a green light to indicate when the subject is on the platform
- or the photoelectric barrier (light stays onoff) or outside the platform
- (light is offon).Chronopic has a green light to indicate when the subject
- is on the platform or the photoelectric barrier (light stays off) or outside
- (light is on).
+ or the photoelectric barrier (light stays off) or outside (light is on).
 \end_layout
 
 \begin_layout Section
@@ -928,7 +887,7 @@ A driver is a small program that indicates the computer how to operate a
 \end_layout
 
 \begin_layout Standard
-Chronopic3 plate requires a driver to run on Windows.
+Chronopic plate requires a driver to run on Windows.
  This driver is automatically installed when you install any version later
  than Chronojump 0.7.
 \end_layout
@@ -937,115 +896,6 @@ Chronopic3 plate requires a driver to run on Windows.
 If you connect the Chronopic to the computer, and it’s detected "New hardware
  found", then the driver is not required, in other case it will be necessary
  to run the driver.
-\end_layout
-
-\begin_layout Section
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Detección-del-puerto"
-
-\end_inset
-
-Detection port
-\end_layout
-
-\begin_layout Standard
-As explained in section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sub:Chronopic-puertos-serie-usb"
-
-\end_inset
-
-, is assigned a port name for the connection.
- In case of using 
-\series bold
-Linux
-\series default
-, the port name is not usually a problem, because the names are clear and
- the / dev/ttyUSB0 is usually correct.
-\end_layout
-
-\begin_layout Standard
-In case of using 
-\series bold
-MS Windows
-\series default
-, when Chronopic3 is connected to the USB port, the driver assigns different
- names: COM1 ...
- COM27 or higher.
- In previous versions of Windows Chronojump, the port was auto detected,
- but later version than 0.6, this is not possible.
- In case of port serial, is typically assigned port COM1.
-\end_layout
-
-\begin_layout Standard
-We recommend the following process when the port is detected in Windows
- because of the connection of Chronopic via USB:
-\end_layout
-
-\begin_layout Enumerate
-On the desktop or the Start menu, 
-\series bold
-right click
-\series default
- on the icon "My Computer" Right (In Windows Vista the icon called "System")
-\end_layout
-
-\begin_layout Enumerate
-On the menu select "Properties" (last item)
-\end_layout
-
-\begin_layout Enumerate
-Go to the tab "Hardware"
-\end_layout
-
-\begin_layout Enumerate
-Select "Device Manager"
-\end_layout
-
-\begin_layout Enumerate
-Click the '+' which is to the left of "Ports COM
-\begin_inset space ~
-\end_inset
-
-&
-\begin_inset space ~
-\end_inset
-
-LPT"
-\end_layout
-
-\begin_layout Enumerate
-Will the port be indicated as COM? to the right of “USB-serial” click the
- right mouse button and select "Properties" if this doesn’t appear, then
- we can see the COM port assigned.
-\end_layout
-
-\begin_layout Enumerate
-The value of COM, such as "COM3" is what we have to enter in the configuration
- of Chronopic.
-\end_layout
-
-\begin_layout Standard
-The port can change in a reboot or after plugging new USB devices.
-\end_layout
-
-\begin_layout Standard
-The antivirus Spy-doctor has been related to problems in ports connection
- 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://mail.gnome.org/archives/chronojump-list/2008-January/msg00012.html
-\end_layout
-
-\end_inset
-
-.
- We recommend to stop it.
 \end_layout
 
 \begin_layout Section
@@ -2256,7 +2106,7 @@ The database stores the tests and links to other data tables.
 \end_layout
 
 \begin_layout Chapter
-Jump tests
+Tests
 \end_layout
 
 \begin_layout Standard
@@ -2306,6 +2156,10 @@ Assuming that the body during the takeoff position is the same as in the
 \end_layout
 
 \begin_layout Section
+Jump tests
+\end_layout
+
+\begin_layout Subsection
 Simple jumps execution
 \end_layout
 
@@ -2452,7 +2306,7 @@ Cancel
  button.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Automatic mode
 \end_layout
 
@@ -2610,7 +2464,7 @@ End automatic mode
  the person and the test to be performed.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Repetitive jumps execution
 \end_layout
 
@@ -2679,7 +2533,7 @@ If you want to execute the same type of jump to various subjects and you
  same jump.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Auditive and visual feedback in repetitive jumps: bells 
 \end_layout
 
@@ -2741,7 +2595,7 @@ Bells - auditive and visual feedback.
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Jumps view
 \end_layout
 
@@ -2793,7 +2647,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Jumps edition
 \end_layout
 
@@ -2813,7 +2667,7 @@ In the reactive jumps, since they are composed of a set of jumps, this change
  will affect all the jumps even if only one is selected.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Repair repetitive jumps
 \end_layout
 
@@ -2840,7 +2694,7 @@ n
  window.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Jumps delete
 \end_layout
 
@@ -2874,7 +2728,7 @@ reference "sec:Preferencias"
 Deleting a repetitive jump will delete all it's jumps.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Creation of new jump types
 \end_layout
 
@@ -2980,7 +2834,7 @@ Creation of a new jump type.
 
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Examples on creation of new jump types
 \end_layout
 
@@ -3462,7 +3316,7 @@ Examples on jump types created by user.
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Runs
 \end_layout
 
@@ -3626,7 +3480,7 @@ run along two or more tracks limited by devices at a fixed distance
 .
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Simple runs execution
 \end_layout
 
@@ -3755,7 +3609,7 @@ Last
  button to allow another person to perform the same run.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Executing intervallic runs
 \end_layout
 
@@ -3838,7 +3692,7 @@ Last
  button to allow another person to perform the same run.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Feedback auditive and visual at the intervallic runs: bells
 \end_layout
 
@@ -3861,7 +3715,7 @@ Bells
 .
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Runs view
 \end_layout
 
@@ -3912,7 +3766,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Runs edition
 \end_layout
 
@@ -3936,7 +3790,7 @@ In the intervallic runs, since they are composed of a set of runs, this
  change will affect all the runs even if only one is selected.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Repair intervallic runs
 \end_layout
 
@@ -3963,7 +3817,7 @@ n
  window.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Runs delete
 \end_layout
 
@@ -3997,7 +3851,7 @@ reference "sec:Preferencias"
 Deleting an intervallic run will delete all it's tracks.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Creation of new run types
 \end_layout
 
@@ -4168,7 +4022,7 @@ Creation of a new run type with variable tracks.
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Examples on creation of new run types
 \end_layout
 
@@ -4717,11 +4571,11 @@ Examples on run types created by user.
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Encoder tests
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Safety instruccions
 \end_layout
 
@@ -4734,7 +4588,7 @@ An encoder is a precise instrument that has to be managed ALWAYS with care.
 If you broke your encoder contact us at hardware@chronojump.org
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Safety magnets
 \end_layout
 
@@ -4775,7 +4629,7 @@ Magnets on a metal surface
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Do not release
 \end_layout
 
@@ -4818,7 +4672,7 @@ Wire handle
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Handle the carabiner with care
 \end_layout
 
@@ -4864,7 +4718,7 @@ Wrong use
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Measure wire length
 \end_layout
 
@@ -4910,7 +4764,7 @@ Measure
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Vertical use
 \end_layout
 
@@ -4922,7 +4776,7 @@ Vertical use: Encoder measures distance, speed and power of the wire assuming
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Concepts
 \end_layout
 
@@ -4931,7 +4785,7 @@ This manual briefly describes some concepts.
  Understanding them is important to use the software appropriately.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Database
 \end_layout
 
@@ -4962,7 +4816,7 @@ All modifications in session, subjects and exercises, will be updated at
  the exercise that is being performed at the time.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Sessions
 \end_layout
 
@@ -4976,7 +4830,7 @@ The sessions represent situations where the coach or evaluator gathers subjects
  In this way, you can make comparisons between data over time.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 subjects
 \end_layout
 
@@ -4987,7 +4841,7 @@ All individuals able to perform the tests are known as subjects.
  In following sessions the person can be loaded.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Exercices
 \end_layout
 
@@ -5001,7 +4855,7 @@ Every time you want to measure, you perform an exercise.
  45s) and others.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Sets (formerly signals)
 \end_layout
 
@@ -5016,7 +4870,7 @@ When the person does the exercise, encoder generates a lot of data and sends
  of the movement has been done by the person who executed the exercise.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Repetitions (formerly repetitions)
 \end_layout
 
@@ -5029,11 +4883,11 @@ When set is analysed, a number of repetitions are found.
  
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Using the encoder
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Chronojump main windows
 \end_layout
 
@@ -5102,11 +4956,11 @@ D) The centre-right part of the screen is for managing the tests (or exercises).
  Select the encoder tab.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Connecting encoder
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Chronopic windows
 \end_layout
 
@@ -5119,7 +4973,7 @@ In order to connect the encoder, click on the Chronopic button (“B”, in
  After Chronopic port has been selected, just close the window.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Encoder configuration
 \end_layout
 
@@ -5183,7 +5037,7 @@ status open
  to calcuate the inertia momentum of your machine configuration
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Encoder capture tab
 \end_layout
 
@@ -5228,7 +5082,7 @@ Capture tab
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Exercise
 \end_layout
 
@@ -5270,7 +5124,7 @@ The exercise area includes also the contraction type (eccentric-concentric
  and the recalculate button.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Aquire
 \end_layout
 
@@ -5448,7 +5302,7 @@ Recalculate can be used after capturing or loading.
  in order to have the force and power calculated correctly.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Camera record
 \end_layout
 
@@ -5460,7 +5314,7 @@ At the right of the exercise frame there is a check box where a web cam
  using a button on set frame.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 set frame
 \end_layout
 
@@ -5470,7 +5324,7 @@ During the capture this frame will show the set sent by the encoder.
  in the same frame with some basic graphic information.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 repetitions frame
 \end_layout
 
@@ -5537,7 +5391,7 @@ In excentric-concentric mode, saving a excentreic (concentric) repetition
  exercise.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Bars frame
 \end_layout
 
@@ -5591,7 +5445,7 @@ The descending white line in the bar indicates an excentric repetition.
 The saved repetitions apears with a framed number below.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Encoder analyze tab
 \end_layout
 
@@ -5718,7 +5572,7 @@ The analysis starts when user click in “Analyse”.
  each save button in the lower right.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Calculation of the inertia momentum
 \end_layout
 
@@ -5741,7 +5595,7 @@ target "http://youtu.be/HK1ilOyg5Vs"
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Inertia momentum of the disk
 \end_layout
 
@@ -5957,7 +5811,7 @@ Capturing the oscilation
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Inertia momentum of the disk with attached weights.
 \end_layout
 
@@ -6041,7 +5895,7 @@ Where:
  - is the inertia momentum of each weight calculated above
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Encoder settings and preferences
 \end_layout
 
@@ -6101,7 +5955,7 @@ In the
  (quadratic) or three (cubic).
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Examples of encoder use
 \end_layout
 
@@ -6283,11 +6137,11 @@ http://foro.chronojump.org
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Other tests
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Reaction time
 \end_layout
 
@@ -6297,7 +6151,7 @@ In order to detect reaction time of the person, there's a need of an assistant,
  that can be measured accurately.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Protocol
 \end_layout
 
@@ -6313,7 +6167,7 @@ Assistant will produce contact in a contact device: push-button, platform,
  It's important that athlete doesn't see or hear the assistant.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Executing reaction time
 \end_layout
 
@@ -6333,7 +6187,7 @@ If Chronopic has not been connected and activated from Chronopic window,
  done.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reaction times view
 \end_layout
 
@@ -6360,7 +6214,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reaction times edition
 \end_layout
 
@@ -6379,7 +6233,7 @@ e
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Reaction times delete
 \end_layout
 
@@ -6409,7 +6263,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Pulses (Simple rhythms)
 \end_layout
 
@@ -6467,7 +6321,7 @@ Both methods are interrelated, if eg.
 \end_layout
 
 \end_deeper
-\begin_layout Subsection
+\begin_layout Subsubsection
 Ejecución de pulsos
 \end_layout
 
@@ -6500,7 +6354,7 @@ Cancelar
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Pulses view
 \end_layout
 
@@ -6539,7 +6393,7 @@ z
 ) to facilitate the view of the tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Pulses edit
 \end_layout
 
@@ -6558,7 +6412,7 @@ e
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Pulses delete
 \end_layout
 
@@ -6588,7 +6442,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:MultiChronopic"
@@ -6648,7 +6502,7 @@ Two, three or four athletes do a round trip timed race on a track: there
  We will be able to measure the times and speeds of each 4 independently.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Synchronization
 \end_layout
 
@@ -6696,7 +6550,7 @@ The sync in the fourth example requires discussion.
  and the first contact each athlete.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Erase first time
 \end_layout
 
@@ -6713,7 +6567,7 @@ Perhaps, the subject can begin whenever he wants.
  and should be removed to avoid contaminating averages.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Port configuration
 \end_layout
 
@@ -6726,7 +6580,7 @@ Tools / Chronopic
 , to run the tests proposed.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Multi Chronopic results view
 \end_layout
 
@@ -6842,7 +6696,7 @@ z
 ) to facilitate the visualization of the tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Multi Chronopic test edition and erase
 \end_layout
 
@@ -6887,7 +6741,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Run analysis
 \end_layout
 

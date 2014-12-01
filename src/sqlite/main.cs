@@ -74,7 +74,7 @@ class Sqlite
 	 * Important, change this if there's any update to database
 	 * Important2: if database version get numbers higher than 1, check if the comparisons with currentVersion works ok
 	 */
-	static string lastChronojumpDatabaseVersion = "1.16";
+	static string lastChronojumpDatabaseVersion = "1.17";
 
 	public Sqlite() {
 	}
@@ -1708,6 +1708,18 @@ class Sqlite
 
 				currentVersion = "1.16";
 			}
+			if(currentVersion == "1.16") {
+				Sqlite.Open();
+			
+				Log.WriteLine("Deleting Max jump");
+
+				Update(true, Constants.JumpTable, "type", "Max", "Free", "", ""); 
+				DeleteFromName(true, Constants.JumpTypeTable, "Max");
+				SqlitePreferences.Update ("databaseVersion", "1.17", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.17";
+			}
 	
 		}
 
@@ -1852,6 +1864,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.16 - 1.17 Converted DB to 1.17 Deleted Max jump (we already have "Free")
 		//1.15 - 1.16 Converted DB to 1.16 Cyprus moved to Europe
 		//1.14 - 1.15 Converted DB to 1.15 added Chronojump profile and bilateral profile
 		//1.13 - 1.14 Converted DB to 1.14 slCMJ -> slCMJleft, slCMJright

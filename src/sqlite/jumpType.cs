@@ -59,7 +59,7 @@ class SqliteJumpType : Sqlite
 			"slCMJright:1:0:Single-leg CMJ jump",
 			"ABK:1:0:ABK jump", 
 			"ABKl:1:1:ABK jump with weight", 
-			"Max:1:0:;Maximum jump", 
+			//"Max:1:0:;Maximum jump", 
 			//"DJ:0:0:DJ jump",
 			"DJa:0:0:DJ jump using arms",
 			"DJna:0:0:DJ jump without using arms",
@@ -88,7 +88,7 @@ class SqliteJumpType : Sqlite
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true);
+		//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true); //we already have "Free"
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true);
 		//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
 		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj_a.png", true);

@@ -2425,6 +2425,14 @@ Saltos:
 \begin_layout Itemize
 
 \emph on
+Libre
+\emph default
+, Salto normal sin ninguna restricción
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
 SJ
 \emph default
 , Squat Jump o salto desde sentadilla
@@ -2465,9 +2473,25 @@ ABK,
 \begin_layout Itemize
 
 \emph on
-DJ,
+ABKl, 
 \emph default
- Drop Jump o salto con caída
+Abalakov o salto con bralzos y una carga extra
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+DJa,
+\emph default
+ Drop Jump o salto con caída utilizando brazos
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+DJna
+\emph default
+, Drop Jump o salto con caída sin utización de brazos
 \end_layout
 
 \begin_layout Itemize
@@ -2479,12 +2503,36 @@ Rocket,
 \end_layout
 
 \begin_layout Itemize
+
+\emph on
+TakeOff, 
+\emph default
 Batida, Sólo graba el primer tiempo de contacto
 \end_layout
 
 \begin_layout Itemize
-Todos los saltos simples, Mediante este botón se tiene acceso al resto de
- saltos soportados por chronojump
+
+\emph on
+TakeOffWeight
+\emph default
+ Batida con carga extra.
+ Sólo graba el primer tiempo de contacto
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+slCMJleft, 
+\emph default
+salto con contramovimiento con la pierna izquierda
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+slCMJright, 
+\emph default
+salto con contramovimiento con la pierna derecha
 \end_layout
 
 \begin_layout Standard
@@ -2553,7 +2601,7 @@ En caso que no esté conectado el Chronopic, el programa simulará un salto.
  encima de la plataforma, mientras que para otros será imprescindible que
  se ubique fuera de ella.
  Será avisado si la situación del deportista no es la correcta.
- En la ventana emergente se mostrará la progresión del salto, que podrá
+ En la barra de progreso se mostrará la progresión del salto, que podrá
  ser detenido haciendo clic en el botón 
 \emph on
 Terminar
@@ -2566,6 +2614,173 @@ Cancelar
 \end_layout
 
 \begin_layout Subsubsection
+Modo automático
+\end_layout
+
+\begin_layout Standard
+Con el fin de acelerar el proceso de test con múltiples sujetos puede hacer
+ clic en el botón de 
+\emph on
+Modo automático.
+ 
+\emph default
+Este modo le permite ejecutar el test creando o cargando una secuencia de
+ diferentes saltos i/o personas.
+\end_layout
+
+\begin_layout Standard
+Definir la secuencia se puede hacer cargando una predefinida (Cargar sequencia)
+ o creando una nueva (Crear sequencia)
+\end_layout
+
+\begin_layout Standard
+Cuando una nueva secuencia es creada, el orden de los tests debe ser definido.
+ Hay tres opciones diferentes:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Por personas
+\emph default
+: Cada persona de la sesión ejecuta todos los tests antes de cambiar a la
+ siguiente persona.
+ Ejemplo: 
+\emph on
+Chronojump profile
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Por tests
+\emph default
+: Cada test de la secuencia es ejecutado por todas las personas antes de
+ pasar al siguiente test.
+ Ejemplo: 
+\emph on
+Bilateral profile by persons
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+By sets
+\emph default
+: Cada persona de la sesión ejecutará una batería de tests antes de pasar
+ a la siguiente batería.
+ Se pueden definir hasta tres baterías.
+ Ejemplo: 
+\emph on
+Bilateral profile by sets
+\end_layout
+
+\begin_layout Standard
+Para definir una nueva secuencia haga clic en el tipo de secuencia que quiere
+ crear y presione sobre el botón 
+\emph on
+Siguiente.
+ 
+\emph default
+En la siguiente ventana podrá definir el orden de las pruebas.
+ Si ha seleccionado 
+\emph on
+By sets 
+\emph default
+cada conjunto de pruebas debe ser definido por separado.
+\end_layout
+
+\begin_layout Standard
+Una vez definida la secuencia ésta puede ser guardada con el botón de 
+\emph on
+Guardar.
+\end_layout
+
+\begin_layout Standard
+Una vez haya presionado el botón 
+\emph on
+Siguiente
+\emph default
+ una nueva ventana le mostrará la secuencia entera indicando el orden de
+ la prueba y la persona.
+\end_layout
+
+\begin_layout Standard
+Finalmente, cuando haga clic en el botón 
+\emph on
+Siguiente
+\emph default
+ el modo automático estará activado.
+ En este modo el recuadro de las personas de la sesión estará inhabilitado
+ y el nombre de la persona y el test que ejecutará se mostrará en la parte
+ superior izquierda del recuadro de captura.
+ También desaparecerá la selección de test de modo que no se permite cambiar
+ el mismo.
+\end_layout
+
+\begin_layout Standard
+Después de ejecutar cada test la persona y el test cambiará automáticamente.
+\end_layout
+
+\begin_layout Standard
+Haciendo clic en el botón de 
+\emph on
+Ver orden
+\emph default
+\lang british
+
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/automatic_list.png
+
+\end_inset
+
+
+\lang spanish
+ podrá ver la secuencia entera.
+\end_layout
+
+\begin_layout Standard
+Para dejar para el final todos los tests de una persona presione el botón
+ 
+\emph on
+Omitir este atleta
+\emph default
+\lang british
+
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/automatic_skip.png
+
+\end_inset
+
+
+\lang spanish
+.
+\end_layout
+
+\begin_layout Standard
+Para borrar de la secuencia un atleta presiona el botón
+\lang british
+
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/automatic_delete.png
+
+\end_inset
+
+
+\lang spanish
+.
+\end_layout
+
+\begin_layout Standard
+Presionando en 
+\emph on
+End automatic mode 
+\emph default
+volverá al modo de uso normal de Chronojump permitiendole seleccionar la
+ persona y la prueba a realizar.
+\end_layout
+
+\begin_layout Subsection
 Ejecución de saltos repetitivos
 \end_layout
 
@@ -2592,11 +2807,31 @@ RJ(t),
 \end_layout
 
 \begin_layout Itemize
-Ilimitado: salto repetitivo ilimitado
+
+\emph on
+Ilimitado
+\emph default
+, salto repetitivo ilimitado
 \end_layout
 
 \begin_layout Itemize
-Hexágono: Test de agilidad RJ(hexagon)
+
+\emph on
+Hexágono
+\emph default
+, Test de agilidad RJ(hexagon)
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Triple salto
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Multisalto ilimitado con peso
 \end_layout
 
 \begin_layout Standard
@@ -2929,7 +3164,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename Captura-Crear un tipo de salto nuevo.png
+	filename Captura-Crear un tipo de salto nuevo_es.png
 	lyxscale 50
 	scale 60
 
@@ -4058,7 +4293,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename run_type_add.png
+	filename run_type_add_es.png
 	scale 55
 
 \end_inset
@@ -4103,7 +4338,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename run_type_add-variable.png
+	filename run_type_add-variable_es.png
 	scale 55
 
 \end_inset
@@ -4688,6 +4923,1652 @@ Ejemplos de tipos de carreras creados por el usuario.
 \end_layout
 
 \begin_layout Section
+Potencia
+\end_layout
+
+\begin_layout Subsection
+Instrucciones de seguridad
+\end_layout
+
+\begin_layout Standard
+Un encoder es un instrumento preciso que deber ser manipulado SIEMPRE con
+ precaución.
+ Por favor, siga estas instrucciones.
+\end_layout
+
+\begin_layout Standard
+Si su encoder resulta roto, por favor contecte con nosotros mediante hardware@ch
+ronojump.org
+\end_layout
+
+\begin_layout Subsubsection
+Imanes de seguridad
+\end_layout
+
+\begin_layout Standard
+Coloque el encoder sobre una base de metal o hierro, como por ejemplo las
+ pesas de un gimnasio.
+ Tenga en cuenta que algunas pesas están recubiertas de goma disminuyendo
+ su magnetismo.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/magnets.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Imanes en superficie metálica
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Nunca suelte el hilo
+\end_layout
+
+\begin_layout Standard
+Nunca suelte el hilo porque volverá a gran velocidad y seguramente se romperá.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/handle.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Mosquetón
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Nunca tire del hilo con sus dedos
+\end_layout
+
+\begin_layout Standard
+Nunca use sus dedos para estirar el hilo.
+ El aro metálico o el hilo se escaparán fácilmente de sus dedos provocando
+ un rápido retorno y una rotura.
+ Use el gancho de plástico negro que encontrará en la bolsa de su encoder.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/never_fingers.jpeg
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Uso indebido
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Mida la longitud de su encoder
+\end_layout
+
+\begin_layout Standard
+Mida con cuidado (sin tirar con sus dedos) la longitud del hilo.
+ No realice tests que requieran de mayor longitud.
+ Recuerde que puede ubicar el encoder encima de una mesa (fijándolo bien)
+ o cualquier otra superficie.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/measure.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Medida
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Uso en perpendicular
+\end_layout
+
+\begin_layout Standard
+Uso no inclinado: El encoder mide las distancias, velocidades y potencias
+ del hilo entendiendo que éste se encuentra perpendicular respecto a su
+ base.
+ Si usted tira del encoder con alguna inclinación sus datos no serán del
+ todo correctos y se arriesga a deteriorar el hilo.
+\end_layout
+
+\begin_layout Subsection
+Conceptos
+\end_layout
+
+\begin_layout Standard
+Este manual describe algunos conceptos.
+ La comprensión de estos conceptos es importante para el uso adecuado del
+ software.
+\end_layout
+
+\begin_layout Subsubsection
+Base de datos
+\end_layout
+
+\begin_layout Standard
+Chronojump stores data in one database file.
+ Thus, instead of collecting the information in individual files for each
+ session, all information is organized in a single file to facilitate the
+ study of relationships between:
+\end_layout
+
+\begin_layout Standard
+Chronojump almacena información en un archivo de base de datos.
+ Así, la base de datos facilita el estudio de las relaciones entre
+\end_layout
+
+\begin_layout Itemize
+seiones
+\end_layout
+
+\begin_layout Itemize
+sujetos
+\end_layout
+
+\begin_layout Itemize
+ejercicios
+\end_layout
+
+\begin_layout Standard
+Todas las modificaciones de estas variables se actualizan en todo momento
+ en la base de datos.
+ Así, si el programa se bloquease todos los datos estarían guardados automáticam
+ente excepto (probablemente) el test que se esté realizando en dicho momento.
+\end_layout
+
+\begin_layout Subsubsection
+Sesiones
+\end_layout
+
+\begin_layout Standard
+Las sesiones son situaciones en que el entrenador o evaluador pide a sus
+ atletas (o sujetos) que realicen una serie de tests.
+ Cada vez que un grupo de personas realiza tests en un espacio corto de
+ tiempo (típicamente: un día), el usuario debería crear una nueva sesión.
+ Aunque los sujetos evaluados sean los mismos que en una sesión previa,
+ es conveniente crear una nueva sesión ya que así se pueden realizar comparacion
+es longitudinales de los datos, y no se pierde tiempo debido a que los sujetos
+ se pueden añadir muy rápidamente a partir de la otra sesión.
+\end_layout
+
+\begin_layout Subsubsection
+Personas
+\end_layout
+
+\begin_layout Standard
+Cada uno de los individuos que pueden realizan tests es conocido como sujeto
+ (o persona).
+ Hay que notar que no se debe crear un mismo sujeto más de una vez, ya que
+ para que pueda estudiarse su evolución en el tiempo (diferentes sesiones)
+ se recomienda enérgicamente crear el sujeto sólo una vez, y las otras veces
+ (en las siguientes sesiones) se deberá cargar el sujeto en la sesión actual.
+\end_layout
+
+\begin_layout Subsubsection
+Exercices
+\end_layout
+
+\begin_layout Standard
+Cada vez que quiera realizar una medición, la realiza usando un ejercicio.
+ Dicho ejercicio tiene un nombre (ej.
+ Press de banca), un peso extra (ej.
+ 40Kg), tipo de contracción (ej.
+ concéntrica), lateralidad (ej.
+ ambos brazos), tiempo de registro (ej.
+ 45s) , etc.
+\end_layout
+
+\begin_layout Subsubsection
+Series (anteriormente señales)
+\end_layout
+
+\begin_layout Standard
+Cuando un sujeto realiza un ejercicio, el encoder genera mucha información
+ y la envía al ordenador.
+ La duración del ejercicio está definida por el usuario que manipula el
+ software.
+ Si lo desea, el mismo usuario puede terminar el test antes de tiempo.
+ Todos los datos recibidos se denominan “Serie”.
+ Esta serie se guarda automáticamente cuando la captura termina.
+ La serie no aporta significado, no aparece ninguna información sobre la
+ cantidad de las repeticiones realizadas por el ejecutante.
+\end_layout
+
+\begin_layout Subsubsection
+Repeticiones (anteriormente curvas)
+\end_layout
+
+\begin_layout Standard
+Cuando se analiza la serie, se encuentran n repeticiones.
+ Estas repeticiones contienen los datos mecánicos que desea el evaluador:
+ inicio, duración, velocidad, fuerza y potencia.
+ Las curvas son detectadas automáticamente por el software siguiendo criterios
+ definidos por el usuario.
+\end_layout
+
+\begin_layout Subsection
+Uso del encoder
+\end_layout
+
+\begin_layout Subsubsection
+Ventana principal de Chronojump
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/main_es.png
+	lyxscale 30
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Ventana principal
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A) Área de menú.
+ De izquierda a derecha la barra de menú ofrece las opciones de sesión,
+ modo y ayuda
+\end_layout
+
+\begin_layout Standard
+B) Gestión de sujetos.
+ Mediante estos botones se podrá crear sujetos nuevos o cargar sujetos de
+ otras sesiones.
+\end_layout
+
+\begin_layout Standard
+C) Listado de los sujetos de la sesión.
+ En este recuadro se podrá cambiar de sujeto actual, editarlo, borrarlo
+ o ver los datos del mismo.
+\end_layout
+
+\begin_layout Standard
+D) Área de captura/análisis.
+ Aquí apareceran las opciones necesarias para hacer la captura de una serie
+ o el análisis posterior.
+\end_layout
+
+\begin_layout Subsubsection
+Conexión del encoder
+\end_layout
+
+\begin_layout Paragraph
+Ventana de Chronopic
+\end_layout
+
+\begin_layout Standard
+In order to connect the encoder, click on the Chronopic button (“B”, in
+ the above image) and Chronopic window will be opened.
+ On this new window select “Encoder” and the port where Chronopic is connected.
+ If you have any problem press the help button in that window, it has little
+ and useful information.
+ After Chronopic port has been selected, just close the window.
+\end_layout
+
+\begin_layout Standard
+Para conectar el Chronopic, haga clic en el botón 
+\emph on
+Conectar Chronopic
+\emph default
+
+\begin_inset Graphics
+	filename chronopic_button.png
+	lyxscale 80
+	scale 80
+
+\end_inset
+
+.
+ En la nueva ventana seleccione el puerto donde se configuró el Chronopic.
+ Si tiene algún problema presione sobre el botón de ayuda, aparecerá una
+ breve información que le puede ser útil.
+ Una vez seleccionao el puerto del Chronopic, simplemente cierre la ventana.
+\end_layout
+
+\begin_layout Paragraph
+Configuración del encoder
+\end_layout
+
+\begin_layout Standard
+El siguiente paso consiste en seleccionar el tipo de encoder que se ha conectado
+, tipo de máquina al que se ha acoplado y el ejercicio que se realizará
+ con la misma.
+\end_layout
+
+\begin_layout Standard
+Haciendo clic en el botón 
+\emph on
+Seleccionar codificador 
+\emph default
+aparecerá una nueva ventana con imágenes de las diferentes combinaciones
+ de encoder/máquina.
+ Cada tipo de encoder tiene un conjunto diferente de configuraciones.
+ Los botones de flecha le permitirá cambiar entre las diferentes opciones
+ que ofrece cada tipo de encoder.
+\end_layout
+
+\begin_layout Standard
+Hay tres tipos de encoder:
+\end_layout
+
+\begin_layout Itemize
+Lineal
+\end_layout
+
+\begin_layout Itemize
+Rotatorio de fricción
+\end_layout
+
+\begin_layout Itemize
+Rotatorio de eje
+\end_layout
+
+\begin_layout Standard
+Algunas configuraciones necesitan parámetros adicionales como ángulos, diametros
+ o momentos de inercia.
+\end_layout
+
+\begin_layout Standard
+Chronojump implementa un sistema para calcular el momento de inercia que
+ le permite configurar prácticamente todos los tipos de máquinas inerciales
+ de rotación.
+ Siga las intrucciones de la sección 5.3.4 para hacer los cálculos del momento
+ de inercia.
+\end_layout
+
+\begin_layout Subsubsection
+Área de captura
+\end_layout
+
+\begin_layout Standard
+En esta sección tiene seis áreas diferenciadas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/capture.png
+	lyxscale 20
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Capture tab
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+Ejercicio
+\end_layout
+
+\begin_layout Standard
+En el área de ejercicio se encuentra el nombre del mismo, la información
+ relacionada y un botón para crear un nuevo ejercicio.
+ Haciendo clic en la información relacionada o en “nuevo ejercicio”, podrá
+ ver que existe un parámetro denominado “Peso corporal desplazado (%)”.
+ Este parámetro es importante para medir fuerza y potencia.
+ Se entiende que en un salto se desplaza el 100% del peso corporal, pero
+ en un press banca se desplaza el 0% del peso corporal.
+\end_layout
+
+\begin_layout Standard
+El parámetro “Peso extra” se usa para introducir cuantos Kg se desplazan
+ sin tener en cuenta el peso corporal.
+ En resumen, el desplazamiento de peso se calcula con esta fórmula:
+\begin_inset Formula 
+\[
+PesoDesplazado=\frac{PesoPersona*PesoCorporalDesplazado}{100}+PesoExtra
+\]
+
+\end_inset
+
+El área de ejercicio también incluye el tipo de contracción (excéntrica-concéntr
+ica o concéntrica), la lateralidad y el botón de 1RM del atleta.
+\end_layout
+
+\begin_layout Paragraph
+Captura
+\end_layout
+
+\begin_layout Standard
+En el área de captura se puede adquirir nuevos datos 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/capture_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ o cargar datos existentes 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/load_signal_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+With the Options button the following parameters of the capture or loaded
+ set can be adjusted:
+\end_layout
+
+\begin_layout Standard
+Mediante el botón de Opciones 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/signal_settings_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ los siguientes parámetros del ejercicio capturado o cargado pueden ser
+ configurados.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/capture_options.png
+	scale 70
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Opciones de captura
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Tiempo de captura
+\emph default
+.
+ Indica cuanto tiempo Chronojump estará registrando la serie del ejercicio.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Terminar tras n segundos de inactividad
+\emph default
+.
+ Si Chronojump detecta que el encoder no recibe ningún movimiento durante
+ estos n segundos, el programa finalizará el proceso de captura.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Altura mínima
+\emph default
+.
+ Es el rango mínimo en centímetros de una repetición.
+ Por ejemplo, en un pres banca cuando la persona coje la barra por primera
+ vez (con la barra en el soporte), no se considerará una repetición porque
+ el rango de movimiento es menor que el definido en Altura mínima.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Variable principal.
+ 
+\emph default
+Los datos que se mostrarán en el recuadro de barras.
+ Esta será la variable que se mostrará durante la ejecución del ejercicio
+ como retroalimentación instantánea.
+\end_layout
+
+\begin_layout Standard
+Campanas.
+ Este botón le permite configurar los mensajes sonoros en función de diferentes
+ variable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/bells.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Alertas sonoras
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+El botón de cargar 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/load_signal_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ le permite recuperar o modificar una serie del sujeto y la sesión actual.
+ Mediante este botón también podrá modificar la persona que ejecutó una
+ serie así como añadirle comentarios o borrarla.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Recalcular
+\emph default
+ 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/recalculate.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+ puede ser usado después de capturar o de cargar una serie.
+ Si el usuario detecta que algún parámetro no ha sido introducido correctamente
+ y quiere volver a calcular en función de estos puede cambiar los parámetros
+ y presionar 
+\emph on
+Recalcular 
+\emph default
+.
+ Ejemplo: Durante un ejercico de Sentadilla se levantan 40Kg extras pero
+ el usuario olvidó añadir el peso de la barra.
+ Después de la captura el usuario puede cambiar el peso extra de 40Kg a
+ 50Kg y hacer clic 
+\emph on
+Recalcular
+\emph default
+ para tener los valores de fuerza y potencia reales.
+\end_layout
+
+\begin_layout Paragraph
+Grabación de video
+\end_layout
+
+\begin_layout Standard
+En la parte derecha hay un botón de selección que le permite activar una
+ webcam.
+ Si está activo se usará durante el uso del encoder.
+ El video resultante se adjuntará a la serie del encoder y podrá ser visionado
+ posteriormente.
+\end_layout
+
+\begin_layout Paragraph
+Recuadro de la serie
+\end_layout
+
+\begin_layout Standard
+Durante la captura este recuadro mostrará la serie enviada por el encoder.
+ Una vez finaliza, Chronojump calculará las repeticiones y las mostrará
+ en el mismo recuadro junto con alguna información básica
+\end_layout
+
+\begin_layout Paragraph
+Recuadro de repeticiones
+\end_layout
+
+\begin_layout Standard
+Once set is loaded, captured or recalculated, Chronojump will find repetitions
+ and write their data on a table.
+ Here you can delete a repetition, save the selected repetition, save all
+ or export them to an spreadsheet software.
+ Most users will save only a repetition, or delete a repetition and the
+ press “save all”.
+ This repetitions can be analysed at the Encoder analyse tab.
+\end_layout
+
+\begin_layout Standard
+Una vez que una serie es cargada, capturada o recalculada, Chronojump encontrará
+ las repeticiones y mostrará sus datos en una tabla.
+ Aquí podrá guardar una repetición, borrarla, guardarlas todas o exportarlas
+ en una hoja de cálculo.
+ Las repeticiones guardadas podrán ser analizadas en la sección de Análisis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/save_curve.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Guardado y borrado de repeticiones
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Para guardar o borrar una repetición, simplemente seleccione la casilla
+ de verificación de la misma.
+\end_layout
+
+\begin_layout Standard
+En modo excéntrico-concéntrico guardar la fase excéntrica (concéntrica)
+ también guarda la fase concéntrica (excéntrica) del ejercicio.
+\end_layout
+
+\begin_layout Paragraph
+Recuadro de barras
+\end_layout
+
+\begin_layout Standard
+The bars frame shows, during the exercise, the main variable in real time.
+ This way the athlete can have an instant feedback of every execution of
+ the exersice.
+\end_layout
+
+\begin_layout Standard
+Aquí se mostrará la variable principal en tiempo real.
+ De este modo el atleta puede tener una retroalimentación instantánea de
+ cada repetición del ejercicio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/power_bars.png
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Barras de potencia
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La línea descendiente de la barra indica la fase excéntrica, la línea ascendient
+e, la concéntrica
+\end_layout
+
+\begin_layout Standard
+Las repeticiones guardades se indican con un recuadro en el número de repetición.
+\end_layout
+
+\begin_layout Subsubsection
+Análisis
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/analyze.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Analyze tab
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Segun los datos a analizar hay dos opciones: la serie actual 
+\begin_inset Graphics
+	filename encoder-manual-images/set_button.png
+
+\end_inset
+
+ (la mostrada en el área de captura) o las repeticiones guardadas
+\begin_inset Graphics
+	filename encoder-manual-images/repetition_button.png
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Con el modo 
+\emph on
+Repeticiones guardadas
+\emph default
+ seleccionado puede hacer clic en el boton 
+\emph on
+Seleccionar
+\emph default
+ para discriminar las repeticiones activas de la no-activas.
+ El análisis cubrirá solo las repeticiones activas.
+ Además las repeticiones guardadas le permiten hacer comparaciones entre
+ sujetos (de la sesión actual) o entre sesiones (para comparar la evolución
+ de una persona en diferentes sesiones).
+\end_layout
+
+\begin_layout Standard
+Hay cinco modos de análisis:
+\end_layout
+
+\begin_layout Itemize
+Barras de potencia 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/analyze_power_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Muestra la potencia, el pico de potencia, tiempo necesario para llegar
+ al pico de potencia y rango de movimiento.
+\end_layout
+
+\begin_layout Itemize
+Cruzar variables 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/analyze_cross_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Muestra las relaciones entre variables como 
+\emph on
+Potencia/Carga
+\emph default
+.
+ Incluye el cálculo del 1RM.
+ Variables cruzadas es el único modo que se permite en modo 
+\emph on
+Comparar.
+\end_layout
+
+\begin_layout Itemize
+Comparar lateral 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/analyze_sidecompare_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Permite ver las gráficas de las variables mecánicas de diferentes repeticiones
+ con los mismos ejes.
+\end_layout
+
+\begin_layout Itemize
+Repetición única 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/analyze_singlecurve_button.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Muestra la gráfica de las variables mecánicas de una única repetición.
+\end_layout
+
+\begin_layout Itemize
+Perfil neuromuscular 
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/analyze_nmp.png
+	lyxscale 75
+	scale 75
+
+\end_inset
+
+: Para ver el perfil neuromuscular de los tres mejores saltos de una serie
+ de seis.
+ Por lo menos son necesarios seis saltos para efectuar este tipo de análisis.
+\end_layout
+
+\begin_layout Standard
+The analysis starts when user click in “Analyse”.
+ After a while, a graph and a table will appear, both can be saved using
+ each save button in the lower right.
+\end_layout
+
+\begin_layout Standard
+El análisis empezará cuando el usuario presione sobre 
+\emph on
+Analizar.
+ 
+\emph default
+Al cabo de un instante una gráfica y una tabla aparecerá.
+ Ambas pueden ser guardadas mediante el botón de 
+\emph on
+Guardar gráfica
+\emph default
+ o 
+\emph on
+Guardar tabla
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Cálculo del momento de inercia
+\end_layout
+
+\begin_layout Standard
+La primera parte de esta sección mostrará cómo calcular el momento de inercia
+ (MI) del disco de una máquina inercial.
+\end_layout
+
+\begin_layout Standard
+En el siguiente enlace puede ver un video del proceso de cálculo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset href
+LatexCommand href
+name "Calculing inertia momentum video"
+target "http://youtu.be/HK1ilOyg5Vs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Momento de inercia del disco
+\end_layout
+
+\begin_layout Standard
+Para calcular el IM del disco sin pesos extras usaremos un peso de referència.
+ Recuerde que aunque usaremos un peso acoplado al disco, los resultados
+ que Chronojump nos devolverá en esta parte del proceso se refieren únicamente
+ al disco sin ningún peso.
+\end_layout
+
+\begin_layout Enumerate
+Ponga la máquina en una posición tal que el disco esté en un plano vertical
+\end_layout
+
+\begin_layout Enumerate
+Acople un peso conocido a una distancia conocida del eje de giro.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/Disk.png
+	lyxscale 12
+	scale 12
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Reference weight
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+In chrono jump software, with the encoder connected go to Select encoder.
+\end_layout
+
+\begin_layout Enumerate
+\noindent
+En Chronojump, con el encoder conectado, vaya a 
+\emph on
+Seleccionar codificador
+\emph default
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/select.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Select encoder button
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Escoja el tipo de encoder que va a usar y seleccione la opción 
+\emph on
+máquina inercial
+\emph default
+.
+\end_layout
+
+\begin_layout Enumerate
+En esta ventana se le preguntará por el diámetro donde la cuerda es enrollada
+ y el momento de inercia de la máquina.
+ Tenga en cuenta que en las máquinas cónicas este diámetro no es fijo.
+ Le recomendamos introducir la media del diámetro donde se enrolla la cuerda.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/encoder_type.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Parameters of the inertial machine
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Haga clic en 
+\emph on
+Calcular IM.
+\end_layout
+
+\begin_layout Enumerate
+Introduzca el peso (en gramos) del peso de referencia y la distancia (en
+ centímetros) hasta el centro del disco.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/calculus.png
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Parámetros para el cálculo del IM
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The disk should start oscil ating.
+ Tire del peso hasta aproximadamente 90 grados y suéltelo.
+ El disco debería empezar a oscilar.
+\end_layout
+
+\begin_layout Enumerate
+Rápidamente haga clic en el botón 
+\emph on
+Capturar
+\emph default
+.
+ Se le mostrará la señal enviada por el encoder.
+ Chronojump detectará cuando la máquina deja de moverse y devolverá el momento
+ de inercia calculado.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/oscilation.png
+	lyxscale 66
+	scale 66
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Captura de la oscilación
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Inertia momentum of the disk with attached weights.
+\end_layout
+
+\begin_layout Standard
+After calculating the IM of the disk, you will be asked to enter the number
+ of additional weights and the mass of them.
+ Chronojump will give you the inertia momentum added by each additional
+ weight and the total inertia momentum.
+ Chronojump uses the following formulae.
+\end_layout
+
+\begin_layout Standard
+Después del cálculo del MI del disco se le pedirá que introduzca el número
+ de pesos adicionales y su massa con los que va a ejecutar el ejercicio.
+ Chronojump le devolverá el MI que añade cada peso y el total del MI (disco
+ + pesos).
+ Chronojump usa las siguientes fórmulas
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I_{w}=M*d^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $I_{w}$
+\end_inset
+
+ es el momento de inercia que añade cada peso al sistema.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $M$
+\end_inset
+
+ es la massa del peso.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $d^{2}$
+\end_inset
+
+ es el cuadrado de la distancia desde el centro del disco hasta el centro
+ del peso.
+\end_layout
+
+\begin_layout Standard
+Y el momento de inercia del disco con los pesos extras
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I=I_{d}+n*I_{w}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Donde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I$
+\end_inset
+
+ es el momento de inercia total.
+ Éste es el valor que debe entrar Chronojump.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I_{d}$
+\end_inset
+
+ Es el momento de inercia del disco(calculado en primera parte de esta sección).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $n$
+\end_inset
+
+ es el número de pesos añadidos al disco.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $I_{w}$
+\end_inset
+
+ es el momento de inercia de cada peso, calculado anteriormente.
+\end_layout
+
+\begin_layout Subsection
+Encoder settings and preferences
+\end_layout
+
+\begin_layout Standard
+En el menú de preferencias hay algunas opciones más avanzadas que no son
+ cambiadas con frecuencia.
+ Seleccionando 
+\emph on
+Sesión / Preferencias
+\emph default
+ se le mostrarán cinco pestañas.
+ 
+\end_layout
+
+\begin_layout Standard
+Si quiere hacer los cálculos de los parámetros mecánicos sólo de la fase
+ propulsiva, asegúrese de que el parámetro 
+\emph on
+propulsivo
+\emph default
+ está activo.
+ Esto implica lo siguiente: En movimientos concéntricos rápidos donde se
+ desplaza poco peso, la acción de frenada de la persona al fiinal de la
+ fase de movimiento no se usará en los cálculos.
+ Actualmente la mayoría de entrenadores prefieren esta opción activa ya
+ que se percataron de que una comparación de la potencia media entre pesos
+ ligeros y pesados no era justa ya que la fase de frenado en las cargas
+ ligeras está relacionado con fuerza y potencia negativa y los valores de
+ potencia eran muy bajos.
+ Así si está activa la opción 
+\emph on
+Fase propulsiva
+\emph default
+ solo esta es usada y no la fase de frenada.
+\end_layout
+
+\begin_layout Standard
+En 
+\emph on
+Guardar las repeticiones automáticamente al capturar
+\emph default
+ puede seleccionar qué repetición debe guardarse cuando se ejecute un nuevo
+ ejercicio.
+ Por defecto se guardarán las repeticiones con la mejor potencia media pero
+ se puede cambiar a 
+\emph on
+Guardar todas 
+\emph default
+o 
+\emph on
+No guardar.
+\end_layout
+
+\begin_layout Standard
+Las siguientes opciones estan relacionadas con el suavizado de la captura
+ y recomendamos dejar las opciones por defecto.
+\end_layout
+
+\begin_layout Standard
+En 
+\emph on
+Predicción del 1RM, 
+\emph default
+puede seleccionar el método para obtener la regresión lineal.
+ El exponente en el peso indica que a más masa del punto usado, mas peso
+ será usado en la regresión ponderada.
+ La función del peso de la ponderación puede ser cero (sin ponderación),
+ uno (lineal), dos (cuadrática) o tres (cúbica).
+\end_layout
+
+\begin_layout Subsection
+Ejemplo del uso del encoder
+\end_layout
+
+\begin_layout Standard
+En el gimnasio:
+\end_layout
+
+\begin_layout Enumerate
+Al lado de la barra de pesas, poner una pesa (que no sea de goma) en el
+ suelo y ubicar el encoder encima de la misma.
+ El encoder quedará fijado por el magnetismo.
+\end_layout
+
+\begin_layout Enumerate
+El gancho de plástico negro se fija a la argolla del encoder y a la barra
+ de pesas.
+\end_layout
+
+\begin_layout Enumerate
+En otro lugar, el atleta1 y el atleta2 inician el calentamiento lentamente
+ y con un rango de movimiento completo.
+ Al mismo tiempo el evaluador prepara el software.
+\end_layout
+
+\begin_layout Enumerate
+El evaluador inicia Chronojump y carga la sesión preparada el día anterior
+ (los parámetros de la sesión y los sujetos ya están introducidos).
+\end_layout
+
+\begin_layout Enumerate
+El evaluador conecta el Encoder al ordenador través del Chronopic y un cable
+ USB.
+\end_layout
+
+\begin_layout Enumerate
+El evaluador selecciona el puerto en la ventana de Chronopic (apartado encoder).
+\end_layout
+
+\begin_layout Enumerate
+En la ventana principal, seleccionar pestaña de encoder, captura.
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar las opciones del ejercicio: press banca, peso extra: 20Kg (10
+ barra + 10 pesas).
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar atleta1.
+ Clic en capturar (“seguro” o “externo”).
+ Observa los resultados pero no tiene tiempo de analizarlos en este momento.
+ La señal se guarda automáticamente.
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar atleta2.
+ Clic en capturar (“seguro” o “externo”).
+ Observa los resultados pero no tiene tiempo de analizarlos en este momento.
+ La señal se guarda automáticamente.
+\end_layout
+
+\begin_layout Enumerate
+Seleccionar las opciones del ejercicio (peso extra: 30Kg).
+ Cambiar el peso de barra + pesas a 30Kg con la ayuda de un atleta mientras
+ el otro descansa.
+ Repetir [9] y [10].
+\end_layout
+
+\begin_layout Standard
+Después, en casa:
+\end_layout
+
+\begin_layout Enumerate
+Abrir el software.
+\end_layout
+
+\begin_layout Enumerate
+Cargar la sesión, seleccionar atleta1, cargar la primera señal, “Guardar
+ todas” las curvas.
+\end_layout
+
+\begin_layout Enumerate
+Repetir el paso [2] para todas las señales de ambos atletas.
+\end_layout
+
+\begin_layout Enumerate
+Ir a la pestaña de análisis.
+ Seleccionar “Curvas del usuario”, comparar entre sujetos, “Potencia / Carga”.
+\end_layout
+
+\begin_layout Enumerate
+Usar los valores resultantes para preparar un entrenamiento basado en la
+ potencia.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/example.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+
+\lang british
+Example of encoder use
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Otros tests
+\end_layout
+
+\begin_layout Subsection
 Tiempo de reacción
 \end_layout
 
@@ -4699,7 +6580,7 @@ El programa dispone de un botón que permite detectar el tiempo de reacción
  puedan ser medidas con precisión.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Protocolo
 \end_layout
 
@@ -4714,7 +6595,7 @@ El ayudante estará pulsando algún tipo de pulsador o plataforma, y cuando
  anticipar su acción.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Ejecución de tiempo de reacción
 \end_layout
 
@@ -4746,7 +6627,7 @@ Cancelar
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Visualización de tiempo de reacción
 \end_layout
 
@@ -4782,7 +6663,7 @@ z
 para facilitar la visualización de los tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Edición de tiempos de reacción
 \end_layout
 
@@ -4801,7 +6682,7 @@ e
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Borrado de tiempos de reacción
 \end_layout
 
@@ -4831,7 +6712,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Pulsos (Ritmos simples)
 \end_layout
 
@@ -4891,7 +6772,7 @@ Note que los dos métodos están relacionados de manera que si selecciona
 \end_layout
 
 \end_deeper
-\begin_layout Subsection
+\begin_layout Subsubsection
 Ejecución de pulsos
 \end_layout
 
@@ -4924,7 +6805,7 @@ Cancelar
 .
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Visualización de pulsos
 \end_layout
 
@@ -4956,7 +6837,7 @@ z
 ) para facilitar la visualización de los tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Edición pulsos
 \end_layout
 
@@ -4975,7 +6856,7 @@ e
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Borrado de pulsos
 \end_layout
 
@@ -5004,7 +6885,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:MultiChronopic"
@@ -5066,7 +6947,7 @@ nte.
  
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Sincronización
 \end_layout
 
@@ -5118,7 +6999,7 @@ La sincronización en el cuarto ejemplo requiere discusión.
  contacto de cada atleta.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Borrado del primer tiempo
 \end_layout
 
@@ -5132,7 +7013,7 @@ En algunos tests, el tiempo des del inicio del mismo hasta el primer cambio
  para que no contamine los promedios.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Configuración de los puertos
 \end_layout
 
@@ -5141,7 +7022,7 @@ Como es obvio, es imprescindible configurar dos Chronopics en la ventana
  de Chronopic para poder ejecutar los tests propuestos.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Visualización de resultados de Multi Chronopic
 \end_layout
 
@@ -5298,7 +7179,7 @@ z
 para facilitar la visualización de los tests.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Edición y borrado de test Multi Chronopic
 \end_layout
 
@@ -5343,7 +7224,7 @@ reference "sec:Preferencias"
 ).
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Análisis de carrera
 \end_layout
 

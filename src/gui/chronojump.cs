@@ -493,7 +493,7 @@ public partial class ChronoJumpWindow
 		//new DialogMessage(Constants.MessageTypes.INFO, UtilGtk.ScreenHeightFitted(false).ToString() );
 		//UtilGtk.ResizeIfNeeded(stats_window);
 		
-		app1.Maximize(); //this was for starting at fullscreen
+		//app1.Maximize(); //this was for starting at fullscreen
 
 		report = new Report(-1); //when a session is loaded or created, it will change the report.SessionID value
 		//TODO: check what happens if a session it's deleted

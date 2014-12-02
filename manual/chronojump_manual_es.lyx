@@ -630,13 +630,15 @@ Los Chronopic se conectarán a la plataforma de contactos o fotocélulas mediant
 \begin_inset Graphics
 	filename RCA_connector.svg
 	lyxscale 3
+	scale 3
 
 \end_inset
 
- o mediane la conexión roscada 
+ o mediante la conexión roscada 
 \begin_inset Graphics
 	filename screw_connector.svg
 	lyxscale 3
+	scale 3
 
 \end_inset
 
@@ -650,11 +652,11 @@ Es posible conectar 'n' plataformas de contactos a cualquier Chronopic usando
  debería poder estar en más de una plataforma o barrera fotoeléctrica a
  la vez.
  Se deben conectar los dos cables de todas las plataformas al conector RCA
- ( o el conectro roscado).
+ ( o el conector roscado).
 \end_layout
 
 \begin_layout Standard
-Se permite conectar hasta 4 chronopics con una señal independiente, conectadas
+Se permite conectar hasta 4 Chronopics con una señal independiente, conectadas
  cada una a su vez a uno o más dispositivos de detección.
  De esta manera se pueden cronometrar independientemente a varios sujetos,
  cronometrar ritmos complejos u otras aplicaciones.
@@ -665,12 +667,13 @@ Funcionamiento de Chronopic
 \end_layout
 
 \begin_layout Standard
-Chronopic detecta los cambios en el estado en el dispositivo de deteccióny
- los envía al ordenador.
+Chronopic detecta los cambios en el estado en el dispositivo de detección
+ y los envía al ordenador.
  También es posible usar el pulsador de prueba
 \begin_inset Graphics
 	filename test_button.svg
 	lyxscale 3
+	scale 3
 
 \end_inset
 
@@ -913,7 +916,7 @@ Uso del driver
 \begin_layout Plain Layout
 El driver normalmente será un archivo comprimido (tipo .zip) que deberá ser
  descomprimido y contendrá un archivo ejecutable tipo .exe en el que hay
- que realizar doble-click.
+ que realizar doble-clic.
  Normalmente éste se instalará sin problemas, y permitirá que cuando sea
  conectada el Chronopic a posteriori, aparezca el diálogo de 
 \begin_inset Quotes eld
@@ -1102,7 +1105,7 @@ Clic en
 \begin_inset Quotes eld
 \end_inset
 
-Opciones avazandas
+Opciones avanzadas
 \begin_inset Quotes erd
 \end_inset
 
@@ -1170,6 +1173,7 @@ Problema de alimentación: La luz roja del Chronopic debe encenderse al conectar
 \begin_inset Graphics
 	filename test_button.svg
 	lyxscale 3
+	scale 3
 
 \end_inset
 
@@ -1226,7 +1230,7 @@ aceptar
 \begin_inset Quotes erd
 \end_inset
 
- y a continuación haga click en el botón test de Chronopic, en breve Chronopic
+ y a continuación haga clic en el botón test de Chronopic, en breve Chronopic
  debería ser detectado correctamente y está listo para ser usado con la
  plataforma conectada si lo desea.
 \end_layout
@@ -1323,7 +1327,7 @@ seleccionado En el caso de que exista un dibujo del test seleccionado o
 
 \begin_layout Description
 Pestañas que permiten cambiar el módulo de trabajo entre los posibles, actualmen
-e: Contactos (plataforma o fotocélulas), Codificador, Server.
+te: Contactos (plataforma o fotocélulas), Codificador.
 \end_layout
 
 \begin_layout Description
@@ -1636,8 +1640,8 @@ reference "par:Chronopic:-concepto-y-configuracion"
 \begin_layout Standard
 Si el primer Chronopic se encuentra activado, el primer círculo será de
  color verde.
- Usted puede conectar más de un chronopic para poder realizar tests Multi
- Chronopic.
+ Usted puede conectar más de un Chronopic para poder realizar tests Multichronop
+ic.
  Cuando haya seleccionado el puerto, deberá hacer clic en el botón de la
  derecha para realizar la conexión.
  En cada activación exitosa uno de los círculos rojos se convertirá en verde.
@@ -1730,9 +1734,9 @@ Sesiones
 \end_layout
 
 \begin_layout Standard
-Las sesiones representan situaciones en que el entrenador o evaluador reune
+Las sesiones representan situaciones en que el entrenador o evaluador reúne
  a diversos deportistas (sujetos) para realizar una serie de tests.
- Cada vez que reuna a un conjunto de deportistas para ser evaluados en un
+ Cada vez que reúna a un conjunto de deportistas para ser evaluados en un
  corto espacio de tiempo (normalmente una jornada), es conveniente crear
  una nueva sesión.
  aunque los sujetos a evaluar sean los mismos que en otra sesión, es preferible
@@ -2030,7 +2034,7 @@ Con el objetivo de acelerar la creación de múltiples sujetos, haga clic
 \emph on
 Sujeto / Crear sujetos [multiple]
 \emph default
- y se le presentará una ventana en la que podrá crear multiples sujetos
+ y se le presentará una ventana en la que podrá crear múltiples sujetos
  a la vez.
  Podrá seleccionar entre 
 \emph on
@@ -2045,7 +2049,7 @@ Añadir entradas manualmente.
 En el primer caso usted necesitará un archivo separado por comas (.csv) creado
  previamente con la información del nombre apellido, género, y peso en diferente
 s campos.
- El formato del archovo se puede especificar con las cabeceras 
+ El formato del archivo se puede especificar con las cabeceras 
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/import_headers.png
 	lyxscale 75
@@ -2343,12 +2347,12 @@ Tests
 \end_layout
 
 \begin_layout Standard
-Hasta el momento Chronojump maneja siete tipos de tests para chronopic de
+Hasta el momento Chronojump maneja siete tipos de tests para Chronopic de
  contactos: saltos, saltos múltiples, carreras, carreras con tramos, tiempos
  de reacción, pulsos y MultiChronopic.
  Estos tests son detectados por las señales enviadas por la plataforma de
  contactos cuando el sujeto pisa o despega de la misma i/o las fotocélulas
- cuando el sujeto corta la barrera fotoelètrica.
+ cuando el sujeto corta la barrera fotoeléctrica.
 \end_layout
 
 \begin_layout Standard
@@ -2475,7 +2479,7 @@ ABK,
 \emph on
 ABKl, 
 \emph default
-Abalakov o salto con bralzos y una carga extra
+Abalakov o salto con brazos y una carga extra
 \end_layout
 
 \begin_layout Itemize
@@ -2491,7 +2495,7 @@ DJa,
 \emph on
 DJna
 \emph default
-, Drop Jump o salto con caída sin utización de brazos
+, Drop Jump o salto con caída sin utilización de brazos
 \end_layout
 
 \begin_layout Itemize
@@ -2629,8 +2633,8 @@ Este modo le permite ejecutar el test creando o cargando una secuencia de
 \end_layout
 
 \begin_layout Standard
-Definir la secuencia se puede hacer cargando una predefinida (Cargar sequencia)
- o creando una nueva (Crear sequencia)
+Definir la secuencia se puede hacer cargando una predefinida (Cargar secuencia)
+ o creando una nueva (Crear secuencia)
 \end_layout
 
 \begin_layout Standard
@@ -2776,7 +2780,7 @@ Presionando en
 \emph on
 End automatic mode 
 \emph default
-volverá al modo de uso normal de Chronojump permitiendole seleccionar la
+volverá al modo de uso normal de Chronojump permitiéndole seleccionar la
  persona y la prueba a realizar.
 \end_layout
 
@@ -2954,10 +2958,11 @@ Visualización de saltos
 \end_layout
 
 \begin_layout Standard
-Tanto en la secicción de Saltos como en la de Saltos múltiples podrá hacer
+Tanto en la sección de Saltos como en la de Saltos múltiples podrá hacer
  clic en la pestaña Resultados para ver todos los datos de los datos que
- se han realizado en una sesiónEn ambos casos se incluye un filtro para
- ver todos los saltos posibles o sólo los de un tipo determinado.
+ se han realizado en una sesión.
+ En ambos casos se incluye un filtro para ver todos los saltos posibles
+ o sólo los de un tipo determinado.
  
 \end_layout
 
@@ -2970,7 +2975,7 @@ Los saltos se encuentran asociados a los saltadores.
 
 \begin_layout Standard
 En cada salto se muestran una serie de valores, puede cambiar las opciones
- de visualización accediendo a al menú Sesióbn --> 
+ de visualización accediendo a al menú Sesión --> 
 \emph on
 Preferencias
 \emph default
@@ -3691,7 +3696,7 @@ Las carreras pueden ser detectadas por dos tipos de dispositivos de detección:
 \end_layout
 
 \begin_layout Itemize
-platforma/s
+plataforma/s
 \end_layout
 
 \begin_layout Itemize
@@ -3706,7 +3711,7 @@ En un test de carrera se detectan los tiempos entre dispositivos de medición.
 \end_layout
 
 \begin_layout Standard
-De hora en adelante, se entendará como 
+De hora en adelante, se entenderá como 
 \emph on
 dispositivo en contacto
 \emph default
@@ -3954,8 +3959,8 @@ Ejecución de carreras con tramos
 \end_layout
 
 \begin_layout Standard
-Para ejecutar una carrera con tramos haga click en los siguientes botones
- presentes en la pestana de 
+Para ejecutar una carrera con tramos haga clic en los siguientes botones
+ presentes en la pestaña de 
 \emph on
 Carreras con tramo
 \emph default
@@ -4083,7 +4088,7 @@ Carrera con tramos
 
 \begin_layout Standard
 Las carreras se encuentran asociadas a los corredores.
- El orden de aparición de las carrerass en cada saltador es el cronológico
+ El orden de aparición de las carreras en cada saltador es el cronológico
  de forma que la última carrera realizada por un sujeto aparecerá al final
  del listado de sus carreras..
  Esta opción sólo está disponible como es obvio cuando el valor 
@@ -4937,7 +4942,7 @@ Un encoder es un instrumento preciso que deber ser manipulado SIEMPRE con
 \end_layout
 
 \begin_layout Standard
-Si su encoder resulta roto, por favor contecte con nosotros mediante hardware@ch
+Si su encoder resulta roto, por favor contacte con nosotros mediante hardware@ch
 ronojump.org
 \end_layout
 
@@ -5144,19 +5149,12 @@ Base de datos
 \end_layout
 
 \begin_layout Standard
-Chronojump stores data in one database file.
- Thus, instead of collecting the information in individual files for each
- session, all information is organized in a single file to facilitate the
- study of relationships between:
-\end_layout
-
-\begin_layout Standard
 Chronojump almacena información en un archivo de base de datos.
- Así, la base de datos facilita el estudio de las relaciones entre
+ Así, la base de datos facilita el estudio de las relaciones entre:
 \end_layout
 
 \begin_layout Itemize
-seiones
+sesiones
 \end_layout
 
 \begin_layout Itemize
@@ -5203,7 +5201,7 @@ Cada uno de los individuos que pueden realizan tests es conocido como sujeto
 \end_layout
 
 \begin_layout Subsubsection
-Exercices
+Ejercicios
 \end_layout
 
 \begin_layout Standard
@@ -5309,7 +5307,7 @@ C) Listado de los sujetos de la sesión.
 
 \begin_layout Standard
 D) Área de captura/análisis.
- Aquí apareceran las opciones necesarias para hacer la captura de una serie
+ Aquí aparecerán las opciones necesarias para hacer la captura de una serie
  o el análisis posterior.
 \end_layout
 
@@ -5319,15 +5317,6 @@ Conexión del encoder
 
 \begin_layout Paragraph
 Ventana de Chronopic
-\end_layout
-
-\begin_layout Standard
-In order to connect the encoder, click on the Chronopic button (“B”, in
- the above image) and Chronopic window will be opened.
- On this new window select “Encoder” and the port where Chronopic is connected.
- If you have any problem press the help button in that window, it has little
- and useful information.
- After Chronopic port has been selected, just close the window.
 \end_layout
 
 \begin_layout Standard
@@ -5347,7 +5336,7 @@ Conectar Chronopic
  En la nueva ventana seleccione el puerto donde se configuró el Chronopic.
  Si tiene algún problema presione sobre el botón de ayuda, aparecerá una
  breve información que le puede ser útil.
- Una vez seleccionao el puerto del Chronopic, simplemente cierre la ventana.
+ Una vez seleccionado el puerto del Chronopic, simplemente cierre la ventana.
 \end_layout
 
 \begin_layout Paragraph
@@ -5389,7 +5378,7 @@ Rotatorio de eje
 \end_layout
 
 \begin_layout Standard
-Algunas configuraciones necesitan parámetros adicionales como ángulos, diametros
+Algunas configuraciones necesitan parámetros adicionales como ángulos, diámetros
  o momentos de inercia.
 \end_layout
 
@@ -5397,7 +5386,7 @@ Algunas configuraciones necesitan parámetros adicionales como ángulos, diametr
 Chronojump implementa un sistema para calcular el momento de inercia que
  le permite configurar prácticamente todos los tipos de máquinas inerciales
  de rotación.
- Siga las intrucciones de la sección 5.3.4 para hacer los cálculos del momento
+ Siga las instrucciones de la sección 5.3.4 para hacer los cálculos del momento
  de inercia.
 \end_layout
 
@@ -5500,11 +5489,6 @@ En el área de captura se puede adquirir nuevos datos
 \end_layout
 
 \begin_layout Standard
-With the Options button the following parameters of the capture or loaded
- set can be adjusted:
-\end_layout
-
-\begin_layout Standard
 Mediante el botón de Opciones 
 \begin_inset Graphics
 	filename /home/xpadulles/chronojump/manual/signal_settings_button.png
@@ -5576,7 +5560,7 @@ Altura mínima
 \emph default
 .
  Es el rango mínimo en centímetros de una repetición.
- Por ejemplo, en un pres banca cuando la persona coje la barra por primera
+ Por ejemplo, en un pres banca cuando la persona coge la barra por primera
  vez (con la barra en el soporte), no se considerará una repetición porque
  el rango de movimiento es menor que el definido en Altura mínima.
 \end_layout
@@ -5678,7 +5662,7 @@ Recalcular
 Recalcular 
 \emph default
 .
- Ejemplo: Durante un ejercico de Sentadilla se levantan 40Kg extras pero
+ Ejemplo: Durante un ejercicio de Sentadilla se levantan 40Kg extras pero
  el usuario olvidó añadir el peso de la barra.
  Después de la captura el usuario puede cambiar el peso extra de 40Kg a
  50Kg y hacer clic 
@@ -5696,7 +5680,7 @@ Grabación de video
 En la parte derecha hay un botón de selección que le permite activar una
  webcam.
  Si está activo se usará durante el uso del encoder.
- El video resultante se adjuntará a la serie del encoder y podrá ser visionado
+ El vídeo resultante se adjuntará a la serie del encoder y podrá ser visionado
  posteriormente.
 \end_layout
 
@@ -5712,16 +5696,6 @@ Durante la captura este recuadro mostrará la serie enviada por el encoder.
 
 \begin_layout Paragraph
 Recuadro de repeticiones
-\end_layout
-
-\begin_layout Standard
-Once set is loaded, captured or recalculated, Chronojump will find repetitions
- and write their data on a table.
- Here you can delete a repetition, save the selected repetition, save all
- or export them to an spreadsheet software.
- Most users will save only a repetition, or delete a repetition and the
- press “save all”.
- This repetitions can be analysed at the Encoder analyse tab.
 \end_layout
 
 \begin_layout Standard
@@ -5782,12 +5756,6 @@ Recuadro de barras
 \end_layout
 
 \begin_layout Standard
-The bars frame shows, during the exercise, the main variable in real time.
- This way the athlete can have an instant feedback of every execution of
- the exersice.
-\end_layout
-
-\begin_layout Standard
 Aquí se mostrará la variable principal en tiempo real.
  De este modo el atleta puede tener una retroalimentación instantánea de
  cada repetición del ejercicio.
@@ -5834,7 +5802,7 @@ e, la concéntrica
 \end_layout
 
 \begin_layout Standard
-Las repeticiones guardades se indican con un recuadro en el número de repetición.
+Las repeticiones guardadas se indican con un recuadro en el número de repetición.
 \end_layout
 
 \begin_layout Subsubsection
@@ -5898,7 +5866,7 @@ Con el modo
 \emph on
 Repeticiones guardadas
 \emph default
- seleccionado puede hacer clic en el boton 
+ seleccionado puede hacer clic en el botón 
 \emph on
 Seleccionar
 \emph default
@@ -5986,12 +5954,6 @@ Perfil neuromuscular
 \end_layout
 
 \begin_layout Standard
-The analysis starts when user click in “Analyse”.
- After a while, a graph and a table will appear, both can be saved using
- each save button in the lower right.
-\end_layout
-
-\begin_layout Standard
 El análisis empezará cuando el usuario presione sobre 
 \emph on
 Analizar.
@@ -6019,7 +5981,7 @@ La primera parte de esta sección mostrará cómo calcular el momento de inercia
 \end_layout
 
 \begin_layout Standard
-En el siguiente enlace puede ver un video del proceso de cálculo.
+En el siguiente enlace puede ver un vídeo del proceso de cálculo.
 \end_layout
 
 \begin_layout Standard
@@ -6038,7 +6000,7 @@ Momento de inercia del disco
 \end_layout
 
 \begin_layout Standard
-Para calcular el IM del disco sin pesos extras usaremos un peso de referència.
+Para calcular el MI del disco sin pesos extras usaremos un peso de referencia.
  Recuerde que aunque usaremos un peso acoplado al disco, los resultados
  que Chronojump nos devolverá en esta parte del proceso se refieren únicamente
  al disco sin ningún peso.
@@ -6080,11 +6042,6 @@ Peso de referencia
 \end_inset
 
 
-\end_layout
-
-\begin_layout Enumerate
-\noindent
-In chrono jump software, with the encoder connected go to Select encoder.
 \end_layout
 
 \begin_layout Enumerate
@@ -6180,7 +6137,7 @@ Parameters of the inertial machine
 \begin_layout Enumerate
 Haga clic en 
 \emph on
-Calcular IM.
+Calcular MI.
 \end_layout
 
 \begin_layout Enumerate
@@ -6270,7 +6227,7 @@ Momento de inercia del disco con pesos acoplados.
 
 \begin_layout Standard
 Después del cálculo del MI del disco se le pedirá que introduzca el número
- de pesos adicionales y su massa con los que va a ejecutar el ejercicio.
+ de pesos adicionales y su masa con los que va a ejecutar el ejercicio.
  Chronojump le devolverá el MI que añade cada peso y el total del MI (disco
  + pesos).
  Chronojump usa las siguientes fórmulas
@@ -6298,7 +6255,7 @@ Donde:
 \begin_inset Formula $M$
 \end_inset
 
- es la massa del peso.
+ es la masa del peso.
 \end_layout
 
 \begin_layout Itemize
@@ -6408,7 +6365,7 @@ No guardar.
 \end_layout
 
 \begin_layout Standard
-Las siguientes opciones estan relacionadas con el suavizado de la captura
+Las siguientes opciones están relacionadas con el suavizado de la captura
  y recomendamos dejar las opciones por defecto.
 \end_layout
 
@@ -6912,14 +6869,14 @@ Test de marcha estático sobre dos plataformas: se pretende evaluar el tempo
 \begin_layout Enumerate
 Estudio de los tiempos de contacto en la batida de un salto de voleibol:
  Un pie pisa una plataforma, el otro pisa la otra, y ambos despegan.
- Para conocer los distintos tiempos es necesario 2 plataformas y 2 chronopics
+ Para conocer los distintos tiempos es necesario 2 plataformas y 2 Chronopics
  independientes.
 \end_layout
 
 \begin_layout Enumerate
-Plate Tapping con acción coordinativa extra: Contruimos un dispositivo de
- detección de tipo Plate Tapping en que el evaluado debe tocar un lado y
- otro cuanto más rápido posible con una sóla mano.
+Plate Tapping con acción coordinativa extra: Construimos un dispositivo
+ de detección de tipo Plate Tapping en que el evaluado debe tocar un lado
+ y otro cuanto más rápido posible con una sola mano.
  A cada uno de los dos lados colocamos alguna pieza conductiva que conectada
  a un sólo Chronopic nos registre los distintos tiempos.
  Además, si pretendemos que, por ejemplo, cada 3 contactos el sujeto deba
@@ -6977,8 +6934,8 @@ http://foro.chronojump.org
 
 \end_inset
 
- se describirá un método para la contrucción de un dispositivo de sincronización
- profesional.
+ se describirá un método para la construcción de un dispositivo de sincronizació
+n profesional.
 \end_layout
 
 \begin_layout Standard
@@ -7145,7 +7102,7 @@ Fuera
 
 \begin_layout Standard
 Observe también que las columnas IN-IN y OUT-OUT disponen de un promedio
- de valores y una desviación estándard (SD).
+ de valores y una desviación estándar (SD).
 \end_layout
 
 \begin_layout Standard
@@ -7223,7 +7180,7 @@ Análisis de carrera
 
 \begin_layout Standard
 Además de los ejemplos propuestos, se ha incluido un test para analizar
- las carreras elaborado por Josep Ma Padullés como parte de su Tésis Doctoral.
+ las carreras elaborado por Josep Ma Padullés como parte de su Tesis Doctoral.
  Como dispositivos de detección se usan dos barreras de fotocéluas y una
  pista de plataformas de contactos.
  
@@ -7502,7 +7459,7 @@ Sin índices
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestran todos los saltos o los de
+Estadístico de salto simple en que se muestran todos los saltos o los de
  algún tipo en concreto según la selección del campo 
 \emph on
 aplicación
@@ -7515,7 +7472,7 @@ Fuerza-velocidad
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra la relación de fuerza-velocidad
+Estadístico de salto simple en que se muestra la relación de fuerza-velocidad
  según la fórmula 
 \end_layout
 
@@ -7539,8 +7496,8 @@ los saltos SJ con el 100% de carga extra respecto al peso corporal, y SJ
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra el índice de elasticidad
- a partir de la fórmula 
+Estadístico de salto simple en que se muestra el índice de elasticidad a
+ partir de la fórmula 
 \end_layout
 
 \begin_layout Standard
@@ -7561,8 +7518,8 @@ entre los saltos SJ y CMJ.
 \end_layout
 
 \begin_layout Standard
-Estadísitico de salto simple en que se muestra el índice de utilización
- de brazos a partir de la fórmula
+Estadístico de salto simple en que se muestra el índice de utilización de
+ brazos a partir de la fórmula
 \end_layout
 
 \begin_layout Standard
@@ -7592,8 +7549,8 @@ reference "fig:Estadísticas-de-saltos-simples"
 
  se encuentra la relación de picos de potencia de los distintos autores
  y sus fórmulas.
- Se espera en un futur poder incluir documentación ampliada respecto a cada
- fórmula y bibliografía relacionada.
+ Se espera en un futuro poder incluir documentación ampliada respecto a
+ cada fórmula y bibliografía relacionada.
 \end_layout
 
 \begin_layout Standard
@@ -7738,11 +7695,11 @@ Evolución
 \end_layout
 
 \begin_layout Itemize
-Promedio y Desviación estándard usando RjIndex
+Promedio y Desviación estándar usando RjIndex
 \end_layout
 
 \begin_layout Itemize
-Promedio y Desviación estándard usando QIndex
+Promedio y Desviación estándar usando QIndex
 \end_layout
 
 \begin_layout Standard
@@ -7830,7 +7787,7 @@ marcar los mejores 'n' consecutivos
 \end_layout
 
 \begin_layout Subsubsection
-Promedio y Desviación estándard usando RjIndex
+Promedio y Desviación estándar usando RjIndex
 \end_layout
 
 \begin_layout Standard
@@ -7848,11 +7805,11 @@ Estudio del índice
 
 \begin_layout Standard
 para cada uno de los saltos de un test reactivo.
- Se muestra el promedio y la desviación estándard conseguidos.
+ Se muestra el promedio y la desviación estándar conseguidos.
 \end_layout
 
 \begin_layout Subsubsection
-Promedio y Desviación estándard usando QIndex
+Promedio y Desviación estándar usando QIndex
 \end_layout
 
 \begin_layout Standard
@@ -7870,7 +7827,7 @@ Estudio del índice
 
 \begin_layout Standard
 para cada uno de los saltos de un test reactivo.
- Se muestra el promedio y la desviación estándard conseguidos.
+ Se muestra el promedio y la desviación estándar conseguidos.
 \end_layout
 
 \begin_layout Section
@@ -7878,7 +7835,7 @@ Estadísticas multisesión
 \end_layout
 
 \begin_layout Standard
-Todos los estadíticos presentados a excepción de la Evolución en saltos
+Todos los estadísticos presentados a excepción de la Evolución en saltos
  reactivos pueden ser usados para la comparación de diferentes saltos o
  sujetos en varias sesiones.
  De esta manera se presentará una columna por cada sesión seleccionada y
@@ -7886,7 +7843,7 @@ Todos los estadíticos presentados a excepción de la Evolución en saltos
 \end_layout
 
 \begin_layout Standard
-Además se incluye el promedio y la desviación estándard de cada fila mostrada.
+Además se incluye el promedio y la desviación estándar de cada fila mostrada.
 \end_layout
 
 \begin_layout Standard
@@ -8281,7 +8238,7 @@ Generación de informes
 \emph on
 Exportación a hoja de cálculo
 \emph default
-, se exportan los datos de los tests para su analisis con programas de cálculo
+, se exportan los datos de los tests para su análisis con programas de cálculo
  de propósito general (hojas de cálculo).
 \end_layout
 
@@ -8514,7 +8471,7 @@ Los datos que se compartirán son los tests, sujetos y sesiones de cada evaluado
 subir una sesión al servidor
 \emph default
 , descartando los deportistas que desee y los tests de los mismos.
- Antes de que los datos puedan tranferirse al servidor se harán comprobaciones
+ Antes de que los datos puedan transferirse al servidor se harán comprobaciones
  para determinar si se han completado los datos necesarios de cada uno de
  los deportistas, así como los datos del evaluador.
 \end_layout
@@ -9539,7 +9496,7 @@ Otros
 \emph default
  tiene tres opciones.
  La primera se refiere al número de decimales a mostrar (recomendado 3).
- Si la segunda opción esta activa, se mostraráuna ventana de confirmación
+ Si la segunda opción esta activa, se mostrará una ventana de confirmación
  cuando el usuario desee borrar un test.
  La última acción es específica de los saltos reactivos limitados por tiempo.
  Si la opción está activada, en un salto reactivo limitado por tiempo en

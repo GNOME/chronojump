@@ -5237,18 +5237,30 @@ Capture options
 \end_layout
 
 \begin_layout Itemize
-Recording time.
+
+\emph on
+Recording time
+\emph default
+.
  How long Chronojump will be capturing the set resulting of the exercise
 \end_layout
 
 \begin_layout Itemize
-End at n inactivity seconds.
+
+\emph on
+End at n inactivity seconds
+\emph default
+.
  If the encoder don't receive any movement in the specified time Chronojump
  will end the capuring process.
 \end_layout
 
 \begin_layout Itemize
-Minimal height is the minimum range of centimetres that a repetition has.
+
+\emph on
+Minimal height
+\emph default
+ is the minimum range of centimetres that a repetition has.
  E.g.
  In a bench press, when person lifts the bar fom r the first time before
  starting exercise (weight was in the support), this is not considered a
@@ -5257,16 +5269,34 @@ Minimal height is the minimum range of centimetres that a repetition has.
 \end_layout
 
 \begin_layout Itemize
-Displayed height.
+
+\emph on
+Displayed height
+\emph default
+.
  The scale of the set frame.
  The optimal value is the range of the movement in each exercise.
 \end_layout
 
 \begin_layout Itemize
-Main variable.
+
+\emph on
+Main variable
+\emph default
+.
  The data displayed in the bars frame.
  This is the variable that will be showed during the exercise capturing
  process as an instant visual feedback.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Show star and duration of each repetition.
+
+\emph default
+ If checked will show in the repetitions table the instant every repetition
+ starts and de duration of it.
 \end_layout
 
 \begin_layout Standard
@@ -5501,7 +5531,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename encoder-manual-images/analyze.png
+	filename encoder-manual-images/analyze_es.png
 	scale 50
 
 \end_inset

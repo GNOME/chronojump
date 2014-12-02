@@ -5420,7 +5420,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/capture.png
+	filename encoder-manual-images/capture_es.png
 	lyxscale 20
 	scale 50
 
@@ -5433,9 +5433,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang british
-Capture tab
+Área de captura
 \end_layout
 
 \end_inset
@@ -5530,7 +5528,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/capture_options.png
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/capture_options_es.png
 	scale 70
 
 \end_inset
@@ -5594,6 +5592,16 @@ Los datos que se mostrarán en el recuadro de barras.
  como retroalimentación instantánea.
 \end_layout
 
+\begin_layout Itemize
+
+\emph on
+Mostrar el inicio y duración de cada repetición.
+
+\emph default
+ En la tabla de repeticiones le mostrará en qué instante empezó la repetición
+ y la duración de la misma.
+\end_layout
+
 \begin_layout Standard
 Campanas.
  Este botón le permite configurar los mensajes sonoros en función de diferentes
@@ -5610,7 +5618,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/bells.png
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/bells_es.png
 	scale 70
 
 \end_inset
@@ -5734,7 +5742,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/save_curve.png
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/save_curve_es.png
 	scale 70
 
 \end_inset
@@ -6061,9 +6069,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang british
-Reference weight
+Peso de referencia
 \end_layout
 
 \end_inset
@@ -6092,13 +6098,13 @@ Seleccionar codificador
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/select.png
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/select_es.png
 
 \end_inset
 
@@ -6109,9 +6115,7 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang british
-Select encoder button
+Selección de encoder
 \end_layout
 
 \end_inset
@@ -6214,8 +6218,7 @@ Parámetros para el cálculo del IM
 \end_layout
 
 \begin_layout Enumerate
-The disk should start oscil ating.
- Tire del peso hasta aproximadamente 90 grados y suéltelo.
+Tire del peso hasta aproximadamente 90 grados y suéltelo.
  El disco debería empezar a oscilar.
 \end_layout
 
@@ -6262,15 +6265,7 @@ Captura de la oscilación
 \end_layout
 
 \begin_layout Subsubsection
-Inertia momentum of the disk with attached weights.
-\end_layout
-
-\begin_layout Standard
-After calculating the IM of the disk, you will be asked to enter the number
- of additional weights and the mass of them.
- Chronojump will give you the inertia momentum added by each additional
- weight and the total inertia momentum.
- Chronojump uses the following formulae.
+Momento de inercia del disco con pesos acoplados.
 \end_layout
 
 \begin_layout Standard
@@ -6359,7 +6354,7 @@ Donde:
 \end_layout
 
 \begin_layout Subsection
-Encoder settings and preferences
+Configuración del encoder.
 \end_layout
 
 \begin_layout Standard
@@ -6537,7 +6532,7 @@ status open
 \noindent
 \align center
 \begin_inset Graphics
-	filename /home/xpadulles/chronojump/manual/encoder-manual-images/example.png
+	filename /home/xpadulles/chronojump/manual/encoder-manual-images/example_es.png
 	scale 50
 
 \end_inset
@@ -6549,9 +6544,7 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\lang british
-Example of encoder use
+Ejemplo de uso del encoder
 \end_layout
 
 \end_inset

@@ -280,6 +280,11 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myJumpRj.Description = myStringOfData[9].ToString();
 		myJumpRj.Simulated = Convert.ToInt32(myStringOfData[18].ToString());
 		
+		personWeight = Convert.ToDouble(myStringOfData[19]);
+		weightInKg = Util.WeightFromPercentToKg(
+				Convert.ToDouble(myStringOfData[8]), 
+				personWeight);
+
 		//we create the jump with a weight of percent or kk
 		if(preferences.weightStatsPercent)
 			myJumpRj.Weight = Convert.ToDouble(myStringOfData[8].ToString());
@@ -356,8 +361,17 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; 
 		if (preferences.showHeight)  
 			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
-		if (preferences.showPower)
-			myData[count++] = "";
+		if (preferences.showPower) {
+			double myFall;
+			if(lineCount == 0)
+				myFall = newJumpRj.Fall;
+			else
+				myFall = Convert.ToDouble(Util.GetHeightInCentimeters(myStringTv[lineCount -1]));
+			
+			myData[count++] = Util.TrimDecimals(
+					Util.GetDjPower(Convert.ToDouble(thisTc), Convert.ToDouble(thisTv), 
+						(personWeight + weightInKg), myFall).ToString(), pDN);
+		}
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(
 						thisTv, preferences.metersSecondsPreferred), pDN);
@@ -437,8 +451,16 @@ public class TreeViewJumpsRj : TreeViewJumps
 					Util.GetHeightInCentimeters(
 						tvAVGDouble.ToString())
 					, pDN);
-		if (preferences.showPower)
+		if (preferences.showPower) {
 			myData[count++] = "";
+
+			/* TODO:
+			 * it can be done using AVG values like the other AVG statistics,
+			 * but result will not be the same than making the avg of the different power values for each row
+			 * for this reason is best to first calculate the different values of each column and store separately
+			 * in order to calculate the total, AVG, SD using that data
+			 */
+		}
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(
 					Util.GetInitialSpeed(

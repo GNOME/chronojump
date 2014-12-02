@@ -197,14 +197,16 @@ public class TreeViewJumps : TreeViewEvent
 			//takeoff has no tv. power should not be calculated
 			//calculate jumps with tf
 			if(newJump.Tv > 0) {	
+				//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
+				//but we do not calculate again person weight, because if it changes treeview is created again
+				weightInKg = Util.WeightFromPercentToKg(
+						Convert.ToDouble(newJump.Weight.ToString()),
+						personWeight);
+				
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
-					myData[count++] = Util.TrimDecimals(Util.GetDjPower(newJump.Tc, newJump.Tv, personWeight, newJump.Fall).ToString(), pDN);
+					myData[count++] = Util.TrimDecimals(
+							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), pDN);
 				else {			//it's a normal jump without tc
-					//we calculate weightInKg again because can be changed in edit jump, and then treeview is no re-done
-					//but we do not calculate again person weight, because if it changes treeview is created again
-					weightInKg = Util.WeightFromPercentToKg(
-							Convert.ToDouble(newJump.Weight.ToString()),
-							personWeight);
 					myData[count++] = Util.TrimDecimals(
 							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), pDN);
 				}

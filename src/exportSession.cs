@@ -304,7 +304,7 @@ public class ExportSession
 				string power = "-";
 				if(tf > 0) {	
 					if(tc > 0) 		//dj
-						power = Util.TrimDecimals(Util.GetDjPower(tc, tf, personWeight, fall).ToString(), dec);
+						power = Util.TrimDecimals(Util.GetDjPower(tc, tf, (personWeight + weightInKg), fall).ToString(), dec);
 					else 			//it's a normal jump without tc
 						power = Util.TrimDecimals(Util.GetPower(tf, personWeight, weightInKg).ToString(), dec);
 				}

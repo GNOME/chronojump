@@ -354,6 +354,8 @@ public class ExportSession
 			else
 				weightName += " Kg";
 
+			//TODO: add power
+
 			//if show subjumps show this every time, else show only one
 			if(isFirstHeader || showSubjumps) {
 				myData.Add( "\n" + 
@@ -421,6 +423,9 @@ public class ExportSession
 					);
 			
 			if(showSubjumps) {
+				//TODO: add here all the calculations on all the parameters. eg. initial speed, power, ...
+				//rewrite all
+
 				writeData(myData);
 			
 				myData = new ArrayList(1);

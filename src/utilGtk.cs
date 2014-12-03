@@ -275,11 +275,20 @@ public class UtilGtk
 	public static Gdk.Color BLUE_CLEAR = new Gdk.Color(0xa0,0xa7,0xca);
 	public static Gdk.Color YELLOW = new Gdk.Color(0xff,0xcc,0x01);
 	
-	public static Gdk.Color GREEN_PLOTS = new Gdk.Color(0,238,0);
-	public static Gdk.Color RED_PLOTS = new Gdk.Color(238,0,0);
+	public static Gdk.Color GREEN_PLOTS = new Gdk.Color(0,200,0);
+	public static Gdk.Color RED_PLOTS = new Gdk.Color(200,0,0);
 	public static Gdk.Color LIGHT_BLUE_PLOTS = new Gdk.Color(178,223,238);
-	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,238);
+	public static Gdk.Color BLUE_PLOTS = new Gdk.Color(0,0,200);
 	public static Gdk.Color BLUE_CHRONOJUMP = new Gdk.Color(14,30,70); //so dark, can be used only for background
+	
+	//used on encoder capture
+	public static Gdk.Color RED_DARK = new Gdk.Color(163,0,0);
+	public static Gdk.Color RED_LIGHT = new Gdk.Color(238,0,0);
+	public static Gdk.Color GREEN_DARK = new Gdk.Color(0,163,0);
+	public static Gdk.Color GREEN_LIGHT = new Gdk.Color(0,238,0);
+	public static Gdk.Color BLUE_DARK = new Gdk.Color(0,0,163);
+	public static Gdk.Color BLUE_LIGHT = new Gdk.Color(0,0,238);
+
 	
 	public static Gdk.Color SELECTED = GetBackgroundColorSelected();
 

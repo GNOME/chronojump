@@ -240,11 +240,20 @@ public partial class ChronoJumpWindow
 
  
 	Gdk.GC pen_black_encoder_capture;
-	Gdk.GC pen_azul_encoder_capture;
-	Gdk.GC pen_green_encoder_capture;
+	
 	Gdk.GC pen_red_encoder_capture;
+	Gdk.GC pen_red_dark_encoder_capture;
+	Gdk.GC pen_red_light_encoder_capture;
+	Gdk.GC pen_green_encoder_capture;
+	Gdk.GC pen_green_dark_encoder_capture;
+	Gdk.GC pen_green_light_encoder_capture;
+	Gdk.GC pen_blue_encoder_capture;
+	Gdk.GC pen_blue_dark_encoder_capture;
+	Gdk.GC pen_blue_light_encoder_capture;
+	
 	Gdk.GC pen_white_encoder_capture;
 	Gdk.GC pen_selected_encoder_capture;
+	
 
 	//TODO:put zoom,unzoom (at side of delete curve)  in capture curves (for every curve)
 	//TODO: treeview on analyze (doing in separated window)
@@ -3611,7 +3620,7 @@ Log.Write(" A ");
 
 		layout_encoder_capture_signal.SetMarkup(currentPerson.Name + " (" + 
 				spin_encoder_extra_weight.Value.ToString() + "Kg)");
-		encoder_capture_signal_pixmap.DrawLayout(pen_azul_encoder_capture, 5, 5, layout_encoder_capture_signal);
+		encoder_capture_signal_pixmap.DrawLayout(pen_blue_encoder_capture, 5, 5, layout_encoder_capture_signal);
 
 		if(refreshAreaOnly) {
 			/*			
@@ -3997,7 +4006,12 @@ Log.Write(" A ");
 		string eccon = findEccon(true);
 
 		Rectangle rect;
-		Gdk.GC my_pen;
+
+		Gdk.GC my_pen_ecc_con_e; //ecc-con eccentric
+		Gdk.GC my_pen_ecc_con_c; //ecc-con concentric
+		Gdk.GC my_pen_con;	//concentric
+		Gdk.GC my_pen;		//pen we are going to use
+
 		int dLeft = 0;
 		int count = 0;
 	
@@ -4050,19 +4064,38 @@ Log.Write(" A ");
 			
 			//select pen color for bars and sounds
 			if(mainVariableHigher != -1 && d >= mainVariableHigher) {
-				my_pen = pen_green_encoder_capture;
+				my_pen_ecc_con_e = pen_green_dark_encoder_capture;
+				my_pen_ecc_con_c = pen_green_light_encoder_capture;
+				my_pen_con = pen_green_encoder_capture;
 				//play sound if value is high, volumeOn == true, is last value, capturing
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
 					Util.PlaySound(Constants.SoundTypes.GOOD, preferences.volumeOn);
 			}
 			else if(mainVariableLower != -1 && d <= mainVariableLower) {
-				my_pen = pen_red_encoder_capture;
+				my_pen_ecc_con_e = pen_red_dark_encoder_capture;
+				my_pen_ecc_con_c = pen_red_light_encoder_capture;
+				my_pen_con = pen_red_encoder_capture;
 				//play sound if value is low, volumeOn == true, is last value, capturing
 				if(preferences.volumeOn && count == data.Count -1 && capturing)
 					Util.PlaySound(Constants.SoundTypes.BAD, preferences.volumeOn);
 			}
-			else
-				my_pen = pen_azul_encoder_capture;
+			else {
+				my_pen_ecc_con_e = pen_blue_dark_encoder_capture;
+				my_pen_ecc_con_c = pen_blue_light_encoder_capture;
+				my_pen_con = pen_blue_encoder_capture;
+			}
+			
+			//know if ecc or con to paint with dark or light pen
+			if (eccon == "ec" || eccon == "ecS") {
+				bool isEven = Util.IsEven(count +1);
+			
+				if(isEven) //par, concentric
+					my_pen = my_pen_ecc_con_c;
+				else
+					my_pen = my_pen_ecc_con_e;
+			} else {
+				my_pen = my_pen_con;
+			}
 
 			//paint bar:	
 			rect = new Rectangle(dLeft, dTop, dWidth, dHeight);
@@ -4436,24 +4469,42 @@ Log.Write(" A ");
 		layout_encoder_capture_curves_bars_text.FontDescription = Pango.FontDescription.FromString ("Courier 10");
 
 		pen_black_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_azul_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
-		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_red_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_red_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_red_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_green_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_green_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_green_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_blue_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_blue_dark_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
+		pen_blue_light_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_white_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 		pen_selected_encoder_capture = new Gdk.GC(encoder_capture_signal_drawingarea.GdkWindow);
 
 		Gdk.Colormap colormap = Gdk.Colormap.System;
 		colormap.AllocColor (ref UtilGtk.BLACK,true,true);
-		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
-		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
 		colormap.AllocColor (ref UtilGtk.RED_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.RED_DARK,true,true);
+		colormap.AllocColor (ref UtilGtk.RED_LIGHT,true,true);
+		colormap.AllocColor (ref UtilGtk.GREEN_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.GREEN_DARK,true,true);
+		colormap.AllocColor (ref UtilGtk.GREEN_LIGHT,true,true);
+		colormap.AllocColor (ref UtilGtk.BLUE_PLOTS,true,true);
+		colormap.AllocColor (ref UtilGtk.BLUE_DARK,true,true);
+		colormap.AllocColor (ref UtilGtk.BLUE_LIGHT,true,true);
 		colormap.AllocColor (ref UtilGtk.WHITE,true,true);
 		colormap.AllocColor (ref UtilGtk.SELECTED,true,true);
 
 		pen_black_encoder_capture.Foreground = UtilGtk.BLACK;
-		pen_azul_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
-		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
 		pen_red_encoder_capture.Foreground = UtilGtk.RED_PLOTS;
+		pen_red_dark_encoder_capture.Foreground = UtilGtk.RED_DARK;
+		pen_red_light_encoder_capture.Foreground = UtilGtk.RED_LIGHT;
+		pen_green_encoder_capture.Foreground = UtilGtk.GREEN_PLOTS;
+		pen_green_dark_encoder_capture.Foreground = UtilGtk.GREEN_DARK;
+		pen_green_light_encoder_capture.Foreground = UtilGtk.GREEN_LIGHT;
+		pen_blue_encoder_capture.Foreground = UtilGtk.BLUE_PLOTS;
+		pen_blue_dark_encoder_capture.Foreground = UtilGtk.BLUE_DARK;
+		pen_blue_light_encoder_capture.Foreground = UtilGtk.BLUE_LIGHT;
 		pen_white_encoder_capture.Foreground = UtilGtk.WHITE;
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 

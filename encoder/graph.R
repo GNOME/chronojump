@@ -320,7 +320,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
+findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) {
 	smoothings = NULL
 	n=length(curves[,1])
 	
@@ -335,7 +335,7 @@ findSmoothingsEC <- function(displacement, curves, eccon, smoothingOneC) {
 		#on every curve...
 		for(i in 1:n) {
 			#maybe the global eccon == "ec" or "ce" but the individual eccon of each curve is "c", then just do the same as above
-			if(curves[i,8] == "c")
+			if( (singleFile && eccon == "c") || (! singleFile && curves[i,8] == "c") )
 				smoothings[i] = 0
 			else {
 				eccentric.concentric = displacement[curves[i,1]:curves[i,2]]
@@ -2484,7 +2484,7 @@ doProcess <- function(options) {
 		print(curves)
 	
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, Eccon, SmoothingOneC)
 	} else {	#singleFile == True. reads a signal file
 		displacement=scan(file=File,sep=",")
 		#if data file ends with comma. Last character will be an NA. remove it
@@ -2538,7 +2538,7 @@ doProcess <- function(options) {
 		}
 		
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(displacement, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, Eccon, SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
 		print("curves after reduceCurveBySpeed")

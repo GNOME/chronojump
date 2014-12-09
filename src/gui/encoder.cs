@@ -1589,7 +1589,8 @@ public partial class ChronoJumpWindow
 		return countActiveCurves;
 	}
 
-	private void updateUserCurvesLabelsAndCombo() {
+	private void updateUserCurvesLabelsAndCombo() 
+	{
 		ArrayList data = SqliteEncoder.Select(
 				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
 				"curve", EncoderSQL.Eccons.ALL, 
@@ -1597,7 +1598,11 @@ public partial class ChronoJumpWindow
 		int activeCurvesNum = getActiveCurvesNum(data);
 		label_encoder_user_curves_active_num.Text = activeCurvesNum.ToString();
 		label_encoder_user_curves_all_num.Text = data.Count.ToString();
-		updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
+		
+		if(check_encoder_analyze_signal_or_curves.Active)
+			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
+		else
+			updateComboEncoderAnalyzeCurveNum(data, activeCurvesNum);	
 	
 		button_encoder_analyze_sensitiveness();
 	}
@@ -1617,7 +1622,29 @@ public partial class ChronoJumpWindow
 		return activeCurvesList;
 	}
 	
-	private void updateComboEncoderAnalyzeCurveNum (ArrayList data, int activeCurvesNum) {
+	private void updateComboEncoderAnalyzeCurveNumFromCurrentSet () 
+	{
+		int rows = UtilGtk.CountRows(encoderCaptureListStore);
+
+		if(ecconLast != "c")
+			rows = rows / 2;
+
+		string [] activeCurvesList;
+		if(rows == 0)
+			activeCurvesList = Util.StringToStringArray("");
+		else {
+			activeCurvesList = new String[rows];
+			for(int i=0; i < rows; i++)
+				activeCurvesList[i] = (i+1).ToString();
+		}
+
+		UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
+		combo_encoder_analyze_curve_num_combo.Active = 
+			UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
+	}
+	//saved repetitions
+	private void updateComboEncoderAnalyzeCurveNum (ArrayList data, int activeCurvesNum) 
+	{
 		string [] checkboxes = new string[data.Count]; //to store active or inactive status of curves
 		int count = 0;
 		foreach(EncoderSQL eSQL in data) {
@@ -2457,26 +2484,9 @@ public partial class ChronoJumpWindow
 		bool signal = check_encoder_analyze_signal_or_curves.Active;
 
 		if(signal) {
-			int rows = UtilGtk.CountRows(encoderCaptureListStore);
+			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
 			hbox_encoder_user_curves.Visible = false;
-
-			if(ecconLast != "c")
-				rows = rows / 2;
-
-			string [] activeCurvesList;
-			if(rows == 0)
-				activeCurvesList = Util.StringToStringArray("");
-			else {
-				activeCurvesList = new String[rows];
-				for(int i=0; i < rows; i++)
-					activeCurvesList[i] = (i+1).ToString();
-			}
-
-			UtilGtk.ComboUpdate(combo_encoder_analyze_curve_num_combo, activeCurvesList, "");
-			combo_encoder_analyze_curve_num_combo.Active = 
-				UtilGtk.ComboMakeActive(combo_encoder_analyze_curve_num_combo, activeCurvesList[0]);
-
 			radiobutton_encoder_analyze_powerbars.Sensitive = true;
 			radiobutton_encoder_analyze_single.Sensitive = true;
 			radiobutton_encoder_analyze_side.Sensitive = true;

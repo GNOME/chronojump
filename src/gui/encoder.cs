@@ -736,7 +736,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderDataTempFileName(), 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderCurvesTempFileName(), 
-				UtilEncoder.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				"none",	//SpecialData
 				ep);
 		
@@ -1420,7 +1420,7 @@ public partial class ChronoJumpWindow
 				dataFileName, 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				selectedFileName, 
-				UtilEncoder.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				"none", 		//SpecialData
 				ep);
 
@@ -2456,7 +2456,7 @@ public partial class ChronoJumpWindow
 				dataFileName, 
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderAnalyzeTableTempFileName(),
-				UtilEncoder.GetEncoderStatusTempFileName(),
+				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
 
@@ -4634,6 +4634,7 @@ public partial class ChronoJumpWindow
 		try {
 			string contents = Catalog.GetString("Please, wait.");
 			double fraction = -1;
+			/*
 			if(Util.FileExists(UtilEncoder.GetEncoderStatusTempFileName())) {
 				contents = Util.ReadFile(UtilEncoder.GetEncoderStatusTempFileName(), true);
 				//contents is:
@@ -4645,27 +4646,47 @@ public partial class ChronoJumpWindow
 					fraction = Util.DivideSafeFraction(
 							Convert.ToInt32(contents[1]-48), Convert.ToInt32(contents[3]-48) );
 			}
+			*/
+
+			if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt")) 
+			{
+				fraction = 5;
+				contents = Catalog.GetString("R tasks done");
+			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "4.txt")) 
+			{
+				fraction = 4;
+				contents = Catalog.GetString("Repetitions processed");
+			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "3.txt")) 
+			{
+				fraction = 3;
+				contents = Catalog.GetString("Starting process");
+			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "2.txt")) 
+			{
+				fraction = 2;
+				contents = Catalog.GetString("Loading libraries");
+			} else if(Util.FileExists(UtilEncoder.GetEncoderStatusTempBaseFileName() + "1.txt")) 
+			{
+				fraction = 1;
+				contents = Catalog.GetString("Starting R");
+			}
 
 			if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
-				if(fraction == -1) {
+				if(fraction == -1)
 					encoder_pulsebar_capture.Pulse();
-					encoder_pulsebar_capture.Text = contents;
-				} else {
+				else
 					encoder_pulsebar_capture.Fraction = fraction;
-					encoder_pulsebar_capture.Text = contents.Substring(6);
-				}
+				
+				encoder_pulsebar_capture.Text = contents;
 			} else {
-				if(fraction == -1) {
+				if(fraction == -1)
 					encoder_pulsebar_analyze.Pulse();
-					encoder_pulsebar_analyze.Text = contents;
-				} else {
+				else
 					encoder_pulsebar_analyze.Fraction = fraction;
-					encoder_pulsebar_analyze.Text = contents.Substring(6);
-				}
 
+				encoder_pulsebar_analyze.Text = contents;
 			}
 		} catch {
-			//UtilEncoder.GetEncoderStatusTempFileName() is deleted at the end of the process
+			//UtilEncoder.GetEncoderStatusTempBaseFileName() 1,2,3,4,5 is deleted at the end of the process
 			//this can make crash updatePulsebar sometimes
 		}
 	}
@@ -4872,7 +4893,13 @@ public partial class ChronoJumpWindow
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;
-		Util.FileDelete(UtilEncoder.GetEncoderStatusTempFileName());
+
+		//delete the status filenames
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "1.txt");
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "2.txt");
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "3.txt");
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "4.txt");
+		Util.FileDelete(UtilEncoder.GetEncoderStatusTempBaseFileName() + "5.txt");
 	}
 
 	private void findAndMarkSavedCurves() {

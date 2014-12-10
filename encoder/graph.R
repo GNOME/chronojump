@@ -2597,7 +2597,12 @@ doProcess <- function(options) {
 		}
 	}
 
-	write(paste("(4/5)",translate("Repetitions processed")), OutputData2)
+	#make some check here, because this file is being readed in chronojump
+
+	#write(paste("(4/5)",translate("Repetitions processed")), OutputData2)
+	print("Creating (OutputData2)4.txt with touch method...")
+	file.create(paste(OutputData2,"4.txt",sep=""))
+	print("Created")
 
 	if(Analysis=="single") {
 		if(Jump>0) {
@@ -3113,7 +3118,11 @@ doProcess <- function(options) {
 	if(Analysis != "exportCSV")
 		dev.off()
 
-	write(paste("(5/5)",translate("R tasks done")), OutputData2)
+	#make some check here, because this file is being readed in chronojump
+	#write(paste("(5/5)",translate("R tasks done")), OutputData2)
+	print("Creating (OutputData2)5.txt with touch method...")
+	file.create(paste(OutputData2,"5.txt",sep=""))
+	print("Created")
 
 	warnings()
 }

@@ -107,8 +107,9 @@ public class UtilEncoder
 	public static string GetEncoderGraphInputMulti() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderGraphInputMulti);
 	}
-	public static string GetEncoderStatusTempFileName() {
-		return Path.Combine(Path.GetTempPath(), Constants.EncoderStatusTemp);
+	//this file will have a ...1.txt ...2.txt ... we check now the first part of the file
+	public static string GetEncoderStatusTempBaseFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderStatusTempBase);
 	}
 	public static string GetEncoderExportTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderExportTemp);

@@ -678,7 +678,10 @@ public class Constants
 	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
 	public static string EncoderAnalyzeTableTemp = "chronojump-last-encoder-analyze-table.txt";
 	public static string EncoderGraphTemp = "chronojump-last-encoder-graph.png";
-	public static string EncoderStatusTemp = "chronojump-encoder-status.txt";
+	
+	//this file will have a ...1.txt ...2.txt ... we check now the first part of the file
+	public static string EncoderStatusTempBase = "chronojump-encoder-status-";
+	
 	public static string EncoderExportTemp = "chronojump-export.csv";
 	public static string EncoderSpecialDataTemp = "chronojump-special-data.txt"; //variable;result (eg. "1RM;82.78")
 
@@ -800,12 +803,7 @@ public class Constants
 		"Adapted from",
 		"Mean speed in concentric propulsive phase",
 		"Sorry, no repetitions matched your criteria.",
-		"Need at least three jumps",
-		"Starting R",
-		"Loading libraries",
-		"Starting process",
-		"Repetitions processed",
-		"R tasks done"
+		"Need at least three jumps"
 	};
 	/*
 	 * written here in order to be translated
@@ -845,11 +843,6 @@ public class Constants
 		Catalog.GetString("Adapted from"),
 		Catalog.GetString("Mean speed in concentric propulsive phase"),
 		Catalog.GetString("Sorry, no repetitions matched your criteria."),
-		Catalog.GetString("Need at least three jumps"),
-		Catalog.GetString("Starting R"),
-		Catalog.GetString("Loading libraries"),
-		Catalog.GetString("Starting process"),
-		Catalog.GetString("Repetitions processed"),
-		Catalog.GetString("R tasks done")
+		Catalog.GetString("Need at least three jumps")
 	};
 }

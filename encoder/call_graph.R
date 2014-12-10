@@ -65,15 +65,29 @@ Translated = unlist(strsplit(options[31], "\\;"))
 
 scriptGraphR = options[32]
 
+#Note:
+#We just touch this files because in the past we created a unique status file from here
+#and we update it
+#but we read it at the same time from chronojump and this produces some crashes on windows
+#now we just touch here, and in chronojump we just read if exist
+
 #write(paste("(1/5)",translate("Starting R")), OutputData2)
-write(paste("(1/5)","Starting R"), OutputData2)
+print("Creating (OutputData2)1.txt with touch method...")
+file.create(paste(OutputData2,"1.txt",sep=""))
+print("Created")
 
 source(scriptGraphR)
 
-write(paste("(2/5)",translate("Loading libraries")), OutputData2)
+#write(paste("(2/5)",translate("Loading libraries")), OutputData2)
+print("Creating (OutputData2)2.txt with touch method...")
+file.create(paste(OutputData2,"2.txt",sep=""))
+print("Created")
 
 loadLibraries(OperatingSystem)
 	
-write(paste("(3/5)",translate("Starting process")), OutputData2)
+#write(paste("(3/5)",translate("Starting process")), OutputData2)
+print("Creating (OutputData2)3.txt with touch method...")
+file.create(paste(OutputData2,"3.txt",sep=""))
+print("Created")
 
 doProcess(options)

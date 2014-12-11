@@ -104,10 +104,12 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_execute_label_jump_simple_height_person;
 	[Widget] Gtk.Label event_execute_label_jump_simple_height_session;
 
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_now;
-	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_avg;
+	[Widget] Gtk.Label event_execute_label_jump_reactive_height_now;
+	[Widget] Gtk.Label event_execute_label_jump_reactive_height_avg;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_now;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_avg;
+	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_now;
+	[Widget] Gtk.Label event_execute_label_jump_reactive_tc_avg;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_now;
 	[Widget] Gtk.Label event_execute_label_jump_reactive_tf_tc_avg;
 
@@ -375,10 +377,12 @@ public partial class ChronoJumpWindow
 		event_execute_table_jump_reactive_values.Show();
 
 		//initializeLabels
-		event_execute_label_jump_reactive_tc_now.Text = "";
-		event_execute_label_jump_reactive_tc_avg.Text = "";
+		event_execute_label_jump_reactive_height_now.Text = "";
+		event_execute_label_jump_reactive_height_avg.Text = "";
 		event_execute_label_jump_reactive_tf_now.Text = "";
 		event_execute_label_jump_reactive_tf_avg.Text = "";
+		event_execute_label_jump_reactive_tc_now.Text = "";
+		event_execute_label_jump_reactive_tc_avg.Text = "";
 		event_execute_label_jump_reactive_tf_tc_now.Text = "";
 		event_execute_label_jump_reactive_tf_tc_avg.Text = "";
 
@@ -1374,15 +1378,25 @@ Log.WriteLine("Preparing reactive A");
 		 * these Log.writeLines are useful to don't "get the thread dead"
 		 * without them , sometimes drawingarea is not painted
 		 */
-		event_execute_label_jump_reactive_tc_now.Text = "<b>" + Util.TrimDecimals(lastTc.ToString(), preferences.digitsNumber) + "</b>";
-		event_execute_label_jump_reactive_tc_now.UseMarkup = true; 
-		
-		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), preferences.digitsNumber);
 
+		//height
+		event_execute_label_jump_reactive_height_now.Text = "<b>" + Util.TrimDecimals(
+				Util.GetHeightInCentimeters(lastTv.ToString()), preferences.digitsNumber) + "</b>";
+		event_execute_label_jump_reactive_height_now.UseMarkup = true; 
+		event_execute_label_jump_reactive_height_avg.Text = Util.TrimDecimals(
+				Util.GetHeightInCentimeters(avgTV.ToString()), preferences.digitsNumber);
+		
+		//TV
 		event_execute_label_jump_reactive_tf_now.Text = "<b>" + Util.TrimDecimals(lastTv.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_reactive_tf_now.UseMarkup = true; 
-		
 		event_execute_label_jump_reactive_tf_avg.Text = Util.TrimDecimals(avgTV.ToString(), preferences.digitsNumber);
+		
+		//TC
+		event_execute_label_jump_reactive_tc_now.Text = "<b>" + Util.TrimDecimals(lastTc.ToString(), preferences.digitsNumber) + "</b>";
+		event_execute_label_jump_reactive_tc_now.UseMarkup = true; 
+		event_execute_label_jump_reactive_tc_avg.Text = Util.TrimDecimals(avgTC.ToString(), preferences.digitsNumber);
+
+		//TV / TC
 		if(lastTc > 0) {
 			event_execute_label_jump_reactive_tf_tc_now.Text = "<b>" + Util.TrimDecimals((lastTv/lastTc).ToString(), preferences.digitsNumber) + "</b>";
 			event_execute_label_jump_reactive_tf_tc_now.UseMarkup = true; 

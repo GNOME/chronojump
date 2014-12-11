@@ -6336,6 +6336,9 @@ Second Chronopic to platforms.</property>
                                                         <child>
                                                           <placeholder/>
                                                         </child>
+                                                        <child>
+                                                          <placeholder/>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -7063,6 +7066,9 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             </child>
                                                             <child>
@@ -7084,30 +7090,10 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkTable" id="event_execute_table_jump_reactive">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="n_rows">4</property>
+                                                            <property name="n_rows">5</property>
                                                             <property name="n_columns">2</property>
                                                             <property name="column_spacing">4</property>
                                                             <property name="row_spacing">4</property>
-                                                            <child>
-                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tc">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label288">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes"> </property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="top_attach">2</property>
-                                                            <property name="bottom_attach">3</property>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
                                                             <child>
                                                             <widget class="GtkLabel" id="label290">
                                                             <property name="visible">True</property>
@@ -7133,46 +7119,6 @@ Second Chronopic to platforms.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tf">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label292">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes"> </property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
-                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tf_tc">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <child>
-                                                            <widget class="GtkLabel" id="label444">
-                                                            <property name="visible">True</property>
-                                                            <property name="can_focus">False</property>
-                                                            <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes"> </property>
-                                                            </widget>
-                                                            </child>
-                                                            </widget>
-                                                            <packing>
-                                                            <property name="top_attach">3</property>
-                                                            <property name="bottom_attach">4</property>
-                                                            <property name="x_options">GTK_FILL</property>
-                                                            <property name="y_options"/>
-                                                            </packing>
-                                                            </child>
-                                                            <child>
                                                             <widget class="GtkHBox" id="hbox226">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
@@ -7182,7 +7128,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">TF / TC</property>
+                                                            <property name="label" translatable="yes">TC</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -7250,7 +7196,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">TC</property>
+                                                            <property name="label" translatable="yes">TF</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -7318,7 +7264,7 @@ Second Chronopic to platforms.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <property name="xalign">0</property>
-                                                            <property name="label" translatable="yes">TF</property>
+                                                            <property name="label" translatable="yes">Height</property>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -7376,6 +7322,100 @@ Second Chronopic to platforms.</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
                                                             </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label117">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes">TF / TC</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tf_tc">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label444">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes"> </property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tc">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label288">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes"> </property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_tf">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label292">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes"> </property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkEventBox" id="event_execute_eventbox_jump_reactive_height">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label118">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="label" translatable="yes"> </property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options">GTK_FILL</property>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="expand">False</property>
@@ -7387,7 +7427,7 @@ Second Chronopic to platforms.</property>
                                                             <widget class="GtkTable" id="event_execute_table_jump_reactive_values">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
-                                                            <property name="n_rows">4</property>
+                                                            <property name="n_rows">5</property>
                                                             <property name="n_columns">2</property>
                                                             <property name="column_spacing">4</property>
                                                             <property name="row_spacing">4</property>
@@ -7428,8 +7468,8 @@ Second Chronopic to platforms.</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7444,8 +7484,8 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="top_attach">1</property>
-                                                            <property name="bottom_attach">2</property>
+                                                            <property name="top_attach">2</property>
+                                                            <property name="bottom_attach">3</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7460,8 +7500,8 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="top_attach">2</property>
-                                                            <property name="bottom_attach">3</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7474,8 +7514,8 @@ Second Chronopic to platforms.</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="top_attach">2</property>
-                                                            <property name="bottom_attach">3</property>
+                                                            <property name="top_attach">3</property>
+                                                            <property name="bottom_attach">4</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7488,8 +7528,8 @@ Second Chronopic to platforms.</property>
                                                             <property name="justify">center</property>
                                                             </widget>
                                                             <packing>
-                                                            <property name="top_attach">3</property>
-                                                            <property name="bottom_attach">4</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7504,8 +7544,38 @@ Second Chronopic to platforms.</property>
                                                             <packing>
                                                             <property name="left_attach">1</property>
                                                             <property name="right_attach">2</property>
-                                                            <property name="top_attach">3</property>
-                                                            <property name="bottom_attach">4</property>
+                                                            <property name="top_attach">4</property>
+                                                            <property name="bottom_attach">5</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="event_execute_label_jump_reactive_height_now">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
+                                                            <property name="x_options"/>
+                                                            <property name="y_options"/>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="event_execute_label_jump_reactive_height_avg">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="xalign">0</property>
+                                                            <property name="justify">center</property>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="left_attach">1</property>
+                                                            <property name="right_attach">2</property>
+                                                            <property name="top_attach">1</property>
+                                                            <property name="bottom_attach">2</property>
                                                             <property name="x_options"/>
                                                             <property name="y_options"/>
                                                             </packing>
@@ -7785,6 +7855,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -8405,6 +8478,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -18296,6 +18372,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -18685,6 +18764,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -19844,6 +19926,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -19866,6 +19951,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -28777,6 +28865,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -30685,6 +30791,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -31100,6 +31209,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -33811,6 +33923,9 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -33837,6 +33952,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -34071,6 +34189,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

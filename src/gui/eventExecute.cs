@@ -83,6 +83,7 @@ public partial class ChronoJumpWindow
 	//for the color change in the background of the cell label
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_simple_tc;
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_simple_tf;
+	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_height;
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tc;
 	[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf;
 	//[Widget] Gtk.EventBox event_execute_eventbox_jump_reactive_tf_tc;
@@ -132,6 +133,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label event_execute_label_reaction_time_person;
 	[Widget] Gtk.Label event_execute_label_reaction_time_session;
 
+	[Widget] Gtk.Image event_execute_image_jump_reactive_height_good;
+	[Widget] Gtk.Image event_execute_image_jump_reactive_height_bad;
 	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_good;
 	[Widget] Gtk.Image event_execute_image_jump_reactive_tf_bad;
 	[Widget] Gtk.Image event_execute_image_jump_reactive_tc_good;
@@ -262,6 +265,7 @@ public partial class ChronoJumpWindow
 	
 		event_execute_eventbox_jump_simple_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_jump_simple_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
+		//event_execute_eventbox_jump_reactive_height.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_jump_reactive_tc.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
 		event_execute_eventbox_jump_reactive_tf.ModifyBg(Gtk.StateType.Normal, UtilGtk.BLUE_PLOTS);
 		event_execute_eventbox_run_simple_time.ModifyBg(Gtk.StateType.Normal, UtilGtk.RED_PLOTS);
@@ -298,12 +302,14 @@ public partial class ChronoJumpWindow
 	private void eventExecutePutNonStandardIcons() {
 		Pixbuf pixbuf;
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
+		event_execute_image_jump_reactive_height_good.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tf_good.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tc_good.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tf_tc_good.Pixbuf = pixbuf;
 		event_execute_image_run_interval_time_good.Pixbuf = pixbuf;
 		
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
+		event_execute_image_jump_reactive_height_bad.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tf_bad.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tc_bad.Pixbuf = pixbuf;
 		event_execute_image_jump_reactive_tf_tc_bad.Pixbuf = pixbuf;
@@ -311,6 +317,8 @@ public partial class ChronoJumpWindow
 	}
 
 	private void eventExecuteHideImages() {
+		event_execute_image_jump_reactive_height_good.Hide();
+		event_execute_image_jump_reactive_height_bad.Hide();
 		event_execute_image_jump_reactive_tf_good.Hide();
 		event_execute_image_jump_reactive_tf_bad.Hide();
 		event_execute_image_jump_reactive_tc_good.Hide();
@@ -1235,6 +1243,7 @@ Log.WriteLine("Preparing reactive A");
 		int ancho=drawingarea.Allocation.Width;
 		int alto=drawingarea.Allocation.Height;
 
+		double lastHeight = Convert.ToDouble(Util.GetHeightInCentimeters(lastTv.ToString()));
 		
 		UtilGtk.ErasePaint(event_execute_drawingarea, event_execute_pixmap);
 		
@@ -1318,12 +1327,16 @@ Log.WriteLine("Preparing reactive A");
 			plotSimulatedMessageIfNeededAtCenter(ancho, alto);
 			
 			//bells & images
+			event_execute_image_jump_reactive_height_good.Hide();
+			event_execute_image_jump_reactive_height_bad.Hide();
 			event_execute_image_jump_reactive_tf_good.Hide();
 			event_execute_image_jump_reactive_tf_bad.Hide();
 			event_execute_image_jump_reactive_tc_good.Hide();
 			event_execute_image_jump_reactive_tc_bad.Hide();
 			event_execute_image_jump_reactive_tf_tc_good.Hide();
 			event_execute_image_jump_reactive_tf_tc_bad.Hide();
+			bool showHeightGood = false;
+			bool showHeightBad = false;
 			bool showTfGood = false;
 			bool showTfBad = false;
 			bool showTcGood = false;
@@ -1339,6 +1352,11 @@ Log.WriteLine("Preparing reactive A");
 					showTfTcBad = true;
 			}
 				
+			if(repetitiveConditionsWin.HeightGreater && lastHeight > repetitiveConditionsWin.HeightGreaterValue) 
+				showHeightGood = true;
+			if(repetitiveConditionsWin.HeightLower && lastHeight < repetitiveConditionsWin.HeightLowerValue) 
+				showHeightBad = true;
+
 			if(repetitiveConditionsWin.TfGreater && lastTv > repetitiveConditionsWin.TfGreaterValue) 
 				showTfGood = true;
 			if(repetitiveConditionsWin.TfLower && lastTv < repetitiveConditionsWin.TfLowerValue) 
@@ -1355,11 +1373,15 @@ Log.WriteLine("Preparing reactive A");
 				showTfTcGood = true;
 
 
-			if(showTfGood || showTcGood || showTfTcGood)
+			if(showHeightGood || showTfGood || showTcGood || showTfTcGood)
 				Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
-			if(showTfBad || showTcBad || showTfTcBad)
+			if(showHeightBad || showTfBad || showTcBad || showTfTcBad)
 				Util.PlaySound(Constants.SoundTypes.BAD, volumeOn);
 
+			if(showHeightGood)
+				event_execute_image_jump_reactive_height_good.Show();
+			if(showHeightBad)
+				event_execute_image_jump_reactive_height_bad.Show();
 			if(showTfGood)
 				event_execute_image_jump_reactive_tf_good.Show();
 			if(showTfBad)
@@ -1380,8 +1402,7 @@ Log.WriteLine("Preparing reactive A");
 		 */
 
 		//height
-		event_execute_label_jump_reactive_height_now.Text = "<b>" + Util.TrimDecimals(
-				Util.GetHeightInCentimeters(lastTv.ToString()), preferences.digitsNumber) + "</b>";
+		event_execute_label_jump_reactive_height_now.Text = "<b>" + Util.TrimDecimals(lastHeight.ToString(), preferences.digitsNumber) + "</b>";
 		event_execute_label_jump_reactive_height_now.UseMarkup = true; 
 		event_execute_label_jump_reactive_height_avg.Text = Util.TrimDecimals(
 				Util.GetHeightInCentimeters(avgTV.ToString()), preferences.digitsNumber);

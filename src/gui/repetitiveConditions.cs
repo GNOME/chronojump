@@ -38,6 +38,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_best;
 	[Widget] Gtk.CheckButton checkbutton_jump_tf_tc_worst;
 
+	[Widget] Gtk.CheckButton checkbutton_height_greater;
+	[Widget] Gtk.CheckButton checkbutton_height_lower;
 	[Widget] Gtk.CheckButton checkbutton_tf_greater;
 	[Widget] Gtk.CheckButton checkbutton_tf_lower;
 	[Widget] Gtk.CheckButton checkbutton_tc_greater;
@@ -45,6 +47,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.CheckButton checkbutton_tf_tc_greater;
 	[Widget] Gtk.CheckButton checkbutton_tf_tc_lower;
 	
+	[Widget] Gtk.SpinButton spinbutton_height_greater;
+	[Widget] Gtk.SpinButton spinbutton_height_lower;
 	[Widget] Gtk.SpinButton spinbutton_tf_greater;
 	[Widget] Gtk.SpinButton spinbutton_tf_lower;
 	[Widget] Gtk.SpinButton spinbutton_tc_greater;
@@ -97,6 +101,7 @@ public class RepetitiveConditionsWindow
 	//bells good (green)
 	[Widget] Gtk.Image image_repetitive_best_tf_tc;
 	[Widget] Gtk.Image image_repetitive_best_time;
+	[Widget] Gtk.Image image_repetitive_height_greater;
 	[Widget] Gtk.Image image_repetitive_tf_greater;
 	[Widget] Gtk.Image image_repetitive_tc_lower;
 	[Widget] Gtk.Image image_repetitive_tf_tc_greater;
@@ -110,6 +115,7 @@ public class RepetitiveConditionsWindow
 	//bells bad (red)
 	[Widget] Gtk.Image image_repetitive_worst_tf_tc;
 	[Widget] Gtk.Image image_repetitive_worst_time;
+	[Widget] Gtk.Image image_repetitive_height_lower;
 	[Widget] Gtk.Image image_repetitive_tf_lower;
 	[Widget] Gtk.Image image_repetitive_tc_greater;
 	[Widget] Gtk.Image image_repetitive_tf_tc_lower;
@@ -194,6 +200,7 @@ public class RepetitiveConditionsWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_green.png");
 		image_repetitive_best_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_best_time.Pixbuf = pixbuf;
+		image_repetitive_height_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_greater.Pixbuf = pixbuf;
 		image_repetitive_tc_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_greater.Pixbuf = pixbuf;
@@ -208,6 +215,7 @@ public class RepetitiveConditionsWindow
 		pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "stock_bell_red.png");
 		image_repetitive_worst_tf_tc.Pixbuf = pixbuf;
 		image_repetitive_worst_time.Pixbuf = pixbuf;
+		image_repetitive_height_lower.Pixbuf = pixbuf;
 		image_repetitive_tf_lower.Pixbuf = pixbuf;
 		image_repetitive_tc_greater.Pixbuf = pixbuf;
 		image_repetitive_tf_tc_lower.Pixbuf = pixbuf;
@@ -257,6 +265,13 @@ public class RepetitiveConditionsWindow
 	/* Auto.mark checkbox if spinbutton is changed */
 	
 	/* jumps */
+	void on_spinbutton_height_greater_value_changed (object o, EventArgs args) {
+		checkbutton_height_greater.Active = true;
+	}
+	void on_spinbutton_height_lower_value_changed (object o, EventArgs args) {
+		checkbutton_height_lower.Active = true;
+	}
+
 	void on_spinbutton_tf_greater_value_changed (object o, EventArgs args) {
 		checkbutton_tf_greater.Active = true;
 	}
@@ -331,6 +346,13 @@ public class RepetitiveConditionsWindow
 		get { return checkbutton_jump_tf_tc_worst.Active; }
 	}
 
+	public bool HeightGreater {
+		get { return checkbutton_height_greater.Active; }
+	}
+	public bool HeightLower {
+		get { return checkbutton_height_lower.Active; }
+	}
+
 	public bool TfGreater {
 		get { return checkbutton_tf_greater.Active; }
 	}
@@ -350,6 +372,13 @@ public class RepetitiveConditionsWindow
 	}
 	public bool TfTcLower {
 		get { return checkbutton_tf_tc_lower.Active; }
+	}
+
+	public double HeightGreaterValue {
+		get { return Convert.ToDouble(spinbutton_height_greater.Value); }
+	}
+	public double HeightLowerValue {
+		get { return Convert.ToDouble(spinbutton_height_lower.Value); }
 	}
 
 	public double TfGreaterValue {

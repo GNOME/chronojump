@@ -33,6 +33,8 @@ using RDotNet;
 
 public partial class ChronoJumpWindow 
 {
+	[Widget] Gtk.SpinButton spin_encoder_capture_sleep;
+
 	[Widget] Gtk.SpinButton spin_encoder_extra_weight;
 	[Widget] Gtk.Label label_encoder_displaced_weight;
 	[Widget] Gtk.Label label_encoder_1RM_percent;
@@ -4548,7 +4550,10 @@ public partial class ChronoJumpWindow
 			Log.Write(" Cur:" + encoderThread.ThreadState.ToString());
 		}
 			
-		Thread.Sleep (25);
+		//Thread.Sleep (25);
+
+		Thread.Sleep((int) spin_encoder_capture_sleep.Value);
+
 		return true;
 	}
 	

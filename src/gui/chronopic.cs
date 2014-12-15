@@ -552,6 +552,7 @@ Log.WriteLine("bbb");
 	private void pulseEnd() {
 		button_cancel.Sensitive = false;
 		connecting = false;
+		fakeWindowDone.Click();
 	}
 			
 	private void updateChronopicWin(bool state, string message) {
@@ -918,7 +919,6 @@ Log.WriteLine("bbb");
 		foreach(ChronopicPortData a in cpd)
 			Log.WriteLine(a.Num + ", " + a.Port + ", " + a.Connected);
 
-		fakeWindowDone.Click();
 		needUpdateChronopicWin = true;
 	}
 

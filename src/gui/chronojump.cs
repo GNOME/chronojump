@@ -2834,12 +2834,10 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 0;
 			menuitem_mode_selected_jumps.Visible = true;
-			radio_mode_jumps_small.Active = true;
 		} else if(m == menuitem_modes.RUNS) {
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
-			radio_mode_runs_small.Active = true;
 		} else if(m == menuitem_modes.POWER) {
 			notebook_sup.CurrentPage = 1;
 			menuitem_mode_selected_power.Visible = true;
@@ -2847,7 +2845,6 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 2;
 			menuitem_mode_selected_other.Visible = true;
-			radio_mode_reaction_times_small.Active = true;
 		}
 
 		//show the program

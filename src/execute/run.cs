@@ -876,7 +876,10 @@ public class RunIntervalExecute : RunExecute
 						//run limited by time that first subRun has arrived later than maximum for the whole run,
 						//and DeleteLastSubEvent returns "-" as a mark
 						if(intervalTimesString[0] == '-') {
-							new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Run will not be recorded, 1st track is out of time"));
+							//this dialog can make crash the software because the non-gui part calls it
+							//new DialogMessage(Constants.MessageTypes.WARNING, 
+							//		Catalog.GetString("Run will not be recorded, 1st track is out of time"));
+							Log.WriteLine("Run will not be recorded, 1st track is out of time");
 	
 							//mark for not having problems with cancelled
 							cancel = true;

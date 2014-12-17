@@ -508,7 +508,9 @@ public class Util
 	public static bool EventPassedFromMaxTime(
 			string timesString, double timeLimit) 
 	{
-		if(Util.GetTotalTime(timesString) > timeLimit) 
+		//Absolute value because timesString can start with a '-' if run limited by time and
+		//first subRun has arrived later than maximum for the whole run
+		if(Math.Abs(Util.GetTotalTime(timesString)) > timeLimit) 
 			return true;	//eventsTime are higher than timeLimit: one ore more exceeds 
 		else
 			return false;	//eventsTime are lower than timeLimit: no problem
@@ -535,7 +537,12 @@ public class Util
 			//imagine a runInterval where we only have 10 seconds for go, return, go... n times. And imagine, going is like 20 seconds, then 
 			//runInterval write will try to delete last subEvent, but this is the only one
 			//then return the time in negative (-) as a mark, and caller will show the time late in a popup win
-			return "-" + myString;
+		
+			//but maybe the mark has added first because this was called on tempTable iteration and later on final SQL write iteration
+			if( ! myString.StartsWith("-") )
+				myString = "-" + myString;
+				
+			return myString;
 	}
 
 

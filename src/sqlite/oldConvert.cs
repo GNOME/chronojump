@@ -316,6 +316,15 @@ class SqliteOldConvert : Sqlite
 
 		return array;
 	}
+
+	//DB 1.17 -> 1.18	
+	protected internal static void deleteNegativeRuns() 
+	{
+		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
+			" WHERE timeTotal < 0";
+		Log.WriteLine(dbcmd.CommandText.ToString());
+		dbcmd.ExecuteNonQuery();
+	}
 }
 
 //used in DB version 1.03 and before

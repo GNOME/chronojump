@@ -879,6 +879,9 @@ public class RunIntervalExecute : RunExecute
 							//this dialog can make crash the software because the non-gui part calls it
 							//new DialogMessage(Constants.MessageTypes.WARNING, 
 							//		Catalog.GetString("Run will not be recorded, 1st track is out of time"));
+
+							feedbackMessage = Catalog.GetString("Run will not be recorded. Out of time.");
+							needShowFeedbackMessage = true; 
 							Log.WriteLine("Run will not be recorded, 1st track is out of time");
 	
 							//mark for not having problems with cancelled

@@ -51,12 +51,14 @@ Source: "./chronojump_icon.ico"; DestDir: "{app}\share\chronojump\images\"
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\Chronojump "; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
-Name: "{group}\Chronojump debug "; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}\bin"
+; Name: "{group}\Chronojump "; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"
+; Name: "{group}\Chronojump debug "; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}\bin"
+Name: "{group}\Chronojump"; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}\bin"
 Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
 Name: "{group}\Chronopic Firmware Recorder "; Filename: "{app}\bin\chronopic-firmwarecord-dir\chronopic-firmwarecord.exe"; WorkingDir: "{app}\bin\chronopic-firmwarecord-dir"
-Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
-Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
+; Name: "{group}\Chronojump mini"; Filename: "{app}\bin\rxvt.exe"; Parameters:"-e ./Chronojump_mini.exe" ; WorkingDir: "{app}\bin" ; IconFileName: "{app}\share\chronojump\images\chronojump_icon.ico"
+; Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\Chronojump.exe"; WorkingDir: "{app}\bin"; Tasks: desktopicon
+Name: "{commondesktop}\Chronojump"; Filename: "{app}\bin\logchronojump.bat"; WorkingDir: "{app}\bin"; Tasks: desktopicon
 Name: "{group}\Install Chronopic driver"; Filename: "{app}\drivers\CDM_v2.12.00_WHQL_Certified.exe"; WorkingDir: "{app}\drivers"
 ; Name: "{group}\Chronojump Manual spanish"; Filename: "{app}\share\doc\chronojump\chronojump_manual_es.pdf"
 ; Name: "{group}\Chronojump Manual english"; Filename: "{app}\share\doc\chronojump\chronojump_manual_en.pdf"
@@ -64,5 +66,6 @@ Name: "{group}\{cm:UninstallProgram,Chronojump}"; Filename: "{uninstallexe}"
 
 [Run]
 Filename: "{app}\drivers\CDM_v2.12.00_WHQL_Certified.exe"; StatusMsg: "Installing Chronopic driver"; Tasks: install_driver; Flags: skipifsilent
-Filename: "{app}\bin\Chronojump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
+; Filename: "{app}\bin\Chronojump.exe"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\bin\logchronojump.bat"; Description: "{cm:LaunchProgram,ChronoJump}"; Flags: nowait postinstall skipifsilent
 

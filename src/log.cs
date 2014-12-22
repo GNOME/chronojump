@@ -173,8 +173,10 @@ public class Log
 	
 	public static void WriteLine(string text) 
 	{
-		if(useConsole)
-			Console.WriteLine(text);
+		if(useConsole) {
+			//Console.WriteLine(text);
+			LogB.Information(text);
+		}
 		else {
 			try {
 			writer.WriteLine(text);

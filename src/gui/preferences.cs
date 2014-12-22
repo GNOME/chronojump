@@ -379,7 +379,7 @@ public class PreferencesWindow {
 	
 	void on_button_logs_folder_open_clicked (object o, EventArgs args)
 	{
-		string dir = Util.GetLogsDir();
+		string dir = UtilAll.GetLogsDir();
 		Log.WriteLine(dir);
 		
 		if( ! new System.IO.DirectoryInfo(dir).Exists) {

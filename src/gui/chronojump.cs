@@ -2366,7 +2366,9 @@ public partial class ChronoJumpWindow
 				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
 		
 		Log.WriteLine("Bye2!");
-		System.Console.Out.Close();
+		
+		Log.End();
+
 		Log.WriteLine("Bye3!");
 		Application.Quit();
 		Log.WriteLine("Bye4!");

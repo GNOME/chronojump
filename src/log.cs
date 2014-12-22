@@ -26,12 +26,17 @@ public class Log
 	/*
 	 * writes to screen and to log
 	 * timeLog ensures a different log for every chronojump launch
-	 * log is deleted if all ends ok
+	 * log is deleted if all ends ok.
 	 */
 	
 	//private static TextWriter writer; //writer is not used now, all is thone in the Main (on chronojump.cs).we only need to print to console now (0.7.5)
 	//private static string timeLog = "";
-	private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
+	//private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
+	
+	//1.4.10 have log again by default to all windows users
+	//only two logs: current execution log and previous execution log
+	private static TextWriter writer;
+	private static bool useConsole;
 				
 	/*
 	private static bool initializeTime(string [] args) {
@@ -107,35 +112,74 @@ public class Log
 	}
 	*/
 
-	public static void Write(string text) {
+
+	//on Windows since 1.4.10
+	public static void Start() 
+	{
+		//first define console will be used.
+		//if writer is created ok, then console will NOT be used
+		useConsole = true;
+
+		//create dir if not exists
+		string dir = UtilAll.GetLogsDir();
+		if( ! Directory.Exists(dir)) {
+			try {
+				Directory.CreateDirectory (dir);
+			} catch {
+				return;
+			}
+		}
+
+		string filename = UtilAll.GetLogFileCurrent();
+		string filenameOld = UtilAll.GetLogFileOld();
+
+		//if exists, copy to old
+		if(File.Exists(filename)) {
+			try {
+				File.Copy(filename, filenameOld, true); //can be overwritten
+			} catch {}
+		}
+
+		try {
+			writer = File.CreateText(filename);
+			useConsole = false;
+		} catch {}
+	}
+
+	public static void Write(string text) 
+	{
 		if(useConsole)
 			Console.Write(text);
-		/*
-		try {
-			writer.Write(text);
-			writer.Flush();
-		} catch {}
-		*/
+		else {
+			try {
+				writer.Write(text);
+				writer.Flush();
+			} catch {}
+		}
 	}
 	
-	public static void WriteLine(string text) {
+	public static void WriteLine(string text) 
+	{
 		if(useConsole)
 			Console.WriteLine(text);
-		/*
-		try {
+		else {
+			try {
 			writer.WriteLine(text);
 			writer.Flush();
-		} catch {}
-		*/
+			} catch {}
+		}
 	}
 	
-	/*
-	public static void End() {
-		try {
-			((IDisposable)writer).Dispose();
-		} catch {}
+	public static void End() 
+	{
+		if(useConsole)
+			System.Console.Out.Close();
+		else {
+			try {
+				((IDisposable)writer).Dispose();
+			} catch {}
+		}
 	}
-	 */
 	
 	//if exit normally, then delete file
 	/*

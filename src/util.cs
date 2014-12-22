@@ -767,9 +767,6 @@ public class Util
 
 	/********** end of database paths ************/
 	
-	public static string GetLogsDir() {
-		return Path.Combine(Path.GetTempPath(), "Chronojump-logs");
-	}
 
 	/********** start of multimedia paths ************/
 

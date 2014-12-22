@@ -106,4 +106,16 @@ public class UtilAll
 		return str;
 	}
 
+	// ----------- logs -----------------------
+	
+	public static string GetLogsDir() {
+		return Path.Combine(Path.GetTempPath(), "Chronojump-logs");
+	}
+	public static string GetLogFileCurrent() {
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + "log_chronojump.txt");
+	}
+	public static string GetLogFileOld() {
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + "log_chronojump_old.txt");
+	}
+
 }

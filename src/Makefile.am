@@ -154,6 +154,8 @@ SOURCES = \
 	report.cs\
 	sport.cs\
 	log.cs\
+	logB.cs\
+	logConsoleCrayon.cs\
 	serverPing.cs\
 	serverEvaluator.cs\
 	server.cs\

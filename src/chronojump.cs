@@ -73,7 +73,17 @@ public class ChronoJump
 		
 		//1.4.10
 		Log.Start();
+		
+		LogB.Information("Opening something");
 
+		LogB.Debug("debug false"); //this is not shown
+		LogB.Debugging = true; //now next Debug will be shown and Warning, Error, Information will have thread info
+		LogB.Debug("debug true");
+		
+		LogB.Warning("Opening something");
+		LogB.Error("Opening something");
+		LogB.Information("Opening something");
+		
 		
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";

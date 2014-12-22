@@ -6264,7 +6264,7 @@ Console.WriteLine("X");
 	 */
 
 	private void on_debug_crash_activate (object o, EventArgs args) {
-		bool voluntaryCrashAllowed = false;
+		bool voluntaryCrashAllowed = true;
 		if(voluntaryCrashAllowed) {
 			ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Done for testing purposes. Chronojump will exit badly"), "", "Are you sure you want to crash application?");
 			confirmWin.Button_accept.Clicked += new EventHandler(crashing);

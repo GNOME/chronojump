@@ -68,11 +68,8 @@ public class ChronoJump
 	
 		//comment this 4 lines to deactivated log, and use console.
 		//works better on a sudden crash
-		StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(errorFile, FileMode.Create)));
-		System.Console.SetOut(sw);
-		System.Console.SetError(sw);
-		sw.AutoFlush = true;
 		*/
+		
 		
 		//1.4.10
 		Log.Start();

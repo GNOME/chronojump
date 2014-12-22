@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -129,7 +129,7 @@ public class Log
 				return;
 			}
 		}
-
+		
 		string filename = UtilAll.GetLogFileCurrent();
 		string filenameOld = UtilAll.GetLogFileOld();
 
@@ -140,10 +140,23 @@ public class Log
 			} catch {}
 		}
 
+		/*
 		try {
 			writer = File.CreateText(filename);
 			useConsole = false;
 		} catch {}
+		*/
+	
+
+		//this does not write until exit
+		//StreamWriter sw = new StreamWriter(new BufferedStream(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create)));
+
+		//this writes all the time
+		StreamWriter sw = new StreamWriter(new FileStream(UtilAll.GetLogFileCurrent(), FileMode.Create));
+
+		System.Console.SetOut(sw);
+		System.Console.SetError(sw);
+		sw.AutoFlush = true;
 	}
 
 	public static void Write(string text) 

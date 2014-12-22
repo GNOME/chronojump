@@ -55,7 +55,8 @@ public enum LogEntryType
 	Debug,
 	Warning,
 	Error,
-	Information
+	Information,
+	SQL
 }
 
 public class LogEntry
@@ -134,6 +135,9 @@ public static class LogB
 				case LogEntryType.Information:
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Green;
 					break;
+				case LogEntryType.SQL:
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Cyan;
+					break;
 				case LogEntryType.Debug:
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Blue;
 					break;
@@ -173,6 +177,8 @@ public static class LogB
 				return "Error";
 			case LogEntryType.Information:
 				return "Info ";
+			case LogEntryType.SQL:
+				return "SQL ";
 		}
 		return null;
 	}
@@ -398,6 +404,35 @@ public static class LogB
 	public static void ErrorFormat(string format, params object [] args)
 	{
 		Error(String.Format(format, args));
+	}
+
+#endregion
+
+#region Public SQL Methods
+
+	public static void SQL(string message)
+	{
+		SQL(message, null);
+	}
+
+	public static void SQL(string message, string details)
+	{
+		SQL(message, details, false);
+	}
+
+	public static void SQL(string message, string details, bool showUser)
+	{
+		Commit(LogEntryType.SQL, message, details, showUser);
+	}
+
+	public static void SQL(string message, bool showUser)
+	{
+		SQL(message, null, showUser);
+	}
+
+	public static void SQLFormat(string format, params object [] args)
+	{
+		SQL(String.Format(format, args));
 	}
 
 #endregion

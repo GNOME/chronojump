@@ -29,6 +29,8 @@ SOURCES = \
 	../src/multiChronopic.cs\
 	../src/sport.cs\
 	../src/log.cs\
+	../src/logB.cs \
+	../src/logConsoleCrayon.cs \
 	../src/serverPing.cs\
 	../src/serverEvaluator.cs\
 	../src/oldCodeNeedToDBConvert/person.cs\

@@ -8,6 +8,8 @@ SOURCES= \
 	../utilAll.cs \
 	../utilDate.cs \
 	../log.cs \
+	../logB.cs \
+	../logConsoleCrayon.cs \
 	../constants.cs
 
 bin_SCRIPTS = chronojump_mini

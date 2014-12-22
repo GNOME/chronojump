@@ -92,23 +92,23 @@ class Sqlite
 	public static void Open()
 	{
 		try {
-			Log.WriteLine("SQL ON");
+			LogB.SQL("SQL ON");
 			dbcon.Open();
 		} catch {
-			Log.WriteLine("-- catched --");
+			LogB.SQL("-- catched --");
 
-			Log.WriteLine("SQL OFF");
+			LogB.SQL("SQL OFF");
 			dbcon.Close();
 			
-			Log.WriteLine("SQL ON");
+			LogB.SQL("SQL ON");
 			dbcon.Open();
 			
-			Log.WriteLine("-- end of catched --");
+			LogB.SQL("-- end of catched --");
 		}
 	}
 	public static void Close()
 	{
-		Log.WriteLine("SQL OFF");
+		LogB.SQL("SQL OFF");
 		dbcon.Close();
 	}
 
@@ -120,7 +120,7 @@ class Sqlite
 		Console.ReadLine();		
 		*/
 
-		Log.WriteLine("home is: " + home);
+		LogB.SQL("home is: " + home);
 
 		bool defaultDBLocation = true;
 

@@ -3115,11 +3115,12 @@ public partial class ChronoJumpWindow
 			
 			//on Linux put volumeOn on false on start because there's a bug on Mono and audio
 			//https://github.com/mono/mono/pull/1376
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					"There's an audio problem with Mono on Linux.\n" +
-					"We recommend to have sound disabled. More info:\n" +
-					"https://github.com/mono/mono/pull/1376"
-					);
+			if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						"There's an audio problem with Mono on Linux.\n" +
+						"We recommend to have sound disabled. More info:\n" +
+						"https://github.com/mono/mono/pull/1376"
+						);
 		} else {
 			preferences.volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);

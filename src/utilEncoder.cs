@@ -477,7 +477,7 @@ public class UtilEncoder
 	        Process p;
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
-		
+	
 		string pBin="";
 		pinfo = new ProcessStartInfo();
 
@@ -534,6 +534,9 @@ public class UtilEncoder
 
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
+		pinfo.RedirectStandardError = true;
+		pinfo.RedirectStandardOutput = true; 
+
 
 		//delete output file check(s)
 		Console.WriteLine("Deleting... " + outputFileCheck);
@@ -555,6 +558,10 @@ public class UtilEncoder
 			p = new Process();
 			p.StartInfo = pinfo;
 			p.Start();
+
+			LogB.Information(p.StandardOutput.ReadToEnd());
+			LogB.Error(p.StandardError.ReadToEnd());
+
 			p.WaitForExit();
 
 			if(outputFileCheck2 == "")
@@ -635,6 +642,8 @@ public class UtilEncoder
 
 		pinfo.CreateNoWindow = true;
 		pinfo.UseShellExecute = false;
+		pinfo.RedirectStandardError = true;
+		pinfo.RedirectStandardOutput = true; 
 
 		//delete output file check(s)
 		Console.WriteLine("Deleting... " + outputFileCheck);
@@ -645,6 +654,10 @@ public class UtilEncoder
 			p = new Process();
 			p.StartInfo = pinfo;
 			p.Start();
+			
+			LogB.Information(p.StandardOutput.ReadToEnd());
+			LogB.Error(p.StandardError.ReadToEnd());
+
 			p.WaitForExit();
 
 			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );

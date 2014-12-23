@@ -98,7 +98,7 @@ public class RunExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Log.WriteLine("From execute/run.cs");
+		LogB.Information("From execute/run.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -113,7 +113,7 @@ public class RunExecute : EventExecute
 	
 	public override void Manage()
 	{
-		Log.WriteLine("MANAGE!!!!");
+		LogB.Debug("MANAGE!!!!");
 
 		//boolean to know if chronopic has been disconnected	
 		chronopicDisconnected = false;
@@ -123,7 +123,7 @@ public class RunExecute : EventExecute
 		else
 			platformState = chronopicInitialValue(cp);
 		
-		Log.WriteLine("MANAGE(b)!!!!");
+		LogB.Debug("MANAGE(b)!!!!");
 
 		//you can start ON or OFF the platform, 
 		//we record always de TF (or time between we abandonate the platform since we arrive)
@@ -176,12 +176,12 @@ public class RunExecute : EventExecute
 		cancel = false;
 		totallyCancelled = false;
 
-		Log.WriteLine("MANAGE(2)!!!!");
+		LogB.Debug("MANAGE(2)!!!!");
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		thread.Start(); 
-		Log.WriteLine("MANAGE(3)!!!!");
+		LogB.Debug("MANAGE(3)!!!!");
 	}
 	
 	protected override void waitEvent ()
@@ -204,7 +204,7 @@ public class RunExecute : EventExecute
 			
 			//if (ok) {
 			if (ok && !cancel) {
-				//Log.WriteLine("timestamp:" + timestamp);
+				//LogB.Information("timestamp:" + timestamp);
 				if (platformState == Chronopic.Plataforma.ON && loggedState == States.OFF) {
 					//has arrived
 					loggedState = States.ON;
@@ -385,7 +385,7 @@ public class RunExecute : EventExecute
 
 	protected override void write()
 	{
-		Log.WriteLine(string.Format("TIME: {0}", time.ToString()));
+		LogB.Information(string.Format("TIME: {0}", time.ToString()));
 		
 		/*
 		string myStringPush =   Catalog.GetString("Last run") + ": " + RunnerName + " " + 
@@ -882,7 +882,7 @@ public class RunIntervalExecute : RunExecute
 
 							feedbackMessage = Catalog.GetString("Run will not be recorded. Out of time.");
 							needShowFeedbackMessage = true; 
-							Log.WriteLine("Run will not be recorded, 1st track is out of time");
+							LogB.Information("Run will not be recorded, 1st track is out of time");
 	
 							//mark for not having problems with cancelled
 							cancel = true;
@@ -892,7 +892,7 @@ public class RunIntervalExecute : RunExecute
 							//end this piece of code
 							return;
 						} else {
-							Log.WriteLine("Deleted one event out of time");
+							LogB.Information("Deleted one event out of time");
 							eventPassed = Util.EventPassedFromMaxTime(intervalTimesString, limitAsDouble);
 						}
 					}

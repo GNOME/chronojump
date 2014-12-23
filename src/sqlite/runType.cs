@@ -112,7 +112,7 @@ class SqliteRunType : Sqlite
 				myStr[2] + "')" ;	//description
 				*/
 				t.Name + "', " + Util.ConvertToPoint(t.Distance) + ", '" + t.Description +	"')" ;	
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -136,7 +136,7 @@ class SqliteRunType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -172,7 +172,7 @@ class SqliteRunType : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -208,11 +208,11 @@ class SqliteRunType : Sqlite
 		count =0;
 		if(allRunsName != "") {
 			myTypes [count++] = allRunsName;
-			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//LogB.SQL("{0} - {1}", myTypes[count-1], count-1);
 		}
 		foreach (string line in myArray) {
 			myTypes [count++] = line;
-			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//LogB.SQL("{0} - {1}", myTypes[count-1], count-1);
 		}
 
 		return myTypes;
@@ -225,7 +225,7 @@ class SqliteRunType : Sqlite
 			" FROM " + Constants.RunTypeTable +
 			" WHERE name == '" + typeName + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -265,7 +265,7 @@ class SqliteRunType : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunTypeTable +
 			" WHERE name == '" + name + "'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -396,7 +396,7 @@ class SqliteRunIntervalType : SqliteRunType
 				//t.Name + 	"', " + distance + ", " + t.TracksLimited + 	", " + t.FixedValue + ", " +
 				t.Name + 	"', " + t.Distance + ", " + Util.BoolToInt(t.TracksLimited) + 	", " + t.FixedValue + ", " +
 				Util.BoolToInt(t.Unlimited) + 	", '" + t.Description +	"', '" + t.DistancesString + 	"')" ;	
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		//int myLast = dbcon.LastInsertRowId;
@@ -418,7 +418,7 @@ class SqliteRunIntervalType : SqliteRunType
 			" FROM " + Constants.RunIntervalTypeTable +
 			" ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -475,7 +475,7 @@ class SqliteRunIntervalType : SqliteRunType
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -523,7 +523,7 @@ class SqliteRunIntervalType : SqliteRunType
 		Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTypeTable +
 			" WHERE name == '" + name + "'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

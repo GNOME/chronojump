@@ -101,7 +101,7 @@ class SqlitePreferences : Sqlite
 		dbcmd.CommandText = "UPDATE " + Constants.PreferencesTable +
 			" SET value = '" + myValue + 
 			"' WHERE name == '" + myName + "'" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
@@ -113,7 +113,7 @@ class SqlitePreferences : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == '" + myName + "'" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		//SqliteDataReader reader;
@@ -135,7 +135,7 @@ class SqlitePreferences : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PreferencesTable; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;

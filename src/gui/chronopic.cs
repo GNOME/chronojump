@@ -243,7 +243,6 @@ public class ChronopicWindow
 
 		ChronopicWindowBox.chronopic_window.Show();
 		ChronopicWindowBox.chronopic_window.Present();
-Log.WriteLine("bbb");
 	
 		return ChronopicWindowBox;
 	}
@@ -329,7 +328,7 @@ Log.WriteLine("bbb");
 				//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
 				if(! isWindows) {
 					if(! File.Exists(myPort)) {
-						Log.WriteLine("port does not exists: " + myPort);
+						LogB.Error("port does not exists:", myPort);
 						errorFound = true;
 					}
 				}
@@ -338,10 +337,10 @@ Log.WriteLine("bbb");
 					//try {
 					ok = myCP.Read_platform(out myPS);
 					//} catch { 
-					//	Log.WriteLine("catch at 1"); 
+					//	LogB.DebugLine("catch at 1"); 
 					//}
 					if(!ok) {
-						Log.WriteLine("false at 1");
+						LogB.Error("false at 1");
 						errorFound = true;
 					}
 				}
@@ -527,7 +526,7 @@ Log.WriteLine("bbb");
 		//make active menuitem chronopic, and this
 		//will raise other things
 //		menuitem_chronopic.Active = true;
-		Log.WriteLine("CP AT START from gui/chronopic.cs");
+		LogB.Information("CP AT START from gui/chronopic.cs");
 	}
 
 
@@ -536,7 +535,7 @@ Log.WriteLine("bbb");
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
 			fakeConnectionButton.Click();
 			pulseEnd();
-			Log.Write("dying");
+			LogB.Information("dying");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
@@ -545,7 +544,7 @@ Log.WriteLine("bbb");
 		progressbar.Pulse();
 		
 		Thread.Sleep (50);
-		Log.Write(thread.ThreadState.ToString());
+		LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 
@@ -556,12 +555,12 @@ Log.WriteLine("bbb");
 	}
 			
 	private void updateChronopicWin(bool state, string message) {
-		Log.WriteLine("updateChronopicWin-1");
+		LogB.Information("updateChronopicWin-1");
 
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
 		//chronopicConnectionWin = ChronopicConnection.Show();
 
-		Log.WriteLine("updateChronopicWin-2");
+		LogB.Information("updateChronopicWin-2");
 		if(state) {
 			//chronopicConnectionWin.Connected(message);
 			sensitivityConnected(message);
@@ -575,7 +574,7 @@ Log.WriteLine("bbb");
 	}
 	
 	private void sensitivityConnected(string message) {
-		Log.WriteLine("CONNECTED!!");
+		LogB.Information("CONNECTED!!");
 		label_title.Text = message;
 		label_title.UseMarkup = true;
 		button_cancel.Sensitive = false;
@@ -583,7 +582,7 @@ Log.WriteLine("bbb");
 	}
 
 	private void sensitivityDisconnected(string message) {
-		Log.WriteLine("DISCONNECTED!!");
+		LogB.Information("DISCONNECTED!!");
 		label_title.Text = message;
 		button_cancel.Sensitive = false;
 		check_multitest_show.Sensitive = false;
@@ -597,29 +596,29 @@ Log.WriteLine("bbb");
 	//private Chronopic chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	private void chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
 	{
-		Log.WriteLine ( Catalog.GetString ("starting connection with chronopic") );
+		LogB.Information ( Catalog.GetString ("starting connection with chronopic") );
 
 		success = true;
 		
-		Log.WriteLine("chronopicInit-1");		
-		Log.WriteLine(string.Format("chronopic port: {0}", myPort));
+		LogB.Information("chronopicInit-1");		
+		LogB.Information(string.Format("chronopic port: {0}", myPort));
 		mySp = new SerialPort(myPort);
 		try {
 			mySp.Open();
-			Log.WriteLine("chronopicInit-2");		
+			LogB.Information("chronopicInit-2");		
 			//-- Create chronopic object, for accessing chronopic
 			myCp = new Chronopic(mySp);
 			
-			Log.WriteLine("chronopicInit-2.1");		
+			LogB.Information("chronopicInit-2.1");		
 			myCp.Flush();
 			
 			//if myCp has been cancelled
 			if(myCp.AbortFlush) {
-				Log.WriteLine("chronopicInit-2.2 cancelled");
+				LogB.Information("chronopicInit-2.2 cancelled");
 				success = false;
 				myCp = new Chronopic(); //fake constructor
 			} else {
-				Log.WriteLine("chronopicInit-3");		
+				LogB.Information("chronopicInit-3");		
 				//on windows, this check make a crash 
 				//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
 				//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
@@ -627,21 +626,21 @@ Log.WriteLine("bbb");
 				//-- Obtener el estado inicial de la plataforma
 
 				bool ok=false;
-				Log.WriteLine("chronopicInit-4");		
+				LogB.Information("chronopicInit-4");		
 				do {
-					Log.WriteLine("chronopicInit-5");		
+					LogB.Information("chronopicInit-5");		
 					ok=myCp.Read_platform(out myPS);
-					Log.WriteLine("chronopicInit-6");		
+					LogB.Information("chronopicInit-6");		
 				} while(! ok && ! cancelledByUser);
-				Log.WriteLine("chronopicInit-7");		
+				LogB.Information("chronopicInit-7");		
 				if (!ok) {
 					//-- Si hay error terminar
-					Log.WriteLine(string.Format("Error: {0}", myCp.Error));
+					LogB.Error(string.Format("Error: {0}", myCp.Error));
 					success = false;
 				}
 			}
 		} catch {
-			Log.WriteLine("chronopicInit-2.a catched");
+			LogB.Error("chronopicInit-2.a catched");
 			success = false;
 			myCp = new Chronopic(); //fake constructor
 		}
@@ -709,12 +708,12 @@ Log.WriteLine("bbb");
 	}
 	
 	private void on_button_help_clicked (object o, EventArgs args) {
-		Log.WriteLine("HELP");
+		LogB.Information("HELP");
 		new HelpPorts();
 	}
 	
 	public void SerialPortsClose() {
-		Console.WriteLine("Closing sp");
+		LogB.Information("Closing sp");
 		sp.Close();
 	}
 
@@ -904,7 +903,7 @@ Log.WriteLine("bbb");
 		}
 		
 
-		Log.WriteLine(string.Format("wait_chronopic_start {0}", message));
+		LogB.Information(string.Format("wait_chronopic_start {0}", message));
 			
 		if(success) {
 			Util.PlaySound(Constants.SoundTypes.GOOD, volumeOn);
@@ -917,7 +916,7 @@ Log.WriteLine("bbb");
 		}
 
 		foreach(ChronopicPortData a in cpd)
-			Log.WriteLine(a.Num + ", " + a.Port + ", " + a.Connected);
+			LogB.Information(a.Num + ", " + a.Port + ", " + a.Connected);
 
 		needUpdateChronopicWin = true;
 	}
@@ -928,7 +927,7 @@ Log.WriteLine("bbb");
 
 
 	private void on_button_cancel_clicked (object o, EventArgs args) {
-		Log.WriteLine("cancelled-----");
+		LogB.Information("cancelled-----");
 		//fakeButtonCancelled.Click(); //just to show message of crashing on windows exiting
 		
 		button_cancel.Sensitive = false;
@@ -939,13 +938,13 @@ Log.WriteLine("bbb");
 		//kill the chronopicInit function that is waiting event 
 		//thread.Abort();
 		//http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing
-		//Log.Write(thread.ThreadState.ToString());
+		//LogB.Debug(thread.ThreadState.ToString());
 		//thread.IsBackground = true;
 		
 		//try to solve windows problems when a chronopic detection was cancelled
-		//Log.Write(thread.ThreadState.ToString());
+		//LogB.Debug(thread.ThreadState.ToString());
 		//thread.Join(1000);
-		//Log.Write(thread.ThreadState.ToString());
+		//LogB.Debug(thread.ThreadState.ToString());
 
 		
 		updateChronopicWinValuesState= false; //disconnected
@@ -958,7 +957,7 @@ Log.WriteLine("bbb");
 		if(connecting)
 			button_cancel.Click();
 
-		Log.WriteLine("CLOSE");
+		LogB.Information("CLOSE");
 		fakeWindowDone.Click();
 		ChronopicWindowBox.chronopic_window.Hide();
 	}
@@ -978,7 +977,7 @@ Log.WriteLine("bbb");
 	public bool IsConnected(int numCP) {
 		//int count = 1;
 		//foreach(ChronopicPortData a in cpd) 
-		//	Log.WriteLine(a.Num + ", " + a.Port + ", " + a.Connected);
+		//	LogB.InformationLine(a.Num + ", " + a.Port + ", " + a.Connected);
 		return ((ChronopicPortData) cpd[numCP]).Connected;
 	}
 

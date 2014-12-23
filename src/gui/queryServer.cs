@@ -537,7 +537,7 @@ public class QueryServerWindow
 		if (o == null)
 			return;
 
-		//Log.WriteLine("changed");
+		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
 			sport = SqliteSport.Select(sportID);
@@ -554,7 +554,7 @@ public class QueryServerWindow
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportNone)) {
 				//if sport is none, level should be sedentary and unsensitive
 				try { 
@@ -569,7 +569,7 @@ public class QueryServerWindow
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else {
 				//sport is not undefined and not none
 
@@ -591,7 +591,7 @@ public class QueryServerWindow
 					label_speciallity.Show();
 					combo_speciallities.Show();
 				} else {
-					Log.Write("hide");
+					LogB.Information("hide");
 					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated,
 						       	Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
@@ -599,11 +599,11 @@ public class QueryServerWindow
 				}
 			}
 		} catch { 
-			//Log.WriteLine("do later");
+			//LogB.Warning("do later");
 		}
 
 		on_entries_required_changed(new object(), new EventArgs());
-		Log.WriteLine(sport.ToString());
+		LogB.Information(sport.ToString());
 	}
 	
 	private void on_combo_other_changed(object o, EventArgs args) {

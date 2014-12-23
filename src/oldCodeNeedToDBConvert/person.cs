@@ -100,7 +100,7 @@ public partial class PersonOld {
 		//we need uniqueID for personSession
 		uniqueID = insertedID;
 
-		Log.WriteLine(this.ToString());
+		LogB.Information(this.ToString());
 
 		//insert in the personSession table (fast way of knowing who was in each session)
 		SqlitePersonSessionOld.Insert (false, Constants.PersonSessionOldWeightTable, "-1", uniqueID, sessionID, weight);

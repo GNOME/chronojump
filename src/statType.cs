@@ -134,17 +134,17 @@ public class StatType {
 	}
 
 	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonRowCheckedUnchecked in statType.cs");
+		LogB.Information("fakeButtonRowCheckedUnchecked in statType.cs");
 		fakeButtonRowCheckedUnchecked.Click();
 	}
 	
 	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonRowsSelected in statType.cs");
+		LogB.Information("fakeButtonRowsSelected in statType.cs");
 		fakeButtonRowsSelected.Click();
 	}
 	
 	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonNoRowsSelected in statType.cs");
+		LogB.Information("fakeButtonNoRowsSelected in statType.cs");
 		//only raise another click if this is not a report. This new click will update things in gui/stats.cs
 		//this fakeButtons are not initialized in the coming-from-report-statType-constructor
 		if(! toReport)
@@ -202,7 +202,7 @@ public class StatType {
 		else if (statisticType == Constants.TypeJumperSummary)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Log.WriteLine("Jumper-ret");
+				LogB.Information("Jumper-ret");
 				return false;
 			}
 			int jumperID = Util.FetchID(statisticApplyTo);
@@ -222,7 +222,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeJumpsSimple)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Log.WriteLine("Simple-ret");
+				LogB.Information("Simple-ret");
 				return false;
 			}
 			
@@ -268,7 +268,7 @@ public class StatType {
 				} else if(indexType == "ChronojumpProfile") {
 					if(graph) 
 						//myStat = new GraphChronojumpProfile(myStatTypeStruct); 
-						Log.WriteLine("TODO");
+						LogB.Warning("TODO");
 					else 
 						myStat = new StatChronojumpProfile(myStatTypeStruct, treeview_stats); 
 				} else if(indexType == "IE" || indexType == Constants.ArmsUseIndexName || 
@@ -312,7 +312,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeJumpsSimpleWithTC)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Log.WriteLine("WithTC-ret");
+				LogB.Information("WithTC-ret");
 				return false;
 			}
 			
@@ -384,7 +384,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeRunsSimple)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Log.WriteLine("Simple-ret");
+				LogB.Information("Simple-ret");
 				return false;
 			}
 		
@@ -396,7 +396,7 @@ public class StatType {
 		else if(statisticType == Constants.TypeRunsIntervallic)
 		{
 			if(statisticApplyTo.Length == 0) {
-				Log.WriteLine("Simple-ret");
+				LogB.Information("Simple-ret");
 				return false;
 			}
 		

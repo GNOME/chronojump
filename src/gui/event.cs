@@ -310,7 +310,7 @@ public class EditEventWindow
 
 	private void on_button_video_watch_clicked (object o, EventArgs args) {
 		if(File.Exists(videoFileName)) { 
-			Log.WriteLine("Exists and clicked " + videoFileName);
+			LogB.Information("Exists and clicked " + videoFileName);
 
 			PlayerBin player = new PlayerBin();
 			player.Open(videoFileName);

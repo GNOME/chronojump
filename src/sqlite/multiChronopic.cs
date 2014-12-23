@@ -97,7 +97,7 @@ class SqliteMultiChronopic : Sqlite
 			cp4InStr + "', '" + cp4OutStr + "', '" +
 			vars + "', '" +
 			description + "', " + simulated + ")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		//int myLast = dbcon.LastInsertRowId;
@@ -129,7 +129,7 @@ class SqliteMultiChronopic : Sqlite
 			filterPersonString +
 			" ORDER BY upper(" + tp + ".name), multiChronopic.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -186,7 +186,7 @@ class SqliteMultiChronopic : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.MultiChronopicTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
 
@@ -209,7 +209,7 @@ class SqliteMultiChronopic : Sqlite
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
 			" WHERE (cp3InStr != \"\" OR cp3OutStr != \"\") AND sessionID == " + sessionID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -220,7 +220,7 @@ class SqliteMultiChronopic : Sqlite
 
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.MultiChronopicTable + 
 			" WHERE (cp4InStr != \"\" OR cp4OutStr != \"\") AND sessionID == " + sessionID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		if (reader.Read()) {
@@ -239,7 +239,7 @@ class SqliteMultiChronopic : Sqlite
 			", vars = '" + vars + 		//vars is distance on runAnalysis
 			"', description = '" + description +
 			"' WHERE uniqueID == " + eventID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

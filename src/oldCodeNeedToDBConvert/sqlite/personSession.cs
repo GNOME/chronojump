@@ -66,7 +66,7 @@ class SqlitePersonSessionOld : Sqlite
 	public ArrayList SelectAllPersonSessionsOfAPerson(int personID)
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldWeightTable + " WHERE personID == " + personID + " ORDER BY uniqueID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
@@ -132,7 +132,7 @@ class SqlitePersonSessionOld : Sqlite
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionOldWeightTable + 
 			" WHERE personID == " + personID;
-		//Log.WriteLine(dbcmd.CommandText.ToString());
+		//LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

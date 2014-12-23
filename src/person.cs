@@ -88,7 +88,7 @@ public partial class Person {
 		//we need uniqueID for personSession
 		uniqueID = insertedID;
 
-		Log.WriteLine(this.ToString());
+		LogB.Information(this.ToString());
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {

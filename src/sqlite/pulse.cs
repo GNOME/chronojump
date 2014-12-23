@@ -70,7 +70,7 @@ class SqlitePulse : Sqlite
 				" VALUES (" + uniqueID + ", " + personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(fixedPulse) + ", " + totalPulsesNum + ", '"
 				+ timeString + "', '" + description + "', " + simulated + ")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -103,7 +103,7 @@ class SqlitePulse : Sqlite
 			filterPersonString +
 			" ORDER BY upper(" + tp + ".name), pulse.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -148,7 +148,7 @@ class SqlitePulse : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PulseTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -170,7 +170,7 @@ class SqlitePulse : Sqlite
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + pulseID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

@@ -90,7 +90,7 @@ class SqliteSport : Sqlite
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SportTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -116,7 +116,7 @@ class SqliteSport : Sqlite
 		
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.SportTable + " WHERE name == '" + name + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;

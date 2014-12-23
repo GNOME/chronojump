@@ -184,7 +184,7 @@ public class Stat
 	
 	
 	void ItemToggled(object o, ToggledArgs args) {
-		Log.WriteLine("Fake button will be pressed");
+		LogB.Information("Fake button will be pressed");
 		fakeButtonRowCheckedUnchecked.Click();
 		
 		int column = 0;
@@ -193,7 +193,7 @@ public class Stat
 		if (store.GetIter (out iter, new TreePath(args.Path)))
 		{
 			bool val = (bool) store.GetValue (iter, column);
-			//Log.WriteLine ("toggled {0} with value {1}", args.Path, !val);
+			//LogB.Information ("toggled {0} with value {1}", args.Path, !val);
 
 			//if this row is not AVG or SD
 			string avgOrSD = (string) store.GetValue (iter, 1);
@@ -531,7 +531,7 @@ public class Stat
 				CreateOrUpdateAVGAndSD();
 		} else {
 			//if we cannot access the treeview, also don't allow to graph or report
-			Log.WriteLine("no rows Clicking in stats/main.cs simple session");
+			LogB.Information("no rows Clicking in stats/main.cs simple session");
 			fakeButtonNoRowsSelected.Click();
 		}
 	}
@@ -599,7 +599,7 @@ public class Stat
 			}
 		} else {
 			//if we cannot access the treeview, also don't allow to graph or report
-			Log.WriteLine("no rows Clicking in stats/main.cs multi session");
+			LogB.Information("no rows Clicking in stats/main.cs multi session");
 			fakeButtonNoRowsSelected.Click();
 		}
 	}
@@ -625,7 +625,7 @@ public class Stat
 				} while (okIter && store.IterNext(ref iter));
 			}
 		} catch {
-			Log.WriteLine("On graph or report (or graph, report)");
+			LogB.Error("On graph or report (or graph, report)");
 		}
 
 
@@ -658,7 +658,7 @@ public class Stat
 
 						if(isThisRowMarked(rowsFound)) {
 							for(int column = 0; column < myDataColumns; column ++) {
-								//Log.WriteLine("value: {0}", store.GetValue(iter, column+2));
+								//LogB.Information("value: {0}", store.GetValue(iter, column+2));
 								//string myValue = store.GetValue(iter, column+2).ToString();
 								string myValue = myStrFull[column+1];
 								if(myValue != "-") {
@@ -687,9 +687,9 @@ public class Stat
 							sendAVG[j+1] = Util.TrimDecimals( (sumValue[j] / valuesOk[j]).ToString(), pDN );
 						else
 							sendAVG[j+1] = "-";
-						//Log.WriteLine("j({0}), SendAVG[j]({1}), valuesList[j]({2})", j, sendAVG[j+1], valuesList[j]);
+						//LogB.Information("j({0}), SendAVG[j]({1}), valuesList[j]({2})", j, sendAVG[j+1], valuesList[j]);
 						sendSD[j+1] = Util.TrimDecimals( Util.CalculateSD(valuesList[j], sumValue[j], valuesOk[j]).ToString(), pDN );
-						//Log.WriteLine("j({0}), SendSD[j]({1})", j, sendSD[j+1]);
+						//LogB.Information("j({0}), SendSD[j]({1})", j, sendSD[j+1]);
 					}
 					printData( sendAVG );
 					printData( sendSD );
@@ -699,11 +699,11 @@ public class Stat
 			/* check this if it's needed now*/
 			//write a row of AVG because graphs of stats with AVG and SD
 			//are waiting the AVG row for ending and painting graph
-			Log.WriteLine("catched!");
+			LogB.Error("catched!");
 			string [] sendAVG = new string [myDataColumns +1];
 			sendAVG[0] = Catalog.GetString("AVG");
 			printData(sendAVG);
-			Log.WriteLine("Graph should work!");
+			LogB.Information("Graph should work!");
 		}
 	}
 
@@ -765,7 +765,7 @@ public class Stat
 		recordStatValues(statValues);
 
 		if(toReport) {
-			//Log.WriteLine("REPORT: {0}", statValues[0]);
+			//LogB.Information("REPORT: {0}", statValues[0]);
 			//print marked rows and AVG, SD rows
 			bool allowedRow = isThisRowMarked(rowsPassedToReport);
 
@@ -803,7 +803,7 @@ public class Stat
 			if(statValues[0] != Catalog.GetString("AVG") && statValues[0] != Catalog.GetString("SD")) {
 				store.SetValue(iter, 0, true);	//first col is true if it's not AVG or SD
 				markedRows.Add(myPath.ToString());
-				//Log.WriteLine("FROM PRINTDATA Added to markedRows row:{0}", myPath.ToString());
+				//LogB.Information("FROM PRINTDATA Added to markedRows row:{0}", myPath.ToString());
 			}
 			
 			for(int i=0; i < statValues.Length; i++) {
@@ -826,7 +826,7 @@ public class Stat
 	{
 		int count = 0;
 		for (int i=0; i< myArray.Count && count <= limit ; i ++) {
-			//Log.WriteLine("searching {0}, myArray[i] {1}, limit {2}", searching, myArray[i], limit);
+			//LogB.Information("searching {0}, myArray[i] {1}, limit {2}", searching, myArray[i], limit);
 			if (searching == myArray[i].ToString()) {
 				count ++;
 			}
@@ -920,7 +920,7 @@ public class Stat
 		int countCols=0;
 		int countRows=0; //on multisession, names of persons come in rows. Use this to discard some rows if unselected on treeview (! markedRows)
 		foreach(GraphSerie serie in GraphSeries) {
-			Log.WriteLine("serie:" + serie.Title);
+			LogB.Information("serie:" + serie.Title);
 			if(
 					side == Sides.LEFT && ! serie.IsLeftAxis ||
 					side == Sides.RIGHT && serie.IsLeftAxis) {
@@ -939,7 +939,7 @@ public class Stat
 
 			//on XY only take two vars
 			if(gro.Type == Constants.GraphTypeXY) {
-				Log.WriteLine("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
+				LogB.Information("groVarX: " + gro.VarX + " groVarY: " + gro.VarY + " tit: " + serie.Title);
 				if(gro.VarX != serie.Title && gro.VarY != serie.Title)
 					continue;
 				else if (xyFirstFound == "") {
@@ -960,7 +960,7 @@ public class Stat
 			string sep = "";
 			countCols=0;
 			foreach(string val in serie.SerieData) {
-				Log.Write(" val:" + val);
+				LogB.Information(" val:" + val);
 				bool use = true;
 
 				//on simplesession, cols are persons. See if they are discarded on markedRows

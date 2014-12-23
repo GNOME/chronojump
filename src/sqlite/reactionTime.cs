@@ -68,7 +68,7 @@ class SqliteReactionTime : Sqlite
 				" VALUES (" + uniqueID + ", "
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(time) + ", '" + description + "', " + simulated + ")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -102,7 +102,7 @@ class SqliteReactionTime : Sqlite
 			filterPersonString +
 			" ORDER BY upper(" + tp + ".name), reactionTime.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -147,7 +147,7 @@ class SqliteReactionTime : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ReactionTimeTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
 
@@ -171,7 +171,7 @@ class SqliteReactionTime : Sqlite
 			"', time = " + Util.ConvertToPoint(time) +
 			", description = '" + description +
 			"' WHERE uniqueID == " + eventID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

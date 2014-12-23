@@ -84,7 +84,7 @@ class SqliteCountry : Sqlite
 			nameEnglish + "\", \"" + continent + "\")";
 
 		mycmd.CommandText = myString;
-		Log.WriteLine(mycmd.CommandText.ToString());
+		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 
 		/*
@@ -105,7 +105,7 @@ class SqliteCountry : Sqlite
 		
 		dbcmd.CommandText = "SELECT uniqueID, name FROM " + Constants.CountryTable + " WHERE continent == '" + continent + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -140,7 +140,7 @@ class SqliteCountry : Sqlite
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.CountryTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -162,7 +162,7 @@ class SqliteCountry : Sqlite
 	public static bool TableHasOldRepublicStuff() {
 		dbcmd.CommandText = "SELECT name FROM " + Constants.CountryTable + " WHERE code == 'DZA'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -175,7 +175,7 @@ class SqliteCountry : Sqlite
 		else 
 			hasRepublicStuff = true;
 
-		Log.WriteLine(reader[0].ToString() + " " + hasRepublicStuff);
+		LogB.SQL(reader[0].ToString() + " " + hasRepublicStuff);
 		
 		reader.Close();
 		return hasRepublicStuff;

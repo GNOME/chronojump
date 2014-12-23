@@ -90,7 +90,7 @@ class SqliteEncoder : Sqlite
 			removeURLpath(es.videoURL) + "', '" + 
 			es.encoderConfiguration.ToString(":",true) + "', '" + 
 			Util.ConvertToPoint(es.future1) + "', '" + es.future2 + "', '" + es.future3 + "')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -144,7 +144,7 @@ class SqliteEncoder : Sqlite
 				"', future3 = '" + es.future3 + 
 				"' WHERE uniqueID == " + es.uniqueID ;
 
-		Log.WriteLine(mycmd.CommandText.ToString());
+		LogB.SQL(mycmd.CommandText.ToString());
 		mycmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -156,7 +156,7 @@ class SqliteEncoder : Sqlite
 		int count = 0;
 		int countActive = 0;
 
-		Log.WriteLine("Starting transaction");
+		LogB.SQL("Starting transaction");
 		Sqlite.Open();
 		
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
@@ -182,7 +182,7 @@ class SqliteEncoder : Sqlite
 		}
 
 		Sqlite.Close();
-		Log.WriteLine("Ended transaction");
+		LogB.SQL("Ended transaction");
 		return countActive;
 	}
 	
@@ -255,7 +255,7 @@ class SqliteEncoder : Sqlite
 			" ORDER BY substr(filename,-23,19), " + //'filename,-23,19' has the date of capture signal
 			"uniqueID " + orderIDstr; 
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -276,7 +276,7 @@ class SqliteEncoder : Sqlite
 			if(reader[14].ToString() != "")
 				videoURL = addURLpath(fixOSpath(reader[14].ToString()));
 			
-			//Log.WriteLine(econf.ToString(":", true));
+			//LogB.SQL(econf.ToString(":", true));
 			es = new EncoderSQL (
 					reader[0].ToString(),			//uniqueID
 					Convert.ToInt32(reader[1].ToString()),	//personID	
@@ -333,7 +333,7 @@ class SqliteEncoder : Sqlite
 			" encoder.personID == person77.uniqueID AND encoder.sessionID == session.uniqueID " +
 			" GROUP BY encoder.sessionID ORDER BY encoder.sessionID, encoder.status";
 	
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -393,7 +393,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.EncoderSignalCurveTable +  
 			" (uniqueID, signalID, curveID, msCentral, future1) " + 
 			"VALUES (NULL, " + signalID + ", " + curveID + ", " + msCentral + ", '')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if(! dbconOpened)
@@ -436,7 +436,7 @@ class SqliteEncoder : Sqlite
 			" FROM " + Constants.EncoderSignalCurveTable + 
 			whereStr + signalIDstr + curveIDstr + msCentralstr;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -465,7 +465,7 @@ class SqliteEncoder : Sqlite
 
 		dbcmd.CommandText = "Delete FROM " + Constants.EncoderSignalCurveTable +
 			" WHERE curveID == " + curveID.ToString();
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		if( ! dbconOpened)
@@ -530,7 +530,7 @@ class SqliteEncoder : Sqlite
 				" (uniqueID, name, percentBodyWeight, ressistance, description, future1, future2, future3)" +
 				" VALUES (NULL, '" + name + "', " + percentBodyWeight + ", '" + 
 				ressistance + "', '" + description + "', '" + speed1RM + "', '', '')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -598,7 +598,7 @@ class SqliteEncoder : Sqlite
 				"', future1 = '" + speed1RM +
 				"' WHERE name = '" + nameOld + "'" ;
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -621,7 +621,7 @@ class SqliteEncoder : Sqlite
 		else
 			dbcmd.CommandText = "SELECT * FROM " + Constants.EncoderExerciseTable + uniqueIDStr;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -676,7 +676,7 @@ class SqliteEncoder : Sqlite
 		        " AND " + Constants.SessionTable + ".uniqueID == " + Constants.EncoderTable + ".sessionID " + 
 			" GROUP BY sessionID, personID";
 			
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -706,7 +706,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
 			" SET future2 = 90, future3 = 90";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -715,7 +715,7 @@ class SqliteEncoder : Sqlite
 		dbcmd.CommandText = "UPDATE " + Constants.EncoderExerciseTable + 
 			" SET future2 = '', future3 = ''";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 	
@@ -747,7 +747,7 @@ class SqliteEncoder : Sqlite
 				" (uniqueID, personID, sessionID, exerciseID, load1RM, future1, future2, future3)" +
 				" VALUES (NULL, " + personID + ", " + sessionID + ", " + 
 				exerciseID + ", " + Util.ConvertToPoint(load1RM) + ", '','','')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -796,7 +796,7 @@ class SqliteEncoder : Sqlite
 			dbcmd.CommandText = "SELECT * FROM " + Constants.Encoder1RMTable + whereStr +
 				" ORDER BY uniqueID DESC"; //this allows to select the last uniqueID because will be the first in the returned array 
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -855,14 +855,14 @@ class SqliteEncoder : Sqlite
 	{
 		int [] signalInts = Util.ReadFileAsInts(signalFile);
 		/*	
-		Log.WriteLine("found INTS");
+		LogB.SQL("found INTS");
 		for(int i=0; i < signalInts.Length; i ++)
 			Log.Write(signalInts[i] + " ");
 		*/	
 
 		int [] curveInts = Util.ReadFileAsInts(curveFile);
 		/*
-		Log.WriteLine("found INTS");
+		LogB.SQL("found INTS");
 		for(int i=0; i < curveInts.Length; i ++)
 			Log.Write(curveInts[i] + " ");
 		*/
@@ -874,8 +874,8 @@ class SqliteEncoder : Sqlite
 					break;
 			
 			if(c == curveInts.Length) {
-				//Log.WriteLine("Start at: " + s);
-				//Log.WriteLine("Middle at: " + s + Convert.ToInt32(c / 2));
+				//LogB.SQL("Start at: " + s);
+				//LogB.SQL("Middle at: " + s + Convert.ToInt32(c / 2));
 				return s + Convert.ToInt32(c / 2);
 			}
 		}

@@ -809,7 +809,7 @@ public partial class ChronoJumpWindow
 	{
 		preferences = Preferences.LoadAllFromSqlite();
 
-		Log.WriteLine (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
+		LogB.Information (string.Format(Catalog.GetString("Chronojump database version file: {0}"), 
 					preferences.databaseVersion));
 
 		checkbutton_allow_finish_rj_after_time.Active = preferences.allowFinishRjAfterTime;
@@ -870,7 +870,7 @@ public partial class ChronoJumpWindow
 		report.preferences = preferences;
 		report.Progversion = progVersion;
 
-		Log.WriteLine ( Catalog.GetString ("Preferences loaded") );
+		LogB.Information ( Catalog.GetString ("Preferences loaded") );
 	}
 
 	/*
@@ -1018,7 +1018,7 @@ public partial class ChronoJumpWindow
 					treeviewMultiChronopicContextMenu(mc);
 				}
 			} else
-				Log.WriteLine(myTv.ToString());
+				LogB.Information(myTv.ToString());
 		}
 	}
 
@@ -1162,11 +1162,11 @@ public partial class ChronoJumpWindow
 	private void on_menuitem_server_stats (object o, EventArgs args) {
 		if(connectedAndCanI(Constants.ServerActionStats)) {
 			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
+			LogB.SQL(myServer.ConnectDatabase());
 
 			string [] statsServer = myServer.Stats();
 
-			Log.WriteLine(myServer.DisConnectDatabase());
+			LogB.SQL(myServer.DisConnectDatabase());
 
 			string [] statsMine = SqliteServer.StatsMine();
 
@@ -1453,7 +1453,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_treeview_jumps_cursor_changed (object o, EventArgs args) {
-		Log.WriteLine("Cursor changed");
+		LogB.Information("Cursor changed");
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who jumps
 		if (myTreeViewJumps.EventSelectedID == 0) {
@@ -1948,7 +1948,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_treeview_multi_chronopic_cursor_changed (object o, EventArgs args) {
-		Log.WriteLine("Cursor changed");
+		LogB.Information("Cursor changed");
 		// don't select if it's a person, 
 		// is for not confusing with the person treeviews that controls who does events
 		if (myTreeViewMultiChronopic.EventSelectedID == 0) {
@@ -2216,7 +2216,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-		Log.WriteLine("Selected: " + myText); 
+		LogB.Information("Selected: " + myText); 
 
 		//show extra window options
 		on_extra_window_jumps_test_changed(o, args);
@@ -2227,7 +2227,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-		Log.WriteLine("Selected: " + myText); 
+		LogB.Information("Selected: " + myText); 
 
 		//show extra window options
 		on_extra_window_jumps_rj_test_changed(o, args);
@@ -2238,7 +2238,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-		Log.WriteLine("Selected: " + myText); 
+		LogB.Information("Selected: " + myText); 
 
 		//show extra window options
 		on_extra_window_runs_test_changed(o, args);
@@ -2249,7 +2249,7 @@ public partial class ChronoJumpWindow
 		if (o == null)
 			return;
 		string myText = UtilGtk.ComboGetActive(combo);
-		Log.WriteLine("Selected: " + myText); 
+		LogB.Information("Selected: " + myText); 
 
 		//show extra window options
 		on_extra_window_runs_interval_test_changed(o, args);
@@ -2348,7 +2348,7 @@ public partial class ChronoJumpWindow
 		
 
 	private void on_quit2_activate (object o, EventArgs args) {
-		Log.WriteLine("Bye!");
+		LogB.Information("Bye!");
     
 		if(chronopicWin.Connected == true) {
 			chronopicWin.SerialPortsClose();
@@ -2365,14 +2365,13 @@ public partial class ChronoJumpWindow
 			File.Move(Util.GetDatabaseTempDir() + Path.DirectorySeparatorChar + "chronojump.db",
 				Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db");
 		
-		Log.WriteLine("Bye2!");
+		LogB.Information("Bye2!");
 		
 		Log.End();
 
 		Application.Quit();
 		
 		//Environment.Exit(Environment.ExitCode);
-		//Log.WriteLine("Bye5!");
 	}
 	
 	/* ---------------------------------------------------------
@@ -2381,7 +2380,7 @@ public partial class ChronoJumpWindow
 	 */
 
 	private void on_new_activate (object o, EventArgs args) {
-		Log.WriteLine("new session");
+		LogB.Information("new session");
 		sessionAddEditWin = SessionAddEditWindow.Show(app1, new Session());
 		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_new_session_accepted);
 	}
@@ -2426,7 +2425,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_edit_session_activate (object o, EventArgs args) {
-		Log.WriteLine("edit session");
+		LogB.Information("edit session");
 		sessionAddEditWin = SessionAddEditWindow.Show(app1, currentSession);
 		sessionAddEditWin.Button_accept.Clicked += new EventHandler(on_edit_session_accepted);
 	}
@@ -2444,7 +2443,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_open_activate (object o, EventArgs args) {
-		Log.WriteLine("open session");
+		LogB.Information("open session");
 		sessionLoadWin = SessionLoadWindow.Show(app1);
 		sessionLoadWin.Button_accept.Clicked += new EventHandler(on_load_session_accepted);
 		//on_load_session_accepted(o, args);
@@ -2488,7 +2487,7 @@ public partial class ChronoJumpWindow
 	
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
-		Log.WriteLine("delete session");
+		LogB.Information("delete session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}
@@ -2520,7 +2519,7 @@ public partial class ChronoJumpWindow
 	 */
 	
 	private void on_recuperate_person_clicked (object o, EventArgs args) {
-		Log.WriteLine("recuperate person");
+		LogB.Information("recuperate person");
 		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber, checkbutton_video);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
@@ -2543,7 +2542,7 @@ public partial class ChronoJumpWindow
 	}
 		
 	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
-		Log.WriteLine("recuperate persons from other session");
+		LogB.Information("recuperate persons from other session");
 		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession, checkbutton_video);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
@@ -2648,7 +2647,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
-		Log.WriteLine("modify person");
+		LogB.Information("modify person");
 
 		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, preferences.digitsNumber);
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
@@ -2695,7 +2694,7 @@ public partial class ChronoJumpWindow
 	
 	
 	private void on_delete_current_person_from_session_clicked (object o, EventArgs args) {
-		Log.WriteLine("delete current person from this session");
+		LogB.Information("delete current person from this session");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(
 				Catalog.GetString("Are you sure you want to delete the current person and all his/her tests (jumps, runs, pulses, ...) from this session?\n(His/her personal data and tests in other sessions will remain intact.)"), "", 
 				Catalog.GetString("Current Person: ") + currentPerson.Name);
@@ -2871,7 +2870,7 @@ public partial class ChronoJumpWindow
 		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
 		if(! UtilAll.IsWindows ()) {
 			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
-				Log.WriteLine("Chronopic has been disconnected");
+				LogB.Information("Chronopic has been disconnected");
 				createChronopicWindow(true);
 				chronopicWin.Connected = false;
 				return;
@@ -2881,7 +2880,7 @@ public partial class ChronoJumpWindow
 		Chronopic.Plataforma ps;
 		bool ok = (chronopicWin.CP).Read_platform(out ps);
 		if(!ok) {
-			Log.WriteLine("Chronopic has been disconnected");
+			LogB.Information("Chronopic has been disconnected");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		        return;
@@ -2893,7 +2892,7 @@ public partial class ChronoJumpWindow
 			ca = new ChronopicAutoCheck();
 			string chronopicVersion = ca.Read(chronopicWin.SP);
 		} catch {
-			Log.WriteLine("Could not read from Chronopic");
+			LogB.Information("Could not read from Chronopic");
 			return;
 		}
 		
@@ -2915,7 +2914,7 @@ public partial class ChronoJumpWindow
 				else if(ms == "10 ms")
 					label_chronopics_multitest.Text = "[" + Catalog.GetString("Runs") + "]";
 			} catch {
-				Log.WriteLine("Could not change debounce");
+				LogB.Error("Could not change debounce");
 			}
 		}
 	}
@@ -3011,7 +3010,7 @@ public partial class ChronoJumpWindow
 
 	int videoDeviceNum = 0;	
 	private void videoCapturePrepare(bool showErrorMessage) {
-		Log.WriteLine("videoCapturePPPPPPPPPPPPPPPPPrepare");
+		LogB.Information("videoCapturePPPPPPPPPPPPPPPPPrepare");
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		if(devices.Count == 0) {
 			if(showErrorMessage)
@@ -3031,9 +3030,9 @@ public partial class ChronoJumpWindow
 		s.Height = 288;
 		
 		foreach(LongoMatch.Video.Utils.Device dev in devices){
-			Log.WriteLine(dev.ID.ToString());
-			Log.WriteLine(dev.IDProperty.ToString());
-			Log.WriteLine(dev.DeviceType.ToString());
+			LogB.Information(dev.ID.ToString());
+			LogB.Information(dev.IDProperty.ToString());
+			LogB.Information(dev.DeviceType.ToString());
 		}
 			
 		s.DeviceID = devices[videoDeviceNum].ID;
@@ -3158,7 +3157,7 @@ public partial class ChronoJumpWindow
 	{
 		event_execute_ButtonCancel.Clicked -= new EventHandler(on_cancel_clicked);
 
-		Console.WriteLine("cancel clicked one");
+		LogB.Information("cancel clicked one");
 
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
@@ -3179,7 +3178,7 @@ public partial class ChronoJumpWindow
 	
 	private void on_cancel_multi_clicked (object o, EventArgs args) 
 	{
-		Console.WriteLine("cancel multi clicked one");
+		LogB.Information("cancel multi clicked one");
 
 		//this will cancel jumps or runs
 		currentEventExecute.Cancel = true;
@@ -3194,9 +3193,9 @@ public partial class ChronoJumpWindow
 	private void checkCancelTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyCancelled) 
-			Log.WriteLine("totallyCancelled");
+			LogB.Information("totallyCancelled");
 		else {
-			Log.Write("NOT-totallyCancelled ");
+			LogB.Information("NOT-totallyCancelled ");
 			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full cancelling.\nThen press button\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
 		}
@@ -3220,7 +3219,7 @@ public partial class ChronoJumpWindow
 		}
 
 		if(needCancel1 || needCancel2 || needCancel3 || needCancel4) {
-//			Log.Write("NOT-totallyCancelled ");
+//			LogB.Information("NOT-totallyCancelled ");
 			string cancelStr = "";
 			string sep = "";
 			if(needCancel1) {
@@ -3251,9 +3250,9 @@ public partial class ChronoJumpWindow
 		currentEventExecute.Finish = true;
 		
 		//unhide event buttons for next event
-Log.WriteLine("calling sensitiveGuiEventDone from on_finish_clicked");
+LogB.Information("calling sensitiveGuiEventDone from on_finish_clicked");
 		sensitiveGuiEventDone();
-Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
+LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 
 		if(chronopicWin.Connected)
 			checkFinishTotally(o, args);
@@ -3278,11 +3277,11 @@ Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
 		
 		//runA is not called for this, because it ends different
 		//and there's a message on gui/eventExecute.cs for runA	
-		Console.WriteLine("RR1");
+		LogB.Debug("RR1");
 		if(currentMultiChronopicType.Name != Constants.RunAnalysisName && chronopicWin.Connected) {
 			checkFinishMultiTotally(o, args);
 		}
-		Console.WriteLine("RR2");
+		LogB.Debug("RR2");
 		
 		//let update stats
 		//if(createdStatsWin)
@@ -3297,9 +3296,9 @@ Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
 	private void checkFinishTotally (object o, EventArgs args) 
 	{
 		if(currentEventExecute.TotallyFinished) 
-			Log.WriteLine("totallyFinished");
+			LogB.Information("totallyFinished");
 		else {
-			Log.Write("NOT-totallyFinished ");
+			LogB.Information("NOT-totallyFinished ");
 			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press this button:\n"));
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
 		}
@@ -3314,24 +3313,24 @@ Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
 		bool needFinish3 = false;
 		bool needFinish4 = false;
 			
-		Console.WriteLine("cfmt 0");
+		LogB.Information("cfmt 0");
 		needFinish1 = !currentEventExecute.TotallyFinishedMulti1;
 		if(currentEventExecute.Chronopics > 1) {
-			Console.WriteLine("cfmt 1");
+			LogB.Information("cfmt 1");
 			needFinish2 = !currentEventExecute.TotallyFinishedMulti2;
 			if(currentEventExecute.Chronopics > 2) {
-				Console.WriteLine("cfmt 2");
+				LogB.Information("cfmt 2");
 				needFinish3 = !currentEventExecute.TotallyFinishedMulti3;
 				if(currentEventExecute.Chronopics > 3) {
-					Console.WriteLine("cfmt 3");
+					LogB.Information("cfmt 3");
 					needFinish4 = !currentEventExecute.TotallyFinishedMulti4;
 				}
 			}
 		}
-		Console.WriteLine("cfmt 4");
+		LogB.Information("cfmt 4");
 
 		if(needFinish1 || needFinish2 || needFinish3 || needFinish4) {
-//			Log.Write("NOT-totallyFinishled ");
+//			LogB.Information("NOT-totallyFinishled ");
 			string cancelStr = "";
 			string sep = "";
 			if(needFinish1) {
@@ -3351,22 +3350,21 @@ Log.WriteLine("called sensitiveGuiEventDone from on_finish_clicked");
 				sep = ", ";
 			}
 		
-			Console.WriteLine("cfmt 5");
+			LogB.Information("cfmt 5");
 			//try here because maybe solves problems in runAnalysis when seem to update the eventExecuteWindow at the same time as tries to show this errorWindow
 				errorWin = ErrorWindow.Show(string.Format(
 							Catalog.GetString("Please, touch the contact platform on Chronopic/s [{0}] for full finishing.") + 
 							"\n" + Catalog.GetString("Then press this button:\n"), cancelStr));
-				Console.WriteLine("cfmt 6");
+				LogB.Information("cfmt 6");
 				errorWin.Button_accept.Clicked += new EventHandler(checkFinishMultiTotally);
-				Console.WriteLine("cfmt 7");
+				LogB.Information("cfmt 7");
 			//}
 		} else {
-			Log.WriteLine("totallyFinished");
+			LogB.Information("totallyFinished");
 			/*
 			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
 			currentEventExecute.MultiChronopicWrite(false);
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
-Console.WriteLine("W");
 		
 
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
@@ -3375,7 +3373,6 @@ Console.WriteLine("W");
 				fillTreeView_multi_chronopic();
 			} else
 				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
-Console.WriteLine("X");
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
@@ -3393,7 +3390,7 @@ Console.WriteLine("X");
 		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
 		if(! UtilAll.IsWindows() && chronopicWin.Connected) {
 			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
-				Log.WriteLine("Chronopic has been disconnected");
+				LogB.Information("Chronopic has been disconnected");
 				createChronopicWindow(true);
 				chronopicWin.Connected = false;
 				return;
@@ -3500,7 +3497,7 @@ Console.WriteLine("X");
 				myType = new PulseType(eventName);
 			else if (eventTypeString == EventType.Types.MULTICHRONOPIC.ToString()) 
 				myType = new MultiChronopicType(eventName);
-			else Log.WriteLine("Error on eventTypeHasLongDescription");
+			else LogB.Error("Error on eventTypeHasLongDescription");
 
 			if(myType.HasLongDescription)
 				return true;
@@ -3617,9 +3614,7 @@ Console.WriteLine("X");
 
 	private void on_jump_finished (object o, EventArgs args)
 	{
-Log.WriteLine("DDD");
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_finished);
-Log.WriteLine("DDD 1");
 	
 		//test can be deleted if not cancelled
 		button_delete_this_test.Sensitive = ! currentEventExecute.Cancel;
@@ -3672,7 +3667,7 @@ Log.WriteLine("DDD 1");
 				sensitiveGuiYesEvent();
 		} 
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -3686,16 +3681,15 @@ Log.WriteLine("DDD 1");
 			execute_auto_select();
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
-Log.WriteLine("DDD 2");
 	}
 		
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
 	{
 		currentEventExecute.FakeButtonThreadDyed.Clicked -= new EventHandler(on_test_finished_can_touch_gtk);
-		Log.WriteLine(" cantouch1 ");
+		LogB.Information(" cantouch1 ");
 		if(! execute_auto_doing)
 			sensitiveGuiEventDone();
-		Log.WriteLine(" cantouch3 ");
+		LogB.Information(" cantouch3 ");
 
 		if ( ! currentEventExecute.Cancel )
 			event_execute_progressbar_time.Fraction = 1; 
@@ -3796,7 +3790,7 @@ Log.WriteLine("DDD 2");
 		
 	private void on_jump_rj_finished (object o, EventArgs args) 
 	{
-		Log.WriteLine("ON JUMP RJ FINISHED");
+		LogB.Information("ON JUMP RJ FINISHED");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_jump_rj_finished);
 		
@@ -3851,7 +3845,7 @@ Log.WriteLine("DDD 2");
 			event_execute_LabelEventValue = currentJumpRj.Jumps;
 		} 
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -3992,7 +3986,7 @@ Log.WriteLine("DDD 2");
 			event_execute_LabelTimeValue = currentRun.Time;
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -4009,7 +4003,7 @@ Log.WriteLine("DDD 2");
 	
 	private void on_run_interval_activate (object o, EventArgs args)
 	{
-		Log.WriteLine("run interval accepted");
+		LogB.Information("run interval accepted");
 		
 		//if distance can be always different in this run,
 		//show values selected in runExtraWin
@@ -4137,7 +4131,7 @@ Log.WriteLine("DDD 2");
 			event_execute_LabelEventValue = currentRunInterval.Tracks;
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -4237,7 +4231,7 @@ Log.WriteLine("DDD 2");
 			sensitiveGuiYesEvent();
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -4256,7 +4250,7 @@ Log.WriteLine("DDD 2");
 
 	private void on_pulse_activate (object o, EventArgs args)
 	{
-		Log.WriteLine("pulse accepted");
+		LogB.Information("pulse accepted");
 	
 		double pulseStep = 0;
 		int totalPulses = 0;
@@ -4322,7 +4316,7 @@ Log.WriteLine("DDD 2");
 
 	private void on_pulse_finished (object o, EventArgs args) 
 	{
-		Log.WriteLine("pulse finished");
+		LogB.Information("pulse finished");
 		
 		currentEventExecute.FakeButtonFinished.Clicked -= new EventHandler(on_pulse_finished);
 		
@@ -4367,7 +4361,7 @@ Log.WriteLine("DDD 2");
 			event_execute_LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -4477,9 +4471,9 @@ Log.WriteLine("DDD 2");
 	}
 
 	private void chronopicEncoderLabels(bool colorize) {
-		Log.WriteLine("at chronopicEncoderLabels");
+		LogB.Information("at chronopicEncoderLabels");
 		string encoderPort = chronopicWin.GetEncoderPort();
-		Log.WriteLine(encoderPort);
+		LogB.Information("encoderPort:", encoderPort);
 
 		if(encoderPort != null && encoderPort != "" && encoderPort != Util.GetDefaultPort())
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");
@@ -4494,7 +4488,7 @@ Log.WriteLine("DDD 2");
 
 
 	private void on_multi_chronopic_start_clicked (object o, EventArgs args) {
-		Log.WriteLine("multi chronopic accepted");
+		LogB.Information("multi chronopic accepted");
 		
 		bool syncAvailable = false;
 		if(currentMultiChronopicType.SyncAvailable && extra_window_check_multichronopic_sync.Active)
@@ -4608,7 +4602,7 @@ Log.WriteLine("DDD 2");
 			//		Catalog.GetString("This Run Analysis is not valid because there are no strides."));
 			currentEventExecute.RunANoStrides();
 		else if ( ! currentEventExecute.Cancel ) {
-Console.WriteLine("T");
+LogB.Debug("T");
 			/*
 			   on runAnalysis test, when cp1 ends, run ends,
 			   but cp2 is still waiting event
@@ -4619,12 +4613,12 @@ Console.WriteLine("T");
 			//on_finish_multi_clicked(o, args);
 			//this produces also a crash:
 			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
-Console.WriteLine("U");
+LogB.Debug("U");
 			//call write here, because if done in execute/MultiChronopic, will be called n times if n chronopics are working
 			currentEventExecute.MultiChronopicWrite(false);
-Console.WriteLine("V");
+LogB.Debug("V");
 			currentMultiChronopic = (MultiChronopic) currentEventExecute.EventDone;
-Console.WriteLine("W");
+LogB.Debug("W");
 			//move video file if exists
 			if(preferences.videoOn)
 				if(! Util.CopyTempVideo(currentSession.UniqueID, 
@@ -4634,7 +4628,7 @@ Console.WriteLine("W");
 			//this produces also a crash:
 			//new DialogMessage(Constants.MessageTypes.INFO, "Please, touch a platform now.");
 
-Console.WriteLine("W2");
+LogB.Debug("W2");
 			
 			//if this multichronopic has more chronopics than other in session, then reload treeview, else simply add
 			if(currentMultiChronopic.CPs() != SqliteMultiChronopic.MaxCPs(currentSession.UniqueID)) {
@@ -4642,7 +4636,7 @@ Console.WriteLine("W2");
 				fillTreeView_multi_chronopic();
 			} else
 				myTreeViewMultiChronopic.Add(currentPerson.Name, currentMultiChronopic);
-Console.WriteLine("X");
+LogB.Debug("X");
 			
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			showHideActionEventButtons(true, Constants.MultiChronopicName); //show
@@ -4651,7 +4645,7 @@ Console.WriteLine("X");
 			sensitiveGuiYesEvent();
 		}
 		else if( currentEventExecute.ChronopicDisconnected ) {
-			Log.WriteLine("DISCONNECTED gui/cj");
+			LogB.Information("DISCONNECTED gui/cj");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
@@ -4665,7 +4659,7 @@ Console.WriteLine("X");
 	 */
 	
 	private void on_update_clicked (object o, EventArgs args) {
-		Log.WriteLine("--On_update_clicked--");
+		LogB.Information("--On_update_clicked--");
 		try {
 			switch (currentEventType.Type) {
 				case EventType.Types.JUMP:
@@ -4738,7 +4732,7 @@ Console.WriteLine("X");
 
 	private void on_edit_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected jump (normal)");
+		LogB.Information("Edit selected jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumps.EventSelectedID > 0) {
@@ -4754,7 +4748,7 @@ Console.WriteLine("X");
 	
 	private void on_edit_selected_jump_rj_clicked (object o, EventArgs args) {
 		//notebooks_change(1); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected jump (RJ)");
+		LogB.Information("Edit selected jump (RJ)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -4769,7 +4763,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_jump_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected jump accepted");
+		LogB.Information("edit selected jump accepted");
 	
 		Jump myJump = SqliteJump.SelectJumpData( myTreeViewJumps.EventSelectedID, false );
 
@@ -4792,7 +4786,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_jump_rj_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected jump RJ accepted");
+		LogB.Information("edit selected jump RJ accepted");
 	
 		JumpRj myJump = SqliteJumpRj.SelectJumpData( "jumpRj", myTreeViewJumpsRj.EventSelectedID, false );
 		
@@ -4816,7 +4810,7 @@ Console.WriteLine("X");
 	
 	private void on_edit_selected_run_clicked (object o, EventArgs args) {
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected run (normal)");
+		LogB.Information("Edit selected run (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewRuns.EventSelectedID > 0) {
@@ -4833,7 +4827,7 @@ Console.WriteLine("X");
 	
 	private void on_edit_selected_run_interval_clicked (object o, EventArgs args) {
 		//notebooks_change(3); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected run interval");
+		LogB.Information("Edit selected run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's not a individual subrun, the pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
@@ -4848,7 +4842,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected run accepted");
+		LogB.Information("edit selected run accepted");
 		
 		Run myRun = SqliteRun.SelectRunData( myTreeViewRuns.EventSelectedID, false );
 		
@@ -4865,7 +4859,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_run_interval_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected run interval accepted");
+		LogB.Information("edit selected run interval accepted");
 		
 		RunInterval myRun = SqliteRunInterval.SelectRunData( Constants.RunIntervalTable, myTreeViewRunsInterval.EventSelectedID, false );
 
@@ -4883,7 +4877,7 @@ Console.WriteLine("X");
 
 	private void on_edit_selected_reaction_time_clicked (object o, EventArgs args) {
 		//notebooks_change(4); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected reaction time");
+		LogB.Information("Edit selected reaction time");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
@@ -4898,7 +4892,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_reaction_time_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected reaction time accepted");
+		LogB.Information("edit selected reaction time accepted");
 		
 		ReactionTime myRT = SqliteReactionTime.SelectReactionTimeData( myTreeViewReactionTimes.EventSelectedID, false);
 
@@ -4913,7 +4907,7 @@ Console.WriteLine("X");
 	
 	private void on_edit_selected_pulse_clicked (object o, EventArgs args) {
 		//notebooks_change(5); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected pulse");
+		LogB.Information("Edit selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a event and not a person
 		if (myTreeViewPulses.EventSelectedID > 0) {
@@ -4928,7 +4922,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_edit_selected_pulse_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected pulse accepted");
+		LogB.Information("edit selected pulse accepted");
 		
 		Pulse myPulse = SqlitePulse.SelectPulseData( myTreeViewPulses.EventSelectedID, false );
 
@@ -4943,7 +4937,7 @@ Console.WriteLine("X");
 	
 	private void on_edit_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		//notebooks_change(6); see "notebooks_change sqlite problem"
-		Log.WriteLine("Edit selected multi chronopic");
+		LogB.Information("Edit selected multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
@@ -4958,7 +4952,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_edit_selected_multi_chronopic_accepted (object o, EventArgs args) {
-		Log.WriteLine("edit selected multi chronopic accepted");
+		LogB.Information("edit selected multi chronopic accepted");
 	
 		MultiChronopic mc = SqliteMultiChronopic.SelectMultiChronopicData( myTreeViewMultiChronopic.EventSelectedID, false );
 		
@@ -5142,10 +5136,10 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_jump_clicked (object o, EventArgs args) {
 		//notebooks_change(0); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this jump (normal)");
+		LogB.Information("delete this jump (normal)");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Log.WriteLine(myTreeViewJumps.EventSelectedID.ToString());
+		LogB.Information(myTreeViewJumps.EventSelectedID.ToString());
 		if (myTreeViewJumps.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
@@ -5159,7 +5153,7 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_jump_rj_clicked (object o, EventArgs args) {
 		//notebooks_change(1); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this reactive jump");
+		LogB.Information("delete this reactive jump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -5175,7 +5169,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_jump_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this jump");
+		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumps.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.JumpTable, id);
@@ -5207,7 +5201,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_jump_rj_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this jump");
+		LogB.Information("accept delete this jump");
 		int id = myTreeViewJumpsRj.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.JumpRjTable, id);
@@ -5230,7 +5224,7 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_run_clicked (object o, EventArgs args) {
 		//notebooks_change(2); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this run (normal)");
+		LogB.Information("delete this run (normal)");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
@@ -5248,7 +5242,7 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_run_interval_clicked (object o, EventArgs args) {
 		//notebooks_change(3); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this run interval");
+		LogB.Information("delete this run interval");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person (check also if it's a subrun, pass the parent run)
 		if (myTreeViewRunsInterval.EventSelectedID > 0) {
@@ -5264,7 +5258,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_run_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this run");
+		LogB.Information("accept delete this run");
 		int id = myTreeViewRuns.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunTable, id);
@@ -5286,7 +5280,7 @@ Console.WriteLine("X");
 	}
 
 	private void on_delete_selected_run_interval_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this run");
+		LogB.Information("accept delete this run");
 		int id = myTreeViewRunsInterval.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.RunIntervalTable, id);
@@ -5309,11 +5303,11 @@ Console.WriteLine("X");
 	
 	private void on_delete_selected_reaction_time_clicked (object o, EventArgs args) {
 		//notebooks_change(4); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this reaction time");
+		LogB.Information("delete this reaction time");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Log.WriteLine(myTreeViewReactionTimes.EventSelectedID.ToString());
+		LogB.Information(myTreeViewReactionTimes.EventSelectedID.ToString());
 		if (myTreeViewReactionTimes.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
@@ -5326,7 +5320,7 @@ Console.WriteLine("X");
 	}
 		
 	private void on_delete_selected_reaction_time_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this reaction time");
+		LogB.Information("accept delete this reaction time");
 		int id = myTreeViewReactionTimes.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.ReactionTimeTable, id);
@@ -5346,11 +5340,11 @@ Console.WriteLine("X");
 
 	private void on_delete_selected_pulse_clicked (object o, EventArgs args) {
 		//notebooks_change(5); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this pulse");
+		LogB.Information("delete this pulse");
 		
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person
-		Log.WriteLine(myTreeViewPulses.EventSelectedID.ToString());
+		LogB.Information(myTreeViewPulses.EventSelectedID.ToString());
 		if (myTreeViewPulses.EventSelectedID > 0) {
 			//3.- display confirmwindow of deletion 
 			if (preferences.askDeletion) {
@@ -5363,7 +5357,7 @@ Console.WriteLine("X");
 	}
 		
 	private void on_delete_selected_pulse_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this pulse");
+		LogB.Information("accept delete this pulse");
 		int id = myTreeViewPulses.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.PulseTable, id);
@@ -5383,7 +5377,7 @@ Console.WriteLine("X");
 
 	private void on_delete_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		//notebooks_change(6); see "notebooks_change sqlite problem"
-		Log.WriteLine("delete this multi chronopic");
+		LogB.Information("delete this multi chronopic");
 		//1.- check that there's a line selected
 		//2.- check that this line is a test and not a person (check also if it's not a individual mc, then pass the parent mc)
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) {
@@ -5398,7 +5392,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_delete_selected_multi_chronopic_accepted (object o, EventArgs args) {
-		Log.WriteLine("accept delete this multi chronopic");
+		LogB.Information("accept delete this multi chronopic");
 		int id = myTreeViewMultiChronopic.EventSelectedID;
 		
 		Sqlite.Delete(false, Constants.MultiChronopicTable, id);
@@ -5426,21 +5420,21 @@ Console.WriteLine("X");
 
 	
 	private void on_jump_simple_type_add_clicked (object o, EventArgs args) {
-		Log.WriteLine("Add simple new jump type");
+		LogB.Information("Add simple new jump type");
 			
 		jumpTypeAddWin = JumpTypeAddWindow.Show(app1, true); //is simple
 		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
 	private void on_jump_reactive_type_add_clicked (object o, EventArgs args) {
-		Log.WriteLine("Add reactive new jump type");
+		LogB.Information("Add reactive new jump type");
 			
 		jumpTypeAddWin = JumpTypeAddWindow.Show(app1, false); //is reactive
 		jumpTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_jump_type_add_accepted);
 	}
 	
 	private void on_jump_type_add_accepted (object o, EventArgs args) {
-		Log.WriteLine("ACCEPTED Add new jump type");
+		LogB.Information("ACCEPTED Add new jump type");
 		if(jumpTypeAddWin.InsertedSimple) {
 			createComboSelectJumps(false); //this will update also the selectJumpsString
 
@@ -5462,21 +5456,21 @@ Console.WriteLine("X");
 	}
 
 	private void on_run_simple_type_add_activate (object o, EventArgs args) {
-		Log.WriteLine("Add simple new run type");
+		LogB.Information("Add simple new run type");
 			
 		runTypeAddWin = RunTypeAddWindow.Show(app1, true); //is simple
 		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
 	private void on_run_intervallic_type_add_activate (object o, EventArgs args) {
-		Log.WriteLine("Add intervallic new run type");
+		LogB.Information("Add intervallic new run type");
 			
 		runTypeAddWin = RunTypeAddWindow.Show(app1, false); //is intervallic
 		runTypeAddWin.FakeButtonAccept.Clicked += new EventHandler(on_run_type_add_accepted);
 	}
 	
 	private void on_run_type_add_accepted (object o, EventArgs args) {
-		Log.WriteLine("ACCEPTED Add new run type");
+		LogB.Information("ACCEPTED Add new run type");
 		if(runTypeAddWin.InsertedSimple) {
 			createComboSelectRuns(false); //this will update also the selectRunsString
 
@@ -5500,11 +5494,11 @@ Console.WriteLine("X");
 	//reactiontime has no types
 
 	private void on_pulse_type_add_activate (object o, EventArgs args) {
-		Log.WriteLine("Add new pulse type");
+		LogB.Information("Add new pulse type");
 	}
 	
 	private void on_pulse_type_add_accepted (object o, EventArgs args) {
-		Log.WriteLine("ACCEPTED Add new pulse type");
+		LogB.Information("ACCEPTED Add new pulse type");
 	}
 
 	/* ---------------------------------------------------------
@@ -5580,7 +5574,7 @@ Console.WriteLine("X");
 	
 	private void on_repair_selected_jump_rj_clicked (object o, EventArgs args) {
 		//notebooks_change(1); see "notebooks_change sqlite problem"
-		Log.WriteLine("Repair selected subjump");
+		LogB.Information("Repair selected subjump");
 		//1.- check that there's a line selected
 		//2.- check that this line is a jump and not a person (check also if it's not a individual RJ, the pass the parent RJ)
 		if (myTreeViewJumpsRj.EventSelectedID > 0) {
@@ -5594,7 +5588,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_repair_selected_jump_rj_accepted (object o, EventArgs args) {
-		Log.WriteLine("Repair selected reactive jump accepted");
+		LogB.Information("Repair selected reactive jump accepted");
 		
 		treeview_jumps_rj_storeReset();
 		fillTreeView_jumps_rj(UtilGtk.ComboGetActive(combo_result_jumps_rj));
@@ -5606,7 +5600,7 @@ Console.WriteLine("X");
 	
 	private void on_repair_selected_run_interval_clicked (object o, EventArgs args) {
 		//notebooks_change(3); see "notebooks_change sqlite problem"
-		Log.WriteLine("Repair selected subrun");
+		LogB.Information("Repair selected subrun");
 		//1.- check that there's a line selected
 		//2.- check that this line is a run and not a person 
 		//(check also if it's not a individual run interval, then pass the parent run interval)
@@ -5621,7 +5615,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_repair_selected_run_interval_accepted (object o, EventArgs args) {
-		Log.WriteLine("repair selected run interval accepted");
+		LogB.Information("repair selected run interval accepted");
 		
 		treeview_runs_interval_storeReset();
 		fillTreeView_runs_interval(UtilGtk.ComboGetActive(combo_result_runs_interval));
@@ -5633,7 +5627,7 @@ Console.WriteLine("X");
 
 	private void on_repair_selected_pulse_clicked (object o, EventArgs args) {
 		//notebooks_change(5); see "notebooks_change sqlite problem"
-		Log.WriteLine("Repair selected pulse");
+		LogB.Information("Repair selected pulse");
 		//1.- check that there's a line selected
 		//2.- check that this line is a pulse and not a person 
 		//(check also if it's not a individual pulse, then pass the parent pulse)
@@ -5648,7 +5642,7 @@ Console.WriteLine("X");
 	}
 	
 	private void on_repair_selected_pulse_accepted (object o, EventArgs args) {
-		Log.WriteLine("repair selected pulse accepted");
+		LogB.Information("repair selected pulse accepted");
 		
 		treeview_pulses_storeReset();
 		fillTreeView_pulses(UtilGtk.ComboGetActive(combo_pulses));
@@ -5656,7 +5650,7 @@ Console.WriteLine("X");
 
 	private void on_repair_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		//notebooks_change(6); see "notebooks_change sqlite problem"
-		Log.WriteLine("Repair selected multichronopic");
+		LogB.Information("Repair selected multichronopic");
 	}
 	
 	/* ---------------------------------------------------------
@@ -5822,7 +5816,7 @@ Console.WriteLine("X");
 				Catalog.GetString("Newer versions will be on this site:") +"\n" + 
 				"<i>http://www.chronojump.org/multimedia.html</i>");
 				*/
-		Log.WriteLine("Opening manual at: " + Path.GetFullPath(Util.GetManualDir())); 
+		LogB.Information("Opening manual at: " + Path.GetFullPath(Util.GetManualDir())); 
 		try {
 			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
 		} catch {
@@ -6054,7 +6048,7 @@ Console.WriteLine("X");
 	}
    
 	private void sensitiveGuiEventDone () {
-		Log.Write(" sensitiveGuiEventDone start ");
+		LogB.Information(" sensitiveGuiEventDone start ");
 
 		session_menuitem.Sensitive = true;
 		menuitem_mode.Sensitive = true;
@@ -6089,20 +6083,20 @@ Console.WriteLine("X");
 		if(! currentEventExecute.Cancel) {
 			switch (currentEventType.Type) {
 				case EventType.Types.REACTIONTIME:
-					Log.WriteLine("sensitiveGuiEventDone reaction time");
+					LogB.Information("sensitiveGuiEventDone reaction time");
 					break;
 				case EventType.Types.PULSE:
-					Log.WriteLine("sensitiveGuiEventDone pulse");
+					LogB.Information("sensitiveGuiEventDone pulse");
 					break;
 				case EventType.Types.MULTICHRONOPIC:
-					Log.WriteLine("sensitiveGuiEventDone multichronopic");
+					LogB.Information("sensitiveGuiEventDone multichronopic");
 					break;
 				default:
-					Log.WriteLine("sensitiveGuiEventDone default");
+					LogB.Information("sensitiveGuiEventDone default");
 					break;
 			}
 		}
-		Log.Write(" sensitiveGuiEventDone end ");
+		LogB.Information(" sensitiveGuiEventDone end ");
 	}
 	
 	/*
@@ -6253,7 +6247,7 @@ Console.WriteLine("X");
 			success = true;
 		} 
 		if (!success)
-			Log.WriteLine(string.Format("Error in showHideActionEventButtons, type: {0}", type));
+			LogB.Error(string.Format("Error in showHideActionEventButtons, type: {0}", type));
 
 		button_video_play_this_test.Sensitive = recordedVideo;
 	}
@@ -6274,11 +6268,11 @@ Console.WriteLine("X");
 
 	private void crashing (object o, EventArgs args) {
 		string [] myString = new String [3];
-		Console.WriteLine(myString[5]);
+		LogB.Error(myString[5]);
 	}
 
 	private void on_menuitem_server_activate (object o, EventArgs args) {
-		Log.WriteLine("SERVER");
+		LogB.Information("SERVER");
 	}
 
 

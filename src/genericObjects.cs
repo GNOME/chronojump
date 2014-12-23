@@ -143,7 +143,7 @@ public class IDNameIDDoubleListOfLists
 
 		//read every list
 		foreach(IDDoubleList ldoublelist in ldoublelistoflists) {
-			Log.WriteLine(ldoublelist.ToString());
+			LogB.Information(ldoublelist.ToString());
 
 			//find if exists a record on this list for the uniqueID on lname
 			i = 0;
@@ -167,7 +167,7 @@ public class IDNameIDDoubleListOfLists
 
 		//read every list
 		foreach(IDDoubleList ldoublelist in ldoublelistoflists) {
-			Log.WriteLine(ldoublelist.ToString());
+			LogB.Information(ldoublelist.ToString());
 
 			//find if exists a record on this list for the uniqueID on lname
 			i = 0;
@@ -179,9 +179,9 @@ public class IDNameIDDoubleListOfLists
 					array[i++] += ":" + d.ToString();
 			}
 		}
-		Log.WriteLine("printing at GetArray()");
+		LogB.Information("printing at GetArray()");
 		foreach(string str in array)
-			Log.WriteLine(str);
+			LogB.Information(str);
 
 		return array;
 	}

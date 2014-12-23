@@ -49,7 +49,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT personID FROM " + Constants.PersonNotUploadTable +
 			" WHERE sessionID == " + sessionID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -70,7 +70,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		dbcmd.CommandText = "INSERT INTO " + Constants.PersonNotUploadTable +  
 			" (personID, sessionID)" +
 			" VALUES (" + personID + ", " + sessionID +")";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		Sqlite.Close();
@@ -81,7 +81,7 @@ class SqlitePersonSessionNotUpload : Sqlite
 		 Sqlite.Open();
 		 dbcmd.CommandText = "Delete FROM " + Constants.PersonNotUploadTable +
 			 " WHERE personID == " + personID + " AND sessionID == " + sessionID;
-		 Log.WriteLine(dbcmd.CommandText.ToString());
+		 LogB.SQL(dbcmd.CommandText.ToString());
 		 dbcmd.ExecuteNonQuery();
 		 Sqlite.Close();
 	 }

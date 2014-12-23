@@ -72,7 +72,7 @@ class SqliteExecuteAuto : Sqlite
 			eaSQL.SerieIDsToStr(eaSQL.Serie2IDs) + "', '" + 
 			eaSQL.SerieIDsToStr(eaSQL.Serie3IDs) + "', " + 
 			"'', '', '')"; //future1, future2, future3
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -110,7 +110,7 @@ class SqliteExecuteAuto : Sqlite
 		};
 		
 		foreach(IDName idName in jList.l) {
-			Log.WriteLine(idName.ToString());
+			LogB.SQL(idName.ToString());
 		}
 		
 		foreach(ExecuteAutoSQL eaSQL in eaSQLlist) {
@@ -132,7 +132,7 @@ class SqliteExecuteAuto : Sqlite
 			whereStr = " WHERE uniqueID == " + uniqueID;
 
 		dbcmd.CommandText = "SELECT * from " + Constants.ExecuteAutoTable + whereStr; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

@@ -73,7 +73,7 @@ class SqlitePersonSession : Sqlite
 			Util.ConvertToPoint(height) + ", " + Util.ConvertToPoint(weight) + ", " +
 			sportID + ", " + speciallityID + ", " + practice + ", '" + 
 			comments + "', '', '')"; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -98,7 +98,7 @@ class SqlitePersonSession : Sqlite
 		       	" WHERE personID == " + personID + 
 			" AND sessionID == " + sessionID;
 		
-		//Log.WriteLine(dbcmd.CommandText.ToString());
+		//LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -125,7 +125,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID == " + personID + 
 			"ORDER BY sessionID DESC LIMIT 1";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -153,7 +153,7 @@ class SqlitePersonSession : Sqlite
 			", practice = " + ps.Practice + 
 			", comments = '" + ps.Comments + 
 			"' WHERE uniqueID == " + ps.UniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -167,7 +167,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID = " + personID +
 			" AND sessionID = " + sessionID
 			;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -178,7 +178,7 @@ class SqlitePersonSession : Sqlite
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable +
 			" WHERE personID == " + myPersonID + 
 			" AND sessionID == " + mySessionID ; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -213,7 +213,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE personID == " + personID + 
 			sessionIDString;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -252,7 +252,7 @@ class SqlitePersonSession : Sqlite
 			" WHERE " + tps + ".sessionID == " + sessionID + 
 			" AND " + tp + ".uniqueID == " + tps + ".personID " + 
 			" ORDER BY upper(" + tp + ".name)";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -293,7 +293,7 @@ class SqlitePersonSession : Sqlite
 			" AND " + tp + ".sportID == sport.uniqueID " + 
 			" AND " + tp + ".speciallityID == speciallity.uniqueID " + 
 			" ORDER BY upper(" + tp + ".name)";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -468,7 +468,7 @@ class SqlitePersonSession : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonSessionTable + 
 			" WHERE personID == " + personID;
-		//Log.WriteLine(dbcmd.CommandText.ToString());
+		//LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -479,7 +479,7 @@ class SqlitePersonSession : Sqlite
 		if (reader.Read()) {
 			exists = true;
 		}
-		//Log.WriteLine(string.Format("personID exists = {0}", exists.ToString()));
+		//LogB.SQL(string.Format("personID exists = {0}", exists.ToString()));
 
 		reader.Close();
 		
@@ -497,7 +497,7 @@ class SqlitePersonSessionTransaction : Sqlite
 {
 	public SqlitePersonSessionTransaction(List <Person> persons, List <PersonSession> personSessions) 
 	{
-		Log.WriteLine("Starting transaction");
+		LogB.SQL("Starting transaction");
 		Sqlite.Open();
 
 		using(SqliteTransaction tr = dbcon.BeginTransaction())
@@ -511,7 +511,7 @@ class SqlitePersonSessionTransaction : Sqlite
 						"INSERT INTO " + Constants.PersonTable +
 						" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) " + 
 						" VALUES (" + p.ToSQLInsertString() + ")";
-					Log.WriteLine(dbcmdTr.CommandText.ToString());
+					LogB.SQL(dbcmdTr.CommandText.ToString());
 					dbcmdTr.ExecuteNonQuery();
 				}
 				foreach(PersonSession ps in personSessions) {
@@ -520,7 +520,7 @@ class SqlitePersonSessionTransaction : Sqlite
 						"(uniqueID, personID, sessionID, height, weight, " + 
 						"sportID, speciallityID, practice, comments, future1, future2)" + 
 						" VALUES (" + ps.ToSQLInsertString() + ")";
-					Log.WriteLine(dbcmdTr.CommandText.ToString());
+					LogB.SQL(dbcmdTr.CommandText.ToString());
 					dbcmdTr.ExecuteNonQuery();
 				}
 			}
@@ -528,6 +528,6 @@ class SqlitePersonSessionTransaction : Sqlite
 		}
 
 		Sqlite.Close();
-		Log.WriteLine("Ended transaction");
+		LogB.SQL("Ended transaction");
 	}
 }

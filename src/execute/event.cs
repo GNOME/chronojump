@@ -165,7 +165,7 @@ public class EventExecute
 	//public virtual void Simulate(Random randSent)
 	public virtual void SimulateInitValues(Random randSent)
 	{
-		Log.WriteLine("From event.cs");
+		LogB.Information("From event.cs");
 
 		//look at the override on jump.cs for a sample
 		
@@ -192,7 +192,7 @@ public class EventExecute
 			try {
 				ok = cp.Read_platform(out myPlatformState);
 			} catch {
-				Log.WriteLine("Manage called after finishing constructor, do later");
+				LogB.Warning("Manage called after finishing constructor, do later");
 			}
 			Thread.Sleep(timeWait); //wait 50ms
 			count += timeWait;
@@ -235,13 +235,13 @@ public class EventExecute
 
 		if ( ! thread.IsAlive || cancel) {
 			fakeButtonThreadDyed.Click();
-			Log.Write("dying");
+			LogB.Information("dying");
 
 			return false;
 		}
 	
 		Thread.Sleep (50);
-		//Log.Write(thread.ThreadState.ToString());
+		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 
@@ -312,9 +312,9 @@ public class EventExecute
 		if(needUpdateGraph) {
 			//solve problems when runAnalysis ended and tries to paint window
 			if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && finish) 
-				Console.WriteLine("is MC, RA, finished!");	
+				LogB.Information("is MC, RA, finished!");	
 			else if(needUpdateGraphType == eventType.MULTICHRONOPIC && type == Constants.RunAnalysisName && ! finish) {
-				Console.WriteLine("is MC, RA, NOT finished!");	
+				LogB.Information("is MC, RA, NOT finished!");	
 				updateGraph();
 			} else
 				updateGraph();
@@ -436,13 +436,13 @@ public class EventExecute
 	}
 
 	protected void simulateChangePlatform() {
-		Log.Write("Changing!");
-		Log.WriteLine(string.Format("PRE timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
+		LogB.Information("Changing!");
+		LogB.Information(string.Format("PRE timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
 
 		simulatedTimeLast = timerCount - simulatedTimeAccumulatedBefore;
 		//simulatedTimeAccumulatedBefore = timerCount;
 		simulatedTimeAccumulatedBefore = Math.Round(timerCount,2);
-		Log.WriteLine(string.Format("POST: timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
+		LogB.Information(string.Format("POST: timeLast: {0}, timerCount: {1}, timeAccumulated: {2}", simulatedTimeLast, timerCount, simulatedTimeAccumulatedBefore));
 
 		//change the boolean who points to 'which are the MINs and the MAXs
 		simulatedCurrentTimeIntervalsAreContact = ! simulatedCurrentTimeIntervalsAreContact;
@@ -452,7 +452,7 @@ public class EventExecute
 		else
 			platformState = Chronopic.Plataforma.ON;
 
-		Log.WriteLine("Changed!");
+		LogB.Information("Changed!");
 	}
 			
 	private void updateGraph() {
@@ -513,7 +513,7 @@ public class EventExecute
 		return false;
 	}
 	public virtual void MultiChronopicWrite(bool tempTable) {
-		Console.WriteLine("at event.cs");
+		LogB.Information("at event.cs");
 	}
 			
 	public Gtk.Button FakeButtonUpdateGraph {

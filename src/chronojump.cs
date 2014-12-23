@@ -64,27 +64,13 @@ public class ChronoJump
 		Log.WriteLine(string.Format("Time log passed: {0}", timeLogPassedOk.ToString()));
 		Log.WriteLine(string.Format("Client database option 1 in ... " + Util.GetDatabaseDir()));
 		Log.WriteLine(string.Format("Client database option 2 in ... " + Util.GetDatabaseTempDir()));
-		string errorFile = Log.GetFile();
-	
-		//comment this 4 lines to deactivated log, and use console.
-		//works better on a sudden crash
 		*/
-		
 		
 		//1.4.10
 		Log.Start();
-		
-		LogB.Information("Opening something");
+		LogB.Debugging = true; //now LogB.Debug will be shown. Also there will be thread info on Warning, Error, Information
+	
 
-		LogB.Debug("debug false"); //this is not shown
-		LogB.Debugging = true; //now next Debug will be shown and Warning, Error, Information will have thread info
-		LogB.Debug("debug true");
-		
-		LogB.Warning("Opening something");
-		LogB.Error("Opening something");
-		LogB.Information("Opening something");
-		
-		
 		var envPath = Environment.GetEnvironmentVariable ("PATH");
 		var rBinPath = "";
 		baseDirectory = Util.GetPrefixDir();
@@ -100,29 +86,29 @@ public class ChronoJump
 
 			if (Directory.Exists(rPath) == false) {
 				throw new DirectoryNotFoundException(string.Format("Could not found the specified path to the directory containing R.dll: {0}", rPath));
-				Log.WriteLine("Could not found the specified path to the directory containing R.dll: " + rPath);
+				LogB.Error("Could not found the specified path to the directory containing R.dll: ", rPath);
 			}
 
 			var newPath = string.Format("{0}{1}{2}", rPath, System.IO.Path.PathSeparator, envPath);
-			Log.WriteLine("newPath:" + newPath);
+			LogB.Information("newPath:", newPath);
 		
 			System.Environment.SetEnvironmentVariable("PATH", newPath);
-			Log.WriteLine("path:" + System.Environment.GetEnvironmentVariable("PATH"));
+			LogB.Information("path:", System.Environment.GetEnvironmentVariable("PATH"));
 			
 			//use this because we don't want to look at the registry
 			//we don't want to force user to install R
 			Environment.SetEnvironmentVariable ("R_HOME", baseDirectory);
-			Log.WriteLine("R_HOME:" + baseDirectory);
+			LogB.Information("R_HOME:", baseDirectory);
 		} else {
 			switch (NativeUtility.GetPlatform()) {
 				case PlatformID.MacOSX:
-					Log.WriteLine(Environment.GetEnvironmentVariable("R_HOME"));
+					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
 					rBinPath = "/Library/Frameworks/R.Framework/Libraries";
 						Environment.SetEnvironmentVariable ("R_HOME", "/Library/Frameworks/R.Framework/Resources");
 						Environment.SetEnvironmentVariable("PATH", rBinPath + Path.PathSeparator + envPath);
-					Log.WriteLine("environments");
-					Log.WriteLine(Environment.GetEnvironmentVariable("R_HOME"));
-					Log.WriteLine(Environment.GetEnvironmentVariable("PATH"));
+					LogB.Information("environments");
+					LogB.Information(Environment.GetEnvironmentVariable("R_HOME"));
+					LogB.Information(Environment.GetEnvironmentVariable("PATH"));
 					break;
 				case PlatformID.Unix:
 					rBinPath = @"/usr/lib/R/lib";
@@ -132,16 +118,15 @@ public class ChronoJump
 			}
 		}
 		
-		Log.WriteLine("Platform:" + Environment.OSVersion.Platform);
-		Log.WriteLine("Platform Mac:" + PlatformID.MacOSX);
-		Log.WriteLine("initializing rdotnet");
+		LogB.Information("Platform:" + Environment.OSVersion.Platform);
+		//LogB.Information("initializing rdotnet");
 		//REngine rengineProva = REngine.CreateInstance("RDotNet");
 
 		//Environment.Exit(1);
 		
-		Log.WriteLine("baseDir0:" + System.AppDomain.CurrentDomain.BaseDirectory);
-		Log.WriteLine("baseDir1:" + baseDirectory);
-		Log.WriteLine("envPath+rBinPath:" + envPath + Path.PathSeparator + rBinPath);
+		LogB.Information("baseDir0:", System.AppDomain.CurrentDomain.BaseDirectory);
+		LogB.Information("baseDir1:", baseDirectory);
+		LogB.Information("envPath+rBinPath:", envPath + Path.PathSeparator + rBinPath);
 		
 	
 		//UtilCSV.ReadValues("/tmp/chronojump-encoder-graph-input-multi.csv");	
@@ -213,7 +198,7 @@ public class ChronoJump
 		if(crashedBefore) {
 			if(chronojumpIsExecutingNTimes()) {
 				quitNow = true;
-				Log.WriteLine("\n\nChronojump is already running.\n");
+				LogB.Error("Chronojump is already running.");
 				Application.Quit();
 				return;
 			}
@@ -224,25 +209,21 @@ public class ChronoJump
 		//print version of chronojump
 		progVersion = readVersion();
 
-		Log.WriteLine(string.Format("Chronojump version: {0}", progVersion));
+		LogB.Information("Chronojump version: {0}", progVersion);
 
 		//to store user videos and photos
 		Util.CreateMultimediaDirsIfNeeded();
 		//to store encoder data and graphs
 		UtilEncoder.CreateEncoderDirIfNeeded();
 
-//TODO: create encoder session dirs when load or create a session, or when use encoder with button capture_from_encoder
 //TODO: when a session is deleted, encoder data has to be deleted, also multimedia videos, I suppose. Show message to user warning about it
-//TODO: encoder sensitive when person is loaded
 //TODO: encoder weight auto written depending on person loaded, and changes if it changes person or weight
-
-
 
 		
 		//move database to new location if chronojump version is before 0.7
 		moveDatabaseToNewLocationIfNeeded();
 
-		Log.WriteLine("move? ended");
+		LogB.Information("move? ended");
 
 		splashMessageChange(1);  //checking database
 
@@ -255,7 +236,7 @@ public class ChronoJump
 		Sqlite.CreateDir();
 		bool defaultDBLocation = Sqlite.Connect();
 
-		Log.WriteLine("sqlite connected");
+		LogB.SQL("sqlite connected");
 
 		/*	
 		splashMessage = "post-connect" + defaultDBLocation.ToString();
@@ -265,7 +246,7 @@ public class ChronoJump
 		
 		//Chech if the DB file exists
 		if (!Sqlite.CheckTables(defaultDBLocation)) {
-			Log.WriteLine ( Catalog.GetString ("no tables, creating ...") );
+			LogB.SQL ( Catalog.GetString ("no tables, creating ...") );
 
 			creatingDB = true;
 			splashMessageChange(2);  //creating database
@@ -298,28 +279,28 @@ public class ChronoJump
 			Sqlite.CreateTables(false); //not server
 			creatingDB = false;
 		} else {
-Log.WriteLine("doing backup");
+			LogB.SQL("doing backup");
 			//backup the database
 			Util.BackupDirCreateIfNeeded();
 
 			splashMessageChange(3);  //making db backup
 
 			Util.BackupDatabase();
-			Log.WriteLine ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
+			LogB.SQL ("made a database backup"); //not compressed yet, it seems System.IO.Compression.DeflateStream and
 			//System.IO.Compression.GZipStream are not in mono
 
 
 			if(! Sqlite.IsSqlite3()) {
 				bool ok = Sqlite.ConvertFromSqlite2To3();
 				if (!ok) {
-					Log.WriteLine("******\n problem with sqlite \n******");
+					LogB.Error("problem with sqlite");
 					//check (spanish)
 					//http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
 					string errorMessage = Catalog.GetString("Failed database conversion, ensure you have libsqlite3-0 installed. \nIf problems persist ask in chronojump-list");
 					errorMessage += "\n\n" + string.Format(Catalog.GetString("If you have no data on your database (you just installed Chronojump), you can fix this problem deleting this file: {0}"), 
 							Util.GetDatabaseDir() + Path.DirectorySeparatorChar + "chronojump.db") + 
 						"\n" + Catalog.GetString("And starting Chronojump again.");
-					Log.WriteLine(errorMessage);
+					LogB.Error(errorMessage);
 					messageToShowOnBoot += errorMessage;
 					chronojumpHasToExit = true;
 				}
@@ -343,12 +324,12 @@ Log.WriteLine("doing backup");
 						Catalog.GetString("Please update Chronojump") + ":\n"; 
 				errorMessage += "http://chronojump.org"; 
 				//errorMessage += "\n\n" + Catalog.GetString("Press any key");
-				Log.WriteLine(errorMessage);
+				LogB.Error(errorMessage);
 				messageToShowOnBoot += errorMessage;
 				chronojumpHasToExit = true;
 			}
 
-			Log.WriteLine ( Catalog.GetString ("tables already created") ); 
+			LogB.Information ( Catalog.GetString ("tables already created") ); 
 		
 
 			//check for bad Rjs (activate if program crashes and you use it in the same db before v.0.41)
@@ -437,7 +418,7 @@ Log.WriteLine("doing backup");
 		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
 		
 		allSQLCallsDoneOnSqliteThingsThread = true;
-		Log.WriteLine("all SQL calls done on sqliteThings thread");
+		LogB.SQL("all SQL calls done on sqliteThings thread");
 		
 		UtilAll.IsWindows();	//only as additional info here
 		
@@ -448,39 +429,40 @@ Log.WriteLine("doing backup");
 	}
 
 	private void findVersion() {
-Console.WriteLine("--1--");
+		LogB.Debug("--1--");
 		pingStart = true;
 		pulseGTKPingShouldEnd = false;
 		splashShowButton = true;
 		
-Console.WriteLine("--2--");
+		LogB.Debug("--2--");
 		//maybe other thread doesn't create at time the splash win
 		//then just wait
 		while(! createdSplashWin)
 			;
-Console.WriteLine("--2.1--");
-
+		
+		LogB.Debug("--2.1--");
+			
 		try {
 			if(splashWin.FakeButtonCreated)
-				Console.WriteLine("\nCreated splashWin.FakeButton\n");
+				LogB.Information("Created splashWin.FakeButton");
 			else
-				Console.WriteLine("\nNOT Created splashWin.FakeButton, si es bloqueja, posar aquí un while (mentre no estigui creat)\n");
+				LogB.Warning("NOT Created splashWin.FakeButton, si es bloqueja, posar aquí un while (mentre no estigui creat)");
 
 			splashWin.FakeButtonCancel.Clicked += new EventHandler(on_find_version_cancelled);
 
-			Console.WriteLine("--3--");
+			LogB.Debug("--3--");
 		} catch {
-			Console.WriteLine("Problem with splash win");
+			LogB.Warning("Problem with splash win");
 		}
 
 		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
 		
-Console.WriteLine("--4--");
+		LogB.Debug("--4--");
 		splashShowButton = false;
-		Console.Write(" version:  " + versionAvailable);
-Console.WriteLine("\n--5--");
+		LogB.Information(" version:  ", versionAvailable);
+		LogB.Debug("\n--5--");
 		pingEnd = true;
-Console.WriteLine("--6--");
+		LogB.Debug("--6--");
 	}
 		
 	private void on_find_version_cancelled(object o, EventArgs args) {
@@ -529,35 +511,35 @@ Console.WriteLine("--6--");
 
 		//wait until all sql calls are done in other thread
 		//then there will be no more a try to open an already opened dbcon
-		Log.WriteLine("Checking if all SQL calls done on sqliteThings thread");
+		LogB.SQL("Checking if all SQL calls done on sqliteThings thread");
 		while(! allSQLCallsDoneOnSqliteThingsThread) {
 		}
-		Log.WriteLine("all SQL done! starting Chronojump");
+		LogB.SQL("all SQL done! starting Chronojump");
 
 		new ChronoJumpWindow(progVersion, progName, runningFileName);
 	}
 
 	private static void createBlankDB() {
-		Log.WriteLine("Creating blank database");
+		LogB.SQL("Creating blank database");
 		Sqlite.ConnectBlank();
 		Sqlite.CreateFile();
 		Sqlite.CreateTables(false); //not server
-		Console.WriteLine("Done! Exiting");
+		LogB.SQL("Created blank database! Exiting");
 	}
 	
 	private static void createBlankDBServer() {
-		Log.WriteLine("Creating blank database for server");
+		LogB.SQL("Creating blank database for server");
 		if(Sqlite.CheckFileServer())
-			Console.WriteLine("File already exists. Cannot create.");
+			LogB.Error("File already exists. Cannot create.");
 		else {
 			Sqlite.ConnectServer();
 			Sqlite.CreateFile();
 			Sqlite.CreateTables(true); //server
-			Console.WriteLine("Done! Exiting");
+			LogB.SQL("Created blank database! Exiting");
 			string myVersion = readVersion();
-			Console.WriteLine("CAUTION: client info about versionAvailable (on server): " + myVersion);
+			LogB.Warning("CAUTION: client info about versionAvailable (on server): ", myVersion);
 			SqlitePreferences.Update ("availableVersion", myVersion, false); 
-			Console.WriteLine("Maybe you don't want to show this version on pings, change it to last stable published version");
+			LogB.Information("Maybe you don't want to show this version on pings, change it to last stable published version");
 		}
 	}
 
@@ -581,7 +563,7 @@ Console.WriteLine("--6--");
 		if( ( needEndSplashWin && pingEnd ) 
 				|| ! thread.IsAlive) {
 			fakeSplashButton.Click();
-			Log.Write("splash window ending here");
+			LogB.Information("splash window ending here");
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending
@@ -616,10 +598,10 @@ Console.WriteLine("--6--");
 	}
 	
 	private void on_splash_ended(object o, EventArgs args) {
-		Log.WriteLine("\nsplash screen going to END");
+		LogB.Information("splash screen going to END");
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
 		splashWin.Destroy();
-		Log.WriteLine("splash screen ENDED!");
+		LogB.Information("splash screen ENDED!");
 		readMessageToStart();
 	}
 
@@ -627,7 +609,7 @@ Console.WriteLine("--6--");
 	{
 		if(pulseGTKPingShouldEnd) {
 			splashWin.CancelButtonShow(false);
-			Log.WriteLine("\nping going to END");
+			LogB.Information("ping going to END");
 			return false;
 		}
 
@@ -637,7 +619,7 @@ Console.WriteLine("--6--");
 			splashWin.CancelButtonShow(false);
 
 		Thread.Sleep (50);
-		Log.Write(" (PulseGTKPing:" + thread.ThreadState.ToString() + ") ");
+		LogB.Debug(" (PulseGTKPing:" + thread.ThreadState.ToString() + ") ");
 		if(thread.ThreadState == System.Threading.ThreadState.Stopped)
 			pulseGTKPingShouldEnd = true;
 		return true;
@@ -687,7 +669,7 @@ Console.WriteLine("--6--");
 		 * This are the only outputs to Console. Other's use Log that prints to console and to log file
 		 * this doesn't go to log because it talks about log
 		 */
-		Log.WriteLine(messageChrashedBefore);
+		LogB.Warning(messageChrashedBefore);
 		
 		return;
 	}
@@ -835,7 +817,7 @@ Console.WriteLine("--6--");
 						catch {
 							fileMoveProblems ++;
 							try {
-								Log.WriteLine(string.Format("{0}-{1}", oldFile, newFile));
+								LogB.Warning(string.Format("{0}-{1}", oldFile, newFile));
 								File.Copy(oldFile, newFile);
 							}
 							catch {
@@ -850,7 +832,7 @@ Console.WriteLine("--6--");
 					feedback += string.Format(Catalog.GetString("Please, do it manually.")) + "\n"; 
 					feedback += string.Format(Catalog.GetString("Chronojump will exit now.")) + "\n";
 					messageToShowOnBoot += feedback;	
-					Log.WriteLine(feedback);
+					LogB.Error(feedback);
 					chronojumpHasToExit = true;
 				}
 				if(fileCopyProblems > 0) {
@@ -858,20 +840,20 @@ Console.WriteLine("--6--");
 					feedback += string.Format(Catalog.GetString("Please, do it manually.")) + "\n"; 
 					feedback += string.Format(Catalog.GetString("Chronojump will exit now.")) + "\n";
 					messageToShowOnBoot += feedback;	
-					Log.WriteLine(feedback);
+					LogB.Error(feedback);
 					chronojumpHasToExit = true;
 				}
 				if(fileMoveProblems > 0) {
 					feedback += string.Format(Catalog.GetString("Cannot move {0} files from {1} to {2}"), fileMoveProblems, previous, Path.GetFullPath(newDB)) + "\n";
 					feedback += string.Format(Catalog.GetString("Please, do it manually")) + "\n";
 					messageToShowOnBoot += feedback;	
-					Log.WriteLine(feedback);
+					LogB.Error(feedback);
 				}
 			}
 					
 			string dbMove = string.Format(Catalog.GetString("Database is now here: {0}"), Path.GetFullPath(newDB));
 			messageToShowOnBoot += dbMove;	
-			Log.WriteLine(dbMove);
+			LogB.Warning(dbMove);
 		}
 	}
 

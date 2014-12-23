@@ -250,7 +250,7 @@ public class Util
 				}
 			}
 		}
-		Log.WriteLine(string.Format("Error, myType: {0} not found", myType));
+		LogB.Error(string.Format("Error, myType: {0} not found", myType));
 		return false;
 	}
 	
@@ -264,7 +264,7 @@ public class Util
 				}
 			}
 		}
-		Log.WriteLine(string.Format("Error, myType: {0} not found", myType));
+		LogB.Error(string.Format("Error, myType: {0} not found", myType));
 		return false;
 	}
 
@@ -801,7 +801,7 @@ public class Util
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
 				Directory.CreateDirectory (d);
-				Log.WriteLine (string.Format("created dir: {0}", d));
+				LogB.Information ("created dir:", d);
 			}
 		}
 	}
@@ -815,7 +815,7 @@ public class Util
 		string sessionDir = GetVideoSessionDir(sessionID);
 		if( ! Directory.Exists(sessionDir)) {
 			Directory.CreateDirectory (sessionDir);
-			Log.WriteLine (string.Format("created dir: {0}", sessionDir));
+			LogB.Information ("created dir:", sessionDir);
 		}
 	}
 
@@ -915,7 +915,7 @@ public class Util
 		string backupDir = GetDatabaseDir() + Path.DirectorySeparatorChar + "backup";
 		if( ! Directory.Exists(backupDir)) {
 			Directory.CreateDirectory (backupDir);
-			Log.WriteLine ("created backup dir");
+			LogB.Information ("created backup dir");
 		}
 	}
 
@@ -929,7 +929,7 @@ public class Util
 			File.Copy(System.IO.Path.Combine(homeDir, "chronojump.db"), 
 				System.IO.Path.Combine(backupDir, "chronojump_" + dateParsed + ".db"));
 		else {
-			Log.WriteLine("Error, chronojump.db file doesn't exist!");
+			LogB.Error("Error, chronojump.db file doesn't exist!");
 		}
 	}
 
@@ -944,13 +944,13 @@ public class Util
 	public static bool FileDelete(string fileName) {
 		try {
 			if(File.Exists(fileName)) {
-				Log.WriteLine("Deleting " + fileName + " ...");
+				LogB.Information("Deleting " + fileName + " ...");
 				File.Delete(fileName);
-				Log.WriteLine("Deleted");
+				LogB.Information("Deleted");
 				return true;
 			}
 		} catch {
-			Log.WriteLine("Problem deleting");
+			LogB.Error("Problem deleting");
 		}
 		return false;
 	}

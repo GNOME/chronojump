@@ -363,7 +363,7 @@ public class TreeViewEvent
 				do {
 					int iterEventID =  Convert.ToInt32 ( treeview.Model.GetValue (iter, eventIDColumn) );
 					if(iterEventID == uniqueID) {
-						Log.WriteLine("We select:" + iterEventID);
+						LogB.Information("We select:" + iterEventID);
 						treeview.Selection.SelectIter (iter);
 						found = true;
 					}

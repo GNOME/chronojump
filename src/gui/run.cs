@@ -622,7 +622,7 @@ public class RepairRunIntervalWindow
 	
 	static public RepairRunIntervalWindow Show (Gtk.Window parent, RunInterval myRun, int pDN)
 	{
-		//Log.WriteLine(myRun);
+		//LogB.Information(myRun);
 		if (RepairRunIntervalWindowBox == null) {
 			RepairRunIntervalWindowBox = new RepairRunIntervalWindow (parent, myRun, pDN);
 		}
@@ -1315,7 +1315,7 @@ public class RunsMoreWindow : EventMoreWindow
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
-		Log.WriteLine("row " + row);
+		LogB.Information("row " + row);
 		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 

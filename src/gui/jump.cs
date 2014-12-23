@@ -116,7 +116,7 @@ public class EditJumpWindow : EditEventWindow
 		else
 			label_weight_units.Text = "Kg";
 
-		Log.WriteLine(string.Format("-------------{0}", personWeight));
+		LogB.Information(string.Format("-------------{0}", personWeight));
 	}
 
 	protected override string [] findTypes(Event myEvent) {
@@ -429,7 +429,7 @@ public class EditJumpWindow : EditEventWindow
 			double newPersonWeight = SqlitePersonSession.SelectAttribute(false, personID, mySessionID, Constants.Weight); 
 			//jumpPercentWeightForNewPerson = jumpWeightInKg * 100 / newPersonWeight; 
 			jumpPercentWeightForNewPerson = Util.WeightFromKgToPercent(jumpWeightInKg, newPersonWeight); 
-			Log.WriteLine(string.Format("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
+			LogB.Information(string.Format("oldPW: {0}, jWinKg {1}, newPW{2}, jWin%NewP{3}",
 					oldPersonWeight, jumpWeightInKg, newPersonWeight, jumpPercentWeightForNewPerson));
 		}
 
@@ -632,7 +632,7 @@ public class RepairJumpRjWindow
 	
 	static public RepairJumpRjWindow Show (Gtk.Window parent, JumpRj myJump, int pDN)
 	{
-		//Log.WriteLine(myJump);
+		//LogB.Information(myJump);
 		if (RepairJumpRjWindowBox == null) {
 			RepairJumpRjWindowBox = new RepairJumpRjWindow (parent, myJump, pDN);
 		}
@@ -1567,7 +1567,7 @@ public class JumpsMoreWindow : EventMoreWindow
 		
 		//delete from typesTranslated
 		string row = Util.FindOnArray(':',0, -1, selectedEventName, typesTranslated);
-		Log.WriteLine("row " + row);
+		LogB.Information("row " + row);
 		typesTranslated = Util.DeleteString(typesTranslated, row);
 	}
 

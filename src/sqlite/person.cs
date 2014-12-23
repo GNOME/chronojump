@@ -55,7 +55,7 @@ class SqlitePerson : Sqlite
 	public static int Insert(bool dbconOpened, string uniqueID, string name, string sex, DateTime dateBorn, 
 			int race, int countryID, string description, int serverUniqueID)
 	{
-		Log.WriteLine("going to insert");
+		LogB.SQL("going to insert");
 		if(! dbconOpened)
 			Sqlite.Open();
 
@@ -71,7 +71,7 @@ class SqlitePerson : Sqlite
 			race + ", " + countryID + ", '" + description + "', '', '', " + serverUniqueID + ")";
 		
 		dbcmd.CommandText = myString;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = -10000; //dbcon.LastInsertRowId;
@@ -93,7 +93,7 @@ class SqlitePerson : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -125,7 +125,7 @@ class SqlitePerson : Sqlite
 
 		dbcmd.CommandText = "SELECT " + attribute + " FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -219,7 +219,7 @@ class SqlitePerson : Sqlite
 				" AND " + tp + ".uniqueID == " + tps + ".personID " + 
 				" ORDER BY " + sortedBy;
 		}
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader2;
 		reader2 = dbcmd.ExecuteReader();
@@ -284,7 +284,7 @@ finishForeach:
 			" FROM " + tps + ", session " + 
 			" WHERE personID = " + personID + " AND session.uniqueID == " + tps + ".sessionID " +
 			" ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -299,7 +299,7 @@ finishForeach:
 		//jumps
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jump WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -310,7 +310,7 @@ finishForeach:
 		//jumpsRj
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM jumpRj WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -321,7 +321,7 @@ finishForeach:
 		//runs
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM run WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -332,7 +332,7 @@ finishForeach:
 		//runsInterval
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM runInterval WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -343,7 +343,7 @@ finishForeach:
 		//reaction time
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM reactiontime WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -354,7 +354,7 @@ finishForeach:
 		//pulses
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM pulse WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -365,7 +365,7 @@ finishForeach:
 		//MC
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM multiChronopic WHERE personID = " + personID +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -378,7 +378,7 @@ finishForeach:
 		       " WHERE personID == " + personID +
 		       " AND signalOrCurve == 'signal' " +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -391,7 +391,7 @@ finishForeach:
 		       " WHERE personID == " + personID +
 		       " AND signalOrCurve == 'curve' " +
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		reader = dbcmd.ExecuteReader();
 		while(reader.Read()) {
@@ -534,7 +534,7 @@ finishForeach:
 		dbcmd.CommandText = "SELECT uniqueID FROM " + Constants.PersonTable +
 			" WHERE LOWER(" + Constants.PersonTable + ".name) == LOWER('" + personName + "')" +
 			" AND uniqueID != " + uniqueID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -544,9 +544,9 @@ finishForeach:
 		
 		if (reader.Read()) {
 			exists = true;
-			//Log.WriteLine("valor {0}", reader[0].ToString());
+			//LogB.SQL("valor {0}", reader[0].ToString());
 		}
-		//Log.WriteLine("exists = {0}", exists.ToString());
+		//LogB.SQL("exists = {0}", exists.ToString());
 
 		reader.Close();
 		Sqlite.Close();
@@ -566,7 +566,7 @@ finishForeach:
 			", description = '" + myPerson.Description +
 			"', serverUniqueID = " + myPerson.ServerUniqueID +
 			" WHERE uniqueID == " + myPerson.UniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

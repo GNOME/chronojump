@@ -166,7 +166,11 @@ public static class ConsoleCrayon
 				DetectXtermColors();
 			}
 
-			return xterm_colors.Value;
+			//return xterm_colors.Value;
+
+			//force always to save log with colors on all systems
+			//It will be analyzed on my Linux box with ls -RS
+			return true;
 		}
 	}
 

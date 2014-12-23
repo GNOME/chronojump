@@ -348,7 +348,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	private void on_encoder_capture_options_closed(object o, EventArgs args) {
-		Log.WriteLine("closed");
+		LogB.Information("Encoder capture options closed");
 		//update the bars graph because main variable maybe has changed
 	}
 	
@@ -476,14 +476,14 @@ public partial class ChronoJumpWindow
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
 
-			Log.WriteLine("AAAAAAAAAAAAAAA");
+			LogB.Debug("AAAAAAAAAAAAAAA");
 			
 			encoderProcessFinish = false;
 			encoderThreadStart(encoderActions.CAPTURE);
 			
 			//entry_encoder_signal_comment.Text = "";
 
-			Log.WriteLine("ZZZZZZZZZZZZZZZ");
+			LogB.Debug("ZZZZZZZZZZZZZZZ");
 		//}
 	}
 	
@@ -584,10 +584,10 @@ public partial class ChronoJumpWindow
 	}
 
 	protected void on_encoder_1RM_win_row_delete (object o, EventArgs args) {
-		Log.WriteLine("row delete at encoder 1RM");
+		LogB.Information("row delete at encoder 1RM");
 
 		int uniqueID = genericWin.TreeviewSelectedUniqueID;
-		Log.WriteLine(uniqueID.ToString());
+		LogB.Information(uniqueID.ToString());
 
 		Sqlite.Delete(false, Constants.Encoder1RMTable, Convert.ToInt32(uniqueID));
 		
@@ -772,7 +772,7 @@ public partial class ChronoJumpWindow
 		int count = 0;
 		foreach(EncoderSQL es in data) {
 			checkboxes[count++] = es.status;
-			//Log.WriteLine(checkboxes[count-1]);
+			//LogB.Information(checkboxes[count-1]);
 			dataPrint.Add(es.ToStringArray(count,true,false,true,true));
 		}
 	
@@ -883,13 +883,13 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_show_curves_row_edit (object o, EventArgs args) {
-		Log.WriteLine("row edit at show curves");
-		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+		LogB.Information("row edit at show curves");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
 		genericWin.ShowEditRow(true);
 	}
 
 	protected void on_encoder_show_curves_row_edit_apply (object o, EventArgs args) {
-		Log.WriteLine("row edit apply at show curves");
+		LogB.Information("row edit apply at show curves");
 
 		int curveID = genericWin.TreeviewSelectedUniqueID;
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(
@@ -909,7 +909,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//if changed person, proceed
-		Log.WriteLine("new person: " + genericWin.GetComboSelected);
+		LogB.Information("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
 			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
@@ -932,7 +932,7 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_show_curves_row_delete (object o, EventArgs args) {
-		Log.WriteLine("row delete at show curves");
+		LogB.Information("row delete at show curves");
 
 		int uniqueID = genericWin.TreeviewSelectedUniqueID;
 
@@ -942,7 +942,7 @@ public partial class ChronoJumpWindow
 	}
 
 	void delete_encoder_curve(int uniqueID) {
-		Log.WriteLine(uniqueID.ToString());
+		LogB.Information(uniqueID.ToString());
 
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		//remove the file
@@ -1070,7 +1070,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 		
-		Log.WriteLine("done");
+		LogB.Information("done");
 	}
 	
 	void encoder_analyze_data_compare_intersession () 
@@ -1169,7 +1169,7 @@ public partial class ChronoJumpWindow
 
 		genericWin.HideAndNull();
 		
-		Log.WriteLine("done");
+		LogB.Information("done");
 	}
 	
 
@@ -1287,13 +1287,13 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_load_signal_row_edit (object o, EventArgs args) {
-		Log.WriteLine("row edit at load signal");
-		Log.WriteLine(genericWin.TreeviewSelectedUniqueID.ToString());
+		LogB.Information("row edit at load signal");
+		LogB.Information(genericWin.TreeviewSelectedUniqueID.ToString());
 		genericWin.ShowEditRow(true);
 	}
 	
 	protected void on_encoder_load_signal_row_edit_apply (object o, EventArgs args) {
-		Log.WriteLine("row edit apply at load signal");
+		LogB.Information("row edit apply at load signal");
 			
 		int curveID = genericWin.TreeviewSelectedUniqueID;
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, curveID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
@@ -1310,7 +1310,7 @@ public partial class ChronoJumpWindow
 		}
 
 		//if changed person, proceed
-		Log.WriteLine("new person: " + genericWin.GetComboSelected);
+		LogB.Information("new person: " + genericWin.GetComboSelected);
 		int newPersonID = Util.FetchID(genericWin.GetComboSelected);
 		if(newPersonID != currentPerson.UniqueID) {
 			EncoderSQL eSQLChangedPerson = eSQL.ChangePerson(genericWin.GetComboSelected);
@@ -1332,10 +1332,10 @@ public partial class ChronoJumpWindow
 	}
 	
 	protected void on_encoder_load_signal_row_delete (object o, EventArgs args) {
-		Log.WriteLine("row delete at load signal");
+		LogB.Information("row delete at load signal");
 
 		int signalID = genericWin.TreeviewSelectedUniqueID;
-		Log.WriteLine(signalID.ToString());
+		LogB.Information(signalID.ToString());
 
 		//if it's current signal use the delete signal from the gui interface that updates gui
 		if(signalID == Convert.ToInt32(encoderSignalUniqueID))
@@ -1477,12 +1477,12 @@ public partial class ChronoJumpWindow
 				exportFileName = Util.AddPngIfNeeded(exportFileName);
 			try {
 				if (File.Exists(exportFileName)) {
-					Log.WriteLine(string.Format(
+					LogB.Information(string.Format(
 								"File {0} exists with attributes {1}, created at {2}", 
 								exportFileName, 
 								File.GetAttributes(exportFileName), 
 								File.GetCreationTime(exportFileName)));
-					Log.WriteLine("Overwrite...");
+					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString(
 								"Are you sure you want to overwrite file: "), "", 
 							exportFileName);
@@ -1518,7 +1518,7 @@ public partial class ChronoJumpWindow
 			}
 		}
 		else {
-			Log.WriteLine("cancelled");
+			LogB.Information("cancelled");
 			//report does not currently send the appBar reference
 			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
 			fc.Hide ();
@@ -1733,7 +1733,7 @@ public partial class ChronoJumpWindow
 			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
 			desc = "";
 
-			Log.WriteLine(curveStart + "->" + duration);
+			LogB.Information(curveStart + "->" + duration);
 		
 			int curveIDMax;
 			int countCurveIDs = Sqlite.Count(Constants.EncoderTable, false);
@@ -1924,18 +1924,18 @@ public partial class ChronoJumpWindow
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
-		Log.WriteLine("00a 1");
+		LogB.Information("00a 1");
 		SerialPort sp = new SerialPort(port);
-		Log.WriteLine("00b 1");
+		LogB.Information("00b 1");
 		sp.BaudRate = 115200;
-		Log.WriteLine("00c 1");
+		LogB.Information("00c 1");
 		try {
 			sp.Open();
 			sp.Close();
 		} catch {
 			return false;
 		}
-		Log.WriteLine("00d 1");
+		LogB.Information("00d 1");
 		return true;
 	}
 		
@@ -1948,13 +1948,13 @@ public partial class ChronoJumpWindow
 		int height=encoder_capture_signal_drawingarea.Allocation.Height;
 		double realHeight = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
-		Log.Write(" 00a 2 ");
+		LogB.Debug(" 00a 2 ");
 		SerialPort sp = new SerialPort(port);
-		Log.Write(" 00b 2 ");
+		LogB.Debug(" 00b 2 ");
 		sp.BaudRate = 115200;
-		Log.Write(" 00c 2 ");
+		LogB.Debug(" 00c 2 ");
 		sp.Open();
-		Log.Write(" 00d 2 ");
+		LogB.Debug(" 00d 2 ");
 			
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
@@ -2021,7 +2021,7 @@ public partial class ChronoJumpWindow
 			try {
 				byteReadedRaw = sp.ReadByte();
 			} catch {
-				Log.WriteLine("Maybe encoder cable is disconnected");
+				LogB.Error("Maybe encoder cable is disconnected");
 				encoderProcessCancel = true;
 				break;
 			}
@@ -2052,7 +2052,7 @@ public partial class ChronoJumpWindow
 						(ecca.curvesAccepted == 0 && consecutiveZeros >= (2* consecutiveZerosMax)) )
 				{
 					encoderProcessFinish = true;
-					Log.WriteLine("SHOULD FINISH");
+					LogB.Information("SHOULD FINISH");
 				}
 
 
@@ -2148,9 +2148,9 @@ public partial class ChronoJumpWindow
 			}
 		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
 
-		Log.Write(" 00e ");
+		LogB.Debug(" 00e ");
 		sp.Close();
-		Log.Write(" 00f ");
+		LogB.Debug(" 00f ");
 
 		if(encoderProcessCancel)
 			return false;
@@ -2339,7 +2339,7 @@ public partial class ChronoJumpWindow
 			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
 						
-			Log.WriteLine("AT ANALYZE");
+			LogB.Information("AT ANALYZE");
 
 			int iteratingPerson = -1;
 			int iteratingSession = -1;
@@ -2352,13 +2352,13 @@ public partial class ChronoJumpWindow
 					if(eSQL.exerciseID == eeSearch.uniqueID)
 						ex = eeSearch;
 
-				Log.Write(" AT ANALYZE 1.1 ");
+				LogB.Debug(" AT ANALYZE 1.1 ");
 				//massBody change if we are comparing different persons or sessions
 				if(eSQL.personID != iteratingPerson || eSQL.sessionID != iteratingSession) {
 					iteratingMassBody = SqlitePersonSession.SelectAttribute(
 							true, eSQL.personID, eSQL.sessionID, Constants.Weight);
 				}
-				Log.Write(" AT ANALYZE 1.2 ");
+				LogB.Debug(" AT ANALYZE 1.2 ");
 
 				//seriesName
 				string seriesName = "";
@@ -2374,7 +2374,7 @@ public partial class ChronoJumpWindow
 						encoderDataCompareTranslation) == "Between sessions") 
 				{
 					foreach(string str in encoderCompareIntersession) {
-						Log.WriteLine(str);
+						LogB.Information(str);
 						if(Util.FetchID(str) == eSQL.sessionID)
 							seriesName = Util.FetchName(str);
 					}
@@ -2414,11 +2414,11 @@ public partial class ChronoJumpWindow
 				countSeries ++;
 			}
 			writer.Flush();
-			Log.Write(" closing writer ");
+			LogB.Debug(" closing writer ");
 			writer.Close();
-			Log.Write(" disposing writer ");
+			LogB.Debug(" disposing writer ");
 			((IDisposable)writer).Dispose();
-			Log.Write(" AT ANALYZE 2 ");
+			LogB.Debug(" AT ANALYZE 2 ");
 			Sqlite.Close();	
 
 		} else {	//current signal
@@ -3299,9 +3299,9 @@ public partial class ChronoJumpWindow
 		string name = Util.RemoveTildeAndColonAndDot(genericWin.EntrySelected);
 
 		if(adding)
-			Log.WriteLine("Trying to insert: " + name);
+			LogB.Information("Trying to insert: " + name);
 		else
-			Log.WriteLine("Trying to edit: " + name);
+			LogB.Information("Trying to edit: " + name);
 
 		if(name == "")
 			genericWin.SetLabelError(Catalog.GetString("Error: Missing name of exercise."));
@@ -3339,7 +3339,7 @@ public partial class ChronoJumpWindow
 			combo_encoder_exercise.Active = UtilGtk.ComboMakeActive(combo_encoder_exercise, name);
 
 			genericWin.HideAndNull();
-			Log.WriteLine("done");
+			LogB.Information("done");
 		}
 	}
 	
@@ -3595,7 +3595,7 @@ public partial class ChronoJumpWindow
 		int last = encoderCapturePointsCaptured;
 		int toDraw = encoderCapturePointsCaptured - encoderCapturePointsPainted;
 
-		//Log.WriteLine("last - toDraw:" + last + " - " + toDraw);	
+		//LogB.Information("last - toDraw:" + last + " - " + toDraw);	
 
 		//fixes crash at the end
 		if(toDraw == 0)
@@ -3625,7 +3625,7 @@ public partial class ChronoJumpWindow
 
 		if(refreshAreaOnly) {
 			/*			
-						Log.WriteLine("pp X-TD-W: " + 
+						LogB.Information("pp X-TD-W: " + 
 						paintPoints[0].X.ToString() + " - " + 
 						paintPoints[toDraw-1].X.ToString() + " - " + 
 						(paintPoints[toDraw-1].X-paintPoints[0].X).ToString());
@@ -3650,7 +3650,7 @@ public partial class ChronoJumpWindow
 					//encoder_capture_signal_drawingarea.Allocation.Height
 					maxY-minY
 					);
-			Log.WriteLine("minY - maxY " + minY + " - " + maxY);
+			LogB.Information("minY - maxY " + minY + " - " + maxY);
 		} else
 			encoder_capture_signal_drawingarea.QueueDraw(); 			// -- refresh
 
@@ -3664,7 +3664,7 @@ public partial class ChronoJumpWindow
 	
 	private void updateEncoderCaptureGraphRCalcPre(bool plotCurvesBars) 
 	{
-		Log.WriteLine(" PERFORMING CALCULATIONS A ");
+		LogB.Information(" PERFORMING CALCULATIONS A ");
 	
 		//check if this helps to show bars on slow computers
 		if(! updatingEncoderCaptureGraphRCalc) {
@@ -3684,21 +3684,21 @@ public partial class ChronoJumpWindow
 			return;
 		
 		updatingEncoderCaptureGraphRCalc = true;
-		Log.WriteLine(" PERFORMING CALCULATIONS B ");
+		LogB.Information(" PERFORMING CALCULATIONS B ");
 
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-		Log.Write("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
+		LogB.Information("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
 		
 		string eccon = findEccon(true);
 			
-		Log.Write(" uECGRC0 ");
-		Log.Write("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
+		LogB.Debug(" uECGRC0 ");
+		LogB.Information("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
 				"; operation: " + (ecc.endFrame - ecc.startFrame).ToString() );
 		
 		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
 				(ecc.endFrame - ecc.startFrame) > 0 ) 
 		{
-			Log.Write(" uECGRC1 ");
+			LogB.Debug(" uECGRC1 ");
 			
 			double height = 0;
 
@@ -3712,14 +3712,14 @@ public partial class ChronoJumpWindow
 			//check height in a fast way first to discard curves soon
 			//only process curves with height >= min_height
 			height = Math.Abs(height / 10); //mm -> cm
-			Log.Write(" height: " + height.ToString());
+			LogB.Information(" height: " + height.ToString());
 			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
 				ecca.curvesDone ++;
 				return;	
 			}
 
 			
-			Log.Write(" uECGRC2 calling rdotnet ");
+			LogB.Information(" uECGRC2 calling rdotnet ");
 
 			NumericVector curveToR = rengine.CreateNumericVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
@@ -3733,7 +3733,7 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
-			Log.Write(" uECGRC3 ");
+			LogB.Debug(" uECGRC3 ");
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
 
@@ -3746,7 +3746,7 @@ public partial class ChronoJumpWindow
 				rengine.Evaluate("speedT2 <- max(which(speedCut$y == min(speedCut$y)))");
 			}
 			
-			Log.Write(" uECGRC4 ");
+			LogB.Debug(" uECGRC4 ");
 			int speedT1 = rengine.GetSymbol("speedT1").AsInteger().First();
 			int speedT2 = rengine.GetSymbol("speedT2").AsInteger().First();
 
@@ -3759,7 +3759,7 @@ public partial class ChronoJumpWindow
 			//left adjust
 			//find the b$cross at left of max speed
 
-			Log.Write(" uECGRC5 ");
+			LogB.Debug(" uECGRC5 ");
 
 			int x_ini = 0;	
 			if(bcrossLen == 0)
@@ -3774,7 +3774,7 @@ public partial class ChronoJumpWindow
 						x_ini = bcross[i];	//left adjust
 				}
 			}
-			Log.Write(" uECGRC6 ");
+			LogB.Debug(" uECGRC6 ");
 
 			//rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
 
@@ -3799,16 +3799,16 @@ public partial class ChronoJumpWindow
 				}
 			}
 			
-			Log.Write(" uECGRC7 ");
+			LogB.Debug(" uECGRC7 ");
 
-			Log.WriteLine("reducedCurveBySpeed (start, end)");
-			Log.WriteLine((ecc.startFrame + x_ini).ToString());
-			Log.WriteLine((ecc.startFrame + x_end).ToString());
+			LogB.Information("reducedCurveBySpeed (start, end)");
+			LogB.Information((ecc.startFrame + x_ini).ToString());
+			LogB.Information((ecc.startFrame + x_end).ToString());
 
 			//TODO: this is to get info about previous TODO bug
 			if(ecc.startFrame + x_end <= ecc.startFrame + x_ini)
 				for(int i=x_end; i < x_ini; i ++)
-					Log.Write(curveToR[i] + ","); //TODO: provar aixo!!				
+					LogB.Information(curveToR[i] + ","); //TODO: provar aixo!!				
 
 			//create a curveToR with only reduced curve
 			NumericVector curveToRreduced = rengine.CreateNumericVector(new double[x_end - x_ini]);
@@ -3851,11 +3851,11 @@ public partial class ChronoJumpWindow
 			rengine.Evaluate("g <- 9.81");
 			if(ecc.up && preferences.encoderPropulsive) {
 				//check if propulsive phase ends
-				Log.WriteLine("accel$y");
+				LogB.Information("accel$y");
 				//rengine.Evaluate("print(accel$y)");
 				rengine.Evaluate("propulsiveStuffAtRight <- length(which(accel$y <= -g))"); 
 				int propulsiveStuffAtRight = rengine.GetSymbol("propulsiveStuffAtRight").AsInteger().First();
-				Log.WriteLine(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
+				LogB.Information(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
 				if(propulsiveStuffAtRight > 0) {
 					rengine.Evaluate("propulsiveEnd <- min(which(accel$y <= -g))");
 					int propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
@@ -3926,7 +3926,7 @@ public partial class ChronoJumpWindow
 			}
 
 
-			Log.WriteLine(string.Format(
+			LogB.Information(string.Format(
 						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, maxSpeedT: {3}\n" + 
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
 						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
@@ -3951,7 +3951,7 @@ public partial class ChronoJumpWindow
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
 			ArrayList data4Variables, bool capturing) 
 	{
-		//Log.WriteLine("at plotCurvesGraphDoPlot");
+		//LogB.Information("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
@@ -4251,7 +4251,7 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		//Log.WriteLine("EXPOSE");
+		//LogB.Information("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
@@ -4309,7 +4309,7 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		//Log.WriteLine("EXPOSE");
+		//LogB.Information("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
 		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
@@ -4348,7 +4348,7 @@ public partial class ChronoJumpWindow
 					
 		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
-			Log.WriteLine("CCCCCCCCCCCCCCC");
+			LogB.Information("CCCCCCCCCCCCCCC");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
 					if(RInitialized == Constants.Status.UNSTARTED)
@@ -4401,7 +4401,7 @@ public partial class ChronoJumpWindow
 				hbox_encoder_capture_wait.Visible = false;
 				hbox_encoder_capture_doing.Visible = true;
 
-				Log.WriteLine("DDDDDDDDDDDDDDD");
+				LogB.Information("DDDDDDDDDDDDDDD");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
 				encoderThread.Start(); 
 			} else {
@@ -4516,7 +4516,7 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			finishPulsebar(encoderActions.CURVES);
-			Log.Write("dying");
+			LogB.Information("dying");
 			return false;
 		}
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) {
@@ -4538,7 +4538,7 @@ public partial class ChronoJumpWindow
 			} else
 				updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 			
-			Log.Write(" Cap:" + encoderThread.ThreadState.ToString());
+			LogB.Debug(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
 			encoderStopVideoRecord();
@@ -4546,7 +4546,7 @@ public partial class ChronoJumpWindow
 		} else {	//STOPPED	
 			//do curves, capturingCsharp has ended
 			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
-			Log.Write(" Cur:" + encoderThread.ThreadState.ToString());
+			LogB.Debug(" Cur:" + encoderThread.ThreadState.ToString());
 		}
 			
 		Thread.Sleep (25);
@@ -4558,14 +4558,14 @@ public partial class ChronoJumpWindow
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			finishPulsebar(encoderActions.CAPTURE_IM);
-			Log.Write("dying");
+			LogB.Information("dying");
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
 		updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
 
 		Thread.Sleep (25);
-		Log.Write(" CapIM:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" CapIM:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4578,12 +4578,12 @@ public partial class ChronoJumpWindow
 			}
 
 			finishPulsebar(encoderActions.CURVES);
-			Log.Write("dying");
+			LogB.Information("dying");
 			return false;
 		}
 		updatePulsebar(encoderActions.CURVES); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(" Cur:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" Cur:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4595,12 +4595,12 @@ public partial class ChronoJumpWindow
 			}
 
 			finishPulsebar(encoderActions.LOAD);
-			Log.Write("dying");
+			LogB.Debug("dying");
 			return false;
 		}
 		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(" L:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" L:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4612,12 +4612,12 @@ public partial class ChronoJumpWindow
 			}
 
 			finishPulsebar(encoderActions.ANALYZE);
-			Log.Write("dying");
+			LogB.Debug("dying");
 			return false;
 		}
 		updatePulsebar(encoderActions.ANALYZE); //activity on pulsebar
 		Thread.Sleep (50);
-		Log.Write(" A:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" A:" + encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4700,7 +4700,7 @@ public partial class ChronoJumpWindow
 				action == encoderActions.CURVES || 
 				action == encoderActions.LOAD )
 		{
-			Log.WriteLine("ffffffinishPulsebarrrrr");
+			LogB.Information("ffffffinishPulsebarrrrr");
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
@@ -4784,7 +4784,7 @@ public partial class ChronoJumpWindow
 				 * because with a value of -1 there will be problems in 
 				 * SqliteEncoder.Select(false, Convert.ToInt32(encoderSignalUniqueID), ...)
 				 */
-				Log.Write(" encoderSignalUniqueID:" + encoderSignalUniqueID);
+				LogB.Information(" encoderSignalUniqueID:" + encoderSignalUniqueID);
 				if(encoderSignalUniqueID != "-1")
 				{
 
@@ -4829,7 +4829,7 @@ public partial class ChronoJumpWindow
 			{
 				string imResultText = Util.ChangeDecimalSeparator(
 						Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
-				Log.WriteLine("imResultText = |" + imResultText + "|");
+				LogB.Information("imResultText = |" + imResultText + "|");
 
 				if(imResultText == "NA" || imResultText == "")
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing. Maybe need more oscillations.");
@@ -4909,9 +4909,9 @@ public partial class ChronoJumpWindow
 		ArrayList linkedCurves = SqliteEncoder.SelectSignalCurve(false, 
 				Convert.ToInt32(encoderSignalUniqueID), //signal
 				-1, -1, -1);				//curve, msStart,msEnd
-		//Log.WriteLine("SAVED CURVES FOUND");
+		//LogB.Information("SAVED CURVES FOUND");
 		//foreach(EncoderSignalCurve esc in linkedCurves)
-		//	Log.WriteLine(esc.ToString());
+		//	LogB.Information(esc.ToString());
 
 		int curveCount = 0;
 		double curveStart = 0;
@@ -4933,7 +4933,7 @@ public partial class ChronoJumpWindow
 			foreach(EncoderSignalCurve esc in linkedCurves) {
 				if(curveStart <= esc.msCentral && curveEnd >= esc.msCentral)
 				{
-					Log.WriteLine(curve.Start + " is saved");
+					LogB.Information(curve.Start + " is saved");
 					encoderCaptureSelectBySavedCurves(esc.msCentral, true);
 					break;
 				}
@@ -4947,7 +4947,7 @@ public partial class ChronoJumpWindow
 	
 	/* video stuff */
 	private void encoderStartVideoRecord() {
-		Log.WriteLine("Starting video");
+		LogB.Information("Starting video");
 		checkbutton_video_encoder.Sensitive = false;
 		if(preferences.videoOn) {
 			capturer.ClickRec();
@@ -4957,7 +4957,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void encoderStopVideoRecord() {
-		Log.WriteLine("Stopping video");
+		LogB.Information("Stopping video");
 		checkbutton_video_encoder.Sensitive = true;
 		if(preferences.videoOn) {
 			label_video_feedback_encoder.Text = "";

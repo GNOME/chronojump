@@ -74,7 +74,7 @@ class SqliteRunInterval : SqliteRun
 				description + "', '" + limited + "', " + simulated + ", " +
 				Util.BoolToInt(initialSpeed) + ")" ;
 				
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -114,7 +114,7 @@ class SqliteRunInterval : SqliteRun
 			filterTypeString +
 			" ORDER BY upper(" + tp + ".name), runInterval.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -165,7 +165,7 @@ class SqliteRunInterval : SqliteRun
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -187,7 +187,7 @@ class SqliteRunInterval : SqliteRun
 			" SET personID = " + personID + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

@@ -92,7 +92,7 @@ public class PulseExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Log.WriteLine("From execute/pulse.cs");
+		LogB.Information("From execute/pulse.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;

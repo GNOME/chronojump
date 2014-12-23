@@ -58,7 +58,7 @@ public partial class PersonSessionOld {
 		//we need uniqueID for personSession
 		uniqueID = insertedID;
 
-		Log.WriteLine(this.ToString());
+		LogB.Information(this.ToString());
 	}
 	
 	//used to select a personSession at Sqlite.convertTables

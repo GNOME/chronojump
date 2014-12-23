@@ -41,7 +41,7 @@ public class ErrorWindow
 	
 	public ErrorWindow (string text1)
 	{
-		Console.WriteLine("At error window2");
+		LogB.Information("At error window2");
 		Glade.XML gladeXML;
 		gladeXML = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "error_window", "chronojump");
 		gladeXML.Autoconnect(this);
@@ -55,7 +55,7 @@ public class ErrorWindow
 
 	static public ErrorWindow Show (string text1)
 	{
-		Console.WriteLine("At error window");
+		LogB.Information("At error window");
 		if (ErrorWindowBox == null) {
 			ErrorWindowBox = new ErrorWindow(text1);
 		}
@@ -103,7 +103,7 @@ public class ErrorWindow
 	}
 	private void on_button_open_docs_folder_clicked (object o, EventArgs args)
 	{
-		Log.WriteLine("Opening docs at: " + Path.GetFullPath(Util.GetManualDir())); 
+		LogB.Information("Opening docs at: " + Path.GetFullPath(Util.GetManualDir())); 
 		try {
 			System.Diagnostics.Process.Start(Path.GetFullPath(Util.GetManualDir())); 
 		} catch {

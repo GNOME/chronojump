@@ -79,7 +79,7 @@ class SqliteServer : Sqlite
 		
 		dbcmd.CommandText = myString;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		dbcmd.ExecuteNonQuery();
 
@@ -116,7 +116,7 @@ class SqliteServer : Sqlite
 		
 		dbcmd.CommandText = myString;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		dbcmd.ExecuteNonQuery();
 
@@ -149,7 +149,7 @@ class SqliteServer : Sqlite
 			"', comments = '" + comments +
 			//"', confiable = " + Util.BoolToInt(confiable) + //security: update cannot change confiable
 			"' WHERE uniqueID == " + uniqueID;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(! dbconOpened)
@@ -163,7 +163,7 @@ class SqliteServer : Sqlite
 	{
 		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + Constants.ServerEvaluatorTable + " WHERE uniqueID == " + myUniqueID ; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -200,7 +200,7 @@ class SqliteServer : Sqlite
 		       	" FROM " + Constants.ServerEvaluatorTable + ", " + Constants.SessionTable + 
 			" WHERE " + Constants.ServerEvaluatorTable + ".uniqueID = " + Constants.SessionTable +".evaluatorID" +
 		        " GROUP BY " + Constants.ServerEvaluatorTable + ".uniqueID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -220,7 +220,7 @@ class SqliteServer : Sqlite
 		Sqlite.Open();
 
 		dbcmd.CommandText = str; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

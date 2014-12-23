@@ -71,7 +71,7 @@ class SqliteRun : Sqlite
 				+ personID + ", " + sessionID + ", '" + type + "', "
 				+ Util.ConvertToPoint(distance) + ", " + Util.ConvertToPoint(time) + ", '" + 
 				description + "', " + simulated + ", " + Util.BoolToInt(initialSpeed) + ")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -116,7 +116,7 @@ class SqliteRun : Sqlite
 			filterTypeString +
 			" ORDER BY upper(" + tp + ".name), run.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -163,7 +163,7 @@ class SqliteRun : Sqlite
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.RunTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 
 		dbcmd.ExecuteNonQuery();
 
@@ -189,7 +189,7 @@ class SqliteRun : Sqlite
 			", time = " + Util.ConvertToPoint(Convert.ToDouble(time)) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + runID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}

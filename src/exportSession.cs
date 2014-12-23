@@ -88,9 +88,9 @@ public class ExportSession
 			}
 			try {
 				if (File.Exists(fileName)) {
-					Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+					LogB.Warning(string.Format("File {0} exists with attributes {1}, created at {2}", 
 								fileName, File.GetAttributes(fileName), File.GetCreationTime(fileName)));
-					Log.WriteLine("Overwrite...");
+					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite file: "), "", fileName);
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
@@ -109,7 +109,7 @@ public class ExportSession
 			}
 		}
 		else {
-			Log.WriteLine("cancelled");
+			LogB.Information("cancelled");
 			//report does not currently send the appBar reference
 			if(formatFile != "report") {
 				new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Cancelled."));
@@ -900,7 +900,7 @@ public class ExportSessionCSV : ExportSession
 
 	protected override void printFooter()
 	{
-		Log.WriteLine( "Correctly exported" );
+		LogB.Information( "Correctly exported" );
 		/*
 		string myString = Catalog.GetString ("Exported to file: ") + fileName;
 		new DialogMessage(Constants.MessageTypes.INFO, myString);

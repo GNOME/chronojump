@@ -434,7 +434,7 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			try {
 				markSelected(myText);
 			} catch {
-				Log.WriteLine("Do later!!");
+				LogB.Warning("Do later!!");
 			}
 		}
 	}
@@ -473,14 +473,14 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	protected void ItemToggled(object o, ToggledArgs args) {
-		Log.WriteLine("Toggled");
+		LogB.Information("Toggled");
 
 		int column = 0;
 		TreeIter iter;
 		if (store.GetIter (out iter, new TreePath(args.Path))) 
 		{
 			bool val = (bool) store.GetValue (iter, column);
-			Log.WriteLine (string.Format("toggled {0} with value {1}", args.Path, !val));
+			LogB.Information (string.Format("toggled {0} with value {1}", args.Path, !val));
 
 			store.SetValue (iter, column, !val);
 		
@@ -632,9 +632,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 			currentPerson = personAddModifyWin.CurrentPerson;
 			currentRow ++;
 				
-			Log.WriteLine("To sleep in order AddMoidfyWin gets closed, in order to open again");
+			LogB.Information("To sleep in order AddMoidfyWin gets closed, in order to open again");
 			System.Threading.Thread.Sleep (100);
-			Log.WriteLine("done");
+			LogB.Information("done");
 			processRow();
 		}
 	}
@@ -645,9 +645,9 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		{
 			currentRow ++;
 			
-			Log.WriteLine("To sleep in order AddModifyWin gets closed, in order to open again");
+			LogB.Information("To sleep in order AddModifyWin gets closed, in order to open again");
 			System.Threading.Thread.Sleep (100);
-			Log.WriteLine("done");
+			LogB.Information("done");
 			inserted --;
 			processRow();
 		}
@@ -1391,7 +1391,7 @@ public class PersonAddModifyWindow
 		if (o == null)
 			return;
 
-		//Log.WriteLine("changed");
+		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
 			sport = SqliteSport.Select(sportID);
@@ -1408,7 +1408,7 @@ public class PersonAddModifyWindow
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportNone)) {
 				//if sport is none, level should be sedentary and unsensitive
 				try { 
@@ -1423,7 +1423,7 @@ public class PersonAddModifyWindow
 					label_speciallity.Hide();
 					combo_speciallities.Hide();
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else {
 				//sport is not undefined and not none
 
@@ -1445,7 +1445,7 @@ public class PersonAddModifyWindow
 					label_speciallity.Show();
 					combo_speciallities.Show();
 				} else {
-					Log.Write("hide");
+					LogB.Information("hide");
 					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated,
 						       	Catalog.GetString(Constants.SpeciallityUndefined));
 					label_speciallity.Hide();
@@ -1453,21 +1453,21 @@ public class PersonAddModifyWindow
 				}
 			}
 		} catch { 
-			//Log.WriteLine("do later");
+			//LogB.Warning("do later");
 		}
 
 		on_entries_required_changed(new object(), new EventArgs());
-		Log.WriteLine(sport.ToString());
+		LogB.Information(sport.ToString());
 	}
 	
 	private void on_combo_speciallities_changed(object o, EventArgs args) {
-		Log.WriteLine("changed speciallities");
+		LogB.Information("changed speciallities");
 		on_entries_required_changed(new object(), new EventArgs());
 	}
 
 	private void on_combo_levels_changed(object o, EventArgs args) {
 		//string myText = UtilGtk.ComboGetActive(combo_sports);
-		Log.WriteLine("changed levels");
+		LogB.Information("changed levels");
 		on_entries_required_changed(new object(), new EventArgs());
 		//level = UtilGtk.ComboGetActive(combo_levels);
 				
@@ -1480,7 +1480,7 @@ public class PersonAddModifyWindow
 	}
 	
 	private void on_combo_continents_changed(object o, EventArgs args) {
-		//Console.WriteLine("Changed");
+		//LogB.Information("Changed");
 
 		if(UtilGtk.ComboGetActive(combo_continents) == Catalog.GetString(Constants.ContinentUndefined)) {
 			countries [0] = Constants.CountryUndefinedID + ":" + 
@@ -1521,7 +1521,7 @@ public class PersonAddModifyWindow
 	
 	void on_button_sport_add_clicked (object o, EventArgs args)
 	{
-		Log.WriteLine("sport add clicked");
+		LogB.Information("sport add clicked");
 		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), Constants.GenericWindowShow.ENTRY);
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
@@ -1980,7 +1980,7 @@ public class PersonAddMultipleWindow {
 						if(headersActive && row == 0)
 							continue;
 						
-						Log.Write(":" + str);
+						LogB.Debug(":" + str);
 
 						if(col == 0) {
 							if(name1Column)
@@ -2021,7 +2021,7 @@ public class PersonAddMultipleWindow {
 					}
 					
 					row ++;
-					Log.Write("\n");
+					LogB.Debug("\n");
 				}
 			}
 

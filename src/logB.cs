@@ -6,6 +6,8 @@
 //
 // Copyright (C) 2005-2007 Novell, Inc.
 //
+// Minor fixes by Xavier de Blas <xaviblas@gmail.com> 2014 
+//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including

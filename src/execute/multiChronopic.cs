@@ -436,7 +436,7 @@ public class MultiChronopicExecute : EventExecute
 								isFirstOut = false;
 							else {
 								double lastOut = timestamp/1000.0;
-								Log.WriteLine(cpNum.ToString() + " landed: " + lastOut.ToString());
+								LogB.Information(cpNum.ToString() + " landed: " + lastOut.ToString());
 								outStr = outStr + outEqual + lastOut.ToString();
 								outEqual = "="; 
 							}
@@ -460,7 +460,7 @@ public class MultiChronopicExecute : EventExecute
 								isFirstIn = false;
 							else {
 								double lastIn = timestamp/1000.0;
-								Log.WriteLine(cpNum.ToString() + " jumped: " + lastIn.ToString());
+								LogB.Information(cpNum.ToString() + " jumped: " + lastIn.ToString());
 								inStr = inStr + inEqual + lastIn.ToString();
 								inEqual = "="; 
 							}
@@ -561,21 +561,21 @@ public class MultiChronopicExecute : EventExecute
 
 	public override void MultiChronopicWrite(bool tempTable)
 	{
-		Log.WriteLine("----------WRITING A----------");
+		LogB.Information("----------WRITING A----------");
 	//	if(writingStarted)
 	//		return;
 	//	else
 	//		writingStarted = true; //only one execution can "get in"
-		Log.WriteLine("----------WRITING B----------");
+		LogB.Information("----------WRITING B----------");
 
-		Console.WriteLine("cp1 In:" + cp1InStr);
-		Console.WriteLine("cp1 Out:" + cp1OutStr + "\n");
-		Console.WriteLine("cp2 In:" + cp2InStr);
-		Console.WriteLine("cp2 Out:" + cp2OutStr + "\n");
-		Console.WriteLine("cp3 In:" + cp3InStr);
-		Console.WriteLine("cp3 Out:" + cp3OutStr + "\n");
-		Console.WriteLine("cp4 In:" + cp4InStr);
-		Console.WriteLine("cp4 Out:" + cp4OutStr + "\n");
+		LogB.Information("cp1 In:" + cp1InStr);
+		LogB.Information("cp1 Out:" + cp1OutStr + "\n");
+		LogB.Information("cp2 In:" + cp2InStr);
+		LogB.Information("cp2 Out:" + cp2OutStr + "\n");
+		LogB.Information("cp3 In:" + cp3InStr);
+		LogB.Information("cp3 Out:" + cp3OutStr + "\n");
+		LogB.Information("cp4 In:" + cp4InStr);
+		LogB.Information("cp4 Out:" + cp4OutStr + "\n");
 		
 
 		/*

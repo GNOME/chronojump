@@ -380,7 +380,7 @@ public class PreferencesWindow {
 	void on_button_logs_folder_open_clicked (object o, EventArgs args)
 	{
 		string dir = UtilAll.GetLogsDir();
-		Log.WriteLine(dir);
+		LogB.Information(dir);
 		
 		if( ! new System.IO.DirectoryInfo(dir).Exists) {
 			try {
@@ -447,20 +447,20 @@ public class PreferencesWindow {
 				bool exists = false;
 				if(check_backup_encoder_tests.Active || check_backup_multimedia.Active) {
 					if(Directory.Exists(fileCopy)) {
-						Log.WriteLine(string.Format("Directory {0} exists, created at {1}", 
+						LogB.Information(string.Format("Directory {0} exists, created at {1}", 
 									fileCopy, Directory.GetCreationTime(fileCopy)));
 						exists = true;
 					}
 				} else {
 					if (File.Exists(fileCopy)) {
-						Log.WriteLine(string.Format("File {0} exists with attributes {1}, created at {2}", 
+						LogB.Information(string.Format("File {0} exists with attributes {1}, created at {2}", 
 									fileCopy, File.GetAttributes(fileCopy), File.GetCreationTime(fileCopy)));
 						exists = true;
 					}
 				}
 
 				if(exists) {
-					Log.WriteLine("Overwrite...");
+					LogB.Information("Overwrite...");
 					ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to overwrite: "), "", fileCopy);
 					confirmWin.Button_accept.Clicked += new EventHandler(on_overwrite_file_accepted);
 				} else {
@@ -527,7 +527,7 @@ public class PreferencesWindow {
 	private bool PulseGTK ()
 	{
 		if ( ! thread.IsAlive ) {
-			Log.Write("dying");
+			LogB.Information("dying");
 			
 			endPulse();
 
@@ -536,7 +536,7 @@ public class PreferencesWindow {
 	
 		pulsebar.Pulse();
 		Thread.Sleep (50);
-		//Log.Write(thread.ThreadState.ToString());
+		//LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 

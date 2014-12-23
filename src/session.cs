@@ -89,7 +89,7 @@ public partial class Session {
 		uniqueID = insertedID;
 
 
-		Log.WriteLine(this.ToString());
+		LogB.Information(this.ToString());
 	}
 
 	//used to select a session at Sqlite.convertTables

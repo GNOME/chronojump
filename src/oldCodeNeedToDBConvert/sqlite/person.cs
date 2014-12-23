@@ -73,7 +73,7 @@ class SqlitePersonOld : Sqlite
 			race + ", " + countryID + ", " + serverUniqueID + ")" ;
 		
 		dbcmd.CommandText = myString;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		int myReturn = -10000; //dbcon.LastInsertRowId;
 
@@ -87,7 +87,7 @@ class SqlitePersonOld : Sqlite
 	public ArrayList SelectAllPersons()
 	{
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonOldTable + " ORDER BY uniqueID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
 		
@@ -124,7 +124,7 @@ class SqlitePersonOld : Sqlite
 	{
 		dbcmd.CommandText = "Delete FROM " + Constants.PersonOldTable +
 			" WHERE uniqueID == " + uniqueID.ToString();
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 

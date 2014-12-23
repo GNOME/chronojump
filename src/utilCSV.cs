@@ -29,7 +29,7 @@ public class UtilCSV
 
 	public static void ReadValues(string fileRead)
 	{
-		Log.WriteLine("READING CSV");
+		LogB.Information("READING CSV");
 		List<string> columns = new List<string>();
 		using (var reader = new CsvFileReader(fileRead))
 		{
@@ -37,13 +37,13 @@ public class UtilCSV
 			{
 				string sep = "";
 				foreach(string str in columns) {
-					Log.Write(sep + str);
+					Console.Write(sep + str);
 					sep = ":";
 				}
-				Log.Write("\n");
+				Console.Write("\n");
 			}
 		}
-		Log.WriteLine("READED CSV");
+		LogB.Information("READED CSV");
 	}
 }
 

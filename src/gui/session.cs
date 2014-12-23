@@ -138,7 +138,7 @@ public class SessionAddEditWindow {
 	}
 	
 	void showSportStuffWithLoadedData() {
-		Log.Write(string.Format("{0}-{1}-{2}", currentSession.PersonsSportID, currentSession.PersonsSpeciallityID, currentSession.PersonsPractice));
+		LogB.Information(string.Format("{0}-{1}-{2}", currentSession.PersonsSportID, currentSession.PersonsSpeciallityID, currentSession.PersonsPractice));
 
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID) { 
 			radiobutton_same_sport.Active = true;
@@ -354,7 +354,7 @@ public class SessionAddEditWindow {
 		if (o == null)
 			return;
 
-		//Log.WriteLine("changed");
+		//LogB.Information("changed");
 		try {
 			//sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
@@ -371,7 +371,7 @@ public class SessionAddEditWindow {
 							Catalog.GetString(Constants.SpeciallityUndefined));
 					speciallity_row_show(false);
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportNone)) {
 				//if sport is none, level should be sedentary and unsensitive
 				try { 
@@ -385,7 +385,7 @@ public class SessionAddEditWindow {
 
 					speciallity_row_show(false);
 				}
-				catch { Log.WriteLine("do later"); }
+				catch { LogB.Warning("do later"); }
 			} else {
 				//sport is not undefined and not none
 
@@ -406,29 +406,29 @@ public class SessionAddEditWindow {
 					createComboSpeciallities(sport.UniqueID);
 					speciallity_row_show(true);
 				} else {
-					Log.Write("hide");
+					LogB.Information("hide");
 					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, 
 							Catalog.GetString(Constants.SpeciallityUndefined));
 					speciallity_row_show(false);
 				}
 			}
 		} catch { 
-			//Log.WriteLine("do later");
+			//LogB.Warning("do later");
 		}
 
-		Log.WriteLine("at on_combo_sports_changed " + sport.ToString());
+		LogB.Information("at on_combo_sports_changed " + sport.ToString());
 		//labelUpdate();
 	}
 
 	private void on_combo_speciallities_changed(object o, EventArgs args) {
-		Log.WriteLine("changed speciallities");
+		LogB.Information("changed speciallities");
 		labelUpdate();
 		showHideButtonAccept();
 	}
 
 	private void on_combo_levels_changed(object o, EventArgs args) {
 		//string myText = UtilGtk.ComboGetActive(combo_sports);
-		Log.WriteLine("changed levels");
+		LogB.Information("changed levels");
 		//level = UtilGtk.ComboGetActive(combo_levels);
 				
 		//if it's sedentary, put sport to none
@@ -489,7 +489,7 @@ public class SessionAddEditWindow {
 			label_persons_data.Text= sportString + speciallityString + levelString;
 			label_persons_data.UseMarkup = true;
 		} catch {
-			Log.WriteLine("Do later");
+			LogB.Warning("Do later");
 		}
 	}
 
@@ -520,7 +520,7 @@ public class SessionAddEditWindow {
 
 	void on_button_sport_add_clicked (object o, EventArgs args)
 	{
-		Log.WriteLine("sport add clicked");
+		LogB.Information("sport add clicked");
 		genericWin = GenericWindow.Show(Catalog.GetString("Add new sport to database"), Constants.GenericWindowShow.ENTRY);
 		genericWin.Button_accept.Clicked += new EventHandler(on_sport_add_accepted);
 	}
@@ -743,11 +743,11 @@ public class SessionLoadWindow {
 	}
 	
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
-		Log.WriteLine("jump run " + checkbutton_show_data_jump_run.Active.ToString());
+		LogB.Information("jump run " + checkbutton_show_data_jump_run.Active.ToString());
 		recreateTreeView();	
 	}
 	void on_checkbutton_show_data_encoder_toggled (object o, EventArgs args) {
-		Log.WriteLine("encoder " + checkbutton_show_data_encoder.Active.ToString());
+		LogB.Information("encoder " + checkbutton_show_data_encoder.Active.ToString());
 		recreateTreeView();	
 	}
 
@@ -1133,7 +1133,7 @@ public class SessionSelectStatsWindow {
 					(string) myTreeview.Model.GetValue (myIter, 1) + ":" +	//name
 					(string) myTreeview.Model.GetValue (myIter, 3) 		//date (forget place)
 					);
-				Log.WriteLine(arrayOfSelectedSessions[count].ToString());
+				LogB.Information(arrayOfSelectedSessions[count].ToString());
 			}
 		} 
 	}

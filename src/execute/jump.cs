@@ -92,7 +92,7 @@ public class JumpExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Log.WriteLine("From execute/jump.cs");
+		LogB.Information("From execute/jump.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -328,7 +328,7 @@ public class JumpExecute : EventExecute
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
-						Log.Write(string.Format("t1:{0}", timestamp));
+						LogB.Information(string.Format("t1:{0}", timestamp));
 
 						tv = timestamp / 1000.0;
 						write();
@@ -357,7 +357,7 @@ public class JumpExecute : EventExecute
 						if(simulated)
 							timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 						
-						Log.Write(string.Format("t2:{0}", timestamp));
+						LogB.Information(string.Format("t2:{0}", timestamp));
 						
 						//record the TC
 						tc = timestamp / 1000.0;
@@ -698,7 +698,7 @@ public class JumpRjExecute : JumpExecute
 				if(simulated)
 					timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-				Log.Write(Util.GetTotalTime(tcString, tvString).ToString());
+				LogB.Information(Util.GetTotalTime(tcString, tvString).ToString());
 
 
 					
@@ -718,7 +718,7 @@ public class JumpRjExecute : JumpExecute
 						needShowFeedbackMessage = true; 
 					} else {
 						//reactive jump has not finished... record the next jump
-						Log.WriteLine(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
+						LogB.Information(string.Format("tcCount: {0}, tvCount: {1}", tcCount, tvCount));
 						if ( tcCount == tvCount )
 						{
 							lastTc = timestamp/1000.0;
@@ -862,7 +862,7 @@ public class JumpRjExecute : JumpExecute
 			} else {
 				//we are on air
 				if(allowFinishAfterTime) {
-					Log.Write("ALLOW!!");
+					LogB.Information("ALLOW!!");
 					//allow to finish later, return false, and waitEvent (looking at shouldFinishAtNextFall)
 					//will finishJump when he falls 
 					shouldFinishAtNextFall = true;
@@ -913,7 +913,7 @@ public class JumpRjExecute : JumpExecute
 	private void updateTimerCountWithChronopicData(string tcString, string tvString) {
 		//update timerCount, with the chronopic data
 		//but in the first jump probably one is zero and then GetTotalTime returns a 0
-		Log.WriteLine(string.Format("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString)));
+		LogB.Information(string.Format("///I timerCount: {0} tcString+tvString: {1} ///", timerCount, Util.GetTotalTime(tcString) + Util.GetTotalTime(tvString)));
 		if(tvString.Length == 0) 
 			timerCount =  Util.GetTotalTime(tcString);
 		else if (tcString.Length == 0) 
@@ -925,7 +925,7 @@ public class JumpRjExecute : JumpExecute
 				
 	protected void writeRj(bool tempTable)
 	{
-		Log.WriteLine("----------WRITING----------");
+		LogB.Information("----------WRITING----------");
 		int jumps;
 		string limitString = "";
 		string description = "";
@@ -946,7 +946,7 @@ public class JumpRjExecute : JumpExecute
 				while(eventPassed) {
 					tcString = Util.DeleteLastSubEvent(tcString);
 					tvString = Util.DeleteLastSubEvent(tvString);
-					Log.WriteLine("Deleted one event out of time");
+					LogB.Information("Deleted one event out of time");
 					eventPassed = Util.EventPassedFromMaxTime(tcString, tvString, limitAsDouble, allowFinishAfterTime);
 					deletedEvent = true;
 				}

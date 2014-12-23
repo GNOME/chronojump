@@ -163,7 +163,7 @@ public class RunTypeAddWindow
 	
 	void on_button_accept_clicked (object o, EventArgs args)
 	{
-		//Console.WriteLine(getEntriesString());
+		//ConsoleB.Information(getEntriesString());
 
 		//check if this run type exists, and check it's name is not AllRunsName
 		bool runTypeExists = Sqlite.Exists (false, Constants.RunTypeTable, Util.RemoveTildeAndColonAndDot(entry_name.Text));
@@ -174,7 +174,7 @@ public class RunTypeAddWindow
 		if(runTypeExists) {
 			string myString = string.Format(Catalog.GetString("Run type: '{0}' exists. Please, use another name"), 
 					Util.RemoveTildeAndColonAndDot(entry_name.Text) );
-			Log.WriteLine (myString);
+			LogB.Information (myString);
 			ErrorWindow.Show(myString);
 		} else {
 			RunType type = new RunType();
@@ -218,7 +218,7 @@ public class RunTypeAddWindow
 				InsertedSimple = false;
 			}
 			
-			//Log.WriteLine(string.Format("Inserted: {0}", type));
+			//LogB.Information(string.Format("Inserted: {0}", type));
 			
 			fakeButtonAccept.Click();
 		

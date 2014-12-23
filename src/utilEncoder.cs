@@ -54,7 +54,7 @@ public class UtilEncoder
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
 				Directory.CreateDirectory (d);
-				Log.WriteLine (string.Format("created dir: {0}", d));
+				LogB.Information ("created dir:", d);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ public class UtilEncoder
 		foreach (string d in dirs) {
 			if( ! Directory.Exists(d)) {
 				Directory.CreateDirectory (d);
-				Log.WriteLine (string.Format("created dir: {0}", d));
+				LogB.Information ("created dir:", d);
 			}
 		}
 	}
@@ -137,7 +137,7 @@ public class UtilEncoder
 							Path.DirectorySeparatorChar + fileName, true);
 				} catch {
 					new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
-					Log.WriteLine(Constants.FileCopyProblem);
+					LogB.Error(Constants.FileCopyProblem);
 					return "";
 				}
 //			}
@@ -154,14 +154,14 @@ public class UtilEncoder
 				File.Copy(origin, dest, true);
 			} catch {
 				new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileCopyProblem);
-				Log.WriteLine(Constants.FileCopyProblem);
+				LogB.Error(Constants.FileCopyProblem);
 				return false;
 			}
 			return true;
 		}
 
 		new DialogMessage(Constants.MessageTypes.WARNING, Constants.FileNotFound);
-		Log.WriteLine(Constants.FileNotFound);
+		LogB.Error(Constants.FileNotFound);
 		return false;
 	}
 	
@@ -273,7 +273,7 @@ public class UtilEncoder
 	
 	public static REngine RunEncoderCaptureCsharpInitializeR(REngine rengine, out Constants.Status RInitialized) 
 	{
-		Log.WriteLine("initializing rdotnet");
+		LogB.Information("initializing rdotnet");
 		
 		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
 		//rsup.Interactive = false;
@@ -305,8 +305,8 @@ public class UtilEncoder
 			utilRPath = utilRPath.Replace("\\","/");
 			graphRPath = graphRPath.Replace("\\","/");
 		}
-		Log.WriteLine(utilRPath);
-		Log.WriteLine(graphRPath);
+		LogB.Information(utilRPath);
+		LogB.Information(graphRPath);
 		
 		try {
 			//load extrema
@@ -329,6 +329,7 @@ public class UtilEncoder
 			GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
 			double p = testResult["p.value"].AsNumeric().First();
 
+			//not using LogB because like with Console the format of numbers is displayed better
 			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
 			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
 			Console.WriteLine("P-value = {0:0.000}", p);
@@ -337,7 +338,7 @@ public class UtilEncoder
 			return rengine;
 		}
 
-		Log.WriteLine("initialized rdotnet");
+		LogB.Information("initialized rdotnet");
 		
 		RInitialized = Constants.Status.OK;
 
@@ -485,7 +486,7 @@ public class UtilEncoder
 		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces
 			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			Log.WriteLine("pBin:" + pBin);
+			LogB.Information("pBin:", pBin);
 		}
 		
 
@@ -507,10 +508,10 @@ public class UtilEncoder
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
 	
-		Log.WriteLine("Arguments:" + pinfo.Arguments);
-		Log.WriteLine("--- 1 --- " + optionsFile.ToString() + " ---");
-		Log.WriteLine("--- 2 --- " + scriptOptions + " ---");
-		Log.WriteLine("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
+		LogB.Information("Arguments:", pinfo.Arguments);
+		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
+		LogB.Information("--- 2 --- " + scriptOptions + " ---");
+		LogB.Information("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
 		
 		string outputFileCheck = "";
 		string outputFileCheck2 = "";
@@ -539,12 +540,12 @@ public class UtilEncoder
 
 
 		//delete output file check(s)
-		Console.WriteLine("Deleting... " + outputFileCheck);
+		LogB.Information("Deleting... " + outputFileCheck);
 		if (File.Exists(outputFileCheck))
 			File.Delete(outputFileCheck);
 
 		if(outputFileCheck2 != "") {
-			Console.WriteLine("Deleting... " + outputFileCheck2);
+			LogB.Information("Deleting... " + outputFileCheck2);
 			if (File.Exists(outputFileCheck2))
 				File.Delete(outputFileCheck2);
 		}
@@ -601,7 +602,7 @@ public class UtilEncoder
 		if (UtilAll.IsWindows()) {
 			//on Windows we need the \"str\" to call without problems in path with spaces
 			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			Log.WriteLine("pBin:" + pBin);
+			LogB.Information("pBin:", pBin);
 
 			//On win32 R understands backlash as an escape character and 
 			//a file path uses Unix-like path separator '/'		
@@ -633,7 +634,7 @@ public class UtilEncoder
 		
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		pinfo.Arguments = "\"" + getEncoderScriptInertiaMomentum() + "\" " + optionsFile;
-		Log.WriteLine("Arguments:" + pinfo.Arguments);
+		LogB.Information("Arguments:", pinfo.Arguments);
 		
 		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
 		string outputFileCheck = outputData;
@@ -646,7 +647,7 @@ public class UtilEncoder
 		pinfo.RedirectStandardOutput = true; 
 
 		//delete output file check(s)
-		Console.WriteLine("Deleting... " + outputFileCheck);
+		LogB.Information("Deleting... ", outputFileCheck);
 		if (File.Exists(outputFileCheck))
 			File.Delete(outputFileCheck);
 
@@ -754,10 +755,10 @@ public class UtilEncoder
 				} while(true);
 				
 				if(sum == 0 || count == 0) 
-					Log.WriteLine("inertial check == 0, no data");
+					LogB.Warning("inertial check == 0, no data");
 				else {
 					double average = sum * 1.0 / count * 1.0;
-					Log.WriteLine("inertial check == " + average.ToString());
+					LogB.Information("inertial check == " + average.ToString());
 					if( 
 							(average < 0 && inertialCheckPositive) ||
 							(average > 0 && ! inertialCheckPositive) ) {
@@ -784,7 +785,7 @@ public class UtilEncoder
 
 
 		if(reverseSign) {
-			Log.WriteLine("reversingSign");
+			LogB.Information("reversingSign");
 			string contentsReversed = "";
 			string sep = "";
 			using (StringReader reader = new StringReader (contents)) {

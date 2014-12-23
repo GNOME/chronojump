@@ -161,7 +161,7 @@ class SqliteJumpType : Sqlite
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", '" + myStr[3] + "')" ;	//weight, description
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			Sqlite.Close();
@@ -180,7 +180,7 @@ class SqliteJumpType : Sqlite
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
 				myStr[4] + ", '" + myStr[5] + "')" ;	//fixedValue, description
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			Sqlite.Close();
@@ -209,7 +209,7 @@ class SqliteJumpType : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -248,11 +248,11 @@ class SqliteJumpType : Sqlite
 		count =0;
 		if(allJumpsName != "") {
 			myTypes [count++] = allJumpsName;
-			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//LogB.SQL("{0} - {1}", myTypes[count-1], count-1);
 		}
 		foreach (string line in myArray) {
 			myTypes [count++] = line;
-			//Log.WriteLine("{0} - {1}", myTypes[count-1], count-1);
+			//LogB.SQL("{0} - {1}", myTypes[count-1], count-1);
 		}
 
 		return myTypes;
@@ -265,7 +265,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + Constants.JumpRjTypeTable + " " +
 			" ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -321,7 +321,7 @@ class SqliteJumpType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -353,7 +353,7 @@ class SqliteJumpType : Sqlite
 			" WHERE name  = '" + typeName +
 			"' ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -395,7 +395,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -405,9 +405,9 @@ class SqliteJumpType : Sqlite
 		while(reader.Read()) {
 			if(reader[0].ToString() == "1") {
 				hasWeight = true;
-				Log.WriteLine("found type: hasWeight");
+				LogB.SQL("found type: hasWeight");
 			} else {
-				Log.WriteLine("found type: NO hasWeight");
+				LogB.SQL("found type: NO hasWeight");
 			}
 		}
 		reader.Close();
@@ -423,7 +423,7 @@ class SqliteJumpType : Sqlite
 			" FROM " + tableName +
 			" WHERE name == '" + typeName + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -446,7 +446,7 @@ class SqliteJumpType : Sqlite
 		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET name = '" + nameNew + 
 			"' WHERE name == '" + nameOld + "'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//Sqlite.Close();
 	}
@@ -456,7 +456,7 @@ class SqliteJumpType : Sqlite
 		//Sqlite.Open();
 		dbcmd.CommandText = "UPDATE jumpType SET " + column + " = '" + newValue + 
 			"' WHERE name == '" + typeName + "'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//Sqlite.Close();
 	}
@@ -467,7 +467,7 @@ class SqliteJumpType : Sqlite
 			Sqlite.Open();
 		dbcmd.CommandText = "Delete FROM " + tableName + 
 			" WHERE name == '" + name + "'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		if(!dbconOpened)
 			Sqlite.Close();

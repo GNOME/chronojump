@@ -640,7 +640,7 @@ public partial class ChronoJumpWindow
 		if(eventGraphConfigureWin == null)
 			eventGraphConfigureWin = EventGraphConfigureWindow.Show(false);
 
-Log.WriteLine("Preparing reactive A");
+		LogB.Debug("Preparing reactive A");
 
 		//search MAX
 		double maxValue = 0;
@@ -1609,7 +1609,7 @@ Log.WriteLine("Preparing reactive A");
 		if(time < 0)
 			time = 0;
 
-		//Console.WriteLine("   timestamp {0}, ancho {1}, x {2}, timeold{3}, xOld{4}", 
+		//LogB.Information("   timestamp {0}, ancho {1}, x {2}, timeold{3}, xOld{4}", 
 		//timestamp, ancho, Util.TrimDecimals(x,1), timeOld, Util.TrimDecimals(xOld,1));
 
 		return ( ancho * ( (timeOld + time) / timeTotal) ) -event_execute_rightMargin;
@@ -1646,7 +1646,7 @@ Log.WriteLine("Preparing reactive A");
 			if(timeTotal4 > timeTotal)
 				timeTotal = timeTotal4;
 		}
-		Console.WriteLine("total time: {0}", timeTotal);
+		LogB.Information("total time: {0}" + timeTotal);
 
 
 		/*
@@ -1672,22 +1672,22 @@ Log.WriteLine("Preparing reactive A");
 		//if(maxValue - minValue <= 0) 
 		//	return;
 
-		Console.Write(" paint0 ");
+		LogB.Debug(" paint0 ");
 		
 		if(event_execute_eventType == Constants.RunAnalysisName)
 			paintMultiChronopicRunAPhotocell (ancho, cp1StartedIn, cp1InStr, cp1OutStr, yCp1Out +10, yCp1Out);
 		else
 			paintMultiChronopicDefault (ancho, cp1StartedIn, cp1InStr, cp1OutStr, timeTotal, yCp1Out +10, yCp1Out);
 
-		Console.Write(" paint1 ");
+		LogB.Debug(" paint1 ");
 		paintMultiChronopicDefault (ancho, cp2StartedIn, cp2InStr, cp2OutStr, timeTotal, yCp2Out +10, yCp2Out);
-		Console.Write(" paint2 ");
+		LogB.Debug(" paint2 ");
 		paintMultiChronopicDefault (ancho, cp3StartedIn, cp3InStr, cp3OutStr, timeTotal, yCp3Out +10, yCp3Out);
-		Console.Write(" paint3 ");
+		LogB.Debug(" paint3 ");
 		paintMultiChronopicDefault (ancho, cp4StartedIn, cp4InStr, cp4OutStr, timeTotal, yCp4Out +10, yCp4Out);
-		Console.Write(" paint4 ");
+		LogB.Debug(" paint4 ");
 
-		Console.Write(" paint done ");
+		LogB.Information(" paint done ");
 	}
 
 	private void paintMultiChronopicDefault (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, double timeTotal, int h1, int h2) 
@@ -1730,7 +1730,7 @@ Log.WriteLine("Preparing reactive A");
 		double xOld = 0;
 		bool lastCpIsStart = true;
 
-		Console.WriteLine("\n(A) cpInStr:*{0}*, cpOutStr:*{1}*", cpInStr, cpOutStr);
+		LogB.Information("(A) cpInStr:*" + cpInStr + "*, cpOutStr:*" + cpOutStr + "*");
 
 		for(int i=0; i < ticks; i++) { 
 			if(cpStart.Length > i) {
@@ -1765,14 +1765,14 @@ Log.WriteLine("Preparing reactive A");
 		   following code allows to paint line also on other chronopics
 		   in order to show all updated four cps after any cp change
 		   */
-		Console.WriteLine("(C)");
+		LogB.Debug("(C)");
 		if(timeOld < timeTotal) { //this cp didn't received last event
 			if(lastCpIsStart)
 				event_execute_pixmap.DrawLine(penStartDiscont, Convert.ToInt32(xOld), heightStart, Convert.ToInt32(ancho-event_execute_rightMargin), heightStart);
 			else
 				event_execute_pixmap.DrawLine(penEndDiscont, Convert.ToInt32(xOld), heightEnd, Convert.ToInt32(ancho-event_execute_rightMargin), heightEnd);
 		}
-		Console.WriteLine("(D)");
+		LogB.Debug("(D)");
 	}
 
 	private void paintMultiChronopicRunAPhotocell (int ancho, bool cpStartedIn, string cpInStr, string cpOutStr, int h1, int h2) 

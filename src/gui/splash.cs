@@ -134,13 +134,13 @@ public class SplashWindow
 		//it seem on some machines (MacOSX) splash_window maybe is Destroyed previously because on_delete_event it's called
 		//Destroy here if it has not been destroyed
 		if(SplashWindowBox.splash_window == null)
-			Log.WriteLine("splash_window is null. Do nothing.");
+			LogB.Information("splash_window is null. Do nothing.");
 		else {
-			Log.WriteLine("splash_window is not null. Destroying now...");
+			LogB.Warning("splash_window is not null. Destroying now...");
 			
 			SplashWindowBox.splash_window.Destroy ();
 			
-			Log.WriteLine("Destroyed!");
+			LogB.Information("Destroyed!");
 		}
 	}
 

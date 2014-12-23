@@ -77,7 +77,7 @@ public class ReactionTimeExecute : EventExecute
 	
 	public override void SimulateInitValues(Random randSent)
 	{
-		Log.WriteLine("From execute/reactionTime.cs");
+		LogB.Information("From execute/reactionTime.cs");
 
 		rand = randSent; //we send the random, because if we create here, the values will be the same for each nbew instance
 		simulated = true;
@@ -164,7 +164,7 @@ public class ReactionTimeExecute : EventExecute
 					if(simulated)
 						timestamp = simulatedTimeLast * 1000; //conversion to milliseconds
 
-					Log.Write(string.Format("t1:{0}", timestamp));
+					LogB.Information(string.Format("t1:{0}", timestamp));
 
 					time = timestamp / 1000.0;
 					write();

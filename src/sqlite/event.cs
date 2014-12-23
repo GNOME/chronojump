@@ -55,7 +55,7 @@ class SqliteEvent : Sqlite
 		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
@@ -76,7 +76,7 @@ class SqliteEvent : Sqlite
 
 		dbcmd.CommandText = "SELECT graphFileName FROM graphLinkTable WHERE tableName == '" + tableName + "' AND eventName =='" + eventName + "'";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -101,7 +101,7 @@ class SqliteEvent : Sqlite
 
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = " + simulated + 
 			" WHERE uniqueID == " + uniqueID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		if(!dbconOpened)
@@ -114,7 +114,7 @@ class SqliteEvent : Sqlite
 	{
 		dbcmd.CommandText = "UPDATE " + tableName + " SET simulated = -1" + 
 			" WHERE simulated == 1";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 	public static void SimulatedConvertToNegative() 

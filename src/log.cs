@@ -23,95 +23,11 @@ using System.IO; 		//for detect OS
 
 public class Log
 {
-	/*
-	 * writes to screen and to log
-	 * timeLog ensures a different log for every chronojump launch
-	 * log is deleted if all ends ok.
-	 */
-	
-	//private static TextWriter writer; //writer is not used now, all is thone in the Main (on chronojump.cs).we only need to print to console now (0.7.5)
-	//private static string timeLog = "";
-	//private static bool useConsole = true; //for the new method on chronojump.cs for redirecting output and error to same file also on windows (0.7.5)
-	
 	//1.4.10 have log again by default to all windows users
 	//only two logs: current execution log and previous execution log
 	private static TextWriter writer;
 	private static bool useConsole;
 				
-	/*
-	private static bool initializeTime(string [] args) {
-		if(! Directory.Exists(GetDir())) {
-			try { 
-				Directory.CreateDirectory(GetDir());
-			} catch {}
-		}
-
-		bool timeLogPassedOk = true;
-		if(args.Length == 1) 
-			timeLog = args[0];
-		else {
-			timeLog = DateTime.Now.ToString();
-			timeLogPassedOk = false;
-		}
-
-		return timeLogPassedOk;
-	}
-	*/
-
-	/*
-	public static string GetDir() {
-		//we are on:
-		//Chronojump/chronojump-x.y/data/
-		//we have to go to
-		//Chronojump/logs
-		//return ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "logs";
-		
-		//fixing:
-		//http://lists.ximian.com/pipermail/mono-list/2008-November/040480.html
-		return Path.Combine(
-				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump/logs");
-	}
-	
-	public static string GetFile() {
-		return Path.GetFullPath(GetDir() + Path.DirectorySeparatorChar + "" + timeLog + ".txt");
-	}
-	*/
-	
-//	public static bool Start(string [] args) {
-		/* this is ok for define a time that will be the name of the log file
-		 * if program ends ok, it will delete that file. 
-		 * The problem is that i don't know how to redirect a crash there.
-		 */
-
-	       /* a solution is to put on chronojump.sh
-		* 
-		* LOG_DATE=`date +%d-%m-%Y_%H-%M-%S`
-		* LOG_FILE="../../logs/$LOG_DATE.txt"
-		* mono chronojump.prg $LOG_FILE 2>>$LOG_FILE
-		*
-		* if chronojump it's called from .sh (that's the normal thing), then all will work:
-		* log of the app and adding the crash log at end
-		*
-		* if chronojump it's called directly like mono chronojump.prg, 
-		* then log filename will be created here, and there will be no redirection on crash 
-		*
-		* study how to do it in the bat file for windows
-		*/
-
-	/*	
-		bool timeLogPassedOk = initializeTime(args);
-		
-		if(useConsole)
-			Console.WriteLine(GetFile());
-//		try {
-//			writer = File.CreateText(GetFile());
-//		} catch {}
-		
-		return timeLogPassedOk;
-	}
-	*/
-
 
 	//on Windows since 1.4.10
 	public static void Start() 
@@ -159,32 +75,6 @@ public class Log
 		sw.AutoFlush = true;
 	}
 
-	public static void Write(string text) 
-	{
-		if(useConsole)
-			Console.Write(text);
-		else {
-			try {
-				writer.Write(text);
-				writer.Flush();
-			} catch {}
-		}
-	}
-	
-	public static void WriteLine(string text) 
-	{
-		if(useConsole) {
-			//Console.WriteLine(text);
-			LogB.Information(text);
-		}
-		else {
-			try {
-			writer.WriteLine(text);
-			writer.Flush();
-			} catch {}
-		}
-	}
-	
 	public static void End() 
 	{
 		if(useConsole)
@@ -196,15 +86,7 @@ public class Log
 		}
 	}
 	
-	//if exit normally, then delete file
-	/*
-	public static void Delete() {
-		try {
-			File.Delete(GetFile());
-		} catch {}
-	}
-	*/
-
+	
 	/*
 	//GetLast should NOT return the newer log: the just created and empty file, 
 	//it should return the just before the last, that's the log of when chronojump crashed last time

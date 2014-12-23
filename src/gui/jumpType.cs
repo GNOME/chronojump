@@ -136,7 +136,7 @@ public class JumpTypeAddWindow
 			
 			string myString = string.Format(Catalog.GetString("Jump type: '{0}' exists. Please, use another name"), Util.RemoveTildeAndColonAndDot(entry_name.Text) );
 			
-			Log.WriteLine (myString);
+			LogB.Information (myString);
 			ErrorWindow.Show(myString);
 		} else {
 			string myJump = "";
@@ -185,7 +185,7 @@ public class JumpTypeAddWindow
 				InsertedSimple = false;
 			}
 			
-			Log.WriteLine(string.Format("Inserted: {0}", myJump));
+			LogB.Information(string.Format("Inserted: {0}", myJump));
 		
 			fakeButtonAccept.Click();
 

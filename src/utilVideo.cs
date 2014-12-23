@@ -33,10 +33,10 @@ public class UtilVideo
 		List<LongoMatch.Video.Utils.Device> devices = LongoMatch.Video.Utils.Device.ListVideoDevices();
 		string [] devicesStr = new String[devices.Count];
 		int count = 0;
-		Log.WriteLine("yessssssssssssssssss");
+		LogB.Information("Searching video devices");
 		foreach(LongoMatch.Video.Utils.Device dev in devices) {
 			devicesStr[count++] = dev.ID.ToString();
-			Log.WriteLine(dev.ID.ToString());
+			LogB.Information(dev.ID.ToString());
 		}
 		return devicesStr;
 	}

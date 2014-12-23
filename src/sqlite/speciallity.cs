@@ -87,7 +87,7 @@ class SqliteSpeciallity : Sqlite
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -118,7 +118,7 @@ class SqliteSpeciallity : Sqlite
 			whereString +
 			" ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		reader = dbcmd.ExecuteReader();
 

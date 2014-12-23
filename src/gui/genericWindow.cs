@@ -392,7 +392,7 @@ public class GenericWindow
 			try {
 				markSelected(myText);
 			} catch {
-				Log.WriteLine("Do later!!");
+				LogB.Warning("Do later!!");
 			}
 		}
 	}
@@ -463,12 +463,12 @@ public class GenericWindow
 
 		nonSensitiveRows = myNonSensitiveRows;
 	
-Log.WriteLine("aaaaaaaaaaaaaaaa1");	
+		LogB.Debug("aaaaaaaaaaaaaaaa1");	
 		foreach (string [] line in data) {
 			store.AppendValues (line);
 			//Log.WriteLine(Util.StringArrayToString(line,"\n"));
 		}
-Log.WriteLine("aaaaaaaaaaaaaaaa2");	
+		LogB.Debug("aaaaaaaaaaaaaaaa2");	
 
 		genericWinContextMenu = contextMenu;
 		this.activateRowAcceptsWindow = activateRowAcceptsWindow;

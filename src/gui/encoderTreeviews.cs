@@ -58,10 +58,10 @@ public partial class ChronoJumpWindow
 		int curvesCount = 0;
 		using (StringReader reader = new StringReader (contents)) {
 			line = reader.ReadLine ();	//headers
-			Log.WriteLine(line);
+			LogB.Information(line);
 			do {
 				line = reader.ReadLine ();
-				Log.WriteLine(line);
+				LogB.Information(line);
 				if (line == null)
 					break;
 
@@ -170,7 +170,7 @@ public partial class ChronoJumpWindow
 	//rowNum starts at zero
 	void saveOrDeleteCurveFromCaptureTreeView(int rowNum, EncoderCurve curve, bool save) 
 	{
-		Log.WriteLine("saving? " + save.ToString() + "; rownum:" + rowNum.ToString());
+		LogB.Information("saving? " + save.ToString() + "; rownum:" + rowNum.ToString());
 		if(save)
 			encoderSaveSignalOrCurve("curve", rowNum +1);
 		else {
@@ -385,7 +385,7 @@ public partial class ChronoJumpWindow
 				iterOk = encoderCaptureListStore.IterNext (ref iter);
 				EncoderCurve curve2 = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 
-				Log.WriteLine("msCentral, start, end" + msCentral.ToString() + " " + curve.Start + " " + 
+				LogB.Information("msCentral, start, end" + msCentral.ToString() + " " + curve.Start + " " + 
 						(Convert.ToDouble(curve2.Start) + Convert.ToDouble(curve2.Duration)).ToString());
 
 				if(Convert.ToDouble(curve.Start) <= msCentral && 
@@ -469,10 +469,10 @@ public partial class ChronoJumpWindow
 		int curvesCount = 0;
 		using (StringReader reader = new StringReader (contents)) {
 			line = reader.ReadLine ();	//headers
-			Log.WriteLine(line);
+			LogB.Information(line);
 			do {
 				line = reader.ReadLine ();
-				Log.WriteLine(line);
+				LogB.Information(line);
 				if (line == null)
 					break;
 
@@ -619,10 +619,10 @@ public partial class ChronoJumpWindow
 		int curvesCount = 0;
 		using (StringReader reader = new StringReader (contents)) {
 			line = reader.ReadLine ();	//headers
-			Log.WriteLine(line);
+			LogB.Information(line);
 			do {
 				line = reader.ReadLine ();
-				Log.WriteLine(line);
+				LogB.Information(line);
 				if (line == null)
 					break;
 

@@ -72,7 +72,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -167,7 +167,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + ini + "jump.tv" + end + " DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -325,7 +325,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " myIndex DESC, " + ini + "jump.tv" + end + " DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -431,7 +431,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -527,7 +527,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " potency DESC, tvavg DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -589,7 +589,7 @@ class SqliteStat : Sqlite
 			"group by jumps order by jumps DESC limit 1";
 			//this is done because if no jumps, and we don't write last line, it returns a blank line
 			//and this crashes when converted to string
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -618,7 +618,7 @@ class SqliteStat : Sqlite
 			"group by tracks order by tracks DESC limit 1";
 			//this is done because if no jumps, and we don't write last line, it returns a blank line
 			//and this crashes when converted to string
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -713,7 +713,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " rj_index DESC, tvavg DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -822,7 +822,7 @@ class SqliteStat : Sqlite
 			groupByString +
 			orderByString + " speed DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -857,7 +857,7 @@ class SqliteStat : Sqlite
 					":",						//new separator
 					maxRuns
 					);
-Log.WriteLine(intervalSpeeds);
+LogB.SQL(intervalSpeeds);
 
 
 			myArray.Add (reader[0].ToString() + showSexString + showRunTypeString +
@@ -918,7 +918,7 @@ Log.WriteLine(intervalSpeeds);
 			groupByString +
 			orderByString + " myIndex DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -995,7 +995,7 @@ Log.WriteLine(intervalSpeeds);
 			groupByString +
 			orderByString + " resultPercent DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1081,7 +1081,7 @@ Log.WriteLine(intervalSpeeds);
 			groupByString +
 			orderByString + " myIndex DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1231,7 +1231,7 @@ Log.WriteLine(intervalSpeeds);
 			//orderByString + ini + "indexPart1 * indexPart2WithoutSqrt" + end + " DESC ";
 			orderByString + "extraWeight";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1338,7 +1338,7 @@ Log.WriteLine(intervalSpeeds);
 			groupByString +
 			orderByString + "speed DESC ";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		SqliteDataReader reader;
@@ -1445,10 +1445,10 @@ Log.WriteLine(intervalSpeeds);
 
 		//print all	
 		IDNameIDDoubleListOfLists superlist = new IDNameIDDoubleListOfLists(idNameList, array);
-		Log.WriteLine("superlist");
-		Log.WriteLine( Util.StringArrayToString(superlist.GetStringArray(),"\n") );
+		LogB.SQL("superlist");
+		LogB.SQL( Util.StringArrayToString(superlist.GetStringArray(),"\n") );
 		ArrayList arrayReturn = superlist.GetArray();
-		Log.WriteLine("end of superlist");
+		LogB.SQL("end of superlist");
 		
 		Sqlite.Close();
 		return arrayReturn;

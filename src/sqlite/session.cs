@@ -67,7 +67,7 @@ class SqliteSession : Sqlite
 			personsSportID + ", " + personsSpeciallityID + ", " + 
 			personsPractice + ", '" + comments + "', " +
 			serverUniqueID + ")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -107,7 +107,7 @@ class SqliteSession : Sqlite
 
 		dbcmd.CommandText = "UPDATE " +Constants.SessionTable + " SET serverUniqueID = " + serverID + 
 			" WHERE uniqueID == " + uniqueID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//if(!dbconOpened)
@@ -121,13 +121,13 @@ class SqliteSession : Sqlite
 			Sqlite.Open();
 		} catch {
 			//done because there's an eventual problem maybe thread related on very few starts of chronojump
-			Log.WriteLine("Catched dbcon problem at Session.Select");
+			LogB.SQL("Catched dbcon problem at Session.Select");
 			Sqlite.Close();
 			Sqlite.Open();
-			Log.WriteLine("reopened again");
+			LogB.SQL("reopened again");
 		}
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SessionTable + " WHERE uniqueID == " + myUniqueID ; 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -170,7 +170,7 @@ class SqliteSession : Sqlite
 		dbcmd.CommandText = "SELECT " + selectString + " FROM " + Constants.SessionTable + " " + 
 			" WHERE uniqueID != " + sessionIdDisable + " ORDER BY uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -216,7 +216,7 @@ class SqliteSession : Sqlite
 			" WHERE session.personsSportID == sport.uniqueID " + 
 			" AND session.personsSpeciallityID == speciallity.UniqueID " +
 			" ORDER BY session.uniqueID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -255,7 +255,7 @@ class SqliteSession : Sqlite
 		//select persons of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PersonSessionTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_persons;
@@ -270,7 +270,7 @@ class SqliteSession : Sqlite
 		//select jumps of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_jumps;
@@ -285,7 +285,7 @@ class SqliteSession : Sqlite
 		//select jumpsRj of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.JumpRjTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_jumpsRj;
@@ -300,7 +300,7 @@ class SqliteSession : Sqlite
 		//select runs of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_runs;
@@ -315,7 +315,7 @@ class SqliteSession : Sqlite
 		//select runsInterval of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.RunIntervalTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_runs_interval;
@@ -330,7 +330,7 @@ class SqliteSession : Sqlite
 		//select reaction time of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.ReactionTimeTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_rt;
@@ -345,7 +345,7 @@ class SqliteSession : Sqlite
 		//select pulses of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.PulseTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_pulses;
@@ -360,7 +360,7 @@ class SqliteSession : Sqlite
 		//select multichronopic of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.MultiChronopicTable + 
 			" GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_mcs;
@@ -375,7 +375,7 @@ class SqliteSession : Sqlite
 		//select encoder signal of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
 			" WHERE signalOrCurve == 'signal' GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_enc_s;
@@ -390,7 +390,7 @@ class SqliteSession : Sqlite
 		//select encoder curve of each session
 		dbcmd.CommandText = "SELECT sessionID, count(*) FROM " + Constants.EncoderTable + 
 			" WHERE signalOrCurve == 'curve' GROUP BY sessionID ORDER BY sessionID";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader_enc_c;
@@ -555,7 +555,7 @@ class SqliteSession : Sqlite
 			" AND type == '" + type + "' " +
 			personIDString; 
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -710,7 +710,7 @@ class SqliteServerSession : SqliteSession
 			evaluatorCJVersion + "', '" + evaluatorOS + "', '" +
 			UtilDate.ToSql(uploadedDate) + "', " + uploadingState +
 			")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -733,7 +733,7 @@ class SqliteServerSession : SqliteSession
 
 		dbcmd.CommandText = "UPDATE " + Constants.SessionTable + " SET uploadingState = " + state + 
 			" WHERE uniqueID == " + uniqueID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//if(!dbconOpened)

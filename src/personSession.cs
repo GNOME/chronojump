@@ -82,7 +82,7 @@ public partial class PersonSession {
 		int insertedID = this.InsertAtDB(dbconOpened, Constants.PersonSessionTable);
 		uniqueID = insertedID;
 
-		Log.WriteLine(this.ToString());
+		LogB.Information(this.ToString());
 	}
 	
 	public int InsertAtDB (bool dbconOpened, string tableName) {

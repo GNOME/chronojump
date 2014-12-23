@@ -185,8 +185,7 @@ public class ExecuteAutoSQL
 		if(str == null || str == "")
 			return new List<int>();
 
-		Log.WriteLine("SerieIDsFromStr");
-		Log.WriteLine(str);
+		LogB.Information("SerieIDsFromStr", str);
 		string [] strFull = str.Split(new char[] {':'});
 		
 		List <int>l = new List <int>();

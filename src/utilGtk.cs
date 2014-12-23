@@ -87,7 +87,7 @@ public class UtilGtk
 		TreeIter iter;
 		myCombo.Model.GetIterFirst(out iter);
 		do {
-			Log.WriteLine((string) myCombo.Model.GetValue (iter, 0));
+			LogB.Information((string) myCombo.Model.GetValue (iter, 0));
 		} while (myCombo.Model.IterNext (ref iter));
 	}
 

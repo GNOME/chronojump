@@ -58,17 +58,14 @@ public class Chronopic {
 	//-- Constructor
 	public Chronopic(SerialPort sp)
 	{
-Console.Write("0");
 		//-- Comprobar si puerto serie ya estaba abierto
 		if (sp != null)
 			if (sp.IsOpen)
 				sp.Close();
 
-Console.Write("1");
 		//-- Abrir puerto serie
 		sp.Open();
 
-Console.Write("2");
 		//-- Configurar timeout por defecto
 		//de momento no en windows (hasta que no encontremos por qué falla)
 		//OperatingSystem os = Environment.OSVersion;
@@ -77,11 +74,9 @@ Console.Write("2");
 		//if( ! os.Platform.ToString().ToUpper().StartsWith("WIN"))
 			sp.ReadTimeout = DefaultTimeout;
 
-Console.Write("3");
 		//-- Guardar el puerto serie
 		this.sp = sp;
 
-Console.Write("4");
 //		//-- Vaciar buffer
 //		//done in a separate method
 //		this.flush();
@@ -152,26 +147,25 @@ Console.Write("4");
 	
 	public void Read_variables_automatic()
 	{
-		Console.WriteLine("---------------------------");
-		Console.WriteLine("ReadVarAutoStart");
+		LogB.Information("ReadVarAutoStart");
 
 		if (sp == null)
 			sp.Open(); 
 		
-		Console.WriteLine("ReadVarAutoOpened");
+		LogB.Information("ReadVarAutoOpened");
 
 		try {
 			sp.Write("J");
-			Console.WriteLine("Port scanning (should return 'J'): " + (char) sp.ReadByte());
+			LogB.Information("Port scanning (should return 'J'): " + (char) sp.ReadByte());
 		} catch {
 			this.error=ErrorType.Timeout;
-			Console.WriteLine("Timeout. This is not Chronopic-Automatic-Firmware");
+			LogB.Information("Timeout. This is not Chronopic-Automatic-Firmware");
 			return;
 		}
 
 		
 		sp.Write("V");
-		Console.WriteLine("Version: " + 
+		LogB.Information("Version: " + 
 				(char) sp.ReadByte() +
 				(char) sp.ReadByte() +
 				(char) sp.ReadByte() 
@@ -181,24 +175,21 @@ Console.Write("4");
 
 		sp.Write("a");
 		debounce = ( sp.ReadByte() - '0' ) * 10;
-		Console.WriteLine("\nCurrent debounce time: " + debounce.ToString());
+		LogB.Information("Current debounce time:", debounce.ToString());
 
-		Console.WriteLine("Changing to 10 ms ... ");
+		LogB.Information("Changing to 10 ms ... ");
 		sp.Write("b\x01");
 
 		sp.Write("a");
 		debounce = ( sp.ReadByte() - '0' ) * 10;
-		Console.WriteLine("Current debounce time: " + debounce.ToString());
+		LogB.Information("Current debounce time:", debounce.ToString());
 
-		Console.WriteLine("Changing to 50 ms ... ");
+		LogB.Information("Changing to 50 ms ... ");
 		sp.Write("b\x05");
 
 		sp.Write("a");
 		debounce = ( sp.ReadByte() - '0' ) * 10;
-		Console.WriteLine("Current debounce time: " + debounce.ToString());
-
-		Console.WriteLine("---------------------------");
-
+		LogB.Information("Current debounce time: ", debounce.ToString());
 	}
 
 
@@ -215,11 +206,9 @@ Console.Write("4");
 		int count;
 		bool status;
 			
-Console.Write(" o1 ");
 		if (sp != null)
 			if (sp.IsOpen) 
 				sp.Close();
-Console.Write(" o2 ");
 		
 		try {
 			sp.Open();
@@ -229,12 +218,9 @@ Console.Write(" o2 ");
 			this.error=ErrorType.Timeout;
 			return status;
 		}
-Console.Write(" o3 ");
 
-//Console.Write("h");
 		//-- Enviar la trama por el puerto serie
 		sp.Write(trama,0,1);
-//Console.Write("i");
 
 		//-- Esperar a que llegue la respuesta
 		//-- Se espera hasta que en el buffer se tengan el numero de bytes
@@ -242,12 +228,10 @@ Console.Write(" o3 ");
 		//-- timeout se aborta
 		count=0;
 		do {
-//Console.Write("j");
 			n = sp.Read(respuesta,count,2-count);
 			count+=n;
 		} while (count<2 && n!=-1);
 
-//Console.Write("k");
 		//-- Comprobar la respuesta recibida
 		switch(count) {
 			case 2 : //-- Datos listos
@@ -287,7 +271,6 @@ Console.Write(" o3 ");
 				break;
 		}
 
-//Console.Write("l");
 		return status;
 	}
 
@@ -371,14 +354,14 @@ Console.Write(" o3 ");
 			try{
 				sp.Read(buffer,0,256);
 				success = true;
-				Log.Write(" spReaded ");
+				LogB.Debug(" spReaded ");
 			} catch {
-				Log.Write(" catchedTimeOut ");
+				LogB.Warning(" catchedTimeOut ");
 			}
 
 		} while(! success && ! AbortFlush);
 		if(AbortFlush) {
-			Log.WriteLine("Abort flush");
+			LogB.Information("Abort flush");
 		}
 	}
 
@@ -451,7 +434,7 @@ public abstract class ChronopicAuto
 			str = Communicate();
 		} catch {
 			//this.error=ErrorType.Timeout;
-			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
+			LogB.Warning("Error or Timeout. This is not Chronopic-Automatic-Firmware");
 			str = "Error / not Multitest firmware";
 		}
 		
@@ -470,7 +453,7 @@ public abstract class ChronopicAuto
 			str = Communicate();
 		} catch {
 			//this.error=ErrorType.Timeout;
-			Console.WriteLine("Error or Timeout. This is not Chronopic-Automatic-Firmware");
+			LogB.Warning("Error or Timeout. This is not Chronopic-Automatic-Firmware");
 			str = "Error / not Multitest firmware";
 		}
 		

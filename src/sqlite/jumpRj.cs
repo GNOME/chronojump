@@ -76,7 +76,7 @@ class SqliteJumpRj : SqliteJump
 				Util.ConvertToPoint(tvAvg) + ", " + Util.ConvertToPoint(tcAvg) + ", '" + 
 				Util.ConvertToPoint(tvString) + "', '" + Util.ConvertToPoint(tcString) + "', " +
 				jumps + ", " + Util.ConvertToPoint(time) + ", '" + limited + "', '" + angleString + "', " + simulated +")" ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
@@ -124,7 +124,7 @@ class SqliteJumpRj : SqliteJump
 			" AND " + tps + ".sessionID == jumpRj.sessionID " +
 			" ORDER BY upper(" + tp + ".name), jumpRj.uniqueID";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -181,7 +181,7 @@ class SqliteJumpRj : SqliteJump
 
 		dbcmd.CommandText = "SELECT * FROM " + tableName + " WHERE uniqueID == " + uniqueID;
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -204,7 +204,7 @@ class SqliteJumpRj : SqliteJump
 			", weight = " + Util.ConvertToPoint(weight) + 
 			", description = '" + description +
 			"' WHERE uniqueID == " + jumpID ;
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		Sqlite.Close();
 	}
@@ -217,7 +217,7 @@ class SqliteJumpRj : SqliteJump
 
 		dbcmd.CommandText = "SELECT uniqueID, tcstring, tvstring, jumps, limited FROM jumpRj";
 		
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 		SqliteDataReader reader;
@@ -226,7 +226,7 @@ class SqliteJumpRj : SqliteJump
 
 		while(reader.Read()) {
 			if(Util.GetNumberOfJumps(reader[1].ToString(), true) != Util.GetNumberOfJumps(reader[2].ToString(), true)) {
-				Log.WriteLine(string.Format("Problem with jumpRj: {0}, tcstring{1}, tvstring{2}, jumps{3}, limited{4}", 
+				LogB.Error(string.Format("Problem with jumpRj: {0}, tcstring{1}, tvstring{2}, jumps{3}, limited{4}", 
 						reader[0].ToString(), 
 						Util.GetNumberOfJumps(reader[1].ToString(), true).ToString(), 
 						Util.GetNumberOfJumps(reader[2].ToString(), true).ToString(), 

@@ -540,7 +540,7 @@ public partial class ChronoJumpWindow {
 				myStatType.MarkSelected(myText);
 				myStatType.CreateOrUpdateAVGAndSD();
 			} catch {
-				Log.WriteLine("Do later!!");
+				LogB.Warning("Do later!!");
 			}
 		}
 	}
@@ -792,7 +792,7 @@ public partial class ChronoJumpWindow {
 		if(blockFillingTreeview)
 			return false;
 		
-		Log.WriteLine("----------FILLING treeview stats---------------");
+		LogB.Information("----------FILLING treeview stats---------------");
 	
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);
@@ -913,7 +913,7 @@ public partial class ChronoJumpWindow {
 				button_add_to_report.Sensitive = false;
 			}
 		} catch {
-			Log.WriteLine("Do markedRows stuff later");
+			LogB.Warning("Do markedRows stuff later");
 		}
 
 		//show enunciate of the stat in textview_enunciate
@@ -956,19 +956,19 @@ public partial class ChronoJumpWindow {
 
 	//changes the combo_select_checkboxes to "Selected" if any row in the treeview is checked or unchecked
 	private void on_fake_button_row_checked_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
+		LogB.Information("fakeButtonRowCheckedUnchecked in gui/stats.cs !!");
 
 		combo_select_checkboxes.Active = UtilGtk.ComboMakeActive(comboCheckboxesOptions, Catalog.GetString("Selected"));
 	}
 	
 	private void on_fake_button_rows_selected_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonRowsSelected in gui/stats.cs !!");
+		LogB.Information("fakeButtonRowsSelected in gui/stats.cs !!");
 		button_graph.Sensitive = true;
 		button_add_to_report.Sensitive = true;
 	}
 	
 	private void on_fake_button_no_rows_selected_clicked (object o, EventArgs args) {
-		Log.WriteLine("fakeButtonNoRowsSelected in gui/stats.cs !!");
+		LogB.Information("fakeButtonNoRowsSelected in gui/stats.cs !!");
 		button_graph.Sensitive = false;
 		button_add_to_report.Sensitive = false;
 
@@ -1178,7 +1178,7 @@ public partial class ChronoJumpWindow {
 	{
 		if(o == (object) radiobutton_current_session) 
 		{
-			Log.WriteLine("current");
+			LogB.Information("current");
 			button_stats_select_sessions.Sensitive = false;
 
 			//single session can have all graph types
@@ -1197,7 +1197,7 @@ public partial class ChronoJumpWindow {
 		} 
 		else if (o == (object) radiobutton_selected_sessions ) 
 		{
-			Log.WriteLine("selected");
+			LogB.Information("selected");
 			button_stats_select_sessions.Sensitive = true;
 			
 			//multi session use only barplot and lines
@@ -1242,13 +1242,13 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void on_button_stats_select_sessions_clicked (object o, EventArgs args) {
-		Log.WriteLine("select sessions for stats");
+		LogB.Information("select sessions for stats");
 		sessionSelectStatsWin = SessionSelectStatsWindow.Show(app1, selectedSessions);
 		sessionSelectStatsWin.Button_accept.Clicked += new EventHandler(on_stats_select_sessions_accepted);
 	}
 	
 	private void on_stats_select_sessions_accepted (object o, EventArgs args) {
-		Log.WriteLine("select sessions for stats accepted");
+		LogB.Information("select sessions for stats accepted");
 		
 		if ((sessionSelectStatsWin.ArrayOfSelectedSessions[0]).ToString() != "-1") { 
 			//there are sessionsSelected, put them in selectedSessions ArrayList
@@ -1265,7 +1265,7 @@ public partial class ChronoJumpWindow {
 	}
 	
 	private void on_button_add_to_report_clicked (object o, EventArgs args) {
-		Log.WriteLine("add to report window");
+		LogB.Information("add to report window");
 
 		string statisticType = UtilGtk.ComboGetActive(combo_stats_stat_type);
 		string statisticSubType = UtilGtk.ComboGetActive(combo_stats_stat_subtype);

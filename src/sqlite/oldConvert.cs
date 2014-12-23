@@ -50,7 +50,7 @@ class SqliteOldConvert : Sqlite
 		dbcmd.CommandText = "UPDATE " + table + " SET " + column + " = replace( " + column + ", '" + parentDir + "', '' ) " + 
 			"WHERE " + column + " LIKE '" + parentDir + "%'";
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 
 	}	
@@ -68,19 +68,19 @@ class SqliteOldConvert : Sqlite
 
 		//changes on jump table
 		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJleft' WHERE description LIKE '%Left%'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET type = 'slCMJright' WHERE description LIKE '%Right%'";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Left', '')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 		
 		dbcmd.CommandText = "UPDATE " + Constants.JumpTable + " SET description=replace(description, ' Right', '')";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 
@@ -132,7 +132,7 @@ class SqliteOldConvert : Sqlite
 				onlyActiveString +
 			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -279,7 +279,7 @@ class SqliteOldConvert : Sqlite
 				onlyActiveString +
 			" ORDER BY substr(filename,-23,19)"; //this contains the date of capture signal
 
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();
@@ -322,7 +322,7 @@ class SqliteOldConvert : Sqlite
 	{
 		dbcmd.CommandText = "Delete FROM " + Constants.RunIntervalTable +
 			" WHERE timeTotal < 0";
-		Log.WriteLine(dbcmd.CommandText.ToString());
+		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();
 	}
 }

@@ -55,7 +55,7 @@ public class Server
 	public static string Ping(bool doInsertion, string progName, string progVersion) {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
+			LogB.Information(myServer.ConnectDatabase());
 		
 			int evalSID = Convert.ToInt32(SqlitePreferences.Select("evaluatorServerID"));
 			string machineID = SqlitePreferences.Select("machineID");
@@ -68,10 +68,10 @@ public class Server
 			//is ok for uploadPerson to know if server is online
 			string versionAvailable = myServer.UploadPing(myPing, doInsertion);
 			
-			Log.WriteLine(myServer.DisConnectDatabase());
+			LogB.Information(myServer.DisConnectDatabase());
 			return versionAvailable;
 		} catch (Exception e){
-			Log.WriteLine("Server Connection "+e.Message);
+			LogB.Information("Server Connection", e.Message);
 			return Constants.ServerOffline;
 		}
 	}
@@ -120,7 +120,7 @@ public class Server
 	{
 		if(! thread.IsAlive) {
 			sessionUploadWin.UploadFinished();
-			Log.Write("dying");
+			LogB.Information("dying");
 			return false;
 		}
 
@@ -155,7 +155,7 @@ public class Server
 		}
 		
 		Thread.Sleep (50);
-		Log.Write(thread.ThreadState.ToString());
+		LogB.Debug(thread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -165,7 +165,7 @@ public class Server
 
 		try {	
 			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
+			LogB.Information(myServer.ConnectDatabase());
 		
 			int state = (int) Constants.ServerSessionStates.UPLOADINGSESSION;
 			//create ServerSession based on Session currentSession
@@ -551,7 +551,7 @@ public class Server
 			//myServer.UpdateSession(currentSession.ServerUniqueID, (ServerSessionStates)  Constants.ServerSessionStates.DONE); 
 			myServer.UpdateSession(currentSession.ServerUniqueID, state); 
 
-			Log.WriteLine(myServer.DisConnectDatabase());
+			LogB.Information(myServer.DisConnectDatabase());
 		} catch {
 			//other thread updates the gui:
 			serverSessionError = true;
@@ -643,7 +643,7 @@ public class Server
 	public static void ServerUploadEvaluator () {
 		try {
 			ChronojumpServer myServer = new ChronojumpServer();
-			Log.WriteLine(myServer.ConnectDatabase());
+			LogB.Information(myServer.ConnectDatabase());
 			
 			ServerEvaluator myEval = SqliteServer.SelectEvaluator(1);
 
@@ -668,7 +668,7 @@ public class Server
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 						string.Format(Catalog.GetString("Evaluator {0} has not been correctly uploaded. Maybe codes doesn't match."), evalSID));
 			
-			Log.WriteLine(myServer.DisConnectDatabase());
+			LogB.Information(myServer.DisConnectDatabase());
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, Constants.ServerOffline);
 		}

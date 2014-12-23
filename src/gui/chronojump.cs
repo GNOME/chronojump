@@ -2369,9 +2369,8 @@ public partial class ChronoJumpWindow
 		
 		Log.End();
 
-		Log.WriteLine("Bye3!");
 		Application.Quit();
-		Log.WriteLine("Bye4!");
+		
 		//Environment.Exit(Environment.ExitCode);
 		//Log.WriteLine("Bye5!");
 	}

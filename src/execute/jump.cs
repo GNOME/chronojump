@@ -798,26 +798,6 @@ public class JumpRjExecute : JumpExecute
 						}
 					}
 				} 
-				else {
-					//limited by time, if passed it, write
-					if(success) {
-						//write();
-						//write only if there's a jump at minimum
-						if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
-							writeRj(false); //tempTable
-						} else {
-							//cancel a jump if clicked finish before any events done
-							cancel = true;
-						}
-					}
-				}
-
-/*
-				EndingConditionsJumpRj conditions = new EndingConditionsJumpRj();
-				if(! conditionsOk(tv,tc)) 
-					finish = true;
-					posar MARCA de que les conditions no estan be i després mostrar quines
-*/
 
 				if(platformState == Chronopic.Plataforma.OFF)
 					loggedState = States.OFF;

@@ -3248,12 +3248,7 @@ public partial class ChronoJumpWindow
 	private void on_finish_clicked (object o, EventArgs args) 
 	{
 		currentEventExecute.Finish = true;
-		
-		//unhide event buttons for next event
-LogB.Information("calling sensitiveGuiEventDone from on_finish_clicked");
-		sensitiveGuiEventDone();
-LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
-
+	
 		if(chronopicWin.Connected)
 			checkFinishTotally(o, args);
 		
@@ -3672,9 +3667,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			chronopicWin.Connected = false;
 		}
 		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
-
 		//unhide buttons that allow jumping
 		if(execute_auto_doing) {
 			execute_auto_order_pos ++;
@@ -3850,9 +3842,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			chronopicWin.Connected = false;
 		}
 		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
-		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
 	}
@@ -3990,9 +3979,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
-		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4136,9 +4122,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			chronopicWin.Connected = false;
 		}
 		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
-		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
 	}
@@ -4235,10 +4218,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
-		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
-		
 	}
 
 
@@ -4365,9 +4344,6 @@ LogB.Information("called sensitiveGuiEventDone from on_finish_clicked");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
-		
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
 	}
 
 	/* ---------------------------------------------------------
@@ -4649,8 +4625,6 @@ LogB.Debug("X");
 			createChronopicWindow(true);
 			chronopicWin.Connected = false;
 		}
-		if (currentEventExecute.Cancel)
-			sensitiveGuiEventDone();
 	}
 		
 

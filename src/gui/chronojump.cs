@@ -3820,8 +3820,6 @@ public partial class ChronoJumpWindow
 			//since 0.7.4.1 when test is done, treeview select it. action event button have to be shown 
 			showHideActionEventButtons(true, "JumpRj"); //show
 
-			//currentEventExecute.StopThread();
-
 			if(createdStatsWin) {
 				showUpdateStatsAndHideData(true);
 			}

@@ -347,7 +347,9 @@ public class MultiChronopicExecute : EventExecute
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 
 			if(chronopics > 0) {
+				LogB.ThreadStart(); 
 				thread.Start(); 
+
 				if(chronopics > 1) {
 					thread2.Start(); 
 					if(chronopics > 2) {

@@ -533,9 +533,11 @@ public class ChronopicWindow
 	protected bool PulseGTK ()
 	{
 		if(needUpdateChronopicWin || ! thread.IsAlive) {
+			LogB.ThreadEnding();
 			fakeConnectionButton.Click();
 			pulseEnd();
-			LogB.Information("dying");
+
+			LogB.ThreadEnded();
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicConnectionWin gets died by thread ending
@@ -779,6 +781,8 @@ public class ChronopicWindow
 		needUpdateChronopicWin = false;
 		thread = new Thread(new ThreadStart(waitChronopicStart));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart();
 		thread.Start(); 
 	}
 

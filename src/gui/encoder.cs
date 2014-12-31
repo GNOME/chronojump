@@ -4348,7 +4348,7 @@ public partial class ChronoJumpWindow
 					
 		if(action == encoderActions.CAPTURE || action == encoderActions.CAPTURE_IM) {
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
-			LogB.Information("CCCCCCCCCCCCCCC");
+			LogB.Information("encoderThreadStart begins");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
 					if(RInitialized == Constants.Status.UNSTARTED)
@@ -4401,8 +4401,10 @@ public partial class ChronoJumpWindow
 				hbox_encoder_capture_wait.Visible = false;
 				hbox_encoder_capture_doing.Visible = true;
 
-				LogB.Information("DDDDDDDDDDDDDDD");
+				LogB.Information("encoderThreadStart middle");
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGCAPTURE);
+
+				LogB.ThreadStart();
 				encoderThread.Start(); 
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -4434,6 +4436,8 @@ public partial class ChronoJumpWindow
 				else // action == encoderActions.LOAD
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderLoad));
 				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
+				
+				LogB.ThreadStart();
 				encoderThread.Start(); 
 			}
 		} else { //encoderActions.ANALYZE
@@ -4452,6 +4456,7 @@ public partial class ChronoJumpWindow
 			button_encoder_analyze_table_save.Sensitive = false;
 			button_encoder_analyze_1RM_save.Sensitive = false;
 
+			LogB.ThreadStart();
 			encoderThread.Start(); 
 		}
 	}
@@ -4515,8 +4520,10 @@ public partial class ChronoJumpWindow
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CURVES);
-			LogB.Information("dying");
+			
+			LogB.ThreadEnded(); 
 			return false;
 		}
 		if(capturingCsharp == encoderCaptureProcess.CAPTURING) {
@@ -4557,8 +4564,10 @@ public partial class ChronoJumpWindow
 	private bool pulseGTKEncoderCaptureIM ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CAPTURE_IM);
-			LogB.Information("dying");
+			
+			LogB.ThreadEnded(); 
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
@@ -4573,12 +4582,14 @@ public partial class ChronoJumpWindow
 	private bool pulseGTKEncoderCurves ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
 				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.CURVES);
-			LogB.Information("dying");
+			
+			LogB.ThreadEnded(); 
 			return false;
 		}
 		updatePulsebar(encoderActions.CURVES); //activity on pulsebar
@@ -4590,12 +4601,14 @@ public partial class ChronoJumpWindow
 	private bool pulseGTKEncoderLoad ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
 				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.LOAD);
-			LogB.Debug("dying");
+			
+			LogB.ThreadEnded(); 
 			return false;
 		}
 		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
@@ -4607,12 +4620,14 @@ public partial class ChronoJumpWindow
 	private bool pulseGTKEncoderAnalyze ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
 				UtilEncoder.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.ANALYZE);
-			LogB.Debug("dying");
+			
+			LogB.ThreadEnded(); 
 			return false;
 		}
 		updatePulsebar(encoderActions.ANALYZE); //activity on pulsebar

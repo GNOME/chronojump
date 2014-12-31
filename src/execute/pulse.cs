@@ -175,6 +175,8 @@ public class PulseExecute : EventExecute
 			//start thread
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		
+			LogB.ThreadStart(); 
 			thread.Start(); 
 		}
 	}

@@ -122,6 +122,8 @@ public class ReactionTimeExecute : EventExecute
 			//Log.Write("Start thread");
 			thread = new Thread(new ThreadStart(waitEvent));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+			
+			LogB.ThreadStart(); 
 			thread.Start(); 
 		} 
 		else if (platformState==Chronopic.Plataforma.OFF) {

@@ -58,7 +58,8 @@ public enum LogEntryType
 	Warning,
 	Error,
 	Information,
-	SQL
+	SQL,
+	ThreadStart, ThreadEnding, ThreadEnded
 }
 
 public class LogEntry
@@ -137,11 +138,17 @@ public static class LogB
 				case LogEntryType.Information:
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Green;
 					break;
+				case LogEntryType.Debug:
+					ConsoleCrayon.ForegroundColor = ConsoleColor.Blue;
+					break;
 				case LogEntryType.SQL:
 					ConsoleCrayon.ForegroundColor = ConsoleColor.Cyan;
 					break;
-				case LogEntryType.Debug:
-					ConsoleCrayon.ForegroundColor = ConsoleColor.Blue;
+				case LogEntryType.ThreadStart:
+				case LogEntryType.ThreadEnding:
+				case LogEntryType.ThreadEnded:
+					ConsoleCrayon.ForegroundColor = ConsoleColor.DarkBlue;
+					ConsoleCrayon.BackgroundColor = ConsoleColor.Yellow;
 					break;
 			}
 
@@ -181,6 +188,12 @@ public static class LogB
 				return "Info ";
 			case LogEntryType.SQL:
 				return "SQL ";
+			case LogEntryType.ThreadStart:
+				return "Thread Start -------------------------->";
+			case LogEntryType.ThreadEnding:
+				return " <.......................... Thread Ending";
+			case LogEntryType.ThreadEnded:
+				return " <-------------------------- Thread Ended";
 		}
 		return null;
 	}
@@ -436,6 +449,26 @@ public static class LogB
 	{
 		SQL(String.Format(format, args));
 	}
+
+#endregion
+
+#region Public SQL Methods
+	
+	public static void ThreadStart()
+	{
+		Commit(LogEntryType.ThreadStart, null, null, false);
+	}
+
+	public static void ThreadEnding()
+	{
+		Commit(LogEntryType.ThreadEnding, null, null, false);
+	}
+
+	public static void ThreadEnded()
+	{
+		Commit(LogEntryType.ThreadEnded, null, null, false);
+	}
+
 
 #endregion
 

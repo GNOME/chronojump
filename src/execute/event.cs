@@ -234,9 +234,10 @@ public class EventExecute
 		//then thread is dead
 
 		if ( ! thread.IsAlive || cancel) {
+			LogB.ThreadEnding(); 
 			fakeButtonThreadDyed.Click();
-			LogB.Information("dying");
 
+			LogB.ThreadEnded(); 
 			return false;
 		}
 	
@@ -245,14 +246,6 @@ public class EventExecute
 		return true;
 	}
 
-
-	public void StopThread() {
-		/*
-		Log.WriteLine("----------ABORTING----------");
-		thread.Abort();
-		Log.WriteLine("----------ABORTED-----------");
-		*/
-	}
 
 	protected void initializeTimer () {
 		//put onTimer count to 0 for moving the time progressBar (activiy mode)	

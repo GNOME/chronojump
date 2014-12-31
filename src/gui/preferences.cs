@@ -471,6 +471,8 @@ public class PreferencesWindow {
 						GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		
 						backup_doing_sensitive_start_end(true);	
+						
+						LogB.ThreadStart(); 
 						thread.Start(); 
 					} else {
 						File.Copy(fileDB, fileCopy);
@@ -505,6 +507,8 @@ public class PreferencesWindow {
 				GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 		
 				backup_doing_sensitive_start_end(true);	
+				
+				LogB.ThreadStart(); 
 				thread.Start(); 
 			} else {
 				File.Delete(fileCopy);
@@ -527,10 +531,10 @@ public class PreferencesWindow {
 	private bool PulseGTK ()
 	{
 		if ( ! thread.IsAlive ) {
-			LogB.Information("dying");
-			
+			LogB.ThreadEnding();
 			endPulse();
 
+			LogB.ThreadEnded();
 			return false;
 		}
 	

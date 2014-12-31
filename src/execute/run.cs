@@ -176,12 +176,12 @@ public class RunExecute : EventExecute
 		cancel = false;
 		totallyCancelled = false;
 
-		LogB.Debug("MANAGE(2)!!!!");
 		//start thread
 		thread = new Thread(new ThreadStart(waitEvent));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+			
+		LogB.ThreadStart(); 
 		thread.Start(); 
-		LogB.Debug("MANAGE(3)!!!!");
 	}
 	
 	protected override void waitEvent ()

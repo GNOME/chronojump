@@ -178,6 +178,7 @@ public class ChronoJump
 
 		thread = new Thread(new ThreadStart(sqliteThings));
 		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+		LogB.ThreadStart();
 		thread.Start(); 
 
 		Application.Run();
@@ -562,8 +563,11 @@ public class ChronoJump
 
 		if( ( needEndSplashWin && pingEnd ) 
 				|| ! thread.IsAlive) {
+			LogB.ThreadEnding();
 			fakeSplashButton.Click();
+
 			LogB.Information("splash window ending here");
+			LogB.ThreadEnded();
 			return false;
 		}
 		//need to do this, if not it crashes because chronopicWin gets died by thread ending

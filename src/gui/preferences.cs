@@ -52,10 +52,12 @@ public class PreferencesWindow {
 
 	[Widget] Gtk.ComboBox combo_decimals;
 	[Widget] Gtk.CheckButton checkbutton_power;
+	[Widget] Gtk.CheckButton checkbutton_stiffness;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	
 	[Widget] Gtk.Button button_help_power;
+	[Widget] Gtk.Button button_help_stiffness;
 	
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
@@ -156,6 +158,14 @@ public class PreferencesWindow {
 		} else {
 			PreferencesWindowBox.checkbutton_power.Active = false; 
 			PreferencesWindowBox.button_help_power.Sensitive = false;
+		}
+		
+		if(preferences.showStiffness) {
+			PreferencesWindowBox.checkbutton_stiffness.Active = true; 
+			PreferencesWindowBox.button_help_stiffness.Sensitive = true;
+		} else {
+			PreferencesWindowBox.checkbutton_stiffness.Active = false; 
+			PreferencesWindowBox.button_help_stiffness.Sensitive = false;
 		}
 		
 		if(preferences.showInitialSpeed)  
@@ -316,21 +326,37 @@ public class PreferencesWindow {
 				//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") + 
 				//"\n" +
 				//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
-				Catalog.GetString("Jumps with TC & TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
+				Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
 				"\n" +
 				Catalog.GetString("Calcule the potential energies on fall and after the jump.") + "\n" + 
 				Catalog.GetString("Divide them by time during force is applied.") +
-				"\n" +
+				"\n\n" +
 				//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
 				"P = " + Catalog.GetString("mass") + " * g * ( " + 
 				Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + 
 				Catalog.GetString("total_time") +
 				"\n\n" +
 				Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
-				"\n" +
+				"\n\n" +
 				Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
 				"\n\n" +
 				Catalog.GetString("If you want to use other formulas, go to Statistics."));
+	}
+	
+	private void on_checkbutton_stiffness_clicked (object o, EventArgs args) {
+		button_help_stiffness.Sensitive = checkbutton_stiffness.Active;
+	}
+	private void on_button_help_stiffness_clicked (object o, EventArgs args) {
+		new DialogMessage(Constants.MessageTypes.INFO, 
+				"M: " + Catalog.GetString("Mass") + "\n" +
+				"Tc: " + Catalog.GetString("Contact Time") + "\n" +
+				"Tf: " + Catalog.GetString("Flight Time") + "\n\n" +
+				Catalog.GetString("See:") + "\n" +
+				"Dalleau, G; Belli, A; Viale, F; Lacour, JR; and Bourdin, M. (2004). " + 
+				"A simple method for field measurements of leg stiffness in hopping. " +
+			        "Int J Sports Med 25: 170–176"
+				,
+				"hbox_stiffness_formula");
 	}
 	
 	void on_button_cancel_clicked (object o, EventArgs args)

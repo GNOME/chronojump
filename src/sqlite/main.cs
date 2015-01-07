@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -73,7 +73,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.18";
+	static string lastChronojumpDatabaseVersion = "1.19";
 
 	public Sqlite() {
 	}
@@ -1730,6 +1730,17 @@ class Sqlite
 
 				currentVersion = "1.18";
 			}
+			if(currentVersion == "1.18") {
+				LogB.SQL("Preferences deleted showHeight, added showStiffness");
+				
+				Sqlite.Open();
+				DeleteFromName(true, Constants.PreferencesTable, "showHeight");
+				SqlitePreferences.Insert ("showStiffness", "True"); 
+				SqlitePreferences.Update ("databaseVersion", "1.19", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.19";
+			}
 	
 		}
 
@@ -1874,7 +1885,8 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
-		//1.18 - 1.18 Converted DB to 1.18 deleted Negative runInterval runs (bug from last version)
+		//1.18 - 1.19 Converted DB to 1.19 Preferences deleted showHeight, added showStiffness
+		//1.17 - 1.18 Converted DB to 1.18 deleted Negative runInterval runs (bug from last version)
 		//1.16 - 1.17 Converted DB to 1.17 Deleted Max jump (we already have "Free")
 		//1.15 - 1.16 Converted DB to 1.16 Cyprus moved to Europe
 		//1.14 - 1.15 Converted DB to 1.15 added Chronojump profile and bilateral profile

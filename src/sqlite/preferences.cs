@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -45,8 +45,8 @@ class SqlitePreferences : Sqlite
 			Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
 		
 		Insert ("digitsNumber", "3");
-		Insert ("showHeight", "True");
 		Insert ("showPower", "True");
+		Insert ("showStiffness", "True");
 		Insert ("showInitialSpeed", "True");
 		Insert ("showAngle", "False"); //for treeviewjumps
 		Insert ("showQIndex", "False"); //for treeviewJumps
@@ -147,8 +147,6 @@ class SqlitePreferences : Sqlite
 	 		//these are sent to preferences window
 			if(reader[0].ToString() == "digitsNumber")
 				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
-			else if(reader[0].ToString() == "showHeight")
-				preferences.showHeight = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showPower")
 				preferences.showPower = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showInitialSpeed")

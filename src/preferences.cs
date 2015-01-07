@@ -29,6 +29,7 @@ public class Preferences
 
 	public int digitsNumber;
 	public bool showPower;
+	public bool showStiffness;
 	public bool showInitialSpeed;
 	public bool showAngle;
 	public bool showQIndex;

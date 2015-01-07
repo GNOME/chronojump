@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -30,6 +30,8 @@ public class DialogMessage
 	[Widget] Gtk.Image image_warning;
 	[Widget] Gtk.Image image_info;
 	[Widget] Gtk.Image image_help;
+		
+	[Widget] Gtk.Box hbox_stiffness_formula;
 
 	public DialogMessage (string title, Constants.MessageTypes type, string message)
 	{
@@ -39,6 +41,14 @@ public class DialogMessage
 	{
 		initialize("", type, message);
 	}
+	//special caller to show stiffness formula or others
+	public DialogMessage (Constants.MessageTypes type, string message, string objectToShow)
+	{
+		initialize("", type, message);
+		if(objectToShow == "hbox_stiffness_formula")
+			hbox_stiffness_formula.Show();
+	}
+
 
 	private void initialize(string title, Constants.MessageTypes type, string message)
 	{
@@ -80,7 +90,6 @@ public class DialogMessage
 		label_message.Show();	
 		dialog_message.Show();	
 	}
-				
 
 	public void on_close_button_clicked (object obj, EventArgs args) {
 		dialog_message.Destroy ();

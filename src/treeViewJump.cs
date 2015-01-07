@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -68,7 +68,9 @@ public class TreeViewJumps : TreeViewEvent
 		string [] columnsStringPre = { jumperName, 
 			Catalog.GetString("TC") + "\n(s)", 
 			Catalog.GetString("TF") + "\n(s)", 
-			weightName, fallName }; //Note: if this changes, check the '5's in obtainColumnsString
+			weightName, fallName,
+			heightName
+	       	};
 
 		columnsString = obtainColumnsString(columnsStringPre);
 	
@@ -84,8 +86,7 @@ public class TreeViewJumps : TreeViewEvent
 
 	protected override int getColsNum() {
 		int i = columnsString.Length;
-		if (preferences.showHeight)  
-			i ++;
+		
 		if (preferences.showPower)  
 			i ++;
 		if (preferences.showInitialSpeed) 
@@ -100,9 +101,8 @@ public class TreeViewJumps : TreeViewEvent
 	protected string [] obtainColumnsString(string [] columnsStringPre) 
 	{
 		//check long of new array
-		int i = 6; //columnsStringPre + uniqueID (at last)
-		if (preferences.showHeight)  
-			i ++;
+		int i = columnsStringPre.Length + 1; //columnsStringPre + uniqueID (at last)
+		
 		if (preferences.showPower)  
 			i ++;
 		if (preferences.showInitialSpeed) 
@@ -114,7 +114,7 @@ public class TreeViewJumps : TreeViewEvent
 
 		//create new array
 		string [] columnsString = new String[i];
-		Array.Copy(columnsStringPre, columnsString, 5); //copy columnsStringPre
+		Array.Copy(columnsStringPre, columnsString, columnsStringPre.Length); //copy columnsStringPre
 
 	
 		if(preferences.metersSecondsPreferred)
@@ -124,9 +124,8 @@ public class TreeViewJumps : TreeViewEvent
 
 
 		//fill names
-		i = 5; //start at pos five end of columnsStringPre
-		if (preferences.showHeight)  
-			columnsString[i++] = heightName;
+		i = columnsStringPre.Length; //start at end of columnsStringPre
+		
 		if (preferences.showPower)  
 			columnsString[i++] = powerName;
 		if (preferences.showInitialSpeed) 
@@ -188,8 +187,7 @@ public class TreeViewJumps : TreeViewEvent
 		myData[count++] = Util.TrimDecimals(newJump.Weight.ToString(), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJump.Fall.ToString(), pDN);
-		if (preferences.showHeight)  
-			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
+		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(newJump.Tv.ToString()), pDN);
 
 		
 
@@ -260,7 +258,9 @@ public class TreeViewJumpsRj : TreeViewJumps
 		string [] columnsStringPre = { jumperName, 
 			Catalog.GetString("TC") + "\n(s)", 
 			Catalog.GetString("TF") + "\n(s)", 
-			weightName, fallName };
+			weightName, fallName,
+			heightName
+	       	};
 		columnsString = obtainColumnsString(columnsStringPre);
 
 		eventIDColumn = columnsString.Length ; //column where the uniqueID of event will be (and will be hidded). 
@@ -317,8 +317,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = Util.TrimDecimals(newJumpRj.Weight.ToString(), pDN);
 
 		myData[count++] = Util.TrimDecimals(newJumpRj.Fall.ToString(), pDN);
-		if (preferences.showHeight)  
-			myData[count++] = "";
+		myData[count++] = ""; //height
 		if (preferences.showPower)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
@@ -359,8 +358,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = Util.TrimDecimals( thisTv, pDN );
 		myData[count++] = ""; 
 		myData[count++] = ""; 
-		if (preferences.showHeight)  
-			myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
+		myData[count++] = Util.TrimDecimals(Util.GetHeightInCentimeters(thisTv), pDN);
 		if (preferences.showPower) {
 			double myFall;
 			if(lineCount == 0)
@@ -402,8 +400,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = Util.TrimDecimals(Util.GetTotalTime(newJumpRj.TvString).ToString(), pDN);
 		myData[count++] = ""; //weight
 		myData[count++] = ""; //fall
-		if (preferences.showHeight)  
-			myData[count++] = ""; 
+		myData[count++] = ""; //height
 		if (preferences.showPower)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
@@ -446,11 +443,10 @@ public class TreeViewJumpsRj : TreeViewJumps
 
 		//this values are calculated using the AVG of the tcs or tvs, not as an avg of individual values
 
-		if (preferences.showHeight)  
-			myData[count++] = Util.TrimDecimals(
-					Util.GetHeightInCentimeters(
-						tvAVGDouble.ToString())
-					, pDN);
+		myData[count++] = Util.TrimDecimals(
+				Util.GetHeightInCentimeters(
+					tvAVGDouble.ToString())
+				, pDN);
 		if (preferences.showPower) {
 			myData[count++] = "";
 
@@ -512,9 +508,7 @@ public class TreeViewJumpsRj : TreeViewJumps
 		
 		myData[count++] = ""; //weight
 		myData[count++] = ""; //fall
-
-		if (preferences.showHeight)  
-			myData[count++] = "";
+		myData[count++] = ""; //height
 		if (preferences.showPower)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 

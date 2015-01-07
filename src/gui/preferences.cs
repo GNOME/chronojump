@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -51,7 +51,6 @@ public class PreferencesWindow {
 	[Widget] Gtk.ProgressBar pulsebar;
 
 	[Widget] Gtk.ComboBox combo_decimals;
-	[Widget] Gtk.CheckButton checkbutton_height;
 	[Widget] Gtk.CheckButton checkbutton_power;
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
@@ -151,11 +150,6 @@ public class PreferencesWindow {
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
 				decs, preferences.digitsNumber.ToString());
 
-		if(preferences.showHeight) 
-			PreferencesWindowBox.checkbutton_height.Active = true; 
-		else 
-			PreferencesWindowBox.checkbutton_height.Active = false; 
-		
 		if(preferences.showPower) {
 			PreferencesWindowBox.checkbutton_power.Active = true; 
 			PreferencesWindowBox.button_help_power.Sensitive = true;
@@ -574,12 +568,6 @@ public class PreferencesWindow {
 			preferences.digitsNumber = Convert.ToInt32(UtilGtk.ComboGetActive(combo_decimals));
 		}
 		
-		
-		if( preferences.showHeight != PreferencesWindowBox.checkbutton_height.Active ) {
-			SqlitePreferences.Update("showHeight", PreferencesWindowBox.checkbutton_height.Active.ToString(), true);
-			preferences.showHeight = PreferencesWindowBox.checkbutton_height.Active;
-		}
-
 		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
 			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
 			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;

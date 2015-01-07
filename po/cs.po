@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the chronojump package.
 #
 # Petr Kovar <pknbe@volny.cz>, 2010.
-# Marek Černocký <marek@manet.cz>, 2009, 2010, 2011, 2012, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: chronojump master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-17 18:19+0000\n"
-"PO-Revision-Date: 2014-12-28 09:51+0100\n"
+"POT-Creation-Date: 2015-01-07 19:58+0000\n"
+"PO-Revision-Date: 2015-01-07 22:41+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -122,7 +122,7 @@ msgid "_Mode:"
 msgstr "Reži_m:"
 
 #: ../glade/chronojump.glade.h:18 ../src/exportSession.cs:376
-#: ../src/gui/chronojump.cs:2913 ../src/gui/chronojump.cs:3758
+#: ../src/gui/chronojump.cs:2913 ../src/gui/chronojump.cs:3746
 #: ../src/gui/jump.cs:1713 ../src/gui/jump.cs:1768 ../src/gui/jump.cs:1818
 #: ../src/sqlite/speciallity.cs:160 ../src/stats/rjAVGSD.cs:36
 #: ../src/stats/rjPotencyBosco.cs:35
@@ -282,7 +282,7 @@ msgid "Reaction times"
 msgstr "Doby reakce"
 
 #: ../glade/chronojump.glade.h:56 ../src/exportSession.cs:187
-#: ../src/gui/chronojump.cs:4290 ../src/gui/person.cs:2456
+#: ../src/gui/chronojump.cs:4263 ../src/gui/person.cs:2456
 #: ../src/gui/session.cs:735 ../src/report.cs:175
 msgid "Pulses"
 msgstr "Pulzy"
@@ -695,7 +695,7 @@ msgstr "Volby"
 msgid "Or press 'space'"
 msgstr "nebo zmáčkněte „mezerník“"
 
-#: ../glade/chronojump.glade.h:150 ../src/gui/chronojump.cs:5844
+#: ../glade/chronojump.glade.h:150 ../src/gui/chronojump.cs:5812
 msgid "Execute test"
 msgstr "Vykonat test"
 
@@ -719,8 +719,8 @@ msgstr "Závěrečný test (uložit test do tohoto okamžiku)\t"
 msgid "Time"
 msgstr "Čas"
 
-#: ../glade/chronojump.glade.h:154 ../src/gui/chronojump.cs:3576
-#: ../src/gui/chronojump.cs:3918 ../src/gui/chronojump.cs:4176
+#: ../glade/chronojump.glade.h:154 ../src/gui/chronojump.cs:3570
+#: ../src/gui/chronojump.cs:3901 ../src/gui/chronojump.cs:4153
 msgid "Phases"
 msgstr "Fáze"
 
@@ -741,14 +741,14 @@ msgid "Update"
 msgstr "Aktualizovat"
 
 #. Log.WriteLine("TC: {0}", tc.ToString());
-#: ../glade/chronojump.glade.h:159 ../src/execute/jump.cs:427
+#: ../glade/chronojump.glade.h:159 ../src/execute/jump.cs:430
 #: ../src/exportSession.cs:268 ../src/exportSession.cs:436
 #: ../src/gui/convertWeight.cs:122 ../src/gui/jump.cs:688
 #: ../src/stats/djIndex.cs:35 ../src/stats/djPower.cs:35
 #: ../src/stats/djQ.cs:35 ../src/stats/graphs/rjEvolution.cs:104
 #: ../src/stats/rjEvolution.cs:72 ../src/stats/rjEvolution.cs:77
 #: ../src/stats/rjIndex.cs:34 ../src/stats/rjPotencyBosco.cs:34
-#: ../src/treeViewJump.cs:69 ../src/treeViewJump.cs:261
+#: ../src/treeViewJump.cs:69 ../src/treeViewJump.cs:259
 msgid "TC"
 msgstr "ČK"
 
@@ -766,7 +766,7 @@ msgstr " "
 #: ../src/stats/rjEvolution.cs:78 ../src/stats/rjIndex.cs:33
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/sjCmjAbk.cs:53
 #: ../src/stats/sjCmjAbkPlus.cs:64 ../src/treeViewJump.cs:70
-#: ../src/treeViewJump.cs:262
+#: ../src/treeViewJump.cs:260
 msgid "TF"
 msgstr "ČL"
 
@@ -833,8 +833,8 @@ msgstr "Poslední skok"
 #: ../src/stats/rjAVGSD.cs:34 ../src/stats/rjEvolution.cs:219
 #: ../src/stats/rjIndex.cs:33 ../src/stats/rjIndex.cs:34
 #: ../src/stats/rjPotencyBosco.cs:33 ../src/stats/rjPotencyBosco.cs:34
-#: ../src/stats/runIntervallic.cs:207 ../src/treeViewJump.cs:438
-#: ../src/treeViewJump.cs:440 ../src/treeViewMultiChronopic.cs:179
+#: ../src/stats/runIntervallic.cs:207 ../src/treeViewJump.cs:435
+#: ../src/treeViewJump.cs:437 ../src/treeViewMultiChronopic.cs:179
 #: ../src/treeViewPulse.cs:147 ../src/treeViewRun.cs:272
 msgid "AVG"
 msgstr "Průměr"
@@ -1122,7 +1122,7 @@ msgstr "Analýza"
 msgid "Contacts (platform or photocell)"
 msgstr "Kontakty (plošina nebo fotobuňka)"
 
-#: ../glade/chronojump.glade.h:238 ../src/gui/chronojump.cs:4485
+#: ../glade/chronojump.glade.h:238 ../src/gui/chronojump.cs:4455
 msgid "Encoder disconnected"
 msgstr "Snímač je odpojen"
 
@@ -1551,18 +1551,22 @@ msgid "Message"
 msgstr "Zpráva"
 
 #: ../glade/chronojump.glade.h:346
+msgid "Stiffness"
+msgstr "Tuhost"
+
+#: ../glade/chronojump.glade.h:347
 msgid "Server stats"
 msgstr "Statistiky serveru"
 
-#: ../glade/chronojump.glade.h:347
+#: ../glade/chronojump.glade.h:348
 msgid "Evaluators"
 msgstr "Hodnotitelé"
 
-#: ../glade/chronojump.glade.h:348
+#: ../glade/chronojump.glade.h:349
 msgid "In server"
 msgstr "Na serveru"
 
-#: ../glade/chronojump.glade.h:349
+#: ../glade/chronojump.glade.h:350
 msgid ""
 "Uploaded\n"
 "by you"
@@ -1570,72 +1574,72 @@ msgstr ""
 "Odesláno\n"
 "od vás"
 
-#: ../glade/chronojump.glade.h:351
+#: ../glade/chronojump.glade.h:352
 msgid "Sessions"
 msgstr "Série cvičení"
 
-#: ../glade/chronojump.glade.h:352 ../src/exportSession.cs:172
+#: ../glade/chronojump.glade.h:353 ../src/exportSession.cs:172
 #: ../src/gui/session.cs:725 ../src/report.cs:137
 msgid "Persons"
 msgstr "Osoby"
 
-#: ../glade/chronojump.glade.h:353
+#: ../glade/chronojump.glade.h:354
 msgid "General data"
 msgstr "Obecné údaje"
 
-#: ../glade/chronojump.glade.h:354 ../src/exportSession.cs:177
+#: ../glade/chronojump.glade.h:355 ../src/exportSession.cs:177
 #: ../src/report.cs:147 ../src/report.cs:150
 msgid "Reactive jumps"
 msgstr "Reakční skoky"
 
-#: ../glade/chronojump.glade.h:355
+#: ../glade/chronojump.glade.h:356
 msgid "Intervallic runs"
 msgstr "Intervalové běhy"
 
-#: ../glade/chronojump.glade.h:356
+#: ../glade/chronojump.glade.h:357
 msgid "Tests"
 msgstr "Testy"
 
-#: ../glade/chronojump.glade.h:357 ../src/gui/chronojump.cs:1102
+#: ../glade/chronojump.glade.h:358 ../src/gui/chronojump.cs:1102
 msgid "Edit"
 msgstr "Úprava"
 
-#: ../glade/chronojump.glade.h:358
+#: ../glade/chronojump.glade.h:359
 msgid "Flight time"
 msgstr "Čas letu"
 
-#: ../glade/chronojump.glade.h:359 ../src/gui/encoder.cs:785
+#: ../glade/chronojump.glade.h:360 ../src/gui/encoder.cs:785
 #: ../src/gui/encoder.cs:1193 ../src/gui/encoderTreeviews.cs:433
 #: ../src/gui/jump.cs:1462 ../src/gui/jump.cs:1679
 #: ../src/stats/sjCmjAbkPlus.cs:57 ../src/treeViewJump.cs:31
 msgid "Extra weight"
 msgstr "Přídavná zátěž"
 
-#: ../glade/chronojump.glade.h:360
+#: ../glade/chronojump.glade.h:361
 msgid "Identifier"
 msgstr "Identifikátor"
 
-#: ../glade/chronojump.glade.h:361
+#: ../glade/chronojump.glade.h:362
 msgid "Contact time"
 msgstr "Čas kontaktu"
 
-#: ../glade/chronojump.glade.h:362
+#: ../glade/chronojump.glade.h:363
 msgid "<b>Simulated</b>"
 msgstr "<b>Simulovaný</b>"
 
-#: ../glade/chronojump.glade.h:363
+#: ../glade/chronojump.glade.h:364
 msgid "Knee angle"
 msgstr "Úhel v koleni"
 
-#: ../glade/chronojump.glade.h:364
+#: ../glade/chronojump.glade.h:365
 msgid "Mistakes"
 msgstr "Chyby"
 
-#: ../glade/chronojump.glade.h:365
+#: ../glade/chronojump.glade.h:366
 msgid "Video available"
 msgstr "Je k dispozici video"
 
-#: ../glade/chronojump.glade.h:366 ../src/constants.cs:604
+#: ../glade/chronojump.glade.h:367 ../src/constants.cs:604
 #: ../src/encoder.cs:588 ../src/gui/jump.cs:1478 ../src/gui/jump.cs:1483
 #: ../src/gui/jump.cs:1520 ../src/gui/jump.cs:1523 ../src/gui/jump.cs:1552
 #: ../src/gui/jump.cs:1555 ../src/gui/jump.cs:1695 ../src/gui/jump.cs:1700
@@ -1644,26 +1648,26 @@ msgstr "Je k dispozici video"
 msgid "Yes"
 msgstr "Ano"
 
-#: ../glade/chronojump.glade.h:367 ../src/constants.cs:603
+#: ../glade/chronojump.glade.h:368 ../src/constants.cs:603
 #: ../src/encoder.cs:590 ../src/gui/jump.cs:1480 ../src/gui/jump.cs:1485
 #: ../src/gui/jump.cs:1697 ../src/gui/jump.cs:1702
 msgid "No"
 msgstr "Ne"
 
-#: ../glade/chronojump.glade.h:368
+#: ../glade/chronojump.glade.h:369
 msgid "Play video"
 msgstr "Přehrát video"
 
-#: ../glade/chronojump.glade.h:369
+#: ../glade/chronojump.glade.h:370
 msgid "m/s"
 msgstr "m/s"
 
-#: ../glade/chronojump.glade.h:370 ../src/gui/encoderTreeviews.cs:43
+#: ../glade/chronojump.glade.h:371 ../src/gui/encoderTreeviews.cs:43
 #: ../src/gui/encoderTreeviews.cs:435
 msgid "Start"
 msgstr "Start"
 
-#: ../glade/chronojump.glade.h:371
+#: ../glade/chronojump.glade.h:372
 msgid ""
 "Description /\n"
 "comments"
@@ -1671,78 +1675,78 @@ msgstr ""
 "Popis /\n"
 "poznámky"
 
-#: ../glade/chronojump.glade.h:373
+#: ../glade/chronojump.glade.h:374
 msgid "Sit to stand"
 msgstr "Vstávání"
 
-#: ../glade/chronojump.glade.h:374
+#: ../glade/chronojump.glade.h:375
 msgid "Able to stand up without using hands in a steady and controlled action."
 msgstr "Schopen(na) vstát bez pomoci rukou s dobrou koordinací a ovládáním."
 
-#: ../glade/chronojump.glade.h:375
+#: ../glade/chronojump.glade.h:376
 msgid "Able to stand up using hands in a steady and controlled action."
 msgstr "Schopen(na) vstát s pomocí rukou s dobrou koordinací a ovládáním."
 
-#: ../glade/chronojump.glade.h:376
+#: ../glade/chronojump.glade.h:377
 msgid "Able to stand up using hands after multiple attempts."
 msgstr "Schopen(na) vstát s pomocí rukou po několika pokusech."
 
-#: ../glade/chronojump.glade.h:377
+#: ../glade/chronojump.glade.h:378
 msgid "Needs or asks for help."
 msgstr "Potřeboval(a) nebo si vyžádal(a) pomoc."
 
-#: ../glade/chronojump.glade.h:378
+#: ../glade/chronojump.glade.h:379
 msgid "Undefined."
 msgstr "Nedefinováno."
 
-#: ../glade/chronojump.glade.h:379
+#: ../glade/chronojump.glade.h:380
 msgid "MTGUG Questionnaire 1"
 msgstr "Dotazník MTGUG 1"
 
-#: ../glade/chronojump.glade.h:380
+#: ../glade/chronojump.glade.h:381
 msgid "Kick ball"
 msgstr "Kop do balónu"
 
-#: ../glade/chronojump.glade.h:381
+#: ../glade/chronojump.glade.h:382
 msgid "Able to kick ball without losing balance."
 msgstr "Schopen(na) kopnout do balónu beze ztráty rovnováhy."
 
-#: ../glade/chronojump.glade.h:382
+#: ../glade/chronojump.glade.h:383
 msgid "Able to kick ball but needs to take a step to get back on balance."
 msgstr ""
 "Schopen(na) kopnout do balónu, ale s potřebou udělat krok ke znovu získání "
 "stability."
 
-#: ../glade/chronojump.glade.h:383
+#: ../glade/chronojump.glade.h:384
 msgid "Able to kick ball with difficulty finding balance."
 msgstr "Schopen(na) kopnout do balónu s obtížně udržitelnou rovnováhou."
 
-#: ../glade/chronojump.glade.h:384
+#: ../glade/chronojump.glade.h:385
 msgid "Walk whilst counting backwards from 15 to 0"
 msgstr "Chůze s počítáním pozpátku od 15 do 0"
 
-#: ../glade/chronojump.glade.h:385
+#: ../glade/chronojump.glade.h:386
 msgid "Able to coordinate walking with counting without making a mistake."
 msgstr "Schopen(na) koordinované chůze s počítáním bez chyby."
 
-#: ../glade/chronojump.glade.h:386
+#: ../glade/chronojump.glade.h:387
 msgid "Able to coordinate walking with counting with one mistake."
 msgstr "Schopen(na) koordinované chůze s počítáním s jednou chybou."
 
-#: ../glade/chronojump.glade.h:387
+#: ../glade/chronojump.glade.h:388
 msgid ""
 "Poor coordination between walking and counting with more than one mistake."
 msgstr "Špatná koordinace během chůze a počítání s více než jednou chybou."
 
-#: ../glade/chronojump.glade.h:388
+#: ../glade/chronojump.glade.h:389
 msgid "Needs help or cannot perform the counting task."
 msgstr "Potřeboval(a) pomoc nebo neschopen(na) počítat."
 
-#: ../glade/chronojump.glade.h:389
+#: ../glade/chronojump.glade.h:390
 msgid "Go around back of cone"
 msgstr "Zatáčení zpět okolo kuželu"
 
-#: ../glade/chronojump.glade.h:390
+#: ../glade/chronojump.glade.h:391
 msgid ""
 "Able to go around the cone without touching it, without going outside the "
 "marked area, but slowing down the pace."
@@ -1750,11 +1754,11 @@ msgstr ""
 "Schopen(na) běžet okolo kužele, aniž by se ho dotkl(a), bez vybočení s "
 "označené oblasti, ale se zpomalením tempa."
 
-#: ../glade/chronojump.glade.h:391
+#: ../glade/chronojump.glade.h:392
 msgid "Able to go around with obvious signs of insecurity."
 msgstr "Schopen(na) běžet okolo kužele se zjevnými známkami nejistoty."
 
-#: ../glade/chronojump.glade.h:392
+#: ../glade/chronojump.glade.h:393
 msgid ""
 "Able to go around the cone without touching it, without going outside the  "
 "marked area, and keeping up the pace."
@@ -1762,11 +1766,11 @@ msgstr ""
 "Schopen(na) běžet okolo kužele, aniž by se ho dotkl(a), bez vybočení s "
 "označené oblasti a s udržením tempa."
 
-#: ../glade/chronojump.glade.h:393
+#: ../glade/chronojump.glade.h:394
 msgid "Step into circles"
 msgstr "Našlapování do kruhů"
 
-#: ../glade/chronojump.glade.h:394
+#: ../glade/chronojump.glade.h:395
 msgid ""
 "Able to walk, stepping one foot into each circle without touching them and "
 "without losing balance."
@@ -1774,7 +1778,7 @@ msgstr ""
 "Schopen(na) našlapovat do kruhů, aniž by se jich dotkl(a) a beze ztráty "
 "rovnováhy."
 
-#: ../glade/chronojump.glade.h:395
+#: ../glade/chronojump.glade.h:396
 msgid ""
 "Able to walk, stepping one foot into each circle, touching one or needing to "
 "take an extra step outside the rings to regain balance."
@@ -1782,7 +1786,7 @@ msgstr ""
 "Schopen(na) našlapovat do kruhů, přičemž se jednoho dotkl(a) nebo s potřebou "
 "mezikroku mimo kruh k udržení rovnováhy."
 
-#: ../glade/chronojump.glade.h:396
+#: ../glade/chronojump.glade.h:397
 msgid ""
 "Able to walk stepping one foot in each circle, touching more than one, or "
 "needing more than one extra step to regain balance."
@@ -1790,143 +1794,143 @@ msgstr ""
 "Schopen(na) našlapovat do kruhů, přičemž se jednoho nebo více dotkl(a) a "
 "nebo s potřebou udělat mezikroky k udržení rovnováhy."
 
-#: ../glade/chronojump.glade.h:397
+#: ../glade/chronojump.glade.h:398
 msgid "Sit back down"
 msgstr "Posazení zpět"
 
-#: ../glade/chronojump.glade.h:398
+#: ../glade/chronojump.glade.h:399
 msgid "Able to sit down smoothly without using hands."
 msgstr "Schopen(na) si sednout pomalu bez pomoci rukou."
 
-#: ../glade/chronojump.glade.h:399
+#: ../glade/chronojump.glade.h:400
 msgid "Able to sit down sharply without using hands."
 msgstr "Schopen(na) se sednout zostra bez pomoci rukou."
 
-#: ../glade/chronojump.glade.h:400
+#: ../glade/chronojump.glade.h:401
 msgid "Able to sit down using hands."
 msgstr "Schopen(na) si sednout s pomocí rukou."
 
-#: ../glade/chronojump.glade.h:401
+#: ../glade/chronojump.glade.h:402
 msgid "slCMJ"
 msgstr "slCMJ"
 
-#: ../glade/chronojump.glade.h:402
+#: ../glade/chronojump.glade.h:403
 msgid "Encoder capture options"
 msgstr "Volby snímání ze snímače"
 
-#: ../glade/chronojump.glade.h:403
+#: ../glade/chronojump.glade.h:404
 msgid "Safe"
 msgstr "Bezp."
 
-#: ../glade/chronojump.glade.h:404
+#: ../glade/chronojump.glade.h:405
 msgid "Recording time"
 msgstr "Doba záznamu"
 
-#: ../glade/chronojump.glade.h:405
+#: ../glade/chronojump.glade.h:406
 msgid "Minimal height"
 msgstr "Minimální výška"
 
-#: ../glade/chronojump.glade.h:406
+#: ../glade/chronojump.glade.h:407
 msgid "s"
 msgstr "s"
 
-#: ../glade/chronojump.glade.h:407
+#: ../glade/chronojump.glade.h:408
 msgid "Displayed positive and negative height"
 msgstr "Zobrazena kladná a záporná výška"
 
-#: ../glade/chronojump.glade.h:408
+#: ../glade/chronojump.glade.h:409
 msgid "Displayed height"
 msgstr "Zobrazena výška"
 
-#: ../glade/chronojump.glade.h:409
+#: ../glade/chronojump.glade.h:410
 msgid "Main variable"
 msgstr "Hlavní proměnná"
 
-#: ../glade/chronojump.glade.h:410
+#: ../glade/chronojump.glade.h:411
 msgid "End at n inactivity seconds"
 msgstr "Ukončit v n-té sekundě nečinnosti"
 
-#: ../glade/chronojump.glade.h:411
+#: ../glade/chronojump.glade.h:412
 msgid "Show start and duration of each repetition"
 msgstr "Zobrazit začátek a délku každého opakování"
 
-#: ../glade/chronojump.glade.h:412
+#: ../glade/chronojump.glade.h:413
 msgid "Select encoder configuration"
 msgstr "Vyberte konfiguraci snímače"
 
-#: ../glade/chronojump.glade.h:413
+#: ../glade/chronojump.glade.h:414
 msgid "Linear"
 msgstr "Lineární"
 
-#: ../glade/chronojump.glade.h:414
+#: ../glade/chronojump.glade.h:415
 msgid "Rotary friction"
 msgstr "Rotační třecí"
 
-#: ../glade/chronojump.glade.h:415
+#: ../glade/chronojump.glade.h:416
 msgid "Rotary axis"
 msgstr "Rotační na ose"
 
-#: ../glade/chronojump.glade.h:416
+#: ../glade/chronojump.glade.h:417
 msgid "Push angle"
 msgstr "Úhel působení"
 
-#: ../glade/chronojump.glade.h:417
+#: ../glade/chronojump.glade.h:418
 msgid "Weight angle"
 msgstr "Úhel zátěže"
 
-#: ../glade/chronojump.glade.h:418
+#: ../glade/chronojump.glade.h:419
 msgid "Inertia"
 msgstr "Inerciální"
 
-#: ../glade/chronojump.glade.h:419
+#: ../glade/chronojump.glade.h:420
 msgid "Calcule inertial momentum"
 msgstr "Vypočítat moment setrvačnosti"
 
-#: ../glade/chronojump.glade.h:420
+#: ../glade/chronojump.glade.h:421
 msgid "Calcule IM"
 msgstr "Vypočítat MS"
 
-#: ../glade/chronojump.glade.h:421
+#: ../glade/chronojump.glade.h:422
 msgid "Accuracy"
 msgstr "Přesnost"
 
-#: ../glade/chronojump.glade.h:422
+#: ../glade/chronojump.glade.h:423
 msgid "grams"
 msgstr "g"
 
-#: ../glade/chronojump.glade.h:423
+#: ../glade/chronojump.glade.h:424
 msgid "Number of weights"
 msgstr "Počet závaží"
 
-#: ../glade/chronojump.glade.h:424
+#: ../glade/chronojump.glade.h:425
 msgid "Weight of each"
 msgstr "Hmotnost každého"
 
-#: ../glade/chronojump.glade.h:425
+#: ../glade/chronojump.glade.h:426
 msgid "Calcule"
 msgstr "Vypočítat"
 
-#: ../glade/chronojump.glade.h:426
+#: ../glade/chronojump.glade.h:427
 msgid "ChronoJump - Error"
 msgstr "ChronoJump – Chyba"
 
-#: ../glade/chronojump.glade.h:427
+#: ../glade/chronojump.glade.h:428
 msgid "ChronoJump"
 msgstr "ChronoJump"
 
-#: ../glade/chronojump.glade.h:428
+#: ../glade/chronojump.glade.h:429
 msgid "Evaluator server data"
 msgstr "Údaje hodnotitele pro server"
 
-#: ../glade/chronojump.glade.h:429
+#: ../glade/chronojump.glade.h:430
 msgid "Please fill these values."
 msgstr "Vyplňte prosím tyto hodnoty."
 
-#: ../glade/chronojump.glade.h:430
+#: ../glade/chronojump.glade.h:431
 msgid "E-mail will never be shown in public."
 msgstr "E-mail nebude nikde zveřejněn."
 
-#: ../glade/chronojump.glade.h:431 ../src/exportSession.cs:206
+#: ../glade/chronojump.glade.h:432 ../src/exportSession.cs:206
 #: ../src/exportSession.cs:221 ../src/gui/executeAuto.cs:192
 #: ../src/gui/jump.cs:1460 ../src/gui/jump.cs:1675 ../src/gui/person.cs:120
 #: ../src/gui/run.cs:1219 ../src/gui/run.cs:1406 ../src/gui/server.cs:164
@@ -1934,83 +1938,83 @@ msgstr "E-mail nebude nikde zveřejněn."
 msgid "Name"
 msgstr "Jméno"
 
-#: ../glade/chronojump.glade.h:432
+#: ../glade/chronojump.glade.h:433
 msgid "E-mail"
 msgstr "E-mail"
 
-#: ../glade/chronojump.glade.h:433
+#: ../glade/chronojump.glade.h:434
 msgid "change"
 msgstr "změnit"
 
-#: ../glade/chronojump.glade.h:434
+#: ../glade/chronojump.glade.h:435
 msgid "Country"
 msgstr "Země"
 
-#: ../glade/chronojump.glade.h:435
+#: ../glade/chronojump.glade.h:436
 msgid "Accredited"
 msgstr "Pověřen"
 
-#: ../glade/chronojump.glade.h:436
+#: ../glade/chronojump.glade.h:437
 msgid "more info"
 msgstr "další info"
 
-#: ../glade/chronojump.glade.h:437
+#: ../glade/chronojump.glade.h:438
 msgid "Date of birth"
 msgstr "Datum narození"
 
-#: ../glade/chronojump.glade.h:438 ../src/exportSession.cs:209
+#: ../glade/chronojump.glade.h:439 ../src/exportSession.cs:209
 #: ../src/exportSession.cs:226 ../src/gui/session.cs:742
 #: ../src/gui/session.cs:962 ../src/report.cs:222 ../src/runType.cs:197
 #: ../src/runType.cs:214 ../src/runType.cs:283 ../src/runType.cs:304
 msgid "Comments"
 msgstr "Poznámky"
 
-#: ../glade/chronojump.glade.h:439
+#: ../glade/chronojump.glade.h:440
 msgid "Evaluator data"
 msgstr "Údaje hodnotitele"
 
-#: ../glade/chronojump.glade.h:440
+#: ../glade/chronojump.glade.h:441
 msgid "Select your Chronometer"
 msgstr "Vyberte svoji časomíru"
 
-#: ../glade/chronojump.glade.h:441 ../src/constants.cs:523
+#: ../glade/chronojump.glade.h:442 ../src/constants.cs:523
 #: ../src/constants.cs:554 ../src/gui/person.cs:1278 ../src/gui/person.cs:1294
 msgid "Undefined"
 msgstr "Nedefinováno"
 
-#: ../glade/chronojump.glade.h:442
+#: ../glade/chronojump.glade.h:443
 msgid "Chronopic 1"
 msgstr "Chronopic 1"
 
-#: ../glade/chronojump.glade.h:443
+#: ../glade/chronojump.glade.h:444
 msgid "Chronopic 2"
 msgstr "Chronopic 2"
 
-#: ../glade/chronojump.glade.h:444
+#: ../glade/chronojump.glade.h:445
 msgid "Chronopic 3"
 msgstr "Chronopic 3"
 
-#: ../glade/chronojump.glade.h:445
+#: ../glade/chronojump.glade.h:446
 msgid "Other. Specify:"
 msgstr "Jiné. Uveďte:"
 
-#: ../glade/chronojump.glade.h:446
+#: ../glade/chronojump.glade.h:447
 msgid "Expand image and show description"
 msgstr "Zvětšit obrázek a zobrazit popis"
 
-#: ../glade/chronojump.glade.h:447
+#: ../glade/chronojump.glade.h:448
 msgid "To buy or build Chronopic see website:"
 msgstr "Jak koupit nebo vyrobit zařízení Chronopic se dozvíte na webu:"
 
-#: ../glade/chronojump.glade.h:448
+#: ../glade/chronojump.glade.h:449
 msgid "Chronometer"
 msgstr "Časomíra"
 
-#: ../glade/chronojump.glade.h:449
+#: ../glade/chronojump.glade.h:450
 msgid "Select the device you currently use"
 msgstr "Vyberte zařízení, které právě používáte"
 
-#: ../glade/chronojump.glade.h:450
+#: ../glade/chronojump.glade.h:451
 msgid ""
 "Contact platform\n"
 "(tempered steel)"
@@ -2018,7 +2022,7 @@ msgstr ""
 "Kontaktní plošina\n"
 "(temperovaná ocel)"
 
-#: ../glade/chronojump.glade.h:452
+#: ../glade/chronojump.glade.h:453
 msgid ""
 "Contact platform\n"
 "(circuit board)"
@@ -2026,87 +2030,87 @@ msgstr ""
 "Kontaktní plošina\n"
 "(tištěné spoje)"
 
-#: ../glade/chronojump.glade.h:454
+#: ../glade/chronojump.glade.h:455
 msgid "Infrared"
 msgstr "Infrazávora"
 
-#: ../glade/chronojump.glade.h:455
+#: ../glade/chronojump.glade.h:456
 msgid "To buy or build these devices see website:"
 msgstr "Jak koupit nebo vyrobit toto zařízení se dozvíte na webu:"
 
-#: ../glade/chronojump.glade.h:456
+#: ../glade/chronojump.glade.h:457
 msgid "Device"
 msgstr "Zařízení"
 
-#: ../glade/chronojump.glade.h:457
+#: ../glade/chronojump.glade.h:458
 msgid "Configure graph"
 msgstr "Nastavení grafu"
 
-#: ../glade/chronojump.glade.h:458
+#: ../glade/chronojump.glade.h:459
 msgid "Maximum"
 msgstr "Maximum"
 
-#: ../glade/chronojump.glade.h:459
+#: ../glade/chronojump.glade.h:460
 msgid "Minimum"
 msgstr "Minimum"
 
-#: ../glade/chronojump.glade.h:460
+#: ../glade/chronojump.glade.h:461
 msgid "auto"
 msgstr "automaticky"
 
-#: ../glade/chronojump.glade.h:461
+#: ../glade/chronojump.glade.h:462
 msgid "Vertical Axe"
 msgstr "Svislá osa"
 
-#: ../glade/chronojump.glade.h:462
+#: ../glade/chronojump.glade.h:463
 msgid "Show black guide"
 msgstr "Zobrazit černé vodítko"
 
-#: ../glade/chronojump.glade.h:463
+#: ../glade/chronojump.glade.h:464
 msgid "Show green guide"
 msgstr "Zobrazit zelené vodítko"
 
-#: ../glade/chronojump.glade.h:464
+#: ../glade/chronojump.glade.h:465
 msgid "Guides"
 msgstr "Vodicí čáry"
 
-#: ../glade/chronojump.glade.h:465
+#: ../glade/chronojump.glade.h:466
 msgid "Paint a circle at end"
 msgstr "Na konci nakreslit kolečko"
 
-#: ../glade/chronojump.glade.h:466
+#: ../glade/chronojump.glade.h:467
 msgid "Show grid (on repetitive tests)"
 msgstr "Zobrazit mřížku (u opakovaných testů)"
 
-#: ../glade/chronojump.glade.h:467
+#: ../glade/chronojump.glade.h:468
 msgid "Show time"
 msgstr "Zobrazit čas"
 
-#: ../glade/chronojump.glade.h:468
+#: ../glade/chronojump.glade.h:469
 msgid "Load sequence"
 msgstr "Načíst sekvenci"
 
-#: ../glade/chronojump.glade.h:469
+#: ../glade/chronojump.glade.h:470
 msgid "Create new sequence"
 msgstr "Vytvořit novou sekvenci"
 
-#: ../glade/chronojump.glade.h:470
+#: ../glade/chronojump.glade.h:471
 msgid "page 1"
 msgstr "strana 1"
 
-#: ../glade/chronojump.glade.h:471
+#: ../glade/chronojump.glade.h:472
 msgid "By persons"
 msgstr "Podle osob"
 
-#: ../glade/chronojump.glade.h:472
+#: ../glade/chronojump.glade.h:473
 msgid "By tests"
 msgstr "Podle testů"
 
-#: ../glade/chronojump.glade.h:473
+#: ../glade/chronojump.glade.h:474
 msgid "By sets"
 msgstr "Podle sad"
 
-#: ../glade/chronojump.glade.h:474
+#: ../glade/chronojump.glade.h:475
 msgid ""
 "First person perform all the tests,\n"
 "second person perform all the tests ..."
@@ -2114,7 +2118,7 @@ msgstr ""
 "První osoba provede všechny testy,\n"
 "druhá osoba provede všechny testy…"
 
-#: ../glade/chronojump.glade.h:476
+#: ../glade/chronojump.glade.h:477
 msgid ""
 "All the persons perform first test,\n"
 "all the persons perform second test ..."
@@ -2122,7 +2126,7 @@ msgstr ""
 "Všechny osoby provedou první test,\n"
 "všechny osoby provedou druhý test…"
 
-#: ../glade/chronojump.glade.h:478
+#: ../glade/chronojump.glade.h:479
 msgid ""
 "All the persons perform first set,\n"
 "all the persons perform second set ...\n"
@@ -2132,72 +2136,72 @@ msgstr ""
 "všechny osoby provedou druhou sadu…\n"
 "Jedna sada může obsahovat více testů."
 
-#: ../glade/chronojump.glade.h:481
+#: ../glade/chronojump.glade.h:482
 msgid "page 2"
 msgstr "strana 2"
 
-#: ../glade/chronojump.glade.h:482
+#: ../glade/chronojump.glade.h:483
 msgid "Set 1"
 msgstr "Sada 1"
 
-#: ../glade/chronojump.glade.h:483
+#: ../glade/chronojump.glade.h:484
 msgid "Set 2"
 msgstr "Sada 2"
 
-#: ../glade/chronojump.glade.h:484
+#: ../glade/chronojump.glade.h:485
 msgid "Set 3"
 msgstr "Sada 3"
 
-#: ../glade/chronojump.glade.h:485
+#: ../glade/chronojump.glade.h:486
 msgid "Save this sequence to be used in the future"
 msgstr "Uložit tuto sekvenci pro budoucí použití"
 
-#: ../glade/chronojump.glade.h:486
+#: ../glade/chronojump.glade.h:487
 msgid "Description (optional)"
 msgstr "Popis (volitelné)"
 
-#: ../glade/chronojump.glade.h:487
+#: ../glade/chronojump.glade.h:488
 msgid "Select exercises"
 msgstr "Vyberte cvičení"
 
-#: ../glade/chronojump.glade.h:488
+#: ../glade/chronojump.glade.h:489
 msgid "page 3"
 msgstr "strana 3"
 
-#: ../glade/chronojump.glade.h:489
+#: ../glade/chronojump.glade.h:490
 msgid "Next"
 msgstr "Následující"
 
-#: ../glade/chronojump.glade.h:490
+#: ../glade/chronojump.glade.h:491
 msgid "Feet"
 msgstr "stop"
 
-#: ../glade/chronojump.glade.h:491
+#: ../glade/chronojump.glade.h:492
 msgid "Inches"
 msgstr "palců"
 
-#: ../glade/chronojump.glade.h:492 ../src/gui/encoder.cs:790
+#: ../glade/chronojump.glade.h:493 ../src/gui/encoder.cs:790
 #: ../src/gui/encoder.cs:1198 ../src/gui/report.cs:145
 msgid "Comment"
 msgstr "Poznámka"
 
-#: ../glade/chronojump.glade.h:493
+#: ../glade/chronojump.glade.h:494
 msgid "Create new Jump Type"
 msgstr "Vytvoření nového typu skoku"
 
-#: ../glade/chronojump.glade.h:494
+#: ../glade/chronojump.glade.h:495
 msgid "Create a new jump type in the database"
 msgstr "Vytvořit nový typ skoku v databázi"
 
-#: ../glade/chronojump.glade.h:495
+#: ../glade/chronojump.glade.h:496
 msgid "yes"
 msgstr "ano"
 
-#: ../glade/chronojump.glade.h:496
+#: ../glade/chronojump.glade.h:497
 msgid "no"
 msgstr "ne"
 
-#: ../glade/chronojump.glade.h:497
+#: ../glade/chronojump.glade.h:498
 msgid ""
 "Main\n"
 "options"
@@ -2205,112 +2209,112 @@ msgstr ""
 "Hlavní\n"
 "volby"
 
-#: ../glade/chronojump.glade.h:499
+#: ../glade/chronojump.glade.h:500
 msgid "Limited by "
 msgstr "Omezeno "
 
-#: ../glade/chronojump.glade.h:500
+#: ../glade/chronojump.glade.h:501
 msgid "value"
 msgstr "hodnota"
 
-#: ../glade/chronojump.glade.h:501 ../src/gui/jump.cs:1171
+#: ../glade/chronojump.glade.h:502 ../src/gui/jump.cs:1171
 #: ../src/gui/queryServer.cs:777
 msgid "jumps"
 msgstr "skoky"
 
-#: ../glade/chronojump.glade.h:502 ../src/constants.cs:827
+#: ../glade/chronojump.glade.h:503 ../src/constants.cs:827
 msgid "time"
 msgstr "čas"
 
-#: ../glade/chronojump.glade.h:503
+#: ../glade/chronojump.glade.h:504
 msgid "simple"
 msgstr "jednoduchý"
 
-#: ../glade/chronojump.glade.h:504
+#: ../glade/chronojump.glade.h:505
 msgid "repetitive"
 msgstr "opakovaný"
 
-#: ../glade/chronojump.glade.h:505
+#: ../glade/chronojump.glade.h:506
 msgid "fixed: "
 msgstr "napevno: "
 
-#: ../glade/chronojump.glade.h:506
+#: ../glade/chronojump.glade.h:507
 msgid "All tests"
 msgstr "Všechny testy"
 
-#: ../glade/chronojump.glade.h:507
+#: ../glade/chronojump.glade.h:508
 msgid "Delete type"
 msgstr "Smazat typ"
 
-#: ../glade/chronojump.glade.h:508
+#: ../glade/chronojump.glade.h:509
 msgid "Chronojump language select"
 msgstr "Výběr jazyka pro ChronoJump"
 
-#: ../glade/chronojump.glade.h:509
+#: ../glade/chronojump.glade.h:510
 msgid "Please select <b>Chronojump</b> language"
 msgstr "Vyberte prosím jazyk pro <b>ChronoJump</b>"
 
-#: ../glade/chronojump.glade.h:510
+#: ../glade/chronojump.glade.h:511
 msgid "Add multiple persons"
 msgstr "Přidání více osob"
 
-#: ../glade/chronojump.glade.h:511
+#: ../glade/chronojump.glade.h:512
 msgid "Add entries from CSV (spreadsheet)"
 msgstr "Přidat záznamy z CSV (tabulka)"
 
-#: ../glade/chronojump.glade.h:512
+#: ../glade/chronojump.glade.h:513
 msgid "CSV file has headers"
 msgstr "Soubor CSV má záhlaví"
 
-#: ../glade/chronojump.glade.h:513
+#: ../glade/chronojump.glade.h:514
 msgid "CSV file does not have headers"
 msgstr "Soubor CSV nemá záhlaví"
 
-#: ../glade/chronojump.glade.h:514
+#: ../glade/chronojump.glade.h:515
 msgid "Full name in one column"
 msgstr "Celé jméno v jednom sloupci"
 
-#: ../glade/chronojump.glade.h:515
+#: ../glade/chronojump.glade.h:516
 msgid "Full name in two columns"
 msgstr "Celé jméno ve dvou sloupcích"
 
-#: ../glade/chronojump.glade.h:516
+#: ../glade/chronojump.glade.h:517
 msgid "Open CSV file"
 msgstr "Otevřít soubor CSV"
 
-#: ../glade/chronojump.glade.h:517
+#: ../glade/chronojump.glade.h:518
 msgid "Help"
 msgstr "Nápověda"
 
-#: ../glade/chronojump.glade.h:518
+#: ../glade/chronojump.glade.h:519
 msgid "Add entries manually"
 msgstr "Přidat záznamy ručně"
 
-#: ../glade/chronojump.glade.h:519
+#: ../glade/chronojump.glade.h:520
 msgid "Create table"
 msgstr "Vytvořit tabulku"
 
-#: ../glade/chronojump.glade.h:520 ../src/gui/person.cs:2074
+#: ../glade/chronojump.glade.h:521 ../src/gui/person.cs:2074
 msgid "Full name"
 msgstr "Celé jméno"
 
-#: ../glade/chronojump.glade.h:521
+#: ../glade/chronojump.glade.h:522
 msgid "Genre"
 msgstr "Pohlaví"
 
 #. decimals
-#: ../glade/chronojump.glade.h:522 ../src/constants.cs:830
+#: ../glade/chronojump.glade.h:523 ../src/constants.cs:830
 #: ../src/exportSession.cs:224 ../src/exportSession.cs:253
 #: ../src/exportSession.cs:351 ../src/gui/person.cs:2076
 #: ../src/stats/djPower.cs:37
 msgid "Weight"
 msgstr "Váha"
 
-#: ../glade/chronojump.glade.h:523
+#: ../glade/chronojump.glade.h:524
 msgid "75"
 msgstr "75"
 
-#: ../glade/chronojump.glade.h:524
+#: ../glade/chronojump.glade.h:525
 msgid ""
 "This can be changed using the buttons on the top of this window.\n"
 "\n"
@@ -2322,39 +2326,39 @@ msgstr ""
 "K rozlišení mezi můžem a ženou použijte hodnoty 1/0 nebo m/f nebo M/F ve "
 "sloupci pohlaví."
 
-#: ../glade/chronojump.glade.h:527
+#: ../glade/chronojump.glade.h:528
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
 msgstr "Uložit tabulku jako CSV (hodnoty oddělené čárkami)."
 
-#: ../glade/chronojump.glade.h:528
+#: ../glade/chronojump.glade.h:529
 msgid "Mark if CSV file has header row or not."
 msgstr "Označit, jestli má soubor CSV záhlaví nebo ne."
 
-#: ../glade/chronojump.glade.h:529
+#: ../glade/chronojump.glade.h:530
 msgid "Open CSV file."
 msgstr "Otevřít soubor CSV."
 
-#: ../glade/chronojump.glade.h:530
+#: ../glade/chronojump.glade.h:531
 msgid "This help."
 msgstr "Tato nápověda."
 
-#: ../glade/chronojump.glade.h:531
+#: ../glade/chronojump.glade.h:532
 msgid "Full name in 1 column"
 msgstr "Celé jméno v jednom sloupci"
 
-#: ../glade/chronojump.glade.h:532
+#: ../glade/chronojump.glade.h:533
 msgid "Full name in 2 columns"
 msgstr "Celé jméno ve dvou sloupcích"
 
-#: ../glade/chronojump.glade.h:533
+#: ../glade/chronojump.glade.h:534
 msgid "Full name in one column or in two (name/surname)."
 msgstr "Celé jméno v jedno sloupci nebo ve dvouch (jméno/příjmení)."
 
-#: ../glade/chronojump.glade.h:534
+#: ../glade/chronojump.glade.h:535
 msgid "Load persons"
 msgstr "Načtení osob"
 
-#: ../glade/chronojump.glade.h:535
+#: ../glade/chronojump.glade.h:536
 msgid ""
 "Select persons you want to load.\n"
 "(Persons in current session are not listed)"
@@ -2362,154 +2366,154 @@ msgstr ""
 "Vyberte osoby, které chcete načíst.\n"
 "(Osoby ze současné v seznamu nejsou)"
 
-#: ../glade/chronojump.glade.h:537
+#: ../glade/chronojump.glade.h:538
 msgid "From session"
 msgstr "Ze série cvičení"
 
-#: ../glade/chronojump.glade.h:538
+#: ../glade/chronojump.glade.h:539
 msgid "Check"
 msgstr "Omezit na"
 
-#: ../glade/chronojump.glade.h:539
+#: ../glade/chronojump.glade.h:540
 msgid "Search filter"
 msgstr "Vyhledávací filtr"
 
-#: ../glade/chronojump.glade.h:540 ../src/gui/encoder.cs:1231
+#: ../glade/chronojump.glade.h:541 ../src/gui/encoder.cs:1231
 #: ../src/gui/person.cs:1953
 msgid "Load"
 msgstr "Načíst"
 
-#: ../glade/chronojump.glade.h:541
+#: ../glade/chronojump.glade.h:542
 msgid "Show all tests of a person"
 msgstr "Zobrazit všechny testy osoby"
 
-#: ../glade/chronojump.glade.h:542
+#: ../glade/chronojump.glade.h:543
 msgid "show only persons in current session"
 msgstr "zobrazit pouze osoby v současné sérii cvičení"
 
-#: ../glade/chronojump.glade.h:543 ../src/gui/person.cs:966
+#: ../glade/chronojump.glade.h:544 ../src/gui/person.cs:966
 msgid "New jumper"
 msgstr "Nový skokan"
 
-#: ../glade/chronojump.glade.h:544
+#: ../glade/chronojump.glade.h:545
 msgid "Please fill these values. <b>Bold</b> titles are required."
 msgstr "Vyplňte prosím tyto hodnoty. <b>Tučné</b> položky jsou vyžadovány."
 
-#: ../glade/chronojump.glade.h:545 ../src/exportSession.cs:222
+#: ../glade/chronojump.glade.h:546 ../src/exportSession.cs:222
 #: ../src/gui/person.cs:121 ../src/gui/person.cs:2075
 msgid "Sex"
 msgstr "Pohlaví"
 
-#: ../glade/chronojump.glade.h:546 ../src/exportSession.cs:222
+#: ../glade/chronojump.glade.h:547 ../src/exportSession.cs:222
 #: ../src/gui/person.cs:122
 msgid "Date of Birth"
 msgstr "Datum narození"
 
-#: ../glade/chronojump.glade.h:547
+#: ../glade/chronojump.glade.h:548
 msgid "man"
 msgstr "muž"
 
-#: ../glade/chronojump.glade.h:548
+#: ../glade/chronojump.glade.h:549
 msgid "woman"
 msgstr "žena"
 
-#: ../glade/chronojump.glade.h:549
+#: ../glade/chronojump.glade.h:550
 msgid "Change date"
 msgstr "Změnit datum"
 
-#: ../glade/chronojump.glade.h:550
+#: ../glade/chronojump.glade.h:551
 msgid "Take snapshot"
 msgstr "Pořídit snímek"
 
-#: ../glade/chronojump.glade.h:551
+#: ../glade/chronojump.glade.h:552
 msgid "Data of person"
 msgstr "Údaje osoby"
 
-#: ../glade/chronojump.glade.h:552 ../src/exportSession.cs:225
+#: ../glade/chronojump.glade.h:553 ../src/exportSession.cs:225
 #: ../src/gui/person.cs:2139 ../src/gui/session.cs:726
 msgid "Sport"
 msgstr "Sport"
 
-#: ../glade/chronojump.glade.h:553 ../src/exportSession.cs:225
+#: ../glade/chronojump.glade.h:554 ../src/exportSession.cs:225
 #: ../src/gui/person.cs:2141 ../src/gui/session.cs:727
 msgid "Speciallity"
 msgstr "Specializace"
 
-#: ../glade/chronojump.glade.h:554 ../src/exportSession.cs:226
+#: ../glade/chronojump.glade.h:555 ../src/exportSession.cs:226
 #: ../src/gui/person.cs:2143 ../src/gui/session.cs:728
 msgid "Level"
 msgstr "Úroveň"
 
-#: ../glade/chronojump.glade.h:555
+#: ../glade/chronojump.glade.h:556
 msgid "Add new sport"
 msgstr "Přidat nový sport"
 
-#: ../glade/chronojump.glade.h:556
+#: ../glade/chronojump.glade.h:557
 msgid "Use metric units"
 msgstr "Použít metrické jednotky"
 
-#: ../glade/chronojump.glade.h:557
+#: ../glade/chronojump.glade.h:558
 msgid "Data of person in this session"
 msgstr "Údaje osoby v této sérii cvičení"
 
-#: ../glade/chronojump.glade.h:558
+#: ../glade/chronojump.glade.h:559
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: ../glade/chronojump.glade.h:559
+#: ../glade/chronojump.glade.h:560
 msgid "Open database folder"
 msgstr "Otevřít složku s databází"
 
-#: ../glade/chronojump.glade.h:560
+#: ../glade/chronojump.glade.h:561
 msgid "Encoder tests"
 msgstr "Testy se snímačem"
 
-#: ../glade/chronojump.glade.h:561
+#: ../glade/chronojump.glade.h:562
 msgid "Images and Videos"
 msgstr "Obrázky a videa"
 
-#: ../glade/chronojump.glade.h:562
+#: ../glade/chronojump.glade.h:563
 msgid "Contact tests"
 msgstr "Kontaktní testy"
 
-#: ../glade/chronojump.glade.h:563
+#: ../glade/chronojump.glade.h:564
 msgid "Backup database"
 msgstr "Zálohovat databázi"
 
-#: ../glade/chronojump.glade.h:564
+#: ../glade/chronojump.glade.h:565
 msgid "Make a copy of the database"
 msgstr "Vytvořit kopii databáze"
 
-#: ../glade/chronojump.glade.h:565 ../src/gui/encoder.cs:4444
-#: ../src/gui/encoder.cs:4637
+#: ../glade/chronojump.glade.h:566 ../src/gui/encoder.cs:4448
+#: ../src/gui/encoder.cs:4652
 msgid "Please, wait."
 msgstr "Čekejte prosím."
 
-#: ../glade/chronojump.glade.h:566
+#: ../glade/chronojump.glade.h:567
 msgid "Open logs folder"
 msgstr "Otevřít složku se záznamy"
 
-#: ../glade/chronojump.glade.h:567
+#: ../glade/chronojump.glade.h:568
 msgid "Database"
 msgstr "Databáze"
 
-#: ../glade/chronojump.glade.h:568
+#: ../glade/chronojump.glade.h:569
 msgid "Initial speed"
 msgstr "Počáteční rychlost"
 
-#: ../glade/chronojump.glade.h:569
+#: ../glade/chronojump.glade.h:570
 msgid "Indexes between TF and TC"
 msgstr "Indexy mezi ČL a ČK"
 
-#: ../glade/chronojump.glade.h:570
+#: ../glade/chronojump.glade.h:571
 msgid "QIndex"
 msgstr "Index Q"
 
-#: ../glade/chronojump.glade.h:571
+#: ../glade/chronojump.glade.h:572
 msgid "DjIndex"
 msgstr "Index Dj"
 
-#: ../glade/chronojump.glade.h:572
+#: ../glade/chronojump.glade.h:573
 msgid ""
 "On statistics\n"
 "show elevation as:"
@@ -2517,381 +2521,381 @@ msgstr ""
 "Ve statistikách\n"
 "zobrazit výšku jako:"
 
-#: ../glade/chronojump.glade.h:574
+#: ../glade/chronojump.glade.h:575
 msgid "Speed units:"
 msgstr "Jednotky rychlosti:"
 
-#: ../glade/chronojump.glade.h:575
+#: ../glade/chronojump.glade.h:576
 msgid "Weight units:"
 msgstr "Jednotky váhy:"
 
-#: ../glade/chronojump.glade.h:576
+#: ../glade/chronojump.glade.h:577
 msgid "Height (cm)"
 msgstr "Výška (cm)"
 
-#: ../glade/chronojump.glade.h:577
+#: ../glade/chronojump.glade.h:578
 msgid "How to calculate these statistics:"
 msgstr "Jak vypočítat tuto statistiku:"
 
-#: ../glade/chronojump.glade.h:578
+#: ../glade/chronojump.glade.h:579
 msgid "Arms Use Index"
 msgstr "Index pužití rukou"
 
-#: ../glade/chronojump.glade.h:579
+#: ../glade/chronojump.glade.h:580
 msgid "Use height"
 msgstr "Použít výšku"
 
-#: ../glade/chronojump.glade.h:580
+#: ../glade/chronojump.glade.h:581
 msgid "default"
 msgstr "výchozí"
 
-#: ../glade/chronojump.glade.h:581
+#: ../glade/chronojump.glade.h:582
 msgid "Use flight time"
 msgstr "Použít čas letu"
 
-#: ../glade/chronojump.glade.h:582
+#: ../glade/chronojump.glade.h:583
 msgid "Calculations"
 msgstr "Výpočty"
 
-#: ../glade/chronojump.glade.h:583
+#: ../glade/chronojump.glade.h:584
 msgid "Contacts"
 msgstr "Kontakty"
 
-#: ../glade/chronojump.glade.h:584
+#: ../glade/chronojump.glade.h:585
 msgid "Propulsive"
 msgstr "Hnací"
 
-#: ../glade/chronojump.glade.h:585
+#: ../glade/chronojump.glade.h:586
 msgid "On concentric evaluate only propulsive phase"
 msgstr "Při koncentrické vyhodnotit pouze hnací fázi"
 
-#: ../glade/chronojump.glade.h:586
+#: ../glade/chronojump.glade.h:587
 msgid "On inertial machines this option is not used."
 msgstr "U momentových kotoučů se tato volba nepoužívá."
 
-#: ../glade/chronojump.glade.h:587
+#: ../glade/chronojump.glade.h:588
 msgid "Save the repetition with best mean power"
 msgstr "Uložit opakování s nejlepším středním výkonem"
 
-#: ../glade/chronojump.glade.h:588
+#: ../glade/chronojump.glade.h:589
 msgid "Save all"
 msgstr "Uložit vše"
 
-#: ../glade/chronojump.glade.h:589
+#: ../glade/chronojump.glade.h:590
 msgid "Do not save"
 msgstr "Neukládat"
 
-#: ../glade/chronojump.glade.h:590
+#: ../glade/chronojump.glade.h:591
 msgid "Save repetitions automatically on capture"
 msgstr "Uložit opakování automaticky po jejich sejmutí"
 
-#: ../glade/chronojump.glade.h:591
+#: ../glade/chronojump.glade.h:592
 msgid "Smooth"
 msgstr "Vyhlazování"
 
-#: ../glade/chronojump.glade.h:592
+#: ../glade/chronojump.glade.h:593
 msgid "Recommended:"
 msgstr "Doporučeno:"
 
-#: ../glade/chronojump.glade.h:593
+#: ../glade/chronojump.glade.h:594
 msgid "Smoothing"
 msgstr "Vyhlazování"
 
-#: ../glade/chronojump.glade.h:594
+#: ../glade/chronojump.glade.h:595
 msgid "Non weighted"
 msgstr "Nevážené"
 
-#: ../glade/chronojump.glade.h:595
+#: ../glade/chronojump.glade.h:596
 msgid "Weighted"
 msgstr "Vážené"
 
-#: ../glade/chronojump.glade.h:596
+#: ../glade/chronojump.glade.h:597
 msgid "Weighted^2"
 msgstr "Vážené ²"
 
-#: ../glade/chronojump.glade.h:597
+#: ../glade/chronojump.glade.h:598
 msgid "Weighted^3"
 msgstr "Vážené ³"
 
-#: ../glade/chronojump.glade.h:598
+#: ../glade/chronojump.glade.h:599
 msgid "Recommended: Weighted^2"
 msgstr "Doporučeno: Vážené ²"
 
-#: ../glade/chronojump.glade.h:599
+#: ../glade/chronojump.glade.h:600
 msgid "1RM prediction"
 msgstr "Odhad 1RM"
 
-#: ../glade/chronojump.glade.h:600
+#: ../glade/chronojump.glade.h:601
 msgid "Select the camera"
 msgstr "Vybrat kameru"
 
-#: ../glade/chronojump.glade.h:601
+#: ../glade/chronojump.glade.h:602
 msgid "Camera"
 msgstr "Kamera"
 
-#: ../glade/chronojump.glade.h:602
+#: ../glade/chronojump.glade.h:603
 msgid "Ask for confirm test deletion"
 msgstr "Žádat potvrzení při mazání testu"
 
-#: ../glade/chronojump.glade.h:603
+#: ../glade/chronojump.glade.h:604
 msgid "Ask user if really wants to delete a test"
 msgstr "Dotazovat se uživatele, zda opravdu chce test smazat"
 
-#: ../glade/chronojump.glade.h:604
+#: ../glade/chronojump.glade.h:605
 msgid "Decimal number"
 msgstr "Desetinné číslo"
 
-#: ../glade/chronojump.glade.h:605
+#: ../glade/chronojump.glade.h:606
 msgid "Export to spreadsheet"
 msgstr "Exportovat do tabulkového kalkulátoru"
 
-#: ../glade/chronojump.glade.h:606
+#: ../glade/chronojump.glade.h:607
 msgid "Latin"
 msgstr "Latinka"
 
-#: ../glade/chronojump.glade.h:607
+#: ../glade/chronojump.glade.h:608
 msgid "Non-Latin"
 msgstr "Jiná než latinka"
 
-#: ../glade/chronojump.glade.h:608
+#: ../glade/chronojump.glade.h:609
 msgid "Translate statistics graphs"
 msgstr "Překlad grafů se statistikami"
 
-#: ../glade/chronojump.glade.h:609
+#: ../glade/chronojump.glade.h:610
 msgid "Translate"
 msgstr "Překládat"
 
-#: ../glade/chronojump.glade.h:610
+#: ../glade/chronojump.glade.h:611
 msgid "Do not translate"
 msgstr "Nepřekládat"
 
-#: ../glade/chronojump.glade.h:611
+#: ../glade/chronojump.glade.h:612
 msgid "Query to server"
 msgstr "Dotaz na server"
 
-#: ../glade/chronojump.glade.h:612
+#: ../glade/chronojump.glade.h:613
 msgid "Perform a query to the server."
 msgstr "Provést dotaz na server"
 
-#: ../glade/chronojump.glade.h:613
+#: ../glade/chronojump.glade.h:614
 msgid "Type of test"
 msgstr "Typ testu"
 
-#: ../glade/chronojump.glade.h:614
+#: ../glade/chronojump.glade.h:615
 msgid "Variable"
 msgstr "Proměnná"
 
-#: ../glade/chronojump.glade.h:615
+#: ../glade/chronojump.glade.h:616
 msgid "Test variables"
 msgstr "Proměnné testu"
 
-#: ../glade/chronojump.glade.h:616
+#: ../glade/chronojump.glade.h:617
 msgid "Continent"
 msgstr "Světadíl"
 
-#: ../glade/chronojump.glade.h:617
+#: ../glade/chronojump.glade.h:618
 msgid "And"
 msgstr "a"
 
-#: ../glade/chronojump.glade.h:618
+#: ../glade/chronojump.glade.h:619
 msgid "Age"
 msgstr "Věk"
 
-#: ../glade/chronojump.glade.h:619
+#: ../glade/chronojump.glade.h:620
 msgid "Person variables"
 msgstr "Proměnné osoby"
 
-#: ../glade/chronojump.glade.h:620
+#: ../glade/chronojump.glade.h:621
 msgid "Evaluator"
 msgstr "Hodnotitel"
 
-#: ../glade/chronojump.glade.h:621
+#: ../glade/chronojump.glade.h:622
 msgid "Show query"
 msgstr "Zobrazit dotaz"
 
-#: ../glade/chronojump.glade.h:622
+#: ../glade/chronojump.glade.h:623
 msgid "Results:"
 msgstr "Výsledky:"
 
-#: ../glade/chronojump.glade.h:623
+#: ../glade/chronojump.glade.h:624
 msgid "Average:"
 msgstr "Průměr:"
 
-#: ../glade/chronojump.glade.h:624
+#: ../glade/chronojump.glade.h:625
 msgid "Query"
 msgstr "Dotaz"
 
-#: ../glade/chronojump.glade.h:625
+#: ../glade/chronojump.glade.h:626
 msgid "Notes"
 msgstr "Poznámky"
 
-#: ../glade/chronojump.glade.h:626
+#: ../glade/chronojump.glade.h:627
 msgid "Totaltime"
 msgstr "Celkový čas"
 
-#: ../glade/chronojump.glade.h:627
+#: ../glade/chronojump.glade.h:628
 msgid "Configure feedback"
 msgstr "Nastavení zpětné vazby"
 
-#: ../glade/chronojump.glade.h:628
+#: ../glade/chronojump.glade.h:629
 msgid "Select conditions for beep signals"
 msgstr "Vybrat podmínky pro zvukové signály"
 
-#: ../glade/chronojump.glade.h:629
+#: ../glade/chronojump.glade.h:630
 msgid "show best TF / TC"
 msgstr "zobrazit nejlepší ČL / ČK"
 
-#: ../glade/chronojump.glade.h:630
+#: ../glade/chronojump.glade.h:631
 msgid "show worst TF / TC"
 msgstr "zobrazit nejhorší ČL / ČK"
 
-#: ../glade/chronojump.glade.h:631
+#: ../glade/chronojump.glade.h:632
 msgid "show best time"
 msgstr "zobrazit nejlepší čas"
 
-#: ../glade/chronojump.glade.h:632
+#: ../glade/chronojump.glade.h:633
 msgid "show worst time"
 msgstr "zobrazit nejhorší čas"
 
-#: ../glade/chronojump.glade.h:633
+#: ../glade/chronojump.glade.h:634
 msgid "Best and worst values"
 msgstr "Nejlepší a nejhorší hodnoty"
 
-#: ../glade/chronojump.glade.h:634
+#: ../glade/chronojump.glade.h:635
 msgid "Bell good"
 msgstr "Gong dobře"
 
-#: ../glade/chronojump.glade.h:635
+#: ../glade/chronojump.glade.h:636
 msgid "Bell bad"
 msgstr "Gong špatně"
 
-#: ../glade/chronojump.glade.h:636
+#: ../glade/chronojump.glade.h:637
 msgid "<b>Time</b> (s)"
 msgstr "<b>Čas</b> (s)"
 
-#: ../glade/chronojump.glade.h:637
+#: ../glade/chronojump.glade.h:638
 msgid ">="
 msgstr ">="
 
-#: ../glade/chronojump.glade.h:638
+#: ../glade/chronojump.glade.h:639
 msgid "<b>Peak power</b> (W)"
 msgstr "<b>Špičkový výkon</b> (W)"
 
-#: ../glade/chronojump.glade.h:639
+#: ../glade/chronojump.glade.h:640
 msgid "<b>Mean power</b> (W)"
 msgstr "<b>Střední výkon</b> (W)"
 
-#: ../glade/chronojump.glade.h:640
+#: ../glade/chronojump.glade.h:641
 msgid "<b>Mean speed</b> (m/s)"
 msgstr "<b>Střední rychlost</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:641
+#: ../glade/chronojump.glade.h:642
 msgid "<b>Max speed</b> (m/s)"
 msgstr "<b>Maximální rychlost</b> (m/s)"
 
-#: ../glade/chronojump.glade.h:642
+#: ../glade/chronojump.glade.h:643
 msgid "<b>Height</b> (cm)"
 msgstr "<b>Výška</b> (cm)"
 
-#: ../glade/chronojump.glade.h:643
+#: ../glade/chronojump.glade.h:644
 msgid "Conditions"
 msgstr "Podmínky"
 
-#: ../glade/chronojump.glade.h:644
+#: ../glade/chronojump.glade.h:645
 msgid "\"Good\" bell"
 msgstr "Gong „dobře“"
 
-#: ../glade/chronojump.glade.h:645
+#: ../glade/chronojump.glade.h:646
 msgid "\"Bad\" bell"
 msgstr "Gong „špatně“"
 
-#: ../glade/chronojump.glade.h:646
+#: ../glade/chronojump.glade.h:647
 msgid "test!"
 msgstr "test!"
 
-#: ../glade/chronojump.glade.h:647
+#: ../glade/chronojump.glade.h:648
 msgid "test bells"
 msgstr "testovat gongy"
 
-#: ../glade/chronojump.glade.h:648
+#: ../glade/chronojump.glade.h:649
 msgid "Chronojump Report window"
 msgstr "Okno výstupní sestavy Chronojump"
 
-#: ../glade/chronojump.glade.h:649
+#: ../glade/chronojump.glade.h:650
 msgid "Select data for HTML report"
 msgstr "Vyberte údaje pro výstupní sestavu v HTML"
 
-#: ../glade/chronojump.glade.h:650
+#: ../glade/chronojump.glade.h:651
 msgid "show..."
 msgstr "zobrazit…"
 
-#: ../glade/chronojump.glade.h:651 ../src/constants.cs:335
+#: ../glade/chronojump.glade.h:652 ../src/constants.cs:335
 #: ../src/gui/convertWeight.cs:61 ../src/gui/convertWeight.cs:108
 msgid "Simple"
 msgstr "Jednoduchý"
 
-#: ../glade/chronojump.glade.h:652 ../src/gui/convertWeight.cs:62
+#: ../glade/chronojump.glade.h:653 ../src/gui/convertWeight.cs:62
 #: ../src/gui/convertWeight.cs:110
 msgid "Reactive"
 msgstr "Reakční"
 
-#: ../glade/chronojump.glade.h:653
+#: ../glade/chronojump.glade.h:654
 msgid "Intervallic"
 msgstr "Intervalový"
 
-#: ../glade/chronojump.glade.h:654
+#: ../glade/chronojump.glade.h:655
 msgid "Include tracks"
 msgstr "Včetně drah"
 
-#: ../glade/chronojump.glade.h:655
+#: ../glade/chronojump.glade.h:656
 msgid "Include individual"
 msgstr "Včetně individuálních"
 
-#: ../glade/chronojump.glade.h:656
+#: ../glade/chronojump.glade.h:657
 msgid "Data"
 msgstr "Data"
 
-#: ../glade/chronojump.glade.h:657
+#: ../glade/chronojump.glade.h:658
 msgid "general data"
 msgstr "obecné údaje"
 
-#: ../glade/chronojump.glade.h:658
+#: ../glade/chronojump.glade.h:659
 msgid "Up"
 msgstr "Výše"
 
-#: ../glade/chronojump.glade.h:659
+#: ../glade/chronojump.glade.h:660
 msgid "Down"
 msgstr "Níže"
 
-#: ../glade/chronojump.glade.h:660
+#: ../glade/chronojump.glade.h:661
 msgid "See graph"
 msgstr "Zobrazit graf"
 
-#: ../glade/chronojump.glade.h:661
+#: ../glade/chronojump.glade.h:662
 msgid "Add comment"
 msgstr "Přidat poznámku"
 
-#: ../glade/chronojump.glade.h:662
+#: ../glade/chronojump.glade.h:663
 msgid "Remove"
 msgstr "Odebrat"
 
-#: ../glade/chronojump.glade.h:663
+#: ../glade/chronojump.glade.h:664
 msgid "statistics data"
 msgstr "údaje statistiky"
 
-#: ../glade/chronojump.glade.h:664
+#: ../glade/chronojump.glade.h:665
 msgid "Make report"
 msgstr "Vytvořit výstupní sestavu"
 
-#: ../glade/chronojump.glade.h:665
+#: ../glade/chronojump.glade.h:666
 msgid "Create new Run Type"
 msgstr "Vytvoření nového typu běhu"
 
-#: ../glade/chronojump.glade.h:666
+#: ../glade/chronojump.glade.h:667
 msgid "Create a new run type in the database"
 msgstr "Vytvořit nový typ běhu v databázi"
 
-#: ../glade/chronojump.glade.h:667
+#: ../glade/chronojump.glade.h:668
 msgid ""
 "Limited by\n"
 "(how it finishes)"
@@ -2899,31 +2903,31 @@ msgstr ""
 "Omezen pomocí\n"
 "(co určuje konec)"
 
-#: ../glade/chronojump.glade.h:669 ../src/gui/run.cs:1034
+#: ../glade/chronojump.glade.h:670 ../src/gui/run.cs:1034
 msgid "tracks"
 msgstr "dráhy"
 
-#: ../glade/chronojump.glade.h:670
+#: ../glade/chronojump.glade.h:671
 msgid "time (s)"
 msgstr "čas (s)"
 
-#: ../glade/chronojump.glade.h:671
+#: ../glade/chronojump.glade.h:672
 msgid "intervallic"
 msgstr "intervalový"
 
-#: ../glade/chronojump.glade.h:672
+#: ../glade/chronojump.glade.h:673
 msgid "Variable (user will select distance at each test)"
 msgstr "Proměnná (uživatel u každého testu vzdálenost zadá)"
 
-#: ../glade/chronojump.glade.h:673
+#: ../glade/chronojump.glade.h:674
 msgid "Fixed (distance will be always the same)"
 msgstr "Pevná (vzdálenost bude vždy stejná)"
 
-#: ../glade/chronojump.glade.h:674
+#: ../glade/chronojump.glade.h:675
 msgid "(m)"
 msgstr "(m)"
 
-#: ../glade/chronojump.glade.h:675
+#: ../glade/chronojump.glade.h:676
 msgid ""
 "Different (each track have different distance\n"
 "suitable for agility tests and RSA)"
@@ -2931,19 +2935,19 @@ msgstr ""
 "Různá (každá dráha má jinou délku\n"
 "vhodnou pro testy hbitosti a RSA)"
 
-#: ../glade/chronojump.glade.h:677
+#: ../glade/chronojump.glade.h:678
 msgid "Number of different tracks"
 msgstr "Počet různých drah"
 
-#: ../glade/chronojump.glade.h:678
+#: ../glade/chronojump.glade.h:679
 msgid "Help RSA"
 msgstr "Nápověda k RSA"
 
-#: ../glade/chronojump.glade.h:679
+#: ../glade/chronojump.glade.h:680
 msgid "Distance of each track"
 msgstr "Délka každé dráhy"
 
-#: ../glade/chronojump.glade.h:680
+#: ../glade/chronojump.glade.h:681
 msgid ""
 "Please fill these values\n"
 "(bold titles are required)"
@@ -2951,48 +2955,48 @@ msgstr ""
 "Vyplňte prosím tyto hodnoty\n"
 "(tučné položky jsou vyžadovány)"
 
-#: ../glade/chronojump.glade.h:682 ../src/exportSession.cs:207
+#: ../glade/chronojump.glade.h:683 ../src/exportSession.cs:207
 #: ../src/gui/person.cs:2449 ../src/gui/session.cs:723
 #: ../src/gui/session.cs:960 ../src/report.cs:221
 msgid "Place"
 msgstr "Místo"
 
-#: ../glade/chronojump.glade.h:683 ../src/exportSession.cs:208
+#: ../glade/chronojump.glade.h:684 ../src/exportSession.cs:208
 #: ../src/gui/encoder.cs:789 ../src/gui/encoder.cs:1196
 #: ../src/gui/encoder.cs:3371 ../src/gui/session.cs:724
 #: ../src/gui/session.cs:961 ../src/report.cs:221
 msgid "Date"
 msgstr "Datum"
 
-#: ../glade/chronojump.glade.h:684
+#: ../glade/chronojump.glade.h:685
 msgid "Different"
 msgstr "Různé"
 
-#: ../glade/chronojump.glade.h:685
+#: ../glade/chronojump.glade.h:686
 msgid "All the same"
 msgstr "Všichni stejně"
 
-#: ../glade/chronojump.glade.h:686
+#: ../glade/chronojump.glade.h:687
 msgid "Person's data"
 msgstr "Údaje osoby"
 
-#: ../glade/chronojump.glade.h:687
+#: ../glade/chronojump.glade.h:688
 msgid "Load session"
 msgstr "Načtení série cvičení"
 
-#: ../glade/chronojump.glade.h:688
+#: ../glade/chronojump.glade.h:689
 msgid "Show data of encoder tests"
 msgstr "Zobrazit data z testů snímačů"
 
-#: ../glade/chronojump.glade.h:689
+#: ../glade/chronojump.glade.h:690
 msgid "Show data of jump and run tests"
 msgstr "Zobrazit data z testů skoků a běhů"
 
-#: ../glade/chronojump.glade.h:690
+#: ../glade/chronojump.glade.h:691
 msgid "Upload session to server"
 msgstr "Odeslání série cvičení na server"
 
-#: ../glade/chronojump.glade.h:691 ../src/gui/person.cs:2452
+#: ../glade/chronojump.glade.h:692 ../src/gui/person.cs:2452
 msgid ""
 "Jumps\n"
 "reactive"
@@ -3000,7 +3004,7 @@ msgstr ""
 "Skoky\n"
 "reakční"
 
-#: ../glade/chronojump.glade.h:693
+#: ../glade/chronojump.glade.h:694
 msgid ""
 "Runs\n"
 "intervallic"
@@ -3008,7 +3012,7 @@ msgstr ""
 "Běhy\n"
 "intervalové"
 
-#: ../glade/chronojump.glade.h:695
+#: ../glade/chronojump.glade.h:696
 msgid ""
 "Reaction\n"
 "times"
@@ -3016,19 +3020,19 @@ msgstr ""
 "Doba\n"
 "reakce"
 
-#: ../glade/chronojump.glade.h:697
+#: ../glade/chronojump.glade.h:698
 msgid "Multi Chronopic"
 msgstr "Multi Chronopic"
 
-#: ../glade/chronojump.glade.h:698
+#: ../glade/chronojump.glade.h:699
 msgid "Names will be hidden"
 msgstr "Jména budou skrytá"
 
-#: ../glade/chronojump.glade.h:699
+#: ../glade/chronojump.glade.h:700
 msgid "Codes:"
 msgstr "Kódy:"
 
-#: ../glade/chronojump.glade.h:700
+#: ../glade/chronojump.glade.h:701
 msgid ""
 "<i>U</i> Uploaded.\n"
 "<i>E</i> Not uploaded. Already Exists.\n"
@@ -3038,44 +3042,44 @@ msgstr ""
 "<i>E</i> Neodesláno. Již existuje.\n"
 "<i>S</i> Neodesláno. Simulovaný test."
 
-#: ../glade/chronojump.glade.h:703
+#: ../glade/chronojump.glade.h:704
 msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
 msgstr ""
 "Díky za vaši ochotu. Grafy budou na serveru aktualizovány ve 3 h 7 min UTC."
 
-#: ../glade/chronojump.glade.h:704
+#: ../glade/chronojump.glade.h:705
 msgid "Loading Chronojump..."
 msgstr "Načítá se ChronoJump…"
 
-#: ../glade/chronojump.glade.h:705
+#: ../glade/chronojump.glade.h:706
 msgid "Cancel connection with server"
 msgstr "Zrušit spojení se serverem"
 
-#: ../glade/chronojump.glade.h:706
+#: ../glade/chronojump.glade.h:707
 msgid "Select sessions for statistics"
 msgstr "Výběr série cvičení pro statistiky"
 
-#: ../glade/chronojump.glade.h:707
+#: ../glade/chronojump.glade.h:708
 msgid "unselected"
 msgstr "nevybrané"
 
-#: ../glade/chronojump.glade.h:708
+#: ../glade/chronojump.glade.h:709
 msgid "selected"
 msgstr "vybrané"
 
-#: ../glade/chronojump.glade.h:709
+#: ../glade/chronojump.glade.h:710
 msgid "select ->"
 msgstr "vybrat ->"
 
-#: ../glade/chronojump.glade.h:710
+#: ../glade/chronojump.glade.h:711
 msgid "<- unselect"
 msgstr "<- odebrat"
 
-#: ../glade/chronojump.glade.h:711
+#: ../glade/chronojump.glade.h:712
 msgid "all"
 msgstr "vše"
 
-#: ../glade/chronojump.glade.h:712
+#: ../glade/chronojump.glade.h:713
 msgid "none"
 msgstr "nic"
 
@@ -3293,13 +3297,13 @@ msgstr "%s"
 msgid "0 seconds"
 msgstr "0 sekund"
 
-#: ../src/chronojump.cs:258
+#: ../src/chronojump.cs:250
 msgid "no tables, creating ..."
 msgstr "žádné tabulky, vytváří se…"
 
 #. check (spanish)
 #. http://mail.gnome.org/archives/chronojump-devel-list/2008-March/msg00011.html
-#: ../src/chronojump.cs:308
+#: ../src/chronojump.cs:300
 msgid ""
 "Failed database conversion, ensure you have libsqlite3-0 installed. \n"
 "If problems persist ask in chronojump-list"
@@ -3309,7 +3313,7 @@ msgstr ""
 "Pokud problém přetrvává, zeptejte se na řešení v poštovní konferenci "
 "chronojump."
 
-#: ../src/chronojump.cs:309
+#: ../src/chronojump.cs:301
 #, csharp-format
 msgid ""
 "If you have no data on your database (you just installed Chronojump), you "
@@ -3318,16 +3322,16 @@ msgstr ""
 "Pokud máte prázdnou databázi (čerstvě nainstalovaný ChronoJump), můžete "
 "zkusit problém vyřešit smazáním tohoto souboru: {0}"
 
-#: ../src/chronojump.cs:311
+#: ../src/chronojump.cs:303
 msgid "And starting Chronojump again."
 msgstr "A opětovným spuštěním aplikace ChronoJump."
 
-#: ../src/chronojump.cs:323
+#: ../src/chronojump.cs:315
 msgid "All DJ jumps have been renamed as 'DJna' (Drop Jumps with No Arms)."
 msgstr ""
 "Všechny skoky SS byly přejmenovány na „SSbr“ (Seskokové skoky bez rukou)."
 
-#: ../src/chronojump.cs:324
+#: ../src/chronojump.cs:316
 msgid ""
 "If your Drop Jumps were executed using the arms, please rename them manually "
 "as 'DJa'."
@@ -3336,22 +3340,22 @@ msgstr ""
 "ručně na „SSpr“."
 
 #. Console.Clear();
-#: ../src/chronojump.cs:332
+#: ../src/chronojump.cs:324
 #, csharp-format
 msgid "Sorry, this Chronojump version ({0}) is too old for your database."
 msgstr ""
 "Tato verze ({0}) aplikace ChronoJump je pro vaši databázi bohužel příliš "
 "stará."
 
-#: ../src/chronojump.cs:333
+#: ../src/chronojump.cs:325
 msgid "Please update Chronojump"
 msgstr "Aktualizujte prosím ChronoJump"
 
-#: ../src/chronojump.cs:341
+#: ../src/chronojump.cs:333
 msgid "tables already created"
 msgstr "tabulky jsou již vytvořené"
 
-#: ../src/chronojump.cs:404
+#: ../src/chronojump.cs:396
 #, csharp-format
 msgid ""
 "\n"
@@ -3362,32 +3366,32 @@ msgstr ""
 "Na webových stránkách je dostupná nová verze ChronoJump.\n"
 "Vaše verze ChronoJump je: {1}"
 
-#: ../src/chronojump.cs:406
+#: ../src/chronojump.cs:398
 msgid "Please, update to new version."
 msgstr "Aktualizujte prosím na novou verzi."
 
-#: ../src/chronojump.cs:414
+#: ../src/chronojump.cs:406
 msgid "Chronojump crashed before."
 msgstr "Předchozí zhroucení ChronoJump"
 
-#: ../src/chronojump.cs:415 ../src/gui/chronojump.cs:1155
+#: ../src/chronojump.cs:407 ../src/gui/chronojump.cs:1155
 msgid "Please, update to new version: "
 msgstr "Aktualizujte prosím na novou verzi:"
 
-#: ../src/chronojump.cs:487 ../src/chronojump.cs:842 ../src/chronojump.cs:850
+#: ../src/chronojump.cs:480 ../src/chronojump.cs:837 ../src/chronojump.cs:845
 msgid "Chronojump will exit now."
 msgstr "ChronoJump se nyní ukončí."
 
-#: ../src/chronojump.cs:495
+#: ../src/chronojump.cs:488
 msgid "Open Chronojump"
 msgstr "Otevřít ChronoJump"
 
-#: ../src/chronojump.cs:669
+#: ../src/chronojump.cs:664
 #, csharp-format
 msgid "Chronojump {0} crashed before."
 msgstr "Chronojump {0} se zhroutil."
 
-#: ../src/chronojump.cs:670
+#: ../src/chronojump.cs:665
 msgid ""
 "Please, open docs folder and follow instructions on 'chronojump_crash.pdf' "
 "in order to be fixed fast."
@@ -3395,43 +3399,43 @@ msgstr ""
 "Otevřte si prosím složku s dokumentací a postupujte podle instrukcí v "
 "souboru „chronojump_crash.pdf“, aby bylo možné problém co nejdříve opravit."
 
-#: ../src/chronojump.cs:671
+#: ../src/chronojump.cs:666
 msgid "Your help is needed."
 msgstr "Vaše pomoc bude vítaná."
 
-#: ../src/chronojump.cs:809
+#: ../src/chronojump.cs:804
 #, csharp-format
 msgid "Cannot move database directory from {0} to {1}"
 msgstr "Nelze přesunout složku s databází z {0} do {1}"
 
-#: ../src/chronojump.cs:811
+#: ../src/chronojump.cs:806
 msgid "Trying to move/copy each file now"
 msgstr "Nyní se zkouší přesun/kopírování jednotlivých souborů"
 
-#: ../src/chronojump.cs:840
+#: ../src/chronojump.cs:835
 #, csharp-format
 msgid "Cannot create directory {0}"
 msgstr "Nelze vytvořit složku {0}"
 
-#: ../src/chronojump.cs:841 ../src/chronojump.cs:849
+#: ../src/chronojump.cs:836 ../src/chronojump.cs:844
 msgid "Please, do it manually."
 msgstr "Udělejte to prosím ručně."
 
-#: ../src/chronojump.cs:848
+#: ../src/chronojump.cs:843
 #, csharp-format
 msgid "Cannot copy {0} files from {1} to {2}"
 msgstr "Nelze zkopírovat {0} souborů z {1} do {2}"
 
-#: ../src/chronojump.cs:856
+#: ../src/chronojump.cs:851
 #, csharp-format
 msgid "Cannot move {0} files from {1} to {2}"
 msgstr "Nelze přesunout {0} souborů z {1} do {2}"
 
-#: ../src/chronojump.cs:857
+#: ../src/chronojump.cs:852
 msgid "Please, do it manually"
 msgstr "Udělejte to prosím ručně"
 
-#: ../src/chronojump.cs:863
+#: ../src/chronojump.cs:858
 #, csharp-format
 msgid "Database is now here: {0}"
 msgstr "Databáze je nyní zde: {0}"
@@ -3880,7 +3884,7 @@ msgstr "Kontroluje se dostupnost nové verze"
 msgid "Preparing main Window"
 msgstr "Připravuje se hlavní okno"
 
-#: ../src/constants.cs:576 ../src/gui/preferences.cs:423
+#: ../src/constants.cs:576 ../src/gui/preferences.cs:443
 msgid "Error. Cannot find database."
 msgstr "Chyba. Nelze najít databázi."
 
@@ -3952,7 +3956,7 @@ msgstr "Rozsah"
 msgid "distance"
 msgstr "vzdálenost"
 
-#: ../src/constants.cs:831
+#: ../src/constants.cs:831 ../src/gui/preferences.cs:351
 msgid "Mass"
 msgstr "Hmotnost"
 
@@ -4128,7 +4132,7 @@ msgstr "Přímý rotační snímač na momentovém kotouči."
 msgid "Rotary axis encoder on weighted moving pulley."
 msgstr "Přímý rotační snímač na zatížené volné kladce."
 
-#: ../src/execute/event.cs:352
+#: ../src/execute/event.cs:345
 msgid ""
 "Always remember to touch platform at ending. If you don't do it, Chronojump "
 "will crash at next execution."
@@ -4136,23 +4140,23 @@ msgstr ""
 "Vždy se nezapomeňte na závěr dotknout plošiny. Pokud tak neučiníte, "
 "Chronojump se při následujícím provádění zhroutí."
 
-#: ../src/execute/event.cs:357
+#: ../src/execute/event.cs:350
 msgid "This Run Analysis is not valid because there are no strides."
 msgstr "Tato analýza běhu není platná, protože není známá délka kroku."
 
-#: ../src/execute/event.cs:506
+#: ../src/execute/event.cs:499
 msgid "Chronopic seems disconnected. Reconnect again on Chronopic Window."
 msgstr ""
 "Zdá se, že zařízení Chronopic bylo odpojeno. Znovu jej připojte v okně "
 "Chronopic."
 
-#: ../src/execute/jump.cs:129 ../src/execute/jump.cs:203
-#: ../src/execute/jump.cs:615
+#: ../src/execute/jump.cs:129 ../src/execute/jump.cs:204
+#: ../src/execute/jump.cs:618
 msgid "You are IN, JUMP when prepared!"
 msgstr "Jste UVNITŘ, až budete připraveni, SKOČTE!"
 
-#: ../src/execute/jump.cs:153 ../src/execute/jump.cs:237
-#: ../src/execute/jump.cs:622
+#: ../src/execute/jump.cs:154 ../src/execute/jump.cs:240
+#: ../src/execute/jump.cs:625
 msgid ""
 "You are OUT, please enter the platform, prepare for jump and press the "
 "'accept' button"
@@ -4160,17 +4164,17 @@ msgstr ""
 "Jste MIMO, vstupte prosím na plošinu, připravte se ke skoku a zmáčkněte "
 "tlačítko „příjmout“."
 
-#: ../src/execute/jump.cs:200 ../src/execute/jump.cs:610
+#: ../src/execute/jump.cs:201 ../src/execute/jump.cs:613
 msgid "You are OUT, JUMP when prepared!"
 msgstr "Jste MIMO, až budete připraveni, SKOČTE!"
 
-#: ../src/execute/jump.cs:235 ../src/execute/jump.cs:620
+#: ../src/execute/jump.cs:238 ../src/execute/jump.cs:623
 msgid "You are IN, please leave the platform, and press the 'accept' button"
 msgstr "Jste UVNITŘ, opusťte prosím plošinu a zmáčkněte tlačítko „přijmout“."
 
 #. define limited because it's checked in treeviewJump, and possibly it's not the initial defined time (specially when allowFinishRjAfterTime is true)
 #. leave the initial selected time into description/comments:
-#: ../src/execute/jump.cs:985 ../src/execute/jump.cs:1003
+#: ../src/execute/jump.cs:970 ../src/execute/jump.cs:988
 #, csharp-format
 msgid "Initially selected {0} seconds"
 msgstr "Na začátku zvoleno {0} sekund"
@@ -4184,19 +4188,19 @@ msgstr "Plošina"
 msgid "There's contact in {0}. Please leave."
 msgstr "Dochází ke kontaktu na {0}. Ustupte prosím."
 
-#: ../src/execute/multiChronopic.cs:390
+#: ../src/execute/multiChronopic.cs:392
 msgid "Press and mantain Test button in all Chronopics simultaneously."
 msgstr "Zmáčkněte tlačítko Test na všech zařízeních Chronopic současně."
 
-#: ../src/execute/multiChronopic.cs:417
+#: ../src/execute/multiChronopic.cs:419
 msgid "Release Test button in all Chronopics simultaneously."
 msgstr "Pusťte tlačítko Test na všech zařízeních Chronopic současně."
 
-#: ../src/execute/multiChronopic.cs:422
+#: ../src/execute/multiChronopic.cs:424
 msgid "Synchronization done."
 msgstr "Synchronizace dokončena."
 
-#: ../src/execute/multiChronopic.cs:423
+#: ../src/execute/multiChronopic.cs:425
 msgid "Test starts now."
 msgstr "Test nyní započne."
 
@@ -4216,7 +4220,7 @@ msgstr "Jste MIMO, až budete připraveni, vystartujte!"
 msgid "You are IN, RELEASE when prepared!"
 msgstr "Jste UVNITŘ, až budete připraveni, PUSŤTE!"
 
-#: ../src/execute/reactionTime.cs:130
+#: ../src/execute/reactionTime.cs:132
 msgid "You are OUT, come inside and press the 'accept' button"
 msgstr "Jste MIMO, vstupte dovnitř a zmáčkněte tlačítko „přijmout“."
 
@@ -4248,7 +4252,7 @@ msgid "Run will not be recorded. Out of time."
 msgstr "Běh nebude zaznamenán (je mimo časový limit)."
 
 #: ../src/execute/run.cs:951 ../src/exportSession.cs:545
-#: ../src/gui/chronojump.cs:4050 ../src/gui/run.cs:1441 ../src/gui/run.cs:1509
+#: ../src/gui/chronojump.cs:4030 ../src/gui/run.cs:1441 ../src/gui/run.cs:1509
 #: ../src/gui/run.cs:1561
 msgid "Tracks"
 msgstr "Dráhy"
@@ -4262,7 +4266,7 @@ msgid "Export session in format "
 msgstr "Export série cvičení ve formátu "
 
 #: ../src/exportSession.cs:75 ../src/gui/encoder.cs:1464
-#: ../src/gui/person.cs:1952 ../src/gui/preferences.cs:432
+#: ../src/gui/person.cs:1952 ../src/gui/preferences.cs:452
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -4393,7 +4397,7 @@ msgstr "Omezeno"
 
 #. print Total, AVG, SD
 #: ../src/exportSession.cs:440 ../src/exportSession.cs:585
-#: ../src/exportSession.cs:701 ../src/treeViewJump.cs:400
+#: ../src/exportSession.cs:701 ../src/treeViewJump.cs:398
 #: ../src/treeViewPulse.cs:130 ../src/treeViewRun.cs:256
 msgid "Total"
 msgstr "Celkem"
@@ -4413,7 +4417,7 @@ msgstr "Celkem"
 #: ../src/stats/main.cs:683 ../src/stats/main.cs:754 ../src/stats/main.cs:776
 #: ../src/stats/main.cs:803 ../src/stats/rjAVGSD.cs:35
 #: ../src/stats/rjEvolution.cs:219 ../src/stats/runIntervallic.cs:207
-#: ../src/treeViewJump.cs:497 ../src/treeViewJump.cs:499
+#: ../src/treeViewJump.cs:493 ../src/treeViewJump.cs:495
 #: ../src/treeViewMultiChronopic.cs:199 ../src/treeViewPulse.cs:164
 #: ../src/treeViewRun.cs:294
 msgid "SD"
@@ -4728,7 +4732,7 @@ msgstr "Současná osoba:"
 msgid "Deleted person and all his/her tests on this session."
 msgstr "Vymazána osoba a všechny její testy v této sérii cvičení."
 
-#: ../src/gui/chronojump.cs:3198
+#: ../src/gui/chronojump.cs:3199
 msgid ""
 "Please, touch the contact platform for full cancelling.\n"
 "Then press button\n"
@@ -4736,7 +4740,7 @@ msgstr ""
 "Pro úplné zrušení se prosím dotkněte kontaktu plošiny.\n"
 "Potom zmáčkněte tlačítko\n"
 
-#: ../src/gui/chronojump.cs:3241
+#: ../src/gui/chronojump.cs:3242
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full "
@@ -4747,7 +4751,7 @@ msgstr ""
 "Chronopic [{0}].\n"
 "Potom zmáčkněte tlačítko\n"
 
-#: ../src/gui/chronojump.cs:3301
+#: ../src/gui/chronojump.cs:3297
 msgid ""
 "Please, touch the contact platform for full finishing.\n"
 "Then press this button:\n"
@@ -4755,7 +4759,7 @@ msgstr ""
 "Pro úplné dokončení se prosím dotkněte kontaktu plošiny.\n"
 "Potom zmáčkněte toto tlačítko:\n"
 
-#: ../src/gui/chronojump.cs:3355
+#: ../src/gui/chronojump.cs:3351
 #, csharp-format
 msgid ""
 "Please, touch the contact platform on Chronopic/s [{0}] for full finishing."
@@ -4763,164 +4767,164 @@ msgstr ""
 "Pro úplné dokončení se prosím dotkněte kontaktu plošiny na zařízení(ch) "
 "Chronopic [{0}]."
 
-#: ../src/gui/chronojump.cs:3356
+#: ../src/gui/chronojump.cs:3352
 msgid "Then press this button:\n"
 msgstr "Potom zmáčkněte toto tlačítko:\n"
 
-#: ../src/gui/chronojump.cs:3424
+#: ../src/gui/chronojump.cs:3418
 msgid "Sorry, RSA tests cannot be simulated."
 msgstr "Bohužel, testy RSA nemohou být simulovány."
 
-#: ../src/gui/chronojump.cs:3647 ../src/gui/chronojump.cs:3810
-#: ../src/gui/chronojump.cs:3971 ../src/gui/chronojump.cs:4104
-#: ../src/gui/chronojump.cs:4223 ../src/gui/chronojump.cs:4350
-#: ../src/gui/chronojump.cs:4630 ../src/gui/encoder.cs:1815
+#: ../src/gui/chronojump.cs:3639 ../src/gui/chronojump.cs:3798
+#: ../src/gui/chronojump.cs:3954 ../src/gui/chronojump.cs:4084
+#: ../src/gui/chronojump.cs:4200 ../src/gui/chronojump.cs:4323
+#: ../src/gui/chronojump.cs:4600 ../src/gui/encoder.cs:1815
 msgid "Sorry, video cannot be stored."
 msgstr "Video bohužel nemohlo být uloženo."
 
-#: ../src/gui/chronojump.cs:4483
+#: ../src/gui/chronojump.cs:4453
 msgid "Encoder connected"
 msgstr "Snímač je připojen"
 
-#: ../src/gui/chronojump.cs:4517
+#: ../src/gui/chronojump.cs:4487
 msgid "Changes"
 msgstr "Změny"
 
-#: ../src/gui/chronojump.cs:4723
+#: ../src/gui/chronojump.cs:4691
 msgid "Cannot update. Probably this test was deleted."
 msgstr "Nelze aktualizovat. Tento test byl pravděpodobně smazán."
 
 #. without these lines works also but has less functionalities (speed, go to ms)
-#: ../src/gui/chronojump.cs:4984 ../src/gui/event.cs:318
+#: ../src/gui/chronojump.cs:4952 ../src/gui/event.cs:318
 msgid "Playing video"
 msgstr "Přehrává se video"
 
-#: ../src/gui/chronojump.cs:5150 ../src/gui/chronojump.cs:5166
+#: ../src/gui/chronojump.cs:5118 ../src/gui/chronojump.cs:5134
 msgid "Do you want to delete this jump?"
 msgstr "Chcete smazat tento skok?"
 
-#: ../src/gui/chronojump.cs:5167
+#: ../src/gui/chronojump.cs:5135
 msgid "Attention: Deleting a Reactive subjump will delete the whole jump"
 msgstr "Upozornění: Smazáním reakčních meziskoků se smaže celý skok"
 
-#: ../src/gui/chronojump.cs:5238 ../src/gui/chronojump.cs:5255
+#: ../src/gui/chronojump.cs:5206 ../src/gui/chronojump.cs:5223
 msgid "Do you want to delete this run?"
 msgstr "Chcete smazat tento běh?"
 
-#: ../src/gui/chronojump.cs:5256
+#: ../src/gui/chronojump.cs:5224
 msgid "Attention: Deleting a Intervallic subrun will delete the whole run"
 msgstr "Upozornění: Smazáním intervalových meziběhů se smaže celý běh"
 
-#: ../src/gui/chronojump.cs:5390
+#: ../src/gui/chronojump.cs:5358
 msgid "Do you want to delete this test?"
 msgstr "Chcete smazat tento test?"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5447
+#: ../src/gui/chronojump.cs:5415
 msgid "Added simple jump."
 msgstr "Přidán jednoduchý skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5453
+#: ../src/gui/chronojump.cs:5421
 msgid "Added reactive jump."
 msgstr "Přidán reakční skok"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5483
+#: ../src/gui/chronojump.cs:5451
 msgid "Added simple run."
 msgstr "Přidán jednoduchý běh"
 
 #. without filter, only select name
-#: ../src/gui/chronojump.cs:5489
+#: ../src/gui/chronojump.cs:5457
 msgid "Added intervallic run."
 msgstr "Přidán intervalový běh"
 
-#: ../src/gui/chronojump.cs:5837
+#: ../src/gui/chronojump.cs:5805
 msgid "Accelerators help"
 msgstr "Nápověda ke klávesovým zkratkám"
 
-#: ../src/gui/chronojump.cs:5839
+#: ../src/gui/chronojump.cs:5807
 msgid "Use these keys in order to work faster."
 msgstr "Pro urychlení práce používejte tyto klávesy."
 
-#: ../src/gui/chronojump.cs:5840
+#: ../src/gui/chronojump.cs:5808
 msgid "On execute test tab:"
 msgstr "Na kartě spouštění testu:"
 
-#: ../src/gui/chronojump.cs:5841
+#: ../src/gui/chronojump.cs:5809
 msgid "Edit selected person"
 msgstr "Upravit vybranou osobu"
 
-#: ../src/gui/chronojump.cs:5842
+#: ../src/gui/chronojump.cs:5810
 msgid "CURSOR_UP"
 msgstr "ŠIPKA NAHORU"
 
-#: ../src/gui/chronojump.cs:5842
+#: ../src/gui/chronojump.cs:5810
 msgid "Select previous person"
 msgstr "Vybrat předchozí osobu"
 
-#: ../src/gui/chronojump.cs:5843
+#: ../src/gui/chronojump.cs:5811
 msgid "CURSOR_DOWN"
 msgstr "ŠIPKA DOLŮ"
 
-#: ../src/gui/chronojump.cs:5843
+#: ../src/gui/chronojump.cs:5811
 msgid "Select next person"
 msgstr "Vybrat následující osobu"
 
-#: ../src/gui/chronojump.cs:5845
+#: ../src/gui/chronojump.cs:5813
 msgid "Play video of this test"
 msgstr "Přehrát video od tohoto testu"
 
-#: ../src/gui/chronojump.cs:5845 ../src/gui/chronojump.cs:5849
-#: ../src/gui/chronojump.cs:5852
+#: ../src/gui/chronojump.cs:5813 ../src/gui/chronojump.cs:5817
+#: ../src/gui/chronojump.cs:5820
 msgid "(if available)"
 msgstr "(je-li k dispozici)"
 
-#: ../src/gui/chronojump.cs:5846
+#: ../src/gui/chronojump.cs:5814
 msgid "Delete this test"
 msgstr "Smazat tento test"
 
-#: ../src/gui/chronojump.cs:5847
+#: ../src/gui/chronojump.cs:5815
 msgid "On results tab:"
 msgstr "Na kartě s výsledky:"
 
-#: ../src/gui/chronojump.cs:5848
+#: ../src/gui/chronojump.cs:5816
 msgid "Zoom change"
 msgstr "Změnit přiblížení"
 
-#: ../src/gui/chronojump.cs:5849
+#: ../src/gui/chronojump.cs:5817
 msgid "Play video of selected test"
 msgstr "Přehrát video od vybraného testu"
 
-#: ../src/gui/chronojump.cs:5850
+#: ../src/gui/chronojump.cs:5818
 msgid "Edit selected test"
 msgstr "Upravit vybraný test"
 
-#: ../src/gui/chronojump.cs:5851
+#: ../src/gui/chronojump.cs:5819
 msgid "Delete selected test"
 msgstr "Smazat vybraný test"
 
-#: ../src/gui/chronojump.cs:5852
+#: ../src/gui/chronojump.cs:5820
 msgid "Repair selected test"
 msgstr "Opravit vybraný test"
 
-#: ../src/gui/chronojump.cs:5857
+#: ../src/gui/chronojump.cs:5825
 msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
-#: ../src/gui/chronojump.cs:6266
+#: ../src/gui/chronojump.cs:6234
 msgid "Done for testing purposes. Chronojump will exit badly"
 msgstr "Provedeno pro testovací účely. ChronoJump bude nestandardně ukončen."
 
-#: ../src/gui/chronopic.cs:362
+#: ../src/gui/chronopic.cs:361
 msgid "One or more Chronopics have been disconnected."
 msgstr "Jedno nebo více zařízení Chronopic bylo odpojeno."
 
-#: ../src/gui/chronopic.cs:363
+#: ../src/gui/chronopic.cs:362
 msgid "Please connect again, and configure on Chronopic window."
 msgstr "Znovu prosím připojte a nastavte v okně Chronopic."
 
-#: ../src/gui/chronopic.cs:520
+#: ../src/gui/chronopic.cs:519
 msgid ""
 "If you just plugged Chronopic cable and expected port is not listed, close "
 "and open again this window."
@@ -4928,30 +4932,30 @@ msgstr ""
 "Pokud již máte kabel od zařízení Chronopic připojen a očekávaný port není v "
 "seznamu, zavřete a znovu otevřete toto okno."
 
-#: ../src/gui/chronopic.cs:521
+#: ../src/gui/chronopic.cs:520
 msgid "If you have problems connecting with Chronopic, press help button."
 msgstr ""
 "Pokud máte problém s připojením zařízení Chronopic, zmáčkněte tlačítko "
 "nápovědy."
 
-#: ../src/gui/chronopic.cs:600
+#: ../src/gui/chronopic.cs:601
 msgid "starting connection with chronopic"
 msgstr "začíná spojení se zařízením chronopic"
 
-#: ../src/gui/chronopic.cs:653
+#: ../src/gui/chronopic.cs:654
 #, csharp-format
 msgid "<b>Connected</b> to Chronopic on port: {0}"
 msgstr "<b>Připojeno</b> k zařízení Chronopic na portu: {0}"
 
-#: ../src/gui/chronopic.cs:656
+#: ../src/gui/chronopic.cs:657
 msgid "Problems communicating to chronopic."
 msgstr "Problémy v komunikaci se zařízením Chronopic."
 
-#: ../src/gui/chronopic.cs:658
+#: ../src/gui/chronopic.cs:659
 msgid "Changed platform to 'Simulated'"
 msgstr "Změňte plošinu na „Simulováno“"
 
-#: ../src/gui/chronopic.cs:659
+#: ../src/gui/chronopic.cs:660
 msgid ""
 "\n"
 "\n"
@@ -4961,7 +4965,7 @@ msgstr ""
 "\n"
 "Doporučujeme odpojit a připojit kabel USB."
 
-#: ../src/gui/chronopic.cs:770
+#: ../src/gui/chronopic.cs:771
 msgid "Please touch the platform or click Chronopic <i>TEST</i> button"
 msgstr ""
 "Dotkněte se prosím plošiny nebo zmáčkněte <i>TEST</i> na zařízení Chronopic"
@@ -4969,14 +4973,14 @@ msgstr ""
 #. kill the chronopicInit function that is waiting event
 #. thread.Abort();
 #. http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing
-#. Log.Write(thread.ThreadState.ToString());
+#. LogB.Debug(thread.ThreadState.ToString());
 #. thread.IsBackground = true;
 #. try to solve windows problems when a chronopic detection was cancelled
-#. Log.Write(thread.ThreadState.ToString());
+#. LogB.Debug(thread.ThreadState.ToString());
 #. thread.Join(1000);
-#. Log.Write(thread.ThreadState.ToString());
+#. LogB.Debug(thread.ThreadState.ToString());
 #. disconnected
-#: ../src/gui/chronopic.cs:952
+#: ../src/gui/chronopic.cs:955
 msgid "Cancelled by user"
 msgstr "Zrušeno uživatelem"
 
@@ -5004,7 +5008,7 @@ msgstr ""
 "Nová váha\n"
 "volba 2"
 
-#: ../src/gui/encoder.cs:365 ../src/gui/encoder.cs:4409
+#: ../src/gui/encoder.cs:365 ../src/gui/encoder.cs:4411
 msgid "Chronopic port is not configured."
 msgstr "Port pro Chronopic není nastaven."
 
@@ -5410,54 +5414,54 @@ msgstr "Cvičení smazáno."
 msgid "saved"
 msgstr "uloženo"
 
-#: ../src/gui/encoder.cs:4656
+#: ../src/gui/encoder.cs:4671
 msgid "R tasks done"
 msgstr "Úlohy R dokončeny"
 
-#: ../src/gui/encoder.cs:4660
+#: ../src/gui/encoder.cs:4675
 msgid "Repetitions processed"
 msgstr "Opakování zpracována"
 
-#: ../src/gui/encoder.cs:4664
+#: ../src/gui/encoder.cs:4679
 msgid "Starting process"
 msgstr "Začíná zpracování"
 
-#: ../src/gui/encoder.cs:4668
+#: ../src/gui/encoder.cs:4683
 msgid "Loading libraries"
 msgstr "Načítají se knihovny"
 
-#: ../src/gui/encoder.cs:4672
+#: ../src/gui/encoder.cs:4687
 msgid "Starting R"
 msgstr "Začíná R"
 
-#: ../src/gui/encoder.cs:4715 ../src/stats/main.cs:1515
+#: ../src/gui/encoder.cs:4730 ../src/stats/main.cs:1515
 msgid "Sorry. Error doing graph."
 msgstr "Při vytváření grafu došlo k chybě."
 
-#: ../src/gui/encoder.cs:4716
+#: ../src/gui/encoder.cs:4731
 msgid "Maybe R or EMD are not installed."
 msgstr "Možná není nainstalována knihovna R nebo EMD."
 
-#: ../src/gui/encoder.cs:4723 ../src/gui/encoder.cs:4860
+#: ../src/gui/encoder.cs:4738 ../src/gui/encoder.cs:4875
 msgid "Cancelled"
 msgstr "Zrušeno"
 
-#: ../src/gui/encoder.cs:4728
+#: ../src/gui/encoder.cs:4743
 msgid "Finished"
 msgstr "Dokončeno"
 
-#: ../src/gui/encoder.cs:4974
+#: ../src/gui/encoder.cs:4989
 msgid "Sorry, file not found"
 msgstr "Bohužel, ale soubor nebyl nalezen"
 
-#: ../src/gui/encoder.cs:5090
+#: ../src/gui/encoder.cs:5105
 msgid ""
 "If a repetition has been found, test will end at selected inactivity seconds."
 msgstr ""
 "Když je nalezeno opakování, bude test ukončen po vybraném počtu sekund "
 "nečinnosti."
 
-#: ../src/gui/encoder.cs:5091
+#: ../src/gui/encoder.cs:5106
 msgid ""
 "If a repetition has not been found, test will end at selected inactivity "
 "seconds (x2)."
@@ -5465,7 +5469,7 @@ msgstr ""
 "Když je nalezeno opakování, bude test ukončen po vybraném počtu sekund "
 "nečinnosti (×2)."
 
-#: ../src/gui/encoder.cs:5092
+#: ../src/gui/encoder.cs:5107
 msgid "This will let the person to have more time to start movement."
 msgstr "To poskytne osobě více času k počátečnímu přesunu."
 
@@ -5944,7 +5948,7 @@ msgstr "Sady se snímačem"
 msgid "Encoder repetitions"
 msgstr "Opakování se snímačem"
 
-#: ../src/gui/preferences.cs:320
+#: ../src/gui/preferences.cs:324
 msgid "On jumps results tab, power is calculated depending on jump type:"
 msgstr ""
 "V tabulce s výsledky skoků je výkon počítán v závislosti na typu skoku:"
@@ -5952,44 +5956,44 @@ msgstr ""
 #. Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") +
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
-#: ../src/gui/preferences.cs:325
-msgid "Jumps with TC & TF:"
+#: ../src/gui/preferences.cs:329
+msgid "Jumps with TC and TF:"
 msgstr "Skoky s ČK a ČL:"
 
-#: ../src/gui/preferences.cs:325
+#: ../src/gui/preferences.cs:329
 msgid "Developed by Chronojump team"
 msgstr "Vyvinuto týmem ChronoJump"
 
-#: ../src/gui/preferences.cs:327
+#: ../src/gui/preferences.cs:331
 msgid "Calcule the potential energies on fall and after the jump."
 msgstr "Vypočítat potenciální energie při pádu a po skoku."
 
-#: ../src/gui/preferences.cs:328
+#: ../src/gui/preferences.cs:332
 msgid "Divide them by time during force is applied."
 msgstr "Podělit je časem, po který byla vyvíjena síla."
 
 #. P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
-#: ../src/gui/preferences.cs:331
+#: ../src/gui/preferences.cs:335
 msgid "mass"
 msgstr "hmotnost"
 
-#: ../src/gui/preferences.cs:332
+#: ../src/gui/preferences.cs:336
 msgid "falling height"
 msgstr "výška pádu"
 
-#: ../src/gui/preferences.cs:332
+#: ../src/gui/preferences.cs:336
 msgid "flight time"
 msgstr "čas letu"
 
-#: ../src/gui/preferences.cs:333
+#: ../src/gui/preferences.cs:337
 msgid "total_time"
 msgstr "celkový čas"
 
-#: ../src/gui/preferences.cs:335
+#: ../src/gui/preferences.cs:339
 msgid "Jumps without TC: Lewis Peak Power 1974 (W)"
 msgstr "Skok bez ČK: Lewisův špičkový výkon 1974 (W)"
 
-#: ../src/gui/preferences.cs:337
+#: ../src/gui/preferences.cs:341
 msgid ""
 "P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in "
 "meters)"
@@ -5997,33 +6001,45 @@ msgstr ""
 "P = SQRT(4,9) * 9,8 * (tělesná váha + přídavná zátěž) * SQRT(výška skoku v "
 "metrech)"
 
-#: ../src/gui/preferences.cs:339
+#: ../src/gui/preferences.cs:343
 msgid "If you want to use other formulas, go to Statistics."
 msgstr "Pokud chcete jiné vzorce, jděte do statistik."
 
-#: ../src/gui/preferences.cs:390
+#: ../src/gui/preferences.cs:352
+msgid "Contact Time"
+msgstr "Čas kontaktu"
+
+#: ../src/gui/preferences.cs:353
+msgid "Flight Time"
+msgstr "Čas letu"
+
+#: ../src/gui/preferences.cs:354
+msgid "See:"
+msgstr "Viz:"
+
+#: ../src/gui/preferences.cs:410
 msgid "Cannot create directory."
 msgstr "Nelze vytvořit složku."
 
-#: ../src/gui/preferences.cs:429
+#: ../src/gui/preferences.cs:449
 msgid "Copy database to:"
 msgstr "Kopírovat databázi do:"
 
-#: ../src/gui/preferences.cs:433
+#: ../src/gui/preferences.cs:453
 msgid "Copy"
 msgstr "Kopírovat"
 
-#: ../src/gui/preferences.cs:464
+#: ../src/gui/preferences.cs:484
 msgid "Are you sure you want to overwrite: "
 msgstr "Opravdu chcete přepsat: "
 
-#: ../src/gui/preferences.cs:478 ../src/gui/preferences.cs:514
-#: ../src/gui/preferences.cs:547
+#: ../src/gui/preferences.cs:500 ../src/gui/preferences.cs:538
+#: ../src/gui/preferences.cs:571
 #, csharp-format
 msgid "Copied to {0}"
 msgstr "Zkopírováno do {0}"
 
-#: ../src/gui/preferences.cs:484 ../src/gui/preferences.cs:518
+#: ../src/gui/preferences.cs:506 ../src/gui/preferences.cs:542
 #, csharp-format
 msgid "Cannot copy to {0} "
 msgstr "Nelze kopírovat do {0} "
@@ -8543,11 +8559,11 @@ msgstr "{0} pro {1} v {2}"
 msgid "see Preferences"
 msgstr "viz předvolby"
 
-#: ../src/treeViewJump.cs:351
+#: ../src/treeViewJump.cs:350
 msgid "First photocell"
 msgstr "První fotobuňka"
 
-#: ../src/treeViewJump.cs:438 ../src/treeViewJump.cs:497
+#: ../src/treeViewJump.cs:435 ../src/treeViewJump.cs:493
 msgid "photocells not included"
 msgstr "fotobuňka není součástí"
 

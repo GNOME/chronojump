@@ -32,6 +32,7 @@ using LongoMatch.Gui;
 using LongoMatch.Video.Capturer;
 using LongoMatch.Video.Common;
 using LongoMatch.Video.Utils;
+//using System.Diagnostics;
 
 public partial class ChronoJumpWindow 
 {
@@ -2841,6 +2842,8 @@ public partial class ChronoJumpWindow
 		menuitem_mode_selected_runs.Visible = false;
 		menuitem_mode_selected_power.Visible = false;
 		menuitem_mode_selected_other.Visible = false;
+			
+		LogB.Information("MODE", m.ToString());
 
 		if(m == menuitem_modes.JUMPS) {
 			notebook_sup.CurrentPage = 0;
@@ -2873,7 +2876,9 @@ public partial class ChronoJumpWindow
 	}
 
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
-	private void change_multitest_firmware(menuitem_modes m) {
+	private void change_multitest_firmware(menuitem_modes m) 
+	{
+		LogB.Information("change_multitest_firmware");
 		label_chronopics_multitest.Text = "";
 		
 		if(! chronopicWin.Connected)
@@ -2922,8 +2927,24 @@ public partial class ChronoJumpWindow
 				ca.Write(chronopicWin.SP, debounceChange);
 				
 				//read if ok
-				ca = new ChronopicAutoCheckDebounce();
-				string ms = ca.Read(chronopicWin.SP);
+				string ms = "";
+				bool success = false;
+				int tryNum = 7; //try to connect seven times
+				do {
+					ca = new ChronopicAutoCheckDebounce();
+					ms = ca.Read(chronopicWin.SP);
+
+					if(ms.Length == 0)
+						LogB.Error("multitest firmware. ms is null");
+					else if(ms[0] == '-') //is negative
+						LogB.Error("multitest firmware. ms = " + ms);
+					else
+						success = true;
+					tryNum --;
+				} while (! success && tryNum > 0);
+					
+				LogB.Debug("multitest firmware. ms = " + ms);
+
 				if(ms == "50 ms")
 					label_chronopics_multitest.Text = "[" + Catalog.GetString("Jumps") + "]";
 				else if(ms == "10 ms")
@@ -2934,37 +2955,57 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	private void on_radio_menuitem_mode_toggled(object o, EventArgs args) 
+	private menuitem_modes getMenuItemMode() 
 	{
-		menuitem_modes m;
 		if(radio_menuitem_mode_jumps.Active)
-			m = menuitem_modes.JUMPS;
+			return menuitem_modes.JUMPS;
 		else if(radio_menuitem_mode_runs.Active)
-			m = menuitem_modes.RUNS;
+			return menuitem_modes.RUNS;
 		else if(radio_menuitem_mode_power.Active)
-			m = menuitem_modes.POWER;
+			return menuitem_modes.POWER;
 		else // if(radio_menuitem_mode_other.Active)
-			m = menuitem_modes.OTHER;
+			return menuitem_modes.OTHER;
+	}
 
-		select_menuitem_mode_toggled(m);
-	}
-	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) {
-		radio_menuitem_mode_jumps.Active = true;
+	private void on_radio_menuitem_mode_activate(object o, EventArgs args) 
+	{
+		//togglebutton sends signal two times (deactivate/activate), just get the good signal
+		//http://stackoverflow.com/questions/10755541/mono-gtk-radiobutton-clicked-event-firing-twice
+		if( ! (o as Gtk.RadioMenuItem).Active )
+			return;
 		
-		//needed if people select again the same option
-		on_radio_menuitem_mode_toggled(o, args); 
+		select_menuitem_mode_toggled(getMenuItemMode());
 	}
-	private void on_button_selector_start_runs_clicked(object o, EventArgs args) {
-		radio_menuitem_mode_runs.Active = true;
-		on_radio_menuitem_mode_toggled(o, args); 
+
+	private void on_button_selector_start_jumps_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_jumps.Active) {
+			//needed if people select again the same option
+			select_menuitem_mode_toggled(menuitem_modes.JUMPS); 
+		}
+		else
+			radio_menuitem_mode_jumps.Active = true;
 	}
-	private void on_button_selector_start_power_clicked(object o, EventArgs args) {
-		radio_menuitem_mode_power.Active = true;
-		on_radio_menuitem_mode_toggled(o, args); 
+	private void on_button_selector_start_runs_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_runs.Active)
+			select_menuitem_mode_toggled(menuitem_modes.RUNS);
+		else
+			radio_menuitem_mode_runs.Active = true;
 	}
-	private void on_button_selector_start_other_clicked(object o, EventArgs args) {
-		radio_menuitem_mode_other.Active = true;
-		on_radio_menuitem_mode_toggled(o, args); 
+	private void on_button_selector_start_power_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_power.Active)
+			select_menuitem_mode_toggled(menuitem_modes.POWER);
+		else
+			radio_menuitem_mode_power.Active = true;
+	}
+	private void on_button_selector_start_other_clicked(object o, EventArgs args) 
+	{
+		if(radio_menuitem_mode_other.Active)
+			select_menuitem_mode_toggled(menuitem_modes.OTHER);
+		else
+			radio_menuitem_mode_other.Active = true;
 	}
 	
 	/*
@@ -4430,9 +4471,8 @@ public partial class ChronoJumpWindow
 		if(radio_mode_multi_chronopic_small.Active)	
 			on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		
-		//this performs a: change_multitest_firmware(m);
 		if(cps > 0)
-			on_radio_menuitem_mode_toggled(new object(), new EventArgs ());
+			change_multitest_firmware(getMenuItemMode());
 		else 
 			label_chronopics_multitest.Text = "";
 		
@@ -5740,6 +5780,9 @@ LogB.Debug("X");
 	
 	//changed by chronojump when it's needed
 	private void notebooks_change(int desiredPage) {
+		LogB.Information("notebooks_change");
+		//LogB.Debug(new StackFrame(1).GetMethod().Name);
+
 		while(notebook_execute.CurrentPage < desiredPage) 
 			notebook_execute.NextPage();
 		while(notebook_execute.CurrentPage > desiredPage) 

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -148,6 +148,8 @@ public partial class ChronoJumpWindow {
 		else {
 			notebook_stats_sup.CurrentPage = 0;
 
+			combo_stats_stat_type.Changed -= new EventHandler (on_combo_stats_stat_type_changed);
+
 			bool sensitive = false;
 			bool showType = false;
 			if(testPage == 0) {
@@ -165,6 +167,8 @@ public partial class ChronoJumpWindow {
 				UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions[3]);
 			else if(testPage == 3)
 				UtilGtk.ComboUpdate(combo_stats_stat_type, comboStatsTypeOptions[4]);
+			
+			combo_stats_stat_type.Changed += new EventHandler (on_combo_stats_stat_type_changed);
 
 			combo_stats_stat_type.Active = 0;
 			combo_stats_stat_type.Sensitive = sensitive;
@@ -558,6 +562,7 @@ public partial class ChronoJumpWindow {
 	
 	private void updateComboStats() {
 		string [] nullOptions = { "-" };
+		
 		if(UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeSessionSummary ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
@@ -583,7 +588,10 @@ public partial class ChronoJumpWindow {
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimple ) 
 		{
+			combo_stats_stat_subtype.Changed -= new EventHandler (on_combo_stats_stat_subtype_changed);
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
+			combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
@@ -596,7 +604,10 @@ public partial class ChronoJumpWindow {
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
+			combo_stats_stat_subtype.Changed -= new EventHandler (on_combo_stats_stat_subtype_changed);
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeWithTCOptions, "");
+			combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
@@ -607,7 +618,10 @@ public partial class ChronoJumpWindow {
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsReactive ) 
 		{
+			combo_stats_stat_subtype.Changed -= new EventHandler (on_combo_stats_stat_subtype_changed);
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeReactiveOptions, "");
+			combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+			
 			combo_stats_stat_subtype.Sensitive = true;
 			combo_stats_stat_subtype.Active = 0;
 			
@@ -618,7 +632,10 @@ public partial class ChronoJumpWindow {
 		}
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsSimple ) 
 		{
+			combo_stats_stat_subtype.Changed -= new EventHandler (on_combo_stats_stat_subtype_changed);
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
+			combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+			
 			combo_stats_stat_subtype.Sensitive = false;
 			combo_stats_stat_subtype.Active = 0;
 			
@@ -629,7 +646,10 @@ public partial class ChronoJumpWindow {
 		} 
 		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeRunsIntervallic ) 
 		{
+			combo_stats_stat_subtype.Changed -= new EventHandler (on_combo_stats_stat_subtype_changed);
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, comboStatsSubTypeSimpleOptions, "");
+			combo_stats_stat_subtype.Changed += new EventHandler (on_combo_stats_stat_subtype_changed);
+			
 			combo_stats_stat_subtype.Sensitive = false;
 			combo_stats_stat_subtype.Active = 0;
 			
@@ -716,7 +736,8 @@ public partial class ChronoJumpWindow {
 							"CMJ"); //default value
 				combo_stats_stat_apply_to.Sensitive = false;
 			}
-		}  else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
+		}  
+		else if (UtilGtk.ComboGetActive(combo_stats_stat_type) == Constants.TypeJumpsSimpleWithTC ) 
 		{
 			UtilGtk.ComboUpdate(combo_stats_stat_apply_to, 
 				SqliteJumpType.SelectJumpTypes(false, Constants.AllJumpsName, "TC", true), ""); //only select name
@@ -1130,7 +1151,7 @@ public partial class ChronoJumpWindow {
 
 	private void on_combo_stats_stat_type_changed(object o, EventArgs args) {
 		//update combo stats_subtype, there change the treeviewstats (with the combostats_subtype values changed)
-		
+	
 		updateComboStats();
 		
 		update_stats_widgets_sensitiveness();

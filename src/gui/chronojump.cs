@@ -2846,10 +2846,12 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 0;
 			menuitem_mode_selected_jumps.Visible = true;
+			notebooks_change(0);
 		} else if(m == menuitem_modes.RUNS) {
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
+			notebooks_change(2);
 		} else if(m == menuitem_modes.POWER) {
 			notebook_sup.CurrentPage = 1;
 			menuitem_mode_selected_power.Visible = true;
@@ -2857,6 +2859,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 2;
 			menuitem_mode_selected_other.Visible = true;
+			notebooks_change(4);
 		}
 
 		//show the program
@@ -5795,7 +5798,7 @@ LogB.Debug("X");
 		//that will call updateComboStats
 		//and that will call Sqlite.
 		//This is dangerous because it can crash when notebooks_change is called after deleting a test
-		//jsut disable notebooks change in that situation
+		//just disable notebooks change in that situation
 		stats_win_change_test_type(notebook_execute.CurrentPage);
 	}
 	

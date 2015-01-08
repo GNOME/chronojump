@@ -31,7 +31,8 @@ public class TreeViewJumps : TreeViewEvent
 	protected string weightName = Catalog.GetString("Extra weight");
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
-	protected string powerName = Catalog.GetString("Power") + "\n(" + Catalog.GetString("see Preferences") +")";
+	protected string powerName = Catalog.GetString("Power");
+	protected string stiffnessName = Catalog.GetString("Stiffness");
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string angleName = Catalog.GetString("Angle");
 
@@ -89,6 +90,8 @@ public class TreeViewJumps : TreeViewEvent
 		
 		if (preferences.showPower)  
 			i ++;
+		if (preferences.showStiffness)  
+			i ++;
 		if (preferences.showInitialSpeed) 
 			i ++;
 		if (preferences.showAngle) 
@@ -104,6 +107,8 @@ public class TreeViewJumps : TreeViewEvent
 		int i = columnsStringPre.Length + 1; //columnsStringPre + uniqueID (at last)
 		
 		if (preferences.showPower)  
+			i ++;
+		if (preferences.showStiffness)  
 			i ++;
 		if (preferences.showInitialSpeed) 
 			i ++;
@@ -128,6 +133,8 @@ public class TreeViewJumps : TreeViewEvent
 		
 		if (preferences.showPower)  
 			columnsString[i++] = powerName;
+		if (preferences.showStiffness)  
+			columnsString[i++] = stiffnessName;
 		if (preferences.showInitialSpeed) 
 			columnsString[i++] = initialSpeedName;
 		if (preferences.showAngle) 
@@ -211,6 +218,8 @@ public class TreeViewJumps : TreeViewEvent
 			} else
 				myData[count++] = "0";
 		}
+		if (preferences.showStiffness)
+			myData[count++] = Util.TrimDecimals(newJump.Stiffness(personWeight, weightInKg).ToString(), pDN);
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
 		if (preferences.showAngle) 
@@ -320,6 +329,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; //height
 		if (preferences.showPower)
 			myData[count++] = "";
+		if (preferences.showStiffness)
+			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";
 		if (preferences.showQIndex)
@@ -370,6 +381,12 @@ public class TreeViewJumpsRj : TreeViewJumps
 					Util.GetDjPower(Convert.ToDouble(thisTc), Convert.ToDouble(thisTv), 
 						(personWeight + weightInKg), myFall).ToString(), pDN);
 		}
+		if (preferences.showStiffness) {
+			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
+			myData[count++] = Util.TrimDecimals(
+					Util.GetStiffness(personWeight, weightInKg, Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
+					pDN);
+		}
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(
 						thisTv, preferences.metersSecondsPreferred), pDN);
@@ -402,6 +419,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; //fall
 		myData[count++] = ""; //height
 		if (preferences.showPower)
+			myData[count++] = "";
+		if (preferences.showStiffness)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = ""; 
@@ -448,6 +467,16 @@ public class TreeViewJumpsRj : TreeViewJumps
 					tvAVGDouble.ToString())
 				, pDN);
 		if (preferences.showPower) {
+			myData[count++] = "";
+
+			/* TODO:
+			 * it can be done using AVG values like the other AVG statistics,
+			 * but result will not be the same than making the avg of the different power values for each row
+			 * for this reason is best to first calculate the different values of each column and store separately
+			 * in order to calculate the total, AVG, SD using that data
+			 */
+		}
+		if (preferences.showStiffness) {
 			myData[count++] = "";
 
 			/* TODO:
@@ -510,6 +539,8 @@ public class TreeViewJumpsRj : TreeViewJumps
 		myData[count++] = ""; //fall
 		myData[count++] = ""; //height
 		if (preferences.showPower)
+			myData[count++] = "";
+		if (preferences.showStiffness)
 			myData[count++] = "";
 		if (preferences.showInitialSpeed) 
 			myData[count++] = "";

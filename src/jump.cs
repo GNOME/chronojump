@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2009   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -80,6 +80,12 @@ public class Jump : Event
 				weight, description, 
 				angle, simulated);
 	}
+	
+	public virtual double Stiffness(double personMassInKg, double extraMass) 
+	{
+		return Util.GetStiffness(personMassInKg, extraMass, tv, tc);
+	}	
+	
 
 	public override string ToString() {
 		return uniqueID + ":" + personID + ":" + sessionID + ":" + type + ":" + tv + ":" + tc; //...
@@ -92,7 +98,7 @@ public class Jump : Event
 	public virtual bool TypeHasFall {
 		get { return SqliteJumpType.HasFall("jumpType", type); } //jumpType is the table name
 	}
-	
+
 	public double Tv {
 		get { return tv; }
 		set { tv = value; }
@@ -196,6 +202,13 @@ public class JumpRj : Jump
 				angleString, simulated);
 	}
 
+
+	public override double Stiffness(double personMassInKg, double extraMass) 
+	{
+		return Util.GetStiffness(personMassInKg, extraMass, TvAvg, TcAvg);
+	}
+	
+
 	public string Limited
 	{
 		get { return limited; }
@@ -232,6 +245,7 @@ public class JumpRj : Jump
 		get { return Util.GetAverage (tcString); }
 	}
 	
+		
 	public string TvString
 	{
 		get { return tvString; }

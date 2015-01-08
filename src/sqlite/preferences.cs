@@ -149,6 +149,8 @@ class SqlitePreferences : Sqlite
 				preferences.digitsNumber = Convert.ToInt32(reader[1].ToString());
 			else if(reader[0].ToString() == "showPower")
 				preferences.showPower = reader[1].ToString() == "True";
+			else if(reader[0].ToString() == "showStiffness")
+				preferences.showStiffness = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showInitialSpeed")
 				preferences.showInitialSpeed = reader[1].ToString() == "True";
 			else if(reader[0].ToString() == "showAngle")

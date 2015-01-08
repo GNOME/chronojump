@@ -618,6 +618,38 @@ public class Constants
 		ENTRY, ENTRY2, ENTRY3, SPININT, SPININT2, SPININT3, SPINDOUBLE, HBOXSPINDOUBLE2, 
 		HEIGHTMETRIC, COMBO, COMBOALLNONESELECTED, TEXTVIEW, TREEVIEW
 	}
+
+
+	public static string HelpPower =
+		Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") + 
+		"\n\n" +
+		//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") + 
+		//"\n" +
+		//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
+		Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
+		"\n" +
+		Catalog.GetString("Calcule the potential energies on fall and after the jump.") + "\n" + 
+		Catalog.GetString("Divide them by time during force is applied.") +
+		"\n\n" +
+		//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
+		"P = " + Catalog.GetString("mass") + " * g * ( " + 
+		Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + 
+		Catalog.GetString("total_time") +
+		"\n\n" +
+		Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
+		"\n\n" +
+		Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
+		"\n\n" +
+		Catalog.GetString("If you want to use other formulas, go to Statistics.");
+	
+	public static string HelpStiffness =
+		"M: " + Catalog.GetString("Mass") + "\n" +
+		"Tc: " + Catalog.GetString("Contact Time") + "\n" +
+		"Tf: " + Catalog.GetString("Flight Time") + "\n\n" +
+		Catalog.GetString("See:") + "\n" +
+		"Dalleau, G; Belli, A; Viale, F; Lacour, JR; and Bourdin, M. (2004). " + 
+		"A simple method for field measurements of leg stiffness in hopping. " +
+		"Int J Sports Med 25: 170–176";
 	
 	public const string PrefVersionAvailable = "versionAvailable";
 	

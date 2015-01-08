@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -586,6 +586,25 @@ public class Util
 		}
 		return text.Substring(i);
 	}
+
+	public static double GetStiffness(double personMassInKg, double extraMass, double tv, double tc) 
+	{
+		double totalMass = personMassInKg + extraMass;
+		
+		//return if mass is zero or there's no contact time
+		if( totalMass == 0 || tv == 0 || tc == 0)
+			return 0;
+
+		double stiffness;
+		try {
+			stiffness = totalMass * Math.PI * ( tv + tc ) / ( Math.Pow(tc,2) * ( (tv+tc)/Math.PI - tc/4 ) );
+		} catch { 
+			return 0;
+		}
+
+		return stiffness;
+	}
+	
 
 	public static string GetInitialSpeed (string time, bool metersSecondsPreferred) 
 	{

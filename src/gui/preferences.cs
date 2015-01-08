@@ -56,9 +56,6 @@ public class PreferencesWindow {
 	[Widget] Gtk.CheckButton checkbutton_initial_speed;
 	[Widget] Gtk.CheckButton checkbutton_angle;
 	
-	[Widget] Gtk.Button button_help_power;
-	[Widget] Gtk.Button button_help_stiffness;
-	
 	[Widget] Gtk.CheckButton checkbutton_show_tv_tc_index;
 	[Widget] Gtk.Box hbox_indexes;
 	[Widget] Gtk.RadioButton radiobutton_show_q_index;
@@ -152,21 +149,15 @@ public class PreferencesWindow {
 		PreferencesWindowBox.combo_decimals.Active = UtilGtk.ComboMakeActive(
 				decs, preferences.digitsNumber.ToString());
 
-		if(preferences.showPower) {
+		if(preferences.showPower)
 			PreferencesWindowBox.checkbutton_power.Active = true; 
-			PreferencesWindowBox.button_help_power.Sensitive = true;
-		} else {
+		else
 			PreferencesWindowBox.checkbutton_power.Active = false; 
-			PreferencesWindowBox.button_help_power.Sensitive = false;
-		}
 		
-		if(preferences.showStiffness) {
+		if(preferences.showStiffness)
 			PreferencesWindowBox.checkbutton_stiffness.Active = true; 
-			PreferencesWindowBox.button_help_stiffness.Sensitive = true;
-		} else {
+		else
 			PreferencesWindowBox.checkbutton_stiffness.Active = false; 
-			PreferencesWindowBox.button_help_stiffness.Sensitive = false;
-		}
 		
 		if(preferences.showInitialSpeed)  
 			PreferencesWindowBox.checkbutton_initial_speed.Active = true; 
@@ -316,49 +307,6 @@ public class PreferencesWindow {
 			hbox_indexes.Hide();
 	}
 		
-	private void on_checkbutton_power_clicked (object o, EventArgs args) {
-		button_help_power.Sensitive = checkbutton_power.Active;
-	}
-	private void on_button_help_power_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				Catalog.GetString("On jumps results tab, power is calculated depending on jump type:") + 
-				"\n\n" +
-				//Catalog.GetString("Jumps with TC & TF: Bosco Relative Power (W/Kg)") + 
-				//"\n" +
-				//Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") + 
-				Catalog.GetString("Jumps with TC and TF:") + " " + Catalog.GetString("Developed by Chronojump team") + 
-				"\n" +
-				Catalog.GetString("Calcule the potential energies on fall and after the jump.") + "\n" + 
-				Catalog.GetString("Divide them by time during force is applied.") +
-				"\n\n" +
-				//P = mass * g * ( fallHeight + 1.226 * Math.Pow(tf,2) ) / (Double)tt;
-				"P = " + Catalog.GetString("mass") + " * g * ( " + 
-				Catalog.GetString("falling height") + " + 1.226 * " + Catalog.GetString("flight time") + " ^ 2 ) / " + 
-				Catalog.GetString("total_time") +
-				"\n\n" +
-				Catalog.GetString("Jumps without TC: Lewis Peak Power 1974 (W)") + 
-				"\n\n" +
-				Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
-				"\n\n" +
-				Catalog.GetString("If you want to use other formulas, go to Statistics."));
-	}
-	
-	private void on_checkbutton_stiffness_clicked (object o, EventArgs args) {
-		button_help_stiffness.Sensitive = checkbutton_stiffness.Active;
-	}
-	private void on_button_help_stiffness_clicked (object o, EventArgs args) {
-		new DialogMessage(Constants.MessageTypes.INFO, 
-				"M: " + Catalog.GetString("Mass") + "\n" +
-				"Tc: " + Catalog.GetString("Contact Time") + "\n" +
-				"Tf: " + Catalog.GetString("Flight Time") + "\n\n" +
-				Catalog.GetString("See:") + "\n" +
-				"Dalleau, G; Belli, A; Viale, F; Lacour, JR; and Bourdin, M. (2004). " + 
-				"A simple method for field measurements of leg stiffness in hopping. " +
-			        "Int J Sports Med 25: 170–176"
-				,
-				"hbox_stiffness_formula");
-	}
-	
 	void on_button_cancel_clicked (object o, EventArgs args)
 	{
 		PreferencesWindowBox.preferences_win.Hide();
@@ -597,6 +545,11 @@ public class PreferencesWindow {
 		if( preferences.showPower != PreferencesWindowBox.checkbutton_power.Active ) {
 			SqlitePreferences.Update("showPower", PreferencesWindowBox.checkbutton_power.Active.ToString(), true);
 			preferences.showPower = PreferencesWindowBox.checkbutton_power.Active;
+		}
+		
+		if( preferences.showStiffness != PreferencesWindowBox.checkbutton_stiffness.Active ) {
+			SqlitePreferences.Update("showStiffness", PreferencesWindowBox.checkbutton_stiffness.Active.ToString(), true);
+			preferences.showStiffness = PreferencesWindowBox.checkbutton_stiffness.Active;
 		}
 		
 		if( preferences.showInitialSpeed != PreferencesWindowBox.checkbutton_initial_speed.Active ) {

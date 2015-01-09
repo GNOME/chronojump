@@ -4502,7 +4502,7 @@ public partial class ChronoJumpWindow
 	private void chronopicEncoderLabels(bool colorize) {
 		LogB.Information("at chronopicEncoderLabels");
 		string encoderPort = chronopicWin.GetEncoderPort();
-		LogB.Information("encoderPort:", encoderPort);
+		LogB.Information("gui/chronojump.cs encoderPort:", encoderPort);
 
 		if(encoderPort != null && encoderPort != "" && encoderPort != Util.GetDefaultPort())
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");

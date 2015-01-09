@@ -6,7 +6,7 @@
 //
 // Copyright (C) 2005-2007 Novell, Inc.
 //
-// Minor fixes by Xavier de Blas <xaviblas@gmail.com> 2014 
+// Minor tweaks by Xavier de Blas <xaviblas@gmail.com> 2014,2015
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -155,7 +155,11 @@ public static class LogB
 			var thread_name = String.Empty;
 			if(Debugging) {
 				var thread = Thread.CurrentThread;
-				thread_name = String.Format("{0} ", thread.ManagedThreadId);
+				thread_name = thread.ManagedThreadId.ToString();
+				if(thread_name == "1")
+					thread_name = "1-GTK ";
+				else
+					thread_name += "     ";
 			}
 
 			Console.Write("[{5}{0} {1:00}:{2:00}:{3:00}.{4:000}]", TypeString(type), DateTime.Now.Hour,

@@ -3682,21 +3682,27 @@ public partial class ChronoJumpWindow
 			return;
 		
 		updatingEncoderCaptureGraphRCalc = true;
-		LogB.Information("updateEncoderCaptureGraphRCalc");
+		LogB.Debug("updateEncoderCaptureGraphRCalc");
 
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-		LogB.Information("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
+		LogB.Debug("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
 		
 		string eccon = findEccon(true);
 			
-		LogB.Debug(" uECGRC0 ");
-		LogB.Information("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
-				"; operation: " + (ecc.endFrame - ecc.startFrame).ToString() );
+		LogB.Debug("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
+				"; duration: " + (ecc.endFrame - ecc.startFrame).ToString() );
 		
 		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
 				(ecc.endFrame - ecc.startFrame) > 0 ) 
 		{
-			LogB.Debug(" uECGRC1 ");
+			LogB.Information("Processing... ");
+
+			//on excentric-concentric discard if first curve is concentric
+			if ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 ) {
+				ecca.curvesDone ++;
+				LogB.Warning("Discarded curve. eccentric-concentric and first curve is concentric.");
+				return;	
+			}
 			
 			double height = 0;
 
@@ -3713,11 +3719,12 @@ public partial class ChronoJumpWindow
 			LogB.Information(" height: " + height.ToString());
 			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
 				ecca.curvesDone ++;
+				LogB.Warning("Discarded curve. height is very low.");
 				return;	
 			}
 
 			
-			LogB.Information(" uECGRC2 calling rdotnet ");
+			LogB.Information("rdotnet 1 speedCut...");
 
 			NumericVector curveToR = rengine.CreateNumericVector(curve);
 			rengine.SetSymbol("curveToR", curveToR);
@@ -3731,7 +3738,7 @@ public partial class ChronoJumpWindow
 				return;
 			}
 
-			LogB.Debug(" uECGRC3 ");
+			LogB.Information("rdotnet 2 extrema...");
 			//reduce curve by speed, the same way as graph.R
 			rengine.Evaluate("b=extrema(speedCut$y)");
 
@@ -3744,7 +3751,7 @@ public partial class ChronoJumpWindow
 				rengine.Evaluate("speedT2 <- max(which(speedCut$y == min(speedCut$y)))");
 			}
 			
-			LogB.Debug(" uECGRC4 ");
+			LogB.Information("rdotnet 3 crossings...");
 			int speedT1 = rengine.GetSymbol("speedT1").AsInteger().First();
 			int speedT2 = rengine.GetSymbol("speedT2").AsInteger().First();
 
@@ -3757,7 +3764,7 @@ public partial class ChronoJumpWindow
 			//left adjust
 			//find the b$cross at left of max speed
 
-			LogB.Debug(" uECGRC5 ");
+			LogB.Debug("rdotnet 4 reduceCurveBySpeed left...");
 
 			int x_ini = 0;	
 			if(bcrossLen == 0)
@@ -3772,7 +3779,7 @@ public partial class ChronoJumpWindow
 						x_ini = bcross[i];	//left adjust
 				}
 			}
-			LogB.Debug(" uECGRC6 ");
+			LogB.Debug("rdotnet 5 reduceCurveBySpeed right...");
 
 			//rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
 
@@ -3797,7 +3804,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 			
-			LogB.Debug(" uECGRC7 ");
+			LogB.Debug("rdotnet 6 more process...");
 
 			LogB.Information("reducedCurveBySpeed (start, end)");
 			LogB.Information((ecc.startFrame + x_ini).ToString());
@@ -3836,6 +3843,7 @@ public partial class ChronoJumpWindow
 			//only process curves with height >= min_height
 			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
 				ecca.curvesDone ++;
+				LogB.Warning("Discarded curve. height (after reduceCurveBySpeed) is very low.");
 				return;	
 			}
 

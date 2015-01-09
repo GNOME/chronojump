@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -800,7 +800,7 @@ public class EncoderCaptureCurve {
 public class EncoderCaptureCurveArray {
 	public ArrayList ecc;	//each of the EncoderCaptureCurve
 	public int curvesDone;	//starts at int 0. How many ecc have been calculated by R
-	public int curvesAccepted; //starts at int 0. How many ecc have been accepeted (will be rows in treeview_encoder_capture_curves)
+	public int curvesAccepted; //starts at int 0. How many ecc have been accepted (will be rows in treeview_encoder_capture_curves)
 	
 	public EncoderCaptureCurveArray() {
 		ecc = new ArrayList();

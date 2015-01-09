@@ -15,7 +15,7 @@
 #   along with this program; if not, write to the Free Software
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
-#   Copyright (C) 2004-2014  	Xavier de Blas <xaviblas@gmail.com> 
+#   Copyright (C) 2004-2015  	Xavier de Blas <xaviblas@gmail.com> 
 #   Copyright (C) 2014   	Xavier Padullés <x.padulles@gmail.com>
 # 
 
@@ -397,7 +397,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 }
 
 #used in alls eccons
-reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneC) 
+reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothingOneC) 
 {
 	print("at reduceCurveBySpeed")
 
@@ -491,7 +491,13 @@ reduceCurveBySpeed <- function(eccon, row, startT, displacement, smoothingOneC)
 	print(c("time1,time2",time1,time2))
 	print(c("x.ini x.end",x.ini,x.end))
 
-	return(c(startT + x.ini, startT + x.end))
+	#to know the new startH
+	#calculate displacement from original start to the new: x.ini
+	startH.old = startH
+	startH = startH + sum(displacement[1:x.ini])
+	print(c("old startH:", startH.old, "; new startH:", startH))
+
+	return(c(startT + x.ini, startT + x.end, startH))
 }
 
 findECPhases <- function(displacement,speed) {
@@ -2531,9 +2537,14 @@ doProcess <- function(options) {
 		#and this produces a high acceleration there
 		if( ! isInertial(EncoderConfigurationName)) {
 			for(i in 1:n) {
-				reduceTemp=reduceCurveBySpeed(Eccon, i, curves[i,1], displacement[curves[i,1]:curves[i,2]], SmoothingOneC)
+				reduceTemp=reduceCurveBySpeed(Eccon, i, 
+							      curves[i,1], curves[i,3], #startT, startH
+							      displacement[curves[i,1]:curves[i,2]], #displacement
+							      SmoothingOneC
+							      )
 				curves[i,1] = reduceTemp[1]
 				curves[i,2] = reduceTemp[2]
+				curves[i,3] = reduceTemp[3]
 			}
 		}
 		

@@ -476,14 +476,14 @@ public partial class ChronoJumpWindow
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
 
-			LogB.Debug("AAAAAAAAAAAAAAA");
+			LogB.Debug("Calling encoderThreadStart for capture");
 			
 			encoderProcessFinish = false;
 			encoderThreadStart(encoderActions.CAPTURE);
 			
 			//entry_encoder_signal_comment.Text = "";
 
-			LogB.Debug("ZZZZZZZZZZZZZZZ");
+			LogB.Debug("end of Calling encoderThreadStart for capture");
 		//}
 	}
 	
@@ -1924,18 +1924,19 @@ public partial class ChronoJumpWindow
 	}
 	
 	private bool runEncoderCaptureCsharpCheckPort(string port) {
-		LogB.Information("00a 1");
+		LogB.Information("testing encoder port: ", port);
 		SerialPort sp = new SerialPort(port);
-		LogB.Information("00b 1");
 		sp.BaudRate = 115200;
-		LogB.Information("00c 1");
+		LogB.Information("testing 1: sp created");
 		try {
 			sp.Open();
+			LogB.Information("testing 2: sp opened");
 			sp.Close();
+			LogB.Information("testing 3: sp closed. Success!");
 		} catch {
+			LogB.Error("testing encoder port failed");
 			return false;
 		}
-		LogB.Information("00d 1");
 		return true;
 	}
 		
@@ -1948,13 +1949,12 @@ public partial class ChronoJumpWindow
 		int height=encoder_capture_signal_drawingarea.Allocation.Height;
 		double realHeight = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
-		LogB.Debug(" 00a 2 ");
+		LogB.Debug("runEncoderCaptureCsharp start");
 		SerialPort sp = new SerialPort(port);
-		LogB.Debug(" 00b 2 ");
 		sp.BaudRate = 115200;
-		LogB.Debug(" 00c 2 ");
+		LogB.Information("sp created");
 		sp.Open();
-		LogB.Debug(" 00d 2 ");
+		LogB.Information("sp opened");
 			
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
@@ -2148,9 +2148,8 @@ public partial class ChronoJumpWindow
 			}
 		} while (i < (recordingTime -1) && ! encoderProcessCancel && ! encoderProcessFinish);
 
-		LogB.Debug(" 00e ");
+		LogB.Debug("runEncoderCaptureCsharp main bucle end");
 		sp.Close();
-		LogB.Debug(" 00f ");
 
 		if(encoderProcessCancel)
 			return false;
@@ -2166,6 +2165,7 @@ public partial class ChronoJumpWindow
 		writer.Flush();
 		writer.Close();
 		((IDisposable)writer).Dispose();
+		LogB.Debug("runEncoderCaptureCsharp ended");
 
 		return true;
 	}
@@ -3664,8 +3664,6 @@ public partial class ChronoJumpWindow
 	
 	private void updateEncoderCaptureGraphRCalcPre(bool plotCurvesBars) 
 	{
-		LogB.Information(" PERFORMING CALCULATIONS A ");
-	
 		//check if this helps to show bars on slow computers
 		if(! updatingEncoderCaptureGraphRCalc) {
 			updateEncoderCaptureGraphRCalc(plotCurvesBars);
@@ -3684,7 +3682,7 @@ public partial class ChronoJumpWindow
 			return;
 		
 		updatingEncoderCaptureGraphRCalc = true;
-		LogB.Information(" PERFORMING CALCULATIONS B ");
+		LogB.Information("updateEncoderCaptureGraphRCalc");
 
 		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
 		LogB.Information("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
@@ -4409,6 +4407,7 @@ public partial class ChronoJumpWindow
 			} else {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Chronopic port is not configured."));
+				LogB.Error("Chronopic port is not configured.");
 			
 				createChronopicWindow(true);
 				return;
@@ -4962,7 +4961,7 @@ public partial class ChronoJumpWindow
 	
 	/* video stuff */
 	private void encoderStartVideoRecord() {
-		LogB.Information("Starting video");
+		LogB.Information("Starting video if selected on preferences");
 		checkbutton_video_encoder.Sensitive = false;
 		if(preferences.videoOn) {
 			capturer.ClickRec();

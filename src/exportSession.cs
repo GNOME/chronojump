@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -28,7 +28,7 @@ using Mono.Unix;
 
 public class ExportSession
 {
-	protected ArrayList myPersons;
+	protected ArrayList myPersonsAndPS;
 	protected string [] myJumps;
 	protected string [] myJumpsRj;
 	protected string [] myRuns;
@@ -149,7 +149,7 @@ public class ExportSession
 	
 	protected virtual void getData() 
 	{
-		myPersons = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID);
+		myPersonsAndPS = SqlitePersonSession.SelectCurrentSessionPersons(mySession.UniqueID, true);
 		myJumps= SqliteJump.SelectJumps(false, mySession.UniqueID, -1, "", "");
 		myJumpsRj = SqliteJumpRj.SelectJumps(mySession.UniqueID, -1, "", "");
 		myRuns= SqliteRun.SelectRuns(false, mySession.UniqueID, -1, "");
@@ -225,30 +225,43 @@ public class ExportSession
 				Catalog.GetString ("Sport") + ":" + Catalog.GetString("Speciallity") + ":" +
 				Catalog.GetString ("Level") + ":" + Catalog.GetString ("Comments")
 			   );
-	
-		foreach (Person p in myPersons) {
-			PersonSession ps = SqlitePersonSession.Select(p.UniqueID, mySession.UniqueID);
-			string sportName = (SqliteSport.Select(ps.SportID)).Name;
-			string speciallityName = SqliteSpeciallity.Select(ps.SpeciallityID);
+
+		Sqlite.Open();	
+		foreach (PersonAndPS paps in myPersonsAndPS) {
+			string sportName = (SqliteSport.Select(true, paps.ps.SportID)).Name;
+			string speciallityName = SqliteSpeciallity.Select(true, paps.ps.SpeciallityID);
 			
 			myData.Add(
-					p.UniqueID.ToString() + ":" + p.Name + ":" +
-					p.Sex + ":" + p.DateBorn.ToShortDateString() + ":" +
-					Util.RemoveNewLine(p.Description, true) + ":" +
-					ps.Height + ":" + ps.Weight + ":" + 
+					paps.p.UniqueID.ToString() + ":" + paps.p.Name + ":" +
+					paps.p.Sex + ":" + paps.p.DateBorn.ToShortDateString() + ":" +
+					Util.RemoveNewLine(paps.p.Description, true) + ":" +
+					paps.ps.Height + ":" + paps.ps.Weight + ":" + 
 					sportName + ":" + speciallityName + ":" +
-					Util.FindLevelName(ps.Practice) + ":" +
-					Util.RemoveNewLine(ps.Comments, true)
+					Util.FindLevelName(paps.ps.Practice) + ":" +
+					Util.RemoveNewLine(paps.ps.Comments, true)
 				  );
 		}
+		Sqlite.Close();	
 		
 		writeData(myData);
 		writeData("VERTICAL-SPACE");
 	}
+	
+	protected string getPower(double tc, double tf, double personWeight, double extraWeightInKg, double fall) 
+	{
+		int dec = preferences.digitsNumber; //decimals
+		if(tf > 0) {	
+			if(tc > 0) 		//dj
+				return Util.TrimDecimals(Util.GetDjPower(tc, tf, (personWeight + extraWeightInKg), fall).ToString(), dec);
+			else 			//it's a normal jump without tc
+				return Util.TrimDecimals(Util.GetPower(tf, personWeight, extraWeightInKg).ToString(), dec);
+		}
+		return "-";
+	}
 
 	protected void printJumps(string title)
 	{
-		int dec=preferences.digitsNumber; //decimals
+		int dec = preferences.digitsNumber; //decimals
 		
 		string weightName = Catalog.GetString("Weight");
 		if(preferences.weightStatsPercent)
@@ -271,6 +284,7 @@ public class ExportSession
 					weightName + ":" + 
 					Catalog.GetString("Height") + ":" +
 					Catalog.GetString("Power") + ":" +
+					Catalog.GetString("Stiffness") + ":" +
 					Catalog.GetString("Initial Speed") + ":" +
 					Catalog.GetString("Description") + ":" +
 					Catalog.GetString("Angle") + ":" +
@@ -278,45 +292,45 @@ public class ExportSession
 				  );
 
 
-			Sqlite.Open();
 			foreach (string jumpString in myJumps) {
 				string [] myStr = jumpString.Split(new char[] {':'});
-					
-				double personWeight = SqlitePersonSession.SelectAttribute(
-						true, 	//dbconOpened
-						Convert.ToInt32(myStr[2]),
-						Convert.ToInt32(myStr[3]),
-						Constants.Weight);
-				double weightInKg = Util.WeightFromPercentToKg(
+			
+
+				//find weight of person and extra weight
+				int papsPosition = PersonAndPSUtil.Find(myPersonsAndPS, 
+						Convert.ToInt32(myStr[2])); //personID
+
+				if(papsPosition == -1) {
+					LogB.Error("PersonsAndPSUtil don't found person:", myStr[2]);
+					return;
+				}
+
+				double personWeight = ((PersonAndPS) myPersonsAndPS[papsPosition]).ps.Weight;
+				double extraWeightInKg = Util.WeightFromPercentToKg(
 							Convert.ToDouble(myStr[8]), 
 							personWeight);
 
-				string myWeight = "";
+				string extraWeightPrint = "";
 				if(preferences.weightStatsPercent)
-					myWeight = myStr[8];
+					extraWeightPrint = myStr[8];
 				else
-					myWeight = weightInKg.ToString();
+					extraWeightPrint = extraWeightInKg.ToString();
+				
+				//end of find weight of person and extra weight
 		
 				double fall = Convert.ToDouble(myStr[7]);
 				double tc = Convert.ToDouble(myStr[6]);
 				double tf = Convert.ToDouble(myStr[5]);
-				
-				string power = "-";
-				if(tf > 0) {	
-					if(tc > 0) 		//dj
-						power = Util.TrimDecimals(Util.GetDjPower(tc, tf, (personWeight + weightInKg), fall).ToString(), dec);
-					else 			//it's a normal jump without tc
-						power = Util.TrimDecimals(Util.GetPower(tf, personWeight, weightInKg).ToString(), dec);
-				}
 
 				myData.Add (	
 						myStr[2] + ":" +  myStr[0] + ":" +  	//person.UniqueID, person.Name
 						myStr[1] + ":" +  			//jump.uniqueID
 						myStr[4] + ":" +  Util.TrimDecimals(myStr[6], dec) + ":" + 	//jump.type, jump.tc
-						Util.TrimDecimals(myStr[5], dec) + ":" +  myStr[7] + ":" + 	//jump.tv, jump.fall
-						Util.TrimDecimals(myWeight, dec) + ":" +
+						Util.TrimDecimals(myStr[5], dec) + ":" +  Util.TrimDecimals(myStr[7], dec) + ":" + 	//jump.tv, jump.fall
+						Util.TrimDecimals(extraWeightPrint, dec) + ":" +
 						Util.TrimDecimals(Util.GetHeightInCentimeters(myStr[5]), dec) + ":" +  
-						power + ":" +  
+						Util.TrimDecimals(getPower(tc, tf, personWeight, extraWeightInKg, fall), dec) + ":" +
+						Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tf, tc), dec) + ":" +
 						Util.TrimDecimals(Util.GetInitialSpeed(myStr[5], preferences.metersSecondsPreferred), dec) + ":" +  //true: m/s
 						Util.RemoveNewLine(myStr[9], true) + ":" +	//jump.description
 						Util.TrimDecimals(myStr[10],dec) + ":" +	//jump.angle
@@ -324,7 +338,6 @@ public class ExportSession
 						
 					   );
 			}
-			Sqlite.Close();
 
 			writeData(myData);
 			writeData("VERTICAL-SPACE");
@@ -341,7 +354,6 @@ public class ExportSession
 		if(myJumpsRj.Length > 0) 
 			printTitles(title); 
 
-		Sqlite.Open();
 		foreach (string jump in myJumpsRj) {
 			
 			if(showSubjumps) {
@@ -354,7 +366,7 @@ public class ExportSession
 			else
 				weightName += " Kg";
 
-			//TODO: add power
+			//TODO: add power and stiffness
 
 			//if show subjumps show this every time, else show only one
 			if(isFirstHeader || showSubjumps) {
@@ -384,20 +396,30 @@ public class ExportSession
 			}
 		
 			string [] myStr = jump.Split(new char[] {':'});
+
 			
-			string myWeight = "";
+			//find weight of person and extra weight
+			int papsPosition = PersonAndPSUtil.Find(myPersonsAndPS, 
+					Convert.ToInt32(myStr[2])); //personID
+
+			if(papsPosition == -1) {
+				LogB.Error("PersonsAndPSUtil don't found person:", myStr[2]);
+				return;
+			}
+
+			double personWeight = ((PersonAndPS) myPersonsAndPS[papsPosition]).ps.Weight;
+			double extraWeightInKg = Util.WeightFromPercentToKg(
+					Convert.ToDouble(myStr[8]), 
+					personWeight);
+
+			string extraWeightPrint = "";
 			if(preferences.weightStatsPercent)
-				myWeight = myStr[8];
+				extraWeightPrint = myStr[8];
 			else
-				myWeight = Util.WeightFromPercentToKg(
-						Convert.ToDouble(myStr[8]), 
-						SqlitePersonSession.SelectAttribute(
-							true, 	//dbconOpened
-							Convert.ToInt32(myStr[2]),
-							Convert.ToInt32(myStr[3]),
-							Constants.Weight
-							)
-						).ToString();
+				extraWeightPrint = extraWeightInKg.ToString();
+				
+			//end of find weight of person and extra weight
+			
 			myData.Add ( 
 					myStr[2] + ":" +    			//jumpRj.personID
 					myStr[0] + ":" +  myStr[1] + ":" +  	//person.name, jumpRj.uniqueID
@@ -415,17 +437,15 @@ public class ExportSession
 							myStr[10], preferences.metersSecondsPreferred), dec) + ":" +  	//Avg Initial speed (true:m/s)
 					myStr[7] + ":" + 	 	//jumpRj.Fall
 					//myStr[8] + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
-					Util.TrimDecimals(myWeight,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
+					Util.TrimDecimals(extraWeightPrint,dec) + ":" +  myStr[14] + ":" + 	//jumpRj.Weight, jumpRj.Jumps
 					Util.TrimDecimals(myStr[15], dec) + ":" +  Util.GetLimitedRounded(myStr[16],dec) + ":" + 	//jumpRj.Time, jumpRj.Limited
 					Util.RemoveNewLine(myStr[9], true) + ":" + 	//jumpRj.Description
 					//myStr[17] + ":" + 	//jumpRj.Angle
 					Util.SimulatedTestNoYes(Convert.ToInt32(myStr[18]))		//simulated
 					);
 			
-			if(showSubjumps) {
-				//TODO: add here all the calculations on all the parameters. eg. initial speed, power, ...
-				//rewrite all
-
+			if(showSubjumps) 
+			{
 				writeData(myData);
 			
 				myData = new ArrayList(1);
@@ -434,7 +454,11 @@ public class ExportSession
 				string [] tcString = myStr[13].Split(new char[] {'='});
 				int count = 0;
 				myData.Add( " " + ":" + Catalog.GetString("TC") + 
-						":" + Catalog.GetString("TF"));
+						":" + Catalog.GetString("TF") + 
+						":" + Catalog.GetString("Height") + 
+						":" + Catalog.GetString("Power") + 
+						":" + Catalog.GetString("Stiffness") 
+						);
 
 				//print Total, AVG, SD
 				myData.Add(Catalog.GetString("Total") + ":" +
@@ -455,17 +479,32 @@ public class ExportSession
 								Util.GetNumberOfJumps(myStr[12], false)).ToString(),
 							dec));
 				
-				foreach(string myTv in tvString) {
+				foreach(string myTv in tvString) 
+				{
+					double tc = Convert.ToDouble(tcString[count]);
+					double tv = Convert.ToDouble(myTv);
+					
+					//on first jump use fall from RJ option
+					//on next jumps calculate from previous TV
+					double fall;
+					if(count == 0)
+						fall = Convert.ToDouble(myStr[7]); //jumpRj.Fall
+					else
+						fall = Convert.ToDouble(Util.GetHeightInCentimeters(tvString[count -1].ToString()));
+
 					myData.Add((count+1).ToString() + ":" + 
-							Util.TrimDecimals(tcString[count], dec) + ":" + 
-							Util.TrimDecimals(myTv, dec));
+							Util.TrimDecimals(tc, dec) + ":" + 
+							Util.TrimDecimals(tv, dec) + ":" +
+							Util.TrimDecimals(Util.GetHeightInCentimeters(tv.ToString()), dec) + ":" +
+							Util.TrimDecimals(getPower(tc, tv, personWeight, extraWeightInKg, fall), dec) + ":" +
+							Util.TrimDecimals(Util.GetStiffness(personWeight, extraWeightInKg, tv, tc), dec)
+						  );
 					count ++;
 				}
 				writeData(myData);
 				writeData("VERTICAL-SPACE");
 			}
 		}
-		Sqlite.Close();
 
 		//if not showSubjumps write data at last for not having every row as TH
 		if(! showSubjumps) {
@@ -525,8 +564,9 @@ public class ExportSession
 		if(myRunsInterval.Length > 0)
 			printTitles(title); 
 
-		foreach (string runString in myRunsInterval) {
-
+		Sqlite.Open();	
+		foreach (string runString in myRunsInterval) 
+		{
 			if(showSubruns) {
 				myData = new ArrayList(1);
 			}
@@ -556,7 +596,8 @@ public class ExportSession
 			string myRunTypeString = myStr[4];
 			string myRunDistanceInterval = myStr[7];
 			if(myRunDistanceInterval == "-1" || myRunDistanceInterval == "-1.0") {
-				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(myRunTypeString, false);
+				myRunType = SqliteRunIntervalType.SelectAndReturnRunIntervalType(
+						myRunTypeString, true);
 			}
 			myData.Add (
 					myStr[2] + ":" +    			//personID
@@ -616,6 +657,8 @@ public class ExportSession
 				writeData("VERTICAL-SPACE");
 			}
 		}
+		Sqlite.Close();	
+
 		//if not showSubruns write data at last for not having every row as TH
 		if(! showSubruns) {
 			writeData(myData);

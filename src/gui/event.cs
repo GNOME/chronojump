@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -278,7 +278,9 @@ public class EditEventWindow
 			label_run_start_value.Hide();
 		}
 
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(myEvent.SessionID);
+		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+				myEvent.SessionID,
+				false); //means: do not returnPersonAndPSlist
 		string [] personsStrings = new String[persons.Count];
 		int i=0;
 		foreach (Person person in persons) 

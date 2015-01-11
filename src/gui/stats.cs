@@ -576,7 +576,10 @@ public partial class ChronoJumpWindow {
 			UtilGtk.ComboUpdate(combo_stats_stat_subtype, nullOptions, "");
 			combo_stats_stat_subtype.Sensitive = false;
 			
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+					currentSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
+
 			string [] personsStrings = new String[persons.Count];
 			int i=0;
 			foreach (Person person in persons) 

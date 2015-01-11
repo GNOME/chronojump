@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -241,13 +241,17 @@ class SqlitePersonSession : Sqlite
 	//the difference between this select and others, is that this returns and ArrayList of Persons
 	//this is better than return the strings that can produce bugs in the future
 	//use this in the future:
-	public static ArrayList SelectCurrentSessionPersons(int sessionID) 
+	public static ArrayList SelectCurrentSessionPersons(int sessionID, bool returnPersonAndPSlist) 
 	{
 		string tp = Constants.PersonTable;
 		string tps = Constants.PersonSessionTable;
+			
+		string tpsString = "";
+		if(returnPersonAndPSlist)
+			tpsString = ", " + tps + ".* ";
 		
 		Sqlite.Open();
-		dbcmd.CommandText = "SELECT " + tp + ".*" +
+		dbcmd.CommandText = "SELECT " + tp + ".*" + tpsString +
 			" FROM " + tp + ", " + tps + 
 			" WHERE " + tps + ".sessionID == " + sessionID + 
 			" AND " + tp + ".uniqueID == " + tps + ".personID " + 
@@ -269,86 +273,29 @@ class SqlitePersonSession : Sqlite
 					reader[6].ToString(),			//description
 					Convert.ToInt32(reader[9].ToString())	//serverUniqueID
 					);
-			myArray.Add (person);
+
+			if(returnPersonAndPSlist) {
+				PersonSession ps = new PersonSession(
+						Convert.ToInt32(reader[10].ToString()), 	//uniqueID
+						Convert.ToInt32(reader[11].ToString()), 	//personID
+						Convert.ToInt32(reader[12].ToString()), 	//sessionID
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[13].ToString())), //height
+						Convert.ToDouble(Util.ChangeDecimalSeparator(reader[14].ToString())), //weight
+						Convert.ToInt32(reader[15].ToString()), 	//sportID
+						Convert.ToInt32(reader[16].ToString()), 	//speciallityID
+						Convert.ToInt32(reader[17].ToString()),	//practice
+						reader[18].ToString() 			//comments
+						);
+				myArray.Add(new PersonAndPS(person, ps));
+				
+			} else
+				myArray.Add (person);
 		}
 		reader.Close();
 		Sqlite.Close();
 		return myArray;
 	}
 	
-	/*
-	   try to use upper method:
-		public static ArrayList SelectCurrentSessionPersons(int sessionID) 
-		
-	public static string[] SelectCurrentSession(int sessionID, bool onlyIDAndName, bool reverse) 
-	{
-		string tp = Constants.PersonTable;
-		string tps = Constants.PersonSessionTable;
-		
-		Sqlite.Open();
-		dbcmd.CommandText = "SELECT " + tp + ".*, " + tps + ".weight, sport.name, speciallity.name " +
-			"FROM " + tp + ", " + tps + ", sport, speciallity " +
-			" WHERE " + tps + ".sessionID == " + sessionID + 
-			" AND " + tp + ".uniqueID == " + tps + ".personID " + 
-			" AND " + tp + ".sportID == sport.uniqueID " + 
-			" AND " + tp + ".speciallityID == speciallity.uniqueID " + 
-			" ORDER BY upper(" + tp + ".name)";
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
-
-		SqliteDataReader reader;
-		reader = dbcmd.ExecuteReader();
-
-		ArrayList myArray = new ArrayList(2);
-
-		int count = new int();
-		count = 0;
-
-		while(reader.Read()) {
-			if(onlyIDAndName)
-				myArray.Add (reader[0].ToString() + ":" + reader[1].ToString() );
-			else {
-				string sportName = Catalog.GetString(reader[14].ToString());
-
-				string speciallityName = ""; //to solve a gettext bug (probably because speciallity undefined name is "")
-				if(reader[15].ToString() != "")
-					speciallityName = Catalog.GetString(reader[15].ToString());
-				string levelName = Catalog.GetString(Util.FindLevelName(Convert.ToInt32(reader[8])));
-
-				myArray.Add (
-						reader[0].ToString() + ":" + reader[1].ToString() + ":" + 	//id, name
-						reader[2].ToString() + ":" + 					//sex
-						UtilDate.FromSql(reader[3].ToString()).ToShortDateString() + ":" +	//dateborn
-						reader[4].ToString() + ":" + reader[13].ToString() + ":" + //height, weight (from personSessionWeight)
-						sportName + ":" + speciallityName + ":" + levelName + ":" +
-						reader[9].ToString()  //desc
-					    );
-			}
-			count ++;
-		}
-
-		reader.Close();
-		Sqlite.Close();
-
-		string [] myJumpers = new string[count];
-		
-		if(reverse) {
-			//show the results in the combo_sujeto_actual in reversed order, 
-			//then when we create a new person, this is the active, and this is shown 
-			//correctly in the combo_sujeto_actual
-			int count2 = count -1;
-			foreach (string line in myArray) {
-				myJumpers [count2--] = line;
-			}
-		} else {
-			int count2 = 0;
-			foreach (string line in myArray) {
-				myJumpers [count2++] = line;
-			}
-		}
-		return myJumpers;
-	}
-	*/
 	
 	public static void DeletePersonFromSessionAndTests(string sessionID, string personID)
 	{

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -142,7 +142,7 @@ public class SessionAddEditWindow {
 
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID) { 
 			radiobutton_same_sport.Active = true;
-			Sport mySport = SqliteSport.Select(currentSession.PersonsSportID);
+			Sport mySport = SqliteSport.Select(false, currentSession.PersonsSportID);
 			combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, mySport.ToString());
 
 			if(sport.HasSpeciallities) {
@@ -153,7 +153,7 @@ public class SessionAddEditWindow {
 				if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID) { 
 					radiobutton_same_speciallity.Active = true;
 					combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated,
-						       SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID));
+						       SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID));
 						       
 				} else 
 					combo_speciallities.Active = 
@@ -358,7 +358,7 @@ public class SessionAddEditWindow {
 		try {
 			//sport = new Sport(UtilGtk.ComboGetActive(combo_sports));
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(sportID);
+			sport = SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
@@ -453,7 +453,7 @@ public class SessionAddEditWindow {
 			else {
 				sportString = Catalog.GetString("All people in session practice the same sport:");
 				int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-				Sport mySport = SqliteSport.Select(sportID);
+				Sport mySport = SqliteSport.Select(false, sportID);
 
 				if(sportID == Constants.SportUndefinedID)
 					sportString += "<tt>" + pleaseDefineItString + "</tt>";

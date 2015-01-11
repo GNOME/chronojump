@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2014-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -532,7 +532,9 @@ public class ExecuteAutoWindow
 			notebook_main.NextPage();
 		}
 		else if(notebook_main.CurrentPage == 1) {
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(sessionID);
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+					sessionID,
+					false); //means: do not returnPersonAndPSlist
 			orderedData = ExecuteAuto.CreateOrder(mode, persons,  
 					treeviewSerie1Array, treeviewSerie2Array, treeviewSerie3Array);
 			

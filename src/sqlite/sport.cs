@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -84,9 +84,10 @@ class SqliteSport : Sqlite
 		return myLast;
 	}
 
-	public static Sport Select(int uniqueID)
+	public static Sport Select(bool dbconOpened, int uniqueID)
 	{
-		Sqlite.Open();
+		if(! dbconOpened)
+			Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT * FROM " + Constants.SportTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -106,7 +107,10 @@ class SqliteSport : Sqlite
 				);
 	
 		reader.Close();
-		Sqlite.Close();
+		
+		if(! dbconOpened)
+			Sqlite.Close();
+
 		return mySport;
 	}
 		

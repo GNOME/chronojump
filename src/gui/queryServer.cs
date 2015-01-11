@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -540,7 +540,7 @@ public class QueryServerWindow
 		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(sportID);
+			sport = SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportAny)) {
 				//if sport is undefined, level should be undefined, and unsensitive

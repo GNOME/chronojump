@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -1336,10 +1336,10 @@ public class PersonAddModifyWindow
 			textview_ps_comments.Buffer = tb2;
 		}
 			
-		sport = SqliteSport.Select(mySportID);
+		sport = SqliteSport.Select(false, mySportID);
 		combo_sports.Active = UtilGtk.ComboMakeActive(sportsTranslated, sport.ToString());
 
-		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, SqliteSpeciallity.Select(mySpeciallityID));
+		combo_speciallities.Active = UtilGtk.ComboMakeActive(speciallitiesTranslated, SqliteSpeciallity.Select(false, mySpeciallityID));
 
 		combo_levels.Active = UtilGtk.ComboMakeActive(levels, myLevelID + ":" + Util.FindLevelName(myLevelID));
 		
@@ -1394,7 +1394,7 @@ public class PersonAddModifyWindow
 		//LogB.Information("changed");
 		try {
 			int sportID = Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_sports), sports));
-			sport = SqliteSport.Select(sportID);
+			sport = SqliteSport.Select(false, sportID);
 
 			if(Catalog.GetString(sport.Name) == Catalog.GetString(Constants.SportUndefined)) {
 				//if sport is undefined, level should be undefined, and unsensitive
@@ -2136,9 +2136,9 @@ public class PersonAddMultipleWindow {
 
 		string sportStuffString = "";
 		if(currentSession.PersonsSportID != Constants.SportUndefinedID)
-			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(currentSession.PersonsSportID).Name) + "</i>.";
+			sportStuffString += Catalog.GetString("Sport") + ":<i>" + Catalog.GetString(SqliteSport.Select(false, currentSession.PersonsSportID).Name) + "</i>.";
 		if(currentSession.PersonsSpeciallityID != Constants.SpeciallityUndefinedID)
-			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + SqliteSpeciallity.Select(currentSession.PersonsSpeciallityID) + "</i>.";
+			sportStuffString += " " + Catalog.GetString("Speciallity") + ":<i>" + SqliteSpeciallity.Select(false, currentSession.PersonsSpeciallityID) + "</i>.";
 		if(currentSession.PersonsPractice != Constants.LevelUndefinedID)
 			sportStuffString += " " + Catalog.GetString("Level") + ":<i>" + Util.FindLevelName(currentSession.PersonsPractice) + "</i>.";
 

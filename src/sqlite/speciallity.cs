@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 
@@ -78,12 +78,13 @@ class SqliteSpeciallity : Sqlite
 		return myLast;
 	}
 
-	public static string Select(int uniqueID)
+	public static string Select(bool dbconOpened, int uniqueID)
 	{
 		if(uniqueID == -1)
 			return "";
 
-		Sqlite.Open();
+		if(! dbconOpened)
+			Sqlite.Open();
 		
 		dbcmd.CommandText = "SELECT name FROM " + Constants.SpeciallityTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -97,8 +98,10 @@ class SqliteSpeciallity : Sqlite
 		string speciallityName = reader[0].ToString(); //name
 	
 		reader.Close();
-		Sqlite.Close();
-		//return uniqueID + ":" + Catalog.GetString(speciallityName);
+		
+		if(! dbconOpened)
+			Sqlite.Close();
+		
 		return Catalog.GetString(speciallityName);
 	}
 	

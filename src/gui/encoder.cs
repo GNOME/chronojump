@@ -562,7 +562,10 @@ public partial class ChronoJumpWindow
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.DELETE, false);
 	
 		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
 		string [] persons = new String[personsPre.Count];
 		int count = 0;
 	        foreach	(Person p in personsPre)
@@ -824,7 +827,10 @@ public partial class ChronoJumpWindow
 		genericWin.MarkActiveCurves(checkboxes);
 		
 		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+		
 		string [] persons = new String[personsPre.Count];
 		count = 0;
 	        foreach	(Person p in personsPre)
@@ -980,7 +986,9 @@ public partial class ChronoJumpWindow
 	void encoder_analyze_data_compare_interperson () 
 	{
 		//find all persons except current person
-		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID); 
+		ArrayList dataPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
 		ArrayList data = new ArrayList();
 		ArrayList nonSensitiveRows = new ArrayList();
 		int i = 0;	//list of persons
@@ -1216,7 +1224,9 @@ public partial class ChronoJumpWindow
 		genericWin.SetTreeview(columnsString, false, dataPrint, new ArrayList(), Constants.ContextMenu.EDITDELETE, true);
 	
 		//find all persons in current session
-		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		ArrayList personsPre = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
 		string [] persons = new String[personsPre.Count];
 		count = 0;
 	        foreach	(Person p in personsPre)

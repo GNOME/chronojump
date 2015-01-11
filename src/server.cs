@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -192,7 +192,9 @@ public class Server
 			string sportsSeparator = "";
 
 			//upload persons (updating also person.serverUniqueID locally)
-			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(serverSession.UniqueID); 
+			ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+					serverSession.UniqueID,
+					false); //means: do not returnPersonAndPSlist
 			
 			Constants.UploadCodes uCode;
 			ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
@@ -220,7 +222,7 @@ public class Server
 					
 				//if sport is user defined, upload it
 				//and when upload the person, do it with new sportID
-				Sport sport = SqliteSport.Select(ps.SportID);
+				Sport sport = SqliteSport.Select(false, ps.SportID);
 				//but record old sport ID because locally will be a change in serverUniqueID
 				//(with slite update)
 				//but local sport has not to be changed

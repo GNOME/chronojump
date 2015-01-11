@@ -1038,7 +1038,9 @@ public partial class ChronoJumpWindow
 	}
 
 	private void fillTreeView_persons () {
-		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID); 
+		ArrayList myPersons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID, 
+				false); //means: do not returnPersonAndPSlist
 
 		if(myPersons.Count > 0) {
 			//fill treeview
@@ -1271,11 +1273,15 @@ public partial class ChronoJumpWindow
 		ArrayList undefinedSport = new ArrayList(1);
 		
 		ArrayList notToUpload = SqlitePersonSessionNotUpload.SelectAll(currentSession.UniqueID);
-		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(currentSession.UniqueID);
+		ArrayList persons = SqlitePersonSession.SelectCurrentSessionPersons(
+				currentSession.UniqueID,
+				false); //means: do not returnPersonAndPSlist
+
 		foreach (Person person in persons) 
 		{
 			if(! Util.FoundInArrayList(notToUpload, person.UniqueID.ToString())) 
 			{
+				//TODO: this is not needed if true at SqlitePersonSession.SelectCurrentSessionPersons
 				PersonSession ps = SqlitePersonSession.Select(person.UniqueID, currentSession.UniqueID);
 				if(ps.Weight <= 10 || ps.Weight >= 300)
 					impossibleWeight.Add(person);

@@ -15,12 +15,13 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
 using System.Data;
 using System.Text; //StringBuilder
+using System.Collections; //ArrayList
 using Mono.Unix;
 
 public partial class Person {
@@ -189,3 +190,29 @@ public partial class Person {
 	   
 }
 
+//useful when you just want to know all of the data of a person in this session
+public class PersonAndPS {
+	public Person p;
+	public PersonSession ps;
+	
+	//default constructor
+	public PersonAndPS(Person p, PersonSession ps) {
+		this.p = p;
+		this.ps = ps;
+	}
+	
+	~PersonAndPS() {}
+}
+public static class PersonAndPSUtil {
+	public static int Find(ArrayList papsArray, int personID) 
+	{
+		int count = 0;
+		foreach(PersonAndPS paps in papsArray) {
+			if(paps.p.UniqueID == personID)
+				return count;
+			count ++;
+		}
+
+		return -1;
+	}
+}

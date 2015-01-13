@@ -592,7 +592,7 @@ public class Util
 		double totalMass = personMassInKg + extraMass;
 		
 		//return if mass is zero or there's no contact time
-		if( totalMass == 0 || tv == 0 || tc == 0)
+		if( totalMass == 0 || tv <= 0 || tc <= 0)
 			return 0;
 
 		double stiffness;

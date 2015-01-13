@@ -2762,7 +2762,7 @@ msgstr "Incloure els trams"
 
 #: ../glade/chronojump.glade.h:595
 msgid "Include individual"
-msgstr "Inclou individual"
+msgstr "Inclou salts individuals"
 
 #: ../glade/chronojump.glade.h:596
 msgid "Data"

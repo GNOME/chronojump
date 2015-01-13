@@ -109,7 +109,9 @@ public class UtilAll
 	// ----------- logs -----------------------
 	
 	public static string GetLogsDir() {
-		return Path.Combine(Path.GetTempPath(), "Chronojump-logs");
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "logs");
 	}
 	public static string GetLogFileCurrent() {
 		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + "log_chronojump.txt");

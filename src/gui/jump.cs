@@ -1031,7 +1031,7 @@ partial class ChronoJumpWindow
 	//jumps_rj
 	double extra_window_jumps_rj_limited = 10;
 	bool extra_window_jumps_rj_jumpsLimited;
-	string extra_window_jumps_rj_option = "Kg";
+	string extra_window_jumps_rj_option = "%";
 	double extra_window_jumps_rj_weight = 20;
 	double extra_window_jumps_rj_fall = 20;
 	

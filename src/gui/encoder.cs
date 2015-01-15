@@ -1954,16 +1954,17 @@ public partial class ChronoJumpWindow
 		}
 		return true;
 	}
-		
+
+
 	REngine rengine;
 	static Process processCaptureNoRDotNet;
-
+	int encoderSelectedMinimumHeight;
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
-		int width=encoder_capture_signal_drawingarea.Allocation.Width;
-		int height=encoder_capture_signal_drawingarea.Allocation.Height;
-		double realHeight = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
+		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
+		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
+		double realHeightG = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
 		LogB.Debug("runEncoderCaptureCsharp start");
 		SerialPort sp = new SerialPort(port);
@@ -2078,8 +2079,8 @@ public partial class ChronoJumpWindow
 				encoderReadedRaw[i] = byteReadedRaw;
 
 				encoderCapturePoints[i] = new Gdk.Point(
-						Convert.ToInt32(width*i/recordingTime),
-						Convert.ToInt32( (height/2) - ( sum * height / realHeight) )
+						Convert.ToInt32(widthG * i / recordingTime),
+						Convert.ToInt32( (heightG/2) - ( sum * heightG / realHeightG) )
 						);
 				encoderCapturePointsCaptured = i;
 
@@ -2147,36 +2148,45 @@ public partial class ChronoJumpWindow
 								//then find the middle point between that and lastNonZero
 								);
 				
-
-						if(! useRDotNet) {
+						if(useRDotNet)
+							ecca.ecc.Add(ecc);
+						else {
 							//on 1.4.9 secundary thread was capturing
 							//while main thread was calculing with RDotNet and updating GUI
 							//
 							//on 1.5.0 secundary thread is capturing and sending data to R process
 							//while main thread is reading data coming from R and updating GUI
-							//
-							// send the curve
+							
 							string eccon = findEccon(true);
 							LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
 							if(ecc.endFrame - ecc.startFrame > 0 ) {
+								double heightCurve = 0;
 								double [] curve = new double[ecc.endFrame - ecc.startFrame];
 								for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-									//height += encoderReaded[j];
+									heightCurve += encoderReaded[j];
 									curve[k]=encoderReaded[j];
 									k++;
 								}
-								if( ( eccon == "c" && previousWasUp ) || eccon != "c" ) {
+								
+								//check heightCurve in a fast way first to discard curves soon
+								//only process curves with height >= min_height
+								heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
+								LogB.Information(" height: " + heightCurve.ToString());
+								
+								if(
+										heightCurve >= encoderSelectedMinimumHeight &&
+										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) 
+								  ) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
 											processCaptureNoRDotNet, 
 											curve);
 									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
+									ecca.ecc.Add(ecc);
 								}
-								// end of send the curve
 							}
 						}
 						
-						ecca.ecc.Add(ecc);
 
 
 						previousFrameChange = i - directionChangeCount;
@@ -4454,6 +4464,7 @@ public partial class ChronoJumpWindow
 					updatingEncoderCaptureGraphRCalc = false;
 
 					needToRefreshTreeviewCapture = false;
+					encoderSelectedMinimumHeight =(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value;
 	
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -4794,6 +4805,19 @@ LogB.Debug("D");
 					
 					treeviewEncoderCaptureRemoveColumns();
 					ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+			
+					//if(plotCurvesBars) {
+						string title = "";
+						string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+						double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+						double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+						//TODO:
+						//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+						captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
+
+						plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+								true);	//capturing
+					//}
 
 					needToRefreshTreeviewCapture = false;
 				}

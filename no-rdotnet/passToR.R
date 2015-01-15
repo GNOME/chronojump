@@ -4,6 +4,7 @@ open(f)
 
 input <- readLines(f, n = 1L)
 while(input[1] != "Q") {
+	#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 	cat(paste("input is:", input, "\n"))
 	input <- readLines(f, n = 1L)
 }

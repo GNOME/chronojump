@@ -176,7 +176,7 @@ public class UtilEncoder
 					Util.GetDataDir(), "encoder", Constants.EncoderScriptCapturePythonLinux);
 	}
 	*/
-	private static string getEncoderScriptCaptureNoRdotNet() {
+	public static string GetEncoderScriptCaptureNoRdotNet() {
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureNoRDotNet);
 	}
@@ -472,88 +472,6 @@ public class UtilEncoder
 	}
 	*/
 
-	//Process pCaptureNoRDotNet;
-	public static Process RunEncoderCaptureNoRDotNetInitialize() 
-	{
-LogB.Debug("A");
-		ProcessStartInfo pinfo;
-		//If output file is not given, R will try to write in the running folder
-		//in which we may haven't got permissions
-	
-		string pBin="";
-		pinfo = new ProcessStartInfo();
-
-		pBin="Rscript";
-		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
-		}
-LogB.Debug("B");
-	
-	/*	
-		string optionsFile = Path.GetTempPath() + "Roptions.txt";
-		TextWriter writer = File.CreateText(optionsFile);
-		//writer.Write("some options for the capture, like end at n seconds or maybe not needed because we can send the Q from the software");
-		writer.Write(GetEncoderScriptUtilR() + "\n" +
-				UtilEncoder.GetEncoderCaptureNoRDotNetStart() + "\n" + //curve sent to R
-				UtilEncoder.GetEncoderCaptureNoRDotNetProcessed() + "\n" +	//curve processed from R (maybe discardedwith some text file)
-				UtilEncoder.GetEncoderCaptureNoRDotNetEnded()			//signal that processing ended (maybe not needed)
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
-		*/
-	
-	/*	
-		if (UtilAll.IsWindows()) {
-			//On win32 R understands backlash as an escape character and 
-			//a file path uses Unix-like path separator '/'		
-			optionsFile = optionsFile.Replace("\\","/");
-		}
-		*/
-		//on Windows we need the \"str\" to call without problems in path with spaces
-		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
-		pinfo.Arguments = "\"" + "/home/xavier/informatica/progs_meus/chronojump/chronojump/no-rdotnet/passToR.R" + "\"";
-	
-		LogB.Information("Arguments:", pinfo.Arguments);
-		//LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
-		//LogB.Information("--- 2 --- " + scriptOptions + " ---");
-		LogB.Information("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
-
-//		string outputFileCheck = UtilEncoder.UtilEncoder.GetEncoderCaptureNoRDotNetEnded();
-		
-		pinfo.FileName=pBin;
-
-		pinfo.CreateNoWindow = true;
-		pinfo.UseShellExecute = false;
-		pinfo.RedirectStandardInput = true;
-		pinfo.RedirectStandardError = true;
-		pinfo.RedirectStandardOutput = true; 
-
-/*
-		//delete output file check(s)
-		LogB.Information("Deleting... " + outputFileCheck);
-		if (File.Exists(outputFileCheck))
-			File.Delete(outputFileCheck);
-			*/
-		
-
-LogB.Debug("C");
-		Process pCaptureNoRDotNet = new Process();
-		pCaptureNoRDotNet.StartInfo = pinfo;
-		pCaptureNoRDotNet.Start();
-
-LogB.Debug("D");
-//		LogB.Information(p.StandardOutput.ReadToEnd());
-//		LogB.Warning(p.StandardError.ReadToEnd());
-
-//		p.WaitForExit();
-
-//		while ( ! ( File.Exists(outputFileCheck) || CancelRScript ) );
-
-		return pCaptureNoRDotNet;
-	}
-	
 	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double [] d)
 	{
 		LogB.Debug("writing line 1");
@@ -568,7 +486,6 @@ LogB.Debug("D");
 	{
 		LogB.Debug("sending end line");
 		p.StandardInput.WriteLine("Q");
-		p.WaitForExit();
 	}
 
 	/*

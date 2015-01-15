@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -29,6 +29,7 @@ using System.Threading;
 using Mono.Unix;
 using System.Linq;
 using RDotNet;
+using System.Diagnostics; 	//for detect OS and for Process
 
 
 public partial class ChronoJumpWindow 
@@ -272,6 +273,7 @@ public partial class ChronoJumpWindow
 
 
 	Constants.Status RInitialized;	
+	bool useRDotNet = false; //on 1.5.0 no more RDotNet use
 	
 	private void encoderInitializeStuff() {
 		encoder_pulsebar_capture.Fraction = 1;
@@ -1951,6 +1953,7 @@ public partial class ChronoJumpWindow
 	}
 		
 	REngine rengine;
+	static Process processCaptureNoRDotNet;
 
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
@@ -1965,7 +1968,8 @@ public partial class ChronoJumpWindow
 		LogB.Information("sp created");
 		sp.Open();
 		LogB.Information("sp opened");
-			
+
+
 		encoderCaptureCountdown = time;
 		//int recordingTime = es.Ep.Time * 1000;
 		int recordingTime = time * 1000;
@@ -2131,13 +2135,44 @@ public partial class ChronoJumpWindow
 						if(startFrame < 0)
 							startFrame = 0;
 
+						bool previousWasUp = ! Util.IntToBool(directionNow); //if we go now UP, then record previous DOWN phase
 						EncoderCaptureCurve ecc = new EncoderCaptureCurve(
-								! Util.IntToBool(directionNow), //if we go now UP, then record previous DOWN phase
+								previousWasUp,
 								startFrame,
 								(i - directionChangeCount + lastNonZero)/2 	//endFrame
 								//to find endFrame, first substract directionChangePeriod from i
 								//then find the middle point between that and lastNonZero
 								);
+				
+
+						if(! useRDotNet) {
+							//on 1.4.9 secundary thread was capturing
+							//while main thread was calculing with RDotNet and updating GUI
+							//
+							//on 1.5.0 secundary thread is capturing and sending data to R process
+							//while main thread is reading data coming from R and updating GUI
+							//
+							// send the curve
+							string eccon = findEccon(true);
+							LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
+							if(ecc.endFrame - ecc.startFrame > 0 ) {
+								double [] curve = new double[ecc.endFrame - ecc.startFrame];
+								for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+									//height += encoderReaded[j];
+									curve[k]=encoderReaded[j];
+									k++;
+								}
+								if( ( eccon == "c" && previousWasUp ) || eccon != "c" ) {
+									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
+											processCaptureNoRDotNet, 
+											curve);
+									ecca.curvesDone ++;
+									ecca.curvesAccepted ++;
+								}
+								// end of send the curve
+							}
+						}
+						
 						ecca.ecc.Add(ecc);
 
 
@@ -2145,6 +2180,7 @@ public partial class ChronoJumpWindow
 
 						directionChangeCount = 0;
 						directionCompleted = directionNow;
+
 					}
 				}
 
@@ -2176,7 +2212,7 @@ public partial class ChronoJumpWindow
 		writer.Close();
 		((IDisposable)writer).Dispose();
 		LogB.Debug("runEncoderCaptureCsharp ended");
-
+						
 		return true;
 	}
 
@@ -4367,22 +4403,27 @@ public partial class ChronoJumpWindow
 			LogB.Information("encoderThreadStart begins");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
-					if(RInitialized == Constants.Status.UNSTARTED)
-						rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
+						
+					if(useRDotNet) {
+						if(RInitialized == Constants.Status.UNSTARTED)
+							rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
-					/* 
-					 * if error means a problem with RDotNet, not necessarily a problem with R
-					 * we can contnue but without realtime data
-					 *
-					if(RInitialized == Constants.Status.ERROR) {
-						new DialogMessage(Constants.MessageTypes.WARNING,
-								Catalog.GetString("Sorry. Error doing graph.") +
-								"\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
-								"\n\nhttp://www.r-project.org/");
-						return;
-					}
-					*/
+						/* 
+						 * if error means a problem with RDotNet, not necessarily a problem with R
+						 * we can contnue but without realtime data
+						 *
+						 if(RInitialized == Constants.Status.ERROR) {
+						 new DialogMessage(Constants.MessageTypes.WARNING,
+						 Catalog.GetString("Sorry. Error doing graph.") +
+						 "\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
+						 "\n\nhttp://www.r-project.org/");
+						 return;
+						 }
+						 */
+					} else
+						processCaptureNoRDotNet = UtilEncoder.RunEncoderCaptureNoRDotNetInitialize();
 				}
+				
 
 				prepareEncoderGraphs();
 				eccaCreated = false;
@@ -4401,11 +4442,15 @@ public partial class ChronoJumpWindow
 					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration( encoderConfigurationCurrent, 
 							findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
 							getExercisePercentBodyWeightFromCombo() );
+
+					
 				}
 
 				if(action == encoderActions.CAPTURE) {
 					captureCurvesBarsData = new ArrayList();
 					updatingEncoderCaptureGraphRCalc = false;
+	
+					curvesSentToR = 0;
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 				}
@@ -4534,33 +4579,109 @@ public partial class ChronoJumpWindow
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 	}
 
+	
+	/*
+	 * unused, done while capturing
+	 *
+	private void capturingSendCurveToR() 
+	{
+		if(! eccaCreated)
+			return;
+
+		//LogB.Information("ecca.ecc.Count", ecca.ecc.Count.ToString());
+		//LogB.Information("ecca.curvesDone", ecca.curvesDone.ToString());
+		if(ecca.ecc.Count <= ecca.curvesDone) 
+			return;
+			
+		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
+		string eccon = findEccon(true);
+		
+		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
+				(ecc.endFrame - ecc.startFrame) > 0 ) 
+		{
+			LogB.Information("Processing at capturingSendCurveToR... ");
+			
+			//on excentric-concentric discard if first curve is concentric
+			if ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 ) {
+				ecca.curvesDone ++;
+				LogB.Warning("Discarded curve. eccentric-concentric and first curve is concentric.");
+				return;	
+			}
+
+			double [] curve = new double[ecc.endFrame - ecc.startFrame];
+			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+				//height += encoderReaded[j];
+				curve[k]=encoderReaded[j];
+				k++;
+			}
+
+			LogB.Information("Sending... ");
+			UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
+					processCaptureNoRDotNet, 
+					curve);
+
+			ecca.curvesAccepted ++;
+		
+		}
+		ecca.curvesDone ++;
+	}
+	*/
+	
+	int curvesSentToR;
+	private void readingCurveFromR() 
+	{
+		if(! eccaCreated)
+			return;
+
+		if(ecca.curvesAccepted > curvesSentToR) {
+			LogB.Information("ReadingCurveFromR");
+
+			string str = processCaptureNoRDotNet.StandardOutput.ReadLine();
+			if(str != null && str != "" && str != "\n")
+				Console.WriteLine(str);
+
+			curvesSentToR ++;
+		}
+	}
+				
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CURVES);
+
+			if(! useRDotNet)
+				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(processCaptureNoRDotNet);
 			
 			LogB.ThreadEnded(); 
 			return false;
 		}
-		if(capturingCsharp == encoderCaptureProcess.CAPTURING) {
+		if(capturingCsharp == encoderCaptureProcess.CAPTURING) 
+		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
-		
-			//calculations with RDotNet are not available yet on inertial	
-			if(encoderConfigurationCurrent.has_inertia) {
-				UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-				layout_encoder_capture_curves_bars.SetMarkup("Realtime inertial calculations\nnot available in this version");
-				int textWidth = 1;
-				int textHeight = 1;
-				int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
-				layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-				encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-						Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-						layout_encoder_capture_curves_bars);
+			
+			if(useRDotNet) {
+				//calculations with RDotNet are not available yet on inertial	
+				if(encoderConfigurationCurrent.has_inertia) {
+					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+					layout_encoder_capture_curves_bars.SetMarkup("Realtime inertial calculations\nnot available in this version");
+					int textWidth = 1;
+					int textHeight = 1;
+					int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
+					layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
+					encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
+							Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
+							layout_encoder_capture_curves_bars);
 
-				updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
-			} else
-				updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
+					updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
+				} else
+					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
+			} else {
+				//capturingSendCurveToR(); //unused, done while capturing
+				readingCurveFromR();
+				
+				updateEncoderCaptureGraph(true, false, false); //graphSignal, no calcCurves, no plotCurvesBars
+			}
 			
 			LogB.Debug(" Cap:" + encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {

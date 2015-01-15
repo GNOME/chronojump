@@ -4452,6 +4452,8 @@ public partial class ChronoJumpWindow
 				if(action == encoderActions.CAPTURE) {
 					captureCurvesBarsData = new ArrayList();
 					updatingEncoderCaptureGraphRCalc = false;
+
+					needToRefreshTreeviewCapture = false;
 	
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
@@ -4704,17 +4706,17 @@ LogB.Debug("D");
 		ecca.curvesDone ++;
 	}
 	*/
-	
+
+
+	bool needToRefreshTreeviewCapture;
 	private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
 	{
 		if (!String.IsNullOrEmpty(curveFromR.Data))
 		{
 			LogB.Warning(curveFromR.Data);
-		
-		/*	
+
+			/*	
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
-			*/
-					/*
 					ecca.curvesAccepted +1,
 					ecc.startFrame, ecc.endFrame-ecc.startFrame,
 					Util.ConvertToPoint(height*10), //cm	
@@ -4722,23 +4724,19 @@ LogB.Debug("D");
 					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
 					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
 					*/
-			/*
+			
+			string [] strs = curveFromR.Data.Split(new char[] {','});
+
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					0,
 					0, 0,
 					0,
-					*/
-					/*
-					meanSpeed, maxSpeed, maxSpeedT,
-					meanPower, peakPower, peakPowerT,
-					peakPowerDividedByPeakPowerT
-					*/
-			/*
-					curveFromR.Data
-					);
-					*/
-			//TODO: this has to be done by the GTK thread on pulse method
-			//treeviewEncoderCaptureRemoveColumns();
-			//ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+					strs[0], strs[1], strs[2],
+					strs[3], strs[4], strs[5],
+					strs[6]);
+			
+			//executed on GTK thread pulse method
+			needToRefreshTreeviewCapture = true;
 		}
 	}
 	private void readingCurveFromRerror (object sendingProcess, DataReceivedEventArgs curveFromR)
@@ -4788,6 +4786,17 @@ LogB.Debug("D");
 				//readingCurveFromR();
 				
 				updateEncoderCaptureGraph(true, false, false); //graphSignal, no calcCurves, no plotCurvesBars
+	
+				if(needToRefreshTreeviewCapture) 
+				{
+					LogB.Error("HERE YES");
+					LogB.Error(encoderCaptureStringR);
+					
+					treeviewEncoderCaptureRemoveColumns();
+					ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+
+					needToRefreshTreeviewCapture = false;
+				}
 			}
 			
 			LogB.Debug(" Cap:" + encoderThread.ThreadState.ToString());

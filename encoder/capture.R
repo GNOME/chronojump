@@ -1,6 +1,8 @@
 #http://stackoverflow.com/questions/26053302/is-there-a-way-to-use-standard-input-output-stream-to-communicate-c-sharp-and-r/26058010#26058010
 
-cat("Arrived at capture.R\n")
+#Caution: Do not 'print, cat' stuff because it's readed from gui/encoder as results
+
+#cat("Arrived at capture.R\n")
 
 f <- file("stdin")
 open(f)
@@ -8,7 +10,6 @@ open(f)
 
 args <- commandArgs(TRUE)
 optionsFile <- args[1]
-#print(optionsFile)
 
 
 getOptionsFromFile <- function(optionsFile, lines) {
@@ -20,10 +21,8 @@ getOptionsFromFile <- function(optionsFile, lines) {
 
 options <- getOptionsFromFile(optionsFile, 1)
 
-#print(options)
 
 scriptUtilR = options[1]
-#print(scriptUtilR)
 
 source(scriptUtilR)
 
@@ -32,7 +31,7 @@ source(scriptUtilR)
 input <- readLines(f, n = 1L)
 while(input[1] != "Q") {
 	#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
-	cat(paste("input is:", input, "\n"))
+	#cat(paste("input is:", input, "\n"))
 
 	displacement = as.numeric(unlist(strsplit(input, " ")))
 	#if data file ends with comma. Last character will be an NA. remove it
@@ -40,8 +39,6 @@ while(input[1] != "Q") {
 	displacement  = displacement[!is.na(displacement)]
 	
 	position = cumsum(displacement)
-	#print("position")
-	#print(position)
 				
 	reduceTemp = reduceCurveBySpeed("c", 1, 
 				      1, 0, #startT, startH
@@ -87,11 +84,12 @@ while(input[1] != "Q") {
 	#print(kinematicsResult)
 
 	paf = pafGenerate("c", kinematicsResult, myMassBody, myMassExtra)
-	print("paf")
-	print(paf)
+	#print("paf")
+	#print(paf)
 
 	#do not use print because it shows the [1] first. Use cat:
 	cat(paste(paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
+	cat("\n") #mandatory
 
 
 	input <- readLines(f, n = 1L)

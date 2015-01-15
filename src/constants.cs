@@ -695,8 +695,9 @@ public class Constants
 	 * chronojump / encoder / sessionID / graphs
 	 */
 	
-	public static string EncoderScriptCaptureLinux = "pyserial_pyper.py";
-	public static string EncoderScriptCaptureWindows = "pyserial_pyper_windows.exe";
+	//public static string EncoderScriptCapturePythonLinux = "pyserial_pyper.py";
+	//public static string EncoderScriptCapturePythonWindows = "pyserial_pyper_windows.exe";
+	public static string EncoderScriptCaptureNoRDotNet = "capture.R";
 	public static string EncoderScriptCallGraph = "call_graph.R";
 	public static string EncoderScriptGraph = "graph.R";
 	public static string EncoderScriptInertiaMomentum = "inertia-momentum.R";

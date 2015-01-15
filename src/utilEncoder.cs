@@ -22,7 +22,7 @@ using System;
 //using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
-using System.Diagnostics; 	//for detect OS
+using System.Diagnostics; 	//for detect OS and for Process
 using System.IO; 		//for detect OS
 
 using System.Linq;	//RDotNet
@@ -165,14 +165,20 @@ public class UtilEncoder
 		return false;
 	}
 	
-	
-	private static string getEncoderScriptCapture() {
+
+	/*	
+	private static string getEncoderScriptCapturePython() {
 		if(UtilAll.IsWindows())
 			return System.IO.Path.Combine(Util.GetPrefixDir(), 
-				"bin" + Path.DirectorySeparatorChar + "encoder", Constants.EncoderScriptCaptureWindows);
+				"bin" + Path.DirectorySeparatorChar + "encoder", Constants.EncoderScriptCapturePythonWindows);
 		else
 			return System.IO.Path.Combine(
-					Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureLinux);
+					Util.GetDataDir(), "encoder", Constants.EncoderScriptCapturePythonLinux);
+	}
+	*/
+	private static string getEncoderScriptCaptureNoRdotNet() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureNoRDotNet);
 	}
 	
 
@@ -239,14 +245,14 @@ public class UtilEncoder
 		//on linux we execute python and call to the py file
 		//also on windows we need the full path to find R
 		if (UtilAll.IsWindows()) {
-			pBin=getEncoderScriptCapture();
+			pBin=getEncoderScriptCapturePython();
 			pinfo.Arguments = title + " " + es.OutputData1 + " " + es.Ep.ToString1() + " " + port 
 				+ " " + changeSpaceToSpaceMark(
 					System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "R.exe"));
 		}
 		else {
 			pBin="python";
-			pinfo.Arguments = getEncoderScriptCapture() + " " + title + " " + 
+			pinfo.Arguments = getEncoderScriptCapturePython() + " " + title + " " + 
 				es.OutputData1 + " " + es.Ep.ToString1() + " " + port;
 		}
 
@@ -465,6 +471,105 @@ public class UtilEncoder
 		return true;
 	}
 	*/
+
+	//Process pCaptureNoRDotNet;
+	public static Process RunEncoderCaptureNoRDotNetInitialize() 
+	{
+LogB.Debug("A");
+		ProcessStartInfo pinfo;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+	
+		string pBin="";
+		pinfo = new ProcessStartInfo();
+
+		pBin="Rscript";
+		if (UtilAll.IsWindows()) {
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			LogB.Information("pBin:", pBin);
+		}
+LogB.Debug("B");
+	
+	/*	
+		string optionsFile = Path.GetTempPath() + "Roptions.txt";
+		TextWriter writer = File.CreateText(optionsFile);
+		//writer.Write("some options for the capture, like end at n seconds or maybe not needed because we can send the Q from the software");
+		writer.Write(GetEncoderScriptUtilR() + "\n" +
+				UtilEncoder.GetEncoderCaptureNoRDotNetStart() + "\n" + //curve sent to R
+				UtilEncoder.GetEncoderCaptureNoRDotNetProcessed() + "\n" +	//curve processed from R (maybe discardedwith some text file)
+				UtilEncoder.GetEncoderCaptureNoRDotNetEnded()			//signal that processing ended (maybe not needed)
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+		*/
+	
+	/*	
+		if (UtilAll.IsWindows()) {
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			optionsFile = optionsFile.Replace("\\","/");
+		}
+		*/
+		//on Windows we need the \"str\" to call without problems in path with spaces
+		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
+		pinfo.Arguments = "\"" + "/home/xavier/informatica/progs_meus/chronojump/chronojump/no-rdotnet/passToR.R" + "\"";
+	
+		LogB.Information("Arguments:", pinfo.Arguments);
+		//LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
+		//LogB.Information("--- 2 --- " + scriptOptions + " ---");
+		LogB.Information("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
+
+//		string outputFileCheck = UtilEncoder.UtilEncoder.GetEncoderCaptureNoRDotNetEnded();
+		
+		pinfo.FileName=pBin;
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+		pinfo.RedirectStandardInput = true;
+		pinfo.RedirectStandardError = true;
+		pinfo.RedirectStandardOutput = true; 
+
+/*
+		//delete output file check(s)
+		LogB.Information("Deleting... " + outputFileCheck);
+		if (File.Exists(outputFileCheck))
+			File.Delete(outputFileCheck);
+			*/
+		
+
+LogB.Debug("C");
+		Process pCaptureNoRDotNet = new Process();
+		pCaptureNoRDotNet.StartInfo = pinfo;
+		pCaptureNoRDotNet.Start();
+
+LogB.Debug("D");
+//		LogB.Information(p.StandardOutput.ReadToEnd());
+//		LogB.Warning(p.StandardError.ReadToEnd());
+
+//		p.WaitForExit();
+
+//		while ( ! ( File.Exists(outputFileCheck) || CancelRScript ) );
+
+		return pCaptureNoRDotNet;
+	}
+	
+	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double [] d)
+	{
+		LogB.Debug("writing line 1");
+		string curveSend = string.Join(" ", Array.ConvertAll(d, x => x.ToString()));
+		
+		//TODO convert comma to point in this doubles
+
+		LogB.Debug("curveSend",curveSend);
+		p.StandardInput.WriteLine(curveSend);
+	}
+	public static void RunEncoderCaptureNoRDotNetSendEnd(Process p)
+	{
+		LogB.Debug("sending end line");
+		p.StandardInput.WriteLine("Q");
+		p.WaitForExit();
+	}
 
 	/*
 	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R

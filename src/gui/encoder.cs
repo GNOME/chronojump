@@ -4424,7 +4424,7 @@ public partial class ChronoJumpWindow
 						 }
 						 */
 					} else
-						processCaptureNoRDotNet = UtilEncoder.RunEncoderCaptureNoRDotNetInitialize();
+						processCaptureNoRDotNet = runEncoderCaptureNoRDotNetInitialize();
 				}
 				
 
@@ -4453,7 +4453,6 @@ public partial class ChronoJumpWindow
 					captureCurvesBarsData = new ArrayList();
 					updatingEncoderCaptureGraphRCalc = false;
 	
-					curvesSentToR = 0;
 					encoderThread = new Thread(new ThreadStart(encoderDoCaptureCsharp));
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCaptureAndCurves));
 				}
@@ -4582,6 +4581,82 @@ public partial class ChronoJumpWindow
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
 	}
 
+
+
+	Process pCaptureNoRDotNet;
+	private Process runEncoderCaptureNoRDotNetInitialize() 
+	{
+LogB.Debug("A");
+		ProcessStartInfo pinfo;
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+	
+		string pBin="";
+		pinfo = new ProcessStartInfo();
+
+		pBin="Rscript";
+		if (UtilAll.IsWindows()) {
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			LogB.Information("pBin:", pBin);
+		}
+LogB.Debug("B");
+
+		string scriptOptions = UtilEncoder.GetEncoderScriptUtilR();
+		if (UtilAll.IsWindows())
+			scriptOptions = scriptOptions.Replace("\\","/");
+
+
+		string optionsFile = Path.GetTempPath() + "Roptions.txt";
+		TextWriter writer = File.CreateText(optionsFile);
+		writer.Write(scriptOptions);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+
+
+	
+		//on Windows we need the \"str\" to call without problems in path with spaces
+		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
+		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCaptureNoRdotNet() + "\" " + optionsFile;
+	
+		LogB.Information("Arguments:", pinfo.Arguments);
+		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
+		LogB.Information("--- 2 --- " + pinfo.Arguments.ToString() + " ---");
+
+		pinfo.FileName=pBin;
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+		pinfo.RedirectStandardInput = true;
+		pinfo.RedirectStandardError = true;
+		pinfo.RedirectStandardOutput = true; 
+
+		
+
+LogB.Debug("C");
+		Process pCaptureNoRDotNet = new Process();
+		pCaptureNoRDotNet.StartInfo = pinfo;
+		
+		// output will go here
+		pCaptureNoRDotNet.OutputDataReceived += new DataReceivedEventHandler(readingCurveFromR);
+		//pCaptureNoRDotNet.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
+
+		pCaptureNoRDotNet.Start();
+
+		// Start asynchronous read of the output.
+		pCaptureNoRDotNet.BeginOutputReadLine();
+
+LogB.Debug("D");
+//		LogB.Information(p.StandardOutput.ReadToEnd());
+//		LogB.Warning(p.StandardError.ReadToEnd());
+
+//		p.WaitForExit();
+
+//		while ( ! ( File.Exists(outputFileCheck) || CancelRScript ) );
+
+		return pCaptureNoRDotNet;
+	}
 	
 	/*
 	 * unused, done while capturing
@@ -4630,20 +4705,47 @@ public partial class ChronoJumpWindow
 	}
 	*/
 	
-	int curvesSentToR;
-	private void readingCurveFromR() 
+	private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
 	{
-		if(! eccaCreated)
-			return;
-
-		if(ecca.curvesAccepted > curvesSentToR) {
-			LogB.Information("ReadingCurveFromR");
-
-			string str = processCaptureNoRDotNet.StandardOutput.ReadLine();
-			if(str != null && str != "" && str != "\n")
-				Console.WriteLine(str);
-
-			curvesSentToR ++;
+		if (!String.IsNullOrEmpty(curveFromR.Data))
+		{
+			LogB.Warning(curveFromR.Data);
+		
+		/*	
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
+			*/
+					/*
+					ecca.curvesAccepted +1,
+					ecc.startFrame, ecc.endFrame-ecc.startFrame,
+					Util.ConvertToPoint(height*10), //cm	
+					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
+					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
+					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
+					*/
+			/*
+					0,
+					0, 0,
+					0,
+					*/
+					/*
+					meanSpeed, maxSpeed, maxSpeedT,
+					meanPower, peakPower, peakPowerT,
+					peakPowerDividedByPeakPowerT
+					*/
+			/*
+					curveFromR.Data
+					);
+					*/
+			//TODO: this has to be done by the GTK thread on pulse method
+			//treeviewEncoderCaptureRemoveColumns();
+			//ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+		}
+	}
+	private void readingCurveFromRerror (object sendingProcess, DataReceivedEventArgs curveFromR)
+	{
+		if (!String.IsNullOrEmpty(curveFromR.Data))
+		{
+			LogB.Error(curveFromR.Data);
 		}
 	}
 				
@@ -4653,8 +4755,10 @@ public partial class ChronoJumpWindow
 			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CURVES);
 
-			if(! useRDotNet)
+			if(! useRDotNet) {
 				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(processCaptureNoRDotNet);
+				processCaptureNoRDotNet.WaitForExit();
+			}
 			
 			LogB.ThreadEnded(); 
 			return false;
@@ -4681,7 +4785,7 @@ public partial class ChronoJumpWindow
 					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 			} else {
 				//capturingSendCurveToR(); //unused, done while capturing
-				readingCurveFromR();
+				//readingCurveFromR();
 				
 				updateEncoderCaptureGraph(true, false, false); //graphSignal, no calcCurves, no plotCurvesBars
 			}

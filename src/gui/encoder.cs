@@ -305,13 +305,16 @@ public partial class ChronoJumpWindow
 	}
 
 	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
-		if(RInitialized == Constants.Status.UNSTARTED)
-			rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
+		if(useRDotNet) {
+			if(RInitialized == Constants.Status.UNSTARTED)
+				rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
 
-		if(RInitialized == Constants.Status.OK)
-			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
-		else
-			new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
+			if(RInitialized == Constants.Status.OK)
+				new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
+			else
+				new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
+		} else 
+			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet is not being used anymore");
 	}
 	
 

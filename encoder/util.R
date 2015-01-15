@@ -1,6 +1,9 @@
 #extrema function is part of R EMD package
 #It's included here to save time, because 'library("EMD")' is quite time consuming
 
+#Caution: do not 'print, cat' stuff because (on captureR) it's readed from gui/encoder as results
+
+
 extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 
 	minindex <- maxindex <- NULL; nextreme <- 0; cross <- NULL; ncross <- 0 

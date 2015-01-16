@@ -123,6 +123,9 @@ public static class LogB
 
 	public static void Commit(LogEntryType type, string message, string details, bool showUser)
 	{
+		if(message == null)
+			return;
+
 		if(type == LogEntryType.Debug && !Debugging) {
 			return;
 		}

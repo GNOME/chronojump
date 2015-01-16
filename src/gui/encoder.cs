@@ -4829,7 +4829,7 @@ LogB.Debug("D");
 				}
 			}
 			
-			LogB.Debug(" Cap:" + encoderThread.ThreadState.ToString());
+			LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
 			encoderStopVideoRecord();
@@ -4837,7 +4837,7 @@ LogB.Debug("D");
 		} else {	//STOPPED	
 			//do curves, capturingCsharp has ended
 			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
-			LogB.Debug(" Cur:" + encoderThread.ThreadState.ToString());
+			LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
 		}
 			
 		Thread.Sleep (25);
@@ -4858,7 +4858,7 @@ LogB.Debug("D");
 		updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
 
 		Thread.Sleep (25);
-		LogB.Debug(" CapIM:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4878,7 +4878,7 @@ LogB.Debug("D");
 		}
 		updatePulsebar(encoderActions.CURVES); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" Cur:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4897,7 +4897,7 @@ LogB.Debug("D");
 		}
 		updatePulsebar(encoderActions.LOAD); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" L:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" L:", encoderThread.ThreadState.ToString());
 		return true;
 	}
 	
@@ -4916,7 +4916,7 @@ LogB.Debug("D");
 		}
 		updatePulsebar(encoderActions.ANALYZE); //activity on pulsebar
 		Thread.Sleep (50);
-		LogB.Debug(" A:" + encoderThread.ThreadState.ToString());
+		LogB.Debug(" A:", encoderThread.ThreadState.ToString());
 		return true;
 	}
 	

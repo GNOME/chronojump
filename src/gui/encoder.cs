@@ -4724,7 +4724,13 @@ LogB.Debug("D");
 	{
 		if (!String.IsNullOrEmpty(curveFromR.Data))
 		{
+
+			LogB.Warning("Without trim");
 			LogB.Warning(curveFromR.Data);
+
+			string trimmed = curveFromR.Data;
+			LogB.Warning("With trim");
+			LogB.Warning(trimmed);
 
 			/*	
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
@@ -4736,7 +4742,7 @@ LogB.Debug("D");
 					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
 					*/
 			
-			string [] strs = curveFromR.Data.Split(new char[] {','});
+			string [] strs = trimmed.Split(new char[] {','});
 
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					0,

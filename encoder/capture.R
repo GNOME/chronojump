@@ -89,7 +89,7 @@ while(input[1] != "Q") {
 
 	#do not use print because it shows the [1] first. Use cat:
 	cat(paste(paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
-	cat("\n") #mandatory
+	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
 
 
 	input <- readLines(f, n = 1L)

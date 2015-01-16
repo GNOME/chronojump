@@ -4728,7 +4728,7 @@ LogB.Debug("D");
 			LogB.Warning("Without trim");
 			LogB.Warning(curveFromR.Data);
 
-			string trimmed = curveFromR.Data;
+			string trimmed = curveFromR.Data.Trim();
 			LogB.Warning("With trim");
 			LogB.Warning(trimmed);
 

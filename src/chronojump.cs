@@ -485,6 +485,7 @@ public class ChronoJump
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
 				errorWin.Show_button_open_docs_folder();
+				errorWin.Show_send_log();
 				errorWin.Button_accept_label(Catalog.GetString("Open Chronojump"));
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
 			}

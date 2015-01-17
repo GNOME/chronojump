@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -33,8 +33,12 @@ public class ErrorWindow
 	[Widget] Gtk.Window error_window;
 	[Widget] Gtk.Label label1;
 	[Widget] Gtk.Button button_accept;
+	[Widget] Gtk.Box hbox_send_log;
 	[Widget] Gtk.Button button_open_database_folder;
 	[Widget] Gtk.Button button_open_docs_folder;
+	[Widget] Gtk.Image image_send_log_no;
+	[Widget] Gtk.Image image_send_log_yes;
+	[Widget] Gtk.Label label_send_log_message;
 
 	string table;
 	static ErrorWindow ErrorWindowBox;
@@ -61,6 +65,7 @@ public class ErrorWindow
 		}
 		
 		//hidden always excepted when called to be shown (see below)
+		ErrorWindowBox.hbox_send_log.Hide();
 		ErrorWindowBox.button_open_database_folder.Hide();
 
 		ErrorWindowBox.error_window.Show();
@@ -79,6 +84,25 @@ public class ErrorWindow
 		button_accept.Click();
 	}
 	
+	public void Show_send_log() {
+		hbox_send_log.Show();
+	}
+	private void on_button_send_log_clicked (object o, EventArgs args)
+	{
+		JsonPost jp = new JsonPost();
+		bool success = jp.PostCrashLog();
+		
+		if(success) {
+			image_send_log_yes.Show();
+			LogB.Information(jp.ResultMessage);
+		} else {
+			image_send_log_no.Show();
+			LogB.Error(jp.ResultMessage);
+		}
+
+		label_send_log_message.Text = jp.ResultMessage;
+	}
+
 	public void Show_button_open_database_folder () {
 		button_open_database_folder.Show();
 	}

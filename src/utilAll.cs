@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- *  Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ *  Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -114,10 +114,10 @@ public class UtilAll
 				"Chronojump" + Path.DirectorySeparatorChar + "logs");
 	}
 	public static string GetLogFileCurrent() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + "log_chronojump.txt");
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLog);
 	}
 	public static string GetLogFileOld() {
-		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + "log_chronojump_old.txt");
+		return Path.Combine(GetLogsDir() +  Path.DirectorySeparatorChar + Constants.FileNameLogOld);
 	}
 
 }

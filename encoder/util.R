@@ -3,6 +3,62 @@
 
 #Caution: do not 'print, cat' stuff because (on captureR) it's readed from gui/encoder as results
 
+#used in graph.R and capture.R
+assignOptions <- function(options) {        
+	print(options[25])
+	print(options[26])
+	return(list(
+		    File		= options[1],        
+		    OutputGraph		= options[2],
+		    OutputData1		= options[3],
+		    OutputData2		= options[4], #currently used to display processing feedback
+		    SpecialData		= options[5], #currently used to write 1RM. variable;result (eg. "1RM;82.78")
+		    MinHeight		= as.numeric(options[6])*10, #from cm to mm
+		    ExercisePercentBodyWeight = as.numeric(options[7]),        #was isJump=as.logical(options[6])
+		    MassBody		= as.numeric(options[8]),
+		    MassExtra		= as.numeric(options[9]),
+		    Eccon		= options[10],
+		    #in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
+		    #Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
+		    #	1st: Speed,power are Y (left and right), 2n: Load is X.
+		    #
+		    #in Analysis "powerBars", AnalysisVariables can be:
+		    #	"TimeToPeakPower;Range", or eg: "NoTimeToPeakPower;NoRange"
+		    #
+		    #in Analysis "single" or "side", AnalysisVariables can be:
+		    #	"Speed;Accel;Force;Power", or eg: "NoSpeed;NoAccel;Force;Power"
+		    #
+		    #in Analysis = "1RMAnyExercise"
+		    #AnalysisVariables = "0.185;method". speed1RM = 0.185m/s
+		    Analysis		= options[11],	
+		    AnalysisVariables	= unlist(strsplit(options[12], "\\;")),
+
+		    AnalysisOptions	= options[13],
+
+		    #TODO: all this have to be applicable also on ! singleFILE
+		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
+		    diameter		= as.numeric(options[15]),	#in meters, eg: 0.0175
+		    diameterExt		= as.numeric(options[16]),	#in meters, eg: 0.0175
+		    anglePush 		= as.numeric(options[17]),
+		    angleWeight 	= as.numeric(options[18]),
+		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
+		    gearedDown 		= as.numeric(options[20]),
+
+		    SmoothingOneC	= as.numeric(options[21]),
+		    Jump		= options[22],
+		    Width		= as.numeric(options[23]),
+		    Height		= as.numeric(options[24]),
+		    DecimalSeparator	= options[25],
+		    Title		= options[26],
+		    OperatingSystem	= options[27],	#if this changes, change it also at start of this R file
+		    #IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
+
+		    scriptOne 		= options[28], #util.R
+		    scriptTwo 		= options[29] #neuromuscularProfile.R
+		    ))
+}
+
+
 
 extrema <- function(y, ndata = length(y), ndatam1 = ndata - 1) {
 

@@ -63,6 +63,9 @@ EncoderConfigurationName <- ""
 English = unlist(strsplit(options[30], "\\;"))
 Translated = unlist(strsplit(options[31], "\\;"))
 
+scriptUtilR = options[28]
+source(scriptUtilR)
+
 scriptGraphR = options[32]
 
 #Note:

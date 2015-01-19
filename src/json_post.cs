@@ -43,7 +43,7 @@ public class JsonPost
 		}
 
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create ("http://chronojump.org:8080/api/backtrace");
+		WebRequest request = WebRequest.Create ("http://api.chronojump.org:8080/backtrace");
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -62,7 +62,7 @@ public class JsonPost
 		try {
 			dataStream = request.GetRequestStream ();
 		} catch {
-			this.ResultMessage = Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor server is down.");
+			this.ResultMessage = Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor server (http://api.chronojump.org:8080) is down.");
 			return false;
 		}
 

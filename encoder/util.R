@@ -2,11 +2,10 @@
 #It's included here to save time, because 'library("EMD")' is quite time consuming
 
 #Caution: do not 'print, cat' stuff because (on captureR) it's readed from gui/encoder as results
+#it can be printed safely to stderr. See end capture.R
 
 #used in graph.R and capture.R
 assignOptions <- function(options) {        
-	print(options[25])
-	print(options[26])
 	return(list(
 		    File		= options[1],        
 		    OutputGraph		= options[2],

@@ -1711,87 +1711,38 @@ loadLibraries <- function(os) {
 		library("Cairo")
 }
 
-doProcess <- function(options) {
-
-	File=options[1]
-	OutputGraph=options[2]
-	OutputData1=options[3]
-	OutputData2=options[4] #currently used to display processing feedback
-	SpecialData=options[5] #currently used to write 1RM. variable;result (eg. "1RM;82.78")
-	MinHeight=as.numeric(options[6])*10 #from cm to mm
-	ExercisePercentBodyWeight=as.numeric(options[7])	#was isJump=as.logical(options[6])
-	MassBody=as.numeric(options[8])	
-	MassExtra=as.numeric(options[9])	
-
-	Eccon=options[10]
+doProcess <- function(options) 
+{
+	op <- assignOptions(options)
 	
-	#in Analysis "cross", AnalysisVariables can be "Force;Speed;mean". 1st is Y, 2nd is X. "mean" can also be "max"
-	#Analysis "cross" can have a double XY plot, AnalysisVariables = "Speed,Power;Load;mean"
-	#	1st: Speed,power are Y (left and right), 2n: Load is X.
-	#
-	#in Analysis "powerBars", AnalysisVariables can be:
-	#	"TimeToPeakPower;Range", or eg: "NoTimeToPeakPower;NoRange"
-	#
-	#in Analysis "single" or "side", AnalysisVariables can be:
-	#	"Speed;Accel;Force;Power", or eg: "NoSpeed;NoAccel;Force;Power"
-	#
-	#in Analysis = "1RMAnyExercise"
-	#AnalysisVariables = "0.185;method". speed1RM = 0.185m/s
-	Analysis=options[11]	
-	AnalysisVariables=unlist(strsplit(options[12], "\\;"))
-	
-	AnalysisOptions=options[13]	
-
-	#TODO: all this have to be applicable also on ! singleFILE
-	EncoderConfigurationName=	options[14]	#just the name of the EncoderConfiguration	
-	diameter=	as.numeric(options[15])	#in meters, eg: 0.0175
-	diameterExt=	as.numeric(options[16])	#in meters, eg: 0.0175
-	anglePush =	as.numeric(options[17])
-	angleWeight =	as.numeric(options[18])
-	inertiaMomentum=as.numeric(options[19])/10000.0	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
-	gearedDown =	as.numeric(options[20])
-
-	SmoothingOneC=as.numeric(options[21])
-	Jump=options[22]
-	Width=as.numeric(options[23])
-	Height=as.numeric(options[24])
-	DecimalSeparator=options[25]
-	Title=options[26]
-
-	print(c("1 Title=",Title))
+	print(c("1 Title=",op$Title))
 	#unicoded titles arrive here like this "\\", convert to "\", as this is difficoult, do like this:
 	#http://stackoverflow.com/a/17787736
-	Title=parse(text = paste0("'", Title, "'"))
-	print(c("1 Title=",Title))
-
-	OperatingSystem=options[27]	#if this changes, change it also at start of this R file
-	#IMPORTANT, if this grows, change the readLines value on getOptionsFromFile
-
-	scriptOne = options[28] #usually util.R
-	scriptTwo = options[29] #usually neuromuscularProfile.R
-	#--- include files ---
-	if(scriptOne != "none")
-		source(scriptOne)
-	if(scriptTwo != "none")
-		source(scriptTwo)
-
+	op$Title=parse(text = paste0("'", op$Title, "'"))
+	print(c("1 Title=",op$Title))
+	
 	#options 30 and 31 is assigned on the top of the file to be available in all functions
 	#print(options[30])
 	#print(options[31])
-
 	#options 32 is this graph.R file and it's used in call_graph.R to call this as source (in RDotNet)
 
+	#--- include files ---
+	#if(op$scriptOne != "none")
+	#	source(op$scriptOne)
+	if(op$scriptTwo != "none")
+		source(op$scriptTwo)
 
-	print(File)
-	print(OutputGraph)
-	print(OutputData1)
-	print(OutputData2)
-	print(SpecialData)
+
+	print(op$File)
+	print(op$OutputGraph)
+	print(op$OutputData1)
+	print(op$OutputData2)
+	print(op$SpecialData)
 
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
 	#if nothing: "-;-"
-	analysisOptionsTemp = unlist(strsplit(AnalysisOptions, "\\;"))
+	analysisOptionsTemp = unlist(strsplit(op$AnalysisOptions, "\\;"))
 	isPropulsive = (analysisOptionsTemp[1] == "p")
 	inertialType = ""	#TODO: use EncoderConfiguration
 	if(length(analysisOptionsTemp) > 1) {
@@ -1800,7 +1751,7 @@ doProcess <- function(options) {
 
 
 	#inertial cannot be propulsive
-	if(isInertial(EncoderConfigurationName))
+	if(isInertial(op$EncoderConfigurationName))
 		isPropulsive = FALSE
 
 	#in "li": linear encoder with inertial machines,
@@ -1819,14 +1770,14 @@ doProcess <- function(options) {
 	#	This is not calculated yet.
 
 	
-	if(Analysis != "exportCSV") {
-		if(OperatingSystem=="Windows")
-			Cairo(Width, Height, file=OutputGraph, type="png", bg="white")
+	if(op$Analysis != "exportCSV") {
+		if(op$OperatingSystem=="Windows")
+			Cairo(op$Width, op$Height, file = op$OutputGraph, type="png", bg="white")
 		else
-			png(OutputGraph, width=Width, height=Height)
+			png(op$OutputGraph, width=op$Width, height=op$Height)
 
-		Title=gsub('_',' ',Title)
-		Title=gsub('-','    ',Title)
+		op$Title=gsub('_',' ',op$Title)
+		op$Title=gsub('-','    ',op$Title)
 	}
 
 	titleType = "c"
@@ -1834,18 +1785,18 @@ doProcess <- function(options) {
 	#	titleType="jump"
 
 	curvesPlot = FALSE
-	if(Analysis == "curves") {
+	if(op$Analysis == "curves") {
 		curvesPlot = TRUE
 		par(mar=c(2,2.5,2,1))
 	}
 
 	#when a csv is used (it links to lot of files) then singleFile = false
 	singleFile = TRUE
-	if(nchar(File) >= 40) {
+	if(nchar(op$File) >= 40) {
 		#file="/tmp...../chronojump-encoder-graph-input-multi.csv"
 		#substr(file, nchar(file)-39, nchar(file))
 		#[1] "chronojump-encoder-graph-input-multi.csv"
-		if(substr(File, nchar(File)-39, nchar(File)) == "chronojump-encoder-graph-input-multi.csv") {
+		if(substr(op$File, nchar(op$File)-39, nchar(op$File)) == "chronojump-encoder-graph-input-multi.csv") {
 			singleFile = FALSE
 		}
 	}
@@ -1862,7 +1813,7 @@ doProcess <- function(options) {
 		#this version of curves has added specific data cols:
 		#status, exerciseName, mass, smoothingOne, dateTime, myEccon
 
-		inputMultiData=read.csv(file=File,sep=",",stringsAsFactors=F)
+		inputMultiData=read.csv(file=op$File,sep=",",stringsAsFactors=F)
 
 		displacement = NULL
 		count = 1
@@ -1887,7 +1838,7 @@ doProcess <- function(options) {
 			text(x=0,y=0,translate("Not enough data."),
 			     cex=1.5)
 			dev.off()
-			write("", OutputData1)
+			write("", op$OutputData1)
 			quit()
 		}
 			
@@ -1908,9 +1859,9 @@ doProcess <- function(options) {
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
 			if(isInertial(inputMultiData$econfName[i])) {
-				dataTempFile = fixDisplacementInertial(dataTempFile, inputMultiData$econfName[i], diameter, diameterExt)
+				dataTempFile = fixDisplacementInertial(dataTempFile, inputMultiData$econfName[i], op$diameter, op$diameterExt)
 			} else {
-				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, diameter, diameterExt)
+				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt)
 			}
 
 
@@ -1918,7 +1869,7 @@ doProcess <- function(options) {
 			processTimes = 1
 			changePos = 0
 			#if this curve is ecc-con and we want separated, divide the curve in two
-			if(as.vector(inputMultiData$eccon[i]) != "c" & (Eccon=="ecS" || Eccon=="ceS") ) {
+			if(as.vector(inputMultiData$eccon[i]) != "c" & (op$Eccon=="ecS" || op$Eccon=="ceS") ) {
 				changePos = mean(which(cumsum(dataTempFile) == min(cumsum(dataTempFile))))
 				processTimes = 2
 			}
@@ -2005,35 +1956,35 @@ doProcess <- function(options) {
 		}
 
 		n=length(curves[,1])
-		quitIfNoData(n, curves, OutputData1)
+		quitIfNoData(n, curves, op$OutputData1)
 		
 		print("curves")
 		print(curves)
 	
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
 	} else {	#singleFile == True. reads a signal file
-		displacement=scan(file=File,sep=",")
+		displacement=scan(file=op$File,sep=",")
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 
-		if(isInertial(EncoderConfigurationName)) 
+		if(isInertial(op$EncoderConfigurationName)) 
 		{
-			displacement = fixDisplacementInertial(displacement, EncoderConfigurationName, diameter, diameterExt)
+			displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
 			
-			displacement = getDisplacementInertialBody(displacement, curvesPlot, Title)
+			displacement = getDisplacementInertialBody(displacement, curvesPlot, op$Title)
 
 			curvesPlot = FALSE
 		} else {
-			displacement = getDisplacement(EncoderConfigurationName, displacement, diameter, diameterExt)
+			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
 
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
 			text(x=0,y=0,translate("Encoder is not connected."),cex=1.5)
 			dev.off()
-			write("", OutputData1)
+			write("", op$OutputData1)
 			quit()
 		}
 			
@@ -2042,13 +1993,13 @@ doProcess <- function(options) {
 		#print(c("position",position))
 		#print(c("displacement",displacement))
 		
-		curves=findCurves(displacement, Eccon, MinHeight, curvesPlot, Title)
+		curves=findCurves(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
 
-		if(Analysis == "curves")
+		if(op$Analysis == "curves")
 			curvesPlot = TRUE
 
 		n=length(curves[,1])
-		quitIfNoData(n, curves, OutputData1)
+		quitIfNoData(n, curves, op$OutputData1)
 		
 		print("curves before reduceCurveBySpeed")
 		print(curves)
@@ -2056,12 +2007,12 @@ doProcess <- function(options) {
 		#reduceCurveBySpeed, don't do in inertial because it doesn't do a good right adjust on changing phase
 		#what reduceCurveBySpeed is doing in inertial is adding a value at right, and this value is a descending value
 		#and this produces a high acceleration there
-		if( ! isInertial(EncoderConfigurationName)) {
+		if( ! isInertial(op$EncoderConfigurationName)) {
 			for(i in 1:n) {
-				reduceTemp=reduceCurveBySpeed(Eccon, i, 
+				reduceTemp=reduceCurveBySpeed(op$Eccon, i, 
 							      curves[i,1], curves[i,3], #startT, startH
 							      displacement[curves[i,1]:curves[i,2]], #displacement
-							      SmoothingOneC
+							      op$SmoothingOneC
 							      )
 				curves[i,1] = reduceTemp[1]
 				curves[i,2] = reduceTemp[2]
@@ -2070,7 +2021,7 @@ doProcess <- function(options) {
 		}
 		
 		#find SmoothingsEC
-		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, Eccon, SmoothingOneC)
+		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
 		print("curves after reduceCurveBySpeed")
@@ -2083,19 +2034,19 @@ doProcess <- function(options) {
 				myLabel = i
 				myY = min(position)/10
 				adjVert = 0
-				if(Eccon=="ceS")
+				if(op$Eccon=="ceS")
 					adjVert = 1
 
-				if(Eccon=="ecS" || Eccon=="ceS") {
+				if(op$Eccon=="ecS" || op$Eccon=="ceS") {
 					myEc=c("c","e")
-					if(Eccon=="ceS")
+					if(op$Eccon=="ceS")
 						myEc=c("e","c")
 					
 					myLabel = paste(trunc((i+1)/2),myEc[((i%%2)+1)],sep="")
 					myY = position[curves[i,1]]/10
 					if(i%%2 == 1) {
 						adjVert = 1
-						if(Eccon=="ceS")
+						if(op$Eccon=="ceS")
 							adjVert = 0
 					}
 				}
@@ -2120,7 +2071,7 @@ doProcess <- function(options) {
 				#ylim=c(-.25,.25),		#to test speed at small changes
 		     		xlab="",ylab="",axes=F)
 			
-			if(isInertial(EncoderConfigurationName))
+			if(isInertial(op$EncoderConfigurationName))
 				mtext(translate("body speed"),side=4,adj=1,line=-1,col="green2",cex=.8)
 			else
 				mtext(translate("speed"),side=4,adj=1,line=-1,col="green2")
@@ -2131,44 +2082,44 @@ doProcess <- function(options) {
 
 	#make some check here, because this file is being readed in chronojump
 
-	#write(paste("(4/5)",translate("Repetitions processed")), OutputData2)
-	print("Creating (OutputData2)4.txt with touch method...")
-	file.create(paste(OutputData2,"4.txt",sep=""))
+	#write(paste("(4/5)",translate("Repetitions processed")), op$OutputData2)
+	print("Creating (op$OutputData2)4.txt with touch method...")
+	file.create(paste(op$OutputData2,"4.txt",sep=""))
 	print("Created")
 
-	if(Analysis=="single") {
-		if(Jump>0) {
-			myMassBody = MassBody
-			myMassExtra = MassExtra
-			myEccon = Eccon
-			myStart = curves[Jump,1]
-			myEnd = curves[Jump,2]
-			myExPercentBodyWeight = ExercisePercentBodyWeight
+	if(op$Analysis=="single") {
+		if(op$Jump>0) {
+			myMassBody = op$MassBody
+			myMassExtra = op$MassExtra
+			myEccon = op$Eccon
+			myStart = curves[op$Jump,1]
+			myEnd = curves[op$Jump,2]
+			myExPercentBodyWeight = op$ExercisePercentBodyWeight
 			
 			#encoderConfiguration
-			myEncoderConfigurationName = EncoderConfigurationName
-			myDiameter = diameter
-			myDiameterExt = diameterExt
-			myAnglePush = anglePush
-			myAngleWeight = angleWeight
-			myInertiaMomentum = inertiaMomentum
-			myGearedDown = gearedDown
+			myEncoderConfigurationName = op$EncoderConfigurationName
+			myDiameter = op$diameter
+			myDiameterExt = op$diameterExt
+			myAnglePush = op$anglePush
+			myAngleWeight = op$angleWeight
+			myInertiaMomentum = op$inertiaMomentum
+			myGearedDown = op$gearedDown
 			if(! singleFile) {
-				myMassBody = curves[Jump,5]
-				myMassExtra = curves[Jump,6]
-				myEccon = curves[Jump,8]
-				myExPercentBodyWeight = curves[Jump,10]
+				myMassBody = curves[op$Jump,5]
+				myMassExtra = curves[op$Jump,6]
+				myEccon = curves[op$Jump,8]
+				myExPercentBodyWeight = curves[op$Jump,10]
 
 				#encoderConfiguration
-				myEncoderConfigurationName = curves[Jump,11]
-				myDiameter = curves[Jump,12]
-				myDiameterExt = curves[Jump,13]
-				myAnglePush = curves[Jump,14]
-				myAngleWeight = curves[Jump,15]
-				myInertiaMomentum = curves[Jump,16]
-				myGearedDown = curves[Jump,17]
+				myEncoderConfigurationName = curves[op$Jump,11]
+				myDiameter = curves[op$Jump,12]
+				myDiameterExt = curves[op$Jump,13]
+				myAnglePush = curves[op$Jump,14]
+				myAngleWeight = curves[op$Jump,15]
+				myInertiaMomentum = curves[op$Jump,16]
+				myGearedDown = curves[op$Jump,17]
 			}
-			myCurveStr = paste("curve=", Jump, ", ", myMassExtra, "Kg", sep="")
+			myCurveStr = paste("curve=", op$Jump, ", ", myMassExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
@@ -2178,25 +2129,25 @@ doProcess <- function(options) {
 
 
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[Jump,3],SmoothingsEC[1],SmoothingOneC,myMassBody,myMassExtra,
+			      1,curves[op$Jump,3],SmoothingsEC[1],op$SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-			      paste(Title, " ", Analysis, " ", myEccon, " ", myCurveStr, sep=""),
+			      paste(op$Title, " ", op$Analysis, " ", myEccon, " ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
 			      TRUE,	#showLabels
 			      FALSE,	#marShrink
 			      TRUE,	#showAxes
 			      TRUE,	#legend
-			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
-			      (AnalysisVariables[1] == "Speed"), #show speed
-			      (AnalysisVariables[2] == "Accel"), #show accel
-			      (AnalysisVariables[3] == "Force"), #show force
-			      (AnalysisVariables[4] == "Power")  #show power
+			      op$Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      (op$AnalysisVariables[1] == "Speed"), #show speed
+			      (op$AnalysisVariables[2] == "Accel"), #show accel
+			      (op$AnalysisVariables[3] == "Force"), #show force
+			      (op$AnalysisVariables[4] == "Power")  #show power
 			      )	
 		}
 	}
 
-	if(Analysis=="side") {
+	if(op$Analysis=="side") {
 		#comparar 6 salts, falta que xlim i ylim sigui el mateix
 		par(mfrow=find.mfrow(n))
 
@@ -2204,25 +2155,25 @@ doProcess <- function(options) {
 
 		#if !singleFile kinematicRanges takes the 'curves' values
 		knRanges=kinematicRanges(singleFile, displacement, curves, 
-					 MassBody, MassExtra, ExercisePercentBodyWeight, 
-			    		 EncoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-					 SmoothingsEC, SmoothingOneC, 
-					 g, Eccon, isPropulsive)
+					 op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight, 
+			    		 op$EncoderConfigurationName,op$diameter,op$diameterExt,op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
+					 SmoothingsEC, op$SmoothingOneC, 
+					 g, op$Eccon, isPropulsive)
 
 		for(i in 1:n) {
-			myMassBody = MassBody
-			myMassExtra = MassExtra
-			myEccon = Eccon
-			myExPercentBodyWeight = ExercisePercentBodyWeight
+			myMassBody = op$MassBody
+			myMassExtra = op$MassExtra
+			myEccon = op$Eccon
+			myExPercentBodyWeight = op$ExercisePercentBodyWeight
 			
 			#encoderConfiguration
-			myEncoderConfigurationName = EncoderConfigurationName
-			myDiameter = diameter
-			myDiameterExt = diameterExt
-			myAnglePush = anglePush
-			myAngleWeight = angleWeight
-			myInertiaMomentum = inertiaMomentum
-			myGearedDown = gearedDown
+			myEncoderConfigurationName = op$EncoderConfigurationName
+			myDiameter = op$diameter
+			myDiameterExt = op$diameterExt
+			myAnglePush = op$anglePush
+			myAngleWeight = op$angleWeight
+			myInertiaMomentum = op$inertiaMomentum
+			myGearedDown = op$gearedDown
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
@@ -2241,12 +2192,12 @@ doProcess <- function(options) {
 
 			myTitle = ""
 			if(i == 1)
-				myTitle = paste(Title)
+				myTitle = paste(op$Title)
 			
 			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMassExtra, "Kg", sep="")
 
 			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
-			      1,curves[i,3],SmoothingsEC[i],SmoothingOneC,myMassBody,myMassExtra,
+			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			      myTitle,mySubtitle,
 			      TRUE,	#draw
@@ -2254,16 +2205,16 @@ doProcess <- function(options) {
 			      TRUE,	#marShrink
 			      FALSE,	#showAxes
 			      FALSE,	#legend
-			      Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
-			      (AnalysisVariables[1] == "Speed"), #show speed
-			      (AnalysisVariables[2] == "Accel"), #show accel
-			      (AnalysisVariables[3] == "Force"), #show force
-			      (AnalysisVariables[4] == "Power")  #show power
+			      op$Analysis, isPropulsive, inertialType, myExPercentBodyWeight,
+			      (op$AnalysisVariables[1] == "Speed"), #show speed
+			      (op$AnalysisVariables[2] == "Accel"), #show accel
+			      (op$AnalysisVariables[3] == "Force"), #show force
+			      (op$AnalysisVariables[4] == "Power")  #show power
 			      )
 		}
 		par(mfrow=c(1,1))
 	}
-#	if(Analysis=="superpose") {	#TODO: fix on ec startH
+#	if(op$Analysis=="superpose") {	#TODO: fix on ec startH
 #		#falta fer un graf amb les 6 curves sobreposades i les curves de potencia (per exemple) sobrepossades
 #		#fer que acabin al mateix punt encara que no iniciin en el mateix
 #		#arreglar que els eixos de l'esq han de seguir un ylim,
@@ -2294,7 +2245,7 @@ doProcess <- function(options) {
 #			      FALSE,	#marShrink
 #			      (i==1),	#showAxes
 #			      TRUE,	#legend
-#			      Analysis, isPropulsive, inertialType, ExercisePercentBodyWeight 
+#			      op$Analysis, isPropulsive, inertialType, op$ExercisePercentBodyWeight 
 #			      )
 #			par(new=T)
 #		}
@@ -2307,28 +2258,28 @@ doProcess <- function(options) {
 	writeCurves = TRUE
 
 	if(
-	   Analysis == "powerBars" || Analysis == "cross" || 
-	   Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise" || 
-	   Analysis == "curves" || Analysis == "neuromuscularProfile" ||
+	   op$Analysis == "powerBars" || op$Analysis == "cross" || 
+	   op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise" || 
+	   op$Analysis == "curves" || op$Analysis == "neuromuscularProfile" ||
 	   writeCurves) 
 	{
 		paf = data.frame()
 		discardedCurves = NULL
 		discardingCurves = FALSE
 		for(i in 1:n) { 
-			myMassBody = MassBody
-			myMassExtra = MassExtra
-			myEccon = Eccon
-			myExPercentBodyWeight = ExercisePercentBodyWeight
+			myMassBody = op$MassBody
+			myMassExtra = op$MassExtra
+			myEccon = op$Eccon
+			myExPercentBodyWeight = op$ExercisePercentBodyWeight
 			
 			#encoderConfiguration
-			myEncoderConfigurationName = EncoderConfigurationName
-			myDiameter = diameter
-			myDiameterExt = diameterExt
-			myAnglePush = anglePush
-			myAngleWeight = angleWeight
-			myInertiaMomentum = inertiaMomentum
-			myGearedDown = gearedDown
+			myEncoderConfigurationName = op$EncoderConfigurationName
+			myDiameter = op$diameter
+			myDiameterExt = op$diameterExt
+			myAnglePush = op$anglePush
+			myAngleWeight = op$angleWeight
+			myInertiaMomentum = op$inertiaMomentum
+			myGearedDown = op$gearedDown
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
@@ -2345,18 +2296,18 @@ doProcess <- function(options) {
 				myGearedDown = curves[i,17]
 
 				#only use concentric data	
-				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & myEccon == "e") {
+				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & myEccon == "e") {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
 			} else {
-				if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & Eccon == "ecS" & i%%2 == 1) {
+				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & op$Eccon == "ecS" & i%%2 == 1) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
 				}
-				else if( (Analysis == "1RMBadillo2010" || Analysis == "1RMAnyExercise") & Eccon == "ceS" & i%%2 == 0) {
+				else if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & op$Eccon == "ceS" & i%%2 == 0) {
 					discardedCurves = c(i,discardedCurves)
 					discardingCurves = TRUE
 					next;
@@ -2373,7 +2324,7 @@ doProcess <- function(options) {
 			       else
 				       myEcconKn = "c"
 			}
-			else if(Eccon=="ceS") {
+			else if(op$Eccon=="ceS") {
 			       if(i%%2 == 1)
 				       myEcconKn = "c"
 			       else
@@ -2384,7 +2335,7 @@ doProcess <- function(options) {
 						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
 								 myMassBody, myMassExtra, myExPercentBodyWeight,
 								 myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-								 SmoothingsEC[i],SmoothingOneC, 
+								 SmoothingsEC[i],op$SmoothingOneC, 
 								 g, myEcconKn, isPropulsive),
 						     myMassBody, myMassExtra
 						     )))
@@ -2401,72 +2352,72 @@ doProcess <- function(options) {
 		print("----------PAF---------------")
 		print(paf)
 
-		if(Analysis == "powerBars") {
+		if(op$Analysis == "powerBars") {
 			if(! singleFile) 
-				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							Eccon,	 			#Eccon
+				paintPowerPeakPowerBars(singleFile, op$Title, paf, 
+							op$Eccon,	 			#Eccon
 							curvesHeight,			#height 
 							n, 
-			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-			      				(AnalysisVariables[2] == "Range") 		#show range
+			      				(op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
+			      				(op$AnalysisVariables[2] == "Range") 		#show range
 							)		
 			else 
-				paintPowerPeakPowerBars(singleFile, Title, paf, 
-							Eccon,					#Eccon
+				paintPowerPeakPowerBars(singleFile, op$Title, paf, 
+							op$Eccon,					#Eccon
 							position[curves[,2]]-curves[,3], 	#height
 							n, 
-			      				(AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
-			      				(AnalysisVariables[2] == "Range") 		#show range
+			      				(op$AnalysisVariables[1] == "TimeToPeakPower"), 	#show time to pp
+			      				(op$AnalysisVariables[2] == "Range") 		#show range
 							) 
 		}
-		else if(Analysis == "cross") {
+		else if(op$Analysis == "cross") {
 			mySeries = "1"
 			if(! singleFile)
 				mySeries = curves[,9]
 
 			print("AnalysisVariables:")
-			print(AnalysisVariables[1])
-			print(AnalysisVariables[2])
-			print(AnalysisVariables[3])
+			print(op$AnalysisVariables[1])
+			print(op$AnalysisVariables[2])
+			print(op$AnalysisVariables[3])
 
-			if(AnalysisVariables[1] == "Speed,Power") {
+			if(op$AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,5,5))
-				analysisVertVars = unlist(strsplit(AnalysisVariables[1], "\\,"))
-				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[1], 
-						    AnalysisVariables[3], "LEFT", "",
-						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE, OutputData1) 
+				analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], 
+						    op$AnalysisVariables[3], "LEFT", "",
+						    singleFile,op$Eccon,mySeries, 
+						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
-				paintCrossVariables(paf, AnalysisVariables[2], analysisVertVars[2], 
-						    AnalysisVariables[3], "RIGHT", Title,
-						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE, OutputData1) 
+				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
+						    op$AnalysisVariables[3], "RIGHT", op$Title,
+						    singleFile,op$Eccon,mySeries, 
+						    FALSE, FALSE, op$OutputData1) 
 			} else {
 				par(mar=c(5,4,5,2))
-				paintCrossVariables(paf, AnalysisVariables[2], AnalysisVariables[1], 
-						    AnalysisVariables[3], "ALONE", Title,
-						    singleFile,Eccon,mySeries, 
-						    FALSE, FALSE, OutputData1) 
+				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], 
+						    op$AnalysisVariables[3], "ALONE", op$Title,
+						    singleFile,op$Eccon,mySeries, 
+						    FALSE, FALSE, op$OutputData1) 
 			}
 		}
-		else if(Analysis == "1RMAnyExercise") {
+		else if(op$Analysis == "1RMAnyExercise") {
 			mySeries = "1"
 			if(! singleFile)
 				mySeries = curves[,9]
 
 			paintCrossVariables(paf, "Load", "Speed", 
-					    "mean", "ALONE", Title,
-					    singleFile,Eccon,mySeries, 
-					    AnalysisVariables[1], AnalysisVariables[2], #speed1RM, method
-					    OutputData1) 
+					    "mean", "ALONE", op$Title,
+					    singleFile,op$Eccon,mySeries, 
+					    op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
+					    op$OutputData1) 
 		}
-		else if(Analysis == "1RMBadillo2010") {
-			paint1RMBadillo2010(paf, Title, OutputData1)
+		else if(op$Analysis == "1RMBadillo2010") {
+			paint1RMBadillo2010(paf, op$Title, op$OutputData1)
 		} 
-		else if(Analysis == "neuromuscularProfile") {
+		else if(op$Analysis == "neuromuscularProfile") {
 			#only signal, it's a jump, use mass of the body (100%) + mass Extra if any
 
-			npj <- neuromuscularProfileGetData(singleFile, displacement, curves, (MassBody + MassExtra), SmoothingOneC)
+			npj <- neuromuscularProfileGetData(singleFile, displacement, curves, (op$MassBody + op$MassExtra), op$SmoothingOneC)
 
 			if(is.double(npj) && npj == -1) {
 				plot(0,0,type="n",axes=F,xlab="",ylab="")
@@ -2474,7 +2425,7 @@ doProcess <- function(options) {
 						   translate("Need at least three jumps")),
 						   cex=1.5)
 				dev.off()
-				write("", OutputData1)
+				write("", op$OutputData1)
 				quit()
 			}
 					    
@@ -2496,7 +2447,7 @@ doProcess <- function(options) {
 
 			par(mar=c(3,4,2,4))
 			par(mfrow=c(2,1))
-			neuromuscularProfilePlotBars(Title, np.bar.load, np.bar.explode, np.bar.drive)
+			neuromuscularProfilePlotBars(op$Title, np.bar.load, np.bar.explode, np.bar.drive)
 			
 			par(mar=c(4,4,1,4))
 
@@ -2504,7 +2455,7 @@ doProcess <- function(options) {
 						      displacement, #curves,
 						      list(npj[[1]]$l.context, npj[[2]]$l.context, npj[[3]]$l.context),
 						      list(npj[[1]]$mass, npj[[2]]$mass, npj[[3]]$mass),
-						      SmoothingOneC)
+						      op$SmoothingOneC)
 
 			#TODO: calcular un SmothingOneECE i passar-lo a PlotOther enlloc del SmoothingOneC
 			par(mfrow=c(1,1))
@@ -2513,16 +2464,16 @@ doProcess <- function(options) {
 			#don't write the curves, write npj
 			writeCurves = FALSE
 
-			neuromuscularProfileWriteData(npj, OutputData1)
+			neuromuscularProfileWriteData(npj, op$OutputData1)
 		}
 		
-		if(Analysis == "curves" || writeCurves) {
+		if(op$Analysis == "curves" || writeCurves) {
 			if(singleFile)
 				paf = cbind(
 					  "1",			#seriesName
 					  "exerciseName",
-					  MassBody,
-					  MassExtra,
+					  op$MassBody,
+					  op$MassExtra,
 					  curves[,1],
 					  curves[,2]-curves[,1],position[curves[,2]]-curves[,3],paf)
 			else {
@@ -2543,13 +2494,13 @@ doProcess <- function(options) {
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
 					"pp_ppt")
-			write.csv(paf, OutputData1, quote=FALSE)
+			write.csv(paf, op$OutputData1, quote=FALSE)
 			print("curves written")
 		}
 	}
-	if(Analysis=="exportCSV") {
+	if(op$Analysis=="exportCSV") {
 		print("Starting export...")
-		File=OutputData1;
+		File = op$OutputData1;
 		curvesNum = length(curves[,1])
 
 		maxLength = 0
@@ -2569,9 +2520,9 @@ doProcess <- function(options) {
 
 		for(i in 1:curvesNum) { 
 			kn = kinematicsF (displacement[curves[i,1]:curves[i,2]], 
-					  MassBody, MassExtra, ExercisePercentBodyWeight,
-					  EncoderConfigurationName,diameter,diameterExt,anglePush,angleWeight,inertiaMomentum,gearedDown,
-					  SmoothingsEC[i], SmoothingOneC, g, Eccon, isPropulsive)
+					  op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+					  op$EncoderConfigurationName,op$diameter,op$diameterExt,op$anglePush,op$angleWeight,op$inertiaMomentum,op$gearedDown,
+					  SmoothingsEC[i], op$SmoothingOneC, g, op$Eccon, isPropulsive)
 
 			#fill with NAs in order to have the same length
 			col1 = displacement[curves[i,1]:curves[i,2]]
@@ -2635,25 +2586,25 @@ doProcess <- function(options) {
 		#TODO: time
 		#TODO: tenir en compte el startH
 
-		#Title=gsub('_',' ',Title)
-		#print(Title)
-		#titleColumns=unlist(strsplit(Title,'-'))
+		#op$Title=gsub('_',' ',Top$itle)
+		#print(op$Title)
+		#titleColumns=unlist(strsplit(op$Title,'-'))
 		#colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
 
-		if(DecimalSeparator == "COMMA")
-			write.csv2(df, file=File, row.names=T, na="")
+		if(op$DecimalSeparator == "COMMA")
+			write.csv2(df, file = op$File, row.names=T, na="")
 		else
-			write.csv(df, file=File, row.names=T, na="")
+			write.csv(df, file = op$File, row.names=T, na="")
 
 		print("Export done.")
 	}
-	if(Analysis != "exportCSV")
+	if(op$Analysis != "exportCSV")
 		dev.off()
 
 	#make some check here, because this file is being readed in chronojump
-	#write(paste("(5/5)",translate("R tasks done")), OutputData2)
-	print("Creating (OutputData2)5.txt with touch method...")
-	file.create(paste(OutputData2,"5.txt",sep=""))
+	#write(paste("(5/5)",translate("R tasks done")), op$OutputData2)
+	print("Creating (op$OutputData2)5.txt with touch method...")
+	file.create(paste(op$OutputData2,"5.txt",sep=""))
 	print("Created")
 
 	warnings()

@@ -1,8 +1,9 @@
 #http://stackoverflow.com/questions/26053302/is-there-a-way-to-use-standard-input-output-stream-to-communicate-c-sharp-and-r/26058010#26058010
 
 #Caution: Do not 'print, cat' stuff because it's readed from gui/encoder as results
+#it can be printed safely to stderr. See end of this file
 
-#cat("Arrived at capture.R\n")
+write("Arriving at capture.R", stderr())
 
 f <- file("stdin")
 open(f)
@@ -19,11 +20,12 @@ getOptionsFromFile <- function(optionsFile, lines) {
 	return (options)
 }
 
-options <- getOptionsFromFile(optionsFile, 1)
+#options <- getOptionsFromFile(optionsFile, 1)
+options <- getOptionsFromFile(optionsFile, 32)
 
 
-scriptUtilR = options[1]
-
+#scriptUtilR = options[1]
+scriptUtilR = options[28]
 source(scriptUtilR)
 
 #print("Loaded libraries")
@@ -32,6 +34,11 @@ input <- readLines(f, n = 1L)
 while(input[1] != "Q") {
 	#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 	#cat(paste("input is:", input, "\n"))
+	
+	op <- assignOptions(options)
+
+	#print ("----op----")
+	#print (op)
 
 	displacement = as.numeric(unlist(strsplit(input, " ")))
 	#if data file ends with comma. Last character will be an NA. remove it
@@ -40,10 +47,10 @@ while(input[1] != "Q") {
 	
 	position = cumsum(displacement)
 				
-	reduceTemp = reduceCurveBySpeed("c", 1, 
+	reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 
 				      1, 0, #startT, startH
 				      displacement, #displacement
-				      .7 #SmoothingOneC
+				      op$SmoothingOneC #SmoothingOneC
 				      )
 	start = reduceTemp[1]
 	end = reduceTemp[2]
@@ -57,33 +64,30 @@ while(input[1] != "Q") {
 
 	#print("reduced")
 				
-	myMassBody = 50
-	myMassExtra = 100
-	myExPercentBodyWeight = 0
-	myEncoderConfigurationName = "LINEAR"
-	myDiameter = 0
-	myDiameterExt = 0
-	myAnglePush = 90
-	myAngleWeight = 90
-	myInertiaMomentum = 0
-	myGearedDown = 0
-	SmoothingsEC = 0.7
-	SmoothingOneC = 0.7
 	g = 9.81
-	myEcconKn = "c" #in ec can be "e" or "c"
-	isPropulsive = TRUE
-	
+		    
+	#read AnalysisOptions
+	#if is propulsive and rotatory inertial is: "p;ri" 
+	#if nothing: "-;-"
+	analysisOptionsTemp = unlist(strsplit(op$AnalysisOptions, "\\;"))
+	isPropulsive = (analysisOptionsTemp[1] == "p")
+
+
+	#simplify on capture and have the SmoothingEC == SmoothingC
+	SmoothingsEC = op$SmoothingOneC
+
 	#print("pre kinematicsResult")
 
+
 	kinematicsResult <- kinematicsF(displacement, 
-		    myMassBody, myMassExtra, myExPercentBodyWeight,
-		    myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-		    SmoothingsEC,SmoothingOneC, 
-		    g, myEcconKn, isPropulsive)
+		    op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
+		    op$EncoderConfigurationName, op$diameter, op$diameterExt, op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
+		    SmoothingsEC, op$SmoothingOneC, 
+		    g, op$Eccon, isPropulsive)
 	#print("kinematicsResult")
 	#print(kinematicsResult)
 
-	paf = pafGenerate("c", kinematicsResult, myMassBody, myMassExtra)
+	paf = pafGenerate("c", kinematicsResult, op$MassBody, op$MassExtra)
 	#print("paf")
 	#print(paf)
 
@@ -94,5 +98,6 @@ while(input[1] != "Q") {
 
 	input <- readLines(f, n = 1L)
 }
-#cat("Ending capture.R\n")
+
+write("Ending capture.R", stderr())
 quit()

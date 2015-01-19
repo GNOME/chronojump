@@ -352,7 +352,7 @@ public class UtilEncoder
 	}
 	
 	
-	private static EncoderGraphROptions prepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
+	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
 	{
 		string scriptUtilR = GetEncoderScriptUtilR();
 
@@ -440,7 +440,7 @@ public class UtilEncoder
 		Log.WriteLine(meanPower.ToString());
 		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
 
-		EncoderGraphROptions roptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
+		EncoderGraphROptions roptions = PrepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
 		Log.WriteLine(roptions.ToString());	
 
 		//--------------------------------------------
@@ -471,6 +471,8 @@ public class UtilEncoder
 		return true;
 	}
 	*/
+
+
 
 	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double [] d)
 	{
@@ -512,7 +514,7 @@ public class UtilEncoder
 		}
 		
 
-		string scriptOptions = prepareEncoderGraphOptions(title, es, neuromuscularProfileDo, translate).ToString();
+		string scriptOptions = PrepareEncoderGraphOptions(title, es, neuromuscularProfileDo, translate).ToString();
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
 		TextWriter writer = File.CreateText(optionsFile);

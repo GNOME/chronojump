@@ -386,7 +386,7 @@ public partial class ChronoJumpWindow
 
 		/*
 		 * DEPRECATED
-		string analysisOptions = getEncoderAnalysisOptions(true);
+		string analysisOptions = getEncoderAnalysisOptions();
 
 		double heightHigherCondition = -1;
 		if(repetitiveConditionsWin.EncoderHeightHigher)		
@@ -684,7 +684,7 @@ public partial class ChronoJumpWindow
 	}
 
 
-	private string getEncoderAnalysisOptions(bool captureOrAnalyze) {
+	private string getEncoderAnalysisOptions() {
 		string analysisOptions = "-";
 		if(preferences.encoderPropulsive)
 			analysisOptions = "p";
@@ -700,7 +700,7 @@ public partial class ChronoJumpWindow
 	{
 		string analysis = "curves";
 
-		string analysisOptions = getEncoderAnalysisOptions(true);
+		string analysisOptions = getEncoderAnalysisOptions();
 
 		//see explanation on the top of this file
 		lastEncoderSQLSignal = new EncoderSQL(
@@ -1406,7 +1406,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
 	{
-		string analysisOptions = getEncoderAnalysisOptions(true);
+		string analysisOptions = getEncoderAnalysisOptions();
 
 		string displacedMass = Util.ConvertToPoint( lastEncoderSQLSignal.extraWeight + (
 					getExercisePercentBodyWeightFromName(lastEncoderSQLSignal.exerciseName) *
@@ -1957,7 +1957,6 @@ public partial class ChronoJumpWindow
 
 
 	REngine rengine;
-	static Process processCaptureNoRDotNet;
 	int encoderSelectedMinimumHeight;
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
@@ -2177,9 +2176,7 @@ public partial class ChronoJumpWindow
 										heightCurve >= encoderSelectedMinimumHeight &&
 										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) 
 								  ) {
-									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-											processCaptureNoRDotNet, 
-											curve);
+									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(pCaptureNoRDotNet, curve);
 									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
 									ecca.ecc.Add(ecc);
@@ -2236,7 +2233,7 @@ public partial class ChronoJumpWindow
 		EncoderParams ep = new EncoderParams();
 		string dataFileName = "";
 		
-		string analysisOptions = getEncoderAnalysisOptions(false);
+		string analysisOptions = getEncoderAnalysisOptions();
 
 		//use this send because we change it to send it to R
 		//but we don't want to change encoderAnalysis because we want to know again if == "cross" 
@@ -4434,7 +4431,7 @@ public partial class ChronoJumpWindow
 						 }
 						 */
 					} else
-						processCaptureNoRDotNet = runEncoderCaptureNoRDotNetInitialize();
+						runEncoderCaptureNoRDotNetInitialize();
 				}
 				
 
@@ -4596,8 +4593,39 @@ public partial class ChronoJumpWindow
 
 
 
-	Process pCaptureNoRDotNet;
-	private Process runEncoderCaptureNoRDotNetInitialize() 
+	private void runEncoderCaptureNoRDotNetInitialize() 
+	{
+		EncoderParams ep = new EncoderParams(
+				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
+				getExercisePercentBodyWeightFromCombo (),
+				Util.ConvertToPoint(findMass(Constants.MassType.BODY)),
+				Util.ConvertToPoint(findMass(Constants.MassType.EXTRA)),
+				findEccon(true),					//force ecS (ecc-conc separated)
+				"-",		//analysis
+				"none",		//analysisVariables (not needed in create curves). Cannot be blank
+				getEncoderAnalysisOptions(),	//used on capture for pass the 'p' of propulsive
+				encoderConfigurationCurrent,
+				Util.ConvertToPoint(preferences.encoderSmoothCon),	//R decimal: '.'
+			       	0, 			//curve is not used here
+				image_encoder_width, image_encoder_height,
+				preferences.CSVExportDecimalSeparator 
+				);
+
+		EncoderStruct es = new EncoderStruct(
+				"none", //UtilEncoder.GetEncoderDataTempFileName(), 
+				"none", //UtilEncoder.GetEncoderGraphTempFileName(),
+				"none", //UtilEncoder.GetEncoderCurvesTempFileName(), 
+				"none", //UtilEncoder.GetEncoderStatusTempBaseFileName(),
+				"none",	//SpecialData
+				ep);
+
+		runEncoderCaptureNoRDotNetStart(es);
+	}
+	
+	private Process pCaptureNoRDotNet;
+
+	//this has to here (and not in UtilEncode.cs) in order to be able to call: readingCurveFromR
+	private void runEncoderCaptureNoRDotNetStart(EncoderStruct es)
 	{
 LogB.Debug("A");
 		ProcessStartInfo pinfo;
@@ -4615,9 +4643,13 @@ LogB.Debug("A");
 		}
 LogB.Debug("B");
 
-		string scriptOptions = UtilEncoder.GetEncoderScriptUtilR();
-		if (UtilAll.IsWindows())
-			scriptOptions = scriptOptions.Replace("\\","/");
+
+		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
+				"none", 	//title
+				es, 
+				false,	//neuromuscularProfile
+			       	false	//translate (graphs)
+				).ToString();
 
 
 		string optionsFile = Path.GetTempPath() + "Roptions.txt";
@@ -4648,17 +4680,19 @@ LogB.Debug("B");
 		
 
 LogB.Debug("C");
-		Process pCaptureNoRDotNet = new Process();
+		pCaptureNoRDotNet = new Process();
 		pCaptureNoRDotNet.StartInfo = pinfo;
 		
 		// output will go here
 		pCaptureNoRDotNet.OutputDataReceived += new DataReceivedEventHandler(readingCurveFromR);
-		//pCaptureNoRDotNet.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
+		pCaptureNoRDotNet.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
 
 		pCaptureNoRDotNet.Start();
 
 		// Start asynchronous read of the output.
+		// Caution: This has to be called after Start
 		pCaptureNoRDotNet.BeginOutputReadLine();
+		pCaptureNoRDotNet.BeginErrorReadLine();
 
 LogB.Debug("D");
 //		LogB.Information(p.StandardOutput.ReadToEnd());
@@ -4667,9 +4701,9 @@ LogB.Debug("D");
 //		p.WaitForExit();
 
 //		while ( ! ( File.Exists(outputFileCheck) || CancelRScript ) );
-
-		return pCaptureNoRDotNet;
 	}
+
+
 	
 	/*
 	 * unused, done while capturing
@@ -4708,7 +4742,7 @@ LogB.Debug("D");
 
 			LogB.Information("Sending... ");
 			UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-					processCaptureNoRDotNet, 
+					pCaptureNoRDotNet, 
 					curve);
 
 			ecca.curvesAccepted ++;
@@ -4725,12 +4759,12 @@ LogB.Debug("D");
 		if (!String.IsNullOrEmpty(curveFromR.Data))
 		{
 
-			LogB.Warning("Without trim");
-			LogB.Warning(curveFromR.Data);
+			LogB.Information("Without trim");
+			LogB.Information(curveFromR.Data);
 
 			string trimmed = curveFromR.Data.Trim();
-			LogB.Warning("With trim");
-			LogB.Warning(trimmed);
+			LogB.Information("With trim");
+			LogB.Information(trimmed);
 
 			/*	
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
@@ -4760,7 +4794,8 @@ LogB.Debug("D");
 	{
 		if (!String.IsNullOrEmpty(curveFromR.Data))
 		{
-			LogB.Error(curveFromR.Data);
+			//use Warning because it's used also to print flow messages
+			LogB.Warning(curveFromR.Data);
 		}
 	}
 				
@@ -4771,8 +4806,8 @@ LogB.Debug("D");
 			finishPulsebar(encoderActions.CURVES);
 
 			if(! useRDotNet) {
-				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(processCaptureNoRDotNet);
-				processCaptureNoRDotNet.WaitForExit();
+				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
+				pCaptureNoRDotNet.WaitForExit();
 			}
 			
 			LogB.ThreadEnded(); 

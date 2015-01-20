@@ -54,11 +54,13 @@ while(input[1] != "Q") {
 				      )
 	start = reduceTemp[1]
 	end = reduceTemp[2]
+	write("printing reduceTemp2", stderr())
+	write(reduceTemp[2], stderr())
 	if(end > length(displacement))
 		end = length(displacement)
 	
-	#print("printing reduceTemp")
-	#print(c(start, end, length(displacement)))
+	write("printing reduceTemp", stderr())
+	write(c(start, end, length(displacement)),stderr())
 
 	displacement = displacement[start:end]
 
@@ -92,7 +94,9 @@ while(input[1] != "Q") {
 	#print(paf)
 
 	#do not use print because it shows the [1] first. Use cat:
-	cat(paste(paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
+	cat(paste(#start, #start is not used because we have no data of the initial zeros
+		  (end-start), (position[end]-position[start]),
+		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
 	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
 
 

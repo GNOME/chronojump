@@ -4780,12 +4780,19 @@ LogB.Debug("D");
 
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					0,
-					0, 0,
-					0,
-					strs[0], strs[1], strs[2],
-					strs[3], strs[4], strs[5],
-					strs[6]);
+					0, strs[0],			//start, width
+					strs[1],			//height
+					strs[2], strs[3], strs[4],	//speeds
+					strs[5], strs[6], strs[7],	//powers
+					strs[8]);			//pp/ppt
 			
+
+			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
+			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
+			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
+			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[6]));
+			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+
 			//executed on GTK thread pulse method
 			needToRefreshTreeviewCapture = true;
 		}
@@ -4854,7 +4861,7 @@ LogB.Debug("D");
 						double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
 						//TODO:
 						//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
-						captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
+						//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
 
 						plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
 								true);	//capturing

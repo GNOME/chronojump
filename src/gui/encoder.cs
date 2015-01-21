@@ -2021,6 +2021,7 @@ public partial class ChronoJumpWindow
 		int directionLastMSecond = 1;	// +1 or -1 (direction on last millisecond)
 		int directionCompleted = -1;	// +1 or -1
 		int previousFrameChange = 0;
+		int previousEnd = 0;
 		int lastNonZero = 0;
 
 		//this will be used to stop encoder automatically	
@@ -2125,16 +2126,22 @@ public partial class ChronoJumpWindow
 					//count >= than change_period
 					if(directionChangeCount > directionChangePeriod)
 					{
-						int startFrame = previousFrameChange - directionChangeCount;	//startFrame
-								//at startFrame we do the "-directionChangePeriod" because
-								//we want data a little bit earlier, because we want some zeros
-								//that will be removed by reduceCurveBySpeed
-								//if not done, then the data:
-								//0 0 0 0 0 0 0 0 0 1
-								//will start at 10th digit (the 1)
-								//if done, then at speed will be like this:
-								//0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
-								//and will start at fourth digit
+						//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
+								/*
+								 * at startFrame we do the "-directionChangePeriod" because
+								 * we want data a little bit earlier, because we want some zeros
+								 * that will be removed by reduceCurveBySpeed
+								 * if not done, then the data:
+								 * 0 0 0 0 0 0 0 0 0 1
+								 * will start at 10th digit (the 1)
+								 * if done, then at speed will be like this:
+								 * 0 0 0 0.01 0.04 0.06 0.07 0.08 0.09 1
+								 * and will start at fourth digit
+								 */
+
+						//this is better, takes a lot of time before, and then reduceCurveBySpeed will cut it
+						int startFrame = previousEnd;	//startFrame
+						LogB.Debug("startFrame",startFrame.ToString());
 						if(startFrame < 0)
 							startFrame = 0;
 
@@ -2146,9 +2153,11 @@ public partial class ChronoJumpWindow
 								//to find endFrame, first substract directionChangePeriod from i
 								//then find the middle point between that and lastNonZero
 								);
-				
-						if(useRDotNet)
+		
+						if(useRDotNet) {
 							ecca.ecc.Add(ecc);
+							previousEnd = ecc.endFrame;
+						}
 						else {
 							//on 1.4.9 secundary thread was capturing
 							//while main thread was calculing with RDotNet and updating GUI
@@ -2166,6 +2175,8 @@ public partial class ChronoJumpWindow
 									curve[k]=encoderReaded[j];
 									k++;
 								}
+									
+								previousEnd = ecc.endFrame;
 								
 								//check heightCurve in a fast way first to discard curves soon
 								//only process curves with height >= min_height
@@ -2185,8 +2196,12 @@ public partial class ChronoJumpWindow
 						}
 						
 
+						LogB.Debug("i", i.ToString());
+						LogB.Debug("directionChangeCount", directionChangeCount.ToString());
 
 						previousFrameChange = i - directionChangeCount;
+
+						LogB.Debug("previousFrameChange", previousFrameChange.ToString());
 
 						directionChangeCount = 0;
 						directionCompleted = directionNow;

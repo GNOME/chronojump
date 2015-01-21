@@ -135,52 +135,6 @@ translate <- function(englishWord) {
 #	return(displacement)
 #}
 
-#separate phases using initial height of full extended person
-#this methods replaces getDisplacement and fixRawdataInertial
-#here comes a signal: (singleFile)
-#it shows the disc rotation and the person movement
-getDisplacementInertialBody <- function(displacement, draw, title) 
-{
-	position=cumsum(displacement)
-	position.ext=extrema(position)
-
-	print("at findCurvesInertial")
-	print(position.ext)
-
-	#Fix if disc goes wrong direction at start
-	if(position.ext$maxindex[1] < position.ext$minindex[1]) {
-		displacement = displacement * -1
-		position=cumsum(displacement)
-		position.ext=extrema(position)
-	}
-	
-	firstDownPhaseTime = position.ext$minindex[1]
-
-	downHeight = abs(position[1] - position[firstDownPhaseTime])
-		
-	positionPerson = abs(cumsum(displacement))*-1
-	#this is to make "inverted cumsum"
-	displacementPerson = c(0,diff(positionPerson))
-	
-	if(draw) {
-		col="black"
-		plot((1:length(position))/1000			#ms -> s
-		     ,position/10,				#mm -> cm
-		     type="l",
-		     xlim=c(1,length(position))/1000,		#ms -> s
-		     xlab="",ylab="",axes=T,
-		     lty=2,col=col) 
-
-		abline(h=0, lty=2, col="gray")
-	
-		lines((1:length(position))/1000,positionPerson/10,lty=1,lwd=2)
-
-		title(title, cex.main=1, font.main=1)
-		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
-		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
-	}
-	return(displacementPerson)
-}
 
 findCurves <- function(displacement, eccon, min_height, draw, title) {
 	position=cumsum(displacement)
@@ -1631,63 +1585,6 @@ find.yrange <- function(singleFile, displacement, curves) {
 
 #-------------------- EncoderConfiguration conversions --------------------------
 
-
-#in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-#we use 'data' variable because can be position or displacement
-getDisplacement <- function(encoderConfigurationName, data, diameter, diameterExt) {
-	#no change
-	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
-	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
-	#LINEARONPLANE
-	#ROTARYFRICTIONSIDE
-	#WEIGHTEDMOVPULLEYROTARYFRICTION
-
-	if(
-	   encoderConfigurationName == "LINEARINVERTED" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
-	{
-		data = -data
-	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
-		#default is: gearedDown = 2. Future maybe this will be a parameter
-		data = data *2
-	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
-		data = data * diameter / diameterExt
-	} else if(encoderConfigurationName == "ROTARYAXIS" || 
-		  encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") {
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		#diameter m -> mm
-		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
-	}
-		
-	return(data)
-}
-
-fixDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
-{
-	#scanned displacement is ticks of rotary axis encoder
-	#now convert it to mm of body displacement
-	if(encoderConfigurationName == "ROTARYAXISINERTIAL") {
-		displacementMeters = displacement / 1000 #mm -> m
-		diameterMeters = diameter / 100 #cm -> m
-
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		#angle in radians
-		angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
-		position = angle * diameterMeters / 2
-		position = position * 1000	#m -> mm
-		#this is to make "inverted cumsum"
-		displacement = c(0,diff(position)) #this displacement is going to be used now
-	}
-
-	#on friction side: know displacement of the "person"
-	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
-	{
-		displacement = displacement * diameter / diameterExt #displacement of the axis
-	}
-	
-	return (displacement)
-}
 
 
 

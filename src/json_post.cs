@@ -62,7 +62,8 @@ public class JsonPost
 		try {
 			dataStream = request.GetRequestStream ();
 		} catch {
-			this.ResultMessage = Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor (http://api.chronojump.org:8080) server is down.");
+			this.ResultMessage = string.Format(Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor {0} server is down."), 
+					"http://api.chronojump.org:8080");
 			return false;
 		}
 

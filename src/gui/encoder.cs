@@ -2178,14 +2178,18 @@ public partial class ChronoJumpWindow
 									
 								previousEnd = ecc.endFrame;
 								
-								//check heightCurve in a fast way first to discard curves soon
-								//only process curves with height >= min_height
 								heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
 								LogB.Information(" height: " + heightCurve.ToString());
 								
+								//1) check heightCurve in a fast way first to discard curves soon
+								//   only process curves with height >= min_height
+								//2) if it's concentric, only take the concentric curves
+								//3) if it's ecc-con, don't record first curve if first curve is concentric
+								
 								if(
-										heightCurve >= encoderSelectedMinimumHeight &&
-										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) 
+										heightCurve >= encoderSelectedMinimumHeight && 			//1
+										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) &&	//2
+										! ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 )  //3
 								  ) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(pCaptureNoRDotNet, curve);
 									ecca.curvesDone ++;

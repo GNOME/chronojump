@@ -36,14 +36,16 @@ public class JsonPost
 
 	public bool PostCrashLog() 
 	{
+        string serverUrl = "http://api.chronojump.org:8080";
 		string filePath = UtilAll.GetLogFileOld();
+
 		if(! File.Exists(filePath)) {
 			this.ResultMessage = Catalog.GetString("Could not send file.\nIt does not exist.");
 			return false;
 		}
 
 		// Create a request using a URL that can receive a post. 
-		WebRequest request = WebRequest.Create ("http://api.chronojump.org:8080/backtrace");
+		WebRequest request = WebRequest.Create (serverUrl + "/backtrace");
 
 		// Set the Method property of the request to POST.
 		request.Method = "POST";
@@ -63,7 +65,7 @@ public class JsonPost
 			dataStream = request.GetRequestStream ();
 		} catch {
 			this.ResultMessage = string.Format(Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor {0} server is down."), 
-					"http://api.chronojump.org:8080");
+					serverUrl);
 			return false;
 		}
 

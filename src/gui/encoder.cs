@@ -483,6 +483,7 @@ public partial class ChronoJumpWindow
 
 			LogB.Debug("Calling encoderThreadStart for capture");
 			
+			needToCallPrepareEncoderGraphs = false;
 			encoderProcessFinish = false;
 			encoderThreadStart(encoderActions.CAPTURE);
 			
@@ -698,6 +699,7 @@ public partial class ChronoJumpWindow
 	//called on calculatecurves, recalculate and load
 	private void encoderDoCurvesGraphR() 
 	{
+		LogB.Debug("encoderDoCurvesGraphR() start");
 		string analysis = "curves";
 
 		string analysisOptions = getEncoderAnalysisOptions();
@@ -765,6 +767,7 @@ public partial class ChronoJumpWindow
 		else {
 			encoderProcessProblems = true;
 		}
+		LogB.Debug("encoderDoCurvesGraphR() end");
 	}
 	
 
@@ -1910,10 +1913,12 @@ public partial class ChronoJumpWindow
 
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
-				
+		
+		LogB.Debug("Going to stop");		
 		capturingCsharp = encoderCaptureProcess.STOPPING;
 
 		//will start calcule curves thread
+		LogB.Debug("Going to encoderCalculeCurves");		
 		if(capturedOk)
 			encoderCalculeCurves(encoderActions.CURVES_AC);
 	}
@@ -1961,6 +1966,7 @@ public partial class ChronoJumpWindow
 
 	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
 	{
+		LogB.Debug("runEncoderCaptureCsharp pre start");
 		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
 		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
 		double realHeightG = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
@@ -3732,10 +3738,11 @@ public partial class ChronoJumpWindow
 		encoderCapturePointsPainted = encoderCapturePointsCaptured;
 	}
 
-	string encoderCaptureStringR;
-	double massDisplacedEncoder = 0;
-	ArrayList captureCurvesBarsData;
+	static string encoderCaptureStringR;
+	static ArrayList captureCurvesBarsData;
 	static bool updatingEncoderCaptureGraphRCalc;
+	
+	double massDisplacedEncoder = 0;
 	
 	private void updateEncoderCaptureGraphRCalcPre(bool plotCurvesBars) 
 	{
@@ -4453,6 +4460,8 @@ public partial class ChronoJumpWindow
 						runEncoderCaptureNoRDotNetInitialize();
 				}
 				
+				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
 				prepareEncoderGraphs();
 				eccaCreated = false;
@@ -4511,17 +4520,18 @@ public partial class ChronoJumpWindow
 				action == encoderActions.LOAD ||
 				action == encoderActions.CURVES_AC)	//this does not run a pulseGTK
 		{
-			//image is inside (is smaller than) viewport
-			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
-			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 				
-			prepareEncoderGraphs();
+			if(action == encoderActions.CURVES || action == encoderActions.LOAD) 
+			{
+				//______ 1) prepareEncoderGraphs
+				//image is inside (is smaller than) viewport
+				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
 
-			if(action == encoderActions.CURVES_AC) {
-				//this does not run a pulseGTK
-				encoderDoCurvesGraphR();
-				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
-			} else {
+				prepareEncoderGraphs();
+				
+				
+				//_______ 2) run stuff
 				treeview_encoder_capture_curves.Sensitive = false;
 				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR));
 				if(action == encoderActions.CURVES)
@@ -4532,6 +4542,20 @@ public partial class ChronoJumpWindow
 				
 				LogB.ThreadStart();
 				encoderThread.Start(); 
+			} else { //CURVES_AC
+				//______ 1) prepareEncoderGraphs
+				//don't call directly to prepareEncoderGraphs() here because it's called from a Non-GTK thread
+				needToCallPrepareEncoderGraphs = true;
+				
+				//this is defined on capture process
+				//image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+				//image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
+				
+				
+				//_______ 2) run stuff
+				//this does not run a pulseGTK
+				encoderDoCurvesGraphR();
+				encoderButtonsSensitive(encoderSensEnum.PROCESSINGR);
 			}
 		} else { //encoderActions.ANALYZE
 			//the -3 is because image is inside (is smaller than) viewport
@@ -4555,6 +4579,7 @@ public partial class ChronoJumpWindow
 	}
 
 	void prepareEncoderGraphs() {
+		LogB.Debug("prepareEncoderGraphs() start (should be on first thread: GTK)");
 		UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 
@@ -4608,6 +4633,7 @@ public partial class ChronoJumpWindow
 		pen_selected_encoder_capture.Foreground = UtilGtk.SELECTED;
 
 		pen_selected_encoder_capture.SetLineAttributes (2, Gdk.LineStyle.Solid, Gdk.CapStyle.NotLast, Gdk.JoinStyle.Miter);
+		LogB.Debug("prepareEncoderGraphs() end");
 	}
 
 
@@ -4641,7 +4667,7 @@ public partial class ChronoJumpWindow
 		runEncoderCaptureNoRDotNetStart(es);
 	}
 	
-	private Process pCaptureNoRDotNet;
+	private static Process pCaptureNoRDotNet;
 
 	//this has to here (and not in UtilEncode.cs) in order to be able to call: readingCurveFromR
 	private void runEncoderCaptureNoRDotNetStart(EncoderStruct es)
@@ -4699,6 +4725,7 @@ LogB.Debug("B");
 		
 
 LogB.Debug("C");
+try {
 		pCaptureNoRDotNet = new Process();
 		pCaptureNoRDotNet.StartInfo = pinfo;
 		
@@ -4714,6 +4741,9 @@ LogB.Debug("C");
 		pCaptureNoRDotNet.BeginErrorReadLine();
 
 LogB.Debug("D");
+} catch {
+	Console.WriteLine("catched at runEncoderCaptureNoRDotNetStart");
+}
 //		LogB.Information(p.StandardOutput.ReadToEnd());
 //		LogB.Warning(p.StandardError.ReadToEnd());
 
@@ -4772,7 +4802,7 @@ LogB.Debug("D");
 	*/
 
 
-	bool needToRefreshTreeviewCapture;
+	static bool needToRefreshTreeviewCapture;
 	private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
 	{
 		if (!String.IsNullOrEmpty(curveFromR.Data))
@@ -4825,9 +4855,20 @@ LogB.Debug("D");
 		}
 	}
 				
+	static bool needToCallPrepareEncoderGraphs;
 	private bool pulseGTKEncoderCaptureAndCurves ()
 	{
+		if(needToCallPrepareEncoderGraphs) 
+		{
+			image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
+			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
+				
+			prepareEncoderGraphs();
+			needToCallPrepareEncoderGraphs = false;
+		}
+			
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.Information("End from capture"); 
 			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CURVES);
 
@@ -4896,6 +4937,7 @@ LogB.Debug("D");
 			encoderStopVideoRecord();
 			capturingCsharp = encoderCaptureProcess.STOPPED;
 		} else {	//STOPPED	
+			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		
 			//do curves, capturingCsharp has ended
 			updatePulsebar(encoderActions.CURVES); //activity on pulsebar
 			LogB.Debug(" Cur:", encoderThread.ThreadState.ToString());
@@ -4927,6 +4969,7 @@ LogB.Debug("D");
 	private bool pulseGTKEncoderCurves ()
 	{
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
+			LogB.Information("End from curves"); 
 			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
 				UtilEncoder.CancelRScript = true;
@@ -5050,6 +5093,7 @@ LogB.Debug("D");
 		} catch {
 			//UtilEncoder.GetEncoderStatusTempBaseFileName() 1,2,3,4,5 is deleted at the end of the process
 			//this can make crash updatePulsebar sometimes
+			LogB.Warning("catched at updatePulsebar");
 		}
 	}
 	

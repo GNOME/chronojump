@@ -20,7 +20,7 @@ src/execute/pulse.cs
 src/execute/reactionTime.cs
 src/execute/run.cs
 src/exportSession.cs
-src/json_post.cs
+src/json.cs
 src/gui/chronojump.cs
 src/gui/chronopic.cs
 src/gui/convertWeight.cs

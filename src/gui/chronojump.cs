@@ -5898,6 +5898,26 @@ LogB.Debug("X");
 				"<tt><b>r</b></tt> " + Catalog.GetString("Repair selected test") + " " + Catalog.GetString("(if available)")
 				);
 	}
+	
+	private void on_menuitem_check_last_version_activate (object o, EventArgs args) {
+		Json js = new Json();
+		bool success = js.GetLastVersion();
+
+		if(success) {
+			LogB.Information(js.ResultMessage);
+			new DialogMessage(
+					"Chronojump",
+					Constants.MessageTypes.INFO, 
+					js.ResultMessage);
+		}
+		else {
+			LogB.Error(js.ResultMessage);
+			new DialogMessage(
+					"Chronojump",
+					Constants.MessageTypes.WARNING, 
+					js.ResultMessage);
+		}
+	}
 
 	private void on_about1_activate (object o, EventArgs args) {
 		string translator_credits = Catalog.GetString ("translator-credits");

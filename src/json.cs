@@ -23,20 +23,21 @@ using System.Net;
 using System.Web;
 using System.IO;
 using System.Json;
+using System.Collections.Generic; //Dictionary
 using Mono.Unix;
 
-public class JsonPost
+public class Json
 {
 	public string ResultMessage;
 
-	public JsonPost()
+	public Json()
 	{
 		ResultMessage = "";
 	}
 
 	public bool PostCrashLog() 
 	{
-        string serverUrl = "http://api.chronojump.org:8080";
+		string serverUrl = "http://api.chronojump.org:8080";
 		string filePath = UtilAll.GetLogFileOld();
         string email = "test@test.com";
 
@@ -65,8 +66,9 @@ public class JsonPost
 		try {
 			dataStream = request.GetRequestStream ();
 		} catch {
-			this.ResultMessage = string.Format(Catalog.GetString("Could not send file.\nYou are not connected to the Internet\nor {0} server is down."), 
-					serverUrl);
+			this.ResultMessage = Catalog.GetString("Could not send file.") + "\n" + 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+						serverUrl);
 			return false;
 		}
 
@@ -113,5 +115,40 @@ public class JsonPost
 		return System.IO.File.ReadAllBytes(filePath); 
 	}
 
-	~JsonPost() {}
+
+	public bool GetLastVersion() 
+	{
+		string serverUrl = "http://api.chronojump.org:8080";
+
+		// Create a request using a URL that can receive a post. 
+		WebRequest request = WebRequest.Create (serverUrl + "/version");
+		
+		// Set the Method property of the request to GET.
+		request.Method = "GET";
+		
+		// Set the ContentType property of the WebRequest.
+		//request.ContentType = "application/x-www-form-urlencoded";
+		
+		HttpWebResponse response;
+		try {
+			response = (HttpWebResponse) request.GetResponse();
+		} catch {
+			this.ResultMessage = 
+				Catalog.GetString("Could not get last version.") + "\n" +
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return false;
+		}
+
+		string responseFromServer;
+		using (var sr = new StreamReader(response.GetResponseStream()))
+		{
+			responseFromServer = sr.ReadToEnd();
+		}
+		this.ResultMessage = "Last version published: " + responseFromServer;
+
+		return true;
+	}
+
+	~Json() {}
 }

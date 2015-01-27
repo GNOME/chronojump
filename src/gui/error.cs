@@ -89,18 +89,18 @@ public class ErrorWindow
 	}
 	private void on_button_send_log_clicked (object o, EventArgs args)
 	{
-		JsonPost jp = new JsonPost();
-		bool success = jp.PostCrashLog();
+		Json js = new Json();
+		bool success = js.PostCrashLog();
 		
 		if(success) {
 			image_send_log_yes.Show();
-			LogB.Information(jp.ResultMessage);
+			LogB.Information(js.ResultMessage);
 		} else {
 			image_send_log_no.Show();
-			LogB.Error(jp.ResultMessage);
+			LogB.Error(js.ResultMessage);
 		}
 
-		label_send_log_message.Text = jp.ResultMessage;
+		label_send_log_message.Text = js.ResultMessage;
 	}
 
 	public void Show_button_open_database_folder () {

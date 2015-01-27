@@ -26,7 +26,7 @@ using Glade;
 using GLib; //for Value
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
-
+using Mono.Unix;
 
 public class ErrorWindow
 {
@@ -38,6 +38,8 @@ public class ErrorWindow
 	[Widget] Gtk.Button button_open_docs_folder;
 	[Widget] Gtk.Image image_send_log_no;
 	[Widget] Gtk.Image image_send_log_yes;
+	[Widget] Gtk.Entry entry_send_log;
+	[Widget] Gtk.Button button_send_log;
 	[Widget] Gtk.Label label_send_log_message;
 
 	string table;
@@ -83,19 +85,35 @@ public class ErrorWindow
 		//need this for continue execution on chronojump startup. See src/chronojump.cs
 		button_accept.Click();
 	}
-	
-	public void Show_send_log() {
+
+	string emailStored;
+	public void Show_send_log() 
+	{
+		emailStored = SqlitePreferences.Select("email");
+		if(emailStored != null && emailStored != "" && emailStored != "0")
+			entry_send_log.Text = emailStored;
+		
 		hbox_send_log.Show();
 	}
 	private void on_button_send_log_clicked (object o, EventArgs args)
 	{
+		string email = entry_send_log.Text.ToString();
+		//email can be validated with Util.IsValidEmail(string)
+		//or other methods, but maybe there's no need of complexity now 
+
+		//1st save email on sqlite
+		if(email != null && email != "" && email != "0" && email != emailStored)
+			SqlitePreferences.Update("email", email, false);
+		
+		//2nd send Json
 		Json js = new Json();
-		bool success = js.PostCrashLog();
+		bool success = js.PostCrashLog(email);
 		
 		if(success) {
 			image_send_log_yes.Show();
 			LogB.Information(js.ResultMessage);
 		} else {
+			button_send_log.Label = Catalog.GetString("Try again");
 			image_send_log_no.Show();
 			LogB.Error(js.ResultMessage);
 		}

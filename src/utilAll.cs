@@ -21,12 +21,19 @@
 using System;
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
+using System.Reflection; // Read Version
 
 //this class tries to be a space for methods that are used in different classes
 //in chronojump and chronojump_mini
 //we do not use util.cs in mini because it has lot of calls to other files
 public class UtilAll
 {
+	public static string ReadVersion() {
+		Version version = Assembly.GetExecutingAssembly().GetName().Version;
+		return version.ToString();
+	}	
+	
+
 	//Adapted from Mono. A developer's notebook. p 244
 	
 	//this is used in chronojump for working with the ports,

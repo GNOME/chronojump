@@ -73,7 +73,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.19";
+	static string lastChronojumpDatabaseVersion = "1.20";
 
 	public Sqlite() {
 	}
@@ -1741,6 +1741,16 @@ class Sqlite
 
 				currentVersion = "1.19";
 			}
+			if(currentVersion == "1.19") {
+				LogB.SQL("Preferences: added user email");
+				
+				Sqlite.Open();
+				SqlitePreferences.Insert ("email", ""); 
+				SqlitePreferences.Update ("databaseVersion", "1.20", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.20";
+			}
 	
 		}
 
@@ -1885,6 +1895,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.19 - 1.20 Converted DB to 1.20 Preferences: added user email
 		//1.18 - 1.19 Converted DB to 1.19 Preferences deleted showHeight, added showStiffness
 		//1.17 - 1.18 Converted DB to 1.18 deleted Negative runInterval runs (bug from last version)
 		//1.16 - 1.17 Converted DB to 1.17 Deleted Max jump (we already have "Free")

@@ -81,6 +81,7 @@ class SqlitePreferences : Sqlite
 		Insert ("RGraphsTranslate", "True");
 		Insert ("useHeightsOnJumpIndexes", "True");
 		Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString()); 
+		Insert ("email", "");
 	}
 
 	public static void Insert(string myName, string myValue)

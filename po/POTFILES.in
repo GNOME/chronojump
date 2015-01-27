@@ -27,6 +27,7 @@ src/gui/convertWeight.cs
 src/gui/encoder.cs
 src/gui/encoderConfiguration.cs
 src/gui/encoderTreeviews.cs
+src/gui/error.cs
 src/gui/evaluator.cs
 src/gui/event.cs
 src/gui/eventExecute.cs

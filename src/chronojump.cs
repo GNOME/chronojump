@@ -25,7 +25,6 @@ using Glade;
 using Mono.Unix;
 using System.IO; //"File" things
 using System.Threading;
-using System.Reflection; // Read Version
 using System.Diagnostics; //Process
 
 using System.Collections; //ArrayList
@@ -208,7 +207,7 @@ public class ChronoJump
 		}
 
 		//print version of chronojump
-		progVersion = readVersion();
+		progVersion = UtilAll.ReadVersion();
 
 		LogB.Information("Chronojump version: {0}", progVersion);
 
@@ -456,7 +455,7 @@ public class ChronoJump
 			LogB.Warning("Problem with splash win");
 		}
 
-		versionAvailable = Server.Ping(true, progName, readVersion()); //doInsertion
+		versionAvailable = Server.Ping(true, progName, UtilAll.ReadVersion()); //doInsertion
 		
 		LogB.Debug("--4--");
 		splashShowButton = false;
@@ -484,7 +483,6 @@ public class ChronoJump
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_quit);
 			} else { 
 				errorWin = ErrorWindow.Show(messageToShowOnBoot);
-				errorWin.Show_button_open_docs_folder();
 				errorWin.Show_send_log();
 				errorWin.Button_accept_label(Catalog.GetString("Open Chronojump"));
 				errorWin.Button_accept.Clicked += new EventHandler(on_message_boot_accepted_continue);
@@ -538,7 +536,7 @@ public class ChronoJump
 			Sqlite.CreateFile();
 			Sqlite.CreateTables(true); //server
 			LogB.SQL("Created blank database! Exiting");
-			string myVersion = readVersion();
+			string myVersion = UtilAll.ReadVersion();
 			LogB.Warning("CAUTION: client info about versionAvailable (on server): ", myVersion);
 			SqlitePreferences.Update ("availableVersion", myVersion, false); 
 			LogB.Information("Maybe you don't want to show this version on pings, change it to last stable published version");
@@ -663,7 +661,7 @@ public class ChronoJump
 
 		messageChrashedBefore = "\n" +
 			string.Format(Catalog.GetString("Chronojump {0} crashed before."), progVersion) + "\n\n" +
-			Catalog.GetString("Please, open docs folder and follow instructions on 'chronojump_crash.pdf' in order to be fixed fast.") + "\n\n" +
+			Catalog.GetString("Please, fill your email and click on 'Send error log' in order to fix this fast and contact you if appropiate.") + "\n\n" +
 			Catalog.GetString("Your help is needed.") + "\n";
 
 	
@@ -713,12 +711,6 @@ public class ChronoJump
 		return returnString;
 	}
 
-	private static string readVersion() {
-		Version version = Assembly.GetExecutingAssembly().GetName().Version;
-		return version.ToString();
-	}	
-		
-			
 	private void createRunningFileName(string runningFileName) {
 		TextWriter writer = File.CreateText(runningFileName);
 		writer.WriteLine(Process.GetCurrentProcess().Id);

@@ -1612,4 +1612,16 @@ public class Util
 		return sb.ToString();
 	}
 
+	//test if an email is valid
+	//http://stackoverflow.com/questions/1365407/c-sharp-code-to-validate-email-address
+	public static bool IsValidEmail(string email)
+	{
+		try {
+			var addr = new System.Net.Mail.MailAddress(email);
+			return addr.Address == email;
+		}
+		catch {
+			return false;
+		}
+	}
 }

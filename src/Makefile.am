@@ -121,7 +121,7 @@ SOURCES = \
 	event.cs\
 	eventType.cs\
 	genericObjects.cs\
-	json_post.cs\
+	json.cs\
 	jump.cs\
 	jumpType.cs\
 	person.cs\

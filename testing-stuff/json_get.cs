@@ -1,5 +1,5 @@
 //Carles Pina
-//compile:  mcs json_post.cs /reference:System.Json.dll
+//compile:  mcs json_get.cs /reference:System.Json.dll
 
 using System;
 using System.Net;

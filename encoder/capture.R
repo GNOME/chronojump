@@ -53,22 +53,24 @@ while(input[1] != "Q") {
 	
 	position = cumsum(displacement)
 
+	start = 1
+	end = length(displacement)
 	if( ! isInertial(op$EncoderConfigurationName)) {
 		reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 
 						1, 0, #startT, startH
 						displacement, #displacement
 						op$SmoothingOneC #SmoothingOneC
 						)
+
+		start = reduceTemp[1]
+		end = reduceTemp[2]
+		#write("printing reduceTemp2", stderr())
+		#write(reduceTemp[2], stderr())
+		if(end > length(displacement))
+			end = length(displacement)
+
+		displacement = displacement[start:end]
 	}
-		
-	start = reduceTemp[1]
-	end = reduceTemp[2]
-	#write("printing reduceTemp2", stderr())
-	#write(reduceTemp[2], stderr())
-	if(end > length(displacement))
-		end = length(displacement)
-	
-	displacement = displacement[start:end]
 
 	g = 9.81
 		    

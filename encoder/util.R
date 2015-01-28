@@ -681,16 +681,21 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 	print("at findCurvesInertial")
 	print(position.ext)
 
-	#Fix if disc goes wrong direction at start
-	if(position.ext$maxindex[1] < position.ext$minindex[1]) {
-		displacement = displacement * -1
-		position=cumsum(displacement)
-		position.ext=extrema(position)
-	}
-	
-	firstDownPhaseTime = position.ext$minindex[1]
+	#do if extrema(position)$nextreme == 0... then do not use extrema
+	#TODO: check if started backwards on realtime capture (extrema is null)
+	firstDownPhaseTime = 1
+	downHeight = 0
+	if(position.ext$nextreme > 0) {
+		#Fix if disc goes wrong direction at start
+		if(position.ext$maxindex[1] < position.ext$minindex[1]) {
+			displacement = displacement * -1
+			position=cumsum(displacement)
+			position.ext=extrema(position)
+		}
 
-	downHeight = abs(position[1] - position[firstDownPhaseTime])
+		firstDownPhaseTime = position.ext$minindex[1]
+		downHeight = abs(position[1] - position[firstDownPhaseTime])
+	}
 		
 	positionPerson = abs(cumsum(displacement))*-1
 	#this is to make "inverted cumsum"

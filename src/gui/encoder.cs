@@ -1294,6 +1294,12 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		//test: try to compress signal in order to send if.
+		//obviously this is not going to be done here
+
+		LogB.Information("Trying compress function");
+		LogB.Information(UtilEncoder.CompressSignal(UtilEncoder.GetEncoderDataTempFileName()));
+
 		if(success) {	
 			//force a recalculate but not save the curve (we are loading)
 			encoderCalculeCurves(encoderActions.LOAD);

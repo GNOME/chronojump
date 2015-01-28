@@ -691,6 +691,56 @@ public class UtilEncoder
 	}
 
 
+	/* convert this
+	 * 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 2, 1
+	 * to
+	 * 0*6 1 0*2 1*2 2 1
+	 * in order to be shorter if has to be sended by network
+	 * this compression reduces size six times aproximately
+	 */
+	public static string CompressSignal(string fileNameSignal)
+	{
+		string contents = Util.ReadFile(fileNameSignal, false);
+		string compressed = "";
+		
+		bool start = true;
+		int digit = -10000;
+		int digitPre = -10000; //just an impossible mark
+		int rep = 0;
+		for(int i=0; i < contents.Length; i++) 
+		{
+			if(! Char.IsDigit(contents[i]))
+				continue;
+
+			digit = contents[i] -'0'; 
+			if(start) {
+				rep ++;
+				start = false;
+			} else if(digit == digitPre)
+				rep ++;
+			else {
+				if(rep == 1)
+					compressed += digitPre.ToString() + " ";
+				else {
+					compressed += digitPre.ToString() + "*" + rep.ToString() + " ";
+					rep = 1;
+				}
+			}
+
+			digitPre = digit;
+		}
+
+		if(rep == 0)
+			compressed += "";
+		else if(rep == 1)
+			compressed += digit.ToString();
+		else
+			compressed += digit.ToString() + "*" + rep.ToString();
+
+		return compressed;
+	}
+
+
 	private static string [] encoderFindPos(string contents, int start, int duration) {
 		int startPos = 0;
 		int durationPos = 0;

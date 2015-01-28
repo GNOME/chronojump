@@ -8,15 +8,39 @@ linux stuff
 sh autogen.sh
 make dist
 
+
 VERSION=0.9.3
+[1]
 git commit -a -m "Bump version $VERSION"
 
 git push
+git checkout -b "tags/$VERSION" # creates a new branch
+# keep doing commits:
+# git commit -a
+# git commit -a
+# git cherry-pick -x "commit-from-master-or-some-branch-that-we-want-here"
+
+When we are happy:
 git tag -a "$VERSION"
 git push origin --tags
 scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
 ftpadmin install "chronojump-$VERSION.tar.gz"
+
+Go back to master:
+git checkout master
+
+git note:
+If we want to release 0.9.4 based on an bug fix from 0.9.3:
+
+git checkout tags/0.9.3
+git checkout -b tags/0.9.4 # creates a new branch based on 0.9.3
+git cherry-pick -x "commit-from-master-or-some-branch-that-we-want-here"
+vim "fix something"
+git commit -a -m "Important fix"
+VERSION=0.9.4
+Then go to [1]
+
 
 create deb package
 -----

@@ -8,15 +8,15 @@ linux stuff
 sh autogen.sh
 make dist
 
-git commit -a
-message: Bump version 0.9.3
+VERSION=0.9.3
+git commit -a -m "Bump version $VERSION"
 
 git push
-git tag -a 0.9.3
+git tag -a "$VERSION"
 git push origin --tags
-scp chronojump-0.9.3.tar.gz xaviblas@master.gnome.org:.
+scp "chronojump-$VERSION.tar.gz" xaviblas@master.gnome.org:.
 ssh xaviblas@master.gnome.org
-ftpadmin install chronojump-0.9.3.tar.gz
+ftpadmin install "chronojump-$VERSION.tar.gz"
 
 create deb package
 -----
@@ -78,6 +78,16 @@ server stuff
 ------------
 ssh to chronojump server, sqlite-3 chronojump_server.db
 update preferences set value="0.9.3.0" where name="versionAvailable";
+
+API:
+ssh to chronojump server
+vi /etc/chronojump.conf
+
+Update: chronojump_stable_version
+
+/etc/init.d/gunicorn restart
+verify:
+curl http://api.chronojump.org:8080/version
 
 tell people stuff
 -------------

@@ -729,7 +729,7 @@ public class Constants
 	public static string EccentricConcentric = "Eccentric-concentric";
 	//public static string ConcentricEccentric = "Concentric-eccentric";
 
-	public enum EncoderCheckFileOp { ANALYZE_EXPORT_ALL_CURVES, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
+	public enum EncoderCheckFileOp { CAPTURE_EXPORT_ALL, ANALYZE_SAVE_IMAGE, ANALYZE_SAVE_TABLE}
 
 	public static double EncoderErrorCode = -1;
 	

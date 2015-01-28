@@ -2397,7 +2397,6 @@ doProcess <- function(options)
 	}
 	if(op$Analysis=="exportCSV") {
 		print("Starting export...")
-		File = op$OutputData1;
 		curvesNum = length(curves[,1])
 
 		maxLength = 0
@@ -2489,9 +2488,9 @@ doProcess <- function(options)
 		#colnames(df)=c(titleColumns[1]," ", titleColumns[2],titleColumns[3],rep(" ",(curvesNum*curveCols-4)))
 
 		if(op$DecimalSeparator == "COMMA")
-			write.csv2(df, file = op$File, row.names=T, na="")
+			write.csv2(df, file = op$OutputData1, row.names=T, na="")
 		else
-			write.csv(df, file = op$File, row.names=T, na="")
+			write.csv(df, file = op$OutputData1, row.names=T, na="")
 
 		print("Export done.")
 	}

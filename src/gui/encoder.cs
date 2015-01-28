@@ -1410,7 +1410,7 @@ public partial class ChronoJumpWindow
 	
 	void on_button_encoder_export_all_curves_clicked (object o, EventArgs args) 
 	{
-		checkFile(Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES);
+		checkFile(Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL);
 	}
 	
 	void on_button_encoder_export_all_curves_file_selected (string selectedFileName) 
@@ -1466,15 +1466,15 @@ public partial class ChronoJumpWindow
 	protected void checkFile (Constants.EncoderCheckFileOp checkFileOp)
 	{
 		string exportString = ""; 
-		if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
-			exportString = Catalog.GetString ("Export session in format CSV");
+		if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
+			exportString = Catalog.GetString ("Export set in format CSV");
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
 			exportString = Catalog.GetString ("Save image");
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
 			exportString = Catalog.GetString ("Save table");
 		
 		string nameString = ""; 
-		if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+		if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
 			nameString = "encoder_export.csv";
 		else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
 			nameString = "encoder_image.png";
@@ -1494,7 +1494,7 @@ public partial class ChronoJumpWindow
 		{
 			exportFileName = fc.Filename;
 			//add ".csv" if needed
-			if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES ||
+			if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL ||
 					checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_TABLE)
 				exportFileName = Util.AddCsvIfNeeded(exportFileName);
 			else
@@ -1511,7 +1511,7 @@ public partial class ChronoJumpWindow
 								"Are you sure you want to overwrite file: "), "", 
 							exportFileName);
 
-					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
 						confirmWin.Button_accept.Clicked += 
 							new EventHandler(on_overwrite_file_export_all_curves_accepted);
 					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
@@ -1522,7 +1522,7 @@ public partial class ChronoJumpWindow
 							new EventHandler(on_overwrite_file_encoder_save_table_accepted);
 
 				} else {
-					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
 						on_button_encoder_export_all_curves_file_selected (exportFileName);
 					else if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_SAVE_IMAGE)
 						on_button_encoder_save_image_file_selected (exportFileName);
@@ -1531,7 +1531,7 @@ public partial class ChronoJumpWindow
 
 					string myString = string.Format(Catalog.GetString("Saved to {0}"), 
 							exportFileName);
-					if(checkFileOp == Constants.EncoderCheckFileOp.ANALYZE_EXPORT_ALL_CURVES)
+					if(checkFileOp == Constants.EncoderCheckFileOp.CAPTURE_EXPORT_ALL)
 				       		myString += Constants.SpreadsheetString;
 					new DialogMessage(Constants.MessageTypes.INFO, myString);
 				}

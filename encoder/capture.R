@@ -54,6 +54,7 @@ while(input[1] != "Q") {
 	position = cumsum(displacement)
 
 	start = 1
+#TODO................. #in inertial here it can be two phases: first, second or both
 	end = length(displacement)
 	if( ! isInertial(op$EncoderConfigurationName)) {
 		reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 

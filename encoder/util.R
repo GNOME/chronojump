@@ -693,6 +693,7 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 			position.ext=extrema(position)
 		}
 
+		#unused
 		firstDownPhaseTime = position.ext$minindex[1]
 		downHeight = abs(position[1] - position[firstDownPhaseTime])
 	}
@@ -700,6 +701,8 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 	positionPerson = abs(cumsum(displacement))*-1
 	#this is to make "inverted cumsum"
 	displacementPerson = c(0,diff(positionPerson))
+
+	#write(displacementPerson,stderr())
 	
 	if(draw) {
 		col="black"
@@ -707,6 +710,7 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 		     ,position/10,				#mm -> cm
 		     type="l",
 		     xlim=c(1,length(position))/1000,		#ms -> s
+		     ylim=c(min(positionPerson)/10,max(position/10)),
 		     xlab="",ylab="",axes=T,
 		     lty=2,col=col) 
 

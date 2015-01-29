@@ -110,10 +110,16 @@ public class ErrorWindow
 		bool success = js.PostCrashLog(email);
 		
 		if(success) {
+			button_send_log.Label = Catalog.GetString("Thanks");
+			button_send_log.Sensitive = false;
+
 			image_send_log_yes.Show();
+			image_send_log_no.Hide();
 			LogB.Information(js.ResultMessage);
 		} else {
 			button_send_log.Label = Catalog.GetString("Try again");
+			
+			image_send_log_yes.Hide();
 			image_send_log_no.Show();
 			LogB.Error(js.ResultMessage);
 		}

@@ -678,8 +678,8 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 	position=cumsum(displacement)
 	position.ext=extrema(position)
 
-	print("at findCurvesInertial")
-	print(position.ext)
+	#print("at findCurvesInertial")
+	#print(position.ext)
 
 	#do if extrema(position)$nextreme == 0... then do not use extrema
 	#TODO: check if started backwards on realtime capture (extrema is null)

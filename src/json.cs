@@ -35,7 +35,7 @@ public class Json
 		ResultMessage = "";
 	}
 
-	public bool PostCrashLog(string email) 
+	public bool PostCrashLog(string email, string comments) 
 	{
 		string serverUrl = "http://api.chronojump.org:8080";
 		string filePath = UtilAll.GetLogFileOld();
@@ -44,6 +44,10 @@ public class Json
 			this.ResultMessage = Catalog.GetString("Could not send file.\nIt does not exist.");
 			return false;
 		}
+
+		if(comments != null && comments != "")
+			Util.InsertTextBeginningOfFile(
+					"----------\nUser comments:\n" + comments + "\n----------\n", filePath);
 
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/backtrace/" + UtilAll.ReadVersion() + "-" + email);

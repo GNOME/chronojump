@@ -1624,4 +1624,23 @@ public class Util
 			return false;
 		}
 	}
+
+	//http://stackoverflow.com/a/2401873
+	public static void InsertTextBeginningOfFile(string textToInsert, string filename)
+	{
+		try {
+			string tempfile = Path.GetTempFileName();
+			using (var writer = new StreamWriter(tempfile))
+				using (var reader = new StreamReader(filename))
+				{
+					writer.WriteLine(textToInsert);
+					while (! reader.EndOfStream)
+						writer.WriteLine(reader.ReadLine());
+				}
+			File.Copy(tempfile, filename, true);
+			LogB.Information("Insert text at the beginning of File successful");
+		} catch {
+			LogB.Error("Couldn't Insert text at the beginning of File");
+		}
+	}
 }

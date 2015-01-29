@@ -39,6 +39,7 @@ public class ErrorWindow
 	[Widget] Gtk.Image image_send_log_no;
 	[Widget] Gtk.Image image_send_log_yes;
 	[Widget] Gtk.Entry entry_send_log;
+	[Widget] Gtk.TextView textview_comments;
 	[Widget] Gtk.Button button_send_log;
 	[Widget] Gtk.Label label_send_log_message;
 
@@ -104,10 +105,13 @@ public class ErrorWindow
 		//1st save email on sqlite
 		if(email != null && email != "" && email != "0" && email != emailStored)
 			SqlitePreferences.Update("email", email, false);
+
+		//2nd if there are comments, add them at the beginning of the file
+		string comments = textview_comments.Buffer.Text;
 		
 		//2nd send Json
 		Json js = new Json();
-		bool success = js.PostCrashLog(email);
+		bool success = js.PostCrashLog(email, comments);
 		
 		if(success) {
 			button_send_log.Label = Catalog.GetString("Thanks");

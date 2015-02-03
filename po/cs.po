@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-01-29 15:48+0000\n"
-"PO-Revision-Date: 2015-01-19 00:40+0100\n"
+"PO-Revision-Date: 2015-02-03 09:55+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -83,15 +83,12 @@ msgid "Export session to _CSV (Spreadsheet)"
 msgstr "Exportovat sérii cvičení do _CSV (tabulky)"
 
 #: ../glade/chronojump.glade.h:9
-#, fuzzy
-#| msgid ""
-#| "Useful to export to a Spreadsheet like MS Excel or OpenOffice or Gnumeric"
 msgid ""
 "Useful to export to a Spreadsheet like MS Excel, LibreOffice or Google "
 "Spreadsheets"
 msgstr ""
-"Vhodné pro export do tabulkových kalkulátorů jako je MS Excel, OpenOffice "
-"Calc nebo Gnumeric"
+"Vhodné pro export do tabulkových kalkulátorů jako je MS Excel, LibreOffice "
+"Calc nebo Tabulky Google"
 
 #: ../glade/chronojump.glade.h:10
 msgid "Export session to _XML"
@@ -168,10 +165,8 @@ msgid "_Accelerators"
 msgstr "Zkr_atky"
 
 #: ../glade/chronojump.glade.h:27
-#, fuzzy
-#| msgid "Check for new version"
 msgid "Check last version"
-msgstr "Kontroluje se dostupnost nové verze"
+msgstr "Zjistit poslední verzi"
 
 #: ../glade/chronojump.glade.h:28
 msgid "_About"
@@ -1220,10 +1215,8 @@ msgid "Delete set"
 msgstr "Smazat sadu"
 
 #: ../glade/chronojump.glade.h:260
-#, fuzzy
-#| msgid "Export session to _CSV (Spreadsheet)"
 msgid "Export set to CSV (Spreadsheet)"
-msgstr "Exportovat sérii cvičení do _CSV (tabulky)"
+msgstr "Exportovat sadu do CSV (tabulky)"
 
 #: ../glade/chronojump.glade.h:261
 msgid "capture"
@@ -1937,13 +1930,11 @@ msgstr "ChronoJump"
 
 #: ../glade/chronojump.glade.h:431
 msgid "Your email"
-msgstr ""
+msgstr "Váš e-mail"
 
 #: ../glade/chronojump.glade.h:432
-#, fuzzy
-#| msgid "Add comment"
 msgid "Add comments"
-msgstr "Přidat poznámku"
+msgstr "Přidat poznámky"
 
 #: ../glade/chronojump.glade.h:433
 msgid "Evaluator server data"
@@ -3423,6 +3414,8 @@ msgid ""
 "Please, fill your email and click on 'Send error log' in order to fix this "
 "fast and contact you if appropiate."
 msgstr ""
+"Vyplňte prosím svůj e-mail a klikněte na „Odeslat záznam chyby“, aby se to "
+"mohlo rychle opravit a v případě potřeby vás kontaktovat."
 
 #: ../src/chronojump.cs:665
 msgid "Your help is needed."
@@ -4584,26 +4577,15 @@ msgstr ""
 "Protože neexistuje."
 
 #: ../src/json.cs:72
-#, fuzzy
-#| msgid ""
-#| "Could not delete file:\n"
-#| "{0}"
 msgid "Could not send file."
-msgstr ""
-"Nelze vymazat soubor:\n"
-"{0}"
+msgstr "Nelze odeslat soubor."
 
 #: ../src/json.cs:73 ../src/json.cs:141
-#, fuzzy, csharp-format
-#| msgid ""
-#| "Could not send file.\n"
-#| "You are not connected to the Internet\n"
-#| "or {0} server is down."
+#, csharp-format
 msgid ""
 "You are not connected to the Internet\n"
 "or {0} server is down."
 msgstr ""
-"Nelze odeslat soubor.\n"
 "Nejste připojeni k Internetu\n"
 "nebo je nedostupný server {0}."
 
@@ -4613,7 +4595,7 @@ msgstr "Záznam odeslán. Děkujeme."
 
 #: ../src/json.cs:140
 msgid "Could not get last version."
-msgstr ""
+msgstr "Nelze získat poslední verzi."
 
 #: ../src/gui/chronojump.cs:818
 #, csharp-format
@@ -5280,10 +5262,8 @@ msgid "Saved repetitions related to this set will also be deleted."
 msgstr "Uložená opakování patřící k této sadě budou smazána také."
 
 #: ../src/gui/encoder.cs:1470
-#, fuzzy
-#| msgid "Export session in format CSV"
 msgid "Export set in format CSV"
-msgstr "Export série cvičení ve formátu CSV"
+msgstr "Export sady ve formátu CSV"
 
 #: ../src/gui/encoder.cs:1540 ../src/gui/encoder.cs:3117
 #: ../src/gui/encoder.cs:3170
@@ -5644,11 +5624,11 @@ msgstr "Celková zátěž"
 
 #: ../src/gui/error.cs:117
 msgid "Thanks"
-msgstr ""
+msgstr "Díky"
 
 #: ../src/gui/error.cs:124
 msgid "Try again"
-msgstr ""
+msgstr "Zkusit znovu"
 
 #: ../src/gui/evaluator.cs:345
 msgid "Select of Birth"
@@ -8676,11 +8656,3 @@ msgstr "Čas překrytí"
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
 msgstr "Čas rozdělení"
-
-#~ msgid ""
-#~ "Please, open docs folder and follow instructions on 'chronojump_crash."
-#~ "pdf' in order to be fixed fast."
-#~ msgstr ""
-#~ "Otevřte si prosím složku s dokumentací a postupujte podle instrukcí v "
-#~ "souboru „chronojump_crash.pdf“, aby bylo možné problém co nejdříve "
-#~ "opravit."

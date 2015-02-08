@@ -30,6 +30,7 @@ using Mono.Unix;
 using System.Linq;
 using RDotNet;
 using System.Diagnostics; 	//for detect OS and for Process
+using LongoMatch.Gui;
 
 
 public partial class ChronoJumpWindow 
@@ -54,7 +55,6 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
-	//[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
@@ -302,6 +302,8 @@ public partial class ChronoJumpWindow
 		captureCurvesBarsData = new ArrayList(0);
 		
 		RInitialized = Constants.Status.UNSTARTED;
+	
+		playVideoEncoderInitialSetup();
 	}
 
 	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
@@ -1286,12 +1288,10 @@ public partial class ChronoJumpWindow
 				//entry_encoder_signal_comment.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
 				encoderSignalUniqueID = eSQL.uniqueID;
-				
-				//button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
-				viewport_capture_encoder.Sensitive = (eSQL.videoURL != "");
-				if(eSQL.videoURL != "")
-					playEncoderVideo(false);
-
+			
+				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
+				notebook_video_encoder.CurrentPage = 1;
+			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 
 				label_encoder_selected.Text = encoderConfigurationCurrent.code; 
@@ -1825,8 +1825,7 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
 			
-				//button_video_play_this_test_encoder.Sensitive = false;
-				viewport_capture_encoder.Sensitive = false;
+				viewport_video_play_encoder.Sensitive = false;
 				//copy video	
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
@@ -1838,9 +1837,10 @@ public partial class ChronoJumpWindow
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(false, eSQL);
-						//button_video_play_this_test_encoder.Sensitive = true;
-						viewport_capture_encoder.Sensitive = true;
-						playEncoderVideo(false);
+					
+						notebook_video_encoder.CurrentPage = 1;
+						viewport_video_play_encoder.Sensitive = true;
+						playVideoEncoderPrepare(false); //do not play
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -5145,7 +5145,12 @@ LogB.Debug("D");
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
-				//tis notebook has capture (signal plotting), and curves (shows R graph)	
+			
+				if(action == encoderActions.LOAD) {
+					playVideoEncoderPrepare(false); //do not play
+				}
+
+				//this notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
@@ -5370,8 +5375,7 @@ LogB.Debug("D");
 			capturer.ClickRec();
 			label_video_feedback_encoder.Text = "Rec.";
 		}
-		//button_video_play_this_test_encoder.Sensitive = false; 
-		viewport_capture_encoder.Sensitive = false;
+		//viewport_video_capture_encoder.Sensitive = false;
 	}
 
 	private void encoderStopVideoRecord() {
@@ -5384,26 +5388,35 @@ LogB.Debug("D");
 		}
 	}
 
-
-	void on_video_play_this_test_encoder_clicked (object o, EventArgs args) {
-		playEncoderVideo(true);
+	static PlayerBin playerEncoder;
+	private void playVideoEncoderInitialSetup() 
+	{
+		LogB.Information("Prepare video encoder");
+		playerEncoder = new PlayerBin();
+		viewport_video_play_encoder.Add(playerEncoder);
+		playerEncoder.SeeControlsBox(true);
 	}
-
-	void playEncoderVideo(bool play) {
+	void playVideoEncoderPrepare(bool play) 
+	{
+		LogB.Information("playVideoEncoderDo", play.ToString());
 		string file = Util.GetVideoFileName(currentSession.UniqueID, 
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
 
-		bool errors = false;
 		if(file == null || file == "") 
-			errors = true;
-		else
-			if(! playVideo(file, true, play)) //encoder, start playing?
-				errors = true;
-
-		if(errors)
+			return;
+		
+		try {
+			playerEncoder.Open(file);
+			if(play)
+				playerEncoder.Play();
+			else
+				playerEncoder.Show();
+		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Sorry, file not found"));
-	}
+		}
+	}	
+
 	/* end of video stuff */
 
 }	

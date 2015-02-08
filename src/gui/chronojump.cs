@@ -214,8 +214,9 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_chronopic_encoder;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
-	[Widget] Gtk.HBox hbox_video_capture_encoder;
-	[Widget] Gtk.Viewport viewport_capture_encoder;
+	[Widget] Gtk.Notebook notebook_video_encoder;
+	[Widget] Gtk.Viewport viewport_video_capture_encoder;
+	[Widget] Gtk.Viewport viewport_video_play_encoder;
 	[Widget] Gtk.Label label_video_feedback;
 	[Widget] Gtk.Label label_video_feedback_encoder;
 	[Widget] Gtk.CheckButton checkbutton_video;
@@ -223,8 +224,6 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Label label_video;
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
-	[Widget] Gtk.Image image_video_yes_encoder;
-	[Widget] Gtk.Image image_video_no_encoder;
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Image image_volume;
 	[Widget] Gtk.CheckButton checkbutton_volume_encoder;
@@ -3044,14 +3043,14 @@ public partial class ChronoJumpWindow
 
 			if(notebook_sup.CurrentPage == 0) {
 				//remove video capture from encoder tab
-				hbox_video_capture_encoder.Remove(capturer);
+				viewport_video_capture_encoder.Remove(capturer);
 				//add in contacts tab
 				hbox_video_capture.PackStart(capturer, true, true, 0);
 			} else {
 				//remove video capture from contacts tab
 				hbox_video_capture.Remove(capturer);
 				//add in encoder tab
-				hbox_video_capture_encoder.PackStart(capturer, true, true, 0);
+				viewport_video_capture_encoder.Add(capturer);
 			}
 		
 			if(wasActive) 
@@ -3120,8 +3119,6 @@ public partial class ChronoJumpWindow
 	private void changeVideoButtons(bool myVideo) {
 		image_video_yes.Visible = myVideo;
 		image_video_no.Visible = ! myVideo;
-		image_video_yes_encoder.Visible = myVideo;
-		image_video_no_encoder.Visible = ! myVideo;
 	}
 	
 	private void on_checkbutton_video_clicked(object o, EventArgs args) {
@@ -3155,8 +3152,9 @@ public partial class ChronoJumpWindow
 		checkbutton_video.Active = preferences.videoOn;
 		checkbutton_video.Clicked += new EventHandler(on_checkbutton_video_clicked);
 		
-		changeVideoButtons(preferences.videoOn);
-		
+		//changeVideoButtons(preferences.videoOn);
+	
+		//will start on record	
 		videoCapturePrepare(true); //if error, show message
 	}
 
@@ -3200,6 +3198,15 @@ public partial class ChronoJumpWindow
 		if(checkbutton_volume_encoder.Active) {
 			preferences.volumeOn = true;
 			SqlitePreferences.Update("volumeOn", "True", false);
+			
+			//on Linux put volumeOn on false on start because there's a bug on Mono and audio
+			//https://github.com/mono/mono/pull/1376
+			if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+				new DialogMessage(Constants.MessageTypes.WARNING, 
+						"There's an audio problem with Mono on Linux.\n" +
+						"We recommend to have sound disabled. More info:\n" +
+						"https://github.com/mono/mono/pull/1376"
+						);
 		} else {
 			preferences.volumeOn = false;
 			SqlitePreferences.Update("volumeOn", "False", false);
@@ -5004,33 +5011,22 @@ LogB.Debug("X");
 	 *  --------------------------------------------------------
 	 */
 
-	
-	private bool playVideo(string fileName, bool encoder, bool play) 
+	//Not used on encoder	
+	private bool playVideo(string fileName, bool play) 
 	{
 		if(File.Exists(fileName)) {
 			LogB.Information("Play video starting...");
 			PlayerBin player = new PlayerBin();
 			player.Open(fileName);
 
-			//plays at main encoder GUI
-			if(encoder) {
-				//don't add to an hbox, it will show halfsized
-				//hbox_video_capture_encoder_big.Add(player);
-				//hbox_video_capture_encoder_big.WidthRequest=500;
-				//hbox_video_capture_encoder_big.HeightRequest=400;
-				
-				viewport_capture_encoder.Add(player);
-				player.SeeControlsBox(true);
-			} else { //plays in a separate window
-				//without these lines works also but has less functionalities (speed, go to ms)
-				Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
-				d.Add(player);
-				d.Modal = true;
-				d.SetDefaultSize(500,400);
-				d.ShowAll();
-				d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
-			}
-			
+			//without these lines works also but has less functionalities (speed, go to ms)
+			Gtk.Window d = new Gtk.Window(Catalog.GetString("Playing video"));
+			d.Add(player);
+			d.Modal = true;
+			d.SetDefaultSize(500,400);
+			d.ShowAll();
+			d.DeleteEvent += delegate(object sender, DeleteEventArgs e) {player.Close(); player.Dispose();};
+
 			if(play) {
 				LogB.Information("Play video playing...");
 				player.Play();
@@ -5039,6 +5035,7 @@ LogB.Debug("X");
 		}
 		return false;	
 	}
+
 
 	private void on_video_play_this_test_clicked (object o, EventArgs args) {
 		Constants.TestTypes type = Constants.TestTypes.JUMP;
@@ -5076,56 +5073,56 @@ LogB.Debug("X");
 				break;
 		}
 
-		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id), false, true);
+		playVideo(Util.GetVideoFileName(currentSession.UniqueID, type, id), true);
 	}
 
 	private void on_video_play_selected_jump_clicked (object o, EventArgs args) {
 		if (myTreeViewJumps.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP,
-						myTreeViewJumps.EventSelectedID), false, true);
+						myTreeViewJumps.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_jump_rj_clicked (object o, EventArgs args) {
 		if (myTreeViewJumpsRj.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.JUMP_RJ,
-						myTreeViewJumpsRj.EventSelectedID), false, true);
+						myTreeViewJumpsRj.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_run_clicked (object o, EventArgs args) {
 		if (myTreeViewRuns.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN,
-						myTreeViewRuns.EventSelectedID), false, true);
+						myTreeViewRuns.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_run_interval_clicked (object o, EventArgs args) {
 		if (myTreeViewRunsInterval.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RUN_I,
-						myTreeViewRunsInterval.EventSelectedID), false, true);
+						myTreeViewRunsInterval.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_reaction_time_clicked (object o, EventArgs args) {
 		if (myTreeViewReactionTimes.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.RT,
-						myTreeViewReactionTimes.EventSelectedID), false, true);
+						myTreeViewReactionTimes.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_pulse_clicked (object o, EventArgs args) {
 		if (myTreeViewPulses.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.PULSE,
-						myTreeViewPulses.EventSelectedID), false, true);
+						myTreeViewPulses.EventSelectedID), true);
 	}
 
 	private void on_video_play_selected_multi_chronopic_clicked (object o, EventArgs args) {
 		if (myTreeViewMultiChronopic.EventSelectedID > 0) 
 			playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
 						Constants.TestTypes.MULTICHRONOPIC,
-						myTreeViewMultiChronopic.EventSelectedID), false, true);
+						myTreeViewMultiChronopic.EventSelectedID), true);
 	}
 
 	/* ---------------------------------------------------------

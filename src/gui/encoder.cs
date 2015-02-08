@@ -706,6 +706,16 @@ public partial class ChronoJumpWindow
 
 		string analysisOptions = getEncoderAnalysisOptions();
 
+		//without this we loose the videoURL on recalculate
+		string videoURL = "";		
+		if(encoderSignalUniqueID != null && encoderSignalUniqueID != "-1") {
+			string file = Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+
+			if(file != null && file != "" && File.Exists(file))
+				videoURL = file;
+		}
+
 		//see explanation on the top of this file
 		lastEncoderSQLSignal = new EncoderSQL(
 				"-1",
@@ -721,7 +731,7 @@ public partial class ChronoJumpWindow
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
 				"", 		//desc,
-				"","",		//status, videoURL
+				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
 				Util.FindOnArray(':', 2, 1, UtilGtk.ComboGetActive(combo_encoder_exercise), 
@@ -1849,8 +1859,12 @@ public partial class ChronoJumpWindow
 			}
 		}
 		else {
+			LogB.Warning("TOSTRING1");
+			eSQL.ToString();
 			//only signal is updated
 			SqliteEncoder.Update(false, eSQL); //Adding on SQL
+			LogB.Warning("TOSTRING2");
+			eSQL.ToString();
 			feedback = Catalog.GetString("Set updated");
 		}
 		
@@ -5145,11 +5159,6 @@ LogB.Debug("D");
 				encoder_pulsebar_capture.Text = Catalog.GetString("Finished");
 			} 
 			else if(action == encoderActions.CURVES || action == encoderActions.LOAD) {
-			
-				if(action == encoderActions.LOAD) {
-					playVideoEncoderPrepare(false); //do not play
-				}
-
 				//this notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
@@ -5244,6 +5253,10 @@ LogB.Debug("D");
 
 
 					findAndMarkSavedCurves();
+				}
+				
+				if(action == encoderActions.LOAD) {
+					playVideoEncoderPrepare(false); //do not play
 				}
 			}
 
@@ -5402,7 +5415,7 @@ LogB.Debug("D");
 		string file = Util.GetVideoFileName(currentSession.UniqueID, 
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
 
-		if(file == null || file == "") 
+		if(file == null || file == "" || ! File.Exists(file))
 			return;
 		
 		try {

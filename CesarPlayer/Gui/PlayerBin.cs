@@ -328,6 +328,10 @@ namespace LongoMatch.Gui
 			controlsbox.Sensitive = false;
 			vscale1.Sensitive = false;				
 		}		
+			
+		public void SeeControlsBox(bool see){
+			controlsbox.Visible = see;
+		}
 		
 #endregion
 		

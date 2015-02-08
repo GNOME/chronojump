@@ -54,7 +54,7 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_capture_finish;
 	[Widget] Gtk.Button button_encoder_recalculate;
 	[Widget] Gtk.Button button_encoder_load_signal;
-	[Widget] Gtk.Button button_video_play_this_test_encoder;
+	//[Widget] Gtk.Button button_video_play_this_test_encoder;
 	[Widget] Gtk.Viewport viewport_image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture;
 	[Widget] Gtk.Image image_encoder_capture_open;
@@ -1286,7 +1286,11 @@ public partial class ChronoJumpWindow
 				//entry_encoder_signal_comment.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
 				encoderSignalUniqueID = eSQL.uniqueID;
-				button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
+				
+				//button_video_play_this_test_encoder.Sensitive = (eSQL.videoURL != "");
+				viewport_capture_encoder.Sensitive = (eSQL.videoURL != "");
+				if(eSQL.videoURL != "")
+					playEncoderVideo(false);
 
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 
@@ -1821,7 +1825,8 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
 			
-				button_video_play_this_test_encoder.Sensitive = false;
+				//button_video_play_this_test_encoder.Sensitive = false;
+				viewport_capture_encoder.Sensitive = false;
 				//copy video	
 				if(preferences.videoOn) {
 					if(Util.CopyTempVideo(currentSession.UniqueID, 
@@ -1833,7 +1838,9 @@ public partial class ChronoJumpWindow
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(false, eSQL);
-						button_video_play_this_test_encoder.Sensitive = true;
+						//button_video_play_this_test_encoder.Sensitive = true;
+						viewport_capture_encoder.Sensitive = true;
+						playEncoderVideo(false);
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -5363,7 +5370,8 @@ LogB.Debug("D");
 			capturer.ClickRec();
 			label_video_feedback_encoder.Text = "Rec.";
 		}
-		button_video_play_this_test_encoder.Sensitive = false; 
+		//button_video_play_this_test_encoder.Sensitive = false; 
+		viewport_capture_encoder.Sensitive = false;
 	}
 
 	private void encoderStopVideoRecord() {
@@ -5378,8 +5386,21 @@ LogB.Debug("D");
 
 
 	void on_video_play_this_test_encoder_clicked (object o, EventArgs args) {
-		if(! playVideo(Util.GetVideoFileName(currentSession.UniqueID, 
-					Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID))))
+		playEncoderVideo(true);
+	}
+
+	void playEncoderVideo(bool play) {
+		string file = Util.GetVideoFileName(currentSession.UniqueID, 
+				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+
+		bool errors = false;
+		if(file == null || file == "") 
+			errors = true;
+		else
+			if(! playVideo(file, true, play)) //encoder, start playing?
+				errors = true;
+
+		if(errors)
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Sorry, file not found"));
 	}

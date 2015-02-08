@@ -7,6 +7,7 @@
   <name xml:lang="en">Chronojump</name>
   <shortdesc xml:lang="en">Measurement, management and statistics of sport short-time tests</shortdesc>
   <homepage rdf:resource="http://chronojump.org" />
+  <programming-language>C#</programming-language>
 
   <maintainer>
     <foaf:Person>

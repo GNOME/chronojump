@@ -214,20 +214,16 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_chronopic_encoder;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
-	[Widget] Gtk.Notebook notebook_video_encoder;
-	[Widget] Gtk.Viewport viewport_video_capture_encoder;
-	[Widget] Gtk.Viewport viewport_video_play_encoder;
 	[Widget] Gtk.Label label_video_feedback;
-	[Widget] Gtk.Label label_video_feedback_encoder;
 	[Widget] Gtk.CheckButton checkbutton_video;
-	[Widget] Gtk.CheckButton checkbutton_video_encoder;
 	//[Widget] Gtk.Label label_video;
 	[Widget] Gtk.Image image_video_yes;
 	[Widget] Gtk.Image image_video_no;
+	
 	[Widget] Gtk.CheckButton checkbutton_volume;
 	[Widget] Gtk.Image image_volume;
-	[Widget] Gtk.CheckButton checkbutton_volume_encoder;
 	[Widget] Gtk.Image image_volume_encoder;
+	[Widget] Gtk.CheckButton checkbutton_volume_encoder;
 
 
 	//multiChronopic	

@@ -65,6 +65,15 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_encoder_export_all_curves;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
+		
+	//encoder video
+	[Widget] Gtk.Notebook notebook_video_encoder;
+	[Widget] Gtk.Viewport viewport_video_capture_encoder;
+	[Widget] Gtk.Viewport viewport_video_play_encoder;
+	[Widget] Gtk.RadioButton radiobutton_video_encoder_capture;
+	[Widget] Gtk.RadioButton radiobutton_video_encoder_play;
+	[Widget] Gtk.Label label_video_feedback_encoder;
+	[Widget] Gtk.CheckButton checkbutton_video_encoder;
 	
 	[Widget] Gtk.Notebook notebook_encoder_sup;
 	[Widget] Gtk.Notebook notebook_encoder_capture;
@@ -1300,7 +1309,8 @@ public partial class ChronoJumpWindow
 				encoderSignalUniqueID = eSQL.uniqueID;
 			
 				//has to be done here, because if done in encoderThreadStart or in finishPulsebar it crashes 
-				notebook_video_encoder.CurrentPage = 1;
+				//notebook_video_encoder.CurrentPage = 1;
+				radiobutton_video_encoder_play.Active = true;
 			
 				encoderConfigurationCurrent = eSQL.encoderConfiguration;
 
@@ -1848,7 +1858,9 @@ public partial class ChronoJumpWindow
 						eSQL.uniqueID = encoderSignalUniqueID;
 						SqliteEncoder.Update(false, eSQL);
 					
-						notebook_video_encoder.CurrentPage = 1;
+						//notebook_video_encoder.CurrentPage = 1;
+						radiobutton_video_encoder_play.Active  = true;
+						
 						viewport_video_play_encoder.Sensitive = true;
 						playVideoEncoderPrepare(false); //do not play
 					} else {
@@ -4451,6 +4463,7 @@ public partial class ChronoJumpWindow
 	}
 
 
+
 	/*
 	 * end of update encoder capture graph stuff
 	 */
@@ -5415,20 +5428,32 @@ LogB.Debug("D");
 		string file = Util.GetVideoFileName(currentSession.UniqueID, 
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
 
-		if(file == null || file == "" || ! File.Exists(file))
+		if(file == null || file == "" || ! File.Exists(file)) {
+			playerEncoder.Hide();
 			return;
+		}
 		
 		try {
+			playerEncoder.Show();
 			playerEncoder.Open(file);
 			if(play)
 				playerEncoder.Play();
-			else
-				playerEncoder.Show();
 		} catch {
 			new DialogMessage(Constants.MessageTypes.WARNING, 
 					Catalog.GetString("Sorry, file not found"));
 		}
 	}	
+	
+	public void on_radiobutton_video_encoder_capture_toggled (object obj, EventArgs args) {
+		if(radiobutton_video_encoder_capture.Active) {
+			notebook_video_encoder.CurrentPage = 0;
+		}
+	}
+	public void on_radiobutton_video_encoder_play_toggled (object obj, EventArgs args) {
+		if(radiobutton_video_encoder_play.Active) {
+			notebook_video_encoder.CurrentPage = 1;
+		}
+	}
 
 	/* end of video stuff */
 

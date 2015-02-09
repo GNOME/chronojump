@@ -1,6 +1,7 @@
-change version on configure.ac and src/AssemblyInfo.cs
+1) change version on configure.ac and src/AssemblyInfo.cs
 
-Update manual, check is "updated to last version"
+2) copy manual PDFs from chronojump-docs repository, because in chronojump repository PDFs are not updated
+check is "updated to last version"
 
 linux stuff
 ------------

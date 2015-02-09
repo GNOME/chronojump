@@ -73,6 +73,8 @@ while(input[1] != "Q") {
 		displacement = displacement[start:end]
 	}
 
+	position = cumsum(displacement)
+
 	g = 9.81
 		    
 	#read AnalysisOptions
@@ -85,11 +87,22 @@ while(input[1] != "Q") {
 	#simplify on capture and have the SmoothingEC == SmoothingC
 	SmoothingsEC = op$SmoothingOneC
 
+	#if ecS go kinematics first time with "e" and second with "c"
+	#ceS do the opposite
+	myEcconKn = op$Eccon
+	if(myEcconKn == "ecS" || myEcconKn == "ceS") { 
+		if(mean(displacement) < 0)
+			myEcconKn = "e"
+		else
+			myEcconKn = "c"
+	}
+
+
 	kinematicsResult <- kinematicsF(displacement, 
 		    op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
 		    op$EncoderConfigurationName, op$diameter, op$diameterExt, op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
 		    SmoothingsEC, op$SmoothingOneC, 
-		    g, op$Eccon, isPropulsive)
+		    g, myEcconKn, isPropulsive)
 
 	paf = data.frame()
 	paf = pafGenerate(op$Eccon, kinematicsResult, op$MassBody, op$MassExtra)

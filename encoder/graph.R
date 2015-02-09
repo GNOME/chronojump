@@ -1924,7 +1924,6 @@ doProcess <- function(options)
 		print("curves after reduceCurveBySpeed")
 		print(curves)
 
-		
 		if(curvesPlot) {
 			#/10 mm -> cm
 			for(i in 1:length(curves[,1])) { 

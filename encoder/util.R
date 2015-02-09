@@ -355,6 +355,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		smoothing = smoothingOneC
 	else
 		smoothing = smoothingOneEC
+	
 
 #print(c(" smoothing:",smoothing))
 

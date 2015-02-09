@@ -4858,6 +4858,9 @@ LogB.Debug("D");
 			LogB.Information("With trim");
 			LogB.Information(trimmed);
 
+			//fix if data couldn't be calculated from R
+			trimmed = trimmed.Replace("NA","0");
+
 			/*	
 			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					ecca.curvesAccepted +1,
@@ -4878,6 +4881,8 @@ LogB.Debug("D");
 					strs[5], strs[6], strs[7],	//powers
 					strs[8]);			//pp/ppt
 			
+			LogB.Debug("encoderCaptureStringR");
+			LogB.Debug(encoderCaptureStringR);
 
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));

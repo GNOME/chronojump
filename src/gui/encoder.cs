@@ -4914,6 +4914,11 @@ LogB.Debug("D");
 			LogB.Information("End from capture"); 
 			LogB.ThreadEnding(); 
 			finishPulsebar(encoderActions.CURVES);
+			
+			if(encoderProcessCancel) {
+				//stop video		
+				encoderStopVideoRecord();
+			}
 
 			if(! useRDotNet) {
 				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
@@ -4978,6 +4983,7 @@ LogB.Debug("D");
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
 			encoderStopVideoRecord();
+
 			capturingCsharp = encoderCaptureProcess.STOPPED;
 		} else {	//STOPPED	
 			LogB.Debug("at pulseGTKEncoderCaptureAndCurves stopped");		

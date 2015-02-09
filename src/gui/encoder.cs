@@ -491,6 +491,8 @@ public partial class ChronoJumpWindow
 			//tis notebook has capture (signal plotting), and curves (shows R graph)	
 			if(notebook_encoder_capture.CurrentPage == 1)
 				notebook_encoder_capture.PrevPage();
+				
+			radiobutton_video_encoder_capture.Active = true;
 
 			LogB.Debug("Calling encoderThreadStart for capture");
 			
@@ -1715,6 +1717,8 @@ public partial class ChronoJumpWindow
 		string feedback = "";
 		string fileSaved = "";
 		string path = "";
+
+		LogB.Debug("At encoderSaveSignalOrCurve");
 		
 		if(mode == "curve") {
 			signalOrCurve = "curve";
@@ -1816,7 +1820,7 @@ public partial class ChronoJumpWindow
 
 			path = UtilEncoder.GetEncoderSessionDataSignalDir(currentSession.UniqueID);
 		}
-
+		
 		string myID = "-1";	
 		if(mode == "signal")
 			myID = encoderSignalUniqueID;
@@ -1835,7 +1839,6 @@ public partial class ChronoJumpWindow
 
 		eSQL.encoderConfiguration = encoderConfigurationCurrent;
 
-		
 		//if is a signal that we just loaded, then don't insert, do an update
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
 		//This also saves curves
@@ -1862,7 +1865,6 @@ public partial class ChronoJumpWindow
 						radiobutton_video_encoder_play.Active  = true;
 						
 						viewport_video_play_encoder.Sensitive = true;
-						playVideoEncoderPrepare(false); //do not play
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -1880,6 +1882,7 @@ public partial class ChronoJumpWindow
 			feedback = Catalog.GetString("Set updated");
 		}
 		
+		LogB.Debug("At encoderSaveSignalOrCurve done");
 		return feedback;
 	}
 
@@ -5268,9 +5271,7 @@ LogB.Debug("D");
 					findAndMarkSavedCurves();
 				}
 				
-				if(action == encoderActions.LOAD) {
-					playVideoEncoderPrepare(false); //do not play
-				}
+				playVideoEncoderPrepare(false); //do not play
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 

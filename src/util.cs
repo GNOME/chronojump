@@ -839,6 +839,7 @@ public class Util
 	}
 
 	//returns absolute path, but in encoder this URL is stored in database as relative to be able to move data between computers
+	//see SqliteEncoder.removeURLpath
 	public static string GetVideoFileName (int sessionID, Constants.TestTypes testType, int uniqueID) {
 		return GetVideoSessionDir(sessionID) + Path.DirectorySeparatorChar + 
 			testType.ToString() + "-" + uniqueID.ToString() +

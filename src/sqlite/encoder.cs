@@ -137,7 +137,7 @@ class SqliteEncoder : Sqlite
 				", minHeight = " + es.minHeight +
 				", description = '" + es.description + 
 				"', status = '" + es.status + 
-				"', videoURL = '" + es.videoURL + 
+				"', videoURL = '" + removeURLpath(es.videoURL) + 
 				"', encoderConfiguration = '" + es.encoderConfiguration.ToString(":",true) + 
 				"', future1 = '" + Util.ConvertToPoint(es.future1) + 
 				"', future2 = '" + es.future2 + 

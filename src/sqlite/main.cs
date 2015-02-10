@@ -73,7 +73,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.20";
+	static string lastChronojumpDatabaseVersion = "1.21";
 
 	public Sqlite() {
 	}
@@ -1751,6 +1751,19 @@ class Sqlite
 
 				currentVersion = "1.20";
 			}
+			if(currentVersion == "1.20") {
+				LogB.SQL("Fixing loosing of encoder videoURL after recalculate");
+				
+				Sqlite.Open();
+				
+				SqliteOldConvert.ConvertAbsolutePathsToRelative(); //videoURLs got absolute again
+				SqliteOldConvert.FixLostVideoURLAfterEncoderRecalculate();
+
+				SqlitePreferences.Update ("databaseVersion", "1.21", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.21";
+			}
 	
 		}
 
@@ -1895,6 +1908,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.20 - 1.21 Converted DB to 1.21 Fixing loosing of encoder videoURL after recalculate
 		//1.19 - 1.20 Converted DB to 1.20 Preferences: added user email
 		//1.18 - 1.19 Converted DB to 1.19 Preferences deleted showHeight, added showStiffness
 		//1.17 - 1.18 Converted DB to 1.18 deleted Negative runInterval runs (bug from last version)

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -29,6 +29,49 @@ using Mono.Data.Sqlite;
 class SqliteOldConvert : Sqlite
 {
 
+	/*
+	 * DB 1.20 -> 1.21
+	 * "Fixing loosing of encoder videoURL after recalculate"
+	 * each encoder signal can have saved some encoder curves
+	 * both are records on encoder table
+	 * connection between them is found in encoderSignalCurve table.
+	 * Problem since chronojump 1.4.9 and maybe earlier is on recalculate: videoURL is deleted on signal
+	 * but hopefully not in curve
+	 * Now this problem has been fixed in new code and it does not get deleted.
+	 *
+	 * Following  method: is to restore signals that lost their videoURL value
+	 */
+
+	public static void FixLostVideoURLAfterEncoderRecalculate()
+	{
+		dbcmd.CommandText = "SELECT eSignal.uniqueID, eCurve.videoURL " + 
+			"FROM encoder AS eSignal, encoder AS eCurve, encoderSignalCurve " + 
+			"WHERE eSignal.signalOrCurve = 'signal' AND eCurve.signalOrCurve = 'curve' " + 
+			"AND eSignal.videoURL = '' AND eCurve.videoURL != '' " + 
+			"AND encoderSignalCurve.signalID = eSignal.uniqueID " +
+			"AND encoderSignalCurve.curveID = eCurve.uniqueID";
+
+		LogB.SQL(dbcmd.CommandText.ToString());
+		SqliteDataReader reader = dbcmd.ExecuteReader();
+
+		IDNameList idnamelist = new IDNameList();
+		while(reader.Read()) {
+			idnamelist.Add(new IDName(
+						Convert.ToInt32(reader[0].ToString()), //encoder signal uniqueID (this signal has lost his videoURL)
+						reader[1].ToString()	//videoURL of encoder curve
+					   ));
+		}
+		reader.Close();
+
+		foreach(IDName idname in idnamelist.l) 
+		{
+			dbcmd.CommandText = "UPDATE encoder SET videoURL = '" + idname.Name + "' " + 
+				"WHERE uniqueID = " + idname.UniqueID.ToString();
+			LogB.SQL(dbcmd.CommandText.ToString());
+			dbcmd.ExecuteNonQuery();
+		}
+	}
+	
 	//to be easier to move data between computers, absolute paths have to be converted to relative
 	//DB 1.11 -> 1.12
 	//dbcon is already opened

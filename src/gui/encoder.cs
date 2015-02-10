@@ -373,20 +373,23 @@ public partial class ChronoJumpWindow
 	}
 
 	private bool encoderCheckPort()	{
-		if(
-				chronopicWin.GetEncoderPort() == "" ||
-				chronopicWin.GetEncoderPort() == Util.GetDefaultPort()) 
-		{
-			new DialogMessage(Constants.MessageTypes.WARNING, 
-					Catalog.GetString("Chronopic port is not configured."));
-			/*
-			UtilGtk.ChronopicColors(viewport_chronopic_encoder, 
-					label_chronopic_encoder, new Gtk.Label(),
-					false);
-					*/
+		string port = chronopicWin.GetEncoderPort();
+		string errorMessage = "";
+
+		if( port == null || port == "" || port == Util.GetDefaultPort() )
+			errorMessage = "Chronopic port is not configured";
+		else if( ! UtilAll.IsWindows() )
+		       if( ! File.Exists(port) )
+				errorMessage = "Chronopic has been disconnected";
+
+
+		if(errorMessage != "") {
+			LogB.Warning(errorMessage);
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString(errorMessage));
 			createChronopicWindow(true);
 			return false;
 		}
+
 		return true;
 	}
 
@@ -2013,7 +2016,7 @@ public partial class ChronoJumpWindow
 		int heightG = encoder_capture_signal_drawingarea.Allocation.Height;
 		double realHeightG = 1000 * 2 * encoderCaptureOptionsWin.spin_encoder_capture_curves_height_range.Value;
 		
-		LogB.Debug("runEncoderCaptureCsharp start");
+		LogB.Debug("runEncoderCaptureCsharp start port:", port);
 		SerialPort sp = new SerialPort(port);
 		sp.BaudRate = 115200;
 		LogB.Information("sp created");
@@ -2091,6 +2094,7 @@ public partial class ChronoJumpWindow
 				encoderProcessCancel = true;
 				break;
 			}
+
 
 			if(byteReadedRaw > 128)
 				byteReadedRaw = byteReadedRaw - 256;

@@ -2851,12 +2851,12 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 0;
 			menuitem_mode_selected_jumps.Visible = true;
-			notebooks_change(0);
+			radio_mode_jumps_small.Active = true;
 		} else if(m == menuitem_modes.RUNS) {
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 1;
 			menuitem_mode_selected_runs.Visible = true;
-			notebooks_change(2);
+			radio_mode_runs_small.Active = true;
 		} else if(m == menuitem_modes.POWER) {
 			notebook_sup.CurrentPage = 1;
 			menuitem_mode_selected_power.Visible = true;
@@ -2864,7 +2864,7 @@ public partial class ChronoJumpWindow
 			notebook_sup.CurrentPage = 0;
 			notebook_sup_contacts.CurrentPage = 2;
 			menuitem_mode_selected_other.Visible = true;
-			notebooks_change(4);
+			radio_mode_reaction_times_small.Active = true;
 		}
 
 		//show the program
@@ -3466,18 +3466,22 @@ public partial class ChronoJumpWindow
 
 		if(radio_mode_jumps_small.Active) 
 		{
+			LogB.Debug("radio_mode_jumps_small");
 			on_normal_jump_activate(o, args);
 		}
 		else if(radio_mode_jumps_reactive_small.Active) 
 		{
+			LogB.Debug("radio_mode_jumps_reactive_small");
 			on_rj_activate(o, args);
 		}
 		else if(radio_mode_runs_small.Active) {
+			LogB.Debug("radio_mode_runs_small");
 			extra_window_runs_distance = (double) extra_window_runs_spinbutton_distance.Value;
 			
 			on_normal_run_activate(o, args);
 		}
 		else if(radio_mode_runs_intervallic_small.Active) {
+			LogB.Debug("radio_mode_runs_i_small");
 			//RSA runs cannot be simulated because it's complicated to manage the countdown event...
 			if(currentRunIntervalType.IsRSA && !chronopicWin.Connected) {
 				new DialogMessage(Constants.MessageTypes.WARNING, 
@@ -3491,12 +3495,15 @@ public partial class ChronoJumpWindow
 			on_run_interval_activate(o, args);
 		}
 		else if(radio_mode_reaction_times_small.Active) {
+			LogB.Debug("radio_mode_rt");
 			on_reaction_time_activate (o, args);
 		}
 		else if(radio_mode_pulses_small.Active) {
+			LogB.Debug("radio_mode_pulses");
 			on_pulse_activate (o, args);
 		}
 		else if(radio_mode_multi_chronopic_small.Active) {
+			LogB.Debug("radio_mode_mc");
 			on_multi_chronopic_start_clicked(o, args);
 		}
 

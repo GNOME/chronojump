@@ -490,6 +490,10 @@ public class EventExecute
 		
 		//event will be raised, and managed in chronojump.cs
 		fakeButtonFinished.Click();
+			
+		//event will be raised, and managed in chronojump.cs
+		//calls sensitiveGuiEventDone()
+		fakeButtonThreadDyed.Click();
 	}
 
 	protected void chronopicHasBeenDisconnected() {

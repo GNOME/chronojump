@@ -2074,6 +2074,11 @@ public partial class ChronoJumpWindow
 		int previousFrameChange = 0;
 		int previousEnd = 0;
 		int lastNonZero = 0;
+		
+		//used to send the heightAtCurveStart to R
+		//this is need on inertial to convert on direction curve (recorded by encoder) to a con-ecc curve (done by the person)
+		double heightAtCurveStart = 0;
+		double heightAccumulated = 0;
 
 		//this will be used to stop encoder automatically	
 		int consecutiveZeros = -1;		
@@ -2219,7 +2224,10 @@ public partial class ChronoJumpWindow
 							
 							string eccon = findEccon(true);
 							LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
-							if(ecc.endFrame - ecc.startFrame > 0 ) {
+							if(ecc.endFrame - ecc.startFrame > 0 ) 
+							{
+								heightAtCurveStart = heightAccumulated;
+
 								double heightCurve = 0;
 								double [] curve = new double[ecc.endFrame - ecc.startFrame];
 								for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
@@ -2229,6 +2237,8 @@ public partial class ChronoJumpWindow
 								}
 									
 								previousEnd = ecc.endFrame;
+
+								heightAccumulated += heightCurve;
 								
 								heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
 								LogB.Information(" height: " + heightCurve.ToString());
@@ -2243,7 +2253,13 @@ public partial class ChronoJumpWindow
 										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) &&	//2
 										! ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 )  //3
 								  ) {
-									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(pCaptureNoRDotNet, curve);
+									//this is need on inertial to convert on direction curve (recorded by encoder) 
+									//to a con-ecc curve (done by the person)
+									if(encoderConfigurationCurrent.has_inertia)
+										curve[0] = heightAtCurveStart; 
+
+									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
+											pCaptureNoRDotNet, curve);
 									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
 									ecca.ecc.Add(ecc);
@@ -4954,7 +4970,7 @@ LogB.Debug("D");
 							Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
 							layout_encoder_capture_curves_bars);
 
-					updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
+					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 				} else
 					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 			} else {

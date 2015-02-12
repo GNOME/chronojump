@@ -686,7 +686,7 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 	#TODO: check if started backwards on realtime capture (extrema is null)
 	firstDownPhaseTime = 1
 	downHeight = 0
-	if(position.ext$nextreme > 0) {
+	if( position.ext$nextreme > 0 && ! is.null(position.ext$minindex) && ! is.null(position.ext$maxindex) ) {
 		#Fix if disc goes wrong direction at start
 		if(position.ext$maxindex[1] < position.ext$minindex[1]) {
 			displacement = displacement * -1
@@ -768,8 +768,9 @@ fixDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#angle in radians
-		angle = abs(cumsum(displacementMeters * 1000)) * 2 * pi / ticksRotaryEncoder
-		position = angle * diameterMeters / 2
+		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
+		#abs makes it change direction when signal is lower than initial position (0)
+		position = abs(angle * diameterMeters / 2)
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
 		displacement = c(0,diff(position)) #this displacement is going to be used now

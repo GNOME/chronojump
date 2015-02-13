@@ -3231,6 +3231,13 @@ public partial class ChronoJumpWindow
 	void on_button_encoder_analyze_1RM_save_clicked (object o, EventArgs args)
 	{
 		string contents = Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true);
+		//if 1RM button is sensitive and there's no 1RM data 
+		//(because a not-1RM test have been done and software has a sensitivity bug), return
+		if(contents != null && contents != "") {
+			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Not enough data."));
+			return;
+		}
+
 		string [] load1RMStr = contents.Split(new char[] {';'});
 		double load1RM = Convert.ToDouble(Util.ChangeDecimalSeparator(load1RMStr[1]));
 
@@ -5371,7 +5378,8 @@ LogB.Debug("D");
 			string crossName = Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
 			button_encoder_analyze_1RM_save.Sensitive = 
-				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise");
+				(radiobutton_encoder_analyze_cross.Active &&
+				(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") );
 		}
 
 		treeview_encoder_capture_curves.Sensitive = true;

@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -359,7 +359,7 @@ public class EventExecute
 			progressbarEventOrTimeExecution (egd.Progressbar_time, percentageMode, egd.Label_time_value, events);
 	}
 
-	protected void progressbarEventOrTimeExecution (Gtk.ProgressBar progressbar, bool percentageMode, Gtk.Label label_value, double events)
+	private void progressbarEventOrTimeExecution (Gtk.ProgressBar progressbar, bool percentageMode, Gtk.Label label_value, double events)
 	{
 		if(progressbarLimit == -1) {	//unlimited event (until 'finish' is clicked)
 			progressbar.Pulse();

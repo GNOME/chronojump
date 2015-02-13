@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -41,7 +41,7 @@ public class RunExecute : EventExecute
 	protected enum runPhases {
 		PRE_RUNNING, PLATFORM_INI_YES_TIME, PLATFORM_INI_NO_TIME, RUNNING, PLATFORM_END
 	}
-	protected runPhases runPhase;
+	protected static runPhases runPhase;
 		
 	protected bool checkDoubleContact;
 	protected int checkDoubleContactTime;
@@ -272,6 +272,8 @@ public class RunExecute : EventExecute
 							success = true;
 
 						if(success) {
+							runPhase = runPhases.PLATFORM_END;
+
 							//add the first contact time if PLATFORM_INI_YES_TIME
 							if(timestampFirstContact > 0)
 								timestamp += timestampFirstContact;
@@ -288,8 +290,6 @@ public class RunExecute : EventExecute
 									3
 									);  
 							needUpdateEventProgressBar = true;
-
-							runPhase = runPhases.PLATFORM_END;
 						}
 					}
 				}
@@ -338,7 +338,7 @@ public class RunExecute : EventExecute
 	}
 	
 	protected override void updateTimeProgressBar() {
-		/* 5 situations:
+		/* 4 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
 		 *		case runPhases.PRE_RUNNING
 		 *   2-  if we are on the platform, it should be a pulse
@@ -351,8 +351,13 @@ public class RunExecute : EventExecute
 		 *   3- if we leave the platform, it should be a pulse with timerCount on label:
 		 *		case runPhases.RUNNING
 		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label:
-		 *		case runPhases.PLATFORM_END
+		 *		case runPhases.PLATFORM_END.
+		 *		Don't update time label here because later it will be overrided with the good data from Chronopic
+		 *		and sometimes can happen in different order, and then bad data (timerCount) will be shown on label at the end of test
 		 */
+			
+		if(runPhase == runPhases.PLATFORM_END) //see comment above
+			return;
 		
 		double myTimeValue = 0;
 		switch (runPhase) {
@@ -367,10 +372,6 @@ public class RunExecute : EventExecute
 				break;
 			case runPhases.RUNNING:
 				myTimeValue = timerCount; //show time from the timerCount
-				break;
-			case runPhases.PLATFORM_END:
-				myTimeValue = timerCount; //show time from the timerCount
-				//but chronojump.cs will update info soon with chronopic value
 				break;
 		}
 				
@@ -659,10 +660,11 @@ public class RunIntervalExecute : RunExecute
 								//has arrived, limited by tracks
 								if(tracks >= limitAsDouble) 
 								{
+									runPhase = runPhases.PLATFORM_END;
+
 									//finished
 									writeRunInterval(false); //tempTable = false
 									success = true;
-									runPhase = runPhases.PLATFORM_END;
 								}
 								//progressBarEventOrTimePreExecution(
 								updateProgressBar= new UpdateProgressBar (
@@ -743,6 +745,8 @@ public class RunIntervalExecute : RunExecute
 		} while ( ! success && ! cancel && ! finish );
 
 		if (finish) {
+			runPhase = runPhases.PLATFORM_END;
+
 			//write();
 			//write only if there's a run at minimum
 			if(Util.GetNumberOfJumps(intervalTimesString, false) >= 1) {
@@ -753,8 +757,6 @@ public class RunIntervalExecute : RunExecute
 				//cancel a run if clicked finish before any events done, or ended by time without events
 				cancel = true;
 			}
-
-			runPhase = runPhases.PLATFORM_END;
 		}
 		if(cancel || finish) {
 			//event will be raised, and managed in chronojump.cs
@@ -799,7 +801,7 @@ public class RunIntervalExecute : RunExecute
 	}
 	
 	protected override void updateTimeProgressBar() {
-		/* 5 situations:
+		/* 4 situations:
 		 *   1- if we start out and have not arrived to platform, it should be a pulse with no time value on label:
 		 *		case runPhases.PRE_RUNNING
 		 *   2-  if we are on the platform, it should be a pulse
@@ -813,7 +815,12 @@ public class RunIntervalExecute : RunExecute
 		 *		case runPhases.RUNNING
 		 *   4- if we arrive (finish), it should be a pulse with chronopic time on label:
 		 *		case runPhases.PLATFORM_END
+		 *		Don't update time label here because later it will be overrided with the good data from Chronopic
+		 *		and sometimes can happen in different order, and then bad data (timerCount) will be shown on label at the end of test
 		 */
+		
+		if(runPhase == runPhases.PLATFORM_END) //see comment above
+			return;
 		
 		double myTimeValue = 0;
 		bool percentageMode = true; //false is activity mode
@@ -833,11 +840,6 @@ public class RunIntervalExecute : RunExecute
 			case runPhases.RUNNING:
 				percentageMode = !tracksLimited;
 				myTimeValue = timerCount; //show time from the timerCount
-				break;
-			case runPhases.PLATFORM_END:
-				percentageMode = !tracksLimited;
-				myTimeValue = timerCount; //show time from the timerCount
-				//but chronojump.cs will update info soon with chronopic value
 				break;
 		}
 			

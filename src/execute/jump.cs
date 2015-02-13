@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2014   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2015   Xavier de Blas <xaviblas@gmail.com> 
  */
 
 using System;
@@ -39,8 +39,13 @@ public class JumpExecute : EventExecute
 	//better as private and don't inherit, don't know why
 	//protected Chronopic cp;
 	private Chronopic cp;
-
-	private Jump jumpDone;
+	
+	//used by the updateTimeProgressBar for display its time information
+	//copied from execute/run.cs 
+	protected enum jumpPhases {
+		PRE_OR_DOING, PLATFORM_END
+	}
+	protected static jumpPhases jumpPhase;
 
 	private int angle = -1;
 	
@@ -135,6 +140,8 @@ public class JumpExecute : EventExecute
 			//prepare jump for being cancelled if desired
 			cancel = false;
 			totallyCancelled = false;
+			
+			jumpPhase = jumpPhases.PRE_OR_DOING;
 	
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that we have leaved platform:
@@ -215,6 +222,8 @@ public class JumpExecute : EventExecute
 			//prepare jump for being cancelled if desired
 			cancel = false;
 			totallyCancelled = false;
+
+			jumpPhase = jumpPhases.PRE_OR_DOING;
 
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			if (simulated) {
@@ -334,6 +343,9 @@ public class JumpExecute : EventExecute
 						LogB.Information(string.Format("t1:{0}", timestamp));
 
 						tv = timestamp / 1000.0;
+					
+						jumpPhase = jumpPhases.PLATFORM_END;
+						
 						write();
 
 						success = true;
@@ -369,6 +381,9 @@ public class JumpExecute : EventExecute
 						//if(fixedValue == 0.5) 
 						if(type == Constants.TakeOffName || type == Constants.TakeOffWeightName) {
 							tv = 0;
+						
+							jumpPhase = jumpPhases.PLATFORM_END;
+							
 							write();
 							success = true;
 						}
@@ -468,6 +483,9 @@ public class JumpExecute : EventExecute
 	}
 	
 	protected override void updateTimeProgressBar() {
+		if(jumpPhase == jumpPhases.PLATFORM_END)
+			return;
+
 		//until it has not landed for first time, show a pulse with no values
 		progressBarEventOrTimePreExecution(
 				false, //isEvent false: time
@@ -476,11 +494,6 @@ public class JumpExecute : EventExecute
 				); 
 	}
 	
-/*
-	public Jump JumpDone {
-		get { return jumpDone; }
-	}
-*/
 	public virtual bool TypeHasWeight
 	{
 		get { return SqliteJumpType.HasWeight("jumpType", type); }
@@ -657,6 +670,8 @@ public class JumpRjExecute : JumpExecute
 			finish = false;
 			totallyFinished = false;
 			
+			jumpPhase = jumpPhases.PRE_OR_DOING;
+			
 			//in simulated mode, make the jump start just when we arrive to waitEvent at the first time
 			//mark now that the opposite as before:
 			if (simulated) {
@@ -784,6 +799,8 @@ public class JumpRjExecute : JumpExecute
 					if(limitAsDouble != -1) {
 						if(Util.GetNumberOfJumps(tvString, false) >= limitAsDouble)
 						{
+							jumpPhase = jumpPhases.PLATFORM_END;
+
 							writeRj(false); //tempTable
 							success = true;
 						
@@ -816,6 +833,8 @@ public class JumpRjExecute : JumpExecute
 		if (finish) {
 			//write only if there's a jump at minimum
 			if(Util.GetNumberOfJumps(tcString, false) >= 1 && Util.GetNumberOfJumps(tvString, false) >= 1) {
+				jumpPhase = jumpPhases.PLATFORM_END;
+
 				writeRj(false); //tempTable
 				
 				totallyFinished = true;
@@ -876,6 +895,10 @@ public class JumpRjExecute : JumpExecute
 
 	protected override void updateTimeProgressBar() {
 		//limited by jumps or time or unlimited, but has no finished
+		
+		if(jumpPhase == jumpPhases.PLATFORM_END)
+			return;
+
 
 		if(firstRjValue)  
 			//until it has not landed for first time, show a pulse with no values
@@ -886,7 +909,7 @@ public class JumpRjExecute : JumpExecute
 					); 
 		else
 			//after show a progressBar with time value
-			if(! finish) 
+			if(! finish) //this finish happens when user clicks 'finish' or it finished by time. The above PLATFORM_END is used when test end by done tracks
 				progressBarEventOrTimePreExecution(
 						false, //isEvent false: time
 						!jumpsLimited, //if jumpsLimited: activity, if timeLimited: fraction

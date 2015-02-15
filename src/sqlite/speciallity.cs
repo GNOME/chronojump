@@ -45,17 +45,27 @@ class SqliteSpeciallity : Sqlite
 	{
 		conversionSubRateTotal = Speciallities.Length;
 		conversionSubRate = 0;
-		foreach(string myString in Speciallities) {
-			string [] strFull = myString.Split(new char[] {':'});
-			string sportName = strFull[0];
-			string speciallityEnglishName = strFull[1];
-			int sportID = SqliteSport.SelectID(sportName);
-			Insert(true, sportID, speciallityEnglishName);
-			conversionSubRate ++;
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+	
+				foreach(string myString in Speciallities) {
+					string [] strFull = myString.Split(new char[] {':'});
+					string sportName = strFull[0];
+					string speciallityEnglishName = strFull[1];
+					int sportID = SqliteSport.SelectID(sportName);
+					Insert(true, dbcmdTr, sportID, speciallityEnglishName);
+					conversionSubRate ++;
+				}
+			}
+			tr.Commit();
 		}
 	}
 
-	public static int Insert(bool dbconOpened, int sportID, string speciallityName)
+	public static int Insert(bool dbconOpened, SqliteCommand mycmd, int sportID, string speciallityName)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -63,14 +73,15 @@ class SqliteSpeciallity : Sqlite
 		string myString = "INSERT INTO " + Constants.SpeciallityTable + 
 			" (uniqueID, sportID, name) VALUES (NULL, " + sportID + ", '" + speciallityName + "')"; 
 		
-		dbcmd.CommandText = myString;
-		dbcmd.ExecuteNonQuery();
+		mycmd.CommandText = myString;
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
 		myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+		mycmd.CommandText = myString;
+		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
 			Sqlite.Close();

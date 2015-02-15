@@ -47,21 +47,28 @@ class SqliteEvent : Sqlite
 		dbcmd.ExecuteNonQuery();
 	}
 	
-	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened)
+	//called from some Chronojump methods
+	//adds dbcmd to be used on next Insert method
+	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened) 
+	{
+		return GraphLinkInsert(tableName, eventName, graphFileName, dbconOpened, dbcmd);
+	}
+	//Called from initialize jump, jumpRj
+	public static int GraphLinkInsert(string tableName, string eventName, string graphFileName, bool dbconOpened, SqliteCommand mycmd)
 	{
 		if(! dbconOpened) {
 			Sqlite.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO graphLinkTable" + 
+		mycmd.CommandText = "INSERT INTO graphLinkTable" + 
 				"(uniqueID, tableName, eventName, graphFileName, other1, other2)" +
 				" VALUES (NULL, '" + tableName + "', '" + eventName + "', '" + graphFileName + "', '', '')" ;
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
 		string myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+		mycmd.CommandText = myString;
+		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		if(! dbconOpened) {
 			Sqlite.Close();
 		}

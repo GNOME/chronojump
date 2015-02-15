@@ -69,9 +69,19 @@ class SqliteJumpType : Sqlite
 		};
 		conversionSubRateTotal = iniJumpTypes.Length;
 		conversionSubRate = 0;
-		foreach(string myJumpType in iniJumpTypes) {
-			JumpTypeInsert(myJumpType, true);
-			conversionSubRate ++;
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+	
+				foreach(string myJumpType in iniJumpTypes) {
+					JumpTypeInsert(myJumpType, true, dbcmdTr);
+					conversionSubRate ++;
+				}
+			}
+			tr.Commit();
 		}
 
 		AddGraphLinks();	
@@ -81,18 +91,26 @@ class SqliteJumpType : Sqlite
 	//don't put the full description because if the user changes language, description will be in old lang
 	//description will be on src/jumpType
 	public static void AddGraphLinks() {
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Free", "jump_free.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJ", "jump_sj.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJl", "jump_sj_l.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJ", "jump_cmj.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true);
-		//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true); //we already have "Free"
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true);
-		//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJ", "jump_dj.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj_a.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJna", "jump_dj.png", true);
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Free", "jump_free.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJ", "jump_sj.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "SJl", "jump_sj_l.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJ", "jump_cmj.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "CMJl", "jump_cmj_l.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABK", "jump_abk.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "ABKl", "jump_abk_l.png", true, dbcmdTr);
+				//SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Max", "jump_max.png", true, dbcmdTr); //we already have "Free"
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "Rocket", "jump_rocket.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJa", "jump_dj_a.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpTable, "DJna", "jump_dj.png", true, dbcmdTr);
+			}
+			tr.Commit();
+		}
 	}
 
 	//creates table containing the types of repetitive Jumps
@@ -132,56 +150,89 @@ class SqliteJumpType : Sqlite
 			"triple jump:0:0:1:3:Triple jump",
 			//"RunAnalysis:0:0:1:-1:Run between two photocells recording contact and flight times in contact platform/s. Until finish button is clicked."
 		};
-		foreach(string myJumpType in iniJumpTypes) {
-			JumpRjTypeInsert(myJumpType, true);
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				foreach(string myJumpType in iniJumpTypes) {
+					JumpRjTypeInsert(myJumpType, true, dbcmdTr);
+				}
+			}
+			tr.Commit();
 		}
 		
 		AddGraphLinksRj();	
 	}
 
 	public static void AddGraphLinksRj() {
-		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(j)", "jump_rj.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(t)", "jump_rj.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(unlimited)", "jump_rj_in.png", true);
-		SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "triple jump", "jump_rj.png", true);
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+				
+				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(j)", "jump_rj.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(t)", "jump_rj.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "RJ(unlimited)", "jump_rj_in.png", true, dbcmdTr);
+				SqliteEvent.GraphLinkInsert (Constants.JumpRjTable, "triple jump", "jump_rj.png", true, dbcmdTr);
+			}
+			tr.Commit();
+		}
 	}
 
 	/*
 	 * JumpType class methods
 	 */
 
+	//called from some Chronojump methods
+	//adds dbcmd to be used on next Insert method
 	public static void JumpTypeInsert(string myJump, bool dbconOpened)
+	{
+		JumpTypeInsert(myJump, dbconOpened, dbcmd);
+	}
+	//Called from initialize
+	public static void JumpTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
 			Sqlite.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
+		mycmd.CommandText = "INSERT INTO " + Constants.JumpTypeTable +  
 				" (uniqueID, name, startIn, weight, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", '" + myStr[3] + "')" ;	//weight, description
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			Sqlite.Close();
 		}
 	}
 
+	//called from some Chronojump methods
+	//adds dbcmd to be used on next Insert method
 	public static void JumpRjTypeInsert(string myJump, bool dbconOpened)
+	{
+		JumpRjTypeInsert(myJump, dbconOpened, dbcmd);
+	}
+	//Called from initialize
+	public static void JumpRjTypeInsert(string myJump, bool dbconOpened, SqliteCommand mycmd)
 	{
 		string [] myStr = myJump.Split(new char[] {':'});
 		if(! dbconOpened) {
 			Sqlite.Open();
 		}
-		dbcmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
+		mycmd.CommandText = "INSERT INTO " + Constants.JumpRjTypeTable + 
 				" (uniqueID, name, startIn, weight, jumpsLimited, fixedValue, description)" +
 				" VALUES (NULL, '"
 				+ myStr[0] + "', " + myStr[1] + ", " +	//name, startIn
 				myStr[2] + ", " + myStr[3] + ", " +	//weight, jumpsLimited
 				myStr[4] + ", '" + myStr[5] + "')" ;	//fixedValue, description
-		LogB.SQL(dbcmd.CommandText.ToString());
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 		if(! dbconOpened) {
 			Sqlite.Close();
 		}

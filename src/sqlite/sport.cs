@@ -46,17 +46,35 @@ class SqliteSport : Sqlite
 	{
 		conversionSubRateTotal = sportsChronojump.Length;
 		conversionSubRate = 0;
-		foreach(string sportString in sportsChronojump) {
-			//put in db only english name
-			string [] sportFull = sportString.Split(new char[] {':'});
-			//Sport sport = new Sport(sportFull[0]);
-			Insert(true, "-1", sportFull[0], false,  		//dbconOpened, not user defined 
-					Util.StringToBool(sportFull[2]), sportFull[3]);	//hasSpeciallities, graphLink
-			conversionSubRate ++;
+
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+	
+				foreach(string sportString in sportsChronojump) {
+					//put in db only english name
+					string [] sportFull = sportString.Split(new char[] {':'});
+					//Sport sport = new Sport(sportFull[0]);
+					Insert(true, dbcmdTr, "-1", sportFull[0], false,  		//dbconOpened, not user defined 
+							Util.StringToBool(sportFull[2]), sportFull[3]);	//hasSpeciallities, graphLink
+					conversionSubRate ++;
+				}
+			}
+			tr.Commit();
 		}
 	}
 
+	//called from some Chronojump methods
+	//adds dbcmd to be used on next Insert method
 	public static int Insert(bool dbconOpened, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
+	{
+		return Insert(dbconOpened, dbcmd, uniqueID, name, userDefined, hasSpeciallities, graphLink);
+
+	}
+	//Called from initialize
+	public static int Insert(bool dbconOpened, SqliteCommand mycmd, string uniqueID, string name, bool userDefined, bool hasSpeciallities, string graphLink)
 	{
 		if(! dbconOpened)
 			Sqlite.Open();
@@ -68,15 +86,16 @@ class SqliteSport : Sqlite
 			" (uniqueID, name, userDefined, hasSpeciallities, graphLink) VALUES (" + uniqueID + ", '" + name + "', " + 
 			Util.BoolToInt(userDefined) + ", " + Util.BoolToInt(hasSpeciallities) + ", '" + graphLink + "')";
 		
-		dbcmd.CommandText = myString;
-		dbcmd.ExecuteNonQuery();
+		mycmd.CommandText = myString;
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 		
 
 		//int myLast = dbcon.LastInsertRowId;
 		//http://stackoverflow.com/questions/4341178/getting-the-last-insert-id-with-sqlite-net-in-c
 		myString = @"select last_insert_rowid()";
-		dbcmd.CommandText = myString;
-		int myLast = Convert.ToInt32(dbcmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
+		mycmd.CommandText = myString;
+		int myLast = Convert.ToInt32(mycmd.ExecuteScalar()); // Need to type-cast since `ExecuteScalar` returns an object.
 		
 		if(! dbconOpened)
 			Sqlite.Close();

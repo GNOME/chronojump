@@ -37,7 +37,9 @@ public class Constants
 		"Xavier de Blas Foix (xaviblas@gmail.com)\n\t" + 
 			Catalog.GetString("Main developer.") + "\n",
 		"Andoni Morales Alastruey (http://ylatuya.es)\n\t" + 
-			Catalog.GetString("Installation support: Autotools, packaging, bundle.")
+			Catalog.GetString("Installation support: Autotools, packaging, bundle.") + "\n",
+		"Carles Pina i Estany (http://pinux.info)\n\t" + 
+			Catalog.GetString("Backend developer.")
 	};
 	public static string [] AuthorsChronopic = {
 		"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +

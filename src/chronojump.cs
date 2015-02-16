@@ -185,8 +185,8 @@ public class ChronoJump
 
 	//variables to manage the ping thread
 	string versionAvailable;
-	bool pingStart;
-	bool pingEnd;
+	//bool pingStart;
+	//bool pingEnd;
 	bool pulseGTKPingShouldEnd;
 	bool allSQLCallsDoneOnSqliteThingsThread;
 
@@ -347,10 +347,11 @@ public class ChronoJump
 
 		//connect to server to Ping
 		versionAvailable = "";
+		/*
 		pingStart = false;
 		pingEnd = false;
 		
-		/* disable server connection on start until server is not working on windows again  */
+		// disable server connection on start until server is not working on windows again 
 		bool connectServerAtStart = false;
 		if(connectServerAtStart) {
 			thread = new Thread(new ThreadStart(findVersion));
@@ -363,15 +364,28 @@ public class ChronoJump
 		}
 		else
 			on_find_version_cancelled(new object(), new EventArgs());
+		*/
+		versionAvailable = Constants.ServerOffline;
+	
+
+		//doing ping using json methods
+		Json js = new Json();
+		bool success = js.Ping(UtilAll.GetOS(), progVersion);
+		if(success)
+			LogB.Information(js.ResultMessage);
+		else
+			LogB.Error(js.ResultMessage);
 
 		
 		allSQLCallsDoneOnSqliteThingsThread = false;
-
+			
 		//wait until pinging ends (or it's cancelled)
-		while(! pingEnd) {
-		}
+		//while(! pingEnd) {
+		//}
 
-		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable");
+		Sqlite.Open();
+
+		string versionAvailableKnown = SqlitePreferences.Select("versionAvailable", true);
 		if( versionAvailable != Constants.ServerOffline && new Version(versionAvailable) > new Version(progVersion) ) {
 			//check if available version is higher than known available version
 			Version versionAvailableAsV = new Version(versionAvailable);
@@ -389,7 +403,7 @@ public class ChronoJump
 			if(updateKnownVersion) {
 				//is the first time we know about this new version
 				//just write on db and show message to user
-				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, false);
+				SqlitePreferences.Update(Constants.PrefVersionAvailable, versionAvailable, true);
 				versionAvailableKnown = versionAvailable;
 				messageToShowOnBoot += string.Format(Catalog.GetString(
 							"\nNew Chronojump version available on website.\nYour Chronojump version is: {1}"), 
@@ -406,7 +420,7 @@ public class ChronoJump
 				       Catalog.GetString("Please, update to new version: ") + versionAvailableKnown + "\n";
 			else {
 				messageToShowOnBoot += messageChrashedBefore;
-				//SqlitePreferences.Update("videoOn", "False", false);
+				//SqlitePreferences.Update("videoOn", "False", true);
 			}
 		}
 		
@@ -415,7 +429,9 @@ public class ChronoJump
 		
 
 		//start as "simulated"
-		SqlitePreferences.Update("simulated", "True", false); //false (dbcon not opened)
+		SqlitePreferences.Update("simulated", "True", true); //dbcon opened
+
+		Sqlite.Close();
 		
 		allSQLCallsDoneOnSqliteThingsThread = true;
 		LogB.SQL("all SQL calls done on sqliteThings thread");
@@ -430,7 +446,7 @@ public class ChronoJump
 
 	private void findVersion() {
 		LogB.Debug("--1--");
-		pingStart = true;
+		//pingStart = true;
 		pulseGTKPingShouldEnd = false;
 		splashShowButton = true;
 		
@@ -461,7 +477,7 @@ public class ChronoJump
 		splashShowButton = false;
 		LogB.Information(" version:  ", versionAvailable);
 		LogB.Debug("\n--5--");
-		pingEnd = true;
+		//pingEnd = true;
 		LogB.Debug("--6--");
 	}
 		
@@ -469,7 +485,7 @@ public class ChronoJump
 		splashShowButton = false;
 		pulseGTKPingShouldEnd = true;
 		versionAvailable = Constants.ServerOffline;
-		pingEnd = true;
+		//pingEnd = true;
 	}
 
 	protected void readMessageToStart() {
@@ -560,8 +576,9 @@ public class ChronoJump
 		if(quitNow) 
 			return false;
 
-		if( ( needEndSplashWin && pingEnd ) 
-				|| ! thread.IsAlive) {
+		//if( ( needEndSplashWin && pingEnd ) 
+		//		|| ! thread.IsAlive) {
+		if( needEndSplashWin || ! thread.IsAlive ) {
 			LogB.ThreadEnding();
 			fakeSplashButton.Click();
 
@@ -608,6 +625,7 @@ public class ChronoJump
 		readMessageToStart();
 	}
 
+	/*
 	protected bool PulseGTKPing ()
 	{
 		if(pulseGTKPingShouldEnd) {
@@ -627,8 +645,8 @@ public class ChronoJump
 			pulseGTKPingShouldEnd = true;
 		return true;
 	}
+	*/
 	
-		
 	/* ---------------------
 	 * other support methods 
 	 * ---------------------*/

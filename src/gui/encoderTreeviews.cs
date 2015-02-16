@@ -77,10 +77,10 @@ public partial class ChronoJumpWindow
 							//cells[2], 	//exerciseName
 							//cells[3], 	//massBody
 							//cells[4], 	//massExtra
-							cells[5], cells[6], cells[7], 
-							cells[8], cells[9], cells[10], 
-							cells[11], cells[12], cells[13],
-							cells[14]
+							cells[5], cells[6], cells[7], //start, duration, height 
+							cells[8], cells[9], cells[10], //meanSpeed, maxSpeed, maxSpeedT
+							cells[11], cells[12], cells[13], //meanPower, peakPower, peakPowerT
+							cells[14]			//peakPower / peakPowerT
 							));
 
 			} while(true);

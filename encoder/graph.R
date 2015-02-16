@@ -1108,15 +1108,15 @@ findPosInPaf <- function(var, option) {
 	else if(var == "Force")
 		pos = 8
 	else if(var == "Load") #MassDisplaced
-		pos = 10
-	else if(var == "MassBody")
 		pos = 11
-	else if(var == "MassExtra")
+	else if(var == "MassBody")
 		pos = 12
+	else if(var == "MassExtra")
+		pos = 13
 	
 	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
 		pos=pos+1
-	if( ( var == "Speed" || var == "Power") & option == "time")
+	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "time")
 		pos=pos+2
 
 	return(pos)

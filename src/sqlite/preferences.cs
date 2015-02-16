@@ -37,60 +37,77 @@ class SqlitePreferences : Sqlite
 	
 	protected internal static void initializeTable(string databaseVersion, bool creatingBlankDatabase)
 	{
-		Insert ("databaseVersion", databaseVersion); 
-			
-		if(UtilAll.IsWindows() || creatingBlankDatabase)
-			Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows);
-		else
-			Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux);
-		
-		Insert ("digitsNumber", "3");
-		Insert ("showPower", "True");
-		Insert ("showStiffness", "True");
-		Insert ("showInitialSpeed", "True");
-		Insert ("showAngle", "False"); //for treeviewjumps
-		Insert ("showQIndex", "False"); //for treeviewJumps
-		Insert ("showDjIndex", "False"); //for treeviewJumps
-		Insert ("simulated", "True");
-		Insert ("weightStatsPercent", "False");
-		Insert ("askDeletion", "True");
-		Insert ("heightPreferred", "False");
-		Insert ("metersSecondsPreferred", "True");
-		Insert ("language", "es-ES"); 
-		Insert ("allowFinishRjAfterTime", "True"); 
-		Insert ("volumeOn", "True"); 
-		Insert ("videoOn", "True"); 
-		Insert ("evaluatorServerID", "-1");
-		Insert ("versionAvailable", "");
-		Insert ("runSpeedStartArrival", "True");
-		Insert ("runISpeedStartArrival", "True");
-		
-		Random rnd = new Random();
-		string machineID = rnd.Next().ToString();
-		Insert ("machineID", machineID);
-		
-		Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString());
-		
-		Insert ("encoderPropulsive", "True");
-		Insert ("encoderSmoothEccCon", "0.6");
-		Insert ("encoderSmoothCon", "0.7");
-		Insert ("videoDevice", "0"); //first
-		Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString());
-		Insert ("inertialmomentum", "0.01");
-		Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale());
-		Insert ("RGraphsTranslate", "True");
-		Insert ("useHeightsOnJumpIndexes", "True");
-		Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString()); 
-		Insert ("email", "");
+		using(SqliteTransaction tr = dbcon.BeginTransaction())
+		{
+			using (SqliteCommand dbcmdTr = dbcon.CreateCommand())
+			{
+				dbcmdTr.Transaction = tr;
+
+				Insert ("databaseVersion", databaseVersion, dbcmdTr); 
+
+				if(UtilAll.IsWindows() || creatingBlankDatabase)
+					Insert ("chronopicPort", Constants.ChronopicDefaultPortWindows, dbcmdTr);
+				else
+					Insert ("chronopicPort", Constants.ChronopicDefaultPortLinux, dbcmdTr);
+
+				Insert ("digitsNumber", "3", dbcmdTr);
+				Insert ("showPower", "True", dbcmdTr);
+				Insert ("showStiffness", "True", dbcmdTr);
+				Insert ("showInitialSpeed", "True", dbcmdTr);
+				Insert ("showAngle", "False", dbcmdTr); //for treeviewjumps
+				Insert ("showQIndex", "False", dbcmdTr); //for treeviewJumps
+				Insert ("showDjIndex", "False", dbcmdTr); //for treeviewJumps
+				Insert ("simulated", "True", dbcmdTr);
+				Insert ("weightStatsPercent", "False", dbcmdTr);
+				Insert ("askDeletion", "True", dbcmdTr);
+				Insert ("heightPreferred", "False", dbcmdTr);
+				Insert ("metersSecondsPreferred", "True", dbcmdTr);
+				Insert ("language", "es-ES", dbcmdTr); 
+				Insert ("allowFinishRjAfterTime", "True", dbcmdTr); 
+				Insert ("volumeOn", "True", dbcmdTr); 
+				Insert ("videoOn", "True", dbcmdTr); 
+				Insert ("evaluatorServerID", "-1", dbcmdTr);
+				Insert ("versionAvailable", "", dbcmdTr);
+				Insert ("runSpeedStartArrival", "True", dbcmdTr);
+				Insert ("runISpeedStartArrival", "True", dbcmdTr);
+
+				Random rnd = new Random();
+				string machineID = rnd.Next().ToString();
+				Insert ("machineID", machineID, dbcmdTr);
+
+				Insert ("multimediaStorage", Constants.MultimediaStorage.BYSESSION.ToString(), dbcmdTr);
+
+				Insert ("encoderPropulsive", "True", dbcmdTr);
+				Insert ("encoderSmoothEccCon", "0.6", dbcmdTr);
+				Insert ("encoderSmoothCon", "0.7", dbcmdTr);
+				Insert ("videoDevice", "0", dbcmdTr); //first
+				Insert ("encoder1RMMethod", Constants.Encoder1RMMethod.WEIGHTED2.ToString(), dbcmdTr);
+				Insert ("inertialmomentum", "0.01", dbcmdTr);
+				Insert ("CSVExportDecimalSeparator", Util.GetDecimalSeparatorFromLocale(), dbcmdTr);
+				Insert ("RGraphsTranslate", "True", dbcmdTr);
+				Insert ("useHeightsOnJumpIndexes", "True", dbcmdTr);
+				Insert ("encoderAutoSaveCurve", Constants.EncoderAutoSaveCurve.BESTMEANPOWER.ToString(), dbcmdTr); 
+				Insert ("email", "", dbcmdTr);
+			}
+			tr.Commit();
+		}
 	}
 
+	//called from some Chronojump methods
+	//adds dbcmd to be used on next Insert method
 	public static void Insert(string myName, string myValue)
 	{
+		Insert(myName, myValue, dbcmd);
+	}
+	//Called from initialize
+	public static void Insert(string myName, string myValue, SqliteCommand mycmd)
+	{
 		//Sqlite.Open();
-		dbcmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
+		mycmd.CommandText = "INSERT INTO " + Constants.PreferencesTable + 
 			" (name, value) VALUES ('" + 
 			myName + "', '" + myValue + "')" ;
-		dbcmd.ExecuteNonQuery();
+		LogB.SQL(mycmd.CommandText.ToString());
+		mycmd.ExecuteNonQuery();
 		//Sqlite.Close();
 	}
 

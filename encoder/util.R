@@ -769,8 +769,7 @@ fixDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
 		#angle in radians
 		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
-		#abs makes it change direction when signal is lower than initial position (0)
-		position = abs(angle * diameterMeters / 2)
+		position = angle * diameterMeters / 2
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
 		displacement = c(0,diff(position)) #this displacement is going to be used now

@@ -341,7 +341,8 @@ public class ChronoJump
 		
 
 
-		splashMessageChange(5);  //check for new version
+		//splashMessageChange(5);  //check for new version
+		splashMessageChange(5);  //connecting to server
 
 		messageToShowOnBoot += recuperateBrokenEvents();
 

@@ -3046,7 +3046,16 @@ public partial class ChronoJumpWindow
 				//remove video capture from contacts tab
 				hbox_video_capture.Remove(capturer);
 				//add in encoder tab
-				viewport_video_capture_encoder.Add(capturer);
+
+				//switch to capture tab			
+				radiobutton_video_encoder_capture.Active = true;
+
+				//sometimes it seems is not removed and then cannot be added again
+				//just add if not exists
+				//maybe this error was because before we were not doing the:
+				//radiobutton_video_encoder_capture.Active = true;
+				if(viewport_video_capture_encoder.Child == null)
+					viewport_video_capture_encoder.Add(capturer);
 			}
 		
 			if(wasActive) 

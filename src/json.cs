@@ -23,12 +23,16 @@ using System.Net;
 using System.Web;
 using System.IO;
 using System.Json;
+using System.Text;
 using System.Collections.Generic; //Dictionary
 using Mono.Unix;
+
 
 public class Json
 {
 	public string ResultMessage;
+	string serverUrl = "http://api.chronojump.org:8080";
+
 
 	public Json()
 	{
@@ -37,7 +41,6 @@ public class Json
 
 	public bool PostCrashLog(string email, string comments) 
 	{
-		string serverUrl = "http://api.chronojump.org:8080";
 		string filePath = UtilAll.GetLogFileOld();
 
 		if(! File.Exists(filePath)) {
@@ -121,8 +124,6 @@ public class Json
 
 	public bool GetLastVersion() 
 	{
-		string serverUrl = "http://api.chronojump.org:8080";
-
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/version");
 		
@@ -152,6 +153,62 @@ public class Json
 
 		return true;
 	}
+
+	public bool Ping(string osVersion, string cjVersion) 
+	{
+		// Create a request using a URL that can receive a post. 
+		WebRequest request = WebRequest.Create (serverUrl + "/ping");
+
+		// Set the Method property of the request to POST.
+		request.Method = "POST";
+
+		// Set the ContentType property of the WebRequest.
+		request.ContentType = "application/json";
+
+		// Creates the json object
+		JsonObject json = new JsonObject();
+		json.Add("os_version", osVersion);
+		json.Add("cj_version", cjVersion);
+
+		// Converts it to a String
+		String js = json.ToString();
+
+		// Writes the json object into the request dataStream
+		Stream dataStream;
+		try {
+			dataStream = request.GetRequestStream ();
+		} catch {
+			this.ResultMessage = 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return false;
+		}
+		dataStream.Write (Encoding.UTF8.GetBytes(js), 0, js.Length);
+
+		dataStream.Close ();
+
+		// Get the response.
+		WebResponse response;
+		try {
+			response = request.GetResponse ();
+		} catch {
+			this.ResultMessage = 
+				string.Format(Catalog.GetString("You are not connected to the Internet\nor {0} server is down."), 
+				serverUrl);
+			return false;
+		}
+
+		// Display the status (will be 201, CREATED)
+		Console.WriteLine (((HttpWebResponse)response).StatusDescription);
+
+		// Clean up the streams.
+		dataStream.Close ();
+		response.Close ();
+		
+		this.ResultMessage = "Ping sent.";
+		return true;
+	}
+
 
 	~Json() {}
 }

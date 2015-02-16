@@ -126,9 +126,17 @@ class SqlitePreferences : Sqlite
 			Sqlite.Close();
 	}
 
+	//Called from most of all old Chronojump methods
 	public static string Select (string myName) 
 	{
-		Sqlite.Open();
+		return Select(myName, false);
+	}
+	//Called from new methods were dbcon is opened
+	public static string Select (string myName, bool dbconOpened) 
+	{
+		if(! dbconOpened)
+			Sqlite.Open();
+
 		dbcmd.CommandText = "SELECT value FROM " + Constants.PreferencesTable + 
 			" WHERE name == '" + myName + "'" ;
 		LogB.SQL(dbcmd.CommandText.ToString());
@@ -144,7 +152,9 @@ class SqlitePreferences : Sqlite
 			myReturn = reader[0].ToString();
 		}
 		reader.Close();
-		Sqlite.Close();
+		
+		if(! dbconOpened)
+			Sqlite.Close();
 
 		return myReturn;
 	}

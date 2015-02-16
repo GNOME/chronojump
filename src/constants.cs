@@ -572,7 +572,7 @@ public class Constants
 		Catalog.GetString("Creating database"),		//2
 		Catalog.GetString("Making database backup"),	//3
 		Catalog.GetString("Updating database"),		//4
-		Catalog.GetString("Check for new version"),	//5
+		Catalog.GetString("Connecting to server"),	//5
 		Catalog.GetString("Preparing main Window"),	//6
 	};
 	

@@ -369,6 +369,7 @@ public class ChronoJump
 		versionAvailable = Constants.ServerOffline;
 	
 
+		/*
 		//doing ping using json methods
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), progVersion);
@@ -376,6 +377,7 @@ public class ChronoJump
 			LogB.Information(js.ResultMessage);
 		else
 			LogB.Error(js.ResultMessage);
+			*/
 
 		
 		allSQLCallsDoneOnSqliteThingsThread = false;

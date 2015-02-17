@@ -5929,6 +5929,7 @@ LogB.Debug("X");
 	}
 	
 	private void on_menuitem_check_last_version_activate (object o, EventArgs args) {
+		/*
 		Json js = new Json();
 		bool success = js.GetLastVersion();
 
@@ -5946,9 +5947,15 @@ LogB.Debug("X");
 					Constants.MessageTypes.WARNING, 
 					js.ResultMessage);
 		}
+		*/
+		new DialogMessage(
+				"Chronojump",
+				Constants.MessageTypes.INFO, 
+				"Temporarily Disabled");
 	}
 	
 	private void on_menuitem_ping_activate (object o, EventArgs args) {
+		/*
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion());
 
@@ -5966,6 +5973,11 @@ LogB.Debug("X");
 					Constants.MessageTypes.WARNING, 
 					js.ResultMessage);
 		}
+		*/
+		new DialogMessage(
+				"Chronojump",
+				Constants.MessageTypes.INFO, 
+				"Temporarily Disabled");
 	}
 
 

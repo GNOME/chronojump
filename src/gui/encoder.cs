@@ -1326,8 +1326,8 @@ public partial class ChronoJumpWindow
 		//test: try to compress signal in order to send if.
 		//obviously this is not going to be done here
 
-		LogB.Information("Trying compress function");
-		LogB.Information(UtilEncoder.CompressSignal(UtilEncoder.GetEncoderDataTempFileName()));
+		//LogB.Information("Trying compress function");
+		//LogB.Information(UtilEncoder.CompressSignal(UtilEncoder.GetEncoderDataTempFileName()));
 
 		if(success) {	
 			//force a recalculate but not save the curve (we are loading)
@@ -2245,21 +2245,55 @@ public partial class ChronoJumpWindow
 								
 								//1) check heightCurve in a fast way first to discard curves soon
 								//   only process curves with height >= min_height
-								//2) if it's concentric, only take the concentric curves
+								//2) if it's concentric, only take the concentric curves, 
+								//   but if it's concentric and inertial: take both.
+								//   
+								//   When capturing on inertial, we have the first graph
+								//   that will be converted to the second.
+								//   we need the eccentric phase in order to detect the Ci2
+								
+								/*               
+								 *             /\
+								 *            /  \
+								 *           /    \
+								 *____      C1     \      ___
+								 *    \    /        \    /
+								 *     \  /          \  C2
+								 *      \/            \/
+								 *
+								 * C1, C2: two concentric phases
+								 */
+								
+								/*               
+								 *____                    ___
+								 *    \    /\      /\    /
+								 *     \ Ci1 \   Ci2 \ Ci3
+								 *      \/    \  /    \/
+								 *             \/
+								 *
+								 * Ci1, Ci2, Ci3: three concentric phases on inertial
+								 */
+								
 								//3) if it's ecc-con, don't record first curve if first curve is concentric
 								
+
+								//TODO: needs tweaking on inertia ecc-con at first curve
 								if(
 										heightCurve >= encoderSelectedMinimumHeight && 			//1
-										( ( eccon == "c" && previousWasUp ) || eccon != "c" ) &&	//2
+										( 
+										 ( eccon == "c" && ecc.up ) || 	//2) "c" and going up
+										 ( 
+										  eccon == "c" && 		//2) or "c" and inertial but not first eccentric phase
+										  encoderConfigurationCurrent.has_inertia && 
+										  ! ( ! ecc.up && ecca.curvesAccepted == 0 ) 
+										 ) || 
+										 eccon != "c" 			//2) or !"c"
+										 ) &&
 										! ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 )  //3
 								  ) {
-									//this is need on inertial to convert on direction curve (recorded by encoder) 
-									//to a con-ecc curve (done by the person)
-									if(encoderConfigurationCurrent.has_inertia)
-										curve[0] = heightAtCurveStart; 
 
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-											pCaptureNoRDotNet, curve);
+											pCaptureNoRDotNet, heightAtCurveStart, curve);
 									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
 									ecca.ecc.Add(ecc);

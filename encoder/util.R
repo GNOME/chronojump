@@ -675,7 +675,12 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 #this methods replaces getDisplacement and fixRawdataInertial
 #here comes a signal: (singleFile)
 #it shows the disc rotation and the person movement
-getDisplacementInertialBody <- function(displacement, draw, title) 
+
+#positionStart is the height at the start of the curve. It's used only on realtime capture.
+#displacementPerson has to be adjusted for every repetition using the positionStart relative to the start of the movement
+#Eg, at start of the capture position is always 0, then goes down (first eccentric phase), and then starts con-ecc, con-ecc, con-ecc, ...
+#To divide the con-ecc in two phases (because for the encoder is only one phsae because it rotates in the same direction), we need to know the positionAtStart
+getDisplacementInertialBody <- function(positionStart, displacement, draw, title) 
 {
 	position=cumsum(displacement)
 	position.ext=extrema(position)
@@ -685,23 +690,36 @@ getDisplacementInertialBody <- function(displacement, draw, title)
 
 	#do if extrema(position)$nextreme == 0... then do not use extrema
 	#TODO: check if started backwards on realtime capture (extrema is null)
-	firstDownPhaseTime = 1
-	downHeight = 0
+	#firstDownPhaseTime = 1
+	#downHeight = 0
 	if( position.ext$nextreme > 0 && ! is.null(position.ext$minindex) && ! is.null(position.ext$maxindex) ) {
 		#Fix if disc goes wrong direction at start
-		if(position.ext$maxindex[1] < position.ext$minindex[1]) {
+		#we know this because we found a maxindex before than a minindex, and
+		#this maxindex is not an small movement, at least is 20% of the movement
+		if(
+		   ( position.ext$maxindex[1] < position.ext$minindex[1] ) &&
+		   ( position[position.ext$maxindex[1]] >= ( max(abs(position)) *.2 ) ) ) {
 			displacement = displacement * -1
 			position=cumsum(displacement)
 			position.ext=extrema(position)
 		}
 
 		#unused
-		firstDownPhaseTime = position.ext$minindex[1]
-		downHeight = abs(position[1] - position[firstDownPhaseTime])
+		#firstDownPhaseTime = position.ext$minindex[1]
+		#downHeight = abs(position[1] - position[firstDownPhaseTime])
 	}
 		
-	positionPerson = abs(cumsum(displacement))*-1
+	positionPerson = cumsum(displacement)
+	positionPerson = positionPerson + positionStart
+	positionPerson = abs(positionPerson)*-1
+
 	#this is to make "inverted cumsum"
+	#this displacement when 'cumsum' into position is the reality,
+	#but if we use it it will seem a VERY high acceleration in the beginning (between the fist and second value)
+	#because it will be: eg:  -1100, 0, 0, 0, 0, 1, ...
+	#don't use it
+	#displacementPerson = c(positionStart,diff(positionPerson))
+	#better have it starting with 0 and then speed calculations... will be correct
 	displacementPerson = c(0,diff(positionPerson))
 
 	#write(displacementPerson,stderr())

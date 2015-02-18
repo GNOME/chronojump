@@ -29,7 +29,7 @@ source(scriptUtilR)
 g = 9.81
 		    
 
-calcule <- function(displacement, op) 
+calcule <- function(displacement, start, end, op) 
 {
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
@@ -66,77 +66,99 @@ calcule <- function(displacement, op)
 
 	#do not use print because it shows the [1] first. Use cat:
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
-		  (end-start), (position[end]-position[start]),
+		  #(end-start), (position[end]-position[start]), #this is not used because the start, end values are not ok now
+		  0, 0, 
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
 	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
 }
-	
-input <- readLines(f, n = 1L)
-while(input[1] != "Q") {
-	#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
-	#cat(paste("input is:", input, "\n"))
-	
+		
+getPositionStart <- function(input) 
+{
+	inputVector = unlist(strsplit(input, " "))
+	if( length(inputVector) == 2 && inputVector[1] == "ps" )
+		return (as.numeric(inputVector[2]))
+	else
+		return (0)
+}
+
+doProcess <- function() 
+{
 	op <- assignOptions(options)
 
 	#print ("----op----")
 	#print (op)
-
-	displacement = as.numeric(unlist(strsplit(input, " ")))
-	#if data file ends with comma. Last character will be an NA. remove it
-	#this removes all NAs
-	displacement  = displacement[!is.na(displacement)]
-		
-	if(isInertial(op$EncoderConfigurationName)) 
-	{
-		displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
-
-		displacement = getDisplacementInertialBody(displacement, FALSE, op$Title) #draw: FALSE
-	} else {
-		displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
-	}
 	
-	start = 1
-	end = length(displacement)
-	if( ! isInertial(op$EncoderConfigurationName)) {
-		reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 
-						1, 0, #startT, startH
-						displacement, #displacement
-						op$SmoothingOneC #SmoothingOneC
-						)
-
-		start = reduceTemp[1]
-		end = reduceTemp[2]
-		#write("printing reduceTemp2", stderr())
-		#write(reduceTemp[2], stderr())
-		if(end > length(displacement))
-			end = length(displacement)
-
-		displacement = displacement[start:end]
-	}
-
-	#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
-	#so now there will be two different curves to process
-	if(isInertial(op$EncoderConfigurationName)) 
-	{
-		position = cumsum(displacement)
-		positionBottom <- floor(mean(which(position == min(position))))
-		displacement1 = displacement[1:positionBottom]
-		calcule(displacement1, op)
-
-		if( (positionBottom +1) < length(displacement)){
-			displacement2 = displacement[(positionBottom+1):length(displacement)]
-			calcule(displacement2, op)
-		}
-		write(c("positionBottom", positionBottom), stderr())
-		write(c("length(displacement)", length(displacement)), stderr())
-	} else {
-		calcule(displacement, op)
-	}
-
 	input <- readLines(f, n = 1L)
+	while(input[1] != "Q") {
+		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
+		#cat(paste("input is:", input, "\n"))
+
+		#from Chronojump first it's send the eg: "ps -1000", meaning curve starts at -1000
+		#then it's send the displacement
+		positionStart = getPositionStart(input)
+		input <- readLines(f, n = 1L)
+
+		displacement = as.numeric(unlist(strsplit(input, " ")))
+		#if data file ends with comma. Last character will be an NA. remove it
+		#this removes all NAs
+		displacement  = displacement[!is.na(displacement)]
+
+
+		if(isInertial(op$EncoderConfigurationName)) 
+		{
+			displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
+
+			displacement = getDisplacementInertialBody(positionStart, displacement, FALSE, op$Title) #draw: FALSE
+		} else {
+			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
+		}
+
+		start = 1
+		end = length(displacement)
+		if( ! isInertial(op$EncoderConfigurationName)) {
+			reduceTemp = reduceCurveBySpeed(op$Eccon, 1, 
+							1, 0, #startT, startH
+							displacement, #displacement
+							op$SmoothingOneC #SmoothingOneC
+							)
+
+			start = reduceTemp[1]
+			end = reduceTemp[2]
+			#write("printing reduceTemp2", stderr())
+			#write(reduceTemp[2], stderr())
+			if(end > length(displacement))
+				end = length(displacement)
+
+			displacement = displacement[start:end]
+		}
+
+		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
+		#so now there will be two different curves to process
+		if(isInertial(op$EncoderConfigurationName)) 
+		{
+			position = cumsum(displacement)
+			positionTop <- floor(mean(which(position == max(position))))
+			displacement1 = displacement[1:positionTop]
+			displacement2 = displacement[(positionTop+1):length(displacement)]
+
+			if(op$Eccon == "c") {
+				calcule(displacement1, start, end, op) #TODO: check this start, end
+			} else {
+				calcule(displacement1, start, end, op) #TODO: check this start, end
+				calcule(displacement2, start, end, op) #TODO: check this start, end
+			}
+
+			#write(c("positionTop", positionTop), stderr())
+			#write(c("length(displacement)", length(displacement)), stderr())
+		} else {
+			calcule(displacement, start, end, op) #TODO: check this start, end
+		}
+
+		input <- readLines(f, n = 1L)
+	}
 }
 		
 
-
+doProcess()
 write("Ending capture.R", stderr())
 quit()

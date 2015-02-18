@@ -474,15 +474,22 @@ public class UtilEncoder
 
 
 
-	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double [] d)
+	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double heightAtStart, double [] d)
 	{
-		LogB.Debug("writing line 1");
-		string curveSend = string.Join(" ", Array.ConvertAll(d, x => x.ToString()));
+		LogB.Debug("writing line 1 -->");
+		
+		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
+		LogB.Debug("curveSend [heightAtStart]",curveSend);
+		p.StandardInput.WriteLine(curveSend);
+
+		curveSend = string.Join(" ", Array.ConvertAll(d, x => x.ToString()));
 		
 		//TODO convert comma to point in this doubles
 
-		LogB.Debug("curveSend",curveSend);
+		LogB.Debug("curveSend [displacement array]",curveSend);
 		p.StandardInput.WriteLine(curveSend);
+		
+		LogB.Debug("<-- writen line 1");
 	}
 	public static void RunEncoderCaptureNoRDotNetSendEnd(Process p)
 	{

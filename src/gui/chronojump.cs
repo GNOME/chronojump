@@ -4300,7 +4300,38 @@ public partial class ChronoJumpWindow
 		}
 	}
 
+	private void on_button_rt_3_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "r";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_3_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "R";
+		cs.Write(chronopicWin.SP,0);
+	}
 
+	private void on_button_rt_6_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "s";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_6_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "S";
+		cs.Write(chronopicWin.SP,0);
+	}
+
+	private void on_button_rt_7_on_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "t";
+		cs.Write(chronopicWin.SP,0);
+	}
+	private void on_button_rt_7_off_clicked (object o, EventArgs args) {
+		ChronopicAuto cs = new ChronopicStartReactionTime();
+		cs.CharToSend = "T";
+		cs.Write(chronopicWin.SP,0);
+	}
 
 	/* ---------------------------------------------------------
 	 * ----------------  PULSES EXECUTION ----------------------

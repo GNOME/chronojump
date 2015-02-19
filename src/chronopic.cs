@@ -406,6 +406,7 @@ public abstract class ChronopicAuto
 	public bool IsChronopicAuto;
 	protected internal abstract string Communicate();
 	private string str;
+	public string CharToSend = "";
 
 	private bool make(SerialPort sp) 
 	{
@@ -502,4 +503,16 @@ public class ChronopicAutoChangeDebounce : ChronopicAuto
 	}
 }
 
-
+public class ChronopicStartReactionTime : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		try {
+			sp.Write(CharToSend);
+			LogB.Information("sending",CharToSend);
+		} catch {
+			return "ERROR";
+		}
+		return "SUCCESS";
+	}
+}

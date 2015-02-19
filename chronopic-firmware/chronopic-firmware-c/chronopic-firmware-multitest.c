@@ -25,6 +25,10 @@ History:
 	     if PC send command 'bx' for setting debounce time, x is from byte value 0~255(\x0 ~ \xFF) 
 	     if PC send command 'c' for starting contiuned to send encoder value
 	     if PC send command 'd' for stopping contiuned to send encoder value
+  2015-02-19 
+	     if PC send command 'R','r' for reaction time protocol on pin RB3 (R/r open/close this light)
+	     if PC send command 'S','s' for reaction time protocol on pin RB6 (S/s open/close this light)
+	     if PC send command 'T','t' for reaction time protocol on pin RB7 (T/t open/close this light)
 */
 
 //-- this PIC is going to be used:
@@ -110,6 +114,13 @@ unsigned char command_get_debounce_time = 'a';	// for setting debounce time, pc 
 unsigned char command_set_debounce_time = 'b';	// for getting debounce time, it will return x:0~255(HEX)
 //unsigned char command_start_send_encoder_value = 'c';	// starting continued send encoder's value
 //unsigned char command_stop_send_encoder_value = 'd';	// stopping continued send encoder's value
+unsigned char command_reaction_time_rb3_on = 'R';
+unsigned char command_reaction_time_rb6_on = 'S';
+unsigned char command_reaction_time_rb7_on = 'T';
+unsigned char command_reaction_time_rb3_off = 'r';
+unsigned char command_reaction_time_rb6_off = 's';
+unsigned char command_reaction_time_rb7_off = 't';
+
 
 char version_major = '1';
 char version_minor = '1';
@@ -545,6 +556,18 @@ void main(void)
 			sci_sendline(DEBOUNCE_TIME + '0'); 	//if DEBOUNCE is 50ms (0x05), returns a 5 (5 * 10ms = 50ms)
 		else if (my_char == command_set_debounce_time)	// 'b'
 			DEBOUNCE_TIME = sci_readchar();
+		else if (my_char == command_reaction_time_rb3_on) // 'R'
+			RB3 = 1;
+		else if (my_char == command_reaction_time_rb6_on) // 'S'
+			RB6 = 1;
+		else if (my_char == command_reaction_time_rb7_on) // 'T'
+			RB7 = 1;
+		else if (my_char == command_reaction_time_rb3_off) // 'r'
+			RB3 = 0;
+		else if (my_char == command_reaction_time_rb6_off) // 's'
+			RB6 = 0;
+		else if (my_char == command_reaction_time_rb7_off) // 't'
+			RB7 = 0;
 		else
 			send_error();
 	    }

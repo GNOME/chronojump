@@ -2046,7 +2046,7 @@ public partial class ChronoJumpWindow
 		int msCount = 0;
 		encoderCapturePoints = new Gdk.Point[recordingTime];
 		encoderCapturePointsCaptured = 0;
-		encoderCapturePointsPainted = 0;
+		encoderCapturePointsPainted = 0; 	//-1 means delete screen
 				
 		/*
 		 * calculate params with R explanation	
@@ -2083,6 +2083,14 @@ public partial class ChronoJumpWindow
 		//this will be used to stop encoder automatically	
 		int consecutiveZeros = -1;		
 		int consecutiveZerosMax = (int) encoderCaptureOptionsWin.spin_encoder_capture_inactivity_end_time.Value * 1000;
+						
+		bool inertialCaptureDirectionChecked = false;
+		bool inertialCaptureDirectionInverted = false;
+
+		//useful to don't send to R the first phase of the movement in these situations: 
+		//going down on inertial, going up in ec, ecs
+		bool capturingFirstPhase = true; 
+
 
 		//create ecca if needed
 		if(! eccaCreated) {
@@ -2103,6 +2111,9 @@ public partial class ChronoJumpWindow
 
 			if(byteReadedRaw > 128)
 				byteReadedRaw = byteReadedRaw - 256;
+
+			if(inertialCaptureDirectionInverted)
+				byteReadedRaw *= -1;
 
 			byteReaded = UtilEncoder.GetDisplacement(byteReadedRaw, encoderConfigurationCurrent);
 
@@ -2149,6 +2160,43 @@ public partial class ChronoJumpWindow
 				sep = ", ";
 				*/
 	
+				/*
+				 * on inertial, when we start we should go down (because exercise starts in full extension)
+				 * if at the beginning we detect movement as positive means that the encoder is connected backwards or
+				 * the disc is in a position that makes the start in that direction
+				 * we use the '20' to detect when 'some' movement has been done
+				 * Just -1 all the past and future values of this capture
+				 * (we use the 'sum > 0' to know that it's going upwards)
+				 */
+				LogB.Debug("--sum--", sum.ToString());
+				if(
+						! inertialCaptureDirectionChecked &&
+						encoderConfigurationCurrent.has_inertia && 
+						Math.Abs(sum) > 20
+				  ) {
+					inertialCaptureDirectionChecked = true;
+
+					if(sum > 0) {
+						inertialCaptureDirectionInverted = true;
+						directionNow *= -1;
+						directionLastMSecond *= -1;
+						sum *= -1;
+						for(int j=0; j < encoderReaded.Length; j ++) {
+							encoderReaded[j] *= -1;
+							encoderReadedRaw[j] *= -1;
+						}
+						double sum2=0;
+						for(int j=0; j < encoderReaded.Length; j ++) {
+							sum2 += encoderReaded[j];
+							encoderCapturePoints[j] = new Gdk.Point(
+									Convert.ToInt32(widthG * j / recordingTime),
+									Convert.ToInt32( (heightG/2) - ( sum2 * heightG / realHeightG) )
+									);
+						}
+						encoderCapturePointsCaptured = i;
+						encoderCapturePointsPainted = -1; //mark meaning screen should be erased
+					}
+				}
 
 				/*
 				 * calculate params with R (see explanation above)	
@@ -2167,6 +2215,7 @@ public partial class ChronoJumpWindow
 					if(byteReaded != 0)
 						lastNonZero = i;
 				}
+						
 
 				//if it's different than the last direction, mark the start of change
 				if(directionNow != directionLastMSecond) {
@@ -2180,8 +2229,7 @@ public partial class ChronoJumpWindow
 					//directionChangeCount += byteReaded
 					directionChangeCount ++;
 
-					//count >= than change_period
-					if(directionChangeCount > directionChangePeriod)
+					if(directionChangeCount > directionChangePeriod)	//count >= than change_period
 					{
 						//int startFrame = previousFrameChange - directionChangeCount;	//startFrame
 								/*
@@ -2275,23 +2323,26 @@ public partial class ChronoJumpWindow
 								 */
 								
 								//3) if it's ecc-con, don't record first curve if first curve is concentric
-								
+							
+									
+								bool sendCurve = true;
+								if(heightCurve >= encoderSelectedMinimumHeight) 	//1
+								{
+									if(encoderConfigurationCurrent.has_inertia) {
+										if(capturingFirstPhase)
+											sendCurve = false;
+									} else { // ! encoderConfigurationCurrent.has_inertia
+										if( eccon == "c" && ! ecc.up )
+											sendCurve = false;
+										if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
+											sendCurve = false;
+									}
+									capturingFirstPhase = false;
+								} else {
+									sendCurve = false;
+								}
 
-								//TODO: needs tweaking on inertia ecc-con at first curve
-								if(
-										heightCurve >= encoderSelectedMinimumHeight && 			//1
-										( 
-										 ( eccon == "c" && ecc.up ) || 	//2) "c" and going up
-										 ( 
-										  eccon == "c" && 		//2) or "c" and inertial but not first eccentric phase
-										  encoderConfigurationCurrent.has_inertia && 
-										  ! ( ! ecc.up && ecca.curvesAccepted == 0 ) 
-										 ) || 
-										 eccon != "c" 			//2) or !"c"
-										 ) &&
-										! ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 )  //3
-								  ) {
-
+								if(sendCurve) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
 											pCaptureNoRDotNet, heightAtCurveStart, curve);
 									ecca.curvesDone ++;
@@ -3774,6 +3825,13 @@ public partial class ChronoJumpWindow
 	private void updateEncoderCaptureGraphPaint() 
 	{
 		bool refreshAreaOnly = false;
+		
+		//mark meaning screen should be erased
+		if(encoderCapturePointsPainted == -1) {
+			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
+			encoderCapturePointsPainted = 0;
+		}
+
 
 		//also can be optimized to do not erase window every time and only add points since last time
 		int last = encoderCapturePointsCaptured;
@@ -4280,6 +4338,10 @@ public partial class ChronoJumpWindow
 			//know if ecc or con to paint with dark or light pen
 			if (eccon == "ec" || eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1);
+				
+				//while capturing on inertial data comes as c,e
+				if(capturing && encoderConfigurationCurrent.has_inertia)
+					isEven = ! isEven;
 			
 				if(isEven) //par, concentric
 					my_pen = my_pen_ecc_con_c;
@@ -4312,6 +4374,10 @@ public partial class ChronoJumpWindow
 			//paint diagonal line to distinguish eccentric-concentric	
 			if (eccon == "ec" || eccon == "ecS") {
 				bool isEven = Util.IsEven(count +1);
+				
+				//while capturing on inertial data comes as c,e
+				if(capturing && encoderConfigurationCurrent.has_inertia)
+					isEven = ! isEven;
 			
 				if(isEven)
 					encoder_capture_curves_bars_pixmap.DrawLine(pen_white_encoder_capture, 

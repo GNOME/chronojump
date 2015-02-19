@@ -3267,7 +3267,7 @@ public partial class ChronoJumpWindow
 		string contents = Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true);
 		//if 1RM button is sensitive and there's no 1RM data 
 		//(because a not-1RM test have been done and software has a sensitivity bug), return
-		if(contents != null && contents != "") {
+		if(contents == null || contents == "") {
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString("Not enough data."));
 			return;
 		}

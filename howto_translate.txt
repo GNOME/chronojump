@@ -1,6 +1,9 @@
 2014-November-6
-We have to use an old libglade library in order to have translations ok on Windows
+- Chronojump developer use an old libglade library in order to have translations ok on Windows
 https://git.gnome.org/browse/chronojump/commit/?id=aaa0b4744969fc3ddbbb0d0246ff99ab71a21e70
+
+- Chronojump translators just follow the instructions on UPDATE below.
+
 
 
 /* based on book "Mono. A Developer's Notebook". Edd Dumbill; Niel M. Bornstein p. 162

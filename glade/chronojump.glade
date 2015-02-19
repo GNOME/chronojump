@@ -17236,9 +17236,9 @@ Evaluator can use real name or nickname.</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Select the port where Chronopic is connected.
 
-There's no port comprobation or activation on encoder.
+On encoder connection there's no need to press Chronopic test button.
 
-Just select and then close this window.</property>
+Just select port and then close this window.</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>

@@ -49,7 +49,10 @@ public partial class ChronoJumpWindow
 			"p" + "\n (W)",
 			"pmax" + "\n (W)",
 			"t->pmax" + "\n (s)",
-			"pmax/t->pmax" + "\n (W/s)"
+			"pmax/t->pmax" + "\n (W/s)",
+			"F" + "\n (N)",
+			"Fmax" + "\n (N)",
+			"t->Fmax" + "\n (s)"
 		};
 
 		encoderCaptureCurves = new ArrayList ();
@@ -68,7 +71,7 @@ public partial class ChronoJumpWindow
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
-				cells = fixDecimals(cells);
+				cells = fixDecimals(cells, true); //useForce
 
 				encoderCaptureCurves.Add (new EncoderCurve (
 							false,				//user need to mark to save them
@@ -77,10 +80,11 @@ public partial class ChronoJumpWindow
 							//cells[2], 	//exerciseName
 							//cells[3], 	//massBody
 							//cells[4], 	//massExtra
-							cells[5], cells[6], cells[7], //start, duration, height 
-							cells[8], cells[9], cells[10], //meanSpeed, maxSpeed, maxSpeedT
-							cells[11], cells[12], cells[13], //meanPower, peakPower, peakPowerT
-							cells[14]			//peakPower / peakPowerT
+							cells[5], cells[6], cells[7], 	//start, duration, height 
+							cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
+							cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
+							cells[14],			//peakPower / peakPowerT
+							cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
 							));
 
 			} while(true);
@@ -157,6 +161,15 @@ public partial class ChronoJumpWindow
 					break;
 				case 10:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
+					break;
+				case 11:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanForce));
+					break;
+				case 12:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForce));
+					break;
+				case 13:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxForceT));
 					break;
 			}
 					
@@ -479,7 +492,7 @@ public partial class ChronoJumpWindow
 				curvesCount ++;
 
 				string [] cells = line.Split(new char[] {','});
-				cells = fixDecimals(cells);
+				cells = fixDecimals(cells, false); //not useForce
 				
 				
 				if(! check_encoder_analyze_signal_or_curves.Active) {	//user curves
@@ -963,6 +976,31 @@ public partial class ChronoJumpWindow
 			String.Format(UtilGtk.TVNumPrint(curve.PP_PPT,6,1),Convert.ToDouble(curve.PP_PPT));
 	}
 	
+	/* end of rendering analyze cols. Following gols are only on capture */
+
+	private void RenderMeanForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanForce));
+	}
+
+	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MaxForce));
+	}
+	
+	private void RenderMaxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		double time = Convert.ToDouble(curve.MaxForceT)/1000; //ms->s
+		(cell as Gtk.CellRendererText).Text = 
+			String.Format(UtilGtk.TVNumPrint(time.ToString(),5,3),time);
+	}
+
+	
 	/* end of rendering capture and analyze cols */
 
 	/* start rendering neuromuscular cols */
@@ -1073,7 +1111,7 @@ public partial class ChronoJumpWindow
 	/* end of rendering neuromuscular cols */
 	
 	
-	private string [] fixDecimals(string [] cells) {
+	private string [] fixDecimals(string [] cells, bool useForce) {
 		//start, width, height
 		for(int i=5; i <= 7; i++)
 			cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),1);
@@ -1085,6 +1123,11 @@ public partial class ChronoJumpWindow
 		//pp/ppt
 		int pp_ppt = 14;
 		cells[pp_ppt] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[pp_ppt])),1); 
+
+		if(useForce)
+			for(int i=15; i <= 17; i++)
+				cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+
 		return cells;
 	}
 	

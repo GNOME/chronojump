@@ -2390,7 +2390,8 @@ doProcess <- function(options)
 					"start","width","height",
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
-					"pp_ppt")
+					"pp_ppt",
+					"meanForce", "maxForce", "maxForceT")
 			write.csv(paf, op$OutputData1, quote=FALSE)
 			print("curves written")
 		}

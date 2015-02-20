@@ -2168,7 +2168,6 @@ public partial class ChronoJumpWindow
 				 * Just -1 all the past and future values of this capture
 				 * (we use the 'sum > 0' to know that it's going upwards)
 				 */
-				LogB.Debug("--sum--", sum.ToString());
 				if(
 						! inertialCaptureDirectionChecked &&
 						encoderConfigurationCurrent.has_inertia && 
@@ -4643,7 +4642,9 @@ public partial class ChronoJumpWindow
 					treeviewEncoderCaptureRemoveColumns();
 					encoderCaptureStringR = 
 						",series,exercise,mass,start,width,height," + 
-						"meanSpeed,maxSpeed,maxSpeedT,meanPower,peakPower,peakPowerT,pp_ppt,NA,NA,NA";
+						"meanSpeed,maxSpeed,maxSpeedT," +
+						"meanPower,peakPower,peakPowerT,pp_ppt," +
+						"meanForce, maxForce, maxForceT";
 
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
 
@@ -5000,13 +5001,14 @@ LogB.Debug("D");
 			
 			string [] strs = trimmed.Split(new char[] {','});
 
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
+			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
 					0,
 					0, strs[0],			//start, width
 					strs[1],			//height
 					strs[2], strs[3], strs[4],	//speeds
 					strs[5], strs[6], strs[7],	//powers
-					strs[8]);			//pp/ppt
+					strs[8],			//pp/ppt
+					strs[9], strs[10], strs[11]);	//forces
 			
 			LogB.Debug("encoderCaptureStringR");
 			LogB.Debug(encoderCaptureStringR);

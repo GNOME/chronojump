@@ -211,6 +211,9 @@ public class EncoderCurve
 	public string PeakPower;
 	public string PeakPowerT;
 	public string PP_PPT;
+	public string MeanForce;
+	public string MaxForce;
+	public string MaxForceT;
 	
 	public EncoderCurve () {
 	}
@@ -220,7 +223,9 @@ public class EncoderCurve
 			string start, string duration, string height, 
 			string meanSpeed, string maxSpeed, string maxSpeedT,
 			string meanPower, string peakPower, string peakPowerT, 
-			string PP_PPT)
+			string PP_PPT,
+			string meanForce, string maxForce, string maxForceT
+			)
 	{
 		this.Record = record;
 		this.N = n;
@@ -234,6 +239,9 @@ public class EncoderCurve
 		this.PeakPower = peakPower;
 		this.PeakPowerT = peakPowerT;
 		this.PP_PPT = PP_PPT;	//PeakPower / PeakPowerTime
+		this.MeanForce = meanForce;
+		this.MaxForce = maxForce;
+		this.MaxForceT = maxForceT;
 	}
 
 	//used on TreeView analyze

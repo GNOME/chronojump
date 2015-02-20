@@ -68,7 +68,10 @@ calcule <- function(displacement, start, end, op)
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
 		  #(end-start), (position[end]-position[start]), #this is not used because the start, end values are not ok now
 		  0, 0, 
-		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, sep=", "))
+		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
+		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
+		  paf$meanForce, paf$maxForce, paf$maxForceT,
+		  sep=", "))
 	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
 }
 		

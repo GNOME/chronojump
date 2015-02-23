@@ -2343,7 +2343,12 @@ public partial class ChronoJumpWindow
 
 								if(sendCurve) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-											pCaptureNoRDotNet, heightAtCurveStart, curve);
+										pCaptureNoRDotNet, 
+										heightAtCurveStart, 
+										//curve); 			//uncompressed
+										UtilEncoder.CompressData(curve)	//compressed
+											);
+
 									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
 									ecca.ecc.Add(ecc);

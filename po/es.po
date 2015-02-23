@@ -5465,7 +5465,7 @@ msgstr "1RM guardado sin peso corporal desplazado: {0} Kg."
 
 #: ../src/gui/encoder.cs:3205
 msgid "Encoder exercise name:"
-msgstr "Nombre del ejercicio del codificador:"
+msgstr "Nombre del ejercicio"
 
 #: ../src/gui/encoder.cs:3206 ../src/gui/encoder.cs:3265
 msgid "Displaced body weight"
@@ -5482,7 +5482,7 @@ msgstr "Velocidad a 1RM"
 #. don't show now
 #: ../src/gui/encoder.cs:3264
 msgid "Write the name of the encoder exercise:"
-msgstr "Escriba el nombre del codificador del ejercicio:"
+msgstr "Escriba el nombre del ejercicio:"
 
 #: ../src/gui/encoder.cs:3267
 msgid "Ressitance"

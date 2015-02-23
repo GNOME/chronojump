@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=chronojump&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2015-02-21 16:11+0000\n"
-"PO-Revision-Date: 2015-02-21 20:51+0100\n"
+"PO-Revision-Date: 2015-02-23 21:23+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -343,24 +343,20 @@ msgid "Remove this person from automatic sequence"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:69
-#, fuzzy
 msgid "End Automatic mode"
-msgstr "Omogoči razhroščevalni način"
+msgstr "Končaj samodejni način"
 
 #: ../glade/chronojump.glade.h:70
-#, fuzzy
 msgid "End automatic mode"
-msgstr "Omogoči razhroščevalni način"
+msgstr "Končaj samodejni način"
 
 #: ../glade/chronojump.glade.h:71
-#, fuzzy
 msgid "Automatic mode"
-msgstr "Premešani način"
+msgstr "Samodejni način"
 
 #: ../glade/chronojump.glade.h:72
-#, fuzzy
 msgid "Start automatic mode"
-msgstr "Začni v načinu upravljalnika ukazov"
+msgstr "Začni samodejni način"
 
 #: ../glade/chronojump.glade.h:73
 msgid "1"
@@ -441,9 +437,8 @@ msgid "Start inside"
 msgstr "Začnte NA PODLOGI"
 
 #: ../glade/chronojump.glade.h:92
-#, fuzzy
 msgid "Start outside"
-msgstr "Zunanje obrobe"
+msgstr "Začni zunaj"
 
 #: ../glade/chronojump.glade.h:93
 msgid "Additional weight"
@@ -594,9 +589,8 @@ msgid "ms"
 msgstr "ms"
 
 #: ../glade/chronojump.glade.h:126
-#, fuzzy
 msgid "Take first contact"
-msgstr "_Uredi podrobnosti stika"
+msgstr "Začni ob prvem stiku"
 
 #: ../glade/chronojump.glade.h:127
 msgid "Take average"
@@ -604,9 +598,8 @@ msgstr "Povzemi povprečje"
 
 # Record sem prevajal kot zabeležen, saj tukaj ne gre za snemanje (kot na primer snemanje zvoka)..
 #: ../glade/chronojump.glade.h:128
-#, fuzzy
 msgid "Take last contact (recommended)"
-msgstr "Ohrani novejše (zadnje spremenjeno)"
+msgstr "Začni ob prvem stiku (priporočljivo)"
 
 #: ../glade/chronojump.glade.h:129
 msgid ""
@@ -624,11 +617,9 @@ msgstr "m"
 msgid "Time starts on leaving first device\t"
 msgstr "Čas prične teči ob odhodu s prve naprave\t"
 
-# Record sem prevajal kot zabeležen, saj tukaj ne gre za snemanje (kot na primer snemanje zvoka)..
 #: ../glade/chronojump.glade.h:133
-#, fuzzy
 msgid "Take average (recommended)"
-msgstr "Priporočljiva velikost medpomnilnika."
+msgstr "Povprečje (priporočeno)"
 
 #: ../glade/chronojump.glade.h:134
 msgid "Take last contact"
@@ -1157,23 +1148,20 @@ msgid "Contacts (platform or photocell)"
 msgstr "Stiki (merilna podloga ali fotocelice)"
 
 #: ../glade/chronojump.glade.h:241 ../src/gui/chronojump.cs:4567
-#, fuzzy
 msgid "Encoder disconnected"
-msgstr "%s je prekinil povezavo"
+msgstr "Kodirnik ni povezan"
 
 #: ../glade/chronojump.glade.h:242
-#, fuzzy
 msgid "Connect encoder"
-msgstr "Nastavitve kodirnika"
+msgstr "Poveži kodirnik"
 
 #: ../glade/chronojump.glade.h:243
 msgid "Encoder:"
 msgstr "Kodirnik:"
 
 #: ../glade/chronojump.glade.h:244
-#, fuzzy
 msgid "Select encoder"
-msgstr "Nastavitve kodirnika"
+msgstr "Izbor kodirnik"
 
 #: ../glade/chronojump.glade.h:245 ../src/gui/encoder.cs:566
 #: ../src/gui/encoder.cs:820 ../src/gui/encoder.cs:1233
@@ -1182,9 +1170,8 @@ msgid "Exercise"
 msgstr "Vaja"
 
 #: ../glade/chronojump.glade.h:246
-#, fuzzy
 msgid "Show/edit description of this exercise."
-msgstr "Pokaži opis vaje"
+msgstr "Pokaži/Uredi opis te vaje."
 
 #: ../glade/chronojump.glade.h:247
 msgid "Add new exercise"
@@ -1196,9 +1183,8 @@ msgid "Type of contraction"
 msgstr "_Razpredelnica skrčenih zapisov"
 
 #: ../glade/chronojump.glade.h:249
-#, fuzzy
 msgid "Right, Left or both (RL)"
-msgstr "Poravnava levo, desno ali po sredini"
+msgstr "Desno, levo ali oboje (DL)"
 
 #: ../glade/chronojump.glade.h:250
 msgid "Extra mass"
@@ -1233,48 +1219,40 @@ msgid "Finish capture"
 msgstr "Končaj zajem"
 
 #: ../glade/chronojump.glade.h:258
-#, fuzzy
 msgid "Load set"
-msgstr "Ni nastavljeno"
+msgstr "Naloži niz"
 
 #: ../glade/chronojump.glade.h:259
-#, fuzzy
 msgid "Recalculate set with changed parameters"
-msgstr "Ponovno izračunaj signal s spremenjenimi parametri"
+msgstr "Preračunaj niz s spremenjenimi parametri"
 
 #: ../glade/chronojump.glade.h:260
-#, fuzzy
 msgid "Delete set"
-msgstr "Ni nastavljeno"
+msgstr "Izbriši niz"
 
 #: ../glade/chronojump.glade.h:261
-#, fuzzy
 msgid "Export set to CSV (Spreadsheet)"
-msgstr "Izvozi sejo v _CSV (preglednica)"
+msgstr "Izvozi niz v CSV (preglednica)"
 
 #: ../glade/chronojump.glade.h:262 ../src/gui/encoder.cs:1232
-#, fuzzy
 msgid "Set"
-msgstr "Nastavi"
+msgstr "Niz"
 
 #: ../glade/chronojump.glade.h:263
 msgid "capture"
 msgstr "zajem"
 
 #: ../glade/chronojump.glade.h:264
-#, fuzzy
 msgid "Video capture"
 msgstr "Zajemanje videa"
 
 #: ../glade/chronojump.glade.h:265
-#, fuzzy
 msgid "Video play"
-msgstr "Predvajaj posnetek (v)"
+msgstr "Predvajaj posnetek"
 
 #: ../glade/chronojump.glade.h:266
-#, fuzzy
 msgid "Record video on capture"
-msgstr "Video na zahtevo ( VNZ )"
+msgstr "Zajemi video"
 
 #: ../glade/chronojump.glade.h:267
 msgid "Play"
@@ -1305,14 +1283,12 @@ msgid "Data:"
 msgstr "Podatki:"
 
 #: ../glade/chronojump.glade.h:273
-#, fuzzy
 msgid "Current set"
-msgstr "Določi trenutni okvir"
+msgstr "Trenutni niz"
 
 #: ../glade/chronojump.glade.h:274
-#, fuzzy
 msgid "Saved repetitions"
-msgstr "Ponavljanje dovajanja"
+msgstr "Shranjene ponovitve"
 
 #: ../glade/chronojump.glade.h:275
 msgid "("
@@ -1375,14 +1351,12 @@ msgid "Eccentric-concentric separated"
 msgstr "Z vejico ločene vrednosti"
 
 #: ../glade/chronojump.glade.h:289
-#, fuzzy
 msgid "Analyze mean values"
-msgstr "Vrednosti za opazovanje"
+msgstr "Analiza srednjih vrednosti"
 
 #: ../glade/chronojump.glade.h:290
-#, fuzzy
 msgid "Analyze max values"
-msgstr "Vrednosti za opazovanje"
+msgstr "Analiza najboljših vrednosti"
 
 #: ../glade/chronojump.glade.h:291
 msgid "Side compare allows a maximum of 12 graphs."
@@ -1394,9 +1368,8 @@ msgid "Max. 12 graphs"
 msgstr "_12-urni zapis časa"
 
 #: ../glade/chronojump.glade.h:293
-#, fuzzy
 msgid "Repetition number"
-msgstr "Število sider"
+msgstr "Število ponovitev"
 
 #: ../glade/chronojump.glade.h:294
 msgid "Show range"
@@ -1412,14 +1385,12 @@ msgid "Show speed"
 msgstr "Pokaži hitrost"
 
 #: ../glade/chronojump.glade.h:297
-#, fuzzy
 msgid "Show acceleration"
-msgstr "_Pokaži stanje"
+msgstr "Pokaži pospešek"
 
 #: ../glade/chronojump.glade.h:298
-#, fuzzy
 msgid "Show force"
-msgstr "Vsiljeno odstrani"
+msgstr "Pokaži silo"
 
 #: ../glade/chronojump.glade.h:299
 msgid "Show power"
@@ -1497,9 +1468,8 @@ msgid "Chronopic window"
 msgstr "Okno naprave kronopik"
 
 #: ../glade/chronojump.glade.h:319
-#, fuzzy
 msgid "Connect platform or photocells"
-msgstr "Ime gostitelja oziroma naslov za povezavo"
+msgstr "Poveži podlogo ali fotocelico"
 
 #: ../glade/chronojump.glade.h:320
 msgid "Connect"
@@ -1518,7 +1488,6 @@ msgid "<b>Supplementary</b> (can be used on MultiChronopic)"
 msgstr "<b>Dodatki</b> (uporabni z multikronopiki)"
 
 #: ../glade/chronojump.glade.h:324
-#, fuzzy
 msgid "<b>Connection</b>"
 msgstr "<b>Povezava</b>"
 
@@ -1531,7 +1500,6 @@ msgstr ""
 "(merilna podloga ali fotocelice)"
 
 #: ../glade/chronojump.glade.h:327
-#, fuzzy
 msgid ""
 "Select the port where Chronopic is connected.\n"
 "\n"
@@ -1539,11 +1507,11 @@ msgid ""
 "\n"
 "Just select port and then close this window."
 msgstr ""
-"Izberite vrata, na katera je priklopljen Kronopik.\n"
+"Izberite vrata, na katera je priklopljen kronopik.\n"
 "\n"
-"Poskušanje iskanja vrat ali omogočenje na kodirniku ni podprto.\n"
+"Na povezavi kodirnika ni treba pritisniti preizkusnega gumba.\n"
 "\n"
-"Enostavno izberite in nato zaprite to okno."
+"Enostavno izberite vrata in nato zaprite to okno."
 
 #: ../glade/chronojump.glade.h:332
 msgid "Chronopic"
@@ -1940,33 +1908,28 @@ msgid "Show start and duration of each repetition"
 msgstr ""
 
 #: ../glade/chronojump.glade.h:420
-#, fuzzy
 msgid "Select encoder configuration"
-msgstr "Določi trenutne nastavitve"
+msgstr "Izbor nastavitev kodrinika"
 
 #: ../glade/chronojump.glade.h:421
 msgid "Linear"
 msgstr "Linearen"
 
 #: ../glade/chronojump.glade.h:422
-#, fuzzy
 msgid "Rotary friction"
-msgstr "Trenje obremenitve"
+msgstr "Krožno trenje"
 
 #: ../glade/chronojump.glade.h:423
-#, fuzzy
 msgid "Rotary axis"
-msgstr "Poravnaj os"
+msgstr "Krožna os"
 
 #: ../glade/chronojump.glade.h:424
-#, fuzzy
 msgid "Push angle"
-msgstr "Pokaži kot"
+msgstr "Kot potiska"
 
 #: ../glade/chronojump.glade.h:425
-#, fuzzy
 msgid "Weight angle"
-msgstr "Pokaži kot"
+msgstr "Kot uteži"
 
 #: ../glade/chronojump.glade.h:426
 #, fuzzy
@@ -2354,29 +2317,24 @@ msgid "Add multiple persons"
 msgstr "Dodaj več testirancev"
 
 #: ../glade/chronojump.glade.h:521
-#, fuzzy
 msgid "Add entries from CSV (spreadsheet)"
-msgstr "Izvozi sejo v _CSV (preglednica)"
+msgstr "Dodaj nize iz datoteke CSV (preglednica)"
 
 #: ../glade/chronojump.glade.h:522
-#, fuzzy
 msgid "CSV file has headers"
-msgstr "Datoteka \"%s\" je odstranjena."
+msgstr "Datoteka CSV ima glavo stolpcev"
 
 #: ../glade/chronojump.glade.h:523
-#, fuzzy
 msgid "CSV file does not have headers"
-msgstr "Datoteka s ključem ni del skupine '%s'"
+msgstr "Datoteka CSV je brez glave stolpcev"
 
 #: ../glade/chronojump.glade.h:524
-#, fuzzy
 msgid "Full name in one column"
-msgstr "Neveljavno ime stolpca, %s, v mejah"
+msgstr "Polno ime je v enem stolpcu"
 
 #: ../glade/chronojump.glade.h:525
-#, fuzzy
 msgid "Full name in two columns"
-msgstr "Neveljavno ime vrstice, %s, v stolpcih"
+msgstr "Polno ime je v dveh stolpcih"
 
 #: ../glade/chronojump.glade.h:526
 msgid "Open CSV file"
@@ -2424,35 +2382,31 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:537
 msgid "Save the spreadsheet as CSV (Comma Separated Values)."
-msgstr ""
+msgstr "Shrani preglednico kot CSV (z vejico ločene vrednosti)"
 
 #: ../glade/chronojump.glade.h:538
 msgid "Mark if CSV file has header row or not."
-msgstr ""
+msgstr "Označi, če ima datoteka CSV prvo vrstico z glavo stolpcev."
 
 #: ../glade/chronojump.glade.h:539
-#, fuzzy
 msgid "Open CSV file."
-msgstr "Razčlenjevanje CSV datoteke %1"
+msgstr "Odpri datoteko CSV"
 
 #: ../glade/chronojump.glade.h:540
-#, fuzzy
 msgid "This help."
-msgstr "Pokaži to pomoč"
+msgstr "Ta stran pomoči"
 
 #: ../glade/chronojump.glade.h:541
-#, fuzzy
 msgid "Full name in 1 column"
-msgstr "Neveljavno ime stolpca, %s, v mejah"
+msgstr "Polno ime v 1 stolpcu"
 
 #: ../glade/chronojump.glade.h:542
-#, fuzzy
 msgid "Full name in 2 columns"
-msgstr "Neveljavno ime vrstice, %s, v stolpcih"
+msgstr "Polno ime v 2 stolpcih"
 
 #: ../glade/chronojump.glade.h:543
 msgid "Full name in one column or in two (name/surname)."
-msgstr ""
+msgstr "Polno ime je v enem ali dveh stolpcih (ime/priimek)"
 
 #: ../glade/chronojump.glade.h:544
 msgid "Load persons"
@@ -2591,9 +2545,8 @@ msgid "Please, wait."
 msgstr "Počakajte."
 
 #: ../glade/chronojump.glade.h:576
-#, fuzzy
 msgid "Open logs folder"
-msgstr "_Odpri vsebujočo mapo"
+msgstr "Odpri mapo dnevnikov"
 
 #: ../glade/chronojump.glade.h:577
 msgid "Database"
@@ -2604,9 +2557,8 @@ msgid "Initial speed"
 msgstr "Začetna hitrost"
 
 #: ../glade/chronojump.glade.h:579
-#, fuzzy
 msgid "Indexes between TF and TC"
-msgstr "Pokaži indekse med čL in čS"
+msgstr "Indeksi med čL in čS"
 
 #: ../glade/chronojump.glade.h:580
 msgid "QIndex"
@@ -2638,7 +2590,7 @@ msgstr "Višina (cm)"
 
 #: ../glade/chronojump.glade.h:587
 msgid "How to calculate these statistics:"
-msgstr ""
+msgstr "Kako izračunati statistične vrednosti:"
 
 #: ../glade/chronojump.glade.h:588
 #, fuzzy
@@ -2646,18 +2598,16 @@ msgid "Arms Use Index"
 msgstr "Pokaži filter _kazala"
 
 #: ../glade/chronojump.glade.h:589
-#, fuzzy
 msgid "Use height"
-msgstr "Višina okna"
+msgstr "Uporabi višino"
 
 #: ../glade/chronojump.glade.h:590
 msgid "default"
 msgstr "privzeto"
 
 #: ../glade/chronojump.glade.h:591
-#, fuzzy
 msgid "Use flight time"
-msgstr "Pokaži spletni zapis časa"
+msgstr "Uporabi čas leta"
 
 #: ../glade/chronojump.glade.h:592
 msgid "Calculations"
@@ -2681,7 +2631,7 @@ msgstr ""
 
 #: ../glade/chronojump.glade.h:597
 msgid "Save the repetition with best mean power"
-msgstr ""
+msgstr "Shrani ponovitve z najboljšimi povprečnimi obremenitvami"
 
 #: ../glade/chronojump.glade.h:598
 msgid "Save all"
@@ -2753,19 +2703,16 @@ msgid "Decimal number"
 msgstr "Decimalno število"
 
 #: ../glade/chronojump.glade.h:615
-#, fuzzy
 msgid "Export to spreadsheet"
-msgstr "Izvozi sejo v _CSV (preglednica)"
+msgstr "Izvozi v preglednico"
 
 #: ../glade/chronojump.glade.h:616
-#, fuzzy
 msgid "Latin"
-msgstr "latinski"
+msgstr "Latinica"
 
 #: ../glade/chronojump.glade.h:617
-#, fuzzy
 msgid "Non-Latin"
-msgstr "_Srbščina (v latinici)"
+msgstr "Ne latinične pisave"
 
 #: ../glade/chronojump.glade.h:618
 msgid "Translate statistics graphs"
@@ -2776,9 +2723,8 @@ msgid "Translate"
 msgstr "Prevedi"
 
 #: ../glade/chronojump.glade.h:620
-#, fuzzy
 msgid "Do not translate"
-msgstr "Ne namesti:"
+msgstr "Ne prevajaj"
 
 #: ../glade/chronojump.glade.h:621
 msgid "Query to server"
@@ -3499,14 +3445,13 @@ msgid "Chronojump will exit now."
 msgstr "ChronoJump bo sedaj končan."
 
 #: ../src/chronojump.cs:506
-#, fuzzy
 msgid "Open Chronojump"
-msgstr "ChronoJump - Potrditev"
+msgstr "Odpri ChronoJump"
 
 #: ../src/chronojump.cs:684
-#, fuzzy, csharp-format
+#, csharp-format
 msgid "Chronojump {0} crashed before."
-msgstr "ChronoJump se je v preteklosti že sesul. "
+msgstr "ChronoJump {0} se je v preteklosti že sesul. "
 
 #: ../src/chronojump.cs:685
 msgid ""
@@ -3643,18 +3588,16 @@ msgid "Are you sure you want to overwrite file: {0}"
 msgstr "Ali ste prepričani, da želite prepisati datoteko: {0}"
 
 #: ../src/constants.cs:38
-#, fuzzy
 msgid "Main developer."
-msgstr "Dokumentacija za razvijalce"
+msgstr "Glavni razvijalec"
 
 #: ../src/constants.cs:40
 msgid "Installation support: Autotools, packaging, bundle."
 msgstr "Podpora namestitve: autotools, ustvarjanje paketov programske opreme."
 
 #: ../src/constants.cs:42
-#, fuzzy
 msgid "Backend developer."
-msgstr "Dokumentacija za razvijalce"
+msgstr "Razvijalci ozadnjih programov"
 
 #: ../src/constants.cs:45
 msgid "Translation of Firmware to C."
@@ -3687,9 +3630,8 @@ msgid "Chronojump Manual English translation."
 msgstr "Angleški prevod priročnika ChronoJump"
 
 #: ../src/constants.cs:86
-#, fuzzy
 msgid "Chronojump profile"
-msgstr "Ime profila"
+msgstr "Profil Chronojump"
 
 #: ../src/constants.cs:151
 msgid "Any"
@@ -3723,9 +3665,8 @@ msgstr ""
 "uporabiti ločilni znak podpičje <b>;</b> oziroma vejico <b>,</b>."
 
 #: ../src/constants.cs:212
-#, fuzzy
 msgid "This can be changed on preferences."
-msgstr "To nastavitev lahko preklapljate sproti"
+msgstr "Nastavitev je mogoče spremeniti med podrobnostmi"
 
 #. OLD, check this
 #. public static string PotencyLewisCMJFormula = Catalog.GetString("Peak Power")+ " CMJ (Lewis) " +
@@ -3771,9 +3712,8 @@ msgid "Peak power"
 msgstr "Končna moč"
 
 #: ../src/constants.cs:220
-#, fuzzy
 msgid "(Watts)"
-msgstr "vati"
+msgstr "(vati)"
 
 #: ../src/constants.cs:222 ../src/constants.cs:256 ../src/constants.cs:261
 #: ../src/constants.cs:266 ../src/constants.cs:272 ../src/constants.cs:277
@@ -4006,9 +3946,8 @@ msgstr "Posodabljanje podatkovne zbirke"
 
 #. 4
 #: ../src/constants.cs:577
-#, fuzzy
 msgid "Connecting to server"
-msgstr "Počisti prosojno"
+msgstr "Povezovanje s strežnikom"
 
 #. 5
 #: ../src/constants.cs:578
@@ -4020,19 +3959,16 @@ msgid "Error. Cannot find database."
 msgstr "Napaka. Ni mogoče najti podatkovne zbirke."
 
 #: ../src/constants.cs:582
-#, fuzzy
 msgid "Error. Cannot open directory."
-msgstr "Ni mogoče odprti poštne poti maildir: %s: %s"
+msgstr "Napaka: ni mogoče odprti mape."
 
 #: ../src/constants.cs:583
-#, fuzzy
 msgid "Error. File not found."
-msgstr "datoteke programa ni mogoče najti %s"
+msgstr "Napaka: datoteke ni mogoče najti."
 
 #: ../src/constants.cs:584
-#, fuzzy
 msgid "Error. Cannot copy file."
-msgstr "Ni mogoče kopirati v datoteko {0} "
+msgstr "Napaka: ni mogoče kopirati datoteke"
 
 #: ../src/constants.cs:611
 msgid "In"
@@ -4050,14 +3986,12 @@ msgstr "Na zavihku rezultatov skokov je moč izračunana glede na vrsto skoka:"
 #. "\n" +
 #. Catalog.GetString("P = 24.6 * (Total time + Flight time) / Contact time") +
 #: ../src/constants.cs:634
-#, fuzzy
 msgid "Jumps with TC and TF:"
-msgstr "in pokaži najboljše razmerje čL/čS"
+msgstr "Skoki z čS in čL"
 
 #: ../src/constants.cs:634
-#, fuzzy
 msgid "Developed by Chronojump team"
-msgstr "Hitrejša uporaba programa Chronojump"
+msgstr "Program razvija skupina Chronojump"
 
 #: ../src/constants.cs:636
 msgid "Calcule the potential energies on fall and after the jump."
@@ -4198,28 +4132,24 @@ msgid "Not enough data."
 msgstr "Premalo podatkov."
 
 #: ../src/constants.cs:877
-#, fuzzy
 msgid "Encoder is not connected."
-msgstr "Sistem MAPI ni začet ali povezan"
+msgstr "Kodirnik ni povezan"
 
 #: ../src/constants.cs:878
-#, fuzzy
 msgid "prediction"
-msgstr "Napoved"
+msgstr "napoved"
 
 #: ../src/constants.cs:879
 msgid "Concentric mean speed on bench press 1RM is"
 msgstr ""
 
 #: ../src/constants.cs:880
-#, fuzzy
 msgid "Estimated percentual load ="
-msgstr "Ni mogoče naložiti `%s': %s"
+msgstr "Ocenjen a obremenitev"
 
 #: ../src/constants.cs:881
-#, fuzzy
 msgid "Adapted from"
-msgstr "Veljavno od:"
+msgstr "Povzeto po"
 
 #: ../src/constants.cs:882
 #, fuzzy
@@ -4228,7 +4158,7 @@ msgstr "Pri koncentričnih gibih, oceni le odrivni del giba."
 
 #: ../src/constants.cs:883
 msgid "Sorry, no repetitions matched your criteria."
-msgstr ""
+msgstr "Ni ponovitev, ki ustrezajo kriterijem."
 
 #: ../src/constants.cs:884
 msgid "Need at least three jumps"
@@ -4703,9 +4633,8 @@ msgid ""
 msgstr "Predstavnostna datoteka ne obstaja."
 
 #: ../src/json.cs:75
-#, fuzzy
 msgid "Could not send file."
-msgstr "Ni mogoče odpreti datoteke"
+msgstr "Ni mogoče poslati datoteke"
 
 #: ../src/json.cs:76 ../src/json.cs:142 ../src/json.cs:182 ../src/json.cs:196
 #, fuzzy, csharp-format
@@ -4722,9 +4651,8 @@ msgid "Log sent. Thank you."
 msgstr "Poslali ste zastarel SNAC"
 
 #: ../src/json.cs:141
-#, fuzzy
 msgid "Could not get last version."
-msgstr "Ni mogoče pridobiti različice sheme"
+msgstr "Ni mogoče pridobiti zadnje različice"
 
 #: ../src/gui/chronojump.cs:814
 #, csharp-format
@@ -5029,9 +4957,8 @@ msgid "Sorry, video cannot be stored."
 msgstr "Žal videa ni mogoče shraniti."
 
 #: ../src/gui/chronojump.cs:4565
-#, fuzzy
 msgid "Encoder connected"
-msgstr "Razhroščevalnik je povezan\n"
+msgstr "Kodirnik je povezan"
 
 #: ../src/gui/chronojump.cs:4601
 msgid "Changes"
@@ -5294,9 +5221,8 @@ msgid "Missing data."
 msgstr "Manjkajo podatki."
 
 #: ../src/gui/encoder.cs:823
-#, fuzzy
 msgid "Mean Power"
-msgstr "<b>Povprečna moč</b> (W)"
+msgstr "Povprečna moč"
 
 #: ../src/gui/encoder.cs:825 ../src/gui/encoder.cs:1237
 msgid "Contraction"
@@ -5395,6 +5321,7 @@ msgstr "Ali ste prepričani, da želite izbrisati ta stik?"
 #: ../src/gui/encoder.cs:1381 ../src/gui/encoder.cs:1614
 msgid "Saved repetitions related to this set will also be deleted."
 msgstr ""
+"Shranjena ponavljanja, kis o povezana s tem nizom, bodo prav tako izbrisana."
 
 #: ../src/gui/encoder.cs:1499
 #, fuzzy
@@ -5408,9 +5335,8 @@ msgid "Cannot save file {0} "
 msgstr "Ni mogoče shraniti datoteke {0}"
 
 #: ../src/gui/encoder.cs:1633
-#, fuzzy
 msgid "Set deleted"
-msgstr "_Povrnjeno"
+msgstr "Niz je izbrisan"
 
 #: ../src/gui/encoder.cs:1728 ../src/gui/encoderTreeviews.cs:119
 #: ../src/gui/executeAuto.cs:456
@@ -5418,19 +5344,16 @@ msgid "Saved"
 msgstr "Shranjeno"
 
 #: ../src/gui/encoder.cs:1852
-#, fuzzy
 msgid "Set saved"
-msgstr "Sporočilo je shranjeno."
+msgstr "Niz je shranjen"
 
 #: ../src/gui/encoder.cs:1885
-#, fuzzy
 msgid "Set updated"
-msgstr "Zunanje posodobljeno: %s"
+msgstr "Niz je posodobljen"
 
 #: ../src/gui/encoder.cs:1910
-#, fuzzy
 msgid "Sorry, no repetitions selected."
-msgstr "Ni izbranih datotek v sporu."
+msgstr "Ni izbranih ponovitev"
 
 #: ../src/gui/encoder.cs:1923 ../src/gui/encoder.cs:3111
 msgid "Speed,Power / Load"
@@ -5453,9 +5376,8 @@ msgid "Sorry, cannot calculate 1RM of different exercises."
 msgstr "Žal ni mogoče izračunati mejne teže za različne vaje."
 
 #: ../src/gui/encoder.cs:2935
-#, fuzzy
 msgid "About Neuromuscular Profile"
-msgstr "Ime profila vstavkov"
+msgstr "O nevromuskularnem profilu"
 
 #: ../src/gui/encoder.cs:2936
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
@@ -5632,14 +5554,12 @@ msgid "Error: An exercise named '{0}' already exists."
 msgstr "Napaka: vaja z imenom {0} že obstaja."
 
 #: ../src/gui/encoder.cs:3585
-#, fuzzy
 msgid "Sorry, predefined exercises cannot be deleted."
-msgstr "Žal videa ni mogoče shraniti."
+msgstr "Prednastavljenih vaj ni mogoče izbrisati"
 
 #: ../src/gui/encoder.cs:3594
-#, fuzzy
 msgid "Sorry, this exercise cannot be deleted."
-msgstr "Žal videa ni mogoče shraniti."
+msgstr "Te vaje ni mogoče izbrisati"
 
 #: ../src/gui/encoder.cs:3595
 #, fuzzy
@@ -5648,19 +5568,16 @@ msgstr "najprej jih je treba urediti ali izbrisati."
 
 #. not shown, unused
 #: ../src/gui/encoder.cs:3604
-#, fuzzy
 msgid "Repetitions"
-msgstr "Ponavljanje dovajanja"
+msgstr "Ponovitve"
 
 #: ../src/gui/encoder.cs:3627
-#, fuzzy
 msgid "Exercise deleted."
-msgstr "_Povrnjeno"
+msgstr "Vaja je izbisan"
 
 #: ../src/gui/encoder.cs:4449
-#, fuzzy
 msgid "saved"
-msgstr "Shranjeno"
+msgstr "shranjeno"
 
 #: ../src/gui/encoder.cs:4683
 msgid "Chronopic port is not configured."
@@ -5682,9 +5599,8 @@ msgid "Starting process"
 msgstr "Začenjanje opravila zajemanja ..."
 
 #: ../src/gui/encoder.cs:5254
-#, fuzzy
 msgid "Loading libraries"
-msgstr "Dodatne knjižnice:"
+msgstr "Dodatne knjižnice"
 
 #: ../src/gui/encoder.cs:5258
 #, fuzzy
@@ -5724,7 +5640,7 @@ msgstr ""
 
 #: ../src/gui/encoder.cs:5716
 msgid "This will let the person to have more time to start movement."
-msgstr ""
+msgstr "S tem bo imel testiranec več časa za začetek gibanja."
 
 #: ../src/gui/encoderConfiguration.cs:235
 msgid ""
@@ -5752,18 +5668,16 @@ msgid "Series"
 msgstr "Niz"
 
 #: ../src/gui/encoderTreeviews.cs:447
-#, fuzzy
 msgid "Total weight"
-msgstr "Enobarvno (teža)"
+msgstr "Skupna masa"
 
 #: ../src/gui/evaluator.cs:345
 msgid "Select of Birth"
 msgstr "Izbor dneva rojstva"
 
 #: ../src/gui/event.cs:332
-#, fuzzy
 msgid "Video available here:"
-msgstr "Pospeševanje videa ni na voljo"
+msgstr "Video je na voljo na:"
 
 #: ../src/gui/event.cs:337
 #, csharp-format
@@ -5815,12 +5729,10 @@ msgid "Sorry, this sequence '{0}' already exists in database"
 msgstr "Šport '{0}' že obstaja v podatkovni zbirki."
 
 #: ../src/gui/executeAuto.cs:502
-#, fuzzy
 msgid "Serie"
 msgstr "Niz"
 
 #: ../src/gui/executeAuto.cs:544
-#, fuzzy
 msgid "Accept"
 msgstr "Sprejmi"
 
@@ -6114,14 +6026,12 @@ msgid "Sorry, this sport '{0}' already exists in database"
 msgstr "Šport '{0}' že obstaja v podatkovni zbirki."
 
 #: ../src/gui/person.cs:1571
-#, fuzzy
 msgid "Please, write the name of the person."
-msgstr "Testiranec: '{0}' že obstaja. Uporabite drugo ime."
+msgstr "Vpišite ime osebe."
 
 #: ../src/gui/person.cs:1573
-#, fuzzy
 msgid "Please, complete the weight of the person."
-msgstr "Testiranec: '{0}' že obstaja. Uporabite drugo ime."
+msgstr "Vpišite maso testiranca."
 
 #: ../src/gui/person.cs:1587
 #, csharp-format
@@ -6129,33 +6039,33 @@ msgid "Person: '{0}' exists. Please, use another name"
 msgstr "Testiranec: '{0}' že obstaja. Uporabite drugo ime."
 
 #: ../src/gui/person.cs:1831
-#, fuzzy
 msgid "Table has already been created."
-msgstr "Ustvarjena je bila nova povezana razpredelnica."
+msgstr "Razpredelnica je že ustvarjena"
 
 #: ../src/gui/person.cs:1949
-#, fuzzy
 msgid "Select CSV file"
-msgstr "Razčlenjevanje CSV datoteke %1"
+msgstr "Izbor datoteke CSV"
 
 #: ../src/gui/person.cs:2002
-#, fuzzy
 msgid "Error importing data."
-msgstr "Uvažanje podatkov Elm"
+msgstr "Napaka uvoza podatkov"
 
 #: ../src/gui/person.cs:2004
 msgid "Seems there's a header row and you have not marked it."
 msgstr ""
+"Zdi se, da je v podatkih tudi vrstica glave stolpcev, vendar tega niste "
+"označili."
 
 #: ../src/gui/person.cs:2043
 msgid ""
 "Import persons from an spreadsheet. Eg. Excel, LibreOffice, Google Drive."
 msgstr ""
+"Uvozi testirance iz preglednice, kot je MS Excel, LibreOffice, Google Drive "
+"in podobno."
 
 #: ../src/gui/person.cs:2044
-#, fuzzy
 msgid "Open the spreadsheet with the persons data to be added."
-msgstr "Ali pa med pošiljanjem izpustite označene testirance."
+msgstr "Odpri preglednico za dodajanje podatkov testiranca."
 
 #: ../src/gui/person.cs:2045
 msgid "Spreadsheed structure need to have this structure:"
@@ -6202,14 +6112,12 @@ msgstr ""
 "čas"
 
 #: ../src/gui/person.cs:2458 ../src/gui/session.cs:739
-#, fuzzy
 msgid "Encoder sets"
-msgstr "Objave"
+msgstr "Objave kodirnika"
 
 #: ../src/gui/person.cs:2459 ../src/gui/session.cs:740
-#, fuzzy
 msgid "Encoder repetitions"
-msgstr "Ponavljanje dovajanja"
+msgstr "Ponovitve kodirnika"
 
 #: ../src/gui/preferences.cs:358
 msgid "Cannot create directory."
@@ -6284,9 +6192,8 @@ msgid "You need to activate sounds in main window"
 msgstr "Zvoke je treba omogočiti v glavnem oknu"
 
 #: ../src/gui/repetitiveConditions.cs:241
-#, fuzzy
 msgid "top right"
-msgstr "Zgoraj desno"
+msgstr "zgoraj desno"
 
 #: ../src/gui/report.cs:140
 msgid "Session/s"
@@ -8813,14 +8720,12 @@ msgid "Runner"
 msgstr "Tekač"
 
 #: ../src/treeViewRun.cs:132
-#, fuzzy
 msgid "Lap time"
-msgstr "Vstavi _čas"
+msgstr "Čas kroga"
 
 #: ../src/treeViewRun.cs:133
-#, fuzzy
 msgid "Split time"
-msgstr "Vstavi _čas"
+msgstr "Vmesni čas"
 
 #~ msgid ""
 #~ "Jumps\n"

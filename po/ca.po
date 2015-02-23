@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: chronojump\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-19 14:25+0100\n"
-"PO-Revision-Date: 2015-02-20 17:17+0100\n"
+"PO-Revision-Date: 2015-02-23 10:30+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -544,16 +544,21 @@ msgstr ""
 "Si un salt múltiple està limitat pel temps, i el temps s'ha esgotat, "
 "permetre acabar el salt"
 
+# "means when" no se si és correcte
+# It starts --> "he" o "The running"
 #: ../glade/chronojump.glade.h:118
 msgid ""
 "\"Speed start\" means when athlete does not start with \"contact\" on the "
 "first platform or photocell.\n"
 "It starts before and arrives there with some speed."
 msgstr ""
+"\"Carrera llençada\" significa que l'atleta no comença amb un \"contacte\" a "
+"la primera plataforma o fotocèl·lula.\n"
+"Comença abans i arriba amb certa velocitat."
 
 #: ../glade/chronojump.glade.h:120
 msgid "What to do on speed start?"
-msgstr "Què fer a l'inici de la velocitat?"
+msgstr "Què fer en carrera llençada?"
 
 #: ../glade/chronojump.glade.h:121
 msgid "Time starts on arrival at first device"
@@ -1182,7 +1187,7 @@ msgstr "Massa total"
 
 #: ../glade/chronojump.glade.h:253
 msgid "1RM window"
-msgstr ""
+msgstr "Finestra 1RM"
 
 #: ../glade/chronojump.glade.h:254
 msgid "Or press 'CTRL + space'"
@@ -1427,6 +1432,12 @@ msgid ""
 "Simulated tests will be discarded.\n"
 "Evaluator can use real name or nickname."
 msgstr ""
+"Es respecta la privacitat:\n"
+"- Noms, comentaris, fotos i vídeos no es pujen.\n"
+"- Dates de naixement son ocultades.\n"
+"\n"
+"Els tests simulats es descartaran.\n"
+"L'avaluador pot usar un nom real o un sobrenom."
 
 #: ../glade/chronojump.glade.h:316
 msgid "Share data!"
@@ -1518,9 +1529,8 @@ msgid "About"
 msgstr "Sobre"
 
 #: ../glade/chronojump.glade.h:340
-#, fuzzy
 msgid "<b>Chronojump CEO's</b>"
-msgstr "<b>Chronojump</b>"
+msgstr "<b>Directiva de Chronojump</b>"
 
 #: ../glade/chronojump.glade.h:341
 msgid "<b>Software</b>"
@@ -1532,7 +1542,7 @@ msgstr "<b>Maquinari: Chronopic</b>"
 
 #: ../glade/chronojump.glade.h:343
 msgid "<b>Hardware: Devices</b>"
-msgstr ""
+msgstr "<b>Maquinari: Dispositius</b>"
 
 #: ../glade/chronojump.glade.h:344
 msgid "<b>Mathematics and Statistics support</b>"
@@ -1804,9 +1814,8 @@ msgid ""
 msgstr ""
 
 #: ../glade/chronojump.glade.h:405
-#, fuzzy
 msgid "Sit back down"
-msgstr "negre"
+msgstr "Tornar a seure"
 
 #: ../glade/chronojump.glade.h:406
 msgid "Able to sit down smoothly without using hands."
@@ -1830,7 +1839,7 @@ msgstr "Opcions de captura d'encoder"
 
 #: ../glade/chronojump.glade.h:411
 msgid "Safe"
-msgstr ""
+msgstr "Segur"
 
 #: ../glade/chronojump.glade.h:412
 msgid "Recording time"
@@ -1902,7 +1911,7 @@ msgstr "Calcula el MI"
 
 #: ../glade/chronojump.glade.h:429
 msgid "Accuracy"
-msgstr ""
+msgstr "Precisió"
 
 #: ../glade/chronojump.glade.h:430
 msgid "grams"
@@ -2141,6 +2150,8 @@ msgid ""
 "All the persons perform first test,\n"
 "all the persons perform second test ..."
 msgstr ""
+"Totes les persones executen el primer test,\n"
+"totes les persones executen el segon test ..."
 
 #: ../glade/chronojump.glade.h:488
 msgid ""
@@ -2148,6 +2159,9 @@ msgid ""
 "all the persons perform second set ...\n"
 "One set can contain several tests."
 msgstr ""
+"Sotes les persones executen la primera sèrie,\n"
+"totes les persones executen la segona sèrie...\n"
+"Una sèrie pot contenir diversos tests."
 
 #: ../glade/chronojump.glade.h:491
 msgid "page 2"
@@ -2301,7 +2315,7 @@ msgstr "A_juda"
 
 #: ../glade/chronojump.glade.h:528
 msgid "Add entries manually"
-msgstr ""
+msgstr "Afegir entrades manualment"
 
 #: ../glade/chronojump.glade.h:529
 msgid "Create table"
@@ -2639,7 +2653,7 @@ msgstr "Recomanat: Ponderat^2"
 
 #: ../glade/chronojump.glade.h:609
 msgid "1RM prediction"
-msgstr ""
+msgstr "Predicció de l'1RM"
 
 #: ../glade/chronojump.glade.h:610
 msgid "Select the camera"
@@ -2726,9 +2740,8 @@ msgid "Evaluator"
 msgstr "Avaluador"
 
 #: ../glade/chronojump.glade.h:631
-#, fuzzy
 msgid "Show query"
-msgstr "Mostra potència"
+msgstr "Mostrar consulta"
 
 #: ../glade/chronojump.glade.h:632
 msgid "Results:"
@@ -2804,7 +2817,7 @@ msgstr "<b>Potència mitjana</b> (W)"
 
 #: ../glade/chronojump.glade.h:650
 msgid "<b>Mean speed</b> (m/s)"
-msgstr ""
+msgstr "<b>Velocitat mitjana</b> (m/s)"
 
 #: ../glade/chronojump.glade.h:651
 msgid "<b>Max speed</b> (m/s)"
@@ -3055,6 +3068,9 @@ msgid ""
 "<i>E</i> Not uploaded. Already Exists.\n"
 "<i>S</i> Not uploaded. Simulated test."
 msgstr ""
+"<i>U</i> Pujat.\n"
+"<i>E</i> No s'ha pujat. Ja existeix\n"
+"<i>S</i> No s'ha pujat. Test simulat."
 
 #: ../glade/chronojump.glade.h:713
 msgid "Thanks for your time.  Graphs will be updated on server at 3h7min UTC."
@@ -3271,15 +3287,15 @@ msgstr "%d:%02d"
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d hora"
+msgstr[1] "%d hores"
 
 #: ../libcesarplayer/video-utils.c:171
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d minut"
+msgstr[1] "%d minuts"
 
 #: ../libcesarplayer/video-utils.c:173
 #, c-format
@@ -4032,7 +4048,7 @@ msgstr "Velocitat"
 
 #: ../src/constants.cs:859
 msgid "Accel."
-msgstr ""
+msgstr "Accel."
 
 #: ../src/constants.cs:860
 msgid "Force"
@@ -4099,7 +4115,7 @@ msgstr "Càrrega percentual estimada="
 
 #: ../src/constants.cs:881
 msgid "Adapted from"
-msgstr ""
+msgstr "Adaptat de"
 
 #: ../src/constants.cs:882
 msgid "Mean speed in concentric propulsive phase"
@@ -4132,7 +4148,7 @@ msgstr "Encoder lineal acoblat a una barra de peses."
 
 #: ../src/encoder.cs:861
 msgid "Also common gym tests like jumps or chin-ups."
-msgstr ""
+msgstr "També proves habituals de gimnàs com salts o dominades."
 
 #: ../src/encoder.cs:908 ../src/encoder.cs:939 ../src/encoder.cs:961
 msgid "Linear encoder inverted attached to a barbell."
@@ -5183,7 +5199,7 @@ msgstr "Repeticions desades de l'altleta {0} en aquesta sessió"
 
 #: ../src/gui/encoder.cs:854
 msgid "Activate the repetitions you want to use clicking on first column."
-msgstr ""
+msgstr "Activeu les repeticions que vulgueu usar clicant a la primera columna."
 
 #: ../src/gui/encoder.cs:855 ../src/gui/encoder.cs:1256
 msgid "If you want to edit or delete a row, right click on it."
@@ -5305,7 +5321,7 @@ msgstr "Velocitat, Potència / Càrrega"
 
 #: ../src/gui/encoder.cs:1925 ../src/gui/encoder.cs:3029
 msgid "1RM Bench Press"
-msgstr ""
+msgstr "1RM de pres banca"
 
 #: ../src/gui/encoder.cs:1927 ../src/gui/encoder.cs:3029
 msgid "1RM Any exercise"
@@ -5321,7 +5337,7 @@ msgstr "Ho sentim, no es pot calcular l'1RM de diferents exercicis."
 
 #: ../src/gui/encoder.cs:2851
 msgid "About Neuromuscular Profile"
-msgstr ""
+msgstr "Sobre el Perfil Neuromuscular"
 
 #: ../src/gui/encoder.cs:2852
 msgid "Load = Average eccentric RFD (Ratio of Force Development)"
@@ -5445,7 +5461,7 @@ msgstr "Desat."
 #: ../src/gui/encoder.cs:3257
 #, csharp-format
 msgid "1RM found: {0} Kg."
-msgstr ""
+msgstr "1RM trobat: {0} Kg"
 
 #: ../src/gui/encoder.cs:3258
 #, csharp-format
@@ -5689,7 +5705,7 @@ msgstr "Sèrie"
 
 #: ../src/gui/executeAuto.cs:544
 msgid "Accept"
-msgstr ""
+msgstr "Acceptar"
 
 #: ../src/gui/genericWindow.cs:362 ../src/gui/genericWindow.cs:411
 #: ../src/gui/stats.cs:220 ../src/stats/main.cs:251
@@ -6266,7 +6282,7 @@ msgstr "perquè hi ha 16 pistes:"
 
 #: ../src/gui/runType.cs:366
 msgid "2 different tracks: ('Run' and 'rest') x 8 times"
-msgstr ""
+msgstr "Dos trams diferents: ('Córrer' i 'descansar') x 8 vegades"
 
 #: ../src/gui/runType.cs:367
 msgid "And the 'distance' of each different track will be:"
@@ -6628,6 +6644,7 @@ msgid ""
 "'Like this' means normal, with a foot in front of the other, not side by "
 "side."
 msgstr ""
+"'Com aquest' vol dir normal, amb un peu en davant de l'altre, no de costat."
 
 #: ../src/runType.cs:166
 msgid "SCORE: "
@@ -8372,9 +8389,8 @@ msgid "Arms use."
 msgstr "Ús de braços"
 
 #: ../src/stats/chronojumpProfile.cs:36
-#, fuzzy
 msgid "F reactive"
-msgstr "Reactiu"
+msgstr "Força reactiva"
 
 #: ../src/stats/djIndex.cs:32
 msgid "Dj Index"

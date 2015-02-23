@@ -31,6 +31,7 @@ g = 9.81
 
 calcule <- function(displacement, start, end, op) 
 {
+write("At calcule", stderr())
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
 	#if nothing: "-;-"
@@ -53,6 +54,7 @@ calcule <- function(displacement, start, end, op)
 	}
 
 
+write("At calcule calling kinematics", stderr())
 	kinematicsResult <- kinematicsF(displacement, 
 		    op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
 		    op$EncoderConfigurationName, op$diameter, op$diameterExt, op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
@@ -73,6 +75,7 @@ calcule <- function(displacement, start, end, op)
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
 		  sep=", "))
 	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
+write("ended calcule", stderr())
 }
 		
 getPositionStart <- function(input) 
@@ -84,8 +87,32 @@ getPositionStart <- function(input)
 		return (0)
 }
 
+
+#converts data: "0*5 1 0 -1*3 2"
+#into: 0  0  0  0  0  1  0 -1 -1 -1  2
+uncompress <- function(curveSent)
+{
+	chunks = unlist(strsplit(curveSent, " "))
+	s = NULL
+	ints = NULL
+	for(i in 1:length(chunks)) 
+	{
+		if(grepl("\\*",chunks[i])) {
+			chunk = as.numeric(unlist(strsplit(chunks[i], "\\*"))) #from "0*1072" to: 0 1072 (as integers)
+			chunk = rep(chunk[1],chunk[2])
+		} else {
+			chunk=chunks[i]
+		}
+		ints = c(ints,chunk)
+	}
+	return (as.numeric(ints))
+}
+
+
+
 doProcess <- function() 
 {
+	write("doProcess", stderr())
 	op <- assignOptions(options)
 
 	#print ("----op----")
@@ -93,6 +120,8 @@ doProcess <- function()
 	
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
+		write("doProcess main while", stderr())
+		
 		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 		#cat(paste("input is:", input, "\n"))
 
@@ -100,13 +129,21 @@ doProcess <- function()
 		#then it's send the displacement
 		positionStart = getPositionStart(input)
 		input <- readLines(f, n = 1L)
+		
+		write("doProcess input", stderr())
+		#write(input, stderr())
 
-		displacement = as.numeric(unlist(strsplit(input, " ")))
+		#when data is sent uncompressed
+		#displacement = as.numeric(unlist(strsplit(input, " ")))
+		#when data is sent compressed
+		displacement = uncompress(input)
+
 		#if data file ends with comma. Last character will be an NA. remove it
 		#this removes all NAs
 		displacement  = displacement[!is.na(displacement)]
 
 
+		write("doProcess 2", stderr())
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
@@ -134,6 +171,7 @@ doProcess <- function()
 
 			displacement = displacement[start:end]
 		}
+		write("doProcess 3", stderr())
 
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
@@ -156,6 +194,7 @@ doProcess <- function()
 		} else {
 			calcule(displacement, start, end, op) #TODO: check this start, end
 		}
+		write("doProcess 4", stderr())
 
 		input <- readLines(f, n = 1L)
 	}

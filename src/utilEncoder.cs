@@ -474,6 +474,26 @@ public class UtilEncoder
 
 
 
+	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
+	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double heightAtStart, string curveCompressed)
+	{
+		LogB.Debug("writing line 1 -->");
+		
+		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
+		LogB.Debug("curveSend [heightAtStart]",curveSend);
+		p.StandardInput.WriteLine(curveSend);
+
+		curveSend = curveCompressed;
+		
+		//TODO convert comma to point in this doubles
+
+		LogB.Debug("curveSend [displacement array]",curveSend);
+		p.StandardInput.WriteLine(curveSend);
+		
+		LogB.Debug("<-- writen line 1");
+	}
+	/* unused
+	 * here curve is sent uncompressed ([] double)
 	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double heightAtStart, double [] d)
 	{
 		LogB.Debug("writing line 1 -->");
@@ -491,6 +511,8 @@ public class UtilEncoder
 		
 		LogB.Debug("<-- writen line 1");
 	}
+	*/
+	
 	public static void RunEncoderCaptureNoRDotNetSendEnd(Process p)
 	{
 		LogB.Debug("sending end line");
@@ -705,9 +727,54 @@ public class UtilEncoder
 	 * in order to be shorter if has to be sended by network
 	 * this compression reduces size six times aproximately
 	 */
+	
+	public static string CompressData(double [] curve)
+	{
+		string compressed = "";
+		
+		bool start = true;
+		int digit = -10000;
+		int digitPre = -10000; //just an impossible mark
+		int rep = 0;
+		for(int i=0; i < curve.Length; i++) 
+		{
+			digit = Convert.ToInt32(curve[i]);
+			if(start) {
+				rep ++;
+				start = false;
+			} else if(digit == digitPre)
+				rep ++;
+			else {
+				if(rep == 1)
+					compressed += digitPre.ToString() + " ";
+				else {
+					compressed += digitPre.ToString() + "*" + rep.ToString() + " ";
+					rep = 1;
+				}
+			}
+
+			digitPre = digit;
+		}
+
+		if(rep == 0)
+			compressed += "";
+		else if(rep == 1)
+			compressed += digit.ToString();
+		else
+			compressed += digit.ToString() + "*" + rep.ToString();
+
+		return compressed;
+	}
+
+
+	/* unused
 	public static string CompressSignal(string fileNameSignal)
 	{
-		string contents = Util.ReadFile(fileNameSignal, false);
+		return CompressData(Util.ReadFile(fileNameSignal, false));
+	}
+	
+	public static string CompressData(string contents)
+	{
 		string compressed = "";
 		
 		bool start = true;
@@ -746,6 +813,7 @@ public class UtilEncoder
 
 		return compressed;
 	}
+	*/
 
 
 	private static string [] encoderFindPos(string contents, int start, int duration) {

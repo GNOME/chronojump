@@ -286,7 +286,7 @@ public class EncoderConfigurationWindow {
 		else {
 			//label_im_result_disc.Text = Util.TrimDecimals(imResult, 2);
 			//as int now
-			label_im_result_disc.Text = Convert.ToInt32(imResult);
+			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
 			spin_inertia.Value = imResult;
 			label_im_feedback.Text = "";
 

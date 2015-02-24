@@ -41,11 +41,11 @@ calculate <- function (displacement, mass, length)
 
 	#cumulative movement of the encoder
 	x <- cumsum(displacement)
-	print(c("x",x))
+	#print(c("x",x))
 
 	#time in milliseconds
 	t <- seq(1,length(displacement))
-	print(c("t",t))
+	#print(c("t",t))
 
 	#all the information about local maximums and minimums and crossings
 	ex <- extrema(x)

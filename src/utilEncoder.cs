@@ -502,6 +502,7 @@ public class UtilEncoder
 		LogB.Debug("curveSend [heightAtStart]",curveSend);
 		p.StandardInput.WriteLine(curveSend);
 
+		//maybe this method falis when there's lots of data
 		curveSend = string.Join(" ", Array.ConvertAll(d, x => x.ToString()));
 		
 		//TODO convert comma to point in this doubles

@@ -1231,7 +1231,7 @@ stroverlap <- function(x1,y1,s1, x2,y2,s2) {
 #check all labels to see if newPoint overlaps one of them
 stroverlapArray <- function(newPoint, points) {
 	overlap = FALSE
-			
+
 	#print(c("at Array newPoint, points",newPoint, points))
 	if(length(points$x) == 1)	#if there's only one row
 		return (stroverlap(
@@ -1250,8 +1250,9 @@ stroverlapArray <- function(newPoint, points) {
 	return (FALSE)
 }
 
+
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, seriesName, do1RM, do1RMMethod, outputData1) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) {
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
 
@@ -1282,34 +1283,34 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			colBalls="red"
 			bgBalls="pink"
 		}
-		
-		plot(x,y, xlab=varXut, ylab="", pch=21,col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	
-
-		newPoint = c(x[1], y[1], 1) #TODO: do also for ecc-con
-		nums.print = data.frame(rbind(newPoint))
-		colnames(nums.print) = c("x","y","curveNum")
+		pchVector = createPchVector(ecconVector)	
+		plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
 	
-		#done after data.frame definition in order to don't mess up with string columns	
-		if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile)
-			nums.print$curveNum = "1e"
-		
-		for(i in 2:length(x)) {
+		for(i in 1:length(x)) {
 			name = i
 			if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
-				myEc=c("c","e")
-				if(Eccon=="ceS")
-					myEc=c("e","c")
-				name = paste(trunc((name+1)/2),myEc[((name%%2)+1)],sep="")
+				#name = paste(trunc((name+1)/2),ecconVector[i],sep="")
+				name = trunc((name+1)/2) #don't show e,c whe show the pch
+			} else {
+				#name = paste(name,ecconVector[i],sep="")
+				#don't show e,c, we show the pch
 			}
-
-			newPoint = c(x[i], y[i], name) #TODO: do also for ecc-con
 			
-			overlaps = FALSE
-			if( ! ( is.na(x[i]) && is.na(y[i]) ) )
-				overlaps = stroverlapArray(newPoint, nums.print)
-			if(! overlaps)
+			newPoint = data.frame(x=x[i], y=y[i], curveNum=name)
+			
+			if(i == 1) {
+				nums.print = data.frame()
 				nums.print = rbind(nums.print, newPoint)
+				colnames(nums.print) = c("x","y","curveNum")
+			} else {
+				overlaps = FALSE
+				if( ! ( is.na(x[i]) && is.na(y[i]) ) )
+					overlaps = stroverlapArray(newPoint, nums.print)
+				if(! overlaps) {
+					nums.print = rbind(nums.print, newPoint)
+				}
+			}
 		}
 
 
@@ -1427,9 +1428,20 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		}
 		
 		title(title, cex.main=1, font.main=2, line=3)
-		
+
 		text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
-		
+
+		#show legend
+		legendText = c(translate("eccentric"),translate("concentric"),paste(translate("eccentric"),translate("concentric"),sep="-"))
+		rng=par("usr")
+		lg = legend(rng[1],rng[4], 
+			    legend=legendText, pch=c(25,24,21), col=colBalls, pt.bg=bgBalls,
+			    cex=1, ncol=length(legendText), bty="n",
+			    plot=F)
+		legend(rng[1],rng[4]+1.25*lg$rect$h, 
+		       legend=legendText, pch=c(25,24,21),  col=colBalls,  pt.bg=bgBalls,
+		       cex=1, bg=bgBalls, ncol=length(legendText), bty="n",
+		       plot=T, xpd=NA)
 
 	} else { #more than one series
 		#colBalls = "black"
@@ -1460,11 +1472,11 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 		#plot legend on top exactly out
 		#http://stackoverflow.com/a/7322792
 		rng=par("usr")
-		lg = legend(rng[1],rng[2], 
+		lg = legend(rng[1],rng[4], 
 			    legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
 			    cex=1, bg="white", ncol=length(unique(seriesName)), bty="n",
 			    plot=F)
-		legend(rng[1],rng[4]+1.25*lg$rect$h, 
+		legend(rng[2]-1.25*lg$rect$w,rng[4]+1.25*lg$rect$h, 
 		       legend=unique(seriesName), lty=1, lwd=2, col=uniqueColors, 
 		       cex=1, bg="white", ncol=6, bty="n",
 		       plot=T, xpd=NA)
@@ -1581,6 +1593,39 @@ find.yrange <- function(singleFile, displacement, curves) {
 		y.min = 0
 	}
 	return (c(y.min,y.max))
+}
+			
+#create ecconLine vector that will write "e" or "c" at each position
+createEcconVector <- function(singleFile, Eccon, curvesNum, ecconVectorNotSingleFile)
+{
+	ecconVector = NULL
+	if(singleFile) {
+		if(Eccon == "c" || Eccon == "ec" || Eccon == "ce")
+			ecconVector = rep(Eccon,curvesNum) #will do ("c","c","c", ...) or ("ec","ec","ec",...)
+		else if(Eccon == "ecS") {
+			ecconVector = rep(c("e","c"),trunc(curvesNum/2))
+			if(curvesNum%%2 == 1)
+				ecconVector = c(ecconVector,"e")
+		}
+		else if(Eccon == "ceS") {
+			ecconVector = rep(c("c","e"),trunc(curvesNum/2))
+			if(curvesNum%%2 == 1)
+				ecconVector = c(ecconVector,"c")
+		}
+	} else {
+		ecconVector = ecconVectorNotSingleFile
+	}
+
+	return (ecconVector)
+}
+createPchVector <- function(ecconVector) {
+	pchVector = ecconVector
+	pchVector[pchVector == "ec"] <- "21"
+	pchVector[pchVector == "ce"] <- "21"
+	pchVector[pchVector == "e"] <- "25"
+	pchVector[pchVector == "c"] <- "24"
+
+	return (as.numeric(pchVector))
 }
 
 #-------------------- EncoderConfiguration conversions --------------------------
@@ -2272,6 +2317,8 @@ doProcess <- function(options)
 			if(! singleFile)
 				mySeries = curves[,9]
 
+			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
+
 			print("AnalysisVariables:")
 			print(op$AnalysisVariables[1])
 			print(op$AnalysisVariables[2])
@@ -2282,18 +2329,27 @@ doProcess <- function(options)
 				analysisVertVars = unlist(strsplit(op$AnalysisVariables[1], "\\,"))
 				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[1], 
 						    op$AnalysisVariables[3], "LEFT", "",
-						    singleFile,op$Eccon,mySeries, 
+						    singleFile,
+						    op$Eccon,
+						    ecconVector,
+						    mySeries, 
 						    FALSE, FALSE, op$OutputData1) 
 				par(new=T)
 				paintCrossVariables(paf, op$AnalysisVariables[2], analysisVertVars[2], 
 						    op$AnalysisVariables[3], "RIGHT", op$Title,
-						    singleFile,op$Eccon,mySeries, 
+						    singleFile,
+						    op$Eccon,
+						    ecconVector,
+						    mySeries, 
 						    FALSE, FALSE, op$OutputData1) 
 			} else {
 				par(mar=c(5,4,5,2))
 				paintCrossVariables(paf, op$AnalysisVariables[2], op$AnalysisVariables[1], 
 						    op$AnalysisVariables[3], "ALONE", op$Title,
-						    singleFile,op$Eccon,mySeries, 
+						    singleFile,
+						    op$Eccon,
+						    ecconVector,
+						    mySeries, 
 						    FALSE, FALSE, op$OutputData1) 
 			}
 		}
@@ -2301,10 +2357,15 @@ doProcess <- function(options)
 			mySeries = "1"
 			if(! singleFile)
 				mySeries = curves[,9]
+			
+			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
 			paintCrossVariables(paf, "Load", "Speed", 
 					    "mean", "ALONE", op$Title,
-					    singleFile,op$Eccon,mySeries, 
+					    singleFile,
+					    op$Eccon,
+					    ecconVector,
+					    mySeries, 
 					    op$AnalysisVariables[1], op$AnalysisVariables[2], #speed1RM, method
 					    op$OutputData1) 
 		}

@@ -6243,7 +6243,7 @@ LogB.Debug("X");
 		event_execute_button_update.Sensitive = true;
 
 		//allow repeat last jump or run (check also if it wasn't cancelled)
-		if(! currentEventExecute.Cancel) {
+		if(currentEventExecute != null && ! currentEventExecute.Cancel) {
 			switch (currentEventType.Type) {
 				case EventType.Types.REACTIONTIME:
 					LogB.Information("sensitiveGuiEventDone reaction time");

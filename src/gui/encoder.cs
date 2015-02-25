@@ -47,6 +47,10 @@ public partial class ChronoJumpWindow
 	//at graph.R is converted to Kg*m^2 ( /10000 )
 	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
+	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze;
+	[Widget] Gtk.Box hbox_encoder_configuration;
+	[Widget] Gtk.Box hbox_encoder_capture_options;
+	
 	[Widget] Gtk.Box hbox_encoder_capture_wait;
 	[Widget] Gtk.Box hbox_encoder_capture_doing;
 	[Widget] Gtk.Button button_encoder_capture;
@@ -496,6 +500,8 @@ public partial class ChronoJumpWindow
 				notebook_encoder_capture.PrevPage();
 				
 			radiobutton_video_encoder_capture.Active = true;
+			
+			sensitiveGuiEventDoing();
 
 			LogB.Debug("Calling encoderThreadStart for capture");
 			
@@ -3683,7 +3689,8 @@ public partial class ChronoJumpWindow
 
 	private void encoderButtonsSensitive(encoderSensEnum option) {
 		//columns
-		//c0 button_encoder_capture
+		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze,
+		//	hbox_encoder_configuration, hbox_encoder_capture_options
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, button_encoder_export_all_curves,
@@ -3692,7 +3699,7 @@ public partial class ChronoJumpWindow
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
 		//c6 hbox_encoder_user_curves
-		//c7 button_encoder_capture_cancel (on capture and analyze)
+		//c7 button_encoder_capture_cancel and button_encoder_analyze_cancel (on capture and analyze)
 		//c8 button_encoder_capture_finish (only on capture)
 
 		//other dependencies
@@ -3743,6 +3750,9 @@ public partial class ChronoJumpWindow
 		}
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
+		hbox_encoder_sup_capture_analyze.Sensitive = Util.IntToBool(table[0]);
+		hbox_encoder_configuration.Sensitive = Util.IntToBool(table[0]);
+		hbox_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 
 		button_encoder_recalculate.Sensitive = Util.IntToBool(table[1]);
 		
@@ -5437,6 +5447,8 @@ LogB.Debug("D");
 			} else {
 				encoderButtonsSensitive(encoderSensEnumStored);
 			}
+				
+			sensitiveGuiEventDone();
 
 			encoder_pulsebar_capture.Fraction = 1;
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved

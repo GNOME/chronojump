@@ -171,6 +171,10 @@ public partial class ChronoJumpWindow
 	Gdk.Pixmap encoder_capture_signal_pixmap = null;
 	Gdk.Pixmap encoder_capture_curves_bars_pixmap = null;
 
+	//RFID
+	[Widget] Gtk.Box hbox_rfid;
+	[Widget] Gtk.Label label_rfid;
+
 	ArrayList encoderCaptureCurves;
         Gtk.ListStore encoderCaptureListStore;
 	Gtk.ListStore encoderAnalyzeListStore; //can be EncoderCurves or EncoderNeuromuscularData
@@ -317,7 +321,19 @@ public partial class ChronoJumpWindow
 		RInitialized = Constants.Status.UNSTARTED;
 	
 		playVideoEncoderInitialSetup();
+
+		if(Util.FileExists(Util.GetRFIDMarkFile()))
+			hbox_rfid.Visible = true;
 	}
+
+	//rfid
+	void on_button_rfid_read_clicked (object o, EventArgs args) {
+		string file = "/tmp/chronojump_rfid.txt";
+
+		if(Util.FileExists(file))
+			label_rfid.Text = Util.ReadFile(file, true);
+	}
+
 
 	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
 		if(useRDotNet) {

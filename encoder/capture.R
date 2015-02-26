@@ -127,7 +127,18 @@ doProcess <- function()
 		#from Chronojump first it's send the eg: "ps -1000", meaning curve starts at -1000
 		#then it's send the displacement
 		positionStart = getPositionStart(input)
-		input <- readLines(f, n = 1L)
+
+		#-- read the curve (from some lines that finally end on an 'E')
+		readingCurve = TRUE
+		input = NULL
+		while(readingCurve) {
+			inputLine <- readLines(f, n = 1L)
+			if(inputLine[1] == "E")
+				readingCurve = FALSE
+			else
+				input = c(input, inputLine)
+		}
+		#-- curve readed
 		
 		write("doProcess input", stderr())
 		#write(input, stderr())

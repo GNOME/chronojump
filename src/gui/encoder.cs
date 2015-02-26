@@ -2363,12 +2363,13 @@ public partial class ChronoJumpWindow
 									sendCurve = false;
 								}
 
+								//LogB.Debug(curve.ToString());
 								if(sendCurve) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
 										pCaptureNoRDotNet, 
 										heightAtCurveStart, 
-										//curve); 			//uncompressed
-										UtilEncoder.CompressData(curve)	//compressed
+										//curve); 				//uncompressed
+										UtilEncoder.CompressData(curve, 25)	//compressed
 											);
 
 									ecca.curvesDone ++;

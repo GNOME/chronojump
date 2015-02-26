@@ -488,7 +488,8 @@ public class UtilEncoder
 		//TODO convert comma to point in this doubles
 
 		LogB.Debug("curveSend [displacement array]",curveSend);
-		p.StandardInput.WriteLine(curveSend);
+		p.StandardInput.WriteLine(curveSend); 	//this will send some lines because compressed data comes with '\n's
+		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
 		
 		LogB.Debug("<-- writen line 1");
 	}
@@ -729,7 +730,12 @@ public class UtilEncoder
 	 * this compression reduces size six times aproximately
 	 */
 	
-	public static string CompressData(double [] curve)
+	/*
+	 * newlines help to send data to R (encoder) and read from there more safely
+	 * valuesForNewLine is 25 means every 25 values there will be a newLine. 0 will mean no newlines
+	 */
+	
+	public static string CompressData(double [] curve, int valuesForNewLine)
 	{
 		string compressed = "";
 		
@@ -737,12 +743,14 @@ public class UtilEncoder
 		int digit = -10000;
 		int digitPre = -10000; //just an impossible mark
 		int rep = 0;
+		int countNewLine = 0;
 		for(int i=0; i < curve.Length; i++) 
 		{
 			digit = Convert.ToInt32(curve[i]);
 			if(start) {
 				rep ++;
 				start = false;
+				countNewLine ++;
 			} else if(digit == digitPre)
 				rep ++;
 			else {
@@ -752,6 +760,12 @@ public class UtilEncoder
 					compressed += digitPre.ToString() + "*" + rep.ToString() + " ";
 					rep = 1;
 				}
+				countNewLine ++;
+			}
+
+			if(valuesForNewLine > 0 && countNewLine >= valuesForNewLine) {
+				compressed += "\n";
+				countNewLine = 0;
 			}
 
 			digitPre = digit;

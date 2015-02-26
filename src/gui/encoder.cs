@@ -5322,6 +5322,9 @@ LogB.Debug("D");
 		
 			//save video will be later at encoderSaveSignalOrCurve, because there encoderSignalUniqueID will be known
 			
+			if(action == encoderActions.CURVES)
+				sensitiveGuiEventDone();
+			
 			if(encoderProcessCancel || encoderProcessProblems) {
 				//tis notebook has capture (signal plotting), and curves (shows R graph)	
 				if(notebook_encoder_capture.CurrentPage == 0 )
@@ -5464,8 +5467,6 @@ LogB.Debug("D");
 				encoderButtonsSensitive(encoderSensEnumStored);
 			}
 				
-			sensitiveGuiEventDone();
-
 			encoder_pulsebar_capture.Fraction = 1;
 			//analyze_image_save only has not to be sensitive now because capture graph will be saved
 			image_encoder_analyze.Sensitive = false;

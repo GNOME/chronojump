@@ -786,6 +786,12 @@ public class Util
 
 	/********** end of database paths ************/
 	
+	public static string GetRFIDMarkFile() {
+		return Path.Combine(
+				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+				"Chronojump" + Path.DirectorySeparatorChar + "rfid_mark_file.txt");
+	}
+	
 
 	/********** start of multimedia paths ************/
 

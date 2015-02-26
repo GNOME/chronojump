@@ -2186,12 +2186,12 @@ public partial class ChronoJumpWindow
 						directionNow *= -1;
 						directionLastMSecond *= -1;
 						sum *= -1;
-						for(int j=0; j < encoderReaded.Length; j ++) {
+						for(int j=0; j <= i; j ++) {
 							encoderReaded[j] *= -1;
 							encoderReadedRaw[j] *= -1;
 						}
 						double sum2=0;
-						for(int j=0; j < encoderReaded.Length; j ++) {
+						for(int j=0; j <= i; j ++) {
 							sum2 += encoderReaded[j];
 							encoderCapturePoints[j] = new Gdk.Point(
 									Convert.ToInt32(widthG * j / recordingTime),

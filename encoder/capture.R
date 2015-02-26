@@ -93,7 +93,6 @@ getPositionStart <- function(input)
 uncompress <- function(curveSent)
 {
 	chunks = unlist(strsplit(curveSent, " "))
-	s = NULL
 	ints = NULL
 	for(i in 1:length(chunks)) 
 	{

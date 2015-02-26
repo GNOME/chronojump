@@ -623,7 +623,8 @@ public class ChronoJump
 	private void on_splash_ended(object o, EventArgs args) {
 		LogB.Information("splash screen going to END");
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
-		splashWin.Destroy();
+		if(splashWin != null)
+			splashWin.Destroy();
 		LogB.Information("splash screen ENDED!");
 		readMessageToStart();
 	}

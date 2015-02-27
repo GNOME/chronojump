@@ -5471,6 +5471,13 @@ LogB.Debug("D");
 				encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 			} else {
 				encoderButtonsSensitive(encoderSensEnumStored);
+
+				//an user has one active concentric curve
+				//signal of this curve is loaded
+				//user change to ecc-con and recalculate
+				//then that concentrinc curve disappears
+				//button_encoder_analyze have to be unsensitive because there are no curves:
+				button_encoder_analyze_sensitiveness();
 			}
 				
 			encoder_pulsebar_capture.Fraction = 1;

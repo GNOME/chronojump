@@ -841,7 +841,8 @@ public class Constants
 		"Adapted from",
 		"Mean speed in concentric propulsive phase",
 		"Sorry, no repetitions matched your criteria.",
-		"Need at least three jumps"
+		"Need at least three jumps",
+		"Laterality", "RL", "R", "L"
 	};
 	/*
 	 * written here in order to be translated
@@ -881,6 +882,7 @@ public class Constants
 		Catalog.GetString("Adapted from"),
 		Catalog.GetString("Mean speed in concentric propulsive phase"),
 		Catalog.GetString("Sorry, no repetitions matched your criteria."),
-		Catalog.GetString("Need at least three jumps")
+		Catalog.GetString("Need at least three jumps"),
+		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L")
 	};
 }

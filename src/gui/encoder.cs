@@ -2589,7 +2589,7 @@ public partial class ChronoJumpWindow
 			//create dataFileName
 			TextWriter writer = File.CreateText(dataFileName);
 			writer.WriteLine("status,seriesName,exerciseName,massBody,massExtra,dateTime,fullURL,eccon,percentBodyWeight," + 
-					"econfName, econfd, econfD, econfAnglePush, econfAngleWeight, econfInertia, econfGearedDown");
+					"econfName, econfd, econfD, econfAnglePush, econfAngleWeight, econfInertia, econfGearedDown, laterality");
 		
 			ArrayList eeArray = SqliteEncoder.SelectEncoderExercises(false, -1, false);
 			EncoderExercise ex = new EncoderExercise();
@@ -2664,7 +2664,8 @@ public partial class ChronoJumpWindow
 						fullURL + "," +	
 						eSQL.eccon + "," + 	//this is the eccon of every curve
 						ex.percentBodyWeight.ToString() + "," +
-						eSQL.encoderConfiguration.ToString(",",true)
+						eSQL.encoderConfiguration.ToString(",",true) + "," +
+						eSQL.LateralityToEnglish()
 						);
 				countSeries ++;
 			}

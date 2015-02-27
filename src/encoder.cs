@@ -199,6 +199,7 @@ public class EncoderCurve
 	public string N;
 	public string Series;
 	public string Exercise;
+	public string Laterality;	//only on analyze
 	public double ExtraWeight;
 	public double DisplacedWeight;
 	public string Start;
@@ -246,6 +247,7 @@ public class EncoderCurve
 
 	//used on TreeView analyze
 	public EncoderCurve (string n, string series, string exercise, 
+			string laterality,
 			double extraWeight, double displacedWeight,
 			string start, string duration, string height,
 			string meanSpeed, string maxSpeed, string maxSpeedT,
@@ -255,6 +257,7 @@ public class EncoderCurve
 		this.N = n;
 		this.Series = series;
 		this.Exercise = exercise;
+		this.Laterality = laterality;
 		this.ExtraWeight = extraWeight;
 		this.DisplacedWeight = displacedWeight;
 		this.Start = start;
@@ -275,7 +278,7 @@ public class EncoderCurve
 
 		string sep = ":::";
 		string str = 
-			N + sep + Series + sep + Exercise + sep + 
+			N + sep + Series + sep + Exercise + sep + Laterality + sep +
 			ExtraWeight + sep + DisplacedWeight + sep + 
 			Start + sep + Duration + sep + Height + sep + 
 			MeanSpeed + sep + MaxSpeed + sep + MaxSpeedT + sep + 

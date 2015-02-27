@@ -443,6 +443,7 @@ public partial class ChronoJumpWindow
 		Catalog.GetString("Repetition") + "\n",
 		Catalog.GetString("Series") + "\n",
 		Catalog.GetString("Exercise") + "\n",
+		Catalog.GetString("Laterality") + "\n",
 		Catalog.GetString("Extra weight") + "\n (Kg)",
 		Catalog.GetString("Total weight") + "\n (Kg)",
 		Catalog.GetString("Start") + "\n (s)",
@@ -514,6 +515,7 @@ public partial class ChronoJumpWindow
 							cells[0], 
 							cells[1],	//seriesName 
 							exerciseName,
+							cells[21],	//laterality
 							Convert.ToDouble(cells[4]),
 							totalMass,
 							cells[5], cells[6], cells[7], 
@@ -557,39 +559,42 @@ public partial class ChronoJumpWindow
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExercise));
 					break;
 				case 3:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderLaterality));
 					break;
 				case 4:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDisplacedWeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderExtraWeight));
 					break;
 				case 5:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDisplacedWeight));
 					break;
 				case 6:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderStart));
 					break;
 				case 7:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderDuration));
 					break;
 				case 8:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderHeight));
 					break;
 				case 9:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanSpeed));
 					break;
 				case 10:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeed));
 					break;
 				case 11:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMaxSpeedT));
 					break;
 				case 12:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderMeanPower));
 					break;
 				case 13:
-					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPower));
 					break;
 				case 14:
+					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPeakPowerT));
+					break;
+				case 15:
 					aColumn.SetCellDataFunc (aCell, new Gtk.TreeCellDataFunc (RenderPP_PPT));
 					break;
 			}
@@ -828,6 +833,12 @@ public partial class ChronoJumpWindow
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
 		(cell as Gtk.CellRendererText).Text = curve.Exercise;
+	}
+
+	private void RenderLaterality (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+	{
+		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		(cell as Gtk.CellRendererText).Text = curve.Laterality;
 	}
 
 	private void RenderExtraWeight (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -1127,6 +1138,9 @@ public partial class ChronoJumpWindow
 		if(useForce)
 			for(int i=15; i <= 17; i++)
 				cells[i] = Util.TrimDecimals(Convert.ToDouble(Util.ChangeDecimalSeparator(cells[i])),3);
+
+		//18, 19, 20 ara mass, massBody, massExtra. They are unneded because this parameters are also in cells [3],[4]
+		//21: laterality
 
 		return cells;
 	}

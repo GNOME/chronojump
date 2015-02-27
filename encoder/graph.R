@@ -84,6 +84,15 @@ translate <- function(englishWord) {
 		return(Translated[which(English == englishWord)])
 }
 
+translateVector <- function(englishVector) {
+	translatedVector <- englishVector
+	for(i in 1:length(englishVector)) {
+		translatedVector[i] <- translate(englishVector[i])
+	}
+
+	return(translatedVector)
+}
+
 
 # This function converts top curve into bottom curve
 #
@@ -967,6 +976,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	myNums = rownames(paf)
 	height = abs(height/10)
 	load = paf[,findPosInPaf("Load","")]
+	laterality = translateVector(as.vector(paf[,findPosInPaf("Laterality","")]))
 	
 	if(Eccon=="ecS" || Eccon=="ceS") {
 		if(singleFile) {
@@ -1008,12 +1018,13 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 
 	par(mar=c(2.5, 4, 5, marginRight))
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
-			names.arg=paste(myNums,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.9,
+			names.arg=paste(myNums," ",laterality,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.8,
 			xlab="",ylab=paste(translate("Power"),"(W)"), 
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
 	box()
 	mtext(paste(translate("Repetition")," \n",translate("Mass")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
+	#mtext(translate("Laterality"),side=1,adj=1,line=0,cex=.9)
 
 	axisLineRight=0
 
@@ -1113,6 +1124,8 @@ findPosInPaf <- function(var, option) {
 		pos = 12
 	else if(var == "MassExtra")
 		pos = 13
+	else if(var == "Laterality")
+		pos = 14
 	
 	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
 		pos=pos+1
@@ -1209,7 +1222,7 @@ round.scientific <- function(x) {
 #http://stackoverflow.com/a/6234664
 #see if two labels overlap
 stroverlap <- function(x1,y1,s1, x2,y2,s2) {
-	print(c(x1,y1,s1, x2,y2,s2))
+	#print(c(x1,y1,s1, x2,y2,s2))
 	sh1 <- strheight(s1)
 	sw1 <- strwidth(s1)
 	sh2 <- strheight(s2)
@@ -1284,9 +1297,18 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			bgBalls="pink"
 		}
 	
-		pchVector = createPchVector(ecconVector)	
+		pchVector = createPchVector(ecconVector)
+
+		laterality = translateVector(as.vector(paf[,findPosInPaf("Laterality","")]))
+		#bgBallsVector = rep(bgBalls, length(x))	
+		#bgBallsVector[laterality=="L"] <- "red"
+		#bgBallsVector[laterality=="R"] <- "blue"
+		#plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBallsVector,cex=cexBalls,axes=F)
+		
 		plot(x,y, xlab=varXut, ylab="", pch=pchVector, col=colBalls,bg=bgBalls,cex=cexBalls,axes=F)
-	
+		points(x[laterality=="L"], y[laterality=="L"], type="p", cex=1, col=colBalls, pch=3) # font=5, pch=220) #172, 220 don't looks good
+		points(x[laterality=="R"], y[laterality=="R"], type="p", cex=1, col=colBalls, pch=4) # font=5, pch=222) #174, 222 don't looks good
+
 		for(i in 1:length(x)) {
 			name = i
 			if( ( Eccon=="ecS" || Eccon=="ceS" ) && singleFile) {
@@ -1427,21 +1449,31 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 			}
 		}
 		
-		title(title, cex.main=1, font.main=2, line=3)
-
 		text(as.numeric(nums.print$x), as.numeric(nums.print$y), paste("  ", nums.print$curveNum), adj=c(adjHor,.5), cex=cexNums)
 
-		#show legend
-		legendText = c(translate("eccentric"),translate("concentric"),paste(translate("eccentric"),translate("concentric"),sep="-"))
-		rng=par("usr")
-		lg = legend(rng[1],rng[4], 
-			    legend=legendText, pch=c(25,24,21), col=colBalls, pt.bg=bgBalls,
-			    cex=1, ncol=length(legendText), bty="n",
-			    plot=F)
-		legend(rng[1],rng[4]+1.25*lg$rect$h, 
-		       legend=legendText, pch=c(25,24,21),  col=colBalls,  pt.bg=bgBalls,
-		       cex=1, bg=bgBalls, ncol=length(legendText), bty="n",
-		       plot=T, xpd=NA)
+		#don't write title two times on 'speed,power / load'
+		if(isAlone == "ALONE" || isAlone =="RIGHT")
+			title(title, cex.main=1, font.main=2, line=3)
+
+		#don't write legend on 'speed,power / load' because it doesn't fits with the formulas and regressions
+		if(isAlone == "ALONE") {
+			#show legend
+			legendText = c(translate("concentric"),
+				       translate("eccentric"),
+				       paste(translate("eccentric"),translate("concentric"),sep="-"),
+				       translate("L"),
+				       translate("R")
+				       )
+			rng=par("usr")
+			lg = legend(rng[1],rng[4], 
+				    legend=legendText, pch=c(24,25,21,3,4), col="black", pt.bg="white",
+				    cex=1, ncol=2, bty="n",
+				    plot=F)
+			legend(rng[1],rng[4]+1*lg$rect$h, 
+			       legend=legendText, pch=c(24,25,21,3,4),  col="black",  pt.bg="white",
+			       cex=1, bg=bgBalls, ncol=2, bty="n",
+			       plot=T, xpd=NA)
+		}
 
 	} else { #more than one series
 		#colBalls = "black"
@@ -1767,6 +1799,7 @@ doProcess <- function(options)
 		#encoderConfiguration
 		econfName = NULL; econfd = NULL; econfD = NULL; econfAnglePush = NULL; econfAngleWeight = NULL; 
 		econfInertia = NULL; econfGearedDown = NULL;
+		laterality = NULL;
 
 		newLines=0;
 		countLines=1; #useful to know the correct ids of active curves
@@ -1871,6 +1904,7 @@ doProcess <- function(options)
 				}
 				
 				seriesName[(i+newLines)] = as.vector(inputMultiData$seriesName[i])
+				laterality[(i+newLines)] = as.vector(inputMultiData$laterality[i])
 
 				count = count + length(dataTempPhase)
 			}
@@ -1889,11 +1923,13 @@ doProcess <- function(options)
 			curves = data.frame(start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
 					    econfName,econfd,econfD,econfAnglePush,econfAngleWeight,econfInertia,econfGearedDown,
+					    laterality,
 					    stringsAsFactors=F,row.names=id)
 		} else {
 			curves = data.frame(id,start,end,startH,exerciseName,massBody,massExtra,
 					    dateTime,myEccon,seriesName,percentBodyWeight,
 					    econfName,econfd,econfD,econfAnglePush,econfAngleWeight,econfInertia,econfGearedDown,
+					    laterality,
 					    stringsAsFactors=F,row.names=1)
 		}
 
@@ -2046,6 +2082,7 @@ doProcess <- function(options)
 			myAngleWeight = op$angleWeight
 			myInertiaMomentum = op$inertiaMomentum
 			myGearedDown = op$gearedDown
+			myLaterality = ""
 			if(! singleFile) {
 				myMassBody = curves[op$Jump,5]
 				myMassExtra = curves[op$Jump,6]
@@ -2060,8 +2097,9 @@ doProcess <- function(options)
 				myAngleWeight = curves[op$Jump,15]
 				myInertiaMomentum = curves[op$Jump,16]
 				myGearedDown = curves[op$Jump,17]
+				myLaterality = curves[op$Jump,18]
 			}
-			myCurveStr = paste("curve=", op$Jump, ", ", myMassExtra, "Kg", sep="")
+			myCurveStr = paste(translate("Repetition"),"=", op$Jump, " ", myLaterality, " ", myMassExtra, "Kg", sep="")
 		
 			#don't do this, because on inertial machines string will be rolled to machine and not connected to the body
 			#if(inertialType == "li") {
@@ -2073,7 +2111,7 @@ doProcess <- function(options)
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
 			      1,curves[op$Jump,3],SmoothingsEC[1],op$SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
-			      paste(op$Title, " ", op$Analysis, " ", myEccon, " ", myCurveStr, sep=""),
+			      paste(op$Title, " ", op$Analysis, " ", myEccon, ". ", myCurveStr, sep=""),
 			      "", #subtitle
 			      TRUE,	#draw
 			      TRUE,	#showLabels
@@ -2116,6 +2154,7 @@ doProcess <- function(options)
 			myAngleWeight = op$angleWeight
 			myInertiaMomentum = op$inertiaMomentum
 			myGearedDown = op$gearedDown
+			myLaterality = ""
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
@@ -2130,13 +2169,14 @@ doProcess <- function(options)
 				myAngleWeight = curves[i,15]
 				myInertiaMomentum = curves[i,16]
 				myGearedDown = curves[i,17]
+				myLaterality = curves[i,18]
 			}
 
 			myTitle = ""
 			if(i == 1)
 				myTitle = paste(op$Title)
 			
-			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myMassExtra, "Kg", sep="")
+			mySubtitle = paste("curve=", rownames(curves)[i], ", ", myLaterality, " ", myMassExtra, "Kg", sep="")
 
 			paint(displacement, myEccon, curves[i,1],curves[i,2],yrange,knRanges,FALSE,FALSE,
 			      1,curves[i,3],SmoothingsEC[i],op$SmoothingOneC,myMassBody,myMassExtra,
@@ -2222,6 +2262,7 @@ doProcess <- function(options)
 			myAngleWeight = op$angleWeight
 			myInertiaMomentum = op$inertiaMomentum
 			myGearedDown = op$gearedDown
+			myLaterality = ""
 			if(! singleFile) {
 				myMassBody = curves[i,5]
 				myMassExtra = curves[i,6]
@@ -2236,6 +2277,7 @@ doProcess <- function(options)
 				myAngleWeight = curves[i,15]
 				myInertiaMomentum = curves[i,16]
 				myGearedDown = curves[i,17]
+				myLaterality = curves[i,18]
 
 				#only use concentric data	
 				if( (op$Analysis == "1RMBadillo2010" || op$Analysis == "1RMAnyExercise") & myEccon == "e") {
@@ -2276,10 +2318,11 @@ doProcess <- function(options)
 						     myEccon,
 						     kinematicsF(displacement[curves[i,1]:curves[i,2]], 
 								 myMassBody, myMassExtra, myExPercentBodyWeight,
-								 myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
+								 myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,
+								 myInertiaMomentum,myGearedDown,
 								 SmoothingsEC[i],op$SmoothingOneC, 
 								 g, myEcconKn, isPropulsive),
-						     myMassBody, myMassExtra
+						     myMassBody, myMassExtra, myLaterality
 						     )))
 		}
 
@@ -2452,7 +2495,9 @@ doProcess <- function(options)
 					"meanSpeed","maxSpeed","maxSpeedT",
 					"meanPower","peakPower","peakPowerT",
 					"pp_ppt",
-					"meanForce", "maxForce", "maxForceT")
+					"meanForce", "maxForce", "maxForceT",
+			  		"mass", "massBody", "massExtra", #unneded
+					"laterality")
 			write.csv(paf, op$OutputData1, quote=FALSE)
 			print("curves written")
 		}

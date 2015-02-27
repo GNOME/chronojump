@@ -24,6 +24,7 @@ using System.Text; //StringBuilder
 using System.Collections; //ArrayList
 using System.Diagnostics; 	//for detect OS and for Process
 using System.IO; 		//for detect OS
+using Mono.Unix;
 
 using System.Linq;	//RDotNet
 using RDotNet;		//RDotNet
@@ -390,7 +391,7 @@ public class UtilEncoder
 		//if ! translate, then just print the english words
 		if(translate) {
 			foreach(string etw in Constants.EncoderTranslatedWords) {
-				temp = Util.ChangeChars(etw, ";", ",");
+				temp = Util.ChangeChars(Catalog.GetString(etw), ";", ",");
 				temp = Util.RemoveNewLine(temp, true);
 				encoderTranslatedWordsOK[count++] = temp;
 			}

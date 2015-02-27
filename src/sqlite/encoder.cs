@@ -23,6 +23,7 @@ using System.Data;
 using System.IO;
 using System.Collections; //ArrayList
 using Mono.Data.Sqlite;
+using Mono.Unix;
 
 
 class SqliteEncoder : Sqlite
@@ -45,7 +46,7 @@ class SqliteEncoder : Sqlite
 			"sessionID INT, " +
 			"exerciseID INT, " +
 			"eccon TEXT, " +	//"c" or "ec"
-			"laterality TEXT, " +	//"left" "right" "both"
+			"laterality TEXT, " +	//"RL" "R" "L". stored in english
 			"extraWeight TEXT, " +	//string because can contain "33%" or "50Kg"
 			"signalOrCurve TEXT, " + //"signal" or "curve"
 			"filename TEXT, " +
@@ -82,7 +83,7 @@ class SqliteEncoder : Sqlite
 			" VALUES (" + es.uniqueID + ", " +
 			es.personID + ", " + es.sessionID + ", " +
 			es.exerciseID + ", '" + es.eccon + "', '" +
-			es.laterality + "', '" + es.extraWeight + "', '" +
+			es.LateralityToEnglish() + "', '" + es.extraWeight + "', '" +
 			es.signalOrCurve + "', '" + es.filename + "', '" +
 			removeURLpath(es.url) + "', " + 
 			es.time + ", " + es.minHeight + ", '" + es.description + 
@@ -128,7 +129,7 @@ class SqliteEncoder : Sqlite
 				", sessionID = " + es.sessionID +
 				", exerciseID = " + es.exerciseID +
 				", eccon = '" + es.eccon +
-				"', laterality = '" + es.laterality +
+				"', laterality = '" + es.LateralityToEnglish() +
 				"', extraWeight = '" + es.extraWeight +
 				"', signalOrCurve = '" + es.signalOrCurve +
 				"', filename = '" + es.filename +
@@ -283,7 +284,7 @@ class SqliteEncoder : Sqlite
 					Convert.ToInt32(reader[2].ToString()),	//sessionID
 					Convert.ToInt32(reader[3].ToString()),	//exerciseID
 					reader[4].ToString(),			//eccon
-					reader[5].ToString(),			//laterality
+					Catalog.GetString(reader[5].ToString()),//laterality
 					reader[6].ToString(),			//extraWeight
 					reader[7].ToString(),			//signalOrCurve
 					reader[8].ToString(),			//filename

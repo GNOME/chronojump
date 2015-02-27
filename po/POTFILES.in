@@ -57,6 +57,7 @@ src/server.cs
 src/serverPing.cs
 src/sqlite/main.cs
 src/sqlite/country.cs
+src/sqlite/encoder.cs
 src/sqlite/personSession.cs
 src/sqlite/server.cs
 src/sqlite/session.cs

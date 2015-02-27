@@ -319,8 +319,12 @@ public partial class ChronoJumpWindow
 		captureCurvesBarsData = new ArrayList(0);
 		
 		RInitialized = Constants.Status.UNSTARTED;
-	
-		playVideoEncoderInitialSetup();
+
+		try {	
+			playVideoEncoderInitialSetup();
+		} catch {
+			//it crashes on Raspberry, Banana
+		}
 
 		if(Util.FileExists(Util.GetRFIDMarkFile()))
 			hbox_rfid.Visible = true;

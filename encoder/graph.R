@@ -1834,7 +1834,10 @@ doProcess <- function(options)
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
 			if(isInertial(inputMultiData$econfName[i])) {
-				dataTempFile = fixDisplacementInertial(dataTempFile, inputMultiData$econfName[i], op$diameter, op$diameterExt)
+				dataTempFile = fixDisplacementInertial(
+								       dataTempFile, inputMultiData$econfName[i], 
+								       inputMultiData$econfd[i], inputMultiData$econfD[i])
+				#getDisplacementInertialBody is not needed because it's done on curve save
 			} else {
 				dataTempFile = getDisplacement(inputMultiData$econfName[i], dataTempFile, op$diameter, op$diameterExt)
 			}

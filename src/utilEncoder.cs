@@ -611,7 +611,8 @@ public class UtilEncoder
 			File.Delete(es.SpecialData);
 
 		//try catch crash sometimes when used in conjunction with RDotNet
-//		try {	
+		//now RDotNet is not used
+		try {	
 			p = new Process();
 			p.StartInfo = pinfo;
 			p.Start();
@@ -625,11 +626,9 @@ public class UtilEncoder
 				while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 			else
 				while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
-		/*
 		} catch {
 			return false;
 		}
-		*/
 
 		return true;
 	}

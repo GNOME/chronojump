@@ -3095,8 +3095,8 @@ public partial class ChronoJumpWindow
 				Catalog.GetString(comboEcconOptions[0]));
 		combo_encoder_eccon.Changed += new EventHandler (on_combo_encoder_eccon_changed);
 		
-		//create combo laterality
-		string [] comboLateralityOptions = { "RL", "R", "L" };
+		//create combo laterality. SqliteEncoder Inserts and Update in english. Select is done translated
+		string [] comboLateralityOptions = { "RL", "R", "L" }; //attention: if this changes, change it also in encoder.cs (EncoderSQL)
 		string [] comboLateralityOptionsTranslated = { 
 			Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L") };
 		encoderLateralityTranslation = new String [comboLateralityOptions.Length];

@@ -654,6 +654,26 @@ public class EncoderSQL
 	}
 
 
+	/* 
+	 * translations stuff
+	 * used to store in english and show translated in GUI
+	 */
+		
+	private string [] lateralityOptionsEnglish = { "RL", "R", "L" }; //attention: if this changes, change it also in gui/encoder.cs createEncoderCombos()
+	public string LateralityToEnglish() 
+	{
+		int count = 0;
+		foreach(string option in lateralityOptionsEnglish) {
+			if(Catalog.GetString(option) == laterality)
+				return lateralityOptionsEnglish[count];
+			count ++;
+		}
+		//default return first value
+		return lateralityOptionsEnglish[0];
+	}
+
+
+
 	//used in NUnit
 	public string Filename
 	{

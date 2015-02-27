@@ -73,7 +73,7 @@ class Sqlite
 	/*
 	 * Important, change this if there's any update to database
 	 */
-	static string lastChronojumpDatabaseVersion = "1.21";
+	static string lastChronojumpDatabaseVersion = "1.22";
 
 	public Sqlite() {
 	}
@@ -1764,6 +1764,25 @@ class Sqlite
 
 				currentVersion = "1.21";
 			}
+			if(currentVersion == "1.21") {
+				LogB.SQL("Encoder laterality in english again");
+				
+				Sqlite.Open();
+		
+				if(Catalog.GetString("RL") != "RL")	
+					Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("RL"), "RL", "", "");
+				
+				if(Catalog.GetString("R") != "R")	
+					Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("R"), "R", "", "");
+				
+				if(Catalog.GetString("L") != "L")	
+					Update(true, Constants.EncoderTable, "laterality", Catalog.GetString("L"), "L", "", "");
+
+				SqlitePreferences.Update ("databaseVersion", "1.22", true); 
+				Sqlite.Close();
+
+				currentVersion = "1.22";
+			}
 	
 		}
 
@@ -1908,6 +1927,7 @@ class Sqlite
 		SqliteExecuteAuto.addChronojumpProfileAndBilateral();
 		
 		//changes [from - to - desc]
+		//1.21 - 1.22 Converted DB to 1.22 Encoder laterality in english again
 		//1.20 - 1.21 Converted DB to 1.21 Fixing loosing of encoder videoURL after recalculate
 		//1.19 - 1.20 Converted DB to 1.20 Preferences: added user email
 		//1.18 - 1.19 Converted DB to 1.19 Preferences deleted showHeight, added showStiffness

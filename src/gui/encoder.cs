@@ -2367,7 +2367,6 @@ public partial class ChronoJumpWindow
 									sendCurve = false;
 								}
 
-								//LogB.Debug(curve.ToString());
 								if(sendCurve) {
 									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
 										pCaptureNoRDotNet, 
@@ -4644,8 +4643,7 @@ public partial class ChronoJumpWindow
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
-				if(action == encoderActions.CAPTURE) {
-						
+				//if(action == encoderActions.CAPTURE) {
 					if(useRDotNet) {
 						if(RInitialized == Constants.Status.UNSTARTED)
 							rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
@@ -4664,7 +4662,7 @@ public partial class ChronoJumpWindow
 						 */
 					} else
 						runEncoderCaptureNoRDotNetInitialize();
-				}
+				//}
 				
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;

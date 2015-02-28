@@ -483,7 +483,7 @@ public class UtilEncoder
 		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
 		LogB.Debug("curveSend [heightAtStart]",curveSend);
 		p.StandardInput.WriteLine(curveSend);
-
+								
 		curveSend = curveCompressed;
 		
 		//TODO convert comma to point in this doubles

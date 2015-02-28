@@ -1980,7 +1980,9 @@ public partial class ChronoJumpWindow
 				//es, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				UtilEncoder.GetEncoderDataTempFileName(),
-				chronopicWin.GetEncoderPort() );
+				chronopicWin.GetEncoderPort(),
+				false //inertiaMomentCalculation
+				);
 
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
@@ -2002,7 +2004,9 @@ public partial class ChronoJumpWindow
 		bool capturedOk = runEncoderCaptureCsharp("Capturing Inertia Moment", 
 				encoder_configuration_win.Spin_im_duration,
 				UtilEncoder.GetEncoderDataTempFileName(),
-				chronopicWin.GetEncoderPort() );
+				chronopicWin.GetEncoderPort(),
+				true //inertiaMomentCalculation
+				);
 
 		//wait to ensure capture thread has ended
 		Thread.Sleep(500);	
@@ -2035,7 +2039,8 @@ public partial class ChronoJumpWindow
 	REngine rengine;
 	int encoderSelectedMinimumHeight;
 
-	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port) 
+	//on inertial moment calculation don't need to send curves to R
+	private bool runEncoderCaptureCsharp(string title, int time, string outputData1, string port, bool inertiaMomentCalculation) 
 	{
 		LogB.Debug("runEncoderCaptureCsharp pre start");
 		int widthG = encoder_capture_signal_drawingarea.Allocation.Width;
@@ -2348,36 +2353,42 @@ public partial class ChronoJumpWindow
 								 */
 								
 								//3) if it's ecc-con, don't record first curve if first curve is concentric
-							
-									
-								bool sendCurve = true;
-								if(heightCurve >= encoderSelectedMinimumHeight) 	//1
-								{
-									if(encoderConfigurationCurrent.has_inertia) {
-										if(capturingFirstPhase)
-											sendCurve = false;
-									} else { // ! encoderConfigurationCurrent.has_inertia
-										if( eccon == "c" && ! ecc.up )
-											sendCurve = false;
-										if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
-											sendCurve = false;
+						
+								/*
+								 * on inertiaMomentCalculation we don't need to send data to R and get curves
+								 * we will call R at the end
+								 */
+
+								if(! inertiaMomentCalculation) {	
+									bool sendCurve = true;
+									if(heightCurve >= encoderSelectedMinimumHeight) 	//1
+									{
+										if(encoderConfigurationCurrent.has_inertia) {
+											if(capturingFirstPhase)
+												sendCurve = false;
+										} else { // ! encoderConfigurationCurrent.has_inertia
+											if( eccon == "c" && ! ecc.up )
+												sendCurve = false;
+											if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
+												sendCurve = false;
+										}
+										capturingFirstPhase = false;
+									} else {
+										sendCurve = false;
 									}
-									capturingFirstPhase = false;
-								} else {
-									sendCurve = false;
-								}
 
-								if(sendCurve) {
-									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-										pCaptureNoRDotNet, 
-										heightAtCurveStart, 
-										//curve); 				//uncompressed
-										UtilEncoder.CompressData(curve, 25)	//compressed
-											);
+									if(sendCurve) {
+										UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
+												pCaptureNoRDotNet, 
+												heightAtCurveStart, 
+												//curve); 				//uncompressed
+											UtilEncoder.CompressData(curve, 25)	//compressed
+												);
 
-									ecca.curvesDone ++;
-									ecca.curvesAccepted ++;
-									ecca.ecc.Add(ecc);
+										ecca.curvesDone ++;
+										ecca.curvesAccepted ++;
+										ecca.ecc.Add(ecc);
+									}
 								}
 							}
 						}
@@ -4643,7 +4654,7 @@ public partial class ChronoJumpWindow
 			//encoder_pulsebar_capture.Text = Catalog.GetString("Please, wait.");
 			LogB.Information("encoderThreadStart begins");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
-				//if(action == encoderActions.CAPTURE) {
+				if(action == encoderActions.CAPTURE) {
 					if(useRDotNet) {
 						if(RInitialized == Constants.Status.UNSTARTED)
 							rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
@@ -4662,7 +4673,7 @@ public partial class ChronoJumpWindow
 						 */
 					} else
 						runEncoderCaptureNoRDotNetInitialize();
-				//}
+				}
 				
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;

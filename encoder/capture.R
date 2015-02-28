@@ -62,7 +62,8 @@ write("At calcule calling kinematics", stderr())
 		    g, myEcconKn, isPropulsive)
 
 	paf = data.frame()
-	paf = pafGenerate(op$Eccon, kinematicsResult, op$MassBody, op$MassExtra)
+	myLaterality = "" #TODO
+	paf = pafGenerate(op$Eccon, kinematicsResult, op$MassBody, op$MassExtra, myLaterality)
 		
 	position = cumsum(displacement)
 

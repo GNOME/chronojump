@@ -54,21 +54,40 @@ calculate <- function (displacement, mass, length)
 	#times where the maximums are found in milliseconds
 	tmax <- rowMeans(ex$maxindex)
 	print(c("tmax",tmax))
+	print(tmax)
+	
+	tmin <- rowMeans(ex$minindex)
+	print(c("tmin",tmin))
+
+	tall = sort(as.numeric(c(tmin, tmax)))
+	print("tall")
+	print(tall)
 
 	#the last maximum is discarded
-	tmax <- tmax[1:(length(tmax)-1)]
-	print(c("tmax",tmax))
+	#tmax <- tmax[1:(length(tmax)-1)]
+	#print(c("tmax",tmax))
+	tall <- tall[1:(length(tall)-1)]
+	print(c("tall",tall))
 
 	#Periods of the oscillations
-	T <- diff(tmax[1:length(tmax)])
+	T = NULL
+	#T <- diff(tmax[1:length(tmax)])
+	T <- 2 * diff(tall[1:length(tall)])
 	print(c("T",T))
+	print("T is null")
+	print(is.null(T))
+	print(length(T))
+
+	print("logT i el Ilog")
+	print(log(T))
+	print(I(log(tall[1:(length(tall)-1)])))
 
 	#Coefficients of a Logarithmic regression
-	logT <- lm( log(T) ~ I(log(tmax[1:(length(tmax)-1)])))
+	logT <- lm( log(T) ~ I(log(tall[1:(length(tall)-1)])))
 	print(c("logT",logT))
 
 	#The final period of the oscillation in seconds
-	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tmax[length(tmax)]))/1000
+	finalT <- exp(logT$coefficients[1] + logT$coefficients[2]*log(tall[length(tall)]))/1000
 	print(c("finalT",finalT))
 
 	#Inertia momentum using the pendulus formula

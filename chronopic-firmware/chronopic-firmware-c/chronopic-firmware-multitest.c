@@ -411,7 +411,9 @@ void main(void)
     //-----------------------------
     //-- Pins I/O: RB0,RB4 inputs, all the other are outputs
     // 2012-04-02 wade: start
-    TRISB = 0x11;
+    //TRISB = 0x11;
+    // 2015 RB0 is going to be an output
+    TRISB = 0x10;
     
     // 2012-04-02 wade: end
     //-- Pull-ups of port B enabled
@@ -557,15 +559,15 @@ void main(void)
 		else if (my_char == command_set_debounce_time)	// 'b'
 			DEBOUNCE_TIME = sci_readchar();
 		else if (my_char == command_reaction_time_rb3_on) // 'R'
-			RB3 = 1;
+			RB0 = 1; //RB3 = 1
 		else if (my_char == command_reaction_time_rb6_on) // 'S'
-			RB6 = 1;
+			RB2 = 1; //RB6 = 1
 		else if (my_char == command_reaction_time_rb7_on) // 'T'
 			RB7 = 1;
 		else if (my_char == command_reaction_time_rb3_off) // 'r'
-			RB3 = 0;
+			RB0 = 0; //RB3 = 0
 		else if (my_char == command_reaction_time_rb6_off) // 's'
-			RB6 = 0;
+			RB2 = 0; //RB6 = 0
 		else if (my_char == command_reaction_time_rb7_off) // 't'
 			RB7 = 0;
 		else

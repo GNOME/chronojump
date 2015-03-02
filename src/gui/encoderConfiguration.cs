@@ -264,7 +264,8 @@ public class EncoderConfigurationWindow {
 		button_encoder_capture_inertial_cancel.Sensitive = true;
 		//button_encoder_capture_inertial_finish.Sensitive = true;
 		
-		label_im_feedback.Text = "Capturing";
+		label_im_feedback.Text = "<b>" + Catalog.GetString("Capturing") + "</b>";
+		label_im_feedback.UseMarkup = true; 
 		capturing = true;
 	}
 
@@ -281,9 +282,11 @@ public class EncoderConfigurationWindow {
 		button_encoder_capture_inertial_cancel.Sensitive = false;
 		//button_encoder_capture_inertial_finish.Sensitive = false;
 			
-		if(imResult == 0)
-			label_im_feedback.Text = message;
-		else {
+		if(imResult == 0) {
+			label_im_feedback.Text = "<b>" + message + "</b>";
+			label_im_feedback.UseMarkup = true; 
+			spin_inertia.Value = imResult;
+		} else {
 			//label_im_result_disc.Text = Util.TrimDecimals(imResult, 2);
 			//as int now
 			label_im_result_disc.Text = Convert.ToInt32(imResult).ToString();
@@ -298,7 +301,8 @@ public class EncoderConfigurationWindow {
 	
 	void on_button_encoder_capture_inertial_cancel_clicked (object o, EventArgs args) {
 		//signal is raised and managed in gui/encoder.cs
-		label_im_feedback.Text = "Cancelled"; 
+		label_im_feedback.Text = "<b>" + Catalog.GetString("Cancelled") + "</b>";
+		label_im_feedback.UseMarkup = true; 
 		capturing = false;
 	}
 	/*

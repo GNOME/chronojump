@@ -210,16 +210,16 @@ public class TreeViewJumps : TreeViewEvent
 				
 				if(newJump.Tc > 0) 	//if it's Dj (has tf, and tc)
 					myData[count++] = Util.TrimDecimals(
-							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), pDN);
+							Util.GetDjPower(newJump.Tc, newJump.Tv, (personWeight + weightInKg), newJump.Fall).ToString(), 1);
 				else {			//it's a normal jump without tc
 					myData[count++] = Util.TrimDecimals(
-							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), pDN);
+							Util.GetPower(newJump.Tv, personWeight, weightInKg).ToString(), 1);
 				}
 			} else
 				myData[count++] = "0";
 		}
 		if (preferences.showStiffness)
-			myData[count++] = Util.TrimDecimals(newJump.Stiffness(personWeight, weightInKg).ToString(), pDN);
+			myData[count++] = Convert.ToInt32(newJump.Stiffness(personWeight, weightInKg)).ToString();
 		if (preferences.showInitialSpeed) 
 			myData[count++] = Util.TrimDecimals(Util.GetInitialSpeed(newJump.Tv.ToString(), preferences.metersSecondsPreferred), pDN);
 		if (preferences.showAngle) 
@@ -380,17 +380,19 @@ public class TreeViewJumpsRj : TreeViewJumps
 			if(Convert.ToDouble(thisTc) > 0)
 				myData[count++] = Util.TrimDecimals(
 						Util.GetDjPower(Convert.ToDouble(thisTc), Convert.ToDouble(thisTv), 
-							(personWeight + weightInKg), myFall).ToString(), pDN);
+							(personWeight + weightInKg), myFall).ToString(), 1);
 			else
 				myData[count++] = Util.TrimDecimals(
-						Util.GetPower(Convert.ToDouble(thisTv), personWeight, weightInKg).ToString(), pDN);
+						Util.GetPower(Convert.ToDouble(thisTv), personWeight, weightInKg).ToString(), 1);
 		}
 		if (preferences.showStiffness) {
 			//use directly Util.GetStiffness because we want to get from this specific subjump, not all the reactive jump.
-			if(Convert.ToDouble(thisTc) > 0)
-				myData[count++] = Util.TrimDecimals(
-						Util.GetStiffness(personWeight, weightInKg, Convert.ToDouble(thisTv), Convert.ToDouble(thisTc)).ToString(), 
-						pDN);
+			if(Convert.ToDouble(thisTc) > 0) {
+				//show as integer in treeview, but let the other parts of the software (export) to show it as double
+				myData[count++] = Convert.ToInt32(
+						Util.GetStiffness(personWeight, weightInKg, Convert.ToDouble(thisTv), Convert.ToDouble(thisTc))
+						).ToString();
+			}
 			else
 				myData[count++] = ""; 
 		}

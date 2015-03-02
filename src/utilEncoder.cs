@@ -364,6 +364,8 @@ public class UtilEncoder
 		string scriptGraphR = GetEncoderScriptGraph();
 		
 		string operatingSystem = "Linux";
+			
+		title = Util.RemoveBackSlash(title);
 		
 		if (UtilAll.IsWindows()) {
 			//convert accents to Unicode in order to be plotted correctly on R windows

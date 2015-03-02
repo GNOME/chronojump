@@ -310,6 +310,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	//needed for encoder R files
+	public static string RemoveBackSlash(string myString)
+	{
+		StringBuilder myStringBuilder = new StringBuilder(myString);
+		myStringBuilder.Replace("\\", " ");
+		return myStringBuilder.ToString();
+	}
+
 	public static string RemoveZeroOrMinus(string myString) 
 	{
 		if(myString == "0" || myString == "-")

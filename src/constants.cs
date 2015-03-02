@@ -645,7 +645,7 @@ public class Constants
 		"\n\n" +
 		Catalog.GetString("P = SQRT(4.9) * 9.8 * (body weight+extra weight) * SQRT(jump height in meters)") + 
 		"\n\n" +
-		Catalog.GetString("If you want to use other formulas, go to Statistics.");
+		Catalog.GetString("If you want to use other formulas, go to Analyze.");
 	
 	public static string HelpStiffness =
 		"M: " + Catalog.GetString("Mass") + "\n" +

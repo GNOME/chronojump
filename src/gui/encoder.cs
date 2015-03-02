@@ -5469,7 +5469,7 @@ LogB.Debug("D");
 						Util.ReadFile(UtilEncoder.GetEncoderSpecialDataTempFileName(), true) );
 				LogB.Information("imResultText = |" + imResultText + "|");
 
-				if(imResultText == "NA" || imResultText == "")
+				if(imResultText == "NA" || imResultText == "-1" || imResultText == "")
 					encoder_configuration_win.Button_encoder_capture_inertial_do_ended (0, "Error capturing. Maybe need more oscillations.");
 				else {
 					//script calculates Kg*m^2 -> GUI needs Kg*cm^2

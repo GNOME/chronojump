@@ -73,14 +73,9 @@ calculate <- function (displacement, mass, length)
 	T = NULL
 	#T <- diff(tmax[1:length(tmax)])
 	T <- 2 * diff(tall[1:length(tall)])
-	print(c("T",T))
-	print("T is null")
-	print(is.null(T))
-	print(length(T))
-
-	print("logT i el Ilog")
-	print(log(T))
-	print(I(log(tall[1:(length(tall)-1)])))
+	
+	if(is.null(T) || length(T) <= 3)
+		return (-1)
 
 	#Coefficients of a Logarithmic regression
 	logT <- lm( log(T) ~ I(log(tall[1:(length(tall)-1)])))

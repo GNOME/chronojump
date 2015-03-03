@@ -2764,20 +2764,36 @@ LogB.SQL("5" + tableName);
 		return myReturn;
 	}
 
+	//if we want to use the condition2 but not the searchValue, leave this as ""
 	public static void Update(bool dbconOpened, string tableName, string columnName, string searchValue, string newValue, 
 			string columnNameCondition2, string searchValueCondition2)
 	{
 		if( ! dbconOpened)
 			Sqlite.Open();
 		
-		string andStr = "";
-		if(columnNameCondition2 != "" && searchValueCondition2 != "")
-			andStr = " AND " + columnNameCondition2 + " == '" + searchValueCondition2 + "'"; 
+		bool whereDone = false;
+		string cond1 = "";
+		if(searchValue != "") {
+			cond1 = " WHERE " + columnName + " == '" + searchValue + "'";
+			whereDone = true;
+		}
+
+		string cond2 = "";
+		if(columnNameCondition2 != "" && searchValueCondition2 != "") 
+		{
+			string cond2Pre = "";
+			if(whereDone)
+				cond2Pre = " AND ";
+			else
+				cond2Pre = " WHERE ";
+
+			cond2 = cond2Pre + columnNameCondition2 + " == '" + searchValueCondition2 + "'"; 
+		}
 
 		dbcmd.CommandText = "Update " + tableName +
 			" SET " + columnName + " = '" + newValue + "'" +  
-			" WHERE " + columnName + " == '" + searchValue + "'" + 
-			andStr
+			cond1 +
+			cond2
 			;
 		LogB.SQL(dbcmd.CommandText.ToString());
 		dbcmd.ExecuteNonQuery();

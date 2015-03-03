@@ -66,9 +66,12 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Entry entry_encoder_signal_comment;
 	//[Widget] Gtk.Entry entry_encoder_curve_comment;
 	//[Widget] Gtk.Button button_encoder_save_curve;
+	[Widget] Gtk.Frame frame_encoder_signal_comment;
+	[Widget] Gtk.TextView textview_encoder_signal_comment;
 	[Widget] Gtk.Button button_encoder_export_all_curves;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
+	
 		
 	//encoder video
 	[Widget] Gtk.Notebook notebook_video_encoder;
@@ -529,7 +532,7 @@ public partial class ChronoJumpWindow
 			encoderProcessFinish = false;
 			encoderThreadStart(encoderActions.CAPTURE);
 			
-			//entry_encoder_signal_comment.Text = "";
+			textview_encoder_signal_comment.Buffer.Text = "";
 
 			LogB.Debug("end of Calling encoderThreadStart for capture");
 		//}
@@ -679,6 +682,19 @@ public partial class ChronoJumpWindow
 		encoderCalculeCurves(encoderActions.CURVES);
 	}
 
+	void on_button_encoder_signal_comment_apply_clicked (object o, EventArgs args) {
+		LogB.Debug(encoderSignalUniqueID);
+		if(encoderSignalUniqueID != null && Convert.ToInt32(encoderSignalUniqueID) > 0) {
+			Sqlite.Update(false, Constants.EncoderTable, "description", "", 
+					Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), 
+					"uniqueID", encoderSignalUniqueID);
+			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Saved."));
+		}
+	}
+
+
+
+
 	private void encoderUpdateTreeViewCapture(string contents)
 	{
 		if (contents == null || contents == "") {
@@ -770,7 +786,7 @@ public partial class ChronoJumpWindow
 				"",	//path,			//url
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
 				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
-				"", 		//desc,
+				Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), //desc,
 				"", videoURL,		//status, videoURL
 				encoderConfigurationCurrent,
 				"","","",	//future1, 2, 3
@@ -1335,7 +1351,7 @@ public partial class ChronoJumpWindow
 				spin_encoder_extra_weight.Value = Convert.ToInt32(eSQL.extraWeight);
 
 				encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value = eSQL.minHeight;
-				//entry_encoder_signal_comment.Text = eSQL.description;
+				textview_encoder_signal_comment.Buffer.Text = eSQL.description;
 				encoderTimeStamp = eSQL.GetDate(false); 
 				encoderSignalUniqueID = eSQL.uniqueID;
 			
@@ -1657,7 +1673,7 @@ public partial class ChronoJumpWindow
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		encoder_pulsebar_capture.Text = Catalog.GetString("Set deleted");
-		//entry_encoder_signal_comment.Text = "";
+		textview_encoder_signal_comment.Buffer.Text = "";
 	}
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
@@ -1811,8 +1827,7 @@ public partial class ChronoJumpWindow
 				}
 			}
 		
-			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_curve_comment.Text.ToString());
-			desc = "";
+			desc = Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text);
 
 			LogB.Information(curveStart + "->" + duration);
 		
@@ -1837,8 +1852,7 @@ public partial class ChronoJumpWindow
 
 			path = UtilEncoder.GetEncoderSessionDataCurveDir(currentSession.UniqueID);
 		} else { //signal
-			//desc = Util.RemoveTildeAndColonAndDot(entry_encoder_signal_comment.Text.ToString());
-			desc = "";
+			desc = Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text);
 
 			fileSaved = UtilEncoder.CopyTempToEncoderData (currentSession.UniqueID, currentPerson.UniqueID, 
 					currentPerson.Name, encoderTimeStamp);
@@ -3726,7 +3740,7 @@ public partial class ChronoJumpWindow
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, button_encoder_export_all_curves,
-		//	button_encoder_delete_signal, entry_encoder_signal_comment,
+		//	button_encoder_delete_signal, frame_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
@@ -3793,6 +3807,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
+		frame_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		

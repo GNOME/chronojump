@@ -42,6 +42,7 @@ SOURCES = \
 	gui/server.cs\
 	gui/dialogServerStats.cs\
 	gui/evaluator.cs\
+	gui/networks.cs\
 	gui/queryServer.cs\
 	gui/usefulObjects.cs\
 	statType.cs\
@@ -123,6 +124,7 @@ SOURCES = \
 	genericObjects.cs\
 	jump.cs\
 	jumpType.cs\
+	networks.cs\
 	person.cs\
 	personSession.cs\
 	run.cs\

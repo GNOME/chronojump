@@ -794,10 +794,10 @@ public class Util
 
 	/********** end of database paths ************/
 	
-	public static string GetRFIDMarkFile() {
+	public static string GetChronojumpNetworksFile() {
 		return Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-				"Chronojump" + Path.DirectorySeparatorChar + "rfid_mark_file.txt");
+				"Chronojump" + Path.DirectorySeparatorChar + "chronojump_networks.txt");
 	}
 	
 

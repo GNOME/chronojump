@@ -22,6 +22,7 @@ using System;
 //using System.Data;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.Collections.Generic; //List<T>
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
 
@@ -1004,6 +1005,7 @@ public class Util
 		return File.Exists(fileName);
 	}
 
+	//not recommended, better use below method. Better for bigger files
 	public static string ReadFile(string fileName, bool removeEOL)
 	{
 		try {
@@ -1020,6 +1022,24 @@ public class Util
 			return null;
 		}
 	}
+	//recommended method
+	public static List<string> ReadFileAsStringList(string fileName)
+	{
+		try {
+			List<string> lines = new List<string>();
+			using (var sr = new StreamReader(fileName))
+			{
+				while (sr.Peek() >= 0)
+				{
+					lines.Add(sr.ReadLine());
+				}
+			}
+			return(lines);
+		} catch {
+			return null;
+		}
+	}
+
 
 	//returns int [] of encoder signal or curve
 	//currently used on db conversion 1.05 -> 1.06

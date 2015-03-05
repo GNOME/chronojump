@@ -746,6 +746,16 @@ public class UtilEncoder
 		int digitPre = -10000; //just an impossible mark
 		int rep = 0;
 		int countNewLine = 0;
+		
+		/*
+		LogB.Information("Compressing curve");
+		string debugStr = "";
+		for(int i=0; i < curve.Length; i++) {
+			debugStr += curve[i].ToString();
+		}
+		LogB.Debug(debugStr);
+		*/
+
 		for(int i=0; i < curve.Length; i++) 
 		{
 			digit = Convert.ToInt32(curve[i]);

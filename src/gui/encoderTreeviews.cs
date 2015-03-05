@@ -25,6 +25,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Collections;
+using System.Collections.Generic; //List<T>
 using Mono.Unix;
 
 
@@ -35,7 +36,8 @@ public partial class ChronoJumpWindow
 
 	//returns curves num
 	//capture has single and multiple selection in order to save curves... Analyze only shows data.
-	private int createTreeViewEncoderCapture(string contents) {
+	private int createTreeViewEncoderCapture(List<string> contents) 
+	{
 		bool showStartAndDuration = encoderCaptureOptionsWin.check_show_start_and_duration.Active;
 
 		string [] columnsString = {
@@ -57,37 +59,39 @@ public partial class ChronoJumpWindow
 
 		encoderCaptureCurves = new ArrayList ();
 
-		string line;
 		int curvesCount = 0;
-		using (StringReader reader = new StringReader (contents)) {
-			line = reader.ReadLine ();	//headers
-			LogB.Information(line);
-			do {
-				line = reader.ReadLine ();
-				LogB.Information(line);
-				if (line == null)
-					break;
+		bool headers = true;
+		foreach(string line in contents)
+		{
+			LogB.Debug(line);
+			if(headers) {
+				headers = false;
+				continue;
+			}
 
-				curvesCount ++;
+			if (line == null)
+				break;
 
-				string [] cells = line.Split(new char[] {','});
-				cells = fixDecimals(cells, true); //useForce
+			curvesCount ++;
 
-				encoderCaptureCurves.Add (new EncoderCurve (
-							false,				//user need to mark to save them
-							cells[0],	//id 
-							//cells[1],	//seriesName
-							//cells[2], 	//exerciseName
-							//cells[3], 	//massBody
-							//cells[4], 	//massExtra
-							cells[5], cells[6], cells[7], 	//start, duration, height 
-							cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
-							cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
-							cells[14],			//peakPower / peakPowerT
-							cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
-							));
+			string [] cells = line.Split(new char[] {','});
+			cells = fixDecimals(cells, true); //useForce
+			LogB.Error(Util.StringArrayToString(cells, ":"));
 
-			} while(true);
+			encoderCaptureCurves.Add (new EncoderCurve (
+						false,				//user need to mark to save them
+						cells[0],	//id 
+						//cells[1],	//seriesName
+						//cells[2], 	//exerciseName
+						//cells[3], 	//massBody
+						//cells[4], 	//massExtra
+						cells[5], cells[6], cells[7], 	//start, duration, height 
+						cells[8], cells[9], cells[10], 	//meanSpeed, maxSpeed, maxSpeedT
+						cells[11], cells[12], cells[13],//meanPower, peakPower, peakPowerT
+						cells[14],			//peakPower / peakPowerT
+						cells[15], cells[16], cells[17] //meanForce, maxSForce maxForceT
+						));
+
 		}
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));

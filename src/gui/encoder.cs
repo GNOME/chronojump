@@ -25,6 +25,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using System.Collections;
+using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
 using System.Linq;
@@ -682,9 +683,9 @@ public partial class ChronoJumpWindow
 
 
 
-	private void encoderUpdateTreeViewCapture(string contents)
+	private void encoderUpdateTreeViewCapture(List<string> contents)
 	{
-		if (contents == null || contents == "") {
+		if (contents == null || contents.Count == 0) {
 			encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
 		} else {
 			treeviewEncoderCaptureRemoveColumns();
@@ -3947,7 +3948,7 @@ public partial class ChronoJumpWindow
 		encoderCapturePointsPainted = encoderCapturePointsCaptured;
 	}
 
-	static string encoderCaptureStringR;
+	static List<string> encoderCaptureStringR;
 	static ArrayList captureCurvesBarsData;
 	static bool updatingEncoderCaptureGraphRCalc;
 	
@@ -4228,14 +4229,14 @@ public partial class ChronoJumpWindow
 						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
 						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
 			
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
+			encoderCaptureStringR.Add(string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
 					ecca.curvesAccepted +1,
 					ecc.startFrame, ecc.endFrame-ecc.startFrame,
 					Util.ConvertToPoint(height*10), //cm	
 					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
 					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
 					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
-					);
+					));
 		
 			treeviewEncoderCaptureRemoveColumns();
 			ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
@@ -4688,11 +4689,12 @@ public partial class ChronoJumpWindow
 
 					//remove treeview columns
 					treeviewEncoderCaptureRemoveColumns();
-					encoderCaptureStringR = 
+					encoderCaptureStringR = new List<string>();
+					encoderCaptureStringR.Add(
 						",series,exercise,mass,start,width,height," + 
 						"meanSpeed,maxSpeed,maxSpeedT," +
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
-						"meanForce, maxForce, maxForceT";
+						"meanForce, maxForce, maxForceT");
 
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
 
@@ -5026,7 +5028,6 @@ LogB.Debug("D");
 	{
 		if (!String.IsNullOrEmpty(curveFromR.Data))
 		{
-
 			LogB.Information("Without trim");
 			LogB.Information(curveFromR.Data);
 
@@ -5037,35 +5038,27 @@ LogB.Debug("D");
 			//fix if data couldn't be calculated from R
 			trimmed = trimmed.Replace("NA","0");
 
-			/*	
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
-					ecca.curvesAccepted +1,
-					ecc.startFrame, ecc.endFrame-ecc.startFrame,
-					Util.ConvertToPoint(height*10), //cm	
-					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
-					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
-					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
-					*/
-			
 			string [] strs = trimmed.Split(new char[] {','});
 
-			encoderCaptureStringR += string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
+			encoderCaptureStringR.Add(string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
 					0,
 					0, strs[0],			//start, width
 					strs[1],			//height
 					strs[2], strs[3], strs[4],	//speeds
 					strs[5], strs[6], strs[7],	//powers
 					strs[8],			//pp/ppt
-					strs[9], strs[10], strs[11]);	//forces
+					strs[9], strs[10], strs[11]));	//forces
 			
-			LogB.Debug("encoderCaptureStringR");
-			LogB.Debug(encoderCaptureStringR);
+			//LogB.Debug("encoderCaptureStringR");
+			//LogB.Debug(encoderCaptureStringR);
 
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
 			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[6]));
 			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+			
+			LogB.Information("activating needToRefreshTreeviewCapture");
 
 			//executed on GTK thread pulse method
 			needToRefreshTreeviewCapture = true;
@@ -5138,8 +5131,8 @@ LogB.Debug("D");
 	
 				if(needToRefreshTreeviewCapture) 
 				{
-					LogB.Error("HERE YES");
-					LogB.Error(encoderCaptureStringR);
+					//LogB.Error("HERE YES");
+					//LogB.Error(encoderCaptureStringR);
 					
 					treeviewEncoderCaptureRemoveColumns();
 					ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
@@ -5370,7 +5363,7 @@ LogB.Debug("D");
 				if(notebook_encoder_capture.CurrentPage == 0)
 					notebook_encoder_capture.NextPage();
 
-				string contents = Util.ReadFile(UtilEncoder.GetEncoderCurvesTempFileName(), false);
+				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
 				
 				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
 				image_encoder_capture.Pixbuf = pixbuf;

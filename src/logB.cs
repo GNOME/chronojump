@@ -173,7 +173,10 @@ public static class LogB
 			if(details != null) {
 				Console.WriteLine(" {0} - {1}", message, details);
 			} else {
-				Console.WriteLine(" {0}", message);
+				if(type == LogEntryType.Debug)
+					Console.Write(" {0}", message);
+				else
+					Console.WriteLine(" {0}", message);
 			}
 		}
 

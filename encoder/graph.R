@@ -64,6 +64,8 @@
 #
 #
 
+debug = FALSE
+
 #concentric, eccentric-concentric, repetitions of eccentric-concentric
 #currently only used "c" and "ec". no need of ec-rep because c and ec are repetitive
 #"ecS" is like ec but eccentric and concentric phases are separated, used in findCurves, this is good for treeview to know power... on the 2 phases
@@ -2335,10 +2337,13 @@ doProcess <- function(options)
 			curves = curves[-discardedCurves,]
 
 		rownames(paf)=rownames(curves)
-		print("--------CURVES (propulsive is not calculated yet) --------------")
-		print(curves)
-		print("----------PAF---------------")
-		print(paf)
+		
+		if(debug) {
+			print("--------CURVES (propulsive is not calculated yet) --------------")
+			print(curves)
+			print("----------PAF---------------")
+			print(paf)
+		}
 
 		if(op$Analysis == "powerBars") {
 			if(! singleFile) 

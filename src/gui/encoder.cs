@@ -4696,6 +4696,11 @@ public partial class ChronoJumpWindow
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
 						"meanForce, maxForce, maxForceT");
 
+					string filename = "/tmp/captured.txt"; //HARDCODED
+					if(File.Exists(filename))
+						File.Delete(filename);
+
+					encoderCaptureReadedLines = 0;
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
 
 					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration( encoderConfigurationCurrent, 
@@ -4941,7 +4946,7 @@ LogB.Debug("B");
 		pinfo.UseShellExecute = false;
 		pinfo.RedirectStandardInput = true;
 		pinfo.RedirectStandardError = true;
-		pinfo.RedirectStandardOutput = true; 
+		//pinfo.RedirectStandardOutput = true; 
 
 		
 
@@ -4951,14 +4956,14 @@ try {
 		pCaptureNoRDotNet.StartInfo = pinfo;
 		
 		// output will go here
-		pCaptureNoRDotNet.OutputDataReceived += new DataReceivedEventHandler(readingCurveFromR);
+		//pCaptureNoRDotNet.OutputDataReceived += new DataReceivedEventHandler(readingCurveFromR);
 		pCaptureNoRDotNet.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
 
 		pCaptureNoRDotNet.Start();
 
 		// Start asynchronous read of the output.
 		// Caution: This has to be called after Start
-		pCaptureNoRDotNet.BeginOutputReadLine();
+		//pCaptureNoRDotNet.BeginOutputReadLine();
 		pCaptureNoRDotNet.BeginErrorReadLine();
 
 LogB.Debug("D");
@@ -5024,14 +5029,36 @@ LogB.Debug("D");
 
 
 	static bool needToRefreshTreeviewCapture;
-	private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
+	static int encoderCaptureReadedLines;
+	//private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
+	private void readingCurveFromR ()
 	{
-		if (!String.IsNullOrEmpty(curveFromR.Data))
+		string filename = "/tmp/captured.txt"; //HARDCODED
+		if(! File.Exists(filename))
+			return;
+		
+		//StreamReader reader = File.OpenText(filename);
+		//string line = reader.ReadLine();
+		
+		string line = "";
+		
+		//http://stackoverflow.com/a/119572
+		var lineCount = File.ReadLines(filename).Count();
+		if(lineCount > encoderCaptureReadedLines) {
+			//http://stackoverflow.com/a/1262985
+			line = File.ReadLines(filename).Skip(encoderCaptureReadedLines ++).Take(1).First();
+		}
+
+
+		//if (!String.IsNullOrEmpty(curveFromR.Data))
+		if (!String.IsNullOrEmpty(line))
 		{
 			LogB.Information("Without trim");
-			LogB.Information(curveFromR.Data);
+			//LogB.Information(curveFromR.Data);
+			LogB.Information(line);
 
-			string trimmed = curveFromR.Data.Trim();
+			//string trimmed = curveFromR.Data.Trim();
+			string trimmed = line.Trim();
 			LogB.Information("With trim");
 			LogB.Information(trimmed);
 
@@ -5125,7 +5152,7 @@ LogB.Debug("D");
 					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
 			} else {
 				//capturingSendCurveToR(); //unused, done while capturing
-				//readingCurveFromR();
+				readingCurveFromR();
 				
 				updateEncoderCaptureGraph(true, false, false); //graphSignal, no calcCurves, no plotCurvesBars
 	

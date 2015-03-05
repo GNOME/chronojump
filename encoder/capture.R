@@ -27,11 +27,17 @@ scriptUtilR = options[28]
 source(scriptUtilR)
 
 g = 9.81
+
+debug = FALSE
 		    
+filename = "/tmp/captured.txt"; #TODO HARDCODED!!!
+file.create(filename)
+
 
 calcule <- function(displacement, start, end, op) 
 {
-write("At calcule", stderr())
+	if(debug)
+		write("At calcule", stderr())
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
 	#if nothing: "-;-"
@@ -54,7 +60,8 @@ write("At calcule", stderr())
 	}
 
 
-write("At calcule calling kinematics", stderr())
+	if(debug)
+		write("At calcule calling kinematics", stderr())
 	kinematicsResult <- kinematicsF(displacement, 
 		    op$MassBody, op$MassExtra, op$ExercisePercentBodyWeight,
 		    op$EncoderConfigurationName, op$diameter, op$diameterExt, op$anglePush, op$angleWeight, op$inertiaMomentum, op$gearedDown,
@@ -68,15 +75,22 @@ write("At calcule calling kinematics", stderr())
 	position = cumsum(displacement)
 
 	#do not use print because it shows the [1] first. Use cat:
-	cat(paste(#start, #start is not used because we have no data of the initial zeros
-		  #(end-start), (position[end]-position[start]), #this is not used because the start, end values are not ok now
+	#cat(paste(#start, #start is not used because we have no data of the initial zeros
+	#	  #(end-start), (position[end]-position[start]), #this is not used because the start, end values are not ok now
+	#	  0, 0, 
+	#	  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
+	#	  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
+	#	  paf$meanForce, paf$maxForce, paf$maxForceT,
+	#	  sep=", "))
+	#cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
+	write(paste(#start, #start is not used because we have no data of the initial zeros
 		  0, 0, 
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
-		  sep=", "))
-	cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
-write("ended calcule", stderr())
+		  sep=", "), filename, append=TRUE)
+	if(debug)
+		write("ended calcule", stderr())
 }
 		
 getPositionStart <- function(input) 
@@ -108,19 +122,20 @@ uncompress <- function(curveSent)
 	return (as.numeric(ints))
 }
 
-
-
 doProcess <- function() 
 {
-	write("doProcess", stderr())
+	if(debug)
+		write("doProcess", stderr())
 	op <- assignOptions(options)
+
 
 	#print ("----op----")
 	#print (op)
 	
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
-		write("doProcess main while", stderr())
+		if(debug)
+			write("doProcess main while", stderr())
 		
 		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 		#cat(paste("input is:", input, "\n"))
@@ -141,7 +156,8 @@ doProcess <- function()
 		}
 		#-- curve readed
 		
-		write("doProcess input", stderr())
+		if(debug)
+			write("doProcess input", stderr())
 		#write(input, stderr())
 
 		#when data is sent uncompressed
@@ -154,7 +170,8 @@ doProcess <- function()
 		displacement  = displacement[!is.na(displacement)]
 
 
-		write("doProcess 2", stderr())
+		if(debug)
+			write("doProcess 2", stderr())
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
@@ -182,7 +199,8 @@ doProcess <- function()
 
 			displacement = displacement[start:end]
 		}
-		write("doProcess 3", stderr())
+		if(debug)
+			write("doProcess 3", stderr())
 
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
@@ -205,10 +223,12 @@ doProcess <- function()
 		} else {
 			calcule(displacement, start, end, op) #TODO: check this start, end
 		}
-		write("doProcess 4", stderr())
+		if(debug)
+			write("doProcess 4", stderr())
 
 		input <- readLines(f, n = 1L)
 	}
+
 }
 		
 

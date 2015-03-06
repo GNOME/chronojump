@@ -67,8 +67,9 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Entry entry_encoder_signal_comment;
 	//[Widget] Gtk.Entry entry_encoder_curve_comment;
 	//[Widget] Gtk.Button button_encoder_save_curve;
-	[Widget] Gtk.Frame frame_encoder_signal_comment;
+	[Widget] Gtk.Box vbox_encoder_signal_comment;
 	[Widget] Gtk.TextView textview_encoder_signal_comment;
+	[Widget] Gtk.Button button_encoder_signal_save_comment;
 	[Widget] Gtk.Button button_encoder_export_all_curves;
 	[Widget] Gtk.Label label_encoder_curve_action;
 	[Widget] Gtk.Button button_encoder_delete_signal;
@@ -325,6 +326,9 @@ public partial class ChronoJumpWindow
 		} catch {
 			//it crashes on Raspberry, Banana
 		}
+
+		//done here because in Glade we cannot use the TextBuffer.Changed
+		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
 
 		networksInit();
 	}
@@ -670,13 +674,18 @@ public partial class ChronoJumpWindow
 		encoderCalculeCurves(encoderActions.CURVES);
 	}
 
-	void on_button_encoder_signal_comment_apply_clicked (object o, EventArgs args) {
+	void on_textview_encoder_signal_comment_key_press_event (object o, EventArgs args) {
+		button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
+		button_encoder_signal_save_comment.Sensitive = true;
+	}
+	void on_button_encoder_signal_save_comment_clicked (object o, EventArgs args) {
 		LogB.Debug(encoderSignalUniqueID);
 		if(encoderSignalUniqueID != null && Convert.ToInt32(encoderSignalUniqueID) > 0) {
 			Sqlite.Update(false, Constants.EncoderTable, "description", "", 
 					Util.RemoveTildeAndColonAndDot(textview_encoder_signal_comment.Buffer.Text), 
 					"uniqueID", encoderSignalUniqueID);
-			new DialogMessage(Constants.MessageTypes.INFO, Catalog.GetString("Saved."));
+			button_encoder_signal_save_comment.Label = Catalog.GetString("Saved comment.");
+			button_encoder_signal_save_comment.Sensitive = false;
 		}
 	}
 
@@ -3728,7 +3737,7 @@ public partial class ChronoJumpWindow
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
 		//c3 hbox_encoder_capture_curves_save_all_none, button_encoder_export_all_curves,
-		//	button_encoder_delete_signal, frame_encoder_signal_comment,
+		//	button_encoder_delete_signal, vbox_encoder_signal_comment,
 		//	and images: image_encoder_capture , image_encoder_analyze.Sensitive. Update: both NOT managed here
 		//UNUSED c4 button_encoder_save_curve, entry_encoder_curve_comment
 		//c5 button_encoder_analyze
@@ -3795,7 +3804,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_capture_curves_save_all_none.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_export_all_curves.Sensitive = Util.IntToBool(table[3]);
 		button_encoder_delete_signal.Sensitive = Util.IntToBool(table[3]);
-		frame_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
+		vbox_encoder_signal_comment.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_capture.Sensitive = Util.IntToBool(table[3]);
 		//image_encoder_analyze.Sensitive = Util.IntToBool(table[3]);
 		
@@ -5415,6 +5424,9 @@ LogB.Debug("D");
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData,
 						false);	//not capturing
+		
+				button_encoder_signal_save_comment.Label = Catalog.GetString("Save comment");
+				button_encoder_signal_save_comment.Sensitive = false;
 		
 				//autosave signal (but not in load)
 				if(action == encoderActions.CURVES) 

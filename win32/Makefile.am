@@ -20,9 +20,9 @@ deploy:
 
 bundle: deploy
 	windres logo.rc logo.o
-	MONO_PATH=dist/lib/chronojump mkbundle dist/lib/chronojump/Chronojump.exe --deps -c -o temp.c -oo temp.o
+	MONO_PATH=${MONO_PATH}\;dist/lib/chronojump mkbundle --config ${prefix}/etc/mono/config dist/lib/chronojump/Chronojump.exe --deps -c -o temp.c -oo temp.o
 	${CC} -g -o dist/bin/Chronojump.exe -Wall temp.c `pkg-config --cflags --libs mono-2`  logo.o temp.o
-	MONO_PATH=dist/lib/chronojump mkbundle dist/lib/chronojump/Chronojump_Mini.exe --nodeps -c -o temp.c -oo temp.o
+	MONO_PATH=${MONO_PATH}\;dist/lib/chronojump mkbundle dist/lib/chronojump/Chronojump_Mini.exe --nodeps -c -o temp.c -oo temp.o
 	${CC} -g -o dist/bin/Chronojump_mini.exe -Wall temp.c `pkg-config --cflags --libs mono-2`  logo.o temp.o
 
 installer: deploy bundle

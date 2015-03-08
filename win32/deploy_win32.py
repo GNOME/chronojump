@@ -28,12 +28,13 @@ from optparse import OptionParser
 GTK_DEPS = ['libfreetype-6.dll', 'libatk-1.0-0.dll', 'libcairo-2.dll', 'libgailutil-18.dll',
             'libgdk_pixbuf-2.0-0.dll', 'libgdk-win32-2.0-0.dll', 'libgtk-win32-2.0-0.dll',
             'libpng15-15.dll', 'libfontconfig-1.dll', 'libpango-1.0-0.dll', 'libpangoft2-1.0-0.dll',
-            'libpangocairo-1.0-0.dll', 'libpangowin32-1.0-0.dll', 'zlib1.dll',
-            'libtiff-5.dll', 'libpixman-1-0.dll', 'libglade-2.0-0.dll']
+            'libpangocairo-1.0-0.dll', 'libpangowin32-1.0-0.dll',
+            'libtiff-5.dll', 'libpixman-1-0.dll', 'libglade-2.0-0.dll',
+            'libharfbuzz-0.dll']
 
-MONO_DEPS = ['mono-2.0.dll', 'MonoPosixHelper.dll', 'pangosharpglue-2.dll', 'gtksharpglue-2.dll',
+MONO_DEPS = ['libmonosgen-2.0.dll', 'libMonoPosixHelper.dll', 'pangosharpglue-2.dll', 'gtksharpglue-2.dll',
              'glibsharpglue-2.dll', 'gdksharpglue-2.dll', 'atksharpglue-2.dll',
-             'intl.dll', 'sqlite3.dll']
+             'sqlite3.dll']
 
 MONO_LIB_DEPS = []
 
@@ -47,7 +48,7 @@ GST_EXT_DEPS = ['libFLAC-8.dll', 'liba52-0.dll',
         'libogg-0.dll', 'libmp3lame-0.dll', 'libmpeg2-0.dll', 'liborc-0.4-0.dll', 'librsvg-2-2.dll',
         'libxml2-2.dll', 'libschroedinger-1.0-0.dll', 'libsoup-2.4-1.dll', 'libtheora-0.dll',
         'libtheoradec-1.dll', 'libvorbisenc-2.dll', 'libvorbis-0.dll',
-        'libx264-125.dll', 'libexpat-1.dll', 'libgnutls-28.dll', 'libcroco-0.6-3.dll',
+        'libx264-140.dll', 'libexpat-1.dll', 'libgnutls-28.dll', 'libcroco-0.6-3.dll',
         'libtasn1-3.dll', 'libz.dll', 'libiconv-2.dll',
         'libcairo-gobject-2.dll', 'liborc-test-0.4-0.dll',
         'libgcc_s_sjlj-1.dll', 'libtheoraenc-1.dll', 'libwinpthread-1.dll']
@@ -137,7 +138,7 @@ class Deploy():
         self.lib_dir = os.path.join(self.dist_dir, 'lib')
         self.images_dir = os.path.join (self.share_dir, 'chronojump', 'images')
         self.plugins_dir = os.path.join(self.lib_dir, 'gstreamer-0.10')
-        self.mono_lib_dir = os.path.join(self.lib_dir, 'mono', '4.0')
+        self.mono_lib_dir = os.path.join(self.lib_dir, 'mono', '4.5')
 
     def create_deployment_folder(self):
         print 'Create deployment directory'
@@ -174,10 +175,10 @@ class Deploy():
         print 'Deploying Mono dependencies'
         for name in MONO_DEPS:
             shutil.copy(os.path.join(self.prefix, 'bin', name), self.bin_dir)
-        shutil.copy(os.path.join(self.prefix, 'lib', 'mono', '4.0', 'mscorlib.dll'),
+        shutil.copy(os.path.join(self.prefix, 'lib', 'mono', '4.5', 'mscorlib.dll'),
                         self.mono_lib_dir)
         for name in MONO_LIB_DEPS:
-            shutil.copy(os.path.join(self.prefix, 'lib', 'mono', '4.0', name),
+            shutil.copy(os.path.join(self.prefix, 'lib', 'mono', '4.5', name),
                         self.bin_dir)
         for name in MONO_GAC_DEPS:
             shutil.copy(os.path.join(self.prefix, 'lib', 'mono', 'gac', name,
@@ -219,7 +220,7 @@ def main():
     usage = "usage: %prog [options]"
     parser = OptionParser(usage)
     parser.add_option("-p", "--prefix", action="store",
-            dest="prefix",default="c:\\gstreamer-sdk\\0.10\\x86", type="string",
+            dest="prefix",default=os.environ["CERBERO_PREFIX"], type="string",
             help="GStreamer installation path")
     parser.add_option("-s", "--msys_path", action="store",
             dest="msys_path",default="c:\\MinGW\\msys\\1.0", type="string",

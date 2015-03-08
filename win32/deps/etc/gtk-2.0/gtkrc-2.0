@@ -1,8 +1,0 @@
-# Auto-written by gtk2_prefs. Do not edit.
-
-gtk-theme-name = "Clearlooks"
-style "user-font"
-{
-	font_name="Tahoma 8"
-}
-widget_class "*" style "user-font"

@@ -122,6 +122,7 @@ SOURCES = \
 	event.cs\
 	eventType.cs\
 	genericObjects.cs\
+	json.cs\
 	jump.cs\
 	jumpType.cs\
 	networks.cs\

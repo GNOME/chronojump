@@ -96,12 +96,11 @@ public class ErrorWindow
 		
 		hbox_send_log.Show();
 		
-		button_send_log.Label = "Disabled";
-		button_send_log.Sensitive = false;
+		//button_send_log.Label = "Disabled";
+		//button_send_log.Sensitive = false;
 	}
 	private void on_button_send_log_clicked (object o, EventArgs args)
 	{
-		/*
 		string email = entry_send_log.Text.ToString();
 		//email can be validated with Util.IsValidEmail(string)
 		//or other methods, but maybe there's no need of complexity now 
@@ -133,7 +132,6 @@ public class ErrorWindow
 		}
 
 		label_send_log_message.Text = js.ResultMessage;
-		*/
 	}
 
 	public void Show_button_open_database_folder () {

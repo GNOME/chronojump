@@ -88,7 +88,7 @@ WINDOWS
 
 chronojump-shell
 cd chronojump
-sh autogen.sh --prefix /c/gstreamer-sdk/0.10/x86
+sh autogen.sh --prefix ~/chronojump-build/dist/windows_x86
 make
 make install
 

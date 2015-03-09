@@ -998,7 +998,7 @@ public partial class ChronoJumpWindow
 		}
 
 		genericWin.ShowEditRow(false);
-		updateUserCurvesLabelsAndCombo();
+		updateUserCurvesLabelsAndCombo(false);
 	}
 	
 	protected void on_encoder_show_curves_row_delete_pre (object o, EventArgs args) {
@@ -1015,24 +1015,24 @@ public partial class ChronoJumpWindow
 
 		int uniqueID = genericWin.TreeviewSelectedUniqueID;
 
-		delete_encoder_curve(uniqueID);
+		delete_encoder_curve(false, uniqueID);
 
 		genericWin.Delete_row_accepted();
 	}
 
-	void delete_encoder_curve(int uniqueID) {
+	void delete_encoder_curve(bool dbconOpened, int uniqueID) {
 		LogB.Information(uniqueID.ToString());
 
-		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(false, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
+		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
 		if(deletedOk)  {
-			Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(uniqueID));
+			Sqlite.Delete(dbconOpened, Constants.EncoderTable, Convert.ToInt32(uniqueID));
 			
-			ArrayList escArray = SqliteEncoder.SelectSignalCurve(false, 
+			ArrayList escArray = SqliteEncoder.SelectSignalCurve(dbconOpened, 
 						-1, Convert.ToInt32(uniqueID),	//signal, curve
 						-1, -1); 			//msStart, msEnd
-			SqliteEncoder.DeleteSignalCurveWithCurveID(false, 
+			SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
 					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
 			//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
 			if(escArray.Count > 0) {
@@ -1041,7 +1041,7 @@ public partial class ChronoJumpWindow
 					encoderCaptureSelectBySavedCurves(esc.msCentral, false);
 			}
 
-			updateUserCurvesLabelsAndCombo();
+			updateUserCurvesLabelsAndCombo(dbconOpened);
 		}
 	}
 	
@@ -1682,10 +1682,10 @@ public partial class ChronoJumpWindow
 		return countActiveCurves;
 	}
 
-	private void updateUserCurvesLabelsAndCombo() 
+	private void updateUserCurvesLabelsAndCombo(bool dbconOpened) 
 	{
 		ArrayList data = SqliteEncoder.Select(
-				false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
+				dbconOpened, -1, currentPerson.UniqueID, currentSession.UniqueID, -1, 
 				"curve", EncoderSQL.Eccons.ALL, 
 				false, true);
 		int activeCurvesNum = getActiveCurvesNum(data);
@@ -1750,7 +1750,7 @@ public partial class ChronoJumpWindow
 	}
 
 
-	string encoderSaveSignalOrCurve (string mode, int selectedID) 
+	string encoderSaveSignalOrCurve (bool dbconOpened, string mode, int selectedID) 
 	{
 		//mode is different than type. 
 		//mode can be curve or signal
@@ -1829,11 +1829,11 @@ public partial class ChronoJumpWindow
 			LogB.Information(curveStart + "->" + duration);
 		
 			int curveIDMax;
-			int countCurveIDs = Sqlite.Count(Constants.EncoderTable, false);
+			int countCurveIDs = Sqlite.Count(Constants.EncoderTable, dbconOpened);
 			if(countCurveIDs == 0)
 				curveIDMax = 0;
 			else
-				curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", false);
+				curveIDMax = Sqlite.Max(Constants.EncoderTable, "uniqueID", dbconOpened);
 			
 			//save raw file to hard disk
 			fileSaved = UtilEncoder.EncoderSaveCurve(UtilEncoder.GetEncoderDataTempFileName(), 
@@ -1843,7 +1843,7 @@ public partial class ChronoJumpWindow
 					currentPerson.Name, encoderTimeStamp, curveIDMax);
 
 			//save it to SQL (encoderSignalCurve table)
-			SqliteEncoder.SignalCurveInsert(false, 
+			SqliteEncoder.SignalCurveInsert(dbconOpened, 
 					Convert.ToInt32(encoderSignalUniqueID), curveIDMax +1,
 					Convert.ToInt32(curveStart + (duration /2)));
 
@@ -1883,7 +1883,7 @@ public partial class ChronoJumpWindow
 		//we know it because encoderUniqueID is != than "-1" if we loaded something from database
 		//This also saves curves
 		if(myID == "-1") {
-			myID = SqliteEncoder.Insert(false, eSQL).ToString(); //Adding on SQL
+			myID = SqliteEncoder.Insert(dbconOpened, eSQL).ToString(); //Adding on SQL
 			if(mode == "signal") {
 				encoderSignalUniqueID = myID;
 				feedback = Catalog.GetString("Set saved");
@@ -1899,7 +1899,7 @@ public partial class ChronoJumpWindow
 								Convert.ToInt32(encoderSignalUniqueID));
 						//need assign uniqueID to update and add the URL of video
 						eSQL.uniqueID = encoderSignalUniqueID;
-						SqliteEncoder.Update(false, eSQL);
+						SqliteEncoder.Update(dbconOpened, eSQL);
 					
 						//notebook_video_encoder.CurrentPage = 1;
 						radiobutton_video_encoder_play.Active  = true;
@@ -1916,7 +1916,7 @@ public partial class ChronoJumpWindow
 			LogB.Warning("TOSTRING1");
 			eSQL.ToString();
 			//only signal is updated
-			SqliteEncoder.Update(false, eSQL); //Adding on SQL
+			SqliteEncoder.Update(dbconOpened, eSQL); //Adding on SQL
 			LogB.Warning("TOSTRING2");
 			eSQL.ToString();
 			feedback = Catalog.GetString("Set updated");
@@ -5438,7 +5438,7 @@ LogB.Debug("D");
 							preferences.encoderAutoSaveCurve == Constants.EncoderAutoSaveCurve.BESTMEANPOWER) )
 						needToAutoSaveCurve = true;
 
-					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve("signal", 0); //this updates encoderSignalUniqueID
+					encoder_pulsebar_capture.Text = encoderSaveSignalOrCurve(false, "signal", 0); //this updates encoderSignalUniqueID
 
 					if(needToAutoSaveCurve)
 						encoderCaptureSaveCurvesAllNoneBest(preferences.encoderAutoSaveCurve);
@@ -5488,7 +5488,7 @@ LogB.Debug("D");
 								}
 					}
 					if(deletedUserCurves)
-						updateUserCurvesLabelsAndCombo();		// (5)
+						updateUserCurvesLabelsAndCombo(false);		// (5)
 
 
 					findAndMarkSavedCurves();

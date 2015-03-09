@@ -185,11 +185,11 @@ public partial class ChronoJumpWindow
 	}
 	
 	//rowNum starts at zero
-	void saveOrDeleteCurveFromCaptureTreeView(int rowNum, EncoderCurve curve, bool save) 
+	void saveOrDeleteCurveFromCaptureTreeView(bool dbconOpened, int rowNum, EncoderCurve curve, bool save) 
 	{
 		LogB.Information("saving? " + save.ToString() + "; rownum:" + rowNum.ToString());
 		if(save)
-			encoderSaveSignalOrCurve("curve", rowNum +1);
+			encoderSaveSignalOrCurve(dbconOpened, "curve", rowNum +1);
 		else {
 			double msStart = Convert.ToDouble(curve.Start);
 			double msEnd = -1;
@@ -203,11 +203,11 @@ public partial class ChronoJumpWindow
 					Convert.ToDouble(curveNext.Duration);
 			}
 
-			ArrayList signalCurves = SqliteEncoder.SelectSignalCurve(false,
+			ArrayList signalCurves = SqliteEncoder.SelectSignalCurve(dbconOpened,
 					Convert.ToInt32(encoderSignalUniqueID), -1, 
 					msStart, msEnd);
 			foreach(EncoderSignalCurve esc in signalCurves)
-				delete_encoder_curve(esc.curveID);
+				delete_encoder_curve(dbconOpened, esc.curveID);
 		}
 	}
 
@@ -244,7 +244,7 @@ public partial class ChronoJumpWindow
 			//this makes RenderRecord work on changed row without having to put mouse there
 			encoderCaptureListStore.EmitRowChanged(path,iter);
 
-			saveOrDeleteCurveFromCaptureTreeView(rowNum, curve, ! val);
+			saveOrDeleteCurveFromCaptureTreeView(false, rowNum, curve, ! val);
 			
 			/* temporarily removed message
 			 *
@@ -272,7 +272,7 @@ public partial class ChronoJumpWindow
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 			}
 			
-			updateUserCurvesLabelsAndCombo();
+			updateUserCurvesLabelsAndCombo(false);
 
 			callPlotCurvesGraphDoPlot();
 		}
@@ -306,6 +306,10 @@ public partial class ChronoJumpWindow
 		if(! iterOk)
 			return;
 
+		//need to open Sqlite because if more than 50 curves are saved/deleted, it will crash if open/close connnections all the time
+		//TODO: do as a transaction, but code need to be refactored
+		Sqlite.Open();
+
 		bool changeTo;
 		while(iterOk) {
 			TreePath path = encoderCaptureListStore.GetPath(iter);
@@ -326,7 +330,7 @@ public partial class ChronoJumpWindow
 				encoderCaptureListStore.EmitRowChanged(path,iter);
 
 				//on "ecS" don't pass the 2nd row, pass always the first
-				saveOrDeleteCurveFromCaptureTreeView(i, curve, changeTo);
+				saveOrDeleteCurveFromCaptureTreeView(true, i, curve, changeTo);
 				
 				if(ecconLast != "c") {
 					path.Next();
@@ -357,6 +361,7 @@ public partial class ChronoJumpWindow
 
 			iterOk = encoderCaptureListStore.IterNext (ref iter);
 		}
+		
 		//combo_encoder_capture_show_save_curve_button();
 		
 		/* temporarily removed message
@@ -370,7 +375,9 @@ public partial class ChronoJumpWindow
 		*/
 
 			
-		updateUserCurvesLabelsAndCombo();
+		updateUserCurvesLabelsAndCombo(true);
+		
+		Sqlite.Close();
 			
 		callPlotCurvesGraphDoPlot();
 	}

@@ -316,14 +316,20 @@ void pause()
 
 
 // wade : long delay
-/*
 void pause1()
 {
-    int i;int j;
-    for (i = 0; i < 2; i++)
+    long i;long j;
+    for (i = 0; i < 4; i++)
 	for (j = 0; j < 10000; j++)
+		;
 }
-*/
+void pause3()
+{
+    long i;
+    for (i = 0; i < 40000; i++)
+	    ;
+}
+
 
 //***************************************************************************
 //* Read input on RB4 (push button status)
@@ -346,11 +352,90 @@ unsigned char read_input()
 //* OUTPUTS: None
 //* RETURNS: Nothing
 //*************************************************************
+
+void pause2(int mytime)
+{
+    long i; //no se pq amb long va be i amb int no
+    for (i = 0; i < mytime; i++)
+	    ;
+}
+
 void update_led()
 {
     //-- Led is on bit RB1. Input variable contains
     //-- only an information bit (1,0) on less signficant bit
-    RB1 = !input;
+    //RB1 = ! input;
+    /*
+	  
+    int min = 200;
+    int max = 1000;    
+    int current = max;    
+    int step = 200;
+    */
+    //long time7 = 10000; //1/3 s aprox
+    //long time7 = 1000; //casi la hostia
+    //long time7 = 500; //la hostia pero apreciable canvi
+    //long time7 = 420; //la hostia pero apreciable canvi
+    //long time7 = 330; //sembla quasi sempre ences
+    //long time7 = 250; //sembla sempre ences
+    //1 o 10 sempre ences
+
+    /*
+     * parpadejar
+     *
+    while(1) {
+	    RB1 = 1;
+	    pause2(420);
+	    RB1 = 0;
+	    pause2(420);
+	    
+	    current = current - step;
+	    //if(current < 1) {
+	    //	current = max;
+	    //}
+    }
+    */
+
+    //animation changing lights
+    long time7 = 700;
+    while(1) {
+	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7);
+	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7);
+	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7);
+	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7);
+	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7);
+	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7);
+	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7);
+	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7);
+	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7);
+	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7);
+	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7);
+	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7);
+	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7);
+	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7);
+	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7);
+	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7);
+    }
+    
+    /* don't know why this doesn't work properly
+    unsigned int a,b,c,d;
+    while(1) {
+	    for (a = 0; a <= 1; a++) {
+		    for (b = 0; b <= 1; b++) {
+			    for (c = 0; c <= 1; c++) {
+				    for (d = 0; d <= 1; d++) {
+					    RB0 = a; 
+					    RB2 = b; 
+					    RB3 = c; 
+					    RB6 = d;
+					    pause2(time7);
+				    }
+			    }
+		    }
+	    }
+    }
+    */
+
     // 2012-04-02
     if (option == 1)
     {

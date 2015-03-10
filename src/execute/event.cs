@@ -246,6 +246,10 @@ public class EventExecute
 		return true;
 	}
 
+	public void ThreadAbort() {
+		thread.Abort();
+	}
+
 
 	protected void initializeTimer () {
 		//put onTimer count to 0 for moving the time progressBar (activiy mode)	

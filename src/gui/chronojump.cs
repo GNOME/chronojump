@@ -3271,8 +3271,14 @@ public partial class ChronoJumpWindow
 			LogB.Information("totallyCancelled");
 		else {
 			LogB.Information("NOT-totallyCancelled ");
-			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full cancelling.\nThen press button\n"));
+			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full cancelling.") + "\n" +
+					Catalog.GetString("Then press Accept") + "\n");
+			errorWin.Button_accept.Clicked -= new EventHandler(checkCancelTotally);
 			errorWin.Button_accept.Clicked += new EventHandler(checkCancelTotally);
+			
+			//abort test when there are problems with USB disconnected	
+			errorWin.Show_button_abort();
+			errorWin.Button_abort.Clicked += new EventHandler(abortTest);
 		}
 	}
 	
@@ -3369,9 +3375,29 @@ public partial class ChronoJumpWindow
 			LogB.Information("totallyFinished");
 		else {
 			LogB.Information("NOT-totallyFinished ");
-			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.\nThen press this button:\n"));
+			errorWin = ErrorWindow.Show(Catalog.GetString("Please, touch the contact platform for full finishing.") + "\n" +
+					Catalog.GetString("Then press Accept") + "\n");
+			errorWin.Button_accept.Clicked -= new EventHandler(checkFinishTotally);
 			errorWin.Button_accept.Clicked += new EventHandler(checkFinishTotally);
+		
+			//abort test when there are problems with USB disconnected	
+			errorWin.Show_button_abort();
+			errorWin.Button_abort.Clicked += new EventHandler(abortTest);
 		}
+	}
+	
+	private void abortTest (object o, EventArgs args) {
+		errorWin.Button_abort.Clicked -= new EventHandler(abortTest);
+		
+		LogB.Warning("Destroying error window");
+		errorWin.HideAndNull();
+		
+		LogB.Warning("Going to abort thread");
+		currentEventExecute.ThreadAbort();
+		LogB.Warning("Aborted");
+		
+		sensitiveGuiEventDone();
+		LogB.Warning("Sensitivity restored");
 	}
 
 	//runA is not called for this, because it ends different

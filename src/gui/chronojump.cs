@@ -5987,7 +5987,7 @@ LogB.Debug("X");
 	
 	private void on_menuitem_ping_activate (object o, EventArgs args) {
 		Json js = new Json();
-		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion());
+		bool success = js.Ping(UtilAll.GetOS(), UtilAll.ReadVersion(), preferences.machineID);
 
 		if(success) {
 			LogB.Information(js.ResultMessage);

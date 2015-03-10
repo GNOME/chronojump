@@ -370,8 +370,9 @@ public class ChronoJump
 	
 
 		//doing ping using json methods
+		string machineID = SqlitePreferences.Select("machineID", false);
 		Json js = new Json();
-		bool success = js.Ping(UtilAll.GetOS(), progVersion);
+		bool success = js.Ping(UtilAll.GetOS(), progVersion, machineID);
 		if(success)
 			LogB.Information(js.ResultMessage);
 		else

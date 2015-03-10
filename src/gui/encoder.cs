@@ -5488,10 +5488,13 @@ LogB.Debug("D");
 
 					/*
 					 * (1) if found curves of this signal
-					 * (2) and this curves are with different eccon
-					 * (3) delete the curves (encoder table)
-					 * (4) and also delete from (encoderSignalCurves table)
-					 * (5) update analyze labels and combos
+					 * (2) and this curves are with 
+					 * 	different eccon OR
+					 * 	different exercise
+					 * (3) delete the curves (files)
+					 * (4) delete the curves (encoder table)
+					 * (5) and also delete from (encoderSignalCurves table)
+					 * (6) update analyze labels and combos
 					 */
 					bool deletedUserCurves = false;
 					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(
@@ -5507,14 +5510,16 @@ LogB.Debug("D");
 					foreach(EncoderSQL eSQL in data) {
 						if(
 								currentSignalSQL.GetDate(false) == eSQL.GetDate(false) && 		// (1)
-								findEccon(true) != eSQL.eccon) {					// (2)
-									Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (3)
-									SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (4)
-									deletedUserCurves = true;
-								}
+								(findEccon(true) != eSQL.eccon || currentSignalSQL.exerciseID != eSQL.exerciseID) // (2)
+								) {
+							Util.FileDelete(eSQL.GetFullURL(false));					// (3)
+							Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (4)
+							SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (5)
+							deletedUserCurves = true;
+						}
 					}
 					if(deletedUserCurves)
-						updateUserCurvesLabelsAndCombo(false);		// (5)
+						updateUserCurvesLabelsAndCombo(false);		// (6)
 
 
 					findAndMarkSavedCurves();

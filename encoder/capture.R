@@ -30,7 +30,7 @@ g = 9.81
 
 debug = FALSE
 		    
-filename = "/tmp/captured.txt"; #TODO HARDCODED!!!
+filename = options[1]
 file.create(filename)
 
 

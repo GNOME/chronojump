@@ -4705,7 +4705,7 @@ public partial class ChronoJumpWindow
 						"meanPower,peakPower,peakPowerT,pp_ppt," +
 						"meanForce, maxForce, maxForceT");
 
-					string filename = "/tmp/captured.txt"; //HARDCODED
+					string filename = UtilEncoder.GetEncoderCaptureTempFileName();
 					if(File.Exists(filename))
 						File.Delete(filename);
 
@@ -4892,7 +4892,7 @@ public partial class ChronoJumpWindow
 				);
 
 		EncoderStruct es = new EncoderStruct(
-				"none", //UtilEncoder.GetEncoderDataTempFileName(), 
+				UtilEncoder.GetEncoderCaptureTempFileName(), //UtilEncoder.GetEncoderDataTempFileName(), //used here print the captured data file
 				"none", //UtilEncoder.GetEncoderGraphTempFileName(),
 				"none", //UtilEncoder.GetEncoderCurvesTempFileName(), 
 				"none", //UtilEncoder.GetEncoderStatusTempBaseFileName(),
@@ -5042,7 +5042,7 @@ LogB.Debug("D");
 	//private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
 	private void readingCurveFromR ()
 	{
-		string filename = "/tmp/captured.txt"; //HARDCODED
+		string filename = UtilEncoder.GetEncoderCaptureTempFileName();
 		if(! File.Exists(filename))
 			return;
 		

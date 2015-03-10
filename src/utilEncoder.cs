@@ -93,6 +93,9 @@ public class UtilEncoder
 		}
 	}
 	
+	public static string GetEncoderCaptureTempFileName() {
+		return Path.Combine(Path.GetTempPath(), Constants.EncoderCaptureTemp);
+	}
 	public static string GetEncoderDataTempFileName() {
 		return Path.Combine(Path.GetTempPath(), Constants.EncoderDataTemp);
 	}

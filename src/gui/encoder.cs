@@ -1026,23 +1026,22 @@ public partial class ChronoJumpWindow
 		EncoderSQL eSQL = (EncoderSQL) SqliteEncoder.Select(dbconOpened, uniqueID, 0, 0, -1, "", EncoderSQL.Eccons.ALL, false, true)[0];
 		//remove the file
 		bool deletedOk = Util.FileDelete(eSQL.GetFullURL(false));	//don't convertPathToR
-		if(deletedOk)  {
-			Sqlite.Delete(dbconOpened, Constants.EncoderTable, Convert.ToInt32(uniqueID));
-			
-			ArrayList escArray = SqliteEncoder.SelectSignalCurve(dbconOpened, 
-						-1, Convert.ToInt32(uniqueID),	//signal, curve
-						-1, -1); 			//msStart, msEnd
-			SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
-					Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
-			//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
-			if(escArray.Count > 0) {
-				EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
-				if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
-					encoderCaptureSelectBySavedCurves(esc.msCentral, false);
-			}
 
-			updateUserCurvesLabelsAndCombo(dbconOpened);
+		Sqlite.Delete(dbconOpened, Constants.EncoderTable, Convert.ToInt32(uniqueID));
+
+		ArrayList escArray = SqliteEncoder.SelectSignalCurve(dbconOpened, 
+				-1, Convert.ToInt32(uniqueID),	//signal, curve
+				-1, -1); 			//msStart, msEnd
+		SqliteEncoder.DeleteSignalCurveWithCurveID(dbconOpened, 
+				Convert.ToInt32(eSQL.uniqueID)); //delete by curveID on SignalCurve table
+		//if deleted curve is from current signal, uncheck it in encoderCaptureCurves
+		if(escArray.Count > 0) {
+			EncoderSignalCurve esc = (EncoderSignalCurve) escArray[0];
+			if(esc.signalID == Convert.ToInt32(encoderSignalUniqueID))
+				encoderCaptureSelectBySavedCurves(esc.msCentral, false);
 		}
+
+		updateUserCurvesLabelsAndCombo(dbconOpened);
 	}
 	
 	

@@ -32,6 +32,7 @@ public class ErrorWindow
 {
 	[Widget] Gtk.Window error_window;
 	[Widget] Gtk.Label label1;
+	[Widget] Gtk.Button button_abort; //used only when there are problems because USB has been removed on the middle of the test
 	[Widget] Gtk.Button button_accept;
 	[Widget] Gtk.Box hbox_send_log;
 	[Widget] Gtk.Button button_open_database_folder;
@@ -168,6 +169,13 @@ public class ErrorWindow
 					);
 		}
 	}
+	
+	public void Show_button_abort () {
+		button_abort.Show();
+	}
+	private void on_button_abort_clicked (object o, EventArgs args) {
+
+	}
 
 	public void Button_accept_label (string str) {
 		button_accept.Label = str;
@@ -182,6 +190,15 @@ public class ErrorWindow
 	public Button Button_accept {
 		get { return button_accept; }
 	} 	
+
+	public Button Button_abort {
+		get { return button_abort; }
+	} 	
+	
+	public void HideAndNull() {
+		ErrorWindowBox.error_window.Hide();
+		ErrorWindowBox = null;
+	}
 
 	~ErrorWindow() {}
 	

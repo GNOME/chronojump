@@ -255,6 +255,23 @@ public class UtilGtk
 		tv.ScrollToCell (path, null, true, 0, 0);
 	}
 
+	public static void TreeviewScrollToLastRow(Gtk.TreeView tv, Gtk.ListStore store, int nrows) {
+		TreeIter iter = new TreeIter();
+		bool iterOk = store.GetIterFirst(out iter);
+		if(! iterOk)
+			return;
+
+		for(int i=0; i < (nrows -1); i++)
+			iterOk = tv.Model.IterNext (ref iter);
+		
+		if(! iterOk)
+			return;
+		
+		TreePath path = store.GetPath (iter);
+		LogB.Debug(path.ToString());
+		tv.ScrollToCell (path, tv.Columns[0], true, 0, 0);
+	}
+
 
 	/*
 	 *

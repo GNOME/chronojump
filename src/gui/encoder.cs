@@ -5678,7 +5678,7 @@ LogB.Debug("D");
 	}
 
 	static PlayerBin playerEncoder;
-	private void playVideoEncoderInitialSetup() 
+	private void playVideoEncoderInitialSetup() //this does not work on raspberry
 	{
 		LogB.Information("Prepare video encoder");
 		playerEncoder = new PlayerBin();
@@ -5690,6 +5690,9 @@ LogB.Debug("D");
 		LogB.Information("playVideoEncoderDo", play.ToString());
 		string file = Util.GetVideoFileName(currentSession.UniqueID, 
 				Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+
+		if(playerEncoder == null) //useful for raspberry because this is not initialized
+			return;
 
 		if(file == null || file == "" || ! File.Exists(file)) {
 			playerEncoder.Hide();

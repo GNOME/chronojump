@@ -167,7 +167,7 @@ class SqliteEncoder : Sqlite
 				dbcmdTr.Transaction = tr;
 	
 				foreach(EncoderSQL eSQL in data) {
-					if(eSQL.status != checkboxes[count]) {
+					if(count < checkboxes.Length && eSQL.status != checkboxes[count]) {
 						eSQL.status = checkboxes[count];
 
 						SqliteEncoder.Update(true, eSQL, dbcmdTr);

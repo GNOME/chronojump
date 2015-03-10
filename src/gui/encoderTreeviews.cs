@@ -181,6 +181,9 @@ public partial class ChronoJumpWindow
 				treeview_encoder_capture_curves.AppendColumn (aColumn);
 			i++;
 		}
+
+		UtilGtk.TreeviewScrollToLastRow(treeview_encoder_capture_curves, encoderCaptureListStore, encoderCaptureCurves.Count);
+
 		return curvesCount;
 	}
 	

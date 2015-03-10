@@ -154,7 +154,7 @@ public class Json
 		return true;
 	}
 
-	public bool Ping(string osVersion, string cjVersion) 
+	public bool Ping(string osVersion, string cjVersion, string machineID) 
 	{
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/ping");
@@ -169,6 +169,7 @@ public class Json
 		JsonObject json = new JsonObject();
 		json.Add("os_version", osVersion);
 		json.Add("cj_version", cjVersion);
+		json.Add("machine_id", machineID);
 
 		// Converts it to a String
 		String js = json.ToString();

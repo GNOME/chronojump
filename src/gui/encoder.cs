@@ -1929,9 +1929,6 @@ public partial class ChronoJumpWindow
 	//TODO: garantir path windows	
 	private void on_button_encoder_analyze_clicked (object o, EventArgs args) 
 	{
-		button_encoder_analyze.Visible = false;
-		hbox_encoder_analyze_progress.Visible = true;
-
 		//if userCurves and no data, return
 		//TODO: fix this, because curves should be active except in the single curve mode
 		if( ! check_encoder_analyze_signal_or_curves.Active) 	//saved curves
@@ -1951,6 +1948,8 @@ public partial class ChronoJumpWindow
 			string crossNameTemp = 
 				Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_cross),
 						encoderAnalyzeCrossTranslation);
+
+			//cannot do inter/intra person with some cross graphs
 			if(Util.FindOnArray(':',1,0,UtilGtk.ComboGetActive(combo_encoder_analyze_data_compare),
 						encoderDataCompareTranslation) != "No compare" && 
 					encoderAnalysis == "cross" &&
@@ -1972,9 +1971,40 @@ public partial class ChronoJumpWindow
 
 				return;
 			}
+				
+			//cannot do 1RM with different exercises
+			if(encoderAnalysis == "cross" && (
+						crossNameTemp == "1RM Bench Press" || 
+						crossNameTemp == Catalog.GetString("1RM Bench Press") ||
+						crossNameTemp == "1RM Any exercise" || 
+						crossNameTemp == Catalog.GetString("1RM Any exercise")
+						)) 
+			{
+				bool differentExercises = false;
+				string oldExName = "";
+				foreach(EncoderSQL eSQL in data) 
+				{
+					if(eSQL.status == "inactive")
+						continue;
+
+					string exName = eSQL.exerciseName;
+					if(oldExName != "" && exName != oldExName)
+						differentExercises = true;
+					oldExName = exName;
+				}
+				if(differentExercises) {
+					new DialogMessage(Constants.MessageTypes.WARNING, 
+							Catalog.GetString("Sorry, cannot calculate 1RM of different exercises.") + "\n" + 
+							Catalog.GetString("Please select repetitions of only one exercise type."));
+					return;
+				}
+			}
 
 		}
 	
+		button_encoder_analyze.Visible = false;
+		hbox_encoder_analyze_progress.Visible = true;
+
 		encoderThreadStart(encoderActions.ANALYZE);
 	}
 
@@ -2557,32 +2587,27 @@ public partial class ChronoJumpWindow
 					}
 				}
 			}
-
+			
 			//1RM is calculated using curves
 			//cannot be curves of different exercises
 			//because is 1RM of a person on an exercise
+			//this is checked at: "on_button_encoder_analyze_clicked()"
 			if(encoderAnalysis == "cross" &&
 					(crossName == "1RM Bench Press" || crossName == "1RM Any exercise") )
 			{
-				int count = 0;
-				int exerciseOld = -1;
+				//get exercise ID
+				int exID = -1;
 				foreach(EncoderSQL eSQL in data) {
-					if(eSQL.status == "active") {
-						if(count > 0 && eSQL.exerciseID != exerciseOld) {
-							new DialogMessage(Constants.MessageTypes.WARNING, 
-									Catalog.GetString("Sorry, cannot calculate 1RM of different exercises."));
-							encoderProcessCancel = true;
-							return;	
-						}
-
-						exerciseOld = eSQL.exerciseID;
-						count ++;
+					if(eSQL.status == "active") { 
+						exID = eSQL.exerciseID;
+						break;
 					}
 				}
+
 				if(crossName == "1RM Any exercise") {
 					//get speed1RM (from exercise of curve on SQL, not from combo)
 					EncoderExercise exTemp = (EncoderExercise) SqliteEncoder.SelectEncoderExercises(
-						false , exerciseOld, false)[0];
+						false , exID, false)[0];
 				
 					sendAnalysis = "1RMAnyExercise";
 				        analysisVariables = Util.ConvertToPoint(exTemp.speed1RM) + ";" +
@@ -3821,11 +3846,13 @@ public partial class ChronoJumpWindow
 			   Convert.ToInt32(label_encoder_user_curves_all_num.Text) >0)
 			  )
 			 );
+		//max 12 graphs on side compare
 		if(analyze_sensitive && radiobutton_encoder_analyze_side.Active) {
 			analyze_sensitive = curvesNumOkToSideCompare();
 			label_encoder_analyze_side_max.Visible = ! analyze_sensitive;
 		} else
 			label_encoder_analyze_side_max.Visible = false;
+
 		button_encoder_analyze.Sensitive = analyze_sensitive;
 
 		hbox_encoder_user_curves.Visible = 

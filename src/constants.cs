@@ -712,7 +712,7 @@ public class Constants
 	//public static string EncoderScriptGraphCall = 
 		//"/home/xavier/informatica/progs_meus/chronojump/chronojump/encoder/call_graph.py";
 
-	public static string EncoderCaptureTemp = "chronojump-captured-data.txt";
+	public static string EncoderCaptureTemp = "chronojump-captured"; //will be "chronojump-captured-000.txt", 001 ... 999
 	public static string EncoderDataTemp = "chronojump-last-encoder-data.txt";
 	public static string EncoderCurvesTemp = "chronojump-last-encoder-curves.txt";
 	public static string EncoderAnalyzeTableTemp = "chronojump-last-encoder-analyze-table.txt";

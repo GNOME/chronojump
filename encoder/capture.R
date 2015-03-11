@@ -51,11 +51,19 @@ g = 9.81
 
 debug = FALSE
 		    
-filename = options[1]
-file.create(filename)
+filenameBegins = options[1] #comes ".../chronojump-captured". will be ".../chronojump-captured-000.txt", 001 ... 999
 
+filenameCompose <- function(curveNum)
+{
+	if(curveNum > 99)
+		return(paste(filenameBegins, "-", curveNum, sep=""))	#eg. "filename-123"
+	else if(curveNum > 9)
+		return(paste(filenameBegins, "-0", curveNum, sep=""))	#eg. "filename-023"
+	else #(curveNum <= 9)
+		return(paste(filenameBegins, "-00", curveNum, sep=""))	#eg. "filename-003"
+}
 
-calcule <- function(displacement, start, end, op) 
+calcule <- function(displacement, start, end, op, curveNum) 
 {
 	if(debug)
 		write("At calcule", stderr())
@@ -104,12 +112,16 @@ calcule <- function(displacement, start, end, op)
 	#	  paf$meanForce, paf$maxForce, paf$maxForceT,
 	#	  sep=", "))
 	#cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
-	write(paste(#start, #start is not used because we have no data of the initial zeros
+
+	filename <- filenameCompose(curveNum)
+	con <- file(filename, "w")
+	cat(paste(#start, #start is not used because we have no data of the initial zeros
 		  0, 0, 
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
-		  sep=", "), filename, append=TRUE)
+		  sep=", "), file = con)
+	close(con)
 	if(debug)
 		write("ended calcule", stderr())
 }
@@ -152,7 +164,8 @@ doProcess <- function()
 
 	#print ("----op----")
 	#print (op)
-	
+
+	curveNum = 0
 	input <- readLines(f, n = 1L)
 	while(input[1] != "Q") {
 		if(debug)
@@ -233,16 +246,21 @@ doProcess <- function()
 			displacement2 = displacement[(positionTop+1):length(displacement)]
 
 			if(op$Eccon == "c") {
-				calcule(displacement1, start, end, op) #TODO: check this start, end
+				calcule(displacement1, start, end, op, curveNum) #TODO: check this start, end
+				curveNum = curveNum +1
 			} else {
-				calcule(displacement1, start, end, op) #TODO: check this start, end
-				calcule(displacement2, start, end, op) #TODO: check this start, end
+				calcule(displacement1, start, end, op, curveNum) #TODO: check this start, end
+				curveNum = curveNum +1
+				
+				calcule(displacement2, start, end, op, curveNum) #TODO: check this start, end
+				curveNum = curveNum +1
 			}
 
 			#write(c("positionTop", positionTop), stderr())
 			#write(c("length(displacement)", length(displacement)), stderr())
 		} else {
-			calcule(displacement, start, end, op) #TODO: check this start, end
+			calcule(displacement, start, end, op, curveNum) #TODO: check this start, end
+			curveNum = curveNum +1
 		}
 		if(debug)
 			write("doProcess 4", stderr())

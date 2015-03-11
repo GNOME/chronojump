@@ -4736,6 +4736,8 @@ public partial class ChronoJumpWindow
 						File.Delete(filename);
 
 					encoderCaptureReadedLines = 0;
+					deleteAllCapturedCurveFiles();
+
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
 
 					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration( encoderConfigurationCurrent, 
@@ -5062,12 +5064,40 @@ LogB.Debug("D");
 	}
 	*/
 
+	/*
+	 * History
+	 * 1) In the beginning we used RDotNet for C# - R communication. But it was buggy, complex, problems with try catch, ...
+	 * 2) Then we used stdin,stdout,stderr communication. Worked fine on Linux and Windows but not in Mac
+	 * 3) Then we used a capture.txt file created by R with a row for each curve. But reading it on windows from C# gives file access problems
+	 * 4) Now we try to create one file for each curve and read it here with a try/catch
+	 */
+
+	private void deleteAllCapturedCurveFiles()
+	{
+		foreach (var f in new DirectoryInfo(Path.GetTempPath()).GetFiles(
+					Constants.EncoderCaptureTemp + "-*")) {
+			    f.Delete();
+		}
+		Util.FileDelete(UtilEncoder.GetEncoderCaptureTempFileName() + "-*");
+	}	
+	private string readingCurveFromRFilenameCompose(int curveNum)
+	{
+		string filenameBegins = UtilEncoder.GetEncoderCaptureTempFileName();
+		if(curveNum > 99)
+			return(filenameBegins + "-" + curveNum.ToString());	//eg. "filename-123"
+		else if(curveNum > 9)
+			return(filenameBegins + "-0" + curveNum.ToString());	//eg. "filename-023"
+		else //(curveNum <= 9)
+			return(filenameBegins + "-00" + curveNum.ToString());	//eg. "filename-003"
+	}
 
 	static bool needToRefreshTreeviewCapture;
 	static int encoderCaptureReadedLines;
 	//private void readingCurveFromR (object sendingProcess, DataReceivedEventArgs curveFromR)
 	private void readingCurveFromR ()
 	{
+		/*
+		 * 3) method ----
 		string filename = UtilEncoder.GetEncoderCaptureTempFileName();
 		if(! File.Exists(filename))
 			return;
@@ -5083,6 +5113,29 @@ LogB.Debug("D");
 			//http://stackoverflow.com/a/1262985
 			line = File.ReadLines(filename).Skip(encoderCaptureReadedLines ++).Take(1).First();
 		}
+		 * ---- end of 3) method
+		 */
+
+		//4) method ----
+		string line = "";
+		string filename = readingCurveFromRFilenameCompose(encoderCaptureReadedLines);
+		//LogB.Debug("filename = ",filename);
+		
+		if(! File.Exists(filename))
+			return;
+
+		try {
+			StreamReader reader = File.OpenText(filename);
+			line = reader.ReadLine(); //just read first line
+			reader.Close();
+			encoderCaptureReadedLines ++;
+		}
+		catch {
+			LogB.Debug("catched - open later",encoderCaptureReadedLines.ToString());
+			return;
+		}
+		//---- end of 4) method
+
 
 
 		//if (!String.IsNullOrEmpty(curveFromR.Data))

@@ -397,24 +397,29 @@ void update_led()
     */
 
     //animation changing lights
-    long time7 = 700;
+    long time7 = 400;
+    long multiplier = 1;
     while(1) {
-	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7);
-	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7);
-	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7);
-	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7);
-	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7);
-	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7);
-	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7);
-	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7);
-	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7);
-	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7);
-	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7);
-	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7);
-	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7);
-	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7);
-	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7);
-	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7);
+	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
+	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
+
+	    multiplier ++;
+	    //if(multiplier > 7)
+	//	    multiplier = 1;
     }
     
     /* don't know why this doesn't work properly

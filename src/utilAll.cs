@@ -65,7 +65,7 @@ public class UtilAll
 		else
 			return OperatingSystems.LINUX;
 	}
-
+	
 	
 	public static string GetApplicationDataDir() {
 		return Path.Combine(

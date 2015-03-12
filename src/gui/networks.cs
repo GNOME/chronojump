@@ -31,19 +31,72 @@ using System.Collections.Generic; //List
 public partial class ChronoJumpWindow 
 {
 	//RFID
+	[Widget] Gtk.Button button_encoder_maximize;
 	[Widget] Gtk.Box hbox_rfid;
 	[Widget] Gtk.Label label_rfid;
 
+	private enum linuxTypeEnum { NOTLINUX, LINUX, RASPBERRY, NETWORKS }
+	private linuxTypeEnum linuxType;
+	
+	//networks is a raspberry connected to the server	
+	private static linuxTypeEnum getLinuxTypes() 
+	{
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX) 
+		{
+			if(Util.FileExists(Util.GetChronojumpNetworksFile()))
+				return(linuxTypeEnum.NETWORKS);
+			else if(Util.FileExists(Util.GetChronojumpRaspberryFile()))
+				return(linuxTypeEnum.RASPBERRY);
+			else
+				return(linuxTypeEnum.LINUX);
+		}
+		return(linuxTypeEnum.NOTLINUX);
+	}
 
-	private void networksInit() {
+	
+	private void raspberryOrNetworksInit() {
+		linuxType = getLinuxTypes();
+	
+		if(linuxType == linuxTypeEnum.RASPBERRY || linuxType == linuxTypeEnum.NETWORKS) {
+			alignment_video_encoder.Visible = false;
+			//TODO: put the no connect video here.
+	
+			button_encoder_maximize.Visible = true;
+		}
+
+		if(linuxType == linuxTypeEnum.NETWORKS) {
+			//mostrar directament el power
+			select_menuitem_mode_toggled(menuitem_modes.POWER);
+			
+			//no mostrar menu
+			main_menu.Visible = false;
+			
+			//no mostrar persones
+			vbox_persons.Visible = false;
+			//TODO: rfid can be here, also machine, maybe weight, other features
+			//time, gym, ...
+
+			//show rfid
+			hbox_rfid.Visible = true;
+
+			//to test display, just make sensitive the top controls, but beware there's no session yet and no person
+			notebook_sup.Sensitive = true;
+			hbox_encoder_sup_capture_analyze.Sensitive = true;
+			notebook_encoder_sup.Sensitive = false;
+		}
+
+		//si es rapsberry o si es networks cal desactivar camera
+	}
+
+	void on_button_encoder_maximize_clicked (object o, EventArgs args) {
+		app1.Maximize();
+	}
+
+	//rfid
+	private void rfid_test() {
 		Networks networks = new Networks();
 		networks.Test();
-		
-		if(Util.FileExists(Util.GetChronojumpNetworksFile()))
-			hbox_rfid.Visible = true;
 	}
-	
-	//rfid
 	void on_button_rfid_read_clicked (object o, EventArgs args) {
 		string file = "/tmp/chronojump_rfid.txt";
 

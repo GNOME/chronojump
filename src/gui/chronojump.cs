@@ -2540,6 +2540,7 @@ public partial class ChronoJumpWindow
 	}
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
+		LogB.Information("here!!!");
 		currentPerson = personRecuperateWin.CurrentPerson;
 		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 

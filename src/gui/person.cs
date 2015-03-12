@@ -52,7 +52,9 @@ public class PersonRecuperateWindow {
 	[Widget] protected Gtk.Box hbox_search_filter_hide; //used in person recuperateWindow (hided in inherited class)
 	
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
-	protected PersonAddModifyWindow personAddModifyWin; 
+
+	//modify person data when recuperating have been disabled since 1.5.0
+	//protected PersonAddModifyWindow personAddModifyWin; 
 
 	protected Gtk.Window parent;
 	
@@ -251,37 +253,18 @@ public class PersonRecuperateWindow {
 	{
 		if(selected != "-1")
 		{
-			Person person = SqlitePerson.Select(Convert.ToInt32(selected));
-
-			personAddModifyWin = PersonAddModifyWindow.Show(
-					parent, currentSession, person, pDN, app1_checkbutton_video, true); //comes from recuperate window
-			personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
-		}
-	}
-	
-	private void on_edit_current_person_cancelled (object o, EventArgs args) {
-		personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler(on_edit_current_person_cancelled);
-		fakeButtonDone.Click();
-	}
-	
-	protected virtual void on_edit_current_person_accepted (object o, EventArgs args) {
-		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_current_person_accepted);
-		if (personAddModifyWin.CurrentPerson != null)
-		{
-			currentPerson = personAddModifyWin.CurrentPerson;
-			
+			currentPerson = SqlitePerson.Select(Convert.ToInt32(selected));
+						
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
 			treeview_person_recuperate.Model = store;
-		
+
 			fillTreeView(treeview_person_recuperate,store, entry_search_filter.Text.ToString());
-				
+
 			statusbar1.Push( 1, Catalog.GetString("Loaded") + " " + currentPerson.Name );
-		
+
 			//no posible to recuperate until one person is selected
 			button_recuperate.Sensitive = false;
-
-//			personAddModifyWin.Destroy();
-		
+			
 			fakeButtonDone.Click();
 		}
 	}
@@ -549,12 +532,11 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		//don't do nothing
 	}
 
-	int currentRow;
-	int inserted;
+	int inserted; //just to say how much rows are inserted
+
 	protected override void on_button_recuperate_clicked (object o, EventArgs args)
 	{
 		inserted = 0;
-		currentRow = 0;
 
 		fakeButtonPreDone.Clicked += new EventHandler(updateStoreAndEnd);
 		processRow();
@@ -572,17 +554,15 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		if (store.GetIterFirst(out iter)) {
 			do {
 				val = (bool) store.GetValue (iter, 0);
-				//if checkbox of person is true and is the row that we are processing
-				if(val && count++ == currentRow) {
-					Person person = SqlitePerson.Select(
-							Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
-					personAddModifyWin = PersonAddModifyWindow.Show(
-							parent, currentSession, person, pDN, app1_checkbutton_video, true); //comes from recuperate window
-					PersonAddModifyWindow.MakeVisible();
-					personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
-					personAddModifyWin.FakeButtonCancel.Clicked += new EventHandler(on_edit_current_person_cancelled);
+				//if checkbox of person is true
+				if(val) {
+					currentPerson = SqlitePerson.Select(Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
+
+					processRow();
+
 					inserted ++;
 					found = true;
+
 				}
 			} while ( store.IterNext(ref iter) );
 		}
@@ -623,34 +603,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	
 		//check if there are rows checked for having sensitive or not in recuperate button
 		buttonRecuperateChangeSensitiveness();
-	}
-	
-	protected override void on_edit_current_person_accepted (object o, EventArgs args) {
-		personAddModifyWin.FakeButtonAccept.Clicked -= new EventHandler(on_edit_current_person_accepted);
-		if (personAddModifyWin.CurrentPerson != null)
-		{
-			currentPerson = personAddModifyWin.CurrentPerson;
-			currentRow ++;
-				
-			LogB.Information("To sleep in order AddMoidfyWin gets closed, in order to open again");
-			System.Threading.Thread.Sleep (100);
-			LogB.Information("done");
-			processRow();
-		}
-	}
-	
-	private void on_edit_current_person_cancelled (object o, EventArgs args) {
-		personAddModifyWin.FakeButtonCancel.Clicked -= new EventHandler(on_edit_current_person_cancelled);
-		if (personAddModifyWin.CurrentPerson != null)
-		{
-			currentRow ++;
-			
-			LogB.Information("To sleep in order AddModifyWin gets closed, in order to open again");
-			System.Threading.Thread.Sleep (100);
-			LogB.Information("done");
-			inserted --;
-			processRow();
-		}
 	}
 
 }

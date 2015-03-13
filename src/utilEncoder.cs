@@ -180,6 +180,11 @@ public class UtilEncoder
 					Util.GetDataDir(), "encoder", Constants.EncoderScriptCapturePythonLinux);
 	}
 	*/
+	public static string GetEncoderScriptCallCaptureNoRdotNet() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallCaptureNoRDotNet);
+	}
+	
 	public static string GetEncoderScriptCaptureNoRdotNet() {
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptCaptureNoRDotNet);

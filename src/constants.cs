@@ -702,6 +702,7 @@ public class Constants
 	
 	//public static string EncoderScriptCapturePythonLinux = "pyserial_pyper.py";
 	//public static string EncoderScriptCapturePythonWindows = "pyserial_pyper_windows.exe";
+	public static string EncoderScriptCallCaptureNoRDotNet = "call_capture.R";
 	public static string EncoderScriptCaptureNoRDotNet = "capture.R";
 	public static string EncoderScriptCallGraph = "call_graph.R";
 	public static string EncoderScriptGraph = "graph.R";

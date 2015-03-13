@@ -370,6 +370,8 @@ public class ChronoJump
 	
 
 		//doing ping using json methods
+		/*
+		 * temporarily disabled on start
 		string machineID = SqlitePreferences.Select("machineID", false);
 		Json js = new Json();
 		bool success = js.Ping(UtilAll.GetOS(), progVersion, machineID);
@@ -377,6 +379,7 @@ public class ChronoJump
 			LogB.Information(js.ResultMessage);
 		else
 			LogB.Error(js.ResultMessage);
+			*/
 
 		
 		allSQLCallsDoneOnSqliteThingsThread = false;

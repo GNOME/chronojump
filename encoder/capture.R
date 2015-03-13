@@ -1,20 +1,6 @@
 # 
 #  This file is part of ChronoJump
 # 
-#  ChronoJump is free software; you can redistribute it and/or modify
-#   it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or   
-#     (at your option) any later version.
-#     
-#  ChronoJump is distributed in the hope that it will be useful,
-#   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
-#     GNU General Public License for more details.
-# 
-#  You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software
-#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# 
 #   Copyright (C) 2014-2015  	Xavier de Blas <xaviblas@gmail.com> 
 # 
 
@@ -26,33 +12,10 @@
 
 write("Arriving at capture.R", stderr())
 
-f <- file("stdin")
-open(f)
-
-
-args <- commandArgs(TRUE)
-optionsFile <- args[1]
-
-
-getOptionsFromFile <- function(optionsFile, lines) {
-	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon, n=lines)
-	close(optionsCon)
-	return (options)
-}
-
-options <- getOptionsFromFile(optionsFile, 32)
-
-
-scriptUtilR = options[28]
-source(scriptUtilR)
-
 g = 9.81
 
 debug = FALSE
 		    
-filenameBegins = options[1] #comes ".../chronojump-captured". will be ".../chronojump-captured-000.txt", 001 ... 999
-
 filenameCompose <- function(curveNum)
 {
 	if(curveNum > 99)
@@ -155,7 +118,7 @@ uncompress <- function(curveSent)
 	return (as.numeric(ints))
 }
 
-doProcess <- function() 
+doProcess <- function(options) 
 {
 	if(debug)
 		write("doProcess", stderr())
@@ -270,7 +233,3 @@ doProcess <- function()
 
 }
 		
-
-doProcess()
-write("Ending capture.R", stderr())
-quit()

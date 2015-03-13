@@ -4921,8 +4921,8 @@ public partial class ChronoJumpWindow
 				);
 
 		EncoderStruct es = new EncoderStruct(
-				UtilEncoder.GetEncoderCaptureTempFileName(), //UtilEncoder.GetEncoderDataTempFileName(), //used here print the captured data file
-				"none", //UtilEncoder.GetEncoderGraphTempFileName(),
+				UtilEncoder.GetEncoderScriptCaptureNoRdotNet(),//1st option used here to allow to call the main capture script
+				UtilEncoder.GetEncoderCaptureTempFileName(),   //2nd option used here to print the captured data file
 				"none", //UtilEncoder.GetEncoderCurvesTempFileName(), 
 				"none", //UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				"none",	//SpecialData
@@ -4972,7 +4972,7 @@ LogB.Debug("B");
 	
 		//on Windows we need the \"str\" to call without problems in path with spaces
 		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
-		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCaptureNoRdotNet() + "\" " + optionsFile;
+		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " + optionsFile;
 	
 		LogB.Information("Arguments:", pinfo.Arguments);
 		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");

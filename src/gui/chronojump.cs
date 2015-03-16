@@ -2535,14 +2535,14 @@ public partial class ChronoJumpWindow
 	
 	private void on_recuperate_person_clicked (object o, EventArgs args) {
 		LogB.Information("recuperate person");
-		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber, checkbutton_video);
+		personRecuperateWin = PersonRecuperateWindow.Show(app1, currentSession, preferences.digitsNumber);
 		personRecuperateWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_person_accepted);
 	}
 
 	private void on_recuperate_person_accepted (object o, EventArgs args) {
 		LogB.Information("here!!!");
 		currentPerson = personRecuperateWin.CurrentPerson;
-		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		currentPersonSession = personRecuperateWin.CurrentPersonSession;
 		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
 		label_current_person.UseMarkup = true; 
 		
@@ -2559,13 +2559,13 @@ public partial class ChronoJumpWindow
 		
 	private void on_recuperate_persons_from_session_clicked (object o, EventArgs args) {
 		LogB.Information("recuperate persons from other session");
-		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession, checkbutton_video);
+		personsRecuperateFromOtherSessionWin = PersonsRecuperateFromOtherSessionWindow.Show(app1, currentSession);
 		personsRecuperateFromOtherSessionWin.FakeButtonDone.Clicked += new EventHandler(on_recuperate_persons_from_session_accepted);
 	}
 	
 	private void on_recuperate_persons_from_session_accepted (object o, EventArgs args) {
 		currentPerson = personsRecuperateFromOtherSessionWin.CurrentPerson;
-		currentPersonSession = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		currentPersonSession = personsRecuperateFromOtherSessionWin.CurrentPersonSession;
 		label_current_person.Text = "<b>" + currentPerson.Name + "</b>"; 
 		label_current_person.UseMarkup = true; 
 
@@ -2583,7 +2583,7 @@ public partial class ChronoJumpWindow
 	private void on_person_add_single_activate (object o, EventArgs args) {
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, 
 				currentSession, new Person(-1), 
-				preferences.digitsNumber, checkbutton_video, false); //don't comes from recuperate window
+				preferences.digitsNumber, checkbutton_video);
 		//-1 means we are adding a new person
 		//if we were modifying it will be it's uniqueID
 		
@@ -2665,9 +2665,8 @@ public partial class ChronoJumpWindow
 	private void on_edit_current_person_clicked (object o, EventArgs args) {
 		LogB.Information("modify person");
 
-		//personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson.UniqueID, preferences.digitsNumber);
 		personAddModifyWin = PersonAddModifyWindow.Show(app1, currentSession, currentPerson, 
-				preferences.digitsNumber, checkbutton_video, false); //don't comes from recuperate window
+				preferences.digitsNumber, checkbutton_video); 
 		personAddModifyWin.FakeButtonAccept.Clicked += new EventHandler(on_edit_current_person_accepted);
 	}
 	

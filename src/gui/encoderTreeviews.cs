@@ -214,7 +214,12 @@ public partial class ChronoJumpWindow
 		}
 	}
 
-	void ItemToggled(object o, ToggledArgs args) {
+	void ItemToggled(object o, ToggledArgs args) 
+	{
+		//cannot toggle item while capturing
+		if(capturingCsharp == encoderCaptureProcess.CAPTURING)
+			return;
+
 		TreeIter iter;
 		int column = 0;
 		if (encoderCaptureListStore.GetIterFromString (out iter, args.Path)) 

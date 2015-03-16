@@ -5156,10 +5156,12 @@ LogB.Debug("D");
 
 			string [] strs = trimmed.Split(new char[] {','});
 
-			encoderCaptureStringR.Add(string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
-					0,
-					0, strs[0],			//start, width
-					strs[1],			//height
+			encoderCaptureStringR.Add(string.Format("\n" + 
+						"{0},2,a,3,4," + //id, seriesName, exerciseName, massBody, massExtra
+						"{1},{2},{3}," + //start, width, height
+						"{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}",
+					strs[0],
+					0, 0, strs[1],			//start, width, height
 					strs[2], strs[3], strs[4],	//speeds
 					strs[5], strs[6], strs[7],	//powers
 					strs[8],			//pp/ppt

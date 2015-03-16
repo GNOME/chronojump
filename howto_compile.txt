@@ -76,6 +76,12 @@ last line of the script can be changed to:
 ./mono --config $PREFIX/etc/mono/config $PREFIX/lib/chronojump/ChronoJump.exe > /Users/<dir of the user>/log.txt 2>&1
 and executed from commandline or directly (GUI) from the installed app on /Applications
 
+To install the dmg need to open it and move to Applications folder
+If it opens blank (no contents( do from the command line:
+hdiutil mount Chronojump-1.4.9-x86_64.dmg
+sudo cp -R "/Volumes/Chronojump/Chronojump.app" /Applications
+hdiutil unmount "/Volumes/Chronojump/"
+
 
 -------------------------------------------------------------------
 WINDOWS

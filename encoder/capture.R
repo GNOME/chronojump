@@ -26,7 +26,7 @@ filenameCompose <- function(curveNum)
 		return(paste(filenameBegins, "-00", curveNum, sep=""))	#eg. "filename-003"
 }
 
-calcule <- function(displacement, start, end, op, curveNum) 
+calcule <- function(displacement, start, end, op, curveNum)
 {
 	if(debug)
 		write("At calcule", stderr())
@@ -79,7 +79,7 @@ calcule <- function(displacement, start, end, op, curveNum)
 	filename <- filenameCompose(curveNum)
 	con <- file(filename, "w")
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
-		  0, 0, 
+		  (curveNum +1), sum(displacement), #title, height
 		  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
 		  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
 		  paf$meanForce, paf$maxForce, paf$maxForceT,
@@ -209,20 +209,20 @@ doProcess <- function(options)
 			displacement2 = displacement[(positionTop+1):length(displacement)]
 
 			if(op$Eccon == "c") {
-				calcule(displacement1, start, end, op, curveNum) #TODO: check this start, end
+				calcule(displacement1, start, end, op, curveNum)
 				curveNum = curveNum +1
 			} else {
-				calcule(displacement1, start, end, op, curveNum) #TODO: check this start, end
+				calcule(displacement1, start, end, op, curveNum)
 				curveNum = curveNum +1
 				
-				calcule(displacement2, start, end, op, curveNum) #TODO: check this start, end
+				calcule(displacement2, start, end, op, curveNum)
 				curveNum = curveNum +1
 			}
 
 			#write(c("positionTop", positionTop), stderr())
 			#write(c("length(displacement)", length(displacement)), stderr())
 		} else {
-			calcule(displacement, start, end, op, curveNum) #TODO: check this start, end
+			calcule(displacement, start, end, op, curveNum)
 			curveNum = curveNum +1
 		}
 		if(debug)

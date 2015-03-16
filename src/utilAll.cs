@@ -58,13 +58,26 @@ public class UtilAll
 
 	public static OperatingSystems GetOSEnum() 
 	{
-		string os = GetOS();
-		if(os.ToUpper().StartsWith("WIN"))
-			return OperatingSystems.WINDOWS;
-		else if(os.ToUpper().StartsWith("MAC"))
-			return OperatingSystems.MACOSX;
-		else
-			return OperatingSystems.LINUX;
+		//http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems
+		switch (Environment.OSVersion.Platform)
+		{
+			case PlatformID.Unix:
+				// Well, there are chances MacOSX is reported as Unix instead of MacOSX.
+				// Instead of platform check, we'll do a feature checks (Mac specific root folders)
+				if (Directory.Exists("/Applications")
+						& Directory.Exists("/System")
+						& Directory.Exists("/Users")
+						& Directory.Exists("/Volumes"))
+					return OperatingSystems.MACOSX;
+				else
+					return OperatingSystems.LINUX;
+
+			case PlatformID.MacOSX:
+				return OperatingSystems.MACOSX;
+
+			default:
+				return OperatingSystems.WINDOWS;
+		}
 	}
 	
 	

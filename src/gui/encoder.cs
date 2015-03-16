@@ -1663,15 +1663,28 @@ public partial class ChronoJumpWindow
 
 		//delete signal and related curves (both from SQL and files)
 		encoderSignalDelete(eSQL.GetFullURL(false), Convert.ToInt32(encoderSignalUniqueID));
+	
+		removeSignalFromGuiBecauseDeletedOrCancelled();
 
+		encoder_pulsebar_capture.Text = Catalog.GetString("Set deleted");
+		textview_encoder_signal_comment.Buffer.Text = "";
+	}
+	void removeSignalFromGuiBecauseDeletedOrCancelled() 
+	{
 		encoderSignalUniqueID = "-1";
 		image_encoder_capture.Sensitive = false;
 		treeviewEncoderCaptureRemoveColumns();
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
+		
 		encoderButtonsSensitive(encoderSensEnum.DONENOSIGNAL);
-		encoder_pulsebar_capture.Text = Catalog.GetString("Set deleted");
-		textview_encoder_signal_comment.Buffer.Text = "";
+		
+		//need this because DONENOSIGNAL allows to recalculate with different parameters, 
+		//but when deleted or cancelled, then don't allow
+		button_encoder_recalculate.Sensitive = false;
+		
+		encoder_capture_curves_bars_drawingarea.Visible = false;
 	}
+
 
 	private int getActiveCurvesNum(ArrayList curvesArray) {
 		int countActiveCurves = 0;
@@ -2032,9 +2045,10 @@ public partial class ChronoJumpWindow
 		capturingCsharp = encoderCaptureProcess.STOPPING;
 
 		//will start calcule curves thread
-		LogB.Debug("Going to encoderCalculeCurves");		
-		if(capturedOk)
+		if(capturedOk) {
+			LogB.Debug("Going to encoderCalculeCurves");		
 			encoderCalculeCurves(encoderActions.CURVES_AC);
+		}
 	}
 	
 	//this is called by non gtk thread. Don't do gtk stuff here
@@ -3755,7 +3769,10 @@ public partial class ChronoJumpWindow
 		encoder_change_displaced_weight_and_1RM ();
 	}
 
-	private void encoderButtonsSensitive(encoderSensEnum option) {
+	private void encoderButtonsSensitive(encoderSensEnum option) 
+	{
+		LogB.Debug(option.ToString());
+
 		//columns
 		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze,
 		//	hbox_encoder_configuration, hbox_encoder_capture_options
@@ -4593,7 +4610,7 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		//LogB.Information("EXPOSE");
+		//LogB.Debug("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_curves_bars_drawingarea.Allocation;
 		if(encoder_capture_curves_bars_pixmap == null || encoder_capture_curves_sizeChanged || 
@@ -4635,7 +4652,8 @@ public partial class ChronoJumpWindow
 		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
 		
 		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
-				allocation.Width != encoder_capture_signal_allocationXOld) {
+				allocation.Width != encoder_capture_signal_allocationXOld) 
+		{
 			encoder_capture_signal_pixmap = new Gdk.Pixmap (window, allocation.Width, allocation.Height, -1);
 		
 			UtilGtk.ErasePaint(encoder_capture_signal_drawingarea, encoder_capture_signal_pixmap);
@@ -4651,7 +4669,7 @@ public partial class ChronoJumpWindow
 		/* in some mono installations, configure_event is not called, but expose_event yes. 
 		 * Do here the initialization
 		 */
-		//LogB.Information("EXPOSE");
+		//LogB.Debug("EXPOSE");
 		
 		Gdk.Rectangle allocation = encoder_capture_signal_drawingarea.Allocation;
 		if(encoder_capture_signal_pixmap == null || encoder_capture_signal_sizeChanged || 
@@ -5608,6 +5626,12 @@ LogB.Debug("D");
 				//then that concentrinc curve disappears
 				//button_encoder_analyze have to be unsensitive because there are no curves:
 				button_encoder_analyze_sensitiveness();
+
+				//LogB.Debug(Enum.Parse(typeof(encoderActions), action.ToString()).ToString());
+				//LogB.Debug(encoderProcessCancel.ToString());
+						
+				if(encoderProcessCancel)
+					removeSignalFromGuiBecauseDeletedOrCancelled();
 			}
 				
 			encoder_pulsebar_capture.Fraction = 1;

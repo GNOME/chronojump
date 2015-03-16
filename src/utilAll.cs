@@ -50,6 +50,7 @@ public class UtilAll
 	public static string GetOS() {
 		OperatingSystem os = Environment.OSVersion;
 		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
+		LogB.Information("GetOS: " + osString);
 		return osString;
 	}
 

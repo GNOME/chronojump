@@ -53,18 +53,15 @@ public class PersonRecuperateWindow {
 	
 	static PersonRecuperateWindow PersonRecuperateWindowBox;
 
-	//modify person data when recuperating have been disabled since 1.5.0
-	//protected PersonAddModifyWindow personAddModifyWin; 
-
 	protected Gtk.Window parent;
 	
 	protected Person currentPerson;
 	protected Session currentSession;
+	protected PersonSession currentPersonSession;
 
 	protected int columnId = 0;
 	protected int firstColumn = 0;
 	protected int pDN;
-	protected Gtk.CheckButton app1_checkbutton_video;
 	
 	public Gtk.Button fakeButtonDone;
 
@@ -101,14 +98,12 @@ public class PersonRecuperateWindow {
 		treeview_person_recuperate.Selection.Changed += onSelectionEntry;
 	}
 	
-	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, 
-			int pDN, Gtk.CheckButton app1_checkbutton_video)
+	static public PersonRecuperateWindow Show (Gtk.Window parent, Session currentSession, int pDN)
 	{
 		if (PersonRecuperateWindowBox == null) {
 			PersonRecuperateWindowBox = new PersonRecuperateWindow (parent, currentSession);
 		}
 		PersonRecuperateWindowBox.pDN = pDN;
-		PersonRecuperateWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 
 		PersonRecuperateWindowBox.person_recuperate.Show ();
 		
@@ -254,6 +249,16 @@ public class PersonRecuperateWindow {
 		if(selected != "-1")
 		{
 			currentPerson = SqlitePerson.Select(Convert.ToInt32(selected));
+				
+			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1); //if sessionID == -1 we search data in last sessionID
+			//this inserts in DB
+			currentPersonSession = new PersonSession (
+					currentPerson.UniqueID, currentSession.UniqueID, 
+					myPS.Height, myPS.Weight, 
+					myPS.SportID, myPS.SpeciallityID,
+					myPS.Practice,
+					myPS.Comments, 
+					false); //dbconOpened
 						
 			store = new TreeStore( typeof (string), typeof (string), typeof (string), typeof (string), typeof (string) );
 			treeview_person_recuperate.Model = store;
@@ -279,6 +284,9 @@ public class PersonRecuperateWindow {
 	public Person CurrentPerson {
 		get { return currentPerson; }
 	}
+	public PersonSession CurrentPersonSession {
+		get { return currentPersonSession; }
+	}
 
 }
 
@@ -292,8 +300,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	[Widget] Gtk.ComboBox combo_sessions;
 	[Widget] protected Gtk.Box hbox_combo_select_checkboxes;
 	[Widget] protected Gtk.ComboBox combo_select_checkboxes;
-	
-	private Gtk.Button fakeButtonPreDone;
 	
 	
 	protected static string [] comboCheckboxesOptions = {
@@ -322,7 +328,6 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 		this.currentSession = currentSession;
 		
 		fakeButtonDone = new Gtk.Button();
-		fakeButtonPreDone = new Gtk.Button();
 	
 		firstColumn = 1;
 	
@@ -352,13 +357,12 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	}
 
 	static public new PersonsRecuperateFromOtherSessionWindow Show (
-			Gtk.Window parent, Session currentSession, Gtk.CheckButton app1_checkbutton_video)
+			Gtk.Window parent, Session currentSession)
 	{
 		if (PersonsRecuperateFromOtherSessionWindowBox == null) {
 			PersonsRecuperateFromOtherSessionWindowBox = 
 				new PersonsRecuperateFromOtherSessionWindow (parent, currentSession);
 		}
-		PersonsRecuperateFromOtherSessionWindowBox.app1_checkbutton_video = app1_checkbutton_video;
 		PersonsRecuperateFromOtherSessionWindowBox.person_recuperate.Show ();
 		
 		return PersonsRecuperateFromOtherSessionWindowBox;
@@ -537,42 +541,60 @@ public class PersonsRecuperateFromOtherSessionWindow : PersonRecuperateWindow
 	protected override void on_button_recuperate_clicked (object o, EventArgs args)
 	{
 		inserted = 0;
-
-		fakeButtonPreDone.Clicked += new EventHandler(updateStoreAndEnd);
-		processRow();
+		processRows();
 	}
 
-	//takes a row every time
-	//if it founds data to sent to AddModifyWin and will be called again
-	//else don't will be called again, for this reason calls: fakeButtonPreDone
-	private void processRow()
+	private void processRows()
 	{
 		Gtk.TreeIter iter;
 		bool val;
 		int count = 0;
 		bool found = false;
-		if (store.GetIterFirst(out iter)) {
+		
+		List <PersonSession> personSessions = new List<PersonSession>();
+		int psID;
+		int countPersonSessions = Sqlite.Count(Constants.PersonSessionTable, false);
+		if(countPersonSessions == 0)
+			psID = 1;
+		else {
+			//Sqlite.Max will return NULL if there are no values, for this reason we use the Sqlite.Count before
+			int maxPSUniqueID = Sqlite.Max(Constants.PersonSessionTable, "uniqueID", false);
+			psID = maxPSUniqueID + 1;
+		}
+
+		if (store.GetIterFirst(out iter)) 
+		{
+			Sqlite.Open();
 			do {
 				val = (bool) store.GetValue (iter, 0);
 				//if checkbox of person is true
 				if(val) {
-					currentPerson = SqlitePerson.Select(Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
-
-					processRow();
+					currentPerson = SqlitePerson.Select(true, Convert.ToInt32(treeview_person_recuperate.Model.GetValue(iter, 1)) );
+					PersonSession currentPersonSession = SqlitePersonSession.Select(
+							true, currentPerson.UniqueID, -1); //if sessionID == -1 search data in last sessionID
+					personSessions.Add(new PersonSession(
+								psID ++, currentPerson.UniqueID, currentSession.UniqueID, 
+								currentPersonSession.Height, currentPersonSession.Weight, currentPersonSession.SportID, 
+								currentPersonSession.SpeciallityID, currentPersonSession.Practice, currentPersonSession.Comments)
+							);
 
 					inserted ++;
 					found = true;
 
 				}
 			} while ( store.IterNext(ref iter) );
+		
+			Sqlite.Close();
+
+			//do the transaction	
+			SqlitePersonSessionTransaction psTr = new SqlitePersonSessionTransaction(personSessions);
 		}
-		if(!found)
-			fakeButtonPreDone.Click();
+			
+		updateStoreAndEnd();
 	}
 
-	private void updateStoreAndEnd(object o, EventArgs args)
+	private void updateStoreAndEnd()
 	{
-		fakeButtonPreDone.Clicked -= new EventHandler(updateStoreAndEnd);
 		//update the treeview (only one time)
 		string myText = UtilGtk.ComboGetActive(combo_sessions);
 		if(myText != "") {
@@ -815,8 +837,6 @@ public class PersonAddModifyWindow
 	
 	//used for connect ok gui/chronojump.cs, PersonRecuperate, PersonRecuperateFromOtherSession,this class, gui/convertWeight.cs
 	public Gtk.Button fakeButtonAccept;
-	//used for connect PersonRecuperateFromOtherSession
-	public Gtk.Button fakeButtonCancel;
 	
 	static ConvertWeightWindow convertWeightWin;
 	
@@ -853,8 +873,6 @@ public class PersonAddModifyWindow
 	
 	private int serverUniqueID;
 
-	private bool comesFromRecuperateWin;
-	
 	//
 	//if we are adding a person, currentPerson.UniqueID it's -1
 	//if we are modifying a person, currentPerson.UniqueID is obviously it's ID
@@ -870,7 +888,6 @@ public class PersonAddModifyWindow
 		this.currentSession = currentSession;
 		this.currentPerson = currentPerson;
 
-		//when comesFromRecuperateWin is true, is considered editing because uniqueID is known
 		if(currentPerson.UniqueID == -1)
 			adding = true;
 		else
@@ -912,7 +929,6 @@ public class PersonAddModifyWindow
 			button_zoom.Sensitive = false;
 			
 		fakeButtonAccept = new Gtk.Button();
-		fakeButtonCancel = new Gtk.Button();
 
 		if(adding) {
 			person_win.Title = Catalog.GetString ("New jumper");
@@ -1074,25 +1090,15 @@ public class PersonAddModifyWindow
 	
 	static public PersonAddModifyWindow Show (Gtk.Window parent, 
 			Session mySession, Person currentPerson, int pDN, 
-			Gtk.CheckButton app1_checkbutton_video,
-			bool comesFromRecuperateWin)
+			Gtk.CheckButton app1_checkbutton_video)
 	{
-		if (comesFromRecuperateWin) 
-			PersonAddModifyWindowBox = null;
-
 		if (PersonAddModifyWindowBox == null) {
 			PersonAddModifyWindowBox = new PersonAddModifyWindow (parent, mySession, currentPerson);
 		}
 
 		PersonAddModifyWindowBox.pDN = pDN;
 		PersonAddModifyWindowBox.app1_checkbutton_video = app1_checkbutton_video;
-		PersonAddModifyWindowBox.comesFromRecuperateWin = comesFromRecuperateWin;
 
-		//No more hide cancel button.
-		//Better to show it and allow to not recuperate if user changes his mind
-		//if(comesFromRecuperateWin)
-			//PersonAddModifyWindowBox.button_cancel.Hide();
-		
 		PersonAddModifyWindowBox.person_win.Show ();
 
 		PersonAddModifyWindowBox.fillDialog ();
@@ -1266,13 +1272,7 @@ public class PersonAddModifyWindow
 			
 
 			//PERSONSESSION STUFF
-			PersonSession myPS = new PersonSession();
-			if(comesFromRecuperateWin)
-				//select a personSession of last session to obtain it's attributes
-				myPS = SqlitePersonSession.Select(currentPerson.UniqueID, -1);
-			else
-				//we edit a person that is already on this session, then take personSession data from this session
-				myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+			PersonSession myPS = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
 			spinbutton_height.Value = myPS.Height;
 			spinbutton_weight.Value = myPS.Weight;
@@ -1592,12 +1592,14 @@ public class PersonAddModifyWindow
 
 		if(adding) {
 			//here we add rows in the database
+			LogB.Information("Going to insert person");
 			currentPerson = new Person (entry1.Text, sex, dateTime, 
 					Constants.RaceUndefinedID,
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_countries), countries)),
 					textview_description.Buffer.Text,
 					Constants.ServerUndefinedID, false); //dbconOpened
 					
+			LogB.Information("Going to insert personSession");
 			currentPersonSession = new PersonSession (
 					currentPerson.UniqueID, currentSession.UniqueID, 
 					(double) spinbutton_height.Value, (double) weight, 
@@ -1605,6 +1607,7 @@ public class PersonAddModifyWindow
 					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
 					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
 					textview_ps_comments.Buffer.Text, false); //dbconOpened
+			LogB.Information("inserted both");
 		} else {
 			//here we update rows in the database
 			currentPerson = new Person (currentPerson.UniqueID, entry1.Text, sex, dateTime, 
@@ -1613,39 +1616,23 @@ public class PersonAddModifyWindow
 					textview_description.Buffer.Text,
 					serverUniqueID);
 			SqlitePerson.Update (currentPerson); 
-			
-			//person session stuff
-			//if comesFromRecuperate means that we are recuperating (loading a person)
-			//the recuperate person gui calls this gui to know if anything changed
-			//then we are editing person (it exists before), but has no personSession record related to this session
-			//then we insert:
-			if(comesFromRecuperateWin)
-				currentPersonSession = new PersonSession (
-						currentPerson.UniqueID, currentSession.UniqueID, 
-						(double) spinbutton_height.Value, (double) weight, 
-						sport.UniqueID, 
-						Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
-						Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-						textview_ps_comments.Buffer.Text, false); //dbconOpened
-			else {
-				//don't come from recuperate
-				//we only need to update personSession
-				//1.- search uniqueID
-				PersonSession ps = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
+		
+			//we only need to update personSession
+			//1.- search uniqueID
+			PersonSession ps = SqlitePersonSession.Select(currentPerson.UniqueID, currentSession.UniqueID);
 
-				//2.- create new instance
-				currentPersonSession = new PersonSession (
-						ps.UniqueID,
-						currentPerson.UniqueID, currentSession.UniqueID, 
-						(double) spinbutton_height.Value, (double) weight, 
-						sport.UniqueID, 
-						Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
-						Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
-						textview_ps_comments.Buffer.Text);
+			//2.- create new instance
+			currentPersonSession = new PersonSession (
+					ps.UniqueID,
+					currentPerson.UniqueID, currentSession.UniqueID, 
+					(double) spinbutton_height.Value, (double) weight, 
+					sport.UniqueID, 
+					Convert.ToInt32(Util.FindOnArray(':', 2, 0, UtilGtk.ComboGetActive(combo_speciallities), speciallities)),
+					Util.FetchID(UtilGtk.ComboGetActive(combo_levels)),
+					textview_ps_comments.Buffer.Text);
 
-				//3.- update in database
-				SqlitePersonSession.Update (currentPersonSession); 
-			}
+			//3.- update in database
+			SqlitePersonSession.Update (currentPersonSession); 
 		}
 
 
@@ -1659,22 +1646,13 @@ public class PersonAddModifyWindow
 	{
 		PersonAddModifyWindowBox.person_win.Hide();
 		PersonAddModifyWindowBox = null;
-		
-		fakeButtonCancel.Click();
 	}
 	
 	//void on_person_modify_delete_event (object o, EventArgs args)
 	void on_person_win_delete_event (object o, DeleteEventArgs args)
 	{
-		//nice: this makes windows no destroyed, now nothing happens
-		if(comesFromRecuperateWin)
-			args.RetVal = true;
-		else {
 			PersonAddModifyWindowBox.person_win.Hide();
 			PersonAddModifyWindowBox = null;
-		
-			fakeButtonCancel.Click();
-		}
 	}
 	
 	
@@ -1689,12 +1667,6 @@ public class PersonAddModifyWindow
 		get { return fakeButtonAccept; }
 	}
 	
-	public Button FakeButtonCancel 
-	{
-		set { fakeButtonCancel = value; }
-		get { return fakeButtonCancel; }
-	}
-
 
 	public Person CurrentPerson {
 		get { return currentPerson; }

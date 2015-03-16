@@ -87,9 +87,14 @@ class SqlitePerson : Sqlite
 	}
 
 	//This is like SqlitePersonSession.Selectbut this returns a Person
-	public static Person Select(int uniqueID)
+	
+	public static Person Select(int uniqueID) {
+		return Select(false, uniqueID);
+	}
+	public static Person Select(bool dbconOpened, int uniqueID)
 	{
-		Sqlite.Open();
+		if(! dbconOpened)
+			Sqlite.Open();
 
 		dbcmd.CommandText = "SELECT * FROM " + Constants.PersonTable + " WHERE uniqueID == " + uniqueID;
 		
@@ -113,7 +118,9 @@ class SqlitePerson : Sqlite
 					);
 		}
 		reader.Close();
-		Sqlite.Close();
+		if(! dbconOpened)
+			Sqlite.Close();
+
 		return p;
 	}
 		
@@ -181,6 +188,7 @@ class SqlitePerson : Sqlite
 			" FROM " + tp + "," + tps +
 			" WHERE " + tps + ".sessionID == " + except + 
 			" AND " + tp + ".uniqueID == " + tps + ".personID "; 
+		LogB.SQL(dbcmd.CommandText.ToString());
 		
 		SqliteDataReader reader;
 		reader = dbcmd.ExecuteReader();

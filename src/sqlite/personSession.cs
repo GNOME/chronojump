@@ -198,17 +198,23 @@ class SqlitePersonSession : Sqlite
 	//then we search data in last sessionID
 	//this is used to know personSession attributes
 	//in a newly created person	
+	//This is like SqlitePerson.Select but this returns a PersonSession
 
-	//This is like SqlitePerson.Selectbut this returns a PersonSession
 	public static PersonSession Select(int personID, int sessionID)
 	{
+		return Select(false, personID, sessionID);
+	}
+	public static PersonSession Select(bool dbconOpened, int personID, int sessionID)
+	{
+		if( ! dbconOpened)
+			Sqlite.Open();
+
 		string tps = Constants.PersonSessionTable;
 			
 		string sessionIDString = " AND sessionID == " + sessionID;
 		if(sessionID == -1)
 			sessionIDString = " ORDER BY sessionID DESC limit 1";
 
-		Sqlite.Open();
 		dbcmd.CommandText = "SELECT * FROM " + tps +
 			" WHERE personID == " + personID + 
 			sessionIDString;
@@ -234,7 +240,10 @@ class SqlitePersonSession : Sqlite
 		}
 		
 		reader.Close();
-		Sqlite.Close();
+		
+		if( ! dbconOpened)
+			Sqlite.Close();
+
 		return ps;
 	}
 	
@@ -439,10 +448,32 @@ class SqlitePersonSession : Sqlite
 }
 
 
-//used to insert person and personSession in a single translation
+//used to insert person and personSession in a single translation when creating multiple persons
+//and used to to insert personSession in a single translation when recuperating multiple persons
 class SqlitePersonSessionTransaction : Sqlite
 {
+	List <Person> persons;
+	List <PersonSession> personSessions;
+	enum Modes { INSERT_PERSONS_MULTIPLE, RECUPERATE_PERSONS_MULTIPLE }
+	Modes mode;
+	
+	public SqlitePersonSessionTransaction(List <PersonSession> personSessions) 
+	{
+		this.personSessions = personSessions;
+		mode = Modes.RECUPERATE_PERSONS_MULTIPLE;
+		
+		doTransaction();
+	}
 	public SqlitePersonSessionTransaction(List <Person> persons, List <PersonSession> personSessions) 
+	{
+		this.persons = persons;
+		this.personSessions = personSessions;
+		mode = Modes.INSERT_PERSONS_MULTIPLE;
+		
+		doTransaction();
+	}
+
+	public void doTransaction() 
 	{
 		LogB.SQL("Starting transaction");
 		Sqlite.Open();
@@ -453,13 +484,15 @@ class SqlitePersonSessionTransaction : Sqlite
 			{
 				dbcmdTr.Transaction = tr;
 				
-				foreach(Person p in persons) {
-					dbcmdTr.CommandText = 
-						"INSERT INTO " + Constants.PersonTable +
-						" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) " + 
-						" VALUES (" + p.ToSQLInsertString() + ")";
-					LogB.SQL(dbcmdTr.CommandText.ToString());
-					dbcmdTr.ExecuteNonQuery();
+				if(mode == Modes.INSERT_PERSONS_MULTIPLE) {
+					foreach(Person p in persons) {
+						dbcmdTr.CommandText = 
+							"INSERT INTO " + Constants.PersonTable +
+							" (uniqueID, name, sex, dateBorn, race, countryID, description, future1, future2, serverUniqueID) " + 
+							" VALUES (" + p.ToSQLInsertString() + ")";
+						LogB.SQL(dbcmdTr.CommandText.ToString());
+						dbcmdTr.ExecuteNonQuery();
+					}
 				}
 				foreach(PersonSession ps in personSessions) {
 					dbcmdTr.CommandText = 

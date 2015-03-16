@@ -60,7 +60,7 @@ public partial class PersonSession {
 
 	//creation
 	//we know personID but not personSession.UniqueID
-	//this adds to database
+	//this adds to personSession77 table in database
 	public PersonSession(int personID, int sessionID,
 			double height, double weight, int sportID, 
 			int speciallityID, int practice, string comments, bool dbconOpened)

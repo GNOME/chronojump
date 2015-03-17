@@ -2765,7 +2765,9 @@ LogB.SQL("5" + tableName);
 	}
 
 	//if we want to use the condition2 but not the searchValue, leave this as ""
-	public static void Update(bool dbconOpened, string tableName, string columnName, string searchValue, string newValue, 
+	public static void Update(
+			bool dbconOpened, string tableName, string columnName, 
+			string searchValue, string newValue, 
 			string columnNameCondition2, string searchValueCondition2)
 	{
 		if( ! dbconOpened)

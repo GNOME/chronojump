@@ -328,6 +328,8 @@ public partial class ChronoJumpWindow
 			//it crashes on Raspberry, Banana
 		}
 
+		capturingCsharp = encoderCaptureProcess.STOPPED;
+
 		//done here because in Glade we cannot use the TextBuffer.Changed
 		textview_encoder_signal_comment.Buffer.Changed += new EventHandler(on_textview_encoder_signal_comment_key_press_event);
 
@@ -5566,40 +5568,71 @@ LogB.Debug("D");
 					string eccon = findEccon(true);
 
 					/*
+					 * (0) open Sqlite
 					 * (1) if found curves of this signal
-					 * (2) and this curves are with 
-					 * 	different eccon OR
-					 * 	different exercise
-					 * (3) delete the curves (files)
-					 * (4) delete the curves (encoder table)
-					 * (5) and also delete from (encoderSignalCurves table)
-					 * (6) update analyze labels and combos
+					 * 	(1a) this curves are with different eccon
+					 * 		(1a1) delete the curves (files)
+					 * 		(1a2) delete the curves (encoder table)
+					 * 		(1a3) and also delete from (encoderSignalCurves table)
+					 * 	(1b) or different exercise, or different laterality or different extraWeight
+					 * 		(1b1) update curves with new data
+					 * 			but delete the future1 (power) because maybe has changed (in exerciseID or extraWeight change)
+					 * (2) update analyze labels and combos
+					 * (3) close Sqlite
 					 */
+
+					Sqlite.Open(); // (0)
+
 					bool deletedUserCurves = false;
 					EncoderSQL currentSignalSQL = (EncoderSQL) SqliteEncoder.Select(
-							false, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1,
+							true, Convert.ToInt32(encoderSignalUniqueID), 0, 0, -1,
 							"", EncoderSQL.Eccons.ALL, 
 							false, true)[0];
 
 
 					ArrayList data = SqliteEncoder.Select(
-							false, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
+							true, -1, currentPerson.UniqueID, currentSession.UniqueID, -1,
 							"curve", EncoderSQL.Eccons.ALL,  
 							false, true);
-					foreach(EncoderSQL eSQL in data) {
-						if(
-								currentSignalSQL.GetDate(false) == eSQL.GetDate(false) && 		// (1)
-								(findEccon(true) != eSQL.eccon || currentSignalSQL.exerciseID != eSQL.exerciseID) // (2)
-								) {
-							Util.FileDelete(eSQL.GetFullURL(false));					// (3)
-							Sqlite.Delete(false, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (4)
-							SqliteEncoder.DeleteSignalCurveWithCurveID(false, Convert.ToInt32(eSQL.uniqueID)); // (5)
-							deletedUserCurves = true;
+					foreach(EncoderSQL eSQL in data) 
+					{
+						if(currentSignalSQL.GetDate(false) == eSQL.GetDate(false)) 		// (1)
+						{
+							if(findEccon(true) != eSQL.eccon) {				// (1a)
+								Util.FileDelete(eSQL.GetFullURL(false));					// (1a1)
+								Sqlite.Delete(true, Constants.EncoderTable, Convert.ToInt32(eSQL.uniqueID));	// (1a2)
+								SqliteEncoder.DeleteSignalCurveWithCurveID(true, Convert.ToInt32(eSQL.uniqueID)); // (1a3)
+								deletedUserCurves = true;
+							} else {							// (1b)
+								if(
+										currentSignalSQL.exerciseID != eSQL.exerciseID ||
+										currentSignalSQL.extraWeight != eSQL.extraWeight ) 
+								{
+									if(currentSignalSQL.exerciseID != eSQL.exerciseID)
+										Sqlite.Update(true, Constants.EncoderTable, "exerciseID",
+												"", currentSignalSQL.exerciseID.ToString(),
+												"uniqueID", eSQL.uniqueID.ToString());
+									
+									if(currentSignalSQL.extraWeight != eSQL.extraWeight)
+										Sqlite.Update(true, Constants.EncoderTable, "extraWeight",
+												"", currentSignalSQL.extraWeight,
+												"uniqueID", eSQL.uniqueID.ToString());
+
+									Sqlite.Update(true, Constants.EncoderTable, "future1",
+											"", "0",
+											"uniqueID", eSQL.uniqueID.ToString());
+								}
+								if(currentSignalSQL.laterality != eSQL.laterality)
+									Sqlite.Update(true, Constants.EncoderTable, "laterality",
+											"", currentSignalSQL.laterality,
+											"uniqueID", eSQL.uniqueID.ToString());
+							}
 						}
 					}
 					if(deletedUserCurves)
-						updateUserCurvesLabelsAndCombo(false);		// (6)
+						updateUserCurvesLabelsAndCombo(true); 	// (2)
 
+					Sqlite.Close(); 					// (3)
 
 					findAndMarkSavedCurves();
 				}

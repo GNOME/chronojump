@@ -796,15 +796,22 @@ public partial class ChronoJumpWindow
 		if(ecconLast == "c")
 			(cell as Gtk.CellRendererText).Text = 
 				String.Format(UtilGtk.TVNumPrint(curve.N,1,0),Convert.ToInt32(curve.N));
-		else if (ecconLast=="ec" || ecconLast =="ecS") {
-			string phase = "e";
+		else if (ecconLast=="ec" || ecconLast =="ecS") 
+		{
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
+			
+			//if we are capturing and has inertia, it comes as 'c','e'
+			if(capturingCsharp == encoderCaptureProcess.CAPTURING && encoderConfigurationCurrent.has_inertia)
+				isEven = !isEven;
+
+			string phase = "e";
 			if(isEven)
 				phase = "c";
 				
 			(cell as Gtk.CellRendererText).Text = 
 				decimal.Truncate((Convert.ToInt32(curve.N) +1) /2).ToString() + phase;
-		} else {	//(ecconLast=="ce" || ecconLast =="ceS") {
+		} else 
+		{	//(ecconLast=="ce" || ecconLast =="ceS") {
 			string phase = "c";
 			bool isEven = Util.IsEven(Convert.ToInt32(curve.N));
 			if(isEven)

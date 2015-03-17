@@ -1,6 +1,6 @@
 deploy:
 	python deploy_win32.py
-	cp -r deps/* dist/ #this will copy also the old libglade that correctly translates gui
+	cp -r deps/* dist/
 	python ../encoder/setup-pyserial_pyper_windows.py install
 	python ../encoder/setup-pyserial_pyper_windows.py py2exe -d "dist/bin/encoder"
 	cd ../chronopic-firmware/chronopic-firmwarecord/; python setup.py -d "dist/bin"

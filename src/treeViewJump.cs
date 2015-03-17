@@ -32,7 +32,7 @@ public class TreeViewJumps : TreeViewEvent
 	protected string fallName = Catalog.GetString("Fall") + "\n(cm)";
 	protected string heightName = Catalog.GetString("Height") + "\n(cm)";
 	protected string powerName = Catalog.GetString("Power");
-	protected string stiffnessName = Catalog.GetString("Stiffness");
+	protected string stiffnessName = Catalog.GetString("Stiffness") + "\n(N/m)";
 	protected string initialSpeedName = Catalog.GetString("Initial Speed");
 	protected string angleName = Catalog.GetString("Angle");
 

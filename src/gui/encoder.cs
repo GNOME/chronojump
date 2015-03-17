@@ -4734,6 +4734,8 @@ public partial class ChronoJumpWindow
 				
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
 				image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_capture)-5;
+				
+				treeview_encoder_capture_curves.Sensitive = true;
 
 				prepareEncoderGraphs();
 				eccaCreated = false;
@@ -4814,7 +4816,10 @@ public partial class ChronoJumpWindow
 				
 				
 				//_______ 2) run stuff
-				treeview_encoder_capture_curves.Sensitive = false;
+				
+				//don't need because ItemToggled is deactivated during capture
+				//treeview_encoder_capture_curves.Sensitive = false;
+				
 				encoderThread = new Thread(new ThreadStart(encoderDoCurvesGraphR));
 				if(action == encoderActions.CURVES)
 					GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderCurves));

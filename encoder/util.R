@@ -825,3 +825,28 @@ fixDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 	return (displacement)
 }
 
+#Read a double vector indicating the initial diameter of every loop of the rope
+#plus the final diameter of the last loop and returns a dataframe with the radius
+#correspending to the total number of ticks of the encoder
+getInstantDiameters <- function(d_vector)
+{
+  #If only one diameter is returned, we assume that the diameter is constant
+  #and only a double is returned
+  if (length(d_vector) == 1){
+    return(d_vector)
+  }
+  
+  # Numerating the loops of the rope
+  d <- matrix(c(seq(from=0, to=(length(d_vector) -1), by=1), d_vector), ncol=2)
+  
+  # Converting the number of the loop to ticks of the encoder
+  d[,1] <- d[,1]*200
+  
+  # Linear interpolation of the radius across the lenght of the measurement of the diameters
+  d.approx <- approx(x=d[,1], y=d[,2], seq(from=1, to=d[length(d[,1]),1]))
+  return(d.approx$y)
+}
+
+# Example of input of the sequence of the loop and diameter of the loop
+# We use diameters but in the next step we convert to radii
+# d_vector <- c(1.5, 1.5, 1.5, 1.5, 2, 2.5, 2.7, 2.9, 2.95, 3)

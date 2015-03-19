@@ -120,7 +120,7 @@ unsigned char command_reaction_time_rb7_on = 'T';
 unsigned char command_reaction_time_rb3_off = 'r';
 unsigned char command_reaction_time_rb6_off = 's';
 unsigned char command_reaction_time_rb7_off = 't';
-
+unsigned char command_reaction_time_animation_light = 'l';
 
 char version_major = '1';
 char version_minor = '1';
@@ -323,6 +323,13 @@ void pause1()
 	for (j = 0; j < 10000; j++)
 		;
 }
+void pause2(int mytime)
+{
+    long i; //no se pq amb long va be i amb int no
+    for (i = 0; i < mytime; i++)
+	    ;
+}
+
 void pause3()
 {
     long i;
@@ -352,19 +359,21 @@ unsigned char read_input()
 //* OUTPUTS: None
 //* RETURNS: Nothing
 //*************************************************************
-
-void pause2(int mytime)
-{
-    long i; //no se pq amb long va be i amb int no
-    for (i = 0; i < mytime; i++)
-	    ;
-}
-
 void update_led()
 {
     //-- Led is on bit RB1. Input variable contains
     //-- only an information bit (1,0) on less signficant bit
-    //RB1 = ! input;
+    RB1 = !input;
+    // 2012-04-02
+    if (option == 1)
+    {
+	RB1 = 1;
+    }
+}
+
+//experimental code
+void reaction_time_animation_lights_start()
+{
     /*
 	  
     int min = 200;
@@ -381,7 +390,7 @@ void update_led()
     //1 o 10 sempre ences
 
     /*
-     * parpadejar
+     * blink
      *
     while(1) {
 	    RB1 = 1;
@@ -441,11 +450,6 @@ void update_led()
     }
     */
 
-    // 2012-04-02
-    if (option == 1)
-    {
-	RB1 = 1;
-    }
 }
 
 //*****************************************************
@@ -660,6 +664,8 @@ void main(void)
 			RB2 = 0; //RB6 = 0
 		else if (my_char == command_reaction_time_rb7_off) // 't'
 			RB7 = 0;
+		else if (my_char == command_reaction_time_animation_light) // 'l'
+			reaction_time_animation_lights_start();
 		else
 			send_error();
 	    }

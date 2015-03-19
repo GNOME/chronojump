@@ -43,9 +43,9 @@ VERSION=0.9.4
 Then go to [1]
 
 
-create deb package
------
-1st time)
+DEB) create deb package
+
+DEB.A) 1st time
 sudo apt-get install devscripts dput debhelper cdbs mono-devel cli-common-dev libdistro-info-perl
 
 GPG key (add random)
@@ -55,12 +55,13 @@ GPG generate key:
 gpg --gen-key
 (use the values on DEBFULLNAME and DEBEMAIL, see below)
 
-create package)
+DEB.B) every time
 export DEBFULLNAME="Xavier de Blas"
 export DEBEMAIL="info@chronojump.org"
 ./deb-pkg.sh 1
+if there are problems, remove build-deb and repeat process
 
---- upload deb package on raspbian ---
+DEB.C) upload deb on raspbian
 needs this ~/.dput.cf
 
 [chronojump-ppa]
@@ -74,6 +75,7 @@ and upload like this:
 dput chronojump-ppa build-deb/chronojump..._source.changes
 
 --- end of upload deb package on raspbian ---
+
 
 macosx stuff
 ------------

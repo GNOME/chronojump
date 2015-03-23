@@ -662,11 +662,11 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	d.m = d / 100 #cm -> m
 	D.m = D / 100 #cm -> m
 
-	angle = position.m * 2 / d.m
-	angleSpeed = speed * 2 / d.m
-	angleAccel = accel * 2 / d.m
+	angle = position.m * 2 / d.m #d.m variable
+	angleSpeed = speed * 2 / d.m #d.m variable
+	angleAccel = accel * 2 / d.m #d.m variable
 
-	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g)
+	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g) #d.m variable
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
@@ -693,11 +693,81 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 }
 
 
-#separate phases using initial height of full extended person
-#this methods replaces getDisplacement and fixRawdataInertial
-#here comes a signal: (singleFile)
-#it shows the disc rotation and the person movement
 
+#in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
+getDisplacement <- function(encoderConfigurationName, displacement, diameter, diameterExt) {
+	#no change
+	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
+	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
+	#LINEARONPLANE
+	#ROTARYFRICTIONSIDE
+	#WEIGHTEDMOVPULLEYROTARYFRICTION
+
+  if(
+	   encoderConfigurationName == "LINEARINVERTED" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
+    #On inverted modes the direction of the displacement is changed
+	{
+		displacement = -displacement
+	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
+    #On geared down machines the displacement of the subject is multiplied by gearedDown
+		#default is: gearedDown = 2. Future maybe this will be a parameter
+		displacement = displacement * 2
+	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
+    #On rotary friction axis the displacement of the subject is proportional to the axis diameter
+    #and inversely proportional to the diameter where the encoder is coupled
+		displacement = displacement * diameter / diameterExt
+	} else if(encoderConfigurationName == "ROTARYAXIS" || 
+		  encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") {
+    #On rotary encoders attached to fixed pulleys next to subjects (see config 1 and 3 in interface),
+    #the displacement of the subject is anlge * radius
+		ticksRotaryEncoder = 200 #our rotary axis encoder sends 200 ticks per revolution
+		#The angle rotated by the pulley is (ticks / ticksRotaryEncoder) * 2 * pi
+    #The radium in mm is diameter * 1000 / 2
+		displacement = ( displacement / ticksRotaryEncoder ) * pi * ( diameter * 1000 )
+	}
+		
+	return(displacement)
+}
+
+#This function converts angular information from rotary encoder to linear information like linear encoder
+#This is NOT the displacement of the person because con-ec phases roll in the same direction
+#This is solved by the function getDisplacementInertialBody
+fixDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
+{
+	#scanned displacement is ticks of rotary axis encoder
+	#now convert it to mm of body displacement
+	if(encoderConfigurationName == "ROTARYAXISINERTIAL") {
+		displacementMeters = displacement / 1000 #mm -> m
+		diameterMeters = diameter / 100 #cm -> m
+
+		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per turn
+		#angle in radians
+		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
+		position = angle * diameterMeters / 2
+		position = position * 1000	#m -> mm
+		#this is to make "inverted cumsum"
+		displacement = c(0,diff(position)) #this displacement is going to be used now
+	}
+
+	#on friction side: know displacement of the "person"
+	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
+	{
+		displacement = displacement * diameter / diameterExt #displacement of the axis
+	}
+	
+	return (displacement)
+}
+
+
+#Converts from mm of displacement on the encoder
+#to mm of displacement of the person	
+
+#separate phases using initial height of full extended person
+#here comes a signal: (singleFile)
+#it can show graph of the disc rotation and the person movement
+	
 #positionStart is the height at the start of the curve. It's used only on realtime capture.
 #displacementPerson has to be adjusted for every repetition using the positionStart relative to the start of the movement
 #Eg, at start of the capture position is always 0, then goes down (first eccentric phase), and then starts con-ecc, con-ecc, con-ecc, ...
@@ -730,7 +800,10 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 		#firstDownPhaseTime = position.ext$minindex[1]
 		#downHeight = abs(position[1] - position[firstDownPhaseTime])
 	}
-		
+	
+	#This is the main part.
+	#Converts from mm of displacement on the encoder
+	#to mm of displacement of the person	
 	positionPerson = cumsum(displacement)
 	positionPerson = positionPerson + positionStart
 	positionPerson = abs(positionPerson)*-1
@@ -768,67 +841,15 @@ getDisplacementInertialBody <- function(positionStart, displacement, draw, title
 }
 
 
-#in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
-#we use 'data' variable because can be position or displacement
-getDisplacement <- function(encoderConfigurationName, data, diameter, diameterExt) {
-	#no change
-	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
-	#WEIGHTEDMOVPULLEYLINEARONPERSON2, WEIGHTEDMOVPULLEYLINEARONPERSON2INV,
-	#LINEARONPLANE
-	#ROTARYFRICTIONSIDE
-	#WEIGHTEDMOVPULLEYROTARYFRICTION
-
-	if(
-	   encoderConfigurationName == "LINEARINVERTED" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
-	{
-		data = -data
-	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
-		#default is: gearedDown = 2. Future maybe this will be a parameter
-		data = data *2
-	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
-		data = data * diameter / diameterExt
-	} else if(encoderConfigurationName == "ROTARYAXIS" || 
-		  encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") {
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		#diameter m -> mm
-		data = ( data / ticksRotaryEncoder ) * 2 * pi * ( diameter * 1000 / 2 )
-	}
-		
-	return(data)
-}
-
-fixDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
-{
-	#scanned displacement is ticks of rotary axis encoder
-	#now convert it to mm of body displacement
-	if(encoderConfigurationName == "ROTARYAXISINERTIAL") {
-		displacementMeters = displacement / 1000 #mm -> m
-		diameterMeters = diameter / 100 #cm -> m
-
-		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks by turn
-		#angle in radians
-		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
-		position = angle * diameterMeters / 2
-		position = position * 1000	#m -> mm
-		#this is to make "inverted cumsum"
-		displacement = c(0,diff(position)) #this displacement is going to be used now
-	}
-
-	#on friction side: know displacement of the "person"
-	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
-	{
-		displacement = displacement * diameter / diameterExt #displacement of the axis
-	}
-	
-	return (displacement)
-}
-
 #Read a double vector indicating the initial diameter of every loop of the rope
 #plus the final diameter of the last loop and returns a dataframe with the radius
 #correspending to the total number of ticks of the encoder
-getInstantDiameters <- function(d_vector)
+#This can be run only once per machine
+
+# Example of input of the sequence of the loop and diameter of the loop
+# We use diameters but in the next step we convert to radii
+# d_vector <- c(1.5, 1.5, 1.5, 1.5, 2, 2.5, 2.7, 2.9, 2.95, 3)
+getInertialDiametersPerTick <- function(d_vector)
 {
   #If only one diameter is returned, we assume that the diameter is constant
   #and only a double is returned
@@ -846,7 +867,9 @@ getInstantDiameters <- function(d_vector)
   d.approx <- approx(x=d[,1], y=d[,2], seq(from=1, to=d[length(d[,1]),1]))
   return(d.approx$y)
 }
+#Returns the instant diameter every milisecond
+getInertialDiameterPerMs <- function(diameterPerTick, displacement)
+{
+  return(diameterPerTick[abs(cumsum(displacement)]))
+}
 
-# Example of input of the sequence of the loop and diameter of the loop
-# We use diameters but in the next step we convert to radii
-# d_vector <- c(1.5, 1.5, 1.5, 1.5, 2, 2.5, 2.7, 2.9, 2.95, 3)

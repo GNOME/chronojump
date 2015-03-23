@@ -379,7 +379,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 		smoothing = smoothingOneEC
 	
 
-#print(c(" smoothing:",smoothing))
+	#print(c(" smoothing:",smoothing))
 
 	#x vector should contain at least 4 different values
 	if(length(displacement) >= 4)
@@ -445,7 +445,7 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 
 	dynamics = getDynamics(encoderConfigurationName,
 			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
+			displacement, diameter, inertiaMomentum, smoothing)
 	mass = dynamics$mass
 	force = dynamics$force
 	power = dynamics$power
@@ -610,12 +610,12 @@ isInertial <- function(encoderConfigurationName) {
 
 getDynamics <- function(encoderConfigurationName,
 			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
+			displacement, diameter, inertiaMomentum, smoothing)
 {
 	mass = getMassByEncoderConfiguration (encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
 
 	if(isInertial(encoderConfigurationName))
-		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, diameterExt, mass, inertiaMomentum, smoothing))
+		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, smoothing))
 	else 
 		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
 }
@@ -630,8 +630,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 	return(list(mass=mass, force=force, power=power))
 }
 
-#d: diameter axis
-#D: diameter external (disc)
+#diameter: diameter of the axis (where string is wrapped)
 #angle: angle (rotation of disc) in radians
 #angleSpeed: speed of angle
 #angleAccel: acceleration of angle
@@ -641,7 +640,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass,
 #  ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
 #  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
 
-getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, mass, inertiaMomentum, smoothing)
+getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, smoothing)
 {
 	speed = getSpeed(displacement, smoothing) #mm/ms == m/s 
 
@@ -659,35 +658,16 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, d, D, ma
 	#----------------------
 
 	position.m = abs(cumsum(displacement)) / 1000 #m
-	d.m = d / 100 #cm -> m
-	D.m = D / 100 #cm -> m
+	diameter.m = diameter / 100 #cm -> m
 
-	angle = position.m * 2 / d.m #d.m variable
-	angleSpeed = speed * 2 / d.m #d.m variable
-	angleAccel = accel * 2 / d.m #d.m variable
+	angle = position.m * 2 / diameter.m
+	angleSpeed = speed * 2 / diameter.m
+	angleAccel = accel * 2 / diameter.m
 
-	force = abs(inertiaMomentum * angleAccel) * (2 / d.m) + mass * (accel + g) #d.m variable
+	force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
 	powerBody = mass * (accel + g) * speed
 	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
-
-	#print(c("displacement",displacement))
-	#print(c("displacement cumsum",cumsum(displacement)))
-	#print(c("inertia momentum",inertiaMomentum))
-        #print(c("d",d))
-        #print(c("mass",mass))
-        #print(c("g",g))
-        #print(c("max angle",max(abs(angle))))
-	#print(c("max angleSpeed",max(abs(angleSpeed))))
-	#print(c("max angleAccel",max(abs(angleAccel))))
-	#print(c("speed",speed))
-	#print(c("accel",accel))
-	#print(c("max force",max(abs(force))))
-	#print(c("max power at inertial",max(abs(power))))
-	#print(c("powerBody",powerBody[1000]))
-	#print(c("powerWheel",powerWheel[1000]))
-	#print(c("d.m, D.m", d.m, D.m))
-	#print(c("max angle, max pos", max(angle), max(position.m)))
 
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
@@ -707,26 +687,29 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 	   encoderConfigurationName == "LINEARINVERTED" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
 	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV") 
-    #On inverted modes the direction of the displacement is changed
-	{
-		displacement = -displacement
-	} else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") {
-    #On geared down machines the displacement of the subject is multiplied by gearedDown
-		#default is: gearedDown = 2. Future maybe this will be a parameter
-		displacement = displacement * 2
-	} else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") {
-    #On rotary friction axis the displacement of the subject is proportional to the axis diameter
-    #and inversely proportional to the diameter where the encoder is coupled
-		displacement = displacement * diameter / diameterExt
-	} else if(encoderConfigurationName == "ROTARYAXIS" || 
-		  encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") {
-    #On rotary encoders attached to fixed pulleys next to subjects (see config 1 and 3 in interface),
-    #the displacement of the subject is anlge * radius
-		ticksRotaryEncoder = 200 #our rotary axis encoder sends 200 ticks per revolution
-		#The angle rotated by the pulley is (ticks / ticksRotaryEncoder) * 2 * pi
-    #The radium in mm is diameter * 1000 / 2
-		displacement = ( displacement / ticksRotaryEncoder ) * pi * ( diameter * 1000 )
-	}
+	  #On inverted modes the direction of the displacement is changed
+  {
+	  displacement = -displacement
+  } else if(encoderConfigurationName == "WEIGHTEDMOVPULLEYONLINEARENCODER") 
+  {
+	  #On geared down machines the displacement of the subject is multiplied by gearedDown
+	  #default is: gearedDown = 2. Future maybe this will be a parameter
+	  displacement = displacement * 2
+  } else if(encoderConfigurationName == "ROTARYFRICTIONAXIS") 
+  {
+	  #On rotary friction axis the displacement of the subject is proportional to the axis diameter
+	  #and inversely proportional to the diameter where the encoder is coupled
+	  displacement = displacement * diameter / diameterExt
+  } else if(encoderConfigurationName == "ROTARYAXIS" || 
+	    encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS") 
+  {
+	  #On rotary encoders attached to fixed pulleys next to subjects (see config 1 and 3 in interface),
+	  #the displacement of the subject is anlge * radius
+	  ticksRotaryEncoder = 200 #our rotary axis encoder sends 200 ticks per revolution
+	  #The angle rotated by the pulley is (ticks / ticksRotaryEncoder) * 2 * pi
+	  #The radium in mm is diameter * 1000 / 2
+	  displacement = ( displacement / ticksRotaryEncoder ) * pi * ( diameter * 1000 )
+  }
 		
 	return(displacement)
 }
@@ -734,7 +717,7 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 #This function converts angular information from rotary encoder to linear information like linear encoder
 #This is NOT the displacement of the person because con-ec phases roll in the same direction
 #This is solved by the function getDisplacementInertialBody
-fixDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
+getDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
 {
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement

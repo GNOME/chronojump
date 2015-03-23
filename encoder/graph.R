@@ -733,7 +733,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	dynamics = getDynamics(encoderConfigurationName,
 			speed$y, accel$y, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
-			displacement, diameter, diameterExt, inertiaMomentum, smoothing)
+			displacement, diameter, inertiaMomentum, smoothing)
 	mass = dynamics$mass
 	force = dynamics$force
 	power = dynamics$power
@@ -1836,7 +1836,7 @@ doProcess <- function(options)
 			dataTempFile  = dataTempFile[!is.na(dataTempFile)]
 
 			if(isInertial(inputMultiData$econfName[i])) {
-				dataTempFile = fixDisplacementInertial(
+				dataTempFile = getDisplacementInertial(
 								       dataTempFile, inputMultiData$econfName[i], 
 								       inputMultiData$econfd[i], inputMultiData$econfD[i])
 				#getDisplacementInertialBody is not needed because it's done on curve save
@@ -1954,7 +1954,7 @@ doProcess <- function(options)
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
-			displacement = fixDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
+			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
 		
 			displacement = getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
 			#positionStart is 0 in graph.R. It is different on capture.R because depends on the start of every repetition

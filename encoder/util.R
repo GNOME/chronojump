@@ -53,13 +53,11 @@ assignOptions <- function(options) {
 		    #AnalysisVariables = "0.185;method". speed1RM = 0.185m/s
 		    Analysis		= options[11],	
 		    AnalysisVariables	= unlist(strsplit(options[12], "\\;")),
-
 		    AnalysisOptions	= options[13],
-
-		    #TODO: all this have to be applicable also on ! singleFILE
 		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
-		    diameter		= as.numeric(options[15]),	#in meters, eg: 0.0175
-		    diameterExt		= as.numeric(options[16]),	#in meters, eg: 0.0175
+		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
+		    #diameter		= as.numeric(unlist(strsplit("1.5;1.5;1.5;1.5;2;2.5;2.7;2.9;2.95;3", "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
+		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
 		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010

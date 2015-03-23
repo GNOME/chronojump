@@ -870,6 +870,6 @@ getInertialDiametersPerTick <- function(d_vector)
 #Returns the instant diameter every milisecond
 getInertialDiameterPerMs <- function(diameterPerTick, displacement)
 {
-  return(diameterPerTick[abs(cumsum(displacement)]))
+  return(diameterPerTick[abs(cumsum(displacement))])
 }
 

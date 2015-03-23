@@ -41,13 +41,6 @@ public class Json
 
 	public bool PostCrashLog(string email, string comments) 
 	{
-		//not working on mac right now
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX) {
-			this.ResultMessage = "Sorry, deactivated in this version.";
-			return false;
-		}
-
-		
 		string filePath = UtilAll.GetLogFileOld();
 
 		if(! File.Exists(filePath)) {
@@ -131,13 +124,6 @@ public class Json
 
 	public bool GetLastVersion() 
 	{
-		//not working on mac right now
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX) {
-			this.ResultMessage = "Sorry, deactivated in this version.";
-			return false;
-		}
-
-		
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/version");
 		
@@ -170,13 +156,6 @@ public class Json
 
 	public bool Ping(string osVersion, string cjVersion, string machineID) 
 	{
-		//not working on mac right now
-		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX) {
-			this.ResultMessage = "Sorry, deactivated in this version.";
-			return false;
-		}
-
-		
 		// Create a request using a URL that can receive a post. 
 		WebRequest request = WebRequest.Create (serverUrl + "/ping");
 

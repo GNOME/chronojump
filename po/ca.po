@@ -1905,7 +1905,7 @@ msgstr "Angle del pes"
 
 #: ../glade/chronojump.glade.h:427
 msgid "Inertia M."
-msgstr "Moment d'ièrcia"
+msgstr "Moment d'inèrcia"
 
 #: ../glade/chronojump.glade.h:428
 msgid "Calcule inertial momentum"

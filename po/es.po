@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: chronojump.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-10 17:34+0100\n"
-"PO-Revision-Date: 2015-03-10 18:07+0100\n"
+"PO-Revision-Date: 2015-03-23 13:54+0100\n"
 "Last-Translator: x.padulles@gmail.com <support@chronojump.org>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8769,11 +8769,11 @@ msgstr "Corredor"
 
 #: ../src/treeViewRun.cs:132
 msgid "Lap time"
-msgstr "Tiempo de vuelta"
+msgstr "Tiempo de tramo"
 
 #: ../src/treeViewRun.cs:133
 msgid "Split time"
-msgstr "Tiempo fraccionado"
+msgstr "Tiempo acumulado"
 
 #~ msgid ""
 #~ "Please, touch the contact platform for full finishing.\n"

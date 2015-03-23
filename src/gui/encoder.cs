@@ -4569,6 +4569,7 @@ public partial class ChronoJumpWindow
 		
 
 		encoder_capture_curves_bars_drawingarea.QueueDraw(); 			// -- refresh
+		encoder_capture_curves_bars_drawingarea.Visible = true;
 	}
 
 	private void callPlotCurvesGraphDoPlot() {

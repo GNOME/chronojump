@@ -49,12 +49,13 @@ public class UtilAll
 	
 	public static string GetOS() {
 		OperatingSystem os = Environment.OSVersion;
+		string platform = os.Platform.ToString();
 
 		//detect a Mac that seems an Unix
-		if(os.Platform == "Unix" && GetOSEnum == OperatingSystems.MACOSX)
-			os.Platform = "Unix (MacOSX)";
+		if(platform == "Unix" && GetOSEnum() == OperatingSystems.MACOSX)
+			platform = "Unix (MacOSX)";
 
-		string osString =  string.Format("{0}, {1}", os.Platform, os.Version);
+		string osString =  string.Format("{0}, {1}", platform, os.Version);
 		LogB.Information("GetOS: " + osString);
 		return osString;
 	}

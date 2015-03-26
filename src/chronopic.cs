@@ -407,6 +407,8 @@ public abstract class ChronopicAuto
 	protected internal abstract string Communicate();
 	private string str;
 	public string CharToSend = "";
+	public bool IsEncoder = false;
+	public bool Found;
 
 	private bool make(SerialPort sp) 
 	{
@@ -420,10 +422,17 @@ public abstract class ChronopicAuto
 				sp.Close(); //close to ensure no bytes are comming
 
 		sp.Open();
+			
+		if(IsEncoder)
+			setEncoderBauds();
 
 		str = "";
 		return true;
 	}
+	private void close(SerialPort sp) {
+		sp.Close();
+	}	
+
 
 	//'template method'
 	public string Read(SerialPort sp) 
@@ -431,13 +440,23 @@ public abstract class ChronopicAuto
 		if ( ! make(sp) )
 			return "Error sp == null";
 		
+		//bool needToFlush = false;
 		try {
 			str = Communicate();
 		} catch {
 			//this.error=ErrorType.Timeout;
 			LogB.Warning("Error or Timeout. This is not Chronopic-Automatic-Firmware");
 			str = "Error / not Multitest firmware";
+			
+			//needToFlush = true;
 		}
+		
+		/*	
+		if(needToFlush)
+			flush();
+			*/
+
+		close(sp);
 		
 		return str;
 	}
@@ -450,34 +469,119 @@ public abstract class ChronopicAuto
 		
 		sendNum = num;
 		
+		//bool needToFlush = false;
 		try {
 			str = Communicate();
 		} catch {
 			//this.error=ErrorType.Timeout;
 			LogB.Warning("Error or Timeout. This is not Chronopic-Automatic-Firmware");
 			str = "Error / not Multitest firmware";
+
+			//needToFlush = true;
 		}
+	
+		/*	
+		if(needToFlush)
+			flush();
+			*/
+		
+		close(sp);
 		
 		return str;
 	}
+
+	private void setEncoderBauds()
+	{
+		sp.BaudRate = 115200; //encoder, 20MHz
+		LogB.Information("sp.BaudRate = 115200 bauds");
+	}
+
+	/*
+	protected void flush() 
+	{
+		LogB.Information("Flushing");
+		
+		//-- Esperar un tiempo y vaciar buffer
+		Thread.Sleep(500); //ErrorTimeout);
+		
+		byte[] buffer = new byte[256];
+		sp.Read(buffer,0,256); //flush
+		
+		bool success = false;
+		try {
+			do{
+				sp.Read(buffer,0,256);
+				success = true;
+				LogB.Debug(" spReaded ");
+			} while(! success);
+		} catch {
+			LogB.Information("Cannot flush");
+			return;
+		}
+
+		LogB.Information("Flushed");
+	}
+	*/
 }
 
 public class ChronopicAutoCheck : ChronopicAuto
 {
 	protected internal override string Communicate() 
 	{
+		Found = false;
+
 		sp.Write("J");
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
-		if (IsChronopicAuto) {
+		if (IsChronopicAuto) 
+		{
 			sp.Write("V");
 			int major = (char) sp.ReadByte() - '0'; 
 			sp.ReadByte(); 		//.
 			int minor = (char) sp.ReadByte() - '0'; 
+
+			Found = true;
 			return "Yes! v" + major.ToString() + "." + minor.ToString();
 		}
+
 		return "Please update it\nwith Chronopic-firmwarecord";
 	}
 }
+//only for encoder
+public class ChronopicAutoCheckEncoder : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		LogB.Information("Communicate start ...");
+		
+		Found = false;
+	
+		char myByte;
+		for(int i = 0; i < 30; i ++) 
+		{
+			LogB.Debug("writting ...");
+	
+			sp.Write("J");
+			
+			LogB.Debug("reading ...");
+
+			myByte = (char) sp.ReadByte();
+			
+			LogB.Debug("readed");
+			if(myByte != null && myByte.ToString() != "")
+				LogB.Information(myByte.ToString());
+			
+			if(myByte == 'J') {
+				LogB.Information("Encoder found!");
+
+				Found = true;
+				return "1";
+			}
+		}
+		
+		return "0";
+	}
+}
+
 
 public class ChronopicAutoCheckDebounce : ChronopicAuto
 {
@@ -514,5 +618,66 @@ public class ChronopicStartReactionTime : ChronopicAuto
 			return "ERROR";
 		}
 		return "SUCCESS";
+	}
+}
+
+public class ChronopicAutoDetect
+{
+	public enum ChronopicType { NORMAL, ENCODER }
+	public string Detected; // portname if detected, if not will be ""
+
+	public ChronopicAutoDetect(ChronopicType type)
+	{
+		/*
+		 * Try to detect a normal 4MHz Chronopic on a 20MHz encoder fails
+		 * but encoder can be used normally
+		 * In the other hand, try to detect an encoder on a 4MHz Chronopic fails
+		 * but encoder cannot be used until 'reset' or disconnect cable (and can be problems with Chronojump GUI)
+		 *
+		 * So the solution is:
+		 * if we are searching encoder, on every port first check if 4MHz connection can be stablished, if it's Found, then normal Chronopic is found
+		 * if is not Fount, then search for the encoder.
+		 *
+		 * The only problem is in normal Chronopics with old firmware (without the 'J' read/write
+		 * they will not work after trying to be recognised as an encoder, until reset or disconnect cable
+		 *
+		 */
+		ChronopicAuto ca;
+		if(type == ChronopicType.ENCODER) {
+			ca = new ChronopicAutoCheckEncoder();
+			ca.IsEncoder = true;    //for the bauds.
+		} else {
+			ca = new ChronopicAutoCheck();
+			ca.IsEncoder = false;    //for the bauds.
+		}
+
+		autoDetect(ca);
+	}
+
+	private void autoDetect(ChronopicAuto ca) 
+	{
+		LogB.Information("starting port detection");
+
+		string [] usbSerial;
+	        if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			usbSerial = Directory.GetFiles("/dev/", "tty.usbserial*");
+		else // WINDOWS
+			usbSerial = SerialPort.GetPortNames();
+
+		foreach(string port in usbSerial) 
+		{
+			SerialPort sp = new SerialPort(port);
+			LogB.Information("reading port:", port);
+			
+			string readed = ca.Read(sp);
+
+			if(ca.Found) {
+				Detected = port;
+				return;
+			}
+		}
+		Detected = "";
 	}
 }

@@ -2873,8 +2873,27 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		session_menuitem.Visible = true;
 		menuitem_mode.Visible = true;
-		
+	
+		autoDetectChronopic(m);
+
 		change_multitest_firmware(m);
+	}
+	
+	private void autoDetectChronopic(menuitem_modes m)
+	{
+		ChronopicAutoDetect cad;
+		if(m == menuitem_modes.POWER) {
+			LogB.Information("Detecting encoder... ");
+			cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.ENCODER);
+		} else {
+			LogB.Information("Detecting normal Chronopic... ");
+			cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
+		}
+			
+		if(cad.Detected != "")
+			LogB.Information("Detected at port: " + cad.Detected);
+		else
+			LogB.Information("Not detected.");
 	}
 
 	//change debounce time automatically on change menuitem mode (if multitest firmware)

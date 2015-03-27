@@ -212,6 +212,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_connected_chronopics;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	[Widget] Gtk.Label label_chronopic_encoder;
+	[Widget] Gtk.Label label_chronopic_encoder_detected;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.Label label_video_feedback;
@@ -2885,15 +2886,20 @@ public partial class ChronoJumpWindow
 		if(m == menuitem_modes.POWER) {
 			LogB.Information("Detecting encoder... ");
 			cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.ENCODER);
+	
+			if(cad.Detected != "") {
+				LogB.Information("Detected at port: " + cad.Detected);
+				label_chronopic_encoder_detected.Text = "Detected: " + cad.Detected;
+			}
+			else {
+				LogB.Information("Not detected.");
+				label_chronopic_encoder_detected.Text = "";
+			}
 		} else {
 			LogB.Information("Detecting normal Chronopic... ");
-			cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
+			//cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
+			LogB.Warning("Disabled until full chronopic connection is done on 4MHz Chronopics");
 		}
-			
-		if(cad.Detected != "")
-			LogB.Information("Detected at port: " + cad.Detected);
-		else
-			LogB.Information("Not detected.");
 	}
 
 	//change debounce time automatically on change menuitem mode (if multitest firmware)

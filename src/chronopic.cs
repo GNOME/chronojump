@@ -408,7 +408,7 @@ public abstract class ChronopicAuto
 	private string str;
 	public string CharToSend = "";
 	public bool IsEncoder = false;
-	public bool Found;
+	public ChronopicAutoDetect.ChronopicType Found;
 
 	private bool make(SerialPort sp) 
 	{
@@ -528,7 +528,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 {
 	protected internal override string Communicate() 
 	{
-		Found = false;
+		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
 
 		sp.Write("J");
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
@@ -539,7 +539,7 @@ public class ChronopicAutoCheck : ChronopicAuto
 			sp.ReadByte(); 		//.
 			int minor = (char) sp.ReadByte() - '0'; 
 
-			Found = true;
+			Found = ChronopicAutoDetect.ChronopicType.NORMAL;
 			return "Yes! v" + major.ToString() + "." + minor.ToString();
 		}
 
@@ -553,10 +553,10 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 	{
 		LogB.Information("Communicate start ...");
 		
-		Found = false;
+		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
 	
 		char myByte;
-		for(int i = 0; i < 30; i ++) 
+		for(int i = 0; i < 20; i ++) //try 20 times (usually works 3-5 try)
 		{
 			LogB.Debug("writting ...");
 	
@@ -573,7 +573,7 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 			if(myByte == 'J') {
 				LogB.Information("Encoder found!");
 
-				Found = true;
+				Found = ChronopicAutoDetect.ChronopicType.ENCODER;
 				return "1";
 			}
 		}
@@ -623,7 +623,9 @@ public class ChronopicStartReactionTime : ChronopicAuto
 
 public class ChronopicAutoDetect
 {
-	public enum ChronopicType { NORMAL, ENCODER }
+	public enum ChronopicType { UNDETECTED, NORMAL, ENCODER }
+	private ChronopicType searched;
+
 	public string Detected; // portname if detected, if not will be ""
 
 	public ChronopicAutoDetect(ChronopicType type)
@@ -642,19 +644,17 @@ public class ChronopicAutoDetect
 		 * they will not work after trying to be recognised as an encoder, until reset or disconnect cable
 		 *
 		 */
-		ChronopicAuto ca;
-		if(type == ChronopicType.ENCODER) {
-			ca = new ChronopicAutoCheckEncoder();
-			ca.IsEncoder = true;    //for the bauds.
-		} else {
-			ca = new ChronopicAutoCheck();
-			ca.IsEncoder = false;    //for the bauds.
-		}
+		this.searched = type;
 
-		autoDetect(ca);
+		//no matter if we are searching for 4MHz or 20MHz (encoder)
+		//first see if 4MHz is connected
+		ChronopicAuto caNormal = new ChronopicAutoCheck();
+		caNormal.IsEncoder = false;    //for the bauds.
+
+		autoDetect(caNormal);
 	}
 
-	private void autoDetect(ChronopicAuto ca) 
+	private void autoDetect(ChronopicAuto caNormal)
 	{
 		LogB.Information("starting port detection");
 
@@ -669,13 +669,41 @@ public class ChronopicAutoDetect
 		foreach(string port in usbSerial) 
 		{
 			SerialPort sp = new SerialPort(port);
-			LogB.Information("reading port:", port);
 			
-			string readed = ca.Read(sp);
+			LogB.Information("searching normal Chronopic at port: ", port);
+			string readed = caNormal.Read(sp);
 
-			if(ca.Found) {
-				Detected = port;
-				return;
+			if(caNormal.Found == ChronopicType.NORMAL) //We found a normal Chronopic
+			{
+				if(searched == ChronopicType.NORMAL) //normal Chronopic is what we are searching
+				{
+					Detected = port;
+					return;
+				} else {
+					/*
+					 * else: 
+					 * means that we are searching for an encoder chronopic and found a normal
+					 * so don't try to search for an encoder on that port, because 115200 bauds will saturate it
+					 */
+					LogB.Information("our goal is to search encoder but found normal Chronopic at port: ", port);
+				}
+			} else if(searched == ChronopicType.ENCODER) 
+			{
+				/*
+				 * we are searching an encoder
+				 * if we arrived here, we know is not a normal chronopic
+				 * then wecan search safely for an encoder here
+				 */
+				ChronopicAuto caEncoder = new ChronopicAutoCheckEncoder();
+				caEncoder.IsEncoder = true;    //for the bauds.
+			
+				LogB.Information("searching encoder Chronopic at port: ", port);
+				readed = caEncoder.Read(sp);
+				if(caEncoder.Found == ChronopicType.ENCODER) 
+				{
+					Detected = port;
+					return;
+				}
 			}
 		}
 		Detected = "";

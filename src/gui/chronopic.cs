@@ -195,7 +195,9 @@ public class ChronopicWindow
 		*/
 	}
 	
-	//recreate is used when a Chronopic was disconnected
+	//recreate is false the first time (on initialization of ChronoJumpWindow at gui/chronojump.cs)
+	//after that is true. Usually is used to manage a disconnected chronopic or other ports problems
+	//
 	//port names come from gui/chronojump.cs to this method (myCpd)
 	static public ChronopicWindow Create (ArrayList myCpd, string myEncoderPort, bool recreate, bool volumeOn)
 	{
@@ -210,7 +212,8 @@ public class ChronopicWindow
 		//ChronopicWindowBox.chronopic_window.Show ();
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
-		encoderPort = myEncoderPort;
+
+		ChronopicWindowBox.setEncoderPort(myEncoderPort);	
 
 		ChronopicWindowBox.fakeWindowDone = new Gtk.Button();
 		//ChronopicWindowBox.fakeWindowReload = new Gtk.Button();
@@ -237,6 +240,7 @@ public class ChronopicWindow
 			ChronopicWindowBox.notebook_main.CurrentPage = 1;
 		
 		ChronopicWindowBox.createCombos();
+		ChronopicWindowBox.setEncoderPort(encoderPort);	
 
 		//ports info comes from gui/chronojump.cs to Create mehod
 		ChronopicWindowBox.info();
@@ -247,8 +251,15 @@ public class ChronopicWindow
 		return ChronopicWindowBox;
 	}
 
-	private void setDefaultValues() {
-		
+	private void setEncoderPort(string myEncoderPort) {
+		if(Util.FoundInStringArray(ChronopicPorts.GetPorts(), myEncoderPort))
+			encoderPort = myEncoderPort;
+		else
+			encoderPort = Util.GetDefaultPort();
+	}
+
+	private void setDefaultValues() 
+	{
 		label_connect_contacts.Text = "<b>" + label_connect_contacts.Text + "</b>";
 		label_connect_encoder.Text = "<b>" + label_connect_encoder.Text + "</b>";
 		label_connect_contacts.UseMarkup = true;
@@ -998,10 +1009,18 @@ public class ChronopicWindow
 	}
 
 	public string GetEncoderPort() {
+		/*
 		if(isWindows)
 			return UtilGtk.ComboGetActive(combo_windows_encoder);
 		else
 			return UtilGtk.ComboGetActive(combo_linux_encoder);
+			*/
+		/*
+		 * better like this because this can be created from Create
+		 * and readed from the software
+		 * without needing to define the combos (from View)
+		 */
+		return encoderPort;
 	}
 
 

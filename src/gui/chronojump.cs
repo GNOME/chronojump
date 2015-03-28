@@ -212,7 +212,8 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.Image image_connected_chronopics;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	[Widget] Gtk.Label label_chronopic_encoder;
-	[Widget] Gtk.Label label_chronopic_encoder_detected;
+	[Widget] Gtk.Image image_chronopic_encoder_no;
+	[Widget] Gtk.Image image_chronopic_encoder_yes;
 	
 	[Widget] Gtk.HBox hbox_video_capture;
 	[Widget] Gtk.Label label_video_feedback;
@@ -544,7 +545,7 @@ public partial class ChronoJumpWindow
 		repetitiveConditionsWin = RepetitiveConditionsWindow.Create();
 		repetitiveConditionsWin.FakeButtonClose.Clicked += new EventHandler(on_repetitive_conditions_closed);
 
-		createChronopicWindow(false);
+		createChronopicWindow(false, "");
 	
 		on_extra_window_multichronopic_test_changed(new object(), new EventArgs());
 		on_extra_window_pulses_test_changed(new object(), new EventArgs());
@@ -2889,11 +2890,11 @@ public partial class ChronoJumpWindow
 	
 			if(cad.Detected != "") {
 				LogB.Information("Detected at port: " + cad.Detected);
-				label_chronopic_encoder_detected.Text = "Detected: " + cad.Detected;
+				createChronopicWindow(true, cad.Detected);
 			}
 			else {
-				LogB.Information("Not detected.");
-				label_chronopic_encoder_detected.Text = "";
+				LogB.Warning("Not detected.");
+				createChronopicWindow(true, Util.GetDefaultPort());
 			}
 		} else {
 			LogB.Information("Detecting normal Chronopic... ");
@@ -2918,7 +2919,7 @@ public partial class ChronoJumpWindow
 		if(! UtilAll.IsWindows ()) {
 			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
 				LogB.Information("Chronopic has been disconnected");
-				createChronopicWindow(true);
+				createChronopicWindow(true, "");
 				chronopicWin.Connected = false;
 				return;
 			}
@@ -2928,7 +2929,7 @@ public partial class ChronoJumpWindow
 		bool ok = (chronopicWin.CP).Read_platform(out ps);
 		if(!ok) {
 			LogB.Information("Chronopic has been disconnected");
-			createChronopicWindow(true);
+			createChronopicWindow(true, "");
 			chronopicWin.Connected = false;
 		        return;
 		}
@@ -3512,7 +3513,7 @@ public partial class ChronoJumpWindow
 		if(! UtilAll.IsWindows() && chronopicWin.Connected) {
 			if(! File.Exists(chronopicWin.GetContactsFirstPort())) {
 				LogB.Information("Chronopic has been disconnected");
-				createChronopicWindow(true);
+				createChronopicWindow(true, "");
 				chronopicWin.Connected = false;
 				return;
 			}
@@ -3794,11 +3795,8 @@ public partial class ChronoJumpWindow
 			if(! execute_auto_doing)
 				sensitiveGuiYesEvent();
 		} 
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 		
 		//unhide buttons that allow jumping
 		if(execute_auto_doing) {
@@ -3806,6 +3804,12 @@ public partial class ChronoJumpWindow
 			execute_auto_select();
 			sensitiveGuiAutoExecuteOrWait (false);
 		}
+	}
+
+	private void chronopicDisconnectedWhileExecuting() {
+		LogB.Error("DISCONNECTED gui/cj");
+		createChronopicWindow(true, "");
+		chronopicWin.Connected = false;
 	}
 		
 	private void on_test_finished_can_touch_gtk (object o, EventArgs args)
@@ -3967,11 +3971,8 @@ public partial class ChronoJumpWindow
 			//possible deletion of last jump can make the jumps on event window be false
 			event_execute_LabelEventValue = currentJumpRj.Jumps;
 		} 
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempJumpRj");
@@ -4105,11 +4106,8 @@ public partial class ChronoJumpWindow
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			event_execute_LabelTimeValue = currentRun.Time;
 		}
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 	}
 
 	/* ---------------------------------------------------------
@@ -4247,11 +4245,8 @@ public partial class ChronoJumpWindow
 			//possible deletion of last run can make the runs on event window be false
 			event_execute_LabelEventValue = currentRunInterval.Tracks;
 		}
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 		
 		//delete the temp tables if exists
 		Sqlite.DeleteTempEvents("tempRunInterval");
@@ -4344,11 +4339,8 @@ public partial class ChronoJumpWindow
 			//unhide buttons for delete last reaction time
 			sensitiveGuiYesEvent();
 		}
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 	}
 
 	private void on_button_rt_3_on_clicked (object o, EventArgs args) {
@@ -4501,11 +4493,8 @@ public partial class ChronoJumpWindow
 			//put correct time value in eventWindow (put the time from chronopic and not onTimer soft chronometer)
 			event_execute_LabelTimeValue = Util.GetTotalTime(currentPulse.TimesString);
 		}
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 	}
 
 	/* ---------------------------------------------------------
@@ -4514,14 +4503,21 @@ public partial class ChronoJumpWindow
 	 */
 
 	//recreate is used when a Chronopic was disconnected
-	private void createChronopicWindow(bool recreate) {
+	//
+	//encoderPort is usually "" and will be Util.GetDefaultPort
+	//but, since 1.5.1 when selecting encoder option from main menu,
+	//then encoderPort will be found and send here
+	private void createChronopicWindow(bool recreate, string encoderPort) {
 		ArrayList cpd = new ArrayList();
 		for(int i=1; i<=4;i++) {
 			ChronopicPortData a = new ChronopicPortData(i,"",false);
 			cpd.Add(a);
 		}
 
-		chronopicWin = ChronopicWindow.Create(cpd, Util.GetDefaultPort(), recreate, preferences.volumeOn);
+		if(encoderPort == "")
+			encoderPort = Util.GetDefaultPort();
+
+		chronopicWin = ChronopicWindow.Create(cpd, encoderPort, recreate, preferences.volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		
 		if(notebook_sup.CurrentPage == 0)
@@ -4613,9 +4609,16 @@ public partial class ChronoJumpWindow
 		LogB.Debug("gui/chronojump.cs encoderPort:", encoderPort);
 
 		if(encoderPort != null && encoderPort != "" && encoderPort != Util.GetDefaultPort())
+		{
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder connected");
-		else
+			image_chronopic_encoder_no.Visible = false;
+			image_chronopic_encoder_yes.Visible = true;
+		}
+		else {
 			label_chronopic_encoder.Text = Catalog.GetString("Encoder disconnected");
+			image_chronopic_encoder_no.Visible = true;
+			image_chronopic_encoder_yes.Visible = false;
+		}
 		
 		if(colorize)
 			UtilGtk.ChronopicColors(viewport_chronopic_encoder, 
@@ -4783,11 +4786,8 @@ LogB.Debug("X");
 			//unhide buttons for delete last test
 			sensitiveGuiYesEvent();
 		}
-		else if( currentEventExecute.ChronopicDisconnected ) {
-			LogB.Information("DISCONNECTED gui/cj");
-			createChronopicWindow(true);
-			chronopicWin.Connected = false;
-		}
+		else if( currentEventExecute.ChronopicDisconnected )
+			chronopicDisconnectedWhileExecuting();
 	}
 		
 

@@ -621,6 +621,18 @@ public class ChronopicStartReactionTime : ChronopicAuto
 	}
 }
 
+public static class ChronopicPorts
+{
+	public static string [] GetPorts() {
+		if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
+			return Directory.GetFiles("/dev/", "ttyUSB*");
+		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
+			return Directory.GetFiles("/dev/", "tty.usbserial*");
+		else // WINDOWS
+			return SerialPort.GetPortNames();
+	}
+}
+
 public class ChronopicAutoDetect
 {
 	public enum ChronopicType { UNDETECTED, NORMAL, ENCODER }
@@ -658,13 +670,7 @@ public class ChronopicAutoDetect
 	{
 		LogB.Information("starting port detection");
 
-		string [] usbSerial;
-	        if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.LINUX)
-			usbSerial = Directory.GetFiles("/dev/", "ttyUSB*");
-		else if(UtilAll.GetOSEnum() == UtilAll.OperatingSystems.MACOSX)
-			usbSerial = Directory.GetFiles("/dev/", "tty.usbserial*");
-		else // WINDOWS
-			usbSerial = SerialPort.GetPortNames();
+		string [] usbSerial = ChronopicPorts.GetPorts();
 
 		foreach(string port in usbSerial) 
 		{

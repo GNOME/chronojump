@@ -408,7 +408,7 @@ public partial class ChronoJumpWindow
 		if(errorMessage != "") {
 			LogB.Warning(errorMessage);
 			new DialogMessage(Constants.MessageTypes.WARNING, Catalog.GetString(errorMessage));
-			createChronopicWindow(true);
+			createChronopicWindow(true, "");
 			return false;
 		}
 
@@ -4799,7 +4799,7 @@ public partial class ChronoJumpWindow
 					Catalog.GetString("Chronopic port is not configured."));
 				LogB.Error("Chronopic port is not configured.");
 			
-				createChronopicWindow(true);
+				createChronopicWindow(true, "");
 				return;
 			}
 		} else if(

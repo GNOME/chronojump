@@ -1316,6 +1316,15 @@ public class Util
 
 		return false;
 	}
+	
+	public static bool FoundInStringArray(string [] a, string str) {
+		foreach (string str2 in a)
+			if(str2 == str)
+				return true;
+
+		return false;
+	}
+
 
 	/*
 	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith

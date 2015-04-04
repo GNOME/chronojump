@@ -312,6 +312,9 @@ public partial class ChronoJumpWindow
 
 		createEncoderCombos();
 		
+		//on start it's concentric and powerbars. Eccon-together should be unsensitive	
+		check_encoder_analyze_eccon_together.Sensitive = false;
+		
 		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
 		//			SqlitePreferences.Select("inertialmomentum")));
 		
@@ -2802,10 +2805,25 @@ public partial class ChronoJumpWindow
 				encoderAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate);
 	}
+	
+	/*
+	 * if we are analyzing current set and it's concentric
+	 * separate phases button has to be unsensitive
+	 */
+	private void block_check_encoder_analyze_eccon_together_if_needed() 
+	{
+		if(
+				check_encoder_analyze_signal_or_curves.Active &&
+				findEccon(false) == "c") 
+		{
+			check_encoder_analyze_eccon_together.Sensitive = false;
+			check_encoder_analyze_eccon_together.Active = true;
+		}
+	}
 
 	private void on_check_encoder_analyze_signal_or_curves_toggled (object obj, EventArgs args) {
 		bool signal = check_encoder_analyze_signal_or_curves.Active;
-
+				
 		if(signal) {
 			updateComboEncoderAnalyzeCurveNumFromCurrentSet ();
 
@@ -2830,6 +2848,9 @@ public partial class ChronoJumpWindow
 			radiobutton_encoder_analyze_single.Sensitive = true;
 			radiobutton_encoder_analyze_side.Sensitive = true;
 		}
+			
+		check_encoder_analyze_eccon_together.Sensitive = true;
+		block_check_encoder_analyze_eccon_together_if_needed();
 			
 		button_encoder_analyze_sensitiveness();
 
@@ -2890,6 +2911,7 @@ public partial class ChronoJumpWindow
 		hbox_encoder_analyze_show_powerbars.Visible=false;
 		hbox_encoder_analyze_show_SAFE.Visible=true;
 		encoderAnalysis = "single";
+		
 		//together, mandatory
 		check_encoder_analyze_eccon_together.Sensitive=false;
 		check_encoder_analyze_eccon_together.Active = true;
@@ -2923,7 +2945,6 @@ public partial class ChronoJumpWindow
 		//restore 1RM Bench Press sensitiveness
 		check_encoder_analyze_mean_or_max.Sensitive = true;
 		
-		on_combo_encoder_analyze_cross_changed (obj, args);
 		button_encoder_analyze_sensitiveness();
 	}
 	*/
@@ -2958,6 +2979,7 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="powerBars";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
+		block_check_encoder_analyze_eccon_together_if_needed();
 
 		button_encoder_analyze_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
@@ -2979,11 +3001,13 @@ public partial class ChronoJumpWindow
 		encoderAnalysis="cross";
 		
 		check_encoder_analyze_eccon_together.Sensitive=true;
+		
+		//block_check_encoder_analyze_eccon_together_if_needed();
+		//done here:
+		on_combo_encoder_analyze_cross_changed (obj, args);
 
 		button_encoder_analyze_help.Visible = false;
 		label_encoder_analyze_side_max.Visible = false;
-
-		on_combo_encoder_analyze_cross_changed (obj, args);
 
 		encoderButtonsSensitive(encoderSensEnumStored);
 		button_encoder_analyze_sensitiveness();
@@ -3272,10 +3296,12 @@ public partial class ChronoJumpWindow
 
 	void on_combo_encoder_eccon_changed (object o, EventArgs args) 
 	{
+		//those will be true again when loading a new encoder test or capturing
 		treeview_encoder_capture_curves.Sensitive = false;
 		hbox_encoder_capture_curves_save_all_none.Sensitive = false;
 
-		//will be true again when loading a new encoder test or capturing
+		check_encoder_analyze_eccon_together.Sensitive = true;
+		block_check_encoder_analyze_eccon_together_if_needed();
 	}
 
 	void on_button_encoder_capture_curves_all_clicked (object o, EventArgs args) {
@@ -3329,6 +3355,7 @@ public partial class ChronoJumpWindow
 		} else {
 			check_encoder_analyze_mean_or_max.Sensitive = true;
 			check_encoder_analyze_eccon_together.Sensitive = true;
+			block_check_encoder_analyze_eccon_together_if_needed();
 		}
 	}
 	

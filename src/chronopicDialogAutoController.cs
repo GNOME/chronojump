@@ -25,30 +25,41 @@ using Gtk;
 
 public class ChronopicDialogAutoController
 {
-	ChronopicDialogAuto cp_dialog_auto;
 	Thread thread;
 	
+	Gtk.ProgressBar progressbar;
+	Gtk.Button button_cancel;
+	Gtk.Button button_info;
+	
 	private static bool cancel;
-	public string Detected;
+	public bool Detecting; //used to block closing chronojump window if true
+	public string Detected; //readed from chronojump window
 	
 	public Gtk.Button FakeButtonDone;
 	
 	
-	public ChronopicDialogAutoController ()
+	public ChronopicDialogAutoController (Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info)
 	{
-		cp_dialog_auto = new ChronopicDialogAuto();
-		cp_dialog_auto.button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);
+		this.progressbar = progressbar;
+		this.button_cancel = button_cancel;
+		this.button_info = button_info;
+		button_cancel.Clicked += new EventHandler(on_button_cancel_clicked);
+		button_info.Clicked += new EventHandler(on_button_info_clicked);
+
 		FakeButtonDone = new Gtk.Button();
+		Detecting = false;
 	}
 	
 	public void Detect(string mode)
 	{
 		if(mode == "ENCODER") {
 			LogB.Information("Detecting encoder... ");
-			
+		
+			//set variables	
 			cancel = false;
 			Detected = "";
-		
+			Detecting = true;
+
 			thread = new Thread(new ThreadStart(detectEncoder));
 			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
 
@@ -59,23 +70,26 @@ public class ChronopicDialogAutoController
 
 	private void detectEncoder()
 	{
-		/*
-		//testing a fault in drivers
-		int count = 0;
-		bool crash = true;
-		while(crash) {
-			count ++;
-			if(count >= 10000) {
-				LogB.Debug(" at detectEncoder\n ");
-				count = 0;
-			}
-		}
-		*/
+		//simulateDriverProblem(); //uncomment to check cancel, info buttons behaviour
 
 		ChronopicAutoDetect cad = 
 			new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.ENCODER);
 
 		Detected = cad.Detected;
+	}
+
+	private void simulateDriverProblem() 
+	{
+		//testing a fault in drivers
+		int count = 0;
+		bool crash = true;
+		while(crash) {
+			count ++;
+			if(count >= 40000) {
+				LogB.Debug(" at detectEncoder\n ");
+				count = 0;
+			}
+		}
 	}
 	
 	private bool PulseGTK ()
@@ -86,14 +100,14 @@ public class ChronopicDialogAutoController
 			if(cancel)
 				thread.Abort();
 			
-			cp_dialog_auto.Done();	//close dialog window
 			FakeButtonDone.Click();	//send signal to gui/chronojump.cs to read Detected
+			Detecting = false;
 			
 			LogB.ThreadEnded();
 			return false;
 		}
 
-		cp_dialog_auto.progressbar.Pulse();
+		progressbar.Pulse();
 		
 		Thread.Sleep (50);
 		LogB.Debug(thread.ThreadState.ToString());
@@ -102,11 +116,24 @@ public class ChronopicDialogAutoController
 	
 	private void on_button_cancel_clicked (object o, EventArgs args)
 	{
-		cp_dialog_auto.button_cancel.Clicked -= new EventHandler(on_button_cancel_clicked);
+		button_cancel.Clicked -= new EventHandler(on_button_cancel_clicked);
 
 		Detected = "Cancelled";
 		cancel = true;
 	}
+	
+	private void on_button_info_clicked (object o, EventArgs args)
+	{
+		string str = Constants.FindDriverNeed;
+		
+		if(UtilAll.IsWindows())
+			str += "\n\n" + Constants.FindDriverWindows;
+		else	
+			str += "\n\n" + Constants.FindDriverOthers;
+
+		new DialogMessage(Constants.MessageTypes.INFO, str);
+	}
+
 
 	~ChronopicDialogAutoController() {}
 }

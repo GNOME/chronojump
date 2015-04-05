@@ -208,8 +208,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_connected_chronopics;
 	[Widget] Gtk.Label label_chronopics_multitest;
 	[Widget] Gtk.Image image_simulated_warning;
-	//[Widget] Gtk.TextView textview_message_connected_chronopics;
-	//[Widget] Gtk.Image image_connected_chronopics;
+	[Widget] Gtk.Box hbox_chronopic_encoder_detecting;
+	[Widget] Gtk.ProgressBar progressbar_chronopic_encoder_detecting;
+	[Widget] Gtk.Button button_chronopic_encoder_detecting_cancel;
+	[Widget] Gtk.Button button_chronopic_encoder_detecting_info;
 	[Widget] Gtk.Viewport viewport_chronopic_encoder;
 	[Widget] Gtk.Label label_chronopic_encoder;
 	[Widget] Gtk.Image image_chronopic_encoder_no;
@@ -2345,6 +2347,11 @@ public partial class ChronoJumpWindow
 	
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		args.RetVal = true;
+		
+		//cannot terminate chronojump untile press 'cancel' if  autodetect encoder is working
+		if(cp_dialog_auto_c != null && cp_dialog_auto_c.Detecting == true)
+			return;
+    
 		on_quit1_activate (new object(), new EventArgs ());
 	}
 
@@ -2366,7 +2373,7 @@ public partial class ChronoJumpWindow
 
 	private void on_quit2_activate (object o, EventArgs args) {
 		LogB.Information("Bye!");
-    
+
 		if(chronopicWin.Connected == true) {
 			chronopicWin.SerialPortsClose();
 		}
@@ -2886,7 +2893,15 @@ public partial class ChronoJumpWindow
 	{
 		if(m == menuitem_modes.POWER) 
 		{
-			cp_dialog_auto_c = new ChronopicDialogAutoController();
+			main_menu.Sensitive = false;
+			hbox_chronopic_encoder_detecting.Visible = true;
+			viewport_chronopic_encoder.Visible = false;
+
+			cp_dialog_auto_c = new ChronopicDialogAutoController(
+					progressbar_chronopic_encoder_detecting, 
+					button_chronopic_encoder_detecting_cancel,
+					button_chronopic_encoder_detecting_info
+					);
 			
 			cp_dialog_auto_c.Detect("ENCODER");
 
@@ -2901,6 +2916,10 @@ public partial class ChronoJumpWindow
 	private void on_autoDetectChronopic_done(object o, EventArgs args) 
 	{
 		cp_dialog_auto_c.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_done);
+			
+		main_menu.Sensitive = true;
+		hbox_chronopic_encoder_detecting.Visible = false;
+		viewport_chronopic_encoder.Visible = true;
 
 		string str = cp_dialog_auto_c.Detected;
 

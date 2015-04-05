@@ -49,6 +49,7 @@ public partial class ChronoJumpWindow
 	//[Widget] Gtk.SpinButton spin_encoder_capture_inertial; 
 	
 	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze;
+	[Widget] Gtk.Box hbox_encoder_sup_capture_analyze_two_buttons;
 	[Widget] Gtk.Box hbox_encoder_configuration;
 	[Widget] Gtk.Box hbox_encoder_capture_options;
 	
@@ -3803,7 +3804,7 @@ public partial class ChronoJumpWindow
 		LogB.Debug(option.ToString());
 
 		//columns
-		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze,
+		//c0 button_encoder_capture, hbox_encoder_sup_capture_analyze_two_buttons,
 		//	hbox_encoder_configuration, hbox_encoder_capture_options
 		//c1 button_encoder_recalculate
 		//c2 button_encoder_load_signal
@@ -3864,7 +3865,7 @@ public partial class ChronoJumpWindow
 		}
 
 		button_encoder_capture.Sensitive = Util.IntToBool(table[0]);
-		hbox_encoder_sup_capture_analyze.Sensitive = Util.IntToBool(table[0]);
+		hbox_encoder_sup_capture_analyze_two_buttons.Sensitive = Util.IntToBool(table[0]);
 		hbox_encoder_configuration.Sensitive = Util.IntToBool(table[0]);
 		hbox_encoder_capture_options.Sensitive = Util.IntToBool(table[0]);
 

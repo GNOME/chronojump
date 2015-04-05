@@ -60,12 +60,12 @@ public class ChronopicDialogAutoController
 	private void detectEncoder()
 	{
 		/*
-		 * testing a fault in drivers
+		//testing a fault in drivers
 		int count = 0;
 		bool crash = true;
 		while(crash) {
 			count ++;
-			if(count >= 1000) {
+			if(count >= 10000) {
 				LogB.Debug(" at detectEncoder\n ");
 				count = 0;
 			}
@@ -86,7 +86,8 @@ public class ChronopicDialogAutoController
 			if(cancel)
 				thread.Abort();
 			
-			FakeButtonDone.Click();
+			cp_dialog_auto.Done();	//close dialog window
+			FakeButtonDone.Click();	//send signal to gui/chronojump.cs to read Detected
 			
 			LogB.ThreadEnded();
 			return false;

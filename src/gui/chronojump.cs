@@ -2881,8 +2881,10 @@ public partial class ChronoJumpWindow
 		change_multitest_firmware(m);
 	}
 	
+	ChronopicDialogAutoController cp_dialog_auto_c;
 	private void autoDetectChronopic(menuitem_modes m)
 	{
+		/*
 		ChronopicAutoDetect cad;
 		if(m == menuitem_modes.POWER) {
 			LogB.Information("Detecting encoder... ");
@@ -2897,12 +2899,36 @@ public partial class ChronoJumpWindow
 				createChronopicWindow(true, Util.GetDefaultPort());
 			}
 		} else {
+		*/
+		if(m == menuitem_modes.POWER) 
+		{
+			cp_dialog_auto_c = new ChronopicDialogAutoController();
+			
+			cp_dialog_auto_c.Detect("ENCODER");
+
+			cp_dialog_auto_c.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_done);
+		} 
+		else {
 			LogB.Information("Detecting normal Chronopic... ");
 			//cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
 			LogB.Warning("Disabled until full chronopic connection is done on 4MHz Chronopics");
 		}
 	}
+	
+	private void on_autoDetectChronopic_done(object o, EventArgs args) 
+	{
+		cp_dialog_auto_c.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_done);
 
+		string str = cp_dialog_auto_c.Detected;
+
+		if(str != null && str != "") {
+			LogB.Information("Detected at port: " + str);
+		}
+		else {
+			LogB.Information("Not detected.");
+		}
+	}
+			
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
 	private void change_multitest_firmware(menuitem_modes m) 
 	{

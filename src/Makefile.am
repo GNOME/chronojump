@@ -7,6 +7,7 @@ LINK = $(REF_DEP_CHRONOJUMP)
 SOURCES = \
 	gui/chronojump.cs\
 	gui/chronopic.cs\
+	gui/chronopicAuto.cs\
 	gui/confirm.cs\
 	gui/encoder.cs\
 	gui/encoderTreeviews.cs\
@@ -163,6 +164,7 @@ SOURCES = \
 	serverEvaluator.cs\
 	server.cs\
 	chronopic.cs\
+	chronopicDialogAutoController.cs\
 	oldCodeNeedToDBConvert/person.cs\
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\

@@ -2884,22 +2884,6 @@ public partial class ChronoJumpWindow
 	ChronopicDialogAutoController cp_dialog_auto_c;
 	private void autoDetectChronopic(menuitem_modes m)
 	{
-		/*
-		ChronopicAutoDetect cad;
-		if(m == menuitem_modes.POWER) {
-			LogB.Information("Detecting encoder... ");
-			cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.ENCODER);
-	
-			if(cad.Detected != "") {
-				LogB.Information("Detected at port: " + cad.Detected);
-				createChronopicWindow(true, cad.Detected);
-			}
-			else {
-				LogB.Warning("Not detected.");
-				createChronopicWindow(true, Util.GetDefaultPort());
-			}
-		} else {
-		*/
 		if(m == menuitem_modes.POWER) 
 		{
 			cp_dialog_auto_c = new ChronopicDialogAutoController();
@@ -2914,7 +2898,6 @@ public partial class ChronoJumpWindow
 			LogB.Warning("Disabled until full chronopic connection is done on 4MHz Chronopics");
 		}
 	}
-	
 	private void on_autoDetectChronopic_done(object o, EventArgs args) 
 	{
 		cp_dialog_auto_c.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_done);
@@ -2923,9 +2906,11 @@ public partial class ChronoJumpWindow
 
 		if(str != null && str != "") {
 			LogB.Information("Detected at port: " + str);
+			createChronopicWindow(true, str);
 		}
 		else {
 			LogB.Information("Not detected.");
+			createChronopicWindow(true, Util.GetDefaultPort());
 		}
 	}
 			

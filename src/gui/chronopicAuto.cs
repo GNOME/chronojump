@@ -41,6 +41,11 @@ public class ChronopicDialogAuto
 		LogB.Information("ChronopicDialogAuto");
 	}
 	
+	//when detection has ended
+	public void Done () {
+		dialog_chronopic_auto.Destroy ();
+	}
+	
 	private void on_button_cancel_clicked (object o, EventArgs args) {
 		dialog_chronopic_auto.Destroy ();
 	}

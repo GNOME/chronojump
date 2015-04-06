@@ -5184,7 +5184,7 @@ msgstr "Carregar 1RM"
 #: ../src/gui/encoder.cs:599
 #, csharp-format
 msgid "Saved 1RM values of athlete {0} on this session."
-msgstr "Desat els valors 1RM de l'atleta {0} en aquesta sessió"
+msgstr "Valors de 1RM de l'atleta {0} desats en aquesta sessió"
 
 #: ../src/gui/encoder.cs:601
 msgid "If you want to delete a row, right click on it."
@@ -5195,7 +5195,7 @@ msgid ""
 "If there is more than one value for an exercise,\n"
 "the used value is the top one."
 msgstr ""
-"Si hi ha més d'un valor per un exarcici,\n"
+"Si hi ha més d'un valor per un exercici,\n"
 "el valor usat és el superior."
 
 #: ../src/gui/encoder.cs:619 ../src/gui/encoder.cs:919

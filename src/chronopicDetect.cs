@@ -99,9 +99,11 @@ public class ChronopicDetect
 
 		Detected = cad.Detected;
 		
-		needToChangeProgressbarText = true;
-
-		connectNormal(Detected);
+		if(Detected != null && Detected != "") 
+		{
+			needToChangeProgressbarText = true;
+			connectNormal(Detected);
+		}
 		LogB.Debug("detectNormal ended");
 	}
 

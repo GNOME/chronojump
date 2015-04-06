@@ -678,9 +678,11 @@ public class ChronopicWindow
 		new HelpPorts();
 	}
 	
-	public void SerialPortsClose() {
-		LogB.Information("Closing sp");
-		sp.Close();
+	public void SerialPortsCloseIfNeeded() {
+		if(sp != null && sp.IsOpen) {
+			LogB.Information("Closing sp");
+			sp.Close();
+		}
 	}
 
 

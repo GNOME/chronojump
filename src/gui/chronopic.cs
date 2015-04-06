@@ -113,8 +113,8 @@ public class ChronopicWindow
 	string updateChronopicWinValuesMessage;
 	//Gtk.Button fakeButtonCancelled;
 
-	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic detection ended
-	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic detection ended
+	[Widget] Gtk.Button fakeConnectionButton; //raised when chronopic connection ended
+	[Widget] Gtk.Button fakeWindowDone; //raised when chronopic connection ended
 	//[Widget] Gtk.Button fakeWindowReload; //raised when asked to reload
 
 	bool isWindows;	
@@ -131,7 +131,6 @@ public class ChronopicWindow
 	bool connected;
 	bool volumeOn;
 	int currentCp; //1 to 4
-	bool cancelledByUser;
 		
 	//in order to cancel before close window
 	static bool connecting;
@@ -156,16 +155,24 @@ public class ChronopicWindow
 	States loggedState;		//log of last state
 	
 	public enum ChronojumpMode { JUMPORRUN, ENCODER, OTHER };
+		
+	private ChronopicInit chronopicInit;
 	
-
-	public ChronopicWindow(ArrayList myCpd)
+	public ChronopicWindow(Chronopic cpDetected, ArrayList myCpd)
 	{
+		LogB.Debug("constructor");
+
 		Glade.XML gxml;
 		gxml = Glade.XML.FromAssembly (Util.GetGladePath() + "chronojump.glade", "chronopic_window", "chronojump");
 		gxml.Autoconnect(this);
 
 		cpd = myCpd;
 			
+		if(cpDetected != null) {
+			cp = cpDetected;
+			sp = new SerialPort( ((ChronopicPortData) cpd[0]).Port );
+		}
+
 		UtilGtk.IconWindow(chronopic_window);
 
 		if(UtilAll.IsWindows())
@@ -174,6 +181,8 @@ public class ChronopicWindow
 			isWindows = false;
 
 		setDefaultValues();		
+			
+		chronopicInit = new ChronopicInit();
 		
 		//Pixbuf pixbuf = new Pixbuf (null, Util.GetImagePath(false) + "chronopic_128.png");
 		//chronopic_image.Pixbuf = pixbuf;
@@ -195,18 +204,29 @@ public class ChronopicWindow
 		*/
 	}
 	
-	//recreate is false the first time (on initialization of ChronoJumpWindow at gui/chronojump.cs)
-	//after that is true. Usually is used to manage a disconnected chronopic or other ports problems
-	//
-	//port names come from gui/chronojump.cs to this method (myCpd)
+	/*
+	 * recreate is false the first time (on initialization of ChronoJumpWindow at gui/chronojump.cs)
+	 * after that is true. Usually is used to manage a disconnected chronopic or other ports problems
+	 *
+	 * port names come from gui/chronojump.cs to this method (myCpd)
+	 */
+	//this is the normal call
 	static public ChronopicWindow Create (ArrayList myCpd, string myEncoderPort, bool recreate, bool volumeOn)
 	{
+		return Create(null, myCpd, myEncoderPort, recreate, volumeOn);
+	}
+	//this is called on AutoDetect
+	static public ChronopicWindow Create (Chronopic cpDetected, ArrayList myCpd, string myEncoderPort, bool recreate, bool volumeOn)
+	{
+		LogB.Debug("enter create");
 		if (ChronopicWindowBox != null && recreate) {
 			ChronopicWindowBox.chronopic_window.Hide();
 		}
 		if (ChronopicWindowBox == null || recreate) {
-			ChronopicWindowBox = new ChronopicWindow (myCpd);
+			ChronopicWindowBox = new ChronopicWindow (cpDetected, myCpd);
 		}
+		
+		LogB.Information("create cp is null? " + (ChronopicWindowBox.cp == null).ToString());
 		
 		//don't show until View is called
 		//ChronopicWindowBox.chronopic_window.Show ();
@@ -224,8 +244,11 @@ public class ChronopicWindow
 	static public ChronopicWindow View (ChronojumpMode cmode, bool volumeOn)
 	{
 		if (ChronopicWindowBox == null) {
-			ChronopicWindowBox = new ChronopicWindow (cpd);
+			ChronopicWindowBox = new ChronopicWindow (null, cpd);
 		} 
+		
+		LogB.Information("view cp is null? " + (ChronopicWindowBox.cp == null).ToString());
+		
 		
 		ChronopicWindowBox.volumeOn = volumeOn;
 		
@@ -300,11 +323,15 @@ public class ChronopicWindow
 		button_connect_cp4.Sensitive = false;
 
 		connected = false;
+		foreach(ChronopicPortData a in cpd) 
+			if(a.Connected)
+				connected = true;
+
 		image_cp1_yes.Hide();
 		image_cp2_yes.Hide();
 		image_cp3_yes.Hide();
 		image_cp4_yes.Hide();
-		
+
 		//encoderPort = "";
 		//fakeButtonCancelled = new Gtk.Button();
 	}
@@ -605,80 +632,6 @@ public class ChronopicWindow
 		new HelpPorts();
 	}
 
-	//chronopic init should not touch  gtk, for the threads
-	//private Chronopic chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
-	private void chronopicInit (out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
-	{
-		LogB.Information ( Catalog.GetString ("starting connection with chronopic") );
-
-		success = true;
-		
-		LogB.Information("chronopicInit-1");		
-		LogB.Information(string.Format("chronopic port: {0}", myPort));
-		mySp = new SerialPort(myPort);
-		try {
-			mySp.Open();
-			LogB.Information("chronopicInit-2");		
-			//-- Create chronopic object, for accessing chronopic
-			myCp = new Chronopic(mySp);
-			
-			LogB.Information("chronopicInit-2.1");		
-			myCp.Flush();
-			
-			//if myCp has been cancelled
-			if(myCp.AbortFlush) {
-				LogB.Information("chronopicInit-2.2 cancelled");
-				success = false;
-				myCp = new Chronopic(); //fake constructor
-			} else {
-				LogB.Information("chronopicInit-3");		
-				//on windows, this check make a crash 
-				//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
-				//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
-
-				//-- Obtener el estado inicial de la plataforma
-
-				bool ok=false;
-				LogB.Information("chronopicInit-4");		
-				do {
-					LogB.Information("chronopicInit-5");		
-					ok=myCp.Read_platform(out myPS);
-					LogB.Information("chronopicInit-6");		
-				} while(! ok && ! cancelledByUser);
-				LogB.Information("chronopicInit-7");		
-				if (!ok) {
-					//-- Si hay error terminar
-					LogB.Error(string.Format("Error: {0}", myCp.Error));
-					success = false;
-				}
-			}
-		} catch {
-			LogB.Error("chronopicInit-2.a catched");
-			success = false;
-			myCp = new Chronopic(); //fake constructor
-		}
-			
-		returnString = "";
-		if(success) {
-			if(currentCp == 1)
-				connected = true;
-			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
-		}
-		if(! success) {
-			returnString = Catalog.GetString("Problems communicating to chronopic.");
-			if(currentCp == 1) {
-				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
-				returnString += Catalog.GetString("\n\nWe recommend to remove and connect USB cable.");
-			}
-
-			//this will raise on_radiobutton_simulated_ativate and 
-			//will put cpRunning to false, and simulated to true and cp.Close()
-			if(currentCp == 1) {
-				connected = false;
-			}
-		}
-	}
-	
 	private void on_check_multichronopic_show_clicked(object o, EventArgs args) {
 		table_multi_chronopic.Visible = check_multichronopic_show.Active;
 	}
@@ -783,10 +736,9 @@ public class ChronopicWindow
 		label_title.UseMarkup = true;
 			
 		button_cancel.Sensitive = true;
-		cancelledByUser = false;
 		
 		fakeConnectionButton = new Gtk.Button();
-		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_detection_ended);
+		fakeConnectionButton.Clicked += new EventHandler(on_chronopic_connection_ended);
 
 		connecting = true;
 		needUpdateChronopicWin = false;
@@ -818,7 +770,7 @@ public class ChronopicWindow
 		if(currentCp == 1) {
 			myPort = ((ChronopicPortData) cpd[0]).Port;
 			cpDoing = cp;
-			chronopicInit(out cpDoing, out sp, platformState, myPort, out message, out success);
+			connected = chronopicInit.Do(currentCp, out cpDoing, out sp, platformState, myPort, out message, out success);
 			cp = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[0]).Connected=true;
@@ -850,7 +802,7 @@ public class ChronopicWindow
 		else if(currentCp == 2) {
 			myPort = ((ChronopicPortData) cpd[1]).Port;
 			cpDoing = cp2;
-			chronopicInit(out cpDoing, out sp2, platformState2, myPort, out message, out success);
+			connected = chronopicInit.Do(currentCp, out cpDoing, out sp2, platformState2, myPort, out message, out success);
 			cp2 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[1]).Connected=true;
@@ -878,7 +830,7 @@ public class ChronopicWindow
 		else if(currentCp == 3) {
 			myPort = ((ChronopicPortData) cpd[2]).Port;
 			cpDoing = cp3;
-			chronopicInit(out cpDoing, out sp3, platformState3, myPort, out message, out success);
+			connected = chronopicInit.Do(currentCp, out cpDoing, out sp3, platformState3, myPort, out message, out success);
 			cp3 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[2]).Connected=true;
@@ -902,7 +854,7 @@ public class ChronopicWindow
 		else if(currentCp == 4) {
 			myPort = ((ChronopicPortData) cpd[3]).Port;
 			cpDoing = cp4;
-			chronopicInit(out cpDoing, out sp4, platformState4, myPort, out message, out success);
+			connected = chronopicInit.Do(currentCp, out cpDoing, out sp4, platformState4, myPort, out message, out success);
 			cp4 = cpDoing;
 			if(success) {
 				((ChronopicPortData) cpd[3]).Connected=true;
@@ -936,7 +888,7 @@ public class ChronopicWindow
 		needUpdateChronopicWin = true;
 	}
 
-	private void on_chronopic_detection_ended(object o, EventArgs args) {
+	private void on_chronopic_connection_ended(object o, EventArgs args) {
 		updateChronopicWin(updateChronopicWinValuesState, updateChronopicWinValuesMessage);
 	}
 
@@ -948,15 +900,15 @@ public class ChronopicWindow
 		button_cancel.Sensitive = false;
 		
 		cpDoing.AbortFlush = true;
-		cancelledByUser = true;
+		chronopicInit.CancelledByUser = true;
 
-		//kill the chronopicInit function that is waiting event 
+		//kill the chronopicInit.Do function that is waiting event 
 		//thread.Abort();
 		//http://stackoverflow.com/questions/2853072/thread-does-not-abort-on-application-closing
 		//LogB.Debug(thread.ThreadState.ToString());
 		//thread.IsBackground = true;
 		
-		//try to solve windows problems when a chronopic detection was cancelled
+		//try to solve windows problems when a chronopic connection was cancelled
 		//LogB.Debug(thread.ThreadState.ToString());
 		//thread.Join(1000);
 		//LogB.Debug(thread.ThreadState.ToString());

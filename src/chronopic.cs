@@ -24,6 +24,7 @@ using System.Threading;
 
 using System.Diagnostics; 	//for detect OS
 using System.IO; 		//for detect OS
+using Mono.Unix;
 
 public class Chronopic {
 
@@ -529,7 +530,6 @@ public class ChronopicAutoCheck : ChronopicAuto
 	protected internal override string Communicate() 
 	{
 		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
-
 		sp.Write("J");
 		IsChronopicAuto = ( (char) sp.ReadByte() == 'J');
 		if (IsChronopicAuto) 
@@ -714,4 +714,91 @@ public class ChronopicAutoDetect
 		}
 		Detected = "";
 	}
+}
+
+public class ChronopicInit 
+{
+	public bool CancelledByUser;
+
+	public ChronopicInit () 
+	{
+	}
+
+	//chronopic init should not touch  gtk, for the threads
+	public bool Do (int currentCp, out Chronopic myCp, out SerialPort mySp, Chronopic.Plataforma myPS, string myPort, out string returnString, out bool success) 
+	{
+		LogB.Information("starting connection with chronopic");
+
+		CancelledByUser = false;
+		success = true;
+		
+		LogB.Information("chronopicInit-1");		
+		LogB.Information(string.Format("chronopic port: {0}", myPort));
+		mySp = new SerialPort(myPort);
+		try {
+			mySp.Open();
+			LogB.Information("chronopicInit-2");		
+			//-- Create chronopic object, for accessing chronopic
+			myCp = new Chronopic(mySp);
+			
+			LogB.Information("chronopicInit-2.1");		
+			myCp.Flush();
+			
+			//if myCp has been cancelled
+			if(myCp.AbortFlush) {
+				LogB.Information("chronopicInit-2.2 cancelled");
+				success = false;
+				myCp = new Chronopic(); //fake constructor
+			} else {
+				LogB.Information("chronopicInit-3");		
+				//on windows, this check make a crash 
+				//i think the problem is: as we don't really know the Timeout on Windows (.NET) and this variable is not defined on chronopic.cs
+				//the Read_platform comes too much soon (when cp is not totally created), and this makes crash
+
+				//-- Obtener el estado inicial de la plataforma
+
+				bool ok=false;
+				LogB.Information("chronopicInit-4");		
+				do {
+					LogB.Information("chronopicInit-5");		
+					ok=myCp.Read_platform(out myPS);
+					LogB.Information("chronopicInit-6");		
+				} while(! ok && ! CancelledByUser);
+				LogB.Information("chronopicInit-7");		
+				if (!ok) {
+					//-- Si hay error terminar
+					LogB.Error(string.Format("Error: {0}", myCp.Error));
+					success = false;
+				}
+			}
+		} catch {
+			LogB.Error("chronopicInit-2.a catched");
+			success = false;
+			myCp = new Chronopic(); //fake constructor
+		}
+		
+		bool connected = false;
+		returnString = "";
+		if(success) {
+			if(currentCp == 1)
+				connected = true;
+			returnString = string.Format(Catalog.GetString("<b>Connected</b> to Chronopic on port: {0}"), myPort);
+		}
+		else {
+			returnString = Catalog.GetString("Problems communicating to chronopic.");
+			if(currentCp == 1) {
+				returnString += " " + Catalog.GetString("Changed platform to 'Simulated'");
+				returnString += Catalog.GetString("\n\nWe recommend to remove and connect USB cable.");
+			}
+
+			//this will raise on_radiobutton_simulated_ativate and 
+			//will put cpRunning to false, and simulated to true and cp.Close()
+			if(currentCp == 1) {
+				connected = false;
+			}
+		}
+
+		return connected;
+	}
+	
 }

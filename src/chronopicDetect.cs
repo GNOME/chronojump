@@ -19,11 +19,12 @@
  */
 
 
-using System.Threading;
 using System;
+using System.Threading;
+using System.IO.Ports;
 using Gtk;
 
-public class ChronopicDialogAutoController
+public class ChronopicDetect
 {
 	Thread thread;
 	
@@ -32,13 +33,16 @@ public class ChronopicDialogAutoController
 	Gtk.Button button_info;
 	
 	private static bool cancel;
+	private static bool needToChangeProgressbarText;
+
 	public bool Detecting; //used to block closing chronojump window if true
 	public string Detected; //readed from chronojump window
+	private ChronopicInit chronopicInit;
+	private bool connectedNormalChronopic;
 	
 	public Gtk.Button FakeButtonDone;
 	
-	
-	public ChronopicDialogAutoController (Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info)
+	public ChronopicDetect (Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info)
 	{
 		this.progressbar = progressbar;
 		this.button_cancel = button_cancel;
@@ -52,20 +56,28 @@ public class ChronopicDialogAutoController
 	
 	public void Detect(string mode)
 	{
+		//set variables	
+		cancel = false;
+		Detected = "";
+		Detecting = true;
+		connectedNormalChronopic = false;
+		
+		progressbar.Text = Constants.ChronopicDetecting;
+		needToChangeProgressbarText = false;
+
+
 		if(mode == "ENCODER") {
 			LogB.Information("Detecting encoder... ");
-		
-			//set variables	
-			cancel = false;
-			Detected = "";
-			Detecting = true;
-
 			thread = new Thread(new ThreadStart(detectEncoder));
-			GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
-
-			LogB.ThreadStart();
-			thread.Start(); 
+		} else {
+			LogB.Information("Detecting normal Chronopic... ");
+			thread = new Thread(new ThreadStart(detectNormal));
 		}
+		
+		GLib.Idle.Add (new GLib.IdleHandler (PulseGTK));
+
+		LogB.ThreadStart();
+		thread.Start(); 
 	}
 
 	private void detectEncoder()
@@ -77,6 +89,38 @@ public class ChronopicDialogAutoController
 
 		Detected = cad.Detected;
 	}
+	
+	private void detectNormal()
+	{
+		//simulateDriverProblem(); //uncomment to check cancel, info buttons behaviour
+
+		ChronopicAutoDetect cad = 
+			new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
+
+		Detected = cad.Detected;
+		
+		needToChangeProgressbarText = true;
+
+		connectNormal(Detected);
+		LogB.Debug("detectNormal ended");
+	}
+
+	private static Chronopic cpDoing;
+	private static SerialPort sp;
+	private static Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
+	
+	private void connectNormal(string myPort)
+	{
+		LogB.Debug("connectNormal start");
+		
+		chronopicInit = new ChronopicInit();
+		
+		string message = "";
+		bool success = false;
+		connectedNormalChronopic = chronopicInit.Do(1, out cpDoing, out sp, platformState, myPort, out message, out success);
+		LogB.Debug("connectNormal end");
+	}
+
 
 	private void simulateDriverProblem() 
 	{
@@ -86,7 +130,7 @@ public class ChronopicDialogAutoController
 		while(crash) {
 			count ++;
 			if(count >= 40000) {
-				LogB.Debug(" at detectEncoder\n ");
+				LogB.Debug(" at simulateDriverProblem\n ");
 				count = 0;
 			}
 		}
@@ -99,6 +143,8 @@ public class ChronopicDialogAutoController
 
 			if(cancel)
 				thread.Abort();
+
+			LogB.Information("Connected = " + connectedNormalChronopic.ToString());
 			
 			FakeButtonDone.Click();	//send signal to gui/chronojump.cs to read Detected
 			Detecting = false;
@@ -108,6 +154,11 @@ public class ChronopicDialogAutoController
 		}
 
 		progressbar.Pulse();
+		
+		if(needToChangeProgressbarText) {
+			progressbar.Text = Constants.ChronopicNeedTouch;
+			needToChangeProgressbarText = false;
+		}
 		
 		Thread.Sleep (50);
 		LogB.Debug(thread.ThreadState.ToString());
@@ -132,8 +183,13 @@ public class ChronopicDialogAutoController
 			str += "\n\n" + Constants.FindDriverOthers;
 
 		new DialogMessage(Constants.MessageTypes.INFO, str);
+	} 
+	
+	//will be sent to chronopicWin
+	public Chronopic getCP() {
+		return cpDoing;
 	}
 
 
-	~ChronopicDialogAutoController() {}
+	~ChronopicDetect() {}
 }

@@ -11,6 +11,7 @@ libcesarplayer/bacon-video-widget-gst-0.10.c
 libcesarplayer/video-utils.c
 src/chronojump.cs
 src/Mini/chronojump_mini.cs
+src/chronopic.cs
 src/constants.cs
 src/encoder.cs
 src/execute/event.cs

@@ -208,6 +208,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Label label_connected_chronopics;
 	[Widget] Gtk.Label label_chronopics_multitest;
 	[Widget] Gtk.Image image_simulated_warning;
+	[Widget] Gtk.Box hbox_chronopic_detecting;
+	[Widget] Gtk.ProgressBar progressbar_chronopic_detecting;
+	[Widget] Gtk.Button button_chronopic_detecting_cancel;
+	[Widget] Gtk.Button button_chronopic_detecting_info;
 	[Widget] Gtk.Box hbox_chronopic_encoder_detecting;
 	[Widget] Gtk.ProgressBar progressbar_chronopic_encoder_detecting;
 	[Widget] Gtk.Button button_chronopic_encoder_detecting_cancel;
@@ -2349,7 +2353,7 @@ public partial class ChronoJumpWindow
 		args.RetVal = true;
 		
 		//cannot terminate chronojump untile press 'cancel' if  autodetect encoder is working
-		if(cp_dialog_auto_c != null && cp_dialog_auto_c.Detecting == true)
+		if(cpDetect != null && cpDetect.Detecting == true)
 			return;
     
 		on_quit1_activate (new object(), new EventArgs ());
@@ -2882,46 +2886,58 @@ public partial class ChronoJumpWindow
 		//it's not visible at startup
 		session_menuitem.Visible = true;
 		menuitem_mode.Visible = true;
-	
-		autoDetectChronopic(m);
 
-		change_multitest_firmware(m);
+		//do not perform autoDetect if we are on contacts and already detected
+		if(chronopicWin.Connected && m != menuitem_modes.POWER)
+			change_multitest_firmware(m);
+		else
+			autoDetectChronopic(m); //will perform change_multitest_firmware at the end (except on POWER)
+			
 	}
 	
-	ChronopicDialogAutoController cp_dialog_auto_c;
+	ChronopicDetect cpDetect;
 	private void autoDetectChronopic(menuitem_modes m)
 	{
+		main_menu.Sensitive = false;
+
 		if(m == menuitem_modes.POWER) 
 		{
-			main_menu.Sensitive = false;
 			hbox_chronopic_encoder_detecting.Visible = true;
 			viewport_chronopic_encoder.Visible = false;
 
-			cp_dialog_auto_c = new ChronopicDialogAutoController(
+			cpDetect = new ChronopicDetect(
 					progressbar_chronopic_encoder_detecting, 
 					button_chronopic_encoder_detecting_cancel,
 					button_chronopic_encoder_detecting_info
 					);
 			
-			cp_dialog_auto_c.Detect("ENCODER");
+			cpDetect.Detect("ENCODER");
 
-			cp_dialog_auto_c.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_done);
+			cpDetect.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_encoder_done);
 		} 
 		else {
-			LogB.Information("Detecting normal Chronopic... ");
-			//cad = new ChronopicAutoDetect(ChronopicAutoDetect.ChronopicType.NORMAL);
-			LogB.Warning("Disabled until full chronopic connection is done on 4MHz Chronopics");
+			hbox_chronopic_detecting.Visible = true;
+			viewport_chronopics.Visible = false;
+
+			cpDetect = new ChronopicDetect(
+					progressbar_chronopic_detecting, 
+					button_chronopic_detecting_cancel,
+					button_chronopic_detecting_info
+					);
+			
+			cpDetect.Detect("NORMAL");
+
+			cpDetect.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_normal_done);
 		}
 	}
-	private void on_autoDetectChronopic_done(object o, EventArgs args) 
+	private void on_autoDetectChronopic_encoder_done(object o, EventArgs args) 
 	{
-		cp_dialog_auto_c.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_done);
+		cpDetect.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_encoder_done);
 			
-		main_menu.Sensitive = true;
 		hbox_chronopic_encoder_detecting.Visible = false;
 		viewport_chronopic_encoder.Visible = true;
-
-		string str = cp_dialog_auto_c.Detected;
+		
+		string str = cpDetect.Detected;
 
 		if(str != null && str != "") {
 			LogB.Information("Detected at port: " + str);
@@ -2931,6 +2947,48 @@ public partial class ChronoJumpWindow
 			LogB.Information("Not detected.");
 			createChronopicWindow(true, Util.GetDefaultPort());
 		}
+	
+		on_autoDetectChronopic_all_done();
+	}
+	private void on_autoDetectChronopic_normal_done(object o, EventArgs args) 
+	{
+		cpDetect.FakeButtonDone.Clicked -= new EventHandler(on_autoDetectChronopic_normal_done);
+			
+		hbox_chronopic_detecting.Visible = false;
+		viewport_chronopics.Visible = true;
+	
+		string str = cpDetect.Detected;
+
+		if(str != null && str != "") {
+			LogB.Information("Detected at port: " + str);
+
+			//set connected stuff for chronopicWin
+			chronopicWin.Connected = true;
+		
+			//set cpd for chronopicWin
+			ChronopicPortData cpd = new ChronopicPortData(1, str, true);
+			ArrayList cpdArray = new ArrayList();
+			cpdArray.Add(cpd);
+			
+			LogB.Debug("chronopicWin is null? " + (chronopicWin == null).ToString());
+			LogB.Debug("chronopicWin.CP is null? " + (chronopicWin.CP == null).ToString());
+			
+			createChronopicWindow(cpDetect.getCP(), cpdArray, true, str);
+			
+			LogB.Debug("chronopicWin.CP is null? " + (chronopicWin.CP == null).ToString());
+		
+			change_multitest_firmware(getMenuItemMode());
+		}
+		else {
+			LogB.Information("Not detected.");
+			createChronopicWindow(true, Util.GetDefaultPort());
+		}
+	
+		on_autoDetectChronopic_all_done();
+	}
+	private void on_autoDetectChronopic_all_done() 
+	{
+		main_menu.Sensitive = true;
 	}
 			
 	//change debounce time automatically on change menuitem mode (if multitest firmware)
@@ -2941,8 +2999,6 @@ public partial class ChronoJumpWindow
 		
 		if(! chronopicWin.Connected)
 			return;
-		if(m == menuitem_modes.POWER)
-		       return;
 
 		//http://www.raspberrypi.org/forums/viewtopic.php?f=66&t=88415
 		//https://bugzilla.xamarin.com/show_bug.cgi?id=15514
@@ -2955,6 +3011,15 @@ public partial class ChronoJumpWindow
 			}
 		}
 
+		LogB.Information("change_multitest_firmware 1");
+		
+		LogB.Debug("chronopicWin is null? " + (chronopicWin == null).ToString());
+
+		int cps = chronopicWin.NumConnected();
+		LogB.Debug("cps: " + cps.ToString());
+		
+		LogB.Debug("chronopicWin.Connected? " + chronopicWin.Connected.ToString());
+		
 		Chronopic.Plataforma ps;
 		bool ok = (chronopicWin.CP).Read_platform(out ps);
 		if(!ok) {
@@ -2965,16 +3030,20 @@ public partial class ChronoJumpWindow
 		}
 
 	
+		LogB.Information("change_multitest_firmware 2");
 		ChronopicAuto ca;	
 		try {
 			ca = new ChronopicAutoCheck();
 			string chronopicVersion = ca.Read(chronopicWin.SP);
+			LogB.Debug("version: " + chronopicVersion);
 		} catch {
 			LogB.Information("Could not read from Chronopic");
 			return;
 		}
 		
+		LogB.Information("change_multitest_firmware 3");
 		if(ca.IsChronopicAuto) {
+			LogB.Information("change_multitest_firmware 3 a");
 			try {
 				int debounceChange = 50;
 				if(m == menuitem_modes.RUNS)
@@ -4537,21 +4606,31 @@ public partial class ChronoJumpWindow
 	//encoderPort is usually "" and will be Util.GetDefaultPort
 	//but, since 1.5.1 when selecting encoder option from main menu,
 	//then encoderPort will be found and send here
-	private void createChronopicWindow(bool recreate, string encoderPort) {
+	
+	//normal call
+	private void createChronopicWindow(bool recreate, string encoderPort) 
+	{
 		ArrayList cpd = new ArrayList();
 		for(int i=1; i<=4;i++) {
 			ChronopicPortData a = new ChronopicPortData(i,"",false);
 			cpd.Add(a);
 		}
-
+		createChronopicWindow(null, cpd, recreate, encoderPort);
+	}
+	//called directly on autodetect (detected cp and cpd is send)
+	private void createChronopicWindow(Chronopic cp, ArrayList cpd, bool recreate, string encoderPort) 
+	{
 		if(encoderPort == "")
 			encoderPort = Util.GetDefaultPort();
 
-		chronopicWin = ChronopicWindow.Create(cpd, encoderPort, recreate, preferences.volumeOn);
+		chronopicWin = ChronopicWindow.Create(cp, cpd, encoderPort, recreate, preferences.volumeOn);
 		//chronopicWin.FakeButtonCancelled.Clicked += new EventHandler(on_chronopic_window_cancelled);
 		
-		if(notebook_sup.CurrentPage == 0)
-			chronopicContactsLabels(0, recreate);
+		if(notebook_sup.CurrentPage == 0) {
+			int cps = chronopicWin.NumConnected();
+			LogB.Debug("cps: " + cps.ToString());
+			chronopicContactsLabels(cps, recreate);
+		}
 		else //(notebook_sup.CurrentPage == 1)
 			chronopicEncoderLabels(recreate);
 		
@@ -4597,7 +4676,7 @@ public partial class ChronoJumpWindow
 		chronopicWin = ChronopicWindow.View(preferences.volumeOn);
 	}
 	*/
-	
+
 	private void on_chronopic_window_contacts_connected_or_done (object o, EventArgs args) {
 		chronopicWin.FakeWindowDone.Clicked -= new EventHandler(on_chronopic_window_contacts_connected_or_done);
 		int cps = chronopicWin.NumConnected();
@@ -4627,6 +4706,7 @@ public partial class ChronoJumpWindow
 		label_connected_chronopics.Text = text;
 		//label_connected_chronopics.UseMarkup = true; 
 		
+		LogB.Debug("cpwin connected: " + chronopicWin.Connected.ToString());	
 		if(colorize)
 			UtilGtk.ChronopicColors(viewport_chronopics, 
 					label_chronopics, label_connected_chronopics, 

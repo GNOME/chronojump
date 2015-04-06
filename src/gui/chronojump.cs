@@ -2379,7 +2379,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye!");
 
 		if(chronopicWin.Connected == true) {
-			chronopicWin.SerialPortsClose();
+			chronopicWin.SerialPortsCloseIfNeeded();
 		}
 	
 		try {	
@@ -6255,7 +6255,7 @@ LogB.Debug("X");
 		
 		//notebooks
 		notebook_execute.Sensitive = false;
-		hbox_chronopics.Sensitive = false;
+		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6296,7 +6296,7 @@ LogB.Debug("X");
 		encoderPersonChanged();
 
 		notebook_execute.Sensitive = false;
-		hbox_chronopics.Sensitive = false;
+		//hbox_chronopics.Sensitive = false;
 		notebook_results.Sensitive = false;
 		notebook_options.Sensitive = false;
 		notebook_encoder_sup.Sensitive = false;
@@ -6315,7 +6315,7 @@ LogB.Debug("X");
 		encoderPersonChanged();
 
 		notebook_execute.Sensitive = true;
-		hbox_chronopics.Sensitive = true;
+		//hbox_chronopics.Sensitive = true;
 		notebook_results.Sensitive = true;
 		notebook_options.Sensitive = true;
 		notebook_encoder_sup.Sensitive = true;

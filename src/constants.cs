@@ -490,6 +490,9 @@ public class Constants
 	public static string FoundUSBSerialPortsString = Catalog.GetString("USB-serial ports found:"); 
 	public static string NotFoundUSBSerialPortsString = Catalog.GetString("Not found any USB-serial ports.") + " " + Catalog.GetString("Is Chronopic connected?"); 
 
+	public static string ChronopicDetecting = Catalog.GetString("Detecting ...");
+	public static string ChronopicNeedTouch = Catalog.GetString("Touch device.");
+
 	public static string FindDriverNeed = Catalog.GetString("Chronopic driver has to be installed.");
 	public static string FindDriverWindows = Catalog.GetString("If you have problems connecting with Chronopic, ensure you have the <b>driver</b> installed at 'Windows Start Menu / Chronojump / Install Chronopic driver'."); 
 	public static string FindDriverOthers = Catalog.GetString("Check Chronojump software website.");

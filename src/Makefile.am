@@ -163,7 +163,7 @@ SOURCES = \
 	serverEvaluator.cs\
 	server.cs\
 	chronopic.cs\
-	chronopicDialogAutoController.cs\
+	chronopicDetect.cs\
 	oldCodeNeedToDBConvert/person.cs\
 	oldCodeNeedToDBConvert/personSession.cs\
 	oldCodeNeedToDBConvert/sqlite/person.cs\

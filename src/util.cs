@@ -866,6 +866,13 @@ public class Util
 			testType.ToString() + "-" + uniqueID.ToString() +
 			GetMultimediaExtension(Constants.MultimediaItems.VIDEO);
 	}
+	public static string GetVideoFileNameOnlyName (Constants.TestTypes testType, int uniqueID) {
+		return testType.ToString() + "-" + uniqueID.ToString() +
+			GetMultimediaExtension(Constants.MultimediaItems.VIDEO);
+	}
+	public static string GetVideoFileNameOnlyFolder (int sessionID) {
+		return GetVideoSessionDir(sessionID);
+	}
 	
 	public static string GetPhotoFileName (bool small, int uniqueID) {
 		return GetPhotosDir(small) + Path.DirectorySeparatorChar + uniqueID.ToString() +

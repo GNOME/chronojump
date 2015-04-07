@@ -83,6 +83,10 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Viewport viewport_video_play_encoder;
 	[Widget] Gtk.RadioButton radiobutton_video_encoder_capture;
 	[Widget] Gtk.RadioButton radiobutton_video_encoder_play;
+	[Widget] Gtk.RadioButton radiobutton_video_encoder_options;
+	[Widget] Gtk.Label label_video_encoder_filename;
+	[Widget] Gtk.TextView textview_video_encoder_folder;
+	[Widget] Gtk.Button button_video_encoder_open_folder;
 	[Widget] Gtk.Label label_video_feedback_encoder;
 	[Widget] Gtk.CheckButton checkbutton_video_encoder;
 	
@@ -1924,6 +1928,7 @@ public partial class ChronoJumpWindow
 						radiobutton_video_encoder_play.Active  = true;
 						
 						viewport_video_play_encoder.Sensitive = true;
+
 					} else {
 						new DialogMessage(Constants.MessageTypes.WARNING, 
 								Catalog.GetString("Sorry, video cannot be stored."));
@@ -5667,6 +5672,18 @@ LogB.Debug("D");
 				}
 				
 				playVideoEncoderPrepare(false); //do not play
+				
+				//set encoder video labels
+				string videofile = Util.GetVideoFileName(currentSession.UniqueID, 
+						Constants.TestTypes.ENCODER, Convert.ToInt32(encoderSignalUniqueID));
+				if(videofile != null && videofile != "" && File.Exists(videofile)) {
+					label_video_encoder_filename.Text = Util.GetVideoFileNameOnlyName(
+							Constants.TestTypes.ENCODER, 
+							Convert.ToInt32(encoderSignalUniqueID));
+					textview_video_encoder_folder.Buffer.Text = Util.GetVideoFileNameOnlyFolder(currentSession.UniqueID);
+					button_video_encoder_open_folder.Visible = true;
+				} else
+					button_video_encoder_open_folder.Visible = false;
 			}
 
 			if(action == encoderActions.CAPTURE_IM && ! encoderProcessCancel && ! encoderProcessProblems) 
@@ -5865,6 +5882,21 @@ LogB.Debug("D");
 	public void on_radiobutton_video_encoder_play_toggled (object obj, EventArgs args) {
 		if(radiobutton_video_encoder_play.Active) {
 			notebook_video_encoder.CurrentPage = 1;
+		}
+	}
+	public void on_radiobutton_video_encoder_options_toggled (object obj, EventArgs args) {
+		if(radiobutton_video_encoder_options.Active) {
+			notebook_video_encoder.CurrentPage = 2;
+		}
+	}
+	public void on_button_video_encoder_open_folder_clicked (object obj, EventArgs args) {
+		string dir = textview_video_encoder_folder.Buffer.Text;
+		try {
+			System.Diagnostics.Process.Start(dir); 
+		}
+		catch {
+			new DialogMessage(Constants.MessageTypes.WARNING, 
+					Constants.DirectoryCannotOpen + "\n\n" + dir);
 		}
 	}
 

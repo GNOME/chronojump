@@ -627,6 +627,9 @@ public class ChronoJump
 		fakeSplashButton.Clicked -= new EventHandler(on_splash_ended);
 		if(splashWin != null)
 			splashWin.Destroy();
+		else
+			SplashWindow.Hide();
+
 		LogB.Information("splash screen ENDED!");
 		readMessageToStart();
 	}

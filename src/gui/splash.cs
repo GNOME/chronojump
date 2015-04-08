@@ -144,6 +144,21 @@ public class SplashWindow
 		}
 	}
 
+	//on 1.5.0 on mac, does not crash on splashwin but sometimes it does not disappear the splash	
+	//hide splashWin
+	//TODO: rewrite all the splashWin flow here and on chronojump.cs
+	static public void Hide () {
+		LogB.Debug("splash_window hide start ");
+		if(SplashWindowBox.splash_window != null) {
+			LogB.Debug("splash_window hide != null");
+
+			SplashWindowBox.splash_window.Visible = false;
+			
+			LogB.Debug("splash_window hide hidden");
+		}
+		LogB.Debug("splash_window hide end");
+	}
+
 	private void on_delete_event (object o, DeleteEventArgs args) {
 		splash_window.Destroy ();
 	}

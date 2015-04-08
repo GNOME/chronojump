@@ -208,6 +208,13 @@ getSpeed <- function(displacement, smoothing) {
 
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
+#experimental. unused
+getSpeedByPosition <- function(displacement, smoothing) {
+	position <- cumsum(displacement)
+	speed <- smooth.spline( 1:length(position), position, spar=smoothing)
+	speed$y <- diff(speed$y)
+	return(speed)
+}
 
 getAcceleration <- function(speed) {
 	#no change affected by encoderConfiguration

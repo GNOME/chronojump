@@ -744,11 +744,25 @@ public class SessionLoadWindow {
 	
 	void on_checkbutton_show_data_jump_run_toggled (object o, EventArgs args) {
 		LogB.Information("jump run " + checkbutton_show_data_jump_run.Active.ToString());
-		recreateTreeView();	
+		recreateTreeView();
+
+		/*
+		 * after clicking on this checkbutton, treeview row gets unselected
+		 * call onSelectionEntry to see if there's a row selected
+		 * and it will sensitive on/off button_accept as needed
+		 */
+		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
 	}
 	void on_checkbutton_show_data_encoder_toggled (object o, EventArgs args) {
 		LogB.Information("encoder " + checkbutton_show_data_encoder.Active.ToString());
 		recreateTreeView();	
+
+		/*
+		 * after clicking on this checkbutton, treeview row gets unselected
+		 * call onSelectionEntry to see if there's a row selected
+		 * and it will sensitive on/off button_accept as needed
+		 */
+		onSelectionEntry (treeview_session_load.Selection, new EventArgs ());
 	}
 
 	void recreateTreeView() {
@@ -853,7 +867,8 @@ public class SessionLoadWindow {
 		if (((TreeSelection)o).GetSelected(out model, out iter)) {
 			selected = (string)model.GetValue (iter, 0);
 			button_accept.Sensitive = true;
-		}
+		} else
+			button_accept.Sensitive = false;
 	}
 	
 	void on_row_double_clicked (object o, Gtk.RowActivatedArgs args)

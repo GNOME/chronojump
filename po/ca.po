@@ -6199,7 +6199,7 @@ msgstr "Cal que activi els sons a la finestra principal"
 
 #: ../src/gui/repetitiveConditions.cs:241
 msgid "top right"
-msgstr "Dalt esquerra"
+msgstr "Dalt dreta"
 
 #: ../src/gui/report.cs:140
 msgid "Session/s"

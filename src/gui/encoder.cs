@@ -428,117 +428,23 @@ public partial class ChronoJumpWindow
 		if(! encoderCheckPort())
 			return;
 
-		/*
-		 * DEPRECATED
-		string analysisOptions = getEncoderAnalysisOptions();
+		//This notebook has capture (signal plotting), and curves (shows R graph)	
+		if(notebook_encoder_capture.CurrentPage == 1)
+			notebook_encoder_capture.PrevPage();
 
-		double heightHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderHeightHigher)		
-			heightHigherCondition = repetitiveConditionsWin.EncoderHeightHigherValue;
-		double heightLowerCondition = -1;
-		if(repetitiveConditionsWin.EncoderHeightLower)		
-			heightLowerCondition = repetitiveConditionsWin.EncoderHeightLowerValue;
-	
-		double meanSpeedHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderMeanSpeedHigher)		
-			meanSpeedHigherCondition = repetitiveConditionsWin.EncoderMeanSpeedHigherValue;
-		double meanSpeedLowerCondition = -1;
-		if(repetitiveConditionsWin.EncoderMeanSpeedLower)		
-			meanSpeedLowerCondition = repetitiveConditionsWin.EncoderMeanSpeedLowerValue;
-	
-		double maxSpeedHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderMaxSpeedHigher)		
-			maxSpeedHigherCondition = repetitiveConditionsWin.EncoderMaxSpeedHigherValue;
-		double maxSpeedLowerCondition = -1;
-		if(repetitiveConditionsWin.EncoderMaxSpeedLower)		
-			maxSpeedLowerCondition = repetitiveConditionsWin.EncoderMaxSpeedLowerValue;
-	
-		int powerHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderPowerHigher)		
-			powerHigherCondition = repetitiveConditionsWin.EncoderPowerHigherValue;
-		int powerLowerCondition = -1;
-		if(repetitiveConditionsWin.EncoderPowerLower)		
-			powerLowerCondition = repetitiveConditionsWin.EncoderPowerLowerValue;
-		
-		int peakPowerHigherCondition = -1;
-		if(repetitiveConditionsWin.EncoderPeakPowerHigher)		
-			peakPowerHigherCondition = repetitiveConditionsWin.EncoderPeakPowerHigherValue;
-		int peakPowerLowerCondition = -1;
-		if(repetitiveConditionsWin.EncoderPeakPowerLower)		
-			peakPowerLowerCondition = repetitiveConditionsWin.EncoderPeakPowerLowerValue;
+		radiobutton_video_encoder_capture.Active = true;
 
-		string exerciseNameShown = UtilGtk.ComboGetActive(combo_encoder_exercise);
+		sensitiveGuiEventDoing();
 
-		//capture data (Python)
-		EncoderParams ep = new EncoderParams(
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_time.Value, 
-				(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value, 
-				getExercisePercentBodyWeightFromCombo (),
-				Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)),
-				Util.ConvertToPoint(encoderSmoothCon),			//R decimal: '.'
-				findEccon(true),					//force ecS (ecc-conc separated)
-				analysisOptions,
-				heightHigherCondition, heightLowerCondition,
-				meanSpeedHigherCondition, meanSpeedLowerCondition,
-				maxSpeedHigherCondition, maxSpeedLowerCondition,
-				powerHigherCondition, powerLowerCondition,
-				peakPowerHigherCondition, peakPowerLowerCondition,
-				encoderCaptureOptionsWin.GetMainVariable()//,
-				//checkbutton_encoder_capture_inverted.Active
-				); 
+		LogB.Debug("Calling encoderThreadStart for capture");
 
-		EncoderStruct es = new EncoderStruct(
-				"",					//no data input
-				"",					//no graph ouptut
-				UtilEncoder.GetEncoderDataTempFileName(), 	//OutputData1
-				"", 					//OutputData2
-				"", 					//SpecialData
-				ep);				
-				
-		//Update inertia momentum of encoder if needed
-		//SqlitePreferences.Update("inertialmomentum", 
-		//		Util.ConvertToPoint((double) spin_encoder_capture_inertial.Value), false);
+		needToCallPrepareEncoderGraphs = false;
+		encoderProcessFinish = false;
+		encoderThreadStart(encoderActions.CAPTURE);
 
-		if (encoderCaptureOptionsWin.radiobutton_encoder_capture_external.Active) {
-			encoderStartVideoRecord();
-		
-			//wait to ensure label "Rec" has been shown
-			//Thread.Sleep(100);	
-			//Does not work. Basically it records, but Rec message is not shown because we would need to open a new thread here
-			
-			//title to sen to python software has to be without spaces
-			UtilEncoder.RunEncoderCapturePython( 
-					Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "----" + 
-					Util.ChangeSpaceAndMinusForUnderscore(exerciseNameShown) + "----(" + 
-					Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
-					es, chronopicWin.GetEncoderPort());
-			
-			//entry_encoder_signal_comment.Text = "";
-			
-			encoderStopVideoRecord();
-			
-			encoderCalculeCurves(encoderActions.CAPTURE_EXTERNAL); //deprecated
-		}
-		else if (encoderCaptureOptionsWin.radiobutton_encoder_capture_safe.Active) {
-		*/
-			//tis notebook has capture (signal plotting), and curves (shows R graph)	
-			if(notebook_encoder_capture.CurrentPage == 1)
-				notebook_encoder_capture.PrevPage();
-				
-			radiobutton_video_encoder_capture.Active = true;
-			
-			sensitiveGuiEventDoing();
+		textview_encoder_signal_comment.Buffer.Text = "";
 
-			LogB.Debug("Calling encoderThreadStart for capture");
-			
-			needToCallPrepareEncoderGraphs = false;
-			encoderProcessFinish = false;
-			encoderThreadStart(encoderActions.CAPTURE);
-			
-			textview_encoder_signal_comment.Buffer.Text = "";
-
-			LogB.Debug("end of Calling encoderThreadStart for capture");
-		//}
+		LogB.Debug("end of Calling encoderThreadStart for capture");
 	}
 	
 	void on_button_encoder_capture_calcule_im () 
@@ -4305,7 +4211,7 @@ public partial class ChronoJumpWindow
 				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
 				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
 				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+				captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, 0, 0, meanPower, peakPower)); //0,0: meanForce, maxForce
 
 				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
 						true);	//capturing
@@ -4335,7 +4241,7 @@ public partial class ChronoJumpWindow
 
 	//if we are capturing, play sounds
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
-			ArrayList data4Variables, bool capturing) 
+			ArrayList data6Variables, bool capturing) 
 	{
 		//LogB.Information("at plotCurvesGraphDoPlot");
 		UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
@@ -4343,8 +4249,8 @@ public partial class ChronoJumpWindow
 		int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
 		int graphHeight=encoder_capture_curves_bars_drawingarea.Allocation.Height;
 	
-		ArrayList data = new ArrayList (data4Variables.Count);
-		foreach(EncoderBarsData ebd in data4Variables)
+		ArrayList data = new ArrayList (data6Variables.Count);
+		foreach(EncoderBarsData ebd in data6Variables)
 			data.Add(ebd.GetValue(mainVariable));
 
 
@@ -4497,7 +4403,7 @@ public partial class ChronoJumpWindow
 			//write the result	
 			if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed)
 				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,2));
-			else //powers
+			else //force and powers
 				layout_encoder_capture_curves_bars.SetMarkup(Util.TrimDecimals(d,0));
 			
 			textWidth = 1;
@@ -4572,6 +4478,9 @@ public partial class ChronoJumpWindow
 		if(mainVariable == Constants.MeanSpeed || mainVariable == Constants.MaxSpeed) {
 			units = "m/s";
 			decimals = 2;
+		} else if(mainVariable == Constants.MeanForce || mainVariable == Constants.MaxForce) {
+			units = "N";
+			decimals = 1;
 		}
 		else { //powers
 			units =  "W";
@@ -5231,9 +5140,11 @@ LogB.Debug("D");
 
 			double meanSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[2]));
 			double maxSpeed = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[3]));
+			double meanForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[9]));
+			double maxForce = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[10]));
 			double meanPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[5]));
 			double peakPower = Convert.ToDouble(Util.ChangeDecimalSeparator(strs[6]));
-			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+			captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanForce, maxForce, meanPower, peakPower));
 			
 			LogB.Information("activating needToRefreshTreeviewCapture");
 
@@ -5557,6 +5468,8 @@ LogB.Debug("D");
 					captureCurvesBarsData.Add(new EncoderBarsData(
 								Convert.ToDouble(curve.MeanSpeed), 
 								Convert.ToDouble(curve.MaxSpeed), 
+								Convert.ToDouble(curve.MeanForce), 
+								Convert.ToDouble(curve.MaxForce), 
 								Convert.ToDouble(curve.MeanPower), 
 								Convert.ToDouble(curve.PeakPower)
 								));
@@ -5966,7 +5879,7 @@ public class EncoderCaptureOptionsWindow {
 
 	private void createCombo() {
 		combo_main_variable = ComboBox.NewText ();
-		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanPower, Constants.PeakPower };
+		string [] values = { Constants.MeanSpeed, Constants.MaxSpeed, Constants.MeanForce, Constants.MaxForce, Constants.MeanPower, Constants.PeakPower };
 		UtilGtk.ComboUpdate(combo_main_variable, values, "");
 		combo_main_variable.Active = UtilGtk.ComboMakeActive(combo_main_variable, "Mean power");
 		
@@ -5986,6 +5899,10 @@ public class EncoderCaptureOptionsWindow {
 				return repetitiveConditionsWin.EncoderMeanSpeedHigherValue;
 			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedHigher)
 				return repetitiveConditionsWin.EncoderMaxSpeedHigherValue;
+			else if(mainVariable == Constants.MeanForce && repetitiveConditionsWin.EncoderMeanForceHigher)
+				return repetitiveConditionsWin.EncoderMeanForceHigherValue;
+			else if(mainVariable == Constants.MaxForce && repetitiveConditionsWin.EncoderMaxForceHigher)
+				return repetitiveConditionsWin.EncoderMaxForceHigherValue;
 			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerHigher)
 				return repetitiveConditionsWin.EncoderPowerHigherValue;
 			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerHigher)
@@ -6002,6 +5919,10 @@ public class EncoderCaptureOptionsWindow {
 				return repetitiveConditionsWin.EncoderMeanSpeedLowerValue;
 			else if(mainVariable == Constants.MaxSpeed && repetitiveConditionsWin.EncoderMaxSpeedLower)
 				return repetitiveConditionsWin.EncoderMaxSpeedLowerValue;
+			else if(mainVariable == Constants.MeanForce && repetitiveConditionsWin.EncoderMeanForceLower)
+				return repetitiveConditionsWin.EncoderMeanForceLowerValue;
+			else if(mainVariable == Constants.MaxForce && repetitiveConditionsWin.EncoderMaxForceLower)
+				return repetitiveConditionsWin.EncoderMaxForceLowerValue;
 			else if(mainVariable == Constants.MeanPower && repetitiveConditionsWin.EncoderPowerLower)
 				return repetitiveConditionsWin.EncoderPowerLowerValue;
 			else if(mainVariable == Constants.PeakPower && repetitiveConditionsWin.EncoderPeakPowerLower)

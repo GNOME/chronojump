@@ -1018,15 +1018,37 @@ public partial class ChronoJumpWindow
 	private void RenderMeanForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		string myColor = assignColor(
+				Convert.ToDouble(curve.MeanForce),
+				repetitiveConditionsWin.EncoderMeanForceHigher, 
+				repetitiveConditionsWin.EncoderMeanForceLower, 
+				repetitiveConditionsWin.EncoderMeanForceHigherValue,
+				repetitiveConditionsWin.EncoderMeanForceLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MeanForce));
+			String.Format(UtilGtk.TVNumPrint(curve.MeanForce,7,1),Convert.ToDouble(curve.MeanForce));
 	}
 
 	private void RenderMaxForce (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 	{
 		EncoderCurve curve = (EncoderCurve) model.GetValue (iter, 0);
+		string myColor = assignColor(
+				Convert.ToDouble(curve.MaxForce),
+				repetitiveConditionsWin.EncoderMaxForceHigher, 
+				repetitiveConditionsWin.EncoderMaxForceLower, 
+				repetitiveConditionsWin.EncoderMaxForceHigherValue,
+				repetitiveConditionsWin.EncoderMaxForceLowerValue);
+		if(myColor != "")
+			(cell as Gtk.CellRendererText).Foreground = myColor;
+		else
+			(cell as Gtk.CellRendererText).Foreground = null;	//will show default color
+
 		(cell as Gtk.CellRendererText).Text = 
-			String.Format(UtilGtk.TVNumPrint(curve.MeanPower,7,1),Convert.ToDouble(curve.MaxForce));
+			String.Format(UtilGtk.TVNumPrint(curve.MaxForce,7,1),Convert.ToDouble(curve.MaxForce));
 	}
 	
 	private void RenderMaxForceT (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

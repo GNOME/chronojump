@@ -70,21 +70,29 @@ public class RepetitiveConditionsWindow
 	/* encoder */
 	[Widget] Gtk.Box hbox_encoder_conditions;
 	[Widget] Gtk.CheckButton checkbutton_encoder_height_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_higher;
-	[Widget] Gtk.CheckButton checkbutton_encoder_height_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_mean_speed_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_max_speed_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_height_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_higher;
-	[Widget] Gtk.SpinButton spinbutton_encoder_height_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_lower;
-	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_lower;
+	[Widget] Gtk.CheckButton checkbutton_encoder_mean_force_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_max_force_higher;
+	[Widget] Gtk.CheckButton checkbutton_encoder_mean_force_lower;
+	[Widget] Gtk.CheckButton checkbutton_encoder_max_force_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_power_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_higher;
 	[Widget] Gtk.CheckButton checkbutton_encoder_power_lower;
 	[Widget] Gtk.CheckButton checkbutton_encoder_peakpower_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_height_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_height_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_speed_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_speed_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_force_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_force_higher;
+	[Widget] Gtk.SpinButton spinbutton_encoder_mean_force_lower;
+	[Widget] Gtk.SpinButton spinbutton_encoder_max_force_lower;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_peakpower_higher;
 	[Widget] Gtk.SpinButton spinbutton_encoder_power_lower;
@@ -109,6 +117,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_height_higher;
 	[Widget] Gtk.Image image_encoder_mean_speed_higher;
 	[Widget] Gtk.Image image_encoder_max_speed_higher;
+	[Widget] Gtk.Image image_encoder_mean_force_higher;
+	[Widget] Gtk.Image image_encoder_max_force_higher;
 	[Widget] Gtk.Image image_encoder_power_higher;
 	[Widget] Gtk.Image image_encoder_peakpower_higher;
 	[Widget] Gtk.Image image_repetitive_test_good;
@@ -123,6 +133,8 @@ public class RepetitiveConditionsWindow
 	[Widget] Gtk.Image image_encoder_height_lower;
 	[Widget] Gtk.Image image_encoder_mean_speed_lower;
 	[Widget] Gtk.Image image_encoder_max_speed_lower;
+	[Widget] Gtk.Image image_encoder_mean_force_lower;
+	[Widget] Gtk.Image image_encoder_max_force_lower;
 	[Widget] Gtk.Image image_encoder_power_lower;
 	[Widget] Gtk.Image image_encoder_peakpower_lower;
 	[Widget] Gtk.Image image_repetitive_test_bad;
@@ -208,6 +220,8 @@ public class RepetitiveConditionsWindow
 		image_encoder_height_higher.Pixbuf = pixbuf;
 		image_encoder_mean_speed_higher.Pixbuf = pixbuf;
 		image_encoder_max_speed_higher.Pixbuf = pixbuf;
+		image_encoder_mean_force_higher.Pixbuf = pixbuf;
+		image_encoder_max_force_higher.Pixbuf = pixbuf;
 		image_encoder_power_higher.Pixbuf = pixbuf;
 		image_encoder_peakpower_higher.Pixbuf = pixbuf;
 		image_repetitive_test_good.Pixbuf = pixbuf;
@@ -223,6 +237,8 @@ public class RepetitiveConditionsWindow
 		image_encoder_height_lower.Pixbuf = pixbuf;
 		image_encoder_mean_speed_lower.Pixbuf = pixbuf;
 		image_encoder_max_speed_lower.Pixbuf = pixbuf;
+		image_encoder_mean_force_lower.Pixbuf = pixbuf;
+		image_encoder_max_force_lower.Pixbuf = pixbuf;
 		image_encoder_power_lower.Pixbuf = pixbuf;
 		image_encoder_peakpower_lower.Pixbuf = pixbuf;
 		image_repetitive_test_bad.Pixbuf = pixbuf;
@@ -321,6 +337,20 @@ public class RepetitiveConditionsWindow
 	}
 	void on_spinbutton_encoder_max_speed_lower_value_changed (object o, EventArgs args) {
 		checkbutton_encoder_max_speed_lower.Active = true;
+	}
+	
+	void on_spinbutton_encoder_mean_force_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_mean_force_higher.Active = true;
+	}
+	void on_spinbutton_encoder_mean_force_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_mean_force_lower.Active = true;
+	}
+	
+	void on_spinbutton_encoder_max_force_higher_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_max_force_higher.Active = true;
+	}
+	void on_spinbutton_encoder_max_force_lower_value_changed (object o, EventArgs args) {
+		checkbutton_encoder_max_force_lower.Active = true;
 	}
 	
 	void on_spinbutton_encoder_power_higher_value_changed (object o, EventArgs args) {
@@ -426,6 +456,7 @@ public class RepetitiveConditionsWindow
 
 	/* ENCODER */
 
+	//height
 	public bool EncoderHeightHigher {
 		get { return checkbutton_encoder_height_higher.Active; }
 	}
@@ -440,6 +471,7 @@ public class RepetitiveConditionsWindow
 		get { return Convert.ToDouble(spinbutton_encoder_height_lower.Value); }
 	}
 
+	//speed
 	public bool EncoderMeanSpeedHigher {
 		get { return checkbutton_encoder_mean_speed_higher.Active; }
 	}
@@ -468,6 +500,36 @@ public class RepetitiveConditionsWindow
 		get { return Convert.ToDouble(spinbutton_encoder_max_speed_lower.Value); }
 	}
 
+	//force
+	public bool EncoderMeanForceHigher {
+		get { return checkbutton_encoder_mean_force_higher.Active; }
+	}
+	public double EncoderMeanForceHigherValue {
+		get { return Convert.ToDouble(spinbutton_encoder_mean_force_higher.Value); }
+	}
+	
+	public bool EncoderMeanForceLower {
+		get { return checkbutton_encoder_mean_force_lower.Active; }
+	}
+	public double EncoderMeanForceLowerValue {
+		get { return Convert.ToDouble(spinbutton_encoder_mean_force_lower.Value); }
+	}
+
+	public bool EncoderMaxForceHigher {
+		get { return checkbutton_encoder_max_force_higher.Active; }
+	}
+	public double EncoderMaxForceHigherValue {
+		get { return Convert.ToDouble(spinbutton_encoder_max_force_higher.Value); }
+	}
+	
+	public bool EncoderMaxForceLower {
+		get { return checkbutton_encoder_max_force_lower.Active; }
+	}
+	public double EncoderMaxForceLowerValue {
+		get { return Convert.ToDouble(spinbutton_encoder_max_force_lower.Value); }
+	}
+
+	//power & peakPower
 	public bool EncoderPowerHigher {
 		get { return checkbutton_encoder_power_higher.Active; }
 	}

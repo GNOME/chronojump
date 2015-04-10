@@ -845,12 +845,16 @@ public class EncoderCaptureCurveArray {
 public class EncoderBarsData {
 	public double MeanSpeed;
 	public double MaxSpeed;
+	public double MeanForce;
+	public double MaxForce;
 	public double MeanPower;
 	public double PeakPower;
 	
-	public EncoderBarsData(double meanSpeed, double maxSpeed, double meanPower, double peakPower) {
+	public EncoderBarsData(double meanSpeed, double maxSpeed, double meanForce, double maxForce, double meanPower, double peakPower) {
 		this.MeanSpeed = meanSpeed;
 		this.MaxSpeed  = maxSpeed;
+		this.MeanForce = meanForce;
+		this.MaxForce  = maxForce;
 		this.MeanPower = meanPower;
 		this.PeakPower = peakPower;
 	}
@@ -860,6 +864,10 @@ public class EncoderBarsData {
 			return MeanSpeed;
 		else if(option == Constants.MaxSpeed)
 			return MaxSpeed;
+		else if(option == Constants.MeanForce)
+			return MeanForce;
+		else if(option == Constants.MaxForce)
+			return MaxForce;
 		else if(option == Constants.MeanPower)
 			return MeanPower;
 		else // option == Constants.PeakPower

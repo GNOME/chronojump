@@ -796,6 +796,8 @@ public class Constants
 
 	public static string MeanSpeed = "Mean speed";
 	public static string MaxSpeed = "Max speed";
+	public static string MeanForce = "Mean force";
+	public static string MaxForce = "Max force";
 	public static string MeanPower = "Mean power";
 	public static string PeakPower = "Peak power";
 		

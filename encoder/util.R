@@ -56,7 +56,6 @@ assignOptions <- function(options) {
 		    AnalysisOptions	= options[13],
 		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
 		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
-		    #diameter		= as.numeric(unlist(strsplit("1.5;1.5;1.5;1.5;2;2.5;2.7;2.9;2.95;3", "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
 		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
@@ -207,13 +206,6 @@ getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
 
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
-}
-#experimental. unused
-getSpeedByPosition <- function(displacement, smoothing) {
-	position <- cumsum(displacement)
-	speed <- smooth.spline( 1:length(position), position, spar=smoothing)
-	speed$y <- diff(speed$y)
-	return(speed)
 }
 
 getAcceleration <- function(speed) {

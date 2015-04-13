@@ -1,4 +1,7 @@
-source("util.R")
+#Call with:
+#Rscript smooth-2015.R
+
+source("../util.R")
 
 getSpeedByPosition <- function(displacement, smoothing) {
 	position <- cumsum(displacement)

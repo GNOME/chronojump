@@ -745,6 +745,10 @@ public class UtilEncoder
 	 * valuesForNewLine is 25 means every 25 values there will be a newLine. 0 will mean no newlines
 	 */
 	
+	/*
+	 * valuesForNewLine means how many values want in a line. If it's >= []curve, then there will be only one line
+	 * there's a test of this function at testing-stuff/compressCurve.cs
+	 */
 	public static string CompressData(double [] curve, int valuesForNewLine)
 	{
 		string compressed = "";

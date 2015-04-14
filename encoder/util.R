@@ -281,6 +281,8 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 	#in order to reduce curve by speed, we search the cross of speed (in 0m/s)
         #before and after the peak value, but in "ec" and "ce" there are two peak values:
 	#
+	#speeds:
+	#
 	#ec         2
 	#\         / \
 	# \       /   \
@@ -307,7 +309,7 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 	} else if(eccon=="ce") {
 		time1 = min(which(speed$y == max(speed$y)))
 		time2 = max(which(speed$y == min(speed$y)))
-	} else {
+	} else { #c
 		speed$y=abs(speed$y)
 		time1 = min(which(speed$y == max(speed$y)))
 		time2 = max(which(speed$y == max(speed$y)))

@@ -156,13 +156,22 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 	start=0; end=0; startH=0
 	tempStart=0; tempEnd=0;
 	#TODO: fer algo per si no es detecta el minindex previ al salt
-	if(eccon=="c") {
+	if(eccon=="c") 
+	{
+		#1) fix big problems with set (signal). No minindex or no maxindex
 		if(length(position.ext$minindex)==0) { position.ext$minindex=cbind(1,1) }
 		if(length(position.ext$maxindex)==0) { position.ext$maxindex=cbind(length(position),length(position)) }
-		#fixes if 1st minindex is after 1st maxindex
+
+		#2) fixes if 1st minindex is after 1st maxindex
 		if(position.ext$maxindex[1] < position.ext$minindex[1]) { position.ext$minindex = rbind(c(1,1),position.ext$minindex) } 
-		row=1; i=1; j=1
-		while(max(c(i,j)) <= min(c(length(position.ext$minindex[,1]),length(position.ext$maxindex[,1])))) {
+		
+		#3 find the curves (enter the bucle)
+
+		row=1; #row means each curve
+		i=1; j=1 #i minimums; j maximums
+		while(max(c(i,j)) <= min(c(length(position.ext$minindex[,1]),length(position.ext$maxindex[,1])))) 
+		{
+			#3.1) assign tempStart and tempEnd using extrema data
 
 			#tempStart at the end of minindexs
 			#tempStart = position.ext$minindex[i,2]
@@ -179,6 +188,8 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 			#end at the first maximum value
 			#tempEnd = position.ext$maxindex[j,1]
 
+			#3.2) get heigh. Store curve if it's enough
+
 			height=position[tempEnd]-position[tempStart]
 			if(height >= min_height) { 
 				start[row] = tempStart
@@ -188,7 +199,7 @@ findCurves <- function(displacement, eccon, min_height, draw, title) {
 				#if(eccon=="c") { break } #c only needs one result
 			} 
 			i=i+1; j=j+1
-		}
+		} #end of while
 	} else { #ec, ecS, ce, ceS
 		row=1; i=1; j=2
 
@@ -1964,6 +1975,7 @@ doProcess <- function(options)
 			displacement = getDisplacement(op$EncoderConfigurationName, displacement, op$diameter, op$diameterExt)
 		}
 
+		#TODO: is this needed at all?
 		if(length(displacement)==0) {
 			plot(0,0,type="n",axes=F,xlab="",ylab="")
 			text(x=0,y=0,translate("Encoder is not connected."),cex=1.5)

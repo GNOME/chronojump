@@ -2259,6 +2259,7 @@ public partial class ChronoJumpWindow
 								(i - directionChangeCount + lastNonZero)/2 	//endFrame
 								//to find endFrame, first substract directionChangePeriod from i
 								//then find the middle point between that and lastNonZero
+								//this means that the end is in central point at displacements == 0
 								);
 		
 						if(useRDotNet) {

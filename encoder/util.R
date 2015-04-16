@@ -622,6 +622,12 @@ getDynamics <- function(encoderConfigurationName,
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
 getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
 {
+  #TODO getDynamicsNotInertial needs massBody, massExtra, alpha, and beta in order to calcule the
+  #force in inclinated planes with different push angles
+  
+  #if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+  #  force <- massBody*accel + massBody*g*sin(alpha) + extraMass(g*sin(beta) + accel)
+  #}
 	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
 
 	power <- force*speed

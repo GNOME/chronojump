@@ -225,37 +225,6 @@ getMass <- function(mass, gearedDown, angle) {
 	return ( ( mass / gearedDown ) * sin( angle * pi / 180 ) )
 }
 
-getMassBodyByExercise <- function(massBody, exercisePercentBodyWeight) {
-	if(massBody == 0 || exercisePercentBodyWeight == 0)
-		return (0)
-	
-	return (massBody * exercisePercentBodyWeight / 100.0)
-}
-
-getMassByEncoderConfiguration <- function(encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
-{
-	massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)
-
-	if(
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
-	   encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
-	{
-		massExtra = getMass(massExtra, gearedDown, anglePush)
-	} else if(encoderConfigurationName == "LINEARONPLANE") {
-		massBody = getMass(massBody, gearedDown, anglePush)
-		massExtra = getMass(massExtra, gearedDown, anglePush)
-	} else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-		massBody = getMass(massBody, gearedDown, anglePush)
-		massExtra = getMass(massExtra, gearedDown, angleWeight)
-	}
-		
-	mass = massBody + massExtra
-	return (mass)
-}
 
 #used in alls eccons
 reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothingOneC) 
@@ -607,32 +576,58 @@ isInertial <- function(encoderConfigurationName) {
 		return(FALSE)
 }
 
+getMassBodyByExercise <- function(massBody, exercisePercentBodyWeight) {
+  return (massBody * exercisePercentBodyWeight / 100.0)
+}
+
 getDynamics <- function(encoderConfigurationName,
 			speed, accel, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight,
 			displacement, diameter, inertiaMomentum, smoothing)
 {
-	mass = getMassByEncoderConfiguration (encoderConfigurationName, massBody, massExtra, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight)
-
-	if(isInertial(encoderConfigurationName))
-		return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, smoothing))
-	else 
-		return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
+  massBody = getMassBodyByExercise(massBody,exercisePercentBodyWeight)
+  
+  if(
+    encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1" ||
+      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON1INV" ||
+      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2" ||
+      encoderConfigurationName == "WEIGHTEDMOVPULLEYLINEARONPERSON2INV" ||
+      encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYFRICTION" ||
+      encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
+  {
+    massExtra = getMass(massExtra, gearedDown, anglePush)
+  } else if(encoderConfigurationName == "LINEARONPLANE") {
+    massBody = getMass(massBody, gearedDown, anglePush)
+    massExtra = getMass(massExtra, gearedDown, anglePush)
+  } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+    massBody = getMass(massBody, gearedDown, anglePush)
+    massExtra = getMass(massExtra, gearedDown, angleWeight)
+  }
+  
+  massTotal = massBody + massExtra
+  
+  if(isInertial(encoderConfigurationName))
+    return (getDynamicsInertial(encoderConfigurationName, displacement, diameter, massTotal, inertiaMomentum, smoothing))
+  else 
+    return (getDynamicsNotInertial (encoderConfigurationName, speed, accel, 
+                                    massBody, massExtra, massTotal, 
+                                    exercisePercentBodyWeight, gearedDown, anglePush, angleWeight))
 }
 
 #mass extra can be connected to body or connected to a pulley depending on encoderConfiguration
-getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, mass, exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
-{
-  #TODO getDynamicsNotInertial needs massBody, massExtra, alpha, and beta in order to calcule the
-  #force in inclinated planes with different push angles
-  
-  #if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-  #  force <- massBody*accel + massBody*g*sin(alpha) + extraMass(g*sin(beta) + accel)
-  #}
-	force <- mass*(accel+g)	#g:9.81 (used when movement is against gravity)
+getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel, 
+                                   massBody, massExtra, massTotal,
+                                   exercisePercentBodyWeight, gearedDown, anglePush, angleWeight) 
+{ 
+  force = NULL
+  if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
+    force <- massBody*accel + massBody*g*sin(anglePush) + massExtra*(g*sin(angleWeight) + accel)
+  } else {
+  	force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
+  }
 
 	power <- force*speed
 
-	return(list(mass=mass, force=force, power=power))
+	return(list(mass=massTotal, force=force, power=power))
 }
 
 #diameter: diameter of the axis (where string is wrapped)

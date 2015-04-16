@@ -435,6 +435,14 @@ kinematicRanges <- function(singleFile, displacement, curves,
 		power=c(-maxPower,maxPower)))
 }
 
+canJump <- function(encoderConfigurationName)
+{
+  if(encoderConfigurationName == "LINEAR" || encoderConfigurationName == "LINEARINVERTED")
+    return(TRUE)
+  
+  return(FALSE)
+}
+  
 
 paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, highlight,
 	startX, startH, smoothingOneEC, smoothingOneC, massBody, massExtra, 
@@ -793,7 +801,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		#takeoff = min(which(force[concentric]<=weight)) + length_eccentric + length_isometric
 
 		takeoff = -1
-		if(length(which(force[concentric] <= 0)) == 0)
+		if(! canJump(encoderConfigurationName) || length(which(force[concentric] <= 0)) == 0)
 			takeoff = -1
 		else {
 			#1 get force only in concentric phase

@@ -118,6 +118,7 @@ SOURCES = \
 	AssemblyInfo.cs\
 	chronojump.cs\
 	encoder.cs\
+	encoderRProc.cs\
 	executeAuto.cs\
 	event.cs\
 	eventType.cs\

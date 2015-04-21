@@ -28,8 +28,6 @@ using System.Collections;
 using System.Collections.Generic; //List<T>
 using System.Threading;
 using Mono.Unix;
-using System.Linq;
-using RDotNet;
 using System.Diagnostics; 	//for detect OS and for Process
 using LongoMatch.Gui;
 
@@ -296,9 +294,6 @@ public partial class ChronoJumpWindow
 	
 
 
-	Constants.Status RInitialized;	
-	bool useRDotNet = false; //on 1.5.0 no more RDotNet use
-	
 	private void encoderInitializeStuff() {
 		encoder_pulsebar_capture.Fraction = 1;
 		encoder_pulsebar_capture.Text = "";
@@ -328,8 +323,6 @@ public partial class ChronoJumpWindow
 
 		captureCurvesBarsData = new ArrayList(0);
 		
-		RInitialized = Constants.Status.UNSTARTED;
-
 		try {	
 			playVideoEncoderInitialSetup();
 		} catch {
@@ -344,20 +337,6 @@ public partial class ChronoJumpWindow
 		raspberryOrNetworksInit();
 	}
 
-
-	void on_menuitem_test_rdotnet_activate (object o, EventArgs args) {
-		if(useRDotNet) {
-			if(RInitialized == Constants.Status.UNSTARTED)
-				rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
-
-			if(RInitialized == Constants.Status.OK)
-				new DialogMessage(Constants.MessageTypes.INFO, "RDotNet OK");
-			else
-				new DialogMessage(Constants.MessageTypes.WARNING, "RDotNet does not work");
-		} else 
-			new DialogMessage(Constants.MessageTypes.INFO, "RDotNet is not being used anymore");
-	}
-	
 
 	void on_button_encoder_select_clicked (object o, EventArgs args) {
 		encoder_configuration_win = EncoderConfigurationWindow.View(encoderConfigurationCurrent);
@@ -2008,7 +1987,6 @@ public partial class ChronoJumpWindow
 	}
 
 
-	REngine rengine;
 	int encoderSelectedMinimumHeight;
 
 	//on inertial moment calculation don't need to send curves to R
@@ -2039,7 +2017,7 @@ public partial class ChronoJumpWindow
 		
 		//initialize
 		int [] encoderReadedRaw = new int[recordingTime]; //stored to file in this method
-		encoderReaded = new double[recordingTime];	  //readed from drawing process: updateEncoderCaptureGraphRCalc() 
+		encoderReaded = new double[recordingTime];
 	
 		double sum = 0;
 		string dataString = "";
@@ -2262,106 +2240,101 @@ public partial class ChronoJumpWindow
 								//this means that the end is in central point at displacements == 0
 								);
 		
-						if(useRDotNet) {
-							ecca.ecc.Add(ecc);
-							previousEnd = ecc.endFrame;
-						}
-						else {
-							//on 1.4.9 secundary thread was capturing
-							//while main thread was calculing with RDotNet and updating GUI
-							//
-							//on 1.5.0 secundary thread is capturing and sending data to R process
-							//while main thread is reading data coming from R and updating GUI
 							
-							string eccon = findEccon(true);
-							LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
-							if(ecc.endFrame - ecc.startFrame > 0 ) 
-							{
-								heightAtCurveStart = heightAccumulated;
+						//on 1.4.9 secundary thread was capturing
+						//while main thread was calculing with RDotNet and updating GUI
+						//
+						//on 1.5.0 secundary thread is capturing and sending data to R process
+						//while main thread is reading data coming from R and updating GUI
 
-								double heightCurve = 0;
-								double [] curve = new double[ecc.endFrame - ecc.startFrame];
-								for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-									heightCurve += encoderReaded[j];
-									curve[k]=encoderReaded[j];
-									k++;
+						string eccon = findEccon(true);
+						LogB.Debug("curve stuff" + ecc.startFrame + ":" + ecc.endFrame + ":" + encoderReaded.Length);
+						if(ecc.endFrame - ecc.startFrame > 0 ) 
+						{
+							heightAtCurveStart = heightAccumulated;
+
+							double heightCurve = 0;
+							double [] curve = new double[ecc.endFrame - ecc.startFrame];
+							for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
+								heightCurve += encoderReaded[j];
+								curve[k]=encoderReaded[j];
+								k++;
+							}
+
+							previousEnd = ecc.endFrame;
+
+							heightAccumulated += heightCurve;
+
+							heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
+							LogB.Information(" height: " + heightCurve.ToString());
+
+							//1) check heightCurve in a fast way first to discard curves soon
+							//   only process curves with height >= min_height
+							//2) if it's concentric, only take the concentric curves, 
+							//   but if it's concentric and inertial: take both.
+							//   
+							//   When capturing on inertial, we have the first graph
+							//   that will be converted to the second.
+							//   we need the eccentric phase in order to detect the Ci2
+
+							/*               
+							 *             /\
+							 *            /  \
+							 *           /    \
+							 *____      C1     \      ___
+							 *    \    /        \    /
+							 *     \  /          \  C2
+							 *      \/            \/
+							 *
+							 * C1, C2: two concentric phases
+							 */
+
+							/*               
+							 *____                    ___
+							 *    \    /\      /\    /
+							 *     \ Ci1 \   Ci2 \ Ci3
+							 *      \/    \  /    \/
+							 *             \/
+							 *
+							 * Ci1, Ci2, Ci3: three concentric phases on inertial
+							 */
+
+							//3) if it's ecc-con, don't record first curve if first curve is concentric
+
+							/*
+							 * on inertiaMomentCalculation we don't need to send data to R and get curves
+							 * we will call R at the end
+							 */
+
+							if(! inertiaMomentCalculation) {	
+								bool sendCurve = true;
+								if(heightCurve >= encoderSelectedMinimumHeight) 	//1
+								{
+									if(encoderConfigurationCurrent.has_inertia) {
+										if(capturingFirstPhase)
+											sendCurve = false;
+									} else { // ! encoderConfigurationCurrent.has_inertia
+										if( eccon == "c" && ! ecc.up )
+											sendCurve = false;
+										if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
+											sendCurve = false;
+									}
+									capturingFirstPhase = false;
+								} else {
+									sendCurve = false;
 								}
-									
-								previousEnd = ecc.endFrame;
 
-								heightAccumulated += heightCurve;
-								
-								heightCurve = Math.Abs(heightCurve / 10); //mm -> cm
-								LogB.Information(" height: " + heightCurve.ToString());
-								
-								//1) check heightCurve in a fast way first to discard curves soon
-								//   only process curves with height >= min_height
-								//2) if it's concentric, only take the concentric curves, 
-								//   but if it's concentric and inertial: take both.
-								//   
-								//   When capturing on inertial, we have the first graph
-								//   that will be converted to the second.
-								//   we need the eccentric phase in order to detect the Ci2
-								
-								/*               
-								 *             /\
-								 *            /  \
-								 *           /    \
-								 *____      C1     \      ___
-								 *    \    /        \    /
-								 *     \  /          \  C2
-								 *      \/            \/
-								 *
-								 * C1, C2: two concentric phases
-								 */
-								
-								/*               
-								 *____                    ___
-								 *    \    /\      /\    /
-								 *     \ Ci1 \   Ci2 \ Ci3
-								 *      \/    \  /    \/
-								 *             \/
-								 *
-								 * Ci1, Ci2, Ci3: three concentric phases on inertial
-								 */
-								
-								//3) if it's ecc-con, don't record first curve if first curve is concentric
-						
-								/*
-								 * on inertiaMomentCalculation we don't need to send data to R and get curves
-								 * we will call R at the end
-								 */
+								if(sendCurve) {
+									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
+											pCaptureNoRDotNet, 
+											heightAtCurveStart, 
+											//curve); 				//uncompressed
+										UtilEncoder.CompressData(curve, 25)	//compressed
+											);
 
-								if(! inertiaMomentCalculation) {	
-									bool sendCurve = true;
-									if(heightCurve >= encoderSelectedMinimumHeight) 	//1
-									{
-										if(encoderConfigurationCurrent.has_inertia) {
-											if(capturingFirstPhase)
-												sendCurve = false;
-										} else { // ! encoderConfigurationCurrent.has_inertia
-											if( eccon == "c" && ! ecc.up )
-												sendCurve = false;
-											if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
-												sendCurve = false;
-										}
-										capturingFirstPhase = false;
-									} else {
-										sendCurve = false;
-									}
-
-									if(sendCurve) {
-										UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-												pCaptureNoRDotNet, 
-												heightAtCurveStart, 
-												//curve); 				//uncompressed
-											UtilEncoder.CompressData(curve, 25)	//compressed
-												);
-
-										ecca.curvesDone ++;
-										ecca.curvesAccepted ++;
-										ecca.ecc.Add(ecc);
-									}
+									ecca.curvesDone ++;
+									ecca.curvesAccepted ++;
+									ecca.ecc.Add(ecc);
 								}
 							}
 						}
@@ -3855,19 +3828,11 @@ public partial class ChronoJumpWindow
 	 * update encoder capture graph stuff
 	 */
 
-	private void updateEncoderCaptureGraph(bool graphSignal, bool calcCurves, bool plotCurvesBars) 
-	{
-		if(encoderCapturePoints != null) 
-		{
-			if(graphSignal)
-				updateEncoderCaptureGraphPaint(); 
-			if(calcCurves)
-				updateEncoderCaptureGraphRCalcPre(plotCurvesBars); 
-		}
-	}
-	
 	private void updateEncoderCaptureGraphPaint() 
 	{
+		if(encoderCapturePoints == null)
+			return;
+
 		bool refreshAreaOnly = false;
 		
 		//mark meaning screen should be erased
@@ -3945,301 +3910,9 @@ public partial class ChronoJumpWindow
 
 	static List<string> encoderCaptureStringR;
 	static ArrayList captureCurvesBarsData;
-	static bool updatingEncoderCaptureGraphRCalc;
 	
 	double massDisplacedEncoder = 0;
 	
-	private void updateEncoderCaptureGraphRCalcPre(bool plotCurvesBars) 
-	{
-		//check if this helps to show bars on slow computers
-		if(! updatingEncoderCaptureGraphRCalc) {
-			updateEncoderCaptureGraphRCalc(plotCurvesBars);
-			updatingEncoderCaptureGraphRCalc = false;
-		}
-	}
-	
-	private void updateEncoderCaptureGraphRCalc(bool plotCurvesBars) 
-	{
-		if(RInitialized == Constants.Status.UNSTARTED || RInitialized == Constants.Status.ERROR)
-			return;
-		
-		if(! eccaCreated)
-			return;
-		if(ecca.ecc.Count <= ecca.curvesDone) 
-			return;
-		
-		updatingEncoderCaptureGraphRCalc = true;
-		LogB.Debug("updateEncoderCaptureGraphRCalc");
-
-		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-		LogB.Debug("\n" + ecc.DirectionAsString() + " " + ecc.startFrame.ToString() + " " + ecc.endFrame.ToString());
-		
-		string eccon = findEccon(true);
-			
-		LogB.Debug("eccon: + " + eccon + "; endFrame: " + ecc.endFrame + "; startFrame: " + ecc.startFrame + 
-				"; duration: " + (ecc.endFrame - ecc.startFrame).ToString() );
-		
-		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
-				(ecc.endFrame - ecc.startFrame) > 0 ) 
-		{
-			LogB.Information("Processing... ");
-
-			//on excentric-concentric discard if first curve is concentric
-			if ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 ) {
-				ecca.curvesDone ++;
-				LogB.Warning("Discarded curve. eccentric-concentric and first curve is concentric.");
-				return;	
-			}
-			
-			double height = 0;
-
-			double [] curve = new double[ecc.endFrame - ecc.startFrame];
-			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-				height += encoderReaded[j];
-				curve[k]=encoderReaded[j];
-				k++;
-			}
-			
-			//check height in a fast way first to discard curves soon
-			//only process curves with height >= min_height
-			height = Math.Abs(height / 10); //mm -> cm
-			LogB.Information(" height: " + height.ToString());
-			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
-				ecca.curvesDone ++;
-				LogB.Warning("Discarded curve. height is very low.");
-				return;	
-			}
-
-			
-			LogB.Information("rdotnet 1 speedCut...");
-
-			NumericVector curveToR = rengine.CreateNumericVector(curve);
-			rengine.SetSymbol("curveToR", curveToR);
-
-			//cannot do smooth.spline with less than 4 values
-			if(curveToR.Length <= 4)
-				return;
-			try {
-				rengine.Evaluate("speedCut <- smooth.spline( 1:length(curveToR), curveToR, spar=0.7)");
-			} catch {
-				return;
-			}
-
-			LogB.Information("rdotnet 2 extrema...");
-			//reduce curve by speed, the same way as graph.R
-			rengine.Evaluate("b=extrema(speedCut$y)");
-
-
-			if(ecc.up) { //concentric
-				rengine.Evaluate("speedT1 <- min(which(speedCut$y == max(speedCut$y)))");
-				rengine.Evaluate("speedT2 <- max(which(speedCut$y == max(speedCut$y)))");
-			} else {
-				rengine.Evaluate("speedT1 <- min(which(speedCut$y == min(speedCut$y)))");
-				rengine.Evaluate("speedT2 <- max(which(speedCut$y == min(speedCut$y)))");
-			}
-			
-			LogB.Information("rdotnet 3 crossings...");
-			int speedT1 = rengine.GetSymbol("speedT1").AsInteger().First();
-			int speedT2 = rengine.GetSymbol("speedT2").AsInteger().First();
-
-			rengine.Evaluate("bcrossLen <- length(b$cross[,2])");
-			int bcrossLen = rengine.GetSymbol("bcrossLen").AsInteger().First();
-
-			rengine.Evaluate("bcross <- b$cross[,2]");
-			IntegerVector bcross = rengine.GetSymbol("bcross").AsInteger();
-
-			//left adjust
-			//find the b$cross at left of max speed
-
-			LogB.Debug("rdotnet 4 reduceCurveBySpeed left...");
-
-			int x_ini = 0;	
-			if(bcrossLen == 0)
-				x_ini = 0;
-			else if(bcrossLen == 1) {
-				if(bcross[0] < speedT1)
-					x_ini = bcross[0];
-			} else {
-				x_ini = bcross[0];	//not 1, we are in C# now
-				for(int i=0; i < bcross.Length; i++) {
-					if(bcross[i] < speedT1)
-						x_ini = bcross[i];	//left adjust
-				}
-			}
-			LogB.Debug("rdotnet 5 reduceCurveBySpeed right...");
-
-			//rengine.Evaluate("curveToRcumsum = cumsum(curveToR)");
-
-			//TODO: this has to be at right of x_ini
-			//rengine.Evaluate("firstFrameAtTop <- min(which(curveToRcumsum == max (curveToRcumsum)))");
-			//int x_end = rengine.GetSymbol("firstFrameAtTop").AsInteger().First();
-
-
-			//right adjust
-			//find the b$cross at right of max speed
-	
-			int x_end = curveToR.Length; //good to declare here
-			if(bcrossLen == 0) {
-				x_end = curveToR.Length;
-			} else if(bcrossLen == 1) {
-				if(bcross[0] > speedT2)
-					x_end = bcross[0];
-			} else {
-				for(int i=bcross.Length -1; i >= 0; i--) {
-					if(bcross[i] > speedT2)
-						x_end = bcross[i];	//right adjust
-				}
-			}
-			
-			LogB.Debug("rdotnet 6 more process...");
-
-			LogB.Information("reducedCurveBySpeed (start, end)");
-			LogB.Information((ecc.startFrame + x_ini).ToString());
-			LogB.Information((ecc.startFrame + x_end).ToString());
-
-			//TODO: this is to get info about previous TODO bug
-			if(ecc.startFrame + x_end <= ecc.startFrame + x_ini)
-				for(int i=x_end; i < x_ini; i ++)
-					LogB.Information(curveToR[i] + ","); //TODO: provar aixo!!				
-
-			//create a curveToR with only reduced curve
-			NumericVector curveToRreduced = rengine.CreateNumericVector(new double[x_end - x_ini]);
-			for(int k=0, i=x_ini; i < x_end; i ++)
-				curveToRreduced[k++] = curveToR[i]; 				
-			rengine.SetSymbol("curveToRreduced", curveToRreduced);
-
-			//2) do speed and accel for curve once reducedCurveBySpeed
-
-			//cannot do smooth.spline with less than 4 values
-			if(curveToRreduced.Length <= 4)
-				return;
-			try {
-				rengine.Evaluate("speed <- smooth.spline( 1:length(curveToRreduced), curveToRreduced, spar=0.7)");
-			} catch {
-				return;
-			}
-
-			//height (or range)	
-			rengine.Evaluate("curveToRreduced.cumsum <- cumsum(curveToRreduced)");
-			rengine.Evaluate("range <- abs(curveToRreduced.cumsum[length(curveToRreduced)]-curveToRreduced.cumsum[1])");
-			
-			//check height now in a more accurate way than before
-			height = rengine.GetSymbol("range").AsNumeric().First();
-			height = Math.Abs(height / 10); //mm -> cm
-
-			//only process curves with height >= min_height
-			if(height < (int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value) {
-				ecca.curvesDone ++;
-				LogB.Warning("Discarded curve. height (after reduceCurveBySpeed) is very low.");
-				return;	
-			}
-
-
-			//accel and propulsive stuff
-			rengine.Evaluate("accel <- predict( speed, deriv=1 )");
-			rengine.Evaluate("accel$y <- accel$y * 1000"); //input data is in mm, conversion to m
-
-			//propulsive stuff
-			//int propulsiveEnd = curveToRreduced.Length;
-			rengine.Evaluate("g <- 9.81");
-			if(ecc.up && preferences.encoderPropulsive) {
-				//check if propulsive phase ends
-				LogB.Information("accel$y");
-				//rengine.Evaluate("print(accel$y)");
-				rengine.Evaluate("propulsiveStuffAtRight <- length(which(accel$y <= -g))"); 
-				int propulsiveStuffAtRight = rengine.GetSymbol("propulsiveStuffAtRight").AsInteger().First();
-				LogB.Information(string.Format("propulsiveStuffAtRight: {0}", propulsiveStuffAtRight));
-				if(propulsiveStuffAtRight > 0) {
-					rengine.Evaluate("propulsiveEnd <- min(which(accel$y <= -g))");
-					int propulsiveEnd = rengine.GetSymbol("propulsiveEnd").AsInteger().First();
-
-					rengine.Evaluate("curveToRreduced <- curveToRreduced[1:propulsiveEnd]");
-					rengine.Evaluate("speed$y <- speed$y[1:propulsiveEnd]");
-					rengine.Evaluate("accel$y <- accel$y[1:propulsiveEnd]");
-				}
-			}
-			//end of propulsive stuff
-
-
-			NumericVector mass = rengine.CreateNumericVector(new double[] { massDisplacedEncoder });
-			rengine.SetSymbol("mass", mass);
-		
-
-			//if isJump == "True":
-			rengine.Evaluate("force <- mass*(accel$y+9.81)");
-			//else:
-			//rengine.Evaluate("force <- mass*accel$y')
-			rengine.Evaluate("power <- force*speed$y");
-
-			if(ecc.up) //concentric
-				rengine.Evaluate("meanPower <- mean(power)");
-			else
-				rengine.Evaluate("meanPower <- mean(abs(power))");
-
-			rengine.Evaluate("peakPower <- max(power)");
-
-			//without the 'min', if there's more than one value it returns a list and this make crash later in
-			//this code:  pp_ppt = peakPower / peakPowerT
-			rengine.Evaluate("peakPowerT=min(which(power == peakPower))"); 
-
-			//rengine.Evaluate("print(speed$y)");
-			
-			rengine.Evaluate("meanSpeed = mean(abs(speed$y))");
-			double meanSpeed = rengine.GetSymbol("meanSpeed").AsNumeric().First();
-
-			double maxSpeed = 0;
-			if(ecc.up) {
-				rengine.Evaluate("maxSpeed = max(speed$y)");
-				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
-				//phase = "   up,"
-			}
-			else {
-				rengine.Evaluate("maxSpeed = min(speed$y)");
-				maxSpeed = rengine.GetSymbol("maxSpeed").AsNumeric().First();
-				//phase = " down,"
-			}
-			
-			double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
-			double peakPower = rengine.GetSymbol("peakPower").AsNumeric().First();
-			double peakPowerT = rengine.GetSymbol("peakPowerT").AsNumeric().First();
-
-			peakPowerT = peakPowerT / 1000; //ms -> s
-			double pp_ppt = peakPower / peakPowerT;
-
-			//plot
-			if(plotCurvesBars) {
-				string title = "";
-				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-				captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, 0, 0, meanPower, peakPower)); //0,0: meanForce, maxForce
-
-				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
-						true);	//capturing
-			}
-
-
-			LogB.Information(string.Format(
-						"height: {0}\nmeanSpeed: {1}\n, maxSpeed: {2}\n, maxSpeedT: {3}\n" + 
-						"meanPower: {4}\npeakPower: {5}\npeakPowerT: {6}", 
-						height, meanSpeed, maxSpeed, speedT1, meanPower, peakPower, peakPowerT));
-			
-			encoderCaptureStringR.Add(string.Format("\n{0},2,a,3,4,{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},7",
-					ecca.curvesAccepted +1,
-					ecc.startFrame, ecc.endFrame-ecc.startFrame,
-					Util.ConvertToPoint(height*10), //cm	
-					Util.ConvertToPoint(meanSpeed), Util.ConvertToPoint(maxSpeed), speedT1,
-					Util.ConvertToPoint(meanPower), Util.ConvertToPoint(peakPower), 
-					Util.ConvertToPoint(peakPowerT*1000), Util.ConvertToPoint(peakPower / peakPowerT) 
-					));
-		
-			treeviewEncoderCaptureRemoveColumns();
-			ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
-		}
-
-		ecca.curvesDone ++;
-	}
-
 	//if we are capturing, play sounds
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
 			ArrayList data6Variables, bool capturing) 
@@ -4658,24 +4331,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("encoderThreadStart begins");
 			if( runEncoderCaptureCsharpCheckPort(chronopicWin.GetEncoderPort()) ) {
 				if(action == encoderActions.CAPTURE) {
-					if(useRDotNet) {
-						if(RInitialized == Constants.Status.UNSTARTED)
-							rengine = UtilEncoder.RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
-
-						/* 
-						 * if error means a problem with RDotNet, not necessarily a problem with R
-						 * we can contnue but without realtime data
-						 *
-						 if(RInitialized == Constants.Status.ERROR) {
-						 new DialogMessage(Constants.MessageTypes.WARNING,
-						 Catalog.GetString("Sorry. Error doing graph.") +
-						 "\n" + Catalog.GetString("Maybe R or EMD are not installed.") +
-						 "\n\nhttp://www.r-project.org/");
-						 return;
-						 }
-						 */
-					} else
-						runEncoderCaptureNoRDotNetInitialize();
+					runEncoderCaptureNoRDotNetInitialize();
 				}
 				
 				image_encoder_width = UtilGtk.WidgetWidth(viewport_image_encoder_capture)-5; 
@@ -4716,7 +4372,6 @@ public partial class ChronoJumpWindow
 
 				if(action == encoderActions.CAPTURE) {
 					captureCurvesBarsData = new ArrayList();
-					updatingEncoderCaptureGraphRCalc = false;
 
 					needToRefreshTreeviewCapture = false;
 					encoderSelectedMinimumHeight =(int) encoderCaptureOptionsWin.spin_encoder_capture_min_height.Value;
@@ -5184,10 +4839,8 @@ LogB.Debug("D");
 				encoderStopVideoRecord();
 			}
 
-			if(! useRDotNet) {
-				UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
-				pCaptureNoRDotNet.WaitForExit();
-			}
+			UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
+			pCaptureNoRDotNet.WaitForExit();
 			
 			LogB.ThreadEnded(); 
 			return false;
@@ -5196,53 +4849,35 @@ LogB.Debug("D");
 		{
 			updatePulsebar(encoderActions.CAPTURE); //activity on pulsebar
 			
-			if(useRDotNet) {
-				//calculations with RDotNet are not available yet on inertial	
-				if(encoderConfigurationCurrent.has_inertia) {
-					UtilGtk.ErasePaint(encoder_capture_curves_bars_drawingarea, encoder_capture_curves_bars_pixmap);
-					layout_encoder_capture_curves_bars.SetMarkup("Realtime inertial calculations\nnot available in this version");
-					int textWidth = 1;
-					int textHeight = 1;
-					int graphWidth=encoder_capture_curves_bars_drawingarea.Allocation.Width;
-					layout_encoder_capture_curves_bars.GetPixelSize(out textWidth, out textHeight); 
-					encoder_capture_curves_bars_pixmap.DrawLayout (pen_black_encoder_capture, 
-							Convert.ToInt32( (graphWidth/2) - textWidth/2), 0, //x, y 
-							layout_encoder_capture_curves_bars);
+			//capturingSendCurveToR(); //unused, done while capturing
+			readingCurveFromR();
 
-					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
-				} else
-					updateEncoderCaptureGraph(true, true, true); //graphSignal, calcCurves, plotCurvesBars
-			} else {
-				//capturingSendCurveToR(); //unused, done while capturing
-				readingCurveFromR();
-				
-				updateEncoderCaptureGraph(true, false, false); //graphSignal, no calcCurves, no plotCurvesBars
-	
-				if(needToRefreshTreeviewCapture) 
-				{
-					//LogB.Error("HERE YES");
-					//LogB.Error(encoderCaptureStringR);
-					
-					treeviewEncoderCaptureRemoveColumns();
-					ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
-			
-					//if(plotCurvesBars) {
-						string title = "";
-						string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
-						double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
-						double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
-						//TODO:
-						//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
-						//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
+			updateEncoderCaptureGraphPaint();
 
-						plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
-								true);	//capturing
-					//}
+			if(needToRefreshTreeviewCapture) 
+			{
+				//LogB.Error("HERE YES");
+				//LogB.Error(encoderCaptureStringR);
 
-					needToRefreshTreeviewCapture = false;
-				}
+				treeviewEncoderCaptureRemoveColumns();
+				ecca.curvesAccepted = createTreeViewEncoderCapture(encoderCaptureStringR);
+
+				//if(plotCurvesBars) {
+				string title = "";
+				string mainVariable = encoderCaptureOptionsWin.GetMainVariable();
+				double mainVariableHigher = encoderCaptureOptionsWin.GetMainVariableHigher(mainVariable);
+				double mainVariableLower = encoderCaptureOptionsWin.GetMainVariableLower(mainVariable);
+				//TODO:
+				//captureCurvesBarsData.Add(new EncoderBarsData(meanSpeed, maxSpeed, meanPower, peakPower));
+				//captureCurvesBarsData.Add(new EncoderBarsData(20, 39, 10, 40));
+
+				plotCurvesGraphDoPlot(mainVariable, mainVariableHigher, mainVariableLower, captureCurvesBarsData, 
+						true);	//capturing
+				//}
+
+				needToRefreshTreeviewCapture = false;
 			}
-			
+
 			LogB.Debug(" Cap:", encoderThread.ThreadState.ToString());
 		} else if(capturingCsharp == encoderCaptureProcess.STOPPING) {
 			//stop video		
@@ -5271,7 +4906,7 @@ LogB.Debug("D");
 			return false;
 		}
 		updatePulsebar(encoderActions.CAPTURE_IM); //activity on pulsebar
-		updateEncoderCaptureGraph(true, false, false); //graphSignal, not calcCurves, not plotCurvesBars
+		updateEncoderCaptureGraphPaint();
 
 		Thread.Sleep (25);
 		LogB.Debug(" CapIM:", encoderThread.ThreadState.ToString());

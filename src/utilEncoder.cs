@@ -26,8 +26,6 @@ using System.Diagnostics; 	//for detect OS and for Process
 using System.IO; 		//for detect OS
 using Mono.Unix;
 
-using System.Linq;	//RDotNet
-using RDotNet;		//RDotNet
 
 //this class tries to be a space for methods that are used in different classes
 public class UtilEncoder
@@ -233,7 +231,7 @@ public class UtilEncoder
 
 	
 	/*
-	 * DEPRECATED, now use always RDotNet
+	 * DEPRECATED, now use always RDotNet. Until 1.5.0 where RDotNet is not used anymore. Neither this Pyton method.
 	public static void RunEncoderCapturePython(string title, EncoderStruct es, string port) 
 	{
 		CancelRScript = false;
@@ -285,81 +283,6 @@ public class UtilEncoder
 		while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
 	}
 	*/
-	
-	public static REngine RunEncoderCaptureCsharpInitializeR(REngine rengine, out Constants.Status RInitialized) 
-	{
-		LogB.Information("initializing rdotnet");
-		
-		//RDotNet.StartupParameter rsup = new RDotNet.StartupParameter();
-		//rsup.Interactive = false;
-		//rsup.Quiet = false;
-
-		rengine = REngine.CreateInstance("RDotNet");
-		
-		// From v1.5, REngine requires explicit initialization.
-		// You can set some parameters.
-
-		try {
-			//rengine.Initialize(rsup);
-			rengine.Initialize();
-		} catch {
-			RInitialized = Constants.Status.ERROR;
-			return rengine;
-		}
-		//Previous command, unfortunatelly localizes all GUI to english
-		//then call Catalog.Init again in order to see new windows localised		
-		//Catalog.Init("chronojump",System.IO.Path.Combine(Util.GetPrefixDir(),"share/locale"));
-
-		//load extrema method copied from EMD package
-		string utilRPath = GetEncoderScriptUtilR();
-		string graphRPath = GetEncoderScriptGraph();
-		
-		//On win32 R understands backlash as an escape character and 
-		//a file path uses Unix-like path separator '/'
-		if(UtilAll.IsWindows()) {
-			utilRPath = utilRPath.Replace("\\","/");
-			graphRPath = graphRPath.Replace("\\","/");
-		}
-		LogB.Information(utilRPath);
-		LogB.Information(graphRPath);
-		
-		try {
-			//load extrema
-			rengine.Evaluate("source('" + utilRPath + "')");
-			//load more stuff and call later using RDotNet
-			rengine.Evaluate("source('" + graphRPath + "')");
-		} catch {
-			RInitialized = Constants.Status.ERROR;
-			return rengine;
-		}
-
-		try {
-			// .NET Framework array to R vector.
-			NumericVector group1 = rengine.CreateNumericVector(new double[] { 30.02, 29.99, 30.11, 29.97, 30.01, 29.99 });
-			rengine.SetSymbol("group1", group1);
-			// Direct parsing from R script.
-			NumericVector group2 = rengine.Evaluate("group2 <- c(29.89, 29.93, 29.72, 29.98, 30.02, 29.98)").AsNumeric();
-
-			// Test difference of mean and get the P-value.
-			GenericVector testResult = rengine.Evaluate("t.test(group1, group2)").AsList();
-			double p = testResult["p.value"].AsNumeric().First();
-
-			//not using LogB because like with Console the format of numbers is displayed better
-			Console.WriteLine("Group1: [{0}]", string.Join(", ", group1));
-			Console.WriteLine("Group2: [{0}]", string.Join(", ", group2));
-			Console.WriteLine("P-value = {0:0.000}", p);
-		} catch {
-			RInitialized = Constants.Status.ERROR;
-			return rengine;
-		}
-
-		LogB.Information("initialized rdotnet");
-		
-		RInitialized = Constants.Status.OK;
-
-		return rengine;
-	}
-	
 	
 	public static EncoderGraphROptions PrepareEncoderGraphOptions(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
 	{
@@ -419,70 +342,6 @@ public class UtilEncoder
 				scriptGraphR);
 	}
 
-	/*	
-	 *	Currently unused because this was called in main thread and when a pulse thread exists
-	 *	It should be without threading or in the GTK thread
-	 *	Now graph call is so fast with the call_graph.R
-	 *	then there's no need to add the complexity of calling RunEncoderGraphRDotNet outside the thread
-	 *	because the GTK thread has some interesting things that it does when it ends.
-	 *	We have enough speed now and we don't want to add more bugs
-	 *
-	public static bool RunEncoderGraph(REngine rengine, Constants.Status RInitialized,
-			string title, EncoderStruct es, bool neuromuscularProfileDo) 
-	{
-		if(RInitialized == Constants.Status.UNSTARTED)
-			RunEncoderCaptureCsharpInitializeR(rengine, out RInitialized);
-		
-		bool result = false;
-		if(RInitialized == Constants.Status.ERROR)
-			result = RunEncoderGraphNoRDotNet(title, es, neuromuscularProfileDo);
-		else if(RInitialized == Constants.Status.OK)
-			result = RunEncoderGraphRDotNet(rengine, title, es, neuromuscularProfileDo);
-
-		return result;
-	}
-
-	//this method uses RDotNet
-	public static bool RunEncoderGraphRDotNet(REngine rengine, string title, EncoderStruct es, bool neuromuscularProfileDo) 
-	{
-		//if RDotNet is ok, graph.R is already loaded
-		rengine.Evaluate("meanPower <- mean(c(2,3,4,5,6,7,8))");
-		double meanPower = rengine.GetSymbol("meanPower").AsNumeric().First();
-		Log.WriteLine(meanPower.ToString());
-		rengine.Evaluate("print(findPosInPaf(\"Power\", \"max\"))");
-
-		EncoderGraphROptions roptions = PrepareEncoderGraphOptions(title, es, neuromuscularProfileDo);
-		Log.WriteLine(roptions.ToString());	
-
-		//--------------------------------------------
-		//		Attention
-		//this code should be the same as call_graph.R
-		//--------------------------------------------
-
-		//TODO: pass roptions to RDotNet objects and then call graph.R
-		CharacterVector charVec;
-	
-		Log.WriteLine("-1-");	
-		string str_string = roptions.outputData2;
-		Log.WriteLine(str_string);
-		
-		charVec = rengine.CreateCharacterVector(new[] { str_string });
-		rengine.SetSymbol("OutputData2", charVec);
-	
-		Log.WriteLine("-2-");	
-		Log.WriteLine(roptions.specialData);	
-		Log.WriteLine("-3-");	
-		CharacterVector charVec2 = rengine.CreateCharacterVector(new[] { roptions.specialData });
-		rengine.SetSymbol("SpecialData", charVec2);
-		
-		Log.WriteLine(roptions.operatingSystem);	
-		charVec = rengine.CreateCharacterVector(new[] { roptions.operatingSystem });
-		rengine.SetSymbol("OperatingSystem", charVec);
-
-		return true;
-	}
-	*/
-
 
 
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
@@ -504,27 +363,6 @@ public class UtilEncoder
 		
 		LogB.Debug("<-- writen line 1");
 	}
-	/* unused
-	 * here curve is sent uncompressed ([] double)
-	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double heightAtStart, double [] d)
-	{
-		LogB.Debug("writing line 1 -->");
-		
-		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
-		LogB.Debug("curveSend [heightAtStart]",curveSend);
-		p.StandardInput.WriteLine(curveSend);
-
-		//maybe this method falis when there's lots of data
-		curveSend = string.Join(" ", Array.ConvertAll(d, x => x.ToString()));
-		
-		//TODO convert comma to point in this doubles
-
-		LogB.Debug("curveSend [displacement array]",curveSend);
-		p.StandardInput.WriteLine(curveSend);
-		
-		LogB.Debug("<-- writen line 1");
-	}
-	*/
 	
 	public static void RunEncoderCaptureNoRDotNetSendEnd(Process p)
 	{

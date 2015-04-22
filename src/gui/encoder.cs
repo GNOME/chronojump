@@ -245,6 +245,9 @@ public partial class ChronoJumpWindow
 	//STOPPING is used to stop the camera. It has to be called only one time
 	enum encoderCaptureProcess { CAPTURING, STOPPING, STOPPED } 
 	static encoderCaptureProcess capturingCsharp;	
+		
+	EncoderRProcCapture encoderRProcCapture;
+	EncoderRProcAnalyze encoderRProcAnalyze;
 
 	/* 
 	 *
@@ -317,6 +320,10 @@ public partial class ChronoJumpWindow
 		
 		//spin_encoder_capture_inertial.Value = Convert.ToDouble(Util.ChangeDecimalSeparator(
 		//			SqlitePreferences.Select("inertialmomentum")));
+		
+		//initialize capture and analyze classes		
+		encoderRProcCapture = new EncoderRProcCapture();
+		//encoderRProcAnalyze = new EncoderRProcAnalyze();
 		
 		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
@@ -2325,11 +2332,9 @@ public partial class ChronoJumpWindow
 								}
 
 								if(sendCurve) {
-									UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-											pCaptureNoRDotNet, 
+									encoderRProcCapture.SendCurve(
 											heightAtCurveStart, 
-											//curve); 				//uncompressed
-										UtilEncoder.CompressData(curve, 25)	//compressed
+											UtilEncoder.CompressData(curve, 25)	//compressed
 											);
 
 									ecca.curvesDone ++;
@@ -4552,150 +4557,9 @@ public partial class ChronoJumpWindow
 				"none",	//SpecialData
 				ep);
 
-		runEncoderCaptureNoRDotNetStart(es);
+		encoderRProcCapture.StartOrContinue(es);
 	}
 	
-	private static Process pCaptureNoRDotNet;
-
-	//this has to here (and not in UtilEncode.cs) in order to be able to call: readingCurveFromR
-	private void runEncoderCaptureNoRDotNetStart(EncoderStruct es)
-	{
-LogB.Debug("A");
-		ProcessStartInfo pinfo;
-		//If output file is not given, R will try to write in the running folder
-		//in which we may haven't got permissions
-	
-		string pBin="";
-		pinfo = new ProcessStartInfo();
-
-		pBin="Rscript";
-		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
-		}
-LogB.Debug("B");
-
-
-		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
-				"none", 	//title
-				es, 
-				false,	//neuromuscularProfile
-			       	false	//translate (graphs)
-				).ToString();
-
-
-		string optionsFile = Path.GetTempPath() + "Roptions.txt";
-		TextWriter writer = File.CreateText(optionsFile);
-		writer.Write(scriptOptions);
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
-
-
-	
-		//on Windows we need the \"str\" to call without problems in path with spaces
-		//pinfo.Arguments = "\"" + "passToR.R" + "\" " + optionsFile;
-		pinfo.Arguments = "\"" + UtilEncoder.GetEncoderScriptCallCaptureNoRdotNet() + "\" " + optionsFile;
-	
-		LogB.Information("Arguments:", pinfo.Arguments);
-		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
-		LogB.Information("--- 2 --- " + pinfo.Arguments.ToString() + " ---");
-
-		pinfo.FileName=pBin;
-
-		pinfo.CreateNoWindow = true;
-		pinfo.UseShellExecute = false;
-		pinfo.RedirectStandardInput = true;
-		pinfo.RedirectStandardError = true;
-		//pinfo.RedirectStandardOutput = true; 
-
-		
-
-LogB.Debug("C");
-try {
-		pCaptureNoRDotNet = new Process();
-		pCaptureNoRDotNet.StartInfo = pinfo;
-		
-		// output will go here
-		//pCaptureNoRDotNet.OutputDataReceived += new DataReceivedEventHandler(readingCurveFromR);
-		pCaptureNoRDotNet.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
-
-		pCaptureNoRDotNet.Start();
-
-		// Start asynchronous read of the output.
-		// Caution: This has to be called after Start
-		//pCaptureNoRDotNet.BeginOutputReadLine();
-		pCaptureNoRDotNet.BeginErrorReadLine();
-
-LogB.Debug("D");
-} catch {
-	Console.WriteLine("catched at runEncoderCaptureNoRDotNetStart");
-}
-//		LogB.Information(p.StandardOutput.ReadToEnd());
-//		LogB.Warning(p.StandardError.ReadToEnd());
-
-//		p.WaitForExit();
-
-//		while ( ! ( File.Exists(outputFileCheck) || CancelRScript ) );
-	}
-
-
-	
-	/*
-	 * unused, done while capturing
-	 *
-	private void capturingSendCurveToR() 
-	{
-		if(! eccaCreated)
-			return;
-
-		//LogB.Information("ecca.ecc.Count", ecca.ecc.Count.ToString());
-		//LogB.Information("ecca.curvesDone", ecca.curvesDone.ToString());
-		if(ecca.ecc.Count <= ecca.curvesDone) 
-			return;
-			
-		EncoderCaptureCurve ecc = (EncoderCaptureCurve) ecca.ecc[ecca.curvesDone];
-		string eccon = findEccon(true);
-		
-		if( ( ( eccon == "c" && ecc.up ) || eccon != "c" ) &&
-				(ecc.endFrame - ecc.startFrame) > 0 ) 
-		{
-			LogB.Information("Processing at capturingSendCurveToR... ");
-			
-			//on excentric-concentric discard if first curve is concentric
-			if ( (eccon == "ec" || eccon == "ecS") && ecc.up && ecca.curvesAccepted == 0 ) {
-				ecca.curvesDone ++;
-				LogB.Warning("Discarded curve. eccentric-concentric and first curve is concentric.");
-				return;	
-			}
-
-			double [] curve = new double[ecc.endFrame - ecc.startFrame];
-			for(int k=0, j=ecc.startFrame; j < ecc.endFrame ; j ++) {
-				//height += encoderReaded[j];
-				curve[k]=encoderReaded[j];
-				k++;
-			}
-
-			LogB.Information("Sending... ");
-			UtilEncoder.RunEncoderCaptureNoRDotNetSendCurve(
-					pCaptureNoRDotNet, 
-					curve);
-
-			ecca.curvesAccepted ++;
-		
-		}
-		ecca.curvesDone ++;
-	}
-	*/
-
-	/*
-	 * History
-	 * 1) In the beginning we used RDotNet for C# - R communication. But it was buggy, complex, problems with try catch, ...
-	 * 2) Then we used stdin,stdout,stderr communication. Worked fine on Linux and Windows but not in Mac
-	 * 3) Then we used a capture.txt file created by R with a row for each curve. But reading it on windows from C# gives file access problems
-	 * 4) Now we try to create one file for each curve and read it here with a try/catch
-	 */
 
 	private void deleteAllCapturedCurveFiles()
 	{
@@ -4715,6 +4579,14 @@ LogB.Debug("D");
 		else //(curveNum <= 9)
 			return(filenameBegins + "-00" + curveNum.ToString());	//eg. "filename-003"
 	}
+
+	/*
+	 * History
+	 * 1) In the beginning we used RDotNet for C# - R communication. But it was buggy, complex, problems with try catch, ...
+	 * 2) Then we used stdin,stdout,stderr communication. Worked fine on Linux and Windows but not in Mac
+	 * 3) Then we used a capture.txt file created by R with a row for each curve. But reading it on windows from C# gives file access problems
+	 * 4) Now we try to create one file for each curve and read it here with a try/catch
+	 */
 
 	static bool needToRefreshTreeviewCapture;
 	static int encoderCaptureReadedLines;
@@ -4808,14 +4680,6 @@ LogB.Debug("D");
 			needToRefreshTreeviewCapture = true;
 		}
 	}
-	private void readingCurveFromRerror (object sendingProcess, DataReceivedEventArgs curveFromR)
-	{
-		if (!String.IsNullOrEmpty(curveFromR.Data))
-		{
-			//use Warning because it's used also to print flow messages
-			LogB.Warning(curveFromR.Data);
-		}
-	}
 				
 	static bool needToCallPrepareEncoderGraphs;
 	private bool pulseGTKEncoderCaptureAndCurves ()
@@ -4839,8 +4703,13 @@ LogB.Debug("D");
 				encoderStopVideoRecord();
 			}
 
+			/*
 			UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
 			pCaptureNoRDotNet.WaitForExit();
+			*/
+			encoderRProcCapture.SendCaptureEnd();
+			//maybe here wait for an R ending signal. R process should not end, but will be waiting next capture
+
 			
 			LogB.ThreadEnded(); 
 			return false;

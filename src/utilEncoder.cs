@@ -343,33 +343,6 @@ public class UtilEncoder
 	}
 
 
-
-	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
-	public static void RunEncoderCaptureNoRDotNetSendCurve(Process p, double heightAtStart, string curveCompressed)
-	{
-		LogB.Debug("writing line 1 -->");
-		
-		string curveSend = "ps " + Util.ConvertToPoint(heightAtStart);
-		LogB.Debug("curveSend [heightAtStart]",curveSend);
-		p.StandardInput.WriteLine(curveSend);
-								
-		curveSend = curveCompressed;
-		
-		//TODO convert comma to point in this doubles
-
-		LogB.Debug("curveSend [displacement array]",curveSend);
-		p.StandardInput.WriteLine(curveSend); 	//this will send some lines because compressed data comes with '\n's
-		p.StandardInput.WriteLine("E");		//this will mean the 'E'nd of the curve. Then data can be uncompressed on R
-		
-		LogB.Debug("<-- writen line 1");
-	}
-	
-	public static void RunEncoderCaptureNoRDotNetSendEnd(Process p)
-	{
-		LogB.Debug("sending end line");
-		p.StandardInput.WriteLine("Q");
-	}
-
 	/*
 	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R
 	 * and has to write a Roptions.txt file

@@ -162,9 +162,6 @@ CesarPlayer/AssemblyInfo.cs
 CesarPlayer/CesarPlayer.dll.config
 win32/chronojump_innosetup.iss
 win32/Makefile
-rdotnet/Makefile
-rdotnet/R.NET/Makefile
-rdotnet/RDotNet.NativeLibrary/Makefile
 deb-pkg.sh
 ])
 

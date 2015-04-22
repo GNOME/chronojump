@@ -49,23 +49,26 @@ packaging (outside the shell): (will fetch chronojump sources from git)
 cerbero-cj buildone chronojump
 cerbero-cj package chronojump
 
-#as in 64 bit there's problems with the video drivers  do:
-cerbero-cj package chronojump --skip-deps-build
-
 #if hard disk it's busy, reset MacOSX, and free space:
+#if on packaging says: "diskimages-helper: DI_kextDriveDisconnect returned 268435459 ((ipc/send) invalid destination port).", free space:
 
-empty trash folder.
+#free space:
+empty trash folder (should be enough)
 Find and delete big files:
 du -h -d 1
 delete the pkg, dmg and the "user"/Library/Caches
 also run top command to see stuck processes and kill them
 
-do again the 
+...and then do again the 
 cerbero-cj buildone chronojump
-cerbero-cj package chronojump --skip-deps-build
+cerbero-cj package chronojump
 
 the 'package chronojump' command should be fast (specially the hdiutil part, if it's slow or the progress is not displayed: "........" CTRL-C reset, top, kill processes and try again both commands
 )
+
+#previous to 1.5.0: as in 64 bit there's problems with the video drivers  do:
+cerbero-cj package chronojump --skip-deps-build
+
 
 #once installed package on Mac, can be tested from the terminal:
 cd /Applications/Chronojump.app/Contents/MacOS/

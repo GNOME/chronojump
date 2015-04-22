@@ -130,9 +130,25 @@ doProcess <- function(options)
 
 	curveNum = 0
 	input <- readLines(f, n = 1L)
-	while(input[1] != "Q") {
-		if(debug)
+	#while(input[1] != "Q") {
+	while(TRUE) {
+		if(debug) {
 			write("doProcess main while", stderr())
+			write(c("input = ", input), stderr())
+		}
+			
+		
+		#if should continue with another capture
+		#then read options again
+		if(input[1] == "C") {
+			write("received a continue signal", stderr())
+			
+			options <- getOptionsFromFile(optionsFile, 32)
+			op <- assignOptions(options)
+
+			curveNum = 0
+			input <- readLines(f, n = 1L)
+		}
 		
 		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long
 		#cat(paste("input is:", input, "\n"))

@@ -595,13 +595,7 @@ getDynamics <- function(encoderConfigurationName,
       encoderConfigurationName == "WEIGHTEDMOVPULLEYROTARYAXIS" ) 
   {
     massExtra = getMass(massExtra, gearedDown, anglePush)
-  } else if(encoderConfigurationName == "LINEARONPLANE") {
-    massBody = getMass(massBody, gearedDown, anglePush)
-    massExtra = getMass(massExtra, gearedDown, anglePush)
-  } else if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-    massBody = getMass(massBody, gearedDown, anglePush)
-    massExtra = getMass(massExtra, gearedDown, angleWeight)
-  }
+  } 
   
   massTotal = massBody + massExtra
   
@@ -620,7 +614,9 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 { 
   force = NULL
   if(encoderConfigurationName == "LINEARONPLANEWEIGHTDIFFANGLE") {
-    force <- massBody*accel + massBody*g*sin(anglePush) + massExtra*(g*sin(angleWeight) + accel)
+    force <- massBody*(accel + g*sin(anglePush * pi / 180)) + massExtra*(g*sin(angleWeight * pi / 180) + accel)
+  } else if(encoderConfigurationName == "LINEARONPLANE"){
+    force <- (massBody + massExtra)*(a + g*sin(anglePush * pi / 180))
   } else {
   	force <- massTotal*(accel+g)	#g:9.81 (used when movement is against gravity)
   }

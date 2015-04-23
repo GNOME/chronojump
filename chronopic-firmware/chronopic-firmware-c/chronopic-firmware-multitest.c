@@ -1,5 +1,18 @@
 /*
- * Version 8.1
+ * Version 2015.x
+ *
+  2005 Original Firmware from Juan González <juan@iearobotics.com>
+  2010 Translated comments to english by Xavi de Blas <xaviblas@gmail.com>
+  2011-2013 Conversion to C by Teng Wei Hua <wadegang@gmail.com>
+  2014 Xavier de Blas: Improvements on Read/send version; Change debounce
+  2015 Ferran Suarez & Xavier de Blas:
+  	implementation of new outputs
+	anticipation in an animated "led-wheel", using pauses on Timer2
+	fast blinking led (flickr)
+
+
+ *
+ *
  * Translating firmware to SDCC:
  * source: http://git.gnome.org/browse/chronojump/plain/chronopic-firmware/chronopic-firmware.asm
 
@@ -34,6 +47,8 @@ History:
 //-- this PIC is going to be used:
 //#include <pic16f876A.h> 	//sdcc for Windows
 #include <pic16f876a.h>		//sdcc for Linux
+
+
 
 
 //*****************************************
@@ -121,9 +136,28 @@ unsigned char command_reaction_time_rb3_off = 'r';
 unsigned char command_reaction_time_rb6_off = 's';
 unsigned char command_reaction_time_rb7_off = 't';
 unsigned char command_reaction_time_animation_light = 'l';
+unsigned char command_reaction_time_animation_flicker = 'f';
+unsigned char command_reaction_time_animation_buzzer = 'z';
+unsigned char position = 0;
+unsigned int timer2Times;
+
+//in timer 2 prescaler
+//160 times x 61 = 1/2 second
+//TODO: fix this comment:
+//Chronojump will pass the 160
+//then max value will be 255 == 0,8 seconds
+//min 1 == 0.003125
+//TODO: maybe n_times have to be done 4 times to have reasonable values (between 0.0125 and 3.2 seconds)
+unsigned int animation_tick = 61; 
+unsigned int animation_tick_n_times = 160;
+
+unsigned char animation_light_should_run = 0; //0 until and 'l' is sent from Chronojump
 
 char version_major = '1';
 char version_minor = '1';
+
+
+
 
 //-- encoder's valus
 //char encoder_count = 0; //wade
@@ -135,6 +169,9 @@ void isr(void) __interrupt 0
 {
 	//while (!TXIF);
 	//TXREG = 0xaa;
+
+	//RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0; timer2_delay_long(10);
+
 
 	if (option == 0) 
 	{
@@ -364,91 +401,104 @@ void update_led()
     //-- Led is on bit RB1. Input variable contains
     //-- only an information bit (1,0) on less signficant bit
     RB1 = !input;
-    // 2012-04-02
-    if (option == 1)
-    {
-	RB1 = 1;
-    }
 }
 
-//experimental code
-void reaction_time_animation_lights_start()
+//Timer 2 delays ----
+/*
+void timer2_delay_long(unsigned char t2ini)
 {
-    /*
-	  
-    int min = 200;
-    int max = 1000;    
-    int current = max;    
-    int step = 200;
-    */
-    //long time7 = 10000; //1/3 s aprox
-    //long time7 = 1000; //casi la hostia
-    //long time7 = 500; //la hostia pero apreciable canvi
-    //long time7 = 420; //la hostia pero apreciable canvi
-    //long time7 = 330; //sembla quasi sempre ences
-    //long time7 = 250; //sembla sempre ences
-    //1 o 10 sempre ences
+  //-- Dar valor inicial del timer
+  TMR2=t2ini;
+ 
+  //-- Flag de interrupcion a cero
+  TMR2IF=0;
 
-    /*
-     * blink
-     *
-    while(1) {
-	    RB1 = 1;
-	    pause2(420);
-	    RB1 = 0;
-	    pause2(420);
-	    
-	    current = current - step;
-	    //if(current < 1) {
-	    //	current = max;
-	    //}
-    }
-    */
+  //-- Esperar a que transcurra el tiempo indicado
+  while(TMR2IF==0);
+}
+*/
 
-    //animation changing lights
-    long time7 = 400;
-    long multiplier = 1;
-    while(1) {
-	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 0; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 0; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 0; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 1; RB3 = 0; RB6 = 1; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 0; pause2(time7 * multiplier);
-	    RB0 = 1; RB2 = 1; RB3 = 1; RB6 = 1; pause2(time7 * multiplier);
+void timer2_start() {
+	TMR2=animation_tick;
+	//TODO: we are counting 61 (50ms) 160 times.
+	//It will be much better to count a higher value, less times
+	//need to check what's the maximum value allowed
 
-	    multiplier ++;
-	    //if(multiplier > 7)
-	//	    multiplier = 1;
-    }
-    
-    /* don't know why this doesn't work properly
-    unsigned int a,b,c,d;
-    while(1) {
-	    for (a = 0; a <= 1; a++) {
-		    for (b = 0; b <= 1; b++) {
-			    for (c = 0; c <= 1; c++) {
-				    for (d = 0; d <= 1; d++) {
-					    RB0 = a; 
-					    RB2 = b; 
-					    RB3 = c; 
-					    RB6 = d;
-					    pause2(time7);
-				    }
-			    }
-		    }
+	//-- Flag de interrupcion a cero
+	TMR2IF=0;
+}
+
+//end of Timer 2 delays ----
+
+
+void reaction_time_animation_lights_do()
+{
+	if(TMR2IF == 1) {
+
+		timer2_start();
+		timer2Times --;
+
+		if(timer2Times <= 0) {
+
+		   	//RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 0; //OFF
+			switch(position) {
+				case 0:
+			        RB7 = 1; RB3 = 0; RB0 = 1; RB2 = 0;
+			        break;
+			    case 1:
+			        RB7 = 1; RB3 = 0; RB0 = 1; RB2 = 1;
+			        break;
+			    case 2:
+			        RB7 = 1; RB3 = 0; RB0 = 0; RB2 = 0;
+			        break;
+			    case 3:
+			        RB7 = 1; RB3 = 0; RB0 = 0; RB2 = 1;
+			        break;
+			    case 4:
+			        RB7 = 1; RB3 = 1; RB0 = 1; RB2 = 0;
+			        break;
+			    case 5:
+			        RB7 = 1; RB3 = 1; RB0 = 1; RB2 = 1;
+			        break;
+			    case 6:
+			        RB7 = 1; RB3 = 1; RB0 = 0; RB2 = 0;
+			        break;
+			    case 7:
+			        RB7 = 1; RB3 = 1; RB0 = 0; RB2 = 1;
+			        break;
+			    case 8:
+			        RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0;
+			        break;
+			    case 9:
+			        RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1;
+			        break;
+			    case 10:
+			        RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 1;
+			        break;
+			    case 11:
+			        RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0;
+			        break;
+			    case 12:
+			        RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 1;
+			        break;
+			    case 13:
+			        RB7 = 0; RB3 = 1; RB0 = 1; RB2 = 0;
+			        break;
+			    case 14:
+			        RB7 = 0; RB3 = 1; RB0 = 1; RB2 = 1;
+			}
+
+			timer2Times = animation_tick_n_times;
+			 
+			position ++;
+	    	if(position > 14)
+	        	position = 0;
 	    }
-    }
-    */
+
+	}
+
+  //-- Esperar a que transcurra el tiempo indicado
+  //while(TMR2IF==0);
 
 }
 
@@ -489,6 +539,36 @@ static void asm_ledon()
     MOVWF PORTC
     __endasm;
 }
+			
+static void animation_light_convert(char sentData)
+{
+	switch(sentData) {
+		case 0:
+			animation_tick_n_times = 5;
+			break;
+		case 1:
+			animation_tick_n_times = 10;
+			break;
+		case 2:
+			animation_tick_n_times = 20;
+			break;
+		case 3:
+			animation_tick_n_times = 40;
+			break;
+		case 4:
+			animation_tick_n_times = 80;
+			break;
+		case 5:
+			animation_tick_n_times = 160; //160[default] * 61 = ,5 seconds
+			break;
+		case 6:
+			animation_tick_n_times = 320; //1 second
+			break;
+		case 7:
+			animation_tick_n_times = 640; //2 seconds
+			break;
+	}
+}
 
 void main(void)
 {
@@ -520,6 +600,13 @@ void main(void)
     //----------------------------------------------
     sci_configuration();
 
+    //-- Configure Timer 2
+    //-- Temporizer mode
+    TOUTPS2=0; TOUTPS1=0; TOUTPS0=0;
+    //-- Set Prescaler at 16
+    T2CKPS1=1; T2CKPS0=1;
+    //Start temporizer
+    TMR2ON=1; 
     //----------------------------------------------
     //- CONFIGURATION OF TIMER 0
     //----------------------------------------------
@@ -619,8 +706,15 @@ void main(void)
     //-- Activate peripheral interruptions
     PEIE = 1;
     //-- Activate global interruptions
+
     GIE = 1;
 
+    //initialize lights stuff for animation wheel
+    position = 0;
+    timer2Times = animation_tick_n_times;
+    timer2_start();
+
+    
     //****************************
     //*   MAIN LOOP
     //**************************** 
@@ -664,8 +758,10 @@ void main(void)
 			RB2 = 0; //RB6 = 0
 		else if (my_char == command_reaction_time_rb7_off) // 't'
 			RB7 = 0;
-		else if (my_char == command_reaction_time_animation_light) // 'l'
-			reaction_time_animation_lights_start();
+		else if (my_char == command_reaction_time_animation_light) { // 'l'
+			animation_light_convert(sci_readchar());
+			animation_light_should_run = 1;
+		}
 		else
 			send_error();
 	    }
@@ -675,6 +771,9 @@ void main(void)
 	    //------------------------------------------------------
 	    if (status == STAT_WAITING_EVENT)   // status = STAT_WAITING_EVENT?
 	    {
+		    //TODO: only if an 'l' has been sent before
+		if(animation_light_should_run == 1)
+			reaction_time_animation_lights_do();
 	    }
 	    else if (status == STAT_DEBOUNCE)   // status = DEBOUNCE?
 	    {
@@ -726,6 +825,11 @@ void main(void)
 		//----------------------------
 		//- STATUS FRAMEX
 		//----------------------------
+		//
+		//stop animation light, and go to the beginning
+		animation_light_should_run = 0;
+		position = 0;
+		
 		//-- Send frame of changing input
 		//-- First the frame identifier
 		sci_sendchar(FCHANGE);

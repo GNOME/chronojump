@@ -49,7 +49,7 @@ public abstract class EncoderRProc
 		}
 	}
 
-	private bool isRunning() 
+	protected bool isRunning() 
 	{
 		LogB.Debug("calling isRunning()");
 		if(p == null) {
@@ -217,15 +217,13 @@ public class EncoderRProcCapture : EncoderRProc
 		LogB.Debug("<-- writen line 1");
 	}	
 	
-	public void SendCaptureEnd() 
+	public void SendEndProcess() 
 	{
-		/*
-		 * don't send end line
-		 * process should remain opened
-		 *
-		LogB.Debug("sending end line");
-		p.StandardInput.WriteLine("Q");
-		*/
+		if(isRunning()) {
+			LogB.Debug("Closing R capture script");
+			p.StandardInput.WriteLine("Q");
+		} else
+			LogB.Debug("R capture script is not working. Don't need to close.");
 	}
 
 	protected override void writeOptionsFile()

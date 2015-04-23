@@ -4703,14 +4703,6 @@ public partial class ChronoJumpWindow
 				encoderStopVideoRecord();
 			}
 
-			/*
-			UtilEncoder.RunEncoderCaptureNoRDotNetSendEnd(pCaptureNoRDotNet);
-			pCaptureNoRDotNet.WaitForExit();
-			*/
-			encoderRProcCapture.SendCaptureEnd();
-			//maybe here wait for an R ending signal. R process should not end, but will be waiting next capture
-
-			
 			LogB.ThreadEnded(); 
 			return false;
 		}

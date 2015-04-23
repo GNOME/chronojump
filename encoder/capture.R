@@ -130,8 +130,7 @@ doProcess <- function(options)
 
 	curveNum = 0
 	input <- readLines(f, n = 1L)
-	#while(input[1] != "Q") {
-	while(TRUE) {
+	while(input[1] != "Q") {
 		if(debug) {
 			write("doProcess main while", stderr())
 			write(c("input = ", input), stderr())
@@ -148,6 +147,9 @@ doProcess <- function(options)
 
 			curveNum = 0
 			input <- readLines(f, n = 1L)
+	
+			if(input[1] == "Q")
+				quit("no") #quit without save
 		}
 		
 		#Sys.sleep(4) #just to test how Chronojump reacts if process takes too long

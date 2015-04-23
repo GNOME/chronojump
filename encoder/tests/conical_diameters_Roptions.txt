@@ -1,0 +1,32 @@
+/usr/local/lib/chronojump/../../share/chronojump/encoder/capture.R
+/tmp/chronojump-captured
+none
+none
+none
+20
+0
+92
+0
+ecS
+-
+none
+-
+ROTARYAXISINERTIAL
+1.5
+-1
+-1
+-1
+101
+1
+0.7
+0
+430
+121
+COMMA
+none
+Linux
+/usr/local/lib/chronojump/../../share/chronojump/encoder/util.R
+none
+jump;body speed;speed;Speed;Accel.;Force;Power;Peak Power;Distance;Time to Peak Power;time;Range;distance;Weight;Mass;eccentric;concentric;land;air;jump height;Repetition;Not enough data.;Encoder is not connected.;prediction;Concentric mean speed on bench press 1RM =;Estimated percentual load =;Adapted from;Mean speed in concentric propulsive phase;Sorry, no repetitions matched your criteria.;Need at least three jumps;Laterality;RL;R;L
+jump;body speed;speed;Speed;Accel.;Force;Power;Peak Power;Distance;Time to Peak Power;time;Range;distance;Weight;Mass;eccentric;concentric;land;air;jump height;Repetition;Not enough data.;Encoder is not connected.;prediction;Concentric mean speed on bench press 1RM =;Estimated percentual load =;Adapted from;Mean speed in concentric propulsive phase;Sorry, no repetitions matched your criteria.;Need at least three jumps;Laterality;RL;R;L
+/usr/local/lib/chronojump/../../share/chronojump/encoder/graph.R

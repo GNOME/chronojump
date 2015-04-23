@@ -45,6 +45,7 @@ public class Constants
 		"Teng Wei Hua (wadedang@gmail.com)\n\t" + Catalog.GetString("Translation of Firmware to C.") + "\n\t" +
 			Catalog.GetString("New firmware features.") + " " + Catalog.GetString("Encoder hardware layer.") + "\n",
 		"Juan Gonzalez Gómez (http://www.iearobotics.com)\n\t" + Catalog.GetString("Skypic, Chronopic, connection between hardware and software.") + "\n", 
+		"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n\t" + Catalog.GetString("Chronopic reaction time advanced implementation.") + "\n",
 		"Ricardo Gómez González (http://www.iearobotics.com)\n\t" + Catalog.GetString("Chronopic3 industrial prototype.") + "\n",
 		"Juan Fernando Pardo (juanfer@juanfer.com.ar)\n\t" + "Chronopic2."
 	};
@@ -53,7 +54,8 @@ public class Constants
 		"Anna Padullés (hardware@chronojump.org)\n",
 		"Xavier Padullés (testing@chronojump.org)\n",
 		"Teng Wei Hua (wadedang@gmail.com)\n",
-		"Xavier de Blas Foix (info@chronojump.org)"
+		"Xavier de Blas Foix (info@chronojump.org)\n",
+		"Ferran Suárez Rodríguez (ferransuarez2@gmail.com)\n"
 	};
 	public static string [] AuthorsMath = {
 		"Carlos J. Gil Bellosta (http://www.datanalytics.com)\n",

@@ -194,6 +194,8 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_edit_selected_reaction_time;
 	[Widget] Gtk.Button button_video_play_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
+	[Widget] Gtk.SpinButton spinbutton_animation_lights_speed;
+
 	//pulse
 	[Widget] Gtk.Button button_edit_selected_pulse;
 	[Widget] Gtk.Button button_video_play_selected_pulse;
@@ -4478,6 +4480,13 @@ public partial class ChronoJumpWindow
 		ChronopicAuto cs = new ChronopicStartReactionTime();
 		cs.CharToSend = "T";
 		cs.Write(chronopicWin.SP,0);
+	}
+	
+	private void on_button_animation_lights_start_clicked (object o, EventArgs args) {
+		int speed = Convert.ToInt32(spinbutton_animation_lights_speed.Value);
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		cs.CharToSend = "l";
+		cs.Write(chronopicWin.SP,speed);
 	}
 
 	/* ---------------------------------------------------------

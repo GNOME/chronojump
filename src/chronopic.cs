@@ -621,6 +621,23 @@ public class ChronopicStartReactionTime : ChronopicAuto
 	}
 }
 
+//like above method but sending the waiting time between each light
+public class ChronopicStartReactionTimeAnimation : ChronopicAuto
+{
+	protected internal override string Communicate() 
+	{
+		try {
+			//values go from 0 to 7
+			byte[] bytesToSend = new byte[2] { 0x6c, BitConverter.GetBytes(sendNum)[0] }; //l, 05
+			sp.Write(bytesToSend,0,2);
+		
+		} catch {
+			return "ERROR";
+		}
+		return "SUCCESS";
+	}
+}
+
 public static class ChronopicPorts
 {
 	public static string [] GetPorts() {

@@ -2398,7 +2398,7 @@ public partial class ChronoJumpWindow
 		LogB.Information("Bye2!");
 		
 		encoderRProcCapture.SendEndProcess();
-		//encoderRProcAnalyze.SendEndProcess();
+		encoderRProcAnalyze.SendEndProcess();
 
 		LogB.Information("Bye3!");
 		

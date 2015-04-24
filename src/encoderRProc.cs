@@ -25,28 +25,39 @@ using System.IO; 		//for detect OS
 
 public abstract class EncoderRProc 
 {
-	protected static Process p;
-	protected static ProcessStartInfo pinfo;
-	protected static bool running;
+	protected Process p;
+	protected ProcessStartInfo pinfo;
+
+	public enum Status { WAITING, RUNNING, DONE } 
+	public Status status;
 
 	protected string optionsFile;	
 	protected EncoderStruct es;
 
-	public void StartOrContinue(EncoderStruct es)
+	public bool StartOrContinue(EncoderStruct es)
 	{
+		status = Status.RUNNING;
+
 		this.es = es;
 
 		//options change at every capture. So do at continueProcess and startProcess
 		writeOptionsFile();
+
+		bool ok = true;
 			
 		if(isRunning()) {
 			LogB.Debug("calling continue");
 			continueProcess();
+
 		} else {
 			LogB.Debug("calling start");
-			bool startedOk = startProcess();
-			LogB.Debug("StartedOk: " + startedOk.ToString());
+			ok = startProcess();
+			LogB.Debug("StartedOk: " + ok.ToString());
 		}
+	
+		status = Status.DONE;
+
+		return ok;
 	}
 
 	protected bool isRunning() 
@@ -111,7 +122,32 @@ public abstract class EncoderRProc
 	protected virtual bool startProcess() {
 		return true;
 	}
+	
 	protected virtual void continueProcess() {
+		LogB.Debug("sending continue process");
+		p.StandardInput.WriteLine("C");
+	}
+	
+	/*
+	protected void readingOutput (object sendingProcess, DataReceivedEventArgs outputFromR)
+	{
+		if (! String.IsNullOrEmpty(outputFromR.Data))
+			LogB.Information(outputFromR.Data);
+	}
+	*/
+	protected void readingError (object sendingProcess, DataReceivedEventArgs errorFromR)
+	{
+		if (! String.IsNullOrEmpty(errorFromR.Data))
+			LogB.Warning(errorFromR.Data);
+	}
+
+	public void SendEndProcess() 
+	{
+		if(isRunning()) {
+			LogB.Debug("Closing R capture script");
+			p.StandardInput.WriteLine("Q");
+		} else
+			LogB.Debug("R capture script is not working. Don't need to close.");
 	}
 }
 
@@ -122,8 +158,6 @@ public class EncoderRProcCapture : EncoderRProc
 	
 	protected override bool startProcess() 
 	{
-		LogB.Debug("A");
-		//ProcessStartInfo pinfo;
 		//If output file is not given, R will try to write in the running folder
 		//in which we may haven't got permissions
 
@@ -136,7 +170,6 @@ public class EncoderRProcCapture : EncoderRProc
 			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
 			LogB.Information("pBin:", pBin);
 		}
-		LogB.Debug("B");
 
 
 		//on Windows we need the \"str\" to call without problems in path with spaces
@@ -156,13 +189,11 @@ public class EncoderRProcCapture : EncoderRProc
 		//pinfo.RedirectStandardOutput = true; 
 
 
-
-		LogB.Debug("C");
 		try {
-			p= new Process();
+			p = new Process();
 			p.StartInfo = pinfo;
 
-			p.ErrorDataReceived += new DataReceivedEventHandler(readingCurveFromRerror);
+			p.ErrorDataReceived += new DataReceivedEventHandler(readingError);
 
 			p.Start();
 
@@ -181,20 +212,6 @@ public class EncoderRProcCapture : EncoderRProc
 		}
 			
 		return true;
-	}
-	private void readingCurveFromRerror (object sendingProcess, DataReceivedEventArgs curveFromR)
-	{
-		if (! String.IsNullOrEmpty(curveFromR.Data))
-		{
-			//use Warning because it's used also to print flow messages
-			LogB.Warning(curveFromR.Data);
-		}
-	}
-	
-	protected override void continueProcess() 
-	{
-		LogB.Debug("sending continue process");
-		p.StandardInput.WriteLine("C");
 	}
 	
 	//here curve is sent compressed (string. eg: "0*5 1 0 -1*3 2")
@@ -217,15 +234,6 @@ public class EncoderRProcCapture : EncoderRProc
 		LogB.Debug("<-- writen line 1");
 	}	
 	
-	public void SendEndProcess() 
-	{
-		if(isRunning()) {
-			LogB.Debug("Closing R capture script");
-			p.StandardInput.WriteLine("Q");
-		} else
-			LogB.Debug("R capture script is not working. Don't need to close.");
-	}
-
 	protected override void writeOptionsFile()
 	{
 		optionsFile = Path.GetTempPath() + "Roptions.txt";
@@ -249,39 +257,208 @@ public class EncoderRProcCapture : EncoderRProc
 
 public class EncoderRProcAnalyze : EncoderRProc 
 {
+	private string title;
+	private bool neuromuscularProfileDo;
+	private bool translate;
+
+	public bool CancelRScript;
+
 	public EncoderRProcAnalyze() {
+	}
+
+	public void SendData(string title, bool neuromuscularProfileDo, bool translate) {
+		this.title = title;
+		this.neuromuscularProfileDo = neuromuscularProfileDo;
+		this.translate = translate;
+		
+		CancelRScript = false;
 	}
 
 	protected override bool startProcess() 
 	{
-		/*
-		 * WIP
-		 *
-		try {   
-			p = new Process();
-			p.StartInfo = pinfo;
-			p.Start();
+		//If output file is not given, R will try to write in the running folder
+		//in which we may haven't got permissions
+	
+		string pBin="";
+		pinfo = new ProcessStartInfo();
 
-			LogB.Information(p.StandardOutput.ReadToEnd());
-			LogB.Warning(p.StandardError.ReadToEnd());
-
-			//p.WaitForExit(); //do NOT wait for exit
-		} catch {
-			return false;
+		pBin="Rscript";
+		if (UtilAll.IsWindows()) {
+			//on Windows we need the \"str\" to call without problems in path with spaces
+			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
+			LogB.Information("pBin:", pBin);
+		}
+		
+		if (UtilAll.IsWindows()) {
+			//On win32 R understands backlash as an escape character and 
+			//a file path uses Unix-like path separator '/'		
+			optionsFile = optionsFile.Replace("\\","/");
+		}
+		
+		//on Windows we need the \"str\" to call without problems in path with spaces
+		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
+	
+		LogB.Information("Arguments:", pinfo.Arguments);
+		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
+		//LogB.Information("--- 2 --- " + scriptOptions + " ---");
+		LogB.Information("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
+		
+		string outputFileCheck = "";
+		string outputFileCheck2 = "";
+		
+		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
+		//exportCSV is the only one that doesn't have graph. all the rest Analysis have graph and data
+		if(es.Ep.Analysis == "exportCSV")
+			outputFileCheck = es.OutputData1; 
+		else {
+			//outputFileCheck = es.OutputGraph;
+			//
+			//OutputData1 because since Chronojump 1.3.6, 
+			//encoder analyze has a treeview that can show the curves
+			//when a graph analysis is done, curves file has to be written
+			outputFileCheck = es.OutputData1;
+		        //check also the otuput graph
+			outputFileCheck2 = es.OutputGraph; 
 		}
 			
-		running = true;
-		*/
+		LogB.Information("outputFileChecks");
+		LogB.Information(outputFileCheck);
+		LogB.Information(outputFileCheck2);
+
+		pinfo.FileName=pBin;
+
+		pinfo.CreateNoWindow = true;
+		pinfo.UseShellExecute = false;
+		pinfo.RedirectStandardInput = true;
+		pinfo.RedirectStandardError = true;
+		
+		/*
+		 * if redirect this there are problems because the buffers get saturated
+		 * pinfo.RedirectStandardOutput = true; 
+		 * if is not redirected, then prints are shown by console (but not in logB
+		 * best solution is make the prints as write("message", stderr())
+		 * and then will be shown in logB by readError
+		 */
+
+
+		//delete output file check(s)
+		deleteFile(outputFileCheck);
+		if(outputFileCheck2 != "")
+			deleteFile(outputFileCheck2);
+
+			
+		//delete 1RM data if exists
+		if (File.Exists(es.SpecialData))
+			File.Delete(es.SpecialData);
+
+		try {	
+			p = new Process();
+			p.StartInfo = pinfo;
+			
+			//do not redirect ouptut. Read above
+			//p.OutputDataReceived += new DataReceivedEventHandler(readingOutput);
+			p.ErrorDataReceived += new DataReceivedEventHandler(readingError);
+			
+			p.Start();
+
+			//don't do this ReadToEnd because then this method never ends
+			//LogB.Information(p.StandardOutput.ReadToEnd()); 
+			//LogB.Warning(p.StandardError.ReadToEnd());
+			
+			// Start asynchronous read of the output.
+			// Caution: This has to be called after Start
+			//p.BeginOutputReadLine();
+			p.BeginErrorReadLine();
+
+
+			if(outputFileCheck2 == "")
+				while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
+			else
+				while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+		} catch {
+			LogB.Warning("catched at startProcess");
+			return false;
+		}
+
 		return true;
+
 	}
 	
 	protected override void continueProcess() 
 	{
-		/*
-		 * create a file to be file to be readed by the Rscript
-		 * or send there STDIN, like:
-		 * p.StandardInput.WriteLine();
-		 */
+		//TODO: outputFileCheck creation/deletion here and at startProcess, should be unique
+		string outputFileCheck = "";
+		string outputFileCheck2 = "";
+		
+		if(es.Ep.Analysis == "exportCSV")
+			outputFileCheck = es.OutputData1; 
+		else {
+			//outputFileCheck = es.OutputGraph;
+			//
+			//OutputData1 because since Chronojump 1.3.6, 
+			//encoder analyze has a treeview that can show the curves
+			//when a graph analysis is done, curves file has to be written
+			outputFileCheck = es.OutputData1;
+		        //check also the otuput graph
+			outputFileCheck2 = es.OutputGraph; 
+		}
+
+		//delete output file check(s)
+		deleteFile(outputFileCheck);
+		if(outputFileCheck2 != "")
+			deleteFile(outputFileCheck2);
+
+		LogB.Debug("sending continue process");
+		p.StandardInput.WriteLine("C");
+
+		LogB.Debug("waiting files");
+		if(outputFileCheck2 == "")
+			while ( ! ( fileWritten(outputFileCheck) || CancelRScript) );
+		else
+			while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
+		LogB.Debug("files written");
+	}
+	
+	
+	private string getEncoderScriptCallGraph() {
+		return System.IO.Path.Combine(
+				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallGraph);
+	}
+	
+	protected override void writeOptionsFile()
+	{
+		optionsFile = Path.GetTempPath() + "Roptions.txt";
+	
+		string scriptOptions = UtilEncoder.PrepareEncoderGraphOptions(
+				title,
+				es, 
+				neuromuscularProfileDo,
+				translate
+				).ToString();
+
+		TextWriter writer = File.CreateText(optionsFile);
+		writer.Write(scriptOptions);
+		writer.Flush();
+		writer.Close();
+		((IDisposable)writer).Dispose();
+	}
+		
+	private void deleteFile(string filename)
+	{
+		LogB.Information("Deleting... " + filename);
+		if (File.Exists(filename))
+			File.Delete(filename);
+	}
+
+	private bool fileWritten(string filename)
+	{
+		if(File.Exists(filename)) {
+			FileInfo fi = new FileInfo(filename);
+			if(fi.Length > 0)
+				return true;
+		}
+
+		return false;
 	}
 
 }

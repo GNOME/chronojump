@@ -41,6 +41,12 @@ EncoderConfigurationName <- ""
 English = unlist(strsplit(options[30], "\\;"))
 Translated = unlist(strsplit(options[31], "\\;"))
 
+#TODO: now that there's a start and continue of each process from R,
+#instead of pass and script from R,
+#pass the directory
+#and R will source() the needed files (maybe all the first time)
+#and it will not do again when the process is continued (see encoderRProc.cs)
+
 scriptUtilR = options[28]
 source(scriptUtilR)
 
@@ -71,4 +77,20 @@ print("Creating (OutputData2)3.txt with touch method...")
 file.create(paste(OutputData2,"3.txt",sep=""))
 print("Created")
 
-doProcess(options)
+while(TRUE) {
+	doProcess(options)
+
+	#continue the process or exit
+	f <- file("stdin")
+	open(f)
+
+	input <- readLines(f, n = 1L)
+	if(input[1] == "Q")
+		quit("no")
+			
+	write("received a continue signal", stderr())
+	options <- getOptionsFromFile(optionsFile, 32)
+	
+	#TODO 1: check if all the Output2, SpecialData, ... variables have to be reassigned
+	#TODO 2: check if neuromuscularProfile should be loaded
+}

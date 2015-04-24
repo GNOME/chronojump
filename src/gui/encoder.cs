@@ -323,7 +323,7 @@ public partial class ChronoJumpWindow
 		
 		//initialize capture and analyze classes		
 		encoderRProcCapture = new EncoderRProcCapture();
-		//encoderRProcAnalyze = new EncoderRProcAnalyze();
+		encoderRProcAnalyze = new EncoderRProcAnalyze();
 		
 		encoderCaptureOptionsWin = EncoderCaptureOptionsWindow.Create(repetitiveConditionsWin);
 		encoderCaptureOptionsWin.FakeButtonClose.Clicked += new EventHandler(on_encoder_capture_options_closed);
@@ -718,15 +718,15 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderStatusTempBaseFileName(),
 				"none",	//SpecialData
 				ep);
-		
-		bool result = UtilEncoder.RunEncoderGraphNoRDotNet(
+	
+		encoderRProcAnalyze.SendData(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise)) + 
 				"-(" + Util.ConvertToPoint(findMass(Constants.MassType.DISPLACED)) + "Kg)",
-				es,
 				false,	//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate
 				); 
+		bool result = encoderRProcAnalyze.StartOrContinue(es);
 				
 		if(result)
 			//store this to show 1,2,3,4,... or 1e,1c,2e,2c,... in RenderN
@@ -1419,14 +1419,14 @@ public partial class ChronoJumpWindow
 				"none", 		//SpecialData
 				ep);
 
-		UtilEncoder.RunEncoderGraphNoRDotNet(
+		encoderRProcAnalyze.SendData(
 				Util.ChangeSpaceAndMinusForUnderscore(currentPerson.Name) + "-" + 
 				Util.ChangeSpaceAndMinusForUnderscore(lastEncoderSQLSignal.exerciseName) + 
 					"-(" + displacedMass + "Kg)",
-				encoderStruct,
 				false, 			//do not use neuromuscularProfile script
 				preferences.RGraphsTranslate
 				);
+		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 
 		//encoder_pulsebar_capture.Text = string.Format(Catalog.GetString(
 		//			"Exported to {0}."), UtilEncoder.GetEncoderExportTempFileName());
@@ -1942,7 +1942,7 @@ public partial class ChronoJumpWindow
 				);
 
 		//wait to ensure capture thread has ended
-		Thread.Sleep(500);	
+		Thread.Sleep(50);	
 		
 		LogB.Debug("Going to stop");		
 		capturingCsharp = encoderCaptureProcess.STOPPING;
@@ -1972,7 +1972,8 @@ public partial class ChronoJumpWindow
 		if(capturedOk)
 			UtilEncoder.RunEncoderCalculeIM(
 					encoder_configuration_win.Spin_im_weight,
-					encoder_configuration_win.Spin_im_length
+					encoder_configuration_win.Spin_im_length,
+					encoderRProcAnalyze
 					);
 	}
 	
@@ -2692,9 +2693,12 @@ public partial class ChronoJumpWindow
 				titleStr += "-" + Util.ChangeSpaceAndMinusForUnderscore(UtilGtk.ComboGetActive(combo_encoder_exercise));
 		}
 
-		UtilEncoder.RunEncoderGraphNoRDotNet(titleStr, encoderStruct, 
+		encoderRProcAnalyze.SendData(
+				titleStr, 
 				encoderAnalysis == "neuromuscularProfile",
 				preferences.RGraphsTranslate);
+
+		encoderRProcAnalyze.StartOrContinue(encoderStruct);
 	}
 	
 	/*
@@ -4456,6 +4460,7 @@ public partial class ChronoJumpWindow
 			image_encoder_height = UtilGtk.WidgetHeight(viewport_image_encoder_analyze)-5;
 
 			encoder_pulsebar_analyze.Text = Catalog.GetString("Please, wait.");
+			encoderRProcAnalyze.status = EncoderRProc.Status.WAITING;
 		
 			encoderThread = new Thread(new ThreadStart(encoderDoAnalyze));
 			GLib.Idle.Add (new GLib.IdleHandler (pulseGTKEncoderAnalyze));
@@ -4781,7 +4786,7 @@ public partial class ChronoJumpWindow
 			LogB.Information("End from curves"); 
 			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
-				UtilEncoder.CancelRScript = true;
+				encoderRProcAnalyze.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.CURVES);
@@ -4800,7 +4805,7 @@ public partial class ChronoJumpWindow
 		if(! encoderThread.IsAlive || encoderProcessCancel) {
 			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
-				UtilEncoder.CancelRScript = true;
+				encoderRProcAnalyze.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.LOAD);
@@ -4816,10 +4821,10 @@ public partial class ChronoJumpWindow
 	
 	private bool pulseGTKEncoderAnalyze ()
 	{
-		if(! encoderThread.IsAlive || encoderProcessCancel) {
+		if( encoderRProcAnalyze.status == EncoderRProc.Status.DONE || ! encoderThread.IsAlive || encoderProcessCancel) {
 			LogB.ThreadEnding(); 
 			if(encoderProcessCancel){
-				UtilEncoder.CancelRScript = true;
+				encoderRProcAnalyze.CancelRScript = true;
 			}
 
 			finishPulsebar(encoderActions.ANALYZE);
@@ -5145,8 +5150,21 @@ public partial class ChronoJumpWindow
 			} else {
 				//TODO pensar en si s'ha de fer 1er amb mida petita i despres amb gran (en el zoom),
 				//o si es una sola i fa alguna edicio
-				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
-				image_encoder_analyze.Pixbuf = pixbuf;
+				
+				//maybe image is still not readable
+				bool readedOk;
+				do {
+					readedOk = true;
+					try {
+						Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
+						image_encoder_analyze.Pixbuf = pixbuf;
+					} catch {
+						LogB.Warning("File is still not ready. Wait a bit");
+						System.Threading.Thread.Sleep(50);
+						readedOk = false;
+					}
+				} while( ! readedOk );
+
 				encoder_pulsebar_analyze.Text = "";
 
 				string contents = Util.ReadFile(UtilEncoder.GetEncoderAnalyzeTableTempFileName(), false);

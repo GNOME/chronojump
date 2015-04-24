@@ -30,8 +30,6 @@ using Mono.Unix;
 //this class tries to be a space for methods that are used in different classes
 public class UtilEncoder
 {
-	public static bool CancelRScript;
-
 
 	/********** start of encoder paths ************/
 	
@@ -189,16 +187,6 @@ public class UtilEncoder
 	}
 	
 
-	/*
-	 * in RDotNet, graph.R is in memory, and call_graph.R is not called
-	 * if RDotNet is not working, then call_graph.R is called and this calls graph.R
-	 */
-
-	private static string getEncoderScriptCallGraph() {
-		return System.IO.Path.Combine(
-				Util.GetDataDir(), "encoder", Constants.EncoderScriptCallGraph);
-	}
-
 	public static string GetEncoderScriptGraph() {
 		return System.IO.Path.Combine(
 				Util.GetDataDir(), "encoder", Constants.EncoderScriptGraph);
@@ -343,121 +331,11 @@ public class UtilEncoder
 	}
 
 
-	/*
-	 * this method don't use RDotNet, then has to call call_graph.R, who will call graph.R
-	 * and has to write a Roptions.txt file
-	 */
-	public static bool RunEncoderGraphNoRDotNet(string title, EncoderStruct es, bool neuromuscularProfileDo, bool translate) 
-	{
-		CancelRScript = false;
-
-		ProcessStartInfo pinfo;
-	        Process p;
-		//If output file is not given, R will try to write in the running folder
-		//in which we may haven't got permissions
-	
-		string pBin="";
-		pinfo = new ProcessStartInfo();
-
-		pBin="Rscript";
-		if (UtilAll.IsWindows()) {
-			//on Windows we need the \"str\" to call without problems in path with spaces
-			pBin = "\"" + System.IO.Path.Combine(Util.GetPrefixDir(), "bin" + Path.DirectorySeparatorChar + "Rscript.exe") + "\"";
-			LogB.Information("pBin:", pBin);
-		}
-		
-
-		string scriptOptions = PrepareEncoderGraphOptions(title, es, neuromuscularProfileDo, translate).ToString();
-
-		string optionsFile = Path.GetTempPath() + "Roptions.txt";
-		TextWriter writer = File.CreateText(optionsFile);
-		writer.Write(scriptOptions);
-		writer.Flush();
-		writer.Close();
-		((IDisposable)writer).Dispose();
-		
-		if (UtilAll.IsWindows()) {
-			//On win32 R understands backlash as an escape character and 
-			//a file path uses Unix-like path separator '/'		
-			optionsFile = optionsFile.Replace("\\","/");
-		}
-		
-		//on Windows we need the \"str\" to call without problems in path with spaces
-		pinfo.Arguments = "\"" + getEncoderScriptCallGraph() + "\" " + optionsFile;
-	
-		LogB.Information("Arguments:", pinfo.Arguments);
-		LogB.Information("--- 1 --- " + optionsFile.ToString() + " ---");
-		LogB.Information("--- 2 --- " + scriptOptions + " ---");
-		LogB.Information("--- 3 --- " + pinfo.Arguments.ToString() + " ---");
-		
-		string outputFileCheck = "";
-		string outputFileCheck2 = "";
-		
-		//Wait until this to update encoder gui (if don't wait then treeview will be outdated)
-		//exportCSV is the only one that doesn't have graph. all the rest Analysis have graph and data
-		if(es.Ep.Analysis == "exportCSV")
-			outputFileCheck = es.OutputData1; 
-		else {
-			//outputFileCheck = es.OutputGraph;
-			//
-			//OutputData1 because since Chronojump 1.3.6, 
-			//encoder analyze has a treeview that can show the curves
-			//when a graph analysis is done, curves file has to be written
-			outputFileCheck = es.OutputData1;
-		        //check also the otuput graph
-			outputFileCheck2 = es.OutputGraph; 
-		}
-
-		pinfo.FileName=pBin;
-
-		pinfo.CreateNoWindow = true;
-		pinfo.UseShellExecute = false;
-		pinfo.RedirectStandardError = true;
-		pinfo.RedirectStandardOutput = true; 
-
-
-		//delete output file check(s)
-		LogB.Information("Deleting... " + outputFileCheck);
-		if (File.Exists(outputFileCheck))
-			File.Delete(outputFileCheck);
-
-		if(outputFileCheck2 != "") {
-			LogB.Information("Deleting... " + outputFileCheck2);
-			if (File.Exists(outputFileCheck2))
-				File.Delete(outputFileCheck2);
-		}
-			
-		//delete 1RM data if exists
-		if (File.Exists(es.SpecialData))
-			File.Delete(es.SpecialData);
-
-		//try catch crash sometimes when used in conjunction with RDotNet
-		//now RDotNet is not used
-		try {	
-			p = new Process();
-			p.StartInfo = pinfo;
-			p.Start();
-
-			LogB.Information(p.StandardOutput.ReadToEnd());
-			LogB.Warning(p.StandardError.ReadToEnd());
-
-			p.WaitForExit();
-
-			if(outputFileCheck2 == "")
-				while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
-			else
-				while ( ! ( (File.Exists(outputFileCheck) && File.Exists(outputFileCheck2)) || CancelRScript ) );
-		} catch {
-			return false;
-		}
-
-		return true;
-	}
-	
 	//Inertia Momentum
-	public static void RunEncoderCalculeIM(double weight, double length) 
+	//TODO: make this work with encoderRProc
+	public static void RunEncoderCalculeIM(double weight, double length, EncoderRProcAnalyze encoderRProcAnalyze) 
 	{
-		CancelRScript = false;
+		encoderRProcAnalyze.CancelRScript = false;
 
 		ProcessStartInfo pinfo;
 	        Process p;
@@ -537,7 +415,7 @@ public class UtilEncoder
 
 			p.WaitForExit();
 
-			while ( ! ( File.Exists(outputFileCheck) || CancelRScript) );
+			while ( ! ( File.Exists(outputFileCheck) || encoderRProcAnalyze.CancelRScript) );
 		} catch {
 		}
 	}

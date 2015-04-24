@@ -1957,11 +1957,11 @@ doProcess <- function(options)
 					    stringsAsFactors=F,row.names=1)
 		}
 
+
 		n=length(curves[,1])
 		quitIfNoData(n, curves, op$OutputData1)
 		
-		print("curves")
-		print(curves)
+		#print(curves, stderr())
 	
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
@@ -2323,7 +2323,7 @@ doProcess <- function(options)
 				}
 			}
 
-			print(c("i, curves[i,1], curves[i,2]", i, curves[i,1],curves[i,2]))
+			#print(c("i, curves[i,1], curves[i,2]", i, curves[i,1],curves[i,2]))
 
 			#if ecS go kinematics first time with "e" and second with "c"
 			myEcconKn = myEccon
@@ -2359,10 +2359,10 @@ doProcess <- function(options)
 		rownames(paf)=rownames(curves)
 		
 		if(debug) {
-			print("--------CURVES (propulsive is not calculated yet) --------------")
-			print(curves)
-			print("----------PAF---------------")
-			print(paf)
+			#print("--------CURVES (propulsive is not calculated yet) --------------")
+			#print(curves)
+			#print("----------PAF---------------")
+			#print(paf)
 		}
 
 		if(op$Analysis == "powerBars") {
@@ -2390,10 +2390,10 @@ doProcess <- function(options)
 
 			ecconVector = createEcconVector(singleFile, op$Eccon, length(curves[,1]), curves[,8])
 
-			print("AnalysisVariables:")
-			print(op$AnalysisVariables[1])
-			print(op$AnalysisVariables[2])
-			print(op$AnalysisVariables[3])
+			#print("AnalysisVariables:")
+			#print(op$AnalysisVariables[1])
+			#print(op$AnalysisVariables[2])
+			#print(op$AnalysisVariables[3])
 
 			if(op$AnalysisVariables[1] == "Speed,Power") {
 				par(mar=c(5,4,5,5))
@@ -2527,7 +2527,7 @@ doProcess <- function(options)
 			  		"mass", "massBody", "massExtra", #unneded
 					"laterality")
 			write.csv(paf, op$OutputData1, quote=FALSE)
-			print("curves written")
+			#print("curves written")
 		}
 	}
 	if(op$Analysis=="exportCSV") {

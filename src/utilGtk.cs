@@ -21,6 +21,7 @@
 using System;
 using System.Text; //StringBuilder
 using System.Collections; //ArrayList
+using System.IO;
 using Gtk;
 using Gdk;
 
@@ -479,6 +480,45 @@ public class UtilGtk
 		UtilGtk.ErasePaint(da, px);
 	}
 	
+	/*
+	 *
+	 * IMAGE
+	 *
+	 */
+
+	/*
+	 * OpenImageSafe checks if it's created and if it has size and can be opened
+	 * this is used when one process takes an image from another process and maybe is not finished
+	 */
+	public static Gtk.Image OpenImageSafe(string filename, Gtk.Image image) 
+	{
+		while( ! File.Exists(filename) );
+
+		bool hasSize = false;
+		do {
+			FileInfo fi = new FileInfo(filename);
+			if(fi.Length > 0)
+				hasSize = true;
+			else
+				System.Threading.Thread.Sleep(50);
+		} while( ! hasSize );
+
+		bool readedOk;
+		do {
+			readedOk = true;
+			try {
+				Pixbuf pixbuf = new Pixbuf (filename); //from a file
+				image.Pixbuf = pixbuf;
+			} catch {
+				LogB.Warning("File is still not ready. Wait a bit");
+				System.Threading.Thread.Sleep(50);
+				readedOk = false;
+			}
+		} while( ! readedOk );
+
+		return image;
+	}
+
 
 
 }

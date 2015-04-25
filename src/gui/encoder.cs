@@ -4955,8 +4955,10 @@ public partial class ChronoJumpWindow
 
 				List<string> contents = Util.ReadFileAsStringList(UtilEncoder.GetEncoderCurvesTempFileName());
 				
-				Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
-				image_encoder_capture.Pixbuf = pixbuf;
+				image_encoder_capture = UtilGtk.OpenImageSafe(
+						UtilEncoder.GetEncoderGraphTempFileName(),
+						image_encoder_capture);
+				
 				encoderUpdateTreeViewCapture(contents); //this updates encoderCaptureCurves
 				image_encoder_capture.Sensitive = true;
 
@@ -5152,18 +5154,9 @@ public partial class ChronoJumpWindow
 				//o si es una sola i fa alguna edicio
 				
 				//maybe image is still not readable
-				bool readedOk;
-				do {
-					readedOk = true;
-					try {
-						Pixbuf pixbuf = new Pixbuf (UtilEncoder.GetEncoderGraphTempFileName()); //from a file
-						image_encoder_analyze.Pixbuf = pixbuf;
-					} catch {
-						LogB.Warning("File is still not ready. Wait a bit");
-						System.Threading.Thread.Sleep(50);
-						readedOk = false;
-					}
-				} while( ! readedOk );
+				image_encoder_analyze = UtilGtk.OpenImageSafe(
+						UtilEncoder.GetEncoderGraphTempFileName(),
+						image_encoder_analyze);
 
 				encoder_pulsebar_analyze.Text = "";
 

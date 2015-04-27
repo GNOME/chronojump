@@ -671,15 +671,25 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
     angle = position.m * 2 / diameter.m
     angleSpeed = speed * 2 / diameter.m
     angleAccel = accel * 2 / diameter.m
-  } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
+    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+  } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY" ||
+              encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
+              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
     angle = position.m * 4 / diameter.m
     angleSpeed = speed * 4 / diameter.m
     angleAccel = accel * 4 / diameter.m
+    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
+  } else if(encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" ||
+              encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
+              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
+    angle = position.m * 2 / diameter.m
+    angleSpeed = speed * 2 / diameter.m
+    angleAccel = accel * 2 / diameter.m
+    force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * accel
+    power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * accel * speed
   }
-
-
-	force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
-	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
 
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
@@ -734,10 +744,10 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 {
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement
-	if(encoderConfigurationName == "ROTARYAXISINERTIAL") {
+	if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
+	     encoderConfigurationName == "ROTARYAXISINERTIALLATERAL") {
 		displacementMeters = displacement / 1000 #mm -> m
 		diameterMeters = diameter / 100 #cm -> m
-
 		ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per turn
 		#angle in radians
 		angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
@@ -745,24 +755,25 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
 		displacement = c(0,diff(position)) #this displacement is going to be used now
+	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+              encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL"){
+	  displacement = displacement * diameter / diameterExt #displacement of the axis
+	} else if(encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY"){
+	  displacement = 2 * displacement #twice the displacement of the axis
+	} else if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY"){
+	  displacement = 2 * displacement * diameter / diameterExt #twice the displacement of the axis
 	} else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
 	  displacementMeters = displacement / 1000 #mm -> m
 	  diameterMeters = diameter / 100 #cm -> m
-	  
 	  ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per turn
 	  #angle in radians
 	  angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
 	  position = angle * diameterMeters / 2
-	  position = position * 5000	#m -> mm and the rope moves twice as the body
+	  position = position * 500	#m -> mm and the rope moves twice as the body
 	  #this is to make "inverted cumsum"
 	  displacement = c(0,diff(position)) #this displacement is going to be used now
 	}
 	
-	#on friction side: know displacement of the "person"
-	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
-	{
-	  displacement = displacement * diameter / diameterExt #displacement of the axis
-	}
 	
 	return (displacement)
 }

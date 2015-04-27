@@ -570,7 +570,9 @@ isInertial <- function(encoderConfigurationName) {
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
-	   encoderConfigurationName == "ROTARYAXISINERTIAL") 
+	   encoderConfigurationName == "ROTARYAXISINERTIAL" ||
+	   encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY")
+    
 		return(TRUE)
 	else
 		return(FALSE)
@@ -635,6 +637,7 @@ getDynamicsNotInertial <- function(encoderConfigurationName, speed, accel,
 #  ROTARYFRICTIONSIDEINERTIAL Rotary friction encoder connected to inertial machine on the side of the disc
 #  ROTARYFRICTIONAXISINERTIAL Rotary friction encoder connected to inertial machine on the axis
 #  ROTARYAXISINERTIAL Rotary axis encoder  connected to inertial machine on the axis
+#  ROTARYAXISINERTIALMOVPULLEY Rotari axis encoder connected to inertial machine on the axis and the subject pulling from a moving pulley
 
 getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter, mass, inertiaMomentum, smoothing)
 {
@@ -655,22 +658,30 @@ getDynamicsInertial <- function(encoderConfigurationName, displacement, diameter
 
 	position.m = abs(cumsum(displacement)) / 1000 #m
 	diameter.m = diameter / 100 #cm -> m
+  
+  if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||
+       encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
+       encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+       encoderConfigurationName == "LINEARINERTIAL"){
+    angle = position.m * 2 / diameter.m
+    angleSpeed = speed * 2 / diameter.m
+    angleAccel = accel * 2 / diameter.m
+  } else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
+    angle = position.m * 4 / diameter.m
+    angleSpeed = speed * 4 / diameter.m
+    angleAccel = accel * 4 / diameter.m
+  }
 
-	angle = position.m * 2 / diameter.m
-	angleSpeed = speed * 2 / diameter.m
-	angleAccel = accel * 2 / diameter.m
 
 	force = abs(inertiaMomentum * angleAccel) * (2 / diameter.m) + mass * (accel + g)
 	power = abs((inertiaMomentum * angleAccel) * angleSpeed) + mass * (accel + g) * speed
-	powerBody = mass * (accel + g) * speed
-	powerWheel = abs((inertiaMomentum * angleAccel) * angleSpeed)
 
 	return(list(displacement=displacement, mass=mass, force=force, power=power))
 }
 
 
 
-#in signals and curves, need to do conversions (invert, inertiaMomentum, diameter)
+#in signals and curves, need to do conversions (invert, diameter)
 getDisplacement <- function(encoderConfigurationName, displacement, diameter, diameterExt) {
 	#no change
 	#WEIGHTEDMOVPULLEYLINEARONPERSON1, WEIGHTEDMOVPULLEYLINEARONPERSON1INV,
@@ -678,6 +689,7 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 	#LINEARONPLANE
 	#ROTARYFRICTIONSIDE
 	#WEIGHTEDMOVPULLEYROTARYFRICTION
+  #ROTARYAXISINERTIALMOVPULLEY
 
   if(
 	   encoderConfigurationName == "LINEARINVERTED" ||
@@ -728,12 +740,23 @@ getDisplacementInertial <- function(displacement, encoderConfigurationName, diam
 		position = position * 1000	#m -> mm
 		#this is to make "inverted cumsum"
 		displacement = c(0,diff(position)) #this displacement is going to be used now
+	} else if(encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"){
+	  displacementMeters = displacement / 1000 #mm -> m
+	  diameterMeters = diameter / 100 #cm -> m
+	  
+	  ticksRotaryEncoder = 200 #our rotary axis encoder send 200 ticks per turn
+	  #angle in radians
+	  angle = cumsum(displacementMeters * 1000) * 2 * pi / ticksRotaryEncoder
+	  position = angle * diameterMeters / 2
+	  position = position * 5000	#m -> mm and the rope moves twice as the body
+	  #this is to make "inverted cumsum"
+	  displacement = c(0,diff(position)) #this displacement is going to be used now
 	}
-
+	
 	#on friction side: know displacement of the "person"
 	if(encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL")
 	{
-		displacement = displacement * diameter / diameterExt #displacement of the axis
+	  displacement = displacement * diameter / diameterExt #displacement of the axis
 	}
 	
 	return (displacement)

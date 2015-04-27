@@ -75,7 +75,7 @@ while(TRUE) {
 		quit("no")
 			
 	write("received a continue signal", stderr())
-	options <- getOptionsFromFile(optionsFile, 32)
+	options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 	
 	#TODO 1: check if all the Output2, SpecialData, ... variables have to be reassigned
 	#TODO 2: check if neuromuscularProfile should be loaded

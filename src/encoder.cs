@@ -91,12 +91,24 @@ public class EncoderParams
 		this.decimalSeparator = decimalSeparator;
 	}
 	
-	public string ToString2 (string sep) 
+	public string ToStringROptions () 
 	{
-		return minHeight + sep + exercisePercentBodyWeight + sep + massBody + sep + massExtra +
-			sep + eccon + sep + analysis + sep + analysisVariables + sep + analysisOptions + 
-			sep + encoderConfiguration.ToString(sep, true) +
-			sep + smoothCon + sep + curve + sep + width + sep + height + sep + decimalSeparator;
+		return 
+			"#minHeight\n" + 	minHeight + "\n" + 
+			"#exercisePercentBodyWeight\n" + exercisePercentBodyWeight + "\n" + 
+			"#massBody\n" + 	massBody + "\n" + 
+			"#massExtra\n" + 	massExtra + "\n" + 
+			"#eccon\n" + 		eccon + "\n" + 
+			"#analysis\n" + 	analysis + "\n" + 
+			"#analysisVariables\n" + analysisVariables + "\n" + 
+			"#analysisOptions\n" + analysisOptions + "\n" + 
+			encoderConfiguration.ToString("\n", true, true) + "\n" + //last bool is: forROptions
+			"#smoothCon\n" + 	smoothCon + "\n" + 
+			"#curve\n" + 		curve + "\n" + 
+			"#width\n" + 		width + "\n" + 
+			"#height\n" + 		height + "\n" + 
+			"#decimalSeparator\n" + decimalSeparator
+			;
 	}
 	
 	public string Analysis {
@@ -177,14 +189,20 @@ public class EncoderGraphROptions
 	}
 
 	public override string ToString() {
-		return inputData + "\n" + 
-			outputGraph + "\n" + outputData1 + "\n" + 
-			outputData2 + "\n" + specialData + "\n" + 
-			ep.ToString2("\n") + "\n" + title + "\n" + operatingSystem + "\n" +
-			scriptUtilR + "\n" + scriptNeuromuscularProfile + "\n" +
-			englishWords + "\n" +
-			translatedWords + "\n" + 
-			scriptGraphR + "\n";
+		return 
+			"#inputdata\n" + 	inputData + "\n" + 
+			"#outputgraph\n" + 	outputGraph + "\n" + 
+			"#outputdata1\n" + 	outputData1 + "\n" + 
+			"#outputdata2\n" + 	outputData2 + "\n" + 
+			"#specialdata\n" + 	specialData + "\n" + 
+			ep.ToStringROptions() + "\n" + 
+			"#title\n" + 		title + "\n" + 
+			"#operatingsystem\n" + 	operatingSystem + "\n" +
+			"#scriptUtilR\n" + 	scriptUtilR + "\n" + 
+			"#scriptNeuromuscularProfile\n" + scriptNeuromuscularProfile + "\n" +
+			"#englishWords\n" + 	englishWords + "\n" +
+			"#translatedWords\n" + 	translatedWords + "\n" + 
+			"#scriptGraphR\n" + 	scriptGraphR + "\n";
 	}
 
 	~EncoderGraphROptions() {}
@@ -1126,7 +1144,7 @@ public class EncoderConfiguration {
 	}
 	
 	//decimalPointForR: ensure decimal is point in order to work in R
-	public string ToString(string sep, bool decimalPointForR) {
+	public string ToString(string sep, bool decimalPointForR, bool forROptions) {
 		string str_d = "";
 		string str_D = "";
 		if(decimalPointForR) {
@@ -1137,10 +1155,26 @@ public class EncoderConfiguration {
 			str_D = D.ToString();
 		}
 
-		return 
-			name + sep + str_d + sep + str_D + sep + 
-			anglePush.ToString() + sep + angleWeight.ToString() + sep +
-			inertia.ToString() + sep + gearedDown.ToString();
+		if(forROptions)
+			return 
+				"#name" + sep + 	name + sep + 
+				"#str_d" + sep + 	str_d + sep + 
+				"#str_D" + sep + 	str_D + sep + 
+				"#anglePush" + sep + 	anglePush.ToString() + sep + 
+				"#angleWeight" + sep + 	angleWeight.ToString() + sep +
+				"#inertia" + sep + 	inertia.ToString() + sep + 
+				"#gearedDown" + sep + 	gearedDown.ToString()
+				;
+		else
+			return 
+				name + sep + 
+				str_d + sep + 
+				str_D + sep + 
+				anglePush.ToString() + sep + 
+				angleWeight.ToString() + sep +
+				inertia.ToString() + sep + 
+				gearedDown.ToString()
+				;
 	}
 
 	//just to show on a treeview	

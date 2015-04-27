@@ -2625,7 +2625,7 @@ public partial class ChronoJumpWindow
 						fullURL + "," +	
 						eSQL.eccon + "," + 	//this is the eccon of every curve
 						ex.percentBodyWeight.ToString() + "," +
-						eSQL.encoderConfiguration.ToString(",",true) + "," +
+						eSQL.encoderConfiguration.ToString(",",true,false) + "," + //last bool is: forROptions
 						eSQL.LateralityToEnglish()
 						);
 				countSeries ++;

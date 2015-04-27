@@ -27,10 +27,14 @@ getPositionFromChanges <- function(curveCompressed)
           x = x + 1
         }
       }
-    } else {
-      y = y + as.numeric(chunks[i])
-      point = matrix(c(x, y), ncol=2)
-      points <- rbind(points, point)
+    } else  {
+     {
+       if(chunks[i] !=0 ){
+         y = y + as.numeric(chunks[i])
+         point = matrix(c(x, y), ncol=2)
+         points <- rbind(points, point)
+       }
+      }
       x = x + 1
     }
   }
@@ -54,11 +58,32 @@ uncompress <- function(curveSent)
   return (as.numeric(ints))
 }
 
-getPositionFromCompressed <- function(curve, smoothing){
+getKinematicsFromCompressed <- function(curve, smoothing){
   positionDiscarded <- getPositionFromChanges(curve)
+  
+  #Adding extra points at de beggining and the end to make it flat
+  pfirst <- matrix(c(-5:-1, rep(0, 5)), ncol=2)
+  xlast <- positionDiscarded[nrow(positionDiscarded), 1] + 5
+  ylast <- positionDiscarded[nrow(positionDiscarded), 2]
+  plast <- matrix(c(seq(from=(xlast + 1), to=(xlast + 5)), rep(ylast,5)), ncol=2)
+  positionDiscarded <- rbind(pfirst, positionDiscarded, plast)
+  
   positionDiscardedSmoothed <- smooth.spline(positionDiscarded, spar=smoothing)
-  position <- predict(positionDiscardedSmoothed, 0:positionDiscarded[length(positionDiscarded[,1]),1])
-  return(position$y)
+  position <- predict(positionDiscardedSmoothed, -5:positionDiscarded[nrow(positionDiscarded), 1], deriv=0)
+  speed <- predict(positionDiscardedSmoothed, 0:positionDiscarded[nrow(positionDiscarded) -5 ,1], deriv=1)
+  accel <- predict(positionDiscardedSmoothed, 0:positionDiscarded[nrow(positionDiscarded) -5 ,1], deriv=2)
+  return(list(positionDiscarded=positionDiscarded, position=position$y[6:(length(position$y) - 5)], speed=speed$y, accel=accel$y*1000))
+}
+
+drawKinematics <- function(kinematics){
+  par(mar=c(5,4,4,8))
+  plot(kinematics$position, type="l")
+  par(new=TRUE)
+  plot(kinematics$speed, type="l", col="green", axes=FALSE, ylab=FALSE)
+  axis(4, padj=-.5, col="green")
+  par(new=TRUE)
+  plot(kinematics$accel, type="l", col="blue", axes=FALSE, ylab=FALSE)
+  axis(4, col="blue", padj=+1)
 }
 
 getSpeedByPosition <- function(position) {

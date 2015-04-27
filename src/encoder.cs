@@ -950,6 +950,7 @@ public class EncoderConfiguration {
 		has_inertia = false;
 		gearedDown = 1;
 
+		// ---- LINEAR ----
 		if(name == Constants.EncoderConfigurationNames.LINEAR) {
 			type = Constants.EncoderType.LINEAR;
 			position = 0;
@@ -1051,6 +1052,7 @@ public class EncoderConfiguration {
 			has_angle_push = true;
 			has_angle_weight = true;
 		}
+		// ---- ROTARY FRICTION ----
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDE) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 0;
@@ -1068,9 +1070,16 @@ public class EncoderConfiguration {
 			has_d = true;
 			has_D = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 2;
+			image = Constants.FileNameEncoderFrictionWithMovPulley;
+			code = "Rotary friction - moving pulley";
+			text = Catalog.GetString("Rotary friction encoder on weighted moving pulley.");
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIAL) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 3;
 			image = Constants.FileNameEncoderFrictionSideInertial;
 			code = "Rotary friction - inertial machine side";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine side.") + "\n" +
@@ -1083,7 +1092,7 @@ public class EncoderConfiguration {
 		}
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 3;
+			position = 4;
 			image = Constants.FileNameEncoderFrictionAxisInertial;
 			code = "Rotary friction axis - inertial machine axis";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine axis.") + "\n" +
@@ -1093,13 +1102,63 @@ public class EncoderConfiguration {
 			has_d = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
-			position = 4;
-			image = Constants.FileNameEncoderFrictionWithMovPulley;
-			code = "Rotary friction - moving pulley";
-			text = Catalog.GetString("Rotary friction encoder on weighted moving pulley.");
+			position = 5;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary friction - inertial machine side - lateral movement";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
+				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
+
+			has_d = true;
+			has_D = true;
+			has_inertia = true;
 		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 6;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary friction - inertial machine axis - lateral movement";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
+				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
+
+			has_d = true;
+			has_inertia = true;
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 7;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary friction - inertial machine side geared up";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled") + "\n" + 
+				Catalog.GetString("Inertial machine rolls twice faster than body."); 
+
+			has_d = true;
+			has_D = true;
+			has_inertia = true;
+			
+			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY) {
+			type = Constants.EncoderType.ROTARYFRICTION;
+			position = 8;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary friction - inertial machine axis geared up";
+			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled") + "\n" + 
+				Catalog.GetString("Inertial machine rolls twice faster than body."); 
+
+			has_d = true;
+			has_inertia = true;
+			
+			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
+		}
+		// ---- ROTARY AXIS ----
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 0;
@@ -1109,9 +1168,19 @@ public class EncoderConfiguration {
 
 			has_D = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
+		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 1;
+			image = Constants.FileNameEncoderAxisWithMovPulley;
+			code = "Rotary axis - moving pulley";
+			text = Catalog.GetString("Rotary axis encoder on weighted moving pulley.")
+				+ " " + Catalog.GetString("Mass is geared down by 2."); 
+			
+			gearedDown = 2;
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIAL) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 2;
 			image = Constants.FileNameEncoderAxisInertial;
 			code = "Rotary axis - inertial machine";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine.") + "\n" +
@@ -1121,15 +1190,32 @@ public class EncoderConfiguration {
 			has_d = true;
 			has_inertia = true;
 		}
-		else if(name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS) {
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
-			position = 2;
-			image = Constants.FileNameEncoderAxisWithMovPulley;
-			code = "Rotary axis - moving pulley";
-			text = Catalog.GetString("Rotary axis encoder on weighted moving pulley.")
-				+ " " + Catalog.GetString("Mass is geared down by 2."); 
+			position = 3;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary axis - inertial machine - lateral movement";
+			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving laterally.") + "\n" +
+				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled");
+
+			has_d = true;
+			has_inertia = true;
+		}
+		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY) {
+			type = Constants.EncoderType.ROTARYAXIS;
+			position = 4;
+			image = Constants.FileNameEncoderImagePending; //TODO
+			code = "Rotary axis - inertial machine geared up";
+			text = Catalog.GetString("Rotary axis encoder on inertial machine geared up.") + "\n" +
+				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +
+				Catalog.GetString("On inertial machines, 'd' means the average diameter where the pull-push string is rolled") + "\n" + 
+				Catalog.GetString("Inertial machine rolls twice faster than body."); 
+
+			has_d = true;
+			has_inertia = true;
 			
-			gearedDown = 2;
+			gearedDown = -2; //gearedDown is not used in inertial machines. It's hardcoded
 		}
 	}
 

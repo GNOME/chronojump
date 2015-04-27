@@ -311,6 +311,7 @@ RESOURCES = \
 	../images/encoder-analyze-max.png,encoder-analyze-max.png \
 	../images/encoder-analyze-range.png,encoder-analyze-range.png \
 	../images/encoder-analyze-time-to-pp.png,encoder-analyze-time-to-pp.png \
+	../images/encoder-image-pending.png,encoder-image-pending.png \
 	../images/encoder-linear.png,encoder-linear.png \
 	../images/encoder-rotary-friction.png,encoder-rotary-friction.png \
 	../images/encoder-rotary-axis.png,encoder-rotary-axis.png \

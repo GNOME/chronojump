@@ -213,6 +213,7 @@ getAcceleration <- function(speed) {
 }
 
 #gearedDown is positive, normally 2
+#this is not used on inertial machines
 getMass <- function(mass, gearedDown, angle) {
 	if(mass == 0)
 		return (0)

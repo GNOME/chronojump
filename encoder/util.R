@@ -204,7 +204,6 @@ findTakeOff <- function(forceConcentric, maxSpeedTInConcentric)
 
 getSpeed <- function(displacement, smoothing) {
 	#no change affected by encoderConfiguration
-
 	return (smooth.spline( 1:length(displacement), displacement, spar=smoothing))
 }
 
@@ -865,12 +864,39 @@ getInertialDiametersPerTick <- function(d_vector)
   # Converting the number of the loop to ticks of the encoder
   d[,1] <- d[,1]*200
   
+  # Adding an extra point at the begining of the diameters matrix to match better the first point
+  x1 <- d[1,1]
+  y1 <- d[1,2]
+  x2 <- d[2,1]
+  y2 <- d[2,2]
+  lambda <- 200
+  x0 <- x1 - lambda
+  y0 <- y1 - lambda*(y2 - y1)/(x2 - x1)
+  p0 <- matrix(c(x0, y0), ncol=2)
+  d <- rbind(p0, d)
+  
+  # Adding an extra point at the end of the diameters matrix to match better the last point
+  last <- length(d[,1])
+  x1 <- d[(last - 1),1]
+  y1 <- d[(last - 1),2]
+  x2 <- d[last,1]
+  y2 <- d[last,2]
+  lambda <- 200
+  xFinal <- x2 + lambda
+  yFinal <- y2 + lambda*(y2 - y1)/(x2 - x1)
+  pFinal <- matrix(c(xFinal, yFinal), ncol=2)
+  d <- rbind(d, pFinal)
+  
+  
   # Linear interpolation of the radius across the lenght of the measurement of the diameters
-  d.approx <- approx(x=d[,1], y=d[,2], seq(from=1, to=d[length(d[,1]),1]))
+  #d.approx <- approx(x=d[,1], y=d[,2], seq(from=1, to=d[length(d[,1]),1]))
+  print(d)
+  d.smoothed <- smooth.spline(d, spar=0.4)
+  d.approx <- predict(d.smoothed, 0:d[length(d[,1]), 1],0)
   return(d.approx$y)
 }
 #Returns the instant diameter every milisecond
-getInertialDiameterPerMs <- function(diameterPerTick, displacement)
+getInertialDiametersPerMs <- function(diameterPerTick, displacement)
 {
   return(diameterPerTick[abs(cumsum(displacement))])
 }

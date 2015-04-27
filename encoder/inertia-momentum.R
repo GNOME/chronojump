@@ -92,13 +92,6 @@ calculate <- function (displacement, mass, length)
 	return(as.numeric(I))
 }
 
-getOptionsFromFile <- function(optionsFile,n) {
-	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon,n=n)
-	close(optionsCon)
-	return (options)
-}
-
 
 args <- commandArgs(TRUE)
 print(args)
@@ -106,7 +99,7 @@ print(args)
 optionsFile = args[1]
 print(optionsFile)
 
-options = getOptionsFromFile(optionsFile, 5)
+options = scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
 fileInput = options[1]
 fileOutput = options[2]

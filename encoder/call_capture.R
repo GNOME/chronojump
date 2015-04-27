@@ -9,18 +9,11 @@
 
 
 args <- commandArgs(TRUE)
+
 optionsFile <- args[1]
-#print(optionsFile)
 
-#--- user commands ---
-getOptionsFromFile <- function(optionsFile, lines) {
-	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon, n=lines)
-	close(optionsCon)
-	return (options)
-}
+options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
-options <- getOptionsFromFile(optionsFile, 32)
 
 scriptUtilR = options[28]
 source(scriptUtilR)

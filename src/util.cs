@@ -319,6 +319,14 @@ public class Util
 		return myStringBuilder.ToString();
 	}
 
+	//use this!!!	
+	public static string RemoveChar(string s, char c) 
+	{
+		StringBuilder myStringBuilder = new StringBuilder(s);
+		myStringBuilder.Replace(c,' ');
+		return myStringBuilder.ToString();
+	}
+
 	public static string RemoveZeroOrMinus(string myString) 
 	{
 		if(myString == "0" || myString == "-")

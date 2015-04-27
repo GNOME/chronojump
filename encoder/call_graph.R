@@ -8,25 +8,11 @@
 
 
 args <- commandArgs(TRUE)
+
 optionsFile <- args[1]
-print(optionsFile)
 
-#--- user commands ---
-getOptionsFromFile <- function(optionsFile, lines) {
-	optionsCon <- file(optionsFile, 'r')
-	options=readLines(optionsCon, n=lines)
-	close(optionsCon)
-	return (options)
-}
+options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 
-#way A. passing options to a file
-options <- getOptionsFromFile(optionsFile, 32)
-
-#way B. put options as arguments
-#unused because maybe command line gets too long
-#options <- commandArgs(TRUE)
-
-#print(options)
 
 #---------------------------------------------------------------------
 #			Attention

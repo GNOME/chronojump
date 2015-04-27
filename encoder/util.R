@@ -570,9 +570,14 @@ isInertial <- function(encoderConfigurationName) {
 	if(encoderConfigurationName == "LINEARINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIAL" ||
 	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALLATERAL" || 
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALLATERAL" ||
+	   encoderConfigurationName == "ROTARYFRICTIONSIDEINERTIALMOVPULLEY" || 
+	   encoderConfigurationName == "ROTARYFRICTIONAXISINERTIALMOVPULLEY" ||
 	   encoderConfigurationName == "ROTARYAXISINERTIAL" ||
-	   encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY")
-    
+	   encoderConfigurationName == "ROTARYAXISINERTIALLATERAL" || 
+	   encoderConfigurationName == "ROTARYAXISINERTIALMOVPULLEY"
+	   )
 		return(TRUE)
 	else
 		return(FALSE)

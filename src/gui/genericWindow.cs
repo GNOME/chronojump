@@ -483,6 +483,14 @@ public class GenericWindow
 			treeview.ButtonReleaseEvent += on_treeview_button_release_event;
 		}
 	}
+
+	public void SelectRowWithID(int colNum, int id) 
+	{
+		if(id <= 0)
+			return;
+
+		UtilGtk.TreeviewSelectRowWithID(treeview, store, colNum, id, true); //last boolean is 'scroll to row'
+	}
 	
 	public void MarkActiveCurves(string [] checkboxes) 
 	{

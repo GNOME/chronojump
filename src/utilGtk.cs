@@ -227,6 +227,56 @@ public class UtilGtk
 		return -1;
 	}
 
+	//finds the row number (starting at 0) of a cell (usually an uniqueID in col 0)
+	private static int getRowNumOfThisID(Gtk.TreeStore store, int colNum, int searchedID) {
+		TreeIter iter;
+		int count = 0;
+		bool iterOk = store.GetIterFirst(out iter);
+		while(iterOk) {
+			int thisID = Convert.ToInt32((string) store.GetValue (iter, colNum));
+			if(thisID == searchedID)
+				return count;
+			
+			count ++;
+			store.IterNext(ref iter);
+		}
+		return -1;
+	}
+
+	//selects a row that has an uniqueID (usually at col 0)
+	public static void TreeviewSelectRowWithID(Gtk.TreeView tv, Gtk.TreeStore store, int colNum, int id, bool scrollToRow)
+	{
+		if(id <= 0)
+			return;
+
+		int rowNum = getRowNumOfThisID(store, colNum, id);
+		if(rowNum == -1)
+			return;
+
+		//set the selected
+		int count = 0;
+		TreeIter iter;
+		bool iterOk = store.GetIterFirst(out iter);
+		while(iterOk) {
+			if(count == rowNum) {
+				//1 select row
+				tv.Selection.SelectIter(iter);
+		
+				//2 scroll to that row
+				if(scrollToRow) {
+					TreePath path = store.GetPath (iter);
+					LogB.Debug(path.ToString());
+					tv.ScrollToCell (path, tv.Columns[0], true, 0, 0);
+				}
+
+				return;
+			}
+			
+			count ++;
+			store.IterNext(ref iter);
+		}
+	}
+
 	public static Gtk.TreeStore RemoveRow (Gtk.TreeView tv, Gtk.TreeStore store) {
 		TreeModel model;
 		TreeIter iter1;

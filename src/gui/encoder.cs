@@ -1210,6 +1210,10 @@ public partial class ChronoJumpWindow
 		genericWin.SetComboLabel(Catalog.GetString("Change the owner of selected set") + 
 				" (" + Catalog.GetString("code") + ":" + Catalog.GetString("name") + ")");
 		genericWin.ShowEditRow(false);
+
+		//select row corresponding to current signal
+		genericWin.SelectRowWithID(0, Convert.ToInt32(encoderSignalUniqueID)); //colNum, id
+		
 		genericWin.CommentColumn = 9;
 	
 		genericWin.ShowButtonCancel(true);

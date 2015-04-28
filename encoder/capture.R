@@ -187,9 +187,10 @@ doProcess <- function(options)
 
 		if(debug)
 			write("doProcess 2", stderr())
-		if(isInertial(op$EncoderConfigurationName)) 
+		if(isInertial(op$EncoderConfigurationName))
 		{
-			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
+		  diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
+			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, diametersPerTick, op$diameterExt)
 
 			displacement = getDisplacementInertialBody(positionStart, displacement, FALSE, op$Title) #draw: FALSE
 		} else {

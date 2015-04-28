@@ -1973,7 +1973,8 @@ doProcess <- function(options)
 
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
-			displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, op$diameter, op$diameterExt)
+		  diametersPerTick = getInertialDiametersPerMs(displacement, op$diameter)
+		  displacement = getDisplacementInertial(displacement, op$EncoderConfigurationName, diametersPerTick, op$diameterExt)
 		
 			displacement = getDisplacementInertialBody(0, displacement, curvesPlot, op$Title)
 			#positionStart is 0 in graph.R. It is different on capture.R because depends on the start of every repetition

@@ -27,7 +27,7 @@
 #it can be printed safely to stderr. See end capture.R
 
 #used in graph.R and capture.R
-assignOptions <- function(options) {        
+assignOptions <- function(options) {    
 	return(list(
 		    File		= options[1],        
 		    OutputGraph		= options[2],
@@ -56,6 +56,7 @@ assignOptions <- function(options) {
 		    AnalysisOptions	= options[13],
 		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
 		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
+		    #diameter    = getInertialDiametersPerTick(as.numeric(unlist(strsplit("1.5; 1.75; 2.65; 3.32; 3.95; 4.07; 4.28; 4.46; 4.54; 4.77; 4.96; 5.13; 5.3; 5.55", "\\;")))),
 		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
@@ -907,7 +908,6 @@ getInertialDiametersPerTick <- function(d_vector)
   
   # Linear interpolation of the radius across the lenght of the measurement of the diameters
   #d.approx <- approx(x=d[,1], y=d[,2], seq(from=1, to=d[length(d[,1]),1]))
-  print(d)
   d.smoothed <- smooth.spline(d, spar=0.4)
   d.approx <- predict(d.smoothed, 0:d[length(d[,1]), 1],0)
   return(d.approx$y)

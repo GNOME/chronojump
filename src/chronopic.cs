@@ -87,7 +87,9 @@ public class Chronopic {
 	~Chronopic()
 	{
 		//-- Cerrar puerto serie
-		sp.Close();
+		if (sp != null)
+			if (sp.IsOpen)
+				sp.Close();
 	}
 
 	//***************************************

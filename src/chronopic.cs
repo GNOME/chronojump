@@ -556,7 +556,7 @@ public class ChronopicAutoCheckEncoder : ChronopicAuto
 		Found = ChronopicAutoDetect.ChronopicType.UNDETECTED;
 	
 		char myByte;
-		for(int i = 0; i < 20; i ++) //try 20 times (usually works 3-5 try)
+		for(int i = 0; i < 100; i ++) //try 100 times (usually works on Linux 3-5 try, Mac 8-10, Windows don't work < 20... trying bigger numbers)
 		{
 			LogB.Debug("writting ...");
 	

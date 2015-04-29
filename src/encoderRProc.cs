@@ -144,10 +144,10 @@ public abstract class EncoderRProc
 	public void SendEndProcess() 
 	{
 		if(isRunning()) {
-			LogB.Debug("Closing R capture script");
+			LogB.Debug("Closing R script");
 			p.StandardInput.WriteLine("Q");
 		} else
-			LogB.Debug("R capture script is not working. Don't need to close.");
+			LogB.Debug("R script is not working. Don't need to close.");
 	}
 }
 

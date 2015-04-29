@@ -1105,7 +1105,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 5;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderFrictionSideInertialLateral;
 			code = "Rotary friction - inertial machine side - lateral movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
@@ -1118,7 +1118,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 6;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderFrictionAxisInertialLateral;
 			code = "Rotary friction - inertial machine axis - lateral movement";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine when person is moving laterally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +
@@ -1193,7 +1193,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALLATERAL) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 3;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderAxisInertialLateral;
 			code = "Rotary axis - inertial machine - lateral movement";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine when person is moving laterally.") + "\n" +
 				"*" + Catalog.GetString("Start capture with the string completely unwrapped.") + "*" + "\n" +

@@ -26,10 +26,20 @@ filenameCompose <- function(curveNum)
 		return(paste(filenameBegins, "-00", curveNum, sep=""))	#eg. "filename-003"
 }
 
-calcule <- function(displacement, start, end, op, curveNum)
+#calcule <- function(displacement, start, end, op, curveNum)
+calcule <- function(displacement, op, curveNum)
 {
 	if(debug)
 		write("At calcule", stderr())
+
+	#check displacement1/2 lengths because if it was bad executed,
+	#getDisplacementInertialBody maybe returned really small curves that will fail in smooth.spline
+	#so just don't do nothing and do not increase the curveNum count
+	
+	if(length(displacement) < 4)
+		return (curveNum)
+
+
 	#read AnalysisOptions
 	#if is propulsive and rotatory inertial is: "p;ri" 
 	#if nothing: "-;-"
@@ -66,16 +76,6 @@ calcule <- function(displacement, start, end, op, curveNum)
 		
 	position = cumsum(displacement)
 
-	#do not use print because it shows the [1] first. Use cat:
-	#cat(paste(#start, #start is not used because we have no data of the initial zeros
-	#	  #(end-start), (position[end]-position[start]), #this is not used because the start, end values are not ok now
-	#	  0, 0, 
-	#	  paf$meanSpeed, paf$maxSpeed, paf$maxSpeedT, 
-	#	  paf$meanPower, paf$peakPower, paf$peakPowerT, paf$pp_ppt, 
-	#	  paf$meanForce, paf$maxForce, paf$maxForceT,
-	#	  sep=", "))
-	#cat("\n") #mandatory to read this from C#, but beware, there we will need a trim to remove the windows \r\n
-
 	filename <- filenameCompose(curveNum)
 	con <- file(filename, "w")
 	cat(paste(#start, #start is not used because we have no data of the initial zeros
@@ -87,6 +87,8 @@ calcule <- function(displacement, start, end, op, curveNum)
 	close(con)
 	if(debug)
 		write("ended calcule", stderr())
+
+	return(curveNum +1)
 }
 		
 getPositionStart <- function(input) 
@@ -220,6 +222,7 @@ doProcess <- function(options)
 
 		#if isInertial: getDisplacementInertialBody separate phases using initial height of full extended person
 		#so now there will be two different curves to process
+
 		if(isInertial(op$EncoderConfigurationName)) 
 		{
 			position = cumsum(displacement)
@@ -227,23 +230,18 @@ doProcess <- function(options)
 			displacement1 = displacement[1:positionTop]
 			displacement2 = displacement[(positionTop+1):length(displacement)]
 
-			if(op$Eccon == "c") {
-				calcule(displacement1, start, end, op, curveNum)
-				curveNum = curveNum +1
-			} else {
-				calcule(displacement1, start, end, op, curveNum)
-				curveNum = curveNum +1
-				
-				calcule(displacement2, start, end, op, curveNum)
-				curveNum = curveNum +1
+			if(op$Eccon == "c")
+				curveNum <- calcule(displacement1, op, curveNum)
+			else {
+				curveNum <- calcule(displacement1, op, curveNum)
+				curveNum <- calcule(displacement2, op, curveNum)
 			}
 
 			#write(c("positionTop", positionTop), stderr())
 			#write(c("length(displacement)", length(displacement)), stderr())
-		} else {
-			calcule(displacement, start, end, op, curveNum)
-			curveNum = curveNum +1
-		}
+		} else
+				curveNum <- calcule(displacement, op, curveNum)
+		
 		if(debug)
 			write("doProcess 4", stderr())
 

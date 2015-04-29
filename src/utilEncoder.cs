@@ -794,47 +794,6 @@ public class UtilEncoder
 		return data;
 	}
 
-	//gearedDown is positive, normally 2
-	private static double getMass(double mass, int gearedDown, int angle) {
-		if(mass == 0)
-			return 0;
-
-		return ( ( mass / gearedDown ) * Math.Sin( angle * Math.PI / 180 ) );
-	}
-
-	private static double getMassBodyByExercise(double massBody, int exercisePercentBodyWeight) {
-		if(massBody == 0 || exercisePercentBodyWeight == 0)
-			return 0;
-
-		return (massBody * exercisePercentBodyWeight / 100.0);
-	}
-
-	public static double GetMassByEncoderConfiguration(
-			EncoderConfiguration ec, double massBody, double massExtra, int exercisePercentBodyWeight)
-	{
-		massBody = getMassBodyByExercise(massBody, exercisePercentBodyWeight);
-
-		if(
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1 ||
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON1INV ||
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2 ||
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYLINEARONPERSON2INV ||
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYFRICTION ||
-			ec.name == Constants.EncoderConfigurationNames.WEIGHTEDMOVPULLEYROTARYAXIS 
-		  ) {
-			massExtra = getMass(massExtra, ec.gearedDown, ec.anglePush);
-		} 
-		else if(ec.name == Constants.EncoderConfigurationNames.LINEARONPLANE) {
-			massBody = getMass(massBody, ec.gearedDown, ec.anglePush);
-			massExtra = getMass(massExtra, ec.gearedDown, ec.anglePush);
-		}
-		else if(ec.name == Constants.EncoderConfigurationNames.LINEARONPLANEWEIGHTDIFFANGLE) {
-			massBody = getMass(massBody, ec.gearedDown, ec.anglePush);
-			massExtra = getMass(massExtra, ec.gearedDown, ec.angleWeight);
-		}
-
-		return (massBody + massExtra);
-	}
 
 	/* ----end of EncoderConfiguration, kinematics and Dynamics ---- */ 
 

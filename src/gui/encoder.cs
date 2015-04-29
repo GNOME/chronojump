@@ -3924,8 +3924,6 @@ public partial class ChronoJumpWindow
 	static List<string> encoderCaptureStringR;
 	static ArrayList captureCurvesBarsData;
 	
-	double massDisplacedEncoder = 0;
-	
 	//if we are capturing, play sounds
 	void plotCurvesGraphDoPlot(string mainVariable, double mainVariableHigher, double mainVariableLower, 
 			ArrayList data6Variables, bool capturing) 
@@ -4375,12 +4373,6 @@ public partial class ChronoJumpWindow
 					deleteAllCapturedCurveFiles();
 
 					capturingCsharp = encoderCaptureProcess.CAPTURING;
-
-					massDisplacedEncoder = UtilEncoder.GetMassByEncoderConfiguration( encoderConfigurationCurrent, 
-							findMass(Constants.MassType.BODY), findMass(Constants.MassType.EXTRA),
-							getExercisePercentBodyWeightFromCombo() );
-
-					
 				}
 
 				if(action == encoderActions.CAPTURE) {

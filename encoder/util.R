@@ -57,7 +57,7 @@ assignOptions <- function(options) {
 		    EncoderConfigurationName =	options[14],	#just the name of the EncoderConfiguration	
 		    diameter		= as.numeric(unlist(strsplit(options[15], "\\;"))), #comes in cm, will be converted to m. Since 1.5.1 can be different diameters separated by ;
 		    #diameter    = getInertialDiametersPerTick(as.numeric(unlist(strsplit("1.5; 1.75; 2.65; 3.32; 3.95; 4.07; 4.28; 4.46; 4.54; 4.77; 4.96; 5.13; 5.3; 5.55", "\\;")))),
-		    diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
+        diameterExt		= as.numeric(options[16]),	#comes in cm, will be converted to m
 		    anglePush 		= as.numeric(options[17]),
 		    angleWeight 	= as.numeric(options[18]),
 		    inertiaMomentum	= (as.numeric(options[19])/10000.0),	#comes in Kg*cm^2 eg: 100; convert it to Kg*m^2 eg: 0.010
@@ -915,6 +915,10 @@ getInertialDiametersPerTick <- function(d_vector)
 #Returns the instant diameter every milisecond
 getInertialDiametersPerMs <- function(displacement, diametersPerTick)
 {
+  if (length(diametersPerTick) == 1) {
+    return(diametersPerTick)
+  }
+  
   diameter <- diametersPerTick[abs(cumsum(displacement)) + 1]
   return(diameter)
 }

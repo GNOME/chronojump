@@ -36,8 +36,6 @@ History:
   2012-04-19 if PC send command 'J' for port scanning, Chronopic will return 'J'  2014-08-30 if PC send command 'V' for getting version, ex: 2.1\n
   	     if PC send command 'a' get debounce time , ex:0x01
 	     if PC send command 'bx' for setting debounce time, x is from byte value 0~255(\x0 ~ \xFF) 
-	     if PC send command 'c' for starting contiuned to send encoder value
-	     if PC send command 'd' for stopping contiuned to send encoder value
   2015-02-19 
 	     if PC send command 'R','r' for reaction time protocol on pin RB3 (R/r open/close this light)
 	     if PC send command 'S','s' for reaction time protocol on pin RB6 (S/s open/close this light)
@@ -127,8 +125,6 @@ unsigned char command_port_scanning = 'J';	// for port scanning, it will return 
 unsigned char command_get_version = 'V';	// for getting version, it will return '2.1'
 unsigned char command_get_debounce_time = 'a';	// for setting debounce time, pc send two unsigned char, 'Sx' -- x:0~255
 unsigned char command_set_debounce_time = 'b';	// for getting debounce time, it will return x:0~255(HEX)
-//unsigned char command_start_send_encoder_value = 'c';	// starting continued send encoder's value
-//unsigned char command_stop_send_encoder_value = 'd';	// stopping continued send encoder's value
 unsigned char command_reaction_time_rb3_on = 'R';
 unsigned char command_reaction_time_rb6_on = 'S';
 unsigned char command_reaction_time_rb7_on = 'T';
@@ -137,7 +133,10 @@ unsigned char command_reaction_time_rb6_off = 's';
 unsigned char command_reaction_time_rb7_off = 't';
 unsigned char command_reaction_time_animation_light = 'l';
 unsigned char command_reaction_time_animation_flicker = 'f';
-unsigned char command_reaction_time_animation_buzzer = 'z';
+unsigned char command_reaction_time_animation_discriminative1 = 'd'; //d for 'd'iscriminative
+unsigned char command_reaction_time_animation_discriminative2 = 'D';
+unsigned char command_reaction_time_animation_discriminative3 = 'i'; //i for d'i'scriminative
+unsigned char command_reaction_time_animation_discriminative4 = 'I';
 unsigned char position = 0;
 unsigned int timer2Times;
 
@@ -152,6 +151,8 @@ unsigned int animation_tick = 61;
 unsigned int animation_tick_n_times = 160;
 
 unsigned char animation_light_should_run = 0; //0 until and 'l' is sent from Chronojump
+unsigned char flicker_light_should_run = 0; //0 until and 'f' is sent from Chronojump
+unsigned char discriminative_running = 0;
 
 char version_major = '1';
 char version_minor = '1';
@@ -502,6 +503,51 @@ void reaction_time_animation_lights_do()
 
 }
 
+void reaction_time_flicker_do()
+{
+	if(TMR2IF == 1) {
+		timer2_start();
+		timer2Times --;
+
+		if(timer2Times <= 0) {
+			switch(position) {
+				case 0:
+					RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 0; //OFF
+					position = 1;
+					break;
+				case 1:
+					RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1;
+					position = 0;
+					break;
+			}
+			
+			timer2Times = animation_tick_n_times;
+		}
+	}
+}
+
+void reaction_time_discriminative_do(char mode)
+{
+	switch(mode) {
+		case 'd':
+			RB7 = 0; RB3 = 1; RB0 = 0; RB2 = 0; //light red
+			break;
+		case 'D':
+			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 1; //light yellow
+			break;
+		case 'i':
+			RB7 = 0; RB3 = 0; RB0 = 1; RB2 = 0; //light green
+			break;
+		case 'I':
+			RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 1; //buzzer
+			break;
+	}
+}
+void reaction_time_discriminative_stop()
+{
+	RB7 = 0; RB3 = 0; RB0 = 0; RB2 = 0;
+}
+
 //*****************************************************
 //* Activate interruption of changing of port B
 //* INPUT: None
@@ -569,6 +615,36 @@ static void animation_light_convert(char sentData)
 			break;
 	}
 }
+static void flickr_light_convert(char sentData)
+{
+	switch(sentData) {
+		case 0:
+			animation_tick_n_times = 1;
+			break;
+		case 1:
+			animation_tick_n_times = 2;
+			break;
+		case 2:
+			animation_tick_n_times = 3;
+			break;
+		case 3:
+			animation_tick_n_times = 4;
+			break;
+		case 4:
+			animation_tick_n_times = 5;
+			break;
+		case 5:
+			animation_tick_n_times = 6;
+			break;
+		case 6:
+			animation_tick_n_times = 7;
+			break;
+		case 7:
+			animation_tick_n_times = 8;
+			break;
+	}
+}
+
 
 void main(void)
 {
@@ -762,6 +838,19 @@ void main(void)
 			animation_light_convert(sci_readchar());
 			animation_light_should_run = 1;
 		}
+		else if (my_char == command_reaction_time_animation_flicker) { // 'f'
+			flickr_light_convert(sci_readchar());
+			flicker_light_should_run = 1;
+		}
+		else if (
+				my_char == command_reaction_time_animation_discriminative1 ||
+				my_char == command_reaction_time_animation_discriminative2 ||
+				my_char == command_reaction_time_animation_discriminative3 ||
+				my_char == command_reaction_time_animation_discriminative4 ) 
+		{ // 'd', 'D', 'i', 'I'
+			reaction_time_discriminative_do(my_char);
+			discriminative_running = 1;
+		}
 		else
 			send_error();
 	    }
@@ -774,6 +863,8 @@ void main(void)
 		    //TODO: only if an 'l' has been sent before
 		if(animation_light_should_run == 1)
 			reaction_time_animation_lights_do();
+		else if(flicker_light_should_run == 1)
+			reaction_time_flicker_do();
 	    }
 	    else if (status == STAT_DEBOUNCE)   // status = DEBOUNCE?
 	    {
@@ -829,6 +920,10 @@ void main(void)
 		//stop animation light, and go to the beginning
 		animation_light_should_run = 0;
 		position = 0;
+			
+		if(discriminative_running)
+			reaction_time_discriminative_stop();
+
 		
 		//-- Send frame of changing input
 		//-- First the frame identifier

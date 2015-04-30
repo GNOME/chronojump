@@ -629,10 +629,26 @@ public class ChronopicStartReactionTimeAnimation : ChronopicAuto
 	protected internal override string Communicate() 
 	{
 		try {
+			byte b;
+			if(CharToSend == "l")
+				b = 0x6c;
+			else if(CharToSend == "f")
+				b = 0x66;
+			else if(CharToSend == "d")
+				b = 0x64;
+			else if(CharToSend == "D")
+				b = 0x44;
+			else if(CharToSend == "i")
+				b = 0x69;
+			else if(CharToSend == "I")
+				b = 0x49;
+			else
+				return "ERROR";
+
 			//values go from 0 to 7
-			byte[] bytesToSend = new byte[2] { 0x6c, BitConverter.GetBytes(sendNum)[0] }; //l, 05
+			byte[] bytesToSend = new byte[2] { b, BitConverter.GetBytes(sendNum)[0] }; //eg. l, 05; of f, 05
 			sp.Write(bytesToSend,0,2);
-		
+
 		} catch {
 			return "ERROR";
 		}

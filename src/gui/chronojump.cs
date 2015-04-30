@@ -195,6 +195,13 @@ public partial class ChronoJumpWindow
 	[Widget] Gtk.Button button_video_play_selected_reaction_time;
 	[Widget] Gtk.Button button_delete_selected_reaction_time;
 	[Widget] Gtk.SpinButton spinbutton_animation_lights_speed;
+	[Widget] Gtk.SpinButton spinbutton_flicker_lights_speed;
+	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_lr;
+	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_ly;
+	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_lg;
+	[Widget] Gtk.RadioButton radiobutton_reaction_time_disc_bz;
+	[Widget] Gtk.SpinButton spinbutton_discriminative_lights_minimum;
+	[Widget] Gtk.SpinButton spinbutton_discriminative_lights_maximum;
 
 	//pulse
 	[Widget] Gtk.Button button_edit_selected_pulse;
@@ -4488,6 +4495,38 @@ public partial class ChronoJumpWindow
 		cs.CharToSend = "l";
 		cs.Write(chronopicWin.SP,speed);
 	}
+	
+	private void on_button_flicker_lights_start_clicked (object o, EventArgs args) {
+		int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value);
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		cs.CharToSend = "f";
+		cs.Write(chronopicWin.SP,speed);
+	}
+
+	private void on_button_discriminative_lights_start_clicked (object o, EventArgs args) {
+		//int speed = Convert.ToInt32(spinbutton_flicker_lights_speed.Value); //TODO
+		ChronopicAuto cs = new ChronopicStartReactionTimeAnimation();
+		if(radiobutton_reaction_time_disc_lr.Active == true)
+			cs.CharToSend = "d";
+		else if(radiobutton_reaction_time_disc_ly.Active == true)
+			cs.CharToSend = "D";
+		else if(radiobutton_reaction_time_disc_lg.Active == true)
+			cs.CharToSend = "i";
+		else if(radiobutton_reaction_time_disc_bz.Active == true)
+			cs.CharToSend = "I";
+		cs.Write(chronopicWin.SP,0); //TODO
+	}
+
+	private void on_spinbutton_discriminative_lights_minimum_changed (object o, EventArgs args) {
+		if(spinbutton_discriminative_lights_maximum.Value <= spinbutton_discriminative_lights_minimum.Value)
+			spinbutton_discriminative_lights_maximum.Value = spinbutton_discriminative_lights_minimum.Value +1;
+	}
+	private void on_spinbutton_discriminative_lights_maximum_changed (object o, EventArgs args) {
+		if(spinbutton_discriminative_lights_minimum.Value >= spinbutton_discriminative_lights_maximum.Value)
+			spinbutton_discriminative_lights_minimum.Value = spinbutton_discriminative_lights_maximum.Value -1;
+	}
+
+
 
 	/* ---------------------------------------------------------
 	 * ----------------  PULSES EXECUTION ----------------------

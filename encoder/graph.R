@@ -165,7 +165,7 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	directionLastMSecond = 1
 	directionCompleted = -1
 	previousFrameChange = 0
-	previousEnd = 0
+	previousEnd = 1
 	lastNonZero = 0
 
 	heightAtCurveStart = 0
@@ -224,8 +224,8 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 		      if(directionChangeCount > directionChangePeriod)
 		      {
 			      startFrame = previousEnd
-			      if(startFrame < 0)
-				      startFrame = 0
+			      if(startFrame < 1)
+				      startFrame = 1
 
 			      #previousWasUp = ! Util.IntToBool(directionNow); #if we go now UP, then record previous DOWN phase
 			      previousWasUp = TRUE

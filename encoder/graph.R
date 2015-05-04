@@ -146,8 +146,160 @@ translateVector <- function(englishVector) {
 #	return(displacement)
 #}
 
+#this is equal to runEncoderCaptureCsharp()
+#but note getDisplacement hapens before this function, so no need getDisplacement here
+#also don't need byteReadedRaw, and encoderReadedRaw. encoderReaded is 'displacement' here
+findCurvesNew <- function(displacement, eccon, min_height, draw, title) 
+{
+	#---- 1) declare variables ----
+	
+	byteReaded = NULL
+					
+	position = cumsum(displacement)
 
-findCurves <- function(displacement, eccon, min_height, draw, title) {
+	sum = 0
+
+	directionChangePeriod = 25
+	directionChangeCount = 0
+	directionNow = 1
+	directionLastMSecond = 1
+	directionCompleted = -1
+	previousFrameChange = 0
+	previousEnd = 0
+	lastNonZero = 0
+
+	heightAtCurveStart = 0
+	heightAccumulated = 0
+
+	inertialCaptureDirectionChecked = FALSE
+	inertialCaptureDirectionInverted = FALSE
+		
+	capturingFirstPhase = TRUE
+
+	startCurrent = NULL
+	endCurrent = NULL
+
+	startStored = NULL
+	endStored= NULL
+	startHStored = NULL
+	row = 1
+
+	count = 1
+
+	#---- 2) start ----
+
+	while(count <= length(displacement)) {
+
+	      byteReaded = displacement[count]
+
+	      #TODO: need this?	
+	      #if(inertialCaptureDirectionInverted)
+	      #	byteReadedRaw = -1 * byteReadedRaw
+
+	      sum = sum + byteReaded
+
+	      #the inertial change of direction is not needed here because runEncoderCaptureCsharp() stores data already 'changed'
+	      #so no change here is needed
+
+	      #if string goes up or down, store the direction
+	      if(byteReaded != 0)
+		      directionNow = byteReaded / ( 1.0 * abs(byteReaded) ) #1 (up) or -1 (down)
+
+	      #if we don't have changed the direction, store the last non-zero that we can find
+	      if(directionChangeCount == 0 && directionNow == directionLastMSecond) {
+		      if(byteReaded != 0)
+			      lastNonZero = count
+	      }
+
+	      #if it's different than the last direction, mark the start of change
+	      if(directionNow != directionLastMSecond) {
+		      directionLastMSecond = directionNow
+		      directionChangeCount = 0
+	      } 
+	      else if(directionNow != directionCompleted) {
+		      #we are in a different direction than the last completed
+
+		      directionChangeCount = directionChangeCount +1
+
+		      if(directionChangeCount > directionChangePeriod)
+		      {
+			      startFrame = previousEnd
+			      if(startFrame < 0)
+				      startFrame = 0
+
+			      #previousWasUp = ! Util.IntToBool(directionNow); #if we go now UP, then record previous DOWN phase
+			      previousWasUp = TRUE
+			      if(directionNow == 1)
+				      previousWasUp = FALSE
+
+			      startCurrent = startFrame
+			      endCurrent = ( count - directionChangeCount + lastNonZero) / 2
+
+			      if(endCurrent > startCurrent)
+			      {
+				      heightAtCurveStart = heightAccumulated
+
+				      heightCurve = max(position[startCurrent:endCurrent]) - min(position[startCurrent:endCurrent])
+
+				      previousEnd = endCurrent
+
+				      heightAccumulated = heightAccumulated + heightCurve
+
+				      heightCurve = abs(heightCurve) #mm -> cm
+				      
+				      sendCurve = TRUE
+
+				      if(heightCurve >= min_height) {
+					      #TODO: add the inertia stuff here?
+
+					      if( eccon == "c" && ! previousWasUp )
+						      sendCurve = FALSE
+					      if( (eccon == "ec" || eccon == "ecS") && previousWasUp && capturingFirstPhase )
+						      sendCurve = FALSE
+				      } else {
+					      sendCurve = FALSE
+				      }
+
+				      #store the curve
+				      if(sendCurve) {
+					      startStored[row] = startCurrent
+					      endStored[row] = endCurrent
+					      startHStored[row] = position[startCurrent]
+					      row = row + 1
+				      }
+			      }
+
+			      previousFrameChange = count - directionChangeCount
+			      directionChangeCount = 0
+			      directionCompleted = directionNow
+		      }
+	      }
+
+	      count = count +1
+	}
+	
+	if(draw) {
+		lty=1
+		col="black"
+		plot((1:length(position))/1000			#ms -> s
+		     ,position/10,				#mm -> cm
+		     type="l",
+		     xlim=c(1,length(position))/1000,		#ms -> s
+		     xlab="",ylab="",axes=T,
+		     lty=lty,col=col) 
+
+		title(title, cex.main=1, font.main=1)
+		mtext(paste(translate("time"),"(s)"),side=1,adj=1,line=-1)
+		mtext(paste(translate("displacement"),"(cm)"),side=2,adj=1,line=-1)
+	}
+	
+	return(as.data.frame(cbind(startStored,endStored,startHStored)))
+}
+
+#extrema method
+#there are problems when small changes of direction are found
+#unused now, use the new findCurves (above) that is equal to runEncoderCaptureCsharp()
+findCurvesOld <- function(displacement, eccon, min_height, draw, title) {
 	position=cumsum(displacement)
 	position.ext=extrema(position)
 	print("at findCurves")
@@ -1998,8 +2150,9 @@ doProcess <- function(options)
 		#print(c("position",position))
 		#print(c("displacement",displacement))
 		
-		curves=findCurves(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
-
+		curves=findCurvesOld(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
+		#curves=findCurvesNew(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
+		
 		if(op$Analysis == "curves")
 			curvesPlot = TRUE
 

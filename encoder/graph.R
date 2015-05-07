@@ -279,14 +279,23 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 
 	      count = count +1
 	}
+	
 	#if eccon it's 'ec' and last row it's 'e', delete it
-	if(count > 1 && ( position[startCurrent] > position[endCurrent] ) )
+	if(count > 1)
 	{
-		write("deleting last ecc row", stderr())
-		startStored = startStored[-length(startStored)]
-		endStored = endStored[-length(endStored)]
-		startHStored = startHStored[-length(startHStored)]
+		startStoredLast = startStored[length(startStored)]
+		endStoredLast = endStored[length(endStored)]
 
+		#write("startStoredLast, endStoredLast", stderr())
+		#write(c(startStoredLast, endStoredLast), stderr())
+		
+		if ( position[startStoredLast] > position[endStoredLast] ) 
+		{
+			write("deleting last ecc row", stderr())
+			startStored = startStored[-length(startStored)]
+			endStored = endStored[-length(endStored)]
+			startHStored = startHStored[-length(startHStored)]
+		}
 	}
 
 	#if eccon == "ec" mix 'e' and 'c' curves

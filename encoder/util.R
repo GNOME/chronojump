@@ -230,8 +230,6 @@ getMass <- function(mass, gearedDown, angle) {
 #used in alls eccons
 reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothingOneC) 
 {
-	#print("at reduceCurveBySpeed")
-
 	#In 1.4.0 and before, we use smoothingOneEC on "ec", "ce"
 	#but the problem is findSmoothingsEC has problems knowing the smoothingEC when users stays stand up lot of time before jump.
         #is better to reduceCurveBySpeed first in order to remove the not-moving phase
@@ -284,6 +282,9 @@ reduceCurveBySpeed <- function(eccon, row, startT, startH, displacement, smoothi
 		time1 = min(which(speed$y == max(speed$y)))
 		time2 = max(which(speed$y == max(speed$y)))
 	}
+	
+	#write("time1, time2",stderr())
+	#write(c(time1,time2),stderr())
 
 	#now that times are defined we can work in ABS for all the curves
 	speed$y=abs(speed$y)

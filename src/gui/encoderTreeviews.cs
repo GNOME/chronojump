@@ -93,6 +93,14 @@ public partial class ChronoJumpWindow
 						));
 
 		}
+		//if last repetition is eccentric (there's no concentric movement after than that)
+		//then delete that curve
+		if(encoderCaptureCurves.Count > 0) {
+			EncoderCurve curve = (EncoderCurve) encoderCaptureCurves[encoderCaptureCurves.Count -1];
+			if(Convert.ToDouble(curve.Height) < 0) //it's 'e'
+				encoderCaptureCurves = Util.RemoveLastArrayElement(encoderCaptureCurves);
+
+		}
 
 		encoderCaptureListStore = new Gtk.ListStore (typeof (EncoderCurve));
 		
@@ -415,6 +423,11 @@ public partial class ChronoJumpWindow
 			else { // if(eccon == "ecS")
 				iterPre = iter; //to point at the "e" curve
 				iterOk = encoderCaptureListStore.IterNext (ref iter);
+
+				//this fixes when there's a 'e' but not a 'c' in last repetition
+				if(! iterOk)
+					break;
+
 				EncoderCurve curve2 = (EncoderCurve) encoderCaptureListStore.GetValue (iter, 0);
 
 				LogB.Information("msCentral, start, end" + msCentral.ToString() + " " + curve.Start + " " + 

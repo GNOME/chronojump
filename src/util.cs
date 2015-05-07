@@ -1340,6 +1340,13 @@ public class Util
 		return false;
 	}
 
+	public static ArrayList RemoveLastArrayElement(ArrayList a) {
+		if(a.Count > 0)
+			a.RemoveAt(a.Count - 1);
+
+		return a;
+	}
+
 
 	/*
 	//delete a row of and arraylist of string[] if the string[0] is the value coming from startsWith

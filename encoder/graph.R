@@ -246,7 +246,7 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 				      heightAccumulated = heightAccumulated + heightCurve
 
 				      heightCurve = abs(heightCurve) #mm -> cm
-				      
+			      
 				      sendCurve = TRUE
 
 				      if(heightCurve >= min_height) {
@@ -256,6 +256,8 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 						      sendCurve = FALSE
 					      if( (eccon == "ec" || eccon == "ecS") && previousWasUp && capturingFirstPhase )
 						      sendCurve = FALSE
+
+					      capturingFirstPhase = FALSE
 				      } else {
 					      sendCurve = FALSE
 				      }
@@ -277,6 +279,36 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 
 	      count = count +1
 	}
+	#if eccon it's 'ec' and last row it's 'e', delete it
+	if(count > 1 && ( position[startCurrent] > position[endCurrent] ) )
+	{
+		write("deleting last ecc row", stderr())
+		startStored = startStored[-length(startStored)]
+		endStored = endStored[-length(endStored)]
+		startHStored = startHStored[-length(startHStored)]
+
+	}
+
+	#if eccon == "ec" mix 'e' and 'c' curves
+	if(eccon == "ec") {
+		startStoredOld = startStored
+		endStoredOld = endStored
+		startHStoredOld = startHStored
+
+		startStored = NULL
+		endStored = NULL
+		startHStored = NULL
+
+		n=length(startStoredOld)
+		count = 1
+		for(i in seq(1, n, by=2)) {
+			startStored[count] = startStoredOld[i]
+			endStored[count] = endStoredOld[(i+1)]
+			startHStored[count] = startHStoredOld[i]
+			count = count +1
+		}
+	}
+
 	
 	if(draw) {
 		lty=1
@@ -451,7 +483,7 @@ findCurvesOld <- function(displacement, eccon, min_height, draw, title) {
 findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) {
 	smoothings = NULL
 	n=length(curves[,1])
-	
+
 	#if not "ec" or "ce" just have a value of 0 every curve,
 	#no problem, this value will not be used
 	#is just to not make crash other parts of the software like reduceCurveBySpeed
@@ -496,6 +528,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				print(unique(concentric))
 				print("concentric")
 				print(concentric)
+				
 				speed <- getSpeed(concentric, smoothingOneC)
 				print("called")
 				maxSpeedC=max(speed$y)
@@ -504,6 +537,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				smoothingOneEC = smoothingOneC
 				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
 					print("calling speed 2")
+					write("calling speed 2", stderr())
 					speed <- getSpeed(eccentric.concentric, j)
 					print("called")
 					smoothingOneEC = j
@@ -2150,8 +2184,8 @@ doProcess <- function(options)
 		#print(c("position",position))
 		#print(c("displacement",displacement))
 		
-		curves=findCurvesOld(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
-		#curves=findCurvesNew(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
+		#curves=findCurvesOld(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
+		curves=findCurvesNew(displacement, op$Eccon, op$MinHeight, curvesPlot, op$Title)
 		
 		if(op$Analysis == "curves")
 			curvesPlot = TRUE
@@ -2178,11 +2212,14 @@ doProcess <- function(options)
 			}
 		}
 		
+		print("curves after reduceCurveBySpeed")
+		print(curves)
+		
 		#find SmoothingsEC
 		SmoothingsEC = findSmoothingsEC(singleFile, displacement, curves, op$Eccon, op$SmoothingOneC)
 		print(c("SmoothingsEC:",SmoothingsEC))
 		
-		print("curves after reduceCurveBySpeed")
+		print("curves after findSmoothingsEC")
 		print(curves)
 
 		if(curvesPlot) {

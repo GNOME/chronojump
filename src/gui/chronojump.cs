@@ -3045,54 +3045,46 @@ public partial class ChronoJumpWindow
 
 	
 		LogB.Information("change_multitest_firmware 2");
-		ChronopicAuto ca;	
+		ChronopicAuto ca;
+	
+		/*	
 		try {
 			ca = new ChronopicAutoCheck();
+			//problems with windows using this:
 			string chronopicVersion = ca.Read(chronopicWin.SP);
 			LogB.Debug("version: " + chronopicVersion);
 		} catch {
-			LogB.Information("Could not read from Chronopic");
+			LogB.Information("Could not read from Chronopic with method 1");
 			return;
 		}
-		
+		*/
+
+		LogB.Information("Trying method 2");
+		bool isChronopicAuto = false;
+		try {
+			string result = chronopicWin.CheckAuto(out isChronopicAuto);
+			LogB.Debug("version: " + result);
+		} catch {
+			LogB.Information("Could not read from Chronopic with method 2");
+			return;
+		}
+
 		LogB.Information("change_multitest_firmware 3");
-		if(ca.IsChronopicAuto) {
-			LogB.Information("change_multitest_firmware 3 a");
-			try {
-				int debounceChange = 50;
-				if(m == menuitem_modes.RUNS)
-					debounceChange = 10;
+		if(isChronopicAuto) {
+			int debounceChange = 50;
+			if(m == menuitem_modes.RUNS)
+				debounceChange = 10;
 
-				//write change
-				ca = new ChronopicAutoChangeDebounce();
-				ca.Write(chronopicWin.SP, debounceChange);
-				
-				//read if ok
-				string ms = "";
-				bool success = false;
-				int tryNum = 7; //try to connect seven times
-				do {
-					ca = new ChronopicAutoCheckDebounce();
-					ms = ca.Read(chronopicWin.SP);
-
-					if(ms.Length == 0)
-						LogB.Error("multitest firmware. ms is null");
-					else if(ms[0] == '-') //is negative
-						LogB.Error("multitest firmware. ms = " + ms);
-					else
-						success = true;
-					tryNum --;
-				} while (! success && tryNum > 0);
-					
-				LogB.Debug("multitest firmware. ms = " + ms);
-
-				if(ms == "50 ms")
+			int msChanged = chronopicWin.ChangeMultitestFirmware(debounceChange);
+			if(msChanged != -1) {
+				if(msChanged == 50)
 					label_chronopics_multitest.Text = "[" + Catalog.GetString("Jumps") + "]";
-				else if(ms == "10 ms")
+				else if(msChanged == 10)
 					label_chronopics_multitest.Text = "[" + Catalog.GetString("Runs") + "]";
-			} catch {
-				LogB.Error("Could not change debounce");
-			}
+				else
+					label_chronopics_multitest.Text = "";
+			} else
+				label_chronopics_multitest.Text = "";
 		}
 	}
 

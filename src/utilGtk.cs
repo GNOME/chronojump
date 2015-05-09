@@ -238,7 +238,7 @@ public class UtilGtk
 				return count;
 			
 			count ++;
-			store.IterNext(ref iter);
+			iterOk = store.IterNext(ref iter);
 		}
 		return -1;
 	}

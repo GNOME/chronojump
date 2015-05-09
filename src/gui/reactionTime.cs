@@ -31,11 +31,39 @@ public partial class ChronoJumpWindow
 {
 	[Widget] Gtk.Label label_extra_window_radio_reaction_time;
 	[Widget] Gtk.RadioButton extra_window_radio_reaction_time;
+	[Widget] Gtk.Label label_extra_window_radio_reaction_time_animation_lights;
+	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_animation_lights;
+	[Widget] Gtk.Label label_extra_window_radio_reaction_time_flicker;
+	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_flicker;
+	[Widget] Gtk.Label label_extra_window_radio_reaction_time_discriminative;
+	[Widget] Gtk.RadioButton extra_window_radio_reaction_time_discriminative;
+
+	[Widget] Gtk.Notebook notebook_reaction_time_experimental;
+	[Widget] Gtk.Label label_reaction_time_no_options;
+	[Widget] Gtk.Label label_reaction_time_experimental;
 	
 	private void on_extra_window_reaction_times_test_changed(object o, EventArgs args)
 	{
-		if(extra_window_radio_reaction_time.Active)
+		if(extra_window_radio_reaction_time.Active) {
 			currentReactionTimeType = new ReactionTimeType("reactionTime");
+
+			label_reaction_time_no_options.Visible = true;
+			label_reaction_time_experimental.Visible = false;
+			notebook_reaction_time_experimental.Visible = false;
+		} else {
+			label_reaction_time_no_options.Visible = false;
+			label_reaction_time_experimental.Visible = true;
+		
+			if(extra_window_radio_reaction_time_animation_lights.Active)
+				notebook_reaction_time_experimental.CurrentPage = 0;
+			else if(extra_window_radio_reaction_time_flicker.Active)
+				notebook_reaction_time_experimental.CurrentPage = 1;
+			else if(extra_window_radio_reaction_time_discriminative.Active)
+				notebook_reaction_time_experimental.CurrentPage = 2;
+				
+			notebook_reaction_time_experimental.Visible = true;
+		}
+
 		currentEventType = currentReactionTimeType;
 	}
 }

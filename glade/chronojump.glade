@@ -2961,6 +2961,7 @@
                                                           <widget class="GtkHBox" id="hbox60">
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
+                                                            <property name="spacing">5</property>
                                                             <child>
                                                             <widget class="GtkRadioButton" id="extra_window_radio_reaction_time">
                                                             <property name="visible">True</property>
@@ -2969,6 +2970,7 @@
                                                             <property name="relief">none</property>
                                                             <property name="active">True</property>
                                                             <property name="draw_indicator">False</property>
+                                                            <signal name="toggled" handler="on_extra_window_reaction_times_test_changed" swapped="no"/>
                                                             <child>
                                                             <widget class="GtkLabel" id="label_extra_window_radio_reaction_time">
                                                             <property name="visible">True</property>
@@ -2984,7 +2986,76 @@
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <placeholder/>
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_reaction_time_animation_lights">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_reaction_time</property>
+                                                            <signal name="toggled" handler="on_extra_window_reaction_times_test_changed" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_animation_lights">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Animation lights</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">1</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_reaction_time_flicker">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_reaction_time</property>
+                                                            <signal name="toggled" handler="on_extra_window_reaction_times_test_changed" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_flicker">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Flicker</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">2</property>
+                                                            </packing>
+                                                            </child>
+                                                            <child>
+                                                            <widget class="GtkRadioButton" id="extra_window_radio_reaction_time_discriminative">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">True</property>
+                                                            <property name="receives_default">False</property>
+                                                            <property name="relief">none</property>
+                                                            <property name="active">True</property>
+                                                            <property name="draw_indicator">False</property>
+                                                            <property name="group">extra_window_radio_reaction_time</property>
+                                                            <signal name="toggled" handler="on_extra_window_reaction_times_test_changed" swapped="no"/>
+                                                            <child>
+                                                            <widget class="GtkLabel" id="label_extra_window_radio_reaction_time_discriminative">
+                                                            <property name="visible">True</property>
+                                                            <property name="can_focus">False</property>
+                                                            <property name="label">Discriminative</property>
+                                                            </widget>
+                                                            </child>
+                                                            </widget>
+                                                            <packing>
+                                                            <property name="expand">False</property>
+                                                            <property name="fill">False</property>
+                                                            <property name="position">3</property>
+                                                            </packing>
                                                             </child>
                                                           </widget>
                                                           <packing>
@@ -5242,8 +5313,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="visible">True</property>
                                                             <property name="can_focus">False</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label77">
-                                                            <property name="visible">True</property>
+                                                            <widget class="GtkLabel" id="label_reaction_time_no_options">
                                                             <property name="can_focus">False</property>
                                                             <property name="label" translatable="yes">No options</property>
                                                             </widget>
@@ -5260,8 +5330,7 @@ It starts before and arrives there with some speed.</property>
                                                             <property name="border_width">8</property>
                                                             <property name="spacing">10</property>
                                                             <child>
-                                                            <widget class="GtkLabel" id="label123">
-                                                            <property name="visible">True</property>
+                                                            <widget class="GtkLabel" id="label_reaction_time_experimental">
                                                             <property name="can_focus">False</property>
                                                             <property name="label">Experimental stuff</property>
                                                             </widget>
@@ -5376,9 +5445,9 @@ It starts before and arrives there with some speed.</property>
                                                             </packing>
                                                             </child>
                                                             <child>
-                                                            <widget class="GtkNotebook" id="notebook1">
-                                                            <property name="visible">True</property>
+                                                            <widget class="GtkNotebook" id="notebook_reaction_time_experimental">
                                                             <property name="can_focus">True</property>
+                                                            <property name="show_tabs">False</property>
                                                             <child>
                                                             <widget class="GtkHBox" id="hbox148">
                                                             <property name="visible">True</property>
@@ -7787,6 +7856,9 @@ Second Chronopic to platforms.</property>
                                                         <child>
                                                           <placeholder/>
                                                         </child>
+                                                        <child>
+                                                          <placeholder/>
+                                                        </child>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">True</property>
@@ -8375,6 +8447,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="right_attach">2</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -9859,6 +9934,9 @@ Second Chronopic to platforms.</property>
                                                             <child>
                                                             <placeholder/>
                                                             </child>
+                                                            <child>
+                                                            <placeholder/>
+                                                            </child>
                                                             </widget>
                                                             <packing>
                                                             <property name="position">2</property>
@@ -10340,6 +10418,9 @@ Second Chronopic to platforms.</property>
                                                             <property name="x_options">GTK_FILL</property>
                                                             <property name="y_options">GTK_FILL</property>
                                                             </packing>
+                                                            </child>
+                                                            <child>
+                                                            <placeholder/>
                                                             </child>
                                                             <child>
                                                             <placeholder/>
@@ -21519,6 +21600,9 @@ by you</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -21908,6 +21992,9 @@ by you</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"/>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -23433,6 +23520,9 @@ by you</property>
               <placeholder/>
             </child>
             <child>
+              <placeholder/>
+            </child>
+            <child>
               <widget class="GtkButton" id="button_video_url">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -23455,6 +23545,9 @@ by you</property>
                 <property name="x_options"/>
                 <property name="y_options"/>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -33909,6 +34002,24 @@ options</property>
                             <child>
                               <placeholder/>
                             </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </widget>
                         </child>
                       </widget>
@@ -36000,6 +36111,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                                 <child>
                                   <placeholder/>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
                             </child>
                           </widget>
@@ -36415,6 +36529,9 @@ To differentiate between male and female, use the values 1/0, or m/f, or M/F on 
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                           </packing>
+                        </child>
+                        <child>
+                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -39464,6 +39581,9 @@ show elevation as:</property>
                         <child>
                           <placeholder/>
                         </child>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                       <packing>
                         <property name="left_attach">2</property>
@@ -39490,6 +39610,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"/>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>
@@ -39907,6 +40030,9 @@ show elevation as:</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options">GTK_FILL</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                     <child>
                       <placeholder/>

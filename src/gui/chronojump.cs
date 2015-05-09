@@ -680,6 +680,12 @@ public partial class ChronoJumpWindow
 		//reaction times changes
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time);
 		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_animation_lights);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_animation_lights);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_flicker);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_flicker);
+		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_reaction_time_discriminative);
+		UtilGtk.ColorsRadio(viewport_chronopics, extra_window_radio_reaction_time_discriminative);
 
 		//pulses changes
 		UtilGtk.ColorsTestLabel(viewport_chronopics, label_extra_window_radio_pulses_free);

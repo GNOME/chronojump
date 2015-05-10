@@ -773,12 +773,15 @@ public class Constants
 	public static string FileNameEncoderFrictionAxisInertial = "encoder-rotary-friction-axis-inertial.png";
 	public static string FileNameEncoderFrictionSideInertialLateral = "encoder-rotary-friction-side-inertial-lateral.png";
 	public static string FileNameEncoderFrictionAxisInertialLateral = "encoder-rotary-friction-axis-inertial-lateral.png";
+	public static string FileNameEncoderFrictionSideInertialMovPulley = "encoder-rotary-friction-side-inertial-mov-pulley.png";
+	public static string FileNameEncoderFrictionAxisInertialMovPulley = "encoder-rotary-friction-axis-inertial-mov-pulley.png";
 	public static string FileNameEncoderFrictionWithMovPulley = "encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png";
 
 	//rotary axis
 	public static string FileNameEncoderRotaryAxisOnAxis = "encoder-rotary-axis-pulley-axis.png";
 	public static string FileNameEncoderAxisInertial = "encoder-rotary-axis-inertial.png";
 	public static string FileNameEncoderAxisInertialLateral = "encoder-rotary-axis-inertial-lateral.png";
+	public static string FileNameEncoderAxisInertialMovPulley = "encoder-rotary-axis-inertial-mov-pulley.png";
 	public static string FileNameEncoderAxisWithMovPulley = "encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png";
 	
 	public static string FileNameEncoderCalculeIM = "encoder-calcule-im.png";	

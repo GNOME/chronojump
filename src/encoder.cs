@@ -1130,7 +1130,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONSIDEINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 7;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderFrictionSideInertialMovPulley;
 			code = "Rotary friction - inertial machine side geared up";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
 				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +
@@ -1146,7 +1146,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYFRICTIONAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYFRICTION;
 			position = 8;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderFrictionAxisInertialMovPulley;
 			code = "Rotary friction - inertial machine axis geared up";
 			text = Catalog.GetString("Rotary friction encoder on inertial machine geared up.") + "\n" +
 				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +
@@ -1205,7 +1205,7 @@ public class EncoderConfiguration {
 		else if(name == Constants.EncoderConfigurationNames.ROTARYAXISINERTIALMOVPULLEY) {
 			type = Constants.EncoderType.ROTARYAXIS;
 			position = 4;
-			image = Constants.FileNameEncoderImagePending; //TODO
+			image = Constants.FileNameEncoderAxisInertialMovPulley;
 			code = "Rotary axis - inertial machine geared up";
 			text = Catalog.GetString("Rotary axis encoder on inertial machine geared up.") + "\n" +
 				"*" + Catalog.GetString("Person has to start fully extended (on the toes).") + "*" + "\n" +

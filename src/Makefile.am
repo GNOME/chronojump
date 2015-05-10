@@ -331,10 +331,13 @@ RESOURCES = \
 	../images/encoder-rotary-friction-axis-inertial.png,encoder-rotary-friction-axis-inertial.png \
 	../images/encoder-rotary-friction-side-inertial-lateral.png,encoder-rotary-friction-side-inertial-lateral.png \
 	../images/encoder-rotary-friction-axis-inertial-lateral.png,encoder-rotary-friction-axis-inertial-lateral.png \
+	../images/encoder-rotary-friction-side-inertial-mov-pulley.png,encoder-rotary-friction-side-inertial-mov-pulley.png \
+	../images/encoder-rotary-friction-axis-inertial-mov-pulley.png,encoder-rotary-friction-axis-inertial-mov-pulley.png \
 	../images/encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-friction-on-fixed-pulley-with-weighted-moving-pulley.png \
 	../images/encoder-rotary-axis-pulley-axis.png,encoder-rotary-axis-pulley-axis.png \
 	../images/encoder-rotary-axis-inertial.png,encoder-rotary-axis-inertial.png \
 	../images/encoder-rotary-axis-inertial-lateral.png,encoder-rotary-axis-inertial-lateral.png \
+	../images/encoder-rotary-axis-inertial-mov-pulley.png,encoder-rotary-axis-inertial-mov-pulley.png \
 	../images/encoder-calcule-im.png,encoder-calcule-im.png \
 	../images/encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png,encoder-rotary-axis-on-fixed-pulley-with-weighted-moving-pulley.png
 

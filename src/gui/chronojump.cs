@@ -2926,6 +2926,7 @@ public partial class ChronoJumpWindow
 			viewport_chronopic_encoder.Visible = false;
 
 			cpDetect = new ChronopicDetect(
+					chronopicWin.SP,
 					progressbar_chronopic_encoder_detecting, 
 					button_chronopic_encoder_detecting_cancel,
 					button_chronopic_encoder_detecting_info
@@ -2940,6 +2941,7 @@ public partial class ChronoJumpWindow
 			viewport_chronopics.Visible = false;
 
 			cpDetect = new ChronopicDetect(
+					chronopicWin.SP,
 					progressbar_chronopic_detecting, 
 					button_chronopic_detecting_cancel,
 					button_chronopic_detecting_info

@@ -34,6 +34,7 @@ public class ChronopicDetect
 	
 	private static bool cancel;
 	private static bool needToChangeProgressbarText;
+	private SerialPort sp;
 
 	public bool Detecting; //used to block closing chronojump window if true
 	public string Detected; //readed from chronojump window
@@ -42,8 +43,9 @@ public class ChronopicDetect
 	
 	public Gtk.Button FakeButtonDone;
 	
-	public ChronopicDetect (Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info)
+	public ChronopicDetect (SerialPort sp, Gtk.ProgressBar progressbar, Gtk.Button button_cancel, Gtk.Button button_info)
 	{
+		this.sp = sp;
 		this.progressbar = progressbar;
 		this.button_cancel = button_cancel;
 		this.button_info = button_info;
@@ -108,7 +110,6 @@ public class ChronopicDetect
 	}
 
 	private static Chronopic cpDoing;
-	private static SerialPort sp;
 	private static Chronopic.Plataforma platformState;	//on (in platform), off (jumping), or unknow
 	
 	private void connectNormal(string myPort)
@@ -120,6 +121,7 @@ public class ChronopicDetect
 		string message = "";
 		bool success = false;
 		connectedNormalChronopic = chronopicInit.Do(1, out cpDoing, out sp, platformState, myPort, out message, out success);
+		LogB.Information(message);
 		LogB.Debug("connectNormal end");
 	}
 

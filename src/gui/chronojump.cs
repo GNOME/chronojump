@@ -2937,6 +2937,12 @@ public partial class ChronoJumpWindow
 			cpDetect.FakeButtonDone.Clicked += new EventHandler(on_autoDetectChronopic_encoder_done);
 		} 
 		else {
+			//disabled on Windows until is fixed
+			if(UtilAll.IsWindows()) {
+				main_menu.Sensitive = true;
+				return;
+			}
+
 			hbox_chronopic_detecting.Visible = true;
 			viewport_chronopics.Visible = false;
 

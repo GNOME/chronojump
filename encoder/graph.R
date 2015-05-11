@@ -233,7 +233,8 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 				      previousWasUp = FALSE
 
 			      startCurrent = startFrame
-			      endCurrent = ( count - directionChangeCount + lastNonZero) / 2
+			      #-1 are because on C# count starts at 0 and here count starts at 1
+			      endCurrent = ( (count -1) - directionChangeCount + (lastNonZero -1) ) / 2
 
 			      if(endCurrent > startCurrent)
 			      {
@@ -658,6 +659,7 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 	else
 		smoothing = smoothingOneEC
 
+	write(c("paint smoothing", smoothing), stderr())
 
 	#eccons ec and ecS is the same here (only show one curve)
 	#receive data as cumulative sum

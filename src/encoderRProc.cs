@@ -47,8 +47,7 @@ public abstract class EncoderRProc
 			
 		if(isRunning()) {
 			LogB.Debug("calling continue");
-			continueProcess();
-
+			ok = continueProcess();
 		} else {
 			LogB.Debug("calling start");
 			ok = startProcess();
@@ -123,9 +122,18 @@ public abstract class EncoderRProc
 		return true;
 	}
 	
-	protected virtual void continueProcess() {
+	protected virtual bool continueProcess() 
+	{
 		LogB.Debug("sending continue process");
-		p.StandardInput.WriteLine("C");
+		//try/catch because sometimes the stdin write gots broken
+		try {
+			p.StandardInput.WriteLine("C");
+		} catch {
+			LogB.Debug("calling start because continue process was problematic");
+			return startProcess();
+		}
+
+		return true;
 	}
 	
 	/*
@@ -384,7 +392,7 @@ public class EncoderRProcAnalyze : EncoderRProc
 
 	}
 	
-	protected override void continueProcess() 
+	protected override bool continueProcess() 
 	{
 		//TODO: outputFileCheck creation/deletion here and at startProcess, should be unique
 		string outputFileCheck = "";
@@ -409,7 +417,13 @@ public class EncoderRProcAnalyze : EncoderRProc
 			deleteFile(outputFileCheck2);
 
 		LogB.Debug("sending continue process");
-		p.StandardInput.WriteLine("C");
+		//try/catch because sometimes the stdin write gots broken
+		try {
+			p.StandardInput.WriteLine("C");
+		} catch {
+			LogB.Debug("calling start because continue process was problematic");
+			return startProcess();
+		}
 
 		LogB.Debug("waiting files");
 		if(outputFileCheck2 == "")
@@ -417,6 +431,8 @@ public class EncoderRProcAnalyze : EncoderRProc
 		else
 			while ( ! ( (fileWritten(outputFileCheck) && fileWritten(outputFileCheck2)) || CancelRScript ) );
 		LogB.Debug("files written");
+		
+		return true;
 	}
 	
 	

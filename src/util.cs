@@ -997,7 +997,9 @@ public class Util
 			file.CopyTo(Path.Combine(target.FullName, file.Name));
 	}
 
-	public static bool FileDelete(string fileName) {
+	public static bool FileDelete(string fileName) 
+	{
+		LogB.Information("Checking if this filename exists: " + fileName);
 		try {
 			if(File.Exists(fileName)) {
 				LogB.Information("Deleting " + fileName + " ...");

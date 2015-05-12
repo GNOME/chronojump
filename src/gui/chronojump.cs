@@ -2535,7 +2535,7 @@ public partial class ChronoJumpWindow
 	
 	
 	private void on_delete_session_activate (object o, EventArgs args) {
-		LogB.Information("delete session");
+		LogB.Information("--- delete session ---");
 		ConfirmWindow confirmWin = ConfirmWindow.Show(Catalog.GetString("Are you sure you want to delete the current session"), "", Catalog.GetString("and all the session tests?"));
 		confirmWin.Button_accept.Clicked += new EventHandler(on_delete_session_accepted);
 	}

@@ -62,13 +62,14 @@ loadLibraries(OperatingSystem)
 print("Creating (OutputData2)3.txt with touch method...")
 file.create(paste(OutputData2,"3.txt",sep=""))
 print("Created")
+	
+#open stdin connection
+f <- file("stdin")
+open(f)
+
 
 while(TRUE) {
 	doProcess(options)
-
-	#continue the process or exit
-	f <- file("stdin")
-	open(f)
 
 	input <- readLines(f, n = 1L)
 	if(input[1] == "Q")

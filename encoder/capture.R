@@ -144,7 +144,7 @@ doProcess <- function(options)
 		if(input[1] == "C") {
 			write("received a continue signal", stderr())
 			
-      options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
+			options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")
 			op <- assignOptions(options)
 
 			curveNum = 0

@@ -530,7 +530,7 @@ findPropulsiveEnd <- function(accel, concentric, maxSpeedTInConcentric,
 return (propulsiveEnd)
 }
 
-pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality) {
+pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, inertiaMomentum) {
 	#print("speed$y")
 	#print(kinematics$speedy)
 
@@ -565,7 +565,8 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality) {
 			  meanSpeed, maxSpeed, maxSpeedT,
 			  meanPower, peakPower, peakPowerT, pp_ppt,
 			  meanForce, maxForce, maxForceT,
-			  kinematics$mass, massBody, massExtra, laterality)) #kinematics$mass is Load
+			  kinematics$mass, massBody, massExtra,		#kinematics$mass is Load
+			  laterality, inertiaMomentum)) 
 }
 
 isInertial <- function(encoderConfigurationName) {

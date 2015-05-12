@@ -1344,6 +1344,8 @@ findPosInPaf <- function(var, option) {
 		pos = 13
 	else if(var == "Laterality")
 		pos = 14
+	else if(var == "Inertia")
+		pos = 15
 	
 	if( ( var == "Speed" || var == "Power" || var == "Force") & option == "max")
 		pos=pos+1
@@ -2549,7 +2551,7 @@ doProcess <- function(options)
 								 myInertiaMomentum,myGearedDown,
 								 SmoothingsEC[i],op$SmoothingOneC, 
 								 g, myEcconKn, isPropulsive),
-						     myMassBody, myMassExtra, myLaterality
+						     myMassBody, myMassExtra, myLaterality, myInertiaMomentum
 						     )))
 		}
 

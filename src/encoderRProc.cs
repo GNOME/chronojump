@@ -153,7 +153,11 @@ public abstract class EncoderRProc
 	{
 		if(isRunning()) {
 			LogB.Debug("Closing R script");
-			p.StandardInput.WriteLine("Q");
+			try {
+				p.StandardInput.WriteLine("Q");
+			} catch {
+				LogB.Warning("Seems stdin write gots broken");
+			}
 		} else
 			LogB.Debug("R script is not working. Don't need to close.");
 	}

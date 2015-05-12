@@ -179,9 +179,9 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	startCurrent = NULL
 	endCurrent = NULL
 
-	startStored = NULL
-	endStored= NULL
-	startHStored = NULL
+	startStored = 0
+	endStored= 0
+	startHStored = 0
 	row = 1
 
 	count = 1
@@ -282,7 +282,7 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	}
 	
 	#if eccon it's 'ec' and last row it's 'e', delete it
-	if(count > 1)
+	if(row > 1)
 	{
 		startStoredLast = startStored[length(startStored)]
 		endStoredLast = endStored[length(endStored)]

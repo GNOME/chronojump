@@ -141,7 +141,7 @@ doProcess <- function(options)
 		
 		#if should continue with another capture
 		#then read options again
-		if(input[1] == "C") {
+		while(input[1] == "C") {
 			write("received a continue signal", stderr())
 			
 			options <- scan(optionsFile, comment.char="#", what=character(), sep="\n")

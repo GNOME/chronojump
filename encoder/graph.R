@@ -1189,11 +1189,19 @@ textBox <- function(x,y,text,frontCol,bgCol,xpad=.1,ypad=1){
 } 
 
 
-paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, showTTPP, showRange) {
+paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, showTTPP, showRange) 
+{
+	#if there's one or more inertial curves: show inertia instead of mass
+	if(findInertialCurves(paf)) {
+		load = paf[,findPosInPaf("Inertia","")]
+		load = load * 10000
+	} else
+		load = paf[,findPosInPaf("Load","")]
+
+
 	pafColors=c("tomato1","tomato4",topo.colors(10)[3])
 	myNums = rownames(paf)
 	height = abs(height/10)
-	load = paf[,findPosInPaf("Load","")]
 	laterality = translateVector(as.vector(paf[,findPosInPaf("Laterality","")]))
 	
 	if(Eccon=="ecS" || Eccon=="ceS") {
@@ -1241,7 +1249,12 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
 	title(main=title,line=-2,outer=T)
 	box()
-	mtext(paste(translate("Repetition")," \n",translate("Mass")," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
+	
+	loadWord = "Mass"
+	if(findInertialCurves(paf))
+		loadWord = "Inertia"
+
+	mtext(paste(translate("Repetition")," \n",translate(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
 	#mtext(translate("Laterality"),side=1,adj=1,line=0,cex=.9)
 
 	axisLineRight=0

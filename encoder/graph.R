@@ -1355,6 +1355,31 @@ findPosInPaf <- function(var, option) {
 	return(pos)
 }
 
+#see if there's any inertial curve
+#can be done by encoderConfigurationName
+#but is faster just see if inertiaMoment is != than -1.
+#But inertiaMoment is divided by 10000. So use the '> 0' to know when there's inertiaMoment
+#
+#returns TRUE if there is one or more inertial curve
+findInertialCurves <- function(paf) {
+	write("findInertialCurves",stderr())
+
+	im = paf[,findPosInPaf("Inertia", "")]
+	write(im,stderr())
+
+	if(length(im) < 1)
+		return (FALSE)
+
+	for(i in 1:length(im)) {
+		write(c("im: ", im[i]),stderr())
+		if(im[i] > 0) {
+			return (TRUE)
+		}
+	}
+
+	return (FALSE)
+}
+
 addUnitsAndTranslate <- function (var) {
 	if(var == "Speed")
 		return (paste(translate("Speed"),"(m/s)"))
@@ -1485,9 +1510,17 @@ stroverlapArray <- function(newPoint, points) {
 
 
 #option: mean or max
-paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) {
+paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, singleFile, Eccon, ecconVector, seriesName, do1RM, do1RMMethod, outputData1) 
+{
+	#if there's one or more inertial curves: show inertia instead of mass
+	if(varX == "Load" && findInertialCurves(paf))
+		varX = "Inertia"
+
 	x = (paf[,findPosInPaf(varX, option)])
 	y = (paf[,findPosInPaf(varY, option)])
+
+	if(varX == "Inertia")
+		x = x * 10000
 
 	print("seriesName")
 	print(seriesName)
@@ -1496,7 +1529,7 @@ paintCrossVariables <- function (paf, varX, varY, option, isAlone, title, single
 	bgBalls = NULL
 
 	isPowerLoad = FALSE
-	if(varX == "Load" && varY == "Power")
+	if( (varX == "Load" || varX == "Inertia") && varY == "Power" )
 		isPowerLoad = TRUE
 
 	varXut = addUnitsAndTranslate(varX)
@@ -2729,7 +2762,7 @@ doProcess <- function(options)
 					"pp_ppt",
 					"meanForce", "maxForce", "maxForceT",
 			  		"mass", "massBody", "massExtra", #unneded
-					"laterality")
+					"laterality","Inertia")
 			write.csv(paf, op$OutputData1, quote=FALSE)
 			#print("curves written")
 		}

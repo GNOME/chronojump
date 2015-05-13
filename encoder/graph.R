@@ -1252,7 +1252,7 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 	
 	loadWord = "Mass"
 	if(findInertialCurves(paf))
-		loadWord = "Inertia"
+		loadWord = "Inertia M."
 
 	mtext(paste(translate("Repetition")," \n",translate(loadWord)," ",sep=""),side=1,at=1,adj=1,line=1,cex=.9)
 	#mtext(translate("Laterality"),side=1,adj=1,line=0,cex=.9)
@@ -1400,6 +1400,8 @@ addUnitsAndTranslate <- function (var) {
 		return (paste(translate("Power"),"(W)"))
 	else if(var == "Load") #or Mass
 		return (paste(translate("Mass"),"(Kg)"))
+	else if(var == "Inertia")
+		return (paste(translate("Inertia M."),"(Kg*cm^2)"))
 	else if(var == "Force")
 		return (paste(translate("Force"),"(N)"))
 

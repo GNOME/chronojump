@@ -869,7 +869,8 @@ public class Constants
 		"Mean speed in concentric propulsive phase",
 		"Sorry, no repetitions matched your criteria.",
 		"Need at least three jumps",
-		"Laterality", "RL", "R", "L"
+		"Laterality", "RL", "R", "L",
+		"Inertia M."
 	};
 	/*
 	 * written here in order to be translated
@@ -910,6 +911,7 @@ public class Constants
 		Catalog.GetString("Mean speed in concentric propulsive phase"),
 		Catalog.GetString("Sorry, no repetitions matched your criteria."),
 		Catalog.GetString("Need at least three jumps"),
-		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L")
+		Catalog.GetString("Laterality"), Catalog.GetString("RL"), Catalog.GetString("R"), Catalog.GetString("L"),
+		Catalog.GetString("Inertia M.")
 	};
 }

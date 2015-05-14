@@ -1260,10 +1260,20 @@ paintPowerPeakPowerBars <- function(singleFile, title, paf, Eccon, height, n, sh
 		marginRight = marginRight -3
 
 	par(mar=c(2.5, 4, 5, marginRight))
+
+	bpAngle = 0
+	bpDensity = NULL
+	if(Eccon == "ecS") {
+		bpAngle = c(-45,-45,45,45)
+		bpDensity = c(30,30,-1,-1) #concentric will be shown solid
+	}
+
 	bp <- barplot(powerData,beside=T,col=pafColors[1:2],width=c(1.4,.6),
 			names.arg=paste(myNums," ",laterality,"\n",load,sep=""),xlim=c(1,n*3+.5),cex.name=0.8,
 			xlab="",ylab=paste(translate("Power"),"(W)"), 
-			ylim=c(lowerY,max(powerData)), xpd=FALSE) #ylim, xpd = F,  makes barplot starts high (compare between them)
+			ylim=c(lowerY,max(powerData)), xpd=FALSE,	#ylim, xpd = F,  makes barplot starts high (compare between them)
+			angle=bpAngle, density=bpDensity
+			) 
 	title(main=title,line=-2,outer=T)
 	box()
 	

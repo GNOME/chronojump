@@ -2386,9 +2386,13 @@ doProcess <- function(options)
 			#	myEccon="c"
 			#}
 
+			#find which SmoothingsEC is needed
+			smoothingPos <- 1
+			if(op$Jump %in% rownames(curves))
+				smoothingPos <- which(rownames(curves) == op$Jump)
 
 			paint(displacement, myEccon, myStart, myEnd,"undefined","undefined",FALSE,FALSE,
-			      1,curves[op$Jump,3],SmoothingsEC[1],op$SmoothingOneC,myMassBody,myMassExtra,
+			      1,curves[op$Jump,3],SmoothingsEC[smoothingPos],op$SmoothingOneC,myMassBody,myMassExtra,
 			      myEncoderConfigurationName,myDiameter,myDiameterExt,myAnglePush,myAngleWeight,myInertiaMomentum,myGearedDown,
 			      paste(op$Title, " ", op$Analysis, " ", myEccon, ". ", myCurveStr, sep=""),
 			      "", #subtitle

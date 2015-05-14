@@ -539,10 +539,12 @@ pafGenerate <- function(eccon, kinematics, massBody, massExtra, laterality, iner
 	maxSpeed <- max(abs(kinematics$speedy))
 	maxSpeedT <- min(which(abs(kinematics$speedy) == maxSpeed))
 
-	if(eccon == "c")
-		meanPower <- mean(kinematics$power)
-	else
+	meanPower <- mean(kinematics$power)
+	
+	if(eccon != "c") {
+		meanSpeed <- mean(abs(kinematics$speedy))
 		meanPower <- mean(abs(kinematics$power))
+	}
 
 	#print(c("eccon meanPowerSigned meanPowerABS",eccon, mean(kinematics$power), mean(abs(kinematics$power))))
 	#print("kinematics$power")
@@ -745,6 +747,8 @@ getDisplacement <- function(encoderConfigurationName, displacement, diameter, di
 #This is solved by the function getDisplacementInertialBody
 getDisplacementInertial <- function(displacement, encoderConfigurationName, diameter, diameterExt)
 {
+	write("at getDisplacementInertial", stderr())
+
 	#scanned displacement is ticks of rotary axis encoder
 	#now convert it to mm of body displacement
 	if(encoderConfigurationName == "ROTARYAXISINERTIAL" ||

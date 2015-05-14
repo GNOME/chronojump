@@ -420,12 +420,21 @@ kinematicsF <- function(displacement, massBody, massExtra, exercisePercentBodyWe
 	force = dynamics$force
 	power = dynamics$power
 
+	start <- 1
+	end <- length(speed$y)
 
 	if( isPropulsive && ( eccon== "c" || eccon == "ec" ) )
-		return(list(speedy=speed$y[1:propulsiveEnd], accely=accel$y[1:propulsiveEnd], 
-			    force=force[1:propulsiveEnd], power=power[1:propulsiveEnd], mass=mass))
-	else
-		return(list(speedy=speed$y, accely=accel$y, force=force, power=power, mass=mass))
+		end <- propulsiveEnd
+
+	if(inertiaMomentum > 0 && (eccon == "e" || eccon == "ec") && accel$y[1] < 0)
+		start <- min(which(accel$y > 0))
+
+	return(list(
+		    speedy = speed$y[start:end], 
+		    accely = accel$y[start:end], 
+		    force = force[start:end], 
+		    power = power[start:end], 
+		    mass = mass))
 }
 
 findECPhases <- function(displacement,speed) {

@@ -490,7 +490,8 @@ findCurvesOld <- function(displacement, eccon, min_height, draw, title) {
 
 #called on "ec" and "ce" to have a smoothingOneEC for every curve
 #this smoothingOneEC has produce same speeds than smoothing "c"
-findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) {
+findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingOneC) 
+{
 	smoothings = NULL
 	n=length(curves[,1])
 
@@ -531,7 +532,7 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				print(c(start, end))
 
 				concentric=displacement[(curves[i,1]+start):(curves[i,1]+end)]
-
+				
 				#get max speed at "c"
 				print("calling speed 1")
 				print("unique(concentric)")
@@ -547,12 +548,12 @@ findSmoothingsEC <- function(singleFile, displacement, curves, eccon, smoothingO
 				smoothingOneEC = smoothingOneC
 				for(j in seq(as.numeric(smoothingOneC),0,by=-.01)) {
 					print("calling speed 2")
-					write("calling speed 2", stderr())
+					#write("calling speed 2", stderr())
 					speed <- getSpeed(eccentric.concentric, j)
 					print("called")
 					smoothingOneEC = j
 					maxSpeedEC=max(speed$y)
-					print(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)))
+					#write(c("j",j,"maxC",round(maxSpeedC,3),"maxEC",round(maxSpeedEC,3)),stderr())
 					if(maxSpeedEC >= maxSpeedC)
 						break
 				}
@@ -872,6 +873,18 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 
 	print(c("propulsiveEnd at paint", propulsiveEnd))
 
+	#on inertial ec. If the accel starts as negative, calcule avg values and peak values starting when the accel is positive
+	#because the acceleration done on the disc can only be positive
+	inertialECstart = 1
+	if(length(eccentric) > 0)
+		inertialECstart = min(eccentric)
+
+	if(inertiaMomentum > 0 && eccon == "ec" && accel$y[1] < 0) {
+		inertialECstart <- min(which(accel$y > 0))
+		abline(v=inertialECstart,lty=3,col="black") 
+	}
+
+
 	meanSpeedC = mean(speed$y[min(concentric):max(concentric)])
 	if(isPropulsive) {
 		meanSpeedC = mean(speed$y[min(concentric):propulsiveEnd])
@@ -882,9 +895,9 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	} else {
-		meanSpeedE = mean(speed$y[min(eccentric):max(eccentric)])
+		meanSpeedE = mean(speed$y[inertialECstart:max(eccentric)])
 		if(showSpeed) {
-			arrows(x0=min(eccentric),y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
+			arrows(x0=inertialECstart,y0=meanSpeedE,x1=max(eccentric),y1=meanSpeedE,col=cols[1],code=3)
 			arrows(x0=min(concentric),y0=meanSpeedC,x1=propulsiveEnd,y1=meanSpeedC,col=cols[1],code=3)
 		}
 	}
@@ -1067,8 +1080,8 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 		if(eccon == "c") {
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		} else {
-			meanPowerE = mean(power[min(eccentric):max(eccentric)])
-			arrows(x0=min(eccentric),y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
+			meanPowerE = mean(power[inertialECstart:max(eccentric)])
+			arrows(x0=inertialECstart,y0=meanPowerE,x1=max(eccentric),y1=meanPowerE,col=cols[3],code=3)
 			arrows(x0=min(concentric),y0=meanPowerC,x1=propulsiveEnd,y1=meanPowerC,col=cols[3],code=3)
 		}
 
@@ -1095,15 +1108,17 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			axisLineRight = axisLineRight +2
 		}
 	}
-
+	
 	#time to arrive to peak power
-	peakPowerT=min(which(power == max(power)))
+	powerTemp <- power[inertialECstart:length(power)]
+	peakPowerT <- min(which(power == max(powerTemp)))
 	if(draw & !superpose & showPower) {
 		abline(v=peakPowerT, col=cols[3])
-		points(peakPowerT, max(power),col=cols[3])
-		mtext(text=paste(round(max(power),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3],line=-.2)
+		points(peakPowerT, max(powerTemp),col=cols[3])
+		mtext(text=paste(round(max(powerTemp),1),"W",sep=""),side=3,at=peakPowerT,adj=0.5,cex=.8,col=cols[3],line=-.2)
 		mtext(text=peakPowerT,side=1,at=peakPowerT,cex=.8,col=cols[3],line=.2)
 	}
+	
 	#time to arrive to peak power negative on con-ecc
 	if(eccon=="ce") {
 		peakPowerTneg=min(which(power == min(power)))
@@ -2343,6 +2358,7 @@ doProcess <- function(options)
 	print("Creating (op$OutputData2)4.txt with touch method...")
 	file.create(paste(op$OutputData2,"4.txt",sep=""))
 	print("Created")
+	#print(curves)
 
 	if(op$Analysis=="single") {
 		if(op$Jump>0) {

@@ -895,9 +895,11 @@ paint <- function(displacement, eccon, xmin, xmax, yrange, knRanges, superpose, 
 			ylim = knRanges$accely
 
 		
+		#always (single or side) show 0 line
+		abline(h=0,lty=3,col="black")
+		
 		#plot the speed axis
 		if(showAxes & showSpeed) {
-			abline(h=0,lty=3,col="black")
 			if(eccon == "c") {
 				axis(4, at=c(min(axTicks(4)),0,max(axTicks(4)),meanSpeedC),
 				     labels=c(min(axTicks(4)),0,max(axTicks(4)),

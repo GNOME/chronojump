@@ -716,7 +716,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				UtilEncoder.GetEncoderCurvesTempFileName(), 
 				UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				"none",	//SpecialData
+				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
 	
 		encoderRProcAnalyze.SendData(
@@ -1420,7 +1420,7 @@ public partial class ChronoJumpWindow
 				UtilEncoder.GetEncoderGraphTempFileName(),
 				selectedFileName, 
 				UtilEncoder.GetEncoderStatusTempBaseFileName(),
-				"none", 		//SpecialData
+				UtilEncoder.GetEncoderSpecialDataTempFileName(),
 				ep);
 
 		encoderRProcAnalyze.SendData(

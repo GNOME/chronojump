@@ -182,6 +182,41 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	startStored = 0
 	endStored= 0
 	startHStored = 0
+
+	#curve we are about to store is concentric
+	directionToStoreIsCon = NULL #bool
+	#last stored curve is concentric. It's important on 'ec' to store first 'e', next 'c' ...
+	directionStoredIsCon = NULL #bool
+		
+	#               3
+	#              / \
+	#             /   B
+	#            /     \
+	# --1       /
+	#    \     /
+	#     \   A
+	#      \2/
+	#
+	# At B, we evaluate if 2-3 curve is concentric.
+	# directionToStoreIsCon == TRUE
+
+
+	#               3               5
+	#              / \             /
+	#             /   B           /
+	#            /     \         /
+	# --1       /       \       /
+	#    \     /         \     /
+	#     \   A           \   C
+	#      \2/             \4/
+	#
+	# At C, we evaluate if 3-4 curve is eccentric.
+	# directionToStoreIsCon == FALSE
+	# Also we see that last stored curve is opposite:
+	# directionStoredIsCon == TRUE
+	#
+
+
 	row = 1
 
 	count = 1
@@ -227,11 +262,6 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 			      if(startFrame < 1)
 				      startFrame = 1
 
-			      #previousWasUp = ! Util.IntToBool(directionNow); #if we go now UP, then record previous DOWN phase
-			      previousWasUp = TRUE
-			      if(directionNow == 1)
-				      previousWasUp = FALSE
-
 			      startCurrent = startFrame
 			      #-1 are because on C# count starts at 0 and here count starts at 1
 			      endCurrent = ( (count -1) - directionChangeCount + (lastNonZero -1) ) / 2
@@ -252,10 +282,18 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 
 				      if(heightCurve >= min_height) {
 					      #TODO: add the inertia stuff here?
+					      
+					      directionToStoreIsCon = ( position[endCurrent] > position[startCurrent] )
 
-					      if( eccon == "c" && ! previousWasUp )
+					      if( eccon == "c" && ! directionToStoreIsCon )
 						      sendCurve = FALSE
-					      if( (eccon == "ec" || eccon == "ecS") && previousWasUp && capturingFirstPhase )
+					      if( (eccon == "ec" || eccon == "ecS") && directionToStoreIsCon && capturingFirstPhase )
+						      sendCurve = FALSE
+					      
+					      #on ec, ecS don't have store two curves in the same direction
+					      if( (eccon == "ec" || eccon == "ecS") && 
+						 ! is.null(directionStoredIsCon) && 
+						 directionToStoreIsCon == directionStoredIsCon )
 						      sendCurve = FALSE
 
 					      capturingFirstPhase = FALSE
@@ -269,6 +307,7 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 					      endStored[row] = endCurrent
 					      startHStored[row] = position[startCurrent]
 					      row = row + 1
+					      directionStoredIsCon = directionToStoreIsCon
 				      }
 			      }
 
@@ -281,6 +320,11 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	      count = count +1
 	}
 	
+	write("stored values (a)", stderr())
+	write(c("-",startStored),stderr())
+	write(c("-",endStored),stderr())
+	write(c("-",startHStored),stderr())
+	
 	#if eccon it's 'ec' and last row it's 'e', delete it
 	if(row > 1)
 	{
@@ -289,7 +333,7 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 
 		#write("startStoredLast, endStoredLast", stderr())
 		#write(c(startStoredLast, endStoredLast), stderr())
-		
+	
 		if ( position[startStoredLast] > position[endStoredLast] ) 
 		{
 			write("deleting last ecc row", stderr())
@@ -298,6 +342,11 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 			startHStored = startHStored[-length(startHStored)]
 		}
 	}
+
+	write("stored values (b)", stderr())
+	write(c("-",startStored),stderr())
+	write(c("-",endStored),stderr())
+	write(c("-",startHStored),stderr())
 
 	#if eccon == "ec" mix 'e' and 'c' curves
 	if(eccon == "ec") {
@@ -319,6 +368,10 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 		}
 	}
 
+	write("stored values (c)", stderr())
+	write(c("-",startStored),stderr())
+	write(c("-",endStored),stderr())
+	write(c("-",startHStored),stderr())
 	
 	if(draw) {
 		lty=1

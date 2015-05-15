@@ -320,11 +320,6 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 	      count = count +1
 	}
 	
-	write("stored values (a)", stderr())
-	write(c("-",startStored),stderr())
-	write(c("-",endStored),stderr())
-	write(c("-",startHStored),stderr())
-	
 	#if eccon it's 'ec' and last row it's 'e', delete it
 	if(row > 1)
 	{
@@ -342,11 +337,6 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 			startHStored = startHStored[-length(startHStored)]
 		}
 	}
-
-	write("stored values (b)", stderr())
-	write(c("-",startStored),stderr())
-	write(c("-",endStored),stderr())
-	write(c("-",startHStored),stderr())
 
 	#if eccon == "ec" mix 'e' and 'c' curves
 	if(eccon == "ec") {
@@ -368,11 +358,6 @@ findCurvesNew <- function(displacement, eccon, min_height, draw, title)
 		}
 	}
 
-	write("stored values (c)", stderr())
-	write(c("-",startStored),stderr())
-	write(c("-",endStored),stderr())
-	write(c("-",startHStored),stderr())
-	
 	if(draw) {
 		lty=1
 		col="black"

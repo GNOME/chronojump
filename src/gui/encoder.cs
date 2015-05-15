@@ -2084,6 +2084,9 @@ public partial class ChronoJumpWindow
 		//going down on inertial, going up in ec, ecs
 		bool capturingFirstPhase = true; 
 
+		//just a default value, unused until a curve has been accepted
+		bool lastDirectionStoredIsUp = true;
+
 
 		//create ecca if needed
 		if(! eccaCreated) {
@@ -2312,6 +2315,8 @@ public partial class ChronoJumpWindow
 							 */
 
 							//3) if it's ecc-con, don't record first curve if first curve is concentric
+							//
+							//4) on ec, ecS don't have store two curves in the same direction
 
 							/*
 							 * on inertiaMomentCalculation we don't need to send data to R and get curves
@@ -2330,6 +2335,11 @@ public partial class ChronoJumpWindow
 											sendCurve = false;
 										if( (eccon == "ec" || eccon == "ecS") && ecc.up && capturingFirstPhase ) //3
 											sendCurve = false;
+										if( 
+												(eccon == "ec" || eccon == "ecS") && 
+												ecca.curvesAccepted > 0 &&
+												lastDirectionStoredIsUp == ecc.up ) //4
+											sendCurve = false;
 									}
 									capturingFirstPhase = false;
 								} else {
@@ -2342,9 +2352,10 @@ public partial class ChronoJumpWindow
 											UtilEncoder.CompressData(curve, 25)	//compressed
 											);
 
-									ecca.curvesDone ++;
 									ecca.curvesAccepted ++;
 									ecca.ecc.Add(ecc);
+
+									lastDirectionStoredIsUp = ecc.up;
 								}
 							}
 						}
